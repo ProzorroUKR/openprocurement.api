@@ -1,0 +1,45 @@
+PATCH /api/2.5/tenders/de38bea4a6534e13939a382dfeef92f2/bids/0a2a8fa3f5c84516bc1e79ed64e8b5e5?acc_token=d838be06648343148752cdb7c643774f HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "Школяр",
+        "scale": "micro"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "status": "invalid",
+    "id": "0a2a8fa3f5c84516bc1e79ed64e8b5e5"
+  }
+}
+

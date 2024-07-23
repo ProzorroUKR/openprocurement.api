@@ -573,7 +573,7 @@ Content-Type: application/json
       }
     ],
     "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:03:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000016-a.2",
     "questions": [
@@ -637,7 +637,7 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "next_check": "2023-10-10T01:30:00+03:00",
+    "next_check": "2023-10-10T01:33:00+03:00",
     "minimalStep": {
       "amount": 5.0,
       "currency": "UAH",
@@ -661,7 +661,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "auctionPeriod": {
-          "startDate": "2023-10-10T01:00:00+03:00"
+          "startDate": "2023-10-10T01:03:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c429ff66bfe7408592ede2909ac98702_9d95d7c5f19f4d24b17d650fe94a42f5"
       }
@@ -672,14 +672,14 @@ Content-Type: application/json
     },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-09-24T01:00:00+03:00",
-      "endDate": "2023-10-07T01:00:00+03:00",
+      "startDate": "2023-09-24T01:03:00+03:00",
+      "endDate": "2023-10-07T01:03:00+03:00",
       "clarificationsUntil": "2023-10-12T00:00:00+03:00",
-      "invalidationDate": "2023-10-10T01:00:00+03:00"
+      "invalidationDate": "2023-10-10T01:01:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-09-24T01:00:00+03:00",
-      "endDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2023-09-24T01:03:00+03:00",
+      "endDate": "2023-10-10T01:03:00+03:00"
     },
     "procurementMethodType": "competitiveDialogueUA.stage2",
     "procuringEntity": {
@@ -760,7 +760,7 @@ Content-Type: application/json
         "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-10T01:00:00+03:00"
+          "endDate": "2023-11-10T01:01:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -786,7 +786,7 @@ Content-Type: application/json
       }
     ],
     "auctionPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2023-10-10T01:03:00+03:00"
     },
     "id": "c429ff66bfe7408592ede2909ac98702"
   },

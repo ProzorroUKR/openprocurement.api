@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-04 09:52+0300\n"
+"POT-Creation-Date: 2024-07-25 13:30+0300\n"
 "PO-Revision-Date: 2019-03-25 12:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -191,17 +191,23 @@ msgstr "Учасник може зареєструвати заявку зі с�
 msgid "And append responses for criteria requirements:"
 msgstr "Та додамо відповіді на вимоги критеріїв:"
 
-msgid "and approve to pending status:"
-msgstr "і підтвердити її, перевівши у ``pending`` статус:"
+msgid "Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid. If there is no sign document during activation, we will see an error:"
+msgstr "Після цього учасник має підтвердити пропозицію, перевівши у ``pending`` статус. Якщо учасник резидент (`tenderers.identifier.scheme = 'UA-EDR'`), то перед підтвердженням пропозиції він має накласти електронний підпис. Якщо файлу підписа не знайдено під час підтвердження, буде наступна помилка:"
+
+msgid "Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:"
+msgstr "Файл підпису має тип документу `documentType: proposal` та розширення `title: *.p7s`. Додамо файл підпису:"
+
+msgid "Let's try to activate bid one more time:"
+msgstr "Спробуємо підтвердити пропозицію:"
 
 msgid "Bidder can also submit bid with non-price criteria - :ref:`parameter` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#bidding-in-meat`)."
 msgstr "Також учасник може подати ставку з неціновими критеріями - :ref:`parameter` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#bidding-in-meat`)."
 
-msgid "Proposal Uploading"
-msgstr "Завантаження документу пропозиції"
+msgid "If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:"
+msgstr "При кожному редагуванні вже поданої пропозиції, пропозиція буде переходити в статус `invalid` і її треба буде заново підписати:"
 
-msgid "Then bidder should upload proposal technical document(s):"
-msgstr "Учасник повинен завантажити технічний(і) документ(и) пропозиції:"
+msgid "If we try to activate bidder the new sign will be needed:"
+msgstr "Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:"
 
 msgid "Confidentiality"
 msgstr "Конфіденційність"
@@ -538,3 +544,4 @@ msgstr "Замовник може змінити статус угоди на `u
 
 msgid "This will transfer `tender` to `unsuccessful` status."
 msgstr "Переведення тендера в статус `unsuccessful`."
+

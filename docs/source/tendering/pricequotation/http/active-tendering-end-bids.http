@@ -15,7 +15,7 @@ Content-Type: application/json
         {
           "name": "Державне управління справами",
           "identifier": {
-            "scheme": "UA-EDR",
+            "scheme": "UA-IPN",
             "id": "00037256",
             "uri": "http://www.dus.gov.ua/"
           },
@@ -81,6 +81,7 @@ Content-Type: application/json
           "quantity": 5.0
         }
       ],
+      "submissionDate": "2023-10-10T01:00:01+03:00",
       "documents": [
         {
           "hash": "md5:00000000000000000000000000000000",
@@ -133,7 +134,7 @@ Content-Type: application/json
         {
           "name": "Державне управління справами",
           "identifier": {
-            "scheme": "UA-EDR",
+            "scheme": "UA-IPN",
             "id": "00037256",
             "uri": "http://www.dus.gov.ua/"
           },
@@ -198,7 +199,8 @@ Content-Type: application/json
           },
           "quantity": 5.0
         }
-      ]
+      ],
+      "submissionDate": "2023-10-10T01:00:01+03:00"
     },
     {
       "id": "959df55b73cd4bb09dd7fb17be8d0c51",

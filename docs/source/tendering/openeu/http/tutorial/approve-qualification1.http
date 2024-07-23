@@ -21,7 +21,7 @@ Content-Type: application/json
     "bidID": "6c9b000bb76043f28a985112442b7301",
     "lotID": "4b0e745d5e59434da2b2c0206ca2d89b",
     "status": "active",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:03:00+03:00",
     "qualified": true,
     "eligible": true
   }

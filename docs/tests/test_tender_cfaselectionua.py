@@ -329,6 +329,29 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        with open(TARGET_DIR + 'activate-bidder-without-proposal.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                {'data': {"status": "pending"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                {
+                    'data': {
+                        'title': 'Proposal.p7s',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf',
+                        'documentType': 'proposal',
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
+            doc_id = response.json["data"]["id"]
+
         with open(TARGET_DIR + 'activate-bidder.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
@@ -336,27 +359,35 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
-        # Proposal Uploading
-
-        with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
-                {
-                    'data': {
-                        'title': 'Proposal.pdf',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
-                    }
-                },
-            )
-            self.assertEqual(response.status, '201 Created')
-
         with open(TARGET_DIR + 'bidder-documents.http', 'w') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id])
             )
             self.assertEqual(response.status, '200 OK')
+
+        lot_values = deepcopy(bid["lotValues"])
+        lot_values[0]["value"]["amount"] = 510
+        with open(TARGET_DIR + 'patch-pending-bid.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                {"data": {'lotValues': lot_values}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'activate-bidder-without-sign.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                {'data': {"status": "pending"}},
+                status=422,
+            )
+
+        self.tick_delta = None
+        self.tick(timedelta(minutes=1))
+        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
+        self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+            {'data': {"status": "pending"}},
+        )
 
         # Second bid registration with documents
 
@@ -372,6 +403,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, '201 Created')
 
         self.app.authorization = ('Basic', ('broker', ''))
+        self.add_proposal_doc(self.tender_id, bid2_id, bids_access[bid2_id])
         self.set_responses(self.tender_id, response.json)
 
         bid3 = deepcopy(bid2)
@@ -382,6 +414,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bid3_id = response.json['data']['id']
         bids_access[bid3_id] = response.json['access']['token']
         self.assertEqual(response.status, '201 Created')
+        self.add_proposal_doc(self.tender_id, bid3_id, bids_access[bid3_id])
         self.set_responses(self.tender_id, response.json)
 
         # Auction

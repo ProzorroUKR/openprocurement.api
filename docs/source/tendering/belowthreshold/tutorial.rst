@@ -288,14 +288,20 @@ Bidder can register a bid for lot №1 in `draft` status:
 .. http:example:: http/tutorial/register-bidder.http
    :code:
 
-and approve to pending status:
+Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid.
+If there is no sign document during activation, we will see an error:
 
-.. http:example:: http/tutorial/activate-bidder.http
+.. http:example:: http/tutorial/activate-bidder-without-proposal.http
    :code:
 
-And upload proposal document:
+Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:
 
 .. http:example:: http/tutorial/upload-bid-proposal.http
+   :code:
+
+Let's try to activate bid one more time:
+
+.. http:example:: http/tutorial/activate-bidder.http
    :code:
 
 It is possible to check the uploaded documents:
@@ -303,9 +309,19 @@ It is possible to check the uploaded documents:
 .. http:example:: http/tutorial/bidder-documents.http
    :code:
 
-If tender has multicurrency turned off, than there will be validation that sum of `items.unit.value` could not be moe that bid value:
+If tender has multicurrency turned off, than there will be validation that sum of `items.unit.value` could not be more than bid value:
 
 .. http:example:: http/tutorial/register-bidder-invalid.http
+   :code:
+
+If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:
+
+.. http:example:: http/tutorial/patch-pending-bid.http
+   :code:
+
+If we try to activate bidder the new sign will be needed:
+
+.. http:example:: http/tutorial/activate-bidder-without-sign.http
    :code:
 
 Batch-mode registration

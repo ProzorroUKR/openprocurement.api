@@ -9,26 +9,27 @@ Content-Type: application/json
 {
   "data": [
     {
-      "hash": "md5:00000000000000000000000000000000",
-      "title": "Proposal.pdf",
-      "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cbc72109233241b9aea96edfc20e8da1?Signature=mT5THG0rO0Mi%2BZoKAZKhRqN79D1tpTJXq4r4zPrxySqL7sIWcHk0Jeo8IbGaf0RMJfdDLjZ%2FKUTa93hfvotdAA%3D%3D&KeyID=a8968c46",
-      "documentOf": "tender",
-      "language": "uk",
+      "documentType": "proposal",
       "id": "ae8d96543ba34a529fa7f78d47e9f117",
-      "confidentiality": "public",
-      "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00"
+      "datePublished": "2023-10-10T01:01:00+03:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "proposal.p7s",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/50d4ed4955e14582a846bdca2d0b4cdf?Signature=9dhe3C89wEmJo2P6UPkxVEeEWa8SukPO4Z0%2FXhrjWXT2rw6IdGDh1YJrIQxQorDvEh7VYlJQgi%2Fbke70GRdGCw%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2023-10-10T01:01:00+03:00",
+      "language": "uk",
+      "confidentiality": "public"
     },
     {
       "id": "eec758b95e1e457580e2d42e00dc35be",
-      "datePublished": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2023-10-10T01:01:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal_top_secrets.pdf",
       "format": "application/pdf",
-      "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/6c9b000bb76043f28a985112442b7301/documents/eec758b95e1e457580e2d42e00dc35be?download=0529d526671941f9a44290ac0e5c9891",
+      "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/6c9b000bb76043f28a985112442b7301/documents/eec758b95e1e457580e2d42e00dc35be?download=cbc72109233241b9aea96edfc20e8da1",
       "documentOf": "tender",
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:01:00+03:00",
       "language": "uk",
       "confidentiality": "buyerOnly",
       "confidentialityRationale": "Only our company sells badgers with pink hair."

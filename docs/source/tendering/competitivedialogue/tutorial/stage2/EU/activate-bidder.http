@@ -5,108 +5,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "status": "pending",
-    "requirementResponses": [
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "b9d7670ca38b4b3eabaee1684d58afbd",
-          "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "7d451181550b48e6843905605537bc2d",
-          "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "1539c8b3a72d4e158a8978aa5aeee7e4",
-          "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "b91ed890ef9a4379a6acea964ab00162",
-          "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "510fad6be1cb45abbe830f0610e0539e",
-          "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "ec92fb01511148ce9e9b7b2d5d02f79c",
-          "title": "Він не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "0d57dcdbc4e7461d90b1acb976105de4",
-          "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "862514e64c454e6db9a8ac20aa8a5a12",
-          "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "e651094058474707892a5e9dcc07ab5d",
-          "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "8fd0e184bec0438f8c9c9fa2161b8f39",
-          "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
-        },
-        "value": true
-      },
-      {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "c2efcffe80ec4fc9b878f65cb681c0d5",
-          "title": "Мова тендерної пропозиції українська"
-        },
-        "value": true
-      }
-    ]
+    "status": "pending"
   }
 }
 
@@ -267,7 +166,23 @@ Content-Type: application/json
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "selfQualified": true
+    "documents": [
+      {
+        "documentType": "proposal",
+        "id": "0d3e182d67494cb39c1a2d4b4a10889e",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.p7s",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/825d276709454a46939be97f92b7bf69?Signature=lf6PQxDQX6YxfEmWieNquKzkXlp0vbEKLltz%2BkyIdEaVpJ4xUgf7%2FwTniY1Q3RcEF5YHLJG996Jzz5ocsEQuCA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      }
+    ],
+    "selfQualified": true,
+    "submissionDate": "2023-10-10T01:00:00+03:00"
   }
 }
 

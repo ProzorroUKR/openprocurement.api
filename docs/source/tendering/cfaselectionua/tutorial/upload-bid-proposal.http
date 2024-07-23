@@ -5,10 +5,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "title": "Proposal.pdf",
+    "title": "Proposal.p7s",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e5d937aec73f4c07aec4e91e7de7d0c0?Signature=ThEuR34wf1tPqsNQroLH8otCJkwtR0BMJRBO%2BudrVDjRl85gUk6YcvjYxwBJPN0MXyGwn2jG51RrcgCPxHZHAA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
-    "format": "application/pdf"
+    "format": "application/pdf",
+    "documentType": "proposal"
   }
 }
 
@@ -19,8 +20,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e
 
 {
   "data": {
+    "documentType": "proposal",
     "hash": "md5:00000000000000000000000000000000",
-    "title": "Proposal.pdf",
+    "title": "Proposal.p7s",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e5d937aec73f4c07aec4e91e7de7d0c0?Signature=i1QFE0pwj%2BuQT99%2FY4GX2uZghCioK2WSMSpY6%2BMlXr1TETaF6FoXkWJE5ceSIenvOO9CMxJTx4kTn5aoga4JAw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",

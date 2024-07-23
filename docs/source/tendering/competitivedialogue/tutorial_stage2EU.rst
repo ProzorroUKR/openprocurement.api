@@ -143,17 +143,30 @@ Get error, now participant from first stage try
 .. http:example:: tutorial/stage2/EU/register-bidder.http
    :code:
 
-and approve to pending status:
+Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: tutorial/stage2/EU/activate-bidder-without-proposal.http
+   :code:
+
+Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: tutorial/stage2/EU/upload-bid-proposal.http
+   :code:
+
+Let's try to activate bid one more time:
 
 .. http:example:: tutorial/stage2/EU/activate-bidder.http
    :code:
 
-Proposal Uploading
-~~~~~~~~~~~~~~~~~~
+If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:
 
-Then bidder should upload proposal technical document(s):
+.. http:example:: tutorial/stage2/EU/patch-pending-bid.http
+   :code:
 
-.. http:example:: tutorial/stage2/EU/upload-bid-proposal.http
+If we try to activate bidder the new sign will be needed:
+
+.. http:example:: tutorial/stage2/EU/activate-bidder-without-sign.http
    :code:
 
 Confidentiality
@@ -218,7 +231,7 @@ Note that financial documents are stored in `financialDocuments` attributes of :
 
 
 Bid invalidation
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^
 
 If tender is modified, status of all bid proposals will be changed to ``invalid``. Bid proposal will look the following way after tender has been modified:
 
@@ -226,7 +239,7 @@ If tender is modified, status of all bid proposals will be changed to ``invalid`
    :code:
 
 Bid confirmation
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^
 
 Bidder should confirm bid proposal:
 
@@ -239,7 +252,7 @@ Second stage EU Competitive Dialogue procedure demands at least two bidders, so 
    :code:
 
 Batch-mode bid registration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Register one more bid with documents using single request (batch-mode):
 
@@ -339,7 +352,7 @@ Setting Contract
 There are to modes of contracting depending on system configuration:
 
 Regular contracting
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 In regular contacting the contract will be created in tender system first.
 
@@ -350,7 +363,7 @@ When the tender is completed (after contracts activation), contract (that has be
 Read more about working with regular contracting in contracting system in :ref:`old_contracting_tutorial` section.
 
 EContracting
-~~~~~~~~~~~~
+^^^^^^^^^^^^
 
 In EContracting the contract is created directly in contracting system.
 
@@ -380,7 +393,7 @@ from `draft` or `pending`.
 See :ref:`cancellation` data structure for details.
 
 Preparing the cancellation request
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`).
 
@@ -399,7 +412,7 @@ You can change ``reasonType`` value to any of the above.
    :code:
 
 Filling cancellation with protocol and supplementary documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This step is required. Without documents you can't update tender status.
 
@@ -421,7 +434,7 @@ Upload new version of the document
    :code:
 
 Passing Complaint Period
-~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For activate complaint period, you need to update cancellation from `draft` to `pending`.
 
@@ -431,7 +444,7 @@ For activate complaint period, you need to update cancellation from `draft` to `
 When cancellation in `pending` status the tender owner is prohibited from all actions on the tender.
 
 Activating the request and cancelling tender
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 if the complaint period(duration 10 days) is over and there were no complaints or
 all complaints are canceled, then cancellation will automatically update status to `active`.

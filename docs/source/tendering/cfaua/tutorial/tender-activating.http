@@ -622,7 +622,7 @@ Content-Type: application/json
       "name": "Державне управління справами",
       "name_en": "State administration",
       "identifier": {
-        "scheme": "UA-EDR",
+        "scheme": "UA-IPN",
         "id": "00037256",
         "legalName_en": "dus.gov.ua",
         "uri": "http://www.dus.gov.ua/"

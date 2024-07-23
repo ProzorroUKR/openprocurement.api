@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "id": "2b7b12344ea44c6d8045c0f102771cf3",
     "status": "active",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:01:00+03:00",
     "value": {
       "amount": 499.0,
       "currency": "UAH",

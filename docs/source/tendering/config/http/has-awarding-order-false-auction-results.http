@@ -855,6 +855,21 @@ Content-Type: application/json
         "status": "active",
         "id": "4b2f22ec008b4f4e88f2f69ea174242c",
         "date": "2023-10-10T01:00:00+03:00",
+        "documents": [
+          {
+            "documentType": "proposal",
+            "id": "b341b0b88047496f9941c908c61b51e9",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "proposal.p7s",
+            "format": "sign/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b72c7fbb8e6043eaa6d7b501f85ec3b6?Signature=Tn4%2BwImLNUGRUPV%2F49SgAjzL4IvHMckrxXtlaH0qlOJ8pTJtrEThyTeE%2BRufCmeO0PKHlYHLE%2Fns9PSzlL4cCg%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "language": "uk",
+            "confidentiality": "public"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -878,7 +893,8 @@ Content-Type: application/json
             "date": "2023-10-10T01:00:00+03:00",
             "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c"
           }
-        ]
+        ],
+        "submissionDate": "2023-10-10T01:00:00+03:00"
       },
       {
         "requirementResponses": [
@@ -1010,6 +1026,21 @@ Content-Type: application/json
         "status": "active",
         "id": "33aec5588bb84aecbaf28ee83b356bad",
         "date": "2023-10-10T01:00:00+03:00",
+        "documents": [
+          {
+            "documentType": "proposal",
+            "id": "5159b7a0b25f45ffa502c777e8c3d8e6",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "proposal.p7s",
+            "format": "sign/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/87879070e6fc47e98110621d6eed0956?Signature=gGFRPA0qMAT1zgWJyLHDwql6dd4O6gqd5qzjyCGWdNA8Nr3pCA8f5tTvi4SJXM05V%2BdA%2BAmayveqcurpXKlBCA%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "language": "uk",
+            "confidentiality": "public"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -1033,7 +1064,8 @@ Content-Type: application/json
             "date": "2023-10-10T01:00:00+03:00",
             "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=33aec5588bb84aecbaf28ee83b356bad"
           }
-        ]
+        ],
+        "submissionDate": "2023-10-10T01:00:00+03:00"
       }
     ],
     "auctionPeriod": {

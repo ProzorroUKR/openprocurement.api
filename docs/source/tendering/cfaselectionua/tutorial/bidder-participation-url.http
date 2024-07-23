@@ -33,6 +33,35 @@ Content-Type: application/json
     "status": "active",
     "id": "086af210a2bc41908a0dd9988134a118",
     "date": "2023-10-10T01:00:00+03:00",
+    "submissionDate": "2023-10-10T01:01:00+03:00",
+    "documents": [
+      {
+        "documentType": "proposal",
+        "id": "b336781d876d47e281e111bf33ffd16b",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.p7s",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e5d937aec73f4c07aec4e91e7de7d0c0?Signature=i1QFE0pwj%2BuQT99%2FY4GX2uZghCioK2WSMSpY6%2BMlXr1TETaF6FoXkWJE5ceSIenvOO9CMxJTx4kTn5aoga4JAw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      },
+      {
+        "documentType": "proposal",
+        "id": "b336781d876d47e281e111bf33ffd16b",
+        "datePublished": "2023-10-10T01:01:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dd01e7279abf49308a1fdd3fc4d53fdf?Signature=%2Fxwne0ffLUUcZSimURKYnMF5RJgvuy3LdCkoxS0Iavp%2FLy9Nl7F2V0oGsHyn22GU7Ul4MKBaVPwBgk3SEwVfBg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:01:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      }
+    ],
     "parameters": [
       {
         "code": "OCDS-123454-AIR-INTAKE",
@@ -46,7 +75,7 @@ Content-Type: application/json
     "lotValues": [
       {
         "value": {
-          "amount": 500.0,
+          "amount": 510.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
@@ -54,20 +83,6 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/782a773bcc70490e923de940a94a5ada_50fc7d0cb4e3423491c35387a046af42?key_for_bid=086af210a2bc41908a0dd9988134a118"
-      }
-    ],
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Proposal.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e5d937aec73f4c07aec4e91e7de7d0c0?Signature=i1QFE0pwj%2BuQT99%2FY4GX2uZghCioK2WSMSpY6%2BMlXr1TETaF6FoXkWJE5ceSIenvOO9CMxJTx4kTn5aoga4JAw%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "language": "uk",
-        "id": "b336781d876d47e281e111bf33ffd16b",
-        "confidentiality": "public",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ]
   }

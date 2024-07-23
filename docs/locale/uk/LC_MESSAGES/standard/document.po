@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-16 14:57+0300\n"
+"POT-Creation-Date: 2024-07-25 12:37+0300\n"
 "PO-Revision-Date: 2019-02-04 11:33+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -45,17 +45,23 @@ msgstr "`evaluationReports` - **Файл підпису звіту про оці
 msgid "Can be used in :ref:`tender` and :ref:`framework_qualification` in framework."
 msgstr "Використовується в документах до :ref:`tender` та :ref:`framework_qualification` у фреймворках."
 
+msgid "`proposal` - **Proposal**"
+msgstr "`proposal` - **Файл підпису підтвердження пропозиції**"
+
+msgid "Can be used in  :ref:`bid`"
+msgstr "Використовується в документах до :ref:`bid`"
+
 msgid "Possible values for :ref:`tender`"
 msgstr "Можливі значення для :ref:`tender`"
 
 msgid "`notice` - **Tender notice**"
 msgstr "`notice` - **Повідомлення про закупівлю**"
 
-msgid "Earlier this type of document was used as the formal notice that gives details of a tender. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained."
-msgstr "Раніше цей тип документу використовувався як офіційне повідомлення, що містить деталі закупівлі. Це може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень, де розміщено повідомлення."
-
 msgid "NOT USED ANYMORE. Now it's use as sign document."
 msgstr "БІЛЬШЕ НЕ ВИКОРИСТОВУЄТЬСЯ. Зараз цей тип документу використовується в якості файлу підпису."
+
+msgid "Earlier this type of document was used as the formal notice that gives details of a tender. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained."
+msgstr "Раніше цей тип документу використовувався як офіційне повідомлення, що містить деталі закупівлі. Це може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень, де розміщено повідомлення."
 
 msgid "`biddingDocuments` - **Bidding Documents**"
 msgstr "`biddingDocuments` - **Документи закупівлі**"

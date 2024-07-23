@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "id": "c81c95d2d6304c958e29ed3f1defde53",
     "status": "draft",
-    "date": "2023-10-10T01:00:01+03:00",
+    "date": "2023-10-10T01:03:03+03:00",
     "reasonType": "expensesCut",
     "reason": "cancellation reason",
     "cancellationOf": "tender"

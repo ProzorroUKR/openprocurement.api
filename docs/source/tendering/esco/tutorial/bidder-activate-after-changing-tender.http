@@ -129,7 +129,7 @@ Content-Type: application/json
     ],
     "tenderers": [
       {
-        "name": "ДКП «Школяр»",
+        "name": "Школяр",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
@@ -154,56 +154,84 @@ Content-Type: application/json
     "status": "pending",
     "id": "cd1a12fedb634aa88390b3156568df61",
     "date": "2023-10-10T01:00:00+03:00",
+    "submissionDate": "2023-10-10T01:02:01+03:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
+        "documentType": "proposal",
         "id": "d39a18544f294d60a7ffb793091a64f3",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "Proposal.pdf",
+        "title": "Proposal.p7s",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae0c53200a7648d78aa29fe7272cb394?Signature=RfmJgfeXJgecc7zcTq%2FlmtGlDvU5QJbK2%2FuutO3DcwJpTozCctrJW%2FvIO4ZwWSmzADJ484%2BRoPEivE4XdbOQAQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=8%2BfZEKjx1wsn9JVm%2BoBxVjYYyYnpQpwuHyvOMk%2BOfLAcfAUV%2FCqdIvZNh9cofsETlr8zhXoPgkwUMJxik%2Be0BQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      },
+      {
+        "documentType": "proposal",
+        "id": "d39a18544f294d60a7ffb793091a64f3",
+        "datePublished": "2023-10-10T01:01:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/909a908de60c424da4489001b0a32a87?Signature=hJ8um5%2FavhQj%2FNtvp9YjM4%2F%2BNVm1gAt%2B0c85vp2UXj5OTlKVakz50SW1flVkljwTwIPiq67nGW3tjQ7TKyrdDw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:01:00+03:00",
         "language": "uk",
         "confidentiality": "public"
       },
       {
         "id": "d3c40015051747439f120cba1d646f05",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/bids/cd1a12fedb634aa88390b3156568df61/documents/d3c40015051747439f120cba1d646f05?download=4751b232227f4b73bc130f096dd47076",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/bids/cd1a12fedb634aa88390b3156568df61/documents/d3c40015051747439f120cba1d646f05?download=ae0c53200a7648d78aa29fe7272cb394",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:01:00+03:00",
         "language": "uk",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair."
+      },
+      {
+        "documentType": "proposal",
+        "id": "d39a18544f294d60a7ffb793091a64f3",
+        "datePublished": "2023-10-10T01:02:01+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b7eade3aa22e4d1b812d34b6438bbd49?Signature=WyWYvG6LgwMr5OPB%2FgHNu%2Bu9UEKvJvsQXhvBD5AxRQC8ov%2FIyR2j3nO%2F8qCKtRcnSa45shFMtylly%2BR90M6RAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:02:01+03:00",
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
     "financialDocuments": [
       {
         "id": "335a14ee1ac24779830306f08494049a",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f92632a5c1ab489db6deba5d2d313753?Signature=ngE4pkDIsSVDd4FtpLl6wtym9yJA7ryCZ6klMuLE2OmW1GlaU20TfS94LAsLawJb%2BG0SRv3GxdnWg07AowB8Bw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4751b232227f4b73bc130f096dd47076?Signature=1J5akap3crhPyzDlP4vYAGqcDr2Zb7J0d2QEZAWWDhImnoN39D969zyZg47F%2FjB5i7MmWPxna6d6Uf15bVWoBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:01:00+03:00",
         "language": "uk",
         "confidentiality": "public"
       },
       {
         "id": "c4eb54ee590043b5b4e5cc49bdd5b6f8",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6213288a9dc8448e9d55b5684ce9c0f2?Signature=VagGJ5qPJ4mU6iGXxVClHZk60pm18WTzdvlJjdBxWRPA1TrZP5d0WDipfHusVAXkb%2BbD7U0G5rYz2wDyz1A7BQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f92632a5c1ab489db6deba5d2d313753?Signature=ngE4pkDIsSVDd4FtpLl6wtym9yJA7ryCZ6klMuLE2OmW1GlaU20TfS94LAsLawJb%2BG0SRv3GxdnWg07AowB8Bw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:01:00+03:00",
         "language": "uk",
         "confidentiality": "public"
       }
@@ -211,13 +239,13 @@ Content-Type: application/json
     "eligibilityDocuments": [
       {
         "id": "eb18f145ef3e47088bb895f834962a0a",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c3fdae8c71e84606ba09ae07517475bf?Signature=GuvuNTb2t0pdrym7dvoqqxi5eWRpvl6jvc3cfuW6KFFp%2BupfDxPjO%2Fd4D8G9LAjG%2BBVhAwbnLBk2PNfs9SIoAw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6213288a9dc8448e9d55b5684ce9c0f2?Signature=VagGJ5qPJ4mU6iGXxVClHZk60pm18WTzdvlJjdBxWRPA1TrZP5d0WDipfHusVAXkb%2BbD7U0G5rYz2wDyz1A7BQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:01:00+03:00",
         "language": "uk",
         "confidentiality": "public"
       }
@@ -225,13 +253,13 @@ Content-Type: application/json
     "qualificationDocuments": [
       {
         "id": "19abd97b054b4544b7fc29bdbb71c8c9",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e12038e895304484ba2427c8ec12b48d?Signature=c6A9zbOW27L9%2FWezN39h69eBFTeCrQsrnc8uPK%2FYXhlnx3Ge%2BnZt2LFZrOSTEUrZS9QqBw99Ek0WGxAdcZ47BQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c3fdae8c71e84606ba09ae07517475bf?Signature=GuvuNTb2t0pdrym7dvoqqxi5eWRpvl6jvc3cfuW6KFFp%2BupfDxPjO%2Fd4D8G9LAjG%2BBVhAwbnLBk2PNfs9SIoAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:01:00+03:00",
         "language": "uk",
         "confidentiality": "public"
       }
@@ -240,7 +268,7 @@ Content-Type: application/json
       {
         "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2023-10-10T01:02:01+03:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,

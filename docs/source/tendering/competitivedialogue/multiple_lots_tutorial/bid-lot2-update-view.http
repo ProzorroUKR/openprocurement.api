@@ -22,6 +22,7 @@ Content-Type: application/json
   "data": {
     "id": "110e51882d0f47e5a0c6168c89e9595a",
     "date": "2023-10-10T01:00:00+03:00",
+    "submissionDate": "2023-10-10T01:01:00+03:00",
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -51,6 +52,36 @@ Content-Type: application/json
         "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "documents": [
+      {
+        "documentType": "proposal",
+        "id": "c6a6f9295d404ca185a5e89fbcbffcb7",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cc3b7bcc2a184edc999ec2ce41b89581?Signature=7%2FzXyIuaXYK3pBeb7AwwXEGj6XuAFTKPuBMWC0BzYelRg7O0USwBdCeIVKm5H8aXNk%2FxOnWPx7mbhh0c%2FJC1Cg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public",
+        "isDescriptionDecision": false
+      },
+      {
+        "documentType": "proposal",
+        "id": "c6a6f9295d404ca185a5e89fbcbffcb7",
+        "datePublished": "2023-10-10T01:01:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e585b5deeba947ad9480f8e5ec250056?Signature=FLdlLLZP%2FzBhll6j%2F0EMhPLTwuhJ1L7q%2FSjVD5QtCh%2F4mJOq34KgHfWj4dQ2Vc9WB7zQo5vB4kR5RAig6NohDw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:01:00+03:00",
+        "language": "uk",
+        "confidentiality": "public",
+        "isDescriptionDecision": false
       }
     ],
     "selfQualified": true,

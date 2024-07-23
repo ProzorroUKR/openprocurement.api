@@ -138,22 +138,35 @@ Bidder can register a bid with draft status:
 .. http:example:: tutorial/stage2/UA/register-bidder.http
    :code:
 
-and approve to pending status:
+Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid.
+If there is no sign document during activation, we will see an error:
 
-.. http:example:: tutorial/stage2/UA/activate-bidder.http
+.. http:example:: tutorial/stage2/UA/activate-bidder-without-proposal.http
    :code:
 
-Proposal Uploading
-~~~~~~~~~~~~~~~~~~
-
-Then bidder should upload proposal document(s):
+Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:
 
 .. http:example:: tutorial/stage2/UA/upload-bid-proposal.http
+   :code:
+
+Let's try to activate bid one more time:
+
+.. http:example:: tutorial/stage2/UA/activate-bidder.http
    :code:
 
 It is possible to check the uploaded documents:
 
 .. http:example:: tutorial/stage2/UA/bidder-documents.http
+   :code:
+
+If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:
+
+.. http:example:: tutorial/stage2/UA/patch-pending-bid.http
+   :code:
+
+If we try to activate bidder the new sign will be needed:
+
+.. http:example:: tutorial/stage2/UA/activate-bidder-without-sign.http
    :code:
 
 Bid invalidation
