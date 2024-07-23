@@ -36,6 +36,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.document import ConfidentialityTypes
 from openprocurement.api.procedure.utils import is_item_owner, to_decimal
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import (
@@ -1254,7 +1255,7 @@ def validate_download_bid_document(request, **_):
     if request.params.get("download"):
         document = request.validated["document"]
         if (
-            document.get("confidentiality", "") == "buyerOnly"
+            document.get("confidentiality", "") == ConfidentialityTypes.BUYER_ONLY
             and request.authenticated_role not in ("aboveThresholdReviewers", "sas")
             and not is_item_owner(request, request.validated["bid"])
             and not is_item_owner(request, request.validated["tender"])

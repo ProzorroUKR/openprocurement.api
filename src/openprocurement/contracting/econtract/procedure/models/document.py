@@ -2,6 +2,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import StringType
 
 from openprocurement.api.procedure.context import get_contract, get_tender
+from openprocurement.api.procedure.models.document import ConfidentialityTypes
 from openprocurement.contracting.core.procedure.models.document import (
     Document as BaseDocument,
 )
@@ -23,7 +24,7 @@ class PatchDocument(BasePatchDocument):
 
 
 class Document(BaseDocument):
-    confidentiality = StringType(choices=["public", "buyerOnly"])
+    confidentiality = StringType(choices=[ConfidentialityTypes.PUBLIC, ConfidentialityTypes.BUYER_ONLY])
 
     def validate_relatedItem(self, data, related_item):
         validate_relatedItem(related_item, data.get("documentOf"))

@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from openprocurement.api.constants import OCID_PREFIX, ROUTE_PREFIX
 from openprocurement.api.context import get_request
+from openprocurement.api.procedure.models.document import ConfidentialityTypes
 
 tender_status_choices = (
     "planning",
@@ -39,7 +40,7 @@ def absolute_url(url):
 def convert_documents(documents, lot_id=None, tender=None):
     latest_versions = {}
     for d in documents:
-        if d.get("confidentiality") == "buyerOnly":
+        if d.get("confidentiality") == ConfidentialityTypes.BUYER_ONLY:
             continue
 
         if lot_id:

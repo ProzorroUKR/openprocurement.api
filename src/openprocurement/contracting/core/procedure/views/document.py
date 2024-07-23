@@ -12,6 +12,9 @@ from openprocurement.contracting.core.procedure.models.document import (
     PatchDocument,
     PostDocument,
 )
+from openprocurement.contracting.core.procedure.serializers.document import (
+    DocumentSerializer,
+)
 from openprocurement.contracting.core.procedure.state.document import BaseDocumentState
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
@@ -21,9 +24,6 @@ from openprocurement.contracting.core.procedure.validation import (
 )
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.tender.core.procedure.documents import get_file
-from openprocurement.tender.core.procedure.serializers.document import (
-    DocumentSerializer,
-)
 from openprocurement.tender.core.procedure.views.document import DocumentResourceMixin
 
 

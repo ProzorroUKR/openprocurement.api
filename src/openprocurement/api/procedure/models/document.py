@@ -1,3 +1,4 @@
+from enum import StrEnum
 from uuid import uuid4
 
 from schematics.types import MD5Type, StringType
@@ -42,6 +43,11 @@ DOCUMENT_TYPES = (
     "evidence",
     "register",
 )
+
+
+class ConfidentialityTypes(StrEnum):
+    BUYER_ONLY = "buyerOnly"
+    PUBLIC = "public"
 
 
 class BaseDocument(Model):

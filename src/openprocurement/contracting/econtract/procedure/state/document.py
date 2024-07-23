@@ -1,9 +1,11 @@
-from openprocurement.api.constants import CONFIDENTIALLY_DOCS_CAUSES
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.document import ConfidentialityTypes
 from openprocurement.contracting.econtract.procedure.state.contract import (
     EContractState,
 )
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
+
+CONFIDENTIAL_DOCS_CAUSES = ("criticalInfrastructure", "civilProtection", "RNBO", "lastHope", "UZ", "defencePurchase")
 
 
 class EContractDocumentState(BaseDocumentStateMixing, EContractState):
@@ -21,11 +23,11 @@ class EContractDocumentState(BaseDocumentStateMixing, EContractState):
         if (
             data.get("documentOf") in ("contract", "change")
             and data.get("documentType") in ("contractSigned", "contractAnnexe")
-            and tender.get("cause") in CONFIDENTIALLY_DOCS_CAUSES
+            and tender.get("cause") in CONFIDENTIAL_DOCS_CAUSES
         ):
-            data["confidentiality"] = "buyerOnly"
+            data["confidentiality"] = ConfidentialityTypes.BUYER_ONLY
         else:
-            data["confidentiality"] = "public"
+            data["confidentiality"] = ConfidentialityTypes.PUBLIC
 
     def validate_document_patch(self, before, after):
         tender = self.request.validated["tender"]

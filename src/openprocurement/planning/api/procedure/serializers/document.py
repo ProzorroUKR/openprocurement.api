@@ -1,7 +1,5 @@
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.tender.core.procedure.serializers.document import (
-    download_url_serialize,
-)
+from openprocurement.api.procedure.serializers.document import download_url_serialize
 
 
 class DocumentSerializer(BaseSerializer):

@@ -1,6 +1,7 @@
 from schematics.exceptions import ValidationError
 from schematics.types import StringType
 
+from openprocurement.api.procedure.models.document import ConfidentialityTypes
 from openprocurement.tender.core.procedure.models.document import (
     Document as BaseDocument,
 )
@@ -14,7 +15,7 @@ from openprocurement.tender.core.procedure.models.document import (
 
 def validate_confidentiality_rationale(data, val):
     confidentiality = data.get("confidentiality")
-    if confidentiality == "buyerOnly":
+    if confidentiality == ConfidentialityTypes.BUYER_ONLY:
         if not val:
             raise ValidationError("confidentialityRationale is required")
         elif len(val) < 30:
@@ -22,7 +23,10 @@ def validate_confidentiality_rationale(data, val):
 
 
 class PostDocument(BasePostDocument):
-    confidentiality = StringType(choices=["public", "buyerOnly"], default="public")
+    confidentiality = StringType(
+        choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value],
+        default=ConfidentialityTypes.PUBLIC.value,
+    )
     confidentialityRationale = StringType()
 
     def validate_confidentialityRationale(self, data, val):
@@ -30,12 +34,15 @@ class PostDocument(BasePostDocument):
 
 
 class PatchDocument(BasePatchDocument):
-    confidentiality = StringType(choices=["public", "buyerOnly"])
+    confidentiality = StringType(choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value])
     confidentialityRationale = StringType()
 
 
 class Document(BaseDocument):
-    confidentiality = StringType(choices=["public", "buyerOnly"], default="public")
+    confidentiality = StringType(
+        choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value],
+        default=ConfidentialityTypes.PUBLIC.value,
+    )
     confidentialityRationale = StringType()
 
     def validate_confidentialityRationale(self, data, val):

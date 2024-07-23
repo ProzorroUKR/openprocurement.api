@@ -1,9 +1,9 @@
+from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.document import ConfidentialityTypes
 from openprocurement.api.procedure.serializers.document import (
     DocumentSerializer as BaseDocumentSerializer,
 )
-from openprocurement.api.procedure.utils import is_item_owner
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.contracting.core.procedure.utils import is_tender_owner
 
 
 class DocumentSerializer(BaseDocumentSerializer):
@@ -12,9 +12,9 @@ class DocumentSerializer(BaseDocumentSerializer):
         super().__init__(data)
         if data.get("confidentiality", "") == ConfidentialityTypes.BUYER_ONLY:
             request = get_request()
-            if (
-                request.authenticated_role not in ("aboveThresholdReviewers", "sas")
-                and not ("bid" in request.validated and is_item_owner(request, request.validated["bid"]))
-                and not is_item_owner(request, request.validated["tender"])
-            ):
+            if not is_tender_owner(request, request.validated["contract"]):
                 self.private_fields.add("url")
+
+
+class ContractDocumentSerializer(DocumentSerializer):
+    serializers = {}
