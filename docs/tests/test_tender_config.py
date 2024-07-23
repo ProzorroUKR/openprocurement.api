@@ -490,6 +490,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid1_token = response.json['access']['token']
         bid1_id = response.json['data']['id']
+        self.add_proposal_doc(tender_id, bid1_id, bid1_token)
         self.set_responses(tender_id, response.json, "pending")
 
         #### Registering bid 2
@@ -518,6 +519,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
+        self.add_proposal_doc(tender_id, bid2_id, bid2_token)
         self.set_responses(tender_id, response.json, "pending")
 
         return bid1_id, bid1_token, bid2_id, bid2_token
@@ -581,6 +583,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid1_id = response.json['data']['id']
         bid1_token = response.json['access']['token']
+        self.add_proposal_doc(tender_id, bid1_id, bid1_token)
         self.set_responses(tender_id, response.json, "pending")
 
         bid_data["lotValues"][0]["value"]["amount"] = 500
@@ -589,6 +592,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
+        self.add_proposal_doc(tender_id, bid2_id, bid2_token)
         self.set_responses(tender_id, response.json, "pending")
 
         return bid1_id, bid1_token, bid2_id, bid2_token
@@ -975,6 +979,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '201 Created')
             bids.append(response.json['data']['id'])
             bids_tokens.append(response.json['access']['token'])
+            self.add_proposal_doc(tender_id, response.json['data']['id'], response.json['access']['token'])
             self.set_responses(tender_id, response.json, "pending")
 
         #### Auction
@@ -1583,6 +1588,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
                 },
             )
             self.assertEqual(response.status, "201 Created")
+            self.add_proposal_doc(tender_id, response.json['data']['id'], response.json['access']['token'])
             self.set_responses(tender_id, response.json, "pending")
         bid_token = response.json["access"]["token"]
 
@@ -1680,6 +1686,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
             bid_data["lotValues"].append({"value": {"amount": idx * 100 + initial_amount}, 'relatedLot': lot_id})
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
         self.assertEqual(response.status, '201 Created')
+        self.add_proposal_doc(tender_id, response.json['data']['id'], response.json['access']['token'])
         self.set_responses(tender_id, response.json, "pending")
         return response.json['data']['id']
 

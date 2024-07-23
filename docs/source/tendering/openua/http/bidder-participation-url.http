@@ -122,7 +122,7 @@ Content-Type: application/json
     ],
     "tenderers": [
       {
-        "name": "ДКП «Школяр»",
+        "name": "Школяр",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
@@ -147,16 +147,44 @@ Content-Type: application/json
     "status": "active",
     "id": "020c67f8680340e48ada4a03d9a58f08",
     "date": "2023-10-10T01:00:00+03:00",
+    "submissionDate": "2023-10-10T01:02:01+03:00",
     "documents": [
       {
+        "documentType": "proposal",
         "id": "f6b43126ac6541b09aa78052ad667158",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "Proposal.pdf",
+        "title": "Proposal.p7s",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e98ff4ebc6424cfba4838b5e790e1366?Signature=fOkU3ELmyYVvsahAhcRBc7yC874TjzHPh5cYUAHPJd4t9ojzcEf%2FMi8YRSSL7rX%2BSaDC1SYS%2Bh7h%2FXQRDaHCAA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7f0c077b0665474cad7c427b6e53ab37?Signature=mvP6D4QsriaXbp93rPArpZwko6w0Rt5hwLbV5d74A5QWO2aOZHNSQLbiHjwdbgAoWEGFszXrbJdSNygESE4EBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      },
+      {
+        "documentType": "proposal",
+        "id": "f6b43126ac6541b09aa78052ad667158",
+        "datePublished": "2023-10-10T01:01:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cbd7afeb7d6f49a3bcf73821574b3390?Signature=MgiJJPelsFKZEPygbuqZ2q8t5yiQeLAtXJpHWS8pCTPfP0PXQUleYAgX%2F9KvSW%2BO7N4Oo%2BdpimQg1%2FAWvgKwDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:01:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      },
+      {
+        "documentType": "proposal",
+        "id": "f6b43126ac6541b09aa78052ad667158",
+        "datePublished": "2023-10-10T01:02:01+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e7b4c1ca697647378924c688c9c38126?Signature=KPvKKSLVwMcSVRZhlHPzAfftpyx1%2FtUe9ppa%2FtKHyfbAGz%2FJaxOliTQV6nhdZfpCB%2FylndvbF7gOwqxI%2Fr6fDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:02:01+03:00",
         "language": "uk",
         "confidentiality": "public"
       }

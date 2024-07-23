@@ -157,19 +157,27 @@ class BaseCoreWebTest(BaseWebTest):
 
         return bid, token
 
-    def add_proposal_doc(self, tender_id, bid_id, bid_token):
-        response = self.app.post_json(
-            f"/tenders/{tender_id}/bids/{bid_id}/documents?acc_token={bid_token}",
-            {
-                "data": {
-                    "title": "proposal.p7s",
-                    "documentType": "proposal",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "sign/p7s",
-                }
-            },
-        )
+    def add_proposal_doc(self, tender_id, bid_id, bid_token, doc_id=None):
+        request_body = {
+            "data": {
+                "title": "proposal.p7s",
+                "documentType": "proposal",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "sign/pkcs7-signature",
+            }
+        }
+
+        if doc_id:
+            response = self.app.put_json(
+                f"/tenders/{tender_id}/bids/{bid_id}/documents/{doc_id}?acc_token={bid_token}",
+                request_body,
+            )
+        else:
+            response = self.app.post_json(
+                f"/tenders/{tender_id}/bids/{bid_id}/documents?acc_token={bid_token}",
+                request_body,
+            )
         return response
 
     def activate_bid(self, tender_id, bid_id, bid_token):

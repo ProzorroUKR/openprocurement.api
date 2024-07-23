@@ -82,12 +82,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:03:00+03:00"
       }
     ],
     "selfQualified": true,
     "id": "88d8e0d7211445dfbd33d16c77a599c9",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2023-10-10T01:03:00+03:00"
   },
   "access": {
     "token": "35cdaa52ee834652b4e862ba44461060",

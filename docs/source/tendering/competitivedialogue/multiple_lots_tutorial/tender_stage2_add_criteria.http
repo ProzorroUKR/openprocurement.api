@@ -546,7 +546,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         },
@@ -560,7 +560,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }
@@ -619,7 +619,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }
@@ -668,7 +668,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             },
             {
               "id": "6b56e2d23c744c459be3bc38138ad4ae",
@@ -676,7 +676,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }
@@ -715,7 +715,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }
@@ -754,7 +754,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         },
@@ -768,28 +768,28 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             },
             {
               "id": "b97bb7f802d2460ca4feaa0e80e73052",
               "title": "Сума існуючої заборгованості",
               "dataType": "number",
               "status": "active",
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             },
             {
               "id": "66a0b0d26ce04e8e9e58e0313a4df5a1",
               "title": "Характер існуючої заборгованості",
               "dataType": "string",
               "status": "active",
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             },
             {
               "id": "ede6b5bd00054279b5c6baf1919bc989",
               "title": "Причина виникнення існуючої заборгованості",
               "dataType": "string",
               "status": "active",
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             },
             {
               "id": "27719db4ddc245088c74ab24c3e107d4",
@@ -797,7 +797,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }
@@ -836,7 +836,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }
@@ -882,7 +882,7 @@ Content-Type: application/json
                 }
               ],
               "status": "active",
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }
@@ -920,7 +920,7 @@ Content-Type: application/json
               "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
               "dataType": "boolean",
               "status": "active",
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }
@@ -998,7 +998,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             },
             {
               "id": "9e735894c6e24a36b669bbcbedc2084c",
@@ -1006,7 +1006,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             },
             {
               "id": "4389f9b1a20d4fc88e3e69add5d1d242",
@@ -1014,7 +1014,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }
@@ -1051,7 +1051,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2023-10-10T01:01:00+03:00"
             }
           ]
         }

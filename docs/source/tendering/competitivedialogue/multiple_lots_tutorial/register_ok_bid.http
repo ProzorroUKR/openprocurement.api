@@ -85,12 +85,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/48845373b4f4425a
         },
         "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:01:00+03:00"
       }
     ],
     "selfQualified": true,
     "id": "7fec345ba2914e28bd28e7dd15100c66",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2023-10-10T01:01:00+03:00"
   },
   "access": {
     "token": "83cd77ef6cb141478248c8ff09529e31",

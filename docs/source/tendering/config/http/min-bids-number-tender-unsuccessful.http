@@ -780,6 +780,21 @@ Content-Type: application/json
         "status": "unsuccessful",
         "id": "4b2f22ec008b4f4e88f2f69ea174242c",
         "date": "2023-10-10T01:00:00+03:00",
+        "documents": [
+          {
+            "documentType": "proposal",
+            "id": "b341b0b88047496f9941c908c61b51e9",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "proposal.p7s",
+            "format": "sign/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/514d764704784304906b25138785146c?Signature=yjgKJXMrDifuPHmXZ9OKsemcsg6kfa%2BsUEKReUksv1aA%2BwPBLKW%2BCBBwZvjzl0Oi0plsYZ8wZjx1oOPKO51IDA%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "language": "uk",
+            "confidentiality": "public"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -791,7 +806,8 @@ Content-Type: application/json
             "status": "unsuccessful",
             "date": "2023-11-09T00:00:00+02:00"
           }
-        ]
+        ],
+        "submissionDate": "2023-10-10T01:00:00+03:00"
       }
     ],
     "id": "38bca89f7ba4477d97f553d576fd6994"

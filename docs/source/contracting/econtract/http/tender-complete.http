@@ -29,7 +29,7 @@ Content-Type: application/json
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR",
+        "scheme": "UA-IPN",
         "id": "00037256",
         "uri": "http://www.dus.gov.ua/"
       },
@@ -218,7 +218,7 @@ Content-Type: application/json
           {
             "name": "Державне управління справами",
             "identifier": {
-              "scheme": "UA-EDR",
+              "scheme": "UA-IPN",
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
@@ -267,7 +267,8 @@ Content-Type: application/json
             "id": "6a618d6264e54f90b1d470e6e2f6add8"
           }
         ],
-        "status": "active"
+        "status": "active",
+        "submissionDate": "2023-10-10T01:00:00+03:00"
       }
     ],
     "awardPeriod": {
@@ -287,7 +288,7 @@ Content-Type: application/json
           {
             "name": "Державне управління справами",
             "identifier": {
-              "scheme": "UA-EDR",
+              "scheme": "UA-IPN",
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
@@ -320,7 +321,7 @@ Content-Type: application/json
           {
             "name": "Державне управління справами",
             "identifier": {
-              "scheme": "UA-EDR",
+              "scheme": "UA-IPN",
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },

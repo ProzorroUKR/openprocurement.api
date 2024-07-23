@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-09 16:55+0300\n"
+"POT-Creation-Date: 2024-07-25 13:30+0300\n"
 "PO-Revision-Date: 2024-06-09 17:14+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -277,17 +277,26 @@ msgstr "Коли приходить ``Tender.tenderingPeriod.startDate``, Зак
 msgid "Bidder can register a bid for lot №1 in `draft` status:"
 msgstr "Учасник може зареєструвати пропозицію для лота №1 у статусі `draft` (чернетка):"
 
-msgid "and approve to pending status:"
-msgstr "і підтвердити її, перевівши у ``pending`` статус:"
+msgid "Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid. If there is no sign document during activation, we will see an error:"
+msgstr "Після цього учасник має підтвердити пропозицію, перевівши у ``pending`` статус. Якщо учасник резидент (`tenderers.identifier.scheme = 'UA-EDR'`), то перед підтвердженням пропозиції він має накласти електронний підпис. Якщо файлу підписа не знайдено під час підтвердження, буде наступна помилка:"
 
-msgid "And upload proposal document:"
-msgstr "І завантажити документ пропозиції:"
+msgid "Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:"
+msgstr "Файл підпису має тип документу `documentType: proposal` та розширення `title: *.p7s`. Додамо файл підпису:"
+
+msgid "Let's try to activate bid one more time:"
+msgstr "Спробуємо підтвердити пропозицію:"
 
 msgid "It is possible to check the uploaded documents:"
 msgstr "Можна перевірити завантажені документи:"
 
-msgid "If tender has multicurrency turned off, than there will be validation that sum of `items.unit.value` could not be moe that bid value:"
+msgid "If tender has multicurrency turned off, than there will be validation that sum of `items.unit.value` could not be more than bid value:"
 msgstr "Якщо закупівля не мультивалютна, тоді існує додаткова перевірка, що сума всіх `items.unit.value` не може перевищувати ціну пропозиції:"
+
+msgid "If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:"
+msgstr "При кожному редагуванні вже поданої пропозиції, пропозиція буде переходити в статус `invalid` і її треба буде заново підписати:"
+
+msgid "If we try to activate bidder the new sign will be needed:"
+msgstr "Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:"
 
 msgid "Batch-mode registration"
 msgstr "Пакетний режим реєстрації"

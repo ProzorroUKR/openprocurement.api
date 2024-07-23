@@ -9,7 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "id": "00037200",
           "uri": "http://www.dus.gov.ua/"
         },

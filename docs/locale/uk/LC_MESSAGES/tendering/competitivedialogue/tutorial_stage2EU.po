@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialogue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-04 09:52+0300\n"
+"POT-Creation-Date: 2024-07-25 13:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,14 +150,20 @@ msgstr "Як і зі зверненнями, тільки учасник яки�
 msgid "Get error, now participant from first stage try"
 msgstr "Отримали помилку, теперь учасник який був допущений на першому етапі"
 
-msgid "and approve to pending status:"
-msgstr "і підтвердити її, перевівши у ``pending`` статус:"
+msgid "Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid. If there is no sign document during activation, we will see an error:"
+msgstr "Після цього учасник має підтвердити пропозицію, перевівши у ``pending`` статус. Якщо учасник резидент (`tenderers.identifier.scheme = 'UA-EDR'`), то перед підтвердженням пропозиції він має накласти електронний підпис. Якщо файлу підписа не знайдено під час підтвердження, буде наступна помилка:"
 
-msgid "Proposal Uploading"
-msgstr "Завантаження пропозиції"
+msgid "Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:"
+msgstr "Файл підпису має тип документу `documentType: proposal` та розширення `title: *.p7s`. Додамо файл підпису:"
 
-msgid "Then bidder should upload proposal technical document(s):"
-msgstr "Потім учасник повинен завантажити документ(и) пропозиції:"
+msgid "Let's try to activate bid one more time:"
+msgstr "Спробуємо підтвердити пропозицію:"
+
+msgid "If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:"
+msgstr "При кожному редагуванні вже поданої пропозиції, пропозиція буде переходити в статус `invalid` і її треба буде заново підписати:"
+
+msgid "If we try to activate bidder the new sign will be needed:"
+msgstr "Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:"
 
 msgid "Confidentiality"
 msgstr "Конфіденційність"
@@ -404,3 +410,4 @@ msgstr "Активація запиту та скасування закупів
 
 msgid "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
 msgstr "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`"
+

@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "da10980678b841e6a8440494aad2ff10",
       "status": "pending",
-      "date": "2023-10-10T01:00:00+03:00",
+      "date": "2023-10-10T01:02:01+03:00",
       "value": {
         "amount": 485.0,
         "currency": "UAH",
@@ -46,7 +46,7 @@ Content-Type: application/json
     {
       "id": "e6cfe52be724467b86ca4ffcffbba954",
       "status": "pending",
-      "date": "2023-10-10T01:00:00+03:00",
+      "date": "2023-10-10T01:02:01+03:00",
       "value": {
         "amount": 499.0,
         "currency": "UAH",
@@ -82,7 +82,7 @@ Content-Type: application/json
     {
       "id": "b0823c22a8da42b8adfa7b7de1f04236",
       "status": "pending",
-      "date": "2023-10-10T01:00:00+03:00",
+      "date": "2023-10-10T01:02:01+03:00",
       "value": {
         "amount": 500.0,
         "currency": "UAH",
@@ -90,7 +90,7 @@ Content-Type: application/json
       },
       "suppliers": [
         {
-          "name": "ДКП «Школяр»",
+          "name": "Школяр",
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137256",

@@ -491,7 +491,7 @@ Content-Type: application/json
       }
     ],
     "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:06:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000001-a",
     "questions": [
@@ -574,14 +574,14 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-10T01:24:00+03:00",
+    "next_check": "2023-10-10T01:30:00+03:00",
     "minimalStep": {
       "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2023-10-10T01:06:00+03:00"
     },
     "lots": [
       {
@@ -601,7 +601,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "auctionPeriod": {
-          "startDate": "2023-10-10T01:00:00+03:00",
+          "startDate": "2023-10-10T01:06:00+03:00",
           "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/de38bea4a6534e13939a382dfeef92f2_f56fc2b8fdd44587baa8726a382e3e41"
@@ -623,7 +623,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "auctionPeriod": {
-          "startDate": "2023-10-10T01:00:00+03:00"
+          "startDate": "2023-10-10T01:06:00+03:00"
         }
       }
     ],
@@ -682,14 +682,14 @@ Content-Type: application/json
     "procurementMethodType": "aboveThreshold",
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-10-02T01:00:00+03:00",
-      "endDate": "2023-10-07T01:00:00+03:00",
+      "startDate": "2023-10-02T01:06:00+03:00",
+      "endDate": "2023-10-07T01:06:00+03:00",
       "clarificationsUntil": "2023-10-18T00:00:00+03:00",
-      "invalidationDate": "2023-10-10T01:00:00+03:00"
+      "invalidationDate": "2023-10-10T01:01:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-10-02T01:00:00+03:00",
-      "endDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2023-10-02T01:06:00+03:00",
+      "endDate": "2023-10-10T01:06:00+03:00"
     },
     "items": [
       {

@@ -52,11 +52,25 @@ Content-Type: application/json
         "dateModified": "2023-10-10T01:00:01+03:00",
         "language": "uk",
         "confidentiality": "public"
+      },
+      {
+        "documentType": "proposal",
+        "id": "3379e8ad408b4bef8d683cc241388bdd",
+        "datePublished": "2023-10-10T01:00:01+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b2bc039ebd294438bc315474bbedee30?Signature=U50tPD7Q5EPkGXPaxxsuGqb%2Bo1d23yqoh15Q0kTXABtoPhmJx0QtBrrdrZFoA1%2Bqg3MLEwrhQhjFZXq5Cl%2F8AA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:01+03:00",
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
     "selfEligible": true,
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
+    "submissionDate": "2023-10-10T01:00:01+03:00",
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/5fd17b367a75453582bffe24ae83b896?key_for_bid=ca0b06136e7e4e7d89a15fbafaaacc72"
   }
 }

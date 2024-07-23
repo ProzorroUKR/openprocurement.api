@@ -7,6 +7,7 @@ from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid_document,
     test_docs_bid_document2,
+    test_docs_bid_draft,
     test_docs_lot_bid,
     test_docs_lot_bid2,
     test_docs_lot_bid3_with_docs,
@@ -297,6 +298,29 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'activate-bidder-without-proposal.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                {'data': {"status": "pending"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                {
+                    'data': {
+                        'title': 'Proposal.p7s',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf',
+                        'documentType': 'proposal',
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
+            doc_id = response.json["data"]["id"]
+
         with open(TARGET_DIR + 'activate-bidder.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
@@ -304,21 +328,31 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
-        # Proposal Uploading
-
-        with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
-                {
-                    "data": {
-                        "title": "Proposal.pdf",
-                        "url": self.generate_docservice_url(),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/pdf",
-                    }
-                },
+        tenderers = deepcopy(test_docs_bid_draft["tenderers"])
+        tenderers[0]["name"] = "Школяр"
+        with open(TARGET_DIR + 'patch-pending-bid.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                {"data": {'tenderers': tenderers}},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'activate-bidder-without-sign.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                {'data': {"status": "pending"}},
+                status=422,
+            )
+
+        self.tick_delta = None
+        self.tick(timedelta(minutes=1))
+        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
+        self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+            {'data': {"status": "pending"}},
+        )
+
+        # Confidentiality
 
         with open(TARGET_DIR + 'upload-bid-private-proposal.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -465,6 +499,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Bid confirmation
 
+        self.tick()
+        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
         with open(TARGET_DIR + 'bidder-activate-after-changing-tender.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
@@ -480,6 +516,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        self.add_proposal_doc(self.tender_id, bid2_id, bids_access[bid2_id])
         self.set_responses(self.tender_id, response.json, 'pending')
 
         test_docs_bid_document2.update(
@@ -505,6 +542,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             bid3_id = response.json['data']['id']
             bids_access[bid3_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
+        self.add_proposal_doc(self.tender_id, bid3_id, bids_access[bid3_id])
         self.set_responses(self.tender_id, response.json, 'pending')
 
         with open(TARGET_DIR + 'register-4rd-bidder.http', 'w') as self.app.file_obj:
@@ -512,6 +550,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             bid4_id = response.json['data']['id']
             bids_access[bid4_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
+        self.add_proposal_doc(self.tender_id, bid4_id, bids_access[bid4_id])
         self.set_responses(self.tender_id, response.json, 'pending')
 
         # Pre-qualification

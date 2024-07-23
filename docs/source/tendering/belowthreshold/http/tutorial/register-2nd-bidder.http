@@ -20,7 +20,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "telephone": "+380322916930"
         },
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
@@ -95,7 +95,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
       {
         "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "id": "00137226",
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
@@ -126,8 +126,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
         "language": "uk",
         "id": "b57bff4881434c139ba83f203f41d9dc",
         "confidentiality": "public",
-        "datePublished": "2023-10-16T01:14:06+03:00",
-        "dateModified": "2023-10-16T01:14:06+03:00"
+        "datePublished": "2023-10-16T01:15:06+03:00",
+        "dateModified": "2023-10-16T01:15:06+03:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -138,8 +138,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
         "language": "uk",
         "id": "6dedbd358d08409eac7efb40cb71f63d",
         "confidentiality": "public",
-        "datePublished": "2023-10-16T01:14:06+03:00",
-        "dateModified": "2023-10-16T01:14:06+03:00"
+        "datePublished": "2023-10-16T01:15:06+03:00",
+        "dateModified": "2023-10-16T01:15:06+03:00"
       }
     ],
     "lotValues": [
@@ -151,11 +151,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "987404b67a4c4d888112d4e9755edefc",
-        "date": "2023-10-16T01:14:06+03:00"
+        "date": "2023-10-16T01:15:06+03:00"
       }
     ],
     "id": "9a6691c52a6e40478d3057022922c776",
-    "date": "2023-10-16T01:14:06+03:00"
+    "date": "2023-10-16T01:15:06+03:00"
   },
   "access": {
     "token": "db886e7c3bb649edb5893b47afcb0f05",

@@ -154,6 +154,21 @@ Content-Type: application/json
     "status": "pending",
     "id": "020c67f8680340e48ada4a03d9a58f08",
     "date": "2023-10-10T01:00:00+03:00",
+    "documents": [
+      {
+        "documentType": "proposal",
+        "id": "f6b43126ac6541b09aa78052ad667158",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.p7s",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7f0c077b0665474cad7c427b6e53ab37?Signature=mvP6D4QsriaXbp93rPArpZwko6w0Rt5hwLbV5d74A5QWO2aOZHNSQLbiHjwdbgAoWEGFszXrbJdSNygESE4EBQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      }
+    ],
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
@@ -167,7 +182,8 @@ Content-Type: application/json
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
-    ]
+    ],
+    "submissionDate": "2023-10-10T01:00:00+03:00"
   }
 }
 

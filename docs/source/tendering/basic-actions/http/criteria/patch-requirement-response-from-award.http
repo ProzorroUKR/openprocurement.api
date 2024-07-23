@@ -110,7 +110,7 @@ Content-Type: application/json
       {
         "name": "ДКП «Книга»",
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "id": "00137226",
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"

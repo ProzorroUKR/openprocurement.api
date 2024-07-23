@@ -27,7 +27,7 @@ Content-Type: application/json
       {
         "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "id": "00037256",
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"

@@ -218,17 +218,30 @@ And append responses for criteria requirements:
 .. http:example:: tutorial/add-requirement-responses-to-bidder.http
    :code:
 
-and approve to pending status:
+Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: tutorial/activate-bidder-without-proposal.http
+   :code:
+
+Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: tutorial/upload-bid-proposal.http
+   :code:
+
+Let's try to activate bid one more time:
 
 .. http:example:: tutorial/activate-bidder.http
    :code:
 
-Proposal Uploading
-~~~~~~~~~~~~~~~~~~
+If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:
 
-Then bidder should upload proposal technical document(s):
+.. http:example:: tutorial/patch-pending-bid.http
+   :code:
 
-.. http:example:: tutorial/upload-bid-proposal.http
+If we try to activate bidder the new sign will be needed:
+
+.. http:example:: tutorial/activate-bidder-without-sign.http
    :code:
 
 Confidentiality

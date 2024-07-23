@@ -61,7 +61,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           },
@@ -75,7 +75,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
@@ -134,7 +134,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
@@ -183,7 +183,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               },
               {
                 "id": "6b56e2d23c744c459be3bc38138ad4ae",
@@ -191,7 +191,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
@@ -230,7 +230,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
@@ -269,7 +269,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           },
@@ -283,28 +283,28 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               },
               {
                 "id": "b97bb7f802d2460ca4feaa0e80e73052",
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               },
               {
                 "id": "66a0b0d26ce04e8e9e58e0313a4df5a1",
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               },
               {
                 "id": "ede6b5bd00054279b5c6baf1919bc989",
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               },
               {
                 "id": "27719db4ddc245088c74ab24c3e107d4",
@@ -312,7 +312,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
@@ -351,7 +351,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
@@ -397,7 +397,7 @@ Content-Type: application/json
                   }
                 ],
                 "status": "active",
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
@@ -435,7 +435,7 @@ Content-Type: application/json
                 "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
                 "dataType": "boolean",
                 "status": "active",
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
@@ -513,7 +513,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               },
               {
                 "id": "9e735894c6e24a36b669bbcbedc2084c",
@@ -521,7 +521,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               },
               {
                 "id": "4389f9b1a20d4fc88e3e69add5d1d242",
@@ -529,7 +529,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
@@ -566,16 +566,16 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:01:00+03:00"
               }
             ]
           }
         ]
       }
     ],
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:01:00+03:00",
+    "dateModified": "2023-10-10T01:01:00+03:00",
+    "dateCreated": "2023-10-10T01:01:00+03:00",
     "tenderID": "UA-2023-10-10-000016-a.2",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
@@ -597,7 +597,7 @@ Content-Type: application/json
         "description": "Опис Лот №1",
         "status": "active",
         "id": "3d9bd8f913544205bad6df7a3843e883",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2023-10-10T01:01:00+03:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -614,7 +614,7 @@ Content-Type: application/json
         "description": "Опис Лот №2",
         "status": "active",
         "id": "21068d0f3d3849709ec8f44d8bd0c140",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2023-10-10T01:01:00+03:00",
         "value": {
           "amount": 400.0,
           "currency": "UAH",
@@ -654,17 +654,17 @@ Content-Type: application/json
     },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
+      "startDate": "2023-10-10T01:01:00+03:00",
       "endDate": "2023-10-31T00:00:00+02:00",
       "clarificationsUntil": "2023-11-03T00:00:00+02:00",
-      "invalidationDate": "2023-10-10T01:00:00+03:00"
+      "invalidationDate": "2023-10-10T01:01:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
+      "startDate": "2023-10-10T01:01:00+03:00",
       "endDate": "2023-11-10T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
+      "startDate": "2023-10-10T01:01:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
