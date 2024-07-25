@@ -1,6 +1,9 @@
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
+from openprocurement.tender.core.constants import (
+    CRITERION_LOCALIZATION,
+    CRITERION_TECHNICAL_FEATURES,
+)
 from openprocurement.tender.core.procedure.models.criterion import (
     validate_criteria_requirement_id_uniq,
 )
@@ -41,7 +44,7 @@ class CriterionStateMixin(BaseCriterionStateMixin):
         self.validate_action_with_exist_inspector_review_request()
         self.invalidate_bids()
         self.invalidate_review_requests()
-        self.validate_tech_feature_criteria(data)
+        self.validate_tech_feature_localization_criteria(data)
 
     def validate_on_post(self, data: dict) -> None:
         self._validate_operation_criterion_in_tender_status()
@@ -110,7 +113,7 @@ class CriterionStateMixin(BaseCriterionStateMixin):
                     if check_requirements_active(existed_criterion):
                         raise_operation_error(self.request, "Criteria are not unique")
 
-    def validate_tech_feature_criteria(self, data: dict) -> None:
+    def validate_tech_feature_localization_criteria(self, data: dict) -> None:
         tender = get_tender()
         if not isinstance(data, list):
             data = [data]
@@ -119,7 +122,20 @@ class CriterionStateMixin(BaseCriterionStateMixin):
             if criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:
                 item = next((item for item in tender["items"] if item["id"] == criterion["relatedItem"]), None)
                 if not (item.get("category") or item.get("profile")):
-                    raise_operation_error(self.request, "Item should have category or profile", status=422)
+                    raise_operation_error(
+                        self.request,
+                        "For technical feature criteria item should have category or profile",
+                        status=422,
+                    )
+
+            if criterion["classification"]["id"] == CRITERION_LOCALIZATION:
+                item = next((item for item in tender["items"] if item["id"] == criterion["relatedItem"]), None)
+                if not item.get("category"):
+                    raise_operation_error(
+                        self.request,
+                        "For localization criteria item should have category",
+                        status=422,
+                    )
 
 
 class CriterionState(CriterionStateMixin, TenderState):

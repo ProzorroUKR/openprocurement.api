@@ -79,10 +79,10 @@ class TechFeatureItem(Item):
     profile = StringType()
     category = StringType()
 
-    def validate_category(self, data, value):
-        profile = data.get("profile")
-        if (not profile and value) or (profile and not value):
-            raise ValidationError("profile and category should be provided together")
+    def validate_profile(self, data, value):
+        category = data.get("category")
+        if value and not category:
+            raise ValidationError("profile should be provided together only with category")
 
 
 class RelatedBuyerMixing:
