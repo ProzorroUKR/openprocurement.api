@@ -1505,7 +1505,7 @@ def tender_items_category_profile(self):
             {
                 "location": "body",
                 "name": "items",
-                "description": [{"category": ["profile and category should be provided together"]}],
+                "description": [{"profile": ["profile should be provided together only with category"]}],
             }
         ],
     )

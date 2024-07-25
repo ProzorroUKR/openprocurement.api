@@ -1795,7 +1795,13 @@ def tech_feature_criterion(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Item should have category or profile"}],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "For technical feature criteria item should have category or profile",
+            },
+        ],
     )
 
     items[1]["profile"] = "2" * 32
