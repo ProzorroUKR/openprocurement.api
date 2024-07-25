@@ -2,7 +2,10 @@ from schematics.exceptions import ValidationError
 from schematics.types import StringType
 
 from openprocurement.api.procedure.context import get_contract, get_tender
-from openprocurement.api.procedure.models.document import ConfidentialityTypes
+from openprocurement.api.procedure.models.document import (
+    ConfidentialityTypes,
+    validate_confidentiality_rationale,
+)
 from openprocurement.contracting.core.procedure.models.document import (
     Document as BaseDocument,
 )
@@ -15,16 +18,33 @@ from openprocurement.contracting.core.procedure.models.document import (
 
 
 class PostDocument(BasePostDocument):
+    confidentiality = StringType(
+        choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value],
+        default=ConfidentialityTypes.PUBLIC.value,
+    )
+    confidentialityRationale = StringType()
+
+    def validate_confidentialityRationale(self, data, val):
+        validate_confidentiality_rationale(data, val)
+
     def validate_relatedItem(self, data, related_item):
         validate_relatedItem(related_item, data.get("documentOf"))
 
 
 class PatchDocument(BasePatchDocument):
-    pass
+    confidentiality = StringType(choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value])
+    confidentialityRationale = StringType()
 
 
 class Document(BaseDocument):
-    confidentiality = StringType(choices=[ConfidentialityTypes.PUBLIC, ConfidentialityTypes.BUYER_ONLY])
+    confidentiality = StringType(
+        choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value],
+        default=ConfidentialityTypes.PUBLIC.value,
+    )
+    confidentialityRationale = StringType()
+
+    def validate_confidentialityRationale(self, data, val):
+        validate_confidentiality_rationale(data, val)
 
     def validate_relatedItem(self, data, related_item):
         validate_relatedItem(related_item, data.get("documentOf"))
