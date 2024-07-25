@@ -51,7 +51,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Item should have category or profile"
+      "description": "For technical feature criteria item should have category or profile"
     }
   ]
 }

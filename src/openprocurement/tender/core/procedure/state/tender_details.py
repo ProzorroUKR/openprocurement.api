@@ -738,9 +738,12 @@ class TenderDetailsMixing(TenderConfigMixin):
             ):
                 category_id = after_values.get("category")
                 get_tender_category(request, category_id, ("active",))
-                profile = get_tender_profile(request, after_values.get("profile"), ("active", "general"))
-                if profile.get("relatedCategory") != category_id:
-                    raise_operation_error(request, "Profile should be related to category", status=422)
+
+                if profile_id := after_values.get("profile"):
+                    profile = get_tender_profile(request, profile_id, ("active", "general"))
+
+                    if profile.get("relatedCategory") != category_id:
+                        raise_operation_error(request, "Profile should be related to category", status=422)
 
                 if before:
                     self.cancel_all_technical_criteria(after, k)
