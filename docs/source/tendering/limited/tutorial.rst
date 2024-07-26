@@ -246,7 +246,7 @@ Confidential documents for contract
 When creating a tender, the customer selects one of the items (`cause`) from the drop-down list of reasons for applying the purchase contract report.
 If one of the particular reasons is used, the files (documents) that the customer uploads to the contract and changes to the contract (`"documentOf": "contract"` and `"documentOf": "change"`) must be hidden in such reporting procedure.
 
-Documents are confidential if reporting has one ot the causes:
+Documents should be confidential if reporting has one ot the causes:
 
     * criticalInfrastructure
     * civilProtection
@@ -260,9 +260,19 @@ and has one of document types:
     * contractSigned - Signed contract
     * contractAnnexe - Annexes to the contract
 
-Confidentiality is set automatically by the CDB for documents, in case of application of the above causes.
+Confidentiality should be applied for documents, in case of application of the above causes. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`.
 
-Let's add documents to contract and see what `confidentiality` was set by CBD:
+Let's add documents to contract and set `confidentiality` as public, we will see an error:
+
+.. http:example:: http/tutorial/tender-reporting-contract-conf-docs-as-public.http
+   :code:
+
+Change `confidentiality` as `buyerOnly` and look what we've got:
+
+.. http:example:: http/tutorial/tender-reporting-contract-conf-docs-wo-rationale.http
+   :code:
+
+Let's add `confidentialityRationale`:
 
 .. http:example:: http/tutorial/tender-reporting-contract-conf-docs.http
    :code:

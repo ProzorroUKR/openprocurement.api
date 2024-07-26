@@ -7,14 +7,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": [
     {
       "title": "annexe.doc",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1066f87343c8444996cc74fa9b08ed6e?Signature=nrdrAU%2BGCtJZfGTetxtS6EdxdviOv9UXfUfAj4HtTqAMKTUvBghNtS3Bb4jHopJopORW94dMYa2gN%2BKGDcEbCw%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6867c78ea3ec4ca68a9bf8c374110b6a?Signature=wkAO6azST3xNjT9ls3ELhISFlLZAoQNv3rxBRtrY3M9x9Lyw%2BUks2xPGteIYSILdTXoJZVsCSTdAC2R%2Bu6JtCQ%3D%3D&KeyID=a8968c46",
       "hash": "md5:00000000000000000000000000000000",
       "format": "application/msword",
-      "documentType": "contractAnnexe"
+      "documentType": "contractAnnexe",
+      "confidentiality": "buyerOnly",
+      "confidentialityRationale": "Файл буде оприлюднено в електронній системі закупівель через 90 днів з дня припинення або скасування правового режиму воєнного стану в Україні відповідно до п 13, пп 21 Постанови 1178"
     },
     {
       "title": "schedule.doc",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/406d025b64f04b06b7c226963c495758?Signature=JWkZ9wLsiUDWNqJpls1kj7VS%2F1Jp%2B2wkExSIs6jw1s80itwJZ1YRxdyJXWSEnkvgDPYP7eRJMfcXDO2v424KDg%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f6128c1ec7ec4a4fa560a93aff6aa320?Signature=JaCaYMPgcgfGz113y1c6rOFIQqS16bEPOaLmTisBp%2BJLarsflKtCsWLAGcuFKJqwR%2BBX%2BKMUHe4s30zzF3sPDA%3D%3D&KeyID=a8968c46",
       "hash": "md5:00000000000000000000000000000000",
       "format": "application/msword",
       "documentType": "contractSchedule"
@@ -33,24 +35,25 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "annexe.doc",
       "format": "application/msword",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/fcd03c2cc2be4b7693e4c710c31582e1/documents/ebe4734e4a17475e88272a8ca9c4642e?download=1066f87343c8444996cc74fa9b08ed6e",
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/fcd03c2cc2be4b7693e4c710c31582e1/documents/ebe4734e4a17475e88272a8ca9c4642e?download=6867c78ea3ec4ca68a9bf8c374110b6a",
       "documentOf": "contract",
+      "confidentiality": "buyerOnly",
+      "confidentialityRationale": "Файл буде оприлюднено в електронній системі закупівель через 90 днів з дня припинення або скасування правового режиму воєнного стану в Україні відповідно до п 13, пп 21 Постанови 1178",
       "id": "ebe4734e4a17475e88272a8ca9c4642e",
       "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00",
-      "confidentiality": "buyerOnly"
+      "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
       "documentType": "contractSchedule",
       "hash": "md5:00000000000000000000000000000000",
       "title": "schedule.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/406d025b64f04b06b7c226963c495758?Signature=LC8Q3dTbC0wavOf2OfyJzV3mLWJYIjD%2BX9wxIHyuMu4YZGzWQe15Hk4GepgwHCrcZQDdg6RgTnROKzriF7ThBg%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f6128c1ec7ec4a4fa560a93aff6aa320?Signature=2CcIMWWPeGFa2oO8dCQYukxJzTxQhzkuQfv47W4evs33aUArp52w9AL2RAbgjIxJfQ%2F6P5OZWbPTTZ0VMGGlCA%3D%3D&KeyID=a8968c46",
       "documentOf": "contract",
+      "confidentiality": "public",
       "id": "8c1e5e8d65904044950d089deec7a55d",
       "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00",
-      "confidentiality": "public"
+      "dateModified": "2023-10-10T01:00:00+03:00"
     }
   ]
 }

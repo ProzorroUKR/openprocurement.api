@@ -33,14 +33,14 @@ class EContractDocumentState(BaseDocumentStateMixing, EContractState):
             if data["confidentiality"] != ConfidentialityTypes.BUYER_ONLY:
                 raise_operation_error(
                     self.request,
-                    f"Document should be confidential",
+                    "Document should be confidential",
                     name="confidentiality",
                     status=422,
                 )
         elif data["confidentiality"] == ConfidentialityTypes.BUYER_ONLY:
             raise_operation_error(
                 self.request,
-                f"Document should be public",
+                "Document should be public",
                 name="confidentiality",
                 status=422,
             )

@@ -227,7 +227,60 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         contract_id = self.app.get(f"/tenders/{self.tender_id}/contracts?acc_token={owner_token}").json["data"][0]["id"]
 
-        # add confidential doc
+        # add confidential doc as public
+        with open(TARGET_DIR + 'tutorial/tender-reporting-contract-conf-docs-as-public.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f'/contracts/{contract_id}/documents?acc_token={owner_token}',
+                {
+                    'data': [
+                        {
+                            "title": "annexe.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractAnnexe",
+                            "confidentiality": "public",
+                        },
+                        {
+                            "title": "schedule.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractSchedule",
+                            "confidentiality": "public",
+                        },
+                    ]
+                },
+                status=422,
+            )
+        # add confidential doc without rationale
+        with open(
+            TARGET_DIR + 'tutorial/tender-reporting-contract-conf-docs-wo-rationale.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                f'/contracts/{contract_id}/documents?acc_token={owner_token}',
+                {
+                    'data': [
+                        {
+                            "title": "annexe.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractAnnexe",
+                            "confidentiality": "buyerOnly",
+                        },
+                        {
+                            "title": "schedule.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractSchedule",
+                            "confidentiality": "public",
+                        },
+                    ]
+                },
+                status=422,
+            )
         with open(TARGET_DIR + 'tutorial/tender-reporting-contract-conf-docs.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 f'/contracts/{contract_id}/documents?acc_token={owner_token}',
@@ -239,6 +292,11 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                             "hash": "md5:" + "0" * 32,
                             "format": "application/msword",
                             "documentType": "contractAnnexe",
+                            "confidentiality": "buyerOnly",
+                            "confidentialityRationale": "Файл буде оприлюднено в електронній системі закупівель "
+                            "через 90 днів з дня припинення або скасування правового "
+                            "режиму воєнного стану в Україні відповідно до п 13, "
+                            "пп 21 Постанови 1178",
                         },
                         {
                             "title": "schedule.doc",
