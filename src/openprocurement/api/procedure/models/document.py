@@ -1,5 +1,7 @@
+from enum import StrEnum
 from uuid import uuid4
 
+from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
@@ -42,6 +44,11 @@ DOCUMENT_TYPES = (
     "evidence",
     "register",
 )
+
+
+class ConfidentialityTypes(StrEnum):
+    BUYER_ONLY = "buyerOnly"
+    PUBLIC = "public"
 
 
 class BaseDocument(Model):
@@ -95,3 +102,12 @@ class PatchDocument(BaseDocument):
     @serializable
     def dateModified(self):
         return get_now().isoformat()
+
+
+def validate_confidentiality_rationale(data, val):
+    confidentiality = data.get("confidentiality")
+    if confidentiality == ConfidentialityTypes.BUYER_ONLY:
+        if not val:
+            raise ValidationError("confidentialityRationale is required")
+        elif len(val) < 30:
+            raise ValidationError("confidentialityRationale should contain at least 30 characters")

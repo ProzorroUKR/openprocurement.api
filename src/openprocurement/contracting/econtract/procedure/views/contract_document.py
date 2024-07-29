@@ -13,6 +13,7 @@ from openprocurement.contracting.core.procedure.validation import (
     validate_add_document_to_active_change,
     validate_contract_document_operation_not_in_allowed_contract_status,
     validate_contract_owner,
+    validate_download_contract_document,
 )
 from openprocurement.contracting.core.procedure.views.contract_document import (
     ContractDocumentResource,
@@ -75,3 +76,10 @@ class EContractDocumentResource(ContractDocumentResource):
     )
     def patch(self):
         return super().patch()
+
+    @json_view(
+        validators=(validate_download_contract_document,),
+        permission="view_contract",
+    )
+    def get(self):
+        return super().get()

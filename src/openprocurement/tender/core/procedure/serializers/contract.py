@@ -3,13 +3,13 @@ from openprocurement.api.procedure.serializers.base import (
     ListSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.document import (
-    ConfidentialDocumentSerializer,
+    DocumentSerializer,
 )
 
 
 class ContractSerializer(BaseSerializer):
     serializers = {
-        "documents": ListSerializer(ConfidentialDocumentSerializer),
+        "documents": ListSerializer(DocumentSerializer),
     }
     private_fields = {
         "owner",

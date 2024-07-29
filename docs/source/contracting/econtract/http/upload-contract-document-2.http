@@ -24,6 +24,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/277f219d159f45e1a11923c8b637d463?Signature=EnWBAbSpO74ppQPPbWr9QNTYM%2Fyee5mRc0iwX3fdwZkdZhmNY0oLP6uLF4v9XyU4ouyIjcTdltumSlUyu4%2B4Bg%3D%3D&KeyID=a8968c46",
     "documentOf": "contract",
+    "confidentiality": "public",
     "id": "c2a8719a164a4f9ab1f86536106f2498",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00"

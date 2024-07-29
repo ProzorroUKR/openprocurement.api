@@ -4,7 +4,7 @@ from openprocurement.api.procedure.serializers.base import (
     decimal_serializer,
 )
 from openprocurement.tender.core.procedure.serializers.document import (
-    ConfidentialDocumentSerializer,
+    DocumentSerializer,
 )
 
 
@@ -27,5 +27,5 @@ class ContractSerializer(BaseSerializer):
 
     serializers = {
         "value": ContractValueSerializer,
-        "documents": ListSerializer(ConfidentialDocumentSerializer),
+        "documents": ListSerializer(DocumentSerializer),
     }

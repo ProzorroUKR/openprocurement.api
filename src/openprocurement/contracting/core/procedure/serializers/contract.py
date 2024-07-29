@@ -1,4 +1,10 @@
-from openprocurement.api.procedure.serializers.base import BaseUIDSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseUIDSerializer,
+    ListSerializer,
+)
+from openprocurement.contracting.core.procedure.serializers.document import (
+    ContractDocumentSerializer,
+)
 
 
 class ContractBaseSerializer(BaseUIDSerializer):
@@ -16,4 +22,7 @@ class ContractBaseSerializer(BaseUIDSerializer):
         "is_public",
         "is_test",
         "config",
+    }
+    serializers = {
+        "documents": ListSerializer(ContractDocumentSerializer),
     }
