@@ -180,6 +180,8 @@ Schema
    the website of the organization: that can be done through the url field
    of the Organization contact point.
 
+   Regular expression for this field: ``^https?://\S+$``
+
 
 .. index:: Address, City, Street, Country
 
@@ -267,6 +269,8 @@ Schema
     
     |ocdsDescription|
     A web address for the contact point/person.
+
+    Regular expression for this field: ``^https?://\S+$``
 
 
 Additionally in :ref:`contracting`, :ref:`openeu` and :ref:`competitivedialogue`:

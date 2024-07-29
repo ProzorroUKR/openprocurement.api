@@ -151,6 +151,8 @@ Schema
     available for items in the identifier scheme this value should be left
     blank.
 
+    Regular expression for this field: ``^https?://\S+$``
+
 .. _Unit:
 
 Unit
