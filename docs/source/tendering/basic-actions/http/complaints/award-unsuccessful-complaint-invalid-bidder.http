@@ -43,7 +43,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "bid_id",
-      "description": "Forbidden to add complaint for another bidder"
+      "description": "Can add complaint only on unsuccessful award of your bid"
     }
   ]
 }

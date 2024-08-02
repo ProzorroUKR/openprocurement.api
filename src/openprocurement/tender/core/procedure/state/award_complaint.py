@@ -86,7 +86,7 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
         if award.get("status") == "unsuccessful" and award.get("bid_id") != complaint.get("bid_id"):
             raise_operation_error(
                 self.request,
-                "Forbidden to add complaint for another bidder",
+                "Can add complaint only on unsuccessful award of your bid",
                 status=422,
                 name="bid_id",
             )

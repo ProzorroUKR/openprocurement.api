@@ -1338,7 +1338,13 @@ def create_tender_lots_unsuccessful_award_complaint_check_bidders(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Forbidden to add complaint for another bidder", "location": "body", "name": "bid_id"}],
+        [
+            {
+                "description": "Can add complaint only on unsuccessful award of your bid",
+                "location": "body",
+                "name": "bid_id",
+            }
+        ],
     )
 
     response = self.app.post_json(
