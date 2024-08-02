@@ -1013,9 +1013,9 @@ def patch_tender_award_unsuccessful_complaint_second(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
 
-    bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
+    bid2_token = self.initial_bids_tokens[self.initial_bids[1]["id"]]
     response = self.app.post_json(
-        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award2["id"], bid_token),
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award2["id"], bid2_token),
         {"data": test_tender_below_complaint},
     )
     self.assertEqual(response.status, "201 Created")
@@ -1117,7 +1117,7 @@ def patch_tender_award_unsuccessful_complaint_third(self):
     self.assertEqual(len(response.json["data"]), 3)
 
     bid1_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
-    bid2_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
+    bid2_token = self.initial_bids_tokens[self.initial_bids[1]["id"]]
 
     # Complaint award 1
     response = self.app.post_json(
@@ -1315,6 +1315,38 @@ def patch_tender_award_unsuccessful_complaint_second_complainnt_third(self):
     self.assertEqual(response.json["data"][2]["status"], "cancelled")
     self.assertEqual(response.json["data"][3]["status"], "pending")
     self.assertEqual(response.json["data"][1]["bid_id"], response.json["data"][3]["bid_id"])
+
+
+def create_tender_lots_unsuccessful_award_complaint_check_bidders(self):
+    bid1_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
+    bid2_token = self.initial_bids_tokens[self.initial_bids[1]["id"]]
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
+        {"data": {"status": "unsuccessful"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+
+    # try to add complaint by another bidder to unsuccessful award
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints?acc_token={bid2_token}",
+        {"data": test_tender_below_complaint},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "Forbidden to add complaint for another bidder", "location": "body", "name": "bid_id"}],
+    )
+
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints?acc_token={bid1_token}",
+        {"data": test_tender_below_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
 
 
 def last_award_unsuccessful_next_check(self):
