@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-19 18:43+0300\n"
+"POT-Creation-Date: 2024-08-01 18:13+0300\n"
 "PO-Revision-Date: 2020-12-28 03:46+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.12.1\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Claim/Complaint Retrieval"
 msgstr "Отримання інформації про звернення/скарги"
@@ -32,7 +32,19 @@ msgstr "Подання скарги"
 msgid "If tender award is favoriting certain supplier, or in any other viable case, participants who were admitted to auction can submit Tender Award Complaint."
 msgstr "Якщо тендерн вирішено з перевагою для певного постачальника або в будь-якій іншій життєздатній ситуації, учасники, які були прийняті до аукціону, можуть подати скаргу тендерної пропозиції."
 
-msgid "Tender Award Complaint Submission"
+msgid "Tender Award Complaint Submission for unsuccessful award"
+msgstr "Подання скарги на відмову переможця"
+
+msgid "For unsuccessful award it is allowed only that bidder of award can complain on his award."
+msgstr "Якщо кваліфікаційна комісія відмовила переможцю (статус аварду `unssuccesful`), то в цьому випадку дозволено подавати скаргу тільки тому самому учаснику, для якого був створений цей авард."
+
+msgid "Let's try to complain to unsuccessful award from another bidder and we will see an error:"
+msgstr "Спробуємо додати скаргу до `unssuccesful` аварду від імені іншого учасника (у вигляді токену доступу) і побачимо помилку:"
+
+msgid "Now let's make a complain from correct bidder:"
+msgstr "Тепер подамо скаргу від того ж самого учасника:"
+
+msgid "Tender Award Complaint Submission for the winner"
 msgstr "Подання скарги на визначення переможця"
 
 msgid "At first create a complaint. Send POST request with bidder's access token."
@@ -181,7 +193,3 @@ msgstr "Витримаємо один день затримки часу. Вла
 
 msgid "Also complaint period for the first and second (unsuccessful) bid award was created/updated."
 msgstr "Також оновлюється/створюється період оскарження для авардів (в статусі `unsuccessful`) для першої та другої пропозицій."
-
-#~ msgid "Cancelling accepted complaint by Complainant"
-#~ msgstr "Відміна прийнятої скарги скаржником"
-

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/d76690e7b5e149e1a7dec8e501f8d9b5/complaints/d9f5be0ef2414605be11a6892db5dc04 HTTP/1.0
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/c823c3c9df2e45f1a4bcc72a8e1c5639 HTTP/1.0
 Authorization: Bearer bot
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,8 +15,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "d9f5be0ef2414605be11a6892db5dc04",
-    "complaintID": "UA-2023-10-10-000001-a.1",
+    "id": "c823c3c9df2e45f1a4bcc72a8e1c5639",
+    "complaintID": "UA-2023-10-10-000001-a.2",
     "date": "2023-10-10T01:00:03+03:00",
     "status": "pending",
     "documents": [

@@ -207,6 +207,9 @@ class TenderAwardQualificationAfterComplaint(TenderAwardPendingResourceTestCase)
     test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
     test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
     test_patch_tender_award_unsuccessful_complaint_third = snitch(patch_tender_award_unsuccessful_complaint_third)
+    test_create_tender_lots_unsuccessful_award_complaint_check_bidders = snitch(
+        create_tender_lots_unsuccessful_award_complaint_check_bidders
+    )
 
 
 class Tender2LotAwardQualificationAfterComplaintMixin:
@@ -215,9 +218,6 @@ class Tender2LotAwardQualificationAfterComplaintMixin:
     test_any_lot_award_has_not_considered_complaint = snitch(any_lot_award_has_not_considered_complaint)
     test_another_award_for_one_lot_has_considered_complaint = snitch(another_award_for_one_lot_has_considered_complaint)
     test_award_for_another_lot_has_considered_complaint = snitch(award_for_another_lot_has_considered_complaint)
-    test_create_tender_lots_unsuccessful_award_complaint_check_bidders = snitch(
-        create_tender_lots_unsuccessful_award_complaint_check_bidders
-    )
 
 
 class Tender2LotAwardQualificationAfterComplaintResourceTest(
