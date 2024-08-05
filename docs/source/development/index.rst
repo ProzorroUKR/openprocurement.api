@@ -15,3 +15,4 @@ Contents:
    lot_deliveries
    config_has_legal_regulation
    request_for_proposal
+   awarding_prolongation
