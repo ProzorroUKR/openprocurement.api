@@ -1359,19 +1359,6 @@ def validate_forbid_contract_action_after_date(obj_name):
     return validation
 
 
-# Complaints & claims
-def validate_input_data_from_resolved_model(none_means_remove=False):
-    def validated(request, **_):
-        state = request.root.state
-        method = request.method.lower()
-        model = getattr(state, f"get_{method}_data_model")()
-        request.validated[f"{method}_data_model"] = model
-        validate = validate_input_data(model, none_means_remove=none_means_remove)
-        return validate(request, **_)
-
-    return validated
-
-
 # Plans
 def validate_procurement_kind_is_central(request, **kwargs):
     kind = "central"

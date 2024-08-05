@@ -111,3 +111,14 @@ def validate_confidentiality_rationale(data, val):
             raise ValidationError("confidentialityRationale is required")
         elif len(val) < 30:
             raise ValidationError("confidentialityRationale should contain at least 30 characters")
+
+
+class ConfidentialDocumentMixin(Model):
+    confidentiality = StringType(
+        choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value],
+        default=ConfidentialityTypes.PUBLIC.value,
+    )
+    confidentialityRationale = StringType()
+
+    def validate_confidentialityRationale(self, data, val):
+        validate_confidentiality_rationale(data, val)

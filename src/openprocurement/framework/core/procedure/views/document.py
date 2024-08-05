@@ -1,4 +1,7 @@
 from openprocurement.framework.core.procedure.models.document import Document
+from openprocurement.framework.core.procedure.serializers.document import (
+    SubmissionDocumentSerializer,
+)
 from openprocurement.framework.core.procedure.state.document import (
     MilestoneDocumentState,
     QualificationDocumentState,
@@ -27,6 +30,7 @@ class CoreFrameworkDocumentResource(BaseDocumentResource):
 
 class CoreSubmissionDocumentResource(BaseDocumentResource):
     item_name = "submission"
+    serializer_class = SubmissionDocumentSerializer
     state_class = SubmissionDocumentState
 
 

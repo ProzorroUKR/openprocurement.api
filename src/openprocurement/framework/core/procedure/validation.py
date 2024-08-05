@@ -1,5 +1,6 @@
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import (
     get_agreement_by_id,
     get_framework_by_id,
@@ -296,3 +297,12 @@ def validate_document_operation_in_not_allowed_status(request, **kwargs):
             request,
             f"Can't {OPERATIONS.get(request.method)} document in current ({qualification['status']}) qualification status",
         )
+
+
+def validate_download_submission_document(request, **_):
+    if request.params.get("download"):
+        document = request.validated["document"]
+        if document.get("confidentiality", "") == "buyerOnly" and not is_item_owner(
+            request, request.validated["submission"]
+        ):
+            raise_operation_error(request, "Document download forbidden.")

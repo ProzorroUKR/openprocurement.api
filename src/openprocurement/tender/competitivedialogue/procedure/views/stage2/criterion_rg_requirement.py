@@ -7,6 +7,7 @@ from openprocurement.api.procedure.validation import (
     unless_administrator,
     unless_admins,
     validate_input_data,
+    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
 )
@@ -27,9 +28,6 @@ from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion
 from openprocurement.tender.core.procedure.models.criterion import (
     PostRequirement,
     Requirement,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data_from_resolved_model,
 )
 
 

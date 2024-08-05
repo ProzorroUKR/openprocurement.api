@@ -4,6 +4,7 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.base import test_submission_config
 from openprocurement.framework.dps.tests.submission_blanks import (  # Documents
+    confidential_submission_document,
     create_submission_after_period_ends,
     create_submission_config_test,
     create_submission_document_forbidden,
@@ -97,6 +98,7 @@ class TestDocumentsCreate(SubmissionContentWebTest):
     test_document_not_found = snitch(document_not_found)
     test_put_submission_document = snitch(put_submission_document)
     test_put_submission_document_fast = snitch(put_submission_document_fast)
+    test_confidential_submission_document = snitch(confidential_submission_document)
 
 
 def suite():
