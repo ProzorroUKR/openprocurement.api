@@ -1,0 +1,33 @@
+POST /api/2.5/submissions/7c37a548e4db48a0ac3c1b4d9ead2c5f/documents?acc_token=680e74861490448a9177bf199cb6395b HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "specs.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3cd211e97f284e79b39a6dbba518a484?Signature=G0iQnXOb8ERMANs4d%2F1v67Ah85fwi%2BBr3e40dr3%2Fufmg3O%2BN1dgK%2FmScN%2F7KWFMzOUReuDcqRdenVrM0o5ewCw%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/msword",
+    "documentType": "technicalSpecifications",
+    "confidentiality": "buyerOnly"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "confidentialityRationale",
+      "description": [
+        "confidentialityRationale is required"
+      ]
+    }
+  ]
+}
+

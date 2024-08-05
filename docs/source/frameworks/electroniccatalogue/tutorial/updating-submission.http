@@ -71,7 +71,21 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d9006a35da3b4389bf1be5cd34a3071a?Signature=i8SHbMgp8F%2BDTPKCmPFxk0f7CTww8xsbmAdwhOky%2FgyFcAIuTveMDAT69TBjFyLOOYgdCosl%2FL%2FQ6JWzoPq%2BCA%3D%3D&KeyID=a8968c46",
         "dateModified": "2023-10-26T01:00:00+03:00",
-        "language": "uk"
+        "language": "uk",
+        "confidentiality": "public"
+      },
+      {
+        "documentType": "technicalSpecifications",
+        "id": "29d3b10680d242959acdfc88d5a205c5",
+        "datePublished": "2023-10-26T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "specs.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/7c37a548e4db48a0ac3c1b4d9ead2c5f/documents/29d3b10680d242959acdfc88d5a205c5?download=755dcc02111848bfaccb0f24edc68253",
+        "dateModified": "2023-10-26T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Дуже конфіденційний файл, треба приховати"
       }
     ],
     "frameworkID": "7a229c4d310842c39ef98821651b267b",

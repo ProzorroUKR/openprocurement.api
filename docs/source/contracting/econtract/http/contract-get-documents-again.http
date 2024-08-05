@@ -9,23 +9,23 @@ Content-Type: application/json
 {
   "data": [
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_first_document.doc",
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d351f09369034d459a5cd87583381c73?Signature=8p9mN2f1Dk06z3oLNH%2B1MUf0ZjBtPhTeaYQfDngeDioPs8%2FVYtElp3rMQf3U294OjDnOC1E1VOuG5dbqcydmAA%3D%3D&KeyID=a8968c46",
       "documentOf": "contract",
-      "confidentiality": "public",
       "id": "8bab0d7af5a64157a2c15757833cd8b3",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_second_document.doc",
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1ea9c5fa82c84b2a8206318bc86360df?Signature=x6tzZwzV4d5DGLeiqvD%2Bm0EdAUGgzUmYnoQ4AjImnxjQRU49JnE3aq50UHtPUVvIRfF5JSrLqmyF3tssHOT%2BCA%3D%3D&KeyID=a8968c46",
       "documentOf": "contract",
-      "confidentiality": "public",
       "id": "08682b48035643a39d924df55eb915e0",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"

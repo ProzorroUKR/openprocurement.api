@@ -153,6 +153,59 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             response = self.app.get('/submissions/{}/documents'.format(self.submission_id))
             self.assertEqual(response.status, '200 OK')
 
+        # add confidential doc without rationale
+        with open(TARGET_DIR + 'upload-submission-conf-docs-wo-rationale.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f'/submissions/{self.submission_id}/documents?acc_token={self.submission_token}',
+                {
+                    'data': {
+                        "title": "specs.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                        "documentType": "technicalSpecifications",
+                        "confidentiality": "buyerOnly",
+                    },
+                },
+                status=422,
+            )
+        with open(TARGET_DIR + 'upload-submission-conf-docs.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/submissions/{self.submission_id}/documents?acc_token={self.submission_token}',
+                {
+                    'data': {
+                        "title": "specs.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                        "documentType": "technicalSpecifications",
+                        "confidentiality": "buyerOnly",
+                        "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
+                    },
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
+            doc_id = response.json["data"]["id"]
+
+        # get doc directly as tender owner
+        with open(TARGET_DIR + 'get-submission-conf-docs-by-owner.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                f'/submissions/{self.submission_id}/documents/{doc_id}?acc_token={self.submission_token}',
+            )
+            self.assertIn("url", response.json["data"])
+
+        # get doc directly as public
+        with open(TARGET_DIR + 'get-submission-conf-docs-by-public.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/submissions/{self.submission_id}/documents/{doc_id}')
+            self.assertNotIn("url", response.json["data"])
+
+        # download as tender public
+        with open(TARGET_DIR + 'upload-submission-conf-doc-by-public.http', 'w') as self.app.file_obj:
+            self.app.get(
+                f"/submissions/{self.submission_id}/documents/{doc_id}?download=1",
+                status=403,
+            )
+
         with open(TARGET_DIR + 'get-submission.http', 'w') as self.app.file_obj:
             response = self.app.get('/submissions/{}'.format(self.submission_id))
             self.assertEqual(response.status, '200 OK')

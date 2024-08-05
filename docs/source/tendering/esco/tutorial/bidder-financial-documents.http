@@ -9,6 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc.pdf",
       "format": "application/pdf",
@@ -16,11 +17,11 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "335a14ee1ac24779830306f08494049a",
-      "confidentiality": "public",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc2.pdf",
       "format": "application/pdf",
@@ -28,7 +29,6 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "c4eb54ee590043b5b4e5cc49bdd5b6f8",
-      "confidentiality": "public",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"
     }

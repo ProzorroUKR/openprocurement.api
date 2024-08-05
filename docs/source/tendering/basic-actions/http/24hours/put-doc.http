@@ -18,6 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "public",
     "id": "ff45d78e3963481eb6b99165e7d3474e",
     "datePublished": "2023-10-10T01:00:01+03:00",
     "hash": "md5:00000000000000000000000000000000",
@@ -26,8 +27,7 @@ Content-Type: application/json
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fddb39dd595c481e8b47b24009815ba5?Signature=jrorAOTvpwDYRbU0V4b3GRhiHvL8Co1AHanO3si1lMIuGzyjTfBD1ZNDXZuVeoAGCRyvua1CZ5Mc16NXKfIsDg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "dateModified": "2023-10-10T01:00:01+03:00",
-    "language": "uk",
-    "confidentiality": "public"
+    "language": "uk"
   }
 }
 

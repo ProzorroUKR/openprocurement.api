@@ -21,6 +21,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a450405f3c684031
 
 {
   "data": {
+    "confidentiality": "buyerOnly",
+    "confidentialityRationale": "This document contains some secret data that shouldn't be public",
     "hash": "md5:00000000000000000000000000000000",
     "title": "private.doc",
     "format": "application/msword",
@@ -28,8 +30,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a450405f3c684031
     "documentOf": "tender",
     "language": "uk",
     "id": "f6b43126ac6541b09aa78052ad667158",
-    "confidentiality": "buyerOnly",
-    "confidentialityRationale": "This document contains some secret data that shouldn't be public",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00"
   }

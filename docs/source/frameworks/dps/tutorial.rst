@@ -120,6 +120,39 @@ Documents operations is same like in framework:
 .. http:example:: tutorial/get-submission-documents.http
    :code:
 
+Confidential documents for submissions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Documents can be public or confident.
+
+Confidentiality may be applied/changed only for submission in `draft` status.
+It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`.
+
+Let's add documents with `confidentiality` as `buyerOnly` and look what we've got:
+
+.. http:example:: tutorial/upload-submission-conf-docs-wo-rationale.http
+   :code:
+
+Let's add `confidentialityRationale`:
+
+.. http:example:: tutorial/upload-submission-conf-docs.http
+   :code:
+
+The bidder see these kind of documents and can download:
+
+.. http:example:: tutorial/get-submission-conf-docs-by-owner.http
+   :code:
+
+All others can't read the document:
+
+.. http:example:: tutorial/get-submission-conf-docs-by-public.http
+   :code:
+
+Nobody but the owner can download the confidential document:
+
+.. http:example:: tutorial/upload-submission-conf-doc-by-public.http
+   :code:
+
 
 Deleting submission
 -------------------

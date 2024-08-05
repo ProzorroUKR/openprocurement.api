@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "qualification.doc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3cd211e97f284e79b39a6dbba518a484?Signature=G0iQnXOb8ERMANs4d%2F1v67Ah85fwi%2BBr3e40dr3%2Fufmg3O%2BN1dgK%2FmScN%2F7KWFMzOUReuDcqRdenVrM0o5ewCw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/44b27ba57ebb42799fa916dd90cbcd06?Signature=lL93PUe%2BdGrK3mL%2BcrAljBWjoST8o97%2BBiYzEC%2FgvvInxO%2B8jJixwhOkrwGA4vFd5Fiwnrd5m0V6J8oWJgJwCQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/msword"
   }
@@ -15,16 +15,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/6fce332a98dc49939a6a6f0dc2fa33c6/documents/29d3b10680d242959acdfc88d5a205c5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/6fce332a98dc49939a6a6f0dc2fa33c6/documents/dbeb14e081c749d79581ddf05638f12f
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "qualification.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3cd211e97f284e79b39a6dbba518a484?Signature=L6flukUBvXZ%2F18tixcMYbXP%2F1CyvbCcYjz6wA0fqGvgls51%2BUXwcEHzTFtNicsz8iz2sObTsvwwOOOQ7bW7NDA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/44b27ba57ebb42799fa916dd90cbcd06?Signature=CyUTMi2tHUnxe%2FxLr0VTCMwpuk1m3CLR97kuKhYCnh6%2Fk%2FaRaqXBBih0PWER%2FwOmP9zNRFBMn4BvlueesT6lBA%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "29d3b10680d242959acdfc88d5a205c5",
+    "id": "dbeb14e081c749d79581ddf05638f12f",
     "datePublished": "2023-10-26T01:00:00+03:00",
     "dateModified": "2023-10-26T01:00:00+03:00"
   }

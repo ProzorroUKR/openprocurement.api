@@ -35,13 +35,13 @@ Content-Type: application/json
           "title": "Документальне підтвердження",
           "description": "Довідка в довільній формі",
           "type": "document",
-          "id": "4551d584d4e34066bcf709b54263dce0"
+          "id": "53ca4ae943924fc4834555409c5fa681"
         },
         {
           "title": "new, added by requirement PUT",
           "description": "Довідка в довільній формі",
           "type": "document",
-          "id": "7a71b625d2b649ca8033bd2861cccd6d"
+          "id": "04a34c8a97294d7982fe9259312cae28"
         }
       ],
       "expectedValue": true,
