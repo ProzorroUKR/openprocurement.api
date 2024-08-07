@@ -35,6 +35,7 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
     def validate_complaint_on_post(self, complaint):
         super().validate_complaint_on_post(complaint)
         self.validate_submission_allowed()
+        self.validate_complaint_bidder_for_unsuccessful_award(complaint)
 
     def validate_submission_allowed(self):
         request = self.request
@@ -79,6 +80,16 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
             for lot in tender.get("lots"):
                 if lot["id"] == related_lot:
                     return lot
+
+    def validate_complaint_bidder_for_unsuccessful_award(self, complaint):
+        award = get_award()
+        if award.get("status") == "unsuccessful" and award.get("bid_id") != complaint.get("bid_id"):
+            raise_operation_error(
+                self.request,
+                "Can add complaint only on unsuccessful award of your bid",
+                status=422,
+                name="bid_id",
+            )
 
 
 class AwardComplaintState(AwardComplaintStateMixin, TenderState):

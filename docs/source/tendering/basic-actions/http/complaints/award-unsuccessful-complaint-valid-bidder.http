@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints?acc_token=bcba1aa2011b40feb8e6c3ae4bd4fc35 HTTP/1.0
+POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/d76690e7b5e149e1a7dec8e501f8d9b5/complaints?acc_token=16615bac2b2743d6b4e262435957b81f HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "title": "Недостатньо інформації",
-    "type": "claim",
+    "status": "draft",
+    "type": "complaint",
     "author": {
       "address": {
         "countryName": "Україна",
@@ -23,33 +24,24 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       "identifier": {
         "scheme": "UA-EDR",
-        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+        "legalName": "ДКП «Школяр»",
         "id": "00137256",
         "uri": "http://www.sc.gov.ua/"
       },
       "name": "ДКП «Школяр»"
-    },
-    "status": "claim"
+    }
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/6247c0279a314abe80d537174ab4750d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/d76690e7b5e149e1a7dec8e501f8d9b5/complaints/d9f5be0ef2414605be11a6892db5dc04
 
 {
   "data": {
-    "status": "claim",
-    "type": "claim",
     "author": {
       "name": "ДКП «Школяр»",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00137256",
-        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
-        "uri": "http://www.sc.gov.ua/"
-      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -61,20 +53,31 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "uri": "http://www.sc.gov.ua/",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "id": "6247c0279a314abe80d537174ab4750d",
-    "date": "2023-10-10T01:00:03+03:00",
-    "bid_id": "c938a8780db146beaba184a25937b356",
-    "complaintID": "UA-2023-10-10-000001-a.7",
+    "status": "draft",
+    "type": "complaint",
+    "id": "d9f5be0ef2414605be11a6892db5dc04",
+    "date": "2023-10-10T01:00:00+03:00",
+    "bid_id": "a5bf718ab7f14f40bef4ad334f3c936a",
+    "complaintID": "UA-2023-10-10-000001-a.1",
     "relatedLot": "bafe97395da841668932cf800cf756af",
-    "dateSubmitted": "2023-10-10T01:00:03+03:00"
+    "value": {
+      "amount": 3000,
+      "currency": "UAH"
+    }
   },
   "access": {
-    "token": "d1ca6ea71a5547a1a5a3affc26016842",
-    "transfer": "4e7a360bcba24ed784841b408013a77b"
+    "token": "9ab6b06bbded4de580afb59e26e5828f",
+    "transfer": "98638d41da894af58a654cc14db39f02"
   }
 }
 

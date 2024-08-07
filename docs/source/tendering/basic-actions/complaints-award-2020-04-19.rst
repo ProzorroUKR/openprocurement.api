@@ -21,8 +21,24 @@ Complaint Submission
 
 If tender award is favoriting certain supplier, or in any other viable case, participants who were admitted to auction can submit Tender Award Complaint.
 
-Tender Award Complaint Submission
----------------------------------
+Tender Award Complaint Submission for unsuccessful award
+---------------------------------------------------------
+
+For unsuccessful award it is allowed only that bidder of award can complain on his award.
+
+Let's try to complain to unsuccessful award from another bidder and we will see an error:
+
+.. http:example:: http/complaints/award-unsuccessful-complaint-invalid-bidder.http
+   :code:
+
+Now let's make a complain from correct bidder:
+
+.. http:example:: http/complaints/award-unsuccessful-complaint-valid-bidder.http
+   :code:
+
+
+Tender Award Complaint Submission for the winner
+------------------------------------------------
 
 At first create a complaint. Send POST request with bidder's access token.
 

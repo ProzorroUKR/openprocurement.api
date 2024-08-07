@@ -1132,7 +1132,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
         bid_data_2 = deepcopy(bid2)
         set_bid_lotvalues(bid_data_2, [lot])
-        self.create_bid(self.tender_id, bid_data_2)
+        _, bid_token_2 = self.create_bid(self.tender_id, bid_data_2)
         # response = self.app.post_json(
         #     '/tenders/{}/bids'.format(self.tender_id),
         #     {'data': bid2})
@@ -1187,6 +1187,32 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
+        # check complaints for unsuccessful award
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+            {"data": {"status": "unsuccessful"}},
+        )
+
+        with open(TARGET_DIR + 'complaints/award-unsuccessful-complaint-invalid-bidder.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f"/tenders/{self.tender_id}/awards/{award_id}/complaints?acc_token={bid_token}",
+                {"data": complaint},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'complaints/award-unsuccessful-complaint-valid-bidder.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/tenders/{self.tender_id}/awards/{award_id}/complaints?acc_token={bid_token_2}",
+                {"data": complaint},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
+        # get next pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
+        # check complaints for active award
         response = self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},

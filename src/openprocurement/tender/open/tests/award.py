@@ -46,6 +46,7 @@ from openprocurement.tender.open.tests.award_blanks import (
     create_tender_lot_award_complaint,
     create_tender_lots_award,
     create_tender_lots_award_complaint,
+    create_tender_lots_unsuccessful_award_complaint_check_bidders,
     get_award_requirement_response,
     get_award_requirement_response_evidence,
     get_tender_award,
@@ -206,6 +207,9 @@ class TenderAwardQualificationAfterComplaint(TenderAwardPendingResourceTestCase)
     test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
     test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
     test_patch_tender_award_unsuccessful_complaint_third = snitch(patch_tender_award_unsuccessful_complaint_third)
+    test_create_tender_lots_unsuccessful_award_complaint_check_bidders = snitch(
+        create_tender_lots_unsuccessful_award_complaint_check_bidders
+    )
 
 
 class Tender2LotAwardQualificationAfterComplaintMixin:
