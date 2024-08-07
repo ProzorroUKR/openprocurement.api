@@ -93,6 +93,8 @@ class TenderCancellationBidsAvailabilityUtils:
                 self.assertEqual("name_{}.doc".format(doc_resource[:-1]), response.json["data"]["title"])
                 key = response.json["data"]["url"].split("?")[-1]
                 doc_id_by_type[bid_id + doc_resource] = {"id": doc_id, "key": key}
+            # activate bid after docs added
+            self.activate_bid(self.tender_id, bid_id, bid_token)
 
         self.doc_id_by_type = doc_id_by_type
 

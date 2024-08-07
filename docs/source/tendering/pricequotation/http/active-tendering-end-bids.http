@@ -11,6 +11,22 @@ Content-Type: application/json
     {
       "id": "b8994ac5b9f340da9a0620b8a7b2d8fc",
       "date": "2023-10-10T01:00:01+03:00",
+      "submissionDate": "2023-10-10T01:00:01+03:00",
+      "documents": [
+        {
+          "documentType": "proposal",
+          "id": "5c63b9bde7d34f95896fb073e4ab8103",
+          "datePublished": "2023-10-10T01:00:01+03:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "Proposal.p7s",
+          "format": "sign/p7s",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7abe246945c74a798ef5abd6f6c3eacc?Signature=ix%2BAtoVHTr7n%2BtlzacHRzW5MXhg6cNDGh1H06A%2B%2Be5QADUguPxtLtZv0azfvgcsDePmEaAiMOiXEgsOVUNfIDw%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2023-10-10T01:00:01+03:00",
+          "language": "uk",
+          "confidentiality": "public"
+        }
+      ],
       "tenderers": [
         {
           "name": "Державне управління справами",
@@ -79,21 +95,6 @@ Content-Type: application/json
             "code": "KGM"
           },
           "quantity": 5.0
-        }
-      ],
-      "submissionDate": "2023-10-10T01:00:01+03:00",
-      "documents": [
-        {
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "Proposal.pdf",
-          "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7abe246945c74a798ef5abd6f6c3eacc?Signature=ix%2BAtoVHTr7n%2BtlzacHRzW5MXhg6cNDGh1H06A%2B%2Be5QADUguPxtLtZv0azfvgcsDePmEaAiMOiXEgsOVUNfIDw%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "language": "uk",
-          "id": "5c63b9bde7d34f95896fb073e4ab8103",
-          "confidentiality": "public",
-          "datePublished": "2023-10-10T01:00:01+03:00",
-          "dateModified": "2023-10-10T01:00:01+03:00"
         }
       ]
     },

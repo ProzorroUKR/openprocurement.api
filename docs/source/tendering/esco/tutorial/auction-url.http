@@ -612,7 +612,7 @@ Content-Type: application/json
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.p7s",
-            "format": "application/pdf",
+            "format": "sign/p7s",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=8%2BfZEKjx1wsn9JVm%2BoBxVjYYyYnpQpwuHyvOMk%2BOfLAcfAUV%2FCqdIvZNh9cofsETlr8zhXoPgkwUMJxik%2Be0BQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
@@ -620,26 +620,13 @@ Content-Type: application/json
             "confidentiality": "public"
           },
           {
-            "documentType": "proposal",
-            "id": "d39a18544f294d60a7ffb793091a64f3",
-            "datePublished": "2023-10-10T01:01:00+03:00",
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "proposal.p7s",
-            "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/909a908de60c424da4489001b0a32a87?Signature=hJ8um5%2FavhQj%2FNtvp9YjM4%2F%2BNVm1gAt%2B0c85vp2UXj5OTlKVakz50SW1flVkljwTwIPiq67nGW3tjQ7TKyrdDw%3D%3D&KeyID=a8968c46",
-            "documentOf": "tender",
-            "dateModified": "2023-10-10T01:01:00+03:00",
-            "language": "uk",
-            "confidentiality": "public"
-          },
-          {
             "id": "d3c40015051747439f120cba1d646f05",
-            "datePublished": "2023-10-10T01:01:00+03:00",
+            "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
             "documentOf": "tender",
-            "dateModified": "2023-10-10T01:01:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair."
@@ -647,10 +634,23 @@ Content-Type: application/json
           {
             "documentType": "proposal",
             "id": "d39a18544f294d60a7ffb793091a64f3",
+            "datePublished": "2023-10-10T01:01:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "proposal.p7s",
+            "format": "sign/p7s",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/909a908de60c424da4489001b0a32a87?Signature=hJ8um5%2FavhQj%2FNtvp9YjM4%2F%2BNVm1gAt%2B0c85vp2UXj5OTlKVakz50SW1flVkljwTwIPiq67nGW3tjQ7TKyrdDw%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:01:00+03:00",
+            "language": "uk",
+            "confidentiality": "public"
+          },
+          {
+            "documentType": "proposal",
+            "id": "d39a18544f294d60a7ffb793091a64f3",
             "datePublished": "2023-10-10T01:02:01+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "proposal.p7s",
-            "format": "application/pdf",
+            "format": "sign/p7s",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b7eade3aa22e4d1b812d34b6438bbd49?Signature=WyWYvG6LgwMr5OPB%2FgHNu%2Bu9UEKvJvsQXhvBD5AxRQC8ov%2FIyR2j3nO%2F8qCKtRcnSa45shFMtylly%2BR90M6RAA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
@@ -661,13 +661,13 @@ Content-Type: application/json
         "eligibilityDocuments": [
           {
             "id": "eb18f145ef3e47088bb895f834962a0a",
-            "datePublished": "2023-10-10T01:01:00+03:00",
+            "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6213288a9dc8448e9d55b5684ce9c0f2?Signature=VagGJ5qPJ4mU6iGXxVClHZk60pm18WTzdvlJjdBxWRPA1TrZP5d0WDipfHusVAXkb%2BbD7U0G5rYz2wDyz1A7BQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "dateModified": "2023-10-10T01:01:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
             "confidentiality": "public"
           }

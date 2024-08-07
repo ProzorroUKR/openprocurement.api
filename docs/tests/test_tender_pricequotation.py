@@ -250,10 +250,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
                 {
                     'data': {
-                        'title': 'Proposal.pdf',
+                        'title': 'Proposal.p7s',
                         'url': self.generate_docservice_url(),
                         'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
+                        'documentType': 'proposal',
+                        'format': 'sign/p7s',
                     }
                 },
             )
@@ -264,6 +265,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id])
             )
             self.assertEqual(response.status, '200 OK')
+
+        # activate one more time bid 1 after uploading document
+        response = self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+            {'data': {"status": "pending"}},
+        )
+        self.assertEqual(response.status, '200 OK')
 
         # Second bid registration with documents
         bid_with_docs_data = deepcopy(test_tender_pq_bids_with_docs)

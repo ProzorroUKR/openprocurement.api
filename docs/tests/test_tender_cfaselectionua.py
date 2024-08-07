@@ -344,7 +344,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                         'title': 'Proposal.p7s',
                         'url': self.generate_docservice_url(),
                         'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
+                        'format': 'sign/p7s',
                         'documentType': 'proposal',
                     }
                 },

@@ -313,7 +313,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                         'title': 'Proposal.p7s',
                         'url': self.generate_docservice_url(),
                         'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
+                        'format': 'sign/p7s',
                         'documentType': 'proposal',
                     }
                 },
@@ -343,14 +343,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 {'data': {"status": "pending"}},
                 status=422,
             )
-
-        self.tick_delta = None
-        self.tick(timedelta(minutes=1))
-        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
-        self.app.patch_json(
-            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
-            {'data': {"status": "pending"}},
-        )
 
         # Confidentiality
 
@@ -477,6 +469,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 },
             )
             self.assertEqual(response.status, '200 OK')
+
+        self.tick_delta = None
+        self.tick(timedelta(minutes=1))
+        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
+        self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+            {'data': {"status": "pending"}},
+        )
 
         with open(TARGET_DIR + 'bidder-view-financial-documents.http', 'w') as self.app.file_obj:
             response = self.app.get(

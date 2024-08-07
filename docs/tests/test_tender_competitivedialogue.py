@@ -404,7 +404,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                         'title': 'Proposal.p7s',
                         'url': self.generate_docservice_url(),
                         'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
+                        'format': 'sign/p7s',
                         'documentType': 'proposal',
                     }
                 },
@@ -1000,7 +1000,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                         'title': 'Proposal.p7s',
                         'url': self.generate_docservice_url(),
                         'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
+                        'format': 'sign/p7s',
                         'documentType': 'proposal',
                     }
                 },
@@ -1030,14 +1030,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 {'data': {"status": "pending"}},
                 status=422,
             )
-
-        self.tick_delta = None
-        self.tick(timedelta(minutes=1))
-        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
-        self.app.patch_json(
-            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
-            {'data': {"status": "pending"}},
-        )
 
         # Confidentiality
 
@@ -1134,6 +1126,14 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 },
             )
             self.assertEqual(response.status, '201 Created')
+
+        self.tick_delta = None
+        self.tick(timedelta(minutes=1))
+        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
+        self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+            {'data': {"status": "pending"}},
+        )
 
         with open(TARGET_DIR + 'stage2/EU/bidder-view-financial-documents.http', 'w') as self.app.file_obj:
             response = self.app.get(
@@ -2047,7 +2047,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
                         'title': 'Proposal.p7s',
                         'url': self.generate_docservice_url(),
                         'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
+                        'format': 'sign/p7s',
                         'documentType': 'proposal',
                     }
                 },

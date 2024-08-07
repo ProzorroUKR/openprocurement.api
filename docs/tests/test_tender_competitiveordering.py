@@ -371,21 +371,6 @@ class TenderResourceTest(
         )
         self.assertEqual(response.status, '200 OK')
 
-        # Proposal Uploading
-
-        response = self.app.post_json(
-            f'/tenders/{self.tender_id}/bids/{bid1_id}/documents?acc_token={bid1_token}',
-            {
-                "data": {
-                    "title": "Proposal.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                }
-            },
-        )
-        self.assertEqual(response.status, '201 Created')
-
         # Registering bid 2
         response = self.app.post_json(
             f'/tenders/{tender_id}/bids',
