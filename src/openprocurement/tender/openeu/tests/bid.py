@@ -1,5 +1,7 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
@@ -164,6 +166,10 @@ class TenderBidDocumentResourceTestMixin:
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.bid_document.BID_PROPOSAL_DOC_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderBidDocumentResourceTest(TenderBidDocumentResourceTestMixin, BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"

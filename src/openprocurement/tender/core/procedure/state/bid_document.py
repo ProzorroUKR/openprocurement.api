@@ -23,3 +23,12 @@ class BidDocumentState(BaseDocumentState):
             bid_docs.append(doc_data)
         if tender_created_after(BID_PROPOSAL_DOC_REQUIRED_FROM):
             validate_doc_type_quantity(bid_docs, document_type="proposal", obj_name="bid")
+
+    def document_always(self, data):
+        super().document_always(data)
+        self.invalidate_pending_bid()
+
+    def invalidate_pending_bid(self):
+        bid = get_bid()
+        if tender_created_after(BID_PROPOSAL_DOC_REQUIRED_FROM) and bid.get("status") == "pending":
+            bid["status"] = "invalid"

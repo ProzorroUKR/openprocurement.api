@@ -855,6 +855,32 @@ def bid_proposal_doc(self):
     )
     self.assertNotEqual(submission_date_1, response.json["data"]["submissionDate"])
 
+    # add new doc for pending bid
+    self.app.post_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}/documents?acc_token={bid_token}",
+        {
+            "data": {
+                "title": "file.txt",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    response = self.app.get(f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}")
+    self.assertEqual(response.json["data"]["status"], "invalid")
+
+    # try to activate bid with old proposal doc for UA resident
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
+        {"data": {"status": "pending"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Document with type 'proposal' and format pkcs7-signature is required",
+    )
+
     # try to activate bid without proposal doc for non UA resident
     bid_data["tenderers"][0]["identifier"]["scheme"] = "US-DOS"
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
