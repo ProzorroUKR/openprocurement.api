@@ -64,21 +64,27 @@ class BaseRequirementResponse(Model):
     value = BaseType()
     values = ListType(BaseType(required=True))
 
-    @serializable(serialized_name="value", serialize_when_none=False)
-    def set_value(self):
+    def convert_value(self):
         if self.requirement:
             requirement, *_ = get_requirement_obj(self.requirement.id)
             if requirement:
                 return TYPEMAP[requirement['dataType']](self.value) if self.value else None
         return self.value
 
-    @serializable(serialized_name="values", serialize_when_none=False)
-    def set_values(self):
+    def convert_values(self):
         if self.requirement:
             requirement, *_ = get_requirement_obj(self.requirement.id)
             if requirement:
                 return [TYPEMAP[requirement['dataType']](value) for value in self.values] if self.values else None
         return self.values
+
+    @serializable(serialized_name="value", serialize_when_none=False)
+    def serialize_value(self):
+        return self.convert_value()
+
+    @serializable(serialized_name="values", serialize_when_none=False)
+    def serialize_values(self):
+        return self.convert_values()
 
     def validate_value(self, data, value):
         if value and data.get("requirement"):
@@ -96,11 +102,6 @@ class BaseRequirementResponse(Model):
 
 class PatchRequirementResponse(BaseRequirementResponse):
     requirement = ModelType(Reference)
-    evidences = ListType(
-        ModelType(Evidence, required=True),
-        default=[],
-        validators=[validate_object_id_uniq],
-    )
 
 
 class RequirementResponse(BaseRequirementResponse):
@@ -131,6 +132,16 @@ class RequirementResponse(BaseRequirementResponse):
 
         for evidence in evidences:
             validate_evidence_type(data, evidence)
+
+
+class PatchNestedRequirementResponse(RequirementResponse):
+    @serializable(serialized_name="value", serialize_when_none=True)
+    def serialize_value(self):
+        return self.convert_value()
+
+    @serializable(serialized_name="values", serialize_when_none=True)
+    def serialize_values(self):
+        return self.convert_values()
 
 
 # UTILS ---
@@ -337,12 +348,17 @@ def is_doc_id_in_container(bid: dict, container_name: str, doc_id: str):
 
 class PatchObjResponsesMixin(Model):
     requirementResponses = ListType(
-        ModelType(RequirementResponse, required=True),
+        ModelType(PatchNestedRequirementResponse, required=True),
         validators=[validate_object_id_uniq, validate_response_requirement_uniq],
     )
 
 
 class ObjResponseMixin(PatchObjResponsesMixin):
+    requirementResponses = ListType(
+        ModelType(RequirementResponse, required=True),
+        validators=[validate_object_id_uniq, validate_response_requirement_uniq],
+    )
+
     def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
         requirement_responses = requirement_responses or []
 
