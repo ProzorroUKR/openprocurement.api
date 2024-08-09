@@ -91,7 +91,7 @@ class PatchFramework(Model):
     procuringEntity = ModelType(BaseOrganization)
     classification = ModelType(DKClassification)
     additionalClassifications = ListType(ModelType(BaseClassification))
-    documents = ListType(ModelType(PostDocument), default=[])
+    documents = ListType(ModelType(PostDocument))
     agreementID = StringType()
 
 
@@ -154,14 +154,13 @@ class PatchActiveFramework(Model):
             "complete",
             "unsuccessful",
         ],
-        default="active",
     )
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
     qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
-    documents = ListType(ModelType(PostDocument), default=[])
+    documents = ListType(ModelType(PostDocument))
     if SANDBOX_MODE:
         frameworkDetails = StringType()
 

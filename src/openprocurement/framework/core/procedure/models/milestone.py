@@ -35,8 +35,8 @@ class PostMilestone(Model):
 
 
 class PatchMilestone(Model):
-    status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"], default="scheduled")
-    documents = ListType(ModelType(PostDocument, required=True), default=[])
+    status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"])
+    documents = ListType(ModelType(PostDocument, required=True))
 
 
 class Milestone(Model):
