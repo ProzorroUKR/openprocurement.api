@@ -69,7 +69,7 @@ class QualificationReqResponseResource(BaseReqResponseResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             validate_operation_qualification_requirement_response,
-            validate_input_data(PatchRequirementResponse),
+            validate_input_data(PatchRequirementResponse, none_means_remove=True),
             validate_patch_data_simple(RequirementResponse, "requirement_response"),
         ),
         permission="edit_req_response",

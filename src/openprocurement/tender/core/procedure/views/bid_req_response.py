@@ -64,7 +64,7 @@ class BidReqResponseResource(BaseReqResponseResource):
         validators=(
             unless_administrator(validate_item_owner("bid")),
             validate_operation_ecriteria_on_tender_status,
-            validate_input_data(PatchRequirementResponse),
+            validate_input_data(PatchRequirementResponse, none_means_remove=True),
             validate_patch_data_simple(RequirementResponse, "requirement_response"),
         ),
         permission="edit_req_response",

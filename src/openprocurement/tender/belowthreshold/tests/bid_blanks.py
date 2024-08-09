@@ -1082,6 +1082,58 @@ def update_tender_bid_pmr_related_tenderer(self):
     )
 
 
+def update_tender_rr(self):
+    criteria = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"]
+    requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+
+    rr_data = [
+        {
+            "id": "f" * 32,
+            "title": "Requirement response",
+            "description": "some description",
+            "requirement": {
+                "id": requirement["id"],
+                "title": requirement["title"],
+            },
+            "value": True,
+        }
+    ]
+
+    # POST with passed ids
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {
+            "data": {
+                "requirementResponses": rr_data,
+                "tenderers": [test_tender_below_organization],
+                "value": {"amount": 500},
+            }
+        },
+    )
+    bid = response.json["data"]
+    token = response.json["access"]["token"]
+    rr = bid["requirementResponses"][0]
+
+    # PATCH with changes to ids
+    del rr_data[0]["value"]
+    rr_data[0]["values"] = [True]
+    rr_data[0]["description"] = "changed description"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
+        {
+            "data": {
+                "requirementResponses": rr_data,
+                "tenderers": [test_tender_below_organization],
+                "value": {"amount": 500},
+            }
+        },
+    )
+    rr = response.json["data"]["requirementResponses"][0]
+    self.assertEqual(rr["description"], "changed description")
+    self.assertEqual(rr["values"], [True])
+    self.assertNotIn("value", rr)
+
+
 def update_tender_rr_evidence_id(self):
     criteria = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"]
     requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
