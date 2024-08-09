@@ -25,7 +25,7 @@ test_tender_openeu_bids = [
                 "identifier": {
                     "legalName_en": "dus.gov.ua",
                     "legalName": "Державне управління справами",
-                    "scheme": "UA-EDR",
+                    "scheme": "UA-IPN",
                     "id": "00037256",
                     "uri": "http://www.dus.gov.ua/",
                 },
@@ -55,7 +55,7 @@ test_tender_openeu_bids = [
                 "identifier": {
                     "legalName_en": "dus.gov.ua",
                     "legalName": "Державне управління справами",
-                    "scheme": "UA-EDR",
+                    "scheme": "UA-IPN",
                     "id": "00037256",
                     "uri": "http://www.dus.gov.ua/",
                 },
@@ -93,7 +93,7 @@ test_tender_openeu_three_bids.append(
                 "identifier": {
                     "legalName_en": "dus.gov.ua",
                     "legalName": "Державне управління справами",
-                    "scheme": "UA-EDR",
+                    "scheme": "UA-IPN",
                     "id": "00037256",
                     "uri": "http://www.dus.gov.ua/",
                 },

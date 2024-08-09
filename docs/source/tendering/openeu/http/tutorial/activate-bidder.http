@@ -167,7 +167,23 @@ Content-Type: application/json
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "selfQualified": true
+    "documents": [
+      {
+        "documentType": "proposal",
+        "id": "ae8d96543ba34a529fa7f78d47e9f117",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.p7s",
+        "format": "sign/p7s",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e05a638dddfa408f94bd57b921981b21?Signature=pzdQbeGaHKkkg3z3RKooAWozfleCV3nmzeYlwmN7P%2FxsCPJoFS7cX6HhvxDjyA8NT%2FXWUy4QUKeMM5l5nSifCA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      }
+    ],
+    "selfQualified": true,
+    "submissionDate": "2023-10-10T01:00:00+03:00"
   }
 }
 

@@ -163,6 +163,7 @@ Content-Type: application/json
     "status": "pending",
     "id": "e147c97dce694dfb8977d31e05225485",
     "date": "2023-10-10T01:00:00+03:00",
+    "submissionDate": "2023-10-10T01:01:00+03:00",
     "lotValues": [
       {
         "value": {
@@ -174,6 +175,34 @@ Content-Type: application/json
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00",
         "subcontractingDetails": "ДКП «Орфей»"
+      }
+    ],
+    "documents": [
+      {
+        "documentType": "proposal",
+        "id": "35e69516453b443081d30ba9e7984768",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b96dec21e5794e709cd55b3c12037a8c?Signature=JGWPtfGvkSAzZ%2FzgM%2FQLPwD6mK3GWhU67SCJ1UjIHzIIRUykVfm3jQFiGtKXf79T%2B65rKDUaDkqYbPKzcBirAQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      },
+      {
+        "documentType": "proposal",
+        "id": "35e69516453b443081d30ba9e7984768",
+        "datePublished": "2023-10-10T01:01:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/65f8b0aebb474fb78d997451ddc43161?Signature=XEYZCXZIasXMeiCtluGHvF76%2BPX0tJjaEgBTDz9OvMa8C2xNgvSZxckDnSgYdMDJu%2FvQi2E8JruEAYRvGRHlAw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:01:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
     "selfQualified": true

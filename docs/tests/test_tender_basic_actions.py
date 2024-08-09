@@ -632,6 +632,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
+        self.add_proposal_doc(self.tender_id, bid_id, bid_token)
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
             {'data': {"status": "pending"}},
@@ -640,6 +641,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         bid_data_2 = deepcopy(bid2)
+        bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
         self.create_bid(self.tender_id, bid_data_2)
 
@@ -1123,6 +1125,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
+        self.add_proposal_doc(self.tender_id, bid_id, bid_token)
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
             {'data': {"status": "pending"}},
@@ -1131,6 +1134,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         bid_data_2 = deepcopy(bid2)
+        bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
         _, bid_token_2 = self.create_bid(self.tender_id, bid_data_2)
         # response = self.app.post_json(
@@ -1382,7 +1386,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         post1_id = response.json['data']['id']
 
         self.app.authorization = ('Basic', ('broker', ''))
-        print("start")
         with open(TARGET_DIR + 'complaints/award-complaint-post-complaint-owner.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
@@ -2594,6 +2597,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
+        self.add_proposal_doc(self.tender_id, bid_id, bid_token)
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
             {'data': {"status": "pending"}},
@@ -2601,6 +2605,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # create second bid
         bid_data_2 = deepcopy(bid2)
+        bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
         self.create_bid(self.tender_id, bid_data_2)
 
@@ -2869,6 +2874,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
+        self.add_proposal_doc(self.tender_id, bid_id, bid_token)
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
             {'data': {"status": "pending"}},
@@ -2877,6 +2883,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         bid_data_2 = deepcopy(bid2)
+        bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
         self.create_bid(self.tender_id, bid_data_2)
 

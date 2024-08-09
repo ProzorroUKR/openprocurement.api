@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "id": "4bd8717a16ff41ea91f0db137ea5b7ec",
     "status": "cancelled",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:02:01+03:00",
     "value": {
       "amount": 485.0,
       "currency": "UAH",
@@ -49,8 +49,8 @@ Content-Type: application/json
     "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
     "lotID": "9dea7e57fca24c0fa6c43f752611342d",
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2023-10-10T01:02:01+03:00",
+      "endDate": "2023-10-10T01:02:01+03:00"
     }
   }
 }

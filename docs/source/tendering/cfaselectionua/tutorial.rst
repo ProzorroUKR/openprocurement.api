@@ -195,21 +195,37 @@ You cannot submit a bid greater than ``agreement.contract.value``. Also Bidder c
 .. http:example:: tutorial/register-bidder.http
    :code:
 
-and approve to pending status:
+Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: tutorial/activate-bidder-without-proposal.http
+   :code:
+
+Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: tutorial/upload-bid-proposal.http
+   :code:
+
+Let's try to activate bid one more time:
 
 .. http:example:: tutorial/activate-bidder.http
    :code:
 
 Bidder should only upload digital signature on this stage of procedure.
 
-Upload proposal document:
-
-.. http:example:: tutorial/upload-bid-proposal.http
-   :code:
-
 It is possible to check the uploaded documents:
 
 .. http:example:: tutorial/bidder-documents.http
+   :code:
+
+If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:
+
+.. http:example:: tutorial/patch-pending-bid.http
+   :code:
+
+If we try to activate bidder the new sign will be needed:
+
+.. http:example:: tutorial/activate-bidder-without-sign.http
    :code:
 
 Batch-mode registration

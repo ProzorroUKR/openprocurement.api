@@ -1,5 +1,7 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
@@ -9,10 +11,12 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2LotBidResourceTest
+    bid_proposal_doc,
     create_tender_bid_document_json_bulk,
     create_tender_bid_with_document,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_documents,
+    patch_pending_bid,
     patch_tender_bid_with_exceeded_lot_values,
     patch_tender_lot_values_any_order,
     post_tender_bid_with_exceeded_lot_values,
@@ -116,6 +120,8 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
     test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
     test_bids_related_product = snitch(bids_related_product)
+    test_bid_proposal_doc = snitch(bid_proposal_doc)
+    test_patch_pending_bid = snitch(patch_pending_bid)
 
     def setUp(self):
         super().setUp()
@@ -160,6 +166,10 @@ class TenderBidDocumentResourceTestMixin:
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.bid_document.BID_PROPOSAL_DOC_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderBidDocumentResourceTest(TenderBidDocumentResourceTestMixin, BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"

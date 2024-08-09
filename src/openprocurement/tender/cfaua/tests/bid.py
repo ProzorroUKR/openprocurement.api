@@ -1,5 +1,7 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
@@ -114,6 +116,10 @@ class TenderBidFeaturesResourceTest(BaseTenderLotsContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.bid_document.BID_PROPOSAL_DOC_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderBidDocumentResourceTest(BaseTenderLotsContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"

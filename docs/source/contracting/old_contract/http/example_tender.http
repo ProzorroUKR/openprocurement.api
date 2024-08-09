@@ -132,7 +132,7 @@ Content-Type: application/json
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR",
+        "scheme": "UA-IPN",
         "id": "00037256",
         "legalName": "Державне управління справами",
         "uri": "http://www.dus.gov.ua/"
@@ -173,7 +173,7 @@ Content-Type: application/json
           {
             "name": "Державне управління справами",
             "identifier": {
-              "scheme": "UA-EDR",
+              "scheme": "UA-IPN",
               "id": "00037256",
               "legalName": "Державне управління справами",
               "uri": "http://www.dus.gov.ua/"
@@ -194,7 +194,8 @@ Content-Type: application/json
         ],
         "status": "active",
         "id": "9a0b277d34044f7693eeeacf02a5d88b",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00",
+        "submissionDate": "2023-01-01T00:00:00+02:00"
       }
     ],
     "awardPeriod": {
@@ -215,7 +216,7 @@ Content-Type: application/json
           {
             "name": "Державне управління справами",
             "identifier": {
-              "scheme": "UA-EDR",
+              "scheme": "UA-IPN",
               "id": "00037256",
               "legalName": "Державне управління справами",
               "uri": "http://www.dus.gov.ua/"
@@ -338,7 +339,7 @@ Content-Type: application/json
           {
             "name": "Державне управління справами",
             "identifier": {
-              "scheme": "UA-EDR",
+              "scheme": "UA-IPN",
               "id": "00037256",
               "legalName": "Державне управління справами",
               "uri": "http://www.dus.gov.ua/"

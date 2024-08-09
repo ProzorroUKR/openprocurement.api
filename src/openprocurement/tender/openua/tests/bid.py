@@ -1,17 +1,22 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_lots,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    bid_proposal_doc,
     create_tender_bid_with_document,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_documents,
     not_found,
+    patch_pending_bid,
     patch_tender_bid_with_exceeded_lot_values,
     post_tender_bid_with_exceeded_lot_values,
 )
@@ -76,6 +81,8 @@ class TenderBidResourceTestMixin:
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
+    test_bid_proposal_doc = snitch(bid_proposal_doc)
+    test_patch_pending_bid = snitch(patch_pending_bid)
 
 
 class TenderBidRequirementResponseTestMixin:
@@ -228,6 +235,10 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.bid_document.BID_PROPOSAL_DOC_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderBidDocumentResourceTestMixin:
     test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
     test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)

@@ -10,7 +10,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR",
+        "scheme": "UA-IPN",
         "id": "00037256",
         "uri": "http://www.dus.gov.ua/",
         "legalName": "Державне управління справами"
@@ -180,7 +180,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "11111111111111111111111111111111",
         "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "id": "00037256",
           "uri": "http://www.dus.gov.ua/",
           "legalName": "Державне управління справами"
@@ -190,7 +190,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "22222222222222222222222222222222",
         "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "id": "00037254",
           "uri": "http://www.dus.gov.ua/",
           "legalName": "Державне управління справами"
@@ -225,7 +225,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
       {
         "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "id": "00037256",
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
@@ -235,7 +235,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
       {
         "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "id": "00037254",
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
@@ -290,7 +290,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-EDR",
+        "scheme": "UA-IPN",
         "id": "00037256",
         "legalName": "Державне управління справами",
         "uri": "http://www.dus.gov.ua/"

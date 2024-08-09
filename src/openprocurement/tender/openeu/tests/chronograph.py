@@ -81,6 +81,8 @@ class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
                 {"data": {"lotValues": bid["lotValues"][:1]}},
             )
             self.assertEqual(response.status, "200 OK")
+            response = self.activate_bid(self.tender_id, bid['id'], self.initial_bids_tokens[bid_id])
+            self.assertEqual(response.status, "200 OK")
 
     test_switch_to_pre_qual_unsuccessful = snitch(active_tendering_to_pre_qual_unsuccessful)
 

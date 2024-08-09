@@ -28,7 +28,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
       {
         "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR",
+          "scheme": "UA-IPN",
           "id": "00037256",
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"

@@ -9,16 +9,17 @@ Content-Type: application/json
 {
   "data": [
     {
-      "hash": "md5:00000000000000000000000000000000",
-      "title": "Proposal.pdf",
-      "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/007f2443c3a84c95a8b906812a7f4c76?Signature=bAmJSt86l1KvrgQG02em7Sf%2BHXyKm2PCX4EBMumdLI%2FwYlUvcPiOUWrJLH5TMUsx2POF8%2FSsxWSt2CD2MGD9Bw%3D%3D&KeyID=a8968c46",
-      "documentOf": "tender",
-      "language": "uk",
+      "documentType": "proposal",
       "id": "0273f95d8c8143dcafe478223372f9e7",
-      "confidentiality": "public",
       "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00"
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "Proposal.p7s",
+      "format": "sign/p7s",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/93575fadc8cb4b498979e82fdcea11d1?Signature=U19Np3Bl%2BlPnQMcJDcq8nryEfhJRyDKN6lh4l%2FNx6sXmTwehTe7dHYE3BZJy11vWj1mvYQjqOPLlqKKQGC6ODA%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "language": "uk",
+      "confidentiality": "public"
     }
   ]
 }

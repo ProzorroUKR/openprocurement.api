@@ -12,9 +12,9 @@ Content-Type: application/json
 {
   "data": {
     "title_en": "Services in school canteens",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:03:00+03:00",
+    "dateModified": "2023-10-10T01:03:00+03:00",
+    "dateCreated": "2023-10-10T01:03:00+03:00",
     "tenderID": "UA-2023-10-10-000016-a.2",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
@@ -36,7 +36,7 @@ Content-Type: application/json
         "description": "Опис Лот №1",
         "status": "active",
         "id": "4e1bf7ec2f044a43a96412e4204188e7",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2023-10-10T01:03:00+03:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -76,16 +76,16 @@ Content-Type: application/json
     },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
+      "startDate": "2023-10-10T01:03:00+03:00",
       "endDate": "2023-10-31T00:00:00+02:00",
       "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
+      "startDate": "2023-10-10T01:03:00+03:00",
       "endDate": "2023-11-10T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
+      "startDate": "2023-10-10T01:03:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",

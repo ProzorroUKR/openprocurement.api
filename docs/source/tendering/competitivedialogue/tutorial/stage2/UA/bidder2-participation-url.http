@@ -43,12 +43,12 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2023-10-10T01:03:00+03:00",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c429ff66bfe7408592ede2909ac98702_9d95d7c5f19f4d24b17d650fe94a42f5?key_for_bid=933771e1159d4c478afc9638b0f276ae"
       }
     ],
     "id": "933771e1159d4c478afc9638b0f276ae",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2023-10-10T01:03:00+03:00"
   }
 }
 

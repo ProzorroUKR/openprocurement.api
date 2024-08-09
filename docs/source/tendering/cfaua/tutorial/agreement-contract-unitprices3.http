@@ -36,7 +36,7 @@ Content-Type: application/json
     "status": "active",
     "suppliers": [
       {
-        "name": "ДКП «Школяр»",
+        "name": "Школяр",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
@@ -78,7 +78,7 @@ Content-Type: application/json
     ],
     "awardID": "5b914088f3394751918ca1a47c417efa",
     "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2023-10-10T01:02:01+03:00"
   }
 }
 

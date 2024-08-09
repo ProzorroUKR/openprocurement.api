@@ -162,6 +162,7 @@ Content-Type: application/json
     "status": "pending",
     "id": "894a82740ac04e92881fe41a0ad1f0f5",
     "date": "2023-10-10T01:00:00+03:00",
+    "submissionDate": "2023-10-10T01:01:00+03:00",
     "lotValues": [
       {
         "value": {
@@ -172,6 +173,34 @@ Content-Type: application/json
         "relatedLot": "b107fd651779457994cf8d66f0c66b75",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "documents": [
+      {
+        "documentType": "proposal",
+        "id": "c2b16ac12bc74630b50ceee364295473",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b29e42688ec040adb92f8812c213f3b7?Signature=bD4Nen4ZUTm805yVIBnuLVEZwzEo2Kmj4uAmfZA76j6%2BKZXvxM1bHa4gcDBsUyx5hG9AS2bhUjgnoNkNSfgQBA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      },
+      {
+        "documentType": "proposal",
+        "id": "c2b16ac12bc74630b50ceee364295473",
+        "datePublished": "2023-10-10T01:01:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cba5cb551371487282abcff934140274?Signature=s5LcLCqms8MuWKmISx0%2BJaWcIQTRMTMKmNQmskhJdqXfiQ4U9uk0o7rYQ3AWUAevyJCwTucMIfMyusy7NyFTCg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:01:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
     "selfQualified": true

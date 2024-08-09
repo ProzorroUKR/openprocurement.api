@@ -33,7 +33,7 @@ Content-Type: application/json
       }
     ],
     "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-16T01:14:06+03:00",
+    "dateModified": "2023-10-16T01:15:06+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000001-a",
     "questions": [
@@ -124,15 +124,15 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-16T01:44:06+03:00",
+    "next_check": "2023-10-16T01:45:06+03:00",
     "minimalStep": {
       "amount": 15.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2023-10-09T01:14:06+03:00",
-      "endDate": "2023-10-16T01:14:06+03:00"
+      "startDate": "2023-10-09T01:15:06+03:00",
+      "endDate": "2023-10-16T01:15:06+03:00"
     },
     "lots": [
       {
@@ -152,7 +152,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "auctionPeriod": {
-          "startDate": "2023-10-16T01:14:06+03:00"
+          "startDate": "2023-10-16T01:15:06+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3_987404b67a4c4d888112d4e9755edefc"
       }
@@ -205,9 +205,9 @@ Content-Type: application/json
       "kind": "general"
     },
     "enquiryPeriod": {
-      "startDate": "2023-10-01T01:14:06+03:00",
-      "clarificationsUntil": "2023-10-10T01:14:06+03:00",
-      "endDate": "2023-10-09T01:14:06+03:00",
+      "startDate": "2023-10-01T01:15:06+03:00",
+      "clarificationsUntil": "2023-10-10T01:15:06+03:00",
+      "endDate": "2023-10-09T01:15:06+03:00",
       "invalidationDate": "2023-10-16T01:14:06+03:00"
     },
     "items": [
@@ -242,7 +242,7 @@ Content-Type: application/json
       }
     ],
     "auctionPeriod": {
-      "startDate": "2023-10-16T01:14:06+03:00"
+      "startDate": "2023-10-16T01:15:06+03:00"
     },
     "id": "3f5ff57c43ca4ba6b3a1d0619b7a14c3"
   },

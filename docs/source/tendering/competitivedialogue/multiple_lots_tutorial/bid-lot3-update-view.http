@@ -22,6 +22,7 @@ Content-Type: application/json
   "data": {
     "id": "8f1f20c9676f4c51b1e41855982f5629",
     "date": "2023-10-10T01:00:00+03:00",
+    "submissionDate": "2023-10-10T01:01:00+03:00",
     "tenderers": [
       {
         "name": "«Снігур»",
@@ -50,6 +51,36 @@ Content-Type: application/json
         "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "documents": [
+      {
+        "documentType": "proposal",
+        "id": "753ecaa37ffc4331b8ee35b676774aae",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a303beeea1aa4f6e8eef5b1a6b0bb046?Signature=EdDhHk5arjLE5oX%2BscJnuBAa%2F%2Fi4YC2vIKVSMNEyL%2FBFR%2BvoB2smiTDYCkgqXNs0ZjIZ4s9cMAIBLvb1N64xDw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public",
+        "isDescriptionDecision": false
+      },
+      {
+        "documentType": "proposal",
+        "id": "753ecaa37ffc4331b8ee35b676774aae",
+        "datePublished": "2023-10-10T01:01:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "proposal.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/366f1f70a4e64122b82f7d3d1fa8c8e5?Signature=pBBcBbmvfvbaHafePid8oVZ4j3CLZVfM7WC7DvakDdmnVS6%2FohOaQJG4alM%2BLl0lvkf09Hvb3A3k%2FRPJOJR2Cw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:01:00+03:00",
+        "language": "uk",
+        "confidentiality": "public",
+        "isDescriptionDecision": false
       }
     ],
     "selfQualified": true,

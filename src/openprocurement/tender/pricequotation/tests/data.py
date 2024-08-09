@@ -38,7 +38,7 @@ test_agreement_pq_data = {
                     "identifier": {
                         "id": "00037256",
                         "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
-                        "scheme": "UA-EDR",
+                        "scheme": "UA-IPN",
                     },
                     "name": "Товариство з обмеженою відповідальністю «Пікселі»",
                     "scale": "large",
@@ -62,7 +62,7 @@ test_agreement_pq_data = {
                     "identifier": {
                         "id": "87654321",
                         "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
-                        "scheme": "UA-EDR",
+                        "scheme": "UA-IPN",
                     },
                     "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
                     "scale": "large",
@@ -179,7 +179,7 @@ test_tender_pq_requirement_response = [
 
 test_tender_pq_organization = {
     "name": "Державне управління справами",
-    "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
+    "identifier": {"scheme": "UA-IPN", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
     "address": {
         "countryName": "Україна",
         "postalCode": "01220",
@@ -331,7 +331,7 @@ test_tender_pq_shortlisted_firms = [
         "identifier": {
             "id": "00037256",
             "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
-            "scheme": "UA-EDR",
+            "scheme": "UA-IPN",
         },
         "name": "Товариство з обмеженою відповідальністю «Пікселі»",
         "scale": "large",
@@ -350,7 +350,7 @@ test_tender_pq_shortlisted_firms = [
         "identifier": {
             "id": "87654321",
             "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
-            "scheme": "UA-EDR",
+            "scheme": "UA-IPN",
         },
         "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
         "scale": "large",

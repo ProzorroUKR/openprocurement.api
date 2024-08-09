@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
@@ -14,6 +17,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     bid_activate_with_cancelled_tenderer_criterion,
     bid_Administrator_change,
+    bid_proposal_doc,
     create_one_tender_bid_document_json_bulk,
     create_tender_bid,
     create_tender_bid_document_active_qualification,
@@ -34,6 +38,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     get_tender_tenderers,
     not_found,
     patch_bid_multi_currency,
+    patch_pending_bid,
     patch_tender_bid,
     patch_tender_bid_document,
     patch_tender_bid_with_another_currency,
@@ -88,6 +93,8 @@ class Tender2LotBidResourceTest(TenderContentWebTest):
     test_patch_tender_bid_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
     test_post_tender_bid_with_another_currency = snitch(post_tender_bid_with_another_currency)
     test_patch_tender_bid_with_another_currency = snitch(patch_tender_bid_with_another_currency)
+    test_bid_proposal_doc = snitch(bid_proposal_doc)
+    test_patch_pending_bid = snitch(patch_pending_bid)
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
@@ -98,6 +105,10 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
     test_features_bid_invalid = snitch(features_bid_invalid)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.bid_document.BID_PROPOSAL_DOC_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderBidDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     guarantee_criterion = True

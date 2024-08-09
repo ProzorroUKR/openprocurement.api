@@ -9,9 +9,10 @@ Content-Type: application/json
 {
   "data": [
     {
+      "documentType": "proposal",
       "hash": "md5:00000000000000000000000000000000",
-      "title": "Proposal.pdf",
-      "format": "application/pdf",
+      "title": "Proposal.p7s",
+      "format": "sign/p7s",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7abe246945c74a798ef5abd6f6c3eacc?Signature=ix%2BAtoVHTr7n%2BtlzacHRzW5MXhg6cNDGh1H06A%2B%2Be5QADUguPxtLtZv0azfvgcsDePmEaAiMOiXEgsOVUNfIDw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "language": "uk",

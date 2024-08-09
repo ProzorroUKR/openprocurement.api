@@ -364,26 +364,12 @@ class TenderResourceTest(
             {'data': {"requirementResponses": requirement_responses}},
         )
         self.assertEqual(response.status, '200 OK')
+        self.add_proposal_doc(self.tender_id, bid1_id, bid1_token)
 
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}/bids/{bid1_id}?acc_token={bid1_token}', {'data': {"status": "pending"}}
         )
         self.assertEqual(response.status, '200 OK')
-
-        # Proposal Uploading
-
-        response = self.app.post_json(
-            f'/tenders/{self.tender_id}/bids/{bid1_id}/documents?acc_token={bid1_token}',
-            {
-                "data": {
-                    "title": "Proposal.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                }
-            },
-        )
-        self.assertEqual(response.status, '201 Created')
 
         # Registering bid 2
         response = self.app.post_json(
@@ -400,7 +386,8 @@ class TenderResourceTest(
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
-        self.set_responses(tender_id, response.json, "pending")
+        self.add_proposal_doc(self.tender_id, bid2_id, bid2_token)
+        self.set_responses(self.tender_id, response.json, "pending")
 
         # Bids confirmation
         response = self.app.patch_json(
@@ -428,6 +415,7 @@ class TenderResourceTest(
             self.assertEqual(response.status, '201 Created')
         bid3_id = response.json['data']['id']
         bid3_token = response.json['access']['token']
+        self.add_proposal_doc(self.tender_id, bid3_id, bid3_token)
         self.set_responses(tender_id, response.json, "pending")
 
         # disqualify second supplier from agreement during active.tendering

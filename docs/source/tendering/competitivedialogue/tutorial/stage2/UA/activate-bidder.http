@@ -154,6 +154,21 @@ Content-Type: application/json
     "status": "pending",
     "id": "7334046d9fc046358e61bf8dc7d2cd18",
     "date": "2023-10-10T01:00:00+03:00",
+    "documents": [
+      {
+        "documentType": "proposal",
+        "id": "70f36c16c33d4efdb44bc4cde40d32fa",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.p7s",
+        "format": "sign/p7s",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c2d1d13cfad44a15b8201e00cf70e9c7?Signature=r9Z69x6Pwe1Id7ddhc1o4PvtNHgmGTO6eg6lehsZ7Tq896Hyfj1wD346vs8v4Rtj2XcYTLN7pbCW3UDGa%2BXCBA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "confidentiality": "public"
+      }
+    ],
     "selfQualified": true,
     "lotValues": [
       {
@@ -166,7 +181,8 @@ Content-Type: application/json
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
-    ]
+    ],
+    "submissionDate": "2023-10-10T01:00:00+03:00"
   }
 }
 

@@ -27,6 +27,10 @@ Schema
 
       Can be used in :ref:`tender` and :ref:`framework_qualification` in framework.
 
+    * `proposal` - **Proposal**
+
+      Can be used in  :ref:`bid`
+
     Possible values for :ref:`tender`
     
 
@@ -135,6 +139,7 @@ Schema
 
     * `winningBid` - **Documentation of the winning bid**, including, wherever applicable, a full copy of the proposal received.
 
+    * `proposal` - **Proposal**
 
     Possible values for :ref:`agreement`
 

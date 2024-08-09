@@ -9,7 +9,7 @@ from schematics.types.serializable import serializable
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
@@ -144,6 +144,7 @@ class MetaBid(Model):
     owner = StringType()
     owner_token = StringType()
     transfer_token = StringType()
+    submissionDate = IsoDateTimeType()
 
 
 # model to validate a bid after patch
