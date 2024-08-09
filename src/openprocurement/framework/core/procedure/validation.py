@@ -302,7 +302,10 @@ def validate_document_operation_in_not_allowed_status(request, **kwargs):
 def validate_download_submission_document(request, **_):
     if request.params.get("download"):
         document = request.validated["document"]
-        if document.get("confidentiality", "") == "buyerOnly" and not is_item_owner(
-            request, request.validated["submission"]
+        submission = request.validated["submission"]
+        if (
+            document.get("confidentiality", "") == "buyerOnly"
+            and not is_item_owner(request, submission)
+            and not is_framework_owner(request, submission)
         ):
             raise_operation_error(request, "Document download forbidden.")

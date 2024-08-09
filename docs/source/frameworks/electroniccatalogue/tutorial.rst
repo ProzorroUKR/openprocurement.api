@@ -141,7 +141,7 @@ Let's add `confidentialityRationale`:
 .. http:example:: tutorial/upload-submission-conf-docs.http
    :code:
 
-The bidder see these kind of documents and can download:
+The bidder and framework owner see these kind of documents and can download:
 
 .. http:example:: tutorial/get-submission-conf-docs-by-owner.http
    :code:
@@ -151,7 +151,7 @@ All others can't read the document:
 .. http:example:: tutorial/get-submission-conf-docs-by-public.http
    :code:
 
-Nobody but the owner can download the confidential document:
+Nobody but the owner of submission and framework can download the confidential document:
 
 .. http:example:: tutorial/upload-submission-conf-doc-by-public.http
    :code:

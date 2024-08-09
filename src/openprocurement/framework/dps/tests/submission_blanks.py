@@ -1967,8 +1967,14 @@ def confidential_submission_document(self):
     doc_id_2 = response.json["data"]["id"]
     self.assertEqual(response.json["data"]["confidentiality"], "buyerOnly")
 
-    # get list as tender owner
+    # get list as submission owner
     response = self.app.get(f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}")
+    self.assertEqual(len(response.json["data"]), 2)
+    for doc in response.json["data"]:
+        self.assertIn("url", doc)
+
+    # get list as framework owner
+    response = self.app.get(f"/submissions/{self.submission_id}/documents?acc_token={self.framework_token}")
     self.assertEqual(len(response.json["data"]), 2)
     for doc in response.json["data"]:
         self.assertIn("url", doc)
@@ -1990,7 +1996,7 @@ def confidential_submission_document(self):
     response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_2}")
     self.assertNotIn("url", response.json["data"])
 
-    # download as tender owner
+    # download as submission owner
     response = self.app.get(
         f"/submissions/{self.submission_id}/documents/{doc_id_2}?acc_token={self.submission_token}&download=1",
     )
@@ -2000,7 +2006,13 @@ def confidential_submission_document(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
-    # download as tender public
+    # download as framework owner
+    response = self.app.get(
+        f"/submissions/{self.submission_id}/documents/{doc_id_2}?acc_token={self.framework_token}&download=1",
+    )
+    self.assertEqual(response.status_code, 302)
+
+    # download as public
     response = self.app.get(
         f"/submissions/{self.submission_id}/documents/{doc_id_2}?download=1",
         status=403,
@@ -2023,7 +2035,7 @@ def confidential_submission_document(self):
             }
         },
     )
-    # get directly as tender owner
+    # get directly as submission owner
     response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_1}?acc_token={self.submission_token}")
     self.assertIn("url", response.json["data"])
 
@@ -2038,7 +2050,7 @@ def confidential_submission_document(self):
         f"/submissions/{self.submission_id}/documents/{doc_id_2}?acc_token={self.submission_token}",
         {"data": request_data},
     )
-    # get directly as tender owner
+    # get directly as submission owner
     response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_2}?acc_token={self.submission_token}")
     self.assertIn("url", response.json["data"])
 
