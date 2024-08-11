@@ -13,3 +13,4 @@ Contents:
    :maxdepth: 1
 
    structure
+   schema

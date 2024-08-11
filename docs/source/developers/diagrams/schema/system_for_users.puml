@@ -1,0 +1,69 @@
+@startuml
+
+component CDB [
+    ЦДБ
+]
+circle "апі майданчиків" as API
+API -- CDB
+
+circle OCDS
+OCDS -u- CDB
+
+
+component "Зовнішні системи" as External
+External --l--> OCDS
+
+
+cloud "Prozorro на 99.99%" as Prozorro {
+
+    component Brokers {
+        component BrokerServices [
+            дані
+            логіка
+            UI
+        ]
+        component BrokerAPIConnector [
+            API
+            коннектор
+        ]
+        BrokerServices -l- BrokerAPIConnector
+    }
+    BrokerAPIConnector <---> API
+
+
+    component "Портал" as Portal {
+        component PortalServices [
+            дані
+            логіка
+            UI
+        ]
+
+        component PortalAPIConnector [
+            API
+            коннектор
+        ]
+
+        PortalServices -l- PortalAPIConnector
+
+    }
+    PortalAPIConnector <-l-> API
+
+
+    actor Замовники
+    actor Постачальники
+    actor "Державні органи" as органи
+    actor Спостерігачі
+    actor Законотворці
+
+    Постачальники ...> BrokerServices
+    Замовники ...> BrokerServices
+    органи ...> PortalServices
+    Спостерігачі ...> PortalServices
+    Законотворці ...> PortalServices
+}
+
+
+
+
+
+@enduml

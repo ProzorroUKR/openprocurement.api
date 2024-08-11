@@ -15,3 +15,5 @@ Contents:
    lot_deliveries
    config_has_legal_regulation
    request_for_proposal
+   contracting_electronic_documents
+   e_contract_signing
