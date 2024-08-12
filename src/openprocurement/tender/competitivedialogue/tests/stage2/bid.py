@@ -132,7 +132,7 @@ class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2Content
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.bid_document.BID_PROPOSAL_DOC_REQUIRED_FROM",
+    "openprocurement.tender.core.procedure.state.utils.BID_PROPOSAL_DOC_REQUIRED_FROM",
     get_now() + timedelta(days=1),
 )
 class TenderStage2EUBidDocumentResourceTest(

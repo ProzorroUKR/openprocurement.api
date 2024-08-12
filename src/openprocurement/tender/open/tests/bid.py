@@ -32,6 +32,7 @@ from openprocurement.tender.open.tests.bid_blanks import (
     bid_activate,
     bid_activate_with_cancelled_tenderer_criterion,
     bid_Administrator_change,
+    bid_invalidation_after_req_response_patch,
     bid_invalidation_after_requirement_put,
     bids_activation_on_tender_documents,
     bids_invalidation_on_tender_change,
@@ -243,7 +244,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.bid_document.BID_PROPOSAL_DOC_REQUIRED_FROM",
+    "openprocurement.tender.core.procedure.state.utils.BID_PROPOSAL_DOC_REQUIRED_FROM",
     get_now() + timedelta(days=1),
 )
 class TenderBidDocumentResourceTestMixin:
@@ -311,6 +312,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     initial_status = "active.tendering"
 
     test_bid_invalidation_after_requirement_put = snitch(bid_invalidation_after_requirement_put)
+    test_bid_invalidation_after_req_response_patch = snitch(bid_invalidation_after_req_response_patch)
 
 
 class TenderWithDisabledValueRestriction(BaseTenderUAContentWebTest):
