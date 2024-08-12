@@ -59,7 +59,7 @@ class AwardReqResponseResource(BaseReqResponseResource):
         validators=(
             validate_item_owner("tender"),
             validate_operation_award_requirement_response,
-            validate_input_data(PatchRequirementResponse),
+            validate_input_data(PatchRequirementResponse, none_means_remove=True),
             validate_patch_data_simple(RequirementResponse, "requirement_response"),
         ),
         permission="edit_req_response",

@@ -59,6 +59,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     put_tender_bid_document_json,
     update_tender_bid_pmr_related_doc,
     update_tender_bid_pmr_related_tenderer,
+    update_tender_rr,
     update_tender_rr_evidence_id,
 )
 from openprocurement.tender.core.tests.base import test_language_criteria
@@ -169,6 +170,7 @@ class TenderBidRRResourceTest(TenderContentWebTest):
     guarantee_criterion = True
     guarantee_criterion_data = test_language_criteria
 
+    test_update_tender_rr = snitch(update_tender_rr)
     test_update_tender_rr_evidence_id = snitch(update_tender_rr_evidence_id)
     test_update_tender_bid_pmr_related_doc = snitch(update_tender_bid_pmr_related_doc)
     test_update_tender_bid_pmr_related_tenderer = snitch(update_tender_bid_pmr_related_tenderer)
