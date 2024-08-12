@@ -134,6 +134,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
 
 {
   "data": {
+    "confidentiality": "public",
     "documentType": "proposal",
     "hash": "md5:00000000000000000000000000000000",
     "title": "proposal.p7s",
@@ -142,7 +143,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "documentOf": "tender",
     "language": "uk",
     "id": "b341b0b88047496f9941c908c61b51e9",
-    "confidentiality": "public",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00"
   }
@@ -1106,6 +1106,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "proposal",
         "id": "b341b0b88047496f9941c908c61b51e9",
         "datePublished": "2023-10-10T01:00:00+03:00",
@@ -1115,8 +1116,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b32f001d0dfb40c59d84b4e4154c4656?Signature=o0XKcwz%2BrCwhSIxZ5nFq6Ufw6hUpVCE2hsy0yIO3QYSiFYmuO2Tvx3aV8AcUxYJ%2BN%2Bc2%2FxLZyPo8gnIdSIBPCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
-        "language": "uk",
-        "confidentiality": "public"
+        "language": "uk"
       }
     ],
     "lotValues": [

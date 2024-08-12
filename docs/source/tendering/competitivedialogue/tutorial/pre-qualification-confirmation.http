@@ -725,6 +725,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "a7a69098c804461aa8380adf5771905e",
             "datePublished": "2023-10-10T01:00:00+03:00",
@@ -735,10 +736,10 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           },
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "a7a69098c804461aa8380adf5771905e",
             "datePublished": "2023-10-10T01:01:00+03:00",
@@ -749,10 +750,10 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           },
           {
+            "confidentiality": "buyerOnly",
             "id": "443d1bc006e84ddeb2e2e42daa2830cb",
             "datePublished": "2023-10-10T01:01:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -762,10 +763,11 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
             "language": "uk",
-            "confidentiality": "buyerOnly",
             "isDescriptionDecision": true
           },
           {
+            "confidentiality": "buyerOnly",
+            "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "id": "bf5c6b2858994bc08ed99aaf624d12c7",
             "datePublished": "2023-10-10T01:01:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -775,11 +777,10 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
             "language": "uk",
-            "confidentiality": "buyerOnly",
-            "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "isDescriptionDecision": false
           },
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "a7a69098c804461aa8380adf5771905e",
             "datePublished": "2023-10-10T01:03:00+03:00",
@@ -790,7 +791,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           }
         ],
@@ -936,6 +936,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "33460ca0d4b6433882fe8408d3055616",
             "datePublished": "2023-10-10T01:03:00+03:00",
@@ -946,7 +947,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           }
         ],
@@ -1091,6 +1091,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "e5d3ae3488d34a7d8eec028517532e6d",
             "datePublished": "2023-10-10T01:03:00+03:00",
@@ -1101,7 +1102,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           }
         ],
@@ -1247,6 +1247,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
+            "confidentiality": "public",
             "id": "a7e0aedf87d145878ea880ddd51ac126",
             "datePublished": "2023-10-10T01:03:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -1256,10 +1257,11 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           },
           {
+            "confidentiality": "buyerOnly",
+            "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "id": "f8b358824b8c48b3a091cf482fc7fe44",
             "datePublished": "2023-10-10T01:03:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -1269,11 +1271,10 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk",
-            "confidentiality": "buyerOnly",
-            "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "isDescriptionDecision": false
           },
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "2a5e5b67729843c7acf22bd0c8fb763f",
             "datePublished": "2023-10-10T01:03:00+03:00",
@@ -1284,7 +1285,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           }
         ],

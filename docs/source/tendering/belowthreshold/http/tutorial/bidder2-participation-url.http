@@ -50,6 +50,7 @@ Content-Type: application/json
     "status": "draft",
     "documents": [
       {
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
@@ -57,11 +58,11 @@ Content-Type: application/json
         "documentOf": "tender",
         "language": "uk",
         "id": "b57bff4881434c139ba83f203f41d9dc",
-        "confidentiality": "public",
         "datePublished": "2023-10-16T01:15:06+03:00",
         "dateModified": "2023-10-16T01:15:06+03:00"
       },
       {
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
@@ -69,7 +70,6 @@ Content-Type: application/json
         "documentOf": "tender",
         "language": "uk",
         "id": "6dedbd358d08409eac7efb40cb71f63d",
-        "confidentiality": "public",
         "datePublished": "2023-10-16T01:15:06+03:00",
         "dateModified": "2023-10-16T01:15:06+03:00"
       }

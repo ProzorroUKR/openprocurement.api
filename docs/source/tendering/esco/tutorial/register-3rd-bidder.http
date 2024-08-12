@@ -143,6 +143,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
     "status": "draft",
     "documents": [
       {
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
@@ -150,25 +151,25 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
         "documentOf": "tender",
         "language": "uk",
         "id": "637a203de37b4be1bf67e9f2f973c19b",
-        "confidentiality": "public",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "dateModified": "2023-10-10T01:02:01+03:00"
       },
       {
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
         "documentOf": "tender",
         "language": "uk",
         "id": "bbb1219624bf4bd6aa54a611eff5f699",
-        "confidentiality": "buyerOnly",
-        "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "dateModified": "2023-10-10T01:02:01+03:00"
       }
     ],
     "financialDocuments": [
       {
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
@@ -176,13 +177,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
         "documentOf": "tender",
         "language": "uk",
         "id": "f6ca2bc9838c419f9a9cba3ed3024924",
-        "confidentiality": "public",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "dateModified": "2023-10-10T01:02:01+03:00"
       }
     ],
     "eligibilityDocuments": [
       {
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
@@ -190,13 +191,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
         "documentOf": "tender",
         "language": "uk",
         "id": "b67683a01fd048a4a9554dc4afaaa562",
-        "confidentiality": "public",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "dateModified": "2023-10-10T01:02:01+03:00"
       }
     ],
     "qualificationDocuments": [
       {
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
@@ -204,7 +205,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
         "documentOf": "tender",
         "language": "uk",
         "id": "7cc35ac1d2ba4bf8aa92ee458c5e3cf3",
-        "confidentiality": "public",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "dateModified": "2023-10-10T01:02:01+03:00"
       }

@@ -156,6 +156,7 @@ Content-Type: application/json
     "submissionDate": "2023-10-10T01:03:00+03:00",
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "proposal",
         "id": "0273f95d8c8143dcafe478223372f9e7",
         "datePublished": "2023-10-10T01:00:00+03:00",
@@ -165,10 +166,10 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/93575fadc8cb4b498979e82fdcea11d1?Signature=U19Np3Bl%2BlPnQMcJDcq8nryEfhJRyDKN6lh4l%2FNx6sXmTwehTe7dHYE3BZJy11vWj1mvYQjqOPLlqKKQGC6ODA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
-        "language": "uk",
-        "confidentiality": "public"
+        "language": "uk"
       },
       {
+        "confidentiality": "public",
         "documentType": "proposal",
         "id": "0273f95d8c8143dcafe478223372f9e7",
         "datePublished": "2023-10-10T01:01:00+03:00",
@@ -178,10 +179,10 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a4b06f7855e64d52a6a1c177be96f7dd?Signature=jtqCeePw07Bkd7MbM6hD99W5epfwmGPEML9mW%2FOteN8qzdCDQAi6blufNWhE5CzS5HNST1k9rJ3%2BMvYRNal3Cw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:01:00+03:00",
-        "language": "uk",
-        "confidentiality": "public"
+        "language": "uk"
       },
       {
+        "confidentiality": "public",
         "documentType": "proposal",
         "id": "0273f95d8c8143dcafe478223372f9e7",
         "datePublished": "2023-10-10T01:03:00+03:00",
@@ -191,8 +192,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9b2fb1fdd2a64ba58ca4edd993cb0555?Signature=3701BdS29GLdo%2BplNGlmUnZLimciDoH8hWyYDbe1vyNv93WIRnM5d3KvTyzvPwxnebEzlenS7DBE2cQnALZJCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:03:00+03:00",
-        "language": "uk",
-        "confidentiality": "public"
+        "language": "uk"
       }
     ],
     "selfQualified": true,

@@ -20,6 +20,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c429ff66bfe74085
 
 {
   "data": {
+    "confidentiality": "public",
     "documentType": "proposal",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Proposal.p7s",
@@ -28,7 +29,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c429ff66bfe74085
     "documentOf": "tender",
     "language": "uk",
     "id": "70f36c16c33d4efdb44bc4cde40d32fa",
-    "confidentiality": "public",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00"
   }

@@ -722,6 +722,7 @@ Content-Type: application/json
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "d39a18544f294d60a7ffb793091a64f3",
             "datePublished": "2023-10-10T01:00:00+03:00",
@@ -731,10 +732,11 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=8%2BfZEKjx1wsn9JVm%2BoBxVjYYyYnpQpwuHyvOMk%2BOfLAcfAUV%2FCqdIvZNh9cofsETlr8zhXoPgkwUMJxik%2Be0BQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           },
           {
+            "confidentiality": "buyerOnly",
+            "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "id": "d3c40015051747439f120cba1d646f05",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -743,11 +745,10 @@ Content-Type: application/json
             "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/bids/cd1a12fedb634aa88390b3156568df61/documents/d3c40015051747439f120cba1d646f05?download=ae0c53200a7648d78aa29fe7272cb394",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
-            "language": "uk",
-            "confidentiality": "buyerOnly",
-            "confidentialityRationale": "Only our company sells badgers with pink hair."
+            "language": "uk"
           },
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "d39a18544f294d60a7ffb793091a64f3",
             "datePublished": "2023-10-10T01:01:00+03:00",
@@ -757,10 +758,10 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/909a908de60c424da4489001b0a32a87?Signature=hJ8um5%2FavhQj%2FNtvp9YjM4%2F%2BNVm1gAt%2B0c85vp2UXj5OTlKVakz50SW1flVkljwTwIPiq67nGW3tjQ7TKyrdDw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           },
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "d39a18544f294d60a7ffb793091a64f3",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -770,12 +771,12 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b7eade3aa22e4d1b812d34b6438bbd49?Signature=WyWYvG6LgwMr5OPB%2FgHNu%2Bu9UEKvJvsQXhvBD5AxRQC8ov%2FIyR2j3nO%2F8qCKtRcnSa45shFMtylly%2BR90M6RAA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           }
         ],
         "financialDocuments": [
           {
+            "confidentiality": "public",
             "id": "335a14ee1ac24779830306f08494049a",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -784,10 +785,10 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4751b232227f4b73bc130f096dd47076?Signature=1J5akap3crhPyzDlP4vYAGqcDr2Zb7J0d2QEZAWWDhImnoN39D969zyZg47F%2FjB5i7MmWPxna6d6Uf15bVWoBg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           },
           {
+            "confidentiality": "public",
             "id": "c4eb54ee590043b5b4e5cc49bdd5b6f8",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -796,12 +797,12 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f92632a5c1ab489db6deba5d2d313753?Signature=ngE4pkDIsSVDd4FtpLl6wtym9yJA7ryCZ6klMuLE2OmW1GlaU20TfS94LAsLawJb%2BG0SRv3GxdnWg07AowB8Bw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           }
         ],
         "eligibilityDocuments": [
           {
+            "confidentiality": "public",
             "id": "eb18f145ef3e47088bb895f834962a0a",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -810,12 +811,12 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6213288a9dc8448e9d55b5684ce9c0f2?Signature=VagGJ5qPJ4mU6iGXxVClHZk60pm18WTzdvlJjdBxWRPA1TrZP5d0WDipfHusVAXkb%2BbD7U0G5rYz2wDyz1A7BQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           }
         ],
         "qualificationDocuments": [
           {
+            "confidentiality": "public",
             "id": "19abd97b054b4544b7fc29bdbb71c8c9",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -824,8 +825,7 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c3fdae8c71e84606ba09ae07517475bf?Signature=GuvuNTb2t0pdrym7dvoqqxi5eWRpvl6jvc3cfuW6KFFp%2BupfDxPjO%2Fd4D8G9LAjG%2BBVhAwbnLBk2PNfs9SIoAw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           }
         ],
         "lotValues": [
@@ -1014,6 +1014,7 @@ Content-Type: application/json
         "date": "2023-10-10T01:02:01+03:00",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "622f3958fe014483ac9b8e17e44cf50f",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -1023,8 +1024,7 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a64a9ed6c36c4c618e63d61b4cbfbaa2?Signature=9y%2ByYcJsDlpUIucsnRUVliw%2BuaSl1x4FDkZiGvppXhYr0lCipiJ%2F75hhcXaUgHOXFzZE507ZDdKDliTfnSh9AA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           }
         ],
         "lotValues": [
@@ -1213,6 +1213,7 @@ Content-Type: application/json
         "id": "a5c09f985bd14b2f8c9c5c34e07f8c76",
         "documents": [
           {
+            "confidentiality": "public",
             "id": "637a203de37b4be1bf67e9f2f973c19b",
             "datePublished": "2023-10-10T01:02:01+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -1221,10 +1222,11 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f81e2b85d5a042bb8c1b3c523318cd3e?Signature=uiNtquKo2jbbYA4L5zjsSi3JhYhamYzu0iWMz5Wr5TuvFQUZe3wP6fe2%2B17xwNF7ZD2D0e%2Fy2HlHnqNAasaXDw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           },
           {
+            "confidentiality": "buyerOnly",
+            "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "id": "bbb1219624bf4bd6aa54a611eff5f699",
             "datePublished": "2023-10-10T01:02:01+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -1233,11 +1235,10 @@ Content-Type: application/json
             "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/bids/a5c09f985bd14b2f8c9c5c34e07f8c76/documents/bbb1219624bf4bd6aa54a611eff5f699?download=78c7dc59da6a46d8ac24150e98d5678c",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
-            "language": "uk",
-            "confidentiality": "buyerOnly",
-            "confidentialityRationale": "Only our company sells badgers with pink hair."
+            "language": "uk"
           },
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "8d3ae831b0264fc9ba8109b05b90252e",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -1247,12 +1248,12 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/68e5732d24754045994bb9e5baf42ccf?Signature=eEXwUca%2Bh24Oqiz2Bb5Bgm5eLP7WmEItu%2Br2VbJSCEOTep9FPSVDnRkn51Ya%2FRw8XtNKqWevUO02skI7PrigAg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           }
         ],
         "eligibilityDocuments": [
           {
+            "confidentiality": "public",
             "id": "b67683a01fd048a4a9554dc4afaaa562",
             "datePublished": "2023-10-10T01:02:01+03:00",
             "hash": "md5:00000000000000000000000000000000",
@@ -1261,8 +1262,7 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc8dbe727ce64eb894c3ce3465b3eece?Signature=zAV3Ven1lra4h8Fuq6Df3nR7AGSz%2FVzZmw9K%2FmlVNDLRoUlj1gNML%2FYsMjnfn6G60TfMig6K0Cjm4%2F0Uv34AAA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
-            "language": "uk",
-            "confidentiality": "public"
+            "language": "uk"
           }
         ],
         "selfQualified": true
