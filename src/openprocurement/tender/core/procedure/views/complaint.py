@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     unless_bots,
     validate_data_documents,
     validate_input_data,
+    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data,
 )
@@ -28,7 +29,6 @@ from openprocurement.tender.core.procedure.utils import save_tender, set_ownersh
 from openprocurement.tender.core.procedure.validation import (
     unless_reviewers,
     validate_any,
-    validate_input_data_from_resolved_model,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints

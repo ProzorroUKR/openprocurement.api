@@ -52,6 +52,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "87281684d3b84a07824cb042c0b2e94e",
             "datePublished": "2023-10-10T01:00:00+03:00",
@@ -62,10 +63,10 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           },
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "87281684d3b84a07824cb042c0b2e94e",
             "datePublished": "2023-10-10T01:01:00+03:00",
@@ -76,7 +77,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           }
         ],
@@ -120,6 +120,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "c6a6f9295d404ca185a5e89fbcbffcb7",
             "datePublished": "2023-10-10T01:00:00+03:00",
@@ -130,10 +131,10 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           },
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "c6a6f9295d404ca185a5e89fbcbffcb7",
             "datePublished": "2023-10-10T01:01:00+03:00",
@@ -144,7 +145,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           }
         ],
@@ -187,6 +187,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "753ecaa37ffc4331b8ee35b676774aae",
             "datePublished": "2023-10-10T01:00:00+03:00",
@@ -197,10 +198,10 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           },
           {
+            "confidentiality": "public",
             "documentType": "proposal",
             "id": "753ecaa37ffc4331b8ee35b676774aae",
             "datePublished": "2023-10-10T01:01:00+03:00",
@@ -211,7 +212,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
             "isDescriptionDecision": false
           }
         ],

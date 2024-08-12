@@ -40,7 +40,8 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "Приховано",
         "dateModified": "2023-10-10T01:00:00+03:00",
-        "language": "uk"
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
     "frameworkID": "08238232b095420687b4e273ae56d878",

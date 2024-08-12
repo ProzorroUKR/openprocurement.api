@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-27 14:19+0300\n"
+"POT-Creation-Date: 2024-08-09 11:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,6 +106,30 @@ msgstr "Документи можливо завантажити/оновити 
 
 msgid "Documents operations is same like in framework:"
 msgstr "Усі операції над документами такі ж як у кваліфікації:"
+
+msgid "Confidential documents for submissions"
+msgstr "Конфіденційні файли у заявці"
+
+msgid "Documents can be public or confident."
+msgstr "Документи можуть бути публічними та конфіденційними."
+
+msgid "Confidentiality may be applied/changed only for submission in `draft` status. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`."
+msgstr "Приховання (конфіденційність) може бути застосована/змінена для документів у заявці у статусі `draft`. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`."
+
+msgid "Let's add documents with `confidentiality` as `buyerOnly` and look what we've got:"
+msgstr "Додамо документи з `confidentiality: buyerOnly` і подивимося, що ми маємо:"
+
+msgid "Let's add `confidentialityRationale`:"
+msgstr "Додамо поле обґрунтування `confidentialityRational`:"
+
+msgid "The bidder and framework owner see these kind of documents and can download:"
+msgstr "Власник заявки та власник відбору бачить такі документи і може завантажиити їх:"
+
+msgid "All others can't read the document:"
+msgstr "Всі інші користувачі не можуть переглянути документ:"
+
+msgid "Nobody but the owner of submission and framework can download the confidential document:"
+msgstr "Ніхто окрім власника заявки та власника відбору не може викачати документ:"
 
 msgid "Deleting submission"
 msgstr "Видалення заявки"

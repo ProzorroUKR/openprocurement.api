@@ -45,7 +45,20 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/46a9cf8cd1034d57b7e550b1c7bb0339?Signature=CV6toqmVNh7aYzT8Sn0JjsdtsYR66FqDDLdqXszr49BvU7fkKFV59qITAmgwNxHwaNZ3mGH6rZH5LtzNFshCAQ%3D%3D&KeyID=a8968c46",
         "language": "uk",
+        "confidentiality": "public",
         "id": "d28f60dc1865488d9277bd56070b0733",
+        "datePublished": "2023-10-26T01:00:00+03:00",
+        "dateModified": "2023-10-26T01:00:00+03:00"
+      },
+      {
+        "documentType": "technicalSpecifications",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "specs.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
+        "id": "13fa49055fe748d0894f252eaa5dd280",
         "datePublished": "2023-10-26T01:00:00+03:00",
         "dateModified": "2023-10-26T01:00:00+03:00"
       }

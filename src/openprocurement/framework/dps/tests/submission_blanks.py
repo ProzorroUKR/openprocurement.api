@@ -1877,3 +1877,183 @@ def put_submission_document_fast(self):
         )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+
+def confidential_submission_document(self):
+    request_data = {
+        "title": "name.doc",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/msword",
+        "documentType": "qualificationDocuments",
+        "confidentiality": "true",
+    }
+    # invalid value
+    response = self.app.post_json(
+        f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}",
+        {"data": request_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json,
+        {
+            "status": "error",
+            "errors": [
+                {
+                    "location": "body",
+                    "name": "confidentiality",
+                    "description": ["Value must be one of ['public', 'buyerOnly']."],
+                }
+            ],
+        },
+    )
+    # create submission doc non confidential
+    del request_data["confidentiality"]
+    response = self.app.post_json(
+        f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}",
+        {"data": request_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    doc_id_1 = response.json["data"]["id"]
+    self.assertEqual(response.json["data"]["confidentiality"], "public")
+
+    # create submission doc confidential without rationale
+    request_data["confidentiality"] = "buyerOnly"
+    response = self.app.post_json(
+        f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}",
+        {"data": request_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json,
+        {
+            "status": "error",
+            "errors": [
+                {
+                    "location": "body",
+                    "name": "confidentialityRationale",
+                    "description": ["confidentialityRationale is required"],
+                }
+            ],
+        },
+    )
+    request_data["confidentialityRationale"] = "coz it is hidden"
+    response = self.app.post_json(
+        f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}",
+        {"data": request_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json,
+        {
+            "status": "error",
+            "errors": [
+                {
+                    "location": "body",
+                    "name": "confidentialityRationale",
+                    "description": ["confidentialityRationale should contain at least 30 characters"],
+                }
+            ],
+        },
+    )
+
+    # successful creation
+    request_data["confidentialityRationale"] = "coz it is hidden because of the law"
+    response = self.app.post_json(
+        f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}",
+        {"data": request_data},
+        status=201,
+    )
+    doc_id_2 = response.json["data"]["id"]
+    self.assertEqual(response.json["data"]["confidentiality"], "buyerOnly")
+
+    # get list as submission owner
+    response = self.app.get(f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}")
+    self.assertEqual(len(response.json["data"]), 2)
+    for doc in response.json["data"]:
+        self.assertIn("url", doc)
+
+    # get list as framework owner
+    response = self.app.get(f"/submissions/{self.submission_id}/documents?acc_token={self.framework_token}")
+    self.assertEqual(len(response.json["data"]), 2)
+    for doc in response.json["data"]:
+        self.assertIn("url", doc)
+
+    # get list as public
+    response = self.app.get(f"/submissions/{self.submission_id}/documents")
+    self.assertEqual(len(response.json["data"]), 2)
+    for doc in response.json["data"]:
+        if doc["confidentiality"] == "buyerOnly":
+            self.assertNotIn("url", doc)
+        else:
+            self.assertIn("url", doc)
+
+    # get directly as tender owner
+    response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_2}?acc_token={self.submission_token}")
+    self.assertIn("url", response.json["data"])
+
+    # get directly as public
+    response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_2}")
+    self.assertNotIn("url", response.json["data"])
+
+    # download as submission owner
+    response = self.app.get(
+        f"/submissions/{self.submission_id}/documents/{doc_id_2}?acc_token={self.submission_token}&download=1",
+    )
+    self.assertEqual(response.status_code, 302)
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
+
+    # download as framework owner
+    response = self.app.get(
+        f"/submissions/{self.submission_id}/documents/{doc_id_2}?acc_token={self.framework_token}&download=1",
+    )
+    self.assertEqual(response.status_code, 302)
+
+    # download as public
+    response = self.app.get(
+        f"/submissions/{self.submission_id}/documents/{doc_id_2}?download=1",
+        status=403,
+    )
+    self.assertEqual(
+        response.json,
+        {
+            "status": "error",
+            "errors": [{"location": "body", "name": "data", "description": "Document download forbidden."}],
+        },
+    )
+
+    # patch first doc documentType to confidential
+    self.app.patch_json(
+        f"/submissions/{self.submission_id}/documents/{doc_id_1}?acc_token={self.submission_token}",
+        {
+            "data": {
+                "confidentiality": "buyerOnly",
+                "confidentialityRationale": f"{'a' * 30}",
+            }
+        },
+    )
+    # get directly as submission owner
+    response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_1}?acc_token={self.submission_token}")
+    self.assertIn("url", response.json["data"])
+
+    # get directly as public
+    response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_1}")
+    self.assertNotIn("url", response.json["data"])
+
+    # put second doc documentOf to non confidential
+    request_data["confidentiality"] = "public"
+
+    self.app.put_json(
+        f"/submissions/{self.submission_id}/documents/{doc_id_2}?acc_token={self.submission_token}",
+        {"data": request_data},
+    )
+    # get directly as submission owner
+    response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_2}?acc_token={self.submission_token}")
+    self.assertIn("url", response.json["data"])
+
+    # get directly as public
+    response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_2}")
+    self.assertIn("url", response.json["data"])

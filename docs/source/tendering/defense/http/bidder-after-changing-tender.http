@@ -45,6 +45,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:01+03:00",
     "documents": [
       {
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
@@ -52,7 +53,6 @@ Content-Type: application/json
         "documentOf": "tender",
         "language": "uk",
         "id": "75b07275c0f248a8bc4839d71fd086d3",
-        "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "dateModified": "2023-10-10T01:00:01+03:00"
       }

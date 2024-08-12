@@ -30,7 +30,7 @@ Content-Type: application/json
           "title": "Документальне підтвердження",
           "description": "Довідка в довільній формі",
           "type": "document",
-          "id": "ccaba9a6f9834725ace199c3543babe3"
+          "id": "99d1793b61534788a66e919af2213882"
         }
       ],
       "expectedValue": true,

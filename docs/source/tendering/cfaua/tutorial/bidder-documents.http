@@ -9,6 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
+      "confidentiality": "public",
       "documentType": "proposal",
       "id": "a71eb76c7aed40e38a45a7ab8c38b0f1",
       "datePublished": "2023-10-10T01:00:00+03:00",
@@ -18,10 +19,11 @@ Content-Type: application/json
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cd917f2c94204293aeafc8eb173f9f78?Signature=l%2FTuxUe4lsXqomb12s7na74ZBk%2BhUch6hrCqPVVVqChymM9fMBkmjtn8UC1v7O8ucERXST5yVS9pHK64CRmpDQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "dateModified": "2023-10-10T01:00:00+03:00",
-      "language": "uk",
-      "confidentiality": "public"
+      "language": "uk"
     },
     {
+      "confidentiality": "buyerOnly",
+      "confidentialityRationale": "Only our company sells badgers with pink hair.",
       "id": "c8fe4f58931f46ccb98a76ee7f4138e1",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
@@ -30,9 +32,7 @@ Content-Type: application/json
       "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/b5da67b11f7643f78cdf909b0d5c4595/documents/c8fe4f58931f46ccb98a76ee7f4138e1?download=de9be10474b54e909bf8f48198108df6",
       "documentOf": "tender",
       "dateModified": "2023-10-10T01:00:00+03:00",
-      "language": "uk",
-      "confidentiality": "buyerOnly",
-      "confidentialityRationale": "Only our company sells badgers with pink hair."
+      "language": "uk"
     }
   ]
 }

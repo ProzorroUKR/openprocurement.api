@@ -9,13 +9,14 @@ from openprocurement.api.procedure.validation import (
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.framework.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
+from openprocurement.framework.core.procedure.models.submission_document import (
+    PatchSubmissionDocument,
+    PostSubmissionDocument,
+    SubmissionDocument,
 )
 from openprocurement.framework.core.procedure.validation import (
     validate_document_operation_in_not_allowed_period,
+    validate_download_submission_document,
 )
 from openprocurement.framework.core.procedure.views.document import (
     CoreSubmissionDocumentResource,
@@ -38,6 +39,7 @@ class SubmissionDocumentResource(CoreSubmissionDocumentResource):
         return super().collection_get()
 
     @json_view(
+        validators=(validate_download_submission_document,),
         permission="view_framework",
     )
     def get(self):
@@ -46,7 +48,7 @@ class SubmissionDocumentResource(CoreSubmissionDocumentResource):
     @json_view(
         validators=(
             validate_item_owner("submission"),
-            validate_input_data(PostDocument, allow_bulk=True),
+            validate_input_data(PostSubmissionDocument, allow_bulk=True),
             validate_document_operation_in_not_allowed_period,
         ),
         permission="edit_submission",
@@ -57,10 +59,10 @@ class SubmissionDocumentResource(CoreSubmissionDocumentResource):
     @json_view(
         validators=(
             validate_item_owner("submission"),
-            validate_input_data(PostDocument),
+            validate_input_data(PostSubmissionDocument),
             update_doc_fields_on_put_document,
             validate_upload_document,
-            validate_data_model(Document),
+            validate_data_model(SubmissionDocument),
             validate_document_operation_in_not_allowed_period,
         ),
         permission="edit_submission",
@@ -72,8 +74,8 @@ class SubmissionDocumentResource(CoreSubmissionDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("submission"),
-            validate_input_data(PatchDocument, none_means_remove=True),
-            validate_patch_data_simple(Document, item_name="document"),
+            validate_input_data(PatchSubmissionDocument, none_means_remove=True),
+            validate_patch_data_simple(SubmissionDocument, item_name="document"),
             validate_document_operation_in_not_allowed_period,
         ),
         permission="edit_submission",

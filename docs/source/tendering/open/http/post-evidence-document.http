@@ -20,6 +20,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de38bea4a6534e13
 
 {
   "data": {
+    "confidentiality": "public",
     "documentType": "evidence",
     "hash": "md5:00000000000000000000000000000000",
     "title": "lorem.doc",
@@ -28,7 +29,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de38bea4a6534e13
     "documentOf": "tender",
     "language": "uk",
     "id": "484c84ce70564785963732aa0a689d46",
-    "confidentiality": "public",
     "datePublished": "2023-10-10T01:06:00+03:00",
     "dateModified": "2023-10-10T01:06:00+03:00"
   }

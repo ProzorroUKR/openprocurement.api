@@ -9,18 +9,20 @@ Content-Type: application/json
 {
   "data": [
     {
+      "confidentiality": "buyerOnly",
+      "confidentialityRationale": "This document contains some secret data that shouldn't be public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "private.doc",
       "format": "application/msword",
       "documentOf": "tender",
       "language": "uk",
       "id": "f6b43126ac6541b09aa78052ad667158",
-      "confidentiality": "buyerOnly",
-      "confidentialityRationale": "This document contains some secret data that shouldn't be public",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
+      "confidentiality": "buyerOnly",
+      "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality",
       "id": "d21dc81bb3944e39b39703c4cb3ddbe1",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
@@ -28,11 +30,10 @@ Content-Type: application/json
       "format": "application/msword",
       "documentOf": "tender",
       "dateModified": "2023-10-10T01:00:00+03:00",
-      "language": "uk",
-      "confidentiality": "buyerOnly",
-      "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality"
+      "language": "uk"
     },
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "public.doc",
       "format": "application/msword",
@@ -40,7 +41,6 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "6730de047ffd46e18ca23c684477914e",
-      "confidentiality": "public",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"
     }

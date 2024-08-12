@@ -1,8 +1,8 @@
 from schematics.types import StringType
 
 from openprocurement.api.procedure.models.document import (
+    ConfidentialDocumentMixin,
     ConfidentialityTypes,
-    validate_confidentiality_rationale,
 )
 from openprocurement.tender.core.procedure.models.document import (
     Document as BaseDocument,
@@ -15,15 +15,8 @@ from openprocurement.tender.core.procedure.models.document import (
 )
 
 
-class PostDocument(BasePostDocument):
-    confidentiality = StringType(
-        choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value],
-        default=ConfidentialityTypes.PUBLIC.value,
-    )
-    confidentialityRationale = StringType()
-
-    def validate_confidentialityRationale(self, data, val):
-        validate_confidentiality_rationale(data, val)
+class PostDocument(BasePostDocument, ConfidentialDocumentMixin):
+    pass
 
 
 class PatchDocument(BasePatchDocument):
@@ -31,12 +24,5 @@ class PatchDocument(BasePatchDocument):
     confidentialityRationale = StringType()
 
 
-class Document(BaseDocument):
-    confidentiality = StringType(
-        choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value],
-        default=ConfidentialityTypes.PUBLIC.value,
-    )
-    confidentialityRationale = StringType()
-
-    def validate_confidentialityRationale(self, data, val):
-        validate_confidentiality_rationale(data, val)
+class Document(BaseDocument, ConfidentialDocumentMixin):
+    pass

@@ -41,7 +41,8 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/881d14f2c96d4d3f969444e886f17d19?Signature=%2BYSWeyuhx29OQCi9wPrrL402c21EiQtIUycwntSEUhH%2FmLNV53qa8lfDWokPNdAUo8tDJOuw1CH2BX58%2Be34AQ%3D%3D&KeyID=a8968c46",
         "dateModified": "2023-10-10T01:00:00+03:00",
-        "language": "uk"
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
     "frameworkID": "08238232b095420687b4e273ae56d878",

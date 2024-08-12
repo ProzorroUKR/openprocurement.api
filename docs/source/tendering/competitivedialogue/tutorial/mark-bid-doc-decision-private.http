@@ -15,6 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "buyerOnly",
     "id": "443d1bc006e84ddeb2e2e42daa2830cb",
     "datePublished": "2023-10-10T01:01:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
@@ -24,7 +25,6 @@ Content-Type: application/json
     "documentOf": "tender",
     "dateModified": "2023-10-10T01:01:00+03:00",
     "language": "uk",
-    "confidentiality": "buyerOnly",
     "isDescriptionDecision": true
   }
 }

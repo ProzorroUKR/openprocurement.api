@@ -3,8 +3,8 @@ from openprocurement.api.procedure.serializers.base import (
     ListSerializer,
 )
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
-from openprocurement.tender.core.procedure.serializers.document import (
-    DocumentSerializer,
+from openprocurement.framework.core.procedure.serializers.document import (
+    SubmissionDocumentSerializer,
 )
 
 
@@ -27,7 +27,7 @@ class SubmissionSerializer(BaseUIDSerializer):
         "framework_token",
     }
     serializers = {
-        "documents": ListSerializer(DocumentSerializer),
+        "documents": ListSerializer(SubmissionDocumentSerializer),
     }
 
     def __init__(self, data: dict):

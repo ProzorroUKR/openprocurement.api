@@ -16,6 +16,8 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "buyerOnly",
+    "confidentialityRationale": "Only our company sells badgers with pink hair.",
     "id": "56c214236e3141e6a60f319cfcc7d6a1",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
@@ -24,9 +26,7 @@ Content-Type: application/json
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids/526b7a685a8b4427b01d99ca0954cec5/documents/56c214236e3141e6a60f319cfcc7d6a1?download=13b7a37e7fcb4e3c89c6012bb35fbe35",
     "documentOf": "tender",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "language": "uk",
-    "confidentiality": "buyerOnly",
-    "confidentialityRationale": "Only our company sells badgers with pink hair."
+    "language": "uk"
   }
 }
 

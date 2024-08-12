@@ -277,7 +277,7 @@ Let's add `confidentialityRationale`:
 .. http:example:: http/tutorial/tender-reporting-contract-conf-docs.http
    :code:
 
-The customer see these kind of doucments and can download:
+The customer see these kind of documents and can download:
 
 .. http:example:: http/tutorial/get-tender-reporting-contract-conf-docs-by-owner.http
    :code:

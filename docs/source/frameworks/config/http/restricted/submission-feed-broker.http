@@ -18,7 +18,8 @@ Content-Type: application/json
           "format": "application/msword",
           "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9e7c60f18fc848a2be97320340d21981/documents/686803c789dd4159a7b2c881e5f9de60?download=881d14f2c96d4d3f969444e886f17d19",
           "dateModified": "2023-10-10T01:00:00+03:00",
-          "language": "uk"
+          "language": "uk",
+          "confidentiality": "public"
         }
       ],
       "frameworkID": "08238232b095420687b4e273ae56d878",

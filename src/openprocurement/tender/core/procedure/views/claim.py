@@ -5,6 +5,7 @@ from openprocurement.api.procedure.validation import (
     unless_admins,
     validate_data_documents,
     validate_input_data,
+    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data,
 )
@@ -21,10 +22,7 @@ from openprocurement.tender.core.procedure.serializers.complaint import (
 )
 from openprocurement.tender.core.procedure.state.claim import TenderClaimState
 from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
-from openprocurement.tender.core.procedure.validation import (
-    validate_any,
-    validate_input_data_from_resolved_model,
-)
+from openprocurement.tender.core.procedure.validation import validate_any
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 

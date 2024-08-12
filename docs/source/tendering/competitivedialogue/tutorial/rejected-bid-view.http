@@ -146,6 +146,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "proposal",
         "id": "e5d3ae3488d34a7d8eec028517532e6d",
         "datePublished": "2023-10-10T01:03:00+03:00",
@@ -156,7 +157,6 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:03:00+03:00",
         "language": "uk",
-        "confidentiality": "public",
         "isDescriptionDecision": false
       }
     ],

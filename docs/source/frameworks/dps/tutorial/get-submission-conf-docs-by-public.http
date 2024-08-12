@@ -1,0 +1,23 @@
+GET /api/2.5/submissions/ea3e92079bc345a58805f4c05340fd28/documents/13fa49055fe748d0894f252eaa5dd280 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "documentType": "technicalSpecifications",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "specs.doc",
+    "format": "application/msword",
+    "language": "uk",
+    "confidentiality": "buyerOnly",
+    "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
+    "id": "13fa49055fe748d0894f252eaa5dd280",
+    "datePublished": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00"
+  }
+}
+

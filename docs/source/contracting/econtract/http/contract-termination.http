@@ -188,6 +188,7 @@ Content-Type: application/json
     },
     "documents": [
       {
+        "confidentiality": "public",
         "id": "8bab0d7af5a64157a2c15757833cd8b3",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
@@ -195,10 +196,10 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/8bab0d7af5a64157a2c15757833cd8b3?download=d351f09369034d459a5cd87583381c73",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "confidentiality": "public"
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
+        "confidentiality": "public",
         "id": "08682b48035643a39d924df55eb915e0",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
@@ -206,10 +207,10 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/08682b48035643a39d924df55eb915e0?download=1ea9c5fa82c84b2a8206318bc86360df",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "confidentiality": "public"
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
+        "confidentiality": "public",
         "relatedItem": "d578d3114cb24296894d4d4c604c01da",
         "id": "4b37284d38a94a2b8d8ca1cc4e4ce542",
         "hash": "md5:00000000000000000000000000000000",
@@ -218,10 +219,10 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/4b37284d38a94a2b8d8ca1cc4e4ce542?download=34862599de094db7a8c9c37996ea4847",
         "documentOf": "change",
         "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "confidentiality": "public"
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
+        "confidentiality": "public",
         "id": "11e86d2a11894f42aa5c653c05cfa291",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.doc",
@@ -229,10 +230,10 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/11e86d2a11894f42aa5c653c05cfa291?download=cc4cd1ee0c1d481d806feb638548e63b",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "confidentiality": "public"
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
+        "confidentiality": "public",
         "id": "c2a8719a164a4f9ab1f86536106f2498",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
@@ -240,10 +241,10 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/c2a8719a164a4f9ab1f86536106f2498?download=277f219d159f45e1a11923c8b637d463",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "confidentiality": "public"
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
+        "confidentiality": "public",
         "id": "c2a8719a164a4f9ab1f86536106f2498",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
@@ -251,8 +252,7 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/c2a8719a164a4f9ab1f86536106f2498?download=c2fbdf60afd54cf3acdc89af698f87d2",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "confidentiality": "public"
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "id": "479178eb904d41c5a40be7f83405f22d"

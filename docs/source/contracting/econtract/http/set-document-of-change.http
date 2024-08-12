@@ -16,6 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "public",
     "relatedItem": "d578d3114cb24296894d4d4c604c01da",
     "id": "4b37284d38a94a2b8d8ca1cc4e4ce542",
     "hash": "md5:00000000000000000000000000000000",
@@ -24,8 +25,7 @@ Content-Type: application/json
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/34862599de094db7a8c9c37996ea4847?Signature=cG1JU%2F1r%2B2jlQbXxJsq3HCYzzTi9mderkkqPwomMk34J6oAJ%2B7GRNC3kUgPO3zskbNjKkMkhiaJY2PmkUlOkBA%3D%3D&KeyID=a8968c46",
     "documentOf": "change",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "confidentiality": "public"
+    "dateModified": "2023-10-10T01:00:00+03:00"
   }
 }
 

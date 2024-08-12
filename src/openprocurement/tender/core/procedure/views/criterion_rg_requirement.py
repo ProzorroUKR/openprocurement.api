@@ -8,6 +8,7 @@ from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_input_data,
+    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
 )
@@ -24,9 +25,6 @@ from openprocurement.tender.core.procedure.state.criterion_rg_requirement import
     RequirementState,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data_from_resolved_model,
-)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.criterion_rg import (
     resolve_criterion,
