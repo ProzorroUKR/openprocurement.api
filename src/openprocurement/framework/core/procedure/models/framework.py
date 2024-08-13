@@ -7,6 +7,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import DK_CODES, SANDBOX_MODE
 from openprocurement.api.context import get_request
+from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.procedure.models.base import Model, RootModel
 from openprocurement.api.procedure.models.item import (
     Classification as BaseClassification,
@@ -91,7 +92,7 @@ class PatchFramework(Model):
     procuringEntity = ModelType(BaseOrganization)
     classification = ModelType(DKClassification)
     additionalClassifications = ListType(ModelType(BaseClassification))
-    documents = ListType(ModelType(PostDocument), default=[])
+    documents = ListType(ModelType(PostDocument))
     agreementID = StringType()
 
 
@@ -154,14 +155,13 @@ class PatchActiveFramework(Model):
             "complete",
             "unsuccessful",
         ],
-        default="active",
     )
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
     qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
-    documents = ListType(ModelType(PostDocument), default=[])
+    documents = ListType(ModelType(PostDocument))
     if SANDBOX_MODE:
         frameworkDetails = StringType()
 
@@ -171,13 +171,17 @@ class FrameworkConfig(Model):
     restrictedDerivatives = BooleanType()
 
     def validate_restrictedDerivatives(self, data, value):
-        framework = get_request().validated.get("data")
-        if not framework:
+        data = get_request().validated.get("data")
+        if not data:
             return
+        framework = get_framework() or data  # first one if PATCH, second if POST
+        kind = data.get("procuringEntity", {}).get("kind") or framework.get("procuringEntity", {}).get("kind")
         if framework.get("frameworkType") == DPS_TYPE:
             if value is None:
-                raise ValidationError("restrictedDerivatives is required for this framework type")
-            if framework.get("procuringEntity", {}).get("kind") == "defense":
+                if get_framework() is None:  # value is required only during POST
+                    raise ValidationError("restrictedDerivatives is required for this framework type")
+                value = framework.get("config", {}).get("restrictedDerivatives")  # get config from framework for PATCH
+            if kind == "defense":
                 if value is False:
                     raise ValidationError("restrictedDerivatives must be true for defense procuring entity")
             else:

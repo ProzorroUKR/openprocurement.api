@@ -169,7 +169,7 @@ class PostAgreement(BasePostAgreement):
 
 
 class PatchActiveAgreement(BasePatchAgreement):
-    documents = ListType(ModelType(PostDocument), default=[])
+    documents = ListType(ModelType(PostDocument))
     terminationDetails = StringType()
 
 
@@ -178,7 +178,7 @@ class PatchTerminatedAgreement(Model):
 
 
 class PatchAgreementByAdministrator(Model):
-    documents = ListType(ModelType(PostDocument), default=[])
+    documents = ListType(ModelType(PostDocument))
     procuringEntity = ModelType(ProcuringEntity)
     terminationDetails = StringType()
     status = StringType(choices=["active", "terminated"])

@@ -42,7 +42,7 @@ class PatchProcuringEntity(BaseOrganization):
     additionalIdentifiers = ListType(ModelType(Identifier))
     address = ModelType(FullAddress)
     contactPoint = ModelType(PatchContactPoint)
-    kind = StringType(choices=PROCURING_ENTITY_KINDS, default="general")
+    kind = StringType(choices=PROCURING_ENTITY_KINDS)
 
     def validate_identifier(self, data, identifier):
         pass
