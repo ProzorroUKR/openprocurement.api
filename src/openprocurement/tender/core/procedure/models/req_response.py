@@ -134,16 +134,6 @@ class RequirementResponse(BaseRequirementResponse):
             validate_evidence_type(data, evidence)
 
 
-class PatchNestedRequirementResponse(RequirementResponse):
-    @serializable(serialized_name="value", serialize_when_none=True)
-    def serialize_value(self):
-        return self.convert_value()
-
-    @serializable(serialized_name="values", serialize_when_none=True)
-    def serialize_values(self):
-        return self.convert_values()
-
-
 # UTILS ---
 
 
@@ -348,17 +338,12 @@ def is_doc_id_in_container(bid: dict, container_name: str, doc_id: str):
 
 class PatchObjResponsesMixin(Model):
     requirementResponses = ListType(
-        ModelType(PatchNestedRequirementResponse, required=True),
+        ModelType(RequirementResponse, required=True),
         validators=[validate_object_id_uniq, validate_response_requirement_uniq],
     )
 
 
 class ObjResponseMixin(PatchObjResponsesMixin):
-    requirementResponses = ListType(
-        ModelType(RequirementResponse, required=True),
-        validators=[validate_object_id_uniq, validate_response_requirement_uniq],
-    )
-
     def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
         requirement_responses = requirement_responses or []
 
