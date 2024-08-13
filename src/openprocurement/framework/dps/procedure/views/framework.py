@@ -59,6 +59,7 @@ class DPSFrameworkResource(FrameworksResource):
         validators=(
             unless_administrator_or_chronograph(validate_item_owner("framework")),
             validate_input_data_from_resolved_model(),
+            validate_config_data(FrameworkConfig),
             validate_patch_data(Framework, item_name="framework"),
         ),
         permission="edit_framework",

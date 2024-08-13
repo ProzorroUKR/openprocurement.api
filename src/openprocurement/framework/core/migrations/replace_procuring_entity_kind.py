@@ -14,6 +14,7 @@ from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
 from openprocurement.api.utils import get_now
+from openprocurement.framework.dps.constants import DPS_TYPE
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -37,10 +38,11 @@ def run(env, args):
 
     log_every = 100000
     count = 0
+    framework_ids = []
 
     cursor = collection.find(
-        {},
-        {"procuringEntity": 1, "revisions": 1},
+        {"frameworkType": DPS_TYPE},
+        {"procuringEntity": 1, "revisions": 1, "frameworkType": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
@@ -53,6 +55,7 @@ def run(env, args):
                         {"$set": {"procuringEntity.kind": kind, "public_modified": get_now().timestamp()}},
                     )
                     count += 1
+                    framework_ids.append(framework["_id"])
                     if count % log_every == 0:
                         logger.info(f"Updating frameworks with replaced kind: updated {count} frameworks")
                 except OperationFailure as e:
@@ -61,6 +64,7 @@ def run(env, args):
         cursor.close()
 
     logger.info(f"Updating frameworks with replaced procuringEntity.kind finished: updated {count} frameworks")
+    logger.info(f"List of updated frameworks: {framework_ids}")
 
     logger.info(f"Successful migration: {migration_name}")
 
