@@ -1086,6 +1086,8 @@ def update_tender_rr(self):
     criteria = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"]
     requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
 
+    evidences = [{"description": "2", "id": "a" * 32, "relatedDocument": None, "title": "4", "type": "statement"}]
+
     rr_data = [
         {
             "id": "f" * 32,
@@ -1096,6 +1098,7 @@ def update_tender_rr(self):
                 "title": requirement["title"],
             },
             "value": True,
+            "evidences": evidences,
         }
     ]
 
@@ -1116,6 +1119,7 @@ def update_tender_rr(self):
 
     # PATCH with changes to ids
     del rr_data[0]["value"]
+    del rr_data[0]["evidences"]
     rr_data[0]["values"] = [True]
     rr_data[0]["description"] = "changed description"
     response = self.app.patch_json(
@@ -1132,6 +1136,7 @@ def update_tender_rr(self):
     self.assertEqual(rr["description"], "changed description")
     self.assertEqual(rr["values"], [True])
     self.assertNotIn("value", rr)
+    self.assertNotIn("evidences", rr)
 
 
 def update_tender_rr_evidence_id(self):
