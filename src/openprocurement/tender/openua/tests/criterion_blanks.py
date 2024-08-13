@@ -1804,12 +1804,16 @@ def tech_feature_criterion(self):
         ],
     )
 
-    items[1]["profile"] = "2" * 32
+    items[1]["category"] = None
+    items[1]["profile"] = None
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
         {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    self.assertNotIn("category", response.json["data"]["items"][1])
+    self.assertNotIn("profile", response.json["data"]["items"][1])
     criterion_req = response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
     self.assertEqual(criterion_req["status"], "cancelled")
