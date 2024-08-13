@@ -42,7 +42,7 @@ def run(env, args):
 
     cursor = collection.find(
         {"frameworkType": DPS_TYPE},
-        {"procuringEntity": 1, "revisions": 1, "frameworkType": 1},
+        {"procuringEntity": 1, "revisions": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
