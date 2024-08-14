@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.pricequotation.tests.base import test_tender_pq_organization
 
@@ -364,9 +366,22 @@ def patch_tender_award(self):
 
 def move_award_contract_to_contracting(self):
     tender = self.mongodb.tenders.get(self.tender_id)
+
     criterion = tender["criteria"][0]
     criterion["relatesTo"] = "item"
     criterion["relatedItem"] = tender["items"][0]["id"]
+
+    requirement_group = criterion["requirementGroups"][0]
+
+    requirement = requirement_group["requirements"][0]
+    self.assertEqual(requirement["status"], "active")
+
+    # Cancelled requirement with the same id
+    # that should be ignored on attributes generation
+    cancelled_requirement = deepcopy(requirement)
+    cancelled_requirement["status"] = "cancelled"
+    requirement_group["requirements"].append(cancelled_requirement)
+
     self.mongodb.tenders.save(tender)
 
     award_id = self.award_ids[-1]
@@ -429,6 +444,7 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(contract_fields, set(response.json["data"].keys()))
     item = response.json["data"]["items"][0]
     self.assertIn("attributes", item)
+    self.assertEqual(len(item["attributes"]), 1)
     self.assertEqual(item["description"], "Комп’ютерне обладнання для біда")
     self.assertEqual(item["quantity"], 10)
     self.assertEqual(item["unit"]["value"]["amount"], 12)

@@ -176,6 +176,9 @@ def set_attributes_to_contract_items(tender, bid, contract):
                 if req["id"] not in req_responses:
                     continue
 
+                if req.get("status", "active") != "active":
+                    continue
+
                 item_attr = {
                     "name": req["title"],
                     "values": req_responses[req["id"]],
