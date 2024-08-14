@@ -754,11 +754,28 @@ def create_framework_config_restricted(self):
         )
 
         framework = response.json["data"]
-        framework_owner = framework["owner"]
+        framework_token = response.json["access"]["token"]
 
         self.assertNotIn("config", framework)
         self.assertTrue(response.json["config"]["restrictedDerivatives"])
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
+
+        # patch kind for restrictedDerivatives true
+        response = self.app.patch_json(
+            f"/frameworks/{framework['id']}?acc_token={framework_token}",
+            {"data": {"procuringEntity": {"kind": "general"}}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "procuringEntity.kind",
+                    "description": "procuring entity kind should be defense for restrictedDerivatives true config",
+                }
+            ],
+        )
 
 
 def patch_framework_draft(self):

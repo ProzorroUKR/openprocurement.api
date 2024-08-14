@@ -7,7 +7,6 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import DK_CODES, SANDBOX_MODE
 from openprocurement.api.context import get_request
-from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.procedure.models.base import Model, RootModel
 from openprocurement.api.procedure.models.item import (
     Classification as BaseClassification,
@@ -171,17 +170,13 @@ class FrameworkConfig(Model):
     restrictedDerivatives = BooleanType()
 
     def validate_restrictedDerivatives(self, data, value):
-        data = get_request().validated.get("data")
-        if not data:
+        framework = get_request().validated.get("data")
+        if not framework:
             return
-        framework = get_framework() or data  # first one if PATCH, second if POST
-        kind = data.get("procuringEntity", {}).get("kind") or framework.get("procuringEntity", {}).get("kind")
         if framework.get("frameworkType") == DPS_TYPE:
             if value is None:
-                if get_framework() is None:  # value is required only during POST
-                    raise ValidationError("restrictedDerivatives is required for this framework type")
-                value = framework.get("config", {}).get("restrictedDerivatives")  # get config from framework for PATCH
-            if kind == "defense":
+                raise ValidationError("restrictedDerivatives is required for this framework type")
+            if framework.get("procuringEntity", {}).get("kind") == "defense":
                 if value is False:
                     raise ValidationError("restrictedDerivatives must be true for defense procuring entity")
             else:
