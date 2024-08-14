@@ -86,6 +86,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
     def on_patch(self, before, after):
         self.validate_on_patch(before, after)
         self.validate_framework_patch_status(after)
+        self.validate_procuring_entity_kind(before, after)
         super().on_patch(before, after)
 
     def after_patch(self, data):
@@ -227,3 +228,21 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         }
 
         data["qualificationPeriod"]["startDate"] = enquiry_period_start_date.isoformat()
+
+    def validate_procuring_entity_kind(self, before, after):
+        if kind := after.get("procuringEntity", {}).get("kind"):
+            restricted_config = before.get("config", {}).get("restrictedDerivatives")
+            if kind == "defense" and restricted_config is False:
+                raise_operation_error(
+                    get_request(),
+                    "procuring entity kind should be non-defense for restrictedDerivatives false config",
+                    name="procuringEntity.kind",
+                    status=422,
+                )
+            elif kind != "defense" and restricted_config is True:
+                raise_operation_error(
+                    get_request(),
+                    "procuring entity kind should be defense for restrictedDerivatives true config",
+                    name="procuringEntity.kind",
+                    status=422,
+                )
