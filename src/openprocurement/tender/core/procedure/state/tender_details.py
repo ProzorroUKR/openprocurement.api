@@ -39,6 +39,7 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_IDENTIFIER_MESSAGE,
     AGREEMENT_NOT_FOUND_MESSAGE,
     AGREEMENT_STATUS_MESSAGE,
+    CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
     LIMITED_PROCUREMENT_METHOD_TYPES,
     PROCUREMENT_METHOD_LIMITED,
@@ -749,9 +750,11 @@ class TenderDetailsMixing(TenderConfigMixin):
                     self.cancel_all_technical_criteria(after, k)
 
     def cancel_all_technical_criteria(self, tender: dict, item_id: str) -> None:
+        criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
+
         for criterion in tender.get("criteria", ""):
             if (
-                criterion.get("classification", {}).get("id") == CRITERION_TECHNICAL_FEATURES
+                criterion.get("classification", {}).get("id") in criteria_ids
                 and criterion.get("relatedItem") == item_id
             ):
                 for rg in criterion.get("requirementGroups", ""):
