@@ -1,7 +1,10 @@
 from schematics.exceptions import ValidationError
 
+from openprocurement.api.constants import BID_PROPOSAL_DOC_REQUIRED_FROM
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import error_handler
+from openprocurement.tender.core.procedure.context import get_bid
+from openprocurement.tender.core.procedure.utils import tender_created_after
 
 
 def has_unanswered_questions(tender, filter_cancelled_lots=True):
@@ -66,3 +69,9 @@ def awarding_is_unsuccessful(awards):
     return (awarding_order_enabled and awards and awards[-1]["status"] == "unsuccessful") or (
         awarding_order_enabled is False and not awards_statuses.intersection({"active", "pending"})
     )
+
+
+def invalidate_pending_bid():
+    bid = get_bid()
+    if tender_created_after(BID_PROPOSAL_DOC_REQUIRED_FROM) and bid.get("status") == "pending":
+        bid["status"] = "invalid"

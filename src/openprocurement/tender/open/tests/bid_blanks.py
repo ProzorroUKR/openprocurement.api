@@ -2761,6 +2761,65 @@ def bid_invalidation_after_requirement_put(self):
     self.assertEqual(response.json["data"]["status"], "invalid")
 
 
+def bid_invalidation_after_req_response_patch(self):
+    next_status = "pending"
+    response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+    self.assertEqual(response.content_type, "application/json")
+    criteria = response.json["data"]
+
+    rrs = []
+    for criterion in criteria:
+        for req in criterion["requirementGroups"][0]["requirements"]:
+            if criterion["source"] == "tenderer":
+                rrs.append(
+                    {
+                        "title": "Requirement response",
+                        "description": "some description",
+                        "requirement": {
+                            "id": req["id"],
+                            "title": req["title"],
+                        },
+                        "value": True,
+                    },
+                )
+    rrs = rrs[1:]
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": rrs},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    rr_id = response.json["data"][0]["id"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {"status": next_status}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], next_status)
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}".format(
+            self.tender_id, self.bid_id, rr_id, self.bid_token
+        ),
+        {
+            "data": {
+                "description": "some description 1",
+            }
+        },
+    )
+
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "invalid")
+
+
 def doc_date_modified(self):
     self.app.authorization = ("Basic", ("broker", ""))
     document = {

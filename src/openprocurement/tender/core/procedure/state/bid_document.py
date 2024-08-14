@@ -3,6 +3,7 @@ from copy import deepcopy
 from openprocurement.api.constants import BID_PROPOSAL_DOC_REQUIRED_FROM
 from openprocurement.tender.core.procedure.context import get_bid
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
+from openprocurement.tender.core.procedure.state.utils import invalidate_pending_bid
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.validation import validate_doc_type_quantity
 
@@ -26,9 +27,4 @@ class BidDocumentState(BaseDocumentState):
 
     def document_always(self, data):
         super().document_always(data)
-        self.invalidate_pending_bid()
-
-    def invalidate_pending_bid(self):
-        bid = get_bid()
-        if tender_created_after(BID_PROPOSAL_DOC_REQUIRED_FROM) and bid.get("status") == "pending":
-            bid["status"] = "invalid"
+        invalidate_pending_bid()
