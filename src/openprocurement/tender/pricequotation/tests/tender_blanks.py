@@ -439,17 +439,6 @@ def create_tender_invalid(self):
     )
 
     data = deepcopy(self.initial_data)
-    data['milestones'] = test_tender_pq_milestones
-    response = self.app.post_json(request_path, {"data": data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "milestones", "description": ['Forbidden to add milestone with type financing']}],
-    )
-
-    data = deepcopy(self.initial_data)
     data["procuringEntity"]['kind'] = 'central'
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.json["status"], "error")
@@ -1571,19 +1560,6 @@ def patch_tender(self):
     owner_token = response.json["access"]["token"]
     dateModified = tender.pop("dateModified")
 
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"milestones": test_tender_pq_milestones}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "milestones", "description": ['Forbidden to add milestone with type financing']}],
-    )
-
     pq_entity = deepcopy(tender["procuringEntity"])
     pq_entity["kind"] = "defense"
     response = self.app.patch_json(
@@ -2263,15 +2239,8 @@ def switch_draft_publishing_to_tendering_manually(self):
         )
 
 
-def tender_milestones(self):
+def tender_delivery_milestones(self):
     data = deepcopy(self.initial_data)
-    # add financing milesstones
-    data["milestones"] = test_tender_pq_milestones
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "milestones", "description": ['Forbidden to add milestone with type financing']}],
-    )
     data["milestones"] = [
         {
             "id": "c" * 32,
@@ -2366,6 +2335,72 @@ def tender_milestones(self):
                 "description": [
                     {
                         "code": [f"Value must be one of {MILESTONE_CODES['delivery']}"],
+                    }
+                ],
+            }
+        ],
+    )
+
+
+def tender_finance_milestones(self):
+    data = deepcopy(self.initial_data)
+
+    # test creation
+    data["milestones"] = test_tender_pq_milestones
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    self.assertIn("milestones", tender)
+    self.assertEqual(len(tender["milestones"]), 2)
+    for milestone in tender["milestones"]:
+        self.assertEqual(
+            set(milestone.keys()), {"id", "code", "duration", "percentage", "type", "sequenceNumber", "title"}
+        )
+    self.assertEqual(data["milestones"][0]["id"], tender["milestones"][0]["id"])
+    token = response.json["access"]["token"]
+
+    patch_milestones = deepcopy(tender["milestones"])
+    patch_milestones[0]["title"] = "submissionDateOfApplications"
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"milestones": patch_milestones}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["milestones"][0]["title"], "submissionDateOfApplications")
+
+    patch_milestones[0]["percentage"] = 70
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"milestones": patch_milestones}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": "Sum of the financing milestone percentages 124.45 is not equal 100.",
+            }
+        ],
+    )
+
+    patch_milestones[0]["percentage"] = 45.55
+    patch_milestones[0]["sequenceNumber"] = 3
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"milestones": patch_milestones}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "sequenceNumber": "Field should contain incrementing sequence numbers starting from 1 for tender/lot separately"
                     }
                 ],
             }

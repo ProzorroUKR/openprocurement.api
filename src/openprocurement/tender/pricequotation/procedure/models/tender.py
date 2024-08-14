@@ -13,7 +13,6 @@ from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.procedure.models.criterion import Criterion
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
-    TenderMilestoneTypes,
     validate_milestones_lot,
 )
 from openprocurement.tender.core.procedure.models.period import (
@@ -80,14 +79,7 @@ class PostTender(PostBaseTender):
     )
 
     def validate_milestones(self, data, value):
-        if value:
-            for milestone in value:
-                if milestone.type == TenderMilestoneTypes.FINANCING.value:
-                    raise ValidationError(
-                        f"Forbidden to add milestone with type {TenderMilestoneTypes.FINANCING.value}"
-                    )
-
-            validate_milestones_lot(data, value)
+        validate_milestones_lot(data, value)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -195,14 +187,7 @@ class Tender(BaseTender):
     next_check = BaseType()
 
     def validate_milestones(self, data, value):
-        if value:
-            for milestone in value:
-                if milestone.type == TenderMilestoneTypes.FINANCING.value:
-                    raise ValidationError(
-                        f"Forbidden to add milestone with type {TenderMilestoneTypes.FINANCING.value}"
-                    )
-
-            validate_milestones_lot(data, value)
+        validate_milestones_lot(data, value)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
