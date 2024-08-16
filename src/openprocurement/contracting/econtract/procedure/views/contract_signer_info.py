@@ -54,7 +54,6 @@ class BaseSignerInfoResource(ContractBaseResource):
     name="EContract buyer signerInfo",
     path="/contracts/{contract_id}/buyer/signer_info",
     description="Econtracts buyer signer info operations",
-    contractType="econtract",
     accept="application/json",
 )
 class EContractBuyerSignerInfoResource(BaseSignerInfoResource):
@@ -77,7 +76,6 @@ class EContractBuyerSignerInfoResource(BaseSignerInfoResource):
     name="EContract suppliers signerInfo",
     path="/contracts/{contract_id}/suppliers/signer_info",
     description="Econtracts suppliers signer info operations",
-    contractType="econtract",
     accept="application/json",
 )
 class EContractSuppliersSignerInfoResource(BaseSignerInfoResource):

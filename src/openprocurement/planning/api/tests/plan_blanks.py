@@ -169,7 +169,6 @@ def listing(self):
         response = self.app.post_json("/plans", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
-        offset = datetime.fromisoformat(response.json["data"]["dateModified"]).timestamp() - 1e-6
         plans.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in plans])
@@ -185,9 +184,15 @@ def listing(self):
     self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in plans})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans]))
 
-    response = self.app.get("/plans?offset={}".format(offset))
+    response = self.app.get("/plans?limit=1")
     self.assertEqual(response.status, "200 OK")
+    self.assertNotIn("prev_page", response.json)
     self.assertEqual(len(response.json["data"]), 1)
+    offset = response.json["next_page"]["offset"]
+
+    response = self.app.get(f"/plans?offset={offset}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 2)
 
     response = self.app.get("/plans?limit=2")
     self.assertEqual(response.status, "200 OK")

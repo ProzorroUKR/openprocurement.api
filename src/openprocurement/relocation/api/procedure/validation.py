@@ -182,7 +182,7 @@ def validate_plan(request, **kwargs):
 
 def validate_contract(request, **kwargs):
     contract = request.validated["contract"]
-    if contract["status"] != "active":
+    if contract["status"] not in ("pending", "active"):
         request.errors.add(
             "body", "data", "Can't update credentials in current ({}) contract status".format(contract["status"])
         )

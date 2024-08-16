@@ -129,7 +129,3 @@ class BaseContract(Model):
             if self.amountPaid.valueAddedTaxIncluded is None:
                 self.amountPaid.valueAddedTaxIncluded = self.value.valueAddedTaxIncluded
             return self.amountPaid
-
-
-class ContractConfig(Model):
-    restricted = BooleanType()

@@ -41,7 +41,6 @@ def listing(self):
     data = deepcopy(self.initial_data)
     data["agreements"] = [{"id": uuid4().hex}]
     for i in range(3):
-        offset = get_now().timestamp()
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -61,9 +60,15 @@ def listing(self):
     self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in tenders})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
-    response = self.app.get("/tenders?offset={}".format(offset))
+    response = self.app.get("/tenders?limit=1")
     self.assertEqual(response.status, "200 OK")
+    self.assertNotIn("prev_page", response.json)
     self.assertEqual(len(response.json["data"]), 1)
+    offset = response.json["next_page"]["offset"]
+
+    response = self.app.get(f"/tenders?offset={offset}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 2)
 
     response = self.app.get("/tenders?limit=2")
     self.assertEqual(response.status, "200 OK")

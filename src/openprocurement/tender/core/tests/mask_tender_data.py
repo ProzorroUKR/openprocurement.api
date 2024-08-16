@@ -1,6 +1,5 @@
 import json
 from copy import deepcopy
-from hashlib import sha224
 from unittest.mock import MagicMock, patch
 
 from openprocurement.api.context import set_now
@@ -14,52 +13,18 @@ from openprocurement.api.tests.base import (  # pylint: disable=unused-import
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 
 
-@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
-@patch(
-    "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
-    [
-        sha224(b"00000000").hexdigest(),
-    ],
-)
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_function():
     with open("src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         data = json.load(f)
     initial_data = deepcopy(data)
 
     request = MagicMock()
+    data["is_masked"] = True
     mask_object_data_deprecated(request, data)
 
     assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
     assert data["_id"] == initial_data["_id"]
-
-
-@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
-@patch(
-    "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
-    [
-        sha224(b"00000000").hexdigest(),
-    ],
-)
-def test_mask_tender_by_identifier(app):
-    set_now()
-    with open("src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
-        initial_data = json.load(f)
-        initial_data["config"] = test_tender_below_config
-
-    app.app.registry.mongodb.tenders.save(initial_data, insert=True)
-
-    id = initial_data['_id']
-
-    response = app.get(f"/tenders/{id}")
-    assert response.status_code == 200
-    data = response.json["data"]
-    assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
-
-    # feed tender is masked
-    response = app.get("/tenders?mode=_all_&opt_fields=contracts,lots")
-    assert response.status_code == 200
-    data = response.json["data"][0]
-    assert data["contracts"][0]["suppliers"][0]["name"] == "00000000000000"
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
@@ -131,8 +96,6 @@ def test_mask_tender_by_is_masked(app):
     assert "is_masked" not in app.app.registry.mongodb.tenders.get(id)
 
 
-@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [])
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_tender_skipped(app):
     set_now()

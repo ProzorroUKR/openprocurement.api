@@ -1,7 +1,7 @@
 from copy import deepcopy
 from uuid import uuid4
 
-from openprocurement.contracting.api.tests.data import (
+from openprocurement.contracting.core.tests.data import (
     test_contract_data as base_test_contract_data,
 )
 

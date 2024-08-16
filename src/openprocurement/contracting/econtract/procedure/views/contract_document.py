@@ -32,7 +32,6 @@ from openprocurement.contracting.econtract.procedure.state.document import (
     name="EContract Documents",
     collection_path="/contracts/{contract_id}/documents",
     path="/contracts/{contract_id}/documents/{document_id}",
-    contractType="econtract",
     description="EContract related binary files (PDFs, etc.)",
 )
 class EContractDocumentResource(ContractDocumentResource):

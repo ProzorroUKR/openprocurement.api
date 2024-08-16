@@ -1,19 +1,162 @@
 {
-  "_id": "de579eadfab54a26b3be28b1232eea6a",
-  "awardID": "dcb6f78aa7f543c9af94d8c0de47faeb",
-  "contractID": "UA-2022-06-01-000002-a-1",
+  "_id": "2a564405c5a545bb94d7b165c28f591a",
+  "public_modified": 1723728715.115,
+  "awardID": "070f67807e0f40f097a166ee5a77cd15",
+  "contractID": "UA-2024-08-15-000064-a-a3",
+  "contractNumber": "2",
   "title": "[ТЕСТУВАННЯ] ",
   "title_en": "[TESTING] ",
   "title_ru": "[ТЕСТИРОВАНИЕ] ",
-  "dateSigned": "2022-06-01T13:52:55.463116+03:00",
+  "dateModified": "2024-08-15T16:31:55.105474+03:00",
+  "dateCreated": "2024-08-15T16:31:27.996591+03:00",
+  "tender_token": "c73a597fa3ce4c988e954947a803e228",
+  "tender_id": "fa7329598c394259a305d3436049ef30",
+  "owner_token": "92c1b63744554158967bdd129329e7b1",
+  "transfer_token": "28476f5512ce7d522429a589b2cce82b71e4398892a16ef0f65d19d91d453e7a19fe937e99b2ca6a8602d550550f3014b2856c16a5e48d7e867dcb4941aa0623",
+  "owner": "broker",
+  "period": {
+    "startDate": "2024-08-15T16:31:53.491852+03:00",
+    "endDate": "2024-08-15T16:58:10.291889+03:00"
+  },
+  "bid_owner": "broker",
+  "bid_token": "4ec9395dde8a4170a76aeb878f1a03b3",
   "revisions": [
     {
-      "author": "contracting",
-      "date": "2022-06-01T13:56:09.304139+03:00",
+      "author": "broker",
       "changes": [
         {
           "op": "remove",
+          "path": "/buyer"
+        },
+        {
+          "op": "remove",
+          "path": "/title_ru"
+        },
+        {
+          "op": "remove",
+          "path": "/id"
+        },
+        {
+          "op": "remove",
+          "path": "/config"
+        },
+        {
+          "op": "remove",
+          "path": "/items"
+        },
+        {
+          "op": "remove",
+          "path": "/_id"
+        },
+        {
+          "op": "remove",
+          "path": "/title_en"
+        },
+        {
+          "op": "remove",
+          "path": "/contractID"
+        },
+        {
+          "op": "remove",
+          "path": "/mode"
+        },
+        {
+          "op": "remove",
+          "path": "/owner"
+        },
+        {
+          "op": "remove",
+          "path": "/value"
+        },
+        {
+          "op": "remove",
           "path": "/tender_token"
+        },
+        {
+          "op": "remove",
+          "path": "/bid_owner"
+        },
+        {
+          "op": "remove",
+          "path": "/bid_token"
+        },
+        {
+          "op": "remove",
+          "path": "/status"
+        },
+        {
+          "op": "remove",
+          "path": "/tender_id"
+        },
+        {
+          "op": "remove",
+          "path": "/transfer_token"
+        },
+        {
+          "op": "remove",
+          "path": "/title"
+        },
+        {
+          "op": "remove",
+          "path": "/suppliers"
+        },
+        {
+          "op": "remove",
+          "path": "/owner_token"
+        },
+        {
+          "op": "remove",
+          "path": "/awardID"
+        }
+      ],
+      "rev": null,
+      "date": "2024-08-15T16:31:27.996591+03:00"
+    },
+    {
+      "author": "broker",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/owner_token",
+          "value": "54d8abae88bd4815b062563dd4c63aae"
+        },
+        {
+          "op": "replace",
+          "path": "/transfer_token",
+          "value": "3fdb6ea2ca4740c783228086d9fe0295"
+        }
+      ],
+      "rev": "2-8bb37cd2e5c64dd48a0f97109c588c37",
+      "date": "2024-08-15T16:31:52.330512+03:00"
+    },
+    {
+      "author": "broker",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/buyer/signerInfo"
+        }
+      ],
+      "rev": "3-be6e8833ffe940beb58367003ffb2aab",
+      "date": "2024-08-15T16:31:52.499276+03:00"
+    },
+    {
+      "author": "broker",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/suppliers/0/signerInfo"
+        }
+      ],
+      "rev": "4-03764158d6b04f008f6222959bde2075",
+      "date": "2024-08-15T16:31:52.823385+03:00"
+    },
+    {
+      "author": "broker",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/contractNumber"
         },
         {
           "op": "remove",
@@ -25,82 +168,89 @@
         },
         {
           "op": "remove",
-          "path": "/contractID"
+          "path": "/period"
         },
         {
           "op": "remove",
-          "path": "/items"
+          "path": "/date"
+        },
+        {
+          "op": "replace",
+          "path": "/value/valueAddedTaxIncluded",
+          "value": true
+        },
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "pending"
         },
         {
           "op": "remove",
-          "path": "/awardID"
-        },
-        {
-          "op": "remove",
-          "path": "/suppliers"
-        },
-        {
-          "op": "remove",
-          "path": "/tender_id"
-        },
-        {
-          "op": "remove",
-          "path": "/title"
-        },
-        {
-          "op": "remove",
-          "path": "/value"
-        },
-        {
-          "op": "remove",
-          "path": "/owner_token"
-        },
-        {
-          "op": "remove",
-          "path": "/title_en"
-        },
-        {
-          "op": "remove",
-          "path": "/procuringEntity"
-        },
-        {
-          "op": "remove",
-          "path": "/title_ru"
-        },
-        {
-          "op": "remove",
-          "path": "/owner"
-        },
-        {
-          "op": "remove",
-          "path": "/transfer_token"
-        },
-        {
-          "op": "remove",
-          "path": "/status"
+          "path": "/items/0/unit/value"
         }
-      ]
+      ],
+      "rev": "5-d0b0c979a770403597eb6591161b78b6",
+      "date": "2024-08-15T16:31:55.105474+03:00"
     }
   ],
-  "dateModified": "2022-06-01T13:56:09.304342+03:00",
-  "items": [
+  "status": "active",
+  "buyer": {
+    "name": "Тестовий заклад #1 м.Київ",
+    "identifier": {
+      "scheme": "UA-EDR",
+      "id": "21725150",
+      "legalName": "Тестовий заклад"
+    },
+    "address": {
+      "streetAddress": "вул. Тестова 22",
+      "locality": "м. Київ",
+      "region": "м. Київ",
+      "postalCode": "42000",
+      "countryName": "Україна"
+    },
+    "signerInfo": {
+      "name": "Test Testovich",
+      "email": "example@email.com",
+      "telephone": "+380950000000",
+      "iban": "111111111111111",
+      "position": "Генеральний директор",
+      "authorizedBy": "Статут компанії"
+    },
+    "kind": "special"
+  },
+  "suppliers": [
     {
-      "id": "2dc54675d6364e2baffbc0f8e74432ac",
-      "description": "Тестова назва предмета закупівлі",
-      "description_en": "Procurement item test name",
-      "description_ru": "Тестовое название предмета закупки",
-      "quantity": 1,
-      "deliveryDate": {
-        "startDate": "2017-09-16T19:39:39.580353+03:00",
-        "endDate": "2017-09-19T19:39:39.580353+03:00"
+      "name": "Тестове підприємство",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137255",
+        "uri": "http://factory.example.com"
       },
-      "deliveryAddress": {
-        "streetAddress": "вул. Тестова 1",
+      "address": {
+        "streetAddress": "вул. Тестова, 33",
         "locality": "м. Київ",
         "region": "м. Київ",
-        "postalCode": "79000",
+        "postalCode": "21100",
         "countryName": "Україна"
       },
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      },
+      "scale": "micro"
+    }
+  ],
+  "items": [
+    {
+      "id": "0e72e6a3db64418ab614421c39e90811",
+      "description": "Тестова назва предмета закупівлі",
+      "description_en": "Procurement item test name",
+      "quantity": 1,
+      "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
       "classification": {
         "description": "Промислова техніка",
         "scheme": "ДК021",
@@ -113,69 +263,37 @@
           "description": "Техніка конторська/офісна, інша"
         }
       ],
+      "deliveryAddress": {
+        "streetAddress": "вул. Тестова 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "79000",
+        "countryName": "Україна"
+      },
+      "deliveryDate": {
+        "startDate": "2017-07-11T16:02:36.221327+03:00",
+        "endDate": "2017-08-10T16:02:36.221351+03:00"
+      },
       "unit": {
         "name": "кг",
+        "value": {
+          "amount": 10,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
         "code": "KGM"
       }
     }
   ],
-  "tender_token": "671826dcb290507f54c8c401cade6479fbc2f2b39d265a341145c47be0db7cbd08bce2031a15c3654ae46d51ffca3cc130fa49f31242fc1cf73cab389eb32c2b",
-  "tender_id": "72ec18dd04de446a8cfcc2cfd3d6aed0",
-  "owner_token": "c9f88a3665d74d5f9065d154ec3cbc21",
-  "transfer_token": "4215a186c1f049a7ab7e78c990f0440c",
-  "owner": "broker",
-  "status": "active",
-  "suppliers": [
-    {
-      "name": "Тестове підприємство",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "13313462",
-        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
-        "uri": "https://example.com"
-      },
-      "address": {
-        "streetAddress": "вул. Тестова, 33",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "21100",
-        "countryName": "Україна"
-      },
-      "scale": "micro",
-      "contactPoint": {
-        "name": "Нейменко Нейм Неймович",
-        "email": "factory@example.com",
-        "telephone": "+380000000000"
-      }
-    }
-  ],
-  "procuringEntity": {
-    "name": "Тестовий заклад #1 м.Київ",
-    "identifier": {
-      "scheme": "UA-EDR",
-      "id": "00000000",
-      "legalName": "Тестовий заклад"
-    },
-    "address": {
-      "streetAddress": "вул. Тестова 22",
-      "locality": "м. Київ",
-      "region": "м. Київ",
-      "postalCode": "42000",
-      "countryName": "Україна"
-    },
-    "contactPoint": {
-      "name": "Тестовенко Тест Тестович",
-      "telephone": "+380424424242",
-      "url": "https://example.com"
-    },
-    "kind": "general"
-  },
   "value": {
-    "amount": 475000,
+    "amount": 500,
     "currency": "UAH",
     "valueAddedTaxIncluded": false,
-    "amountNet": 475000
+    "amountNet": 500
   },
-  "_rev": "2-0646fd1022c645acb3fbf3634ebe3b5b",
-  "dateCreated": "2022-06-01T13:56:09.304342+03:00"
+  "date": "2024-08-15T16:31:55.105474+03:00",
+  "dateSigned": "2024-08-15T16:31:55.105474+03:00",
+  "_rev": "6-7838fbba2c7546a0be1cd837d5bc452c",
+  "is_public": true,
+  "is_test": true
 }

@@ -1,0 +1,117 @@
+{
+    "awardID": "070f67807e0f40f097a166ee5a77cd15",
+    "contractID": "UA-2024-08-15-000064-a-a3",
+    "contractNumber": "2",
+    "title": "[ТЕСТУВАННЯ] ",
+    "title_en": "[TESTING] ",
+    "title_ru": "[ТЕСТИРОВАНИЕ] ",
+    "dateModified": "2024-08-15T17:11:49.856837+03:00",
+    "dateCreated": "2024-08-15T17:11:49.850607+03:00",
+    "tender_id": "fa7329598c394259a305d3436049ef30",
+    "owner": "broker",
+    "period": {
+        "startDate": "2024-08-15T16:31:53.491852+03:00",
+        "endDate": "2024-08-15T16:58:10.291889+03:00"
+    },
+    "status": "active",
+    "buyer": {
+        "name": "Тестовий заклад #1 м.Київ",
+        "identifier": {
+            "scheme": "UA-EDR",
+            "id": "21725150",
+            "legalName": "Тестовий заклад"
+        },
+        "address": {
+            "streetAddress": "вул. Тестова 22",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "42000",
+            "countryName": "Україна"
+        },
+        "signerInfo": {
+            "name": "Test Testovich",
+            "email": "example@email.com",
+            "telephone": "+380950000000",
+            "iban": "111111111111111",
+            "position": "Генеральний директор",
+            "authorizedBy": "Статут компанії"
+        },
+        "kind": "special"
+    },
+    "suppliers": [
+        {
+            "name": "Приховано",
+            "identifier": {
+                "scheme": "UA-EDR",
+                "id": "Приховано",
+                "uri": "http://factory.example.com"
+            },
+            "address": {
+                "streetAddress": "Приховано",
+                "locality": "Приховано",
+                "region": "Приховано",
+                "postalCode": "Приховано",
+                "countryName": "Приховано"
+            },
+            "signerInfo": {
+                "name": "Приховано",
+                "email": "Приховано",
+                "telephone": "Приховано",
+                "iban": "Приховано",
+                "position": "Приховано",
+                "authorizedBy": "Приховано"
+            },
+            "scale": "Приховано"
+        }
+    ],
+    "items": [
+        {
+            "id": "0e72e6a3db64418ab614421c39e90811",
+            "description": "Тестова назва предмета закупівлі",
+            "description_en": "Procurement item test name",
+            "quantity": 1,
+            "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
+            "classification": {
+                "description": "Промислова техніка",
+                "scheme": "ДК021",
+                "id": "42000000-6"
+            },
+            "additionalClassifications": [
+                {
+                    "scheme": "ДКПП",
+                    "id": "28.23.23",
+                    "description": "Техніка конторська/офісна, інша"
+                }
+            ],
+            "deliveryAddress": {
+                "streetAddress": "Приховано",
+                "locality": "Приховано",
+                "region": "Приховано",
+                "postalCode": "Приховано",
+                "countryName": "Приховано"
+            },
+            "deliveryDate": {
+                "startDate": "1970-01-01T03:00:00+03:00",
+                "endDate": "1970-01-01T03:00:00+03:00"
+            },
+            "unit": {
+                "name": "кг",
+                "value": {
+                    "amount": 10,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": false
+                },
+                "code": "KGM"
+            }
+        }
+    ],
+    "value": {
+        "amount": 500,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": false,
+        "amountNet": 500
+    },
+    "date": "2024-08-15T16:31:55.105474+03:00",
+    "dateSigned": "2024-08-15T16:31:55.105474+03:00",
+    "id": "2a564405c5a545bb94d7b165c28f591a"
+}

@@ -10,7 +10,7 @@ from openprocurement.api.procedure.utils import (
 from openprocurement.api.utils import context_unpack, get_now, handle_store_exceptions
 from openprocurement.tender.core.procedure.utils import set_mode_test_titles
 
-LOGGER = getLogger("openprocurement.contracting.api.procedure")
+LOGGER = getLogger("openprocurement.contracting.core.procedure")
 
 
 def save_contract(request, insert=False, contract=None, contract_src=None):

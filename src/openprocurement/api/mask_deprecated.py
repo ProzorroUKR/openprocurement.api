@@ -1,10 +1,4 @@
-from hashlib import sha224
-
-from openprocurement.api.constants import (
-    MASK_IDENTIFIER_IDS,
-    MASK_OBJECT_DATA,
-    MASK_OBJECT_DATA_SINGLE,
-)
+from openprocurement.api.constants import MASK_OBJECT_DATA_SINGLE
 
 EXCLUDED_FIELDS = {
     "mode",
@@ -97,10 +91,7 @@ def mask_object_data_deprecated(request, data):
         # Do not show is_masked field if it is False or masking is disabled
         data.pop("is_masked", None)
 
-    identifier_id = data.get("procuringEntity", {}).get("identifier", {}).get("id")
-    if not (
-        MASK_OBJECT_DATA and identifier_id and sha224(identifier_id.encode()).hexdigest() in MASK_IDENTIFIER_IDS
-    ) and not (MASK_OBJECT_DATA_SINGLE and is_masked is True):
+    if not (MASK_OBJECT_DATA_SINGLE and is_masked is True):
         # Masking is disabled or object is not masked
         return
 

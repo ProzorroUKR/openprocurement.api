@@ -61,17 +61,22 @@ def listing(self):
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in qualifications])
     )
 
+    response = self.app.get("/qualifications?limit=1")
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotIn("prev_page", response.json)
+    self.assertEqual(len(response.json["data"]), 1)
+    offset = response.json["next_page"]["offset"]
+
+    response = self.app.get(f"/qualifications?offset={offset}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 2)
+
     response = self.app.get("/qualifications?limit=2")
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("prev_page", response.json)
     self.assertEqual(len(response.json["data"]), 2)
-    next_page = response.json["next_page"]
 
-    response = self.app.get("/qualifications?offset={}".format(next_page["offset"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 1)
-
-    response = self.app.get(next_page["path"].replace(ROUTE_PREFIX, ""))
+    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
     self.assertEqual(response.status, "200 OK")
     self.assertIn("descending=1", response.json["prev_page"]["uri"])
     self.assertEqual(len(response.json["data"]), 1)

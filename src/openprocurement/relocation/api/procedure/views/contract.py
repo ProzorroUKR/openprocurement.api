@@ -44,8 +44,8 @@ class ContractResource(ContractBaseResource):
     def post(self):
         contract = self.request.validated["contract"]
         data = self.request.validated["ownership_data"]
-
-        location = get_transfer_location(self.request, "Contract", contract_id=contract["_id"])
+        route_name = "EContract"
+        location = get_transfer_location(self.request, route_name, contract_id=contract["_id"])
         transfer = extract_transfer_doc(self.request, transfer_id=data["id"])
 
         if transfer.get("usedFor") and transfer.get("usedFor") != location:

@@ -69,7 +69,6 @@ entry_points = {
         "framework.cfaua = openprocurement.framework.cfaua.includeme:includeme",
     ],
     "openprocurement.contracting.core.plugins": [
-        "contracting.api = openprocurement.contracting.api.includeme:includeme",
         "contracting.econtract = openprocurement.contracting.econtract.includeme:includeme",
     ],
     "openprocurement.api.migrations": [

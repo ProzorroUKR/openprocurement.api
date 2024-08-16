@@ -1,16 +1,8 @@
 import os
 from copy import deepcopy
 
-from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.contracting.api.tests.data import (
-    test_contract_data,
-    test_contract_data_two_items,
-)
+from openprocurement.contracting.core.tests.data import test_contract_data
 from openprocurement.tender.core.tests.base import BaseWebTest as BaseCoreWebTest
-
-
-class BaseApiWebTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
 
 
 class BaseContractTest(BaseCoreWebTest):
@@ -45,7 +37,3 @@ class BaseContractContentWebTest(BaseContractWebTest):
             {"data": {}},
         )
         self.contract_token = response.json["access"]["token"]
-
-
-class BaseContractWebTestTwoItems(BaseContractWebTest):
-    initial_data = test_contract_data_two_items

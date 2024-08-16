@@ -6,10 +6,10 @@ from uuid import uuid4
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.api.tests.base import test_contract_data
+from openprocurement.contracting.econtract.tests.base import test_contract_data
+from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.framework.cfaua.tests.base import test_agreement_data
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -148,7 +148,6 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         data = deepcopy(test_contract_data)
         data.update(
             {
-                "dateSigned": get_now().isoformat(),
                 "id": uuid4().hex,
                 "tender_id": uuid4().hex,
                 "tender_token": sha512(test_tender_token.encode()).hexdigest(),
@@ -156,12 +155,8 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             }
         )
         tender_token = data['tender_token']
-        self.app.authorization = ('Basic', ('contracting', ''))
 
-        response = self.app.post_json('/contracts', {'data': data})
-        self.assertEqual(response.status, '201 Created')
-        contract = response.json['data']
-        self.assertEqual('brokerx', contract['owner'])
+        contract = create_contract(self, data)
         contract_id = contract['id']
 
         self.app.authorization = ('Basic', ('brokerx', ''))

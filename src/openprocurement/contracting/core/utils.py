@@ -3,11 +3,10 @@ from logging import getLogger
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.utils import error_handler
-from openprocurement.api.validation import validate_json_data
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
 from openprocurement.tender.core.procedure.utils import extract_path
 
-LOGGER = getLogger("openprocurement.contracting.api")
+LOGGER = getLogger("openprocurement.contracting.core")
 
 
 def extract_contract_id(request):
@@ -37,28 +36,3 @@ def extract_contract_doc(request):
         mask_object_data(request, doc, CONTRACT_MASK_MAPPING)
 
         return doc
-
-
-class ContractTypePredicate:
-    """Route predicate factory for contractType route predicate."""
-
-    def __init__(self, val, config):
-        self.val = val
-
-    def text(self):
-        return "contractType = {}".format(self.val)
-
-    phash = text
-
-    def __call__(self, context, request):
-        if request.contract_doc is not None:
-            contract_type = "econtract" if request.contract_doc.get("buyer") else "general"
-            return contract_type == self.val
-
-        # that's how we can have a "POST /tender" view for every tender type
-        if request.method == "POST" and request.path.endswith("/tenders"):
-            data = validate_json_data(request)
-            contract_type = "econtract" if data.get("buyer") else "general"
-            return contract_type == self.val
-
-        return False
