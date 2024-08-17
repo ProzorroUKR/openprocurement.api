@@ -170,6 +170,9 @@ There are two ways for cancelling contract:
 * PATCH award status from `active` to `cancelled`
 * PATCH contract status from "pending" to "cancelled" (this can only work if this contract is not the last active contract)
 
+
+.. _econtracting_tutorial_cancelling_award:
+
 Cancelling from award
 ~~~~~~~~~~~~~~~~~~~~~
 
