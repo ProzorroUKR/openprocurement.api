@@ -9,17 +9,25 @@ Content-Type: application/json
   "data": {
     "awardID": "8481d7eb01694c25b18658036c236c5d",
     "contractID": "UA-2016-03-18-000001-1",
-    "contractNumber": "contract #13111",
-    "period": {
-      "startDate": "2016-03-18T18:47:47.155143+02:00",
-      "endDate": "2017-03-18T18:47:47.155143+02:00"
-    },
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 237.0
-    },
+    "suppliers": [
+      {
+        "name": "Приховано",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "Приховано",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "Приховано",
+          "locality": "Приховано",
+          "region": "Приховано",
+          "postalCode": "Приховано",
+          "countryName": "Приховано"
+        }
+      }
+    ],
+    "owner": "broker",
+    "tender_id": "2b5eb9efd396490d8e3e662b7153c1ff",
     "items": [
       {
         "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
@@ -37,15 +45,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 20.8,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
         "deliveryAddress": {
           "streetAddress": "Приховано",
           "locality": "Приховано",
@@ -56,36 +55,19 @@ Content-Type: application/json
         "deliveryDate": {
           "startDate": "1970-01-01T03:00:00+03:00",
           "endDate": "1970-01-01T03:00:00+03:00"
+        },
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 20.8,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
         }
       }
     ],
-    "suppliers": [
-      {
-        "name": "Приховано",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "Приховано",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "Приховано",
-          "locality": "Приховано",
-          "region": "Приховано",
-          "postalCode": "Приховано",
-          "countryName": "Приховано"
-        },
-        "contactPoint": {
-          "name": "Приховано",
-          "email": "Приховано",
-          "telephone": "Приховано"
-        }
-      }
-    ],
-    "owner": "broker",
-    "tender_id": "2b5eb9efd396490d8e3e662b7153c1ff",
-    "status": "active",
-    "dateSigned": "2023-10-10T01:00:00+03:00",
-    "procuringEntity": {
+    "buyer": {
       "name": "Державне управління справами",
       "identifier": {
         "scheme": "UA-EDR",
@@ -98,12 +80,15 @@ Content-Type: application/json
         "region": "м. Київ",
         "postalCode": "01220",
         "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
       }
     },
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 237.0
+    },
+    "status": "pending",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "0e87ac7294bd450ea087665097d4b6d1"
