@@ -7,11 +7,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "lotValues": [
       {
-        "subcontractingDetails": "ДКП «Орфей»",
+        "status": "pending",
         "value": {
           "amount": 500
         },
-        "relatedLot": "f56fc2b8fdd44587baa8726a382e3e41"
+        "relatedLot": "f56fc2b8fdd44587baa8726a382e3e41",
+        "date": "2023-10-10T01:01:00+03:00",
+        "subcontractingDetails": "ДКП «Орфей»"
       }
     ],
     "status": "pending"

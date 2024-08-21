@@ -1213,7 +1213,7 @@ def patch_tender_bid(self):
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {
             "data": {
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+                "lotValues": [{**lot, "value": {"amount": 500}, "relatedLot": lot_id}],
                 "tenderers": [test_tender_cfaselectionua_organization],
             }
         },
@@ -1225,7 +1225,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"lotValues": [{"value": {"amount": 400}, "relatedLot": lot_id}]}},
+        {"data": {"lotValues": [{**lot, "value": {"amount": 400}, "relatedLot": lot_id}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

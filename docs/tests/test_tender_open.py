@@ -428,6 +428,8 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
         doc2_id = self.add_proposal_doc(self.tender_id, bid2_id, bid2_token).json["data"]["id"]
         self.set_responses(tender_id, response.json, "pending")
 
+        lot_values = response.json["data"]["lotValues"]
+
         #### Bids invalidation
         with open(TARGET_DIR + 'tender-invalid-all-bids.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -443,14 +445,20 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
         #### Bids confirmation
         self.tick(timedelta(minutes=1))
         self.add_proposal_doc(self.tender_id, bid1_id, bid1_token, doc_id=doc_id)
+
+        lot_values[0].update(
+            {
+                "subcontractingDetails": "ДКП «Орфей»",
+                "value": {"amount": 500},
+                "relatedLot": lot_id1,
+            }
+        )
         with open(TARGET_DIR + 'bid-lot1-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token),
                 {
                     'data': {
-                        'lotValues': [
-                            {"subcontractingDetails": "ДКП «Орфей»", "value": {"amount": 500}, 'relatedLot': lot_id1}
-                        ],
+                        'lotValues': [lot_values[0]],
                         'status': 'pending',
                     }
                 },
@@ -459,17 +467,14 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
 
         self.tick(timedelta(minutes=1))
         self.add_proposal_doc(self.tender_id, bid2_id, bid2_token, doc_id=doc2_id)
+        lot_values[0].update({"value": {"amount": 500}, 'relatedLot': lot_id1})
+        lot_values[1].update({"relatedLot": lot_id2})
         with open(TARGET_DIR + 'bid-lot2-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f'/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}',
                 {
                     'data': {
-                        'lotValues': [
-                            {"value": {"amount": 500}, 'relatedLot': lot_id1},
-                            {
-                                'relatedLot': lot_id2,
-                            },
-                        ],
+                        'lotValues': lot_values,
                         'status': 'pending',
                     }
                 },

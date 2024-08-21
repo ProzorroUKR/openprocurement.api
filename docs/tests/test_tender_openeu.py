@@ -892,6 +892,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, '201 Created')
             bid2_id = response.json['data']['id']
             bid2_token = response.json['access']['token']
+
+        lot_values = response.json["data"]["lotValues"]
         doc2_id = self.add_proposal_doc(self.tender_id, bid2_id, bid2_token).json["data"]["id"]
         self.set_responses(tender_id, response.json, "pending")
 
@@ -908,13 +910,27 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         self.tick(timedelta(minutes=1))
         self.add_proposal_doc(self.tender_id, bid1_id, bid1_token, doc_id=doc1_id)
+
+        lot_values[0].update(
+            {
+                "subcontractingDetails": "ДКП «Орфей»",
+                "value": {"amount": 500},
+                "relatedLot": lot_id1,
+            }
+        )
+
         with open(TARGET_DIR_MULTI + 'bid-lot1-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token),
                 {
                     'data': {
                         'lotValues': [
-                            {"subcontractingDetails": "ДКП «Орфей»", "value": {"amount": 500}, 'relatedLot': lot_id1}
+                            {
+                                **lot_values[0],
+                                "subcontractingDetails": "ДКП «Орфей»",
+                                "value": {"amount": 500},
+                                "relatedLot": lot_id1,
+                            }
                         ],
                         'status': 'pending',
                     }
@@ -922,11 +938,28 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
+        lot_values[0].update(
+            {
+                "value": {"amount": 500},
+                "relatedLot": lot_id1,
+            }
+        )
         self.add_proposal_doc(self.tender_id, bid2_id, bid2_token, doc_id=doc2_id)
         with open(TARGET_DIR_MULTI + 'bid-lot2-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f'/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}',
-                {'data': {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}], 'status': 'pending'}},
+                {
+                    'data': {
+                        'lotValues': [
+                            {
+                                **lot_values[0],
+                                "value": {"amount": 500},
+                                "relatedLot": lot_id1,
+                            }
+                        ],
+                        'status': 'pending',
+                    }
+                },
             )
             self.assertEqual(response.status, '200 OK')
         # switch to active.pre-qualification

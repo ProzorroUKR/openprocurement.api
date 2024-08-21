@@ -196,12 +196,6 @@ def validate_patch_data(model, item_name):
         data_patch = request.validated["data"]
         data_src = request.validated[item_name]
 
-        # FIXME: Remove this after changing bid update logic to simple patch
-        # Dirty hack to disable recursive update for requirementResponses
-        if "requirementResponses" in data_patch:
-            data_src.pop("requirementResponses", None)
-        # End of hack
-
         data = apply_data_patch(data_src, data_patch)
         if data:
             data = validate_data(request, model, data)

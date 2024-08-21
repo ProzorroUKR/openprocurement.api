@@ -1248,9 +1248,13 @@ def patch_tender_bid(self):
     response = self.activate_bid(self.tender_id, bid['id'], bid_token)
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    lot_values = bid["lotValues"]
+    old_currency = lot_values[0]["value"]["currency"]
+    lot_values[0]["value"]["currency"] = "USD"
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"lotValues": [{"value": {"currency": "USD"}}]}},
+        {"data": {"lotValues": lot_values}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1267,9 +1271,11 @@ def patch_tender_bid(self):
         ],
     )
 
+    lot_values[0]["value"]["currency"] = old_currency
+    lot_values[0]["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"lotValues": [{"value": {"valueAddedTaxIncluded": False}}]}},
+        {"data": {"lotValues": lot_values}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1292,20 +1298,22 @@ def patch_tender_bid(self):
         ],
     )
 
+    lot_values[0].update(
+        {
+            "value": {
+                "yearlyPaymentsPercentage": 0.9,
+                "annualCostsReduction": [760.5] * 21,
+                "contractDuration": {"years": 10},
+            },
+            "relatedLot": lot_id,
+        }
+    )
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {
             "data": {
-                "lotValues": [
-                    {
-                        "value": {
-                            "yearlyPaymentsPercentage": 0.9,
-                            "annualCostsReduction": [760.5] * 21,
-                            "contractDuration": {"years": 10},
-                        },
-                        "relatedLot": lot_id,
-                    }
-                ],
+                "lotValues": lot_values,
                 "tenderers": self.test_bids_data[0]["tenderers"],
             }
         },
@@ -1315,22 +1323,19 @@ def patch_tender_bid(self):
     response = self.activate_bid(self.tender_id, bid['id'], bid_token)
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    lot_values[0].update(
+        {
+            "value": {
+                "yearlyPaymentsPercentage": 0.9,
+                "annualCostsReduction": [751.5] * 21,
+                "contractDuration": {"years": 10, "days": 80},
+            },
+            "relatedLot": lot_id,
+        }
+    )
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {
-            "data": {
-                "lotValues": [
-                    {
-                        "value": {
-                            "yearlyPaymentsPercentage": 0.9,
-                            "annualCostsReduction": [751.5] * 21,
-                            "contractDuration": {"years": 10, "days": 80},
-                        },
-                        "relatedLot": lot_id,
-                    }
-                ]
-            }
-        },
+        {"data": {"lotValues": lot_values}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1340,6 +1345,8 @@ def patch_tender_bid(self):
         response.json["data"]["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance
     )
 
+    lot_values = response.json["data"]["lotValues"]
+
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
 
@@ -1348,11 +1355,14 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("lotValues", response.json["data"])
 
+    lot_values[0]["value"]["yearlyPaymentsPercentage"] = 0.8
+    lot_values[0]["relatedLot"] = lot_id
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {
             "data": {
-                "lotValues": [{"value": {"yearlyPaymentsPercentage": 0.8}, "relatedLot": lot_id}],
+                "lotValues": lot_values,
                 "status": "active",
             }
         },

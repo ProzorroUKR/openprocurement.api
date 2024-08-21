@@ -356,6 +356,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
     token = response.json["access"]["token"]
+    lot_values = response.json["data"]["lotValues"]
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
@@ -363,6 +364,7 @@ def patch_tender_bid(self):
             "data": {
                 "lotValues": [
                     {
+                        **lot_values[0],
                         "value": {"amount": 700},
                         "subcontractingDetails": "test_details",
                         "relatedLot": self.initial_lots[0]["id"],
@@ -407,7 +409,7 @@ def patch_tender_bid(self):
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {
             "data": {
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+                "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
                 "tenderers": [test_tender_cfaselectionua_organization],
             }
         },
@@ -419,7 +421,11 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"lotValues": [{"value": {"amount": 400}, "relatedLot": self.initial_lots[0]["id"]}]}},
+        {
+            "data": {
+                "lotValues": [{**lot_values[0], "value": {"amount": 400}, "relatedLot": self.initial_lots[0]["id"]}]
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -468,7 +474,11 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"lotValues": [{"value": {"amount": 400}, "relatedLot": self.initial_lots[0]["id"]}]}},
+        {
+            "data": {
+                "lotValues": [{**lot_values[0], "value": {"amount": 400}, "relatedLot": self.initial_lots[0]["id"]}]
+            }
+        },
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -613,6 +623,7 @@ def bid_Administrator_change(self):
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
     }
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    lot_values = bid["lotValues"]
 
     self.app.authorization = ("Basic", ("administrator", ""))
 
@@ -624,7 +635,7 @@ def bid_Administrator_change(self):
         {
             "data": {
                 "tenderers": [tenderer],
-                "lotValues": [{"value": {"amount": 300}, "relatedLot": self.initial_lots[0]["id"]}],
+                "lotValues": [{**lot_values[0], "value": {"amount": 300}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },
     )

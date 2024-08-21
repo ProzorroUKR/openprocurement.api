@@ -4,7 +4,6 @@ from schematics.types.compound import ModelType
 from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.belowthreshold.procedure.models.lot_value import (
     LotValue,
-    PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.core.procedure.models.bid import Bid as BaseBid
@@ -23,7 +22,7 @@ class PostBid(BasePostBid, PostBidResponsesMixin):
 
 class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     subcontractingDetails = StringType()
-    lotValues = ListType(ModelType(PatchLotValue, required=True))
+    lotValues = ListType(ModelType(LotValue, required=True))
 
 
 class Bid(PostBidResponsesMixin, BaseBid):

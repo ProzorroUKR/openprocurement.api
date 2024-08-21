@@ -8,8 +8,12 @@ from openprocurement.tender.core.procedure.validation import validate_related_lo
 class LotValue(Model):
     relatedLot = MD5Type()
     subcontractingDetails = StringType()
-    status = StringType(choices=["pending", "active", "unsuccessful"])
+    status = StringType(choices=["pending", "active", "unsuccessful"], default="pending")
     date = StringType()
+
+    def validate_relatedLot(self, data, related_lot):
+        tender = get_tender()
+        validate_related_lot(tender, related_lot)
 
 
 class PostLotValue(Model):
@@ -20,13 +24,3 @@ class PostLotValue(Model):
     def validate_relatedLot(self, data, related_lot):
         tender = get_tender()
         validate_related_lot(tender, related_lot)
-
-
-class PatchLotValue(Model):
-    relatedLot = MD5Type()
-    subcontractingDetails = StringType()
-
-    def validate_relatedLot(self, data, related_lot):
-        if related_lot is not None:
-            tender = get_tender()
-            validate_related_lot(tender, related_lot)

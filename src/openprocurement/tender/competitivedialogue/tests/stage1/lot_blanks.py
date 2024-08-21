@@ -80,11 +80,15 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bidder["tenderers"][0]["name"])
 
+    lot_values = response.json["data"]["lotValues"]
+    lot_values[0]["relatedLot"] = lot_id
+    del lot_values[0]["status"]
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
         {
             "data": {
-                "lotValues": [{"relatedLot": lot_id}],
+                "lotValues": lot_values,
                 "tenderers": self.test_bids_data[0]["tenderers"],
             }
         },
@@ -98,7 +102,7 @@ def patch_tender_bidder(self):
     # If we don't change anything then return null
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
-        {"data": {"lotValues": [{"relatedLot": lot_id}]}},
+        {"data": {"lotValues": lot_values}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -114,7 +118,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
-        {"data": {"lotValues": [{"relatedLot": lot_id}], "status": "active"}},
+        {"data": {"lotValues": lot_values, "status": "active"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
