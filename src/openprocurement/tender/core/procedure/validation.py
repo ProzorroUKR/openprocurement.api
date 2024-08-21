@@ -1518,7 +1518,7 @@ def validate_numerated(field_name="sequenceNumber"):
 
 def validate_doc_type_quantity(documents, document_type="notice", obj_name="tender"):
     """
-    Check whether there is no more than one document in list with particulat documentType.
+    Check whether there is no more than one document in list with particular documentType.
     If there is more than one document the error will be raised.
     :param documents: list of documents
     :param document_type: type of document
