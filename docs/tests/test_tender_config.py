@@ -1269,6 +1269,8 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
             bid_token = response.json['access']['token']
             bid_id = response.json['data']['id']
 
+        lot_values = response.json["data"]["lotValues"]
+
         with open(TARGET_DIR + 'has-value-restriction-true-tender-lots-patch-bid.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f'/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}',
@@ -1277,8 +1279,8 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
                         'status': 'active',
                         'tenderers': test_docs_bid["tenderers"],
                         'lotValues': [
-                            {"value": {"amount": 500}, 'relatedLot': lot_id1},
-                            {"value": {"amount": 700}, 'relatedLot': lot_id2},
+                            {**lot_values[0], "value": {"amount": 500}, 'relatedLot': lot_id1},
+                            {**lot_values[1], "value": {"amount": 700}, 'relatedLot': lot_id2},
                         ],
                     }
                 },
@@ -1481,6 +1483,8 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
             bid_token = response.json['access']['token']
             bid_id = response.json['data']['id']
 
+        lot_values = response.json["data"]["lotValues"]
+
         with open(TARGET_DIR + 'value-currency-equality-true-tender-lots-patch-bid.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f'/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}',
@@ -1489,8 +1493,8 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
                         'status': 'active',
                         'tenderers': test_docs_bid["tenderers"],
                         'lotValues': [
-                            {"value": {"amount": 500, "currency": "UAH"}, 'relatedLot': lot_id1},
-                            {"value": {"amount": 700, "currency": "USD"}, 'relatedLot': lot_id2},
+                            {**lot_values[0], "value": {"amount": 500, "currency": "UAH"}, 'relatedLot': lot_id1},
+                            {**lot_values[1], "value": {"amount": 700, "currency": "USD"}, 'relatedLot': lot_id2},
                         ],
                     }
                 },

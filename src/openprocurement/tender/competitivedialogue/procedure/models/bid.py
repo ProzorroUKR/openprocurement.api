@@ -14,7 +14,6 @@ from openprocurement.tender.competitivedialogue.procedure.models.bid_document im
 from openprocurement.tender.competitivedialogue.procedure.models.item import BidItem
 from openprocurement.tender.competitivedialogue.procedure.models.lot_value import (
     LotValue,
-    PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.core.procedure.models.base import BaseBid
@@ -35,7 +34,7 @@ from openprocurement.tender.core.procedure.validation import validate_bid_value
 class PatchBid(PatchObjResponsesMixin, BaseBid):
     items = ListType(ModelType(BidItem, required=True))
     tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
-    lotValues = ListType(ModelType(PatchLotValue, required=True))
+    lotValues = ListType(ModelType(LotValue, required=True))
     subcontractingDetails = StringType()
     selfQualified = BooleanType(choices=[True])
     selfEligible = BooleanType(choices=[True])

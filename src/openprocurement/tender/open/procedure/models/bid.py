@@ -22,7 +22,6 @@ from openprocurement.tender.core.procedure.models.req_response import (
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.open.procedure.models.lot_value import (
     LotValue,
-    PatchLotValue,
     PostLotValue,
 )
 
@@ -31,7 +30,7 @@ class PatchBid(BasePatchBid, PatchObjResponsesMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(choices=[True])
     subcontractingDetails = StringType()
-    lotValues = ListType(ModelType(PatchLotValue, required=True))
+    lotValues = ListType(ModelType(LotValue, required=True))
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
 
 

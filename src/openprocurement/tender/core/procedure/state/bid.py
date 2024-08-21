@@ -59,6 +59,7 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
+        self.lot_values_patch_keep_unchange(after, before)
         self.validate_bid_unit_value(after)
         self.validate_status_change(before, after)
         self.update_date_on_value_amount_change(before, after)
@@ -306,3 +307,17 @@ class BidState(BaseState):
             if after_rp:
                 if not (before_rp := before_items_rps.get(item_id)) or before_rp != after_rp:
                     get_tender_product(get_request(), after_rp)
+
+    def lot_values_patch_keep_unchange(self, after: dict, before: dict):
+        fields_keep_unchanged = ("weightedValue", "date")
+
+        after_lot_values = after.get("lotValues", [])
+        before_lot_values = before.get("lotValues", [])
+
+        for lot_values in zip(after_lot_values, before_lot_values):
+            for field in fields_keep_unchanged:
+                if lot_values[0].get(field) != lot_values[1].get(field):
+                    if not lot_values[1].get(field):
+                        lot_values[0].pop(field, None)
+                    else:
+                        lot_values[0][field] = lot_values[1][field]

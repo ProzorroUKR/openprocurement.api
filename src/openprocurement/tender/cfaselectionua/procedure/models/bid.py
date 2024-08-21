@@ -5,7 +5,6 @@ from openprocurement.api.procedure.types import ListType
 from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.tender.cfaselectionua.procedure.models.lot_value import (
     LotValue,
-    PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.cfaselectionua.procedure.models.parameter import (
@@ -24,7 +23,7 @@ from openprocurement.tender.core.procedure.models.req_response import (
 
 class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
-    lotValues = ListType(ModelType(PatchLotValue, required=True))
+    lotValues = ListType(ModelType(LotValue, required=True))
     subcontractingDetails = StringType()
 
 

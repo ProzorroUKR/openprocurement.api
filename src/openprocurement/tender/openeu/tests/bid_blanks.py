@@ -270,10 +270,12 @@ def patch_tender_bidder(self):
         }
     )
     bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
+    lot_values = bid["lotValues"]
+    lot_values[0]["value"]["amount"] = 600
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"lotValues": [{"value": {"amount": 600}}]}},
+        {"data": {"lotValues": lot_values}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -303,9 +305,10 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    lot_values[0]["value"]["amount"] = 500
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"lotValues": [{"value": {"amount": 500}}], "tenderers": self.test_bids_data[0]["tenderers"]}},
+        {"data": {"lotValues": lot_values, "tenderers": self.test_bids_data[0]["tenderers"]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -314,11 +317,12 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    lot_values[0]["value"]["amount"] = 400
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {
             "data": {
-                "lotValues": [{"value": {"amount": 400}}],
+                "lotValues": lot_values,
                 "value": None,
                 "parameters": None,
             }
@@ -332,7 +336,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/some_id?acc_token={}".format(self.tender_id, bid_token),
-        {"data": {"lotValues": [{"value": {"amount": 400}}]}},
+        {"data": {"lotValues": lot_values}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -364,7 +368,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"lotValues": [{"value": {"amount": 400}}]}},
+        {"data": {"lotValues": lot_values}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -390,17 +394,20 @@ def patch_tender_draft_bidder(self):
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
     bid_token = response.json["access"]["token"]
+    lot_values = bid["lotValues"]
+    lot_values[0]["value"]["amount"] = 499
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "draft", "lotValues": [{"value": {"amount": 499}}]}},
+        {"data": {"status": "draft", "lotValues": lot_values}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    lot_values[0]["value"]["amount"] = 498
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "draft", "lotValues": [{"value": {"amount": 498}}]}},
+        {"data": {"status": "draft", "lotValues": lot_values}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -962,6 +969,7 @@ def bid_Administrator_change(self):
     bid = response.json["data"]
 
     bid_data["tenderers"][0]["identifier"]["id"] = "00000000"
+    bid_data["lotValues"] = bid["lotValues"]
     bid_data["lotValues"][0]["value"] = {"amount": 400}
     self.app.authorization = ("Basic", ("administrator", ""))
     response = self.app.patch_json(

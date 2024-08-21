@@ -1249,7 +1249,8 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
     token = response.json["access"]["token"]
-    lot = bid["lotValues"][0]
+    lot_values = bid["lotValues"]
+    lot = lot_values[0]
 
     tenderer = deepcopy(test_tender_below_organization)
     tenderer["name"] = "Державне управління управлінням справами"
@@ -1266,7 +1267,9 @@ def patch_tender_bid(self):
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {
             "data": {
-                "lotValues": [{"subcontractingDetails": "test1", "value": {"amount": 500}, "relatedLot": lot_id}],
+                "lotValues": [
+                    {**lot, "subcontractingDetails": "test1", "value": {"amount": 500}, "relatedLot": lot_id}
+                ],
                 "tenderers": [test_tender_below_organization],
             }
         },
@@ -1279,7 +1282,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"lotValues": [{"value": {"amount": 400}, "relatedLot": lot_id}]}},
+        {"data": {"lotValues": [{**lot, "value": {"amount": 400}, "relatedLot": lot_id}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

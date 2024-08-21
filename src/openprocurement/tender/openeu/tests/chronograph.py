@@ -70,18 +70,16 @@ class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
 
     def setUp(self):
         super().setUp()
+
+        tender = self.mongodb.tenders.get(self.tender_id)
         # Create award with an unsuccessful lot
-        for bid in self.initial_bids:
-            bid_id = bid["id"]
-            lot_values = bid["lotValues"][:1]
-            del lot_values[0]["date"]
-            del lot_values[0]["status"]
+        for bid in tender["bids"]:
             response = self.app.patch_json(
-                f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
+                f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid['owner_token']}",
                 {"data": {"lotValues": bid["lotValues"][:1]}},
             )
             self.assertEqual(response.status, "200 OK")
-            response = self.activate_bid(self.tender_id, bid['id'], self.initial_bids_tokens[bid_id])
+            response = self.activate_bid(self.tender_id, bid['id'], bid['owner_token'])
             self.assertEqual(response.status, "200 OK")
 
     test_switch_to_pre_qual_unsuccessful = snitch(active_tendering_to_pre_qual_unsuccessful)

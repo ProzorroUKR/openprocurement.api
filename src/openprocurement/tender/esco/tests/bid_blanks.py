@@ -741,8 +741,8 @@ def patch_tender_bid(self):
     #     {u'location': u'body', u'name': u'value',
     #      u'description': [u'value of bid should be greater than minValue of tender']}
     # ])
-    lot_values = deepcopy(self.test_bids_data[0]["lotValues"])
-    lot_values[0]["value"] = {"currency": "USD"}
+    lot_values = deepcopy(bid["lotValues"])
+    lot_values[0]["value"]["currency"] = "USD"
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
@@ -763,8 +763,8 @@ def patch_tender_bid(self):
         ],
     )
 
-    lot_values = deepcopy(self.test_bids_data[0]["lotValues"])
-    lot_values[0]["value"] = {"valueAddedTaxIncluded": False}
+    lot_values[0]["value"] = deepcopy(self.test_bids_data[0]["lotValues"])[0]["value"]
+    lot_values[0]["value"]["valueAddedTaxIncluded"] = False
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
@@ -808,8 +808,8 @@ def patch_tender_bid(self):
         self.expected_bid_amount_performance,
     )
 
-    lot_values = deepcopy(self.test_bids_data[0]["lotValues"])
-    lot_values[0]["value"] = {"amountPerformance": 500}
+    lot_values[0]["value"] = (deepcopy(self.test_bids_data[0]["lotValues"]))[0]["value"]
+    lot_values[0]["value"]["amountPerformance"] = 500
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": {"lotValues": lot_values, "tenderers": self.test_bids_data[0]["tenderers"]}},
@@ -826,7 +826,7 @@ def patch_tender_bid(self):
         self.expected_bid_amount_performance,
     )
 
-    lot_values[0]["value"] = {"annualCostsReduction": [200] * 21}
+    lot_values[0]["value"]["annualCostsReduction"] = [200] * 21
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": {"lotValues": lot_values, "tenderers": self.test_bids_data[0]["tenderers"]}},
@@ -842,7 +842,7 @@ def patch_tender_bid(self):
         response.json["data"]["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance
     )
 
-    lot_values[0]["value"] = {"yearlyPaymentsPercentage": 0.91111}
+    lot_values[0]["value"]["yearlyPaymentsPercentage"] = 0.91111
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": {"lotValues": lot_values, "tenderers": self.test_bids_data[0]["tenderers"]}},
@@ -859,7 +859,7 @@ def patch_tender_bid(self):
         self.expected_bid_amount_performance,
     )
 
-    lot_values[0]["value"] = {"amount": 400}
+    lot_values[0]["value"]["amount"] = 400
     response = self.app.patch_json(
         "/tenders/{}/bids/some_id?acc_token={}".format(self.tender_id, bid_token),
         {"data": {"lotValues": lot_values}},
@@ -887,7 +887,7 @@ def patch_tender_bid(self):
 
     d1 = self.app.app.registry.mongodb.tenders.get(self.tender_id)
 
-    lot_values[0]["value"] = {"amount": 400}
+    lot_values[0]["value"]["amount"] = 400
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": {"lotValues": lot_values}},
@@ -1123,11 +1123,12 @@ def bid_Administrator_change(self):
         {
             "lotValues": [
                 {
+                    **bid["lotValues"][0],
                     "value": {
                         "annualCostsReduction": [300] * 21,
                         "yearlyPaymentsPercentage": 0.8,
                         "contractDuration": {"years": 8},
-                    }
+                    },
                 }
             ]
         }

@@ -9,7 +9,7 @@ from openprocurement.api.procedure.validation import (
     validate_data_documents,
     validate_input_data,
     validate_item_owner,
-    validate_patch_data,
+    validate_patch_data_simple,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.belowthreshold.procedure.views.bid import TenderBidResource
@@ -68,7 +68,7 @@ class TenderBidResource(TenderBidResource):
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
-            validate_patch_data(Bid, item_name="bid"),
+            validate_patch_data_simple(Bid, item_name="bid"),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
         ),

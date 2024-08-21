@@ -343,7 +343,7 @@ def patch_tender_bidder(self):
 
     bid_patch_data = {}
     bid_patch_data["status"] = "pending"
-    bid_patch_data["lotValues"] = bid_data["lotValues"]
+    bid_patch_data["lotValues"] = bid["lotValues"]
     bid_patch_data["lotValues"][0]["value"]["amount"] = 600
 
     response = self.app.patch_json(
@@ -428,6 +428,7 @@ def patch_tender_draft_bidder(self):
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
     bid_token = response.json["access"]["token"]
+    bid_data["lotValues"] = response.json["data"]["lotValues"]
 
     bid_data["lotValues"][0]["value"]["amount"] = 499
     response = self.app.patch_json(
@@ -729,7 +730,7 @@ def bid_Administrator_change(self):
     patch_bid_data = {}
     patch_bid_data["tenderers"] = bid_data["tenderers"]
     patch_bid_data["tenderers"][0]["identifier"]["id"] = "00000000"
-    patch_bid_data["lotValues"] = bid_data["lotValues"]
+    patch_bid_data["lotValues"] = bid["lotValues"]
     patch_bid_data["lotValues"][0]["value"]["amount"] = 400
 
     response = self.app.patch_json("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), {"data": patch_bid_data})

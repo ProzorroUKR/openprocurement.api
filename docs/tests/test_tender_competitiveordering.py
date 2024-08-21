@@ -389,10 +389,17 @@ class TenderResourceTest(
         self.add_proposal_doc(self.tender_id, bid2_id, bid2_token)
         self.set_responses(self.tender_id, response.json, "pending")
 
+        lot_values = response.json["data"]["lotValues"]
+
         # Bids confirmation
         response = self.app.patch_json(
             f'/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}',
-            {'data': {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot["id"]}], 'status': 'pending'}},
+            {
+                'data': {
+                    'lotValues': [{**lot_values[0], "value": {"amount": 500}, 'relatedLot': lot["id"]}],
+                    'status': 'pending',
+                }
+            },
         )
         self.assertEqual(response.status, '200 OK')
 

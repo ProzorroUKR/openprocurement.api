@@ -655,6 +655,7 @@ def patch_tender_bidder(self):
     bidder = response.json["data"]
     lot = bidder["lotValues"][0]
     owner_token = response.json["access"]["token"]
+    lot_values = bidder["lotValues"]
 
     tenderer = deepcopy(test_tender_below_organization)
     tenderer["name"] = "Державне управління управлінням справами"
@@ -671,7 +672,7 @@ def patch_tender_bidder(self):
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
         {
             "data": {
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+                "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id}],
                 "tenderers": [test_tender_below_organization],
             }
         },
@@ -683,7 +684,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
-        {"data": {"lotValues": [{"value": {"amount": 400}, "relatedLot": lot_id}]}},
+        {"data": {"lotValues": [{**lot_values[0], "value": {"amount": 400}, "relatedLot": lot_id}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -699,7 +700,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
-        {"data": {"lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}]}},
+        {"data": {"lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id}]}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1807,6 +1808,7 @@ def lots_features_delete(self):
     bid_id = response.json["data"]["id"]
     bid_token = response.json["access"]["token"]
     self.set_responses(self.tender_id, response.json)
+    bid_data["lotValues"] = response.json["data"]["lotValues"]
 
     # delete features
     self.app.patch_json("/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"features": []}})

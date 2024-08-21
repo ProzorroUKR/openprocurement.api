@@ -1836,7 +1836,7 @@ def bid_Administrator_change(self):
     patch_bid_data = {}
     patch_bid_data["tenderers"] = bid_data["tenderers"]
     patch_bid_data["tenderers"][0]["identifier"]["id"] = "00000000"
-    patch_bid_data["lotValues"] = bid_data["lotValues"]
+    patch_bid_data["lotValues"] = bid["lotValues"]
     patch_bid_data["lotValues"][0]["value"]["amount"] = 400
 
     response = self.app.patch_json("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), {"data": patch_bid_data})
@@ -2169,7 +2169,10 @@ def patch_tender_bidder(self):
     bid, bid_token = self.create_bid(self.tender_id, initial_bids[0])
 
     bid_data = deepcopy(initial_bids[0])
-    bid_data["lotValues"][0]["value"]["amount"] = 600
+    lot_values = bid["lotValues"]
+    lot_values[0]["value"]["amount"] = 600
+    bid_data["lotValues"] = lot_values
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": bid_data}, status=422
     )
@@ -2199,8 +2202,9 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    bid_data["lotValues"][0]["value"]["amount"] = initial_bids[0]["lotValues"][0]["value"]["amount"]
     response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": initial_bids[0]}
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": bid_data}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

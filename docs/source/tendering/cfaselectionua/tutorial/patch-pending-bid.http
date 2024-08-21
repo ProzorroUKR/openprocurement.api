@@ -7,10 +7,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "lotValues": [
       {
+        "status": "pending",
         "value": {
-          "amount": 510
+          "amount": 510,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
         },
-        "relatedLot": "50fc7d0cb4e3423491c35387a046af42"
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ]
   }

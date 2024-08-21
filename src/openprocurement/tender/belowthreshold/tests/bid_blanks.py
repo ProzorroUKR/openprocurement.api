@@ -639,10 +639,11 @@ def patch_tender_bid_with_exceeded_lot_values(self):
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
+    lot_values = response.json["data"]["lotValues"]
 
     # patch lotValue with exceeded amount
     value["amount"] = 600
-    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["lotValues"] = [{**lot_values[0], "value": value, "relatedLot": lots[0]["id"]}]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
         {"data": bid},
@@ -719,10 +720,11 @@ def patch_tender_bid_with_another_currency(self):
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
+    lot_values = response.json["data"]["lotValues"]
 
     # patch lotValue with exceeded amount
     value["currency"] = "USD"
-    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["lotValues"] = [{**lot_values[0], "value": value, "relatedLot": lots[0]["id"]}]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
         {"data": bid},
@@ -2562,10 +2564,11 @@ def patch_tender_bid_with_disabled_lot_values_restriction(self):
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
+    lot_values = response.json["data"]["lotValues"]
 
     # patch lotValue with exceeded amount
     value["amount"] = 600
-    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["lotValues"] = [{**lot_values[0], "value": value, "relatedLot": lots[0]["id"]}]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
         {"data": bid},
@@ -2646,11 +2649,12 @@ def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
+    lot_values = response.json["data"]["lotValues"]
 
     # patch lotValue with another currency that in lot
     value["currency"] = "EUR"
     value["amount"] = 650
-    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["lotValues"] = [{**lot_values[0], "value": value, "relatedLot": lots[0]["id"]}]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
         {"data": bid},
@@ -2753,11 +2757,12 @@ def patch_bid_multi_currency(self):
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
+    lot_values = response.json["data"]["lotValues"]
 
     # patch lotValue with another currency that in lot
     value["currency"] = "EUR"
     value["amount"] = 650
-    bid["lotValues"] = [{"value": value, "relatedLot": tender["lots"][0]["id"]}]
+    bid["lotValues"] = [{**lot_values[0], "value": value, "relatedLot": tender["lots"][0]["id"]}]
     # try to change valueAddedTaxIncluded
     bid["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(

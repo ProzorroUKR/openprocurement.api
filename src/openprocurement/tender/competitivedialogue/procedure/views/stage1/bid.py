@@ -9,7 +9,7 @@ from openprocurement.api.procedure.validation import (
     validate_data_documents,
     validate_input_data,
     validate_item_owner,
-    validate_patch_data,
+    validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
@@ -75,7 +75,7 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
-            validate_patch_data(Bid, item_name="bid"),
+            validate_patch_data_simple(Bid, item_name="bid"),
         ),
     )
     def patch(self):
@@ -120,7 +120,7 @@ class CompetitiveDialogueEUBidResource(TenderBidResource):
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,)),
-            validate_patch_data(Bid, item_name="bid"),
+            validate_patch_data_simple(Bid, item_name="bid"),
         ),
     )
     def patch(self):
