@@ -163,13 +163,14 @@ def cancellation_active_award(self):
                 },
             )
 
-    with change_auth(self.app, ("Basic", ("token", ""))):
+    with change_auth(self.app, ("Basic", ("broker", ""))):
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         award_id = [
             i["id"]
             for i in response.json["data"]
             if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
         ][0]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -241,13 +242,14 @@ def cancellation_unsuccessful_award(self):
                 },
             )
 
-    with change_auth(self.app, ("Basic", ("token", ""))):
+    with change_auth(self.app, ("Basic", ("broker", ""))):
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         award_id = [
             i["id"]
             for i in response.json["data"]
             if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
         ][0]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
             {"data": {"status": "unsuccessful"}},
@@ -259,6 +261,7 @@ def cancellation_unsuccessful_award(self):
             for i in response.json["data"]
             if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
         ][0]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
             {"data": {"status": "unsuccessful"}},
@@ -568,24 +571,25 @@ def create_cancellation_with_award_complaint(self):
         )
         award = response.json["data"]
         award_id = award["id"]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, award["id"]),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
+    )
 
-        # Create award complaint
-        bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
-        complaint_data = deepcopy(test_tender_below_complaint)
-        complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
-        response = self.app.post_json(
-            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
-            {"data": complaint_data},
-        )
+    # Create award complaint
+    bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
+    complaint_data = deepcopy(test_tender_below_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
+        {"data": complaint_data},
+    )
 
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        award_complaint = response.json["data"]
-        owner_token = response.json["access"]["token"]
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award_complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
 
     self.set_all_awards_complaint_period_end()
 
@@ -1158,10 +1162,11 @@ def access_create_tender_cancellation_complaint(self):
             },
         )
         award = response.json["data"]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, award["id"]),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
+    )
 
     self.set_all_awards_complaint_period_end()
 
@@ -2036,10 +2041,11 @@ def create_cancellation_in_award_complaint_period(self):
             },
         )
         award = response.json["data"]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, award["id"]),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
+    )
 
     test_tender_below_cancellation.update({"reasonType": "noDemand"})
     response = self.app.post_json(

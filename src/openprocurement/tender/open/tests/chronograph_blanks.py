@@ -62,14 +62,15 @@ def switch_to_unsuccessful_lot(self):
 
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
-    with change_auth(self.app, ("Basic", ("token", ""))):
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    while any(i["status"] == "pending" for i in response.json["data"]):
+        award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+            {"data": {"status": "unsuccessful"}},
+        )
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        while any(i["status"] == "pending" for i in response.json["data"]):
-            award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
-            self.app.patch_json(
-                "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
-            )
-            response = self.app.get("/tenders/{}/awards".format(self.tender_id))
 
     tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):

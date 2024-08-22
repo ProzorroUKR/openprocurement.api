@@ -258,6 +258,9 @@ class TenderQualificationMilestone24HMixin(BaseTenderMilestone24HMixin):
     context_name = "qualification"
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
     context_name = "award"
 
@@ -463,6 +466,9 @@ class BaseTenderAwardMilestoneALPMixin:
                 return a
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
     def test_milestone(self):
         """
@@ -534,6 +540,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         self.wait_until_award_milestone_due_date()
 
         # after milestone dueDate tender owner can change award status
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
             {"data": unsuccessful_data},
@@ -552,6 +559,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
 
         # proceed to the third award
         self.wait_until_award_milestone_due_date()
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{second_award['id']}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, second_award["id"], self.tender_token),
             {"data": unsuccessful_data},
@@ -566,6 +574,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
 
         # proceed to the last award
         self.wait_until_award_milestone_due_date()
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{third_award['id']}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, third_award["id"], self.tender_token),
             {"data": unsuccessful_data},

@@ -5,6 +5,7 @@ from openprocurement.api.tests.base import change_auth, snitch
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     check_tender_award,
     check_tender_award_complaint_period_dates,
+    contract_sign,
     create_award_document_bot,
     create_tender_award_complaint,
     create_tender_award_complaint_document,
@@ -142,6 +143,7 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
     test_patch_tender_lot_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
+    test_contract_sign = snitch(contract_sign)
 
 
 class Tender2LotAwardResourceTest(TenderContentWebTest):
@@ -180,6 +182,7 @@ class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):
     def setUp(self):
         super().setUp()
 
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),

@@ -473,7 +473,7 @@ def get_tender_bidder(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -541,7 +541,7 @@ def get_tender_bidder(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
-    self.app.authorization = ("Basic", ("token", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -701,7 +701,7 @@ def delete_tender_bidder(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -729,7 +729,8 @@ def delete_tender_bidder(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
-    self.app.authorization = ("Basic", ("token", ""))
+    self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -844,7 +845,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -913,7 +914,7 @@ def get_tender_tenderers(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1060,7 +1061,7 @@ def bids_invalidation_on_tender_change(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1635,7 +1636,7 @@ def get_tender_bidder_document(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1767,7 +1768,8 @@ def get_tender_bidder_document(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
-    self.app.authorization = ("Basic", ("token", ""))
+    self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1966,7 +1968,7 @@ def create_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -2014,12 +2016,13 @@ def create_tender_bidder_document(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
-    self.app.authorization = ("Basic", ("token", ""))
+    self.app.authorization = ("Basic", ("broker", ""))
     # get awards
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -2182,7 +2185,7 @@ def put_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -2234,12 +2237,13 @@ def put_tender_bidder_document(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
-    self.app.authorization = ("Basic", ("token", ""))
+    self.app.authorization = ("Basic", ("broker", ""))
     # get awards
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -2501,7 +2505,7 @@ def patch_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -2604,6 +2608,7 @@ def patch_tender_bidder_document(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -2955,7 +2960,7 @@ def download_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -3082,6 +3087,7 @@ def download_tender_bidder_document(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -3125,7 +3131,7 @@ def create_tender_bidder_document_nopending(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -3332,7 +3338,7 @@ def put_tender_bidder_document_private_json(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -3622,7 +3628,7 @@ def get_tender_bidder_document_ds(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -3755,7 +3761,8 @@ def get_tender_bidder_document_ds(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
-    self.app.authorization = ("Basic", ("token", ""))
+    self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},

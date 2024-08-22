@@ -81,6 +81,7 @@ def post_tender_auction_all_awards_pending(self):
     self.app.authorization = ("Basic", ("broker", ""))
     awards = response.json["data"]
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{awards[0]['id']}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, awards[0]["id"], self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -99,6 +100,7 @@ def post_tender_auction_all_awards_pending(self):
     )
 
     for award in awards[1:]:
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -138,6 +140,7 @@ def tender_go_to_awarded_with_one_lot(self):
     awards = response.json["data"]
 
     self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{awards[0]['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, awards[0]["id"], self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -156,6 +159,7 @@ def tender_go_to_awarded_with_one_lot(self):
     )
     # qualified all awards
     for award in awards[1:]:
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},

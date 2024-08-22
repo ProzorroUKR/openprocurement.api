@@ -1175,7 +1175,7 @@ def unsuccessful_after_prequalification_tender(self):
         )
         self.assertEqual(response.status, "200 OK")
     # switch to next status
-    self.add_qualification_sign_doc(tender_id, owner_token)
+    self.add_sign_doc(tender_id, owner_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1283,7 +1283,7 @@ def one_qualificated_bid_tender(self):
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertNotIn("value", response.json["data"])
     # switch to next status
-    self.add_qualification_sign_doc(tender_id, tender_owner_token)
+    self.add_sign_doc(tender_id, tender_owner_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1561,6 +1561,7 @@ def patch_tender_active_qualification_2_active_qualification_stand_still(self):
     for award in awards:
         self.assertEqual(award["status"], "pending")
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{awards[0]['id']}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, awards[0]["id"], self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1579,6 +1580,7 @@ def patch_tender_active_qualification_2_active_qualification_stand_still(self):
     )
 
     for award in awards[1:]:
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},

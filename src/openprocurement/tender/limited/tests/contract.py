@@ -55,6 +55,7 @@ class CreateActiveAwardMixin:
         )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {
@@ -104,6 +105,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest):
         )
 
         self.award_id = response.json["data"]["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},
@@ -154,6 +156,7 @@ class TenderNegotiationLotMixin:
         )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},
@@ -204,6 +207,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
 
         award = response.json["data"]
         self.award1_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award1_id}/documents")
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award1_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},
@@ -225,6 +229,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
 
         award = response.json["data"]
         self.award2_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award2_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award2_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},

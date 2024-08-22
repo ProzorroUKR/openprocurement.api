@@ -1214,6 +1214,7 @@ def first_bid_tender(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as unsuccessful
+    self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     if "milestones" in response.json["data"][0]:
         milestone_due_date = dt_from_iso(response.json["data"][0]["milestones"][0]["dueDate"])
         with freeze_time((milestone_due_date + timedelta(minutes=10)).isoformat()):
@@ -1245,6 +1246,7 @@ def first_bid_tender(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1303,6 +1305,7 @@ def lost_contract_for_active_award(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},

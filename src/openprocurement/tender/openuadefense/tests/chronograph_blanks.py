@@ -103,6 +103,9 @@ def switch_to_unsuccessful_after_new(self):
 @patch(
     "openprocurement.tender.openuadefense.procedure.awarding.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
 )
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 def switch_to_unsuccessful_new(self):
     self.set_status("active.auction", {"status": self.initial_status})
     self.check_chronograph()
@@ -159,6 +162,9 @@ def switch_to_unsuccessful_new(self):
 )
 @patch(
     "openprocurement.tender.openuadefense.procedure.awarding.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
+)
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
 )
 def switch_to_active_to_unsuccessful(self):
     self.set_status("active.auction", {"status": self.initial_status})
@@ -284,6 +290,9 @@ def switch_to_unsuccessful_lot_after_new(self):
 @patch(
     "openprocurement.tender.openuadefense.procedure.awarding.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
 )
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 def switch_to_unsuccessful_lot_new(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
@@ -347,6 +356,9 @@ def switch_to_unsuccessful_lot_new(self):
 )
 @patch(
     "openprocurement.tender.openuadefense.procedure.awarding.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
+)
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
 )
 def switch_to_active_to_unsuccessful_lot(self):
     self.set_status("active.auction", {"status": self.initial_status})

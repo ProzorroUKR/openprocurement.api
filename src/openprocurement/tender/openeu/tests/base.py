@@ -302,7 +302,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
                 {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, "200 OK")
-        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+        self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
 
         # switch to active.pre-qualification.stand-still
         response = self.app.patch_json(

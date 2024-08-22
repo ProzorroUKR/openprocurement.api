@@ -64,12 +64,13 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
         )
         award = response.json["data"]
         self.award_id = award["id"]
-        self.app.authotization = ("Basic", ("broker", ""))
+        self.app.authorization = ("Basic", ("broker", ""))
         self.award_value = award["value"]
         self.award_suppliers = award["suppliers"]
         self.award_items = award["items"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
 
@@ -113,6 +114,8 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
         self.award_value = award["value"]
         self.award_suppliers = award["suppliers"]
         self.award_items = award["items"]
+        self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -161,6 +164,8 @@ class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2Cont
         )
         self.app.authorization = auth
         self.award_id = response.json["data"]["id"]
+        self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},

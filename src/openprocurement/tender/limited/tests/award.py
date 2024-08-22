@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardComplaintDocumentResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
@@ -72,6 +75,9 @@ from openprocurement.tender.limited.tests.base import (
 from openprocurement.tender.limited.tests.utils import get_award_data
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_status = "active"
     initial_data = test_tender_reporting_data
@@ -131,6 +137,9 @@ class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest
     initial_config = test_tender_negotiation_quick_config
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
@@ -172,6 +181,9 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     test_bot_patch_tender_award_complaint_forbidden = snitch(bot_patch_tender_award_complaint_forbidden)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardComplaintResourceTest):
     def create_award(self):
         # create lot
@@ -220,6 +232,9 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
     test_cancelled_award_with_complaint = snitch(cancelled_lot_award_with_complaint)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data_2items
     initial_config = test_tender_negotiation_config
@@ -311,6 +326,9 @@ class Tender2LotNegotiationQuickAwardComplaintResourceTest(Tender2LotNegotiation
     initial_lots = test_lots
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data_2items
     initial_config = test_tender_negotiation_config
@@ -438,6 +456,7 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(
         award = response.json["data"]
         self.award_id = award["id"]
 
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active"}},

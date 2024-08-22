@@ -440,6 +440,7 @@ def create_cancellation_on_tender_with_one_complete_lot(self):
 
     # Activate award
     award = response.json["data"]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
         {"data": {"status": "active"}},

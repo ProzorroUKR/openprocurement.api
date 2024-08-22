@@ -78,7 +78,7 @@ class TenderQualificationComplaintPostResourceTest(
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
 
-        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+        self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -125,6 +125,7 @@ class TenderAwardComplaintPostResourceTest(
 
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
 
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.patch_json(

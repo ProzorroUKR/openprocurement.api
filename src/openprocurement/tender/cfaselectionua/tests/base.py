@@ -227,6 +227,19 @@ class BaseTenderWebTest(BaseCoreWebTest):
                                 "date": datetime.now(TZ).isoformat(),
                                 "id": uuid4().hex,
                             }
+                            if status in ("active.awarded", "complete"):
+                                award["documents"] = [
+                                    {
+                                        "id": uuid4().hex,
+                                        "title": "sign.p7s",
+                                        "documentType": "notice",
+                                        "url": self.generate_docservice_url(),
+                                        "hash": "md5:" + "0" * 32,
+                                        "format": "sign/pkcs7-signature",
+                                        "documentOf": "tender",
+                                        "datePublished": datetime.now(TZ).isoformat(),
+                                    }
+                                ]
                             self.tender_document_patch["awards"].append(award)
                             self.award = award
                             self.award_id = award["id"]
@@ -241,6 +254,19 @@ class BaseTenderWebTest(BaseCoreWebTest):
                         "date": datetime.now(TZ).isoformat(),
                         "id": uuid4().hex,
                     }
+                    if status in ("active.awarded", "complete"):
+                        award["documents"] = [
+                            {
+                                "id": uuid4().hex,
+                                "title": "sign.p7s",
+                                "documentType": "notice",
+                                "url": self.generate_docservice_url(),
+                                "hash": "md5:" + "0" * 32,
+                                "format": "sign/pkcs7-signature",
+                                "documentOf": "tender",
+                                "datePublished": datetime.now(TZ).isoformat(),
+                            }
+                        ]
                     self.award = award
                     self.award_id = award["id"]
                     self.tender_document_patch["awards"].append(award)

@@ -1,8 +1,10 @@
 import os
+from datetime import datetime
 from uuid import uuid4
 
 from mock import Mock, patch
 
+from openprocurement.api.constants import TZ
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
@@ -66,9 +68,21 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 "bid_id": bids[0]["id"],
                 "value": bids[0]["value"],
                 "date": awardPeriod_startDate,
-                # "documents": [],
                 "id": id_,
             }
+            if status in ("active.awarded", "complete"):
+                award["documents"] = [
+                    {
+                        "id": uuid4().hex,
+                        "title": "sign.p7s",
+                        "documentType": "notice",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "sign/pkcs7-signature",
+                        "documentOf": "tender",
+                        "datePublished": datetime.now(TZ).isoformat(),
+                    }
+                ]
             self.tender_document_patch["awards"].append(award)
             self.award_ids.append(id_)
             self.save_changes()

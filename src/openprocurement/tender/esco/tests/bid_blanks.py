@@ -1018,7 +1018,7 @@ def delete_tender_bidder(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1047,7 +1047,8 @@ def delete_tender_bidder(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
-    with change_auth(self.app, ("Basic", ("token", ""))):
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1276,7 +1277,7 @@ def bids_invalidation_on_tender_change(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1392,7 +1393,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},

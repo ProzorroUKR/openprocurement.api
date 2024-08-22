@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderEContractMultiBuyersResourceTestMixin,
     TenderEcontractResourceTestMixin,
@@ -48,6 +51,7 @@ class CreateActiveAwardMixin:
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.authorization = auth
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},
@@ -58,6 +62,9 @@ class CreateActiveAwardMixin:
         self.bid_token = self.initial_bids_tokens[award["bid_id"]]
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderContractResourceTest(TenderContentWebTest, TenderEcontractResourceTestMixin):
     def setUp(self):
         super().setUp()
@@ -144,6 +151,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
         self.award_value = award["value"]
         self.award_suppliers = award["suppliers"]
         self.app.authorization = auth
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active"}},

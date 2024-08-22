@@ -127,7 +127,7 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
 
-        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+        self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -174,7 +174,7 @@ class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTe
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
-        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+        self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},

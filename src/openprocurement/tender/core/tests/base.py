@@ -136,7 +136,7 @@ class BaseCoreWebTest(BaseWebTest):
 
         add_criteria(self, tender["data"]["id"], tender["access"]["token"])
         if "active" in status:
-            self.add_notice_doc(tender["data"]["id"], tender["access"]["token"])
+            self.add_sign_doc(tender["data"]["id"], tender["access"]["token"])
         response = self.app.patch_json(
             f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
             {"data": {"status": status}},
@@ -157,11 +157,11 @@ class BaseCoreWebTest(BaseWebTest):
 
         return bid, token
 
-    def add_proposal_doc(self, tender_id, bid_id, bid_token, doc_id=None):
+    def add_sign_doc(self, tender_id, owner_token, docs_url="/documents", document_type="notice", doc_id=None):
         request_body = {
             "data": {
-                "title": "proposal.p7s",
-                "documentType": "proposal",
+                "title": "sign.p7s",
+                "documentType": document_type,
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "sign/pkcs7-signature",
@@ -170,12 +170,12 @@ class BaseCoreWebTest(BaseWebTest):
 
         if doc_id:
             response = self.app.put_json(
-                f"/tenders/{tender_id}/bids/{bid_id}/documents/{doc_id}?acc_token={bid_token}",
+                f"/tenders/{tender_id}{docs_url}/{doc_id}?acc_token={owner_token}",
                 request_body,
             )
         else:
             response = self.app.post_json(
-                f"/tenders/{tender_id}/bids/{bid_id}/documents?acc_token={bid_token}",
+                f"/tenders/{tender_id}{docs_url}?acc_token={owner_token}",
                 request_body,
             )
         return response
@@ -247,36 +247,6 @@ class BaseCoreWebTest(BaseWebTest):
 
         self.save_changes()
         return self.get_tender()
-
-    def add_notice_doc(self, tender_id, tender_token):
-        response = self.app.post_json(
-            f"/tenders/{tender_id}/documents?acc_token={tender_token}",
-            {
-                "data": {
-                    "title": "sign.p7s",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                    "documentType": "notice",
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
-
-    def add_qualification_sign_doc(self, tender_id, tender_token):
-        response = self.app.post_json(
-            f"/tenders/{tender_id}/documents?acc_token={tender_token}",
-            {
-                "data": {
-                    "title": "sign.p7s",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                    "documentType": "evaluationReports",
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
 
     def update_qualification_complaint_periods(self):
         qualifications = self.tender_document.get("qualifications")

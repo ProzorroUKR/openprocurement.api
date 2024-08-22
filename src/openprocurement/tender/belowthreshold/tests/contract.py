@@ -117,6 +117,7 @@ class CreateActiveAwardMixin:
         self.award_value = award["value"]
         self.award_suppliers = award["suppliers"]
 
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},
@@ -170,6 +171,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
         )
         self.app.authorization = auth
         self.award_id = response.json["data"]["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},
@@ -230,6 +232,7 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.authorization = auth
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},

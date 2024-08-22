@@ -282,6 +282,7 @@ def bids_on_tender_cancellation_in_awarded(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     if "milestones" in response.json["data"][0]:
         milestone_due_date = dt_from_iso(response.json["data"][0]["milestones"][0]["dueDate"])
         with freeze_time((milestone_due_date + timedelta(minutes=10)).isoformat()):
@@ -617,7 +618,7 @@ def cancellation_active_award(self):
             )
             self.assertEqual(response.status, "200 OK")
 
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -649,17 +650,15 @@ def cancellation_active_award(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
-    with change_auth(self.app, ("Basic", ("token", ""))):
-        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        award_id = [
-            i["id"]
-            for i in response.json["data"]
-            if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
-        ][0]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    award_id = [
+        i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
+    ][0]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+    self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
+    )
 
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
@@ -728,7 +727,7 @@ def cancellation_unsuccessful_award(self):
             )
             self.assertEqual(response.status, "200 OK")
 
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -759,7 +758,7 @@ def cancellation_unsuccessful_award(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
-    with change_auth(self.app, ("Basic", ("token", ""))):
+    with change_auth(self.app, ("Basic", ("broker", ""))):
         # patch all first lot related Awards to unsuccessful
         while True:
             response = self.app.get("/tenders/{}/awards".format(self.tender_id))
@@ -772,6 +771,7 @@ def cancellation_unsuccessful_award(self):
                 award_id = awards[0]
             else:
                 break
+            self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
                 {"data": {"status": "unsuccessful"}},

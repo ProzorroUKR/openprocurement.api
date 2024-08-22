@@ -843,7 +843,7 @@ def unsuccessful_after_prequalification_tender(self):
         )
         self.assertEqual(response.status, "200 OK")
     # switch to next status
-    self.add_qualification_sign_doc(tender_id, owner_token)
+    self.add_sign_doc(tender_id, owner_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -947,7 +947,7 @@ def one_qualificated_bid_tender(self):
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertNotIn("value", response.json["data"])
     # switch to next status
-    self.add_qualification_sign_doc(tender_id, tender_owner_token)
+    self.add_sign_doc(tender_id, tender_owner_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1036,7 +1036,7 @@ def multiple_bidders_tender(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to next status
-    self.add_qualification_sign_doc(tender_id, tender_owner_token)
+    self.add_sign_doc(tender_id, tender_owner_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1110,6 +1110,7 @@ def multiple_bidders_tender(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as unsuccessful
+    self.add_sign_doc(tender_id, tender_owner_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, tender_owner_token),
         {"data": {"status": "unsuccessful"}},
@@ -1121,6 +1122,7 @@ def multiple_bidders_tender(self):
     award2_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     self.assertNotEqual(award_id, award2_id)
     # set award as active
+    self.add_sign_doc(tender_id, tender_owner_token, docs_url=f"/awards/{award2_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award2_id, tender_owner_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1203,6 +1205,7 @@ def lost_contract_for_active_award(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
