@@ -39,5 +39,5 @@ class PatchLotValue(PostLotValue):
 
 class LotValue(PostLotValue):
     weightedValue = ModelType(WeightedValue)
-    status = StringType(choices=["pending", "active", "unsuccessful"], required=True)
+    status = StringType(choices=["pending", "active", "unsuccessful"], default="pending")
     date = StringType()

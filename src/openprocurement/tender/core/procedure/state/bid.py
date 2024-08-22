@@ -309,7 +309,7 @@ class BidState(BaseState):
                     get_tender_product(get_request(), after_rp)
 
     def lot_values_patch_keep_unchange(self, after: dict, before: dict):
-        fields_keep_unchanged = ("weightedValue", "date")
+        fields_keep_unchanged = ("weightedValue", "date", "status")
 
         after_lot_values = after.get("lotValues", [])
         before_lot_values = before.get("lotValues", [])
