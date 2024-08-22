@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.serializers.base import (
@@ -7,6 +9,9 @@ from openprocurement.api.procedure.serializers.base import (
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.item import (
+    ItemPreQualificationSerializer,
 )
 
 
@@ -25,6 +30,7 @@ class BidSerializer(BaseSerializer):
 
     def __init__(self, data: dict):
         super().__init__(data)
+        self.serializers = deepcopy(self.serializers)
 
         tender = get_tender()
 
@@ -77,7 +83,9 @@ class BidSerializer(BaseSerializer):
                     "eligibilityDocuments",
                     "tenderers",
                     "requirementResponses",
+                    "items",
                 }
+                self.serializers["items"] = ListSerializer(ItemPreQualificationSerializer)
             elif tender["status"] == "active.auction":
                 self.whitelist = {
                     "id",
