@@ -21,7 +21,6 @@ from openprocurement.tender.core.procedure.models.bid_document import (
 from openprocurement.tender.core.procedure.models.item import BaseItem, LocalizationItem
 from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue,
-    PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.core.procedure.models.organization import (
@@ -40,7 +39,7 @@ class PatchBid(BaseBid):
     items = ListType(ModelType(BaseItem, required=True))
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
-    lotValues = ListType(ModelType(PatchLotValue, required=True))
+    lotValues = ListType(ModelType(LotValue, required=True))
     tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
