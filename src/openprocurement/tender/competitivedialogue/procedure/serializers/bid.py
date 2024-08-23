@@ -10,7 +10,9 @@ class BidSerializer(BaseBidSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
         tender_status = get_tender()["status"]
-        if data["status"] in ("invalid", "deleted"):
+        if is_item_owner(get_request(), data):
+            self.whitelist = None
+        elif data["status"] in ("invalid", "deleted"):
             self.whitelist = {
                 "id",
                 "status",
@@ -26,8 +28,6 @@ class BidSerializer(BaseBidSerializer):
                 "subcontractingDetails",
                 "requirementResponses",
             }
-        elif is_item_owner(get_request(), data):
-            self.whitelist = None
         elif tender_status in ("active.pre-qualification", "active.pre-qualification.stand-still"):
             self.whitelist = {
                 "id",

@@ -627,10 +627,6 @@ def delete_tender_bidder(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["id"], bid["id"])
     self.assertEqual(response.json["data"]["status"], "deleted")
-    # deleted bid does not contain bid information
-    self.assertFalse("lotValues" in response.json["data"])
-    self.assertFalse("tenderers" in response.json["data"])
-    self.assertFalse("date" in response.json["data"])
 
     # try to add documents to bid
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:

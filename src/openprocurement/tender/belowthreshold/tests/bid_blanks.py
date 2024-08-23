@@ -753,6 +753,12 @@ def patch_pending_bid(self):
         f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}", {"data": {"tenderers": tenderers}}
     )
     self.assertEqual(response.json["data"]["status"], "invalid")
+    self.assertEqual(response.json["data"]["tenderers"][0]["identifier"]["scheme"], "UA-FIN")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}")
+    self.assertIn("lotValues", response.json["data"])
+
+    self.app.get(f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.tender_token}", status=403)
 
 
 def bid_proposal_doc(self):
