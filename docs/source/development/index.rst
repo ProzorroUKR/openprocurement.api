@@ -17,3 +17,4 @@ Contents:
    request_for_proposal
    contracting_electronic_documents
    e_contract_signing
+   contract_change
