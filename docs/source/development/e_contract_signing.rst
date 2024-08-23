@@ -662,6 +662,14 @@
                    "postalCode":"01220",
                    "countryName":"Україна"
                 },
+                {
+                    "name": "Ухват Підписенко",
+                    "email": "u.pidpis@email.com",
+                    "telephone": "+380950000001",
+                    "iban": "UA111111111111111",
+                    "position": "Замгендір по підписам",
+                    "authorizedBy": "Магічна мушля"
+                },
                 "scale":"micro"
              }
           ],
@@ -720,6 +728,14 @@
                 "postalCode":"01220",
                 "countryName":"Україна"
              },
+             "signerInfo": {
+                "name": "Test Testovich",
+                "email": "example@email.com",
+                "telephone": "+380950000000",
+                "iban": "234234234234234",
+                "position": "Генеральний директор",
+                "authorizedBy": "Статут компанії"
+              },
              "kind":"general"
           },
           "value":{
@@ -1040,6 +1056,13 @@
         "reasonType": "outOfStock"
       }
     }
+
+
+Додаткові угоди
+---------------
+
+Зміни до контрактів вносяться через :ref:`додаткові угоди<econtract_change_updated_flow>`
+
 
 
 Авторизація користувачів з різних майданчиків
