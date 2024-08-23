@@ -8,8 +8,78 @@ Content-Type: application/json
 
 {
   "data": {
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro"
+      }
+    ],
+    "value": {
+      "amount": 469.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "cdc512a2b4bb40248d9acc3856293743"
+        },
+        "value": "Розчин для інфузій",
+        "id": "1dd391dc65664dd990b851301992224e"
+      },
+      {
+        "requirement": {
+          "id": "97d57858d27a4d25a2bfc93285fe6bbd"
+        },
+        "value": 5,
+        "id": "9fa88dd9b935403b8fc2901413c2076f"
+      },
+      {
+        "requirement": {
+          "id": "ce5f65d294914370b88867ea6ef13fe8"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ],
+        "id": "9ce84d2d4afb41f586da84c363a2a6d5"
+      }
+    ],
     "status": "deleted",
-    "id": "55faa050ef4746c29fc00870518cecad"
+    "items": [
+      {
+        "id": "e0171c9b08d34c71948f18a5f3504f5a",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ],
+    "id": "55faa050ef4746c29fc00870518cecad",
+    "date": "2023-10-10T01:00:01+03:00"
   }
 }
 
