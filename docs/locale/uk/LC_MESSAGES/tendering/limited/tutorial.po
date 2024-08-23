@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-05 15:15+0300\n"
+"POT-Creation-Date: 2024-08-27 13:53+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -259,6 +259,15 @@ msgstr "Тепер переглянемо знову усі документи �
 
 msgid "Award confirmation"
 msgstr "Підтвердження переможця процедури"
+
+msgid "Before making decision it is required to add sign document to award. If there is no sign document during activation, we will see an error:"
+msgstr "Перед прийняттям рішення по переможцю необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час активації буде помилка:"
+
+msgid "The same logic for `unsuccessful` status:"
+msgstr "Така сама логіка при відхилені аварду:"
+
+msgid "Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:"
+msgstr "Файл підпису має тип документу `documentType: notice` та розширення `title: *.p7s`. Додамо файл підпису:"
 
 msgid "Procuring entity can confirm awarding decision:"
 msgstr "Замовник повинен підтвердити своє рішення про визначення переможця:"

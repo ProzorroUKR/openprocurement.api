@@ -467,7 +467,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
             file_json.write(json.dumps(response.json, indent=4, sort_keys=True))
 
     def activate_tender(self, tender_id, owner_token):
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.tendering"}}
         )
@@ -501,7 +501,12 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid1_token = response.json['access']['token']
         bid1_id = response.json['data']['id']
-        self.add_proposal_doc(tender_id, bid1_id, bid1_token)
+        self.add_sign_doc(
+            tender_id,
+            bid1_token,
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         #### Registering bid 2
@@ -530,7 +535,12 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
-        self.add_proposal_doc(tender_id, bid2_id, bid2_token)
+        self.add_sign_doc(
+            tender_id,
+            bid2_token,
+            docs_url=f"/bids/{bid2_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         return bid1_id, bid1_token, bid2_id, bid2_token
@@ -546,10 +556,12 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         award2_id = award2["id"]
 
         # Activate award
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award2_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award2_id, owner_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -594,7 +606,12 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid1_id = response.json['data']['id']
         bid1_token = response.json['access']['token']
-        self.add_proposal_doc(tender_id, bid1_id, bid1_token)
+        self.add_sign_doc(
+            tender_id,
+            bid1_token,
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         bid_data["lotValues"][0]["value"]["amount"] = 500
@@ -603,7 +620,12 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
-        self.add_proposal_doc(tender_id, bid2_id, bid2_token)
+        self.add_sign_doc(
+            tender_id,
+            bid2_token,
+            docs_url=f"/bids/{bid2_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         return bid1_id, bid1_token, bid2_id, bid2_token
@@ -660,7 +682,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
         # Tender activating
 
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -822,7 +844,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
         # Tender activating
 
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -958,7 +980,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -990,7 +1012,12 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '201 Created')
             bids.append(response.json['data']['id'])
             bids_tokens.append(response.json['access']['token'])
-            self.add_proposal_doc(tender_id, response.json['data']['id'], response.json['access']['token'])
+            self.add_sign_doc(
+                tender_id,
+                response.json['access']['token'],
+                docs_url=f"/bids/{response.json['data']['id']}/documents",
+                document_type="proposal",
+            )
             self.set_responses(tender_id, response.json, "pending")
 
         #### Auction
@@ -1059,6 +1086,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
 
         self.app.authorization = ('Basic', ('broker', ''))
         # The customer decides that the winner is award1
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_1_id}/documents")
         with open(
             TARGET_DIR + 'has-awarding-order-false-auction-results-example-1-activate-first-award.http', 'w'
         ) as self.app.file_obj:
@@ -1096,12 +1124,14 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
             award_4_id = response.json["data"][-1]["id"]
 
         # The customer rejects award4 (1.1) and recognizes as the winner award2
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_4_id}/documents")
         response = self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_4_id, owner_token),
             {'data': {'status': 'unsuccessful'}},
         )
         self.assertEqual(response.status, '200 OK')
 
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_2_id}/documents")
         response = self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_2_id, owner_token),
             {'data': {'status': 'active'}},
@@ -1304,7 +1334,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1435,7 +1465,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1515,7 +1545,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1655,7 +1685,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1694,7 +1724,12 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
                 },
             )
             self.assertEqual(response.status, "201 Created")
-            self.add_proposal_doc(tender_id, response.json['data']['id'], response.json['access']['token'])
+            self.add_sign_doc(
+                tender_id,
+                response.json['access']['token'],
+                docs_url=f"/bids/{response.json['data']['id']}/documents",
+                document_type="proposal",
+            )
             self.set_responses(tender_id, response.json, "pending")
         bid_token = response.json["access"]["token"]
 
@@ -1712,6 +1747,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         award2_id = award2["id"]
 
         # Activate award
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {
@@ -1721,6 +1757,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
                 }
             },
         )
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award2_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award2_id, owner_token),
             {
@@ -1765,7 +1802,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         )
 
     def activate_tender(self, tender_id, owner_token):
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1792,7 +1829,12 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
             bid_data["lotValues"].append({"value": {"amount": idx * 100 + initial_amount}, 'relatedLot': lot_id})
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
         self.assertEqual(response.status, '201 Created')
-        self.add_proposal_doc(tender_id, response.json['data']['id'], response.json['access']['token'])
+        self.add_sign_doc(
+            tender_id,
+            response.json['access']['token'],
+            docs_url=f"/bids/{response.json['data']['id']}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
         return response.json['data']['id']
 
@@ -2250,7 +2292,7 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
         )
         self.assertEqual(response.status, '201 Created')
 
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}?acc_token={owner_token}', {'data': {'status': 'active.tendering'}}
         )
@@ -2281,7 +2323,12 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
         self.assertEqual(response.status, '201 Created')
         bid1_token = response.json['access']['token']
         bid1_id = response.json['data']['id']
-        self.add_proposal_doc(tender_id, bid1_id, bid1_token)
+        self.add_sign_doc(
+            tender_id,
+            bid1_token,
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         response = self.app.post_json(
@@ -2316,7 +2363,12 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
-        self.add_proposal_doc(tender_id, bid2_id, bid2_token)
+        self.add_sign_doc(
+            tender_id,
+            bid2_token,
+            docs_url=f"/bids/{bid2_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         response = self.app.patch_json(
@@ -2353,7 +2405,7 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active')
 
-        self.add_qualification_sign_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token, document_type="evaluationReports")
         with open(TARGET_DIR + 'qualification-complain-duration-5-days.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
@@ -2425,7 +2477,7 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
         )
         self.assertEqual(response.status, '201 Created')
 
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
 
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}?acc_token={owner_token}', {'data': {'status': 'active.tendering'}}
@@ -2457,7 +2509,12 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid1_token = response.json['access']['token']
         bid1_id = response.json['data']['id']
-        self.add_proposal_doc(tender_id, bid1_id, bid1_token)
+        self.add_sign_doc(
+            tender_id,
+            bid1_token,
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         response = self.app.post_json(
@@ -2492,7 +2549,12 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
-        self.add_proposal_doc(tender_id, bid2_id, bid2_token)
+        self.add_sign_doc(
+            tender_id,
+            bid2_token,
+            docs_url=f"/bids/{bid2_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         response = self.app.patch_json(
@@ -2708,7 +2770,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
 
         # Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.tendering"}}
         )
@@ -2754,7 +2816,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
 
         # Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.tendering"}}
         )
@@ -2876,7 +2938,7 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -2908,7 +2970,12 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '201 Created')
             bids.append(response.json['data']['id'])
             bids_tokens.append(response.json['access']['token'])
-            self.add_proposal_doc(tender_id, response.json['data']['id'], response.json['access']['token'])
+            self.add_sign_doc(
+                tender_id,
+                response.json['access']['token'],
+                docs_url=f"/bids/{response.json['data']['id']}/documents",
+                document_type="proposal",
+            )
             self.set_responses(tender_id, response.json, "pending")
 
         #### Auction
@@ -2972,6 +3039,7 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
 
         self.app.authorization = ('Basic', ('broker', ''))
         # The customer decides that the winner is award1
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_1_id}/documents")
         with open(TARGET_DIR + "award-complain-duration-tender-patch-1.http", "w") as self.app.file_obj:
             # set award as active
             response = self.app.patch_json(
@@ -3139,7 +3207,7 @@ class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
 
     def activate_tender(self, tender_id, owner_token):
         #### Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender_id, owner_token),
             {"data": {"status": "active.tendering"}},
@@ -3148,7 +3216,7 @@ class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
 
     def activate_tender_enquiries(self, tender_id, owner_token):
         #### Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender_id, owner_token),
             {"data": {"status": "active.enquiries"}},

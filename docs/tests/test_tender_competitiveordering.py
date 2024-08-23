@@ -281,7 +281,7 @@ class TenderResourceTest(
             )
 
         with open(TARGET_DIR + 'add-notice-document.http', 'w') as self.app.file_obj:
-            self.add_notice_doc(tender_id, owner_token)
+            self.add_sign_doc(tender_id, owner_token)
 
         with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -364,7 +364,12 @@ class TenderResourceTest(
             {'data': {"requirementResponses": requirement_responses}},
         )
         self.assertEqual(response.status, '200 OK')
-        self.add_proposal_doc(self.tender_id, bid1_id, bid1_token)
+        self.add_sign_doc(
+            self.tender_id,
+            bid1_token,
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+        )
 
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}/bids/{bid1_id}?acc_token={bid1_token}', {'data': {"status": "pending"}}
@@ -386,7 +391,12 @@ class TenderResourceTest(
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
-        self.add_proposal_doc(self.tender_id, bid2_id, bid2_token)
+        self.add_sign_doc(
+            self.tender_id,
+            bid2_token,
+            docs_url=f"/bids/{bid2_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(self.tender_id, response.json, "pending")
 
         lot_values = response.json["data"]["lotValues"]
@@ -422,7 +432,12 @@ class TenderResourceTest(
             self.assertEqual(response.status, '201 Created')
         bid3_id = response.json['data']['id']
         bid3_token = response.json['access']['token']
-        self.add_proposal_doc(self.tender_id, bid3_id, bid3_token)
+        self.add_sign_doc(
+            self.tender_id,
+            bid3_token,
+            docs_url=f"/bids/{bid3_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         # disqualify second supplier from agreement during active.tendering
@@ -510,6 +525,7 @@ class TenderResourceTest(
         tender["awards"][0]["milestones"][0]["dueDate"] = (get_now() - datetime.timedelta(days=1)).isoformat()
         self.mongodb.tenders.save(tender)
 
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={owner_token}',
             {"data": {"status": "active", "qualified": True, "eligible": True}},

@@ -147,7 +147,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.activate_tender(profile, filename='notice-document-required')
 
         with open(TARGET_DIR + 'add-notice-document.http', 'w') as self.app.file_obj:
-            self.add_notice_doc(self.tender_id, self.tender_token)
+            self.add_sign_doc(self.tender_id, self.tender_token)
 
         # tender relates to non existed profile
         with patch(
@@ -327,6 +327,21 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         award = [i for i in response.json['data'] if i['status'] == 'pending'][0]
         award_id = award['id']
 
+        with open(TARGET_DIR + 'award-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
+                {"data": {"status": "active"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
+                {"data": {"status": "unsuccessful"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'award-add-notice-document.http', 'w') as self.app.file_obj:
+            self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+
         # activate award
         with open(TARGET_DIR + 'award-active.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -355,6 +370,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         award = [i for i in response.json['data'] if i['status'] == 'pending'][0]
         award_id = award['id']
 
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+
         with open(TARGET_DIR + 'award-unsuccesful.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
@@ -371,6 +388,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         award_id = award['id']
 
         # activate second bidder award
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         with open(TARGET_DIR + 'award-active-2.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),

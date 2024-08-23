@@ -268,6 +268,22 @@ The pending award can be retrieved via request to list all available awards:
 Confirming qualification
 ------------------------
 
+Before making decision it is required to add sign document to award.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: tutorial/award-notice-document-required.http
+   :code:
+
+The same logic for `unsuccessful` status:
+
+.. http:example:: tutorial/award-unsuccessful-notice-document-required.http
+   :code:
+
+Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: tutorial/award-add-notice-document.http
+   :code:
+
 Let's try to disqualify award by switching it's status from `pending` to `unsuccessful`.
 
 .. http:example:: tutorial/award-qualification-unsuccessful.http

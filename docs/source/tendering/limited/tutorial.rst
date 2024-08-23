@@ -195,6 +195,22 @@ Let's see the list of all uploaded award documents:
 Award confirmation
 ~~~~~~~~~~~~~~~~~~
 
+Before making decision it is required to add sign document to award.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: http/tutorial/award-notice-document-required.http
+   :code:
+
+The same logic for `unsuccessful` status:
+
+.. http:example:: http/tutorial/award-unsuccessful-notice-document-required.http
+   :code:
+
+Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: http/tutorial/award-add-notice-document.http
+   :code:
+
 Procuring entity can confirm awarding decision:
 
 .. http:example:: http/tutorial/tender-award-approve.http

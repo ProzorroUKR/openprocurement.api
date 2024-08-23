@@ -50,6 +50,21 @@ Content-Type: application/json
     ],
     "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
     "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "88a6a67c472243f7af7972ec3ff55357",
+        "datePublished": "2023-10-10T01:02:01+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4156406367fb480e89aeb0b9c054db99?Signature=z5b%2FEQl8%2BR8%2Fbd1Tc50pDv3iUZtNc97I0TVMtNS6Ebdwjs3QegOBaE921f2D%2Bsit9bGigDnJ96Jcxu1%2F5Cm2DA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:02:01+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "qualified": true,
     "eligible": true
   }

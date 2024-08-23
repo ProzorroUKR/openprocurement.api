@@ -49,6 +49,21 @@ Content-Type: application/json
     ],
     "bid_id": "df2b366b648c4f6eb9855c8a1e3c9ea4",
     "lotID": "987404b67a4c4d888112d4e9755edefc",
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "5d4f2bdc658d4f44a748a7c0b04a1a4e",
+        "datePublished": "2023-10-16T01:15:06+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f8ccd50adb714a6a83d8989d9c73144e?Signature=7aB7pCLKXxwYP9WARAU1W9yAk5mMknIXJBkgTEQs71N4tKhIFXT%2BDEFItcfJmUq3Ry0k0OitQuVjLE4mDiL%2FCA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-16T01:15:06+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "complaintPeriod": {
       "startDate": "2023-10-16T01:15:06+03:00",
       "endDate": "2023-10-19T00:00:00+03:00"

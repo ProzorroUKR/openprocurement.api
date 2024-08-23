@@ -632,7 +632,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
-        self.add_proposal_doc(self.tender_id, bid_id, bid_token)
+        self.add_sign_doc(
+            self.tender_id,
+            bid_token,
+            docs_url=f"/bids/{bid_id}/documents",
+            document_type="proposal",
+        )
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
             {'data': {"status": "pending"}},
@@ -664,7 +669,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tick()
 
         # active.pre-qualification.stand-still
-        self.add_qualification_sign_doc(self.tender_id, owner_token)
+        self.add_sign_doc(self.tender_id, owner_token, document_type="evaluationReports")
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1125,7 +1130,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
-        self.add_proposal_doc(self.tender_id, bid_id, bid_token)
+        self.add_sign_doc(
+            self.tender_id,
+            bid_token,
+            docs_url=f"/bids/{bid_id}/documents",
+            document_type="proposal",
+        )
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
             {'data': {"status": "pending"}},
@@ -1157,7 +1167,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "200 OK")
 
         # active.pre-qualification.stand-still
-        self.add_qualification_sign_doc(self.tender_id, owner_token)
+        self.add_sign_doc(self.tender_id, owner_token, document_type="evaluationReports")
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1193,6 +1203,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         # check complaints for unsuccessful award
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {"data": {"status": "unsuccessful"}},
@@ -1217,6 +1228,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         # check complaints for active award
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -2597,7 +2609,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
-        self.add_proposal_doc(self.tender_id, bid_id, bid_token)
+        self.add_sign_doc(
+            self.tender_id,
+            bid_token,
+            docs_url=f"/bids/{bid_id}/documents",
+            document_type="proposal",
+        )
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
             {'data': {"status": "pending"}},
@@ -2625,7 +2642,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "200 OK")
 
         # active.pre-qualification.stand-still
-        self.add_qualification_sign_doc(self.tender_id, owner_token)
+        self.add_sign_doc(self.tender_id, owner_token, document_type="evaluationReports")
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -2874,7 +2891,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
-        self.add_proposal_doc(self.tender_id, bid_id, bid_token)
+        self.add_sign_doc(
+            self.tender_id,
+            bid_token,
+            docs_url=f"/bids/{bid_id}/documents",
+            document_type="proposal",
+        )
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
             {'data': {"status": "pending"}},

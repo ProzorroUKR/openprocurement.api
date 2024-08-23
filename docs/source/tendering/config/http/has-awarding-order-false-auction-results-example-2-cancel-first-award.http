@@ -53,7 +53,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-10T01:00:00+03:00"
-    }
+    },
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "5cb1a8b80d1943af8b83c83a8b4246cd",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/37eae6e70da24997b06d7b039b9a1667?Signature=RrsHbgQa1n7Yn45e3eh815YVvjlNVLzlN9UeLEX6QeZ5SVgaaMynkIPpn5hb4GhnoiPpJaHu4UBMv%2F0gf%2FDUCw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ]
   }
 }
 

@@ -2,7 +2,6 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.award_blanks import contract_sign
 from openprocurement.tender.cfaselectionua.tests.award_blanks import (  # TenderAwardResourceTest; TenderLotAwardCheckResourceTest; TenderLotAwardResourceTest; Tender2LotAwardResourceTest; TenderAwardDocumentResourceTest; Tender2LotAwardDocumentResourceTest
     check_tender_award,
     create_award_document_bot,
@@ -103,7 +102,6 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
     test_patch_tender_lot_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
-    test_contract_sign = snitch(contract_sign)
 
 
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")

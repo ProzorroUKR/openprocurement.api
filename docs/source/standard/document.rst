@@ -19,9 +19,9 @@ Schema
 
     Possible values for sign documents:
 
-    * `notice` - **Sign document for publication tender**
+    * `notice` - **Sign document for publication tender/confirming qualification**
 
-      Can be used in :ref:`tender`
+      Can be used in :ref:`tender` and :ref:`award`.
 
     * `evaluationReports` - **Sign document for evaluation report**
 

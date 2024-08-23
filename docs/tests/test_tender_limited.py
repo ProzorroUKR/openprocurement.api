@@ -218,6 +218,21 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         #### Award confirmation
 
+        with open(TARGET_DIR + 'tutorial/award-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
+                {"data": {"status": "active"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'tutorial/award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
+                {"data": {"status": "unsuccessful"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'tutorial/award-add-notice-document.http', 'w') as self.app.file_obj:
+            self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{self.award_id}/documents")
+
         with open(TARGET_DIR + 'tutorial/tender-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
@@ -370,6 +385,8 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         #### Award confirmation
 
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{self.award_id}/documents")
+
         with open(TARGET_DIR + 'tutorial/tender-negotiation-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
@@ -413,6 +430,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         self.award_id = response.json['data']['id']
 
         #### Award confirmation
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{self.award_id}/documents")
         with open(TARGET_DIR + 'tutorial/tender-negotiation-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
@@ -565,6 +583,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         #### Award confirmation
 
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{self.award_id}/documents")
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
@@ -616,6 +635,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
 
         #### Award confirmation
 
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{self.award_id}/documents")
         with open(TARGET_DIR + 'tutorial/tender-negotiation-quick-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),

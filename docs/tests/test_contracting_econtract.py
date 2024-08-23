@@ -132,6 +132,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
         # set award as active
+        self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             f'/tenders/{tender_id}/awards/{award_id}?acc_token={owner_token}', {"data": {"status": "active"}}
         )
@@ -599,6 +600,7 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         # set award as active
+        self.add_sign_doc(self.tender_id, self.owner_token, docs_url=f"/awards/{award_id}/documents")
         with open(TARGET_DIR + 'set-active-award.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.owner_token}',
@@ -723,6 +725,7 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
         # set award as active
+        self.add_sign_doc(self.tender_id, self.owner_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.owner_token}', {"data": {"status": "active"}}
         )

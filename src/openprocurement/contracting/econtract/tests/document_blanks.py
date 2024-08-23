@@ -1,4 +1,6 @@
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.econtract.tests.data import test_signer_info
@@ -954,6 +956,9 @@ def create_contract_transaction_document_json(self):
     )
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 def limited_contract_confidential_document(self):
     tender_data = deepcopy(test_tender_reporting_data)
     tender_data["cause"] = "UZ"

@@ -124,7 +124,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
             )
 
         with open(TARGET_DIR + 'add-notice-document.http', 'w') as self.app.file_obj:
-            self.add_notice_doc(tender['id'], owner_token)
+            self.add_sign_doc(tender['id'], owner_token)
 
         with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -364,7 +364,13 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
 
         self.tick_delta = None
         self.tick(timedelta(minutes=1))
-        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
+        self.add_sign_doc(
+            self.tender_id,
+            bids_access[bid1_id],
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+            doc_id=doc_id,
+        )
         self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
             {'data': {"status": "pending"}},
@@ -386,7 +392,13 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         #### Bid confirmation
 
         self.tick()
-        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
+        self.add_sign_doc(
+            self.tender_id,
+            bids_access[bid1_id],
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+            doc_id=doc_id,
+        )
         with open(TARGET_DIR + 'bidder-activate-after-changing-tender.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
@@ -403,7 +415,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
-        self.add_proposal_doc(self.tender_id, bid2_id, bids_access[bid2_id])
+        self.add_sign_doc(
+            self.tender_id,
+            bids_access[bid2_id],
+            docs_url=f"/bids/{bid2_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(self.tender_id, response.json)
 
         #### Auction
@@ -514,6 +531,21 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         tender = self.mongodb.tenders.get(self.tender_id)
         tender["awards"][0]["milestones"][0]["dueDate"] = (get_now() - timedelta(days=1)).isoformat()
         self.mongodb.tenders.save(tender)
+
+        with open(TARGET_DIR + 'award-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'award-add-notice-document.http', 'w') as self.app.file_obj:
+            self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
 
         with open(TARGET_DIR + 'confirm-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json(

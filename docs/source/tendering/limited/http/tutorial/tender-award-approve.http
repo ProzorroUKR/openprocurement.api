@@ -42,6 +42,19 @@ Content-Type: application/json
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
+      },
+      {
+        "documentType": "notice",
+        "id": "7acfb16603784a4a8527357160347ea1",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/090eb78164424bc3a6a8ef1a626b3d2b?Signature=B6%2BcFjyOPTR4c462I8pPvrco92DE%2FASdfjMCJf1Io%2FBY0KBYvBmjMeHVzWh7644li65XKJbHJVX59GLHUGolDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
       }
     ],
     "suppliers": [

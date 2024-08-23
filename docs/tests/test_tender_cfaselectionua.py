@@ -385,7 +385,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         self.tick_delta = None
         self.tick(timedelta(minutes=1))
-        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
+        self.add_sign_doc(
+            self.tender_id,
+            bids_access[bid1_id],
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+            doc_id=doc_id,
+        )
         self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
             {'data': {"status": "pending"}},
@@ -405,7 +411,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, '201 Created')
 
         self.app.authorization = ('Basic', ('broker', ''))
-        self.add_proposal_doc(self.tender_id, bid2_id, bids_access[bid2_id])
+        self.add_sign_doc(
+            self.tender_id,
+            bids_access[bid2_id],
+            docs_url=f"/bids/{bid2_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(self.tender_id, response.json)
 
         bid3 = deepcopy(bid2)
@@ -416,7 +427,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bid3_id = response.json['data']['id']
         bids_access[bid3_id] = response.json['access']['token']
         self.assertEqual(response.status, '201 Created')
-        self.add_proposal_doc(self.tender_id, bid3_id, bids_access[bid3_id])
+        self.add_sign_doc(
+            self.tender_id,
+            bids_access[bid3_id],
+            docs_url=f"/bids/{bid3_id}/documents",
+            document_type="proposal",
+        )
         self.set_responses(self.tender_id, response.json)
 
         # Auction
@@ -484,6 +500,21 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
+        with open(TARGET_DIR + 'award-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "active"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'award-add-notice-document.http', 'w') as self.app.file_obj:
+            self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+
         with open(TARGET_DIR + 'award-qualification-unsuccessful.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
@@ -507,6 +538,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         with open(TARGET_DIR + 'award-qualification-unsuccessful1.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
@@ -517,6 +549,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         with open(TARGET_DIR + 'confirm-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),

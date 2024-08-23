@@ -501,7 +501,7 @@ Content-Type: application/json
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
-        "format": "application/pdf",
+        "format": "sign/pkcs7-signature",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/documents/3acc8466be6b4b3782cc61ed3662ad09?download=389951a70228404a81d813a8c8f3d793",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
@@ -828,7 +828,7 @@ Content-Type: application/json
             "id": "b341b0b88047496f9941c908c61b51e9",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
-            "title": "proposal.p7s",
+            "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bebf8577c87d49a99472444e2fc46ea7?Signature=VXKEzY1RhERMTq8fbs4cq6Uzwe3%2Bc8cpKXGYDpDf7B3WbI8WnUke%2Btn8jNTLRC1O%2FtSTzH7r%2FN1uF9rZqpbEDQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
@@ -1000,7 +1000,7 @@ Content-Type: application/json
             "id": "5159b7a0b25f45ffa502c777e8c3d8e6",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
-            "title": "proposal.p7s",
+            "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a698fc2a68a64eebbbbf8dba0b4d77fa?Signature=lAQ18NyymFlpiBDp%2FMHECThfKcqXr2I%2BH7nvdv03Y2vZ8vqyadyA1If5teboRHoadw7%2FAsf9bPzyBCd6QA2GAw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
@@ -1076,6 +1076,21 @@ Content-Type: application/json
         ],
         "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
         "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
+        "documents": [
+          {
+            "documentType": "notice",
+            "id": "832da0e2beae4231a700dc858436811a",
+            "datePublished": "2023-11-09T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "sign/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5f83267d6cf04d448ecb9716d7f443a4?Signature=cGh7x8OB3OvO6L9ih0NhfNb0Mjt2AVdShA0B9xSpSwTTu%2BXN1TYNKvrEvElkcARZLCJrlMLuLPvXSE6QfeAbAA%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-11-09T00:00:00+02:00",
+            "author": "tender_owner",
+            "language": "uk"
+          }
+        ],
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
@@ -1118,6 +1133,21 @@ Content-Type: application/json
         ],
         "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
         "lotID": "5b1a9504cc16400fa33f3d9e84606053",
+        "documents": [
+          {
+            "documentType": "notice",
+            "id": "5cb1a8b80d1943af8b83c83a8b4246cd",
+            "datePublished": "2023-11-09T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "sign/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d19dd6757d8b43f3a47a607420cd232e?Signature=x3aWZS%2Fe61Uxeb3lDmlmDHzqunnVPMaUjvPZens1N4J0L5o7TXTwXZQD7sdHfAincMNEFbAgkfXdoSAt67F1Cw%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-11-09T00:00:00+02:00",
+            "author": "tender_owner",
+            "language": "uk"
+          }
+        ],
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
@@ -1128,7 +1158,7 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "5f83267d6cf04d448ecb9716d7f443a4",
+        "id": "b2d66e6f23e84c339949ab31df6919ac",
         "status": "active",
         "awardID": "23995d40cc7347569e6d5f2f47ece4e8",
         "date": "2023-11-09T00:00:00+02:00",
@@ -1141,7 +1171,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "af1f946d1ab8441f9ec7d0324162df65",
+        "id": "43c1295aced44a0598afa2d686df8eed",
         "status": "active",
         "awardID": "99e6dcc3408d4794ae66c30ae2297ea7",
         "date": "2023-11-09T00:00:00+02:00",

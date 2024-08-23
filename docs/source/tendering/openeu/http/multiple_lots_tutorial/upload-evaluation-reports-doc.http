@@ -6,28 +6,28 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "sign.p7s",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/542142fe2f5943cfb8df7f7b9775dca8?Signature=5XgKb5rGzZpbbqnmaK9DpcjvK0cteel%2BcYqvXaqWGJkwoMytQzwcgPho8ZpN%2ByuQkj6fdxw11ElnAsjGbqGlAw%3D%3D&KeyID=a8968c46",
+    "documentType": "evaluationReports",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d0e18c6b3b2a4f6dafa501a1732f92e7?Signature=WiR%2FCtdPOKP1BFDXZlulzei2hu50Hst6JBKjR7FwP8Ncm70NnblOQPCETuNNCV4rkNANGhIS1PZghxAvV12QAw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
-    "format": "application/pdf",
-    "documentType": "evaluationReports"
+    "format": "sign/pkcs7-signature"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/438aef21947a4a09b39118b30a029983/documents/26edf5b8f17147a3804ca6e65371137f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/438aef21947a4a09b39118b30a029983/documents/456a6d24753040bbb321e8ccc41f12fe
 
 {
   "data": {
     "documentType": "evaluationReports",
     "hash": "md5:00000000000000000000000000000000",
     "title": "sign.p7s",
-    "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/542142fe2f5943cfb8df7f7b9775dca8?Signature=Wuk7EOse5dVkLc2kwcag8oIe0QUj2dBmWLp7Z0mskYC2z%2By6irOMtDOCfYe9vEH1P0xOgb%2F8Nodaxuyu1%2FlIDA%3D%3D&KeyID=a8968c46",
+    "format": "sign/pkcs7-signature",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d0e18c6b3b2a4f6dafa501a1732f92e7?Signature=7I9i%2FKqZgb9BqrmzVpwr2UjqzZmDCMVQrAU4AYvPbbITzWb1z0o7gS0inVo2RGHG0DROl0WQUvbQdZqxD%2F0VAw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
-    "id": "26edf5b8f17147a3804ca6e65371137f",
+    "id": "456a6d24753040bbb321e8ccc41f12fe",
     "datePublished": "2023-10-10T01:01:00+03:00",
     "dateModified": "2023-10-10T01:01:00+03:00",
     "author": "tender_owner"
