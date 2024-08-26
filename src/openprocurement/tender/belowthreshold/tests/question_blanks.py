@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.tests.base import change_auth
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
@@ -9,7 +10,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.core.utils import get_now
 
 
 def create_tender_question_invalid(self):

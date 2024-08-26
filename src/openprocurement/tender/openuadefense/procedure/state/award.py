@@ -12,7 +12,7 @@ from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
 from openprocurement.tender.openuadefense.procedure.state.tender import (
     OpenUADefenseTenderState,
 )
-from openprocurement.tender.openuadefense.utils import calculate_complaint_business_date
+from openprocurement.tender.openuadefense.utils import calculate_tender_full_date
 
 
 class AwardState(AwardStateMixing, OpenUADefenseTenderState):
@@ -20,11 +20,11 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
     award_stand_still_time = STAND_STILL_TIME
 
     def award_status_up_from_pending_to_active(self, award, tender):
-        end_date = calculate_complaint_business_date(
+        end_date = calculate_tender_full_date(
             get_now(),
             STAND_STILL_TIME,
-            tender,
-            True,
+            tender=tender,
+            working_days=True,
         ).isoformat()
         award["complaintPeriod"] = {
             "startDate": get_now().isoformat(),
@@ -59,8 +59,11 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
         if not new_defence_complaints:
             award["complaintPeriod"] = {
                 "startDate": get_now().isoformat(),
-                "endDate": calculate_complaint_business_date(
-                    get_now(), self.award_stand_still_time, tender, True
+                "endDate": calculate_tender_full_date(
+                    get_now(),
+                    self.award_stand_still_time,
+                    tender=tender,
+                    working_days=True,
                 ).isoformat(),
             }
         self.add_next_award()

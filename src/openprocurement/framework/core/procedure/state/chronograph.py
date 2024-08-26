@@ -7,7 +7,7 @@ from openprocurement.framework.core.constants import DAYS_TO_UNSUCCESSFUL_STATUS
 from openprocurement.framework.core.procedure.utils import (
     get_framework_number_of_submissions,
 )
-from openprocurement.framework.core.utils import calculate_framework_date
+from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 LOGGER = getLogger(__name__)
@@ -29,10 +29,10 @@ class ChronographEventsMixing:
         if framework.get("status") == "active":
             if not framework.get("successful"):
                 if start_date := framework.get("period", {}).get("startDate"):
-                    unsuccessful_status_check = calculate_framework_date(
+                    unsuccessful_status_check = calculate_framework_full_date(
                         dt_from_iso(start_date),
                         timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
-                        framework,
+                        framework=framework,
                         working_days=True,
                         ceil=True,
                     )

@@ -13,7 +13,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 # TenderResourceTest
 
@@ -683,8 +683,11 @@ def patch_tender(self):
     tender = response.json["data"]
 
     period = {
-        "startDate": calculate_tender_business_date(
-            parse_date(new_dateModified2), -timedelta(3), None, True
+        "startDate": calculate_tender_full_date(
+            parse_date(new_dateModified2),
+            -timedelta(3),
+            tender=None,
+            working_days=True,
         ).isoformat(),
         "endDate": new_dateModified2,
     }
@@ -805,9 +808,18 @@ def patch_tender_period(self):
     tender = response.json["data"]
 
     tender_period_end_date = (
-        calculate_tender_business_date(get_now(), timedelta(days=7), tender) + timedelta(seconds=1)
+        calculate_tender_full_date(
+            get_now(),
+            timedelta(days=7),
+            tender=tender,
+        )
+        + timedelta(seconds=1)
     ).astimezone(TZ)
-    enquiry_period_end_date = calculate_tender_business_date(tender_period_end_date, -timedelta(days=10), tender)
+    enquiry_period_end_date = calculate_tender_full_date(
+        tender_period_end_date,
+        -timedelta(days=10),
+        tender=tender,
+    )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
         {

@@ -30,8 +30,8 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso, validate_field
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
     calculate_tender_date,
+    calculate_tender_full_date,
 )
 
 
@@ -122,14 +122,14 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
     @staticmethod
     def update_periods(tender):
-        enquiry_end = calculate_tender_business_date(get_now(), ENQUIRY_PERIOD, tender)
+        enquiry_end = calculate_tender_full_date(get_now(), ENQUIRY_PERIOD, tender=tender)
         tender["enquiryPeriod"] = {"startDate": get_now().isoformat(), "endDate": enquiry_end.isoformat()}
         tender["tenderPeriod"] = {
             "startDate": tender["enquiryPeriod"]["endDate"],
-            "endDate": calculate_tender_business_date(
+            "endDate": calculate_tender_full_date(
                 dt_from_iso(tender["enquiryPeriod"]["endDate"]),
                 TENDERING_DURATION,
-                tender,
+                tender=tender,
             ).isoformat(),
         }
 
@@ -173,7 +173,9 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     @classmethod
     def is_agreement_expired(cls, tender, agreement):
         agreement_expire_date = calculate_tender_date(
-            dt_from_iso(agreement["period"]["endDate"]), -cls.agreement_min_period_until_end, tender
+            dt_from_iso(agreement["period"]["endDate"]),
+            -cls.agreement_min_period_until_end,
+            tender=tender,
         )
         return get_now() > agreement_expire_date
 

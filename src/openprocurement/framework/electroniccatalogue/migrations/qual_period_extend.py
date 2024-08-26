@@ -23,7 +23,7 @@ from openprocurement.framework.core.procedure.state.agreement import (
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.utils import (
     SUBMISSION_STAND_STILL_DURATION,
-    calculate_framework_date,
+    calculate_framework_full_date,
 )
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -72,10 +72,10 @@ def run(env):
     cursor.batch_size(args.b)
     try:
         for framework in cursor:
-            new_period_end_date = calculate_framework_date(
+            new_period_end_date = calculate_framework_full_date(
                 new_qual_period_end_date,
                 datetime.timedelta(days=-SUBMISSION_STAND_STILL_DURATION),
-                framework,
+                framework=framework,
             )
 
             now = get_now()

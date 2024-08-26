@@ -76,6 +76,7 @@ from openprocurement.tender.openuadefense.tests.award_blanks import (
     patch_tender_lots_award_complaint,
     review_tender_award_claim,
     tender_award_complaint_period,
+    tender_award_complaint_period_params,
 )
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
@@ -111,66 +112,11 @@ class TenderAwardResourceComplaintPeriodTest(BaseTenderUAWebTest):
     initial_bid_status = "pending"
     initial_bids = test_tender_openuadefense_bids
 
-    @parameterized.expand(
-        [
-            [
-                "working_day",
-                "2019-09-16T12:00:00+03:00",  # Tender created on working date
-                "2019-10-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
-                "2019-10-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
-                "2019-09-20T12:00:00+03:00",  # Award period end date
-                "2019-09-16T12:04:00+03:00",  # Award period end date sandbox mode
-            ],
-            [
-                "working_day",
-                "2019-09-16T12:00:00+03:00",  # Tender created on working date
-                "2019-08-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
-                "2019-10-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
-                "2019-09-23T00:00:00+03:00",  # Award period end date on last working (but after weekend)
-                "2019-09-16T12:04:00+03:00",  # Award period end date sandbox mode
-            ],
-            [
-                "working_day",
-                "2019-09-16T12:00:00+03:00",  # Tender created on working date
-                "2019-08-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
-                "2019-08-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
-                "2019-09-21T00:00:00+03:00",  # Award period end date on last working
-                "2019-09-16T12:04:00+03:00",  # Award period end date sandbox mode
-            ],
-            [
-                "non_working_day",
-                "2019-09-15T12:00:00+03:00",  # Tender created on weekend
-                "2019-10-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
-                "2019-10-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
-                "2019-09-20T00:00:00+03:00",  # Award period end date on last working (but after weekend)
-                "2019-09-15T12:04:00+03:00",  # Award period end date sandbox mode
-            ],
-            [
-                "non_working_day",
-                "2019-09-15T12:00:00+03:00",  # Tender created on weekend
-                "2019-08-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
-                "2019-10-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
-                "2019-09-20T00:00:00+03:00",  # Award period end date on last working (but after weekend)
-                "2019-09-15T12:04:00+03:00",  # Award period end date sandbox mode
-            ],
-            [
-                "non_working_day",
-                "2019-09-15T12:00:00+03:00",  # Tender created on weekend
-                "2019-08-01T00:00:00+03:00",  # NORMALIZED_COMPLAINT_PERIOD_FROM in future
-                "2019-08-01T00:00:00+03:00",  # WORKING_DATE_ALLOW_MIDNIGHT_FROM in future
-                "2019-09-20T00:00:00+03:00",  # Award period end date on last working
-                "2019-09-15T12:04:00+03:00",  # Award period end date sandbox mode
-            ],
-        ]
-    )
-    def test_tender_award_complaint_period(
-        self, name, date_str, mock_normalized_date_str, mock_midnight_date_str, expected_date_str, expected_sb_date_str
-    ):
+    @parameterized.expand(tender_award_complaint_period_params)
+    def test_tender_award_complaint_period(self, name, date_str, expected_date_str, expected_sb_date_str):
         tender_award_complaint_period(
             self,
             parse_date(date_str),
-            parse_date(mock_normalized_date_str),
-            parse_date(mock_midnight_date_str),
             parse_date(expected_date_str),
             parse_date(expected_sb_date_str),
         )

@@ -21,7 +21,7 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after_2020_rules,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 LOGGER = getLogger(__name__)
 
@@ -258,54 +258,40 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
 
             if enquiry_period_start < date <= tender_period_end:
                 if enquiry_period_end := enquiry_period.get("endDate"):
-                    enquiry_period["endDate"] = calculate_tender_business_date(
-                        dt_from_iso(enquiry_period_end),
-                        delta,
-                        tender,
+                    enquiry_period["endDate"] = calculate_tender_full_date(
+                        dt_from_iso(enquiry_period_end), delta, tender=tender
                     ).isoformat()
                 if clarifications_until := enquiry_period.get("clarificationsUntil"):
-                    enquiry_period["clarificationsUntil"] = calculate_tender_business_date(
-                        dt_from_iso(clarifications_until),
-                        delta,
-                        tender,
+                    enquiry_period["clarificationsUntil"] = calculate_tender_full_date(
+                        dt_from_iso(clarifications_until), delta, tender=tender
                     ).isoformat()
 
                 if tender_period_end:
-                    tender_period["endDate"] = calculate_tender_business_date(
-                        tender_period_end,
-                        delta,
-                        tender,
+                    tender_period["endDate"] = calculate_tender_full_date(
+                        tender_period_end, delta, tender=tender
                     ).isoformat()
 
                 if auction_period:
                     if auction_should_start := auction_period.get("shouldStartAfter"):
-                        auction_period["shouldStartAfter"] = calculate_tender_business_date(
-                            dt_from_iso(auction_should_start),
-                            delta,
-                            tender,
+                        auction_period["shouldStartAfter"] = calculate_tender_full_date(
+                            dt_from_iso(auction_should_start), delta, tender=tender
                         ).isoformat()
 
                     if auction_start := auction_period.get("startDate"):
-                        auction_period["startDate"] = calculate_tender_business_date(
-                            dt_from_iso(auction_start),
-                            delta,
-                            tender,
+                        auction_period["startDate"] = calculate_tender_full_date(
+                            dt_from_iso(auction_start), delta, tender=tender
                         ).isoformat()
 
             elif auction_period and tender_period_end and auction_period.get("shouldStartAfter"):
                 auction_should_start = dt_from_iso(auction_period["shouldStartAfter"])
                 if tender_period_end < date <= auction_should_start:
-                    auction_period["shouldStartAfter"] = calculate_tender_business_date(
-                        auction_should_start,
-                        delta,
-                        tender,
+                    auction_period["shouldStartAfter"] = calculate_tender_full_date(
+                        auction_should_start, delta, tender=tender
                     ).isoformat()
 
                     if auction_start := auction_period.get("startDate"):
-                        auction_period["startDate"] = calculate_tender_business_date(
-                            dt_from_iso(auction_start),
-                            delta,
-                            tender,
+                        auction_period["startDate"] = calculate_tender_full_date(
+                            dt_from_iso(auction_start), delta, tender=tender
                         ).isoformat()
 
     def get_related_lot_obj(self, tender, complaint):

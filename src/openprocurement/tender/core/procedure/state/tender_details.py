@@ -61,10 +61,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
     validate_doc_type_required,
 )
-from openprocurement.tender.core.utils import (
-    calculate_complaint_business_date,
-    calculate_tender_business_date,
-)
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_GROUP,
     COMPETITIVE_ORDERING,
@@ -400,8 +397,8 @@ class TenderDetailsMixing(TenderConfigMixin):
                         after_date=get_tender()["qualificationPeriod"].get("reportingDatePublication"),
                     )
                 if self.all_bids_are_reviewed(after):
-                    after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
-                        get_now(), self.pre_qualification_complaint_stand_still, after
+                    after["qualificationPeriod"]["endDate"] = calculate_tender_full_date(
+                        get_now(), self.pre_qualification_complaint_stand_still, tender=after
                     ).isoformat()
                     after["qualificationPeriod"]["reportingDatePublication"] = get_now().isoformat()
                 else:
@@ -636,7 +633,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
             tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
             if (
-                calculate_tender_business_date(
+                calculate_tender_full_date(
                     get_now(),
                     self.tendering_period_extra,
                     tender=tender,
@@ -706,7 +703,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         if "tenderPeriod" not in tender or "endDate" not in tender["tenderPeriod"]:
             return
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_complaint_business_date(tendering_end, -self.complaint_submit_time, tender)
+        end_date = calculate_tender_full_date(tendering_end, -self.complaint_submit_time, tender=tender)
         tender["complaintPeriod"] = {
             "startDate": tender["tenderPeriod"]["startDate"],
             "endDate": end_date.isoformat(),

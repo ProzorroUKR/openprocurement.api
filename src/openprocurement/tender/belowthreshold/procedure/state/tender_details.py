@@ -24,7 +24,7 @@ from openprocurement.tender.core.procedure.utils import (
     check_auction_period,
     dt_from_iso,
 )
-from openprocurement.tender.core.utils import calculate_clarif_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
@@ -92,10 +92,10 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
     def initialize_enquiry_period(self, tender):
         enquiry_end = dt_from_iso(tender["enquiryPeriod"]["endDate"])
-        clarifications_until = calculate_clarif_business_date(
+        clarifications_until = calculate_tender_full_date(
             enquiry_end,
             self.enquiry_stand_still_timedelta,
-            tender,
+            tender=tender,
         )
         enquiry_period = tender.get("enquiryPeriod")
         tender["enquiryPeriod"]["clarificationsUntil"] = clarifications_until.isoformat()

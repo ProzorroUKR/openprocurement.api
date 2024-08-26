@@ -6,7 +6,7 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
@@ -33,10 +33,10 @@ class NegotiationAwardState(ReportingAwardState):
     def award_status_up_from_pending_to_active(self, award, tender):
         award["complaintPeriod"] = {
             "startDate": get_now().isoformat(),
-            "endDate": calculate_complaint_business_date(
+            "endDate": calculate_tender_full_date(
                 get_now(),
                 self.award_stand_still_time,
-                get_tender(),
+                tender=get_tender(),
             ).isoformat(),
         }
         self.request.validated["contracts_added"] = add_contracts(self.request, award)

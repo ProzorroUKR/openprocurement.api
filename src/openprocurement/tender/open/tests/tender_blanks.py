@@ -19,7 +19,7 @@ from openprocurement.tender.core.tests.base import (
     test_lcc_lot_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.tests.base import test_tender_open_data
 
@@ -791,8 +791,11 @@ def patch_tender(self):
     tender = response.json["data"]
 
     period = {
-        "startDate": calculate_tender_business_date(
-            parse_date(new_dateModified2), -timedelta(3), None, True
+        "startDate": calculate_tender_full_date(
+            parse_date(new_dateModified2),
+            -timedelta(3),
+            tender=None,
+            working_days=True,
         ).isoformat(),
         "endDate": new_dateModified2,
     }
@@ -870,9 +873,18 @@ def patch_tender_period(self):
     self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 4 days")
 
     tender_period_end_date = (
-        calculate_tender_business_date(get_now(), timedelta(days=7), tender) + timedelta(seconds=1)
+        calculate_tender_full_date(
+            get_now(),
+            timedelta(days=7),
+            tender=tender,
+        )
+        + timedelta(seconds=1)
     ).astimezone(TZ)
-    enquiry_period_end_date = calculate_tender_business_date(tender_period_end_date, -timedelta(days=3), tender)
+    enquiry_period_end_date = calculate_tender_full_date(
+        tender_period_end_date,
+        -timedelta(days=3),
+        tender=tender,
+    )
     tender_period = deepcopy(tender["tenderPeriod"])
     tender_period["endDate"] = tender_period_end_date.isoformat()
     response = self.app.patch_json(

@@ -22,7 +22,7 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 # CompetitiveDialogStage2EUResourceTest
@@ -236,9 +236,18 @@ def patch_tender_eu(self):
     response = self.app.get("/tenders/{}".format(tender["id"]))
     tender = response.json["data"]
     tender_period_end_date = (
-        calculate_tender_business_date(get_now(), timedelta(days=7), tender) + timedelta(seconds=1)
+        calculate_tender_full_date(
+            get_now(),
+            timedelta(days=7),
+            tender=tender,
+        )
+        + timedelta(seconds=1)
     ).astimezone(TZ)
-    enquiry_period_end_date = calculate_tender_business_date(tender_period_end_date, -timedelta(days=10), tender)
+    enquiry_period_end_date = calculate_tender_full_date(
+        tender_period_end_date,
+        -timedelta(days=10),
+        tender=tender,
+    )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {
@@ -527,9 +536,18 @@ def patch_tender_ua(self):
 
     self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 7 days")
     tender_period_end_date = (
-        calculate_tender_business_date(get_now(), timedelta(days=7), tender) + timedelta(seconds=1)
+        calculate_tender_full_date(
+            get_now(),
+            timedelta(days=7),
+            tender=tender,
+        )
+        + timedelta(seconds=1)
     ).astimezone(TZ)
-    enquiry_period_end_date = calculate_tender_business_date(tender_period_end_date, -timedelta(days=10), tender)
+    enquiry_period_end_date = calculate_tender_full_date(
+        tender_period_end_date,
+        -timedelta(days=10),
+        tender=tender,
+    )
 
     response = self.app.get("/tenders/{}?acc_token={}".format(tender["id"], owner_token))
     tender = response.json["data"]

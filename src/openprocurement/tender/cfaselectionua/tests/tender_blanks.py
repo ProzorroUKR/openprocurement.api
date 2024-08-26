@@ -28,7 +28,7 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_without_complaints_after_2020_04_19,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 def listing(self):
@@ -1267,8 +1267,8 @@ def patch_tender(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
 
-    end_date = calculate_tender_business_date(
-        parse_date(tender["tenderPeriod"]["startDate"]), timedelta(days=3), tender
+    end_date = calculate_tender_full_date(
+        parse_date(tender["tenderPeriod"]["startDate"]), timedelta(days=3), tender=tender
     ) - self.get_timedelta(minutes=1)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
@@ -1295,8 +1295,8 @@ def patch_tender(self):
             }
         ],
     )
-    end_date = calculate_tender_business_date(
-        parse_date(tender["tenderPeriod"]["startDate"]), timedelta(days=3), tender
+    end_date = calculate_tender_full_date(
+        parse_date(tender["tenderPeriod"]["startDate"]), timedelta(days=3), tender=tender
     ) + self.get_timedelta(minutes=1)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
@@ -1564,8 +1564,8 @@ def patch_tender_bot(self):
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),
     )
     self.assertEqual(
-        calculate_tender_business_date(
-            parse_date(response.json["data"]["enquiryPeriod"]["startDate"]), ENQUIRY_PERIOD, tender
+        calculate_tender_full_date(
+            parse_date(response.json["data"]["enquiryPeriod"]["startDate"]), ENQUIRY_PERIOD, tender=tender
         ),
         parse_date(response.json["data"]["enquiryPeriod"]["endDate"]),
     )
@@ -1727,7 +1727,7 @@ def patch_tender_bot(self):
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
-    tender_period_start_date = calculate_tender_business_date(get_now(), -TENDERING_DURATION)
+    tender_period_start_date = calculate_tender_full_date(get_now(), -TENDERING_DURATION)
     tender_doc = self.mongodb.tenders.get(self.tender_id)
     tender_doc["enquiryPeriod"]["startDate"] = tender_period_start_date.isoformat()
     tender_doc["enquiryPeriod"]["endDate"] = tender_period_start_date.isoformat()
@@ -2267,8 +2267,8 @@ def edit_tender_in_active_enquiries(self):
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),
     )
     self.assertEqual(
-        calculate_tender_business_date(
-            parse_date(response.json["data"]["enquiryPeriod"]["startDate"]), ENQUIRY_PERIOD, tender
+        calculate_tender_full_date(
+            parse_date(response.json["data"]["enquiryPeriod"]["startDate"]), ENQUIRY_PERIOD, tender=tender
         ),
         parse_date(response.json["data"]["enquiryPeriod"]["endDate"]),
     )

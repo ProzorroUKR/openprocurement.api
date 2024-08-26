@@ -3,7 +3,7 @@ from unittest import mock
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openua.constants import POST_SUBMIT_TIME
 
 RELEASE_2020_04_19_TEST_ENABLED = get_now() - timedelta(days=1)
@@ -706,8 +706,8 @@ def create_tender_complaint_post_document_json(self):
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.patch_complaint(
             {
-                "reviewDate": calculate_tender_business_date(
-                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), {}, True
+                "reviewDate": calculate_tender_full_date(
+                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), tender={}, working_days=True
                 ).isoformat(),
             },
             self.complaint_owner_token,
@@ -951,8 +951,8 @@ def put_tender_complaint_document_json(self):
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.patch_complaint(
             {
-                "reviewDate": calculate_tender_business_date(
-                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), {}, True
+                "reviewDate": calculate_tender_full_date(
+                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), tender={}, working_days=True
                 ).isoformat(),
             },
             self.complaint_owner_token,

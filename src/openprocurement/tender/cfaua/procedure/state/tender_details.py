@@ -10,7 +10,7 @@ from openprocurement.tender.cfaua.constants import (
 )
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openua.procedure.state.tender_details import (
     OpenUATenderDetailsMixing,
 )
@@ -93,8 +93,8 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
                     )
 
                 if self.all_awards_are_reviewed(after):
-                    after["awardPeriod"]["endDate"] = calculate_complaint_business_date(
-                        get_now(), self.qualification_complaint_stand_still, after
+                    after["awardPeriod"]["endDate"] = calculate_tender_full_date(
+                        get_now(), self.qualification_complaint_stand_still, tender=after
                     ).isoformat()
                     for award in after["awards"]:
                         if award["status"] != "cancelled":

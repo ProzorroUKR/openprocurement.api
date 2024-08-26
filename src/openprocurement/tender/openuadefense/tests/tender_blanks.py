@@ -14,7 +14,7 @@ from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
 # TenderUATest
-from openprocurement.tender.openuadefense.utils import calculate_tender_business_date
+from openprocurement.tender.openuadefense.utils import calculate_tender_full_date
 
 
 # TenderUAResourceTest
@@ -523,8 +523,8 @@ def patch_tender(self):
         {
             "data": {
                 "enquiryPeriod": {
-                    "startDate": calculate_tender_business_date(
-                        parse_date(new_dateModified), -timedelta(3), None, True
+                    "startDate": calculate_tender_full_date(
+                        parse_date(new_dateModified), -timedelta(3), tender=None, working_days=True
                     ).isoformat(),
                     "endDate": new_dateModified,
                 }
@@ -565,9 +565,11 @@ def patch_tender_ua(self):
 
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
-    tender_period_end_date = calculate_tender_business_date(get_now(), timedelta(days=7), tender) + timedelta(
-        seconds=10
-    )
+    tender_period_end_date = calculate_tender_full_date(
+        get_now(),
+        timedelta(days=7),
+        tender=tender,
+    ) + timedelta(seconds=10)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {

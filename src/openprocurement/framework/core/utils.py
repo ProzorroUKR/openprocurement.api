@@ -2,10 +2,10 @@ from datetime import timedelta
 from functools import wraps
 from logging import getLogger
 
-from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datetime
+from dateorro import calc_datetime
 
-from openprocurement.api.constants import DST_AWARE_PERIODS_FROM, TZ, WORKING_DAYS
-from openprocurement.api.utils import get_now
+from openprocurement.api.constants import WORKING_DAYS
+from openprocurement.api.utils import calculate_full_date, get_now
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.utils import ACCELERATOR_RE
 
@@ -138,44 +138,34 @@ def get_framework_accelerator(context):
     return None
 
 
-def acceleratable(wrapped):
+def accelerated_framework(wrapped):
     @wraps(wrapped)
-    def wrapper(date_obj, timedelta_obj, framework=None, working_days=False, calendar=WORKING_DAYS, **kwargs):
+    def wrapper(date_obj, timedelta_obj, framework=None, **kwargs):
         accelerator = get_framework_accelerator(framework)
         if accelerator:
             return calc_datetime(date_obj, timedelta_obj, accelerator=accelerator)
-        return wrapped(
-            date_obj, timedelta_obj, framework=framework, working_days=working_days, calendar=calendar, **kwargs
-        )
+        return wrapped(date_obj, timedelta_obj, **kwargs)
 
     return wrapper
 
 
-@acceleratable
-def calculate_framework_date(
+@accelerated_framework
+def calculate_framework_full_date(
     date_obj,
     timedelta_obj,
-    framework=None,
     working_days=False,
     calendar=WORKING_DAYS,
     ceil=False,
 ):
-    date_obj = calc_normalized_datetime(date_obj, ceil=ceil)
-    if working_days:
-        result_date_obj = calc_working_datetime(date_obj, timedelta_obj, calendar=calendar)
-    else:
-        result_date_obj = calc_datetime(date_obj, timedelta_obj)
-    if date_obj > DST_AWARE_PERIODS_FROM:
-        result_date_obj = TZ.localize(result_date_obj.replace(tzinfo=None))
-    return result_date_obj
+    return calculate_full_date(date_obj, timedelta_obj, working_days=working_days, calendar=calendar, ceil=ceil)
 
 
 def get_framework_unsuccessful_status_check_date(framework):
     if framework.period and framework.period.startDate:
-        return calculate_framework_date(
+        return calculate_framework_full_date(
             framework.period.startDate,
             timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
-            framework,
+            framework=framework,
             working_days=True,
             ceil=True,
         )

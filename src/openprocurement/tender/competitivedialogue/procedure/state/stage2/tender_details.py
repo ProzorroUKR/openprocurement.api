@@ -1,6 +1,6 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5, ACCR_COMPETITIVE
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION as EU_TENDERING_DURATION,
 )
@@ -34,7 +34,7 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     def on_post(self, tender):
         tender["tenderPeriod"] = {
             "startDate": get_now().isoformat(),
-            "endDate": calculate_tender_business_date(get_now(), self.tendering_duration, tender=tender).isoformat(),
+            "endDate": calculate_tender_full_date(get_now(), self.tendering_duration, tender=tender).isoformat(),
         }
 
         super().on_post(tender)

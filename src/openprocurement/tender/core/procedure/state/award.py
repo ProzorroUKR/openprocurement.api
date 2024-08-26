@@ -9,7 +9,7 @@ from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class AwardStateMixing:
@@ -59,11 +59,11 @@ class AwardStateMixing:
             self.check_active_awards(award, tender)
         award["complaintPeriod"] = {
             "startDate": get_now().isoformat(),
-            "endDate": calculate_tender_business_date(
+            "endDate": calculate_tender_full_date(
                 get_now(),
                 self.award_stand_still_time,
-                get_tender(),
-                self.award_stand_still_working_days,
+                tender=get_tender(),
+                working_days=self.award_stand_still_working_days,
             ).isoformat(),
         }
         self.request.validated["contracts_added"] = add_contracts(self.request, award)
@@ -77,11 +77,11 @@ class AwardStateMixing:
     def award_status_up_from_pending_to_unsuccessful(self, award, tender):
         award["complaintPeriod"] = {
             "startDate": get_now().isoformat(),
-            "endDate": calculate_tender_business_date(
+            "endDate": calculate_tender_full_date(
                 get_now(),
                 self.award_stand_still_time,
-                get_tender(),
-                self.award_stand_still_working_days,
+                tender=get_tender(),
+                working_days=self.award_stand_still_working_days,
             ).isoformat(),
         }
         self.add_next_award()

@@ -23,7 +23,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_data,
@@ -497,7 +497,7 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         self.assertNotEqual(transfer_creation_date, transfer_modification_date)
 
         # second owner can change the tender
-        end_date = calculate_tender_business_date(get_now(), TENDERING_DURATION)
+        end_date = calculate_tender_full_date(get_now(), TENDERING_DURATION)
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, new_access_token),

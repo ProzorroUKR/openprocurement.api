@@ -5,7 +5,7 @@ from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 # TenderESCOTest
 
@@ -956,8 +956,11 @@ def patch_tender(self):
     tender = response.json["data"]
 
     period = {
-        "startDate": calculate_tender_business_date(
-            parse_date(new_dateModified2), -timedelta(3), None, True
+        "startDate": calculate_tender_full_date(
+            parse_date(new_dateModified2),
+            -timedelta(3),
+            tender=None,
+            working_days=True,
         ).isoformat(),
         "endDate": new_dateModified2,
     }

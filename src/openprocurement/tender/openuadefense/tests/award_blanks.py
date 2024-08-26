@@ -1,6 +1,5 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest import mock
 from unittest.mock import patch
 
 from freezegun import freeze_time
@@ -33,70 +32,78 @@ from openprocurement.tender.openua.tests.award_blanks import (
     review_tender_award_claim as review_tender_award_claim_ua,
 )
 
+tender_award_complaint_period_params = [
+    [
+        "working_day",
+        "2019-09-12T12:00:00+03:00",  # Tender created on working date
+        "2019-09-19T00:00:00+03:00",  # Award period end date
+        "2019-09-12T12:04:00+03:00",  # Award period end date sandbox mode
+    ],
+    [
+        "working_day",
+        "2019-09-16T12:00:00+03:00",  # Tender created on working date
+        "2019-09-21T00:00:00+03:00",  # Award period end date on last working (but actually saturday 00:00)
+        "2019-09-16T12:04:00+03:00",  # Award period end date sandbox mode
+    ],
+    [
+        "non_working_day",
+        "2019-09-14T12:00:00+03:00",  # Tender created on weekend
+        "2019-09-20T00:00:00+03:00",  # Award period end date
+        "2019-09-14T12:04:00+03:00",  # Award period end date sandbox mode
+    ],
+    [
+        "non_working_day",
+        "2019-09-15T12:00:00+03:00",  # Tender created on weekend
+        "2019-09-20T00:00:00+03:00",  # Award period end date
+        "2019-09-15T12:04:00+03:00",  # Award period end date sandbox mode
+    ],
+]
 
-def tender_award_complaint_period(
-    self, date, mock_normalized_date, mock_midnight_date, expected_date, expected_sb_date
-):
-    freezer = freeze_time(date)
-    freezer.start()
 
-    patcher_normalized = mock.patch(
-        "openprocurement.tender.core.utils.NORMALIZED_COMPLAINT_PERIOD_FROM", mock_normalized_date
-    )
-    patcher_normalized.start()
+def tender_award_complaint_period(self, date, expected_date, expected_sb_date):
+    with freeze_time(date):
+        self.create_tender()
 
-    patcher_midnight = mock.patch(
-        "openprocurement.tender.core.utils.WORKING_DATE_ALLOW_MIDNIGHT_FROM", mock_midnight_date
-    )
-    patcher_midnight.start()
+        tender = self.mongodb.tenders.get(self.tender_id)
+        self.set_status(tender["status"])
 
-    self.create_tender()
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("token", ""))
 
-    tender = self.mongodb.tenders.get(self.tender_id)
-    self.set_status(tender["status"])
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        award = response.json["data"]
 
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("token", ""))
+        self.app.authorization = auth
 
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {
-            "data": {
-                "suppliers": [test_tender_below_organization],
-                "status": "pending",
-                "bid_id": self.initial_bids[0]["id"],
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    award = response.json["data"]
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "active")
 
-    self.app.authorization = auth
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
+        end_date = response.json["data"]["awards"][0]["complaintPeriod"]["endDate"]
 
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    end_date = response.json["data"]["awards"][0]["complaintPeriod"]["endDate"]
-
-    if SANDBOX_MODE:
-        self.assertEqual(end_date, expected_sb_date.isoformat())
-    else:
-        self.assertEqual(end_date, expected_date.isoformat())
-
-    patcher_normalized.stop()
-    patcher_midnight.stop()
-
-    freezer.stop()
+        if SANDBOX_MODE:
+            self.assertEqual(end_date, expected_sb_date.isoformat())
+        else:
+            self.assertEqual(end_date, expected_date.isoformat())
 
 
 # TenderAwardResourceTest

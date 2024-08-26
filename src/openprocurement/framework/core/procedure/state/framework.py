@@ -27,7 +27,7 @@ from openprocurement.framework.core.procedure.utils import (
     get_framework_unsuccessful_status_check_date,
     save_object,
 )
-from openprocurement.framework.core.utils import calculate_framework_date
+from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
@@ -169,13 +169,15 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         start_date = dt_from_iso(after["qualificationPeriod"]["startDate"])
         end_date = dt_from_iso(after["qualificationPeriod"]["endDate"])
 
-        end_date_min = calculate_framework_date(start_date, timedelta(days=min_duration), after)
+        end_date_min = calculate_framework_full_date(start_date, timedelta(days=min_duration), framework=after)
         if end_date_min > end_date:
             raise_operation_error(
                 get_request(), f"qualificationPeriod must be at least {min_duration} full calendar days long"
             )
 
-        end_date_max = calculate_framework_date(start_date, timedelta(days=max_duration), after, ceil=True)
+        end_date_max = calculate_framework_full_date(
+            start_date, timedelta(days=max_duration), framework=after, ceil=True
+        )
         if end_date_max < end_date:
             raise_operation_error(
                 get_request(), f"qualificationPeriod must be less than {max_duration} full calendar days long"
@@ -191,18 +193,18 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         if enquiry_end := data.get("enquiryPeriod", {}).get("endDate"):
             enquiry_period_end_date = dt_from_iso(enquiry_end)
         else:
-            enquiry_period_end_date = calculate_framework_date(
+            enquiry_period_end_date = calculate_framework_full_date(
                 enquiry_period_start_date,
                 timedelta(days=ENQUIRY_PERIOD_DURATION),
-                data,
+                framework=data,
                 working_days=True,
                 ceil=True,
             )
 
-        clarifications_until = calculate_framework_date(
+        clarifications_until = calculate_framework_full_date(
             enquiry_period_end_date,
             timedelta(days=ENQUIRY_STAND_STILL_TIME),
-            data,
+            framework=data,
             working_days=True,
         )
 
@@ -217,10 +219,10 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
             period_start_date = dt_from_iso(period_start)
         else:
             period_start_date = now
-        period_end_date = calculate_framework_date(
+        period_end_date = calculate_framework_full_date(
             qualification_end_date,
             timedelta(days=-SUBMISSION_STAND_STILL_DURATION),
-            data,
+            framework=data,
         )
         data["period"] = {
             "startDate": period_start_date.isoformat(),

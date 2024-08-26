@@ -17,6 +17,7 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType
+from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.guarantee import (
     Guarantee,
     PostGuarantee,
@@ -24,7 +25,6 @@ from openprocurement.tender.core.procedure.models.guarantee import (
     Value,
 )
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
-from openprocurement.tender.core.utils import get_first_revision_date
 
 
 class BaseLotSerializersMixin(Model):

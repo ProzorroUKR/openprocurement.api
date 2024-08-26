@@ -12,7 +12,7 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after_2020_rules,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 LOGGER = getLogger(__name__)
 
@@ -32,7 +32,7 @@ class ComplaintPostValidationsMixin:
         complaint_status = complaint.get("status")
         if complaint_status == "accepted":
             tender = get_tender()
-            post_end_date = calculate_tender_business_date(
+            post_end_date = calculate_tender_full_date(
                 dt_from_iso(complaint["reviewDate"]),
                 -self.post_submit_time,
                 tender=tender,

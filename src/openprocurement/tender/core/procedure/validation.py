@@ -63,8 +63,8 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
     calculate_tender_date,
+    calculate_tender_full_date,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -1459,8 +1459,8 @@ def validate_tender_period_start_date(data, period, working_days=False, calendar
 
 
 def validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
-    tender_period_end_date = calculate_tender_business_date(
-        period.startDate, duration, data, working_days=working_days, calendar=calendar
+    tender_period_end_date = calculate_tender_full_date(
+        period.startDate, duration, tender=data, working_days=working_days, calendar=calendar
     )
     if tender_period_end_date > period.endDate:
         raise ValidationError(

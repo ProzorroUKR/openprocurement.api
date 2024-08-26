@@ -22,7 +22,7 @@ from openprocurement.framework.core.procedure.mask import (
     QUALIFICATION_MASK_MAPPING,
     SUBMISSION_MASK_MAPPING,
 )
-from openprocurement.framework.core.utils import calculate_framework_date
+from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 LOGGER = getLogger(__name__)
@@ -128,10 +128,10 @@ def extract_agreement_doc(request):
 
 def get_framework_unsuccessful_status_check_date(framework):
     if period_start := framework.get("period", {}).get("startDate"):
-        return calculate_framework_date(
+        return calculate_framework_full_date(
             dt_from_iso(period_start),
             timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
-            framework,
+            framework=framework,
             working_days=True,
             ceil=True,
         )

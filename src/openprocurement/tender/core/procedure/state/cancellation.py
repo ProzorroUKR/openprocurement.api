@@ -8,7 +8,7 @@ from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
-from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class CancellationStateMixing:
@@ -185,7 +185,7 @@ class CancellationStateMixing:
                 now = get_now()
                 cancellation["complaintPeriod"] = {
                     "startDate": now.isoformat(),
-                    "endDate": calculate_complaint_business_date(now, timedelta(days=10), tender).isoformat(),
+                    "endDate": calculate_tender_full_date(now, timedelta(days=10), tender=tender).isoformat(),
                 }
             else:
                 self.set_object_status(cancellation, "active")
