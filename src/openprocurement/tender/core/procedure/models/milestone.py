@@ -18,8 +18,8 @@ from openprocurement.api.procedure.types import IsoDateTimeType, ListType, Model
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.validation import is_positive_float
 from openprocurement.tender.core.utils import (
-    calculate_complaint_business_date,
     calculate_tender_date,
+    calculate_tender_full_date,
 )
 
 
@@ -36,10 +36,17 @@ class QualificationMilestone(Model):
     def set_due_date(self):
         if not self.dueDate:
             if self.code == self.CODE_24_HOURS:
-                self.dueDate = calculate_tender_date(self.date, timedelta(hours=24), get_tender())
+                self.dueDate = calculate_tender_date(
+                    self.date,
+                    timedelta(hours=24),
+                    tender=get_tender(),
+                )
             elif self.code == self.CODE_LOW_PRICE:
-                self.dueDate = calculate_complaint_business_date(
-                    self.date, timedelta(days=1), get_tender(), working_days=True
+                self.dueDate = calculate_tender_full_date(
+                    self.date,
+                    timedelta(days=1),
+                    tender=get_tender(),
+                    working_days=True,
                 )
         return self.dueDate and self.dueDate.isoformat()
 

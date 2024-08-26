@@ -11,7 +11,7 @@ from openprocurement.framework.core.tests.base import (
     test_framework_data,
 )
 from openprocurement.framework.core.utils import (
-    calculate_framework_date,
+    calculate_framework_full_date,
     generate_framework_pretty_id,
 )
 
@@ -40,63 +40,63 @@ class TestCalculateFrameworkDate(BaseFrameworkTest):
         date_obj = parse_date("2020-11-07T12:00:00+02:00")
         delta_obj = timedelta(days=7)
 
-        date = calculate_framework_date(date_obj, delta_obj, framework={}, working_days=True, ceil=True)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework={}, working_days=True, ceil=True)
         self.assertEqual(date.isoformat(), "2020-11-18T00:00:00+02:00")
 
     def test_working_days_backwards(self):
         date_obj = parse_date("2020-11-19T12:00:00+02:00")
         delta_obj = -timedelta(days=7)
 
-        date = calculate_framework_date(date_obj, delta_obj, framework={}, working_days=True)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework={}, working_days=True)
         self.assertEqual(date.isoformat(), "2020-11-10T00:00:00+02:00")
 
     def test_calendar_days(self):
         date_obj = parse_date("2023-10-03T00:00:00+03:00")
         delta_obj = timedelta(days=30)
 
-        date = calculate_framework_date(date_obj, delta_obj, framework={}, working_days=False, ceil=True)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework={}, working_days=False, ceil=True)
         self.assertEqual(date.isoformat(), "2023-11-02T00:00:00+02:00")
 
     def test_calendar_days_backwards(self):
         date_obj = parse_date("2020-11-15T12:00:00+02:00")
         delta_obj = -timedelta(days=7)
 
-        date = calculate_framework_date(date_obj, delta_obj, framework={}, working_days=False)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework={}, working_days=False)
         self.assertEqual(date.isoformat(), "2020-11-08T00:00:00+02:00")
 
     def test_working_days_dst_transition(self):
         date_obj = parse_date("2021-03-10T12:00:00+02:00")
         delta_obj = timedelta(days=30)
 
-        date = calculate_framework_date(date_obj, delta_obj, framework={}, working_days=True, ceil=True)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework={}, working_days=True, ceil=True)
         self.assertEqual(date.isoformat(), "2021-04-22T00:00:00+03:00")
 
     def test_working_days_dst_transition_backwards(self):
         date_obj = parse_date("2021-04-21T12:00:00+03:00")
         delta_obj = -timedelta(days=30)
 
-        date = calculate_framework_date(date_obj, delta_obj, framework={}, working_days=True)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework={}, working_days=True)
         self.assertEqual(date.isoformat(), "2021-03-10T00:00:00+02:00")
 
     def test_calendar_dst_transition(self):
         date_obj = parse_date("2021-03-10T12:00:00+02:00")
         delta_obj = timedelta(days=30)
 
-        date = calculate_framework_date(date_obj, delta_obj, framework={}, working_days=False, ceil=True)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework={}, working_days=False, ceil=True)
         self.assertEqual(date.isoformat(), "2021-04-10T00:00:00+03:00")
 
     def test_calendar_dst_transition_backwards(self):
         date_obj = parse_date("2021-04-10T12:00:00+03:00")
         delta_obj = -timedelta(days=30)
 
-        date = calculate_framework_date(date_obj, delta_obj, framework={}, working_days=False)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework={}, working_days=False)
         self.assertEqual(date.isoformat(), "2021-03-11T00:00:00+02:00")
 
     def test_calendar_dst_transition_backwards_from_midnight(self):
         date_obj = parse_date("2021-04-10T00:00:00+03:00")
         delta_obj = -timedelta(days=30)
 
-        date = calculate_framework_date(date_obj, delta_obj, framework={}, working_days=False)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework={}, working_days=False)
         self.assertEqual(date.isoformat(), "2021-03-11T00:00:00+02:00")
 
     def test_with_accelerator(self):
@@ -105,7 +105,7 @@ class TestCalculateFrameworkDate(BaseFrameworkTest):
 
         # Test with accelerator = 1440
         context = {"frameworkDetails": "quick, accelerator=1440"}
-        date = calculate_framework_date(date_obj, delta_obj, framework=context, working_days=True, ceil=True)
+        date = calculate_framework_full_date(date_obj, delta_obj, framework=context, working_days=True, ceil=True)
         self.assertEqual(date, datetime(2021, 10, 7, 0, 7))
 
 

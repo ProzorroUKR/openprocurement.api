@@ -9,8 +9,8 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.core.utils import (
-    calculate_complaint_business_date,
     calculate_tender_date,
+    calculate_tender_full_date,
 )
 
 
@@ -36,9 +36,18 @@ class PostQualificationMilestone(Model):
     @serializable
     def dueDate(self):
         if self.code == QualificationMilestoneCodes.CODE_24_HOURS.value:
-            dt = calculate_tender_date(get_now(), timedelta(hours=24), get_tender())
+            dt = calculate_tender_date(
+                get_now(),
+                timedelta(hours=24),
+                tender=get_tender(),
+            )
         elif self.code == QualificationMilestoneCodes.CODE_LOW_PRICE.value:
-            dt = calculate_complaint_business_date(get_now(), timedelta(days=1), get_tender(), working_days=True)
+            dt = calculate_tender_full_date(
+                get_now(),
+                timedelta(days=1),
+                tender=get_tender(),
+                working_days=True,
+            )
         else:
             raise NotImplementedError(f"Unexpected code {self.code}")
         return dt.isoformat()

@@ -3,19 +3,11 @@ from datetime import timedelta
 from functools import wraps
 from logging import getLogger
 
-from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datetime
+from dateorro import calc_datetime
 
-from openprocurement.api.constants import (
-    DST_AWARE_PERIODS_FROM,
-    NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
-    NORMALIZED_TENDER_PERIOD_FROM,
-    TZ,
-    WORKING_DATE_ALLOW_MIDNIGHT_FROM,
-    WORKING_DAYS,
-)
-from openprocurement.api.utils import get_first_revision_date, get_now
+from openprocurement.api.constants import WORKING_DAYS
+from openprocurement.api.utils import calculate_date, calculate_full_date
 from openprocurement.api.validation import validate_json_data
-from openprocurement.tender.core.constants import NORMALIZED_COMPLAINT_PERIOD_FROM
 from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_GROUP,
     ABOVE_THRESHOLD_GROUP_NAME,
@@ -97,54 +89,23 @@ def get_tender_accelerator(context):
     return None
 
 
-def acceleratable(wrapped):
+def accelerated_tender(wrapped):
     @wraps(wrapped)
-    def wrapper(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
+    def wrapper(date_obj, timedelta_obj, tender=None, **kwargs):
         accelerator = get_tender_accelerator(tender)
         if accelerator:
             return calc_datetime(date_obj, timedelta_obj, accelerator=accelerator)
-        return wrapped(date_obj, timedelta_obj, tender=tender, working_days=working_days, calendar=calendar)
+        return wrapped(date_obj, timedelta_obj, **kwargs)
 
     return wrapper
 
 
-@acceleratable
-def calculate_tender_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
-    tender_date = get_first_revision_date(tender, default=get_now())
-    if working_days:
-        midnight = tender_date > WORKING_DATE_ALLOW_MIDNIGHT_FROM
-        result_date_obj = calc_working_datetime(date_obj, timedelta_obj, midnight, calendar)
-    else:
-        result_date_obj = calc_datetime(date_obj, timedelta_obj)
-    if tender_date > DST_AWARE_PERIODS_FROM:
-        result_date_obj = TZ.localize(result_date_obj.replace(tzinfo=None))
-    return result_date_obj
+@accelerated_tender
+def calculate_tender_date(date_obj, timedelta_obj, working_days=False, calendar=WORKING_DAYS):
+    return calculate_date(date_obj, timedelta_obj, working_days=working_days, calendar=calendar)
 
 
-def calculate_period_start_date(date_obj, timedelta_obj, normalized_from_date_obj, tender=None):
-    tender_date = get_first_revision_date(tender, default=get_now())
-    if tender_date > normalized_from_date_obj:
-        result_date_obj = calc_normalized_datetime(date_obj, ceil=timedelta_obj > timedelta())
-    else:
-        result_date_obj = date_obj
-    if tender_date > DST_AWARE_PERIODS_FROM:
-        result_date_obj = TZ.localize(result_date_obj.replace(tzinfo=None))
-    return result_date_obj
-
-
-@acceleratable
-def calculate_tender_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
-    start_obj = calculate_period_start_date(date_obj, timedelta_obj, NORMALIZED_TENDER_PERIOD_FROM, tender)
-    return calculate_tender_date(start_obj, timedelta_obj, tender, working_days, calendar)
-
-
-@acceleratable
-def calculate_complaint_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
-    start_obj = calculate_period_start_date(date_obj, timedelta_obj, NORMALIZED_COMPLAINT_PERIOD_FROM, tender)
-    return calculate_tender_date(start_obj, timedelta_obj, tender, working_days, calendar)
-
-
-@acceleratable
-def calculate_clarif_business_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
-    start_obj = calculate_period_start_date(date_obj, timedelta_obj, NORMALIZED_CLARIFICATIONS_PERIOD_FROM, tender)
-    return calculate_tender_date(start_obj, timedelta_obj, tender, working_days, calendar)
+@accelerated_tender
+def calculate_tender_full_date(date_obj, timedelta_obj, working_days=False, calendar=WORKING_DAYS):
+    ceil = timedelta_obj > timedelta()
+    return calculate_full_date(date_obj, timedelta_obj, working_days=working_days, calendar=calendar, ceil=ceil)

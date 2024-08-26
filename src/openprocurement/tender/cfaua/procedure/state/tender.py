@@ -9,7 +9,7 @@ from openprocurement.tender.cfaua.procedure.awarding import (
 from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 LOGGER = getLogger(__name__)
 
@@ -56,7 +56,12 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
             self.get_change_tender_status_handler("unsuccessful")(tender)
         else:
             self.get_change_tender_status_handler("active.awarded")(tender)
-            clarification_date = calculate_tender_business_date(get_now(), CLARIFICATIONS_UNTIL_PERIOD, tender, False)
+            clarification_date = calculate_tender_full_date(
+                get_now(),
+                CLARIFICATIONS_UNTIL_PERIOD,
+                tender=tender,
+                working_days=False,
+            )
             tender["contractPeriod"] = {
                 "startDate": get_now().isoformat(),
                 "clarificationsUntil": clarification_date.isoformat(),

@@ -365,7 +365,7 @@ def restrict_value_to_bounds(value, min_value, max_value):
 def check_auction_period(period, tender):
     if period and period.get("startDate") and period.get("shouldStartAfter"):
         start = parse_date(period["shouldStartAfter"])
-        should_start = calculate_tender_date(start, AUCTION_PERIOD_TIME, tender, True)
+        should_start = calculate_tender_date(start, AUCTION_PERIOD_TIME, tender=tender, working_days=True)
         start = period["startDate"]
         if isinstance(start, str):
             start = parse_date(period["startDate"])

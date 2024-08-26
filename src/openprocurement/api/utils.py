@@ -12,6 +12,7 @@ import requests
 from ciso8601 import parse_datetime
 from cornice.resource import view
 from cornice.util import json_error
+from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datetime
 from jsonpointer import JsonPointerException
 from nacl.encoding import HexEncoder
 from pymongo.errors import DuplicateKeyError, OperationFailure
@@ -23,12 +24,14 @@ from schematics.exceptions import (
 from webob.multidict import NestedMultiDict
 
 from openprocurement.api.constants import (
+    DST_AWARE_PERIODS_FROM,
     GMDN_CPV_PREFIXES,
     JOURNAL_PREFIX,
     LOGGER,
     ROUTE_PREFIX,
     TZ,
     UA_ROAD_CPV_PREFIXES,
+    WORKING_DAYS,
 )
 from openprocurement.api.context import get_local_cache
 from openprocurement.api.database import MongodbResourceConflict
@@ -561,3 +564,25 @@ def get_tender_category(request, category_id: str, validate_status: tuple = None
 
 def get_tender_product(request, product_id: str, validate_status: tuple = None) -> dict:
     return get_catalogue_object(request, "products", product_id, validate_status)
+
+
+def calculate_normalized_date(date_obj, ceil=False):
+    result_date_obj = calc_normalized_datetime(date_obj, ceil=ceil)
+    if date_obj > DST_AWARE_PERIODS_FROM:
+        result_date_obj = TZ.localize(result_date_obj.replace(tzinfo=None))
+    return result_date_obj
+
+
+def calculate_date(date_obj, timedelta_obj, working_days=False, calendar=WORKING_DAYS):
+    if working_days:
+        result_date_obj = calc_working_datetime(date_obj, timedelta_obj, calendar=calendar)
+    else:
+        result_date_obj = calc_datetime(date_obj, timedelta_obj)
+    if date_obj > DST_AWARE_PERIODS_FROM:
+        result_date_obj = TZ.localize(result_date_obj.replace(tzinfo=None))
+    return result_date_obj
+
+
+def calculate_full_date(date_obj, timedelta_obj, working_days=False, calendar=WORKING_DAYS, ceil=False):
+    start_obj = calculate_normalized_date(date_obj, ceil=ceil)
+    return calculate_date(start_obj, timedelta_obj, working_days=working_days, calendar=calendar)

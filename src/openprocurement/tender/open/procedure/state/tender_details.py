@@ -7,10 +7,7 @@ from openprocurement.tender.core.procedure.utils import (
     check_auction_period,
     dt_from_iso,
 )
-from openprocurement.tender.core.utils import (
-    calculate_clarif_business_date,
-    calculate_tender_business_date,
-)
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     COMPLAINT_SUBMIT_TIME,
@@ -74,8 +71,8 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
 
     def initialize_enquiry_period(self, tender):
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_tender_business_date(tendering_end, self.enquiry_period_timedelta, tender)
-        clarifications_until = calculate_clarif_business_date(end_date, self.enquiry_stand_still_timedelta, tender)
+        end_date = calculate_tender_full_date(tendering_end, self.enquiry_period_timedelta, tender=tender)
+        clarifications_until = calculate_tender_full_date(end_date, self.enquiry_stand_still_timedelta, tender=tender)
         enquiry_period = tender.get("enquiryPeriod")
         tender["enquiryPeriod"] = {
             "startDate": tender["tenderPeriod"]["startDate"],

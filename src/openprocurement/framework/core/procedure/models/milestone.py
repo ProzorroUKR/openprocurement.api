@@ -11,7 +11,7 @@ from openprocurement.framework.core.procedure.models.document import (
     Document,
     PostDocument,
 )
-from openprocurement.framework.core.utils import calculate_framework_date
+from openprocurement.framework.core.utils import calculate_framework_full_date
 
 CONTRACT_BAN_DURATION = 90
 
@@ -29,7 +29,7 @@ class PostMilestone(Model):
     def milestone_dueDate(self):
         if self.type == "ban":
             agreement = get_request().validated["agreement_src"]
-            due_date = calculate_framework_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), agreement, ceil=True)
+            due_date = calculate_framework_full_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), ceil=True)
             return due_date.isoformat()
         return None
 

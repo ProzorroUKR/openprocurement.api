@@ -8,8 +8,8 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import (
-    calculate_complaint_business_date,
     calculate_tender_date,
+    calculate_tender_full_date,
 )
 
 
@@ -115,7 +115,11 @@ class BaseTenderMilestone24HMixin:
         self.assertEqual(created_milestone["code"], request_data["code"])
         self.assertEqual(created_milestone["description"], request_data["description"])
         self.assertNotEqual(created_milestone["dueDate"], request_data["dueDate"])
-        expected_date = calculate_tender_date(parse_date(created_milestone["date"]), timedelta(hours=24), tender_data)
+        expected_date = calculate_tender_date(
+            parse_date(created_milestone["date"]),
+            timedelta(hours=24),
+            tender=tender_data,
+        )
         self.assertEqual(created_milestone["dueDate"], expected_date.isoformat())
 
         # get milestone by its direct link
@@ -498,10 +502,10 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
             status=403,
         )
         tender = self.mongodb.tenders.get(self.tender_id)
-        expected_due_date = calculate_complaint_business_date(
+        expected_due_date = calculate_tender_full_date(
             parse_date(milestone["date"]),
             timedelta(days=1),
-            tender,
+            tender=tender,
             working_days=True,
         )
         self.assertEqual(

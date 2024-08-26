@@ -41,7 +41,7 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 def listing(self):
@@ -837,14 +837,14 @@ def validate_enquiry_period(self):
     now = get_now()
 
     valid_start_date = now + timedelta(days=7)
-    valid_end_date = calculate_tender_business_date(
-        valid_start_date, timedelta(days=3), self.initial_data, True
+    valid_end_date = calculate_tender_full_date(
+        valid_start_date, timedelta(days=3), tender=self.initial_data, working_days=True
     ).isoformat()
-    invalid_end_date = calculate_tender_business_date(
-        valid_start_date, timedelta(days=2), self.initial_data, True
+    invalid_end_date = calculate_tender_full_date(
+        valid_start_date, timedelta(days=2), tender=self.initial_data, working_days=True
     ).isoformat()
-    tender_valid_end_date = calculate_tender_business_date(
-        valid_start_date, timedelta(days=8), self.initial_data, True
+    tender_valid_end_date = calculate_tender_full_date(
+        valid_start_date, timedelta(days=8), tender=self.initial_data, working_days=True
     ).isoformat()
 
     valid_start_date = valid_start_date.isoformat()
@@ -918,14 +918,16 @@ def validate_tender_period(self):
     now = get_now()
 
     enquiry_start_date = now + timedelta(days=7)
-    enquiry_end_date = calculate_tender_business_date(enquiry_start_date, timedelta(days=3), self.initial_data, True)
+    enquiry_end_date = calculate_tender_full_date(
+        enquiry_start_date, timedelta(days=3), tender=self.initial_data, working_days=True
+    )
 
     valid_start_date = enquiry_end_date
-    valid_end_date = calculate_tender_business_date(
-        valid_start_date, timedelta(days=2), self.initial_data, True
+    valid_end_date = calculate_tender_full_date(
+        valid_start_date, timedelta(days=2), tender=self.initial_data, working_days=True
     ).isoformat()
-    invalid_end_date = calculate_tender_business_date(
-        valid_start_date, timedelta(days=1), self.initial_data, True
+    invalid_end_date = calculate_tender_full_date(
+        valid_start_date, timedelta(days=1), tender=self.initial_data, working_days=True
     ).isoformat()
 
     enquiry_start_date = enquiry_start_date.isoformat()
@@ -1406,8 +1408,11 @@ def tender_notice_documents(self):
 def patch_tender_active_tendering(self):
     data = deepcopy(self.initial_data)
     data.pop("procurementMethodDetails", None)
-    data["tenderPeriod"]["endDate"] = calculate_tender_business_date(
-        get_now(), timedelta(days=15), {}, True
+    data["tenderPeriod"]["endDate"] = calculate_tender_full_date(
+        get_now(),
+        timedelta(days=15),
+        tender={},
+        working_days=True,
     ).isoformat()
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
@@ -1454,7 +1459,7 @@ def patch_tender_active_tendering(self):
     self.assertEqual(response.json["data"]["items"][0]["classification"]["id"], "33600000-6")
 
     # patch tenderPeriod
-    end_date = calculate_tender_business_date(get_now(), timedelta(days=16), {}, True)
+    end_date = calculate_tender_full_date(get_now(), timedelta(days=16), tender={}, working_days=True)
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={token}", {"data": {"tenderPeriod": {"endDate": end_date.isoformat()}}}
     )
@@ -1465,7 +1470,7 @@ def patch_tender_active_tendering(self):
     tender_updated = response.json["data"]
 
     with freeze_time((dt_from_iso(tender_updated["tenderPeriod"]["endDate"]) - timedelta(hours=10)).isoformat()):
-        end_date = calculate_tender_business_date(get_now(), timedelta(days=1), {}, True)
+        end_date = calculate_tender_full_date(get_now(), timedelta(days=1), tender={}, working_days=True)
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={token}",
             {"data": {"tenderPeriod": {"endDate": end_date.isoformat()}}},
@@ -2334,8 +2339,8 @@ def patch_tender(self):
         {
             "data": {
                 "enquiryPeriod": {
-                    "startDate": calculate_tender_business_date(
-                        parse_date(date_modified), -timedelta(3), None, True
+                    "startDate": calculate_tender_full_date(
+                        parse_date(date_modified), -timedelta(3), tender=None, working_days=True
                     ).isoformat(),
                     "endDate": date_modified,
                 }
@@ -3667,7 +3672,12 @@ def patch_enquiry_tender_periods(self):
 
     # check enquiryPeriod:endDate>= enquiryPeriod.startDate + 3 робочі дні
     if get_now() > RELEASE_2020_04_19:
-        end_data = calculate_tender_business_date(parse_date(enq_p["startDate"], TZ), timedelta(days=2), tender, True)
+        end_data = calculate_tender_full_date(
+            parse_date(enq_p["startDate"], TZ),
+            timedelta(days=2),
+            tender=tender,
+            working_days=True,
+        )
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {
@@ -3692,7 +3702,9 @@ def patch_enquiry_tender_periods(self):
         )
 
     # check tenderPeriod:startDate більше ніж enquiryPeriod:endDate
-    end_data = calculate_tender_business_date(parse_date(enq_p["startDate"], TZ), timedelta(days=10), tender, True)
+    end_data = calculate_tender_full_date(
+        parse_date(enq_p["startDate"], TZ), timedelta(days=10), tender=tender, working_days=True
+    )
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {
@@ -3740,7 +3752,7 @@ def patch_enquiry_tender_periods(self):
         )
 
     # all fine
-    tender_end = calculate_tender_business_date(end_data, timedelta(days=2), tender, True)
+    tender_end = calculate_tender_full_date(end_data, timedelta(days=2), tender=tender, working_days=True)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {

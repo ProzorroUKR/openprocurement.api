@@ -12,7 +12,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.core.procedure.models.cancellation import PostCancellation
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -46,7 +46,7 @@ def switch_tender_complaints_draft(self):
     start_date = get_now() - timedelta(days=40)
     tender["complaintPeriod"] = {  # tenderPeriod was here before, must be a mistake
         "startDate": start_date.isoformat(),
-        "endDate": calculate_tender_business_date(start_date, timedelta(days=30)).isoformat(),
+        "endDate": calculate_tender_full_date(start_date, timedelta(days=30)).isoformat(),
     }
     self.mongodb.tenders.save(tender)
 

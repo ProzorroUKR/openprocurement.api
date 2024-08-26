@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.state.cancellation_complaint import (
     CancellationComplaintStateMixin,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
@@ -30,8 +30,8 @@ class NegotiationCancellationComplaintState(CancellationComplaintStateMixin, Neg
                     if start_date := complaint_period.get("startDate"):
                         if end_date := complaint_period.get("endDate"):
                             if dt_from_iso(start_date) < date < dt_from_iso(end_date):
-                                award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
+                                award["complaintPeriod"]["endDate"] = calculate_tender_full_date(
                                     end_date,
                                     delta,
-                                    tender,
+                                    tender=tender,
                                 ).isoformat()

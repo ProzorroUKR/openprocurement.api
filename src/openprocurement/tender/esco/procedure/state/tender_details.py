@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_before,
 )
-from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.esco.constants import (
     COMPLAINT_SUBMIT_TIME,
     ENQUIRY_STAND_STILL_TIME,
@@ -52,7 +52,7 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     @staticmethod
     def update_periods(tender):
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_complaint_business_date(tendering_end, -COMPLAINT_SUBMIT_TIME, tender)
+        end_date = calculate_tender_full_date(tendering_end, -COMPLAINT_SUBMIT_TIME, tender=tender)
         tender["complaintPeriod"] = {
             "startDate": tender["tenderPeriod"]["startDate"],
             "endDate": end_date.isoformat(),

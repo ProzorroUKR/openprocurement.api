@@ -16,7 +16,7 @@ from openprocurement.tender.core.procedure.state.complaint import (
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 LOGGER = getLogger(__name__)
 
@@ -178,7 +178,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         tender = request.validated["tender"]
         claim_submit_time = self.tender_claim_submit_time
         tender_end = tender.get("tenderPeriod", {}).get("endDate")
-        claim_end_date = calculate_tender_business_date(dt_from_iso(tender_end), -claim_submit_time, tender)
+        claim_end_date = calculate_tender_full_date(dt_from_iso(tender_end), -claim_submit_time, tender=tender)
         if get_now() > claim_end_date:
             raise_operation_error(
                 request,

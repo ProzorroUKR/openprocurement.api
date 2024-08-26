@@ -35,7 +35,7 @@ from openprocurement.tender.core.procedure.models.tender import Tender as BaseTe
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_duration,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 def validate_enquiry_period(data, period):
@@ -44,7 +44,13 @@ def validate_enquiry_period(data, period):
         and period
         and period.startDate
         and period.endDate
-        and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=3), data, True)
+        and period.endDate
+        < calculate_tender_full_date(
+            period.startDate,
+            timedelta(days=3),
+            tender=data,
+            working_days=True,
+        )
     ):
         raise ValidationError("the enquiryPeriod cannot end earlier than 3 business days after the start")
 

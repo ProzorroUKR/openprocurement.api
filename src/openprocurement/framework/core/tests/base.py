@@ -6,7 +6,7 @@ from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.framework import Framework
-from openprocurement.framework.core.utils import calculate_framework_date
+from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -59,7 +59,7 @@ class BaseCoreWebTest(BaseWebTest):
     def calculate_period_date(self, date, period, startend, status):
         framework = self.framework_class(self.framework_document)
         period_date_item = self.periods[status][startend][period][date]
-        return calculate_framework_date(self.now, period_date_item, framework, working_days=False)
+        return calculate_framework_full_date(self.now, period_date_item, framework=framework, working_days=False)
 
     def save_changes(self):
         if self.framework_document_patch:

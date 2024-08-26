@@ -32,7 +32,9 @@ class BelowThresholdTenderState(IgnoredClaimMixing, TenderState):
             for complaint in tender.get("complaints", ""):
                 if complaint["status"] == "answered" and complaint.get("dateAnswered"):
                     check = calculate_tender_date(
-                        datetime.fromisoformat(complaint["dateAnswered"]), COMPLAINT_STAND_STILL_TIME, tender
+                        datetime.fromisoformat(complaint["dateAnswered"]),
+                        COMPLAINT_STAND_STILL_TIME,
+                        tender=tender,
                     )
                     yield check.isoformat(), self.handle_answered_complaint(complaint)
 
@@ -43,7 +45,9 @@ class BelowThresholdTenderState(IgnoredClaimMixing, TenderState):
                 for complaint in award.get("complaints", ""):
                     if complaint["status"] == "answered" and complaint.get("dateAnswered"):
                         check = calculate_tender_date(
-                            datetime.fromisoformat(complaint["dateAnswered"]), COMPLAINT_STAND_STILL_TIME, tender
+                            datetime.fromisoformat(complaint["dateAnswered"]),
+                            COMPLAINT_STAND_STILL_TIME,
+                            tender=tender,
                         )
                         yield check.isoformat(), self.handle_answered_complaint(complaint)
                     elif complaint["status"] == "pending":
