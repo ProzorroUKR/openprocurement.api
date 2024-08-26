@@ -394,11 +394,6 @@ def patch_tender_bidder(self):
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
 
-    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("lotValues", response.json["data"])
-
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
         {
@@ -1274,6 +1269,9 @@ def one_lot_3bid_1un(self):
     bid_id = list(bids[2].keys())[0]
     bid2_token = list(bids[2].values())[0]
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid2_token))
+    self.assertIn("lotValues", response.json["data"])
+
+    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid1_token))
     self.assertNotIn("lotValues", response.json["data"])
 
     # posting auction results

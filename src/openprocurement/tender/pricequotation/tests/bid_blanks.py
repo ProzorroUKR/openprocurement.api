@@ -1066,9 +1066,6 @@ def delete_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["id"], bid["id"])
     self.assertEqual(response.json["data"]["status"], "deleted")
-    # deleted bid does not contain bid information
-    self.assertFalse("tenderers" in response.json["data"])
-    self.assertFalse("date" in response.json["data"])
 
     revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
     self.assertTrue(any(i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"))

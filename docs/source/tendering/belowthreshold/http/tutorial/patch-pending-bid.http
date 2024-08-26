@@ -38,8 +38,76 @@ Content-Type: application/json
 
 {
   "data": {
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "папір",
+        "unit": {
+          "value": {
+            "amount": 0.6,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ],
+    "tenderers": [
+      {
+        "name": "Школяр",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
+      }
+    ],
     "status": "invalid",
-    "id": "df2b366b648c4f6eb9855c8a1e3c9ea4"
+    "id": "df2b366b648c4f6eb9855c8a1e3c9ea4",
+    "date": "2023-10-16T01:14:06+03:00",
+    "submissionDate": "2023-10-16T01:14:06+03:00",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "proposal",
+        "id": "d9d97777da46409e8a84ed5f9d61860b",
+        "datePublished": "2023-10-16T01:14:06+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.p7s",
+        "format": "sign/p7s",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cc7c2e1fbe6a49fea049b4173a46deb0?Signature=Ll9xBeKOaMIyV4Pevgb8PUnKFy7IdwbH4qx5dP82%2F1xZyRrLncOjRe9WiUndVv31OgIMb7ENLhVIa0omK%2BNGAw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-16T01:14:06+03:00",
+        "language": "uk"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
+        "status": "pending",
+        "date": "2023-10-16T01:14:06+03:00"
+      }
+    ]
   }
 }
 

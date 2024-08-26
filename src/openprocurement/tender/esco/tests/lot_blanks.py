@@ -1350,11 +1350,6 @@ def patch_tender_bid(self):
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
 
-    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("lotValues", response.json["data"])
-
     lot_values[0]["value"]["yearlyPaymentsPercentage"] = 0.8
     lot_values[0]["relatedLot"] = lot_id
 

@@ -34,7 +34,10 @@ class BidSerializer(BaseSerializer):
 
         tender = get_tender()
 
-        if tender["config"]["hasPrequalification"]:
+        # bid owner should see all fields
+        if is_item_owner(get_request(), data):
+            return
+        elif tender["config"]["hasPrequalification"]:
             # pre-qualification rules
             self.set_tender_with_pre_qualification_whitelist(data)
         else:
@@ -45,7 +48,9 @@ class BidSerializer(BaseSerializer):
     def set_tender_with_pre_qualification_whitelist(self, data):
         tender = get_tender()
         bid_role = self.serialize_role(tender, data)
-        if bid_role in ("invalid", "deleted"):
+        if is_item_owner(get_request(), data):
+            return  # bid_role = "view"
+        elif bid_role in ("invalid", "deleted"):
             self.whitelist = {
                 "id",
                 "status",
@@ -72,8 +77,6 @@ class BidSerializer(BaseSerializer):
                 "subcontractingDetails",
                 "requirementResponses",
             }
-        elif is_item_owner(get_request(), data):
-            pass  # bid_role = "view"
         else:  # based on tender status
             if tender["status"].startswith("active.pre-qualification"):
                 self.whitelist = {
