@@ -23,7 +23,7 @@ from openprocurement.tender.cfaua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
-from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest as BaseBaseTenderWebTest,
 )
@@ -268,10 +268,10 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     qualification.update({"status": "active", "qualified": True, "eligible": True})
                     qualification["complaintPeriod"] = {
                         "startDate": get_now().isoformat(),
-                        "endDate": calculate_complaint_business_date(
+                        "endDate": calculate_tender_full_date(
                             get_now(),
                             timedelta(days=self.tender_document["config"]["qualificationComplainDuration"]),
-                            self.tender_document,
+                            tender=self.tender_document,
                         ).isoformat(),
                     }
                     for bid in self.tender_document_patch["bids"]:

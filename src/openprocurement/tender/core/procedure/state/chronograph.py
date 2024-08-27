@@ -22,7 +22,7 @@ from openprocurement.tender.core.procedure.utils import (
     is_new_contracting,
     tender_created_after_2020_rules,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 LOGGER = getLogger(__name__)
 
@@ -304,10 +304,10 @@ class ChronographEventsMixing:
 
             if qualification_duration > 0:
                 start_date = get_now()
-                end_date = calculate_tender_business_date(
+                end_date = calculate_tender_full_date(
                     start_date,
                     timedelta(days=qualification_duration),
-                    tender,
+                    tender=tender,
                     working_days=True,
                 )
                 tender["qualificationPeriod"] = {"startDate": start_date.isoformat(), "endDate": end_date.isoformat()}

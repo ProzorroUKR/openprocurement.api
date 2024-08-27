@@ -31,7 +31,11 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     def on_post(self, tender):
         tender["tenderPeriod"] = {
             "startDate": get_now().isoformat(),
-            "endDate": calculate_tender_full_date(get_now(), self.tendering_duration, tender=tender).isoformat(),
+            "endDate": calculate_tender_full_date(
+                get_now(),
+                self.tendering_duration,
+                tender=tender,
+            ).isoformat(),
         }
 
         super().on_post(tender)

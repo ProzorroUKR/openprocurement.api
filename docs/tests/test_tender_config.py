@@ -52,10 +52,7 @@ from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
-from openprocurement.tender.core.utils import (
-    calculate_clarif_business_date,
-    calculate_tender_business_date,
-)
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.esco.tests.base import test_tender_esco_config
 from openprocurement.tender.open.tests.base import (
     test_tender_dps_config,
@@ -2281,6 +2278,7 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
         self.assertEqual(response.status, '201 Created')
         bid1_token = response.json['access']['token']
         bid1_id = response.json['data']['id']
+        self.add_proposal_doc(tender_id, bid1_id, bid1_token)
         self.set_responses(tender_id, response.json, "pending")
 
         response = self.app.post_json(
@@ -2315,24 +2313,18 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
+        self.add_proposal_doc(tender_id, bid2_id, bid2_token)
         self.set_responses(tender_id, response.json, "pending")
 
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token),
-            {
-                'data': {
-                    'lotValues': [
-                        {"subcontractingDetails": "ДКП «Орфей»", "value": {"amount": 500}, 'relatedLot': lot_id1}
-                    ],
-                    'status': 'pending',
-                }
-            },
+            {'data': {'status': 'pending'}},
         )
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid2_id, bid2_token),
-            {'data': {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}], 'status': 'pending'}},
+            {'data': {'status': 'pending'}},
         )
         self.assertEqual(response.status, '200 OK')
         # switch to active.pre-qualification
@@ -2462,6 +2454,7 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid1_token = response.json['access']['token']
         bid1_id = response.json['data']['id']
+        self.add_proposal_doc(tender_id, bid1_id, bid1_token)
         self.set_responses(tender_id, response.json, "pending")
 
         response = self.app.post_json(
@@ -2496,24 +2489,18 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
+        self.add_proposal_doc(tender_id, bid2_id, bid2_token)
         self.set_responses(tender_id, response.json, "pending")
 
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token),
-            {
-                'data': {
-                    'lotValues': [
-                        {"subcontractingDetails": "ДКП «Орфей»", "value": {"amount": 500}, 'relatedLot': lot_id1}
-                    ],
-                    'status': 'pending',
-                }
-            },
+            {'data': {'status': 'pending'}},
         )
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid2_id, bid2_token),
-            {'data': {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}], 'status': 'pending'}},
+            {'data': {'status': 'pending'}},
         )
         self.assertEqual(response.status, '200 OK')
         # switch to active.pre-qualification
@@ -2523,10 +2510,10 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
         with open(TARGET_DIR + 'qualification-duration-period-20-days.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(tender['id']))
             end_date = datetime.datetime.fromisoformat(response.json["data"]["qualificationPeriod"]["endDate"])
-            calculated_end_date = calculate_tender_business_date(
+            calculated_end_date = calculate_tender_full_date(
                 datetime.datetime.fromisoformat(response.json["data"]["qualificationPeriod"]["startDate"]),
                 datetime.timedelta(days=response.json["config"]["qualificationDuration"]),
-                response.json["data"],
+                tender=response.json["data"],
                 working_days=True,
             )
             self.assertEqual(end_date, calculated_end_date)
@@ -2915,6 +2902,7 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '201 Created')
             bids.append(response.json['data']['id'])
             bids_tokens.append(response.json['access']['token'])
+            self.add_proposal_doc(tender_id, response.json['data']['id'], response.json['access']['token'])
             self.set_responses(tender_id, response.json, "pending")
 
         #### Auction
@@ -3351,11 +3339,11 @@ class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest)
             )
             self.assertEqual(response.status, '201 Created')
             end_date = dt_from_iso(response.json["data"]['enquiryPeriod']['endDate'])
-            expected_clarif_until = calculate_clarif_business_date(
+            expected_clarif_until = calculate_tender_full_date(
                 end_date,
                 datetime.timedelta(days=test_tender_below_config["clarificationUntilDuration"]),
-                response.json["data"],
-                True,
+                tender=response.json["data"],
+                working_days=True,
             )
             self.assertEqual(
                 expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
@@ -3369,11 +3357,11 @@ class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest)
             )
             self.assertEqual(response.status, '201 Created')
             end_date = dt_from_iso(response.json["data"]['enquiryPeriod']['endDate'])
-            expected_clarif_until = calculate_clarif_business_date(
+            expected_clarif_until = calculate_tender_full_date(
                 end_date,
                 datetime.timedelta(days=test_tender_open_config["clarificationUntilDuration"]),
-                response.json["data"],
-                False,
+                tender=response.json["data"],
+                working_days=False,
             )
             self.assertEqual(
                 expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
@@ -3387,11 +3375,11 @@ class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest)
             )
             self.assertEqual(response.status, '201 Created')
             end_date = dt_from_iso(response.json["data"]['enquiryPeriod']['endDate'])
-            expected_clarif_until = calculate_clarif_business_date(
+            expected_clarif_until = calculate_tender_full_date(
                 end_date,
                 datetime.timedelta(days=test_tender_openeu_config["clarificationUntilDuration"]),
-                response.json["data"],
-                True,
+                tender=response.json["data"],
+                working_days=True,
             )
             self.assertEqual(
                 expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
