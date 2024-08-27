@@ -4,11 +4,14 @@ from logging import getLogger
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.utils import generate_id, request_init_qualification
+from openprocurement.api.utils import (
+    calculate_full_date,
+    generate_id,
+    request_init_qualification,
+)
 from openprocurement.framework.core.procedure.state.chronograph import (
     ChronographEventsMixing,
 )
-from openprocurement.framework.core.utils import calculate_framework_date
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
     validate_doc_type_required,
@@ -65,8 +68,11 @@ class QualificationState(ChronographEventsMixing, BaseState):
 
         if qualification_complain_duration > 0:
             start_date = get_now()
-            end_date = calculate_framework_date(
-                start_date, timedelta(days=qualification_complain_duration), qualification, self.working_days, ceil=True
+            end_date = calculate_full_date(
+                start_date,
+                timedelta(days=qualification_complain_duration),
+                working_days=self.working_days,
+                ceil=True,
             )
 
             qualification["complaintPeriod"] = {

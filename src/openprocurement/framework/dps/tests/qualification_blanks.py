@@ -8,8 +8,7 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
-from openprocurement.framework.core.utils import calculate_framework_date
+from openprocurement.api.utils import calculate_full_date, get_now
 
 
 def listing(self):
@@ -644,10 +643,9 @@ def patch_qualification_active_mock(self):
     self.assertEqual(response.json["data"]["frameworkID"], self.framework_id)
 
     complaint_period = response.json["data"]["complaintPeriod"]
-    end_date = calculate_framework_date(
+    end_date = calculate_full_date(
         get_now(),
         timedelta(days=self.initial_config["qualificationComplainDuration"]),
-        response.json["data"],
         working_days=True,
         ceil=True,
     )

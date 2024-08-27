@@ -3,7 +3,7 @@ from datetime import timedelta
 from freezegun import freeze_time
 
 from openprocurement.api.context import get_now
-from openprocurement.framework.core.utils import calculate_framework_date
+from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.framework.dps.tests.base import test_question_data
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
@@ -180,10 +180,10 @@ def create_question_check_enquiry_period(self):
     response = self.app.get(f"/frameworks/{self.framework_id}")
     end_date = response.json["data"]["enquiryPeriod"]["endDate"]
     clarification_until_duration = response.json["config"]["clarificationUntilDuration"]
-    calculated_clarifications_until = calculate_framework_date(
+    calculated_clarifications_until = calculate_framework_full_date(
         dt_from_iso(end_date),
         timedelta(days=clarification_until_duration),
-        response.json["data"],
+        framework=response.json["data"],
         working_days=True,
     )
     self.assertEqual(
