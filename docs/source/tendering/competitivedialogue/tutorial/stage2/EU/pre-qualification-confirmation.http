@@ -1245,7 +1245,7 @@ Content-Type: application/json
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
-          "startDate": "2023-10-10T01:00:00+03:00",
+          "startDate": "2023-10-10T01:03:00+03:00",
           "endDate": "2023-10-16T00:00:00+03:00"
         }
       },
@@ -1258,7 +1258,7 @@ Content-Type: application/json
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
-          "startDate": "2023-10-10T01:00:00+03:00",
+          "startDate": "2023-10-10T01:03:00+03:00",
           "endDate": "2023-10-16T00:00:00+03:00"
         }
       },
@@ -1271,7 +1271,7 @@ Content-Type: application/json
         "qualified": false,
         "eligible": false,
         "complaintPeriod": {
-          "startDate": "2023-10-10T01:00:00+03:00",
+          "startDate": "2023-10-10T01:03:00+03:00",
           "endDate": "2023-10-16T00:00:00+03:00"
         }
       }

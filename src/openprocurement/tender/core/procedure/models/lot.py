@@ -9,7 +9,6 @@ from schematics.validate import ValidationError
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType
-from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.guarantee import (
     EstimatedValue,
     Guarantee,
