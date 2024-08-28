@@ -597,9 +597,9 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 1000.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 1000.0
     },
     "minimalStep": {
       "amount": 5.0,
@@ -805,6 +805,14 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": false
   }
 }

@@ -593,9 +593,9 @@ Content-Type: application/json
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "next_check": "2023-11-09T01:00:10+03:00",
     "minimalStep": {
@@ -762,6 +762,14 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": false
   }
 }

@@ -1360,9 +1360,9 @@ Content-Type: application/json
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "open",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "guarantee": {
       "amount": 8.0,
@@ -1412,7 +1412,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:03:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       },
       {
         "id": "b6950f13fd8e47a29630f0cd44b63da4",
@@ -1421,7 +1425,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:03:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       },
       {
         "id": "0f5c997d2c934d32b787bf0539157426",
@@ -1430,7 +1438,11 @@ Content-Type: application/json
         "status": "unsuccessful",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": false,
-        "eligible": false
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:03:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       },
       {
         "id": "fea726b3ec3e47bbb71500fa120b5ede",
@@ -1439,7 +1451,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:03:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       }
     ],
     "procuringEntity": {
@@ -1598,6 +1614,14 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 0,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": false
   }
 }

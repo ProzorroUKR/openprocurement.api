@@ -1,3 +1,4 @@
+from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.context import get_now
@@ -21,6 +22,7 @@ from openprocurement.tender.core.procedure.utils import (
     is_new_contracting,
     tender_created_after_2020_rules,
 )
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 LOGGER = getLogger(__name__)
 
@@ -290,6 +292,8 @@ class ChronographEventsMixing:
         return handler
 
     def tendering_end_handler(self, tender):
+        qualification_duration = tender["config"]["qualificationDuration"]
+
         for complaint in tender.get("complaints", ""):
             if complaint.get("status") == "answered" and complaint.get("resolutionType"):
                 self.set_object_status(complaint, complaint["resolutionType"])
@@ -297,7 +301,16 @@ class ChronographEventsMixing:
         if tender["config"]["hasPrequalification"]:
             handler = self.get_change_tender_status_handler("active.pre-qualification")
             handler(tender)
-            tender["qualificationPeriod"] = {"startDate": get_now().isoformat()}
+
+            if qualification_duration > 0:
+                start_date = get_now()
+                end_date = calculate_tender_full_date(
+                    start_date,
+                    timedelta(days=qualification_duration),
+                    tender=tender,
+                    working_days=True,
+                )
+                tender["qualificationPeriod"] = {"startDate": start_date.isoformat(), "endDate": end_date.isoformat()}
 
             self.remove_draft_bids(tender)
             self.check_bids_number(tender)
@@ -806,11 +819,23 @@ class ChronographEventsMixing:
     def calc_tender_value(tender: dict) -> None:
         if not tender.get("lots") or not tender.get("value"):
             return
+
         tender["value"] = {
-            "amount": sum(i["value"]["amount"] for i in tender.get("lots", "") if i.get("value")),
             "currency": tender["value"]["currency"],
             "valueAddedTaxIncluded": tender["value"]["valueAddedTaxIncluded"],
         }
+
+        lot_values = [
+            i["value"]["amount"]
+            for i in tender.get("lots", "")
+            if i.get("value") and i["value"].get("amount") is not None
+        ]
+
+        # If hasValueEstimation is False, lot values could not be passed at all, so we don't need to add them.
+        # 0 is legit for lot value amount if hasValueEstimation is False, so if user passed 0 as lot value amount - it
+        # should be displayed.
+        if lot_values:
+            tender["value"]["amount"] = sum(lot_values)
 
     @staticmethod
     def calc_tender_guarantee(tender: dict) -> None:
@@ -830,7 +855,11 @@ class ChronographEventsMixing:
     def calc_tender_minimal_step(tender: dict) -> None:
         if not tender.get("lots") or not tender.get("minimalStep"):
             return
-        amounts = [i["minimalStep"]["amount"] for i in tender.get("lots", "") if i.get("minimalStep")]
+        amounts = [
+            i["minimalStep"]["amount"]
+            for i in tender.get("lots", "")
+            if i.get("minimalStep") and i["minimalStep"].get("amount")
+        ]
         if not amounts:
             return
         tender["minimalStep"] = {
@@ -841,13 +870,26 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_tender_min_value(tender: dict) -> None:
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+
         if not tender.get("lots") or not tender.get("minValue"):
             return
+
         tender["minValue"] = {
-            "amount": sum(i["minValue"]["amount"] for i in tender["lots"] if i.get("minValue")),
             "currency": tender["minValue"]["currency"],
             "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"],
         }
+        lot_values = [
+            i["minValue"]["amount"]
+            for i in tender.get("lots", "")
+            if i.get("minValue") and i["minValue"].get("amount") is not None
+        ]
+
+        if not has_value_estimation:
+            if lot_values:
+                tender["minValue"]["amount"] = sum(lot_values)
+        else:
+            tender["minValue"]["amount"] = sum(lot_values)
 
     @staticmethod
     def calc_tender_minimal_step_percentage(tender: dict) -> None:

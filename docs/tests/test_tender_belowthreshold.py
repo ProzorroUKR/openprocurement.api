@@ -133,10 +133,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             response = self.app.get('/tenders')
             self.assertEqual(response.status, '200 OK')
 
-        test_docs_tender_below_maximum['items'][0]['id'] = uuid4().hex
-        for feature in test_docs_tender_below_maximum['features']:
+        test_tender_data_maximum = deepcopy(test_docs_tender_below_maximum)
+        test_tender_data_maximum['items'][0]['id'] = uuid4().hex
+        for feature in test_tender_data_maximum['features']:
             if feature['featureOf'] == 'item':
-                feature['relatedItem'] = test_docs_tender_below_maximum['items'][0]['id']
+                feature['relatedItem'] = test_tender_data_maximum['items'][0]['id']
 
         # add lots
         with open(TARGET_DIR + 'tutorial/tender-add-lot.http', 'w') as self.app.file_obj:
@@ -182,13 +183,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Create second tender
 
-        set_tender_lots(test_docs_tender_below_maximum, tender_lots)
+        test_tender_data_maximum = deepcopy(test_docs_tender_below_maximum)
+        set_tender_lots(test_tender_data_maximum, tender_lots)
         self.initial_bids = deepcopy(self.initial_bids)
         for bid in self.initial_bids:
             set_bid_lotvalues(bid, tender_lots)
         with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders?opt_pretty=1', {'data': test_docs_tender_below_maximum, 'config': self.initial_config}
+                '/tenders?opt_pretty=1', {'data': test_tender_data_maximum, 'config': self.initial_config}
             )
             self.assertEqual(response.status, '201 Created')
 

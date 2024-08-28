@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-26 14:46+0200\n"
+"POT-Creation-Date: 2024-07-11 17:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -68,16 +68,47 @@ msgstr ""
 msgid "hasPreSelectionAgreement"
 msgstr ""
 
-#, fuzzy
 msgid "hasTenderComplaints"
-msgstr "Оскарження скасування тендеру"
+msgstr ""
 
 msgid "hasAwardComplaints"
 msgstr ""
 
-#, fuzzy
 msgid "hasCancellationComplaints"
-msgstr "Оскарження скасування тендеру"
+msgstr ""
+
+msgid "hasValueEstimation"
+msgstr ""
+
+msgid "hasQualificationComplaints"
+msgstr ""
+
+msgid "tenderComplainRegulation"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "qualificationComplainDuration"
+msgstr "Оскарження кваліцікації"
+
+msgid "awardComplainDuration"
+msgstr ""
+
+msgid "5"
+msgstr ""
+
+msgid "cancellationComplainDuration"
+msgstr ""
+
+msgid "clarificationUntilDuration"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
+msgid "qualificationDuration"
+msgstr ""
 
 msgid "restricted"
 msgstr ""

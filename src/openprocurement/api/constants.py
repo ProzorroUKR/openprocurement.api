@@ -314,6 +314,46 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_HAS_COMPLAINTS_OPTIONAL",
         parse_func=parse_bool,
     ),
+    "hasValueEstimation": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_HAS_VALUE_ESTIMATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "hasQualificationComplaints": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_HAS_QUALIFICATION_COMPLAINTS_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "tenderComplainRegulation": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_COMPLAIN_REGULATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "qualificationComplainDuration": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_QUALIFICATION_COMPLAIN_DURATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "awardComplainDuration": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_AWARD_COMPLAIN_DURATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "cancellationComplainDuration": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_CANCELLATION_COMPLAIN_DURATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "clarificationUntilDuration": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_CLARIFICATION_UNTIL_DURATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "qualificationDuration": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_QUALIFICATION_DURATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
     "restricted": get_constant(
         CONSTANTS_CONFIG,
         "TENDER_CONFIG_RESTRICTED_OPTIONAL",

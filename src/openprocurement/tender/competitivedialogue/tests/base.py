@@ -152,6 +152,14 @@ test_tender_cdeu_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": False,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
+    "hasQualificationComplaints": True,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 0,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": False,
 }
 
@@ -166,6 +174,14 @@ test_tender_cdua_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": False,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
+    "hasQualificationComplaints": True,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 0,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": False,
 }
 
@@ -180,6 +196,14 @@ test_tender_cdeu_stage2_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
+    "hasQualificationComplaints": True,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": False,
 }
 
@@ -194,6 +218,14 @@ test_tender_cdua_stage2_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
+    "hasQualificationComplaints": False,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 

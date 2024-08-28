@@ -181,11 +181,16 @@ class CancellationStateMixing:
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
-            if tender["config"]["hasCancellationComplaints"] is True:
+            cancellation_complain_duration = tender["config"]["cancellationComplainDuration"]
+            if tender["config"]["hasCancellationComplaints"] is True and cancellation_complain_duration > 0:
                 now = get_now()
                 cancellation["complaintPeriod"] = {
                     "startDate": now.isoformat(),
-                    "endDate": calculate_tender_full_date(now, timedelta(days=10), tender=tender).isoformat(),
+                    "endDate": calculate_tender_full_date(
+                        now,
+                        timedelta(days=cancellation_complain_duration),
+                        tender=tender,
+                    ).isoformat(),
                 }
             else:
                 self.set_object_status(cancellation, "active")

@@ -78,6 +78,14 @@ test_tender_reporting_config = {
     "hasTenderComplaints": False,
     "hasAwardComplaints": False,
     "hasCancellationComplaints": False,
+    "hasValueEstimation": True,
+    "hasQualificationComplaints": False,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 0,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 0,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 
@@ -92,6 +100,14 @@ test_tender_negotiation_config = {
     "hasTenderComplaints": False,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
+    "hasQualificationComplaints": False,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 0,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 
@@ -106,6 +122,14 @@ test_tender_negotiation_quick_config = {
     "hasTenderComplaints": False,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
+    "hasQualificationComplaints": False,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 5,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 0,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 

@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -67,6 +67,45 @@ msgid "hasAwardComplaints"
 msgstr ""
 
 msgid "hasCancellationComplaints"
+msgstr ""
+
+msgid "hasValueEstimation"
+msgstr ""
+
+msgid "hasQualificationComplaints"
+msgstr ""
+
+msgid "tenderComplainRegulation"
+msgstr ""
+
+msgid "4"
+msgstr ""
+
+msgid "qualificationComplainDuration"
+msgstr ""
+
+msgid "5"
+msgstr ""
+
+msgid "awardComplainDuration"
+msgstr ""
+
+msgid "10"
+msgstr ""
+
+msgid "cancellationComplainDuration"
+msgstr ""
+
+msgid "clarificationUntilDuration"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
+msgid "qualificationDuration"
+msgstr ""
+
+msgid "20"
 msgstr ""
 
 msgid "restricted"

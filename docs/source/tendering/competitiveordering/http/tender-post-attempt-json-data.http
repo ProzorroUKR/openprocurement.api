@@ -136,6 +136,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 5,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
     "restricted": false
   }
 }
@@ -155,9 +163,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
       }
     ],
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "minimalStep": {
       "amount": 5.0,
@@ -283,12 +291,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
     "owner": "broker",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
-    "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-22T00:00:00+03:00",
       "clarificationsUntil": "2023-10-25T00:00:00+03:00"
     },
+    "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "eedf00bccdb24a20b547ba72173a8d35"
@@ -304,6 +312,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 5,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
     "restricted": false
   },
   "access": {

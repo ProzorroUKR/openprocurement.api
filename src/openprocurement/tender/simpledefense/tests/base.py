@@ -61,6 +61,14 @@ test_tender_simpledefense_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
+    "hasQualificationComplaints": False,
+    "tenderComplainRegulation": 2,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 4,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 

@@ -1233,7 +1233,6 @@ Content-Type: application/json
     "status": "active.pre-qualification.stand-still",
     "minimalStepPercentage": 0.006,
     "minValue": {
-      "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -1277,7 +1276,6 @@ Content-Type: application/json
         "id": "ce7777a3b9954a00a43ea3c722f5af5b",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
-          "amount": 0.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
@@ -1390,7 +1388,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:02:01+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       },
       {
         "id": "1fa00365bbc642a7bfe77722e1639a08",
@@ -1399,7 +1401,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:02:01+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       },
       {
         "id": "c98cd796b6ee496caa67d81734d23473",
@@ -1408,7 +1414,11 @@ Content-Type: application/json
         "status": "unsuccessful",
         "date": "2023-10-10T01:02:01+03:00",
         "qualified": false,
-        "eligible": false
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       }
     ],
     "complaintPeriod": {
@@ -1429,6 +1439,14 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": false,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": false
   }
 }

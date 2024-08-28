@@ -155,6 +155,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 2,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 1,
+    "qualificationDuration": 20,
     "restricted": false
   }
 }
@@ -217,14 +225,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a7b9a682e7474cf7
     },
     "awardCriteria": "lowestCost",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "minimalStep": {
-      "amount": 15.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 15.0
     },
     "tenderPeriod": {
       "startDate": "2023-10-17T00:00:00+02:00",
@@ -332,6 +340,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a7b9a682e7474cf7
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 2,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 1,
+    "qualificationDuration": 20,
     "restricted": false
   },
   "access": {

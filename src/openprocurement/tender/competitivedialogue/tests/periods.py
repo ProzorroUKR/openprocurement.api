@@ -1,10 +1,11 @@
 from datetime import timedelta
 
 from openprocurement.tender.openeu.constants import (
-    COMPLAINT_STAND_STILL,
     QUESTIONS_STAND_STILL,
     TENDERING_DURATION,
 )
+
+COMPLAINT_STAND_STILL = timedelta(days=5)
 
 PERIODS = {
     "active.tendering": {
@@ -76,7 +77,11 @@ PERIODS = {
                 "startDate": -TENDERING_DURATION - timedelta(days=1),
                 "endDate": timedelta(),
             },
-            "qualificationPeriod": {"startDate": timedelta()},
+            "qualificationPeriod": {
+                "startDate": timedelta(),
+                "endDate": timedelta() + COMPLAINT_STAND_STILL,
+                "reportingDatePublication": timedelta(),
+            },
             "auctionPeriod": {"startDate": COMPLAINT_STAND_STILL},
         }
     },
@@ -93,7 +98,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": -COMPLAINT_STAND_STILL,
                 "endDate": timedelta(),
-                "reportingDatePublication": -timedelta(days=6),
+                "reportingDatePublication": -COMPLAINT_STAND_STILL,
             },
         }
     },
@@ -110,7 +115,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": -COMPLAINT_STAND_STILL,
                 "endDate": timedelta(),
-                "reportingDatePublication": -timedelta(days=6),
+                "reportingDatePublication": -COMPLAINT_STAND_STILL,
             },
             "auctionPeriod": {"startDate": timedelta()},
         }
@@ -124,6 +129,11 @@ PERIODS = {
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3),
                 "endDate": -COMPLAINT_STAND_STILL - timedelta(days=2),
+            },
+            "qualificationPeriod": {
+                "startDate": -COMPLAINT_STAND_STILL - timedelta(days=2),
+                "endDate": -timedelta(days=2),
+                "reportingDatePublication": -COMPLAINT_STAND_STILL - timedelta(days=2),
             },
             "auctionPeriod": {
                 "startDate": -timedelta(days=2),
@@ -141,6 +151,11 @@ PERIODS = {
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4),
                 "endDate": -COMPLAINT_STAND_STILL - timedelta(days=3),
+            },
+            "qualificationPeriod": {
+                "startDate": -COMPLAINT_STAND_STILL - timedelta(days=3),
+                "endDate": -timedelta(days=3),
+                "reportingDatePublication": -COMPLAINT_STAND_STILL - timedelta(days=3),
             },
             "auctionPeriod": {
                 "startDate": -timedelta(days=3),

@@ -1,16 +1,8 @@
 from openprocurement.api.constants import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.utils import (
-    dt_from_iso,
-    tender_created_before,
-)
-from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.esco.constants import (
-    COMPLAINT_SUBMIT_TIME,
-    ENQUIRY_STAND_STILL_TIME,
-    QUESTIONS_STAND_STILL,
-)
+from openprocurement.tender.core.procedure.utils import tender_created_before
+from openprocurement.tender.esco.constants import QUESTIONS_STAND_STILL
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsState as BaseTenderDetailsState,
 )
@@ -18,7 +10,6 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 class ESCOTenderDetailsState(BaseTenderDetailsState):
     enquiry_period_timedelta = -QUESTIONS_STAND_STILL
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
     required_criteria = {
         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
@@ -49,14 +40,8 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     def watch_value_meta_changes(tender):
         pass
 
-    @staticmethod
-    def update_periods(tender):
-        tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_tender_full_date(tendering_end, -COMPLAINT_SUBMIT_TIME, tender=tender)
-        tender["complaintPeriod"] = {
-            "startDate": tender["tenderPeriod"]["startDate"],
-            "endDate": end_date.isoformat(),
-        }
+    def update_periods(self, tender):
+        self.update_complaint_period(tender)
         # TODO: remove these lines after NOTICE_DOC_REQUIRED_FROM will be set on prod and some time passes
         if (
             tender_created_before(NOTICE_DOC_REQUIRED_FROM)
@@ -64,6 +49,74 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
             and not tender.get("noticePublicationDate")
         ):
             tender["noticePublicationDate"] = get_now().isoformat()
+
+    def validate_tender_value(self, tender):
+        """Validate tender minValue.
+
+        Validation includes tender minValue.
+
+        :param tender: Tender dictionary
+        :return: None
+        """
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+        tender_min_value = tender.get("minValue", {})
+
+        if not tender_min_value:
+            return
+
+        tender_min_value_amount = tender_min_value.get("amount")
+        if has_value_estimation is True and tender_min_value_amount is None:
+            raise_operation_error(
+                self.request,
+                "This field is required",
+                status=422,
+                location="body",
+                name="minValue.amount",
+            )
+
+        if has_value_estimation is False and tender_min_value_amount:
+            raise_operation_error(
+                self.request,
+                "Rogue field",
+                status=422,
+                location="body",
+                name="minValue.amount",
+            )
+
+    def validate_tender_lots(self, tender: dict, before=None) -> None:
+        """Validate lot minValue.
+
+        Validation includes lot minValue.
+
+        :param tender: Tender dictionary
+        :param lot: Lot dictionary
+        :return: None
+        """
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+
+        for lot in tender.get("lots", {}):
+            lot_min_value = lot.get("minValue", {})
+
+            if not lot_min_value:
+                return
+
+            lot_value_amount = lot_min_value.get("amount")
+
+            if has_value_estimation is True and lot_value_amount is None:
+                raise_operation_error(
+                    self.request,
+                    "This field is required",
+                    status=422,
+                    name="lots.minValue.amount",
+                )
+
+            if has_value_estimation is False and lot_value_amount:
+                raise_operation_error(
+                    self.request,
+                    "Rogue field",
+                    status=422,
+                    name="lots.minValue.amount",
+                )
 
     def validate_minimal_step(self, data, before=None):
         # TODO: adjust this validation in case of it will be allowed to disable auction in esco

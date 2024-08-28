@@ -1,11 +1,11 @@
+from datetime import timedelta
+
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
-    PREQUALIFICATION_COMPLAINT_STAND_STILL,
-    QUALIFICATION_COMPLAINT_STAND_STILL,
     TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
@@ -23,16 +23,13 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
-    pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
-    qualification_complaint_stand_still = QUALIFICATION_COMPLAINT_STAND_STILL
     tendering_period_extra_working_days = False
+    tender_period_working_day = False
 
     should_validate_notice_doc_required = False
 
     def on_post(self, tender):
         super().on_post(tender)
-        self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)
@@ -44,9 +41,6 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
             self.invalidate_bids_data(after)
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-
-        if after["status"] in ("draft", "active.tendering"):
-            self.initialize_enquiry_period(after)
 
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
@@ -67,6 +61,8 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
         super().status_up(before, after, data)
 
     def validate_qualification_status_change(self, before, after):
+        tender = get_tender()
+        award_complain_duration = tender["config"]["awardComplainDuration"]
         if before["status"] == "active.qualification":
             passed_data = get_request().validated["json_data"]
             if passed_data != {"status": "active.qualification.stand-still"}:
@@ -94,10 +90,14 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
 
                 if self.all_awards_are_reviewed(after):
                     after["awardPeriod"]["endDate"] = calculate_tender_full_date(
-                        get_now(), self.qualification_complaint_stand_still, tender=after
+                        get_now(),
+                        timedelta(days=award_complain_duration),
+                        tender=after,
+                        working_days=False,
+                        calendar=self.calendar,
                     ).isoformat()
                     for award in after["awards"]:
-                        if award["status"] != "cancelled":
+                        if award["status"] != "cancelled" and award_complain_duration > 0:
                             award["complaintPeriod"] = {
                                 "startDate": get_now().isoformat(),
                                 "endDate": after["awardPeriod"]["endDate"],

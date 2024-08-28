@@ -1210,7 +1210,6 @@ Content-Type: application/json
     "status": "active.pre-qualification",
     "minimalStepPercentage": 0.006,
     "minValue": {
-      "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -1254,7 +1253,6 @@ Content-Type: application/json
         "id": "ce7777a3b9954a00a43ea3c722f5af5b",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
-          "amount": 0.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
@@ -1356,7 +1354,8 @@ Content-Type: application/json
       "endDate": "2023-10-14T00:00:00+03:00"
     },
     "qualificationPeriod": {
-      "startDate": "2023-10-10T01:02:01+03:00"
+      "startDate": "2023-10-10T01:02:01+03:00",
+      "endDate": "2023-11-08T00:00:00+02:00"
     },
     "qualifications": [
       {
@@ -1400,6 +1399,14 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": false,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": false
   }
 }

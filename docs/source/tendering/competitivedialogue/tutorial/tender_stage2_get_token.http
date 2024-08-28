@@ -21,9 +21,9 @@ Content-Type: application/json
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "minimalStep": {
       "amount": 5.0,

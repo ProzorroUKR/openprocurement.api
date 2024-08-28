@@ -66,6 +66,42 @@ msgstr ""
 msgid "hasCancellationComplaints"
 msgstr ""
 
+msgid "hasValueEstimation"
+msgstr ""
+
+msgid "hasQualificationComplaints"
+msgstr ""
+
+msgid "tenderComplainRegulation"
+msgstr ""
+
+msgid "4"
+msgstr ""
+
+msgid "qualificationComplainDuration"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "awardComplainDuration"
+msgstr ""
+
+msgid "10"
+msgstr ""
+
+msgid "cancellationComplainDuration"
+msgstr ""
+
+msgid "clarificationUntilDuration"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
+msgid "qualificationDuration"
+msgstr ""
+
 msgid "restricted"
 msgstr ""
 

@@ -996,9 +996,9 @@ Content-Type: application/json
     "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "guarantee": {
       "amount": 8.0,
@@ -1060,9 +1060,9 @@ Content-Type: application/json
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2023-09-30T01:03:00+03:00",
+      "startDate": "2023-10-05T01:03:00+03:00",
       "endDate": "2023-10-10T01:03:00+03:00",
-      "reportingDatePublication": "2023-10-04T01:03:00+03:00"
+      "reportingDatePublication": "2023-10-05T01:03:00+03:00"
     },
     "qualifications": [
       {
@@ -1072,7 +1072,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:03:00+03:00",
+          "endDate": "2023-10-10T01:03:00+03:00"
+        }
       },
       {
         "id": "3b3747a360004c2687f4532c9d0194a8",
@@ -1081,7 +1085,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:03:00+03:00",
+          "endDate": "2023-10-10T01:03:00+03:00"
+        }
       },
       {
         "id": "5faf2798de974f8aa2bb60bccbfb0564",
@@ -1090,7 +1098,11 @@ Content-Type: application/json
         "status": "unsuccessful",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": false,
-        "eligible": false
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:03:00+03:00",
+          "endDate": "2023-10-10T01:03:00+03:00"
+        }
       }
     ],
     "procurementMethodType": "aboveThresholdEU",
@@ -1122,14 +1134,14 @@ Content-Type: application/json
     "status": "active.auction",
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-08-31T01:03:00+03:00",
-      "endDate": "2023-09-10T01:03:00+03:00",
+      "startDate": "2023-09-05T01:03:00+03:00",
+      "endDate": "2023-09-15T01:03:00+03:00",
       "clarificationsUntil": "2023-10-12T00:00:00+03:00",
       "invalidationDate": "2023-10-10T01:01:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-08-30T01:03:00+03:00",
-      "endDate": "2023-09-30T01:03:00+03:00"
+      "startDate": "2023-09-04T01:03:00+03:00",
+      "endDate": "2023-10-05T01:03:00+03:00"
     },
     "items": [
       {
@@ -1232,6 +1244,14 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": false
   }
 }

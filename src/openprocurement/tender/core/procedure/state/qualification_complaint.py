@@ -18,6 +18,7 @@ class QualificationComplaintStateMixin(ComplaintStateMixin):
     create_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
     update_allowed_tender_statuses = ("active.pre-qualification", "active.pre-qualification.stand-still")
     draft_patch_model = DraftPatchQualificationComplaint
+    complaints_configuration = "hasQualificationComplaints"
 
     def complaint_on_post(self, complaint):
         request = self.request
@@ -26,12 +27,16 @@ class QualificationComplaintStateMixin(ComplaintStateMixin):
         super().complaint_on_post(complaint)
 
     def validate_tender_in_complaint_period(self, tender):
-        period = tender.get("qualificationPeriod")
-        period_start = period.get("startDate")
-        period_end = period.get("endDate")
+        if period := self.request.validated["qualification"].get("complaintPeriod"):
+            period_start = period.get("startDate")
+            period_end = period.get("endDate")
+        else:
+            period = tender.get("qualificationPeriod")
+            period_start = period.get("reportingDatePublication")
+            period_end = period.get("endDate")
         now = get_now()
-        if period_start and now < dt_from_iso(period_start) or period_end and now > dt_from_iso(period_end):
-            raise_operation_error(self.request, "Can add complaint only in qualificationPeriod")
+        if not period_start or not period_end or now < dt_from_iso(period_start) or now > dt_from_iso(period_end):
+            raise_operation_error(self.request, "Can add complaint only in complaintPeriod")
 
     def validate_lot_status(self):
         tender = get_tender()
@@ -51,7 +56,6 @@ class QualificationComplaintStateMixin(ComplaintStateMixin):
     def reviewers_satisfied_handler(self, complaint):
         super().reviewers_satisfied_handler(complaint)
         tender = get_tender()
-        del tender["qualificationPeriod"]["endDate"]
         self.get_change_tender_status_handler("active.pre-qualification")(tender)
 
 

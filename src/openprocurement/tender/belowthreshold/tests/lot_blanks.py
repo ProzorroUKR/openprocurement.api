@@ -99,7 +99,7 @@ def create_tender_lot_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or PostValue instance instead of str."],
+                "description": ["Please use a mapping for this field or PostEstimatedValue instance instead of str."],
                 "location": "body",
                 "name": "value",
             }
@@ -142,7 +142,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["value should be less than value of lot"], "location": "body", "name": "minimalStep"}],
+        [{"description": "Minimal step value should be less than lot value", "location": "body", "name": "lots"}],
     )
 
     response = self.app.post_json(
@@ -334,26 +334,24 @@ def create_tender_lot_minimalstep_validation(self):
     data = deepcopy(self.test_lots_data)[0]
     data["minimalStep"]["amount"] = 35
     request_path = "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token)
-    with mock.patch(
-        "openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM", get_now() - timedelta(days=1)
-    ):
-        response = self.app.post_json(request_path, {"data": data}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
-                    "location": "body",
-                    "name": "minimalStep",
-                }
-            ],
-        )
+    response = self.app.post_json(request_path, {"data": data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
+                "location": "body",
+                "name": "data",
+            }
+        ],
+    )
 
     with mock.patch(
-        "openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM", get_now() + timedelta(days=1)
+        "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
+        get_now() + timedelta(days=1),
     ):
         response = self.app.post_json(request_path, {"data": data}, status=201)
         self.assertEqual(response.status, "201 Created")
@@ -448,14 +446,15 @@ def patch_tender_lot_minimalstep_validation(self):
         response.json["errors"],
         [
             {
-                "description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+                "description": "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "data",
             }
         ],
     )
     with mock.patch(
-        "openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM", get_now() + timedelta(days=1)
+        "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
+        get_now() + timedelta(days=1),
     ):
         response = self.app.patch_json(
             "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
@@ -489,9 +488,9 @@ def patch_tender_currency(self):
         response.json["errors"],
         [
             {
-                "description": ["currency should be identical to currency of value of tender"],
+                "description": "Tender minimal step currency should be identical to tender currency",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.currency",
             }
         ],
     )
@@ -505,7 +504,7 @@ def patch_tender_currency(self):
         {
             "data": {
                 "value": {"currency": "GBP", "amount": 1000},
-                "minimalStep": {"currency": "GBP", "amount": 1},
+                "minimalStep": {"currency": "GBP", "amount": 5},
                 "items": items,
             }
         },

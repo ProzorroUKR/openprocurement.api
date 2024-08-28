@@ -1,4 +1,3 @@
-from openprocurement.api.context import get_now
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 
@@ -32,10 +31,6 @@ class AwardState(AwardStateMixing, CFAUATenderState):
             self.add_next_award(lot_id=award["lotID"])
 
     def award_status_up_from_pending_to_unsuccessful(self, award, tender):
-        award["complaintPeriod"] = {
-            "startDate": get_now().isoformat(),
-            "endDate": get_now().isoformat(),
-        }
         self.add_next_award()
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):

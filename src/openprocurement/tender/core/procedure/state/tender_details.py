@@ -1,6 +1,7 @@
 from collections import defaultdict
 from datetime import timedelta
 from decimal import Decimal
+from math import ceil, floor
 
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
@@ -10,12 +11,17 @@ from openprocurement.api.constants import (
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
+    MINIMAL_STEP_VALIDATION_FROM,
+    MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
+    MINIMAL_STEP_VALIDATION_PRESCISSION,
+    MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
     NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
+    WORKING_DAYS,
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
@@ -81,6 +87,14 @@ class TenderConfigMixin:
         "hasTenderComplaints",
         "hasAwardComplaints",
         "hasCancellationComplaints",
+        "hasValueEstimation",
+        "hasQualificationComplaints",
+        "tenderComplainRegulation",
+        "qualificationComplainDuration",
+        "awardComplainDuration",
+        "cancellationComplainDuration",
+        "clarificationUntilDuration",
+        "qualificationDuration",
         "restricted",
     )
 
@@ -114,6 +128,21 @@ class TenderConfigMixin:
                 )
 
         self.validate_restricted_config(data)
+        self.validate_estimated_value_config(data)
+
+    def validate_estimated_value_config(self, data):
+        if (
+            data["procurementMethodType"] != "esco"
+            and data["config"]["hasValueEstimation"] is False
+            and data["config"]["hasValueRestriction"] is True
+        ):
+            raise_operation_error(
+                self.request,
+                "hasValueRestriction should be False",
+                status=422,
+                location="body",
+                name="value",
+            )
 
     def validate_restricted_config(self, data):
         has_restricted_preselection_agreement = False
@@ -149,19 +178,23 @@ class TenderDetailsMixing(TenderConfigMixin):
     tender_create_accreditations = None
     tender_central_accreditations = None
     tender_edit_accreditations = None
+    has_enquiry_period = True
+    tender_period_working_day = True
+    clarification_period_working_day = True
 
     required_criteria = ()
 
     enquiry_period_timedelta: timedelta
-    enquiry_stand_still_timedelta: timedelta
-    pre_qualification_complaint_stand_still = timedelta(days=0)
     tendering_period_extra_working_days = False
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
     should_validate_notice_doc_required = False
-    complaint_submit_time = timedelta(days=0)
     agreement_field = "agreements"
+    should_validate_lot_minimal_step = True
+    tender_complain_regulation_working_days = False
+
+    calendar = WORKING_DAYS
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -172,12 +205,15 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_config(tender)
         self.validate_procurement_method(tender)
         self.validate_lots_count(tender)
+        self.validate_tender_value(tender)
+        self.validate_tender_lots(tender)
         self.validate_milestones(tender)
         self.validate_minimal_step(tender)
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
         self.validate_docs(tender)
         self.watch_value_meta_changes(tender)
+        self.initialize_enquiry_period(tender)
         self.update_complaint_period(tender)
         self.update_date(tender)
         self.validate_change_item_profile_or_category(tender, {})
@@ -194,6 +230,8 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_pre_qualification_status_change(before, after)
         self.validate_tender_period_start_date_change(before, after)
         self.validate_minimal_step(after, before=before)
+        self.validate_tender_value(after)
+        self.validate_tender_lots(after, before=before)
         self.validate_submission_method(after, before=before)
         self.validate_kind_change(after, before)
         self.validate_award_criteria_change(after, before)
@@ -206,6 +244,8 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
         self.validate_change_item_profile_or_category(after, before)
+        if after["status"] in ("draft", "active.tendering"):
+            self.initialize_enquiry_period(after)
         super().on_patch(before, after)
 
     def always(self, data):
@@ -362,7 +402,111 @@ class TenderDetailsMixing(TenderConfigMixin):
                     name="lots",
                 )
 
+    def validate_tender_lots(self, tender: dict, before=None) -> None:
+        """Validate tender lots
+
+        Validation includes lot value and lot minimal step, if required.
+
+        :param tender: Tender dictionary.
+        :param before: Tender dictionary before patch, optional
+        :return: None
+        """
+        lots = tender.get("lots")
+
+        if lots:
+            lots_amounts = [lot.get("value").get("amount") for lot in lots if lot.get("value")]
+            if tender["config"]["hasValueEstimation"] is False and any(lots_amounts):
+                raise_operation_error(
+                    self.request,
+                    "Value amount should not be passed if tender does not have estimated value",
+                    status=422,
+                    location="body",
+                    name="lots.value.amount",
+                )
+
+            for lot in lots:
+                self.validate_minimal_step(lot, before)
+                self.validate_lot_value(tender, lot)
+
+    def validate_lot_value(self, tender: dict, lot: dict) -> None:
+        """Validate lot value.
+
+        Validation includes lot value and lot minimal step, if required.
+
+        :param tender: Tender dictionary
+        :param lot: Lot dictionary
+        :return: None
+        """
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+        lot_value = lot.get("value", {})
+
+        if not lot_value:
+            return
+
+        lot_min_step = lot.get("minimalStep", {})
+        lot_value_amount = lot_value.get("amount")
+        if has_value_estimation is True and lot_value_amount is None:
+            raise_operation_error(
+                self.request,
+                "This field is required",
+                status=422,
+                name="lots.value.amount",
+            )
+
+        if has_value_estimation is False and lot_value_amount:
+            raise_operation_error(
+                self.request,
+                "Rogue field",
+                status=422,
+                name="lots.value.amount",
+            )
+
+        lot_min_step_amount = lot_min_step.get("amount")
+
+        if lot_min_step_amount is None:
+            return
+
+        if has_value_estimation and lot_value_amount is not None and lot_value_amount < lot_min_step_amount:
+            raise_operation_error(
+                self.request, "Minimal step value should be less than lot value", status=422, name="lots"
+            )
+        if self.should_validate_lot_minimal_step and has_value_estimation and lot_value_amount is not None:
+            self.validate_minimal_step_limits(tender, lot_value_amount, lot_min_step_amount)
+
+    def validate_minimal_step_limits(self, tender: dict, value_amount: float, minimal_step_amount: float) -> None:
+        """Validate minimal step lower and upper limits.
+
+        :param request: Request instance
+        :param tender: Tender dictionary
+        :param value_amount: Value amount
+        :param minimal_step_amount: Minimal step amount
+        :return: None
+        """
+        tender_created = get_first_revision_date(tender, default=get_now())
+        if tender_created > MINIMAL_STEP_VALIDATION_FROM:
+            precision_multiplier = 10**MINIMAL_STEP_VALIDATION_PRESCISSION
+
+            lower_step = (
+                floor(float(value_amount) * MINIMAL_STEP_VALIDATION_LOWER_LIMIT * precision_multiplier)
+                / precision_multiplier
+            )
+
+            higher_step = (
+                ceil(float(value_amount) * MINIMAL_STEP_VALIDATION_UPPER_LIMIT * precision_multiplier)
+                / precision_multiplier
+            )
+
+            if higher_step < minimal_step_amount or minimal_step_amount < lower_step:
+                raise_operation_error(
+                    self.request,
+                    "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
+                    status=422,
+                )
+
     def validate_pre_qualification_status_change(self, before, after):
+        tender = get_tender()
+        qualif_complain_duration = tender["config"]["qualificationComplainDuration"]
+
         # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
         if before["status"] == "active.pre-qualification":
             passed_data = get_request().validated["json_data"]
@@ -397,9 +541,21 @@ class TenderDetailsMixing(TenderConfigMixin):
                         after_date=get_tender()["qualificationPeriod"].get("reportingDatePublication"),
                     )
                 if self.all_bids_are_reviewed(after):
-                    after["qualificationPeriod"]["endDate"] = calculate_tender_full_date(
-                        get_now(), self.pre_qualification_complaint_stand_still, tender=after
+                    end_date = calculate_tender_full_date(
+                        get_now(),
+                        timedelta(days=qualif_complain_duration),
+                        tender=after,
                     ).isoformat()
+
+                    if qualif_complain_duration > 0:
+                        for qualification in after["qualifications"]:
+                            if qualification.get("status") in ["unsuccessful", "active"]:
+                                qualification["complaintPeriod"] = {
+                                    "startDate": get_now().isoformat(),
+                                    "endDate": end_date,
+                                }
+
+                    after["qualificationPeriod"]["endDate"] = end_date
                     after["qualificationPeriod"]["reportingDatePublication"] = get_now().isoformat()
                 else:
                     raise_operation_error(
@@ -473,6 +629,34 @@ class TenderDetailsMixing(TenderConfigMixin):
                 minimal_step["currency"] = currency
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
 
+    def initialize_enquiry_period(self, tender):
+        if self.has_enquiry_period:
+            clarification_until_duration = tender["config"]["clarificationUntilDuration"]
+
+            tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
+
+            end_date = calculate_tender_full_date(
+                tendering_end,
+                self.enquiry_period_timedelta,
+                tender=tender,
+                working_days=self.tender_period_working_day,
+            )
+            clarifications_until = calculate_tender_full_date(
+                end_date,
+                timedelta(days=clarification_until_duration),
+                tender=tender,
+                working_days=self.clarification_period_working_day,
+            )
+            enquiry_period = tender.get("enquiryPeriod")
+            tender["enquiryPeriod"] = {
+                "startDate": tender["tenderPeriod"]["startDate"],
+                "endDate": end_date.isoformat(),
+                "clarificationsUntil": clarifications_until.isoformat(),
+            }
+            invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
+            if invalidation_date:
+                tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
+
     def validate_tender_period_start_date_change(self, before, after):
         if before["status"] in ("draft", "draft.stage2", "active.enquiries"):
             # still can change tenderPeriod.startDate
@@ -540,6 +724,73 @@ class TenderDetailsMixing(TenderConfigMixin):
             "enabled": tender["config"]["hasAuction"] is True,
         }
         validate_field(data, "minimalStep", **kwargs)
+
+    def validate_tender_value(self, tender):
+        """Validate tender value.
+
+        Validation includes tender value and tender minimal step, if required.
+
+        :param tender: Tender dictionary
+        :return: None
+        """
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+        tender_value = tender.get("value", {})
+        if not tender_value:
+            return
+
+        tender_min_step = tender.get("minimalStep", {})
+        tender_value_amount = tender_value.get("amount")
+        if has_value_estimation is True and tender_value_amount is None:
+            raise_operation_error(
+                self.request,
+                "This field is required",
+                status=422,
+                location="body",
+                name="value.amount",
+            )
+
+        if has_value_estimation is False and tender_value_amount:
+            raise_operation_error(
+                self.request,
+                "Rogue field",
+                status=422,
+                location="body",
+                name="value.amount",
+            )
+
+        if tender_min_step and tender_value["currency"] != tender_min_step["currency"]:
+            raise_operation_error(
+                get_request(),
+                "Tender minimal step currency should be identical to tender currency",
+                status=422,
+                location="body",
+                name="minimalStep.currency",
+            )
+
+        if tender_min_step and tender_value["valueAddedTaxIncluded"] != tender_min_step["valueAddedTaxIncluded"]:
+            raise_operation_error(
+                get_request(),
+                "Tender minimal step valueAddedTaxIncluded should be identical to tender valueAddedTaxIncluded",
+                status=422,
+                location="body",
+                name="minimalStep.valueAddedTaxIncluded",
+            )
+
+        tender_min_step_amount = tender_min_step.get("amount")
+
+        if tender_min_step_amount is None:
+            return
+
+        if has_value_estimation and tender_value_amount is not None and tender_value_amount < tender_min_step_amount:
+            raise_operation_error(
+                get_request(),
+                "Tender minimal step amount should be less than tender amount",
+                status=422,
+                location="body",
+                name="minimalStep.amount",
+            )
+        if has_value_estimation and tender_value_amount is not None:
+            self.validate_minimal_step_limits(tender, tender_value_amount, tender_min_step_amount)
 
     def validate_submission_method(self, data, before=None):
         kwargs = {
@@ -702,8 +953,15 @@ class TenderDetailsMixing(TenderConfigMixin):
             return
         if "tenderPeriod" not in tender or "endDate" not in tender["tenderPeriod"]:
             return
+        if tender["config"]["tenderComplainRegulation"] == 0:
+            return
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_tender_full_date(tendering_end, -self.complaint_submit_time, tender=tender)
+        end_date = calculate_tender_full_date(
+            tendering_end,
+            -timedelta(days=tender["config"]["tenderComplainRegulation"]),
+            tender=tender,
+            working_days=self.tender_complain_regulation_working_days,
+        )
         tender["complaintPeriod"] = {
             "startDate": tender["tenderPeriod"]["startDate"],
             "endDate": end_date.isoformat(),

@@ -9,4 +9,12 @@ hasPreSelectionAgreement,false,false
 hasTenderComplaints,false,false
 hasAwardComplaints,false,false
 hasCancellationComplaints,false,false
+hasValueEstimation,"true,false",true
+hasQualificationComplaints,false,false
+tenderComplainRegulation,0,0
+qualificationComplainDuration,0,0
+awardComplainDuration,2,2
+cancellationComplainDuration,0,0
+clarificationUntilDuration,1,1
+qualificationDuration,20,20
 restricted,false,false

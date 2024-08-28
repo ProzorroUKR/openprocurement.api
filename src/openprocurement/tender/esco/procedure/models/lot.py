@@ -4,12 +4,12 @@ from schematics.types import StringType, URLType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
+from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import DecimalType
 from openprocurement.tender.core.procedure.models.guarantee import (
     Guarantee,
+    PostEstimatedValue,
     PostGuarantee,
-    PostValue,
-    Value,
 )
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
@@ -29,12 +29,11 @@ class LotSerializersMixin(LotGuaranteeSerializerMixin):
     def lot_fundingKind(self):
         return self.get_tender().get("fundingKind", "other")
 
-    @serializable(serialized_name="minValue", type=ModelType(Value))
+    @serializable(serialized_name="minValue", type=ModelType(EstimatedValue))
     def lot_minValue(self):
         tender = self.get_tender()
-        return Value(
+        return EstimatedValue(
             {
-                "amount": 0,
                 "currency": tender["minValue"]["currency"],
                 "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"],
             }
@@ -74,15 +73,15 @@ class PatchLot(BaseLot):
 
 class PostTenderLot(PostLot, TenderLotMixin):
     minValue = ModelType(  # TODO: probably this shouldn't be in this procedure type
-        PostValue,
+        PostEstimatedValue,
         required=False,
-        default={"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": True},
+        default={"currency": "UAH", "valueAddedTaxIncluded": True},
     )
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
 
 
 class PatchTenderLot(BaseLot, TenderLotMixin):
-    minValue = ModelType(Value)
+    minValue = ModelType(EstimatedValue)
     guarantee = ModelType(Guarantee)
     fundingKind = StringType(choices=["budget", "other"])
     minimalStepPercentage = DecimalType(
@@ -98,7 +97,7 @@ class PatchTenderLot(BaseLot, TenderLotMixin):
 
 
 class Lot(BaseLot, TenderLotMixin, LotSerializersMixin):
-    minValue = ModelType(Value)
+    minValue = ModelType(EstimatedValue)
     minimalStepPercentage = DecimalType(
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,

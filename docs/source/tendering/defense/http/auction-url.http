@@ -70,9 +70,9 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 501.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 501.0
     },
     "guarantee": {
       "amount": 8.0,
@@ -80,9 +80,9 @@ Content-Type: application/json
     },
     "next_check": "2023-10-10T01:36:01+03:00",
     "minimalStep": {
-      "amount": 5.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 5.0
     },
     "auctionPeriod": {
       "startDate": "2023-10-10T01:00:01+03:00",
@@ -123,7 +123,7 @@ Content-Type: application/json
     "enquiryPeriod": {
       "startDate": "2023-09-24T01:00:01+03:00",
       "endDate": "2023-10-07T01:00:01+03:00",
-      "clarificationsUntil": "2023-10-17T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-18T00:00:00+03:00",
       "invalidationDate": "2023-10-10T01:00:01+03:00"
     },
     "tenderPeriod": {
@@ -206,6 +206,14 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 2,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 4,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
     "restricted": false
   }
 }

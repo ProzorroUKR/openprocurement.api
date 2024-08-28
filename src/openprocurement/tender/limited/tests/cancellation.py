@@ -248,6 +248,7 @@ class TenderNegotiationCancellationComplaintResourceTest(
 
 class TenderNegotiationQuickCancellationDocumentResourceTest(TenderNegotiationCancellationDocumentResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
@@ -268,6 +269,7 @@ class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
 
 class TenderNegotiationQuickLotsCancellationResourceTest(TenderNegotiationLotsCancellationResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 def suite():

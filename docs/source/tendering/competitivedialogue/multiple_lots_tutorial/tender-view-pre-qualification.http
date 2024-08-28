@@ -17,9 +17,9 @@ Content-Type: application/json
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "open",
     "value": {
-      "amount": 900.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 900.0
     },
     "minimalStep": {
       "amount": 5.0,
@@ -387,7 +387,8 @@ Content-Type: application/json
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2023-10-10T01:01:00+03:00"
+      "startDate": "2023-10-10T01:01:00+03:00",
+      "endDate": "2023-11-08T00:00:00+02:00"
     },
     "qualifications": [
       {
@@ -431,6 +432,14 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 0,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": false
   }
 }

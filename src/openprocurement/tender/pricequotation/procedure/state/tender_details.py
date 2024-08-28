@@ -17,6 +17,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     tender_create_accreditations = (ACCR_1, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
+    has_enquiry_period = False
 
     required_criteria = ()
 

@@ -1,15 +1,23 @@
 {
     "config": {
+        "awardComplainDuration": 2,
+        "cancellationComplainDuration": 0,
+        "clarificationUntilDuration": 1,
         "hasAuction": true,
         "hasAwardComplaints": false,
         "hasAwardingOrder": true,
         "hasCancellationComplaints": false,
         "hasPreSelectionAgreement": false,
         "hasPrequalification": false,
+        "hasQualificationComplaints": false,
         "hasTenderComplaints": false,
+        "hasValueEstimation": true,
         "hasValueRestriction": true,
         "minBidsNumber": 1,
+        "qualificationComplainDuration": 0,
+        "qualificationDuration": 20,
         "restricted": false,
+        "tenderComplainRegulation": 0,
         "valueCurrencyEquality": true
     },
     "data": {

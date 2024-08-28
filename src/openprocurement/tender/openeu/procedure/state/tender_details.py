@@ -1,13 +1,8 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.tender.openeu.constants import (
-    PREQUALIFICATION_COMPLAINT_STAND_STILL,
-)
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 from openprocurement.tender.openua.constants import (
-    COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.openua.procedure.state.tender_details import (
@@ -33,15 +28,12 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     }
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-    complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
-    pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
+    tender_period_working_day = False
 
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
-        self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)

@@ -3,6 +3,18 @@ from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.api.utils import request_fetch_agreement
+from openprocurement.tender.core.migrations.add_config_award_complain_duration import (
+    award_complain_duration_populator,
+)
+from openprocurement.tender.core.migrations.add_config_cancellation_complain_duration import (
+    cancellation_complain_duration_populator,
+)
+from openprocurement.tender.core.migrations.add_config_clarification_until_duration import (
+    clarification_until_duration_populator,
+)
+from openprocurement.tender.core.migrations.add_config_complain_regulation_field import (
+    tender_complain_regulation_populator,
+)
 from openprocurement.tender.core.migrations.add_config_complaints import (
     has_award_complaints_populator,
     has_cancellation_complaints_populator,
@@ -14,6 +26,12 @@ from openprocurement.tender.core.migrations.add_config_has_auction_field import 
 from openprocurement.tender.core.migrations.add_config_has_prequalification_field import (
     has_prequalification_populator,
 )
+from openprocurement.tender.core.migrations.add_config_has_qualification_complains_field import (
+    has_qualification_complaints_populator,
+)
+from openprocurement.tender.core.migrations.add_config_has_value_estimation import (
+    has_value_estimation_populator,
+)
 from openprocurement.tender.core.migrations.add_config_has_value_restriction import (
     has_value_restriction_populator,
 )
@@ -22,6 +40,12 @@ from openprocurement.tender.core.migrations.add_config_min_bids_number import (
 )
 from openprocurement.tender.core.migrations.add_config_pre_selection import (
     pre_selection_populator,
+)
+from openprocurement.tender.core.migrations.add_config_qualification_complain_duration import (
+    qualification_complain_duration_populator,
+)
+from openprocurement.tender.core.migrations.add_qualification_duration import (
+    qualification_duration_populator,
 )
 
 
@@ -78,6 +102,14 @@ def min_bids_number_serializer(obj, value):
     return value
 
 
+def complain_regulation_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["tenderComplainRegulation"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return tender_complain_regulation_populator(tender)
+    return value
+
+
 def pre_selection_serializer(obj, value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasPreSelectionAgreement"] is True:
         request = get_request()
@@ -110,6 +142,54 @@ def has_cancellation_complaints_serializer(obj, value):
     return value
 
 
+def has_value_estimation_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasValueEstimation"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return has_value_estimation_populator(tender)
+    return value
+
+
+def has_qualification_complaints_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasQualificationComplaints"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return has_qualification_complaints_populator(tender)
+    return value
+
+
+def award_complain_duration_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["awardComplainDuration"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return award_complain_duration_populator(tender)
+    return value
+
+
+def qualification_complain_duration_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["qualificationComplainDuration"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return qualification_complain_duration_populator(tender)
+    return value
+
+
+def clarification_until_duration_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["clarificationUntilDuration"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return clarification_until_duration_populator(tender)
+    return value
+
+
+def qualification_duration_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["qualificationDuration"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return qualification_duration_populator(tender)
+    return value
+
+
 def restricted_serializer(obj, value):
     if value is None and TENDER_CONFIG_OPTIONALITY["restricted"] is True:
         request = get_request()
@@ -121,6 +201,14 @@ def restricted_serializer(obj, value):
             if agreement and agreement["config"]["restricted"] is True:
                 return True
         return False
+    return value
+
+
+def cancellation_complain_duration_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["cancellationComplainDuration"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return cancellation_complain_duration_populator(tender)
     return value
 
 
@@ -136,5 +224,13 @@ class TenderConfigSerializer(BaseConfigSerializer):
         "hasTenderComplaints": has_tender_complaints_serializer,
         "hasAwardComplaints": has_award_complaints_serializer,
         "hasCancellationComplaints": has_cancellation_complaints_serializer,
+        "hasValueEstimation": has_value_estimation_serializer,
+        "hasQualificationComplaints": has_qualification_complaints_serializer,
+        "tenderComplainRegulation": complain_regulation_serializer,
+        "qualificationComplainDuration": qualification_complain_duration_serializer,
+        "awardComplainDuration": award_complain_duration_serializer,
+        "cancellationComplainDuration": cancellation_complain_duration_serializer,
+        "clarificationUntilDuration": clarification_until_duration_serializer,
+        "qualificationDuration": qualification_duration_serializer,
         "restricted": restricted_serializer,
     }

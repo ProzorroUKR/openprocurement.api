@@ -308,6 +308,14 @@ test_tender_pq_config = {
     "hasTenderComplaints": False,
     "hasAwardComplaints": False,
     "hasCancellationComplaints": False,
+    "hasValueEstimation": True,
+    "hasQualificationComplaints": False,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 0,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 0,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 

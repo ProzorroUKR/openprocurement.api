@@ -50,9 +50,9 @@ Content-Type: application/json
     },
     "status": "active",
     "value": {
-      "amount": 500000.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500000.0
     },
     "items": [
       {
@@ -154,6 +154,14 @@ Content-Type: application/json
     "hasTenderComplaints": false,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 5,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 0,
+    "qualificationDuration": 0,
     "restricted": false
   }
 }
