@@ -272,6 +272,12 @@ def limited_contract_confidential_document(self):
     response = self.app.get(f"/tenders/{tender_id}/contracts")
     contract_id = response.json["data"][0]["id"]
 
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}/credentials?acc_token={tender_token}",
+        {"data": {}},
+    )
+    contract_token = response.json["access"]["token"]
+
     request_data = {
         "title": "name.doc",
         "url": self.generate_docservice_url(),
@@ -391,6 +397,12 @@ def limited_contract_confidential_document(self):
 
     # get list as tender owner
     response = self.app.get(f"/contracts/{contract_id}/documents?acc_token={tender_token}")
+    self.assertEqual(len(response.json["data"]), 2)
+    for doc in response.json["data"]:
+        self.assertIn("url", doc)
+
+    # get list as contract owner
+    response = self.app.get(f"/contracts/{contract_id}/documents?acc_token={contract_token}")
     self.assertEqual(len(response.json["data"]), 2)
     for doc in response.json["data"]:
         self.assertIn("url", doc)
