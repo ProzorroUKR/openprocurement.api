@@ -78,6 +78,7 @@ class BaseContract(Model):
     _rev = StringType()
     doc_type = StringType()
     public_modified = BaseType()
+    public_ts = BaseType()
 
     buyerID = StringType()
     awardID = StringType()

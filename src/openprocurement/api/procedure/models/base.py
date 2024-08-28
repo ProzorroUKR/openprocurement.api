@@ -69,6 +69,7 @@ class RootModel(Model):
     _rev = StringType()
     doc_type = StringType()
     public_modified = BaseType()
+    public_ts = BaseType()
 
     @serializable(serialized_name="id")
     def doc_id(self):

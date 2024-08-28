@@ -61,6 +61,10 @@ def get_public_modified():
     return public_modified
 
 
+def get_public_ts():
+    return "$$CLUSTER_TIME"
+
+
 class MongodbStore:
     def __init__(self, settings):
         self.settings = settings
@@ -149,7 +153,10 @@ class MongodbStore:
     def get(collection, uid):
         res = collection.find_one(
             {'_id': uid},
-            projection={"is_public": False, "is_test": False},
+            projection={
+                "is_public": False,
+                "is_test": False,
+            },
             session=get_db_session(),
         )
         return res
@@ -204,7 +211,14 @@ class MongodbStore:
             data["dateCreated"] = get_now().isoformat()
         if modified:
             data["dateModified"] = get_now().isoformat()
-            pipeline.append({"$set": {"public_modified": get_public_modified()}})
+            pipeline.append(
+                {
+                    "$set": {
+                        "public_modified": get_public_modified(),
+                        "public_ts": get_public_ts(),  # create items to migrate
+                    }
+                }
+            )
         result = collection.find_one_and_update(
             {"_id": uid, "_rev": revision},
             pipeline,

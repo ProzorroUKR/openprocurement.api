@@ -110,6 +110,7 @@ class Plan(Model):
     _rev = StringType()
     doc_type = StringType()
     public_modified = BaseType()
+    public_ts = BaseType()
 
     status = StringType(choices=["draft", "scheduled", "cancelled", "complete"])
     procuringEntity = ModelType(PlanOrganization, required=True)

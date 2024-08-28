@@ -31,6 +31,7 @@ class TenderBaseSerializer(BaseUIDSerializer):
         "revisions",
         "numberOfBids",
         "public_modified",
+        "public_ts",
         "is_public",
         "is_test",
         "config",
