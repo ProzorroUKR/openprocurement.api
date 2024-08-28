@@ -11,3 +11,5 @@ Contents:
    :maxdepth: 2
 
    restricted_derivatives
+   clarification_until_duration
+   qualification_complain_duration

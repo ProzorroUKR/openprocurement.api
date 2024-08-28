@@ -32,7 +32,7 @@ Content-Type: application/json
         }
       }
     ],
-    "frameworkID": "7a229c4d310842c39ef98821651b267b",
+    "frameworkID": "93bcad4f0fe64036865492ecfe70f113",
     "status": "draft",
     "submissionType": "electronicCatalogue",
     "owner": "broker",

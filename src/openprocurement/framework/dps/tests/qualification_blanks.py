@@ -8,7 +8,7 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_full_date, get_now
 
 
 def listing(self):
@@ -382,6 +382,7 @@ def patch_submission_pending_config_test(self):
     expected_config = {
         "test": True,
         "restricted": False,
+        'qualificationComplainDuration': 0,
     }
 
     response = self.activate_qualification()
@@ -455,6 +456,7 @@ def patch_submission_pending_config_restricted(self):
 
         expected_config = {
             "restricted": True,
+            "qualificationComplainDuration": 0,
         }
 
         response = self.app.post_json(
@@ -614,6 +616,40 @@ def patch_submission_pending_config_restricted(self):
             qualifications[0]["documents"][0]["url"],
             MASK_STRING,
         )
+
+
+def patch_qualification_active_mock(self):
+    qualification_id = self.qualification_id
+    response = self.app.post_json(
+        f"/qualifications/{qualification_id}/documents?acc_token={self.framework_token}",
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "evaluationReports",
+            }
+        },
+    )
+
+    response = self.app.patch_json(
+        "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["frameworkID"], self.framework_id)
+
+    complaint_period = response.json["data"]["complaintPeriod"]
+    end_date = calculate_full_date(
+        get_now(),
+        timedelta(days=self.initial_config["qualificationComplainDuration"]),
+        working_days=True,
+        ceil=True,
+    )
+    assert end_date.isoformat() == complaint_period["endDate"]
 
 
 def patch_qualification_active(self):

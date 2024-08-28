@@ -46,7 +46,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
     }
   },
   "config": {
-    "restrictedDerivatives": true
+    "restrictedDerivatives": true,
+    "clarificationUntilDuration": 3,
+    "qualificationComplainDuration": 0
   }
 }
 
@@ -109,7 +111,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/08238232b0954
     "transfer": "dd191aaedece43279902bc8a271edc6f"
   },
   "config": {
-    "restrictedDerivatives": true
+    "clarificationUntilDuration": 3,
+    "restrictedDerivatives": true,
+    "qualificationComplainDuration": 0
   }
 }
 

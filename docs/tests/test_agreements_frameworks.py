@@ -11,6 +11,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseFrameworkWebTest,
     ban_milestone_data_with_documents,
+    test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
 )
 
@@ -23,6 +24,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     relative_to = os.path.dirname(__file__)
     freezing_datetime = '2023-01-01T00:00:00+02:00'
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
     docservice_url = DOCS_URL
 
     def setUp(self):
@@ -36,7 +38,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
         super().tearDown()
 
     def test_docs(self):
-        self.create_framework()
+        self.create_framework(config=self.initial_config)
         auth = self.app.authorization
         self.activate_framework()
         # Speed up time

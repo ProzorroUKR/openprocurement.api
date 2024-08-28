@@ -1,9 +1,14 @@
+from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.utils import generate_id, request_init_qualification
+from openprocurement.api.utils import (
+    calculate_full_date,
+    generate_id,
+    request_init_qualification,
+)
 from openprocurement.framework.core.procedure.state.chronograph import (
     ChronographEventsMixing,
 )
@@ -16,6 +21,8 @@ LOGGER = getLogger(__name__)
 
 
 class QualificationState(ChronographEventsMixing, BaseState):
+    working_days = True
+
     def __init__(self, request, framework=None):
         super().__init__(request)
         self.framework = framework
@@ -33,6 +40,7 @@ class QualificationState(ChronographEventsMixing, BaseState):
 
         if before.get("status") != after.get("status"):
             validate_doc_type_required(after.get("documents", []), document_type="evaluationReports")
+            self.set_complain_period(after)
             self.framework.submission.set_complete_status()
 
         if before["status"] == "pending" and after.get("status") == "active":
@@ -54,6 +62,23 @@ class QualificationState(ChronographEventsMixing, BaseState):
         agreement_state.create_agreement_if_not_exist()
         agreement_state.create_agreement_contract()
         agreement_state.update_next_check(self.request.validated.get("agreement"))
+
+    def set_complain_period(self, qualification):
+        qualification_complain_duration = qualification["config"]["qualificationComplainDuration"]
+
+        if qualification_complain_duration > 0:
+            start_date = get_now()
+            end_date = calculate_full_date(
+                start_date,
+                timedelta(days=qualification_complain_duration),
+                working_days=self.working_days,
+                ceil=True,
+            )
+
+            qualification["complaintPeriod"] = {
+                "startDate": start_date.isoformat(),
+                "endDate": end_date.isoformat(),
+            }
 
     def status_changed(self, before, after):
         old_status = before["status"]
@@ -82,7 +107,8 @@ class QualificationState(ChronographEventsMixing, BaseState):
             "date": get_now().isoformat(),
             "config": {
                 "test": framework["config"].get("test", False),
-                "restricted": framework["config"].get("restrictedDerivatives", False),
+                "restricted": framework["config"]["restrictedDerivatives"],
+                "qualificationComplainDuration": framework["config"]["qualificationComplainDuration"],
             },
         }
 

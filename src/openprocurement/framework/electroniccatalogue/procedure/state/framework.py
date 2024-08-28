@@ -16,6 +16,7 @@ from .submission import ElectronicDialogueSubmissionState
 class ElectronicDialogueFrameworkState(FrameworkState):
     qualification_class = ElectronicDialogueQualificationState
     submission_class = ElectronicDialogueSubmissionState
+    working_days = True
 
     def get_patch_data_model(self):
         request = get_request()

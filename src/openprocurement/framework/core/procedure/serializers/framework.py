@@ -49,8 +49,22 @@ def restricted_derivatives_serializer(obj, value):
     return value
 
 
+def clarification_until_duration_serializer(obj, value):
+    if value is None:
+        return 3
+    return value
+
+
+def qualification_complain_duration_serializer(obj, value):
+    if value is None:
+        return 0
+    return value
+
+
 class FrameworkConfigSerializer(BaseConfigSerializer):
     serializers = {
         "test": test_serializer,
         "restrictedDerivatives": restricted_derivatives_serializer,
+        "clarificationUntilDuration": clarification_until_duration_serializer,
+        "qualificationComplainDuration": qualification_complain_duration_serializer,
     }

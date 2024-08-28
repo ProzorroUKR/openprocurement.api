@@ -64,6 +64,8 @@ test_framework_electronic_catalogue_data = {
 
 test_framework_electronic_catalogue_config = {
     "restrictedDerivatives": False,
+    "clarificationUntilDuration": 3,
+    "qualificationComplainDuration": 0,
 }
 
 test_electronicCatalogue_documents = [
@@ -146,14 +148,14 @@ class BaseApiWebTest(BaseWebTest):
 class BaseFrameworkWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_electronic_catalogue_data
-    initial_config = {}
+    initial_config = test_framework_electronic_catalogue_config
     framework_class = Framework
     framework_type = "electronicCatalogue"
     periods = PERIODS
 
     def create_framework(self, data=None, config=None):
         data = data if data is not None else deepcopy(self.initial_data)
-        config = config if data is not None else deepcopy(self.initial_config)
+        config = config if config is not None else deepcopy(self.initial_config)
 
         response = self.app.post_json(
             "/frameworks",
@@ -191,12 +193,13 @@ class FrameworkContentWebTest(BaseFrameworkWebTest):
 
     def setUp(self):
         super().setUp()
-        self.create_framework()
+        self.create_framework(config=self.initial_config)
 
 
 class BaseSubmissionContentWebTest(FrameworkContentWebTest):
     initial_submission_data = None
     initial_submission_config = test_submission_config
+    initial_config = test_framework_electronic_catalogue_config
 
     def get_submission(self, role):
         with change_auth(self.app, ("Basic", (role, ""))):

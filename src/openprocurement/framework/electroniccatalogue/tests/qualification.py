@@ -1,6 +1,8 @@
 import unittest
 from copy import deepcopy
+from unittest.mock import patch
 
+from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.qualification_blanks import (  # Documents
     activate_qualification_for_submission_with_docs,
@@ -17,6 +19,7 @@ from openprocurement.framework.dps.tests.qualification_blanks import (  # Docume
     listing,
     listing_changes,
     patch_qualification_active,
+    patch_qualification_active_mock,
     patch_qualification_unsuccessful,
     patch_submission_pending,
     patch_submission_pending_config_test,
@@ -27,9 +30,14 @@ from openprocurement.framework.dps.tests.qualification_blanks import (  # Docume
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     SubmissionContentWebTest,
+    test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
+    test_submission_config,
     test_submission_data,
 )
+
+test_mocked_framework_electronic_catalogue_config = deepcopy(test_framework_electronic_catalogue_config)
+test_mocked_framework_electronic_catalogue_config["qualificationComplainDuration"] = 5
 
 
 class QualificationContentWebTest(SubmissionContentWebTest):
@@ -65,8 +73,40 @@ class QualificationResourceTest(SubmissionContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
 
 
+class TestMockedQualificationResourceTest(QualificationContentWebTest):
+    initial_submission_config = test_submission_config
+    initial_submission_data = test_submission_data
+    initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_mocked_framework_electronic_catalogue_config
+    docservice = True
+
+    def setUp(self):
+        patched_schema_properties = {
+            "qualificationComplainDuration": {
+                'type': 'integer',
+                'minimum': 5,
+                'maximum': 5,
+                'default': 5,
+            }
+        }
+
+        def patched_schemas_get(key):
+            schema = deepcopy(FRAMEWORK_CONFIG_JSONSCHEMAS[key])
+            schema["properties"].update(patched_schema_properties)
+            return schema
+
+        patch_path = 'openprocurement.framework.core.procedure.state.framework.FRAMEWORK_CONFIG_JSONSCHEMAS'
+        with patch(patch_path) as patched_schemas:
+            patched_schemas.get = patched_schemas_get
+
+            super().setUp()
+
+    test_patch_qualification_active_mock = snitch(patch_qualification_active_mock)
+
+
 class TestQualificationDocumentGet(QualificationContentWebTest):
     initial_data = deepcopy(test_framework_electronic_catalogue_data)
+    initial_config = test_framework_electronic_catalogue_config
     initial_submission_data = deepcopy(test_submission_data)
 
     test_get_documents_list = snitch(get_documents_list)
@@ -75,6 +115,7 @@ class TestQualificationDocumentGet(QualificationContentWebTest):
 
 class TestQualificationDocumentsCreate(QualificationContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
