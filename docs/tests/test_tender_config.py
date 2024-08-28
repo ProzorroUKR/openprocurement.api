@@ -31,9 +31,12 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from openprocurement.api.context import get_now, set_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
-from openprocurement.contracting.api.tests.data import test_contract_data
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
-from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.econtract.tests.data import (
+    test_contract_data,
+    test_signer_info,
+)
+from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_config,
     test_framework_dps_data,
@@ -2810,20 +2813,19 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '200 OK')
 
         # Create contract
-        data = deepcopy(test_contract_data)
-        data.update(
+        contract_data = deepcopy(test_contract_data)
+        contract_data.update(
             {
-                "dateSigned": get_now().isoformat(),
                 "id": uuid4().hex,
                 "tender_id": tender_id,
                 "tender_token": sha512(uuid4().hex.encode()).hexdigest(),
             }
         )
+        contract_config = {
+            "restricted": True,
+        }
 
-        with change_auth(self.app, ('Basic', ('contracting', ''))):
-            response = self.app.post_json('/contracts', {'data': data})
-        self.assertEqual(response.status, '201 Created')
-        contract = response.json['data']
+        contract = create_contract(self, contract_data, contract_config)
         contract_id = contract['id']
 
         with change_auth(self.app, None):
@@ -2831,9 +2833,13 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
                 response = self.app.get('/contracts/{}'.format(contract_id))
                 self.assertEqual(response.status, '200 OK')
 
+        assert response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"] == MASK_STRING
+
         with open(TARGET_DIR + 'restricted-true-contract-get.http', 'w') as self.app.file_obj:
             response = self.app.get('/contracts/{}'.format(contract_id))
             self.assertEqual(response.status, '200 OK')
+
+        assert response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"] != MASK_STRING
 
 
 class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):

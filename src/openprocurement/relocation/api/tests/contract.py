@@ -3,10 +3,11 @@ from copy import deepcopy
 from uuid import uuid4
 
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.contracting.api.tests.data import test_contract_data
-from openprocurement.contracting.api.tests.data import (
+from openprocurement.contracting.core.tests.data import (
     test_tender_token as test_contract_tender_token,
 )
+from openprocurement.contracting.econtract.tests.data import test_contract_data
+from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.tender.core.tests.utils import change_auth
 
 
@@ -25,9 +26,7 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
         data = deepcopy(self.initial_data)
         data['id'] = uuid4().hex
         data['owner'] = self.first_owner
-        with change_auth(self.app, ("Basic", ("contracting", ""))):
-            response = self.app.post_json("/contracts", {"data": data})
-        self.contract = response.json["data"]
+        self.contract = create_contract(self, data)
         self.contract_id = self.contract["id"]
         response = self.app.patch_json(
             f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}", {"data": ""}
@@ -35,6 +34,23 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
         self.assertEqual(response.status, "200 OK")
         self.contract_token = response.json["access"]["token"]
         self.contract_transfer = response.json["access"]["transfer"]
+
+        # TODO: Test pending contract
+
+        response = self.app.patch_json(
+            "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token),
+            {
+                "data": {
+                    "status": "active",
+                    "period": {
+                        "startDate": "2014-01-01T00:00:00+02:00",
+                        "endDate": "2015-01-01T00:00:00+02:00",
+                    },
+                    "contractNumber": 1,
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
 
 
 class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
@@ -91,9 +107,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         data["owner"] = self.first_owner
         data["id"] = uuid4().hex
         data["tender_token"] = self.tender_token
-        with change_auth(self.app, ("Basic", ("contracting", ""))):
-            response = self.app.post_json("/contracts", {"data": data})
-        contract = response.json["data"]
+        contract = create_contract(self, data)
         response = self.app.patch_json(
             "/contracts/{}/credentials?acc_token={}".format(contract["id"], self.tender_token), {"data": ""}
         )

@@ -9,7 +9,7 @@ from openprocurement.api.context import set_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.api.tests.base import BaseContractTest
+from openprocurement.contracting.core.tests.base import BaseContractTest
 from openprocurement.contracting.econtract.tests.data import (
     test_contract_data,
     test_contract_data_two_items,

@@ -42,8 +42,7 @@ def conditional_contract_model(data):
 @resource(
     name="EContract",
     path="/contracts/{contract_id}",
-    description="Econtracts operations",
-    contractType="econtract",
+    description="EContracts operations",
     accept="application/json",
 )
 class EContractResource(ContractResource):

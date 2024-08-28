@@ -10,17 +10,25 @@ Content-Type: application/json
   "data": {
     "awardID": "8481d7eb01694c25b18658036c236c5d",
     "contractID": "UA-2016-03-18-000001-1",
-    "contractNumber": "contract #13111",
-    "period": {
-      "startDate": "2016-03-18T18:47:47.155143+02:00",
-      "endDate": "2017-03-18T18:47:47.155143+02:00"
-    },
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 237.0
-    },
+    "suppliers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "owner": "broker",
+    "tender_id": "2b5eb9efd396490d8e3e662b7153c1ff",
     "items": [
       {
         "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
@@ -38,15 +46,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 20.8,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",
@@ -57,36 +56,19 @@ Content-Type: application/json
         "deliveryDate": {
           "startDate": "2016-03-20T18:47:47.136678+02:00",
           "endDate": "2016-03-23T18:47:47.136678+02:00"
+        },
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 20.8,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
         }
       }
     ],
-    "suppliers": [
-      {
-        "name": "ДКП «Книга»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 34",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Андрій Олексюк",
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
-        }
-      }
-    ],
-    "owner": "broker",
-    "tender_id": "2b5eb9efd396490d8e3e662b7153c1ff",
-    "status": "active",
-    "dateSigned": "2023-10-10T01:00:00+03:00",
-    "procuringEntity": {
+    "buyer": {
       "name": "Державне управління справами",
       "identifier": {
         "scheme": "UA-EDR",
@@ -99,12 +81,15 @@ Content-Type: application/json
         "region": "м. Київ",
         "postalCode": "01220",
         "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
       }
     },
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 237.0
+    },
+    "status": "pending",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "0e87ac7294bd450ea087665097d4b6d1"

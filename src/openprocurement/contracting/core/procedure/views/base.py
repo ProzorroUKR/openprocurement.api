@@ -41,6 +41,8 @@ class ContractBaseResource(BaseResource):
                 contract_doc = request.contract_doc
                 request_init_contract(request, contract_doc)
 
+                # FIXME: probably do not need buyer check anymore:
+                #  all contracts must have been migrated and have buyer now
                 if "buyer" in contract_doc and request.method not in ("GET", "HEAD"):
                     tender_doc = get_tender_by_id(request, contract_doc["tender_id"])
                     request_init_tender(request, tender_doc)

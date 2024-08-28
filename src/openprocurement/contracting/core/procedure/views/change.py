@@ -7,12 +7,12 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.contracting.api.procedure.state.change import ChangeState
 from openprocurement.contracting.core.procedure.models.change import (
     Change,
     PatchChange,
     PostChange,
 )
+from openprocurement.contracting.core.procedure.state.change import ChangeState
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_change_action_not_in_allowed_contract_status,

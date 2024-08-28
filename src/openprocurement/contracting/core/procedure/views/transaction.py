@@ -6,12 +6,12 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.contracting.api.procedure.state.contract_transaction import (
-    TransactionState,
-)
 from openprocurement.contracting.core.procedure.models.transaction import PutTransaction
 from openprocurement.contracting.core.procedure.serializers.contract import (
     ContractBaseSerializer,
+)
+from openprocurement.contracting.core.procedure.state.contract_transaction import (
+    TransactionState,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (

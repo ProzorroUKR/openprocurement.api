@@ -17,11 +17,44 @@ Content-Type: application/json
   "data": {
     "awardID": "8481d7eb01694c25b18658036c236c5d",
     "contractID": "UA-2016-03-18-000001-1",
-    "contractNumber": "contract #13111",
     "description": "broker3 now can change the contract",
-    "dateSigned": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tender_id": "232024f88849442aae6b031afd11a28b",
+    "owner": "broker3",
+    "status": "pending",
+    "buyer": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      }
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        }
+      }
+    ],
     "items": [
       {
         "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
@@ -39,15 +72,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 20.8,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",
@@ -58,35 +82,15 @@ Content-Type: application/json
         "deliveryDate": {
           "startDate": "2016-03-20T18:47:47.136678+02:00",
           "endDate": "2016-03-23T18:47:47.136678+02:00"
-        }
-      }
-    ],
-    "tender_id": "232024f88849442aae6b031afd11a28b",
-    "owner": "broker3",
-    "status": "active",
-    "period": {
-      "startDate": "2016-03-18T18:47:47.155143+02:00",
-      "endDate": "2017-03-18T18:47:47.155143+02:00"
-    },
-    "suppliers": [
-      {
-        "name": "ДКП «Книга»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
         },
-        "address": {
-          "streetAddress": "вул. Островського, 34",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Андрій Олексюк",
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 20.8,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
         }
       }
     ],
@@ -95,25 +99,6 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amountNet": 237.0
-    },
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
-      }
     },
     "id": "2b264b733b7546749561d03ffa5e7971"
   },

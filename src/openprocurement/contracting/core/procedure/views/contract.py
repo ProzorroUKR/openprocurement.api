@@ -1,22 +1,14 @@
 from cornice.resource import resource
 
-from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.context import get_contract
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    validate_accreditation_level,
-    validate_config_data,
-    validate_input_data,
-)
-from openprocurement.api.utils import context_unpack, json_view, request_init_contract
+from openprocurement.api.procedure.validation import unless_admins
+from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.api.views.base import (
     MongodbResourceListing,
     RestrictedResourceListingMixin,
 )
-from openprocurement.contracting.api.procedure.models.contract import PostContract
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
-from openprocurement.contracting.core.procedure.models.contract import ContractConfig
 from openprocurement.contracting.core.procedure.serializers.contract import (
     ContractBaseSerializer,
 )
@@ -33,7 +25,7 @@ from openprocurement.tender.core.procedure.utils import save_tender, set_ownersh
     name="Contracts",
     path="/contracts",
     description="Contracts listing",
-    # request_method=("GET",),
+    request_method=("GET",),
 )
 class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, ContractBaseResource):
     listing_name = "Contracts"
@@ -54,40 +46,6 @@ class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, 
         super().__init__(request, context)
         self.db_listing_method = request.registry.mongodb.contracts.list
 
-    @json_view(
-        content_type="application/json",
-        permission="create_contract",
-        validators=(
-            validate_input_data(PostContract),
-            validate_config_data(ContractConfig),
-            validate_accreditation_level(
-                levels=(ACCR_3, ACCR_5),
-                item="contract",
-                operation="creation",
-                source="data",
-            ),
-        ),
-    )
-    def post(self):
-        contract = self.request.validated["data"]
-        request_init_contract(self.request, contract, contract_src={})
-        self.state.on_post(contract)
-        if save_contract(self.request, insert=True):
-            self.LOGGER.info(
-                f"Created contract {contract['_id']} ({contract['contractID']})",
-                extra=context_unpack(
-                    self.request,
-                    {"MESSAGE_ID": "contract_create"},
-                    {"contract_id": contract["_id"], "contractID": contract["contractID"] or ""},
-                ),
-            )
-            self.request.response.status = 201
-            return {
-                "data": self.serializer_class(contract).data,
-                "config": contract["config"],
-                "access": {"token": contract["owner_token"]},
-            }
-
 
 class ContractResource(ContractBaseResource):
     serializer_class = ContractBaseSerializer
@@ -100,7 +58,6 @@ class ContractResource(ContractBaseResource):
             "config": contract["config"],
         }
 
-    @json_view(content_type="application/json", permission="edit_contract")
     def patch(self):
         """Contract Edit (partial)"""
         updated = self.request.validated["data"]

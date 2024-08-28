@@ -9,4 +9,3 @@ Contents:
    :maxdepth: 4
 
    econtract/index
-   old_contract/index

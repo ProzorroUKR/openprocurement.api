@@ -248,8 +248,6 @@ MINIMAL_STEP_VALIDATION_UPPER_LIMIT = 0.03
 
 
 # Masking
-MASK_OBJECT_DATA = get_constant(CONSTANTS_CONFIG, "MASK_OBJECT_DATA", parse_func=parse_bool)
-MASK_IDENTIFIER_IDS = set(standards.load("organizations/mask_identifiers.json"))
 MASK_OBJECT_DATA_SINGLE = get_constant(CONSTANTS_CONFIG, "MASK_OBJECT_DATA_SINGLE", parse_func=parse_bool)
 
 # CS-12463

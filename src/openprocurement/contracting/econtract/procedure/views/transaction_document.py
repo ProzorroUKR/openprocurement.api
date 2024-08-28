@@ -9,7 +9,6 @@ from openprocurement.contracting.core.procedure.views.transaction_document impor
     name="EContract Transaction Documents",
     collection_path="/contracts/{contract_id}/transactions/{transaction_id}/documents",
     path="/contracts/{contract_id}/transactions/{transaction_id}/documents/{document_id}",
-    contractType="econtract",
     description="EContract transaction related binary files (PDFs, etc.)",
 )
 class EContractTransactionDocumentResource(TransactionDocumentResource):
