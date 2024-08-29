@@ -109,7 +109,7 @@ def validate_contract_participant(request, **_):
 def validate_download_contract_document(request, **_):
     if request.params.get("download"):
         document = request.validated["document"]
-        if document.get("confidentiality", "") == ConfidentialityTypes.BUYER_ONLY and not is_tender_owner(
+        if document.get("confidentiality", "") == ConfidentialityTypes.BUYER_ONLY and not is_contract_owner(
             request, request.validated["contract"]
         ):
             raise_operation_error(request, "Document download forbidden.")
