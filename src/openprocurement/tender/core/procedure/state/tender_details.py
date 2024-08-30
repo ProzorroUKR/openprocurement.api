@@ -1006,7 +1006,7 @@ class TenderDetailsMixing(TenderConfigMixin):
 
     def cancel_all_technical_criteria(self, tender: dict, item_id: str) -> None:
         criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
-
+        now = get_now()
         for criterion in tender.get("criteria", ""):
             if (
                 criterion.get("classification", {}).get("id") in criteria_ids
@@ -1015,6 +1015,7 @@ class TenderDetailsMixing(TenderConfigMixin):
                 for rg in criterion.get("requirementGroups", ""):
                     for req in rg.get("requirements", ""):
                         req["status"] = ReqStatuses.CANCELLED
+                        req["dateModified"] = now.isoformat()
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

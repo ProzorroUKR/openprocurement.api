@@ -12,7 +12,7 @@ from openprocurement.api.constants import (
     PQ_CRITERIA_ID_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
 )
-from openprocurement.api.context import get_json_data, get_now
+from openprocurement.api.context import get_json_data, get_now, get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import (
@@ -250,8 +250,14 @@ class PostRequirement(ValidateIdMixing, BaseRequirement):
     @serializable(serialized_name="datePublished", serialize_when_none=False)
     def set_datePublished(self):
         tender = get_tender() or get_json_data()
+        request = get_request()
+
         if get_first_revision_date(tender, default=get_now()) < CRITERION_REQUIREMENT_STATUSES_FROM:
             return
+
+        if request.method == "POST":
+            return get_now().isoformat()
+
         return self.datePublished.isoformat() if self.datePublished else get_now().isoformat()
 
 
