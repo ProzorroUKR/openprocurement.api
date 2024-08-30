@@ -246,6 +246,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4292f411d6fd4a03
         ]
       },
       {
+        "profile": "655360-30230000-889652-40000777",
+        "category": "655360-30230000-889652",
         "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
@@ -271,9 +273,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4292f411d6fd4a03
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "profile": "655360-30230000-889652-40000777",
-        "category": "655360-30230000-889652"
+        ]
       }
     ],
     "tenderID": "UA-2023-10-10-000003-a",

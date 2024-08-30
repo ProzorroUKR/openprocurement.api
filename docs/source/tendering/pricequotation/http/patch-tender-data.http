@@ -63,6 +63,7 @@ Content-Type: application/json
     },
     "items": [
       {
+        "category": "655360-30230000-889652",
         "id": "e0171c9b08d34c71948f18a5f3504f5a",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
@@ -82,7 +83,6 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "category": "655360-30230000-889652",
         "additionalClassifications": [
           {
             "scheme": "INN",

@@ -6,9 +6,13 @@ from openprocurement.tender.belowthreshold.procedure.models.lot_value import (
     LotValue,
     PostLotValue,
 )
-from openprocurement.tender.core.procedure.models.bid import Bid as BaseBid
-from openprocurement.tender.core.procedure.models.bid import PatchBid as BasePatchBid
-from openprocurement.tender.core.procedure.models.bid import PostBid as BasePostBid
+from openprocurement.tender.core.procedure.models.bid import LocalizationBid as BaseBid
+from openprocurement.tender.core.procedure.models.bid import (
+    PatchLocalizationBid as BasePatchBid,
+)
+from openprocurement.tender.core.procedure.models.bid import (
+    PostLocalizationBid as BasePostBid,
+)
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     PostBidResponsesMixin,

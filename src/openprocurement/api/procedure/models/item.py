@@ -98,3 +98,13 @@ class Item(Model):
     deliveryLocation = ModelType(Location)
     relatedLot = MD5Type()
     relatedBuyer = MD5Type()
+
+
+class TechFeatureItemMixin(Model):
+    profile = StringType()
+    category = StringType()
+
+    def validate_profile(self, data, value):
+        category = data.get("category")
+        if value and not category:
+            raise ValidationError("profile should be provided together only with category")
