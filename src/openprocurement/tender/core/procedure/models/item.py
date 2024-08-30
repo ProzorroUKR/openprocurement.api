@@ -18,6 +18,7 @@ from openprocurement.api.procedure.models.item import (
 )
 from openprocurement.api.procedure.models.item import (
     Location,
+    TechFeatureItemMixin,
     validate_additional_classifications,
     validate_scheme,
 )
@@ -75,14 +76,8 @@ class Item(BaseItem):
             validate_gmdn(classification_id, items)
 
 
-class TechFeatureItem(Item):
-    profile = StringType()
-    category = StringType()
-
-    def validate_profile(self, data, value):
-        category = data.get("category")
-        if value and not category:
-            raise ValidationError("profile should be provided together only with category")
+class TechFeatureItem(TechFeatureItemMixin, Item):
+    pass
 
 
 class RelatedBuyerMixing:

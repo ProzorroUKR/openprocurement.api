@@ -9,6 +9,7 @@ from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import AdditionalClassification
 from openprocurement.api.procedure.models.item import Item as BaseItem
+from openprocurement.api.procedure.models.item import TechFeatureItemMixin
 from openprocurement.api.procedure.models.organization import (
     PROCURING_ENTITY_KINDS,
     Organization,
@@ -79,7 +80,7 @@ class Feature(Model):
     enum = ListType(ModelType(FeatureValue, required=True), default=[], min_size=1, validators=[validate_values_uniq])
 
 
-class Item(BaseItem):
+class Item(TechFeatureItemMixin, BaseItem):
     classification = ModelType(CPVClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, default=[]))
     description_en = StringType(required=True, min_length=1)
