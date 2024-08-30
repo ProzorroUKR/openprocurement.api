@@ -98,7 +98,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 if award["status"] == "pending":
                     response = self.app.patch_json(
                         f"/tenders/{self.tender_id}/awards/{award['id']}?acc_token={self.tender_token}",
-                        {"data": {"status": "active"}},
+                        {"data": {"status": "active", "qualified": True, "eligible": True}},
                     )
                     self.assertEqual(response.status, "200 OK")
         self.tender_document = self.mongodb.tenders.get(self.tender_id)

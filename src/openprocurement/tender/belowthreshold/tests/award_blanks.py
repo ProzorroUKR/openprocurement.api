@@ -1,7 +1,5 @@
 from copy import deepcopy
 
-from webtest import AppError
-
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -3527,7 +3525,7 @@ def check_tender_award(self):
     )
 
 
-def sign_awards(self):
+def qualified_eligible_awards(self):
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",

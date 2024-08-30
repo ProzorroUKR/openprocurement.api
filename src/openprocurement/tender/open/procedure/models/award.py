@@ -1,5 +1,4 @@
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType, BooleanType
+from schematics.types import BaseType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.types import ListType

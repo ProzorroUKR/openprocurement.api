@@ -1,5 +1,3 @@
-from schematics.types import BooleanType
-
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.award import Award as BaseAward
 from openprocurement.tender.core.procedure.models.award import (

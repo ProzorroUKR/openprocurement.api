@@ -54,7 +54,7 @@ class CreateActiveAwardMixin:
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}},
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
 
         response = self.app.get(f"/tenders/{self.tender_id}")
@@ -154,7 +154,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}},
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         # check contracts are buyer related
         response = self.app.get(f"/tenders/{self.tender_id}/contracts")

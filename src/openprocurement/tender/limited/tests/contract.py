@@ -62,6 +62,7 @@ class CreateActiveAwardMixin:
                 "data": {
                     "status": "active",
                     "qualified": True,
+                    "eligible": True,
                 }
             },
         )
@@ -108,7 +109,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}},
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.contracts_ids = [i["id"] for i in response.json["data"].get("contracts", "")]
@@ -159,7 +160,7 @@ class TenderNegotiationLotMixin:
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}},
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.contracts_ids = [i["id"] for i in response.json["data"].get("contracts", "")]
@@ -210,7 +211,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award1_id}/documents")
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award1_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}},
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
 
         # Create another award
@@ -232,7 +233,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award2_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award2_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}},
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.contracts_ids = [i["id"] for i in response.json["data"].get("contracts", "")]

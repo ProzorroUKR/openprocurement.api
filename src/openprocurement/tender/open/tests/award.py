@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
     patch_tender_lot_award_lots_none,
+    qualified_eligible_awards,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
@@ -174,6 +175,7 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
+    test_qualified_eligible_awards = snitch(qualified_eligible_awards)
 
 
 class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
