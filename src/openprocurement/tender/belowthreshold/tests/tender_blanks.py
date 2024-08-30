@@ -2865,7 +2865,8 @@ def one_valid_bid_tender(self):
     award_date = [i["date"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     self.assertNotEqual(response.json["data"]["date"], award_date)
 
@@ -2990,7 +2991,7 @@ def first_bid_tender(self):
     # set award as unsuccessful
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": True, "eligible": False}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -3030,7 +3031,8 @@ def first_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     # get contract id
     contract = get_contract_data(self, tender_id)
@@ -3076,7 +3078,8 @@ def lost_contract_for_active_award(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     # TBH, doesn't look like a case
     # lost contract

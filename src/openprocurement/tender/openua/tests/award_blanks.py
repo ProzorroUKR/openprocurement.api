@@ -391,7 +391,7 @@ def patch_tender_lot_award(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"], [{"location": "body", "name": "qualified", "description": ["This field is required."]}]
+        response.json["errors"], [{"location": "body", "name": "qualified", "description": ["Can't update award to active status with not qualified"]}]
     )
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),

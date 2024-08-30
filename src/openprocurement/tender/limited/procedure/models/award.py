@@ -35,6 +35,7 @@ class PostBaseAward(Model):
         return get_now().isoformat()
 
     qualified = BooleanType()
+    eligible = BooleanType()
     status = StringType(required=True, choices=["pending"], default="pending")
     value = ModelType(AwardValue, required=True)
     weightedValue = ModelType(AwardValue)
@@ -44,6 +45,7 @@ class PostBaseAward(Model):
 
 class PatchBaseAward(Model):
     qualified = BooleanType()
+    eligible = BooleanType()
     status = StringType(choices=["pending", "unsuccessful", "active", "cancelled"])
     title = StringType()
     title_en = StringType()
@@ -58,7 +60,8 @@ class PatchBaseAward(Model):
 
 class BaseAward(AwardMilestoneListMixin, Model):
     id = MD5Type(required=True)
-    qualified = BooleanType()
+    qualified = BooleanType(default=False)
+    eligible = BooleanType(default=False)
     status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
     date = IsoDateTimeType(required=True)
     value = ModelType(AwardValue, required=True)
@@ -77,6 +80,18 @@ class BaseAward(AwardMilestoneListMixin, Model):
     complaints = BaseType()
     complaintPeriod = ModelType(Period)
     period = ModelType(Period)
+
+    def validate_qualified(self, data, qualified):
+        if data["status"] == "active" and not qualified:
+            raise ValidationError("Can't update award to active status with not qualified")
+        if data["status"] == "unsuccessful" and (qualified and data.get("eligible", True)):
+            raise ValidationError(
+                "Can't update award to unsuccessful status when qualified or eligible isn't set to False"
+            )
+
+    def validate_eligible(self, data, eligible):
+        if data["status"] == "active" and not eligible:
+            raise ValidationError("Can't update award to active status with not eligible")
 
 
 # Negotiation
@@ -105,10 +120,6 @@ class PatchNegotiationAward(PatchBaseAward):
 
 class NegotiationAward(BaseAward):
     lotID = MD5Type()
-
-    def validate_qualified(self, data, value):
-        if not value and data["status"] == "active":
-            raise ValidationError("Can't update award to active status with not qualified")
 
 
 # reporting

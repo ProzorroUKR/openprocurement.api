@@ -161,10 +161,7 @@ class BaseTenderMilestone24HMixin:
         )
 
         # can't update status of context until dueDate
-        if procurement_method_type in ("belowThreshold",):
-            activation_data = {"status": "active"}
-        else:
-            activation_data = {"status": "active", "qualified": True, "eligible": True}
+        activation_data = {"status": "active", "qualified": True, "eligible": True}
         response = self.app.patch_json(
             "/tenders/{}/{}s/{}?acc_token={}".format(
                 self.tender_id, self.context_name, self.context_id, self.tender_token
@@ -351,10 +348,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
         created_milestone = response.json["data"]
 
         # can't update status of context until dueDate
-        if procurement_method_type in ("belowThreshold",):
-            activation_data = {"status": "active"}
-        else:
-            activation_data = {"status": "active", "qualified": True, "eligible": True}
+        activation_data = {"status": "active", "qualified": True, "eligible": True}
 
         # wait until milestone dueDate ends
         with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):

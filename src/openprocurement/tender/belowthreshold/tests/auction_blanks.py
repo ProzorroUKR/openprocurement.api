@@ -249,7 +249,7 @@ def post_tender_auction_with_disabled_awarding_order(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_1_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
@@ -261,7 +261,7 @@ def post_tender_auction_with_disabled_awarding_order(self):
     # Try to activate one more award
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_2_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -300,7 +300,7 @@ def post_tender_auction_with_disabled_awarding_order(self):
     self.assertEqual(response.status, "200 OK")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_2_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
@@ -487,7 +487,7 @@ def post_tender_lots_auction_with_disabled_awarding_order(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_1_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
@@ -502,7 +502,7 @@ def post_tender_lots_auction_with_disabled_awarding_order(self):
     # The customer decides that the winner is award3 for lot2
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_3_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
@@ -517,7 +517,7 @@ def post_tender_lots_auction_with_disabled_awarding_order(self):
     # Try to activate one more award for lot1
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_2_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -558,7 +558,7 @@ def post_tender_lots_auction_with_disabled_awarding_order(self):
     self.assertEqual(response.status, "200 OK")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_2_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
@@ -707,7 +707,7 @@ def post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsucce
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_1_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     self.assertEqual(response.status, "200 OK")
     # The customer reject award2 for lot1
@@ -719,7 +719,7 @@ def post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsucce
     # The customer decides that the winner is award3 for lot2
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_3_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))

@@ -15,12 +15,10 @@ from openprocurement.tender.esco.procedure.models.value import BaseESCOValue
 class Award(BaseAward):
     value = ModelType(BaseESCOValue)
     weightedValue = ModelType(BaseESCOValue)
-    eligible = BooleanType()
     items = ListType(ModelType(Item, required=True))
 
 
 class PatchAward(BasePatchAward):
-    eligible = BooleanType()
     items = ListType(ModelType(Item, required=True))
 
 

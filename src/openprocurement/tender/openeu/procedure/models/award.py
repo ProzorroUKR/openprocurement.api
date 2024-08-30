@@ -16,15 +16,11 @@ from openprocurement.tender.openua.procedure.models.item import Item
 class Award(BaseAward):
     complaints = BaseType()
     items = ListType(ModelType(Item, required=True))
-    qualified = BooleanType()
-    eligible = BooleanType()
     weightedValue = ModelType(WeightedValue)
 
 
 class PatchAward(BasePatchAward):
     items = ListType(ModelType(Item, required=True))
-    qualified = BooleanType()
-    eligible = BooleanType()
 
 
 class PostAward(BasePostAward):
