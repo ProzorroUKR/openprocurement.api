@@ -95,6 +95,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.post_json('/tenders', {'data': test_tender_data, 'config': self.initial_config})
         tender_id = self.tender_id = response.json['data']['id']
         owner_token = response.json['access']['token']
+        tender_items = response.json['data']['items']
         # switch to active.tendering
         response = self.set_status(
             'active.tendering', extra={'auctionPeriod': {'startDate': (get_now() + timedelta(days=10)).isoformat()}}
@@ -109,6 +110,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 'tenderers': [test_tender_pq_organization],
                 'value': {'amount': 500},
                 'requirementResponses': copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1),
+                'items': [
+                    {
+                        "id": tender_items[0]["id"],
+                        "description": "Комп’ютерне обладнання для біда",
+                        "quantity": 10,
+                        "unit": {
+                            "name": "кг",
+                            "code": "KGM",
+                            "value": {"amount": 8},
+                        },
+                    }
+                ],
             },
         )
         # switch to active.qualification

@@ -90,15 +90,13 @@ def add_contracts(request, award):
 def merge_items(bid_items: List[Dict], tender_items: List[Dict]) -> List[Dict]:
     tender_items = deepcopy(tender_items)
     tender_item_by_id = {i["id"]: i for i in tender_items}
-    merged_items = []
     for bid_item in bid_items:
         item = tender_item_by_id.get(bid_item["id"])
         if not item:
             continue
         item.update(bid_item)
-        merged_items.append(item)
 
-    return merged_items
+    return list(tender_item_by_id.values())
 
 
 def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award):
