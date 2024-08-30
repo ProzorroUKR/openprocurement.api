@@ -8,6 +8,9 @@ from openprocurement.tender.core.procedure.serializers.bid import (
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.item import (
+    ItemPreQualificationSerializer,
+)
 
 
 def value_amount_to_float(_, value):
@@ -61,4 +64,13 @@ class BidSerializer(BaseBidSerializer):
             "active.pre-qualification.stand-still",
             "active.auction",
         ):
-            self.whitelist = {"id", "status", "tenderers", "documents", "eligibilityDocuments", "requirementResponses"}
+            self.whitelist = {
+                "id",
+                "status",
+                "tenderers",
+                "documents",
+                "eligibilityDocuments",
+                "requirementResponses",
+                "items",
+            }
+            self.serializers["items"] = ListSerializer(ItemPreQualificationSerializer)

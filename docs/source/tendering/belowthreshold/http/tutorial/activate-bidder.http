@@ -15,21 +15,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "папір",
-        "unit": {
-          "value": {
-            "amount": 0.6,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0
-      }
-    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -70,6 +55,21 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2023-10-16T01:14:06+03:00",
         "language": "uk"
+      }
+    ],
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "папір",
+        "unit": {
+          "value": {
+            "amount": 0.6,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
       }
     ],
     "lotValues": [
