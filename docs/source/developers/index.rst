@@ -15,3 +15,4 @@ Contents:
    structure
    schema
    standards
+   procedure_configs
