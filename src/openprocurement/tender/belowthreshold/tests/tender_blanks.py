@@ -540,24 +540,6 @@ def create_tender_invalid(self):
     )
 
     data = self.initial_data["minimalStep"]
-    self.initial_data["minimalStep"] = {"amount": "1000.0"}
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Tender minimal step amount should be less than tender amount",
-                "location": "body",
-                "name": "minimalStep.amount",
-            }
-        ],
-    )
-
-    data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
@@ -1141,38 +1123,6 @@ def create_tender_with_estimated_value(self):
     )
     data["lots"][0]["value"]["amount"] = lot_value_amount
 
-    # Set tender amount 0
-    data["value"]["amount"] = 0
-    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                'description': 'Tender minimal step amount should be less than tender amount',
-                'location': 'body',
-                'name': 'minimalStep.amount',
-            }
-        ],
-    )
-    data["value"]["amount"] = tender_value_amount
-
-    # Set tender minimal step amount too high
-    data["minimalStep"]["amount"] = 50
-    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                'description': 'Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).',
-                'location': 'body',
-                'name': 'data',
-            }
-        ],
-    )
-    data["minimalStep"]["amount"] = 15
-
     # Set lot minimal step 0
     data["lots"][0]["value"]["amount"] = 0
     response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
@@ -1204,6 +1154,29 @@ def create_tender_with_estimated_value(self):
         ],
     )
     data["lots"][0]["minimalStep"]["amount"] = 15
+
+    # Try to tender amount 0
+    data["value"]["amount"] = 0
+    data["minimalStep"]["amount"] = 0
+    response = self.app.post_json("/tenders", {"data": data, "config": config})
+    self.assertEqual(response.status, "201 Created")
+
+    # Check it was recalculated and set to sum of lots value
+    self.assertEqual(
+        response.json["data"]["value"]["amount"],
+        sum(lot["value"]["amount"] for lot in data["lots"]),
+    )
+
+    # Try to set tender minimal step amount too high
+    data["minimalStep"]["amount"] = tender_value_amount - 1
+    response = self.app.post_json("/tenders", {"data": data, "config": config})
+    self.assertEqual(response.status, "201 Created")
+
+    # Check it was recalculated and set to min of lots minimal step
+    self.assertEqual(
+        response.json["data"]["minimalStep"]["amount"],
+        min(lot["minimalStep"]["amount"] for lot in data["lots"]),
+    )
 
 
 def create_tender_without_estimated_value(self):
@@ -3331,6 +3304,10 @@ def tender_token_invalid(self):
 def tender_minimalstep_validation(self):
     data = deepcopy(self.initial_data)
     data["minimalStep"]["amount"] = 500
+    del data["lots"]
+    for field in ("items", "milestones"):
+        for item in data[field]:
+            del item["relatedLot"]
     # invalid minimalStep validated on tender level
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
