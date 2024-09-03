@@ -29,7 +29,7 @@ from openprocurement.tender.open.tests.award import (
     Tender2LotAwardQualificationAfterComplaintMixin,
     TenderAwardQualificationAfterComplaintMixin,
 )
-from openprocurement.tender.open.tests.award_blanks import contract_sign
+from openprocurement.tender.open.tests.award_blanks import award_sign
 from openprocurement.tender.openua.tests.award_blanks import (
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
@@ -113,7 +113,7 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest, TenderAwardResource
     test_patch_tender_award_active = snitch(patch_tender_award_active)
     test_tender_award_complaint_period = snitch(tender_award_complaint_period)
     test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
-    test_contract_sign = snitch(contract_sign)
+    test_award_sign = snitch(award_sign)
 
 
 class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):

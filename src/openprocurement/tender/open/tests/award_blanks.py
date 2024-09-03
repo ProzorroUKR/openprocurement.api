@@ -4223,7 +4223,7 @@ def get_award_requirement_response_evidence(self):
         self.assertEqual(v, rr[k])
 
 
-def contract_sign(self):
+def award_sign(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
     request_path = "/tenders/{}/awards".format(self.tender_id)

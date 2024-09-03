@@ -487,7 +487,7 @@ def patch_tender_lot_award(self):
     )
 
 
-def contract_sign(self):
+def award_sign(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
     request_path = "/tenders/{}/awards".format(self.tender_id)

@@ -30,10 +30,10 @@ from openprocurement.tender.open.tests.award_blanks import (
     award_for_another_lot_has_considered_complaint,
     award_has_resolved_complaint,
     award_has_satisfied_complaint,
+    award_sign,
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
     check_tender_award_complaint_period_dates,
-    contract_sign,
     create_award_requirement_response,
     create_award_requirement_response_evidence,
     create_tender_award,
@@ -131,7 +131,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_tender_award_complaint_period = snitch(tender_award_complaint_period)
     test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
-    test_contract_sign = snitch(contract_sign)
+    test_award_sign = snitch(award_sign)
 
 
 class TenderAwardQualificationAfterComplaintMixin:

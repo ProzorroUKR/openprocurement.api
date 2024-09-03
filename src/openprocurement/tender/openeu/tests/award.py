@@ -24,7 +24,7 @@ from openprocurement.tender.open.tests.award import (
     TenderAwardQualificationAfterComplaintMixin,
 )
 from openprocurement.tender.open.tests.award_blanks import (
-    contract_sign,
+    award_sign,
     patch_tender_award_unsuccessful_complaint_first,
     patch_tender_award_unsuccessful_complaint_second,
 )
@@ -117,7 +117,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
         self.app.authorization = ("Basic", ("broker", ""))
 
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
-    test_contract_sign = snitch(contract_sign)
+    test_award_sign = snitch(award_sign)
 
 
 class Tender2LotAwardResourceTestMixin:

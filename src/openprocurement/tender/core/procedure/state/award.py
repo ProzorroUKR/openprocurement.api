@@ -19,6 +19,7 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 class AwardStateMixing:
     contract_model = Contract
     award_stand_still_working_days: bool = True
+    sign_award_required: bool = True
 
     def validate_award_patch(self, before, after):
         tender = get_tender()
@@ -40,7 +41,7 @@ class AwardStateMixing:
         now = get_now().isoformat()
 
         if before == "pending" and after == "active":
-            if tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
+            if self.sign_award_required and tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
                 validate_doc_type_required(award.get("documents", []), document_of="tender")
             self.award_status_up_from_pending_to_active(award, tender)
 
@@ -48,7 +49,7 @@ class AwardStateMixing:
             self.award_status_up_from_active_to_cancelled(award, tender)
 
         elif before == "pending" and after == "unsuccessful":
-            if tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
+            if self.sign_award_required and tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
                 validate_doc_type_required(award.get("documents", []), document_of="tender")
             self.award_status_up_from_pending_to_unsuccessful(award, tender)
 

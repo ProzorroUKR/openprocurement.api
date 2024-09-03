@@ -193,7 +193,17 @@ Let's see the list of all uploaded award documents:
 
 
 Award confirmation
-~~~~~~~~~~~~~~~~~~
+------------------
+
+For **reporting** procedure sign for award isn't required.
+
+Procuring entity can confirm awarding decision:
+
+.. http:example:: http/tutorial/tender-award-approve.http
+   :code:
+
+Award confirmation for **negotiation** procedure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Before making decision it is required to add sign document to award.
 If there is no sign document during activation, we will see an error:
@@ -211,12 +221,7 @@ Sign document should have `documentType: notice` and `title: *.p7s`. Let's add s
 .. http:example:: http/tutorial/award-add-notice-document.http
    :code:
 
-Procuring entity can confirm awarding decision:
-
-.. http:example:: http/tutorial/tender-award-approve.http
-   :code:
-
-Award confirmation for **negotiation** procedure:
+Let's confirm **negotiation** procedure:
 
 .. http:example:: http/tutorial/tender-negotiation-award-approve.http
    :code:

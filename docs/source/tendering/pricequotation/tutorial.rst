@@ -232,22 +232,6 @@ After the tender period end date, system automatically creates `award` in `pendi
 .. http:example:: http/awards-listing.http
    :code:
 
-Before making decision it is required to add sign document to award.
-If there is no sign document during activation, we will see an error:
-
-.. http:example:: http/award-notice-document-required.http
-   :code:
-
-The same logic for `unsuccessful` status:
-
-.. http:example:: http/award-unsuccessful-notice-document-required.http
-   :code:
-
-Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
-
-.. http:example:: http/award-add-notice-document.http
-   :code:
-
 Procuring Entity can accept `award` by transferring it to status: `active`.
 
 .. http:example:: http/award-active.http
@@ -272,7 +256,7 @@ If the offer of the Participant with the lowest price meets the requirements, Pr
 If it does not meet the requirements, Procuring Entity downloads a protocol confirming its decision to reject the Participant and rejects such an offer `(awards:status:unsuccessful)`.
 The system leads to the evaluation of the next one with most economically advantageous price `(awards:status:pending)`.
 
-Let's add sign and decline `award` by transferring it to status: `unsuccessful`.
+Let's decline `award` by transferring it to status: `unsuccessful`.
 
 .. http:example:: http/award-unsuccesful.http
    :code:

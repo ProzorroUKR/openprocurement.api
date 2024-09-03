@@ -7,6 +7,8 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 
 class AwardState(AwardStateMixing, PriceQuotationTenderState):
+    sign_award_required = False
+
     def award_status_up_from_pending_to_active(self, award, tender):
         self.request.validated["contracts_added"] = add_contracts(self.request, award)
         self.add_next_award()

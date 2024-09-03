@@ -3,9 +3,9 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import change_auth, snitch
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
+    award_sign,
     check_tender_award,
     check_tender_award_complaint_period_dates,
-    contract_sign,
     create_award_document_bot,
     create_tender_award_complaint,
     create_tender_award_complaint_document,
@@ -143,7 +143,7 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
     test_patch_tender_lot_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
-    test_contract_sign = snitch(contract_sign)
+    test_award_sign = snitch(award_sign)
 
 
 class Tender2LotAwardResourceTest(TenderContentWebTest):
