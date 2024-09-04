@@ -36,6 +36,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     features_bid,
     features_bid_invalid,
     get_tender_bid,
+    get_tender_bid_data_for_sign,
     get_tender_tenderers,
     not_found,
     patch_bid_multi_currency,
@@ -78,6 +79,7 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_create_tender_bid = snitch(create_tender_bid)
     test_patch_tender_bid = snitch(patch_tender_bid)
     test_get_tender_bid = snitch(get_tender_bid)
+    test_get_tender_bid_data_for_sign = snitch(get_tender_bid_data_for_sign)
     test_delete_tender_bid = snitch(delete_tender_bid)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)

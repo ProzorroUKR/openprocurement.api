@@ -455,6 +455,46 @@ def get_tender_bid(self):
     )
 
 
+def get_tender_bid_data_for_sign(self):
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    bid = response.json["data"]
+    bid_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": {"status": "pending"}}
+    )
+
+    response = self.app.get("/tenders/{}/bids/{}/sign".format(self.tender_id, bid["id"]), status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't view bid in current (active.tendering) tender status"
+    )
+
+    response = self.app.get("/tenders/{}/bids/{}/sign?acc_token={}".format(self.tender_id, bid["id"], bid_token))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(["data", "context"], list(response.json.keys()))
+    bid.update({"status": "pending", "submissionDate": response.json["data"]["submissionDate"]})
+    self.assertEqual(response.json["data"], bid)
+    self.assertIn("tender", response.json["context"])
+    self.assertEqual(response.json["context"]["tender"]["status"], "active.tendering")
+
+    self.set_status("active.qualification")
+
+    response = self.app.get("/tenders/{}/bids/{}/sign".format(self.tender_id, bid["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(["data", "context"], list(response.json.keys()))
+    self.assertIn("tender", response.json["context"])
+    self.assertEqual(response.json["context"]["tender"]["status"], "active.qualification")
+
+
 def delete_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),

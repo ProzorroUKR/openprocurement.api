@@ -15,7 +15,6 @@ from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
-from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_not_in_tendering,
@@ -40,7 +39,6 @@ LOGGER = getLogger(__name__)
     description="Tender UA.defense bids",
 )
 class TenderBidResource(TenderBidResource):
-    serializer_class = BidSerializer
     model_class = Bid
 
     @json_view(

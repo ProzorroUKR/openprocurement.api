@@ -551,6 +551,47 @@ def get_tender_bidder(self):
     )
 
 
+def get_tender_bid_data_for_sign(self):
+    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data.update(
+        {
+            "tenderers": [self.test_bids_data[0]["tenderers"][0]],
+            "value": {"amount": 500},
+        }
+    )
+    set_bid_lotvalues(bid_data, self.initial_lots)
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": {"status": "pending"}}
+    )
+
+    response = self.app.get("/tenders/{}/bids/{}/sign".format(self.tender_id, bid["id"]), status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't view bid in current (active.tendering) tender status"
+    )
+
+    response = self.app.get("/tenders/{}/bids/{}/sign?acc_token={}".format(self.tender_id, bid["id"], bid_token))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(["data", "context"], list(response.json.keys()))
+    bid.update({"status": "pending", "submissionDate": response.json["data"]["submissionDate"]})
+    self.assertEqual(response.json["data"], bid)
+    self.assertIn("tender", response.json["context"])
+    self.assertEqual(response.json["context"]["tender"]["status"], "active.tendering")
+
+    self.set_status("active.qualification")
+
+    response = self.app.get("/tenders/{}/bids/{}/sign".format(self.tender_id, bid["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(["data", "context"], list(response.json.keys()))
+    self.assertIn("tender", response.json["context"])
+    self.assertEqual(response.json["context"]["tender"]["status"], "active.qualification")
+
+
 def delete_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
     set_bid_lotvalues(bid_data, self.initial_lots)
