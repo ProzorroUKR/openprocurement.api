@@ -781,6 +781,9 @@ class TenderDetailsMixing(TenderConfigMixin):
         if tender_min_step_amount is None:
             return
 
+        if tender.get("lots"):
+            return
+
         if has_value_estimation and tender_value_amount is not None and tender_value_amount < tender_min_step_amount:
             raise_operation_error(
                 get_request(),
@@ -789,6 +792,7 @@ class TenderDetailsMixing(TenderConfigMixin):
                 location="body",
                 name="minimalStep.amount",
             )
+
         if has_value_estimation and tender_value_amount is not None:
             self.validate_minimal_step_limits(tender, tender_value_amount, tender_min_step_amount)
 
