@@ -6,7 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "status": "active",
-    "qualified": true
+    "qualified": true,
+    "eligible": true
   }
 }
 
@@ -18,6 +19,7 @@ Content-Type: application/json
   "data": {
     "id": "9c72d2e4aeb849e0857336f93f3d66e1",
     "qualified": true,
+    "eligible": true,
     "status": "active",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {

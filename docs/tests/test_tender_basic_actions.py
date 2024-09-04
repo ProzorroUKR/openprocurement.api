@@ -1692,7 +1692,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint_url = "/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id)
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-            {"data": {"status": "active"}},
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         self.assertEqual(response.status, '200 OK')
 

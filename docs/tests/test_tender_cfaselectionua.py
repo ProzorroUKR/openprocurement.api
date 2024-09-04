@@ -525,7 +525,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + 'award-qualification-active.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {"data": {"status": "active"}},
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
 
         with open(TARGET_DIR + 'award-qualification-cancelled.http', 'w') as self.app.file_obj:
@@ -553,7 +553,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + 'confirm-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {"data": {"status": "active"}},
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, '200 OK')
 

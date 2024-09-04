@@ -134,7 +134,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # set award as active
         self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
-            f'/tenders/{tender_id}/awards/{award_id}?acc_token={owner_token}', {"data": {"status": "active"}}
+            f'/tenders/{tender_id}/awards/{award_id}?acc_token={owner_token}',
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         # get contract id
         response = self.app.get(f'/tenders/{tender_id}')
@@ -604,7 +605,7 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'set-active-award.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.owner_token}',
-                {"data": {"status": "active"}},
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -727,7 +728,8 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         # set award as active
         self.add_sign_doc(self.tender_id, self.owner_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
-            f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.owner_token}', {"data": {"status": "active"}}
+            f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.owner_token}',
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         self.assertEqual(response.status, '200 OK')
 

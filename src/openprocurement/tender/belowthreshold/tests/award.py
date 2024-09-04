@@ -44,8 +44,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     put_tender_award_document,
     put_tender_lots_award_complaint_document,
     put_tender_lots_award_document,
-    review_tender_award_complaint,
     qualified_eligible_awards,
+    review_tender_award_complaint,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,

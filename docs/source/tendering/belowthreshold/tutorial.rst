@@ -356,6 +356,24 @@ See the `Bid.participationUrl` in the response. Similar, but different, URL can 
 Confirming qualification
 ------------------------
 
+Qualification comission can set award to `active` or `unsuccessful` status.
+
+There are validations before registering qualification decision:
+
+* `eligible: True` and `qualified: True` - for setting award from `pending` to `active`
+
+* `eligible: False` and `qualified: True` OR `eligible: True` and `qualified: False` OR `eligible: False` and `qualified: False` - for setting award from `pending` to `unsuccessful`
+
+Let's try to set `unsuccessful` status for `qualified` and `eligible` award and we will see an error:
+
+.. http:example:: http/tutorial/unsuccessful-qualified-award.http
+   :code:
+
+Let's try to set `active` status for `non-qualified` or `non-eligible` award and we will see an error:
+
+.. http:example:: http/tutorial/activate-non-qualified-award.http
+   :code:
+
 Before making decision it is required to add sign document to award.
 If there is no sign document during activation, we will see an error:
 
