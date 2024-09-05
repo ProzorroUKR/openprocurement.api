@@ -729,7 +729,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + 'award-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_ids[0], owner_token),
-                {"data": {"status": "active"}},
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
                 status=422,
             )
         with open(TARGET_DIR + 'award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
