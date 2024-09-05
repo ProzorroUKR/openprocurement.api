@@ -122,7 +122,7 @@ def switch_qualification_complaints_draft(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -164,6 +164,7 @@ def switch_qualification_complaints_draft(self):
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def switch_award_complaints_draft(self):
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
         {"data": {"status": "active"}},

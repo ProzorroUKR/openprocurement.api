@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-25 13:30+0300\n"
+"POT-Creation-Date: 2024-08-27 14:14+0300\n"
 "PO-Revision-Date: 2020-05-10 18:00+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -298,6 +298,12 @@ msgstr "Протягом цього часу учасник торгів мож�
 
 msgid "Confirming qualification"
 msgstr "Підтвердження кваліфікації"
+
+msgid "Before making decision it is required to add sign document to award. If there is no sign document during activation, we will see an error:"
+msgstr "Перед прийняттям рішення по переможцю необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час активації буде помилка:"
+
+msgid "The same logic for `unsuccessful` status:"
+msgstr "Така сама логіка при відхилені аварду:"
 
 msgid "Qualification commission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення:"

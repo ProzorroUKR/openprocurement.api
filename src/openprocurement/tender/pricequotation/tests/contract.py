@@ -93,6 +93,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         TenderContractResourceTest.get_award(self)
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active"}},

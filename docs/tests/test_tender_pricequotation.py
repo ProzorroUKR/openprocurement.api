@@ -147,7 +147,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.activate_tender(profile, filename='notice-document-required')
 
         with open(TARGET_DIR + 'add-notice-document.http', 'w') as self.app.file_obj:
-            self.add_notice_doc(self.tender_id, self.tender_token)
+            self.add_sign_doc(self.tender_id, self.tender_token)
 
         # tender relates to non existed profile
         with patch(

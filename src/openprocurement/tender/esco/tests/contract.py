@@ -95,6 +95,7 @@ class CreateAwardMixin:
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -142,11 +143,14 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
         )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         response = self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         # Create contract for award
+        self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/contracts".format(self.tender_id),
             {"data": {"title": "contract title", "description": "contract description", "awardID": self.award_id}},

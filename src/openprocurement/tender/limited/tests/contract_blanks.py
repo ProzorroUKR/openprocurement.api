@@ -80,6 +80,7 @@ def patch_tender_contract(self):
         },
     )
     award_id = response.json["data"]["id"]
+    self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
         {"data": {"qualified": True, "status": "active"}},
@@ -559,6 +560,7 @@ def patch_tender_negotiation_econtract(self):
         },
     )
     award_id = response.json["data"]["id"]
+    self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
         {"data": {"qualified": True, "status": "active"}},

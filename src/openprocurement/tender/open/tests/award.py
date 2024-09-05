@@ -30,6 +30,7 @@ from openprocurement.tender.open.tests.award_blanks import (
     award_for_another_lot_has_considered_complaint,
     award_has_resolved_complaint,
     award_has_satisfied_complaint,
+    award_sign,
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
     check_tender_award_complaint_period_dates,
@@ -130,6 +131,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_tender_award_complaint_period = snitch(tender_award_complaint_period)
     test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
+    test_award_sign = snitch(award_sign)
 
 
 class TenderAwardQualificationAfterComplaintMixin:
@@ -212,6 +214,9 @@ class TenderAwardQualificationAfterComplaint(TenderAwardPendingResourceTestCase)
     )
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class Tender2LotAwardQualificationAfterComplaintMixin:
     test_lot_award_has_satisfied_complaint = snitch(lot_award_has_satisfied_complaint)
     test_lot_award_has_resolved_complaint = snitch(lot_award_has_resolved_complaint)
@@ -229,6 +234,7 @@ class Tender2LotAwardQualificationAfterComplaintResourceTest(
 class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):
     def setUp(self):
         super().setUp()
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
 
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(

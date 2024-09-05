@@ -38,6 +38,9 @@ from openprocurement.tender.limited.tests.lot_blanks import (  # TenderLotNegoti
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
     get_now() + timedelta(days=1),
 )
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
     initial_status = "active"
     initial_data = test_tender_negotiation_data

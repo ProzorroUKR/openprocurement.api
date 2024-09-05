@@ -1,6 +1,9 @@
 import unittest
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseApiWebTest,
     BaseTenderWebTest,
@@ -141,6 +144,9 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_check_notice_doc_during_activation = snitch(check_notice_doc_during_activation)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderProcessTest(BaseTenderWebTest):
     initial_auth = ("Basic", ("broker", ""))
 

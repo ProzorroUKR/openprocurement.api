@@ -24,6 +24,7 @@ from openprocurement.tender.open.tests.award import (
     TenderAwardQualificationAfterComplaintMixin,
 )
 from openprocurement.tender.open.tests.award_blanks import (
+    award_sign,
     patch_tender_award_unsuccessful_complaint_first,
     patch_tender_award_unsuccessful_complaint_second,
 )
@@ -83,6 +84,9 @@ class TenderAwardQualificationAfterComplaint(TenderAwardQualificationAfterCompla
         self.award_id = response.json["data"][0]["id"]
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderLotAwardResourceTestMixin:
     test_create_tender_award = snitch(create_tender_lot_award)
     test_patch_tender_award = snitch(patch_tender_lot_award)
@@ -113,6 +117,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
         self.app.authorization = ("Basic", ("broker", ""))
 
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
+    test_award_sign = snitch(award_sign)
 
 
 class Tender2LotAwardResourceTestMixin:
@@ -155,6 +160,7 @@ class TenderAwardComplaintResourceTest(
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -197,6 +203,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest, TenderLotAwa
             )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -263,6 +270,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderA
             )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -303,6 +311,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
             )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},

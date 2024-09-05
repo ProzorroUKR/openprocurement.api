@@ -795,7 +795,9 @@ def bid_proposal_doc(self):
         "Document with type 'proposal' and format pkcs7-signature is required",
     )
 
-    response = self.add_proposal_doc(self.tender_id, bid["id"], bid_token)
+    response = self.add_sign_doc(
+        self.tender_id, bid_token, docs_url=f"/bids/{bid['id']}/documents", document_type="proposal"
+    )
     doc_id = response.json["data"]["id"]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
@@ -1837,6 +1839,7 @@ def create_tender_bid_document_with_award_json(self):
         )
     award = response.json["data"]
     award_id = award["id"]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active"}},
@@ -1968,6 +1971,7 @@ def create_tender_bid_document_with_award_json_bulk(self):
         )
     award = response.json["data"]
     award_id = award["id"]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active"}},

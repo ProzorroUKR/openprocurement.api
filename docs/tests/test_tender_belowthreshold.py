@@ -95,7 +95,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.assertEqual(response.status, '200 OK')
 
         # switch to 'active.enquiries'
-        self.add_notice_doc(tender['id'], owner_token)
+        self.add_sign_doc(tender['id'], owner_token)
         with open(TARGET_DIR + 'tutorial/tender-patch-2pc.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"status": 'active.enquiries'}}
@@ -167,7 +167,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
 
         with open(TARGET_DIR + 'tutorial/add-notice-document.http', 'w') as self.app.file_obj:
-            self.add_notice_doc(tender['id'], owner_token)
+            self.add_sign_doc(tender['id'], owner_token)
 
         with open(TARGET_DIR + 'tutorial/tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -194,7 +194,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '201 Created')
 
-        self.add_notice_doc(response.json["data"]["id"], response.json["access"]["token"])
+        self.add_sign_doc(response.json["data"]["id"], response.json["access"]["token"])
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(response.json["data"]["id"], response.json["access"]["token"]),
             {'data': {"status": "active.enquiries"}},
@@ -230,7 +230,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         )
         self.assertEqual(response.status, '200 OK')
 
-        self.add_notice_doc(response.json["data"]["id"], tender_2_owner_token)
+        self.add_sign_doc(response.json["data"]["id"], tender_2_owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(response.json["data"]["id"], tender_2_owner_token),
             {'data': {"status": "active.enquiries"}},
@@ -522,7 +522,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         self.tick_delta = None
         self.tick(timedelta(minutes=1))
-        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id], doc_id=doc_id)
+        self.add_sign_doc(
+            self.tender_id,
+            bids_access[bid1_id],
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+            doc_id=doc_id,
+        )
         self.app.patch_json(
             '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
             {'data': {"status": "pending"}},
@@ -625,6 +631,21 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
+        with open(TARGET_DIR + 'tutorial/award-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "active"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'tutorial/award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'tutorial/award-add-notice-document.http', 'w') as self.app.file_obj:
+            self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
 
         with open(TARGET_DIR + 'tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json(
@@ -771,7 +792,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.assertEqual(response.status, '201 Created')
 
         # Tender activating
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -827,7 +848,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             },
         )
         self.assertEqual(response.status, "201 Created")
-        self.add_proposal_doc(tender_id, response.json["data"]["id"], response.json["access"]["token"])
+        self.add_sign_doc(
+            tender_id,
+            response.json["access"]["token"],
+            docs_url=f"/bids/{response.json['data']['id']}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
 
         # post bid without items for tender with funders
@@ -962,7 +988,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 },
             )
             self.assertEqual(response.status, "201 Created")
-        self.add_proposal_doc(tender_id, response.json["data"]["id"], response.json["access"]["token"])
+        self.add_sign_doc(
+            tender_id,
+            response.json["access"]["token"],
+            docs_url=f"/bids/{response.json['data']['id']}/documents",
+            document_type="proposal",
+        )
         self.set_responses(tender_id, response.json, "pending")
         bid2_id = response.json["data"]["id"]
         bid2_token = response.json["access"]["token"]
@@ -1016,6 +1047,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         award2_id = award2["id"]
 
         # Activate award
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {
@@ -1025,6 +1057,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 }
             },
         )
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award2_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award2_id, owner_token),
             {
@@ -1132,7 +1165,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         tender_wi_id = response.json['data']['id']
         owner_wi_token = response.json['access']['token']
 
-        self.add_notice_doc(tender_wi_id, owner_wi_token)
+        self.add_sign_doc(tender_wi_id, owner_wi_token)
         response = self.app.patch_json(
             f'/tenders/{tender_wi_id}?acc_token={owner_wi_token}', {'data': {"status": "active.enquiries"}}
         )
@@ -1140,7 +1173,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # PATCH inspector
 
-        self.add_notice_doc(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             f'/tenders/{tender_id}?acc_token={owner_token}', {'data': {"status": "active.enquiries"}}
         )

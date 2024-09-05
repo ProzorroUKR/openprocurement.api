@@ -1091,7 +1091,7 @@ def one_lot_2bid_1un(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1156,7 +1156,7 @@ def one_lot_2bid(self):
     for bid in response.json["data"]["bids"]:
         self.assertEqual(bid["status"], "active")
 
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1221,6 +1221,7 @@ def one_lot_2bid(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1345,7 +1346,7 @@ def one_lot_3bid_1del(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1424,6 +1425,7 @@ def one_lot_3bid_1del(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1495,7 +1497,7 @@ def one_lot_3bid_1un(self):
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1565,6 +1567,7 @@ def one_lot_3bid_1un(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1752,7 +1755,7 @@ def two_lot_2bid_0com_1can(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1796,7 +1799,7 @@ def two_lot_2bid_2com_2win(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1851,6 +1854,7 @@ def two_lot_2bid_2com_2win(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as active
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1859,8 +1863,6 @@ def two_lot_2bid_2com_2win(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    # after stand slill period
-    self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.mongodb.tenders.get(self.tender_id)
     now = (get_now() - timedelta(seconds=1)).isoformat()
@@ -1878,6 +1880,7 @@ def two_lot_2bid_2com_2win(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as unsuccessful
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "unsuccessful"}},
@@ -1888,6 +1891,7 @@ def two_lot_2bid_2com_2win(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as active
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -2085,6 +2089,7 @@ def one_lot_2bid_ua(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -2194,6 +2199,7 @@ def one_lot_3bid_1un_ua(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -2353,6 +2359,7 @@ def two_lot_1bid_2com_1win_ua(self):
         award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
 
         # set award as active
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
             {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
@@ -2533,6 +2540,7 @@ def two_lot_2bid_2com_2win_ua(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as active
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -2541,8 +2549,6 @@ def two_lot_2bid_2com_2win_ua(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    # after stand still period
-    self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.mongodb.tenders.get(self.tender_id)
     now = (get_now() - timedelta(seconds=1)).isoformat()
@@ -2560,6 +2566,7 @@ def two_lot_2bid_2com_2win_ua(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as unsuccessful
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "unsuccessful"}},
@@ -2570,6 +2577,7 @@ def two_lot_2bid_2com_2win_ua(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as active
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},

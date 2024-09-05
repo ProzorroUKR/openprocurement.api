@@ -1189,6 +1189,7 @@ def first_bid_tender(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as unsuccessful
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "unsuccessful"}},
@@ -1211,6 +1212,7 @@ def first_bid_tender(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1269,6 +1271,7 @@ def lost_contract_for_active_award(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1544,7 +1547,7 @@ def tender_created_before_related_lot_constant(self):
         '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, self.tender_token), {'data': test_criteria_data}
     )
     self.assertEqual(response.status, '201 Created')
-    self.add_notice_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
 
     # forbid patch tender without lot even before RELATED_LOT_REQUIRED_FROM constant for aboveThreshold
     response = self.app.patch_json(

@@ -151,12 +151,12 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "3de71f3df76a47e78474a95b72263aaa",
+        "id": "c23c6596e45c434bb7b32156fa285ec8",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "proposal.p7s",
+        "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c991bf87206442669d06e295f985d6c9?Signature=q8Kxx2whY7SWX%2BAChNDVWBxn2qjxfpSU36Pp%2BZq2nH4Nn%2FLhXg7iPSwkMuRNJSpXARAPNXjzWUWhOUMuGK5eCg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a4a00c20b785402d8cdf6216b25ea4f8?Signature=1Y66I7YzZPlZIA8u3sR8WUFA72ojFQvA6rENsA7EDi539h8JPv7VS7P1i7fmGQKlQMwOJ9prrMFa7vGgWHdQCA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:02:01+03:00",
         "language": "uk"

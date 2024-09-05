@@ -548,7 +548,7 @@ def get_tender_bidder(self):
 
     # switch to active.pre-qualification.stand-still
     self.app.authorization = ("Basic", ("broker", ""))
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -627,7 +627,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
     # switch to active.pre-qualification.stand-still
     self.app.authorization = ("Basic", ("broker", ""))
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -698,7 +698,7 @@ def get_tender_tenderers(self):
 
     # switch to active.pre-qualification.stand-still
     self.app.authorization = ("Basic", ("broker", ""))
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -798,7 +798,7 @@ def bids_invalidation_on_tender_change(self):
 
     # switch to active.pre-qualification.stand-still
     self.app.authorization = ("Basic", ("broker", ""))
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1175,7 +1175,7 @@ def get_tender_bidder_document(self):
 
     # switch to active.pre-qualification.stand-still
     self.app.authorization = ("Basic", ("broker", ""))
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1337,7 +1337,7 @@ def create_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1589,7 +1589,7 @@ def download_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1641,7 +1641,7 @@ def create_tender_bidder_document_nopending(self):
 
     # switch to active.pre-qualification.stand-still
     self.app.authorization = ("Basic", ("broker", ""))
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1996,7 +1996,7 @@ def bids_view_j1446(self):
     self.assertIn("documents", response.json["data"])
 
     # switch to next status
-    self.add_qualification_sign_doc(tender_id, tender_owner_token)
+    self.add_sign_doc(tender_id, tender_owner_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},

@@ -8,6 +8,7 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 
 class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
     contract_model = Contract
+    sign_award_required = False
 
     def award_status_up_from_pending_to_active(self, award, tender):
         self.request.validated["contracts_added"] = add_contracts(self.request, award)
@@ -25,6 +26,7 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
 class NegotiationAwardState(ReportingAwardState):
     contract_model = Contract
     award_stand_still_working_days: bool = False
+    sign_award_required = True
 
     def award_status_up_from_pending_to_active(self, award, tender):
         self.set_award_complaint_period(award)

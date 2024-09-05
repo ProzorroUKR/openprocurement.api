@@ -170,6 +170,7 @@ class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
 class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):
     def setUp(self):
         super().setUp()
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),

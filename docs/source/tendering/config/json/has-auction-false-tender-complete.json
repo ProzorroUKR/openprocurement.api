@@ -34,6 +34,21 @@
                     "startDate": "2023-11-09T00:00:00+02:00"
                 },
                 "date": "2023-11-09T00:00:00+02:00",
+                "documents": [
+                    {
+                        "author": "tender_owner",
+                        "dateModified": "2023-11-09T00:00:00+02:00",
+                        "datePublished": "2023-11-09T00:00:00+02:00",
+                        "documentOf": "tender",
+                        "documentType": "notice",
+                        "format": "sign/pkcs7-signature",
+                        "hash": "md5:00000000000000000000000000000000",
+                        "id": "832da0e2beae4231a700dc858436811a",
+                        "language": "uk",
+                        "title": "sign.p7s",
+                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5f83267d6cf04d448ecb9716d7f443a4?Signature=cGh7x8OB3OvO6L9ih0NhfNb0Mjt2AVdShA0B9xSpSwTTu%2BXN1TYNKvrEvElkcARZLCJrlMLuLPvXSE6QfeAbAA%3D%3D&KeyID=a8968c46"
+                    }
+                ],
                 "eligible": true,
                 "id": "23995d40cc7347569e6d5f2f47ece4e8",
                 "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
@@ -76,6 +91,21 @@
                     "startDate": "2023-11-09T00:00:00+02:00"
                 },
                 "date": "2023-11-09T00:00:00+02:00",
+                "documents": [
+                    {
+                        "author": "tender_owner",
+                        "dateModified": "2023-11-09T00:00:00+02:00",
+                        "datePublished": "2023-11-09T00:00:00+02:00",
+                        "documentOf": "tender",
+                        "documentType": "notice",
+                        "format": "sign/pkcs7-signature",
+                        "hash": "md5:00000000000000000000000000000000",
+                        "id": "5cb1a8b80d1943af8b83c83a8b4246cd",
+                        "language": "uk",
+                        "title": "sign.p7s",
+                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d19dd6757d8b43f3a47a607420cd232e?Signature=x3aWZS%2Fe61Uxeb3lDmlmDHzqunnVPMaUjvPZens1N4J0L5o7TXTwXZQD7sdHfAincMNEFbAgkfXdoSAt67F1Cw%3D%3D&KeyID=a8968c46"
+                    }
+                ],
                 "eligible": true,
                 "id": "99e6dcc3408d4794ae66c30ae2297ea7",
                 "lotID": "5b1a9504cc16400fa33f3d9e84606053",
@@ -126,7 +156,7 @@
                         "hash": "md5:00000000000000000000000000000000",
                         "id": "b341b0b88047496f9941c908c61b51e9",
                         "language": "uk",
-                        "title": "proposal.p7s",
+                        "title": "sign.p7s",
                         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bebf8577c87d49a99472444e2fc46ea7?Signature=VXKEzY1RhERMTq8fbs4cq6Uzwe3%2Bc8cpKXGYDpDf7B3WbI8WnUke%2Btn8jNTLRC1O%2FtSTzH7r%2FN1uF9rZqpbEDQ%3D%3D&KeyID=a8968c46"
                     }
                 ],
@@ -298,7 +328,7 @@
                         "hash": "md5:00000000000000000000000000000000",
                         "id": "5159b7a0b25f45ffa502c777e8c3d8e6",
                         "language": "uk",
-                        "title": "proposal.p7s",
+                        "title": "sign.p7s",
                         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a698fc2a68a64eebbbbf8dba0b4d77fa?Signature=lAQ18NyymFlpiBDp%2FMHECThfKcqXr2I%2BH7nvdv03Y2vZ8vqyadyA1If5teboRHoadw7%2FAsf9bPzyBCd6QA2GAw%3D%3D&KeyID=a8968c46"
                     }
                 ],
@@ -467,7 +497,7 @@
                 "awardID": "23995d40cc7347569e6d5f2f47ece4e8",
                 "contractID": "UA-2023-10-10-000001-a-1",
                 "date": "2023-11-09T00:00:00+02:00",
-                "id": "5f83267d6cf04d448ecb9716d7f443a4",
+                "id": "b2d66e6f23e84c339949ab31df6919ac",
                 "status": "active",
                 "value": {
                     "amount": 500.0,
@@ -480,7 +510,7 @@
                 "awardID": "99e6dcc3408d4794ae66c30ae2297ea7",
                 "contractID": "UA-2023-10-10-000001-a-2",
                 "date": "2023-11-09T00:00:00+02:00",
-                "id": "af1f946d1ab8441f9ec7d0324162df65",
+                "id": "43c1295aced44a0598afa2d686df8eed",
                 "status": "active",
                 "value": {
                     "amount": 500.0,
@@ -982,7 +1012,7 @@
                 "datePublished": "2023-10-10T01:00:00+03:00",
                 "documentOf": "tender",
                 "documentType": "notice",
-                "format": "application/pdf",
+                "format": "sign/pkcs7-signature",
                 "hash": "md5:00000000000000000000000000000000",
                 "id": "3acc8466be6b4b3782cc61ed3662ad09",
                 "language": "uk",

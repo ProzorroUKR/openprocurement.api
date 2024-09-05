@@ -24,6 +24,7 @@ def patch_tender_lot_award(self):
         response.json["errors"], [{"location": "body", "name": "awardStatus", "description": "Rogue field"}]
     )
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
         {"data": {"status": "unsuccessful"}},
@@ -49,6 +50,7 @@ def patch_tender_lot_award(self):
     self.assertIn(response.json["data"][-1]["id"], new_award_location)
     new_award = response.json["data"][-1]
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
         {"data": {"status": "active", "eligible": True}},

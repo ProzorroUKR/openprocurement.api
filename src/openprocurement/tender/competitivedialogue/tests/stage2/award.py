@@ -95,7 +95,7 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
-        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+        self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -155,7 +155,7 @@ class TenderStage2EU2LotAwardResourceTest(
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
-        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+        self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -217,7 +217,7 @@ class TenderStage2EUAwardComplaintResourceTest(
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
-        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+        self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -247,6 +247,7 @@ class TenderStage2EUAwardComplaintResourceTest(
         # Get award
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -282,7 +283,7 @@ class TenderStage2EULotAwardComplaintResourceTest(
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
-        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+        self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -328,11 +329,12 @@ class TenderStage2EULotAwardComplaintResourceTest(
             )
             award = response.json["data"]
             self.award_id = award["id"]
-            self.app.patch_json(
-                "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
-            )
-            self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+        self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
 
 
 class TenderStage2EU2LotAwardComplaintResourceTest(
@@ -365,6 +367,7 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
             )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -415,6 +418,7 @@ class TenderStage2EU2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialog
             )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -576,6 +580,7 @@ class BaseTenderUAAwardActiveTest(BaseTenderUAAwardPendingTest):
 
     def setUp(self):
         super().setUp()
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),

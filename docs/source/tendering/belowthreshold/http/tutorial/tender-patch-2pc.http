@@ -22,12 +22,12 @@ Content-Type: application/json
     "documents": [
       {
         "documentType": "notice",
-        "id": "b85e9d8646fb46a6a29b072326246694",
+        "id": "600813e236004188b19b8a305d5c5c88",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
-        "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/757dd278bae24bd89b207b4ed11a4496/documents/b85e9d8646fb46a6a29b072326246694?download=c59e57fe0ffb45e89407f43c6730048f",
+        "format": "sign/pkcs7-signature",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/757dd278bae24bd89b207b4ed11a4496/documents/600813e236004188b19b8a305d5c5c88?download=26adefb59da24e8c8c790a78abfaac34",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",

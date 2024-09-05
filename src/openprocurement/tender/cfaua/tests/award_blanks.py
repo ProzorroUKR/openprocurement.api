@@ -1166,11 +1166,14 @@ def create_tender_award_claim(self):
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     cancelled_award_id = response.json["data"]["id"]
 
+    self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     pending_awards_ids = [i["id"] for i in response.json["data"] if i["status"] == "pending"]
     unsuccessful_award_id = pending_awards_ids[-1]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{unsuccessful_award_id}/documents")
     self.app.patch_json(
-        "/tenders/{}/awards/{}".format(self.tender_id, unsuccessful_award_id), {"data": {"status": "unsuccessful"}}
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, unsuccessful_award_id, self.tender_token),
+        {"data": {"status": "unsuccessful"}},
     )
     self.app.authorization = auth
     bid_token = self.initial_bids_tokens[self.initial_bids[1]["id"]]
@@ -1198,6 +1201,7 @@ def create_tender_award_claim(self):
 
     self.app.authorization = auth
     for award_id in pending_awards_ids:
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
             {"data": {"status": "active"}},
@@ -1774,6 +1778,7 @@ def create_tender_award_complaint_not_active(self):
     awards_ids = [award["id"] for award in response.json["data"] if award["status"] == "pending"]
 
     for award_id in awards_ids:
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},

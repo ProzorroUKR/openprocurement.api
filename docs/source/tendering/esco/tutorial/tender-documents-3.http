@@ -10,12 +10,12 @@ Content-Type: application/json
   "data": [
     {
       "documentType": "notice",
-      "id": "68bc19ea62f541dd89ad605641cfdea1",
+      "id": "bb3899f434094e739a924b695382281b",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "sign.p7s",
-      "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ede7ba6152ad461283c7dee16284cc57?Signature=BnDGsra1uYQCYuRvkb42PRYFFZvPFzzOVblY19XyRxTXdneIE5O9sxhenOnH20z6KVYnZ7cXfg0whZZA8ZteCQ%3D%3D&KeyID=a8968c46",
+      "format": "sign/pkcs7-signature",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a6e049f5e0374f5696a9510023c89121?Signature=Hjio7vF%2BGVGCCijObvyrArrPe1v9cYLBnrXyFRX71onz9SZQP5d4ctjQckGtTsbWkSm8FKMsQ6WoIkFI8XiOCA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "dateModified": "2023-10-10T01:00:00+03:00",
       "author": "tender_owner",

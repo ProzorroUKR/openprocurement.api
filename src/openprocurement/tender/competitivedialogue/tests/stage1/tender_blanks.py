@@ -610,7 +610,7 @@ def multiple_bidders_tender_eu(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to next status
-    self.add_qualification_sign_doc(self.tender_id, tender_owner_token)
+    self.add_sign_doc(self.tender_id, tender_owner_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -708,7 +708,7 @@ def try_go_to_ready_stage_eu(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to next status
-    self.add_qualification_sign_doc(self.tender_id, tender_owner_token)
+    self.add_sign_doc(self.tender_id, tender_owner_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},

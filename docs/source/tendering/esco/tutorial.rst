@@ -424,6 +424,22 @@ See the `Bid.participationUrl` in the response. Similar, but different, URL can 
 Confirming qualification
 ------------------------
 
+Before making decision it is required to add sign document to award.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: tutorial/award-notice-document-required.http
+   :code:
+
+The same logic for `unsuccessful` status:
+
+.. http:example:: tutorial/award-unsuccessful-notice-document-required.http
+   :code:
+
+Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: tutorial/award-add-notice-document.http
+   :code:
+
 Qualification commission registers its decision via the following call:
 
 .. http:example:: tutorial/confirm-qualification.http

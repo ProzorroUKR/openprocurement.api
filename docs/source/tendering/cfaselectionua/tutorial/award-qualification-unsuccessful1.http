@@ -53,7 +53,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e
       }
     ],
     "bid_id": "5e3e02b6dd9849d98c48bf9d741a036e",
-    "lotID": "50fc7d0cb4e3423491c35387a046af42"
+    "lotID": "50fc7d0cb4e3423491c35387a046af42",
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "d8dfa460e311478aae20eb77e16ac776",
+        "datePublished": "2023-10-10T01:01:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a499d50a22e54269a4c49b72eeb1ec6b?Signature=ezIzVFjQ2XwLY0TlkY6KWB36dyNtPZacTbX2mUvU5pBiv%2Bx37I6gsMbRy7g%2BBCTI4MtHA4UvkM6OePIE3N8RCw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:01:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ]
   }
 }
 

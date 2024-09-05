@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # TenderAuctionResourceTest; TenderAuctionResourceDisabledAwardingOrder; TenderLotsAuctionDisabledAwardingOrderResourceTest; TenderSameValueAuctionResourceTest; TenderLotAuctionResourceTest; TenderMultipleLotAuctionResourceTest; TenderFeaturesAuctionResourceTest; TenderFeaturesMultilotAuctionResourceTest
     get_tender_auction_feature,
     get_tender_auction_not_found,
@@ -66,6 +69,9 @@ class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestM
     initial_lots = test_tender_below_lots
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
@@ -83,6 +89,9 @@ class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
         self.create_tender(config=config)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"

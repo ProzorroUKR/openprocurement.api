@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_award_document_bot,
     create_tender_award_complaint_document,
@@ -56,6 +59,9 @@ from openprocurement.tender.openua.tests.award_blanks import (
 )
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaua_bids
@@ -86,6 +92,9 @@ class TenderAwardBidsOverMaxAwardsResourceTest(TenderAwardResourceTest):
     min_bids_number = MIN_BIDS_NUMBER * 2
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderLotAwardResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaua_bids
@@ -121,6 +130,7 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -171,6 +181,7 @@ class TenderAwardComplaintExtendedResourceTest(BaseTenderContentWebTest):
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},

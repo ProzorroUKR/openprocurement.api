@@ -116,7 +116,7 @@
                         "hash": "md5:00000000000000000000000000000000",
                         "id": "b341b0b88047496f9941c908c61b51e9",
                         "language": "uk",
-                        "title": "proposal.p7s",
+                        "title": "sign.p7s",
                         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b72c7fbb8e6043eaa6d7b501f85ec3b6?Signature=Tn4%2BwImLNUGRUPV%2F49SgAjzL4IvHMckrxXtlaH0qlOJ8pTJtrEThyTeE%2BRufCmeO0PKHlYHLE%2Fns9PSzlL4cCg%3D%3D&KeyID=a8968c46"
                     }
                 ],
@@ -287,7 +287,7 @@
                         "hash": "md5:00000000000000000000000000000000",
                         "id": "5159b7a0b25f45ffa502c777e8c3d8e6",
                         "language": "uk",
-                        "title": "proposal.p7s",
+                        "title": "sign.p7s",
                         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/87879070e6fc47e98110621d6eed0956?Signature=gGFRPA0qMAT1zgWJyLHDwql6dd4O6gqd5qzjyCGWdNA8Nr3pCA8f5tTvi4SJXM05V%2BdA%2BAmayveqcurpXKlBCA%3D%3D&KeyID=a8968c46"
                     }
                 ],
@@ -938,7 +938,7 @@
                 "datePublished": "2023-10-10T01:00:00+03:00",
                 "documentOf": "tender",
                 "documentType": "notice",
-                "format": "application/pdf",
+                "format": "sign/pkcs7-signature",
                 "hash": "md5:00000000000000000000000000000000",
                 "id": "3acc8466be6b4b3782cc61ed3662ad09",
                 "language": "uk",

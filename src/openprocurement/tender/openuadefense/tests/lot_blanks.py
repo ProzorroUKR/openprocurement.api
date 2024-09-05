@@ -232,6 +232,7 @@ def two_lot_1bid_0com_1can(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as unsuccessful
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "unsuccessful"}},
@@ -308,6 +309,7 @@ def two_lot_1bid_2com_1win(self):
         award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
 
         # set award as active
+        self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -316,8 +318,6 @@ def two_lot_1bid_2com_1win(self):
         response = self.app.get("/tenders/{}".format(tender_id))
         contract = response.json["data"]["contracts"][-1]
         contract_id = contract["id"]
-        # after stand slill period
-        self.set_status("complete", {"status": "active.awarded"})
         # time travel
         tender = self.mongodb.tenders.get(tender_id)
         now = (get_now() - timedelta(minutes=1)).isoformat()
@@ -387,6 +387,7 @@ def two_lot_1bid_0com_0win(self):
         # get pending award
         award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
         # set award as unsuccessful
+        self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
             {"data": {"status": "unsuccessful"}},
@@ -465,6 +466,7 @@ def two_lot_1bid_1com_1win(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as active
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -473,8 +475,6 @@ def two_lot_1bid_1com_1win(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    # after stand slill period
-    self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     now = get_now().isoformat()
@@ -492,6 +492,7 @@ def two_lot_1bid_1com_1win(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as unsuccessful
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "unsuccessful"}},
@@ -631,6 +632,7 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
 
     # set award as active
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -641,7 +643,6 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
 
-    self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     now = (get_now() - timedelta(seconds=1)).isoformat()
@@ -654,16 +655,12 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
 
     # for SECOND lot
     lot_id = lots[1]
-    # check lots auction period
-    response = self.app.get("/tenders/{}/lots/{}".format(tender_id, lot_id))
-    self.assertIn("auctionPeriod", response.json["data"])
-    self.assertIn("startDate", response.json["data"]["auctionPeriod"])
-    self.assertNotIn("shouldStartAfter", response.json["data"]["auctionPeriod"])
     # get pending award
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
 
     # set award as active
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},

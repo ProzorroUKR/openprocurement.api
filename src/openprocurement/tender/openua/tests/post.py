@@ -401,6 +401,7 @@ class TenderAwardComplaintPostResourceTest(
 
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
 
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.patch_json(

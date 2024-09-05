@@ -34,6 +34,7 @@ def create_review_request(self):
         award_id = response.json["data"]["id"]
         self.assertEqual(response.status, "201 Created")
 
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},
@@ -365,6 +366,8 @@ def activate_contract_with_without_approve(self):
     award_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
 
+    self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
         {"data": {"status": "active"}},
@@ -687,6 +690,8 @@ def review_request_for_multilot(self):
     award_1_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
 
+    self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_1_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_1_id}?acc_token={self.tender_token}",
         {"data": {"status": "active"}},
@@ -735,6 +740,8 @@ def review_request_for_multilot(self):
     award_2_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
 
+    self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_2_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_2_id}?acc_token={self.tender_token}",
         {"data": {"status": "active"}},
@@ -865,6 +872,8 @@ def review_request_multilot_unsuccessful(self):
     award_2_id = response.json["data"]["id"]
     self.assertEqual(response.status, "201 Created")
 
+    self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_1_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_1_id}?acc_token={self.tender_token}",
         {"data": {"status": "unsuccessful"}},
@@ -873,6 +882,7 @@ def review_request_multilot_unsuccessful(self):
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     new_award_id = response.headers["Location"].rsplit("/", 1)[-1]
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
         {"data": {"status": "unsuccessful"}},
@@ -880,6 +890,7 @@ def review_request_multilot_unsuccessful(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_2_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_2_id}?acc_token={self.tender_token}",
         {"data": {"status": "unsuccessful"}},
@@ -888,6 +899,7 @@ def review_request_multilot_unsuccessful(self):
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     new_award_id = response.headers["Location"].rsplit("/", 1)[-1]
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
         {"data": {"status": "unsuccessful"}},

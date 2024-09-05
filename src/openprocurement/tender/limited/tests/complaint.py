@@ -48,6 +48,7 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
         award = response.json["data"]
         self.award_id = award["id"]
 
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},
@@ -85,6 +86,7 @@ class TenderNegotiationCancellationComplaintObjectionResourceTest(
         award = response.json["data"]
         self.award_id = award["id"]
 
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active"}},

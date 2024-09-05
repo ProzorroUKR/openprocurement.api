@@ -609,9 +609,16 @@ def post_tender_lot_auction_document(self):
     )
     self.assertEqual(response.status, "200 OK")
 
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.get(
+        "/tenders/{}/awards".format(self.tender_id),
+    )
+    award_id = response.json["data"][0]["id"]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+
     self.set_status("complete")
     response = self.app.post_json(
-        "/tenders/{}/documents".format(self.tender_id),
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "title": "name.doc",

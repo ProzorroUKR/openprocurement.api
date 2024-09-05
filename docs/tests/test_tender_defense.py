@@ -302,7 +302,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
 
         #### Bid confirmation
 
-        self.add_proposal_doc(self.tender_id, bid1_id, bids_access[bid1_id])
+        self.add_sign_doc(
+            self.tender_id,
+            bids_access[bid1_id],
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+        )
         with open(TARGET_DIR + 'bidder-activate-after-changing-tender.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
@@ -364,6 +369,21 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
+        with open(TARGET_DIR + 'award-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful"}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'award-add-notice-document.http', 'w') as self.app.file_obj:
+            self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
 
         with open(TARGET_DIR + 'confirm-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json(
@@ -508,6 +528,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
             )
 
         # award1: pending -> unsuccessful (http award no complaint period)
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         with open(TARGET_DIR + 'new-complaints-patch-award-unsuccessful.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -516,6 +537,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
 
         # award2.1: pending -> active (http award with complaint period 1)
         new_award_id = response.headers["Location"].rsplit("/", 1)[-1]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
         with open(TARGET_DIR + 'new-complaints-patch-award-active.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award_id, self.tender_token),
@@ -537,6 +559,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
         new_award_id = response.headers["Location"].rsplit("/", 1)[-1]
 
         # award2.2: pending -> unsuccessful (http award no complaint period)
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
         with open(TARGET_DIR + 'new-complaints-patch-award-unsuccessful-2.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award_id, self.tender_token),
@@ -547,6 +570,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
         self.tick(delta=timedelta(days=1))
 
         # award3: pending -> active (http award with complaint period 2)
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
         with open(TARGET_DIR + 'new-complaints-patch-award-active-2.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award_id, self.tender_token),

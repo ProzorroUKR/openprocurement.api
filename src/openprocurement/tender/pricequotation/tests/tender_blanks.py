@@ -713,7 +713,7 @@ def create_tender_draft(self):
             }
         ],
     )
-    self.add_notice_doc(tender["id"], token)
+    self.add_sign_doc(tender["id"], token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {
@@ -1320,7 +1320,7 @@ def tender_owner_can_change_in_draft(self):
     self.assertEqual(tender["buyers"], lists["buyers"])
 
     self.assertEqual(tender["items"][0]["description"], lists["items"][0]["description"])
-    self.add_notice_doc(tender["id"], token)
+    self.add_sign_doc(tender["id"], token)
 
     # status
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender["id"], token), {"data": status}, status=422)
@@ -2055,7 +2055,7 @@ def patch_items_related_buyer_id(self):
         add_criteria(self, tender_id, tender_token)
 
     patch_request_path = "/tenders/{}?acc_token={}".format(tender_id, tender_token)
-    self.add_notice_doc(tender_id, tender_token)
+    self.add_sign_doc(tender_id, tender_token)
 
     response = self.app.patch_json(patch_request_path, {"data": {"status": self.primary_tender_status}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -2192,7 +2192,7 @@ def draft_activation_validations(self):
 
 def switch_draft_to_tendering_success(self):
     tender_prev = self.app.get(f"/tenders/{self.tender_id}?acc_token={self.tender_token}").json["data"]
-    self.add_notice_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
     with patch(
         "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
         Mock(return_value=test_tender_pq_short_profile),

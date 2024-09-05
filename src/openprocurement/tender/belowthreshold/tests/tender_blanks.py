@@ -142,7 +142,7 @@ def listing(self):
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
     add_criteria(self, tender_id, tender_token)
-    self.add_notice_doc(tender_id, tender_token)
+    self.add_sign_doc(tender_id, tender_token)
     self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={tender_token}", {"data": {"status": self.primary_tender_status}}
     )
@@ -1412,7 +1412,7 @@ def create_tender_draft(self):
     self.assertEqual(tender["status"], "draft")
 
     add_criteria(self, tender["id"], token)
-    self.add_notice_doc(tender["id"], token)
+    self.add_sign_doc(tender["id"], token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": self.primary_tender_status}}
     )
@@ -2665,7 +2665,7 @@ def guarantee(self):
                 {"data": test_exclusion_criteria + test_language_criteria + test_tender_guarantee_criteria},
                 status=201,
             )
-            self.add_notice_doc(tender["id"], token)
+            self.add_sign_doc(tender["id"], token)
 
             try:
                 self.app.patch_json(
@@ -3541,7 +3541,7 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
 
-    self.add_notice_doc(tender_id, tender_token)
+    self.add_sign_doc(tender_id, tender_token)
 
     response = self.app.patch_json(patch_request_path, {"data": {"status": self.primary_tender_status}})
     self.assertEqual(response.status, "200 OK")
@@ -3614,7 +3614,7 @@ def tender_with_guarantee_multilot(self):
         {"data": test_exclusion_criteria + test_language_criteria + tender_lot_guarantee_criteria},
         status=201,
     )
-    self.add_notice_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -3682,7 +3682,7 @@ def activate_bid_guarantee_multilot(self):
         },
         status=201,
     )
-    self.add_notice_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.tendering"}},
@@ -3936,7 +3936,7 @@ def tender_created_before_related_lot_is_required(self):
     self.tender_token = response.json["access"]["token"]
 
     # successfully patch tender without lot
-    self.add_notice_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.enquiries"}}, status=200
     )
@@ -3953,7 +3953,7 @@ def tender_created_after_related_lot_is_required(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
-    self.add_notice_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
 
     # forbid to patch tender without lot
     response = self.app.patch_json(
@@ -3977,7 +3977,7 @@ def tender_created_after_related_lot_is_required(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
-    self.add_notice_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
 
     # successfully patch tender with lot
     response = self.app.patch_json(

@@ -156,6 +156,9 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class TenderBidDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
     test_get_tender_bidder_document = snitch(get_tender_bidder_document)

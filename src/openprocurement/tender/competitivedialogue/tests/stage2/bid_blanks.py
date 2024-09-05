@@ -107,7 +107,7 @@ def delete_tender_bidder_eu(self):
 
     # switch to active.pre-qualification.stand-still
     self.app.authorization = ("Basic", ("broker", ""))
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -137,7 +137,8 @@ def delete_tender_bidder_eu(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
-    self.app.authorization = ("Basic", ("token", ""))
+    self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -254,7 +255,7 @@ def bids_invalidation_on_tender_change_eu(self):
 
     # switch to active.pre-qualification.stand-still
     self.app.authorization = ("Basic", ("broker", ""))
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -457,7 +458,7 @@ def create_tender_bidder_document_nopending_eu(self):
 
     # switch to active.pre-qualification.stand-still
     self.app.authorization = ("Basic", ("broker", ""))
-    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
         {"data": {"status": "active.pre-qualification.stand-still"}},

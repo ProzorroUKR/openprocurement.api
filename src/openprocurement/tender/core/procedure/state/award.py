@@ -1,6 +1,9 @@
 from datetime import timedelta
 
-from openprocurement.api.constants import QUALIFICATION_AFTER_COMPLAINT_FROM
+from openprocurement.api.constants import (
+    AWARD_NOTICE_DOC_REQUIRED_FROM,
+    QUALIFICATION_AFTER_COMPLAINT_FROM,
+)
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
@@ -9,12 +12,14 @@ from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.tender.core.procedure.validation import validate_doc_type_required
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class AwardStateMixing:
     contract_model = Contract
     award_stand_still_working_days: bool = True
+    sign_award_required: bool = True
 
     def validate_award_patch(self, before, after):
         tender = get_tender()
@@ -36,12 +41,16 @@ class AwardStateMixing:
         now = get_now().isoformat()
 
         if before == "pending" and after == "active":
+            if self.sign_award_required and tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
+                validate_doc_type_required(award.get("documents", []), document_of="tender")
             self.award_status_up_from_pending_to_active(award, tender)
 
         elif before == "active" and after == "cancelled":
             self.award_status_up_from_active_to_cancelled(award, tender)
 
         elif before == "pending" and after == "unsuccessful":
+            if self.sign_award_required and tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
+                validate_doc_type_required(award.get("documents", []), document_of="tender")
             self.award_status_up_from_pending_to_unsuccessful(award, tender)
 
         elif before == "unsuccessful" and after == "cancelled":

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.esco 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-25 13:30+0300\n"
+"POT-Creation-Date: 2024-08-27 14:14+0300\n"
 "PO-Revision-Date: 2018-09-12 11:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -394,7 +394,13 @@ msgid "See the `Bid.participationUrl` in the response. Similar, but different, U
 msgstr "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу можна отримати для інших учасників."
 
 msgid "Confirming qualification"
-msgstr "Кваліфікація пропозицій"
+msgstr "Підтвердження кваліфікації"
+
+msgid "Before making decision it is required to add sign document to award. If there is no sign document during activation, we will see an error:"
+msgstr "Перед прийняттям рішення по переможцю необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час активації буде помилка:"
+
+msgid "The same logic for `unsuccessful` status:"
+msgstr "Така сама логіка при відхилені аварду:"
 
 msgid "Qualification commission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення:"

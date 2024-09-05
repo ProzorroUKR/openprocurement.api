@@ -193,6 +193,7 @@ class TenderAwardComplaintResourceTest(
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -229,6 +230,7 @@ class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest, TenderLotAward
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -289,6 +291,8 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
         )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.app.authorization = ("Basic", ("broker", ""))
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -331,6 +335,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
             )
         award = response.json["data"]
         self.award_id = award["id"]
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},

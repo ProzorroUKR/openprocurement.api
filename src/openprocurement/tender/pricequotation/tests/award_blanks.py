@@ -188,6 +188,7 @@ def create_tender_award(self):
 
     award_request_path = "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token)
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(award_request_path, {"data": {"status": "active"}})
     self.assertEqual(response.status, "200 OK")
 
@@ -200,6 +201,7 @@ def create_tender_award(self):
     award_id = response.json["data"][-1]['id']
     award_request_path = f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}"
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(award_request_path, {"data": {"status": "unsuccessful"}})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -209,6 +211,7 @@ def create_tender_award(self):
     # get next bidder pending award
     award_id = response.json["data"][-1]['id']
     award_request_path = f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}"
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(award_request_path, {"data": {"status": "unsuccessful"}})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -254,6 +257,7 @@ def patch_tender_award(self):
     )
 
     token = self.initial_bids_tokens[0]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "unsuccessful"}},
@@ -302,6 +306,7 @@ def patch_tender_award(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
         {"data": {"status": "active"}},
@@ -338,6 +343,7 @@ def patch_tender_award(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["title"], "one")
 
+    self.add_sign_doc(self.tender_id, tender_token, docs_url=f"/awards/{gen_award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, gen_award_id, tender_token),
         {"data": {"status": "unsuccessful"}},
@@ -411,6 +417,7 @@ def move_award_contract_to_contracting(self):
     ]
     self.mongodb.tenders.save(tender_data)
 
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active"}},
@@ -551,6 +558,7 @@ def tender_award_transitions(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, tender_token),
         {"data": {"status": 'active'}},
@@ -584,6 +592,7 @@ def tender_award_transitions(self):
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, tender_token),
         {"data": {"status": 'unsuccessful'}},
@@ -615,6 +624,7 @@ def tender_award_transitions(self):
     award_id = tender['awards'][-1]['id']
 
     # activate second award
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, tender_token),
         {"data": {"status": 'active'}},
@@ -635,6 +645,7 @@ def tender_award_transitions(self):
     # first bidder became unsuccessful, the second one was cancelled and new pending award was generated
     tender = self.app.get("/tenders/{}".format(self.tender_id)).json['data']
     award_id = tender['awards'][-1]['id']
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, tender_token),
         {"data": {"status": 'unsuccessful'}},
@@ -669,6 +680,7 @@ def check_tender_award(self):
 
     # cancel award
     self.app.authorization = ("Basic", ("broker", ""))
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "unsuccessful"}},
@@ -702,6 +714,7 @@ def check_tender_award_cancellation(self):
     # get pending award
     award = [i for i in response.json["data"] if i["status"] == "pending"][0]
     award_id = award['id']
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, tender_token),
         {"data": {"status": "active"}},
@@ -734,6 +747,7 @@ def check_tender_award_cancellation(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json['status'], "error")
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
 
     for status in ('active', 'cancelled'):
         response = self.app.patch_json(
