@@ -1,0 +1,263 @@
+GET /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/bids/c938a8780db146beaba184a25937b356/sign?acc_token=bcba1aa2011b40feb8e6c3ae4bd4fc35 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
+      }
+    ],
+    "status": "pending",
+    "id": "c938a8780db146beaba184a25937b356",
+    "date": "2023-10-10T01:00:00+03:00",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "bafe97395da841668932cf800cf756af",
+        "status": "pending",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "proposal",
+        "id": "19c13f19dbbc404a8c566493c3238adc",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/783414d72ee7415fab328000b8fc6860?Signature=luZV1hzhm9xFwWB7xezmoVCmtpzsUMWHX%2FDD5axusoMLuualBd03sgMMWhCLPAiA7Mi1WTVF1%2B5HFRTRJagTCg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk"
+      }
+    ],
+    "selfQualified": true,
+    "submissionDate": "2023-10-10T01:00:00+03:00"
+  },
+  "context": {
+    "tender": {
+      "title_en": "Services in school canteens",
+      "date": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "dateCreated": "2023-10-10T01:00:00+03:00",
+      "tenderID": "UA-2023-10-10-000001-a",
+      "owner": "broker",
+      "title": "Послуги шкільних їдалень",
+      "mainProcurementCategory": "services",
+      "procurementMethod": "open",
+      "submissionMethod": "electronicAuction",
+      "value": {
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true,
+        "amount": 500.0
+      },
+      "minimalStep": {
+        "amount": 5.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
+      "lots": [
+        {
+          "title": "Лот №1",
+          "description": "Опис Лот №1",
+          "status": "active",
+          "id": "bafe97395da841668932cf800cf756af",
+          "date": "2023-10-10T01:00:00+03:00",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "minimalStep": {
+            "amount": 5.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
+      ],
+      "milestones": [
+        {
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "title": "signingTheContract",
+          "type": "financing",
+          "code": "prepayment",
+          "percentage": 45.55,
+          "duration": {
+            "days": 2,
+            "type": "banking"
+          },
+          "sequenceNumber": 1
+        },
+        {
+          "id": "f4f6f5a0e7034ee68dc319245a560b52",
+          "title": "deliveryOfGoods",
+          "type": "financing",
+          "code": "postpayment",
+          "percentage": 54.45,
+          "duration": {
+            "days": 900,
+            "type": "calendar"
+          },
+          "sequenceNumber": 2
+        }
+      ],
+      "procurementMethodType": "aboveThresholdEU",
+      "procuringEntity": {
+        "name": "ЗОСШ #10 м.Вінниці",
+        "address": {
+          "streetAddress": "вул. Стахурського. 22",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21027",
+          "countryName": "Україна"
+        },
+        "name_en": "School #10 of Vinnytsia",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "21725150",
+          "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+          "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+        },
+        "contactPoint": {
+          "name": "Куца Світлана Валентинівна",
+          "telephone": "+380432465302",
+          "url": "http://sch10.edu.vn.ua/",
+          "name_en": "Kutsa Svitlana V.",
+          "availableLanguage": "uk"
+        },
+        "kind": "general"
+      },
+      "status": "active.tendering",
+      "awardCriteria": "lowestCost",
+      "enquiryPeriod": {
+        "startDate": "2023-10-09T01:00:00+03:00",
+        "endDate": "2023-10-30T01:00:00+02:00",
+        "clarificationsUntil": "2023-11-03T00:00:00+02:00",
+        "invalidationDate": "2023-10-10T01:00:00+03:00"
+      },
+      "tenderPeriod": {
+        "startDate": "2023-10-09T01:00:00+03:00",
+        "endDate": "2023-11-09T01:00:00+02:00"
+      },
+      "items": [
+        {
+          "id": "555bf20c259e4bd79caba5d9d85d4d7b",
+          "description": "Послуги шкільних їдалень",
+          "unit": {
+            "name": "кілограм",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
+          "quantity": 1.0,
+          "classification": {
+            "description": "Test",
+            "scheme": "ДК021",
+            "id": "37810000-9"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "ДКПП",
+              "id": "17.21.1",
+              "description": "Послуги шкільних їдалень"
+            }
+          ],
+          "relatedLot": "bafe97395da841668932cf800cf756af",
+          "deliveryDate": {
+            "startDate": "2023-10-30T00:00:00+02:00",
+            "endDate": "2023-11-29T00:00:00+02:00"
+          },
+          "deliveryAddress": {
+            "streetAddress": "вул. Банкова 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "79000",
+            "countryName": "Україна"
+          },
+          "description_en": "Services in school canteens"
+        },
+        {
+          "id": "1ce1cd766ffc4843a26f4ea9b1f58638",
+          "description": "Послуги шкільних їдалень",
+          "unit": {
+            "name": "упаковка",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "PK"
+          },
+          "quantity": 1.0,
+          "classification": {
+            "description": "Test",
+            "scheme": "ДК021",
+            "id": "37810000-9"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "ДКПП",
+              "id": "17.21.1",
+              "description": "Послуги шкільних їдалень"
+            }
+          ],
+          "relatedLot": "bafe97395da841668932cf800cf756af",
+          "deliveryDate": {
+            "startDate": "2023-10-30T00:00:00+02:00",
+            "endDate": "2023-11-29T00:00:00+02:00"
+          },
+          "deliveryAddress": {
+            "streetAddress": "вул. Банкова 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "79000",
+            "countryName": "Україна"
+          },
+          "description_en": "Services in school canteens"
+        }
+      ],
+      "complaintPeriod": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-11-06T00:00:00+02:00"
+      },
+      "next_check": "2023-11-09T01:00:00+02:00",
+      "id": "4b4ed03227c24f43b34f74183e3e0ca2"
+    }
+  }
+}
+
