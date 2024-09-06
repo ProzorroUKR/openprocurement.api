@@ -63,7 +63,7 @@ Schema
 
     There are four possible types for `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`,
     `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`,
-    `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA` procedures set by procuring entity:
+    `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `priceQuotation`, `competitiveOrdering` procedures set by procuring entity:
 
      :`noDemand`:
        No need in procurement of goods, works and services.
@@ -78,7 +78,7 @@ Schema
        Cut down the expenses of procurement of goods, works and services.
 
 
-    There is one more possible type for `aboveThreshold`:
+    There is one more possible type for `aboveThreshold` and `competitiveOrdering`:
 
      :`noOffer`:
        Less than two bids were submitted.

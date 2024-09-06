@@ -108,8 +108,8 @@ msgstr "ID пов’язаного :ref:`lot`."
 msgid "reasonType"
 msgstr ""
 
-msgid "There are four possible types for `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA` procedures set by procuring entity:"
-msgstr "Існує чотири можливi причини скасування для процедур `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`:"
+msgid "There are four possible types for `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `priceQuotation`, `competitiveOrdering` procedures set by procuring entity:"
+msgstr "Існує чотири можливi причини скасування для процедур `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `priceQuotation`, `competitiveOrdering`:"
 
 msgid "`noDemand`"
 msgstr ""
@@ -135,8 +135,8 @@ msgstr ""
 msgid "Cut down the expenses of procurement of goods, works and services."
 msgstr "Скорочення видатків на здійснення закупівлі товарів, робіт і послуг."
 
-msgid "There is one more possible type for `aboveThreshold`:"
-msgstr "Ще одна можлива причина скасування для процедури `aboveThreshold`:"
+msgid "There is one more possible type for `aboveThreshold` and `competitiveOrdering`:"
+msgstr "Ще одна можлива причина скасування для процедур `aboveThreshold` і `competitiveOrdering`:"
 
 msgid "`noOffer`"
 msgstr ""
