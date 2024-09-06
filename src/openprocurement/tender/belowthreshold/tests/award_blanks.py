@@ -290,7 +290,7 @@ def get_tender_award_data_for_sign(self):
     award = response.json["data"]
     self.app.authorization = auth
 
-    response = self.app.get("/tenders/{}/awards/{}/sign".format(self.tender_id, award["id"]))
+    response = self.app.get("/tenders/{}/awards/{}?opt_context=true".format(self.tender_id, award["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(["data", "context"], list(response.json.keys()))

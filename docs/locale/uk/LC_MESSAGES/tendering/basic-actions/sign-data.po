@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-05 17:38+0300\n"
+"POT-Creation-Date: 2024-09-06 14:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -25,14 +25,23 @@ msgstr "Відображення інформації для підписів"
 msgid "In the context of creating e-protocols, there was a need to impose a signature not only an object (an award or bid), but to have many general fields from the tender in the signature for the correct display of information."
 msgstr "В розрізі задачі по створенню е-протоколів, з'явилась необходність накладати підпис не тільки на об'єкт, який підписується (авард або бід), а мати в підписі загальні поля з тендеру для коректного відображення інформації."
 
-msgid "For these purposes, it is agreed to proceed by creating separate endpoints for each necessary option (award, bid, cancellation, etc)."
-msgstr "Для цього було узгоджено йти шляхом створення окремих ендпоінтів під кожний необхідний варіант (award, bid, cancellation, і т.д.)."
+msgid "For these purposes, it is agreed to proceed by adding boolean query parameter `opt_context` for endpoints for each necessary option (award, bid, cancellation, etc)."
+msgstr "Для цього було узгоджено йти шляхом додаввання булевого query-параметру `opt_context` під кожний необхідний варіант (award, bid, cancellation, і т.д.)."
+
+msgid "Parameter `opt_fields` can have such options:"
+msgstr "Параметр `opt_context` може мати такі значення:"
+
+msgid "`true`, `1`, `True` - show additional context"
+msgstr "`true`, `1`, `True` - відображає додаткові поля"
+
+msgid "another values or missing parameter - don't show context"
+msgstr "інші значення або якщо не передати параметр - не відображає додаткові поля"
 
 msgid "Award"
 msgstr ""
 
-msgid "There is an endpoint for getting additional information for signing award:"
-msgstr "Отримати додаткову інформацію з тендера для підписання аварду можна за допомогою ендпоінта:"
+msgid "Use `opt_context=true` as parameter for getting additional information for signing award:"
+msgstr "Необхідно вказати параметр `opt_context=true` для того, щоб отримати додаткову інформацію з тендера для підписання аварда:"
 
 msgid "As we can see there is additional field `context`, which has information from `tender` inside."
 msgstr "Як ми можемо побачити, з'явилося додаткове поле `context`, в якому наявна інформація з тендеру."
@@ -40,8 +49,8 @@ msgstr "Як ми можемо побачити, з'явилося додатк�
 msgid "Bid"
 msgstr ""
 
-msgid "There is an endpoint for getting additional information for signing bid:"
-msgstr "Отримати додаткову інформацію з тендера для підписання пропозиції можна за допомогою ендпоінта:"
+msgid "Use `opt_context=true` as parameter for getting additional information for signing bid:"
+msgstr "Необхідно вказати параметр `opt_context=true` для того, щоб отримати  додаткову інформацію з тендера для підписання пропозиції:"
 
 msgid "If tender now in `active.tendering` status, only bidder can see this information. If someone else wants to see sign data for bid, he will see an error:"
 msgstr "Якщо тендер знаходиться в статусі `active.tendering`, тільки постачальник може бачити цю інформацію. Якщо хтось інший намагатиметься подивитися додаткову інформацію до пропозиції, він побачить помилку:"

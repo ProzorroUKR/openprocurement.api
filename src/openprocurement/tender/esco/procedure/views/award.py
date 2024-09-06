@@ -17,12 +17,16 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_award_with_accepted_complaint,
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
+from openprocurement.tender.core.utils import context_view
 from openprocurement.tender.esco.procedure.models.award import (
     Award,
     PatchAward,
     PostAward,
 )
 from openprocurement.tender.esco.procedure.serializers.award import AwardSerializer
+from openprocurement.tender.esco.procedure.serializers.tender import (
+    ESCOTenderSerializer,
+)
 from openprocurement.tender.esco.procedure.state.award import AwardState
 
 
@@ -65,3 +69,14 @@ class EUTenderAwardResource(TenderAwardResource):
     )
     def patch(self):
         return super().patch()
+
+    @json_view(
+        permission="view_tender",
+    )
+    @context_view(
+        objs={
+            "tender": ESCOTenderSerializer,
+        }
+    )
+    def get(self):
+        return super().get()

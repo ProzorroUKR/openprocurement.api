@@ -469,14 +469,16 @@ def get_tender_bid_data_for_sign(self):
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": {"status": "pending"}}
     )
 
-    response = self.app.get("/tenders/{}/bids/{}/sign".format(self.tender_id, bid["id"]), status=403)
+    response = self.app.get("/tenders/{}/bids/{}?opt_context=true".format(self.tender_id, bid["id"]), status=403)
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't view bid in current (active.tendering) tender status"
     )
 
-    response = self.app.get("/tenders/{}/bids/{}/sign?acc_token={}".format(self.tender_id, bid["id"], bid_token))
+    response = self.app.get(
+        "/tenders/{}/bids/{}?acc_token={}&opt_context=1".format(self.tender_id, bid["id"], bid_token)
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(["data", "context"], list(response.json.keys()))
@@ -487,7 +489,7 @@ def get_tender_bid_data_for_sign(self):
 
     self.set_status("active.qualification")
 
-    response = self.app.get("/tenders/{}/bids/{}/sign".format(self.tender_id, bid["id"]))
+    response = self.app.get("/tenders/{}/bids/{}?opt_context=True".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(["data", "context"], list(response.json.keys()))

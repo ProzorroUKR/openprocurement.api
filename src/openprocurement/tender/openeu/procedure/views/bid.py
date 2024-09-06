@@ -16,6 +16,9 @@ from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
+)
 from openprocurement.tender.core.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
@@ -25,6 +28,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_view_bids,
 )
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
+from openprocurement.tender.core.utils import context_view
 from openprocurement.tender.openeu.procedure.models.bid import Bid, PatchBid, PostBid
 
 LOGGER = getLogger(__name__)
@@ -55,6 +59,11 @@ class TenderBidResource(TenderBidResource):
                 item_name="bid",
             ),
         ),
+    )
+    @context_view(
+        objs={
+            "tender": TenderBaseSerializer,
+        }
     )
     def get(self):
         return super().get()

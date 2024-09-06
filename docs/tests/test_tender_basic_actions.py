@@ -1143,10 +1143,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # fetch sign data
         with open(TARGET_DIR + 'sign-data/sign-bid-data.http', 'w') as self.app.file_obj:
-            self.app.get(f"/tenders/{self.tender_id}/bids/{bid_id}/sign?acc_token={bid_token}")
+            self.app.get(f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}&opt_context=true")
 
         with open(TARGET_DIR + 'sign-data/sign-bid-data-forbidden.http', 'w') as self.app.file_obj:
-            self.app.get(f"/tenders/{self.tender_id}/bids/{bid_id}/sign", status=403)
+            self.app.get(f"/tenders/{self.tender_id}/bids/{bid_id}?opt_context=true", status=403)
 
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1211,7 +1211,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # fetch sign data
         with open(TARGET_DIR + 'sign-data/sign-award-data.http', 'w') as self.app.file_obj:
-            self.app.get(f"/tenders/{self.tender_id}/awards/{award_id}/sign")
+            self.app.get(f"/tenders/{self.tender_id}/awards/{award_id}?opt_context=true")
 
         # check complaints for unsuccessful award
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")

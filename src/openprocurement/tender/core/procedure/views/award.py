@@ -12,6 +12,9 @@ from openprocurement.tender.core.procedure.contracting import (
 )
 from openprocurement.tender.core.procedure.models.award import PostAward
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
+)
 from openprocurement.tender.core.procedure.state.award import AwardState
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
@@ -19,7 +22,10 @@ from openprocurement.tender.core.procedure.validation import (
     validate_create_award_only_for_active_lot,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
+from openprocurement.tender.core.utils import (
+    ProcurementMethodTypePredicate,
+    context_view,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -96,6 +102,11 @@ class TenderAwardResource(TenderBaseResource):
 
     @json_view(
         permission="view_tender",
+    )
+    @context_view(
+        objs={
+            "tender": TenderBaseSerializer,
+        }
     )
     def get(self):
         data = self.serializer_class(self.request.validated["award"]).data

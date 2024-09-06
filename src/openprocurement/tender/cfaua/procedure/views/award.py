@@ -8,6 +8,9 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.models.award import Award, PatchAward
+from openprocurement.tender.cfaua.procedure.serializers.tender import (
+    CFAUATenderSerializer,
+)
 from openprocurement.tender.cfaua.procedure.state.award import AwardState
 from openprocurement.tender.cfaua.procedure.validation import (
     validate_update_award_in_not_allowed_status,
@@ -19,6 +22,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_award_with_accepted_complaint,
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
+from openprocurement.tender.core.utils import context_view
 
 
 @resource(
@@ -47,3 +51,14 @@ class UATenderAwardResource(TenderAwardResource):
     )
     def patch(self):
         return super().patch()
+
+    @json_view(
+        permission="view_tender",
+    )
+    @context_view(
+        objs={
+            "tender": CFAUATenderSerializer,
+        }
+    )
+    def get(self):
+        return super().get()

@@ -15,6 +15,9 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.models.bid import Bid, PatchBid, PostBid
 from openprocurement.tender.cfaua.procedure.serializers.bid import BidSerializer
+from openprocurement.tender.cfaua.procedure.serializers.tender import (
+    CFAUATenderSerializer,
+)
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
@@ -25,6 +28,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_period,
     validate_update_deleted_bid,
 )
+from openprocurement.tender.core.utils import context_view
 from openprocurement.tender.openua.procedure.views.bid import TenderBidResource
 
 LOGGER = getLogger(__name__)
@@ -56,6 +60,11 @@ class TenderBidResource(TenderBidResource):
                 item_name="bid",
             ),
         ),
+    )
+    @context_view(
+        objs={
+            "tender": CFAUATenderSerializer,
+        }
     )
     def get(self):
         return super().get()

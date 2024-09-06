@@ -23,6 +23,9 @@ from openprocurement.tender.cfaselectionua.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_in_tendering,
     validate_bid_operation_not_in_tendering,
@@ -30,6 +33,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_deleted_bid,
 )
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
+from openprocurement.tender.core.utils import context_view
 
 LOGGER = getLogger(__name__)
 
@@ -60,6 +64,11 @@ class TenderBidResource(TenderBidResource):
                 item_name="bid",
             ),
         ),
+    )
+    @context_view(
+        objs={
+            "tender": TenderBaseSerializer,
+        }
     )
     def get(self):
         return super().get()
