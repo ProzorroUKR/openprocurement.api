@@ -1,4 +1,4 @@
-.. _developers_standards:
+.. _cdb_standards:
 
 
 Словники і стандарти

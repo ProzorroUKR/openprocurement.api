@@ -27,7 +27,7 @@ Contents:
    cluster
    acceleration
    constants
-   development/index
+   features/index
    developers/index
 
 

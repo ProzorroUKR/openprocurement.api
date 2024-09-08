@@ -1,7 +1,7 @@
 .. _development:
 
-New Features And Changes
-========================
+Розробки та зміни
+=================
 
 Contents:
 

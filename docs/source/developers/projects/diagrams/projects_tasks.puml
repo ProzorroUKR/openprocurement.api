@@ -1,0 +1,67 @@
+@startuml projects_tasks
+
+' ===== Settings =====
+
+skinparam linetype ortho
+skinparam nodesep 40
+skinparam ranksep 40
+skinparam padding 2
+skinparam defaultTextAlignment center
+
+' ===== Palette =====
+
+!define COLOR_PROJECT #D6E2E9
+!define COLOR_COMPONENT #99C1DE
+!define COLOR_DATABASE #FDE2E4
+
+' ===== Components =====
+
+rectangle "Проєкт\nTasks" as TasksProject COLOR_PROJECT {
+    rectangle "Crawlers" {
+        component "Crawler\n(Tenders)" as TendersCrawler COLOR_COMPONENT
+        component "Crawler\n(Contracts)" as ContractsCrawler COLOR_COMPONENT
+    }
+
+    rectangle "Workers" as Workers {
+        component "Worker\n(EDR)" as EDRWorker COLOR_COMPONENT
+        component "Worker\n(Fiscal)" as FiscalWorker COLOR_COMPONENT
+        component "Worker\n(NAZK)" as NAZKWorker COLOR_COMPONENT
+        component "Worker\n(Payments)" as PaymentsWorker COLOR_COMPONENT
+        component "Worker\n(Liqpay)" as LiqpayWorker COLOR_COMPONENT
+    }
+    
+    component "Liqpay API" as LiqpayAPI COLOR_COMPONENT
+    component "Integrations UI" as IntegrationsUI COLOR_COMPONENT
+}
+
+' ===== External Components =====
+
+rectangle "Storage" as Storage {
+    database "MongoDB" as MongoDB COLOR_DATABASE
+    database "RabbitMQ" as RabbitMQ COLOR_DATABASE
+}
+
+rectangle "Проєкт\nCDB\nAPI" as CDBProject COLOR_PROJECT
+
+' ===== Connections =====
+
+Crawlers -down-> CDBProject #Blue : read
+Workers -down-> CDBProject #Green : read\nwrite
+
+LiqpayAPI -down-> RabbitMQ #Salmon : publish
+Crawlers -down-> RabbitMQ #Salmon : publish
+Workers <-down- RabbitMQ #Purple : consume
+Workers -down-> MongoDB #Pink : store
+IntegrationsUI -down-> MongoDB #Turquoise : read
+
+' ===== Layout =====
+
+EDRWorker -[hidden]right-> FiscalWorker
+FiscalWorker -[hidden]right-> NAZKWorker
+NAZKWorker -[hidden]right-> PaymentsWorker
+PaymentsWorker -[hidden]right-> LiqpayWorker
+
+PaymentsWorker -[hidden]down-> Storage
+Crawlers -[hidden]down-> Workers
+
+@enduml
