@@ -1,0 +1,50 @@
+@startuml projects_auction
+
+' ===== Settings =====
+
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 90
+skinparam padding 2
+skinparam defaultTextAlignment center
+
+' ===== Palette =====
+
+!define COLOR_PROJECT #D6E2E9
+!define COLOR_COMPONENT #99C1DE
+!define COLOR_DATABASE #FDE2E4
+
+' ===== Components =====
+
+rectangle "Група проєктів Auction" as AuctionProjectGroup {
+    rectangle "Проєкт Auction" as AuctionProject COLOR_PROJECT {
+        component "Auction\nData\nBridge" as AuctionDatabridge COLOR_COMPONENT
+        component "Auction\nAPI" as AuctionAPI COLOR_COMPONENT
+        component "Auction\nChronograph" as AuctionChronograph COLOR_COMPONENT
+    }
+    database "MongoDB" as MongoDB COLOR_DATABASE
+    rectangle "Проєкт Auction Frontend" as AuctionFrontendProject COLOR_PROJECT {
+        component "Auction\nFrontend" as AuctionFrontend COLOR_COMPONENT
+    }
+}
+
+rectangle "Проєкт\nCDB\nAPI" as CDBProject COLOR_PROJECT
+
+' ===== Connections =====
+
+AuctionDatabridge -up-> MongoDB #Blue : read\nwrite
+AuctionChronograph -up-> MongoDB #Green : read\nwrite
+AuctionAPI -up-> MongoDB #Red : read\nwrite
+AuctionFrontend -up-> AuctionAPI #Orange : read\nwrite
+
+CDBProject <-up- AuctionDatabridge #DarkGreen : read\nwrite
+CDBProject <-up- AuctionChronograph #Teal : read\nwrite
+
+' ===== Layout =====
+
+CDBProject -[hidden]up- AuctionFrontend
+
+AuctionDatabridge -[hidden]right- AuctionChronograph
+AuctionChronograph -[hidden]right- AuctionAPI
+
+@enduml

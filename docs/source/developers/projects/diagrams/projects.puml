@@ -1,0 +1,81 @@
+@startuml projects
+
+' ===== Settings =====
+
+skinparam linetype ortho
+skinparam nodesep 20
+skinparam ranksep 40
+skinparam padding 2
+skinparam defaultTextAlignment center
+
+' ===== Palette =====
+
+!define COLOR_PROJECT #D6E2E9
+
+' ===== Components =====
+
+rectangle "Проєкти ЦБД" {
+    rectangle "Група суміжних проєктів ЦБД" as CDBSatelliteProjectsGroup {
+        rectangle "Проєкт\nChronograph" as ChronographProject COLOR_PROJECT
+        rectangle "Група проєктів\nBridges" as BridgesProjectGroup {
+            rectangle "Проєкт\nFA\nBridge" as BridgeFAProject COLOR_PROJECT
+            rectangle "Проєкт\nCD\nBridge" as BridgeCDProject COLOR_PROJECT
+            rectangle "Проєкт\nPQ\nBridge" as BridgePQProject COLOR_PROJECT
+        }
+        rectangle "Проєкт\nTasks" as TasksProject COLOR_PROJECT
+        rectangle "Група проєктів\nAuction" as AuctionProjectGroup {
+            rectangle "Проєкт\nAuction" as AuctionProject COLOR_PROJECT
+            rectangle "Проєкт\nAuction\nFrontend" as AuctionFrontendProject COLOR_PROJECT
+        }
+    }
+
+    rectangle "Проєкт\nCDB\nAPI" as CDBProject COLOR_PROJECT
+
+    rectangle "Залежності ЦБД" as CDBDependencies {
+        rectangle "Проєкт\nDS\nAPI" as DSAPIProject COLOR_PROJECT
+        rectangle "Проєкт\nCatalog\nAPI" as CatalogAPIProject COLOR_PROJECT
+    }
+
+    rectangle "Споживачі ЦБД" as CDBConsumers {
+        rectangle "Проєкт\nAudit\nAPI" as AuditAPIProject COLOR_PROJECT
+        rectangle "Проєкт\nRisks" as RisksProject COLOR_PROJECT
+        rectangle "Проєкт\nBilling" as BillingProject COLOR_PROJECT
+    }
+}
+
+' ===== Connections =====
+
+AuctionFrontendProject -left-> AuctionProject #Blue : read
+
+CDBProject <-up- ChronographProject #Green : read\nwrite
+CDBProject <-up- BridgeFAProject #OrangeRed : read\nwrite
+CDBProject <-up- BridgeCDProject #Purple : read\nwrite
+CDBProject <-up- BridgePQProject #DeepPink : read\nwrite
+CDBProject <-up- TasksProject #Chocolate : read\nwrite
+
+CDBProject <-up- AuctionProject #Blue : read\nwrite
+
+CDBProject -down-> DSAPIProject #ForestGreen : read
+CDBProject -down-> CatalogAPIProject #RoyalBlue : read
+
+CDBProject <-down- AuditAPIProject #BlueViolet : read
+CDBProject <-down- RisksProject #DimGray : read
+CDBProject <-down- BillingProject #Red : read
+
+AuditAPIProject -left-> DSAPIProject #LightSeaGreen : read
+
+' ===== Layout =====
+
+ChronographProject -[hidden]right- BridgeFAProject
+BridgeFAProject -[hidden]right- BridgeCDProject
+BridgeCDProject -[hidden]right- BridgePQProject
+BridgePQProject -[hidden]right- TasksProject
+TasksProject -[hidden]right- AuctionProject
+
+CDBDependencies -[hidden]right- CDBConsumers
+CatalogAPIProject -[hidden]right- DSAPIProject
+DSAPIProject -[hidden]right- AuditAPIProject
+AuditAPIProject -[hidden]right- RisksProject
+RisksProject -[hidden]right- BillingProject
+
+@enduml
