@@ -30,15 +30,13 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
-	@echo "  html       to make standalone HTML files"
-	@echo "  gettext    to make PO message catalogs"
-	@echo "  changes    to make an overview of all changed/added/deprecated items"
-	@echo "  linkcheck  to check all external links for integrity"
-	@echo "  locale     to update specified language’s po files from pot, yo can set LANG, e.g. make locale LANG=uk"
-	@echo "  lang       to build specified language’s mo files, yo can set LANG, e.g. make lang LANG=uk"
-
-install:
-	pip install -r requirements.txt
+	@echo "  clean            to clean build files"
+	@echo "  html             to make standalone HTML files"
+	@echo "  gettext          to make PO message catalogs"
+	@echo "  changes          to make an overview of all changed/added/deprecated items"
+	@echo "  linkcheck        to check all external links for integrity"
+	@echo "  locale-update    to update specified language’s po files from pot, yo can set LANG, e.g. make locale-update LANG=uk"
+	@echo "  locale-build     to build specified language’s mo files, yo can set LANG, e.g. make locale-build LANG=uk"
 
 clean:
 	rm -rf $(BUILDDIR)/*
@@ -55,8 +53,8 @@ changes:
 linkcheck:
 	$(SPHINXBUILD) -b linkcheck $(ALLSPHINXOPTS) $(BUILDDIR)/linkcheck
 
-locale:
+locale-update:
 	$(SPHINXINTL) update -p $(BUILDDIR)/locale -l $(LANG) -w 0
 
-lang:
+locale-build:
 	$(SPHINXINTL) build -l $(LANG)

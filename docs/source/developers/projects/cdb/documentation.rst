@@ -70,13 +70,7 @@
 
 .. warning:: Наступні команди потрібно виконувати у папці ``docs``
 
-1. Встановіть необхідні пакети
-
-.. code-block:: bash
-
-   make install
-
-2. Згенеруйте документацію
+1. Згенеруйте документацію
 
 .. code-block:: bash
 
@@ -109,7 +103,7 @@
 
 .. code-block:: bash
 
-   make locale
+   make locale-update
 
 .. note:: Буде оновлено існуючі файли ``.po`` у папці ``locale/uk/LC_MESSAGES/`` новими/зміненими рядками з каталогу згенерованого у попередньому пункті.
 
@@ -119,7 +113,7 @@
 
 .. code-block:: bash
 
-   make lang
+   make locale-build
 
 .. note:: З файлів ``.po`` у папці ``locale/uk/LC_MESSAGES/`` будуть скомпільовані ``.mo`` файли
 
