@@ -70,7 +70,13 @@ class BaseTenderMilestone24HMixin:
                 response.json,
                 {
                     "status": "error",
-                    "errors": [{"location": "body", "name": "code", "description": ["Value must be one of ['24h']."]}],
+                    "errors": [
+                        {
+                            "location": "body",
+                            "name": "code",
+                            "description": ["Value must be one of ['24h', 'extensionPeriod']."],
+                        }
+                    ],
                 },
             )
         else:

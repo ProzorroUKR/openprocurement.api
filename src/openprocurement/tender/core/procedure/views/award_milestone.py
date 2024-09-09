@@ -3,8 +3,11 @@ from openprocurement.api.procedure.validation import (
     validate_item_owner,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.qualification_milestone import (
-    PostQualificationMilestone,
+from openprocurement.tender.core.procedure.models.award_milestone import (
+    PostAwardMilestone,
+)
+from openprocurement.tender.core.procedure.state.award_milestone import (
+    AwardMilestoneState,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_24h_milestone_released,
@@ -19,6 +22,7 @@ from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 class BaseAwardMilestoneResource(BaseMilestoneResource):
     context_name = "award"
+    state_class = AwardMilestoneState
 
     def __init__(self, request, context=None):
         super().__init__(request, context)  # resolve tender
@@ -31,7 +35,7 @@ class BaseAwardMilestoneResource(BaseMilestoneResource):
         validators=(
             validate_item_owner("tender"),
             validate_24h_milestone_released,
-            validate_input_data(PostQualificationMilestone),
+            validate_input_data(PostAwardMilestone),
         ),
     )
     def collection_post(self):

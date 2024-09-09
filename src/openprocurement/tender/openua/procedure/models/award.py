@@ -10,13 +10,10 @@ from openprocurement.tender.core.procedure.models.award import (
 from openprocurement.tender.core.procedure.models.award import (
     PostAward as BasePostAward,
 )
-from openprocurement.tender.core.procedure.models.milestone import (
-    QualificationMilestoneListMixin,
-)
 from openprocurement.tender.openua.procedure.models.item import Item
 
 
-class Award(QualificationMilestoneListMixin, BaseAward):
+class Award(BaseAward):
     complaints = BaseType()
     items = ListType(ModelType(Item, required=True))
     qualified = BooleanType(default=False)

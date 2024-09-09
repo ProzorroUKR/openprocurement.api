@@ -16,6 +16,9 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.models.qualification_milestone import (
+    QualificationMilestoneCodes,
+)
 from openprocurement.tender.core.procedure.validation import is_positive_float
 from openprocurement.tender.core.utils import (
     calculate_tender_date,
@@ -25,9 +28,13 @@ from openprocurement.tender.core.utils import (
 
 class QualificationMilestone(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    CODE_24_HOURS = "24h"
-    CODE_LOW_PRICE = "alp"
-    code = StringType(required=True, choices=[CODE_24_HOURS, CODE_LOW_PRICE])
+    code = StringType(
+        required=True,
+        choices=[
+            QualificationMilestoneCodes.CODE_24_HOURS.value,
+            QualificationMilestoneCodes.CODE_LOW_PRICE.value,
+        ],
+    )
     dueDate = IsoDateTimeType()
     description = StringType()
     date = IsoDateTimeType(default=get_now)
@@ -35,13 +42,13 @@ class QualificationMilestone(Model):
     @serializable(serialized_name="dueDate")
     def set_due_date(self):
         if not self.dueDate:
-            if self.code == self.CODE_24_HOURS:
+            if self.code == QualificationMilestoneCodes.CODE_24_HOURS.value:
                 self.dueDate = calculate_tender_date(
                     self.date,
                     timedelta(hours=24),
                     tender=get_tender(),
                 )
-            elif self.code == self.CODE_LOW_PRICE:
+            elif self.code == QualificationMilestoneCodes.CODE_LOW_PRICE.value:
                 self.dueDate = calculate_tender_full_date(
                     self.date,
                     timedelta(days=1),
@@ -60,7 +67,7 @@ class QualificationMilestoneListMixin(Model):
         because there is a way to post milestone to different zones (couchdb masters)
         and concord will merge them, that shouldn't be the case
         """
-        if milestones and len([m for m in milestones if m.code == QualificationMilestone.CODE_24_HOURS]) > 1:
+        if milestones and len([m for m in milestones if m.code == QualificationMilestoneCodes.CODE_24_HOURS]) > 1:
             raise ValidationError("There can be only one '24h' milestone")
 
 
