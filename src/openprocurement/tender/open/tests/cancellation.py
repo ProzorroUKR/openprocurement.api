@@ -63,7 +63,7 @@ class TenderCancellationComplaintResourceTestMixin:
 
 
 class TenderCancellationResourceNewReleaseTestMixin:
-    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut", "noOffer"]
 
     test_create_tender_cancellation_before_19_04_2020 = snitch(create_tender_cancellation_before_19_04_2020)
     test_patch_tender_cancellation_before_19_04_2020 = snitch(patch_tender_cancellation_before_19_04_2020)

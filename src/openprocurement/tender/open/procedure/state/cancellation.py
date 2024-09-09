@@ -8,6 +8,8 @@ from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 
 
 class OpenUACancellationStateMixing(CancellationStateMixing):
+    _after_release_reason_types = ["noDemand", "unFixable", "forceMajeure", "expensesCut", "noOffer"]
+
     def validate_cancellation_post(self, data):
         super().validate_cancellation_post(data)
         request, tender = get_request(), get_tender()
