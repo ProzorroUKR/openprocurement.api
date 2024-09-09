@@ -14,6 +14,7 @@ LOGGER = logging.getLogger(__name__)
 
 class AwardState(AwardStateMixing, CFASelectionTenderState):
     contract_model = Contract
+    generate_award_milestones = False
 
     def award_status_up(self, before, after, award):
         super().award_status_up(before, after, award)

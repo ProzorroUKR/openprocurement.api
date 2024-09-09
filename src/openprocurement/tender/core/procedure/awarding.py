@@ -1,3 +1,4 @@
+from datetime import timedelta
 from decimal import Decimal
 from logging import getLogger
 from typing import Optional
@@ -21,7 +22,10 @@ from openprocurement.tender.core.procedure.utils import (
     filter_features,
     tender_created_after_2020_rules,
 )
-from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
+from openprocurement.tender.core.utils import (
+    ProcurementMethodTypePredicate,
+    calculate_tender_full_date,
+)
 from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
@@ -355,6 +359,15 @@ class TenderStateAwardingMixing:
             "date": get_now(),
             "value": bid["value"],
             "suppliers": bid["tenderers"],
+            "period": {
+                "startDate": get_now().isoformat(),
+                "endDate": calculate_tender_full_date(
+                    get_now(),
+                    timedelta(days=5),
+                    tender=tender,
+                    working_days=True,
+                ).isoformat(),
+            },
         }
         if "weightedValue" in bid:
             award_data["weightedValue"] = bid["weightedValue"]

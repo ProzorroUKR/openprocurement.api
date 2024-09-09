@@ -20,10 +20,15 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_organization,
 )
+from openprocurement.tender.core.procedure.models.award_milestone import (
+    AwardMilestoneCodes,
+)
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.constants import STAND_STILL_TIME
 
 
@@ -4361,4 +4366,76 @@ def award_sign(self):
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
+    )
+
+
+def prolongation_award(self):
+    tender = self.app.get(f"/tenders/{self.tender_id}").json["data"]
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                }
+            },
+        )
+    award_id = response.json["data"]["id"]
+    period_start = dt_from_iso(response.json["data"]["period"]["startDate"])
+    period_end = calculate_tender_full_date(
+        period_start,
+        timedelta(days=5),
+        tender=tender,
+        working_days=True,
+    ).isoformat()
+    self.assertEqual(response.json["data"]["period"]["endDate"], period_end)
+
+    # add milestone
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award_id}/milestones?acc_token={self.tender_token}",
+        {"data": {"code": AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value, "description": "Prolongation"}},
+    )
+
+    # check prolongation
+    due_date = response.json["data"]["dueDate"]
+    response = self.app.get(
+        f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}',
+    )
+    period_start = dt_from_iso(response.json["data"]["period"]["startDate"])
+    new_period_end = calculate_tender_full_date(
+        period_start,
+        timedelta(days=20),
+        tender=tender,
+        working_days=True,
+    ).isoformat()
+    self.assertEqual(response.json["data"]["period"]["endDate"], new_period_end)
+    self.assertEqual(due_date, new_period_end)
+
+    # add document for prolongation
+    request_body = {
+        "data": {
+            "title": "sign.p7s",
+            "documentType": "extensionReport",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "sign/pkcs7-signature",
+        }
+    }
+    self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award_id}/documents?acc_token={self.tender_token}",
+        request_body,
+    )
+
+    # try to add one more time doc for prolongation
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award_id}/documents?acc_token={self.tender_token}",
+        request_body,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "extensionReport document in award should be only one",
     )

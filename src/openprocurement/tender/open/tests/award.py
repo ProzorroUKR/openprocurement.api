@@ -70,6 +70,7 @@ from openprocurement.tender.open.tests.award_blanks import (
     patch_tender_lots_award,
     patch_tender_lots_award_complaint,
     patch_tender_lots_award_complaint_document,
+    prolongation_award,
     put_tender_lots_award_complaint_document,
     review_tender_award_claim,
     review_tender_award_complaint,
@@ -132,6 +133,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_tender_award_complaint_period = snitch(tender_award_complaint_period)
     test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
     test_award_sign = snitch(award_sign)
+    test_prolongation_award = snitch(prolongation_award)
 
 
 class TenderAwardQualificationAfterComplaintMixin:

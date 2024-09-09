@@ -44,6 +44,7 @@ DOCUMENT_TYPES = (
     "evidence",
     "register",
     "proposal",
+    "extensionReport",
 )
 
 

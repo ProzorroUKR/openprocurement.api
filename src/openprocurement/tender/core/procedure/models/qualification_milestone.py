@@ -35,6 +35,7 @@ class PostQualificationMilestone(Model):
 
     @serializable
     def dueDate(self):
+        dt = get_now()
         if self.code == QualificationMilestoneCodes.CODE_24_HOURS.value:
             dt = calculate_tender_date(
                 get_now(),
@@ -48,8 +49,6 @@ class PostQualificationMilestone(Model):
                 tender=get_tender(),
                 working_days=True,
             )
-        else:
-            raise NotImplementedError(f"Unexpected code {self.code}")
         return dt.isoformat()
 
     @serializable

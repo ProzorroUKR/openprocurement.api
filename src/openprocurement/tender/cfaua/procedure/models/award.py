@@ -7,12 +7,9 @@ from openprocurement.tender.core.procedure.models.award import (
 from openprocurement.tender.core.procedure.models.award import (
     PostAward as BasePostAward,
 )
-from openprocurement.tender.core.procedure.models.milestone import (
-    QualificationMilestoneListMixin,
-)
 
 
-class Award(QualificationMilestoneListMixin, BaseAward):
+class Award(BaseAward):
     eligible = BooleanType()
 
 
