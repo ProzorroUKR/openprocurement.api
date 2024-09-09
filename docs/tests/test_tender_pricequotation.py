@@ -328,10 +328,25 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         award_id = award['id']
 
         # activate award
+
+        with open(TARGET_DIR + 'unsuccessful-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
+                {"data": {"status": "unsuccessful", "qualified": True}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'activate-non-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
+                {"data": {"status": "active", "qualified": False}},
+                status=422,
+            )
+
         with open(TARGET_DIR + 'award-active.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -358,7 +373,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + 'award-unsuccesful.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                {"data": {"status": "unsuccessful"}},
+                {"data": {"status": "unsuccessful", "qualified": False}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -374,7 +389,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + 'award-active-2.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.tender_token),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
             self.assertEqual(response.status, '200 OK')
 

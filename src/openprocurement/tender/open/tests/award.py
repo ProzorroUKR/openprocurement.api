@@ -15,7 +15,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
     patch_tender_lot_award_lots_none,
-    qualified_eligible_awards,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
@@ -73,6 +72,7 @@ from openprocurement.tender.open.tests.award_blanks import (
     patch_tender_lots_award_complaint_document,
     prolongation_award,
     put_tender_lots_award_complaint_document,
+    qualified_eligible_awards,
     review_tender_award_claim,
     review_tender_award_complaint,
     review_tender_award_stopping_complaint,

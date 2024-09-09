@@ -83,7 +83,7 @@ def patch_tender_contract(self):
     self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
 
     cancellation = deepcopy(test_tender_below_cancellation)
@@ -563,7 +563,7 @@ def patch_tender_negotiation_econtract(self):
     self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
 
     response = self.app.get(f"/tenders/{tender_id}/contracts")

@@ -64,7 +64,7 @@ def switch_to_unsuccessful_from_qualification_stand_still(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{awards[0]['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, awards[0]["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")

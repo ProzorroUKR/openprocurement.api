@@ -1678,7 +1678,7 @@ def proc_1lot_1bid(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # get contract id
     contract = get_contract_data(self, tender_id)
@@ -1811,7 +1811,7 @@ def proc_1lot_2bid(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # get contract id
     contract = get_contract_data(self, tender_id)
@@ -2058,7 +2058,7 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # after stand slill period
     self.set_status("complete", {"status": "active.awarded"})
@@ -2161,7 +2161,7 @@ def proc_2lot_1bid_0com_1can(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # after stand slill period
     self.set_status("complete", {"status": "active.awarded"})
@@ -2244,7 +2244,7 @@ def proc_2lot_1bid_2com_1win(self):
         self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
         )
         # get contract id
         contract = get_contract_data(self, tender_id)
@@ -2333,7 +2333,7 @@ def proc_2lot_1bid_0com_0win(self):
         self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-            {"data": {"status": "unsuccessful"}},
+            {"data": {"status": "unsuccessful", "qualified": False}},
         )
         # time travel
         tender = self.mongodb.tenders.get(tender_id)
@@ -2416,7 +2416,7 @@ def proc_2lot_1bid_1com_1win(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # get contract id
     contract = get_contract_data(self, tender_id)
@@ -2443,7 +2443,7 @@ def proc_2lot_1bid_1com_1win(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # after stand slill period
     self.set_status("complete", {"status": "active.awarded"})
@@ -2570,7 +2570,7 @@ def proc_2lot_2bid_2com_2win(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # get contract id
     contract = get_contract_data(self, tender_id)
@@ -2597,7 +2597,7 @@ def proc_2lot_2bid_2com_2win(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2608,7 +2608,7 @@ def proc_2lot_2bid_2com_2win(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # get contract id
     contract = get_contract_data(self, tender_id)
@@ -2722,7 +2722,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # get contract id
     contract = get_contract_data(self, tender_id)
@@ -2749,7 +2749,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # get contract id
     contract = get_contract_data(self, tender_id)

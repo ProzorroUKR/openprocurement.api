@@ -195,6 +195,24 @@ Let's see the list of all uploaded award documents:
 Award confirmation
 ------------------
 
+Qualification comission can set award to `active` or `unsuccessful` status.
+
+There are validations before registering qualification decision:
+
+* `qualified: True` - for setting award from `pending` to `active`
+
+* `qualified: False` - for setting award from `pending` to `unsuccessful`
+
+Let's try to set `unsuccessful` status for `qualified` award and we will see an error:
+
+.. http:example:: http/tutorial/unsuccessful-qualified-award.http
+   :code:
+
+Let's try to set `active` status for `non-qualified` award and we will see an error:
+
+.. http:example:: http/tutorial/activate-non-qualified-award.http
+   :code:
+
 For **reporting** procedure sign for award isn't required.
 
 Procuring entity can confirm awarding decision:

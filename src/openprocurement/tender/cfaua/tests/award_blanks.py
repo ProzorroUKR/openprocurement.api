@@ -349,7 +349,7 @@ def patch_tender_award_unsuccessful(self):
         # patch award to unsuccessful
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "unsuccessful"}},
+            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -623,7 +623,7 @@ def patch_tender_2lot_award(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1173,7 +1173,7 @@ def create_tender_award_claim(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{unsuccessful_award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, unsuccessful_award_id, self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     self.app.authorization = auth
     bid_token = self.initial_bids_tokens[self.initial_bids[1]["id"]]

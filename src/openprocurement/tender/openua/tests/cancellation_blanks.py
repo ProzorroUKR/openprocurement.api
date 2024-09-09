@@ -252,7 +252,7 @@ def cancellation_unsuccessful_award(self):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-            {"data": {"status": "unsuccessful"}},
+            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
         )
 
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
@@ -264,7 +264,7 @@ def cancellation_unsuccessful_award(self):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-            {"data": {"status": "unsuccessful"}},
+            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
         )
 
         if RELEASE_2020_04_19 < get_now():

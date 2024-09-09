@@ -2866,7 +2866,7 @@ def one_valid_bid_tender(self):
     # set award as active
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertNotEqual(response.json["data"]["date"], award_date)
 
@@ -2918,7 +2918,7 @@ def one_invalid_bid_tender(self):
     # set award as unsuccessful
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
@@ -2991,7 +2991,7 @@ def first_bid_tender(self):
     # set award as unsuccessful
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful", "qualified": True, "eligible": False}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -3032,7 +3032,7 @@ def first_bid_tender(self):
     # set award as active
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # get contract id
     contract = get_contract_data(self, tender_id)
@@ -3079,7 +3079,7 @@ def lost_contract_for_active_award(self):
     # set award as active
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # TBH, doesn't look like a case
     # lost contract

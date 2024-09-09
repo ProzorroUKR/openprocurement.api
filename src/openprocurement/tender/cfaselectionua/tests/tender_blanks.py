@@ -1964,7 +1964,7 @@ def one_valid_bid_tender(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertNotEqual(response.json["data"]["date"], award_date)
 
@@ -2029,7 +2029,7 @@ def one_invalid_bid_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "active")
@@ -2141,7 +2141,7 @@ def first_bid_tender(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -2221,7 +2221,7 @@ def lost_contract_for_active_award(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     # lost contract
     tender = self.mongodb.tenders.get(tender_id)

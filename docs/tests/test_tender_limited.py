@@ -221,7 +221,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         with open(TARGET_DIR + 'tutorial/tender-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
-                {'data': {'status': 'active', 'qualified': True, 'eligible': True}},
+                {'data': {'status': 'active', 'qualified': True}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -370,16 +370,30 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         #### Award confirmation
 
+        with open(TARGET_DIR + 'tutorial/unsuccessful-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
+                {"data": {"status": "unsuccessful", "qualified": True}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'tutorial/activate-non-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
+                {"data": {"status": "active", "qualified": False}},
+                status=422,
+            )
+
         with open(TARGET_DIR + 'tutorial/award-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
                 status=422,
             )
         with open(TARGET_DIR + 'tutorial/award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
-                {"data": {"status": "unsuccessful"}},
+                {"data": {"status": "unsuccessful", "qualified": False}},
                 status=422,
             )
         with open(TARGET_DIR + 'tutorial/award-add-notice-document.http', 'w') as self.app.file_obj:
@@ -388,7 +402,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         with open(TARGET_DIR + 'tutorial/tender-negotiation-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
-                {'data': {'status': 'active', 'qualified': True, 'eligible': True}},
+                {'data': {'status': 'active', 'qualified': True}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -432,7 +446,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         with open(TARGET_DIR + 'tutorial/tender-negotiation-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -585,7 +599,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -637,6 +651,6 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         with open(TARGET_DIR + 'tutorial/tender-negotiation-quick-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
             self.assertEqual(response.status, '200 OK')

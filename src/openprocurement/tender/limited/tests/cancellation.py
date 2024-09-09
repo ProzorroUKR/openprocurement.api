@@ -102,7 +102,7 @@ class TenderNegotiationCancellationResourceTest(
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
         )
         self.set_all_awards_complaint_period_end()
 
@@ -138,7 +138,7 @@ class TenderNegotiationQuickCancellationResourceTest(
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
         )
         self.set_all_awards_complaint_period_end()
 
@@ -193,7 +193,7 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
         )
         self.set_all_awards_complaint_period_end()
 
@@ -235,7 +235,7 @@ class TenderNegotiationCancellationComplaintResourceTest(
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
         )
         self.set_all_awards_complaint_period_end()
 

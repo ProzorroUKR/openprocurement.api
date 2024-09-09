@@ -107,15 +107,18 @@ Schema
 
         Id of related :ref:`lot`. Only if `tender.procurementMethodType` is `negotiation` or `negotiation.quick`.
 
-:eligible:
-    bool
-
-    Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents.
-
 :qualified:
     bool
 
     Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
+
+
+Additionally in :ref:`defense`, :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`open`, :ref:`openua` and :ref:`openeu`:
+
+:eligible:
+    bool
+
+    Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents.
 
 
 Additionally in :ref:`limited`:

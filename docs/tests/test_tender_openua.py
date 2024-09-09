@@ -506,6 +506,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
                 {
                     "data": {
                         "status": "unsuccessful",
+                        "qualified": False,
+                        "eligible": False,
                     }
                 },
                 status=403,
@@ -531,6 +533,20 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         tender = self.mongodb.tenders.get(self.tender_id)
         tender["awards"][0]["milestones"][0]["dueDate"] = (get_now() - timedelta(days=1)).isoformat()
         self.mongodb.tenders.save(tender)
+
+        with open(TARGET_DIR + 'unsuccessful-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'activate-non-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "active", "qualified": False, "eligible": True}},
+                status=422,
+            )
 
         with open(TARGET_DIR + 'award-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(

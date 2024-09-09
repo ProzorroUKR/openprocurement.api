@@ -816,7 +816,7 @@ def patch_tender(self):
     self.add_sign_doc(tender['id'], owner_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender["id"], award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
 
     response = self.app.get("/tenders/{}/contracts".format(tender["id"]))
@@ -1052,7 +1052,7 @@ def single_award_tender(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
 
     # get contract id
@@ -1098,7 +1098,7 @@ def single_award_tender(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
 
     # get contract id
@@ -1162,7 +1162,7 @@ def multiple_awards_tender(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award["id"], owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1201,7 +1201,7 @@ def multiple_awards_tender(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
 
     # get contract id
@@ -1306,7 +1306,7 @@ def tender_cancellation(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award["id"], owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1356,7 +1356,7 @@ def tender_cancellation(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award["id"], owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
 

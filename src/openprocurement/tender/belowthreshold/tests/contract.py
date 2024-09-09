@@ -120,7 +120,7 @@ class CreateActiveAwardMixin:
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
         )
 
         response = self.app.get(f"/tenders/{self.tender_id}")
@@ -174,7 +174,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
         )
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.contracts_ids = [i["id"] for i in response.json["data"].get("contracts", "")]
@@ -235,7 +235,7 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
         )
 
     test_patch_lot_tender_multi_contracts = snitch(patch_tender_multi_contracts)

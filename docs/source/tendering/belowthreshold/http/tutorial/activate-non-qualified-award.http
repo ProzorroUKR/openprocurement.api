@@ -6,8 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "status": "active",
-    "qualified": false,
-    "eligible": true
+    "qualified": false
   }
 }
 

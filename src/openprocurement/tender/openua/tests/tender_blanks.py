@@ -1202,12 +1202,12 @@ def first_bid_tender(self):
         with freeze_time((milestone_due_date + timedelta(minutes=10)).isoformat()):
             self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
-                {"data": {"status": "unsuccessful"}},
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
     else:
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
-            {"data": {"status": "unsuccessful"}},
+            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
         )
 
     # get awards

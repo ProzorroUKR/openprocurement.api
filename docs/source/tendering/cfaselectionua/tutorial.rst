@@ -268,6 +268,24 @@ The pending award can be retrieved via request to list all available awards:
 Confirming qualification
 ------------------------
 
+Qualification comission can set award to `active` or `unsuccessful` status.
+
+There are validations before registering qualification decision:
+
+* `qualified: True` - for setting award from `pending` to `active`
+
+* `qualified: False` - for setting award from `pending` to `unsuccessful`
+
+Let's try to set `unsuccessful` status for `qualified` award and we will see an error:
+
+.. http:example:: tutorial/unsuccessful-qualified-award.http
+   :code:
+
+Let's try to set `active` status for `non-qualified` award and we will see an error:
+
+.. http:example:: tutorial/activate-non-qualified-award.http
+   :code:
+
 Before making decision it is required to add sign document to award.
 If there is no sign document during activation, we will see an error:
 

@@ -6,8 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "status": "unsuccessful",
-    "qualified": true,
-    "eligible": true
+    "qualified": true
   }
 }
 
@@ -22,7 +21,7 @@ Content-Type: application/json
       "location": "body",
       "name": "qualified",
       "description": [
-        "Can't update award to unsuccessful status when qualified or eligible isn't set to False"
+        "Can't update award to unsuccessful status when qualified/eligible isn't set to False"
       ]
     }
   ]

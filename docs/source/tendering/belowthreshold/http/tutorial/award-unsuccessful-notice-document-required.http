@@ -18,8 +18,10 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "documents",
-      "description": "Document with type 'notice' and format pkcs7-signature is required"
+      "name": "qualified",
+      "description": [
+        "Can't update award to unsuccessful status when qualified/eligible isn't set to False"
+      ]
     }
   ]
 }

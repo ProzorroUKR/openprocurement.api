@@ -1,5 +1,7 @@
 from copy import deepcopy
 
+from webtest import AppError
+
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -217,9 +219,16 @@ def check_tender_award_complaint_period_dates(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    try:
+        self.app.patch_json(  # set eligible for procedures where it exists
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award['id'], self.tender_token),
+            {"data": {"eligible": False}},
+        )
+    except AppError:
+        pass
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -371,7 +380,7 @@ def create_tender_lot_award(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -447,7 +456,7 @@ def patch_tender_lot_award(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -473,7 +482,7 @@ def patch_tender_lot_award(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -505,7 +514,7 @@ def patch_tender_lot_award(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -539,7 +548,7 @@ def award_sign(self):
     # try to make unsuccessful award without sign
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -591,7 +600,7 @@ def award_sign(self):
     # try to make unsuccessful award after signing
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -608,7 +617,7 @@ def award_sign(self):
     # try to make active award without sign
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -653,7 +662,7 @@ def award_sign(self):
     # try to make active award after signing
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
 
 
@@ -682,7 +691,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -693,7 +702,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
         new_award_location[-81:] + "?acc_token={}".format(self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -730,7 +739,8 @@ def patch_tender_lot_award_unsuccessful(self):
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
-        "{}?acc_token={}".format(new_award_location[-81:], self.tender_token), {"data": {"status": "unsuccessful"}}
+        "{}?acc_token={}".format(new_award_location[-81:], self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -740,7 +750,8 @@ def patch_tender_lot_award_unsuccessful(self):
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
-        "{}?acc_token={}".format(new_award_location[-81:], self.tender_token), {"data": {"status": "unsuccessful"}}
+        "{}?acc_token={}".format(new_award_location[-81:], self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -848,7 +859,7 @@ def create_tender_lots_award(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -893,7 +904,7 @@ def patch_tender_lots_award(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -924,7 +935,7 @@ def patch_tender_lots_award(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -3139,9 +3150,16 @@ def create_award_document_bot(self):
     # set tender to active.awarded status
     self.app.authorization = broker_authorization
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
+    try:
+        self.app.patch_json(  # set eligible for procedures where it exists
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"eligible": True}},
+        )
+    except AppError:
+        pass
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
@@ -3498,9 +3516,16 @@ def check_tender_award(self):
     # cancel award
     self.app.authorization = ("Basic", ("broker", ""))
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+    try:
+        self.app.patch_json(  # set eligible for procedures where it exists
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+            {"data": {"eligible": False}},
+        )
+    except AppError:
+        pass
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -3525,7 +3550,7 @@ def check_tender_award(self):
     )
 
 
-def qualified_eligible_awards(self):
+def qualified_awards(self):
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
@@ -3542,7 +3567,7 @@ def qualified_eligible_awards(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "pending")
     award_id = response.json["data"]["id"]
-    # activate award without qualified and eligible
+    # activate award without qualified
     self.app.authorization = ("Basic", ("broker", ""))
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
@@ -3559,23 +3584,7 @@ def qualified_eligible_awards(self):
                 "name": "qualified",
                 "description": ["Can't update award to active status with not qualified"],
             },
-            {
-                "location": "body",
-                "name": "eligible",
-                "description": ["Can't update award to active status with not eligible"],
-            },
         ],
-    )
-
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active", "qualified": True}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        ["Can't update award to active status with not eligible"],
     )
 
     response = self.app.patch_json(
@@ -3584,26 +3593,23 @@ def qualified_eligible_awards(self):
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        ["Can't update award to active status with not qualified"],
-    )
+    self.assertEqual(response.json["errors"][0], {"location": "body", "name": "eligible", "description": "Rogue field"})
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active", "qualified": True, "eligible": False}},
+        {"data": {"status": "active", "qualified": False}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        ["Can't update award to active status with not eligible"],
+        ["Can't update award to active status with not qualified"],
     )
 
     # successful activation
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
 
     # cancel the winner
@@ -3618,19 +3624,32 @@ def qualified_eligible_awards(self):
     self.assertEqual(new_award["status"], "pending")
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
+    # try to set unsuccessful award with qualified True
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
-        {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}},
+        {"data": {"status": "unsuccessful", "qualified": True}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        ["Can't update award to unsuccessful status when qualified or eligible isn't set to False"],
+        ["Can't update award to unsuccessful status when qualified/eligible isn't set to False"],
+    )
+
+    # try to set unsuccessful award without qualified
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
+        {"data": {"status": "unsuccessful"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        ["Can't update award to unsuccessful status when qualified/eligible isn't set to False"],
     )
 
     # successful setting unsuccessful
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
-        {"data": {"status": "unsuccessful", "qualified": True, "eligible": False}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )

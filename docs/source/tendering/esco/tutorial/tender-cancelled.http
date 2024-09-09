@@ -1606,7 +1606,6 @@ Content-Type: application/json
           "endDate": "2023-10-18T00:00:00+03:00"
         },
         "qualified": true,
-        "eligible": true,
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -1641,6 +1640,7 @@ Content-Type: application/json
             "days": 74
           }
         },
+        "eligible": true,
         "complaintPeriod": {
           "startDate": "2023-10-10T01:02:01+03:00",
           "endDate": "2023-10-10T01:02:01+03:00"

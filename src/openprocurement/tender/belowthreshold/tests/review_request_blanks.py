@@ -37,7 +37,7 @@ def create_review_request(self):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
         )
         self.assertEqual(response.status, "200 OK")
         self.app.authorization = auth
@@ -370,7 +370,7 @@ def activate_contract_with_without_approve(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
     self.app.authorization = auth
@@ -694,7 +694,7 @@ def review_request_for_multilot(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_1_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_1_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -744,7 +744,7 @@ def review_request_for_multilot(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_2_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_2_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": {"status": "active", "qualified": True}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -876,7 +876,7 @@ def review_request_multilot_unsuccessful(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_1_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_1_id}?acc_token={self.tender_token}",
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
@@ -885,7 +885,7 @@ def review_request_multilot_unsuccessful(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
@@ -893,7 +893,7 @@ def review_request_multilot_unsuccessful(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_2_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_2_id}?acc_token={self.tender_token}",
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
@@ -902,7 +902,7 @@ def review_request_multilot_unsuccessful(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
