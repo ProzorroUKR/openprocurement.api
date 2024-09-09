@@ -18,10 +18,37 @@ Serializers
     class ChildObjectSerializer(BaseSerializer):
         serializers = {
             "description": lambda x: x if x else "No description",
+            "number": lambda x: x + 1,
         }
 
 
     class ObjectSerializer(BaseSerializer):
         serializers = {
+            "id": str,
+            "name": lambda x: x.upper(),
             "child": ChildObjectSerializer,
         }
+
+    # Використання серіалізаторів
+
+    data = {
+        "id": 1,
+        "name": "example",
+        "child": {
+            "description": "Child object",
+            "number": 1,
+        }
+    }
+
+    serialized_data = ObjectSerializer(data).serialize()
+
+    # Результат:
+    # {
+    #     "id": "1",
+    #     "name": "EXAMPLE",
+    #     "child": {
+    #         "description": "Child object",
+    #         "number": 2
+    #     }
+    # }
+
