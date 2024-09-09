@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-08 22:20+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "Структура даних запитів/відповідей АПІ"
+msgstr ""
+
+msgid "Користувачі АПІ"
+msgstr ""
+
+msgid "В екосистемі Прозорро основними користувачами апі є майданчики і портал, а також внутрішні сервіси ЦБД (як сервіс інтеграцій)."
+msgstr ""
+
+msgid "Через відкритість сервісу теоретично будь хто може читати дані, але це робить їх коистувачами, бо ніхто в їх інтересах не буде робити розробку/доробку."
+msgstr ""
+
+msgid "Принцип проектування структури даних АПІ"
+msgstr ""
+
+msgid "Повний перелік крітеріїв, які беруться до уваги, при виборі структури даних:"
+msgstr ""
+
+msgid "зручність роботи з нею розробників АПІ, майданчиків та порталу"
+msgstr ""
+
+msgid "В минулому команда багато часу витратили на розробку саме структур даних і це було помилкою, бо насправді майданчики реалізуть необхідну поведінку системи."
+msgstr ""
+
+msgid "Будь-які дебати щодо красивих чи логічної структури є тратою часу в найкращому випадку, а в гіршому ще й внесемо в систему :ref:`щось незручне<criteria_operation>`."
+msgstr ""
+

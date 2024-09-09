@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-08 22:20+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "Додаткові угоди (зміни) в EContract"
+msgstr ""
+
+msgid "Зміни в умови контрактів можуть бути внесені підписантами через подання і підписання додаткових угод. В системі використовується термінологія \"змін\" / \"changes\"."
+msgstr ""
+
+msgid "Передумови"
+msgstr ""
+
+msgid "Зміни можна вносити в підписані контракти:"
+msgstr ""
+
+msgid "Створення пропозиції змін / документу доп. угоди"
+msgstr ""
+
+msgid "Ініціатором внесення змін може бути обидва замовник і постачальник"
+msgstr ""
+
+msgid "Ініціатор заповнює три обов'язкових поля:"
+msgstr ""
+
+msgid "rationale"
+msgstr ""
+
+msgid "string, причина змін"
+msgstr ""
+
+msgid "rationaleTypes"
+msgstr ""
+
+msgid "list, типи причин"
+msgstr ""
+
+msgid "modifications"
+msgstr ""
+
+msgid "object, нові значення в електронних полях"
+msgstr ""
+
+msgid "`modifications` це структура, що відображає зміни в електроних поля, які буде внесено:"
+msgstr ""
+
+msgid "title"
+msgstr ""
+
+msgid "string, required"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "buyer"
+msgstr ""
+
+msgid ":ref:`EContractOrganization`"
+msgstr ""
+
+msgid "suppliers"
+msgstr ""
+
+msgid "List of :ref:`EContractOrganization` objects"
+msgstr ""
+
+msgid "items"
+msgstr ""
+
+msgid "List of :ref:`Item` objects"
+msgstr ""
+
+msgid "value"
+msgstr ""
+
+msgid ":ref:`ContractValue` object"
+msgstr ""
+
+msgid "Запит створення пропозиції змін:"
+msgstr ""
+
+msgid "Створення документу доп. угоди"
+msgstr ""
+
+msgid "Коли об'єкт зміни створено в системі ініціатор може створити документ доп. угоди і почати процес підписання. Спершу в систему завантажується сам документ угоди"
+msgstr ""
+
+msgid "Передати на підписання"
+msgstr ""
+
+msgid "Ініціатор угоди після завантаження, може підписати її першим або передати на підписання другому учаснику. Другий учасник угоди має бути проінформаваний майданчиком про підписану доп. угоду першим учасником або про факт передачі йому на підписання."
+msgstr ""
+
+msgid "Щоб передати зміни на підписання, робиться наступний запит до апі:"
+msgstr ""
+
+msgid "Підписання доп. угоди"
+msgstr ""
+
+msgid "Зміни може бути \"застосовано\" після підписання угоди усіма сторонами. Для підписання треба накласти ЕЦП на pdf доп. угоди та завантажити файл в АПІ:"
+msgstr ""
+
+msgid "Активація змін до контракта"
+msgstr ""
+
+msgid "Активація змін може бути автоматичною / вимагати явної дії від ініціатора / будь-якої сторони, в момент коли всі учасники наклали підписи:"
+msgstr ""
+
+msgid "Підписання додаткових угод не змінює електронні поля самого контракту. Тобто якщо, наприклад, термін контракту було змінено доп. угодою, то в `changes` буде актуальне значення, а в контракті - актуальне на момент підписання контракту."
+msgstr ""
+

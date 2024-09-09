@@ -288,22 +288,6 @@ Let's check the listing of `awards`:
 Setting Contract
 ----------------
 
-There are to modes of contracting depending on system configuration:
-
-Regular contracting
-~~~~~~~~~~~~~~~~~~~
-
-In regular contacting the contract will be created in tender system first.
-
-Read more about working with regular contracting in tendering system in :ref:`old_contracting_tutorial_registration` section.
-
-When the tender is completed (after contracts activation), contract (that has been created in the tender system) is transferred to the contract system **automatically**.
-
-Read more about working with regular contracting in contracting system in :ref:`old_contracting_tutorial` section.
-
-EContracting
-~~~~~~~~~~~~
-
 In EContracting the contract is created directly in contracting system.
 
 .. note::

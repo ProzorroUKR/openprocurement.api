@@ -76,6 +76,6 @@ Difference
 
 Differences for tender with `hasValueEstimation` set to `false` comparing to `true` are:
 
-* tenders have no `value:amount`, it's forbidden
+* tenders have no ``value:amount``, it's forbidden
 
-* lots have no `value:amount`, it's also forbidden
+* lots have no ``value:amount``, it's also forbidden

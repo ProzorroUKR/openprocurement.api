@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.esco 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-27 14:14+0300\n"
+"POT-Creation-Date: 2024-09-09 02:51+0300\n"
 "PO-Revision-Date: 2018-09-12 11:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -408,29 +408,12 @@ msgstr "Кваліфікаційна комісія реєструє своє р
 msgid "Setting Contract"
 msgstr "Налаштування угоди"
 
-msgid "There are to modes of contracting depending on system configuration:"
-msgstr "Є два режими контрактування в залежності від конфігурації системи:"
-
-msgid "Regular contracting"
-msgstr "Контрактінг"
-
-msgid "In regular contacting the contract will be created in tender system first."
-msgstr "В режимі звичайного контрактінгу угода буде створена спочатку в системі закупівель."
-
-msgid "Read more about working with regular contracting in tendering system in :ref:`old_contracting_tutorial_registration` section."
-msgstr "Більше дізнатись про роботу з контрактінгом в системі закупівель можна в розділі :ref:`old_contracting_tutorial_registration`."
-
-msgid "When the tender is completed (after contracts activation), contract (that has been created in the tender system) is transferred to the contract system **automatically**."
-msgstr "Коли закупівля завершена (після активації угод), угода (яка була створена в системі закупівель) **автоматично** переноситься до системи угод."
-
-msgid "Read more about working with regular contracting in contracting system in :ref:`old_contracting_tutorial` section."
-msgstr "Більше дізнатись про роботу з контрактінгом в системі угод можна в розділі :ref:`old_contracting_tutorial`."
-
-msgid "EContracting"
-msgstr "Е-Контрактінг"
-
 msgid "EContracting is unavailable for `esco` procedures."
 msgstr "Е-Контрактінгом недоступний для `esco` закупівель."
+
+#, fuzzy
+msgid "In regular contacting the contract will be created in tender system first. Contract must be activated in by changing status to `active`."
+msgstr "В режимі звичайного контрактінгу угода буде створена спочатку в системі закупівель."
 
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"

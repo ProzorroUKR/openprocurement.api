@@ -1,4 +1,4 @@
-.. _qualification_complain_duration:
+.. _frameworks_qualification_complain_duration:
 
 qualificationComplaintDuration
 ==============================
