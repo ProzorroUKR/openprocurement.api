@@ -7,7 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaua.procedure.models.award import Award
+from openprocurement.tender.cfaua.procedure.models.award import Award, PatchAward
 from openprocurement.tender.cfaua.procedure.serializers.tender import (
     CFAUATenderSerializer,
 )
@@ -15,7 +15,6 @@ from openprocurement.tender.cfaua.procedure.state.award import AwardState
 from openprocurement.tender.cfaua.procedure.validation import (
     validate_update_award_in_not_allowed_status,
 )
-from openprocurement.tender.core.procedure.models.award import PatchAward
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_update_award_only_for_active_lots,

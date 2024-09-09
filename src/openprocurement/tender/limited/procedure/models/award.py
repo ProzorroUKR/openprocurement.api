@@ -45,7 +45,6 @@ class PostBaseAward(Model):
 
 class PatchBaseAward(Model):
     qualified = BooleanType()
-    eligible = BooleanType()
     status = StringType(choices=["pending", "unsuccessful", "active", "cancelled"])
     title = StringType()
     title_en = StringType()
@@ -60,8 +59,7 @@ class PatchBaseAward(Model):
 
 class BaseAward(AwardMilestoneListMixin, Model):
     id = MD5Type(required=True)
-    qualified = BooleanType(default=False)
-    eligible = BooleanType(default=False)
+    qualified = BooleanType()
     status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
     date = IsoDateTimeType(required=True)
     value = ModelType(AwardValue, required=True)
@@ -84,14 +82,14 @@ class BaseAward(AwardMilestoneListMixin, Model):
     def validate_qualified(self, data, qualified):
         if data["status"] == "active" and not qualified:
             raise ValidationError("Can't update award to active status with not qualified")
-        if data["status"] == "unsuccessful" and (qualified and data.get("eligible", True)):
+        if data["status"] == "unsuccessful" and (
+            qualified is None
+            or (hasattr(self, "eligible") and data.get("eligible") is None)
+            or (qualified and (not hasattr(self, "eligible") or data["eligible"]))
+        ):
             raise ValidationError(
-                "Can't update award to unsuccessful status when qualified or eligible isn't set to False"
+                "Can't update award to unsuccessful status when qualified/eligible isn't set to False"
             )
-
-    def validate_eligible(self, data, eligible):
-        if data["status"] == "active" and not eligible:
-            raise ValidationError("Can't update award to active status with not eligible")
 
 
 # Negotiation
