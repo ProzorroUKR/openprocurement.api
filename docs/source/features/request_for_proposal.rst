@@ -5,7 +5,7 @@ requestForProposal
 
 Для розуміння структури компонентів коду системи з яких складається система і вимог до їх реалізації ознайомтесь з цим розілом документації:
 
-- :ref:`developers_structure`
+- :ref:`cdb_structure`
 
 План розробки та технічні вимоги до реалізації:
 -----------------------------------------------
@@ -25,7 +25,7 @@ requestForProposal
 1. Перенесення бізнес логіки модуля openprocurement.tender.belowthreshold (**belowThreshold**) в модуль openprocurement.tender.core
 
    1. Перенести логіку стейт класів з модуля openprocurement.tenders.belowthreshold в модуль openprocurement.tenders.core
-   2. Логіка має налаштовувтись атрибутами стейт класів (:ref:`приклад<developers_structure_state_classes>`)
+   2. Логіка має налаштовувтись атрибутами стейт класів (:ref:`приклад<cdb_state_classes>`)
    3. По замовчуванню за допомогою атрибутів стейт класів модуля openprocurement.tender.core перенесена логіка має бути вимкнена і не впливати на функціональність всіх модулів openprocurement.tender що наслідуються від  openprocurement.tender.core модуля
    4. Увімкнути перенесену логіку за допомогою перевизначення атрибутів стейт класів у модулі openprocurement.tender.core.belowthreshold
 

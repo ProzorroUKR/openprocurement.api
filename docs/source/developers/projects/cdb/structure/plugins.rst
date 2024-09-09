@@ -6,14 +6,14 @@ Plugins
    Текст
 
 Core approach
-------------
+-------------
 
 .. admonition:: TODO
 
    Текст
 
 Current structure
----------------
+-----------------
 
 .. admonition:: TODO
 

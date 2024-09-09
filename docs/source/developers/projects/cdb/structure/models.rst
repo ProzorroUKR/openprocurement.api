@@ -46,21 +46,21 @@ Post Model
    Текст
 
 Patch Model
-~~~~~~~~~~
+~~~~~~~~~~~
 
 .. admonition:: TODO
 
    Текст
 
 General Model
-~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 .. admonition:: TODO
 
    Текст
 
 Model validation level
----------------------
+----------------------
 
 .. admonition:: TODO
 
@@ -74,7 +74,7 @@ Allowed examples
    Текст
 
 Not allowed examples
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 .. admonition:: TODO
 

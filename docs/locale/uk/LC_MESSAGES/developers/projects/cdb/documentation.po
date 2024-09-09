@@ -1,0 +1,138 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-08 22:55+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Документація"
+msgstr ""
+
+msgid "Генерація та оновлення документації"
+msgstr ""
+
+msgid "Підготовка середовища"
+msgstr ""
+
+msgid "Створіть віртуальне середовище:"
+msgstr ""
+
+msgid "або"
+msgstr ""
+
+msgid "Активуйте віртуальне середовище:"
+msgstr ""
+
+msgid "Встановіть необхідні залежності:"
+msgstr ""
+
+msgid "4.Додайте \"mongo\" у /etc/hosts"
+msgstr ""
+
+msgid "Запустіть mongo за потреби:"
+msgstr ""
+
+msgid "Генерація прикладів запитів"
+msgstr ""
+
+msgid "Детальніше про тести для генерації прикладів запитів можна прочитати :ref:`тут <cdb_documentation_tests>`"
+msgstr ""
+
+msgid "Запустіть тести що генерують приклади запитів:"
+msgstr ""
+
+msgid "За потреби запустіть окремо певний тест:"
+msgstr ""
+
+msgid "Генерація документації"
+msgstr ""
+
+msgid "Наступні команди потрібно виконувати у папці ``docs``"
+msgstr ""
+
+msgid "Встановіть необхідні пакети"
+msgstr ""
+
+msgid "Згенеруйте документацію"
+msgstr ""
+
+msgid "Згенерована документація буде у папці ``build/html``"
+msgstr ""
+
+msgid "Переклад документації"
+msgstr ""
+
+msgid "Для перекладу на українську мову - *uk* (2-літерний ISO код мови), потрібно виконати наступні кроки:"
+msgstr ""
+
+msgid "За потреби очистіть  попередні згенеровані каталоги рядків."
+msgstr ""
+
+msgid "Витягніть всі рядки, що підлягають перекладу, з документації."
+msgstr ""
+
+msgid "Будуть оновлені каталоги рядків ``.pot`` у папці ``build/locale/``"
+msgstr ""
+
+msgid "Оновіть переклад новими/зміненими рядками."
+msgstr ""
+
+msgid "Буде оновлено існуючі файли ``.po`` у папці ``locale/uk/LC_MESSAGES/`` новими/зміненими рядками з каталогу згенерованого у попередньому пункті."
+msgstr ""
+
+msgid "Оновіть змінені/відсутні рядки в ``.po`` файлах в папці ``locale/uk/LC_MESSAGES`` за допомогою вашого улюбленого редактора/poedit/transifex/pootle/тощо, щоб всі переклади були повними/оновленими."
+msgstr ""
+
+msgid "Для використання перекладу у генерації документації скомпілюйте переклад."
+msgstr ""
+
+msgid "З файлів ``.po`` у папці ``locale/uk/LC_MESSAGES/`` будуть скомпільовані ``.mo`` файли"
+msgstr ""
+
+msgid "Структура документації"
+msgstr ""
+
+msgid "TODO"
+msgstr ""
+
+msgid "Текст"
+msgstr ""
+
+msgid "Текст документації (reStructuredText/sphinx)"
+msgstr ""
+
+msgid "Тести для генерації прикладів запитів"
+msgstr ""
+
+msgid "Тести що знаходяться у папці ``docs/tests`` генерують приклади запитів виконуючи реальні запити до API. Згенеровані запити зберігаються у вигляді текстових ``.http`` файлів удиректоріях поруч з текстом документації в яких вони використовуються."
+msgstr ""
+
+msgid "Приклад використання ``.http`` файлу у ``.rst`` файлі документації:"
+msgstr ""
+
+msgid "Фіксування дати в тестах для генерації запитів"
+msgstr ""
+
+msgid "Перевірка згенерованих запитів на CI"
+msgstr ""
+
+msgid "Публікація документації (readthedocs)"
+msgstr ""
+
+#~ msgid "Запуск тестів що генерують приклади запитів"
+#~ msgstr ""
+

@@ -62,7 +62,7 @@ Permissions validators
    Текст
 
 Data model validators
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. admonition:: TODO
 
@@ -111,7 +111,7 @@ Post endpoints
    Текст
 
 Patch endpoints
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. admonition:: TODO
 

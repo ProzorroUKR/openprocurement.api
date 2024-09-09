@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-08 22:20+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "GitHub"
+msgstr ""
+
+msgid "Проєкти ЦБД"
+msgstr ""
+
+msgid "Проєкт ЦБД"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/openprocurement.api <https://github.com/ProzorroUKR/openprocurement.api>`_"
+msgstr ""
+
+msgid "TODO"
+msgstr ""
+
+msgid "Загальний опис"
+msgstr ""
+
+msgid "**Документація:**"
+msgstr ""
+
+msgid "Група суміжних проєктів ЦБД"
+msgstr ""
+
+msgid "Проєкт chronograph"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro_chronograph <https://github.com/ProzorroUKR/prozorro_chronograph>`_"
+msgstr ""
+
+msgid "Гпупа проєктів bridges"
+msgstr ""
+
+msgid "Проєкт bridge frameworkagreement"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro-bridge-frameworkagreement <https://github.com/ProzorroUKR/prozorro-bridge-frameworkagreement>`_"
+msgstr ""
+
+msgid "Проєкт bridge competitivedialogue"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro-bridge-competitivedialogue <https://github.com/ProzorroUKR/prozorro-bridge-competitivedialogue>`_"
+msgstr ""
+
+msgid "Проєкт bridge pricequotation"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro-bridge-pricequotation <https://github.com/ProzorroUKR/prozorro-bridge-pricequotation>`_"
+msgstr ""
+
+msgid "Проєкт tasks"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro_tasks <https://github.com/ProzorroUKR/prozorro_tasks>`_"
+msgstr ""
+
+msgid "Група проєктів Auction"
+msgstr ""
+
+msgid "Проєкт Auction"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro-auction <https://github.com/ProzorroUKR/prozorro-auction>`_"
+msgstr ""
+
+msgid "Проєкт Auction Frontend"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro-auction-frontend <https://github.com/ProzorroUKR/prozorro-auction-frontend>`_"
+msgstr ""
+
+msgid "Проєкт Catalog API (Prozorro Market)"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro-catalog <https://github.com/ProzorroUKR/prozorro-catalog>`_"
+msgstr ""
+
+msgid "Проєкт Audit API"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/openprocurement.audit.api <https://github.com/ProzorroUKR/openprocurement.audit.api>`_"
+msgstr ""
+
+msgid "Проєкт DS"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/openprocurement.documentservice <https://github.com/ProzorroUKR/openprocurement.documentservice>`_"
+msgstr ""
+
+msgid "Проєкт risks"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro-risks <https://github.com/ProzorroUKR/prozorro-risks>`_"
+msgstr ""
+
+msgid "Бібліотеки"
+msgstr ""
+
+msgid "Бібліотека Crawler"
+msgstr ""
+
+msgid "|github| `ProzorroUKR/prozorro_crawler <https://github.com/ProzorroUKR/prozorro_crawler>`_"
+msgstr ""
+

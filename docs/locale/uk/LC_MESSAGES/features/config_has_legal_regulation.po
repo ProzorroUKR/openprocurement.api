@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-08 22:20+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "hasLegalRegulation"
+msgstr ""
+
+msgid "Параметр, що визначає наявність або відсутність законодавчого регулювання при проведенні закупівлі"
+msgstr ""
+
+msgid "Можливі значення параметру: true/false, де"
+msgstr ""
+
+msgid "true - означає, наявність законодавчого регулювання при проведенні закупівлі"
+msgstr ""
+
+msgid "false - означає, відсутність законодавчого регулювання при проведенні закупівлі"
+msgstr ""
+
+msgid "Відсутність законодавчого регулювання при проведенні закупівлі може бути тільки у двох процедурах: competitiveOrdering та belowThreshold."
+msgstr ""
+
+msgid "Framework"
+msgstr ""
+
+msgid "У відборі (1 етап) замовник самостійно зазначає чи наявне законодавчое регулювання при проведенні закупівлі через конфіг:"
+msgstr ""
+
+msgid "На другому етапі створення закупівлі буде вимагати різні параметри закупівлі. (Хоче це все ще один procurementMethodType)"
+msgstr ""
+
+msgid "Вищевказані конфіги мають різні значення відповідно до конфігурації першого етапу."
+msgstr ""
+
+msgid "Можливі значення вказані тут: https://confluence.prozorro.org/pages/viewpage.action?pageId=147095941"
+msgstr ""
+
+msgid "Конфігурації можуть бути винесені в окремі файли в стандартах."
+msgstr ""
+
+msgid "Отут можна ознайомитись з запропонованими змінами до стандартів https://github.com/ProzorroUKR/standards/pull/226/files"
+msgstr ""
+
+msgid "Тут видно, що для процедури competitiveOrdering.json (це конфіги, що вказані у колонці \"Регулюється ЗУ\") наприклад minBidsNumber може бути максимум 1:"
+msgstr ""
+
+msgid "то в окремому файлі для процедури нерегулюємої ЗУ `competitiveOrdering.nonRegulated.json` будуть інші значення:"
+msgstr ""
+
+msgid "Але це все ще один \"procurementMethodType: competitiveOrdering\"."
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "Конфігурації для процедури з наявним законодавчим регулюванням вказані в `data_model/schema/TenderConfig/belowThreshold.json`"
+msgstr ""
+
+msgid "З відсутнім законодавчим регулюванням: `data_model/schema/TenderConfig/belowThreshold.nonRegulated.json`"
+msgstr ""
+
+msgid "Валідації при створенні процедури"
+msgstr ""
+
+msgid "При створенні закупівлі в якій вказаний `hasLegalRegulation: true`, але невірно вказані інші конфігурації, буде спрацьовувати валідації для значень, що вказані у колонці \"Регулюється ЗУ\":"
+msgstr ""
+
+msgid "При створенні закупівлі в якій вказаний `hasLegalRegulation: false`, але невірно вказані інші конфігурації, буде спрацьовувати валідації для значень, що вказані у колонці \"Не регулюється ЗУ\":"
+msgstr ""
+

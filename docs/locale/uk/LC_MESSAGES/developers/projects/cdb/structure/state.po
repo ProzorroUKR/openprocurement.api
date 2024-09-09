@@ -1,0 +1,39 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-08 22:20+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "State"
+msgstr ""
+
+msgid "Класи що визначають бізнес логіку проведеня тендерів/планів/контрактів  etc, фактично реалізуючи BPMN та sequence діаграми надані БА. StateClasses можуть управляти/визначати модель даних, необхідний для кожної дії, та серіалізатор відповіді (напр. повний або неповний)"
+msgstr ""
+
+msgid "Приклад:"
+msgstr ""
+
+msgid "При реалізації похідних стейт класів, наприклад для різних типів тендерів, класи що наслідуються не мають містити реалізації бізнес логіки а мають конфігурувати `core` класи (у випадках коли спеціфічна функціональність не реалізована за допомогою конфігурації об'єкта)"
+msgstr ""
+
+msgid "TODO"
+msgstr ""
+
+msgid "Текст"
+msgstr ""
+

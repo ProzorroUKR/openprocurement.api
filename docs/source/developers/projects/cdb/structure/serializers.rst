@@ -1,4 +1,4 @@
-.. _cdb_context:
+.. _cdb_serializers:
 
 Serializers
 ===========
