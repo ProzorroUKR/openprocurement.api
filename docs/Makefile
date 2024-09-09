@@ -34,8 +34,8 @@ help:
 	@echo "  gettext    to make PO message catalogs"
 	@echo "  changes    to make an overview of all changed/added/deprecated items"
 	@echo "  linkcheck  to check all external links for integrity"
-	@echo "  locale     to update specified language’s po files from pot, yo can set LANG, e.g. make update LANG=uk"
-	@echo "  lang       to build specified language’s mo files, yo can set LANG, e.g. make build LANG=uk"
+	@echo "  locale     to update specified language’s po files from pot, yo can set LANG, e.g. make locale LANG=uk"
+	@echo "  lang       to build specified language’s mo files, yo can set LANG, e.g. make lang LANG=uk"
 
 install:
 	pip install -r requirements.txt
