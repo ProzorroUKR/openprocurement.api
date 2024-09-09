@@ -8,6 +8,7 @@ from jsonschema.validators import validate
 
 from openprocurement.api.constants import (
     CPV_PREFIX_LENGTH_TO_NAME,
+    CRITERIA_CLASSIFICATION_UNIQ_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
@@ -241,6 +242,8 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
         self.validate_required_criteria(before, after)
+        if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
+            self._validate_criterion_uniq(after.get("criteria", []))
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
         self.validate_change_item_profile_or_category(after, before)

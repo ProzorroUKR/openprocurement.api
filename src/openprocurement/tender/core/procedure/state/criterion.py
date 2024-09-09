@@ -72,7 +72,7 @@ class CriterionStateMixin(BaseCriterionStateMixin):
 
     def validate_on_post(self, data: dict) -> None:
         self._validate_operation_criterion_in_tender_status()
-        self._validate_criterion_uniq(data)
+        self._validate_criterion_uniq(data, previous_criteria=self.request.validated["tender"]["criteria"])
 
     def validate_on_patch(self, before: dict, after: dict) -> None:
         self._validate_operation_criterion_in_tender_status()
@@ -84,43 +84,6 @@ class CriterionStateMixin(BaseCriterionStateMixin):
         criteria = self.request.validated["tender"]["criteria"]
         validate_object_id_uniq(criteria, obj_name="Criterion")
         validate_criteria_requirement_id_uniq(criteria)
-
-    def _validate_criterion_uniq(self, data) -> None:
-        criteria = self.request.validated["tender"]["criteria"]
-        new_criteria = {}
-
-        def check(new_criterion: dict) -> None:
-            class_id = new_criterion["classification"]["id"]
-            if class_id in new_criteria:
-                if new_criterion.get("relatesTo") in ("lot", "item"):
-                    if new_criterion["relatedItem"] in new_criteria[class_id].get("lots", []):
-                        raise_operation_error(self.request, "Criteria are not unique")
-                    elif not new_criteria[class_id].get("lots", []):
-                        new_criteria[class_id]["lots"] = [new_criterion["relatedItem"]]
-                    else:
-                        new_criteria[class_id]["lots"].append(new_criterion["relatedItem"])
-                elif not new_criteria[class_id].get("tenderer", False):
-                    new_criteria[class_id] = {"tenderer": True}
-                else:
-                    raise_operation_error(self.request, "Criteria are not unique")
-            elif new_criterion.get("relatesTo") in ("lot", "item"):
-                new_criteria[class_id] = {"lots": [new_criterion["relatedItem"]]}
-            else:
-                new_criteria[class_id] = {"tenderer": True}
-
-            for existed_criterion in criteria:
-                if (
-                    new_criterion.get("relatesTo") == existed_criterion["relatesTo"]
-                    and new_criterion.get("relatedItem") == existed_criterion.get("relatedItem")
-                    and new_criterion["classification"]["id"] == existed_criterion["classification"]["id"]
-                ):
-                    raise_operation_error(self.request, "Criteria are not unique")
-
-        if isinstance(data, list):
-            for new_criterion in data:
-                check(new_criterion)
-        else:
-            check(data)
 
     def _validate_criterion_uniq_patch(self, before: dict, after: dict) -> None:
         criteria = get_tender().get("criteria")
