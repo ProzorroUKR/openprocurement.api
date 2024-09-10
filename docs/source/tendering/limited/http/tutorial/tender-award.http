@@ -76,7 +76,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
       "valueAddedTaxIncluded": true
     },
     "id": "c41959de1f2c4c9086d1ee34dc990c11",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2023-10-10T01:00:00+03:00",
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-18T00:00:00+03:00"
+    }
   }
 }
 

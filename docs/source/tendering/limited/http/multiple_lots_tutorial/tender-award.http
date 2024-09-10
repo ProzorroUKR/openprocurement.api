@@ -78,7 +78,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/57baff7abc454a00
     ],
     "lotID": "ca54d1673c8445ac8a53f411406d170c",
     "id": "9c72d2e4aeb849e0857336f93f3d66e1",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2023-10-10T01:00:00+03:00",
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-18T00:00:00+03:00"
+    }
   }
 }
 

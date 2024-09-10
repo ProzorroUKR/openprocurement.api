@@ -62,6 +62,10 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-18T00:00:00+03:00"
+    },
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-13T00:00:00+03:00"

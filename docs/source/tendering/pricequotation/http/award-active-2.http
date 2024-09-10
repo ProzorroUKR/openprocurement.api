@@ -45,7 +45,11 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "bid_id": "70bec639abd44364ae412469587562fc"
+    "bid_id": "70bec639abd44364ae412469587562fc",
+    "period": {
+      "startDate": "2023-10-10T01:00:01+03:00",
+      "endDate": "2023-10-18T00:00:00+03:00"
+    }
   }
 }
 

@@ -32,6 +32,10 @@
                 "eligible": false,
                 "id": "23995d40cc7347569e6d5f2f47ece4e8",
                 "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
+                "period": {
+                    "endDate": "2023-11-16T00:00:00+02:00",
+                    "startDate": "2023-11-09T00:00:00+02:00"
+                },
                 "qualified": false,
                 "status": "pending",
                 "suppliers": [
@@ -70,6 +74,10 @@
                 "eligible": false,
                 "id": "99e6dcc3408d4794ae66c30ae2297ea7",
                 "lotID": "5b1a9504cc16400fa33f3d9e84606053",
+                "period": {
+                    "endDate": "2023-11-16T00:00:00+02:00",
+                    "startDate": "2023-11-09T00:00:00+02:00"
+                },
                 "qualified": false,
                 "status": "pending",
                 "suppliers": [
