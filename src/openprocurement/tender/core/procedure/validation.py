@@ -51,9 +51,6 @@ from openprocurement.tender.core.constants import (
     AMOUNT_NET_COEF,
     FIRST_STAGE_PROCUREMENT_TYPES,
 )
-from openprocurement.tender.core.procedure.models.qualification_milestone import (
-    QualificationMilestoneCodes,
-)
 from openprocurement.tender.core.procedure.utils import (
     find_item_by_id,
     find_lot,
@@ -792,8 +789,8 @@ def validate_cancelled_qualification_update(request, **_):
 
 def validate_update_status_before_milestone_due_date(request, **_):
     # pylint: disable-next=import-outside-toplevel, cyclic-import
-    from openprocurement.tender.core.procedure.models.milestone import (
-        QualificationMilestone,
+    from openprocurement.tender.core.procedure.models.qualification_milestone import (
+        QualificationMilestoneCodes,
     )
 
     qualification = request.validated['qualification']
@@ -803,7 +800,10 @@ def validate_update_status_before_milestone_due_date(request, **_):
         for milestone in qualification.get('milestones', []):
             if (
                 milestone["code"]
-                in (QualificationMilestoneCodes.CODE_24_HOURS, QualificationMilestoneCodes.CODE_LOW_PRICE)
+                in (
+                    QualificationMilestoneCodes.CODE_24_HOURS.value,
+                    QualificationMilestoneCodes.CODE_LOW_PRICE.value,
+                )
                 and milestone["date"] <= now <= milestone["dueDate"]
             ):
                 raise_operation_error(

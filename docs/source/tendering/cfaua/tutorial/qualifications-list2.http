@@ -57,6 +57,10 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
+      "period": {
+        "startDate": "2023-10-10T01:02:01+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      },
       "qualified": true,
       "eligible": true
     },
@@ -110,6 +114,10 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
+      "period": {
+        "startDate": "2023-10-10T01:02:01+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      },
       "qualified": true,
       "eligible": true
     },
@@ -163,6 +171,10 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
+      "period": {
+        "startDate": "2023-10-10T01:02:01+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      },
       "qualified": true,
       "eligible": true
     },
@@ -199,7 +211,11 @@ Content-Type: application/json
         }
       ],
       "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d"
+      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "period": {
+        "startDate": "2023-10-10T01:02:01+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      }
     }
   ]
 }

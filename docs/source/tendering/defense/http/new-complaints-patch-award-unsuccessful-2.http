@@ -63,6 +63,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3e9fd6ac911442ae
         "language": "uk"
       }
     ],
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-18T00:00:00+03:00"
+    },
     "qualified": false,
     "eligible": false
   }

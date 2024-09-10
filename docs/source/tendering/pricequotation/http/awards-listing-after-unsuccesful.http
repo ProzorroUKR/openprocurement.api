@@ -39,7 +39,11 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc"
+      "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc",
+      "period": {
+        "startDate": "2023-10-10T01:00:01+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      }
     },
     {
       "id": "69bd3533e4064a1f8a04a127a95c89f2",
@@ -72,7 +76,11 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc"
+      "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc",
+      "period": {
+        "startDate": "2023-10-10T01:00:01+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      }
     },
     {
       "id": "a0574b5d194f47faab199c6792a521a5",
@@ -105,7 +113,11 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "70bec639abd44364ae412469587562fc"
+      "bid_id": "70bec639abd44364ae412469587562fc",
+      "period": {
+        "startDate": "2023-10-10T01:00:01+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      }
     }
   ]
 }
