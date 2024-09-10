@@ -32,7 +32,7 @@ Awarding prolongation (DRAFT)
 
 Об'єкт `period` що створюється разом зі створенням аварду і змінює дату dueDate при подовенні строків розгляду.
 
-продовження строків розгляду відбувається за допомогою створення майлстоуна `prolongation`.
+Продовження строків розгляду відбувається за допомогою створення майлстоуна `extensionPeriod`.
 
 Крок 1
 ~~~~~~
@@ -83,12 +83,12 @@ Awarding prolongation (DRAFT)
 
 .. code-block::
 
-    period.dueDate
+    period.endDate
 
 Крок 2
 ~~~~~~
 
-продовжимо розгляд шляхом додавання майлстоуна `prolongation`:
+продовжимо розгляд шляхом додавання майлстоуна `extensionPeriod`:
 
 .. sourcecode:: http
 
@@ -100,7 +100,7 @@ Awarding prolongation (DRAFT)
   Host: lb-api-sandbox.prozorro.gov.ua
 
   {
-    "code": "prolongation",
+    "code": "extensionPeriod",
     "description": "Обгрунтування продовження строків розгляду",
   }
 
@@ -110,7 +110,7 @@ Awarding prolongation (DRAFT)
   {
     "id": "ba7457aa4a66410e8873e3129658d62d",
     "date": "2024-01-01T17:30:00.000000+02:00",
-    "code": "prolongation",
+    "code": "extensionPeriod",
     "dueDate": "2024-01-26T18:39:21.579086+02:00",
     "description": "Обгрунтування продовження строків розгляду",
   }
@@ -154,7 +154,7 @@ Awarding prolongation (DRAFT)
   {
     "id": "f8e45a6ace18463792412fa5e01190c1",
     "title": "sign.p7s",
-    "documentType": "prolongationForm",
+    "documentType": "extensionReport",
     "url": "http://link_to_file"
   }
 
@@ -164,7 +164,7 @@ Awarding prolongation (DRAFT)
   {
     "id": "f8e45a6ace18463792412fa5e01190c1",
     "title": "sign.p7s",
-    "documentType": "prolongationForm",
+    "documentType": "extensionReport",
     "datePublished": "2024-01-04T17:30:00.000000+02:00",
     "url": "http://link_to_file"
   }
@@ -198,7 +198,7 @@ Awarding prolongation (DRAFT)
       {
         "id": "f8e45a6ace18463792412fa5e01190c1",
         "title": "sign.p7s",
-        "documentType": "prolongationForm",
+        "documentType": "extensionReport",
         "datePublished": "2024-01-04T17:30:00.000000+02:00",
         "url": "http://link_to_file"
       }
@@ -214,7 +214,7 @@ Awarding prolongation (DRAFT)
       {
         "id": "ba7457aa4a66410e8873e3129658d62d",
         "date": "2024-01-04T17:30:00.000000+02:00",
-        "code": "prolongation",
+        "code": "extensionPeriod",
         "dueDate": "2024-01-26T18:39:21.579086+02:00",
         "description": "Обгрунтування продовження строків розгляду",
       }
@@ -237,19 +237,19 @@ Awarding prolongation (DRAFT)
 
 .. code-block::
 
-    milestones[?(@.code=='prolongation')].dueDate
+    milestones[?(@.code=='extensionPeriod')].dueDate
 
 - обгрунтування продовження строків розгляду:
 
 .. code-block::
 
-    milestones[?(@.code=='prolongation')].description
+    milestones[?(@.code=='extensionPeriod')].description
 
 - дата продовження строків розгляду:
 
 .. code-block::
 
-    milestones[?(@.code=='prolongation')].date
+    milestones[?(@.code=='extensionPeriod')].date
 
 .. warning::
 
@@ -257,10 +257,10 @@ Awarding prolongation (DRAFT)
 
 .. code-block::
 
-    documents[?(@.documentType=='prolongationForm')].datePublished
+    documents[?(@.documentType=='extensionReport')].datePublished
 
 - файл підпису продовження строків розгляду:
 
 .. code-block::
 
-    documents[?(@.documentType=='prolongationForm')]
+    documents[?(@.documentType=='extensionReport')]
