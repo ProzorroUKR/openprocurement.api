@@ -2017,7 +2017,7 @@ def one_invalid_bid_tender(self):
     self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
         status=403,
     )
     self.assertEqual((response.status, response.content_type), ("403 Forbidden", "application/json"))
@@ -2047,7 +2047,7 @@ def one_invalid_bid_tender(self):
     self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 

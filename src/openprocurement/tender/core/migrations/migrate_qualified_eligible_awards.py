@@ -15,6 +15,14 @@ from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
+from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
+from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
+from openprocurement.tender.limited.constants import (
+    NEGOTIATION,
+    NEGOTIATION_QUICK,
+    REPORTING,
+)
+from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -38,6 +46,10 @@ def bulk_update(bulk, collection):
         return 0
 
 
+def tender_with_eligible_awards(pmt):
+    return pmt not in (BELOW_THRESHOLD, REPORTING, NEGOTIATION, NEGOTIATION_QUICK, CFA_SELECTION, PQ)
+
+
 def run(env, args):
     migration_name = os.path.basename(__file__).split(".")[0]
 
@@ -51,7 +63,7 @@ def run(env, args):
 
     cursor = collection.find(
         {"awards": {"$exists": 1}},
-        {"awards": 1, "revisions": 1},
+        {"awards": 1, "revisions": 1, "procurementMethodType": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
@@ -60,16 +72,19 @@ def run(env, args):
     bulk_max_size = 500
     try:
         for tender in cursor:
+            pmt = tender.get("procurementMethodType")
             for idx, award in enumerate(tender.get("awards", [])):
                 status = award.get("status")
                 if status == "cancelled":
                     status = get_previous_status(tender["revisions"], idx)
                 if status == "active":
                     award["qualified"] = True
-                    award["eligible"] = True
+                    if tender_with_eligible_awards(pmt):
+                        award["eligible"] = True
                 elif status == "unsuccessful":
                     award["qualified"] = False
-                    award["eligible"] = False
+                    if tender_with_eligible_awards(pmt):
+                        award["eligible"] = False
 
             bulk.append(UpdateOne({"_id": tender["_id"]}, {"$set": {"awards": tender["awards"]}}))
 

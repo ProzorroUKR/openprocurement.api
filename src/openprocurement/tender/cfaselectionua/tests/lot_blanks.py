@@ -2015,7 +2015,7 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     # set award as unsuccessful
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # after stand slill period
     self.set_status("active.awarded", start_end="end")
@@ -2117,7 +2117,7 @@ def proc_2lot_1bid_0com_1can(self):
     # set award as unsuccessful
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # after stand slill period
     self.set_status("active.awarded", start_end="end")
@@ -2298,7 +2298,7 @@ def proc_2lot_1bid_0com_0win(self):
         # set award as unsuccessful
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-            {"data": {"status": "unsuccessful"}},
+            {"data": {"status": "unsuccessful", "qualified": False}},
         )
         # after stand slill period
         self.set_status("active.awarded", start_end="end")
@@ -2414,7 +2414,7 @@ def proc_2lot_1bid_1com_1win(self):
     # set award as unsuccessful
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # after stand slill period
     self.set_status("active.awarded", start_end="end")
@@ -2573,7 +2573,7 @@ def proc_2lot_2bid_2com_2win(self):
     # set award as unsuccessful
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
