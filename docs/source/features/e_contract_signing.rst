@@ -74,6 +74,150 @@
 оскільки клієнт (замовник чи постачальник) може зареєструватися на їх платформі пізніше.
 
 
+
+
+Внесення в процедуру інформації необхідної для підписання контракта
+-------------------------------------------------------------------
+
+
+Замовник надає інформацію про підписанта
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Замовник має додати інформацію про підписанта, а саме:
+
+- ПІБ підписанта
+- Посада підписанта
+- Імейл підписанта
+- Телефон підписанта
+- Реквізити організації (ІБАН)
+
+
+Замовник передає інформацію про підписанта контракта щe :ref:`на етапі планування закупівлі <planning_tutorial>`.
+Це потрібно для того, щоб на момент визначення переможця вся необхідня для контракту інформація вже була в системі.
+
+Реалізовано буде через передачу :ref:`SignerInfo <SignerInfo>` в buyers ref:`об'єкт плану <plan>`.
+
+
+.. sourcecode:: http
+
+    POST /api/2.5/plans HTTP/1.0
+
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    HTTP/1.0 200 OK
+    Content-Type: application/json
+
+    {
+      "data": {
+        "procuringEntity": {
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "111983",
+            "legalName": "ДП Державне Управління Справами"
+          },
+          "name": "ДУС",
+          "address": {
+            "countryName": "Україна",
+            "postalCode": "01220",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова, 11, корпус 1"
+          },
+          "kind": "general"
+        },
+        "buyers": [
+          {
+            "name": "Школяр",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "signerInfo": {
+                "name": "Test Testovich",
+                "email": "example@email.com",
+                "telephone": "+380950000000",
+                "iban": "111111111111111",
+                "position": "Генеральний директор",
+                "authorizedBy": "Статут компанії"
+            },
+            "kind": "general"
+          }
+        ],
+        ...
+      }
+    }
+
+
+
+Постачальник надає інформацію про підписанта
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Постачальник надає інформацію про підписанта контракта ще на етапі подачі пропозиції.
+Це може виглядати, наприклад, наступним чином:
+
+.. sourcecode:: http
+
+    POST /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/bids HTTP/1.0
+
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    {
+      "data": {
+        "tenderers": [
+          {
+            "name": "ДКП «Школяр»",
+            "address": {
+              "countryName": "Україна",
+              "locality": "м. Вінниця",
+              "postalCode": "21100",
+              "region": "Вінницька область",
+              "streetAddress": "вул. Островського, 33"
+            },
+            "contactPoint": {
+              "email": "soleksuk@gmail.com",
+              "name": "Сергій Олексюк",
+              "telephone": "+380432216930"
+            },
+            "identifier": {
+              "scheme": "UA-EDR",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "id": "00137256",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "signer_info": {
+                "name": "Дмитро Гендір",
+                "email": "d.gendir@email.com",
+                "telephone": "+380950000000",
+                "iban": "UA111111111111111",
+                "position": "Генеральний директор",
+                "authorizedBy": "Статут компанії"
+            },
+            "scale": "micro"
+          }
+        ],
+        "status": "draft",
+        "items": [...],
+        "lotValues": [...]
+      }
+
+
+Тобто разом з пропозицією подається і інформація про підписанта можливого контракту.
+
+
+
 Відображення контракта - Замовник
 ---------------------------------
 
@@ -126,6 +270,14 @@
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
+            },
+            "signer_info": {
+                "name": "Дмитро Гендір",
+                "email": "d.gendir@email.com",
+                "telephone": "+380950000000",
+                "iban": "UA111111111111111",
+                "position": "Генеральний директор",
+                "authorizedBy": "Статут компанії"
             },
             "scale": "micro"
           }
@@ -222,6 +374,14 @@
             "postalCode": "01220",
             "countryName": "Україна"
           },
+          "signerInfo": {
+                "name": "Test Testovich",
+                "email": "example@email.com",
+                "telephone": "+380950000000",
+                "iban": "111111111111111",
+                "position": "Генеральний директор",
+                "authorizedBy": "Статут компанії"
+           },
           "kind": "general"
         },
         "value": {
@@ -279,21 +439,25 @@
 
 
 
-Замовник має додати інформацію про підписанта
----------------------------------------------
+Підписання "електронних полів" контракту
+----------------------------------------
 
-Замовник має додати інформацію про підписанта, а саме:
+Для файлу підпису використовується конверт з даними - тобто в одному файлі `sign.p7s`
+зберігаються і підпис і "електронні поля" в форматі json.
 
-- ПІБ підписанта
-- Посада підписанта
-- Імейл підписанта
-- Телефон підписанта
-- Реквізити організації (ІБАН)
+
+Підпис на "електронні поля" контракту накладаються паралельно усіма сторонами і завантажуються в апі.
+
+
+Замовник підписує "Елетронні поля"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Приклад завантаження від імені від замовника:
 
 
 .. sourcecode:: http
 
-    PUT /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/buyer/signer_info?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+    POST /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/documents?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
 
     Authorization: Bearer broker
     Content-Type: application/json
@@ -301,139 +465,157 @@
 
     {
       "data": {
-        "name": "Test Testovich",
-        "telephone": "+380950000000",
-        "email": "example@email.com",
-        "iban": "UA111111111111111",
-        "authorizedBy": "Статут компанії",
-        "position": "Генеральний директор"
+        "title": "sign.p7s",
+        "documentType": "signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5a3b7a2ee860772dcdc649ca1705e69f?Signature=y%2Bc%2FV%2BSIqnf36NvLLrimQyaWUtCCEZEgtEl%2FsALE5XH5bqEoXwnwNhAkhsKg1JfVY9%2BEwvXxHKhaD5p%2BZBhCBw%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pkcs7-signature"
       }
     }
 
+    HTTP/1.0 201 Created
+    Content-Type: application/json
+    Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/documents/16c04af53eb1469ea9b4bfdb4d26a1d1
+
+    {
+      "data": {
+        "id": "16c04af53eb1469ea9b4bfdb4d26a1d1",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "documentType": "signature",
+        "author": "buyer",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5a3b7a2ee860772dcdc649ca1705e69f?Signature=x6tzZwzV4d5DGLeiqvD%2Bm0EdAUGgzUmYnoQ4AjImnxjQRU49JnE3aq50UHtPUVvIRfF5JSrLqmyF3tssHOT%2BCA%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-10-10T03:00:00+03:00",
+        "dateModified": "2023-10-10T03:00:00+03:00"
+      }
+    }
+
+
+
+:orange:`Тріггер №2: Поява в контракті підпису замовника`
+При появі підпису замовника,
+майданчик має проінформувати свого користувача (постачальника) про це.
+
+
+
+Постачальник підписує "Елетронні поля"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Приклад завантаження від імені від постачальника:
+
+
+.. sourcecode:: http
+
+    POST /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/documents?acc_token=1b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    {
+      "data": {
+        "title": "sign.p7s",
+        "documentType": "signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5b3b7a2ee860772dcdc649ca1705e69f?Signature=y%2Bc%2FV%2BSIqnf36NvLLrimQyaWUtCCEZEgtEl%2FsALE5XH5bqEoXwnwNhAkhsKg1JfVY9%2BEwvXxHKhaD5p%2BZBhCBw%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pkcs7-signature"
+      }
+    }
+
+    HTTP/1.0 201 Created
+    Content-Type: application/json
+    Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/documents/16c04af53eb1469ea9b4bfdb4d26a1d2
+
+    {
+      "data": {
+        "id": "16c04af53eb1469ea9b4bfdb4d26a1d2",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "documentType": "signature",
+        "author": "supplier",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5b3b7a2ee860772dcdc649ca1705e69f?Signature=x6tzZwzV4d5DGLeiqvD%2Bm0EdAUGgzUmYnoQ4AjImnxjQRU49JnE3aq50UHtPUVvIRfF5JSrLqmyF3tssHOT%2BCA%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-10-10T03:00:00+03:00",
+        "dateModified": "2023-10-10T03:00:00+03:00"
+      }
+    }
+
+
+
+
+:orange:`Тріггер №3: Поява в контракті підпису постачальника`
+При появі підпису замовника,
+майданчик має проінформувати свого користувача (замовника) про це.
+
+
+"Елетронні поля" підписані усіма
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Коли і постачальник і замовник додали свої підписи, контракт в апі може виглядати десь так:
+
+(тут поки без підписів "електронних полів")
+
+
+.. sourcecode:: http
+
+    GET /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5 HTTP/1.0
+    Host: public-api-sandbox.prozorro.gov.ua
 
     HTTP/1.0 200 OK
     Content-Type: application/json
 
     {
-      "data": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "UA111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
+       "data":{
+          "id":"c503bd32d67b4bb895fe50cce285bac5",
+          "status":"pending",
+          "documents":[
+             {
+                "id": "16c04af53eb1469ea9b4bfdb4d26a1d1",
+                "hash": "md5:00000000000000000000000000000000",
+                "title": "sign.p7s",
+                "documentType": "signature",
+                "author": "buyer",
+                "format": "application/pkcs7-signature",
+                "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5a3b7a2ee860772dcdc649ca1705e69f?Signature=x6tzZwzV4d5DGLeiqvD%2Bm0EdAUGgzUmYnoQ4AjImnxjQRU49JnE3aq50UHtPUVvIRfF5JSrLqmyF3tssHOT%2BCA%3D%3D&KeyID=a8968c46",
+                "datePublished": "2023-10-10T03:00:00+03:00",
+                "dateModified": "2023-10-10T03:00:00+03:00"
+             },
+             {
+                "id": "16c04af53eb1469ea9b4bfdb4d26a1d2",
+                "hash": "md5:00000000000000000000000000000000",
+                "title": "sign.p7s",
+                "documentType": "signature",
+                "author": "supplier",
+                "format": "application/pkcs7-signature",
+                "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5b3b7a2ee860772dcdc649ca1705e69f?Signature=x6tzZwzV4d5DGLeiqvD%2Bm0EdAUGgzUmYnoQ4AjImnxjQRU49JnE3aq50UHtPUVvIRfF5JSrLqmyF3tssHOT%2BCA%3D%3D&KeyID=a8968c46",
+                "datePublished": "2023-10-10T03:00:00+03:00",
+                "dateModified": "2023-10-10T03:00:00+03:00"
+             }
+          ],
+          ...
+       },
+       "config":{
+          "restricted":false
+       }
     }
 
 
-Постачальник надає інформацію про підписанта
+
+
+Підписання документу контракта (Опціонально)
 --------------------------------------------
 
-Постачальник надає інформацію про підписанта контракта ще на етапі подачі пропозиції.
-Це може виглядати, наприклад, наступним чином:
+:red:`TBD: pdf документ не погоджено`
 
-.. sourcecode:: http
-
-    POST /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/bids HTTP/1.0
-
-    Authorization: Bearer broker
-    Content-Type: application/json
-    Host: lb-api-sandbox.prozorro.gov.ua
-
-    {
-      "data": {
-        "tenderers": [
-          {
-            "address": {
-              "countryName": "Україна",
-              "locality": "м. Вінниця",
-              "postalCode": "21100",
-              "region": "Вінницька область",
-              "streetAddress": "вул. Островського, 33"
-            },
-            "contactPoint": {
-              "email": "soleksuk@gmail.com",
-              "name": "Сергій Олексюк",
-              "telephone": "+380432216930"
-            },
-            "identifier": {
-              "scheme": "UA-EDR",
-              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
-              "id": "00137256",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "name": "ДКП «Школяр»",
-            "scale": "micro",
-            "contract": {
-                "signer_info": {
-                    "name": "Дмитро Гендір",
-                    "email": "d.gendir@email.com",
-                    "telephone": "+380950000000",
-                    "iban": "UA111111111111111",
-                    "position": "Генеральний директор",
-                    "authorizedBy": "Статут компанії"
-                }
-            }
-          }
-        ],
-        "status": "draft",
-        "items": [...],
-        "lotValues": [...]
-      }
+Може бути зроблено одночасно через підписання і "електроних полів" контракту і самого контракта.
 
 
-Тобто разом з пропозицією подається і інформація про підписанта можливого контракту.
-
-
-
-
-Замовник оновлює інформацію про підписанта постачальника
---------------------------------------------------------
-
-Інформація надана ще на етапі пропозиції може бути неактуальною і замовник може її оновити:
-
-
-.. sourcecode:: http
-
-    PUT /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/suppliers/signer_info?acc_token=e83ced17c21845f6b06d197ccd74988d HTTP/1.0
-
-    Authorization: Bearer broker
-    Content-Type: application/json
-    Host: lb-api-sandbox.prozorro.gov.ua
-
-    {
-      "data": {
-        "name": "Ухват Підписенко",
-        "email": "u.pidpis@email.com",
-        "telephone": "+380950000001",
-        "iban": "UA111111111111111",
-        "position": "Замгендір по підписам",
-        "authorizedBy": "Магічна мушля"
-      }
-    }
-
-    HTTP/1.0 200 OK
-    Content-Type: application/json
-
-    {
-      "data": {
-        "name": "Ухват Підписенко",
-        "email": "u.pidpis@email.com",
-        "telephone": "+380950000001",
-        "iban": "UA111111111111111",
-        "position": "Замгендір по підписам",
-        "authorizedBy": "Магічна мушля"
-      }
-    }
-
-
-
-Замовник створює файл контракта
--------------------------------
+Створення файла контракта
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Коли вся інформація в контракті заповнена, можна створити документ контракта і почати процесс підписання.
-
-:red:`TBD: pdf документ із темлейта може створюватись на майданчиках або централізовано - в апі.`
 
 
 В апі ЦБД має бути завантажено файл контакту:
@@ -477,7 +659,7 @@
 
 
 Замовник підписує контракт
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Замовник накладає підпис на файл і підпис додається в апі:
 
@@ -523,56 +705,9 @@
     }
 
 
-
-:orange:`Тріггер №2: Поява в контракті підпису постачальника`
-При появі підпису замовника, постачальник також зможе підписувати контракт.
-Майданчик має проінформувати свого користувача про це.
-
-
-
-Замовник не підписує, а передає постачальнику на підписання першому
--------------------------------------------------------------------
-
-Якщо постачальник обирає таку опцію, це також передається в апі, наприклад:
-
-.. sourcecode:: http
-
-    POST /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/submits?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
-
-    Authorization: Bearer broker
-    Content-Type: application/json
-    Host: lb-api-sandbox.prozorro.gov.ua
-
-    {
-      "data": {
-        "recipient": "supplier",
-      }
-    }
-
-    HTTP/1.0 201 Created
-    Content-Type: application/json
-    Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/submits/26c04af63eb1469ea9b4bfdb4d26a1dd
-
-    {
-      "data": {
-        "id": "26c04af63eb1469ea9b4bfdb4d26a1dd",
-        "recipient": "supplier",
-        "author": "buyer",
-        "datePublished": "2023-10-10T03:00:00+03:00"
-      }
-    }
-
-
-:orange:`Тріггер №3: Поява ознаки по "передання" документу`
-В такому випадку постачальник має підписувати контракт,
-а майданчик має проінформувати користувача про це.
-
-
-
 Постачальник підписує контракт
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Незалежно від того хто підписує перший, процес накладання не відрізняється.
 Користувач накладає ЕЦП, майданчик передає в апі відповідний файл:
 
 
@@ -625,16 +760,12 @@
 
 
 
-:orange:`Тріггер №4: Поява в контракті підпису постачальника`
-Якщо в апі з'явився підпис постачальника, але ше немає підписа замовника,
-то майданчик замовника має проінформувати користувача про це.
-
-
-
 Контракт підписаний усіма
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Коли і постачальник і замовник додали свої підписи, контракт в апі може виглядати десь так:
+
+(тут поки без підписів "електронних полів")
 
 
 .. sourcecode:: http
@@ -647,111 +778,8 @@
 
     {
        "data":{
-          "awardID":"c220713cbd024586b6382ef97a852dc7",
-          "contractID":"UA-2023-10-10-000001-a-1",
-          "contractTemplateName": "00000000-0.0001.01",
-          "suppliers":[
-             {
-                "name":"Державне управління справами",
-                "identifier":{
-                   "scheme":"UA-EDR",
-                   "id":"00037256",
-                   "uri":"http://www.dus.gov.ua/"
-                },
-                "address":{
-                   "streetAddress":"вул. Банкова, 11, корпус 1",
-                   "locality":"м. Київ",
-                   "region":"м. Київ",
-                   "postalCode":"01220",
-                   "countryName":"Україна"
-                },
-                {
-                    "name": "Ухват Підписенко",
-                    "email": "u.pidpis@email.com",
-                    "telephone": "+380950000001",
-                    "iban": "UA111111111111111",
-                    "position": "Замгендір по підписам",
-                    "authorizedBy": "Магічна мушля"
-                },
-                "scale":"micro"
-             }
-          ],
-          "owner":"broker",
-          "tender_id":"fd45af80ad9f4574994f7f6254012693",
-          "items":[
-             {
-                "id":"a23a71262ac642b88f2fdb69011d74b1",
-                "description":"Комп’ютерне обладнання",
-                "quantity":5.0,
-                "classification":{
-                   "description":"Cartons",
-                   "scheme":"ДК021",
-                   "id":"44617100-9"
-                },
-                "additionalClassifications":[
-                   {
-                      "scheme":"INN",
-                      "id":"17.21.1",
-                      "description":"папір і картон гофровані, паперова й картонна тара"
-                   }
-                ],
-                "deliveryAddress":{
-                   "streetAddress":"вул. Банкова 1",
-                   "locality":"м. Київ",
-                   "region":"м. Київ",
-                   "postalCode":"79000",
-                   "countryName":"Україна"
-                },
-                "deliveryDate":{
-                   "startDate":"2023-10-12T01:00:00+03:00",
-                   "endDate":"2023-10-15T01:00:00+03:00"
-                },
-                "unit":{
-                   "name":"кг",
-                   "value":{
-                      "amount":6.0,
-                      "currency":"UAH",
-                      "valueAddedTaxIncluded":true
-                   },
-                   "code":"KGM"
-                }
-             }
-          ],
-          "buyer":{
-             "name":"Державне управління справами",
-             "identifier":{
-                "scheme":"UA-EDR",
-                "id":"00037256",
-                "uri":"http://www.dus.gov.ua/"
-             },
-             "address":{
-                "streetAddress":"вул. Банкова, 11, корпус 1",
-                "locality":"м. Київ",
-                "region":"м. Київ",
-                "postalCode":"01220",
-                "countryName":"Україна"
-             },
-             "signerInfo": {
-                "name": "Test Testovich",
-                "email": "example@email.com",
-                "telephone": "+380950000000",
-                "iban": "234234234234234",
-                "position": "Генеральний директор",
-                "authorizedBy": "Статут компанії"
-              },
-             "kind":"general"
-          },
-          "value":{
-             "amount":500.0,
-             "currency":"UAH",
-             "valueAddedTaxIncluded":true,
-             "amountNet":500.0
-          },
-          "bid_owner":"broker",
-          "status":"pending",
-          "dateCreated":"2023-10-10T01:00:00+03:00",
-          "dateModified":"2023-10-10T01:00:00+03:00",
           "id":"c503bd32d67b4bb895fe50cce285bac5",
+          "status":"pending",
           "documents":[
              {
                 "id":"08682b48035643a39d924df55eb915e0",
@@ -790,7 +818,8 @@
                 "datePublished":"2023-10-10T03:00:00+03:00",
                 "dateModified":"2023-10-10T03:00:00+03:00"
              }
-          ]
+          ],
+          ...
        },
        "config":{
           "restricted":false
@@ -802,10 +831,9 @@
 Відхилення підписання
 ---------------------
 
-Постачальник може опублікувати рішення про "відхилення підписання".
+І замовник і постачальник можуть опублікувати рішення про "відхилення підписання".
 У будь-якому випадку відмова від підписання буде зупиняти поточний процес контрактингу і починати новий.
 
-Чи буде новий процес проводитись з цим самим замовником чи ні, залежать від причини відмови.
 Стандарти будуть включати базовий перелік типів відмов з ознакою чи є цей тип відмови таким,
 що виключає можливість продовження контрактингу з цим постачальником.
 Приклад стандарту
@@ -836,7 +864,10 @@
     }
 
 
-користувач обирає тип причини та вказує його в полі `reasonType`:
+Ініціація відхилення підписання
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Користувач обирає тип причини та вказує його в полі `reasonType`:
 
 
 .. sourcecode:: http
@@ -921,92 +952,7 @@
           "awardID":"c220713cbd024586b6382ef97a852dc7",
           "contractID":"UA-2023-10-10-000001-a-1",
           "contractTemplateName": "00000000-0.0001.01",
-          "suppliers":[
-             {
-                "name":"Державне управління справами",
-                "identifier":{
-                   "scheme":"UA-EDR",
-                   "id":"00037256",
-                   "uri":"http://www.dus.gov.ua/"
-                },
-                "address":{
-                   "streetAddress":"вул. Банкова, 11, корпус 1",
-                   "locality":"м. Київ",
-                   "region":"м. Київ",
-                   "postalCode":"01220",
-                   "countryName":"Україна"
-                },
-                "scale":"micro"
-             }
-          ],
-          "owner":"broker",
-          "tender_id":"fd45af80ad9f4574994f7f6254012693",
-          "items":[
-             {
-                "id":"a23a71262ac642b88f2fdb69011d74b1",
-                "description":"Комп’ютерне обладнання",
-                "quantity":5.0,
-                "classification":{
-                   "description":"Cartons",
-                   "scheme":"ДК021",
-                   "id":"44617100-9"
-                },
-                "additionalClassifications":[
-                   {
-                      "scheme":"INN",
-                      "id":"17.21.1",
-                      "description":"папір і картон гофровані, паперова й картонна тара"
-                   }
-                ],
-                "deliveryAddress":{
-                   "streetAddress":"вул. Банкова 1",
-                   "locality":"м. Київ",
-                   "region":"м. Київ",
-                   "postalCode":"79000",
-                   "countryName":"Україна"
-                },
-                "deliveryDate":{
-                   "startDate":"2023-10-12T01:00:00+03:00",
-                   "endDate":"2023-10-15T01:00:00+03:00"
-                },
-                "unit":{
-                   "name":"кг",
-                   "value":{
-                      "amount":6.0,
-                      "currency":"UAH",
-                      "valueAddedTaxIncluded":true
-                   },
-                   "code":"KGM"
-                }
-             }
-          ],
-          "buyer":{
-             "name":"Державне управління справами",
-             "identifier":{
-                "scheme":"UA-EDR",
-                "id":"00037256",
-                "uri":"http://www.dus.gov.ua/"
-             },
-             "address":{
-                "streetAddress":"вул. Банкова, 11, корпус 1",
-                "locality":"м. Київ",
-                "region":"м. Київ",
-                "postalCode":"01220",
-                "countryName":"Україна"
-             },
-             "kind":"general"
-          },
-          "value":{
-             "amount":500.0,
-             "currency":"UAH",
-             "valueAddedTaxIncluded":true,
-             "amountNet":500.0
-          },
-          "bid_owner":"broker",
-          "status":"pending",
-          "dateCreated":"2023-10-10T01:00:00+03:00",
-          "dateModified":"2023-10-10T01:00:00+03:00",
-          "id":"c503bd32d67b4bb895fe50cce285bac5"
+          ...
        },
        "config":{
           "restricted":false
@@ -1014,21 +960,15 @@
     }
 
 
-
-:orange:`Тріггер №5: Поява в контракті повідомлення про відхилення`
-При появі відхилення, майданчик замовника має повідомити його про це
-
-
-Замовник підтверджує відхилення
--------------------------------
-
-Після відхилення постачальником підписання,
-замовник може :ref:`відмінити своє рішення про переможця<econtracting_tutorial_cancelling_award>`
-і почати контратинг з насутпним постачальником.
+:orange:`Тріггер №4: Поява в контракті повідомлення про відхилення`
+При появі відхилення, майданчик може повідомити зацікавлених користувачів про намір відмінити поточну варсію контракта
 
 
-Або, якщо можливо внести правки і підписати новий контракт з цим постачальником,
-замовник підтверджує відміну поточного контракту і процес "заповнення-створення-підписання" почанється спочатку:
+Активація відхилення підписання
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Користувач підтверджує відміну поточного контракту,
+що створює новий контракт і процес "заповнення-створення-підписання" почанється спочатку:
 
 
 .. sourcecode:: http
@@ -1059,6 +999,190 @@
         "reasonType": "outOfStock"
       }
     }
+
+
+:orange:`Тріггер №5: Поява в контракті активного відхилення`
+При активації відхилення, майданчик може повідомити зацікавлених користувачів про відміну поточної варсії контракта
+
+
+
+Відхилення підписання контракту з даним постачальником
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Замовник може :ref:`відмінити своє рішення про переможця<econtracting_tutorial_cancelling_award>`
+і почати контратинг з насутпним постачальником.
+
+
+:orange:`Тріггер №6: Контракт переходить в cancelled і нова версія контракту має іншого постачальника`
+При зміні рішення про переможця, майданчик може повідомити постачальника про цю визначну подію
+
+
+
+Оновлення інформації в контракті
+--------------------------------
+
+Якщо ці дані контракту не підходять для підписання контракту,
+то замовник (або постачальник) зможе оновити її,
+але **тільки після відхилення актуальної версії контракту**.
+
+
+Нова версія контракту буде створеня додатковим полем  `"author": "supplier"` або `"author": "supplier"`,
+відповідно до ініціатора відхилення попередьої версії:
+
+
+.. sourcecode:: http
+
+    GET /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5 HTTP/1.0
+    Host: public-api-sandbox.prozorro.gov.ua
+
+    HTTP/1.0 200 OK
+    Content-Type: application/json
+
+    {
+      "data": {
+        "awardID": "c220713cbd024586b6382ef97a852dc7",
+        "contractID": "UA-2023-10-10-000001-a-1",
+        "contractTemplateName": "00000000-0.0001.01",
+        "author": "supplier",
+        "suppliers": [
+          {
+            "name": "Державне управління справами",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00037256",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "01220",
+              "countryName": "Україна"
+            },
+            "scale": "micro"
+          }
+        ],
+        "buyer": {
+          "name": "Державне управління справами",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "uri": "http://www.dus.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "kind": "general"
+        },
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amountNet": 500.0
+        },
+        "bid_owner": "broker",
+        "status": "pending",
+        "dateCreated": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "id": "c503bd32d67b4bb895fe50cce285bac5",
+        ...
+      },
+      "config": {
+        "restricted": false
+      }
+    }
+
+
+
+Оновлення інформації про підписанта замовника
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Якщо ці дані підписанта замовника не підходять для підписання контракту,
+то (після процесу відміни контракту) замовник (або постачальник) зможе оновити її
+
+
+.. sourcecode:: http
+
+    PUT /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/buyer/signer_info?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    {
+      "data": {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "UA111111111111111",
+        "authorizedBy": "Статут компанії",
+        "position": "Генеральний директор"
+      }
+    }
+
+
+    HTTP/1.0 200 OK
+    Content-Type: application/json
+
+    {
+      "data": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "UA111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    }
+
+
+Оновлення інформації про підписанта постачальника
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Якщо ці дані підписанта зі сторони постачальника не підходять,
+то (після процесу відміни контракту) постачальник (або замовник) зможе оновити її
+
+
+.. sourcecode:: http
+
+    PUT /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/suppliers/signer_info?acc_token=e83ced17c21845f6b06d197ccd74988d HTTP/1.0
+
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    {
+      "data": {
+        "name": "Ухват Підписенко",
+        "email": "u.pidpis@email.com",
+        "telephone": "+380950000001",
+        "iban": "UA111111111111111",
+        "position": "Замгендір по підписам",
+        "authorizedBy": "Магічна мушля"
+      }
+    }
+
+    HTTP/1.0 200 OK
+    Content-Type: application/json
+
+    {
+      "data": {
+        "name": "Ухват Підписенко",
+        "email": "u.pidpis@email.com",
+        "telephone": "+380950000001",
+        "iban": "UA111111111111111",
+        "position": "Замгендір по підписам",
+        "authorizedBy": "Магічна мушля"
+      }
+    }
+
+
+:orange:`Тріггер №7: Зміна інформації про підписанта`
+При зміні інформації про підписанта, майданчик може повідомити усі сторони про необхідність (пере)підписати контракт
 
 
 Додаткові угоди
