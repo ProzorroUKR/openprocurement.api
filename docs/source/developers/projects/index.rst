@@ -82,14 +82,6 @@
 
    Загальний опис
 
-Проєкт bridge pricequotation
-
-|github| `ProzorroUKR/prozorro-bridge-pricequotation <https://github.com/ProzorroUKR/prozorro-bridge-pricequotation>`_
-
-.. admonition:: TODO
-
-   Загальний опис
-
 Проєкт tasks
 ~~~~~~~~~~~~
 

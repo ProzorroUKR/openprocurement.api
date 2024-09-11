@@ -20,7 +20,6 @@ rectangle "Проєкти ЦБД" {
         rectangle "Група проєктів\nBridges" as BridgesProjectGroup {
             rectangle "Проєкт\nFA\nBridge" as BridgeFAProject COLOR_PROJECT
             rectangle "Проєкт\nCD\nBridge" as BridgeCDProject COLOR_PROJECT
-            rectangle "Проєкт\nPQ\nBridge" as BridgePQProject COLOR_PROJECT
         }
         rectangle "Проєкт\nTasks" as TasksProject COLOR_PROJECT
         rectangle "Група проєктів\nAuction" as AuctionProjectGroup {
@@ -50,7 +49,6 @@ AuctionFrontendProject -left-> AuctionProject #Blue : read
 CDBProject <-up- ChronographProject #Green : read\nwrite
 CDBProject <-up- BridgeFAProject #OrangeRed : read\nwrite
 CDBProject <-up- BridgeCDProject #Purple : read\nwrite
-CDBProject <-up- BridgePQProject #DeepPink : read\nwrite
 CDBProject <-up- TasksProject #Chocolate : read\nwrite
 
 CDBProject <-up- AuctionProject #Blue : read\nwrite
@@ -68,8 +66,7 @@ AuditAPIProject -left-> DSAPIProject #LightSeaGreen : read
 
 ChronographProject -[hidden]right- BridgeFAProject
 BridgeFAProject -[hidden]right- BridgeCDProject
-BridgeCDProject -[hidden]right- BridgePQProject
-BridgePQProject -[hidden]right- TasksProject
+BridgeCDProject -[hidden]right- TasksProject
 TasksProject -[hidden]right- AuctionProject
 
 CDBDependencies -[hidden]right- CDBConsumers
