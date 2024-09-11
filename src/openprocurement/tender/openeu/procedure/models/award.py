@@ -1,3 +1,4 @@
+from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType
 from schematics.types.compound import ModelType
 
@@ -18,6 +19,10 @@ class Award(BaseAward):
     items = ListType(ModelType(Item, required=True))
     eligible = BooleanType()
     weightedValue = ModelType(WeightedValue)
+
+    def validate_eligible(self, data, eligible):
+        if data["status"] == "active" and not eligible:
+            raise ValidationError("Can't update award to active status with not eligible")
 
 
 class PatchAward(BasePatchAward):
