@@ -85,6 +85,10 @@ Schema
 
     Date of bid submission.
 
+:items:
+    List of :ref:`BidItem` objects
+
+
 Additionally in :ref:`defense`, :ref:`openua`, :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue`:
 
     :selfEligible':
