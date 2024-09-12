@@ -270,6 +270,36 @@ def get_tender_award(self):
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
+def get_tender_award_data_for_sign(self):
+    auth = self.app.authorization
+
+    self.app.authorization = ("Basic", ("token", ""))
+    award_data = {
+        "suppliers": [test_tender_below_organization],
+        "status": "pending",
+        "bid_id": self.initial_bids[0]["id"],
+    }
+    if getattr(self, "initial_lots"):
+        award_data["lotID"] = self.initial_lots[0]["id"]
+    response = self.app.post_json(
+        "/tenders/{}/awards".format(self.tender_id),
+        {"data": award_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award = response.json["data"]
+    self.app.authorization = auth
+
+    response = self.app.get("/tenders/{}/awards/{}?opt_context=true".format(self.tender_id, award["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(["data", "context"], list(response.json.keys()))
+    award_data = response.json["data"]
+    self.assertEqual(award_data, award)
+    self.assertIn("tender", response.json["context"])
+    self.assertEqual(response.json["context"]["tender"]["status"], "active.qualification")
+
+
 def create_tender_award_no_scale_invalid(self):
     self.app.authorization = ("Basic", ("token", ""))
     award_data = {

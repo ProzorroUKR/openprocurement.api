@@ -23,8 +23,12 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_deleted_bid,
     validate_view_bids,
 )
+from openprocurement.tender.core.utils import context_view
 from openprocurement.tender.esco.procedure.models.bid import Bid, PatchBid, PostBid
 from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
+from openprocurement.tender.esco.procedure.serializers.tender import (
+    ESCOTenderSerializer,
+)
 from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
 
 LOGGER = getLogger(__name__)
@@ -56,6 +60,11 @@ class ESCOTenderBidResource(TenderBidResource):
                 item_name="bid",
             ),
         ),
+    )
+    @context_view(
+        objs={
+            "tender": ESCOTenderSerializer,
+        }
     )
     def get(self):
         return super().get()

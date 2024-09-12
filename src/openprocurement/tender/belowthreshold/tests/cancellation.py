@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lot_cancellation,
     create_tender_lots_cancellation,
     get_tender_cancellation,
+    get_tender_cancellation_data_for_sign,
     get_tender_cancellations,
     not_found,
     patch_tender_cancellation,
@@ -37,6 +38,7 @@ class TenderCancellationResourceTestMixin:
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_get_tender_cancellation = snitch(get_tender_cancellation)
     test_get_tender_cancellations = snitch(get_tender_cancellations)
+    test_get_tender_cancellation_data_for_sign = snitch(get_tender_cancellation_data_for_sign)
 
 
 class TenderCancellationResourceNewReleaseTestMixin:

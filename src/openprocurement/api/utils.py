@@ -586,3 +586,17 @@ def calculate_date(date_obj, timedelta_obj, working_days=False, calendar=WORKING
 def calculate_full_date(date_obj, timedelta_obj, working_days=False, calendar=WORKING_DAYS, ceil=False):
     start_obj = calculate_normalized_date(date_obj, ceil=ceil)
     return calculate_date(start_obj, timedelta_obj, working_days=working_days, calendar=calendar)
+
+
+def is_boolean(value):
+    if isinstance(value, bool):
+        return True
+
+    if isinstance(value, str):
+        value = value.strip().lower()
+        if value in ('true', '1'):
+            return True
+        elif value in ('false', '0'):
+            return False
+
+    return False

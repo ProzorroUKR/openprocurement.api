@@ -1,0 +1,63 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-11 14:56+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Additional sign data"
+msgstr "Відображення інформації для підписів"
+
+msgid "In the context of creating e-protocols, there was a need to impose a signature not only an object (an award or bid), but to have many general fields from the tender in the signature for the correct display of information."
+msgstr "В розрізі задачі по створенню е-протоколів, з'явилась необходність накладати підпис не тільки на об'єкт, який підписується (авард або бід), а мати в підписі загальні поля з тендеру для коректного відображення інформації."
+
+msgid "For these purposes, it is agreed to proceed by adding boolean query parameter `opt_context` for endpoints for each necessary option (award, bid, cancellation, etc)."
+msgstr "Для цього було узгоджено йти шляхом додаввання булевого query-параметру `opt_context` під кожний необхідний варіант (award, bid, cancellation, і т.д.)."
+
+msgid "Parameter `opt_fields` can have such options:"
+msgstr "Параметр `opt_context` може мати такі значення:"
+
+msgid "`true`, `1`, `True` - show additional context"
+msgstr "`true`, `1`, `True` - відображає додаткові поля"
+
+msgid "another values or missing parameter - don't show context"
+msgstr "інші значення або якщо не передати параметр - не відображає додаткові поля"
+
+msgid "Award"
+msgstr ""
+
+msgid "Use `opt_context=true` as parameter for getting additional information for signing award:"
+msgstr "Необхідно вказати параметр `opt_context=true` для того, щоб отримати додаткову інформацію з тендера для підписання аварда:"
+
+msgid "As we can see there is additional field `context`, which has information from `tender` inside."
+msgstr "Як ми можемо побачити, з'явилося додаткове поле `context`, в якому наявна інформація з тендеру."
+
+msgid "Bid"
+msgstr ""
+
+msgid "Use `opt_context=true` as parameter for getting additional information for signing bid:"
+msgstr "Необхідно вказати параметр `opt_context=true` для того, щоб отримати  додаткову інформацію з тендера для підписання пропозиції:"
+
+msgid "If tender now in `active.tendering` status, only bidder can see this information. If someone else wants to see sign data for bid, he will see an error:"
+msgstr "Якщо тендер знаходиться в статусі `active.tendering`, тільки постачальник може бачити цю інформацію. Якщо хтось інший намагатиметься подивитися додаткову інформацію до пропозиції, він побачить помилку:"
+
+msgid "Cancellation"
+msgstr ""
+
+msgid "Use `opt_context=true` as parameter for getting additional information for signing cancellation:"
+msgstr "Необхідно вказати параметр `opt_context=true` для того, щоб отримати  додаткову інформацію з тендера для підписання відміни:"
+

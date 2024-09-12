@@ -23,6 +23,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     get_tender_award,
     get_tender_award_complaint,
     get_tender_award_complaints,
+    get_tender_award_data_for_sign,
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
     not_found,
@@ -58,6 +59,7 @@ class TenderAwardResourceTestMixin:
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
     test_get_tender_award = snitch(get_tender_award)
+    test_get_tender_award_data_for_sign = snitch(get_tender_award_data_for_sign)
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
 
 

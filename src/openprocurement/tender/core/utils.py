@@ -6,7 +6,7 @@ from logging import getLogger
 from dateorro import calc_datetime
 
 from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.utils import calculate_date, calculate_full_date
+from openprocurement.api.utils import calculate_date, calculate_full_date, is_boolean
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_GROUP,
@@ -109,3 +109,21 @@ def calculate_tender_date(date_obj, timedelta_obj, working_days=False, calendar=
 def calculate_tender_full_date(date_obj, timedelta_obj, working_days=False, calendar=WORKING_DAYS):
     ceil = timedelta_obj > timedelta()
     return calculate_full_date(date_obj, timedelta_obj, working_days=working_days, calendar=calendar, ceil=ceil)
+
+
+def context_view(objs):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(self, *args, **kwargs):
+            response = func(self, *args, **kwargs)
+            if is_boolean(self.request.params.get("opt_context")):
+                context = {}
+                for parent_name, parent_serializer_class in objs.items():
+                    if parent_obj := self.request.validated.get(parent_name):
+                        context[parent_name] = parent_serializer_class(parent_obj).data
+                response.update({"context": context})
+            return response
+
+        return wrapper
+
+    return decorator

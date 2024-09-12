@@ -56,6 +56,7 @@ from openprocurement.tender.open.tests.bid_blanks import (
     features_bidder_invalid,
     get_bid_requirement_response,
     get_bid_requirement_response_evidence,
+    get_tender_bid_data_for_sign,
     get_tender_bidder,
     get_tender_tenderers,
     patch_bid_requirement_response,
@@ -91,6 +92,7 @@ class TenderBidResourceTestMixin:
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
     test_bid_proposal_doc = snitch(bid_proposal_doc)
     test_patch_pending_bid = snitch(patch_pending_bid)
+    test_get_tender_bid_data_for_sign = snitch(get_tender_bid_data_for_sign)
 
 
 class TenderBidRequirementResponseTestMixin:

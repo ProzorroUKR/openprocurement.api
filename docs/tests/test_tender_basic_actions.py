@@ -1141,6 +1141,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             {'data': {"status": "pending"}},
         )
 
+        # fetch sign data
+        with open(TARGET_DIR + 'sign-data/sign-bid-data.http', 'w') as self.app.file_obj:
+            self.app.get(f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}&opt_context=true")
+
+        with open(TARGET_DIR + 'sign-data/sign-bid-data-forbidden.http', 'w') as self.app.file_obj:
+            self.app.get(f"/tenders/{self.tender_id}/bids/{bid_id}?opt_context=true", status=403)
+
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
         bid_data_2 = deepcopy(bid2)
@@ -1201,6 +1208,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
+        # fetch sign data
+        with open(TARGET_DIR + 'sign-data/sign-award-data.http', 'w') as self.app.file_obj:
+            self.app.get(f"/tenders/{self.tender_id}/awards/{award_id}?opt_context=true")
 
         # check complaints for unsuccessful award
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
@@ -1720,6 +1731,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         )
         cancellation_id = response.json['data']['id']
         self.assertEqual(response.status, '201 Created')
+
+        with open(TARGET_DIR + 'sign-data/sign-cancellation-data.http', 'w') as self.app.file_obj:
+            self.app.get(f"/tenders/{self.tender_id}/cancellations/{cancellation_id}?opt_context=true")
 
         response = self.app.post_json(
             '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
