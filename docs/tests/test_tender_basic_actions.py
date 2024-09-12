@@ -1732,6 +1732,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         cancellation_id = response.json['data']['id']
         self.assertEqual(response.status, '201 Created')
 
+        with open(TARGET_DIR + 'sign-data/sign-cancellation-data.http', 'w') as self.app.file_obj:
+            self.app.get(f"/tenders/{self.tender_id}/cancellations/{cancellation_id}?opt_context=true")
+
         response = self.app.post_json(
             '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
             {

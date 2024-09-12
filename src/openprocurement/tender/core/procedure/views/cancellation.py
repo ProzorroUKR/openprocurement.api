@@ -18,10 +18,16 @@ from openprocurement.tender.core.procedure.models.cancellation import (
 from openprocurement.tender.core.procedure.serializers.cancellation import (
     CancellationSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
+)
 from openprocurement.tender.core.procedure.state.cancellation import CancellationState
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
+from openprocurement.tender.core.utils import (
+    ProcurementMethodTypePredicate,
+    context_view,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -98,6 +104,11 @@ class BaseCancellationResource(TenderBaseResource):
 
     @json_view(
         permission="view_tender",
+    )
+    @context_view(
+        objs={
+            "tender": TenderBaseSerializer,
+        }
     )
     def get(self):
         data = self.serializer_class(self.request.validated["cancellation"]).data

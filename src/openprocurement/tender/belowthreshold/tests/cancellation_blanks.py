@@ -280,6 +280,24 @@ def get_tender_cancellation(self):
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
+def get_tender_cancellation_data_for_sign(self):
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_tender_below_cancellation},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    cancellation_id = response.json["data"]["id"]
+
+    response = self.app.get("/tenders/{}/cancellations/{}?opt_context=1".format(self.tender_id, cancellation_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(["data", "context"], list(response.json.keys()))
+    self.assertEqual(response.json["data"]["reason"], "cancellation reason")
+    self.assertIn("tender", response.json["context"])
+    self.assertEqual(response.json["context"]["tender"]["status"], "active.tendering")
+
+
 def get_tender_cancellations(self):
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

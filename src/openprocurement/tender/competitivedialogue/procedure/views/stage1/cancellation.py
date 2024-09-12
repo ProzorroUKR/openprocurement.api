@@ -1,6 +1,11 @@
 from cornice.resource import resource
 
+from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.serializers.stage1.tender import (
+    CD1StageTenderSerializer,
+)
+from openprocurement.tender.core.utils import context_view
 from openprocurement.tender.openeu.procedure.views.cancellation import (
     EUCancellationResource,
 )
@@ -13,8 +18,17 @@ from openprocurement.tender.openeu.procedure.views.cancellation import (
     procurementMethodType=CD_EU_TYPE,
     description="Competitive Dialogue UE cancellations",
 )
-class CDEUDefenseCancellationResource(EUCancellationResource):
-    pass
+class CDEUCancellationResource(EUCancellationResource):
+    @json_view(
+        permission="view_tender",
+    )
+    @context_view(
+        objs={
+            "tender": CD1StageTenderSerializer,
+        }
+    )
+    def get(self):
+        return super().get()
 
 
 @resource(
@@ -24,5 +38,5 @@ class CDEUDefenseCancellationResource(EUCancellationResource):
     procurementMethodType=CD_UA_TYPE,
     description="Competitive Dialogue UA cancellations",
 )
-class CDUADefenseCancellationResource(EUCancellationResource):
+class CDUACancellationResource(CDEUCancellationResource):
     pass

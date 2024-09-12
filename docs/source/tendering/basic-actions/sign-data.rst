@@ -41,3 +41,14 @@ If someone else wants to see sign data for bid, he will see an error:
 
 .. http:example:: ./http/sign-data/sign-bid-data-forbidden.http
    :code:
+
+Cancellation
+------------
+
+Use `opt_context=true` as parameter for getting additional information for signing cancellation:
+
+.. http:example:: ./http/sign-data/sign-cancellation-data.http
+   :code:
+
+As we can see there is additional field `context`, which has information from `tender` inside.
+
