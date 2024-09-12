@@ -3305,3 +3305,128 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 {'data': tech_criteria},
             )
             self.assertEqual(response.status, "201 Created")
+
+    def test_docs_bid_items_localization(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        data = deepcopy(test_tender_below_data)
+
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.set_status("active.tendering")
+
+        # bid_data = deepcopy(bid)
+        # set_bid_lotvalues(bid_data, [lot])
+        # response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data})
+        # bid_id = response.json['data']['id']
+        # bid_token = response.json['access']['token']
+        #
+        # self.add_sign_doc(
+        #     self.tender_id,
+        #     bid_token,
+        #     docs_url=f"/bids/{bid_id}/documents",
+        #     document_type="proposal",
+        # )
+        # response = self.app.patch_json(
+        #     f'/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}',
+        #     {'data': {"status": "pending"}},
+        # )
+
+        # create second bid
+        # self.app.authorization = ('Basic', ('broker', ''))
+        # bid_data_2 = deepcopy(bid2)
+        # bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
+        # set_bid_lotvalues(bid_data_2, [lot])
+        # self.create_bid(self.tender_id, bid_data_2)
+
+        bid_data = deepcopy(bid)
+        set_bid_lotvalues(bid_data, [lot])
+
+        product = {"id": "1" * 32, "status": "hidden"}
+
+        localize_item = deepcopy(data["items"][0])
+        localize_item["id"] = "e" * 32
+        bid["items"].append(localize_item)
+
+        localize_item["product"] = product["id"]
+
+        with patch("openprocurement.api.utils.requests.get", Mock(return_value=Mock(status_code=404))), open(
+                TARGET_DIR + 'localization-items/item-product-not-found.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=404)
+            self.assertEqual(response.status, "404 Not Found")
+
+        with patch(
+                "openprocurement.api.utils.requests.get",
+                Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
+        ), open(TARGET_DIR + 'localization-items/item-product-not-active.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=422)
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        product["status"] = "active"
+
+        with patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_product",
+            Mock(return_value=product),
+        ), open(
+            TARGET_DIR + 'localization-items/bid-with-item-product-created.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config})
+            self.assertEqual(response.status, "201 Created")
+            tender_id = response.json["data"]["id"]
+            tender_token = response.json["access"]["token"]
+            items = response.json["data"]["items"]
+
+        # Create technical feature criteria
+
+        tech_criteria = deepcopy(test_tech_feature_criteria)
+        tech_criteria[0]["relatesTo"] = "tenderer"
+
+        with open(TARGET_DIR + 'techfeatures/create-tech-criteria-without-related-item.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/criteria?acc_token={tender_token}', {'data': tech_criteria}, status=422
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        tech_criteria[0]["relatesTo"] = "item"
+        tech_criteria[0]["relatedItem"] = items[0]["id"]
+
+        with open(
+                TARGET_DIR + 'techfeatures/create-tech-criteria-for-items-without-profile.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/criteria?acc_token={tender_token}', {'data': tech_criteria}, status=422
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        tech_criteria[0]["relatedItem"] = items[1]["id"]
+
+        with open(TARGET_DIR + 'techfeatures/create-tech-criteria-success.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/criteria?acc_token={tender_token}',
+                {'data': tech_criteria},
+            )
+            self.assertEqual(response.status, "201 Created")
