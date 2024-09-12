@@ -2397,6 +2397,14 @@ def patch_tender(self):
         ],
     )
 
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"plans": []}}, status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "plans", "description": "Rogue field"}],
+    )
+
     pq_entity = deepcopy(tender["procuringEntity"])
     pq_entity["kind"] = "defense"
     response = self.app.patch_json(

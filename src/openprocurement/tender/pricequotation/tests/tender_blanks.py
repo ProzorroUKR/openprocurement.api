@@ -1472,6 +1472,7 @@ def tender_owner_cannot_change_in_draft(self):
     self.assertCountEqual(
         response.json["errors"],
         [
+            {"location": "body", "name": "plans", "description": "Rogue field"},
             {"location": "body", "name": "revisions", "description": "Rogue field"},
             {"location": "body", "name": "cancellations", "description": "Rogue field"},
         ],
