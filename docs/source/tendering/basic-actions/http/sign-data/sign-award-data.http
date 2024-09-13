@@ -41,7 +41,11 @@ Content-Type: application/json
       }
     ],
     "bid_id": "a5bf718ab7f14f40bef4ad334f3c936a",
-    "lotID": "bafe97395da841668932cf800cf756af"
+    "lotID": "bafe97395da841668932cf800cf756af",
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-18T00:00:00+03:00"
+    }
   },
   "context": {
     "tender": {
@@ -429,7 +433,11 @@ Content-Type: application/json
             }
           ],
           "bid_id": "a5bf718ab7f14f40bef4ad334f3c936a",
-          "lotID": "bafe97395da841668932cf800cf756af"
+          "lotID": "bafe97395da841668932cf800cf756af",
+          "period": {
+            "startDate": "2023-10-10T01:00:00+03:00",
+            "endDate": "2023-10-18T00:00:00+03:00"
+          }
         }
       ],
       "id": "4b4ed03227c24f43b34f74183e3e0ca2"
