@@ -64,10 +64,6 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "period": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-18T00:00:00+03:00"
-    },
     "lotID": "713734a991cb4312814142c19d41494f",
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",

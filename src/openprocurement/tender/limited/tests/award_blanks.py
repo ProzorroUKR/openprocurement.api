@@ -15,9 +15,7 @@ from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.core.procedure.models.award_milestone import (
     AwardMilestoneCodes,
 )
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.limited.tests.utils import get_award_data
 
 
@@ -133,7 +131,6 @@ def create_tender_award(self):
         self.assertNotIn("qualified", award)
     else:
         self.assertEqual(award["qualified"], True)
-    self.assertIn("period", response.json["data"])
 
     response = self.app.get(request_path)
     self.assertEqual(response.status, "200 OK")
@@ -3772,14 +3769,6 @@ def prolongation_award_is_forbidden(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    period_start = dt_from_iso(response.json["data"]["period"]["startDate"])
-    period_end = calculate_tender_full_date(
-        period_start,
-        timedelta(days=5),
-        tender=tender,
-        working_days=True,
-    ).isoformat()
-    self.assertEqual(response.json["data"]["period"]["endDate"], period_end)
     award_id = response.json["data"]["id"]
 
     # try to add milestone

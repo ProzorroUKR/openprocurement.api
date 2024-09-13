@@ -1222,6 +1222,14 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/awards/{}/milestones?acc_token={}'.format(self.tender_id, award_id, owner_token),
                 {"data": {"code": "extensionPeriod", "description": "Обгрунтування продовження строків розгляду"}},
             )
+        with open(
+            TARGET_DIR + 'prolongation-awards/award-milestone-extension-invalid-post.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/milestones?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"code": "extensionPeriod", "description": "Обгрунтування продовження строків розгляду №2"}},
+                status=422,
+            )
 
         extension_doc_data = {
             "title": "sign.p7s",

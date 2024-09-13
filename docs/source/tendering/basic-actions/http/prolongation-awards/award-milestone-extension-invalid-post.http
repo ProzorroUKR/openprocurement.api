@@ -1,0 +1,33 @@
+POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/d76690e7b5e149e1a7dec8e501f8d9b5/milestones?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "code": "extensionPeriod",
+    "description": "Обгрунтування продовження строків розгляду №2"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "awards",
+      "description": [
+        {
+          "milestones": [
+            "There can be only one 'extensionPeriod' milestone"
+          ]
+        }
+      ]
+    }
+  ]
+}
+

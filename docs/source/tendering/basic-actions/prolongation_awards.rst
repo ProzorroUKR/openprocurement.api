@@ -15,6 +15,11 @@ To extend this period to 20 days, the procuring entity should add milestone with
 .. http:example:: ./http/prolongation-awards/award-milestone-extension-post.http
    :code:
 
+Only one milestone with type `extensionPeriod` could be in award:
+
+.. http:example:: ./http/prolongation-awards/award-milestone-extension-invalid-post.http
+   :code:
+
 After that it is required to add document with `documentType: extensionReport`:
 
 .. http:example:: ./http/prolongation-awards/award-extension-report-post.http

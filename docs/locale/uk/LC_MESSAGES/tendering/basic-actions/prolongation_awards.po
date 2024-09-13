@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 17:57+0300\n"
+"POT-Creation-Date: 2024-09-13 13:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -30,6 +30,9 @@ msgstr "Під час створення ававрду, з'яввляється
 
 msgid "To extend this period to 20 days, the procuring entity should add milestone with code `extensionPeriod`:"
 msgstr "Для того, щоб подовжити строк розгляду аварду до 20 робочих днів, замовник має додати майлстоун з кодом `extensionPeriod`:"
+
+msgid "Only one milestone with type `extensionPeriod` could be in award:"
+msgstr "Тільки один майлстоун з типом `extensionPeriod` може бути доданий до аварду:"
 
 msgid "After that it is required to add document with `documentType: extensionReport`:"
 msgstr "Після цього необхідно загрузити документ з `documentType: extensionReport`:"

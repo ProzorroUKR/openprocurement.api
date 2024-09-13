@@ -4393,7 +4393,17 @@ def prolongation_award(self):
     ).isoformat()
     self.assertEqual(response.json["data"]["period"]["endDate"], period_end)
 
-    # add milestone
+    # try to add milestone for extension without description
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award_id}/milestones?acc_token={self.tender_token}",
+        {"data": {"code": AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "description", "description": ["This field is required."]},
+    )
+
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/awards/{award_id}/milestones?acc_token={self.tender_token}",
         {"data": {"code": AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value, "description": "Prolongation"}},
@@ -4413,6 +4423,17 @@ def prolongation_award(self):
     ).isoformat()
     self.assertEqual(response.json["data"]["period"]["endDate"], new_period_end)
     self.assertEqual(due_date, new_period_end)
+
+    # try to add one more milestone for extension
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award_id}/milestones?acc_token={self.tender_token}",
+        {"data": {"code": AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value, "description": "Prolongation"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"][0],
+        {'milestones': ["There can be only one 'extensionPeriod' milestone"]},
+    )
 
     # add document for prolongation
     request_body = {

@@ -1,5 +1,6 @@
 from enum import Enum
 
+from schematics.exceptions import ValidationError
 from schematics.types import StringType
 
 from openprocurement.api.procedure.types import ListType, ModelType
@@ -27,6 +28,10 @@ class PostAwardMilestone(PostQualificationMilestone):
             # AwardMilestoneCodes.CODE_LOW_PRICE.value,  # this one cannot be posted
         ],
     )
+
+    def validate_description(self, data, value):
+        if data["code"] == AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value and value is None:
+            raise ValidationError("This field is required.")
 
 
 class AwardMilestone(QualificationMilestone):
