@@ -89,16 +89,12 @@ class CommonBaseTender(Model):
     funders = ListType(
         ModelType(Organization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
-    plans = ListType(ModelType(PlanRelation, required=True))
     is_masked = BooleanType()
 
     procurementMethod = StringType(choices=PROCUREMENT_METHODS)
 
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
-
-    def validate_plans(self, data, value):
-        validate_plans(data, value)
 
 
 class PatchBaseTender(CommonBaseTender):
@@ -130,6 +126,7 @@ class PostBaseTender(CommonBaseTender):
     status = StringType(choices=["draft"], default="draft")
     agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
     inspector = ModelType(Organization)
+    plans = ListType(ModelType(PlanRelation, required=True))
 
     def validate_buyers(self, data, value):
         if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
@@ -146,6 +143,9 @@ class PostBaseTender(CommonBaseTender):
 
     def validate_inspector(self, data, value):
         validate_inspector(data, value)
+
+    def validate_plans(self, data, value):
+        validate_plans(data, value)
 
 
 class BaseTender(PatchBaseTender):
@@ -191,6 +191,7 @@ class BaseTender(PatchBaseTender):
 
     procurementMethod = StringType(choices=PROCUREMENT_METHODS, required=True)
     noticePublicationDate = IsoDateTimeType()
+    plans = ListType(ModelType(PlanRelation, required=True))
 
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
@@ -218,3 +219,6 @@ class BaseTender(PatchBaseTender):
 
     def validate_inspector(self, data, value):
         validate_inspector(data, value)
+
+    def validate_plans(self, data, value):
+        validate_plans(data, value)
