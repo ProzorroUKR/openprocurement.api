@@ -264,11 +264,56 @@
     }
 
 
-Створення документу доп. угоди
-------------------------------
+
+Підписання електронних полів доп. угоди
+---------------------------------------
 
 
-Коли об'єкт зміни створено в системі ініціатор може створити документ доп. угоди і почати процес підписання.
+Зміни може бути "застосовано" після підписання угоди усіма сторонами.
+
+
+.. sourcecode:: http
+
+    POST /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/changes/b9887678ba3c448b977467c0fe3ada31/documents?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    {
+      "data": {
+        "title": "sign.p7s",
+        "documentType": "signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1a3b7a2ee860772dcdc649ca1705e69f?Signature=y%2Bc%2FV%2BSIqnf36NvLLrimQyaWUtCCEZEgtEl%2FsALE5XH5bqEoXwnwNhAkhsKg1JfVY9%2BEwvXxHKhaD5p%2BZBhCBw%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pkcs7-signature"
+      }
+    }
+
+    HTTP/1.0 201 Created
+    Content-Type: application/json
+    Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/changes/b9887678ba3c448b977467c0fe3ada31/documents/26c04af53eb1469ea9b4bfdb4d26a1de
+
+    {
+      "data": {
+        "id": "16c04af53eb1469ea9b4bfdb4d26a1de",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "documentType": "signature",
+        "author": "buyer",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1a3b7a2ee860772dcdc649ca1705e69f?Signature=x6tzZwzV4d5DGLeiqvD%2Bm0EdAUGgzUmYnoQ4AjImnxjQRU49JnE3aq50UHtPUVvIRfF5JSrLqmyF3tssHOT%2BCA%3D%3D&KeyID=a8968c46",
+        "datePublished": "2024-10-10T03:00:00+03:00",
+        "dateModified": "2024-10-10T03:00:00+03:00"
+      }
+    }
+
+
+
+Створення документу доп. угоди (Опціонально)
+--------------------------------------------
+
+Сторони можуть створити і підписати документ додаткової угоди в системі.
 Спершу в систему завантажується сам документ угоди
 
 .. sourcecode:: http
@@ -309,50 +354,10 @@
     }
 
 
-Передати на підписання
-----------------------
+Підписання документу доп. угоди (Опціонально)
+---------------------------------------------
 
-
-Ініціатор угоди після завантаження, може підписати її першим або передати на підписання другому учаснику.
-Другий учасник угоди має бути проінформаваний майданчиком про підписану доп. угоду першим учасником
-або про факт передачі йому на підписання.
-
-Щоб передати зміни на підписання, робиться наступний запит до апі:
-
-.. sourcecode:: http
-
-    POST /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/changes/b9887678ba3c448b977467c0fe3ada31/submits?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
-
-    Authorization: Bearer broker
-    Content-Type: application/json
-    Host: lb-api-sandbox.prozorro.gov.ua
-
-    {
-      "data": {
-        "recipient": "buyer",
-      }
-    }
-
-    HTTP/1.0 201 Created
-    Content-Type: application/json
-    Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/changes/b9887678ba3c448b977467c0fe3ada31/submits/26c04af63eb1469ea9b4bfdb4d26a1dd
-
-    {
-      "data": {
-        "id": "26c04af63eb1469ea9b4bfdb4d26a1dd",
-        "recipient": "buyer",
-        "author": "supplier",
-        "datePublished": "2024-10-10T03:00:00+03:00"
-      }
-    }
-
-
-Підписання доп. угоди
----------------------
-
-
-Зміни може бути "застосовано" після підписання угоди усіма сторонами.
-Для підписання треба накласти ЕЦП на pdf доп. угоди та завантажити файл в АПІ:
+ля підписання документу треба накласти ЕЦП на pdf доп. угоди та завантажити файл в АПІ:
 
 .. sourcecode:: http
 
@@ -441,14 +446,6 @@
         "author": "supplier",
         "status": "active",
         "date": "2024-11-10T01:00:00+03:00",
-        "submits": [
-            {
-                "id": "26c04af63eb1469ea9b4bfdb4d26a1dd",
-                "recipient": "buyer",
-                "author": "supplier",
-                "datePublished": "2024-10-10T03:00:00+03:00"
-            }
-        ],
         "documents": [
            {
                 "documentType": "contractChangeSigned",
@@ -716,3 +713,98 @@
           "restricted":false
        }
     }
+
+
+Скасування доп угоди
+--------------------
+
+Сторони можуть скасовувати доп. угоди надавши коментар:
+
+
+.. sourcecode:: http
+
+    POST /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/changes/b9887678ba3c448b977467c0fe3ada31/cancellations?acc_token=1981a3b3a85d4159aabe55f5be082fd5cancellations?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    {
+      "data": {
+        "reason": "Більше немає необхідності",
+        "reasonType": "noDemand"
+      }
+    }
+
+
+    HTTP/1.0 201 Created
+    Content-Type: application/json
+    Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/cancellations/16c04af53eb1469ea9b4bfdb4d26a1da
+
+    {
+      "data": {
+        "id": "16c04af53eb1469ea9b4bfdb4d26a1da",
+        "status": "active"
+        "author": "buyer",
+        "dateCreated": "2023-10-10T03:00:00+03:00",
+        "reason": "Більше немає необхідності",
+        "reasonType": "noDemand"
+      }
+    }
+
+
+
+Така доп. угода буде одразу скасована
+
+
+.. sourcecode:: http
+
+    GET /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5 HTTP/1.0
+    Host: public-api-sandbox.prozorro.gov.ua
+
+    HTTP/1.0 200 OK
+    Content-Type: application/json
+
+    {
+       "data":{
+          "awardID":"c220713cbd024586b6382ef97a852dc7",
+          "contractID":"UA-2023-10-10-000001-a-1",
+          "contractTemplateName": "00000000-0.0001.01",
+          "changes": [
+             {
+                "rationale": "Опис причини змін контракту",
+                "rationale_en": "Contract change cause",
+                "rationaleTypes": [
+                  "volumeCuts",
+                  "priceReduction"
+                ],
+                "modifications": {
+                  "value": {
+                    "amount": 230.0,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": true,
+                    "amountNet": 223.0
+                  }
+                }
+                "id": "b9887678ba3c448b977467c0fe3ada31",
+                "author": "supplier",
+                "status": "cancelled",
+                "date": "2024-11-10T01:00:00+03:00",
+                "documents": [],
+                "cancellations": [
+                    {
+                        "id": "16c04af53eb1469ea9b4bfdb4d26a1da",
+                        "status": "active"
+                        "author": "buyer",
+                        "dateCreated": "2023-10-10T03:00:00+03:00",
+                        "reason": "Більше немає необхідності",
+                        "reasonType": "noDemand"
+                    }
+                ]
+             }
+          ],
+          ...
+       },
+       ...
+    }
+
