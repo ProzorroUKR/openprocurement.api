@@ -14,7 +14,7 @@ from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TI
 from openprocurement.planning.api.procedure.models.guarantee import Guarantee
 
 
-class Project(Model):
+class BudgetProject(Model):
     id = StringType(required=True)
     name = StringType(required=True)
     name_en = StringType()
@@ -49,7 +49,7 @@ class Budget(Model):
         required=False, default="UAH", max_length=3, min_length=3
     )  # The currency in 3-letter ISO 4217 format.
     amountNet = FloatType()
-    project = ModelType(Project)
+    project = ModelType(BudgetProject)
     period = ModelType(BudgetPeriod)
     year = IntType(min_value=2000)
     notes = StringType()

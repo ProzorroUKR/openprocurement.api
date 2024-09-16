@@ -92,6 +92,10 @@ test_plan_data = {
             }
         ],
     },
+    "project": {
+        "title": "DREAMs come true",
+        "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile",
+    },
 }
 
 

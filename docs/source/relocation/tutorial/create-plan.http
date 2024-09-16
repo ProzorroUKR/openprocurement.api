@@ -160,6 +160,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         }
       ]
+    },
+    "project": {
+      "title": "DREAMs come true",
+      "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile"
     }
   }
 }
@@ -334,6 +338,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
         }
       }
     ],
+    "project": {
+      "title": "DREAMs come true",
+      "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile"
+    },
     "planID": "UA-P-2023-10-10-000001-a",
     "owner": "brokerx",
     "datePublished": "2023-10-10T01:00:00+03:00",

@@ -115,6 +115,14 @@ budget
    The total estimated value of the procurement.
 
 
+project
+-------
+   :ref:`Project`
+
+   |ocdsDescription|
+   The project object which describes the infrastructure or public-private partnership (PPP) project to which the planning process is related.
+
+
 
 classification
 --------------
@@ -260,6 +268,25 @@ tenderPeriod
 
 -----------
 
+.. _Project:
+
+Project
+=======
+
+id
+--
+    string
+
+title
+-----
+    string, required
+
+uri
+----
+    string, required
+
+-----------
+
 .. _Budget:
 
 Budget
@@ -287,7 +314,7 @@ currency
 
 project
 -------
-    :ref:`Project`
+    :ref:`BudgetProject`
 
 period
 ------
@@ -317,10 +344,10 @@ breakdown
 -----------
 
 
-.. _Project:
+.. _BudgetProject:
 
-Project
-=======
+BudgetProject:
+==============
 
 id
 --
