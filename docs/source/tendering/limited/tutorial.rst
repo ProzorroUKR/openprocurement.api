@@ -272,7 +272,7 @@ Documents should be confidential if reporting has one ot the causes:
     * criticalInfrastructure
     * civilProtection
     * RNBO
-    * lastHope
+    * naturalGas
     * UZ
     * defencePurchase
 

@@ -8,7 +8,7 @@ from openprocurement.contracting.econtract.procedure.state.contract import (
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
 from openprocurement.tender.core.procedure.utils import tender_created_before
 
-CONFIDENTIAL_DOCS_CAUSES = ("criticalInfrastructure", "civilProtection", "RNBO", "lastHope", "UZ", "defencePurchase")
+CONFIDENTIAL_DOCS_CAUSES = ("criticalInfrastructure", "civilProtection", "RNBO", "naturalGas", "UZ", "defencePurchase")
 
 
 class EContractDocumentState(BaseDocumentStateMixing, EContractState):
