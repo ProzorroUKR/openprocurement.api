@@ -3372,9 +3372,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         bid_data["items"][0]["unit"]["value"]["amount"] = 7
         bid_data["items"][0]["quantity"] = 4
 
-        with open(
-            TARGET_DIR + 'bid-items-localization/update-bid-items.http', 'w'
-        ) as self.app.file_obj:
+        with open(TARGET_DIR + 'bid-items-localization/update-bid-items.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f'/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}',
                 {'data': bid_data},
@@ -3388,14 +3386,14 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         set_bid_lotvalues(bid_data, [lot])
 
         with patch("openprocurement.api.utils.requests.get", Mock(return_value=Mock(status_code=404))), open(
-                TARGET_DIR + 'bid-items-localization/item-product-not-found.http', 'w'
+            TARGET_DIR + 'bid-items-localization/item-product-not-found.http', 'w'
         ) as self.app.file_obj:
             response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=404)
             self.assertEqual(response.status, "404 Not Found")
 
         with patch(
-                "openprocurement.api.utils.requests.get",
-                Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
+            "openprocurement.api.utils.requests.get",
+            Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
         ), open(TARGET_DIR + 'bid-items-localization/item-product-not-active.http', 'w') as self.app.file_obj:
             response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -3405,9 +3403,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         with patch(
             "openprocurement.tender.core.procedure.state.bid.get_tender_product",
             Mock(return_value=product),
-        ), open(
-            TARGET_DIR + 'bid-items-localization/bid-with-item-product-created.http', 'w'
-        ) as self.app.file_obj:
+        ), open(TARGET_DIR + 'bid-items-localization/bid-with-item-product-created.http', 'w') as self.app.file_obj:
             response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data})
             self.assertEqual(response.status, "201 Created")
 
@@ -3417,12 +3413,9 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         with patch(
             "openprocurement.tender.core.procedure.state.bid.get_tender_product",
             Mock(return_value=product),
-        ), open(
-            TARGET_DIR + 'bid-items-localization/update_bid-with-item-product.http', 'w'
-        ) as self.app.file_obj:
+        ), open(TARGET_DIR + 'bid-items-localization/update_bid-with-item-product.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}",
-                {"data": {"items": bid_data["items"]}}
+                f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}", {"data": {"items": bid_data["items"]}}
             )
             self.assertEqual(response.status, "200 OK")
 
