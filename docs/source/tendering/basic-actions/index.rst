@@ -18,6 +18,7 @@ Contents:
    procuring
    lots
    bidding
+   bid-items
    meat
    milestones
    technical-features

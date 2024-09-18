@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-04 17:57+0300\n"
+"POT-Creation-Date: 2024-09-18 14:42+0300\n"
 "PO-Revision-Date: 2019-12-19 15:14+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.16.0\n"
 
 msgid "Bid"
 msgstr "Bid"
@@ -134,6 +134,12 @@ msgstr "Генерується автоматично, лише для чита�
 
 msgid "Date of bid submission."
 msgstr "Дата підтвердження пропозиції"
+
+msgid "items"
+msgstr ""
+
+msgid "List of :ref:`BidItem` objects"
+msgstr "Список об’єктів :ref:`BidItem`"
 
 msgid "Additionally in :ref:`defense`, :ref:`openua`, :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue`:"
 msgstr "Додатково у :ref:`defense`, :ref:`openua`, :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue`:"

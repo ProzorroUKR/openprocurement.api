@@ -41,28 +41,27 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "ffffffffffffffffffffffffffffffff",
+        "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
         "unit": {
           "name": "кілограм",
           "value": {
-            "amount": 7,
+            "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
         },
-        "quantity": 4,
-        "product": "11111111111111111111111111111111"
+        "quantity": 5.0
       }
     ]
   }
 }
 
 
-HTTP/1.0 404 Not Found
+HTTP/1.0 422 Unprocessable Entity
 Content-Type: application/json
 
 {
@@ -71,7 +70,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Products 11111111111111111111111111111111 not found in catalouges."
+      "description": "Bid items ids should be on tender items ids for current lot"
     }
   ]
 }

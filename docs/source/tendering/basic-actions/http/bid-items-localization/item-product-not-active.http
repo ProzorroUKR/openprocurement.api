@@ -31,6 +31,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500
+        },
+        "relatedLot": "27d79285cd894e7eb504fcdce191a963"
+      }
+    ],
     "items": [
       {
         "id": "ffffffffffffffffffffffffffffffff",
@@ -40,22 +48,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "unit": {
           "name": "кілограм",
           "value": {
-            "amount": 6.0,
+            "amount": 7,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
         },
-        "quantity": 5.0,
+        "quantity": 4,
         "product": "11111111111111111111111111111111"
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 500
-        },
-        "relatedLot": "27d79285cd894e7eb504fcdce191a963"
       }
     ]
   }

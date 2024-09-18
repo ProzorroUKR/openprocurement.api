@@ -154,7 +154,7 @@ Additionally in :ref:`belowthreshold` :ref:`openua`, :ref:`openeu`, :ref:`open`,
 :product:
     string, required
 
-    ID for related product in catalogue
+    ID for related product from catalogue
 
 
 .. _Classification:

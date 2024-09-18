@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-08 22:20+0300\n"
+"POT-Creation-Date: 2024-09-18 14:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -19,9 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-msgid "GitHub"
-msgstr ""
-
 msgid "Проєкти ЦБД"
 msgstr ""
 
@@ -29,6 +26,9 @@ msgid "Проєкт ЦБД"
 msgstr ""
 
 msgid "|github| `ProzorroUKR/openprocurement.api <https://github.com/ProzorroUKR/openprocurement.api>`_"
+msgstr ""
+
+msgid "GitHub"
 msgstr ""
 
 msgid "TODO"
@@ -62,12 +62,6 @@ msgid "Проєкт bridge competitivedialogue"
 msgstr ""
 
 msgid "|github| `ProzorroUKR/prozorro-bridge-competitivedialogue <https://github.com/ProzorroUKR/prozorro-bridge-competitivedialogue>`_"
-msgstr ""
-
-msgid "Проєкт bridge pricequotation"
-msgstr ""
-
-msgid "|github| `ProzorroUKR/prozorro-bridge-pricequotation <https://github.com/ProzorroUKR/prozorro-bridge-pricequotation>`_"
 msgstr ""
 
 msgid "Проєкт tasks"
@@ -123,4 +117,10 @@ msgstr ""
 
 msgid "|github| `ProzorroUKR/prozorro_crawler <https://github.com/ProzorroUKR/prozorro_crawler>`_"
 msgstr ""
+
+#~ msgid "Проєкт bridge pricequotation"
+#~ msgstr ""
+
+#~ msgid "|github| `ProzorroUKR/prozorro-bridge-pricequotation <https://github.com/ProzorroUKR/prozorro-bridge-pricequotation>`_"
+#~ msgstr ""
 
