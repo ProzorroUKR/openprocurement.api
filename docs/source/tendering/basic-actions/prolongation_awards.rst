@@ -10,6 +10,9 @@ During award creation, field `period` appeared in every award. By default there 
 .. http:example:: ./http/prolongation-awards/award-get.http
    :code:
 
+.. note::
+    Field `period` will be absent in awards in :ref:`limited`.
+
 To extend this period to 20 days, the procuring entity should add milestone with code `extensionPeriod`:
 
 .. http:example:: ./http/prolongation-awards/award-milestone-extension-post.http
