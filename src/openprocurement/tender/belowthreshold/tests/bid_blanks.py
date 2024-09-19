@@ -837,6 +837,39 @@ def bid_proposal_doc(self):
         "Document with type 'proposal' and format pkcs7-signature is required",
     )
 
+    # add sign doc to financialDocuments
+    self.add_sign_doc(
+        self.tender_id, bid_token, docs_url=f"/bids/{bid['id']}/financial_documents", document_type="proposal"
+    )
+
+    # try to activate bid without proposal doc for UA resident in envelope `documents`
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
+        {"data": {"status": "pending"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Document with type 'proposal' and format pkcs7-signature is required",
+    )
+
+    # try to add one more sign doc in financialDocuments
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}/financial_documents?acc_token={bid_token}",
+        {
+            "data": {
+                "title": "proposal.p7s",
+                "documentType": "proposal",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "sign/p7s",
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.json["errors"][0]["description"], "proposal document in bid should be only one")
+
+    # add sign doc to `documents` envelope
     response = self.add_sign_doc(
         self.tender_id, bid_token, docs_url=f"/bids/{bid['id']}/documents", document_type="proposal"
     )
@@ -864,6 +897,11 @@ def bid_proposal_doc(self):
         status=422,
     )
     self.assertEqual(response.json["errors"][0]["description"], "proposal document in bid should be only one")
+
+    # add sign doc to eligibilityDocuments
+    self.add_sign_doc(
+        self.tender_id, bid_token, docs_url=f"/bids/{bid['id']}/eligibility_documents", document_type="proposal"
+    )
 
     # patch bid
     tenderers = deepcopy(bid["tenderers"])

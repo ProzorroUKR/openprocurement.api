@@ -17,11 +17,7 @@ from openprocurement.tender.cfaselectionua.procedure.utils import (
     equals_decimal_and_corrupted,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.utils import (
-    get_supplier_contract,
-    tender_created_after,
-    tender_created_before,
-)
+from openprocurement.tender.core.procedure.utils import get_supplier_contract
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
     validate_doc_type_required,
@@ -138,7 +134,7 @@ class BidState(BaseState):
             validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
 
     def validate_proposal_doc_required(self, bid):
-        if tender_created_before(BID_PROPOSAL_DOC_REQUIRED_FROM):
+        if get_now() < BID_PROPOSAL_DOC_REQUIRED_FROM:
             return
         if bid["tenderers"][0].get("identifier", {}).get("scheme") == "UA-EDR":
             validate_doc_type_required(
@@ -150,14 +146,15 @@ class BidState(BaseState):
         bid["submissionDate"] = get_now().isoformat()
 
     def validate_proposal_docs(self, data, before=None):
-        documents = data.get("documents", [])
-        if tender_created_after(BID_PROPOSAL_DOC_REQUIRED_FROM) and (
-            before is None or before and len(before.get("documents", [])) != len(documents)
-        ):
-            validate_doc_type_quantity(documents, document_type="proposal", obj_name="bid")
+        for key in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
+            documents = data.get(key, [])
+            if get_now() > BID_PROPOSAL_DOC_REQUIRED_FROM and (
+                before is None or before and len(before.get(key, [])) != len(documents)
+            ):
+                validate_doc_type_quantity(documents, document_type="proposal", obj_name="bid")
 
     def invalidate_pending_bid_after_patch(self, after, before):
-        if self.request.authenticated_role == "Administrator" or tender_created_before(BID_PROPOSAL_DOC_REQUIRED_FROM):
+        if self.request.authenticated_role == "Administrator" or get_now() < BID_PROPOSAL_DOC_REQUIRED_FROM:
             return
         if before.get("status") == after.get("status") == "pending":
             after["status"] = "invalid"

@@ -64,6 +64,9 @@ class DocumentResourceMixin:
     def save(self, **kwargs):
         return save_tender(self.request, modified=self.get_modified(), **kwargs)
 
+    def validate(self, document):
+        pass
+
     def collection_get(self):
         collection_data = self.request.validated["documents"]
         if not self.request.params.get("all", ""):
@@ -92,6 +95,7 @@ class DocumentResourceMixin:
             # api doesn't save defaults and None at the moment
             delete_nones(document)
 
+            self.validate(document)
             self.state.document_on_post(document)
 
         # attaching documents to the bid
@@ -136,6 +140,7 @@ class DocumentResourceMixin:
     def put(self):
         document = self.request.validated["data"]
 
+        self.validate(document)
         self.state.document_on_post(document)
 
         item = self.request.validated[self.item_name]
@@ -153,6 +158,7 @@ class DocumentResourceMixin:
         document = self.request.validated["document"]
         updated_document = self.request.validated["data"]
         if updated_document:
+            self.validate(document)
             self.state.document_on_patch(document, updated_document)
 
             set_item(self.request.validated[self.item_name], self.container, document["id"], updated_document)
