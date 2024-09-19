@@ -32,6 +32,7 @@ from openprocurement.tender.openua.tests.criterion_blanks import (  # Requiremen
     patch_tender_criteria_valid,
     put_rg_requirement_invalid,
     put_rg_requirement_valid,
+    put_rg_requirement_valid_value_change,
     tech_feature_criterion,
     validate_requirement_evidence_document,
 )
@@ -68,6 +69,7 @@ class TenderCriteriaRGRequirementTestMixin:
     test_create_rg_requirement_invalid = snitch(create_rg_requirement_invalid)
     test_patch_rg_requirement = snitch(patch_rg_requirement)
     test_put_rg_requirement_valid = snitch(put_rg_requirement_valid)
+    test_put_rg_requirement_valid_value_change = snitch(put_rg_requirement_valid_value_change)
     test_put_rg_requirement_invalid = snitch(put_rg_requirement_invalid)
     test_get_rg_requirement = snitch(get_rg_requirement)
 

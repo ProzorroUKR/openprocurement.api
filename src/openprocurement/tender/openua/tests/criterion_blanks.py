@@ -1,8 +1,10 @@
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import Mock, patch
+from uuid import uuid4
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_exclusion_criteria,
@@ -1112,6 +1114,138 @@ def put_rg_requirement_valid(self):
     # self.assertEqual(len(response.json["data"]), 4)
     # for field in put_exclusion_ignore_data:
     #     self.assertNotEqual(put_exclusion_ignore_data.get(field), response.json["data"][4].get(field))
+
+
+def put_rg_requirement_valid_value_change(self):
+    post_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}"
+    put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
+
+    for classification_id in ("CRITERION.OTHER", CRITERION_TECHNICAL_FEATURES):
+
+        doc = self.mongodb.tenders.get(self.tender_id)
+
+        if classification_id == CRITERION_TECHNICAL_FEATURES:
+            items = doc["items"]
+            tech_item = items[0].copy()
+            tech_item["id"] = uuid4().hex
+            tech_item["profile"] = "1" * 32
+            tech_item["category"] = "1" * 32
+
+            items.append(tech_item)
+
+        for criterion in doc.get("criteria", []):
+            if criterion["id"] == self.criteria_id:
+                criterion["classification"]["id"] = classification_id
+                if classification_id == CRITERION_TECHNICAL_FEATURES:
+                    criterion["relatedItem"] = tech_item["id"]
+
+        self.mongodb.tenders.save(doc)
+
+        for field in ("minValue", "maxValue", "expectedValue"):
+
+            # 0 -> 1
+
+            test_requirement_data = {
+                "title": "Фізична особа, яка є учасником процедури закупівлі, ",
+                "description": "?",
+                "dataType": "integer",
+                field: 0,
+            }
+
+            response = self.app.post_json(
+                post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
+                {"data": test_requirement_data},
+            )
+            self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.content_type, "application/json")
+            requirement_id = response.json["data"]["id"]
+
+            put_fields = {
+                field: 1,
+            }
+
+            response = self.app.put_json(
+                put_url.format(self.tender_id, self.criteria_id, self.rg_id, requirement_id, self.tender_token),
+                {"data": put_fields},
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+
+            # 1 -> 0
+
+            test_requirement_data = {
+                "title": "Фізична особа, яка є учасником процедури закупівлі, ",
+                "description": "?",
+                "dataType": "integer",
+                field: 1,
+            }
+
+            response = self.app.post_json(
+                post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
+                {"data": test_requirement_data},
+            )
+            self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.content_type, "application/json")
+            requirement_id = response.json["data"]["id"]
+
+            put_fields = {
+                field: 0,
+            }
+
+            response = self.app.put_json(
+                put_url.format(self.tender_id, self.criteria_id, self.rg_id, requirement_id, self.tender_token),
+                {"data": put_fields},
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+
+            # 1 -> None
+
+            test_requirement_data = {
+                "title": "Фізична особа, яка є учасником процедури закупівлі, ",
+                "description": "?",
+                "dataType": "integer",
+                field: 1,
+            }
+
+            response = self.app.post_json(
+                post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
+                {"data": test_requirement_data},
+            )
+            self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.content_type, "application/json")
+            requirement_id = response.json["data"]["id"]
+
+            put_fields = {
+                field: None,
+            }
+
+            if classification_id == CRITERION_TECHNICAL_FEATURES:
+                response = self.app.put_json(
+                    put_url.format(self.tender_id, self.criteria_id, self.rg_id, requirement_id, self.tender_token),
+                    {"data": put_fields},
+                    status=422,
+                )
+                self.assertEqual(response.status, "422 Unprocessable Entity")
+                self.assertEqual(response.content_type, "application/json")
+                self.assertEqual(response.json["status"], "error")
+                self.assertEqual(
+                    response.json["errors"],
+                    [
+                        {
+                            "location": "body",
+                            "name": "data",
+                            "description": f"Disallowed remove {field} field and set other value fields.",
+                        }
+                    ],
+                )
+            else:
+                response = self.app.put_json(
+                    put_url.format(self.tender_id, self.criteria_id, self.rg_id, requirement_id, self.tender_token),
+                    {"data": put_fields},
+                )
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
 
 
 def put_rg_requirement_invalid(self):
