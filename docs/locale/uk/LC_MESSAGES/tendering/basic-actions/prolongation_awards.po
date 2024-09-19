@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-13 13:48+0300\n"
+"POT-Creation-Date: 2024-09-19 10:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -26,7 +26,10 @@ msgid "For all procedures, except :ref:`limited` and :ref:`belowThreshold`, ther
 msgstr "Для всіх процедур, окрім :ref:`limited` та :ref:`belowThreshold`, існує можливість подовжити строк розгляду аварду."
 
 msgid "During award creation, field `period` appeared in every award. By default there are 5 working days for making decision:"
-msgstr "Під час створення ававрду, з'яввляється поле `period`. По замовчуванню є 5 робочих днів на прийняття рішення:"
+msgstr "Під час створення ававрду, з'являється поле `period`. По замовчуванню є 5 робочих днів на прийняття рішення:"
+
+msgid "Field `period` will be absent in awards in :ref:`limited`."
+msgstr "Поле `period` буде відсутнє в авардах :ref:`limited`."
 
 msgid "To extend this period to 20 days, the procuring entity should add milestone with code `extensionPeriod`:"
 msgstr "Для того, щоб подовжити строк розгляду аварду до 20 робочих днів, замовник має додати майлстоун з кодом `extensionPeriod`:"
