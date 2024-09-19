@@ -66,12 +66,12 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
 
         self.validate_on_patch(before, after)
         self.requirement_always(after)
-        self.validate_patch_requirement_values(after, before)
+        self.validate_patch_requirement_values(before, after)
 
     def requirement_on_put(self, before: dict, after: dict) -> None:
         self.validate_on_put(before, after)
         self.requirement_always(after)
-        self.validate_patch_requirement_values(after, before)
+        self.validate_patch_requirement_values(before, after)
 
     def requirement_always(self, data: dict) -> None:
         self.invalidate_bids()
@@ -116,7 +116,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
             return
 
         for field in value_fields:
-            if not after.get(field) and before.get(field):
+            if before.get(field) is not None and after.get(field) is None:
                 raise_operation_error(
                     self.request,
                     f"Disallowed remove {field} field and set other value fields.",
