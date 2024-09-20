@@ -777,13 +777,13 @@ def create_tender_draft_with_criteria(self):
     criterion_1.pop("id")
     criterion_1["classification"] = {
         "scheme": " espd211",
-        "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+        "id": "CRITERION.EXCLUSION.NATIONAL.OTHER.1",
     }
     criterion_2 = deepcopy(patch_criteria[1])
     criterion_2.pop("id")
     criterion_2["classification"] = {
         "scheme": " espd211",
-        "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+        "id": "CRITERION.EXCLUSION.NATIONAL.OTHER.1",
     }
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={token}", {"data": {"criteria": [criterion_1, criterion_2]}}, status=403
@@ -833,10 +833,12 @@ def create_tender_draft_with_criteria(self):
     )
 
     # fix requirement ids
-    for c in patch_criteria:
+    for i, c in enumerate(patch_criteria):
+        c["classification"]["id"] += str(i)
         for g in c["requirementGroups"]:
             for r in g["requirements"]:
                 r["id"] = uuid4().hex
+
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={token}",
         {"data": {"criteria": patch_criteria}},

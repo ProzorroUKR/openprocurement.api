@@ -121,7 +121,7 @@ Content-Type: application/json
         "source": "tenderer",
         "classification": {
           "scheme": " espd211",
-          "id": "CRITERION.OTHER"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
         },
         "title": "Форма випуску",
         "legislation": [
@@ -158,7 +158,7 @@ Content-Type: application/json
         "source": "tenderer",
         "classification": {
           "scheme": " espd211",
-          "id": "CRITERION.OTHER"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
         },
         "title": "Доза діючої речовини",
         "legislation": [
@@ -199,7 +199,7 @@ Content-Type: application/json
         "source": "tenderer",
         "classification": {
           "scheme": " espd211",
-          "id": "CRITERION.OTHER"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
         },
         "title": "Форма випуску",
         "legislation": [

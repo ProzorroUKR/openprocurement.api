@@ -83,7 +83,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "source": "tenderer",
         "classification": {
           "scheme": " espd211",
-          "id": "CRITERION.OTHER"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
         },
         "legislation": [
           {
@@ -115,7 +115,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "source": "tenderer",
         "classification": {
           "scheme": " espd211",
-          "id": "CRITERION.OTHER"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
         },
         "legislation": [
           {
@@ -151,7 +151,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "source": "tenderer",
         "classification": {
           "scheme": " espd211",
-          "id": "CRITERION.OTHER"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
         },
         "legislation": [
           {
@@ -303,7 +303,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         "source": "tenderer",
         "classification": {
           "scheme": " espd211",
-          "id": "CRITERION.OTHER"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
         },
         "title": "Форма випуску",
         "legislation": [
@@ -340,7 +340,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         "source": "tenderer",
         "classification": {
           "scheme": " espd211",
-          "id": "CRITERION.OTHER"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
         },
         "title": "Доза діючої речовини",
         "legislation": [
@@ -381,7 +381,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         "source": "tenderer",
         "classification": {
           "scheme": " espd211",
-          "id": "CRITERION.OTHER"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
         },
         "title": "Форма випуску",
         "legislation": [

@@ -643,6 +643,22 @@ def requirement_response_value_validation_for_expected_values(self):
     criteria_data = [
         {
             "description": "Форма випуску",
+            "source": "tenderer",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1",
+            },
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Форма випуску",
@@ -655,6 +671,22 @@ def requirement_response_value_validation_for_expected_values(self):
         },
         {
             "description": "Доза діючої речовини",
+            "source": "tenderer",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2",
+            },
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Доза діючої речовини",

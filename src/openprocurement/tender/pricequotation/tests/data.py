@@ -144,7 +144,7 @@ test_tender_pq_criteria = [
     {
         "description": "Діагональ екрану",
         "source": "tenderer",
-        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"},
         "legislation": [
             {
                 "version": "2020-04-19",
@@ -175,7 +175,7 @@ test_tender_pq_criteria = [
     {
         "description": "Роздільна здатність",
         "source": "tenderer",
-        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"},
         "legislation": [
             {
                 "version": "2020-04-19",
@@ -402,7 +402,11 @@ test_tender_pq_short_profile = {
             "description": "Діагональ екрану",
             "id": "655360-0001",
             "source": "tenderer",
-            "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1",
+            },
+            "source": "tenderer",
             "legislation": [
                 {
                     "version": "2020-04-19",
@@ -434,6 +438,22 @@ test_tender_pq_short_profile = {
         {
             "description": "Роздільна здатність",
             "id": "655360-0002",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2",
+            },
+            "source": "tenderer",
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Роздільна здатність - 1920x1080",
@@ -453,6 +473,22 @@ test_tender_pq_short_profile = {
         {
             "description": "Співвідношення сторін",
             "id": "655360-0003",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3",
+            },
+            "source": "tenderer",
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Співвідношення сторін",
@@ -472,6 +508,22 @@ test_tender_pq_short_profile = {
         {
             "description": "Яскравість дисплея",
             "id": "655360-0004",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES4",
+            },
+            "source": "tenderer",
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Яскравість дисплея, не менше 250 кд/м²",
@@ -492,6 +544,22 @@ test_tender_pq_short_profile = {
         {
             "description": "Контрастність (статична)",
             "id": "655360-0005",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES5",
+            },
+            "source": "tenderer",
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Контрастність (статична) - 1000:1",
@@ -511,6 +579,22 @@ test_tender_pq_short_profile = {
         {
             "description": "Кількість портів HDMI",
             "id": "655360-0006",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES6",
+            },
+            "source": "tenderer",
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Кількість портів HDMI, не менше 1 шт.",
@@ -531,6 +615,22 @@ test_tender_pq_short_profile = {
         {
             "description": "Кількість портів D-sub",
             "id": "655360-0007",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES7",
+            },
+            "source": "tenderer",
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Кількість портів D-sub, не менше 1 шт.",
@@ -551,6 +651,22 @@ test_tender_pq_short_profile = {
         {
             "description": "Кабель для під’єднання",
             "id": "655360-0008",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES8",
+            },
+            "source": "tenderer",
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Кабель для під’єднання",
@@ -570,6 +686,22 @@ test_tender_pq_short_profile = {
         {
             "description": "Строк дії гарантії",
             "id": "655360-0009",
+            "classification": {
+                "scheme": " espd211",
+                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES9",
+            },
+            "source": "tenderer",
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Гарантія, не менше 36 місяців",
@@ -605,7 +737,7 @@ test_tender_pq_criteria_1 = [
         "description": "Форма випуску",
         "id": "400496-0001",
         "source": "tenderer",
-        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"},
         "legislation": [
             {
                 "version": "2020-04-19",
@@ -637,7 +769,7 @@ test_tender_pq_criteria_1 = [
         "description": "Доза діючої речовини",
         "id": "400496-0002",
         "source": "tenderer",
-        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"},
         "legislation": [
             {
                 "version": "2020-04-19",
@@ -670,7 +802,7 @@ test_tender_pq_criteria_1 = [
         "description": "Форма випуску",
         "id": "400496-0003",
         "source": "tenderer",
-        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"},
         "legislation": [
             {
                 "version": "2020-04-19",
