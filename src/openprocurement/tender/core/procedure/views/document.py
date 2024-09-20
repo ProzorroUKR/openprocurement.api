@@ -129,7 +129,7 @@ class DocumentResourceMixin:
             return self.get_file()
         document = self.request.validated["document"]
         document["previousVersions"] = [
-            DocumentSerializer(i).data for i in self.request.validated["documents"] if i["url"] != document["url"]
+            self.serializer_class(i).data for i in self.request.validated["documents"] if i["url"] != document["url"]
         ]
         return {"data": self.serializer_class(document).data}
 
