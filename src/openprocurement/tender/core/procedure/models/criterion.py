@@ -356,16 +356,16 @@ class BaseCriterion(Model):
     description_en = StringType()
     description_ru = StringType()
 
-    source = StringType(choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"])
+    source = StringType(choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"], required=True)
     relatesTo = StringType(choices=["tenderer", "item", "lot", "tender"])
     relatedItem = MD5Type()
-    classification = ModelType(CriterionClassification)
+    classification = ModelType(CriterionClassification, required=True)
 
 
 class Criterion(ValidateIdMixing, BaseCriterion):
     title = StringType(required=True, min_length=1)
     additionalClassifications = ListType(ModelType(BaseClassification, required=True))
-    legislation = ListType(ModelType(LegislationItem, required=True))
+    legislation = ListType(ModelType(LegislationItem, required=True), min_size=1, required=True)
     requirementGroups = ListType(
         ModelType(RequirementGroup, required=True),
         required=True,
@@ -449,7 +449,8 @@ class Criterion(ValidateIdMixing, BaseCriterion):
 
 
 class PatchCriterion(BaseCriterion):
-    pass
+    source = StringType(choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"])
+    classification = ModelType(CriterionClassification)
 
 
 # Criterion ----
