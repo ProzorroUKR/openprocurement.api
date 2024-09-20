@@ -406,7 +406,6 @@ test_tender_pq_short_profile = {
                 "scheme": " espd211",
                 "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1",
             },
-            "source": "tenderer",
             "legislation": [
                 {
                     "version": "2020-04-19",
