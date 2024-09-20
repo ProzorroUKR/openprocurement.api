@@ -78,6 +78,7 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
     create_model_class = PostDocument
     update_model_class = PatchDocument
     state_class = BidDocumentState
+    container = "documents"
 
     def __acl__(self):
         acl = [
@@ -97,6 +98,9 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
         if context and request.matchdict:
             resolve_bid(request)
             resolve_document(request, self.item_name, self.container)
+
+    def validate(self, document):
+        self.state.validate_sign_documents_already_exists(document, self.container)
 
     @json_view(
         validators=(
