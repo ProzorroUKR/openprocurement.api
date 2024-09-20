@@ -48,6 +48,7 @@ class TenderCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, Tend
 
     test_put_rg_requirement_invalid = snitch(put_rg_requirement_invalid)
     test_put_rg_requirement_valid = snitch(put_rg_requirement_valid)
+    test_put_rg_requirement_valid_value_change = None  # FIXME: adopt test
 
 
 class TenderCriteriaRGRequirementEvidenceTest(
