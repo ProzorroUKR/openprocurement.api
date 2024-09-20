@@ -118,7 +118,23 @@ Content-Type: application/json
       {
         "id": "bdf27086b44e45f4bd53f2cc82506f8b",
         "description": "Форма випуску",
+        "source": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.OTHER"
+        },
         "title": "Форма випуску",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION"
+          }
+        ],
         "requirementGroups": [
           {
             "id": "908040dfbe4e433f87b6eff3c324a3fa",
@@ -139,7 +155,23 @@ Content-Type: application/json
       {
         "id": "3ab4e18f94cb4f419b848c1da90019f8",
         "description": "Доза діючої речовини",
+        "source": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.OTHER"
+        },
         "title": "Доза діючої речовини",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION"
+          }
+        ],
         "requirementGroups": [
           {
             "id": "2cceb52b85b1408182ad5a032d7c1049",
@@ -164,7 +196,23 @@ Content-Type: application/json
       {
         "id": "eb5f83dbc4e14b96b58ec3652e72b2fe",
         "description": "Форма випуску",
+        "source": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.OTHER"
+        },
         "title": "Форма випуску",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION"
+          }
+        ],
         "requirementGroups": [
           {
             "id": "3307ebf5c9a045f591077d680624f298",

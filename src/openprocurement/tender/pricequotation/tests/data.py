@@ -143,6 +143,19 @@ test_tender_pq_requirement_response_valid = [
 test_tender_pq_criteria = [
     {
         "description": "Діагональ екрану",
+        "source": "tenderer",
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
         "requirementGroups": [
             {
                 "description": "Діагональ екрану, не менше 23.8 дюймів",
@@ -161,6 +174,19 @@ test_tender_pq_criteria = [
     },
     {
         "description": "Роздільна здатність",
+        "source": "tenderer",
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
         "requirementGroups": [
             {
                 "description": "Роздільна здатність - 1920x1080",
@@ -375,6 +401,19 @@ test_tender_pq_short_profile = {
         {
             "description": "Діагональ екрану",
             "id": "655360-0001",
+            "source": "tenderer",
+            "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                }
+            ],
             "requirementGroups": [
                 {
                     "description": "Діагональ екрану, не менше 23.8 дюймів",
@@ -565,6 +604,19 @@ test_tender_pq_criteria_1 = [
     {
         "description": "Форма випуску",
         "id": "400496-0001",
+        "source": "tenderer",
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
         "requirementGroups": [
             {
                 "description": "Форма випуску",
@@ -584,6 +636,19 @@ test_tender_pq_criteria_1 = [
     {
         "description": "Доза діючої речовини",
         "id": "400496-0002",
+        "source": "tenderer",
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
         "requirementGroups": [
             {
                 "description": "Доза діючої речовини",
@@ -604,6 +669,19 @@ test_tender_pq_criteria_1 = [
     {
         "description": "Форма випуску",
         "id": "400496-0003",
+        "source": "tenderer",
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
         "requirementGroups": [
             {
                 "description": "Форма випуску",
@@ -628,6 +706,19 @@ test_tender_pq_criteria_2 = [
     {
         "description": "Форма випуску",
         "id": "400496-0001",
+        "source": "tenderer",
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
         "requirementGroups": [
             {
                 "description": "Форма випуску",
@@ -663,6 +754,19 @@ test_tender_pq_criteria_3 = [
     {
         "description": "Форма випуску",
         "id": "400496-0001",
+        "source": "tenderer",
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
         "requirementGroups": [
             {
                 "description": "Форма випуску",
@@ -706,6 +810,19 @@ test_tender_pq_criteria_4 = [
         "description": "Форма випуску",
         "title": "Форма випуску",
         "id": "400496-0001",
+        "source": "tenderer",
+        "classification": {"scheme": " espd211", "id": "CRITERION.OTHER"},
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
         "requirementGroups": [
             {
                 "description": "Форма випуску",
