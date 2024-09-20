@@ -1567,7 +1567,7 @@ def tender_cause_reporting(self):
         ],
     )
 
-    data["cause"] = "additionalPurchase"
+    data["cause"] = "naturalGas"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
