@@ -18,15 +18,17 @@ from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
+from openprocurement.contracting.econtract.procedure.models.contract import (
+    Buyer,
+    Supplier,
+)
+from openprocurement.tender.core.procedure.contracting import (
+    clean_contract_value,
+    clean_objs,
+)
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
-
-
-def delete_buyers_attrs(objs):
-    for obj in objs:
-        obj.pop("id", None)
-        obj.pop("contactPoint", None)
 
 
 def get_buyer(tender, contract):
@@ -37,7 +39,7 @@ def get_buyer(tender, contract):
                 buyer = i
                 break
 
-    delete_buyers_attrs([buyer])
+    clean_objs([buyer], Buyer, {"id", "contactPoint"})
     return buyer
 
 
@@ -55,6 +57,9 @@ def create_contract(env, tender, tender_contract):
         tender_contract["config"] = {"restricted": tender["config"]["restricted"]}
 
     bid_owner, bid_token = get_bid_credentials(tender, tender_contract.get("awardID"))
+
+    if "value" in tender_contract:
+        tender_contract["value"] = clean_contract_value(dict(tender_contract["value"]))
 
     tender_contract.update(
         {
@@ -92,7 +97,7 @@ def update_contract_pe_to_buyer(env, tender, tender_contract, contracting_contra
         updated_data["bid_token"] = bid_token
 
     if "suppliers" in contracting_contract:
-        delete_buyers_attrs(contracting_contract["suppliers"])
+        clean_objs(contracting_contract["suppliers"], Supplier, {"id", "contactPoint"})
         updated_data["suppliers"] = contracting_contract["suppliers"]
 
     if tender.get("mode") and not contracting_contract.get("mode"):
@@ -125,7 +130,7 @@ def update_contract_pe_to_buyer(env, tender, tender_contract, contracting_contra
 def run(env, args):
     migration_name = os.path.basename(__file__).split(".")[0]
 
-    logger.info("Starting migration: %s", migration_name)
+    logger.info("Starting esco contracting migration: %s", migration_name)
 
     contracts_collection = env["registry"].mongodb.contracts.collection
     tenders_collection = env["registry"].mongodb.tenders.collection
@@ -138,7 +143,7 @@ def run(env, args):
     counter = defaultdict(total_contracts=0, updated_contracts=0, created_contracts=0, skipped_contracts=0)
 
     cursor = tenders_collection.find(
-        {"contracts.status": {"$in": contract_statuses}, "procurementMethodType": {"$ne": "esco"}},
+        {"contracts.status": {"$in": contract_statuses}, "procurementMethodType": "esco"},
         {
             "contracts": 1,
             "buyers": 1,

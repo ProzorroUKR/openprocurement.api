@@ -3,6 +3,7 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.value import ContractValue
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.contracting.core.procedure.models.contract import (
@@ -17,7 +18,6 @@ from openprocurement.contracting.econtract.procedure.models.organization import 
     Buyer,
     Supplier,
 )
-from openprocurement.contracting.econtract.procedure.models.value import ContractValue
 from openprocurement.tender.core.procedure.models.contract import (
     validate_item_unit_values,
 )

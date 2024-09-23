@@ -17,25 +17,17 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_esco_bids,
 )
 from openprocurement.tender.esco.tests.contract_blanks import (  # TenderContractResourceTest; EContract
+    cancel_award,
     contract_termination,
-    create_tender_contract,
     create_tender_contract_document,
     create_tender_contract_document_by_others,
-    create_tender_contract_document_by_supplier,
-    create_tender_contract_invalid,
     get_tender_contract,
     get_tender_contracts,
-    not_found,
-    patch_tender_contract,
+    patch_contract,
     patch_tender_contract_datesigned,
     patch_tender_contract_document,
-    patch_tender_contract_document_by_supplier,
-    patch_tender_contract_status_by_others,
-    patch_tender_contract_status_by_owner,
-    patch_tender_contract_status_by_supplier,
     put_tender_contract_document,
     put_tender_contract_document_by_others,
-    put_tender_contract_document_by_supplier,
 )
 from openprocurement.tender.openeu.tests.base import test_tender_openeu_data
 
@@ -64,13 +56,11 @@ contract_amount = to_decimal(
 
 
 class TenderContractResourceTestMixin:
-    test_create_tender_contract_invalid = snitch(create_tender_contract_invalid)
     test_get_tender_contract = snitch(get_tender_contract)
     test_get_tender_contracts = snitch(get_tender_contracts)
 
 
 class TenderContractDocumentResourceTestMixin:
-    test_not_found = snitch(not_found)
     test_create_tender_contract_document = snitch(create_tender_contract_document)
     test_put_tender_contract_document = snitch(put_tender_contract_document)
     test_patch_tender_contract_document = snitch(patch_tender_contract_document)
@@ -119,12 +109,9 @@ class TenderContractResourceTest(BaseESCOContentWebTest, CreateAwardMixin, Tende
         self.create_award()
 
     test_contract_termination = snitch(contract_termination)
-    test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
-    test_patch_tender_contract = snitch(patch_tender_contract)
-    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
-    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
-    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
+    test_patch_contract = snitch(patch_contract)
+    test_cancel_award = snitch(cancel_award)
 
 
 class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractDocumentResourceTestMixin):
@@ -151,19 +138,13 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
         )
         # Create contract for award
         self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/contracts".format(self.tender_id),
-            {"data": {"title": "contract title", "description": "contract description", "awardID": self.award_id}},
-        )
-        contract = response.json["data"]
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        contract = response.json["data"]["contracts"][-1]
         self.contract_id = contract["id"]
         self.app.authorization = ("Basic", ("broker", ""))
 
-    test_create_tender_contract_document_by_supplier = snitch(create_tender_contract_document_by_supplier)
     test_create_tender_contract_document_by_others = snitch(create_tender_contract_document_by_others)
-    test_put_tender_contract_document_by_supplier = snitch(put_tender_contract_document_by_supplier)
     test_put_tender_contract_document_by_others = snitch(put_tender_contract_document_by_others)
-    test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 
 def suite():

@@ -8,7 +8,10 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_contract_by_id, request_init_contract
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.econtract.procedure.models.contract import Buyer
+from openprocurement.contracting.econtract.procedure.models.contract import (
+    Buyer,
+    ContractValue,
+)
 from openprocurement.contracting.econtract.procedure.models.contract import (
     Item as ContractItem,
 )
@@ -20,7 +23,6 @@ from openprocurement.tender.belowthreshold.procedure.utils import (
     prepare_tender_item_for_contract,
 )
 from openprocurement.tender.core.procedure.context import get_award, get_request
-from openprocurement.tender.core.procedure.utils import is_new_contracting
 
 LOGGER = getLogger(__name__)
 
@@ -113,7 +115,7 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
     }
     if contract_value:
-        base_contract_data["value"] = contract_value
+        base_contract_data["value"] = clean_contract_value(contract_value)
 
     contract_data = {
         # "awardID": award["id"],
@@ -131,10 +133,7 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         if contract_data[k] is None:
             del contract_data[k]
 
-    if is_new_contracting():
-        tender["contracts"].append(base_contract_data)
-    else:
-        tender["contracts"].append(contract_data)
+    tender["contracts"].append(base_contract_data)
 
     return contract_data
 
@@ -152,6 +151,14 @@ def clean_objs(objs: List[Dict], model, forbidden_fields=None):
             if field not in acceptable_fields or field in forbidden_fields:
                 obj.pop(field, None)
     return objs
+
+
+def clean_contract_value(value: dict) -> dict:
+    acceptable_fields = set(ContractValue.fields)
+    for field in set(value.keys()):
+        if field not in acceptable_fields:
+            value.pop(field, None)
+    return value
 
 
 def set_attributes_to_contract_items(tender, bid, contract):
@@ -228,8 +235,6 @@ def get_additional_contract_data(request, contract, tender, award):
 
 def save_contracts_to_contracting(contracts, award=None):
     tender = get_tender()
-    if not is_new_contracting():
-        return
     if not award:
         award = get_award()
     request = get_request()
@@ -248,9 +253,6 @@ def save_contracts_to_contracting(contracts, award=None):
 
 def update_econtracts_statuses(contracts_ids, status):
     request = get_request()
-
-    if not is_new_contracting():
-        return
 
     for i in contracts_ids:
         econtract = get_contract_by_id(request, i, raise_error=False)

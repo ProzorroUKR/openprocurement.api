@@ -19,7 +19,6 @@ from openprocurement.tender.core.procedure.utils import (
     check_is_tender_waiting_for_inspector_approve,
     dt_from_iso,
     get_supplier_contract,
-    is_new_contracting,
     tender_created_after_2020_rules,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
@@ -784,8 +783,6 @@ class ChronographEventsMixing:
             self.remove_auction_period(lot)
 
     def set_contracts_cancelled(self, tender, lot_id=None):
-        if not is_new_contracting() or not tender.get("contracts"):
-            return
 
         contracts = tender.get("contracts", tuple())
         if lot_id:

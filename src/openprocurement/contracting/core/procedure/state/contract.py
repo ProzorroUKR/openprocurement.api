@@ -62,7 +62,7 @@ class BaseContractState(BaseState, ContractStateMixing):
             else:
                 for k in item_before.keys() | item_after.keys():
                     before, after = item_before.get(k), item_after.get(k)
-                    if not before and not after:  # [] or None check
+                    if not before or not after:  # [] or None check
                         continue
 
                     if k == "unit" and "unit.value.amount" in item_patch_fields:

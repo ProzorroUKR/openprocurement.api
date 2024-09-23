@@ -130,55 +130,40 @@ def patch_contract(self, tender_id, tender_token, contract_id, data):
 def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
     response = self.app.get(f"/tenders/{tender_id}")
     tender_type = response.json["data"]["procurementMethodType"]
-    if tender_type == "esco":
-        response = self.app.patch_json(
-            f"/tenders/{tender_id}/contracts/{contract_id}?acc_token={tender_token}",
-            {
-                "data": {
-                    "status": "active",
-                    "contractNumber": "123",
-                    "period": {
-                        "startDate": "2023-03-18T18:47:47.155143+02:00",
-                        "endDate": "2023-05-18T18:47:47.155143+02:00",
-                    },
-                }
-            },
-        )
-    else:
-        test_signer_info = {
-            "name": "Test Testovich",
-            "telephone": "+380950000000",
-            "email": "example@email.com",
-            "iban": "1" * 15,
-            "authorizedBy": "статут",
-            "position": "Генеральний директор",
-        }
-        response = self.app.put_json(
-            f"/contracts/{contract_id}/suppliers/signer_info?acc_token={bid_token}",
-            {"data": test_signer_info},
-        )
-        self.assertEqual(response.status, "200 OK")
+    test_signer_info = {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "1" * 15,
+        "authorizedBy": "статут",
+        "position": "Генеральний директор",
+    }
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/suppliers/signer_info?acc_token={bid_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
 
-        response = self.app.put_json(
-            f"/contracts/{contract_id}/buyer/signer_info?acc_token={tender_token}",
-            {"data": test_signer_info},
-        )
-        self.assertEqual(response.status, "200 OK")
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/buyer/signer_info?acc_token={tender_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
 
-        response = self.app.patch_json(
-            f"/contracts/{contract_id}?acc_token={tender_token}",
-            {
-                "data": {
-                    "status": "active",
-                    "contractNumber": "123",
-                    "period": {
-                        "startDate": "2023-03-18T18:47:47.155143+02:00",
-                        "endDate": "2023-05-18T18:47:47.155143+02:00",
-                    },
-                }
-            },
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["status"], "active")
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={tender_token}",
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2023-03-18T18:47:47.155143+02:00",
+                    "endDate": "2023-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
 
     return response.json["data"]
