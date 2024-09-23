@@ -1,5 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.tender.belowthreshold.procedure.state.award_milestone import (
+    BelowThresholdAwardMilestoneState,
+)
 from openprocurement.tender.core.procedure.views.award_milestone import (
     BaseAwardMilestoneResource,
 )
@@ -13,4 +16,4 @@ from openprocurement.tender.core.procedure.views.award_milestone import (
     procurementMethodType="belowThreshold",
 )
 class BelowThresholdAwardMilestoneResource(BaseAwardMilestoneResource):
-    pass
+    state_class = BelowThresholdAwardMilestoneState

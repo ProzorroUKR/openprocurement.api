@@ -9,6 +9,8 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
     contract_model = Contract
     sign_award_required = False
+    generate_award_milestones = False
+    award_has_period = False
 
     def award_status_up_from_pending_to_active(self, award, tender):
         self.request.validated["contracts_added"] = add_contracts(self.request, award)

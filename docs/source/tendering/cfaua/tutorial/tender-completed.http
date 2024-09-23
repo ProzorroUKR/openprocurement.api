@@ -1823,6 +1823,10 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
+        "period": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-18T00:00:00+03:00"
+        },
         "qualified": true,
         "eligible": true
       },
@@ -1876,6 +1880,10 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
+        "period": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-18T00:00:00+03:00"
+        },
         "qualified": true,
         "eligible": true
       },
@@ -1929,6 +1937,10 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
+        "period": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-18T00:00:00+03:00"
+        },
         "qualified": true,
         "eligible": true
       },
@@ -1980,7 +1992,11 @@ Content-Type: application/json
             "author": "tender_owner",
             "language": "uk"
           }
-        ]
+        ],
+        "period": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-18T00:00:00+03:00"
+        }
       },
       {
         "id": "74cfc212ef074ef68bf35e860cd27515",
@@ -2031,6 +2047,10 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
+        "period": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-18T00:00:00+03:00"
+        },
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
@@ -2088,6 +2108,10 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
+        "period": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-18T00:00:00+03:00"
+        },
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
@@ -2145,6 +2169,10 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
+        "period": {
+          "startDate": "2023-10-10T01:02:01+03:00",
+          "endDate": "2023-10-18T00:00:00+03:00"
+        },
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {

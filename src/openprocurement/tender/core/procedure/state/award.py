@@ -20,6 +20,7 @@ class AwardStateMixing:
     contract_model = Contract
     award_stand_still_working_days: bool = True
     sign_award_required: bool = True
+    award_has_period: bool = True
 
     def validate_award_patch(self, before, after):
         tender = get_tender()
@@ -34,6 +35,18 @@ class AwardStateMixing:
             pass  # allowing to update award in pending status
         else:
             raise_operation_error(self.request, f"Can't update award in current ({before['status']}) status")
+
+    def award_on_post(self, award):
+        if self.award_has_period:
+            award["period"] = {
+                "startDate": get_now().isoformat(),
+                "endDate": calculate_tender_full_date(
+                    get_now(),
+                    timedelta(days=5),
+                    tender=get_tender(),
+                    working_days=True,
+                ).isoformat(),
+            }
 
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"

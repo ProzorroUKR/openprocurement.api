@@ -56,6 +56,7 @@ from openprocurement.tender.limited.tests.award_blanks import (  # TenderAwardDo
     patch_tender_award_unsuccessful,
     patch_tender_lot_award,
     patch_tender_lot_award_unsuccessful,
+    prolongation_award_is_forbidden,
     review_tender_award_complaint,
     review_tender_award_stopping_complaint,
     two_awards_on_one_lot,
@@ -92,6 +93,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     test_get_tender_award = snitch(get_tender_award)
     test_activate_contract_with_cancelled_award = snitch(activate_contract_with_cancelled_award)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
+    test_prolongation_award_is_forbidden = snitch(prolongation_award_is_forbidden)
 
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):

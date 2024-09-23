@@ -1213,6 +1213,50 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'sign-data/sign-award-data.http', 'w') as self.app.file_obj:
             self.app.get(f"/tenders/{self.tender_id}/awards/{award_id}?opt_context=true")
 
+        # extend award period
+        with open(TARGET_DIR + 'prolongation-awards/award-get.http', 'w') as self.app.file_obj:
+            self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token))
+
+        with open(TARGET_DIR + 'prolongation-awards/award-milestone-extension-post.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/milestones?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"code": "extensionPeriod", "description": "Обгрунтування продовження строків розгляду"}},
+            )
+        with open(
+            TARGET_DIR + 'prolongation-awards/award-milestone-extension-invalid-post.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/milestones?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"code": "extensionPeriod", "description": "Обгрунтування продовження строків розгляду №2"}},
+                status=422,
+            )
+
+        extension_doc_data = {
+            "title": "sign.p7s",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pkcs7-signature",
+            "documentType": "extensionReport",
+        }
+        with open(TARGET_DIR + 'prolongation-awards/award-extension-report-post.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": extension_doc_data},
+            )
+
+        # second extensionReport doc is forbidden to add
+        with open(
+            TARGET_DIR + 'prolongation-awards/award-extension-report-invalid-post.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": extension_doc_data},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'prolongation-awards/award-extension-get.http', 'w') as self.app.file_obj:
+            self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token))
+
         # check complaints for unsuccessful award
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(

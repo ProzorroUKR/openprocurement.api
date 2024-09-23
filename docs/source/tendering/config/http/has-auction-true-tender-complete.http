@@ -1119,6 +1119,10 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
+        "period": {
+          "startDate": "2023-11-09T00:00:00+02:00",
+          "endDate": "2023-11-16T00:00:00+02:00"
+        },
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
@@ -1176,6 +1180,10 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
+        "period": {
+          "startDate": "2023-11-09T00:00:00+02:00",
+          "endDate": "2023-11-16T00:00:00+02:00"
+        },
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {

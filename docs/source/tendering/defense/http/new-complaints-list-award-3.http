@@ -51,6 +51,10 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
+      "period": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      },
       "qualified": false,
       "eligible": false,
       "complaintPeriod": {
@@ -110,6 +114,10 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
+      "period": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      },
       "qualified": true,
       "eligible": true
     },
@@ -161,6 +169,10 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
+      "period": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      },
       "qualified": false,
       "eligible": false,
       "complaintPeriod": {
@@ -216,6 +228,10 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
+      "period": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      },
       "qualified": true,
       "eligible": true,
       "complaintPeriod": {

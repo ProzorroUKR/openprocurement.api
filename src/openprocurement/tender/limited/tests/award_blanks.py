@@ -12,6 +12,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
+from openprocurement.tender.core.procedure.models.award_milestone import (
+    AwardMilestoneCodes,
+)
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.limited.tests.utils import get_award_data
 
@@ -3756,4 +3759,25 @@ def create_tender_award_document_invalid(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't add document in current (cancelled) award status"
+    )
+
+
+def prolongation_award_is_forbidden(self):
+    tender = self.app.get(f"/tenders/{self.tender_id}").json["data"]
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}", {"data": get_award_data(self)}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award_id = response.json["data"]["id"]
+
+    # try to add milestone
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award_id}/milestones?acc_token={self.tender_token}",
+        {"data": {"code": AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value, "description": "Prolongation"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{'milestones': ['Forbidden to add milestone with code extensionPeriod']}],
     )

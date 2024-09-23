@@ -66,11 +66,18 @@ class BaseTenderMilestone24HMixin:
             status=422,
         )
         if get_now() > RELEASE_2020_04_19:
+            milestones_codes = ['24h', 'extensionPeriod'] if self.context_name == 'award' else ['24h']
             self.assertEqual(
                 response.json,
                 {
                     "status": "error",
-                    "errors": [{"location": "body", "name": "code", "description": ["Value must be one of ['24h']."]}],
+                    "errors": [
+                        {
+                            "location": "body",
+                            "name": "code",
+                            "description": [f"Value must be one of {milestones_codes}."],
+                        }
+                    ],
                 },
             )
         else:

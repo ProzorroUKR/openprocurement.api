@@ -418,7 +418,11 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "6d919725d085458490f52e3e8d5606e3"
+        "bid_id": "6d919725d085458490f52e3e8d5606e3",
+        "period": {
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "endDate": "2023-10-18T00:00:00+03:00"
+        }
       }
     ],
     "contracts": [

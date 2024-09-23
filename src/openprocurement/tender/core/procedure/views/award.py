@@ -73,6 +73,7 @@ class TenderAwardResource(TenderBaseResource):
 
         tender = self.request.validated["tender"]
         award = self.request.validated["data"]
+        self.state.award_on_post(award)
 
         if "awards" not in tender:
             tender["awards"] = []

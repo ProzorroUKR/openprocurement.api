@@ -789,8 +789,8 @@ def validate_cancelled_qualification_update(request, **_):
 
 def validate_update_status_before_milestone_due_date(request, **_):
     # pylint: disable-next=import-outside-toplevel, cyclic-import
-    from openprocurement.tender.core.procedure.models.milestone import (
-        QualificationMilestone,
+    from openprocurement.tender.core.procedure.models.qualification_milestone import (
+        QualificationMilestoneCodes,
     )
 
     qualification = request.validated['qualification']
@@ -799,7 +799,11 @@ def validate_update_status_before_milestone_due_date(request, **_):
         now = get_now().isoformat()
         for milestone in qualification.get('milestones', []):
             if (
-                milestone["code"] in (QualificationMilestone.CODE_24_HOURS, QualificationMilestone.CODE_LOW_PRICE)
+                milestone["code"]
+                in (
+                    QualificationMilestoneCodes.CODE_24_HOURS.value,
+                    QualificationMilestoneCodes.CODE_LOW_PRICE.value,
+                )
                 and milestone["date"] <= now <= milestone["dueDate"]
             ):
                 raise_operation_error(

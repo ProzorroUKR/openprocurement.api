@@ -22,6 +22,7 @@ Contents:
    milestones
    technical-features
    24hours
+   prolongation_awards
    2pc
    sign-data
 

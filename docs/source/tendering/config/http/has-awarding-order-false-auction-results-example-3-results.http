@@ -61,7 +61,11 @@ Content-Type: application/json
           "author": "tender_owner",
           "language": "uk"
         }
-      ]
+      ],
+      "period": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      }
     },
     {
       "id": "99e6dcc3408d4794ae66c30ae2297ea7",
@@ -113,6 +117,10 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
+      "period": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      },
       "complaintPeriod": {
         "startDate": "2023-10-10T01:00:00+03:00",
         "endDate": "2023-10-13T00:00:00+03:00"
@@ -152,7 +160,11 @@ Content-Type: application/json
         }
       ],
       "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
-      "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
+      "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
+      "period": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      }
     },
     {
       "id": "f8c771c7053c432cadbce62b9c7be656",
@@ -204,6 +216,10 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
+      "period": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      },
       "complaintPeriod": {
         "startDate": "2023-10-10T01:00:00+03:00",
         "endDate": "2023-10-13T00:00:00+03:00"

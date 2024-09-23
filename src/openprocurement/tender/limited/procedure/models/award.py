@@ -10,6 +10,9 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.tender.core.procedure.models.award_milestone import (
+    AwardMilestoneListMixin,
+)
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.organization import (
     BusinessOrganization,
@@ -53,7 +56,7 @@ class PatchBaseAward(Model):
     value = ModelType(AwardValue)
 
 
-class BaseAward(Model):
+class BaseAward(AwardMilestoneListMixin, Model):
     id = MD5Type(required=True)
     qualified = BooleanType()
     status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
@@ -73,6 +76,7 @@ class BaseAward(Model):
 
     complaints = BaseType()
     complaintPeriod = ModelType(Period)
+    period = ModelType(Period)
 
 
 # Negotiation

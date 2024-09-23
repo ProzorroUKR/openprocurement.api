@@ -46,7 +46,11 @@ Content-Type: application/json
         }
       ],
       "bid_id": "5e3e02b6dd9849d98c48bf9d741a036e",
-      "lotID": "50fc7d0cb4e3423491c35387a046af42"
+      "lotID": "50fc7d0cb4e3423491c35387a046af42",
+      "period": {
+        "startDate": "2023-10-10T01:01:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
+      }
     }
   ]
 }
