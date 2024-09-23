@@ -370,6 +370,20 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
 
+        with open(TARGET_DIR + 'unsuccessful-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'activate-non-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "active", "qualified": False, "eligible": True}},
+                status=422,
+            )
+
         with open(TARGET_DIR + 'award-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
@@ -379,7 +393,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         with open(TARGET_DIR + 'award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {"data": {"status": "unsuccessful"}},
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
                 status=422,
             )
         with open(TARGET_DIR + 'award-add-notice-document.http', 'w') as self.app.file_obj:
@@ -532,7 +546,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
         with open(TARGET_DIR + 'new-complaints-patch-award-unsuccessful.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-                {"data": {"status": "unsuccessful"}},
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
 
         # award2.1: pending -> active (http award with complaint period 1)
@@ -563,7 +577,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
         with open(TARGET_DIR + 'new-complaints-patch-award-unsuccessful-2.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award_id, self.tender_token),
-                {"data": {"status": "unsuccessful"}},
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
         new_award_id = response.headers["Location"].rsplit("/", 1)[-1]
 

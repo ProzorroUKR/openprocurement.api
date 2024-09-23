@@ -61,7 +61,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fd45af80ad9f4574
         "author": "tender_owner",
         "language": "uk"
       }
-    ]
+    ],
+    "qualified": true
   }
 }
 

@@ -4,14 +4,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 02:51+0300\n"
+"POT-Creation-Date: 2024-09-09 17:49+0300\n"
 "PO-Revision-Date: 2017-07-25 15:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -351,6 +351,24 @@ msgstr "Дивіться на `Bid.participationUrl` у відповіді. Сх
 
 msgid "Confirming qualification"
 msgstr "Підтвердження кваліфікації"
+
+msgid "Qualification comission can set award to `active` or `unsuccessful` status."
+msgstr "Кваліфікаційна комісія може винести рішення по переможцю або відхилити award - перевести авард в `active` або `unsuccessful` статус."
+
+msgid "There are validations before registering qualification decision:"
+msgstr "Валідація значення полів відповідно до рішення під час винесення рішення:"
+
+msgid "`qualified: True` - for setting award from `pending` to `active`"
+msgstr "`qualified: True` - при переході award з `pending` в `active`"
+
+msgid "`qualified: False` - for setting award from `pending` to `unsuccessful`"
+msgstr "`qualified: False` - при переході award з `pending` в `unsuccessful`"
+
+msgid "Let's try to set `unsuccessful` status for `qualified` award and we will see an error:"
+msgstr "Спробуємо відхилити авард для `qualified` учасника:"
+
+msgid "Let's try to set `active` status for `non-qualified` award and we will see an error:"
+msgstr "Спробуємо винести рішення по переможцю по аварду для `non-qualified` учасника:"
 
 msgid "Before making decision it is required to add sign document to award. If there is no sign document during activation, we will see an error:"
 msgstr "Перед прийняттям рішення по переможцю необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час активації буде помилка:"

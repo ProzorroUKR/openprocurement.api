@@ -1,0 +1,30 @@
+PATCH /api/2.5/tenders/de38bea4a6534e13939a382dfeef92f2/awards/dc87ba1686ce42babcf6b6452efbd5e6?acc_token=f63fd82030a24dfc961d6995dc3f33d1 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active",
+    "qualified": false,
+    "eligible": true
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "qualified",
+      "description": [
+        "Can't update award to active status with not qualified"
+      ]
+    }
+  ]
+}
+

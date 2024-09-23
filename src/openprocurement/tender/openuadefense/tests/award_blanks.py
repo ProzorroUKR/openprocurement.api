@@ -147,7 +147,7 @@ def check_tender_award_complaint_period_dates_before_new(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -233,7 +233,7 @@ def check_tender_award_complaint_period_dates_new(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -291,7 +291,7 @@ def patch_tender_award_active(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -375,7 +375,10 @@ def patch_tender_award_active(self):
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
 
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
+    response = self.app.patch_json(
+        new_award_location[-81:],
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("Location", response.headers)
@@ -495,7 +498,7 @@ def patch_tender_award_unsuccessful(self):
     self.app.authorization = auth
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -583,13 +586,19 @@ def patch_tender_award_unsuccessful(self):
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
 
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
+    response = self.app.patch_json(
+        new_award_location[-81:],
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
 
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
+    response = self.app.patch_json(
+        new_award_location[-81:],
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("Location", response.headers)
@@ -714,7 +723,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.app.authorization = auth
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -810,13 +819,19 @@ def patch_tender_lot_award_unsuccessful(self):
     else:
         self.assertGreater(get_now(), parse_date(response.json["data"]["complaintPeriod"]["endDate"]))
 
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
+    response = self.app.patch_json(
+        new_award_location[-81:],
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
 
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
+    response = self.app.patch_json(
+        new_award_location[-81:],
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("Location", response.headers)

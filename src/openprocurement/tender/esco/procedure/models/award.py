@@ -1,3 +1,4 @@
+from schematics.exceptions import ValidationError
 from schematics.types import BooleanType
 
 from openprocurement.api.procedure.types import ListType, ModelType
@@ -17,6 +18,10 @@ class Award(BaseAward):
     weightedValue = ModelType(BaseESCOValue)
     eligible = BooleanType()
     items = ListType(ModelType(Item, required=True))
+
+    def validate_eligible(self, data, eligible):
+        if data["status"] == "active" and not eligible:
+            raise ValidationError("Can't update award to active status with not eligible")
 
 
 class PatchAward(BasePatchAward):

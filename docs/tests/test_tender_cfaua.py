@@ -726,16 +726,30 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # get pending award
         award_ids = [i['id'] for i in response.json['data'] if i['status'] == 'pending']
 
+        with open(TARGET_DIR + 'unsuccessful-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_ids[0], owner_token),
+                {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'activate-non-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_ids[0], owner_token),
+                {"data": {"status": "active", "qualified": False, "eligible": True}},
+                status=422,
+            )
+
         with open(TARGET_DIR + 'award-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_ids[0], owner_token),
-                {"data": {"status": "active"}},
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
                 status=422,
             )
         with open(TARGET_DIR + 'award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_ids[0], owner_token),
-                {"data": {"status": "unsuccessful"}},
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
                 status=422,
             )
         with open(TARGET_DIR + 'award-add-notice-document.http', 'w') as self.app.file_obj:
@@ -775,7 +789,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + 'patch-award-unsuccessful.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_ids[0], owner_token),
-                {'data': {"status": "unsuccessful"}},
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
             self.assertEqual(response.status, '200 OK')
 

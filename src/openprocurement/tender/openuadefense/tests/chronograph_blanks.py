@@ -122,13 +122,15 @@ def switch_to_unsuccessful_new(self):
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
+        "/tenders/{}/awards/{}".format(self.tender_id, award_id),
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
+        "/tenders/{}/awards/{}".format(self.tender_id, award_id),
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
 
     tender = self.mongodb.tenders.get(self.tender_id)
@@ -182,7 +184,8 @@ def switch_to_active_to_unsuccessful(self):
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
+        "/tenders/{}/awards/{}".format(self.tender_id, award_id),
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
@@ -199,7 +202,8 @@ def switch_to_active_to_unsuccessful(self):
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
+        "/tenders/{}/awards/{}".format(self.tender_id, award_id),
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
 
     tender = self.mongodb.tenders.get(self.tender_id)
@@ -321,7 +325,8 @@ def switch_to_unsuccessful_lot_new(self):
         while any(i["status"] == "pending" for i in response.json["data"]):
             award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
             self.app.patch_json(
-                "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
+                "/tenders/{}/awards/{}".format(self.tender_id, award_id),
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
             response = self.app.get("/tenders/{}/awards".format(self.tender_id))
 
@@ -388,7 +393,8 @@ def switch_to_active_to_unsuccessful_lot(self):
         award_ids = [i["id"] for i in response.json["data"] if i["status"] == "pending"]
         for award_id in award_ids:
             response = self.app.patch_json(
-                "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
+                "/tenders/{}/awards/{}".format(self.tender_id, award_id),
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
 
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
@@ -406,7 +412,8 @@ def switch_to_active_to_unsuccessful_lot(self):
         while any(i["status"] == "pending" for i in response.json["data"]):
             award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
             self.app.patch_json(
-                "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
+                "/tenders/{}/awards/{}".format(self.tender_id, award_id),
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
             response = self.app.get("/tenders/{}/awards".format(self.tender_id))
 

@@ -208,7 +208,7 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
                     "/tenders/{}/qualifications/{}?acc_token={}".format(
                         self.tender_id, qualification["id"], self.tender_token
                     ),
-                    {"data": {"status": "unsuccessful"}},
+                    {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
                 )
                 self.assertEqual(response.status, "200 OK")
                 self.assertEqual(response.json["data"]["status"], "unsuccessful")

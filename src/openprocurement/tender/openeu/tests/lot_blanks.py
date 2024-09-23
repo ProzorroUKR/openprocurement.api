@@ -1664,7 +1664,7 @@ def two_lot_2bid_2com_2win(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1864,7 +1864,7 @@ def two_lot_3bid_1win_bug(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1875,7 +1875,7 @@ def two_lot_3bid_1win_bug(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))

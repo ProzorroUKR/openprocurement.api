@@ -1092,7 +1092,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_1_id, owner_token),
-                {'data': {'status': 'active'}},
+                {"data": {"status": "active", "qualified": True}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -1127,14 +1127,14 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_4_id}/documents")
         response = self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_4_id, owner_token),
-            {'data': {'status': 'unsuccessful'}},
+            {"data": {"status": "unsuccessful", "qualified": False}},
         )
         self.assertEqual(response.status, '200 OK')
 
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_2_id}/documents")
         response = self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_2_id, owner_token),
-            {'data': {'status': 'active'}},
+            {"data": {"status": "active", "qualified": True}},
         )
         self.assertEqual(response.status, '200 OK')
 
@@ -1750,22 +1750,12 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-            {
-                "data": {
-                    "status": "active",
-                    "qualified": True,
-                }
-            },
+            {"data": {"status": "active", "qualified": True}},
         )
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award2_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award2_id, owner_token),
-            {
-                "data": {
-                    "status": "active",
-                    "qualified": True,
-                }
-            },
+            {"data": {"status": "active", "qualified": True}},
         )
 
         # Bypass complaintPeriod
@@ -3044,7 +3034,7 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
             # set award as active
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_1_id, owner_token),
-                {'data': {'status': 'active'}},
+                {"data": {"status": "active", "qualified": True}},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertIn("complaintPeriod", response.json["data"])

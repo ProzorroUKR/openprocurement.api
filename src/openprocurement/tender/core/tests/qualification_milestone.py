@@ -162,7 +162,7 @@ class BaseTenderMilestone24HMixin:
 
         # can't update status of context until dueDate
         if procurement_method_type in ("belowThreshold",):
-            activation_data = {"status": "active"}
+            activation_data = {"status": "active", "qualified": True}
         else:
             activation_data = {"status": "active", "qualified": True, "eligible": True}
         response = self.app.patch_json(
@@ -293,11 +293,15 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
 
         # wait until milestone dueDate ends
         with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
+            if procurement_method_type in ("belowThreshold",):
+                unsuccessful_data = {"status": "unsuccessful", "qualified": False}
+            else:
+                unsuccessful_data = {"status": "unsuccessful", "qualified": False, "eligible": False}
             response = self.app.patch_json(
                 "/tenders/{}/{}s/{}?acc_token={}".format(
                     self.tender_id, self.context_name, self.context_id, self.tender_token
                 ),
-                {"data": {"status": "unsuccessful"}},
+                {"data": unsuccessful_data},
                 status=200,
             )
             self.assertEqual(response.json["data"]["status"], "unsuccessful")
@@ -352,7 +356,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
 
         # can't update status of context until dueDate
         if procurement_method_type in ("belowThreshold",):
-            activation_data = {"status": "active"}
+            activation_data = {"status": "active", "qualified": True}
         else:
             activation_data = {"status": "active", "qualified": True, "eligible": True}
 
@@ -490,6 +494,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         lot_id = self.initial_lots[0]["id"] if self.initial_lots else None
 
         tender = response.json["data"]
+        procurement_method_type = response.json["data"]["procurementMethodType"]
         self.assertEqual("active.qualification", tender["status"])
         self.assertGreater(len(tender["awards"]), 0)
 
@@ -508,7 +513,10 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         self.assertEqual(milestone["description"], ALP_MILESTONE_REASONS[0])
 
         # try to change award status
-        unsuccessful_data = {"status": "unsuccessful"}
+        if procurement_method_type in ("belowThreshold",):
+            unsuccessful_data = {"status": "unsuccessful", "qualified": False}
+        else:
+            unsuccessful_data = {"status": "unsuccessful", "qualified": False, "eligible": False}
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
             {"data": unsuccessful_data},

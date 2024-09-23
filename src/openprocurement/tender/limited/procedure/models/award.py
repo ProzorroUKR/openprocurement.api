@@ -35,6 +35,7 @@ class PostBaseAward(Model):
         return get_now().isoformat()
 
     qualified = BooleanType()
+    eligible = BooleanType()
     status = StringType(required=True, choices=["pending"], default="pending")
     value = ModelType(AwardValue, required=True)
     weightedValue = ModelType(AwardValue)
@@ -78,6 +79,18 @@ class BaseAward(AwardMilestoneListMixin, Model):
     complaintPeriod = ModelType(Period)
     period = ModelType(Period)
 
+    def validate_qualified(self, data, qualified):
+        if data["status"] == "active" and not qualified:
+            raise ValidationError("Can't update award to active status with not qualified")
+        if data["status"] == "unsuccessful" and (
+            qualified is None
+            or (hasattr(self, "eligible") and data.get("eligible") is None)
+            or (qualified and (not hasattr(self, "eligible") or data["eligible"]))
+        ):
+            raise ValidationError(
+                "Can't update award to unsuccessful status when qualified/eligible isn't set to False"
+            )
+
 
 # Negotiation
 def validate_lot_id(value):
@@ -105,10 +118,6 @@ class PatchNegotiationAward(PatchBaseAward):
 
 class NegotiationAward(BaseAward):
     lotID = MD5Type()
-
-    def validate_qualified(self, data, value):
-        if not value and data["status"] == "active":
-            raise ValidationError("Can't update award to active status with not qualified")
 
 
 # reporting

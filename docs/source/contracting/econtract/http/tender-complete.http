@@ -385,7 +385,8 @@ Content-Type: application/json
             "author": "tender_owner",
             "language": "uk"
           }
-        ]
+        ],
+        "qualified": true
       },
       {
         "id": "d34b1b53a7dd43c3ac6bdc6a932ebe54",

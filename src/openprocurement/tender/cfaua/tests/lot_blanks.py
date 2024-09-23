@@ -471,7 +471,7 @@ def two_lot_3bid_3com_3win(self):
     # set award as unsuccessful
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1144,7 +1144,7 @@ def two_lot_3bid_1win_bug(self):
         # set award as unsuccessful
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-            {"data": {"status": "unsuccessful"}},
+            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
         )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))

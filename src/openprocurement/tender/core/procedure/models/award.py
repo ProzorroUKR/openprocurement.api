@@ -91,3 +91,15 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
             raise ValidationError("This field is required.")
         if value and value not in tuple(lot["id"] for lot in tender.get("lots", "") if lot):
             raise ValidationError("lotID should be one of lots")
+
+    def validate_qualified(self, data, qualified):
+        if data["status"] == "active" and not qualified:
+            raise ValidationError("Can't update award to active status with not qualified")
+        if data["status"] == "unsuccessful" and (
+            qualified is None
+            or (hasattr(self, "eligible") and data.get("eligible") is None)
+            or (qualified and (not hasattr(self, "eligible") or data["eligible"]))
+        ):
+            raise ValidationError(
+                "Can't update award to unsuccessful status when qualified/eligible isn't set to False"
+            )

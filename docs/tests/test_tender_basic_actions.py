@@ -1261,7 +1261,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-            {"data": {"status": "unsuccessful"}},
+            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
         )
 
         with open(TARGET_DIR + 'complaints/award-unsuccessful-complaint-invalid-bidder.http', 'w') as self.app.file_obj:
@@ -1692,7 +1692,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint_url = "/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id)
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-            {"data": {"status": "active"}},
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         self.assertEqual(response.status, '200 OK')
 

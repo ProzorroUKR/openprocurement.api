@@ -235,7 +235,7 @@ def two_lot_1bid_0com_1can(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO
     if not new_defence_complaints:
@@ -390,7 +390,7 @@ def two_lot_1bid_0com_0win(self):
         self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-            {"data": {"status": "unsuccessful"}},
+            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
         )
         if not new_defence_complaints:
             # after stand slill period
@@ -495,7 +495,7 @@ def two_lot_1bid_1com_1win(self):
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     # after stand still period
     self.set_status("complete", {"status": "active.awarded"})

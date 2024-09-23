@@ -65,7 +65,8 @@ Content-Type: application/json
       "period": {
         "startDate": "2023-10-10T01:00:00+03:00",
         "endDate": "2023-10-18T00:00:00+03:00"
-      }
+      },
+      "qualified": true
     },
     {
       "id": "99e6dcc3408d4794ae66c30ae2297ea7",

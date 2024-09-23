@@ -72,6 +72,7 @@ from openprocurement.tender.open.tests.award_blanks import (
     patch_tender_lots_award_complaint_document,
     prolongation_award,
     put_tender_lots_award_complaint_document,
+    qualified_eligible_awards,
     review_tender_award_claim,
     review_tender_award_complaint,
     review_tender_award_stopping_complaint,
@@ -174,6 +175,7 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
+    test_qualified_eligible_awards = snitch(qualified_eligible_awards)
 
 
 class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):

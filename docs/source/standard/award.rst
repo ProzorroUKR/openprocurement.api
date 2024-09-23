@@ -107,18 +107,18 @@ Schema
 
         Id of related :ref:`lot`. Only if `tender.procurementMethodType` is `negotiation` or `negotiation.quick`.
 
+:qualified:
+    bool
 
-Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:
+    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
+
+
+Additionally in :ref:`defense`, :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`open`, :ref:`openua` and :ref:`openeu`:
 
 :eligible:
     bool
 
     Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents.
-
-:qualified:
-    bool
-
-    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
 
 
 Additionally in :ref:`limited`:
@@ -127,11 +127,6 @@ Additionally in :ref:`limited`:
     string
 
     The text field of any length that contains information about subcontractor.
-
-:qualified:
-    bool
-
-    Confirms that Procuring entity has no grounds to reject a participant in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
 
 :requirementResponses:
         List of :ref:`RequirementResponse` objects.

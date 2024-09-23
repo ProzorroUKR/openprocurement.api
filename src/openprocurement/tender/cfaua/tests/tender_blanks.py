@@ -1407,7 +1407,7 @@ def multiple_bidders_tender(self):
     # set award as unsuccessful
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, tender_owner_token),
-        {"data": {"status": "unsuccessful"}},
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))

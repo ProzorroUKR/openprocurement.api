@@ -1397,11 +1397,24 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        with open(TARGET_DIR + 'stage2/EU/unsuccessful-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'stage2/EU/activate-non-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "active", "qualified": False, "eligible": True}},
+                status=422,
+            )
 
         with open(TARGET_DIR + 'stage2/EU/award-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {"data": {"status": "active"}},
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
                 status=422,
             )
         with open(TARGET_DIR + 'stage2/EU/award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
@@ -2314,6 +2327,19 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        with open(TARGET_DIR + 'stage2/UA/unsuccessful-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'stage2/UA/activate-non-qualified-award.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "active", "qualified": False, "eligible": True}},
+                status=422,
+            )
 
         with open(TARGET_DIR + 'stage2/UA/award-notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(

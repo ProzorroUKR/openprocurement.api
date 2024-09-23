@@ -774,7 +774,7 @@ def cancellation_unsuccessful_award(self):
             self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-                {"data": {"status": "unsuccessful"}},
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
             self.assertEqual(response.status, "200 OK")
 

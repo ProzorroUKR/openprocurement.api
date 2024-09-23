@@ -43,7 +43,8 @@ Content-Type: application/json
       "period": {
         "startDate": "2023-10-10T01:00:01+03:00",
         "endDate": "2023-10-18T00:00:00+03:00"
-      }
+      },
+      "qualified": true
     },
     {
       "id": "69bd3533e4064a1f8a04a127a95c89f2",
@@ -80,7 +81,8 @@ Content-Type: application/json
       "period": {
         "startDate": "2023-10-10T01:00:01+03:00",
         "endDate": "2023-10-18T00:00:00+03:00"
-      }
+      },
+      "qualified": false
     },
     {
       "id": "a0574b5d194f47faab199c6792a521a5",
