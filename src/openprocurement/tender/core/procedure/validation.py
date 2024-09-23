@@ -57,7 +57,6 @@ from openprocurement.tender.core.procedure.utils import (
     get_contracts_values_related_to_patched_contract,
     get_criterion_requirement,
     is_multi_currency_tender,
-    is_new_contracting,
     tender_created_after,
     tender_created_after_2020_rules,
     tender_created_before,
@@ -1355,10 +1354,14 @@ def validate_lot_status_active(request, **_):
 
 def validate_forbid_contract_action_after_date(obj_name):
     def validation(request, **_):
+
+        error_text = f"{OPERATIONS.get(request.method)} is forbidden for {obj_name}"
+        if request.method == "POST":
+            raise_operation_error(request, error_text)
         contract_id = request.validated["contract"]["id"]
         contracting_contract = request.registry.mongodb.contracts.collection.find_one({"_id": contract_id}, {"_id": 1})
-        if is_new_contracting() and contracting_contract:
-            raise_operation_error(request, f"{OPERATIONS.get(request.method)} is forbidden for {obj_name}")
+        if contracting_contract:
+            raise_operation_error(request, error_text)
 
     return validation
 

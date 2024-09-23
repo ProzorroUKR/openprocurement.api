@@ -1,12 +1,17 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 from itertools import zip_longest
 from logging import getLogger
 
 from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.utils import get_items, to_decimal
-from openprocurement.api.utils import context_unpack, get_now, raise_operation_error
+from openprocurement.api.procedure.context import get_request, get_tender
+from openprocurement.api.procedure.utils import get_items, parse_date, to_decimal
+from openprocurement.api.utils import (
+    calculate_full_date,
+    context_unpack,
+    get_now,
+    raise_operation_error,
+)
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     IgnoredClaimMixing,
@@ -68,12 +73,12 @@ class EContractState(
         super().status_up(before, after, data)
         if before != "active" and after == "active":
             self.validate_required_signed_info(data)
+            self.add_esco_contract_duration_to_period(data)
             self.validate_required_fields_before_activation(data)
 
     def validate_contract_patch(self, request, before: dict, after: dict) -> None:
         tender = get_tender()
 
-        self.validate_patch_esco_value_fields(request, tender, before, after)
         self.validate_dateSigned(request, tender, before, after)
         self.validate_update_contract_status(request, tender, before, after)
         self.validate_patch_contract_items(request, before, after)
@@ -130,12 +135,11 @@ class EContractState(
             "aboveThresholdUA.defense",
             "aboveThreshold",
             "simple.defense",
+            "esco",
             "competitiveDialogueEU.stage2",
             "competitiveDialogueUA.stage2",
         ):
             self.validate_threshold_contract(request, before, after)
-        elif tender_type == "esco":
-            self.validate_esco_contract(request, before, after)
         elif tender_type in ("negotiation", "negotiation.quick"):
             self.validate_limited_negotiation_contract(request, before, after)
 
@@ -146,10 +150,6 @@ class EContractState(
     def validate_threshold_contract(self, request, before: dict, after: dict) -> None:
         self.validate_contract_signing(before, after)
 
-    def validate_esco_contract(self, request, before: dict, after: dict) -> None:
-        self.validate_contract_signing(before, after)
-        self.validate_update_contract_value_esco(request, before, after, False)
-
     def validate_limited_negotiation_contract(self, request, before: dict, after: dict) -> None:
         self.validate_contract_with_cancellations_and_contract_signing(before, after)
 
@@ -159,27 +159,6 @@ class EContractState(
         self.validate_update_contract_value_net_required(request, before, after, name="amountPaid")
         self.validate_update_contract_paid_amount(request, before, after)
         self.validate_terminate_contract_without_amountPaid(request, before, after)
-
-    @staticmethod
-    def validate_patch_esco_value_fields(request, tender: dict, before: dict, after: dict) -> None:
-        ESCO_FIELDS = {
-            "amountPerformance",
-            "yearlyPaymentsPercentage",
-            "annualCostsReduction",
-            "contractDuration",
-        }
-
-        if tender.get("procurementMethodType") == "esco" or not after.get("value"):
-            return
-
-        esco_fields_in_contract = ESCO_FIELDS & after["value"].keys()
-        if esco_fields_in_contract:
-            raise_operation_error(
-                request,
-                [{f: "Rogue field" for f in esco_fields_in_contract}],
-                status=422,
-                name="value",
-            )
 
     @staticmethod
     def validate_update_contract_value_with_award(request, tender: dict, before: dict, after: dict) -> None:
@@ -198,7 +177,7 @@ class EContractState(
 
             if contracts_ids:
                 _contracts_values = request.registry.mongodb.contracts.list(
-                    fields={"value"}, filters={"_id": {"$in": contracts_ids}}
+                    fields={"value"}, filters={"_id": {"$in": contracts_ids}}, mode="_all_"
                 )
 
             _contracts_values.append({"value": value})
@@ -385,3 +364,36 @@ class EContractState(
                     attr_after["values"] = [value_type(i) for i in attr_after["values"]]
                 except TypeError:
                     raise_operation_error(self.request, "items attributes type mismatch.", status=422)
+
+    def add_esco_contract_duration_to_period(self, data):
+        request = get_request()
+        tender = get_tender()
+        if tender["procurementMethodType"] != "esco":
+            return
+
+        if not (period := data.get("period")):
+            return
+
+        award = request.validated["award"]
+        bid = next((bid for bid in tender["bids"] if bid["id"] == award["bid_id"]), None)
+        if not bid:
+            return
+
+        if award.get("lotID"):
+            values = [
+                lot_value["value"]
+                for lot_value in bid.get("lotValues")
+                if lot_value.get("relatedLot") == award["lotID"] and lot_value["status"] == "active"
+            ]
+            value = values[0] if values else {}
+        else:
+            value = bid.get("value", {})
+
+        if not (duration := value.get("contractDuration")):
+            return
+
+        delta = timedelta(days=duration.get("years", 0) * 365 + duration.get("days", 0))
+        period = data.get("period", {})
+        if start_date := period.get("startDate"):
+            end_date = calculate_full_date(parse_date(start_date), delta, ceil=True)
+            period["endDate"] = end_date.isoformat()

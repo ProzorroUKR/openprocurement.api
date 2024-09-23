@@ -314,16 +314,6 @@ def activate_bids(bids):
     return bids
 
 
-def is_new_contracting():
-    tender = get_tender()
-    tender_type = tender.get("procurementMethodType", "")
-
-    if tender_type == "esco":
-        return False
-
-    return True
-
-
 def find_lot(tender, lot_id):
     for lot in tender.get("lots", ""):
         if lot and lot["id"] == lot_id:
