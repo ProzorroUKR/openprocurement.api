@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-26 15:46+0300\n"
+"POT-Creation-Date: 2024-09-11 17:40+0300\n"
 "PO-Revision-Date: 2019-12-02 11:48+0200\n"
 "Last-Translator: \n"
 "Language: uk\n"
 "Language-Team: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Plan"
 msgstr ""
@@ -117,6 +117,15 @@ msgstr "Повний доступний бюджет закупівлі."
 
 msgid "|ocdsDescription| The total estimated value of the procurement."
 msgstr "|ocdsDescription| Загальна кошторисна вартість закупівлі."
+
+msgid "project"
+msgstr ""
+
+msgid ":ref:`Project`"
+msgstr ""
+
+msgid "|ocdsDescription| The project object which describes the infrastructure or public-private partnership (PPP) project to which the planning process is related."
+msgstr "|ocdsDescription| Об’єкт проекту, який описує інфраструктуру або проект державно-приватного партнерства, з яким пов’язаний процес планування."
 
 msgid "classification"
 msgstr ""
@@ -286,14 +295,23 @@ msgstr "Період, коли подаються пропозиції. Пови
 msgid "|ocdsDescription| The period when the tender is open for submissions. The end date is the closing date for tender submissions."
 msgstr "|ocdsDescription| Період, коли закупівля відкрита для подачі пропозицій. Кінцева дата - це дата, коли перестають прийматись пропозиції."
 
-msgid "Budget"
+msgid "Project"
 msgstr ""
 
 msgid "id"
 msgstr ""
 
+msgid "title"
+msgstr ""
+
 msgid "string, required"
 msgstr "рядок, обов’язковий"
+
+msgid "uri"
+msgstr ""
+
+msgid "Budget"
+msgstr ""
 
 msgid "description"
 msgstr ""
@@ -316,10 +334,7 @@ msgstr ""
 msgid "string, required, length = 3"
 msgstr "рядок, обов’язковий, довжина = 3"
 
-msgid "project"
-msgstr ""
-
-msgid ":ref:`Project`"
+msgid ":ref:`BudgetProject`"
 msgstr ""
 
 msgid "period"
@@ -346,7 +361,7 @@ msgstr ""
 msgid "List of :ref:`BudgetBreakdown`, required (except `tender.procurementMethodType` is `\"belowThreshold\"`, `\"reporting\"`, `\"esco\"`, `\"\"`)"
 msgstr "Список об’єктів :ref:`BudgetBreakdown`, обов’язковий (за вийнятком `tender.procurementMethodType` має значення `\"belowThreshold\"`, `\"reporting\"`, `\"esco\"`, `\"\"`)"
 
-msgid "Project"
+msgid "BudgetProject:"
 msgstr ""
 
 msgid "name"
@@ -378,9 +393,6 @@ msgstr ""
 
 msgid "uid, auto-generated"
 msgstr "uid, генерується автоматично"
-
-msgid "title"
-msgstr ""
 
 msgid "Possible values are:"
 msgstr "Можливі значення:"

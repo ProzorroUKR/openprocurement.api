@@ -288,6 +288,7 @@ def prepare_release(plan, tender, lot=None):
     }
     if plan:
         planning = {
+            "project": plan.get("project"),
             "rationale": plan.get("rationale"),
             "documents": convert_documents(plan.get("documents", "")),
             "milestones": convert_milestones(plan.get("milestones", "")),
@@ -409,6 +410,7 @@ def ocds_format_tender(*_, tender, tender_url, plan=None):
         "version": "1.1",
         "extensions": [
             "https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/master/extension.json",
+            "https://raw.githubusercontent.com/open-contracting-extensions/ocds_project_extension/master/extension.json",
         ],
         "publisher": {
             "name": tender["procuringEntity"]["name"],

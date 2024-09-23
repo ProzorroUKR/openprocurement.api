@@ -43,6 +43,7 @@ from openprocurement.planning.api.procedure.models.organization import (
     BuyerOrganization,
     PlanOrganization,
 )
+from openprocurement.planning.api.procedure.models.project import Project
 from openprocurement.planning.api.procedure.models.rationale import RationaleObject
 from openprocurement.planning.api.procedure.models.tender import Tender
 from openprocurement.planning.api.utils import generate_plan_id
@@ -75,6 +76,7 @@ class PostPlan(Model):
     cancellation = ModelType(PostCancellation)
     documents = ListType(ModelType(PostDocument, required=True))
     rationale = ModelType(RationaleObject)
+    project = ModelType(Project)
 
     def validate_status(self, plan, status):
         validate_status(plan, status)
@@ -103,6 +105,7 @@ class PatchPlan(Model):
     cancellation = ModelType(PatchCancellation)
     milestones = ListType(ModelType(PatchMilestone, required=True), validators=[validate_items_uniq])
     rationale = ModelType(RationaleObject)
+    project = ModelType(Project)
 
 
 class Plan(Model):
@@ -127,6 +130,7 @@ class Plan(Model):
     documents = ListType(ModelType(Document, required=True))
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     rationale = ModelType(RationaleObject)
+    project = ModelType(Project)
 
     owner = StringType()
     owner_token = StringType()

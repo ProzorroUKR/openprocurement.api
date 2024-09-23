@@ -1277,6 +1277,7 @@ def create_plan_generated(self):
             "procuringEntity",
             "owner",
             "status",
+            "project",
         },
     )
     self.assertEqual(
