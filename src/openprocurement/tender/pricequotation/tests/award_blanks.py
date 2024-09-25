@@ -604,9 +604,12 @@ def tender_award_transitions(self):
 
     # tenderOwner: unsuccessful -> ('active', 'cancelled', 'pending') must be forbidden
     for status in ('active', 'cancelled', 'pending'):
+        patch_data = {"status": status}
+        if status == 'active':
+            patch_data["qualified"] = True
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, tender_token),
-            {"data": {"status": status, "qualified": True}},
+            {"data": patch_data},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
