@@ -45,8 +45,7 @@ class BidReqResponseEvidenceState(ReqResponseEvidenceState):
 
     def always(self, data: dict) -> None:
         super().always(data)
-        if get_tender().get("status") == "active.tendering":
-            invalidate_pending_bid()
+        invalidate_pending_bid()
 
 
 class AwardReqResponseEvidenceState(ReqResponseEvidenceState):

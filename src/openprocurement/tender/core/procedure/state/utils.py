@@ -59,9 +59,9 @@ def validation_error_handler(func):
 def awarding_is_unsuccessful(awards):
     """
     Check whether awarding is unsuccessful for tender/lot.
-    If hasAwardingOrder is True, than only the last award's status is being checked.
+    If hasAwardingOrder is True, then only the last award's status is being checked.
     If hasAwardingOrder is False, all awards are being checked. If there are no awards with statuses
-    active or pending for tender/lot, than awarding is unsuccessful.
+    active or pending for tender/lot, then awarding is unsuccessful.
     """
     tender = get_tender()
     awarding_order_enabled = tender["config"]["hasAwardingOrder"]
@@ -73,5 +73,10 @@ def awarding_is_unsuccessful(awards):
 
 def invalidate_pending_bid():
     bid = get_bid()
-    if get_now() > BID_PROPOSAL_DOC_REQUIRED_FROM and bid.get("status") == "pending":
+    tender = get_tender()
+    if (
+        get_now() > BID_PROPOSAL_DOC_REQUIRED_FROM
+        and tender.get("status") == "active.tendering"
+        and bid.get("status") == "pending"
+    ):
         bid["status"] = "invalid"
