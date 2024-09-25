@@ -30,11 +30,22 @@ class AwardStateMixing:
     def award_on_patch(self, before, award):
         if before["status"] != award["status"]:
             self.invalidate_review_requests(lot_id=award.get("lotID", ""))
+            self.check_qualified_eligible_change(before, award)
             self.award_status_up(before["status"], award["status"], award)
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status
         else:
             raise_operation_error(self.request, f"Can't update award in current ({before['status']}) status")
+
+    def check_qualified_eligible_change(self, before, award):
+        if award["status"] == "cancelled" and (
+            before.get("qualified") != award.get("qualified") or before.get("eligible") != award.get("eligible")
+        ):
+            raise_operation_error(
+                self.request,
+                f"Can't update qualified/eligible fields in award in ({award['status']}) status",
+                status=422,
+            )
 
     def award_on_post(self, award):
         if self.award_has_period:
