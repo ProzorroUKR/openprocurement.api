@@ -25,7 +25,6 @@ def convert_expected_value_to_string(requirement):
     requirement["dataType"] = "string"
     requirement["expectedValues"] = [str(requirement.pop("expectedValue"))]
     requirement["expectedMinItems"] = 1
-    requirement.pop("expectedValue", None)
 
 
 def normalize_expected_values(requirement):
@@ -35,7 +34,7 @@ def normalize_expected_values(requirement):
 
 
 def convert_field_to_float(requirement, field_name):
-    if field_name in requirement and isinstance(requirement[field_name], (float, int)):
+    if isinstance(requirement[field_name], (float, int)):
         requirement[field_name] = float(requirement[field_name])
         requirement["dataType"] = "number"
         return True
@@ -93,6 +92,15 @@ def get_responses_from_bids(bids, requirement):
     return responses
 
 
+def get_min_value_from_responses(requirement, bids, obj_type):
+    responses = get_responses_from_bids(bids, requirement)
+    if responses:
+        responses = [obj_type(resp) for resp in responses]
+        requirement["minValue"] = min(responses)
+    else:
+        requirement["minValue"] = 0
+
+
 def update_criteria(criteria: list, bids: list):
     if not criteria:
         return [], bids
@@ -124,12 +132,7 @@ def update_criteria(criteria: list, bids: list):
                                     convert_expected_value_to_string(requirement)
                                     bids = update_bids_responses(bids, requirement, str)
                     else:
-                        responses = get_responses_from_bids(bids, requirement)
-                        if responses:
-                            responses = [int(resp) for resp in responses]
-                            requirement["minValue"] = min(responses)
-                        else:
-                            requirement["minValue"] = 0
+                        get_min_value_from_responses(requirement, bids, int)
                 elif requirement["dataType"] == "number":
                     if "expectedValues" in requirement:
                         normalize_expected_values(requirement)
@@ -145,12 +148,7 @@ def update_criteria(criteria: list, bids: list):
                                 elif convert_field_to_float(requirement, field_name):
                                     bids = update_bids_responses(bids, requirement, float)
                     else:
-                        responses = get_responses_from_bids(bids, requirement)
-                        if responses:
-                            responses = [float(resp) for resp in responses]
-                            requirement["minValue"] = min(responses)
-                        else:
-                            requirement["minValue"] = 0
+                        get_min_value_from_responses(requirement, bids, float)
                 elif requirement["dataType"] == "string":
                     if "expectedValues" in requirement:
                         normalize_expected_values(requirement)
@@ -242,14 +240,11 @@ def run(env, args):
             }
             try:
                 updated_criteria, updated_bids = update_criteria(tender["criteria"], tender.get("bids", []))
-                update_tender = False
                 if updated_criteria:
                     set_data["criteria"] = updated_criteria
-                    update_tender = True
                 if updated_bids:
                     set_data["bids"] = updated_bids
-                    update_tender = True
-                if update_tender:
+                if updated_criteria or updated_bids:
                     collection.update_one(
                         {"_id": tender["_id"]},
                         {"$set": set_data},
@@ -269,7 +264,7 @@ def run(env, args):
     logger.info(f"Successful migration: {migration_name}")
 
 
-def create_temporary_db(env, args):
+def create_temporary_db(env):
     collection = env["registry"].mongodb.tenders.collection
 
     logger.info("Create temporary DB with PQ tenders")
@@ -308,13 +303,13 @@ def revert_tenders(env, args):
     finally:
         cursor.close()
 
-    logger.info(f"Successful revert!")
+    logger.info("Successful revert!")
 
 
-def flush_temporary_database(env, args):
+def flush_temporary_database(env):
     logger.info("Flush temporary PQ db")
     env["registry"].mongodb.pq_tenders.collection.delete_many({})
-    logger.info(f"Successful flush!")
+    logger.info("Successful flush!")
 
 
 if __name__ == "__main__":
@@ -342,10 +337,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     with bootstrap(args.p) as env:
         if args.cmd in ("all", "create_temporary_db"):
-            create_temporary_db(env, args)
+            create_temporary_db(env)
         if args.cmd in ("all", "run"):
             run(env, args)
         if args.cmd == "flush_temporary_db":
-            flush_temporary_database(env, args)
+            flush_temporary_database(env)
         if args.cmd == "revert_tenders":
             revert_tenders(env, args)
