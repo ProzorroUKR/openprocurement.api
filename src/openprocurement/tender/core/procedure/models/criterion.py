@@ -365,7 +365,7 @@ class BaseCriterion(Model):
 class Criterion(ValidateIdMixing, BaseCriterion):
     title = StringType(required=True, min_length=1)
     additionalClassifications = ListType(ModelType(BaseClassification, required=True))
-    legislation = ListType(ModelType(LegislationItem, required=True), min_size=1, required=True)
+    legislation = ListType(ModelType(LegislationItem, required=True), min_size=1)
     requirementGroups = ListType(
         ModelType(RequirementGroup, required=True),
         required=True,
@@ -446,6 +446,11 @@ class Criterion(ValidateIdMixing, BaseCriterion):
                 return
             for requirement in requirements:
                 validate_requirement(data, requirement)
+
+    def validate_legislation(self, data, value):
+        if data.get("classification", {}).get("id") != "CRITERION.OTHER.CONTRACT.GUARANTEE":
+            if not value:
+                raise ValidationError("This field is required.")
 
 
 class PatchCriterion(BaseCriterion):
