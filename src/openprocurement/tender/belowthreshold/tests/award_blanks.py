@@ -393,6 +393,21 @@ def create_tender_lot_award(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "cancelled", "qualified": False}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Can't update qualified/eligible fields in award in (cancelled) status",
+                "location": "body",
+                "name": "data",
+            }
+        ],
+    )
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
         {"data": {"status": "cancelled"}},
     )
     self.assertEqual(response.status, "200 OK")
