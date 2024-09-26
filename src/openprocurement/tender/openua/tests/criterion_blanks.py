@@ -120,6 +120,19 @@ def create_tender_criteria_valid(self):
         ],
     )
 
+    # Try to create criterion without legislation
+
+    invalid_criteria = deepcopy(test_exclusion_criteria)
+    legislation = invalid_criteria[0].pop('legislation')
+    response = self.app.post_json(request_path, {"data": invalid_criteria}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "legislation", "description": ["This field is required."]}],
+    )
+
 
 def create_tender_criteria_invalid(self):
     invalid_criteria = deepcopy(test_exclusion_criteria)
