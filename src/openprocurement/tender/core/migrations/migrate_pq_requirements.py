@@ -42,28 +42,43 @@ def convert_field_to_float(requirement, field_name):
     return False
 
 
+def pop_min_max_values(requirement):
+    requirement.pop("maxValue", None)
+    requirement.pop("minValue", None)
+
+
 def update_bids_responses(bids, requirement, obj_type):
     if bids:
         updated_bids = []
         for bid_data in bids:
             req_resp = []
+            updated = False
             bid = deepcopy(bid_data)
             for resp in bid.get("requirementResponses", []):
-                if resp["requirement"] == requirement["title"]:
-                    if resp.get("value") is not None:
-                        if not isinstance(resp["value"], obj_type):
-                            resp["value"] = obj_type(resp["value"])
-                    elif resp.get("values") is not None:
-                        for value in resp["values"]:
-                            if not isinstance(value, obj_type):
-                                break
-                        else:
-                            continue
-                        resp["values"] = [obj_type(val) for val in resp["values"]]
-                req_resp.append(resp)
-            bid["requirementResponses"] = req_resp
+                try:
+                    if resp["requirement"] == requirement["title"]:
+                        if resp.get("value") is not None:
+                            if not isinstance(resp["value"], obj_type):
+                                resp["value"] = obj_type(resp["value"])
+                                updated = True
+                        elif resp.get("values") is not None:
+                            for value in resp["values"]:
+                                if not isinstance(value, obj_type):
+                                    break
+                            else:
+                                continue
+                            resp["values"] = [obj_type(val) for val in resp["values"]]
+                            updated = True
+                except ValueError as e:
+                    # delete such response
+                    updated = True
+                else:
+                    req_resp.append(resp)
+            if updated:
+                bid["requirementResponses"] = req_resp
             updated_bids.append(bid)
         return updated_bids
+    return bids
 
 
 def get_responses_from_bids(bids, requirement):
@@ -80,7 +95,7 @@ def get_responses_from_bids(bids, requirement):
 
 def update_criteria(criteria: list, bids: list):
     if not criteria:
-        return []
+        return [], bids
     updated_criteria = []
 
     for criterion in criteria:
@@ -91,8 +106,7 @@ def update_criteria(criteria: list, bids: list):
                 if ("expectedValue" in requirement or "expectedValues" in requirement) and (
                     "minValue" in requirement or "maxValue" in requirement
                 ):
-                    requirement.pop("maxValue", None)
-                    requirement.pop("minValue", None)
+                    pop_min_max_values(requirement)
                 # Handle different data types
                 if requirement["dataType"] == "integer":
                     if "expectedValues" in requirement:
@@ -150,8 +164,7 @@ def update_criteria(criteria: list, bids: list):
                         else:
                             requirement["expectedValues"] = [str(requirement["minValue"]), str(requirement["maxValue"])]
                         requirement["expectedMinItems"] = 1
-                        requirement.pop("minValue", None)
-                        requirement.pop("maxValue", None)
+                        pop_min_max_values(requirement)
                     elif "minValue" in requirement or "maxValue" in requirement:
                         for field_name in ("minValue", "maxValue"):
                             if field_name in requirement:
@@ -161,8 +174,7 @@ def update_criteria(criteria: list, bids: list):
                                 else:
                                     requirement["expectedValues"] = [str(requirement[field_name])]
                                 requirement["expectedMinItems"] = 1
-                                requirement.pop("minValue", None)
-                                requirement.pop("maxValue", None)
+                                pop_min_max_values(requirement)
                     else:
                         responses = get_responses_from_bids(bids, requirement)
                         if responses:
@@ -225,7 +237,7 @@ def run(env, args):
         for tender in cursor:
             now = get_now()
             set_data = {
-                "dateModified": now.isoformat(),  # TODO: discuss it
+                "dateModified": now.isoformat(),
                 "public_modified": now.timestamp(),
             }
             try:
@@ -246,7 +258,7 @@ def run(env, args):
                 if count and count % log_every == 0:
                     logger.info(f"Updating PQ tenders requirements: updated {count} tenders")
             except Exception as e:
-                logger.info(f"ERROR: Tender with id {tender['id']}. Caught {type(e).__name__}.")
+                logger.info(f"ERROR: Tender with id {tender['_id']}. Caught {type(e).__name__}.")
                 traceback.print_exc()
                 break
     finally:
@@ -255,6 +267,54 @@ def run(env, args):
     logger.info(f"Updating PQ tenders requirements finished: updated {count} tenders")
 
     logger.info(f"Successful migration: {migration_name}")
+
+
+def create_temporary_db(env, args):
+    collection = env["registry"].mongodb.tenders.collection
+
+    logger.info("Create temporary DB with PQ tenders")
+
+    env["registry"].mongodb.pq_tenders.collection.insert_many(
+        list(
+            collection.find(
+                {
+                    "status": {"$in": ["draft", "active.tendering"]},
+                    "procurementMethodType": PQ,
+                    "criteria": {"$exists": True},
+                },
+                no_cursor_timeout=True,
+            )
+        )
+    )
+    logger.info("Temporary DB with PQ tenders successfully created")
+
+
+def revert_tenders(env, args):
+    pq_collection = env["registry"].mongodb.pq_tenders.collection
+    collection = env["registry"].mongodb.tenders.collection
+
+    logger.info("Reverting PQ requirements")
+    cursor = pq_collection.find(
+        {},
+        no_cursor_timeout=True,
+    )
+    cursor.batch_size(args.b)
+    try:
+        for tender in cursor:
+            collection.replace_one(
+                {"_id": tender["_id"]},
+                tender,
+            )
+    finally:
+        cursor.close()
+
+    logger.info(f"Successful revert!")
+
+
+def flush_temporary_database(env, args):
+    logger.info("Flush temporary PQ db")
+    env["registry"].mongodb.pq_tenders.collection.delete_many({})
+    logger.info(f"Successful flush!")
 
 
 if __name__ == "__main__":
@@ -270,6 +330,22 @@ if __name__ == "__main__":
         default=1000,
         help=("Limits the number of documents returned in one batch. Each batch requires a round trip to the server."),
     )
+    commands = ["all", "run", "create_temporary_db", "flush_temporary_db", "revert_tenders"]
+    default_cmd = commands[0]
+    parser.add_argument(
+        "--cmd",
+        choices=commands,
+        default=default_cmd,
+        nargs="?",
+        help=f"Provide cmd to run: {', '.join(commands)}",
+    )
     args = parser.parse_args()
     with bootstrap(args.p) as env:
-        run(env, args)
+        if args.cmd in ("all", "create_temporary_db"):
+            create_temporary_db(env, args)
+        if args.cmd in ("all", "run"):
+            run(env, args)
+        if args.cmd == "flush_temporary_db":
+            flush_temporary_database(env, args)
+        if args.cmd == "revert_tenders":
+            revert_tenders(env, args)

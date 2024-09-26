@@ -88,3 +88,7 @@ class TenderCollection(BaseCollection):
             # pymongo.errors.OperationFailure: Cannot use $elemMatch projection on a nested field
         ]
         return response
+
+
+class PQTenderCollection(TenderCollection):
+    object_name = "pq_tender"
