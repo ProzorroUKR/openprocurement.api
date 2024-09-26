@@ -1,6 +1,5 @@
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import error_handler
 from openprocurement.tender.core.procedure.models.req_response import (
@@ -60,8 +59,7 @@ class BidReqResponseState(BaseReqResponseState):
 
     def always(self, data: dict) -> None:
         super().always(data)
-        if get_tender().get("status") == "active.tendering":
-            invalidate_pending_bid()
+        invalidate_pending_bid()
 
 
 class AwardReqResponseState(BaseReqResponseState):
