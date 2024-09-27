@@ -4,6 +4,7 @@ from pymongo import ASCENDING, IndexModel
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.database import BaseCollection
+from openprocurement.tender.pricequotation.constants import PQ
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +34,17 @@ class TenderCollection(BaseCollection):
                     },
                 )
             )
+
+        # TODO: remove after migration completed
+        # index only for criteria migration
+        tender_pq_status = IndexModel(
+            [("status", ASCENDING)],
+            name="tender_pq_status",
+            partialFilterExpression={
+                "procurementMethodType": PQ,
+            },
+        )
+        indexes.append(tender_pq_status)
         return indexes
 
     def save(self, data, insert=False, modified=True):
