@@ -849,8 +849,7 @@
         "requireChanges": {
             "title_uk": "необхідність внести зміни до контракту",
             "title_en": "the need to amend the contract"
-        },
-        ...
+        }
     }
 
 

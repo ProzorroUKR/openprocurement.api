@@ -1,3 +1,5 @@
+.. _developers_migrations:
+
 Migrations
 ==========
 
