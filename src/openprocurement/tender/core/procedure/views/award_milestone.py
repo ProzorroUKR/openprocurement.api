@@ -11,6 +11,8 @@ from openprocurement.tender.core.procedure.state.award_milestone import (
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_24h_milestone_released,
+    validate_update_award_in_not_allowed_status,
+    validate_update_award_only_for_active_lots,
 )
 from openprocurement.tender.core.procedure.views.award import resolve_award
 from openprocurement.tender.core.procedure.views.qualification_milestone import (
@@ -36,6 +38,8 @@ class BaseAwardMilestoneResource(BaseMilestoneResource):
             validate_item_owner("tender"),
             validate_24h_milestone_released,
             validate_input_data(PostAwardMilestone),
+            validate_update_award_in_not_allowed_status,
+            validate_update_award_only_for_active_lots,
         ),
     )
     def collection_post(self):
