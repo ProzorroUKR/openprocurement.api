@@ -53,7 +53,7 @@ class CustomJSONEncoder(simplejson.JSONEncoder):
             if not obj.tzinfo:
                 obj = utc.localize(obj).astimezone(TZ)
             return obj.isoformat()
-        return super().default(self, obj)
+        return super().default(obj)
 
 
 def json_dumps(data, **kw):
