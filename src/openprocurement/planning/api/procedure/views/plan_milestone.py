@@ -49,8 +49,8 @@ class PlanMilestoneResource(PlanBaseResource):
 
     @json_view(permission="view_plan")
     def get(self):
-        plan = self.request.validated["plan"]
-        return {"data": self.serializer_class(plan).data}
+        milestone = self.request.validated["milestone"]
+        return {"data": self.serializer_class(milestone).data}
 
     @json_view(
         content_type="application/json",

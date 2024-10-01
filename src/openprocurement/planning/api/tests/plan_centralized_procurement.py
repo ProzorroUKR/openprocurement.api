@@ -166,6 +166,9 @@ def test_post_milestone(app, centralized_plan):
     response = app.get("/plans/{}".format(plan["id"]))
     assert response.json["data"]["dateModified"] == milestone["dateModified"]
 
+    response = app.get("/plans/{}/milestones/{}".format(plan["id"], milestone["id"]))
+    assert response.json["data"] == milestone
+
 
 @pytest.fixture(scope="function")
 def centralized_milestone(app, centralized_plan):
