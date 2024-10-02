@@ -405,6 +405,39 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
             },
         )
 
+    def test_24hours_milestone_cancelled_tender(self):
+        self.app.authorization = ("Basic", ("broker", ""))
+        tender = self.mongodb.tenders.get(self.tender_id)
+        tender["status"] = "cancelled"
+        self.mongodb.tenders.save(tender)
+
+        response = self.app.post_json(
+            "/tenders/{}/{}s/{}/milestones?acc_token={}".format(
+                self.tender_id, self.context_name, self.context_id, self.tender_token
+            ),
+            {
+                "data": {
+                    "code": "24h",
+                    "description": "One ring to bring them all and in the darkness bind them",
+                    "dueDate": (get_now() + timedelta(days=10)).isoformat(),
+                }
+            },
+            status=403,
+        )
+        self.assertEqual(
+            response.json,
+            {
+                "status": "error",
+                "errors": [
+                    {
+                        "description": "Can't update award in current (cancelled) tender status",
+                        "location": "body",
+                        "name": "data",
+                    }
+                ],
+            },
+        )
+
 
 class BaseTenderAwardMilestoneALPMixin:
 

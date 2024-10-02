@@ -786,6 +786,15 @@ def validate_cancelled_qualification_update(request, **_):
         raise_operation_error(request, "Can't update qualification in current cancelled qualification status")
 
 
+def validate_update_qualification_only_for_active_lots(request, **_):
+    tender = request.validated["tender"]
+    qualification = request.validated["qualification"]
+    if any(
+        lot.get("status") != "active" for lot in tender.get("lots", "") if lot.get("id") == qualification.get("lotID")
+    ):
+        raise_operation_error(request, "Can update qualification only in active lot status")
+
+
 def validate_update_status_before_milestone_due_date(request, **_):
     # pylint: disable-next=import-outside-toplevel, cyclic-import
     from openprocurement.tender.core.procedure.models.qualification_milestone import (
