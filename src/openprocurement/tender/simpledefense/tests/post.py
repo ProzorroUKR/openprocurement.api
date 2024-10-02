@@ -63,7 +63,7 @@ class TenderAwardComplaintPostResourceTest(
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
 
         # Create complaint for award

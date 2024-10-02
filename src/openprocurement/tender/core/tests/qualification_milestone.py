@@ -161,7 +161,7 @@ class BaseTenderMilestone24HMixin:
         )
 
         # can't update status of context until dueDate
-        if procurement_method_type in ("belowThreshold",):
+        if procurement_method_type in ("belowThreshold", "simple.defense"):
             activation_data = {"status": "active", "qualified": True}
         else:
             activation_data = {"status": "active", "qualified": True, "eligible": True}
@@ -293,7 +293,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
 
         # wait until milestone dueDate ends
         with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
-            if procurement_method_type in ("belowThreshold",):
+            if procurement_method_type in ("belowThreshold", "simple.defense"):
                 unsuccessful_data = {"status": "unsuccessful", "qualified": False}
             else:
                 unsuccessful_data = {"status": "unsuccessful", "qualified": False, "eligible": False}
@@ -355,7 +355,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
         created_milestone = response.json["data"]
 
         # can't update status of context until dueDate
-        if procurement_method_type in ("belowThreshold",):
+        if procurement_method_type in ("belowThreshold", "simple.defense"):
             activation_data = {"status": "active", "qualified": True}
         else:
             activation_data = {"status": "active", "qualified": True, "eligible": True}
@@ -513,7 +513,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         self.assertEqual(milestone["description"], ALP_MILESTONE_REASONS[0])
 
         # try to change award status
-        if procurement_method_type in ("belowThreshold",):
+        if procurement_method_type in ("belowThreshold", "simple.defense"):
             unsuccessful_data = {"status": "unsuccessful", "qualified": False}
         else:
             unsuccessful_data = {"status": "unsuccessful", "qualified": False, "eligible": False}

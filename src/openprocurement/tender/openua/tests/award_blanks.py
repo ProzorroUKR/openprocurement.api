@@ -285,9 +285,12 @@ def create_tender_lot_award(self):
     self.assertEqual(response.json["data"][-1], award)
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -356,17 +359,17 @@ def patch_tender_lot_award(self):
     )
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    patch_data = {
+        "title": "title",
+        "description": "description",
+        "status": "unsuccessful",
+        "qualified": False,
+    }
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {
-            "data": {
-                "title": "title",
-                "description": "description",
-                "status": "unsuccessful",
-                "qualified": False,
-                "eligible": False,
-            }
-        },
+        {"data": patch_data},
     )
 
     self.assertEqual(response.json["data"]["title"], "title")
@@ -392,9 +395,12 @@ def patch_tender_lot_award(self):
     self.assertIn(response.json["data"][-1]["id"], new_award_location)
     new_award = response.json["data"][-1]
 
+    patch_data = {"status": "active"}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
-        {"data": {"status": "active", "eligible": True}},
+        {"data": patch_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -409,21 +415,28 @@ def patch_tender_lot_award(self):
             }
         ],
     )
+    patch_data = {"title": "title", "description": "description", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
-        {"data": {"title": "title", "description": "description", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["qualified"], True)
-    self.assertEqual(response.json["data"]["eligible"], True)
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        self.assertEqual(response.json["data"]["eligible"], True)
     self.assertEqual(response.json["data"]["title"], "title")
     self.assertEqual(response.json["data"]["description"], "description")
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award['id']}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -453,9 +466,12 @@ def patch_tender_lot_award(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["value"]["amount"], 500)
 
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -667,9 +683,12 @@ def create_tender_lots_award(self):
     self.assertEqual(response.json["data"][-1], award)
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -712,9 +731,12 @@ def patch_tender_lots_award(self):
 
     self.app.authorization = auth
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -746,9 +768,12 @@ def patch_tender_lots_award(self):
     if RELEASE_2020_04_19 < get_now():
         activate_cancellation_after_2020_04_19(self, cancellation_id)
 
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -788,9 +813,12 @@ def create_tender_award_claim(self):
     )
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
     self.app.authorization = auth
 
@@ -1360,9 +1388,12 @@ def review_tender_award_complaint(self):
                 self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
             self.app.authorization = ("Basic", ("token", ""))
+            patch_data = {"status": "active", "qualified": True}
+            if self.initial_data['procurementMethodType'] != "simple.defense":
+                patch_data["eligible"] = True
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": patch_data},
                 status=403,
             )
             self.assertEqual(response.status, "403 Forbidden")

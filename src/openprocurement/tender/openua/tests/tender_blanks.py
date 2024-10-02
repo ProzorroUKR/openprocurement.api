@@ -1197,17 +1197,20 @@ def first_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as unsuccessful
     self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     if "milestones" in response.json["data"][0]:
         milestone_due_date = dt_from_iso(response.json["data"][0]["milestones"][0]["dueDate"])
         with freeze_time((milestone_due_date + timedelta(minutes=10)).isoformat()):
             self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
-                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+                {"data": patch_data},
             )
     else:
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
-            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+            {"data": patch_data},
         )
 
     # get awards
@@ -1229,9 +1232,12 @@ def first_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1288,9 +1294,12 @@ def lost_contract_for_active_award(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     # lost contract
     tender = self.mongodb.tenders.get(tender_id)
