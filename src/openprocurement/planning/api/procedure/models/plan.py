@@ -130,7 +130,7 @@ class Plan(Model):
     documents = ListType(ModelType(Document, required=True))
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     rationale = ModelType(RationaleObject)
-    project = ModelType(Project)
+    project = ModelType(Project, serialize_when_none=True)
 
     owner = StringType()
     owner_token = StringType()
