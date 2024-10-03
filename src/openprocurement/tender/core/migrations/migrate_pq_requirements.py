@@ -101,12 +101,33 @@ def get_min_value_from_responses(requirement, bids, obj_type):
         requirement["minValue"] = 0
 
 
+def convert_min_max_value_to_string(requirement):
+    if "minValue" not in requirement:
+        requirement["expectedValues"] = [str(requirement["maxValue"])]
+    else:
+        requirement["expectedValues"] = [str(requirement["minValue"]), str(requirement["maxValue"])]
+    requirement["expectedMinItems"] = 1
+    requirement["dataType"] = "string"
+    pop_min_max_values(requirement)
+
+
 def update_criteria_and_responses_integer(requirement, bids):
     if "expectedValues" in requirement:
         normalize_expected_values(requirement)
         bids = update_bids_responses(bids, requirement, str)
-    elif "minValue" in requirement or "maxValue" in requirement or "expectedValue" in requirement:
-        for field_name in ("minValue", "maxValue", "expectedValue"):
+    elif "maxValue" in requirement:  # add minValue to requirement
+        if isinstance(requirement["maxValue"], float):
+            requirement["dataType"] = "number"
+            bids = update_bids_responses(bids, requirement, float)
+            if "minValue" not in requirement:  # add minValue to requirement
+                requirement["minValue"] = 0
+            else:
+                convert_field_to_float(requirement, "minValue")
+        elif not isinstance(requirement["maxValue"], int):
+            convert_min_max_value_to_string(requirement)
+            bids = update_bids_responses(bids, requirement, str)
+    elif "minValue" in requirement or "expectedValue" in requirement:
+        for field_name in ("minValue", "expectedValue"):
             if field_name in requirement:
                 if isinstance(requirement[field_name], float):
                     requirement["dataType"] = "number"
@@ -123,8 +144,18 @@ def update_criteria_and_responses_number(requirement, bids):
     if "expectedValues" in requirement:
         normalize_expected_values(requirement)
         bids = update_bids_responses(bids, requirement, str)
-    elif "minValue" in requirement or "maxValue" in requirement or "expectedValue" in requirement:
-        for field_name in ("minValue", "maxValue", "expectedValue"):
+    elif "maxValue" in requirement:
+        if convert_field_to_float(requirement, "maxValue"):
+            bids = update_bids_responses(bids, requirement, float)
+            if "minValue" not in requirement:  # add minValue to requirement
+                requirement["minValue"] = 0
+            else:
+                convert_field_to_float(requirement, "minValue")
+        else:
+            convert_min_max_value_to_string(requirement)
+            bids = update_bids_responses(bids, requirement, str)
+    elif "minValue" in requirement or "expectedValue" in requirement:
+        for field_name in ("minValue", "expectedValue"):
             if field_name in requirement:
                 if field_name == "expectedValue" and isinstance(requirement["expectedValue"], (bool, str)):
                     convert_expected_value_to_string(requirement)
