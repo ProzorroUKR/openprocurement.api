@@ -1,16 +1,21 @@
 import unittest
 from datetime import datetime, timedelta
 
+import pytest
 from isodate import duration_isoformat
 from isodate.duration import Duration
 from pytz import timezone
-from schematics.exceptions import ConversionError
+from schematics.exceptions import ConversionError, ModelConversionError
 from schematics.types import BooleanType, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, IsoDurationType
+from openprocurement.api.procedure.types import (
+    DecimalType,
+    IsoDateTimeType,
+    IsoDurationType,
+)
 from openprocurement.api.tests.base import BaseWebTest
 
 
@@ -120,6 +125,28 @@ class TestIsoDateTimeType(unittest.TestCase):
         dt_str_result = IsoDateTimeType().to_primitive(dt)
         dt_str_expected = "2020-01-01T12:00:00+02:00"
         self.assertEqual(dt_str_result, dt_str_expected)
+
+
+@pytest.mark.parametrize(
+    "raw_input, expected_conversion_error",
+    [
+        ("300", False),
+        ("Infinity", True),
+        ("-Infinity", True),
+        ("NaN", True),
+    ],
+)
+def test_decimal_type_conversion(raw_input, expected_conversion_error):
+    class Poket(Model):
+        money = DecimalType(required=True)
+
+    try:
+        Poket({"money": raw_input})
+    except ModelConversionError as e:
+        assert expected_conversion_error is True
+        assert e.args[0] == {'money': [f"Number '{raw_input}' failed to convert to a decimal."]}
+    else:
+        assert expected_conversion_error is False
 
 
 def suite():

@@ -43,7 +43,10 @@ class DecimalType(BaseDecimalType):
         return self._apply_precision(value)
 
     def to_native(self, value, context=None):
-        return self._apply_precision(value)
+        value = self._apply_precision(value)
+        if value.is_nan():
+            raise ConversionError(self.messages['number_coerce'].format(value))
+        return value
 
 
 class StringDecimalType(BaseDecimalType):

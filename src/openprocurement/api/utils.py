@@ -534,10 +534,9 @@ def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple =
         if resp.status_code == 404:
             raise_operation_error(request, f"{obj_name.capitalize()} {obj_id} not found in catalouges.", status=404)
         elif resp.status_code != 200:
-            response_text = resp.json()
             raise_operation_error(
                 request,
-                f"Fail getting {obj_name} {obj_id}: {resp.status_code} {response_text}.",
+                f"Fail getting {obj_name} {obj_id}: {resp.status_code} {resp.text}.",
                 status=resp.status_code,
             )
 
