@@ -992,7 +992,7 @@ def get_tender_bidder_document(self):
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, resource, self.bid_token)
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(len(response.json["data"]), 2)
+        self.assertEqual(len(response.json["data"]), 3)  # + proposal doc
         doc1 = response.json["data"][0]
         doc2 = response.json["data"][1]
         self.assertEqual(doc1["title"], "name_{}.doc".format(resource[:-1]))
@@ -1034,7 +1034,7 @@ def get_tender_bidder_document(self):
                 "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, resource, token)
             )
             self.assertEqual(response.status, "200 OK")
-            self.assertEqual(len(response.json["data"]), 2)
+            self.assertEqual(len(response.json["data"]), 3)
             doc_id = doc_id_by_type[resource]["id"]
             response = self.app.get(
                 "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, resource, doc_id, token)
@@ -1130,6 +1130,15 @@ def get_tender_bidder_document(self):
     )
     self.assertEqual(response.status, "200 OK")
 
+    self.add_sign_doc(
+        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
+    )
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
     document_is_unaccessible_for_others(doc_resource)
     document_is_unaccessible_for_tender_owner(doc_resource)
 
@@ -1152,7 +1161,7 @@ def get_tender_bidder_document(self):
     self.assertEqual(set(response.json["data"].keys()), {"id", "status", "documents", "tenderers"})
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(len(response.json["data"]), 3)  # + proposal doc
     doc_id = doc_id_by_type["documents"]["id"]
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -1193,7 +1202,7 @@ def get_tender_bidder_document(self):
     self.assertEqual(set(response.json["data"].keys()), {"id", "status", "documents", "tenderers"})
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(len(response.json["data"]), 3)
     doc_id = doc_id_by_type["documents"]["id"]
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -1228,6 +1237,15 @@ def create_tender_bidder_document(self):
     self.assertEqual("name_{}.doc".format(doc_resource[:-1]), response.json["data"]["title"])
     key = self.get_doc_id_from_url(response.json["data"]["url"])
     doc_id_by_type[doc_resource] = {"id": doc_id, "key": key}
+
+    self.add_sign_doc(
+        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
+    )
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     doc_resource = "documents"
     response = self.app.get(
@@ -1486,6 +1504,15 @@ def download_tender_bidder_document(self):
         "id": response.json["data"]["id"],
         "key": key,
     }
+
+    self.add_sign_doc(
+        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
+    )
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     for container in private_doc_id_by_type, doc_id_by_type:
         # Get document by bid owner
@@ -1957,6 +1984,15 @@ def bids_view_j1446(self):
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+
+    self.add_sign_doc(
+        self.tender_id, last_bid_token, docs_url=f"/bids/{last_bid_id}/documents", document_type="proposal"
+    )
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{last_bid_id}?acc_token={last_bid_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})

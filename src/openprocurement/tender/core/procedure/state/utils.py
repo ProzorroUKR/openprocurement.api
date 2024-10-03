@@ -1,6 +1,5 @@
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.constants import BID_PROPOSAL_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import error_handler
@@ -74,9 +73,5 @@ def awarding_is_unsuccessful(awards):
 def invalidate_pending_bid():
     bid = get_bid()
     tender = get_tender()
-    if (
-        get_now() > BID_PROPOSAL_DOC_REQUIRED_FROM
-        and tender.get("status") == "active.tendering"
-        and bid.get("status") == "pending"
-    ):
+    if tender.get("status") == "active.tendering" and bid.get("status") == "pending":
         bid["status"] = "invalid"

@@ -2,7 +2,6 @@ import logging
 from collections import defaultdict
 from decimal import Decimal
 
-from openprocurement.api.constants import BID_PROPOSAL_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
@@ -28,7 +27,6 @@ logger = logging.getLogger(__name__)
 
 
 class BidState(BaseState):
-    update_date_on_value_amount_change_enabled = True
     items_unit_value_required_for_funders = False
 
     def status_up(self, before, after, data):
@@ -58,7 +56,7 @@ class BidState(BaseState):
         self.lot_values_patch_keep_unchange(after, before)
         self.validate_bid_unit_value(after)
         self.validate_status_change(before, after)
-        self.update_date_on_value_amount_change(before, after)
+        self.update_date_for_new_lot_values(after, before)
         self.validate_items_id(after)
         self.validate_items_related_product(after, before)
         self.validate_proposal_docs(after, before)
@@ -134,8 +132,6 @@ class BidState(BaseState):
             validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
 
     def validate_proposal_doc_required(self, bid):
-        if get_now() < BID_PROPOSAL_DOC_REQUIRED_FROM:
-            return
         if bid["tenderers"][0].get("identifier", {}).get("scheme") == "UA-EDR":
             validate_doc_type_required(
                 bid.get("documents", []),
@@ -143,68 +139,29 @@ class BidState(BaseState):
                 document_of="tender",
                 after_date=bid.get("submissionDate"),
             )
-        bid["submissionDate"] = get_now().isoformat()
+        now = get_now().isoformat()
+        bid["submissionDate"] = bid["date"] = now
+        for lot_value in bid.get("lotValues", []):
+            lot_value["date"] = now
 
     def validate_proposal_docs(self, data, before=None):
         for key in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
             documents = data.get(key, [])
-            if get_now() > BID_PROPOSAL_DOC_REQUIRED_FROM and (
-                before is None or before and len(before.get(key, [])) != len(documents)
-            ):
+            if before is None or before and len(before.get(key, [])) != len(documents):
                 validate_doc_type_quantity(documents, document_type="proposal", obj_name="bid")
 
     def invalidate_pending_bid_after_patch(self, after, before):
-        if self.request.authenticated_role == "Administrator" or get_now() < BID_PROPOSAL_DOC_REQUIRED_FROM:
+        if self.request.authenticated_role == "Administrator":
             return
         if before.get("status") == after.get("status") == "pending":
             after["status"] = "invalid"
 
-    def update_date_on_value_amount_change(self, before, after):
-        if not self.update_date_on_value_amount_change_enabled:
-            return
+    def update_date_for_new_lot_values(self, after, before):
         now = get_now().isoformat()
-        # if value.amount is going to be changed -> update "date"
-        amount_before = (before.get("value") or {}).get("amount")
-        amount_after = (after.get("value") or {}).get("amount")
-        if amount_before != amount_after:
-            logger.info(
-                f"Bid value amount changed from {amount_before} to {amount_after}",
-                extra=context_unpack(
-                    get_request(),
-                    {"MESSAGE_ID": "bid_amount_changed"},
-                    {
-                        "BID_ID": after["id"],
-                    },
-                ),
-            )
-            after["date"] = get_now().isoformat()
-        # the same as above, for lots
         for after_lot in after.get("lotValues") or []:
             for before_lot in before.get("lotValues") or []:
                 if before_lot["relatedLot"] == after_lot["relatedLot"]:
-                    if float(before_lot["value"]["amount"]) != after_lot["value"]["amount"]:
-                        logger.info(
-                            f'Bid lot value amount changed from {before_lot["value"]["amount"]} to {after_lot["value"]["amount"]}',
-                            extra=context_unpack(
-                                get_request(),
-                                {"MESSAGE_ID": "bid_amount_changed"},
-                                {
-                                    "BID_ID": after["id"],
-                                    "LOT_ID": after_lot["relatedLot"],
-                                },
-                            ),
-                        )
-                        after_lot["date"] = now
-                    else:
-                        # all data in save_tender applied by json_patch logic
-                        # which means list items applied by position
-                        # so when we change order of relatedLot in lotValues
-                        # this don't affect "date" fields that stays on the same positions
-                        # this causes bugs: missed date and wrong date values
-                        # This else statement ensures that wherever relatedLot goes,
-                        # its "date" goes with it
-                        after_lot["date"] = before_lot.get("date", now)
-                    break
+                    after_lot["date"] = before_lot.get("date", now)
             else:  # lotValue has been just added
                 after_lot["date"] = get_now().isoformat()
 

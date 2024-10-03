@@ -1,7 +1,5 @@
 from copy import deepcopy
 
-from openprocurement.api.constants import BID_PROPOSAL_DOC_REQUIRED_FROM
-from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.context import get_bid
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 from openprocurement.tender.core.procedure.state.utils import invalidate_pending_bid
@@ -16,8 +14,7 @@ class BidDocumentState(BaseDocumentState):
             bid_docs.extend(new_documents)
         else:  # PATCH/PUT
             bid_docs.append(doc_data)
-        if get_now() > BID_PROPOSAL_DOC_REQUIRED_FROM:
-            validate_doc_type_quantity(bid_docs, document_type="proposal", obj_name="bid")
+        validate_doc_type_quantity(bid_docs, document_type="proposal", obj_name="bid")
 
     def document_always(self, data):
         super().document_always(data)

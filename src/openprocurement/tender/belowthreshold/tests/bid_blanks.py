@@ -331,7 +331,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["value"]["amount"], 450)
     self.assertEqual(response.json["data"]["subcontractingDetails"], "test")
-    self.assertNotEqual(response.json["data"]["date"], bid["date"])
+    self.assertEqual(response.json["data"]["date"], bid["date"])
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
@@ -345,7 +345,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["value"]["amount"], 400)
-    self.assertNotEqual(response.json["data"]["date"], bid["date"])
+    self.assertEqual(response.json["data"]["date"], bid["date"])
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token), {"data": {"status": "pending"}}
@@ -419,7 +419,13 @@ def get_tender_bid(self):
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    bid.update({"status": "pending", "submissionDate": response.json["data"]["submissionDate"]})
+    bid.update(
+        {
+            "status": "pending",
+            "submissionDate": response.json["data"]["submissionDate"],
+            "date": response.json["data"]["date"],
+        }
+    )
     self.assertEqual(response.json["data"], bid)
 
     self.set_status("active.qualification")
@@ -482,7 +488,13 @@ def get_tender_bid_data_for_sign(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(["data", "context"], list(response.json.keys()))
-    bid.update({"status": "pending", "submissionDate": response.json["data"]["submissionDate"]})
+    bid.update(
+        {
+            "status": "pending",
+            "submissionDate": response.json["data"]["submissionDate"],
+            "date": response.json["data"]["date"],
+        }
+    )
     self.assertEqual(response.json["data"], bid)
     self.assertIn("tender", response.json["context"])
     self.assertEqual(response.json["context"]["tender"]["status"], "active.tendering")
@@ -555,7 +567,13 @@ def get_tender_tenderers(self):
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    bid.update({"status": "active", "submissionDate": response.json["data"][0]["submissionDate"]})
+    bid.update(
+        {
+            "status": "active",
+            "submissionDate": response.json["data"][0]["submissionDate"],
+            "date": response.json["data"][0]["date"],
+        }
+    )
     self.assertEqual(response.json["data"][0], bid)
 
     response = self.app.get("/tenders/some_id/bids", status=404)
@@ -1724,6 +1742,15 @@ def create_tender_bid_document_json(self):
     self.assertIn(response.json["data"]["id"], response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
+    self.add_sign_doc(
+        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
+    )
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
     self.set_status("active.awarded")
 
     # response = self.app.post_json(
@@ -1847,6 +1874,14 @@ def create_tender_bid_document_with_award_json(self):
         status=201,
     )
     doc_id = response.json["data"]["id"]
+    self.add_sign_doc(
+        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
+    )
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(

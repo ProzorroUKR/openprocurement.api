@@ -1286,6 +1286,14 @@ def patch_tender_bid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
+    self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
+
+    self.add_sign_doc(self.tender_id, token, docs_url=f"/bids/{bid['id']}/documents", document_type="proposal")
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
 
 
