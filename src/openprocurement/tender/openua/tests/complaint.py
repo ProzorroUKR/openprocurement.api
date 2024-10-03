@@ -95,9 +95,12 @@ class CreateAwardComplaintMixin:
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
 
         with change_auth(self.app, ("Basic", ("token", ""))):
+            patch_data = {"status": "active", "qualified": True}
+            if self.initial_data['procurementMethodType'] != "simple.defense":
+                patch_data["eligible"] = True
             self.app.patch_json(
                 f"/tenders/{self.tender_id}/awards/{self.award_id}",
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": patch_data},
             )
 
 

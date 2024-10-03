@@ -153,7 +153,7 @@ class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
 

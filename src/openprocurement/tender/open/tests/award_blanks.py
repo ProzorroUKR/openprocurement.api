@@ -3076,9 +3076,12 @@ def patch_tender_lots_award_complaint(self):
 
 
 def lot_award_has_satisfied_complaint(self):
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     response = self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
 
     if "defense" in self.initial_data["procurementMethodType"]:
@@ -3090,9 +3093,12 @@ def lot_award_has_satisfied_complaint(self):
         )
         self.assertEqual(response.json["data"][1]["lotID"], response.json["data"][0]["lotID"])
         award_2_id = response.json["data"][1]["id"]
+        patch_data = {"status": "active", "qualified": True}
+        if self.initial_data['procurementMethodType'] != "simple.defense":
+            patch_data["eligible"] = True
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_2_id, self.tender_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": patch_data},
         )
 
     bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
@@ -3152,9 +3158,12 @@ def lot_award_has_satisfied_complaint(self):
 
 
 def lot_award_has_resolved_complaint(self):
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     response = self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
 
     if "defense" in self.initial_data["procurementMethodType"]:
@@ -3166,9 +3175,12 @@ def lot_award_has_resolved_complaint(self):
         )
         self.assertEqual(response.json["data"][1]["lotID"], response.json["data"][0]["lotID"])
         award_2_id = response.json["data"][1]["id"]
+        patch_data = {"status": "active", "qualified": True}
+        if self.initial_data['procurementMethodType'] != "simple.defense":
+            patch_data["eligible"] = True
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_2_id, self.tender_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": patch_data},
         )
 
     bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
@@ -3220,9 +3232,12 @@ def lot_award_has_resolved_complaint(self):
 
 
 def any_lot_award_has_not_considered_complaint(self):
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     response = self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
 
     if "defense" in self.initial_data["procurementMethodType"]:
@@ -3234,9 +3249,12 @@ def any_lot_award_has_not_considered_complaint(self):
         )
         self.assertEqual(response.json["data"][1]["lotID"], response.json["data"][0]["lotID"])
         award_2_id = response.json["data"][1]["id"]
+        patch_data = {"status": "active", "qualified": True}
+        if self.initial_data['procurementMethodType'] != "simple.defense":
+            patch_data["eligible"] = True
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_2_id, self.tender_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": patch_data},
         )
 
     bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
@@ -3282,18 +3300,24 @@ def any_lot_award_has_not_considered_complaint(self):
 
 
 def another_award_for_one_lot_has_considered_complaint(self):
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
     response = self.app.get(
         '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
     )
     self.assertEqual(response.json["data"][1]["lotID"], response.json["data"][0]["lotID"])
     award_2_id = response.json["data"][1]["id"]
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_2_id, self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
     response = self.app.post_json(
@@ -3345,18 +3369,24 @@ def another_award_for_one_lot_has_considered_complaint(self):
 
 
 def award_for_another_lot_has_considered_complaint(self):
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
     response = self.app.get(
         '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
     )
     self.assertNotEqual(response.json["data"][-1]["lotID"], response.json["data"][0]["lotID"])
     award_3_id = response.json["data"][-1]["id"]
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     self.app.patch_json(
         '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_3_id, self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
     response = self.app.post_json(

@@ -37,17 +37,23 @@ def switch_to_unsuccessful(self):
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
 
     tender = self.mongodb.tenders.get(self.tender_id)
@@ -124,9 +130,12 @@ def switch_to_unsuccessful_lot(self):
     while any(i["status"] == "pending" for i in response.json["data"]):
         award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+        patch_data = {"status": "unsuccessful", "qualified": False}
+        if self.initial_data['procurementMethodType'] != "simple.defense":
+            patch_data["eligible"] = False
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+            {"data": patch_data},
         )
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
 

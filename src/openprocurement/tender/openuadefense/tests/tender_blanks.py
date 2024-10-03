@@ -617,9 +617,12 @@ def one_invalid_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as unsuccessful
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
 
     new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO

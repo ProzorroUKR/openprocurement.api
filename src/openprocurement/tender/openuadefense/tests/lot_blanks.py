@@ -233,9 +233,12 @@ def two_lot_1bid_0com_1can(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as unsuccessful
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
     new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO
     if not new_defence_complaints:
@@ -310,9 +313,12 @@ def two_lot_1bid_2com_1win(self):
 
         # set award as active
         self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+        patch_data = {"status": "active", "qualified": True}
+        if self.initial_data['procurementMethodType'] != "simple.defense":
+            patch_data["eligible"] = True
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": patch_data},
         )
         # get contract id
         response = self.app.get("/tenders/{}".format(tender_id))
@@ -388,9 +394,12 @@ def two_lot_1bid_0com_0win(self):
         award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
         # set award as unsuccessful
         self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+        patch_data = {"status": "unsuccessful", "qualified": False}
+        if self.initial_data['procurementMethodType'] != "simple.defense":
+            patch_data["eligible"] = False
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+            {"data": patch_data},
         )
         if not new_defence_complaints:
             # after stand slill period
@@ -467,9 +476,12 @@ def two_lot_1bid_1com_1win(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -493,9 +505,12 @@ def two_lot_1bid_1com_1win(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == lot_id][0]
     # set award as unsuccessful
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "unsuccessful", "qualified": False}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        {"data": patch_data},
     )
     # after stand still period
     self.set_status("complete", {"status": "active.awarded"})
@@ -633,9 +648,12 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
 
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
 
     # get contract id
@@ -661,9 +679,12 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
 
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
 
     response = self.app.get("/tenders/{}".format(tender_id))

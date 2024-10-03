@@ -1163,9 +1163,12 @@ def access_create_tender_cancellation_complaint(self):
         )
         award = response.json["data"]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    patch_data = {"status": "active", "qualified": True}
+    if self.initial_data['procurementMethodType'] != "simple.defense":
+        patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        {"data": patch_data},
     )
 
     self.set_all_awards_complaint_period_end()
