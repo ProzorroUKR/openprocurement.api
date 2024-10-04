@@ -1410,6 +1410,8 @@ def create_tender_bidder_document_json(self):
     self.assertIn(response.json["data"]["id"], response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
+
     self.set_status("active.awarded")
 
     response = self.app.post_json(
@@ -1539,6 +1541,8 @@ def put_tender_bidder_document_json(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
+
     self.set_status("active.qualification")
 
     response = self.app.put_json(
@@ -1577,7 +1581,7 @@ def put_tender_bidder_document_json(self):
     bid = tender["bids"][0]
     self.assertEqual(self.bid_id, bid["id"])
 
-    for i, document in enumerate(bid["documents"]):
+    for i, document in enumerate(bid["documents"][:-1]):  # except proposal doc
         self.assertEqual(
             f"/tenders/{self.tender_id}/bids/{self.bid_id}/documents/{doc_id}?download={dos_service_ids[i]}",
             document["url"],
@@ -1724,6 +1728,7 @@ def tender_bidder_confidential_document(self):
                 ],
             },
         )
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     # switch to active.awarded
     tender = self.mongodb.tenders.get(self.tender_id)
@@ -1746,12 +1751,12 @@ def tender_bidder_confidential_document(self):
     response = self.app.get(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.tender_token)
     )
-    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(len(response.json["data"]), 2)  # + proposal doc
     self.assertEqual(response.json["data"][0], doc_data)
 
     # get list as public
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
-    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(len(response.json["data"]), 2)
     self.assertEqual(response.json["data"][0], {k: v for k, v in doc_data.items() if k != "url"})
 
     # get directly as tender owner

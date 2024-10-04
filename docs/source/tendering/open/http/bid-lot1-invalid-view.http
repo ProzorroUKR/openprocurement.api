@@ -136,7 +136,7 @@ Content-Type: application/json
     ],
     "status": "invalid",
     "id": "0a2a8fa3f5c84516bc1e79ed64e8b5e5",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:01:00+03:00",
     "submissionDate": "2023-10-10T01:01:00+03:00",
     "documents": [
       {
@@ -176,7 +176,7 @@ Content-Type: application/json
         },
         "relatedLot": "f56fc2b8fdd44587baa8726a382e3e41",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2023-10-10T01:01:00+03:00",
         "subcontractingDetails": "ДКП «Орфей», Україна"
       }
     ]

@@ -1742,14 +1742,7 @@ def create_tender_bid_document_json(self):
     self.assertIn(response.json["data"]["id"], response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    self.add_sign_doc(
-        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
-    )
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
-        {"data": {"status": "pending"}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     self.set_status("active.awarded")
 
@@ -1874,14 +1867,7 @@ def create_tender_bid_document_with_award_json(self):
         status=201,
     )
     doc_id = response.json["data"]["id"]
-    self.add_sign_doc(
-        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
-    )
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
-        {"data": {"status": "pending"}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(

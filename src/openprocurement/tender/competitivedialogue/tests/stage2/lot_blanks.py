@@ -573,7 +573,8 @@ def patch_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     response = self.activate_bid(self.tender_id, bidder['id'], bid_token)
-    self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
+    doc_id = response.json["data"]["documents"][-1]["id"]
+    self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bidder["tenderers"][0]["name"])
 
     response = self.app.patch_json(
@@ -587,8 +588,8 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bidder['id'], bid_token)
-    self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
+    response = self.activate_bid(self.tender_id, bidder['id'], bid_token, doc_id)
+    self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bidder["tenderers"][0]["name"])
 
     response = self.app.patch_json(
@@ -597,7 +598,7 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bidder['id'], bid_token)
+    response = self.activate_bid(self.tender_id, bidder['id'], bid_token, doc_id)
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
 
@@ -1976,6 +1977,9 @@ def patch_tender_bidder_ua(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
+    self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
+
+    response = self.activate_bid(self.tender_id, bidder['id'], owner_token)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
 
     self.set_status("complete")

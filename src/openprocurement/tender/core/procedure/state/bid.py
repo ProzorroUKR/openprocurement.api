@@ -7,7 +7,6 @@ from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import (
-    context_unpack,
     error_handler,
     get_tender_product,
     raise_operation_error,
@@ -162,6 +161,7 @@ class BidState(BaseState):
             for before_lot in before.get("lotValues") or []:
                 if before_lot["relatedLot"] == after_lot["relatedLot"]:
                     after_lot["date"] = before_lot.get("date", now)
+                    break
             else:  # lotValue has been just added
                 after_lot["date"] = get_now().isoformat()
 

@@ -1130,14 +1130,7 @@ def get_tender_bidder_document(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-    self.add_sign_doc(
-        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
-    )
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
-        {"data": {"status": "pending"}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     document_is_unaccessible_for_others(doc_resource)
     document_is_unaccessible_for_tender_owner(doc_resource)
@@ -1238,14 +1231,7 @@ def create_tender_bidder_document(self):
     key = self.get_doc_id_from_url(response.json["data"]["url"])
     doc_id_by_type[doc_resource] = {"id": doc_id, "key": key}
 
-    self.add_sign_doc(
-        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
-    )
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
-        {"data": {"status": "pending"}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     doc_resource = "documents"
     response = self.app.get(
@@ -1505,14 +1491,7 @@ def download_tender_bidder_document(self):
         "key": key,
     }
 
-    self.add_sign_doc(
-        self.tender_id, self.bid_token, docs_url=f"/bids/{self.bid_id}/documents", document_type="proposal"
-    )
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}",
-        {"data": {"status": "pending"}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     for container in private_doc_id_by_type, doc_id_by_type:
         # Get document by bid owner
@@ -1985,14 +1964,7 @@ def bids_view_j1446(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    self.add_sign_doc(
-        self.tender_id, last_bid_token, docs_url=f"/bids/{last_bid_id}/documents", document_type="proposal"
-    )
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{last_bid_id}?acc_token={last_bid_token}",
-        {"data": {"status": "pending"}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    self.activate_bid(self.tender_id, last_bid_id, last_bid_token)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})

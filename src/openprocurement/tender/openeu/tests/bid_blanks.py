@@ -302,7 +302,8 @@ def patch_tender_bidder(self):
     self.assertEqual(response.content_type, "application/json")
 
     response = self.activate_bid(self.tender_id, bid['id'], bid_token)
-    self.assertEqual(response.json["data"]["date"], bid["date"])
+    doc_id = response.json["data"]["documents"][-1]["id"]
+    self.assertNotEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     lot_values[0]["value"]["amount"] = 500
@@ -313,8 +314,8 @@ def patch_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
-    self.assertEqual(response.json["data"]["date"], bid["date"])
+    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
+    self.assertNotEqual(response.json["data"]["date"], bid["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     lot_values[0]["value"]["amount"] = 400
@@ -331,7 +332,7 @@ def patch_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
+    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
 
     response = self.app.patch_json(
@@ -1426,7 +1427,6 @@ def get_tender_bidder_document(self):
                 "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, resource, self.bid_token)
             )
             self.assertEqual(response.status, "200 OK")
-            self.assertEqual(len(response.json["data"]), 2)
             doc1 = response.json["data"][0]
             doc2 = response.json["data"][1]
             self.assertEqual(doc1["title"], "name_{}.doc".format(resource[:-1]))
@@ -1465,7 +1465,6 @@ def get_tender_bidder_document(self):
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, resource, token)
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(len(response.json["data"]), 2)
         doc_id = doc_id_by_type[resource]["id"]
         response = self.app.get(
             "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, resource, doc_id, token)
@@ -1486,7 +1485,6 @@ def get_tender_bidder_document(self):
 
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, resource))
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(len(response.json["data"]), 2)
         self.assertIn(doc_id_by_type[resource]["key"], response.json["data"][0]["url"])
         self.assertNotIn("url", response.json["data"][1])
 
@@ -1571,6 +1569,7 @@ def get_tender_bidder_document(self):
         document_is_unaccessible_for_tender_owner(doc_resource)
 
     all_documents_are_accessible_for_bid_owner(doc_resource)
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -1594,7 +1593,6 @@ def get_tender_bidder_document(self):
     for doc_resource in ["documents", "eligibility_documents"]:
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, doc_resource))
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(len(response.json["data"]), 2)
         self.assertIn("url", response.json["data"][0])
         self.assertIn(doc_id_by_type[doc_resource]["key"], response.json["data"][0]["url"])
         self.assertNotIn("url", response.json["data"][1])
@@ -1658,7 +1656,7 @@ def get_tender_bidder_document(self):
     )
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(len(response.json["data"]), 3)
     self.assertIn(doc_id_by_type["documents"]["key"], response.json["data"][0]["url"])
     doc_id = doc_id_by_type["documents"]["id"]
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))
@@ -1695,7 +1693,7 @@ def get_tender_bidder_document(self):
     )
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(len(response.json["data"]), 3)
     self.assertIn(doc_id_by_type["documents"]["key"], response.json["data"][0]["url"])
     doc_id = doc_id_by_type["documents"]["id"]
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))
@@ -1930,6 +1928,7 @@ def create_tender_bidder_document(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(doc_id, response.json["data"]["id"])
         self.assertEqual("name_{}.doc".format(doc_resource[:-1]), response.json["data"]["title"])
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})
@@ -2145,6 +2144,8 @@ def put_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(doc_id, response.json["data"]["id"])
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
+    self.activate_bid(self.tender_id, self.bid2_id, self.bid2_token)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})
@@ -2471,6 +2472,8 @@ def patch_tender_bidder_document(self):
             },
         )
         self.assertEqual(response.status, "200 OK")
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
+    self.activate_bid(self.tender_id, self.bid2_id, self.bid2_token)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})
@@ -2864,6 +2867,7 @@ def download_tender_bidder_document(self):
                 "Can't view bid documents in current (active.tendering) tender status",
             )
 
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
 
@@ -3114,6 +3118,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -3321,6 +3326,7 @@ def put_tender_bidder_document_private_json(self):
 
         self.assertEqual("public", response.json["data"]["confidentiality"])
         self.assertNotIn("confidentialityRationale", response.json["data"])
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -3430,7 +3436,6 @@ def get_tender_bidder_document_ds(self):
                 "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, resource, self.bid_token)
             )
             self.assertEqual(response.status, "200 OK")
-            self.assertEqual(len(response.json["data"]), 2)
             doc1 = response.json["data"][0]
             doc2 = response.json["data"][1]
             self.assertEqual(doc1["title"], "name_{}.doc".format(resource[:-1]))
@@ -3469,7 +3474,6 @@ def get_tender_bidder_document_ds(self):
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, resource, token)
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(len(response.json["data"]), 2)
         doc_id = doc_id_by_type[resource]["id"]
         response = self.app.get(
             "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, resource, doc_id, token)
@@ -3490,7 +3494,6 @@ def get_tender_bidder_document_ds(self):
 
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, resource))
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(len(response.json["data"]), 2)
         self.assertIn(doc_id_by_type[resource]["key"], response.json["data"][0]["url"])
         self.assertNotIn("url", response.json["data"][1])
 
@@ -3563,6 +3566,7 @@ def get_tender_bidder_document_ds(self):
         document_is_unaccessible_for_tender_owner(doc_resource)
 
     all_documents_are_accessible_for_bid_owner(doc_resource)
+    self.activate_bid(self.tender_id, self.bid_id, self.bid_token)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -3586,7 +3590,6 @@ def get_tender_bidder_document_ds(self):
     for doc_resource in ["documents", "eligibility_documents"]:
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, doc_resource))
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(len(response.json["data"]), 2)
         self.assertIn("url", response.json["data"][0])
         self.assertIn(doc_id_by_type[doc_resource]["key"], response.json["data"][0]["url"])
         self.assertNotIn("url", response.json["data"][1])
@@ -3650,7 +3653,7 @@ def get_tender_bidder_document_ds(self):
     )
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(len(response.json["data"]), 3)
     self.assertIn(doc_id_by_type["documents"]["key"], response.json["data"][0]["url"])
     doc_id = doc_id_by_type["documents"]["id"]
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))
@@ -3687,7 +3690,7 @@ def get_tender_bidder_document_ds(self):
     )
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(len(response.json["data"]), 3)
     self.assertIn(doc_id_by_type["documents"]["key"], response.json["data"][0]["url"])
     doc_id = doc_id_by_type["documents"]["id"]
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))

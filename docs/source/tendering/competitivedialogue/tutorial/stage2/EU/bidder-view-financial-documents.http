@@ -146,7 +146,7 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "526b7a685a8b4427b01d99ca0954cec5",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:01:00+03:00",
     "submissionDate": "2023-10-10T01:01:00+03:00",
     "lotValues": [
       {
@@ -157,7 +157,7 @@ Content-Type: application/json
         },
         "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:01:00+03:00"
       }
     ],
     "documents": [

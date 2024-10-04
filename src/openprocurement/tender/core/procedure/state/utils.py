@@ -1,6 +1,5 @@
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import error_handler
 from openprocurement.tender.core.procedure.context import get_bid

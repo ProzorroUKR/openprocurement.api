@@ -1244,6 +1244,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     response = self.activate_bid(self.tender_id, bid['id'], bid_token)
+    doc_id = response.json["data"]["documents"][-1]["id"]
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     lot_values = bid["lotValues"]
@@ -1318,7 +1319,7 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
+    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     lot_values[0].update(
@@ -1337,7 +1338,7 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
+    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["value"]["amount"], self.expected_bid_amount)
     self.assertNotEqual(
         response.json["data"]["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance

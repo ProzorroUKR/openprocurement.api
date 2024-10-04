@@ -165,7 +165,7 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "6301b71c37644207b496dd2cc689a465",
-    "date": "2023-10-10T01:01:00+03:00",
+    "date": "2023-10-10T01:06:00+03:00",
     "submissionDate": "2023-10-10T01:06:00+03:00",
     "documents": [
       {
@@ -205,7 +205,7 @@ Content-Type: application/json
         },
         "relatedLot": "f56fc2b8fdd44587baa8726a382e3e41",
         "status": "pending",
-        "date": "2023-10-10T01:01:00+03:00",
+        "date": "2023-10-10T01:06:00+03:00",
         "subcontractingDetails": "ДКП «Орфей»"
       },
       {
@@ -216,7 +216,7 @@ Content-Type: application/json
         },
         "relatedLot": "6babb5c45e6043fe95ee9952851c712f",
         "status": "pending",
-        "date": "2023-10-10T01:01:00+03:00",
+        "date": "2023-10-10T01:06:00+03:00",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна"
       }
     ]

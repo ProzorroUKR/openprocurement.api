@@ -16,7 +16,7 @@ Content-Type: application/json
     "bids": [
       {
         "id": "67eb57fa061f47b9836630fd4f90122a",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2023-10-10T01:01:00+03:00",
         "submissionDate": "2023-10-10T01:01:00+03:00",
         "tenderers": [
           {
@@ -85,7 +85,7 @@ Content-Type: application/json
       },
       {
         "id": "110e51882d0f47e5a0c6168c89e9595a",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2023-10-10T01:01:00+03:00",
         "submissionDate": "2023-10-10T01:01:00+03:00",
         "tenderers": [
           {
@@ -153,7 +153,7 @@ Content-Type: application/json
       },
       {
         "id": "8f1f20c9676f4c51b1e41855982f5629",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2023-10-10T01:01:00+03:00",
         "submissionDate": "2023-10-10T01:01:00+03:00",
         "tenderers": [
           {
