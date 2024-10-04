@@ -23,6 +23,7 @@ from openprocurement.tender.limited.constants import (
     REPORTING,
 )
 from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -47,7 +48,7 @@ def bulk_update(bulk, collection):
 
 
 def tender_with_eligible_awards(pmt):
-    return pmt not in (BELOW_THRESHOLD, REPORTING, NEGOTIATION, NEGOTIATION_QUICK, CFA_SELECTION, PQ)
+    return pmt not in (BELOW_THRESHOLD, REPORTING, NEGOTIATION, NEGOTIATION_QUICK, CFA_SELECTION, PQ, SIMPLE_DEFENSE)
 
 
 def run(env, args):
