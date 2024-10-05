@@ -1,0 +1,31 @@
+@startuml
+
+
+
+
+file template.html.jinja2
+
+
+
+file contract.json [
+    contract.json
+
+    ----
+
+    {"title": "...", "items": [...], "buyers": [...], ...}
+
+]
+
+
+file contract.html
+template.html.jinja2 --> contract.html
+contract.json --> contract.html: підставляємо дані в темплейт\n за допомогою будь-якого jinja2 процесора
+
+
+file contract.pdf
+
+contract.html --> contract.pdf: друкуємо в pdf
+
+
+
+@enduml

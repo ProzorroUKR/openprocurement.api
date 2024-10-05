@@ -19,3 +19,4 @@ Contents:
    e_contract_signing
    contract_change
    awarding_prolongation
+   rendering_documents

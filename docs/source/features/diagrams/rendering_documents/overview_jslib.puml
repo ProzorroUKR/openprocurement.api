@@ -1,0 +1,34 @@
+@startuml
+
+
+
+file contract.json [
+    contract.json
+
+    ----
+
+    {"title": "...", "items": [...], "buyers": [...], ...}
+
+]
+file template_config.json [
+    template_config.json
+
+    ---
+
+    [ {"include": "title"}, {"include": "items"},\
+    {"text": "Додатковий текст ..."}, ...]
+]
+
+
+component RenderDocJSLib
+
+contract.json -d-> RenderDocJSLib
+template_config.json -d-> RenderDocJSLib
+
+
+file contract.pdf
+
+RenderDocJSLib -d-> contract.pdf
+
+
+@enduml
