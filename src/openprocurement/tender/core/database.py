@@ -1,6 +1,6 @@
 import logging
 
-from pymongo import ASCENDING, IndexModel
+from pymongo import ASCENDING, IndexModel, ReadPreference
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.database import BaseCollection
@@ -88,3 +88,15 @@ class TenderCollection(BaseCollection):
             # pymongo.errors.OperationFailure: Cannot use $elemMatch projection on a nested field
         ]
         return response
+
+
+class PQTenderCollection(TenderCollection):
+    def __init__(self, store, settings):
+        self.store = store
+        collection_name = "pq_tenders"
+        self.collection = getattr(store.database, collection_name)
+        if isinstance(self.collection.read_preference, type(ReadPreference.PRIMARY)):
+            self.collection_primary = self.collection
+        else:
+            self.collection_primary = self.collection.with_options(read_preference=ReadPreference.PRIMARY)
+        self.create_indexes()

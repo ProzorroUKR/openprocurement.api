@@ -2,7 +2,7 @@ from logging import getLogger
 
 from pkg_resources import iter_entry_points
 
-from openprocurement.tender.core.database import TenderCollection
+from openprocurement.tender.core.database import PQTenderCollection, TenderCollection
 from openprocurement.tender.core.procedure.serializers.config import (
     TenderConfigSerializer,
 )
@@ -22,6 +22,8 @@ def includeme(config):
     LOGGER.info("Init tender.core plugin.")
 
     config.registry.mongodb.add_collection("tenders", TenderCollection)
+    # TODO: delete after migration
+    config.registry.mongodb.add_collection("pq_tenders", PQTenderCollection)
 
     config.add_request_method(extract_tender_doc, "tender_doc", reify=True)
     config.add_request_method(extract_complaint_type, "complaint_type", reify=True)
