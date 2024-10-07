@@ -21,7 +21,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "8f1f20c9676f4c51b1e41855982f5629",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:01:00+03:00",
     "submissionDate": "2023-10-10T01:01:00+03:00",
     "tenderers": [
       {
@@ -50,7 +50,7 @@ Content-Type: application/json
       {
         "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:01:00+03:00"
       }
     ],
     "documents": [

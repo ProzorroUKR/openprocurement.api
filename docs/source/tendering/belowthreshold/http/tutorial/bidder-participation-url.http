@@ -34,7 +34,7 @@ Content-Type: application/json
     ],
     "status": "active",
     "id": "df2b366b648c4f6eb9855c8a1e3c9ea4",
-    "date": "2023-10-16T01:14:06+03:00",
+    "date": "2023-10-16T01:15:06+03:00",
     "submissionDate": "2023-10-16T01:15:06+03:00",
     "documents": [
       {
@@ -88,7 +88,7 @@ Content-Type: application/json
         },
         "relatedLot": "987404b67a4c4d888112d4e9755edefc",
         "status": "active",
-        "date": "2023-10-16T01:14:06+03:00",
+        "date": "2023-10-16T01:15:06+03:00",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3_987404b67a4c4d888112d4e9755edefc?key_for_bid=df2b366b648c4f6eb9855c8a1e3c9ea4"
       }
     ]

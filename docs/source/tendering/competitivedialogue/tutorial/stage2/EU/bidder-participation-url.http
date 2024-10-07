@@ -146,7 +146,7 @@ Content-Type: application/json
     ],
     "status": "active",
     "id": "526b7a685a8b4427b01d99ca0954cec5",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:03:00+03:00",
     "submissionDate": "2023-10-10T01:03:00+03:00",
     "lotValues": [
       {

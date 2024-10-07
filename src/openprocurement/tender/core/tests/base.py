@@ -180,7 +180,10 @@ class BaseCoreWebTest(BaseWebTest):
             )
         return response
 
-    def activate_bid(self, tender_id, bid_id, bid_token):
+    def activate_bid(self, tender_id, bid_id, bid_token, doc_id=None):
+        self.add_sign_doc(
+            tender_id, bid_token, docs_url=f"/bids/{bid_id}/documents", document_type="proposal", doc_id=doc_id
+        )
         response = self.app.patch_json(
             f"/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}",
             {"data": {"status": "pending"}},

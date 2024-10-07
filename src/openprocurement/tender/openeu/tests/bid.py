@@ -169,10 +169,6 @@ class TenderBidDocumentResourceTestMixin:
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.utils.BID_PROPOSAL_DOC_REQUIRED_FROM",
-    get_now() + timedelta(days=1),
-)
 class TenderBidDocumentResourceTest(TenderBidDocumentResourceTestMixin, BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"

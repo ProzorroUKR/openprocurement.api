@@ -136,7 +136,7 @@ Content-Type: application/json
     ],
     "status": "active",
     "id": "6301b71c37644207b496dd2cc689a465",
-    "date": "2023-10-10T01:01:00+03:00",
+    "date": "2023-10-10T01:06:00+03:00",
     "submissionDate": "2023-10-10T01:06:00+03:00",
     "documents": [
       {
@@ -176,7 +176,7 @@ Content-Type: application/json
         },
         "relatedLot": "f56fc2b8fdd44587baa8726a382e3e41",
         "status": "active",
-        "date": "2023-10-10T01:01:00+03:00",
+        "date": "2023-10-10T01:06:00+03:00",
         "subcontractingDetails": "ДКП «Орфей»",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/de38bea4a6534e13939a382dfeef92f2_f56fc2b8fdd44587baa8726a382e3e41?key_for_bid=6301b71c37644207b496dd2cc689a465"
       }

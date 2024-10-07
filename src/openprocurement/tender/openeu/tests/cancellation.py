@@ -190,7 +190,6 @@ class TenderCancellationBidsAvailabilityUtils:
                 for doc_resource in ["documents", "eligibility_documents"]:
                     response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, bid_id, doc_resource))
                     docs = response.json["data"]
-                    self.assertEqual(len(docs), 1)
                     self.assertEqual(docs[0]["title"], "name_{}.doc".format(doc_resource[:-1]))
                     self.assertIn("url", docs[0])
 
@@ -265,7 +264,6 @@ class TenderCancellationBidsAvailabilityUtils:
     def _bid_document_is_accessible(self, bid_id, doc_resource):
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, bid_id, doc_resource))
         docs = response.json["data"]
-        self.assertEqual(len(docs), 1)
         self.assertEqual(docs[0]["title"], "name_{}.doc".format(doc_resource[:-1]))
         self.assertIn("url", docs[0])
         response = self.app.get(

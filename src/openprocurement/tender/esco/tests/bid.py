@@ -178,10 +178,6 @@ class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):
     "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
     get_now() + timedelta(days=1),
 )
-@patch(
-    "openprocurement.tender.core.procedure.state.utils.BID_PROPOSAL_DOC_REQUIRED_FROM",
-    get_now() + timedelta(days=1),
-)
 class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
