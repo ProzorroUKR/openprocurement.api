@@ -22,7 +22,7 @@ The circumstances under which this happens are described below.
 Creating contract
 -----------------
 
-Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status.
+Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value` and `contractID`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status.
 
 *Brokers (eMalls) can't create contracts in the contract system.*
 
@@ -97,7 +97,7 @@ Setting contract value
 
 By default contract value is set based on the award, but there is a possibility to set custom contract value.
 
-If you want to **lower contract value**, you can insert new one into the `amount` or `amountNet` field(for all procedures except esco).
+If you want to **lower contract value**, you can insert new one into the `amount` or `amountNet` field.
 
 .. http:example:: http/contract-set-contract-value.http
    :code:
@@ -129,10 +129,13 @@ If this date is not set, it will be auto-generated on the date of contract regis
 Setting contract validity period
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
+Setting contract validity period is required before activation, you can set appropriate `startDate` and `endDate`.
 
 .. http:example:: http/contract-period.http
    :code:
+
+.. note::
+    For `esco` contract validity period field `endDate` calculated automatically on activation.
 
 Uploading contract documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

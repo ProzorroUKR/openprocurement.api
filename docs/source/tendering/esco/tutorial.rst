@@ -469,9 +469,12 @@ Qualification commission registers its decision via the following call:
 Setting Contract
 ----------------
 
-EContracting is unavailable for `esco` procedures.
+In EContracting the contract is created directly in contracting system.
 
-In regular contacting the contract will be created in tender system first. Contract must be activated in by changing status to `active`.
+.. note::
+    Some of data will be mirrored to tender until contract will be activated for backward compatibility.
+
+Read more about working with EContracting in contracting system in :ref:`econtracting_tutorial` section.
 
 Cancelling tender
 -----------------
