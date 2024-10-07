@@ -31,11 +31,9 @@ class CreateComplaintPost(Model):
     title = StringType(required=True)
     description = StringType(required=True)
     documents = ListType(ModelType(PostDocument, required=True))  # use model instead of  validate_data_documents(
-    recipient = StringType(
-        required=True,
-        choices=["complaint_owner", "tender_owner", "aboveThresholdReviewers"],
-    )
+    recipient = StringType(choices=["complaint_owner", "tender_owner", "aboveThresholdReviewers"])
     relatedPost = StringType()
+    relatedObjection = StringType(required=True)
 
     reviewer_roles = ["aboveThresholdReviewers"]
     recipient_roles = ["complaint_owner", "tender_owner"]
@@ -44,7 +42,8 @@ class CreateComplaintPost(Model):
         complaint = get_complaint()
 
         author = self.get_author()
-        if author in self.recipient_roles and not value:
+        # only for responses to AMCU post it is required to add relatedPost
+        if author in self.recipient_roles and data.get("recipient") and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
 
         if value:
@@ -66,6 +65,9 @@ class CreateComplaintPost(Model):
             if len(related_posts) > 1:
                 raise ValidationError("relatedPost can't be a link to more than one post.")
 
+            if not related_posts[0].get("recipient"):
+                raise ValidationError("forbidden to answer to explanations")
+
             # check that related post have another author
             if len(related_posts) == 1 and author == related_posts[0]["author"]:
                 raise ValidationError("relatedPost can't have the same author.")
@@ -75,7 +77,7 @@ class CreateComplaintPost(Model):
                 raise ValidationError("relatedPost can't have relatedPost defined.")
 
             # check that answer author matches related post recipient
-            if author != related_posts[0]["recipient"]:
+            if related_posts[0].get("recipient") and author != related_posts[0]["recipient"]:
                 raise ValidationError("relatedPost invalid recipient.")
 
     def validate_recipient(self, data, value):
@@ -84,6 +86,10 @@ class CreateComplaintPost(Model):
         if author in self.reviewer_roles and value not in self.recipient_roles:
             raise ValidationError(f"Value must be one of {self.recipient_roles}.")
 
-        # validate for complaint_owner and tender_owner roles
-        elif author in self.recipient_roles and value not in self.reviewer_roles:
-            raise ValidationError(f"Value must be one of {self.reviewer_roles}.")
+        # validate for complaint_owner and tender_owner roles for AMCU responses
+        if author in self.recipient_roles:
+            # explanations should not have relatedPost and recipient field
+            if not data.get("relatedPost") and value:
+                raise ValidationError(f"Forbidden to add recipient without relatedPost for {self.recipient_roles}")
+            elif data.get("relatedPost") and value not in self.reviewer_roles:
+                raise ValidationError(f"Value must be one of {self.reviewer_roles}.")
