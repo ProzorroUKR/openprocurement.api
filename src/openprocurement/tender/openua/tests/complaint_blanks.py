@@ -308,13 +308,21 @@ def review_tender_complaint(self):
 
         if status in ["satisfied", "declined", "stopped"]:
             data = {"status": "accepted"}
+            # try to set accepted status without reviewDate
             if RELEASE_2020_04_19 < now:
-                data.update(
-                    {
-                        "reviewDate": now.isoformat(),
-                        "reviewPlace": "some",
-                    }
-                )
+                data["reviewPlace"] = "some"
+            response = self.app.patch_json(
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+                {"data": data},
+                status=422,
+            )
+            self.assertEqual(
+                response.json["errors"][0],
+                {"location": "body", "name": "reviewDate", "description": ["This field is required."]},
+            )
+
+            if RELEASE_2020_04_19 < now:
+                data["reviewDate"] = now.isoformat()
             response = self.app.patch_json(
                 "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]), {"data": data}
             )
@@ -324,6 +332,23 @@ def review_tender_complaint(self):
 
             if RELEASE_2020_04_19 < now:
                 self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
+
+            # try to delete reviewDate
+            if RELEASE_2020_04_19 < now:
+                data.update(
+                    {
+                        "reviewDate": None,
+                        "reviewPlace": "new_some",
+                    }
+                )
+            response = self.app.patch_json(
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]), {"data": data}
+            )
+            self.assertEqual(response.status, "200 OK")
+
+            if RELEASE_2020_04_19 < now:
+                self.assertEqual(response.json["data"]["reviewPlace"], "new_some")
                 self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
             now = get_now()

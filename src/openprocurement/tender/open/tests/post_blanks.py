@@ -19,6 +19,7 @@ def create_complaint_post_release_forbidden(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             },
             status=403,
         )
@@ -36,6 +37,7 @@ def create_complaint_post_status_forbidden(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             },
             status=403,
         )
@@ -74,6 +76,7 @@ def create_complaint_post_review_date_forbidden(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             },
             status=403,
         )
@@ -100,6 +103,7 @@ def create_complaint_post_claim_forbidden(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             },
             status=403,
         )
@@ -125,6 +129,7 @@ def create_complaint_post_complaint_owner(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -140,6 +145,7 @@ def create_complaint_post_complaint_owner(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "aboveThresholdReviewers",
             "relatedPost": post["id"],
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.complaint_owner_token,
     )
@@ -163,6 +169,7 @@ def create_complaint_post_tender_owner(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "tender_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -178,6 +185,7 @@ def create_complaint_post_tender_owner(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "aboveThresholdReviewers",
             "relatedPost": post["id"],
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.tender_token,
     )
@@ -201,6 +209,7 @@ def create_complaint_post_validate_recipient(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "aboveThresholdReviewers",
+                "relatedObjection": self.objection_id,
             },
             status=422,
         )
@@ -216,6 +225,7 @@ def create_complaint_post_validate_recipient(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -231,6 +241,7 @@ def create_complaint_post_validate_recipient(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "complaint_owner",
             "relatedPost": post["id"],
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.complaint_owner_token,
         status=422,
@@ -256,6 +267,7 @@ def create_complaint_post_validate_related_post(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "tender_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -271,6 +283,7 @@ def create_complaint_post_validate_related_post(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "aboveThresholdReviewers",
             "relatedPost": post["id"],
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.complaint_owner_token,
         status=422,
@@ -288,6 +301,7 @@ def create_complaint_post_validate_related_post(self):
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "aboveThresholdReviewers",
                 "relatedPost": post["id"],
+                "relatedObjection": self.objection_id,
             },
             acc_token=self.complaint_owner_token,
             status=422,
@@ -304,6 +318,7 @@ def create_complaint_post_validate_related_post(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "aboveThresholdReviewers",
             "relatedPost": "some_id",
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.complaint_owner_token,
         status=422,
@@ -319,6 +334,7 @@ def create_complaint_post_validate_related_post(self):
             "title": "Lorem ipsum",
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "aboveThresholdReviewers",
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.tender_token,
         status=422,
@@ -335,6 +351,7 @@ def create_complaint_post_validate_related_post(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "aboveThresholdReviewers",
             "relatedPost": post["id"],
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.tender_token,
     )
@@ -349,6 +366,7 @@ def create_complaint_post_validate_related_post(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "aboveThresholdReviewers",
             "relatedPost": post["id"],
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.tender_token,
         status=422,
@@ -374,6 +392,7 @@ def patch_complaint_post(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -404,6 +423,7 @@ def get_complaint_post(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -416,7 +436,10 @@ def get_complaint_post(self):
     response = self.get_post()
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(set(response.json["data"]), {"id", "title", "description", "author", "recipient", "datePublished"})
+    self.assertEqual(
+        set(response.json["data"]),
+        {"id", "title", "description", "author", "recipient", "datePublished", "relatedObjection"},
+    )
 
     self.post_id = "some_id"
 
@@ -442,6 +465,7 @@ def get_complaint_posts(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -451,7 +475,8 @@ def get_complaint_posts(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        set(response.json["data"][0]), {"id", "title", "description", "author", "recipient", "datePublished"}
+        set(response.json["data"][0]),
+        {"id", "title", "description", "author", "recipient", "datePublished", "relatedObjection"},
     )
 
 
@@ -470,6 +495,7 @@ def get_tender_complaint_post_document_json(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
                 "documents": [
                     {
                         "title": "name.doc",
@@ -612,6 +638,7 @@ def create_tender_complaint_post_document_json(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -742,6 +769,7 @@ def create_tender_complaint_post_by_complaint_owner_document_json(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -758,6 +786,7 @@ def create_tender_complaint_post_by_complaint_owner_document_json(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "aboveThresholdReviewers",
             "relatedPost": post["id"],
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.complaint_owner_token,
     )
@@ -798,6 +827,7 @@ def create_tender_complaint_post_by_tender_owner_document_json(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "tender_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -814,6 +844,7 @@ def create_tender_complaint_post_by_tender_owner_document_json(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "aboveThresholdReviewers",
             "relatedPost": post["id"],
+            "relatedObjection": self.objection_id,
         },
         acc_token=self.tender_token,
     )
@@ -854,6 +885,7 @@ def put_tender_complaint_document_json(self):
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
+                "relatedObjection": self.objection_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -970,3 +1002,167 @@ def put_tender_complaint_document_json(self):
         )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+
+def create_complaint_post_explanation_invalid(self):
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        self.patch_complaint(
+            {"status": "pending"},
+            self.complaint_owner_token,
+        )
+    # make complaint status accepted
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        response = self.patch_complaint(
+            {
+                "status": "accepted",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "some",
+            },
+            self.complaint_owner_token,
+        )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "accepted")
+
+    # try to create post-explanation by tender owner with recipient
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "complaint_owner",
+            "relatedObjection": self.objection_id,
+        },
+        acc_token=self.tender_token,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"][0],
+        "Forbidden to add recipient without relatedPost for ['complaint_owner', 'tender_owner']",
+    )
+
+    # try to add explanation without relatedObjection
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+        },
+        acc_token=self.tender_token,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "relatedObjection", "description": ["This field is required."]},
+    )
+
+    # try to add explanation with invalid relatedObjection
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "relatedObjection": "foobar",
+        },
+        acc_token=self.tender_token,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "relatedObjection", "description": "should be one of complaint objections id"},
+    )
+
+    # try to add explanation without title
+    response = self.post_post(
+        {
+            "description": "Lorem ipsum dolor sit amet",
+            "relatedObjection": self.objection_id,
+        },
+        acc_token=self.tender_token,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "title", "description": ["This field is required."]},
+    )
+
+    # try to add explanation without description
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "relatedObjection": self.objection_id,
+        },
+        acc_token=self.tender_token,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "description", "description": ["This field is required."]},
+    )
+
+    # reviewDate too soon
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "relatedObjection": self.objection_id,
+        },
+        acc_token=self.tender_token,
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can submit or edit post not later than 3 full business days before reviewDate",
+    )
+
+    # change reviewDate
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        self.patch_complaint(
+            {"reviewDate": (get_now() + timedelta(days=3)).isoformat()},
+            self.complaint_owner_token,
+        )
+
+    # create successfully explanation
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "relatedObjection": self.objection_id,
+        },
+        acc_token=self.complaint_owner_token,
+    )
+    post_id = response.json["data"]["id"]
+
+    # try to answer to explanation
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "relatedObjection": self.objection_id,
+            "recipient": "aboveThresholdReviewers",
+            "relatedPost": post_id,
+        },
+        acc_token=self.tender_token,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "relatedPost", "description": ["forbidden to answer to explanations"]},
+    )
+
+
+def create_complaint_post_explanation(self):
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.patch_complaint(
+            {"status": "pending"},
+            self.complaint_owner_token,
+        )
+
+    # create post-explanation by tender owner with recipient
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "relatedObjection": self.objection_id,
+        },
+        acc_token=self.tender_token,
+    )
+    self.assertEqual(response.status, "201 Created")

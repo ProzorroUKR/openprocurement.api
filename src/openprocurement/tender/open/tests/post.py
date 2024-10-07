@@ -15,10 +15,13 @@ from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_open_bids,
+    test_tender_open_complaint_objection,
 )
 from openprocurement.tender.open.tests.post_blanks import (
     create_complaint_post_claim_forbidden,
     create_complaint_post_complaint_owner,
+    create_complaint_post_explanation,
+    create_complaint_post_explanation_invalid,
     create_complaint_post_release_forbidden,
     create_complaint_post_review_date_forbidden,
     create_complaint_post_status_forbidden,
@@ -359,6 +362,10 @@ class ComplaintPostResourceMixin:
     )
     test_put_tender_complaint_document_json = snitch(put_tender_complaint_document_json)
 
+    # explanations
+    test_create_complaint_post_explanation_invalid = snitch(create_complaint_post_explanation_invalid)
+    test_create_complaint_post_explanation = snitch(create_complaint_post_explanation)
+
 
 class TenderComplaintPostResourceTest(
     BaseTenderUAContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
@@ -367,12 +374,18 @@ class TenderComplaintPostResourceTest(
 
     def setUp(self):
         super().setUp()
+        objection_data = deepcopy(test_tender_open_complaint_objection)
+        objection_data["relatesTo"] = "tender"
+        objection_data["relatedItem"] = self.tender_id
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["objections"] = [objection_data]
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {"data": test_tender_below_draft_complaint},
+            {"data": complaint_data},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
+        self.objection_id = response.json["data"]["objections"][0]["id"]
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
@@ -414,14 +427,20 @@ class TenderAwardComplaintPostResourceTest(
             )
 
         # Create complaint for award
+        objection_data = deepcopy(test_tender_open_complaint_objection)
+        objection_data["relatesTo"] = "award"
+        objection_data["relatedItem"] = self.award_id
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["objections"] = [objection_data]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": test_tender_below_draft_complaint},
+            {"data": complaint_data},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
+        self.objection_id = response.json["data"]["objections"][0]["id"]
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
@@ -467,12 +486,17 @@ class TenderCancellationComplaintPostResourceTest(
         )
 
         # Create complaint for cancellation
-
+        objection_data = deepcopy(test_tender_open_complaint_objection)
+        objection_data["relatesTo"] = "cancellation"
+        objection_data["relatedItem"] = self.cancellation_id
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["objections"] = [objection_data]
         response = self.app.post_json(
             "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, self.cancellation_id),
-            {"data": test_tender_below_draft_complaint},
+            {"data": complaint_data},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
+        self.objection_id = response.json["data"]["objections"][0]["id"]
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
