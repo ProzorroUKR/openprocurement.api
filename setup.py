@@ -14,7 +14,7 @@ def load_requirements(filename):
     requirements = []
     with open(filename) as f:
         for resource in f.readlines():
-            if not resource.startswith('git+'):
+            if not resource.startswith("git+"):
                 requirements.append(resource.strip())
             else:
                 res = resource.strip()
@@ -23,9 +23,9 @@ def load_requirements(filename):
     return requirements
 
 
-requires = load_requirements('requirements.txt')
-requires_tests = load_requirements('requirements-test.txt')
-requires_dev = load_requirements('requirements-dev.txt')
+requires = load_requirements("requirements.txt")
+requires_tests = load_requirements("requirements-test.txt")
+requires_dev = load_requirements("requirements-dev.txt")
 
 
 entry_points = {

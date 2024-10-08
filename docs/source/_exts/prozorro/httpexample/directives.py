@@ -9,16 +9,13 @@ from . import utils
 
 
 class HTTPExample(CodeBlock):
-
     required_arguments = 1
     option_spec = {
         # Unused. Just to skip removing of all existing :code: options
-        'code': directives.unchanged,
+        "code": directives.unchanged,
     }
 
     def run(self):
-        config = self.state.document.settings.env.config
-
         # Load external file
         cwd = os.path.dirname(self.state.document.current_source)
         if self.arguments:
@@ -27,7 +24,7 @@ class HTTPExample(CodeBlock):
                 self.content = StringList(list(map(str.rstrip, fp.readlines())), response)
 
         # Enable 'http' language for http part
-        self.arguments = ['http']
+        self.arguments = ["http"]
 
         # split the request and optional response in the content.
         # The separator is two empty lines followed by a line starting with
@@ -41,14 +38,14 @@ class HTTPExample(CodeBlock):
             if in_response:
                 response_content.append(line, source)
             else:
-                if emptylines_count >= 2 and (line.startswith('HTTP/') or line.startswith('HTTP ')):
+                if emptylines_count >= 2 and (line.startswith("HTTP/") or line.startswith("HTTP ")):
                     in_response = True
                     response_content = StringList()
                     response_content.append(line, source)
-                elif line == '':
+                elif line == "":
                     emptylines_count += 1
                 else:
-                    request_content.extend(StringList([''] * emptylines_count, source))
+                    request_content.extend(StringList([""] * emptylines_count, source))
                     request_content.append(line, source)
 
                     emptylines_count = 0
@@ -57,9 +54,9 @@ class HTTPExample(CodeBlock):
         self.content = request_content
 
         # Wrap and render main directive as 'http-example-http'
-        klass = 'http-example-http'
-        container = nodes.container('', classes=[klass])
-        container.append(nodes.caption('', 'Request' if response_content else 'Example'))
+        klass = "http-example-http"
+        container = nodes.container("", classes=[klass])
+        container.append(nodes.caption("", "Request" if response_content else "Example"))
         container.extend(super().run())
 
         # Init result node list
@@ -68,12 +65,12 @@ class HTTPExample(CodeBlock):
         # Append optional response
         if response_content:
             options = self.options.copy()
-            options.pop('name', None)
-            options.pop('caption', None)
+            options.pop("name", None)
+            options.pop("caption", None)
 
             block = CodeBlock(
-                'code-block',
-                ['http'],
+                "code-block",
+                ["http"],
                 options,
                 response_content,
                 self.lineno,
@@ -84,16 +81,16 @@ class HTTPExample(CodeBlock):
             )
 
             # Wrap and render main directive as 'http-example-response'
-            klass = 'http-example-response'
-            container = nodes.container('', classes=[klass])
-            container.append(nodes.caption('', 'Response'))
+            klass = "http-example-response"
+            container = nodes.container("", classes=[klass])
+            container.append(nodes.caption("", "Response"))
             container.extend(block.run())
 
             # Append to result nodes
             result.append(container)
 
         # Final wrap
-        container_node = nodes.container('', classes=['http-example'])
+        container_node = nodes.container("", classes=["http-example"])
         container_node.extend(result)
 
         return [container_node]

@@ -38,7 +38,7 @@ class User(HttpUser):
 
             # upload a file
             self.client.auth = USERS["ds"]
-            result = self.client.post(DS_URL, files={'file': ('test.jpeg', b"data", 'image/jpeg')})
+            result = self.client.post(DS_URL, files={"file": ("test.jpeg", b"data", "image/jpeg")})
             assert result.status_code == 200, result.content
             document = result.json()["data"]
             bid["documents"] = [document] * 20

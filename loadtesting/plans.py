@@ -1,7 +1,7 @@
 import random
 from collections import deque
 
-from data import USERS, plan
+from data import USERS
 from locust import HttpUser, constant, task
 
 PLANS_URL = "/api/2.5/plans"
@@ -78,6 +78,7 @@ class User(HttpUser):
 
     # @task(10)
     # def post_plan(self):
+    #     from data import USERS, plan
     #     result = self.client.post(
     #         PLANS_URL,
     #         name="/api/plans",
