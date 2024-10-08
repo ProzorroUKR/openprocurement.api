@@ -157,7 +157,7 @@ class BidState(BaseState):
     def invalidate_pending_bid_after_patch(self, after, before):
         if self.request.authenticated_role == "Administrator":
             return
-        if before.get("status") == after.get("status") == "pending":
+        if before.get("status") == after.get("status") == "pending" and before != after:
             after["status"] = "invalid"
 
     def update_date_for_new_lot_values(self, after, before):
