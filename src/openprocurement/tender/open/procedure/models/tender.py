@@ -44,7 +44,8 @@ class PostTender(BasePostTender):
     status = StringType(choices=["draft"], default="draft")
     procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, COMPETITIVE_ORDERING], default=ABOVE_THRESHOLD)
     awardCriteria = StringType(
-        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST], default=AWARD_CRITERIA_LOWEST_COST
+        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
+        default=AWARD_CRITERIA_LOWEST_COST,
     )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PostPeriodStartEndRequired, required=True)
@@ -111,7 +112,10 @@ class Tender(BaseTender):
         ],
     )
     procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, COMPETITIVE_ORDERING], required=True)
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST], required=True)
+    awardCriteria = StringType(
+        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
+        required=True,
+    )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     items = ListType(

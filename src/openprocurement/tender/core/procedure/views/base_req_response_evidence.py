@@ -98,7 +98,8 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
             self.LOGGER.info(
                 f"Deleted {self.parent_obj_name} requirement response evidence {evidence['id']}",
                 extra=context_unpack(
-                    self.request, {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_evidence_delete"}
+                    self.request,
+                    {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_evidence_delete"},
                 ),
             )
             return {"data": self.serializer_class(evidence).data}

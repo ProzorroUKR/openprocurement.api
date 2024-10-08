@@ -83,7 +83,10 @@ class PlansResource(PlanBaseResource):
         validators=(
             validate_input_data(PostPlan),
             validate_accreditation_level(
-                levels=(ACCR_1, ACCR_3, ACCR_5), item="plan", operation="creation", source="data"
+                levels=(ACCR_1, ACCR_3, ACCR_5),
+                item="plan",
+                operation="creation",
+                source="data",
             ),
             validate_data_documents(route_key="plan_id"),
         ),
@@ -131,7 +134,8 @@ class PlansResource(PlanBaseResource):
             self.state.on_patch(plan_src, plan)
             if save_plan(self.request):
                 self.LOGGER.info(
-                    f"Updated plan {updated['_id']}", extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"})
+                    f"Updated plan {updated['_id']}",
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"}),
                 )
         return {
             "data": self.serializer_class(plan).data,
@@ -164,7 +168,7 @@ class PlanTendersResource(PlanBaseResource):
         headers = self.request.headers
         headers["Content-type"] = "application/json; charset=utf-8"
         sub_req = Request.blank(
-            f'/api/{VERSION}/tenders',
+            f"/api/{VERSION}/tenders",
             environ={"REQUEST_METHOD": "POST"},
             headers=headers,
         )

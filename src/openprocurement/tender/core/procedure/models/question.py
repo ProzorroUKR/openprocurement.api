@@ -68,7 +68,7 @@ def validate_questions_related_items(data, questions):
 
             if question_of == "item":
                 if related_item not in item_ids:
-                    raise ValidationError([{'relatedItem': ['relatedItem should be one of items']}])
+                    raise ValidationError([{"relatedItem": ["relatedItem should be one of items"]}])
 
             elif question_of == "lot" and related_item not in lot_ids:
-                raise ValidationError([{'relatedItem': ['relatedItem should be one of lots']}])
+                raise ValidationError([{"relatedItem": ["relatedItem should be one of lots"]}])

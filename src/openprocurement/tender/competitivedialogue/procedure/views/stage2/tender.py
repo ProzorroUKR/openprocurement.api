@@ -60,7 +60,9 @@ def stage2_acl():
     return acl
 
 
-def conditional_eu_model(data):  # TODO: bot should use a distinct endpoint, like chronograph
+def conditional_eu_model(
+    data,
+):  # TODO: bot should use a distinct endpoint, like chronograph
     if get_request().authenticated_role == "competitive_dialogue":
         model = BotPatchTender
     else:
@@ -68,7 +70,9 @@ def conditional_eu_model(data):  # TODO: bot should use a distinct endpoint, lik
     return model(data)
 
 
-def conditional_ua_model(data):  # TODO: bot should use a distinct endpoint, like chronograph
+def conditional_ua_model(
+    data,
+):  # TODO: bot should use a distinct endpoint, like chronograph
     if get_request().authenticated_role == "competitive_dialogue":
         model = BotPatchTender
     else:

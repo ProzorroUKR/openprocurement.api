@@ -47,12 +47,18 @@ class AgreementStateMixing:
                 for unit_price in contract.get("unitPrices", "")
             ):
                 raise_operation_error(
-                    request, "Can't sign agreement without all contracts.unitPrices.value.amount", status=422
+                    request,
+                    "Can't sign agreement without all contracts.unitPrices.value.amount",
+                    status=422,
                 )
 
             config = tender["config"]
             if sum(1 for c in agreement.get("contracts", "") if c["status"] == "active") < config.get("minBidsNumber"):
-                raise_operation_error(request, "Agreement don't reach minimum active contracts.", status=422)
+                raise_operation_error(
+                    request,
+                    "Agreement don't reach minimum active contracts.",
+                    status=422,
+                )
 
             if not agreement.get("dateSigned"):
                 agreement["dateSigned"] = get_now().isoformat()
@@ -76,7 +82,7 @@ class AgreementStateMixing:
 
     @staticmethod
     def validate_agreement_in_allowed_tender_status(request, tender):
-        if tender['status'] != "active.awarded":
+        if tender["status"] != "active.awarded":
             raise_operation_error(
                 request,
                 f"Can't {OPERATIONS.get(request.method)} agreement in current ({tender['status']}) tender status",

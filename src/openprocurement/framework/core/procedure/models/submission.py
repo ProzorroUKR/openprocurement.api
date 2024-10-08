@@ -28,7 +28,11 @@ class PostSubmission(Model):
     def doc_type(self):
         return "Submission"
 
-    tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), required=True, min_size=1)
+    tenderers = ListType(
+        ModelType(SubmissionBusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+    )
     documents = ListType(ModelType(PostSubmissionDocument, required=True), default=[])
     frameworkID = StringType(required=True)
     status = StringType(choices=["draft"], default="draft")
@@ -55,7 +59,11 @@ class BotPatchSubmission(Model):
 
 
 class Submission(RootModel):
-    tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), required=True, min_size=1)
+    tenderers = ListType(
+        ModelType(SubmissionBusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+    )
     documents = ListType(ModelType(SubmissionDocument, required=True), default=[])
     qualificationID = StringType()
     frameworkID = StringType(required=True)

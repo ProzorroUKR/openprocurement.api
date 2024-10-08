@@ -14,7 +14,12 @@ LOGGER = getLogger(__name__)
 def resolve_agreement(request):
     match_dict = request.matchdict
     if match_dict.get("agreement_id"):
-        agreements = get_items(request, request.validated["tender"], "agreements", match_dict["agreement_id"])
+        agreements = get_items(
+            request,
+            request.validated["tender"],
+            "agreements",
+            match_dict["agreement_id"],
+        )
         request.validated["agreement"] = agreements[0]
 
 

@@ -144,7 +144,12 @@ class BidState(BaseState):
             lot_value["date"] = now
 
     def validate_proposal_docs(self, data, before=None):
-        for key in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
+        for key in (
+            "documents",
+            "financialDocuments",
+            "eligibilityDocuments",
+            "qualificationDocuments",
+        ):
             documents = data.get(key, [])
             if before is None or before and len(before.get(key, [])) != len(documents):
                 validate_doc_type_quantity(documents, document_type="proposal", obj_name="bid")
@@ -218,7 +223,10 @@ class BidState(BaseState):
             and supplier_contract.get("value")
             and Decimal(data["lotValues"][0]["value"]["amount"]) > Decimal(supplier_contract["value"]["amount"])
         ):
-            raise_operation_error(self.request, "Bid value.amount can't be greater than contact value.amount.")
+            raise_operation_error(
+                self.request,
+                "Bid value.amount can't be greater than contact value.amount.",
+            )
 
         if data.get("parameters"):
             contract_parameters = {p["code"]: p["value"] for p in supplier_contract.get("parameters", "")}

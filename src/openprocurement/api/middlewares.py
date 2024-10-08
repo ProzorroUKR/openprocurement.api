@@ -41,7 +41,7 @@ class DBSessionCookieMiddleware:
 
         if warning:
             # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Warning
-            response.headers["X-Warning"] = f"199 - \"{warning}\""
+            response.headers["X-Warning"] = f'199 - "{warning}"'
 
         session_data = {
             "operation_time": session.operation_time,

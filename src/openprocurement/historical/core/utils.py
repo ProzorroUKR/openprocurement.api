@@ -21,7 +21,10 @@ from openprocurement.historical.core.constants import (
 class Root:
     __name__ = None
     __parent__ = None
-    __acl__ = [(Allow, "g:brokers", "view_historical"), (Allow, "g:Administrator", "view_historical")]
+    __acl__ = [
+        (Allow, "g:brokers", "view_historical"),
+        (Allow, "g:Administrator", "view_historical"),
+    ]
 
     def __init__(self, request):
         self.request = request
@@ -45,7 +48,11 @@ def get_version_from_date(request, doc, revisions):
             continue
         else:
             doc["dateModified"] = find_dateModified(revisions[: version + 1])
-            return (doc, parse_hash(revision["rev"]), parse_hash(revisions[version - 1].get("rev", "")))
+            return (
+                doc,
+                parse_hash(revision["rev"]),
+                parse_hash(revisions[version - 1].get("rev", "")),
+            )
     return404(request, "header", "version")
 
 
@@ -64,7 +71,12 @@ def extract_doc(request, doc_type):
 
     if request.validated.get(VERSION_BY_DATE):
         doc, revision_hash, prev_hash = get_version_from_date(request, doc, revisions)
-        add_responce_headers(request, version=request.validated[VERSION], rhash=revision_hash, phash=prev_hash)
+        add_responce_headers(
+            request,
+            version=request.validated[VERSION],
+            rhash=revision_hash,
+            phash=prev_hash,
+        )
         return doc
 
     if request.validated.get(VERSION) and int(request.validated.get(VERSION)) == len(revisions):
@@ -86,7 +98,12 @@ def extract_doc(request, doc_type):
         return404(request, "header", "version")
 
     doc, revision_hash, prev_hash = apply_while(request, doc, revisions)
-    add_responce_headers(request, version=request.validated[VERSION], rhash=revision_hash, phash=prev_hash)
+    add_responce_headers(
+        request,
+        version=request.validated[VERSION],
+        rhash=revision_hash,
+        phash=prev_hash,
+    )
     return doc
 
 
@@ -110,7 +127,11 @@ def apply_while(request, doc, revisions):
                 return404(request, "header", "hash")
 
             doc["dateModified"] = find_dateModified(revisions[: version + 1])
-            return (doc, parse_hash(patch["rev"]), parse_hash(revisions[version - 1].get("rev", "")))
+            return (
+                doc,
+                parse_hash(patch["rev"]),
+                parse_hash(revisions[version - 1].get("rev", "")),
+            )
     return404("header", "version")
 
 
@@ -164,7 +185,7 @@ def validate_header(request):
     if request.headers.get(VERSION_BY_DATE, "") != "":
         try:
             request.validated[VERSION_BY_DATE] = parse_date(request.headers.get(VERSION_BY_DATE, ""), pytz.utc)
-        except:
+        except Exception:
             if (version and (not version.isdigit() or int(version) < 1)) or version == "":
                 return404(request, "header", "version")
             else:
@@ -177,7 +198,9 @@ def validate_header(request):
 def validate_accreditation(request, **kwargs):
     if request.authenticated_role != "Administrator" and not request.check_accreditations(ACCREDITATION_LEVELS):
         request.errors.add(
-            "url", "accreditation", "Broker Accreditation level does not permit viewing tender historical info"
+            "url",
+            "accreditation",
+            "Broker Accreditation level does not permit viewing tender historical info",
         )
         request.errors.status = 403
         return
@@ -210,8 +233,14 @@ class APIHistoricalResource(BaseResource):
         if route is None:
             return404(self.request, "url", "{}_id".format(self.resource))
         msg = "Request for {doc} {id} revision {ver} revision {rev}".format(
-            doc=self.resource, id=self.context.id, ver=self.request.validated[VERSION], rev=self.context.rev
+            doc=self.resource,
+            id=self.context.id,
+            ver=self.request.validated[VERSION],
+            rev=self.context.rev,
         )
 
-        self.LOGGER.info(msg, extra=context_unpack(self.request, {"MESSAGE_ID": "{}_historical".format(self.resource)}))
+        self.LOGGER.info(
+            msg,
+            extra=context_unpack(self.request, {"MESSAGE_ID": "{}_historical".format(self.resource)}),
+        )
         return call_view(self.request, self.context, route)

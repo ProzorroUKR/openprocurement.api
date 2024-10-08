@@ -63,7 +63,8 @@ class TenderAuctionResource(TenderBaseResource):
 
         if save_tender(self.request):
             self.LOGGER.info(
-                "Updated auction urls", extra=context_unpack(self.request, {"MESSAGE_ID": "tender_auction_patch"})
+                "Updated auction urls",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_auction_patch"}),
             )
             return {
                 "data": self.serializer_class(tender).data,
@@ -89,7 +90,8 @@ class TenderAuctionResource(TenderBaseResource):
             self.state.on_patch(tender_src, tender)
         if save_tender(self.request):
             self.LOGGER.info(
-                "Updated auction urls", extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_auction_patch"})
+                "Updated auction urls",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_auction_patch"}),
             )
             return {
                 "data": self.serializer_class(tender).data,
@@ -118,7 +120,8 @@ class TenderAuctionResource(TenderBaseResource):
         self.state.on_patch(tender_src, tender)
         if save_tender(self.request):
             self.LOGGER.info(
-                "Report auction results", extra=context_unpack(self.request, {"MESSAGE_ID": "tender_auction_post"})
+                "Report auction results",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_auction_post"}),
             )
             return {
                 "data": self.serializer_class(tender).data,
@@ -159,7 +162,8 @@ class TenderAuctionResource(TenderBaseResource):
         self.state.on_patch(tender_src, tender)
         if save_tender(self.request):
             self.LOGGER.info(
-                "Report auction results", extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_auction_post"})
+                "Report auction results",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_auction_post"}),
             )
             return {
                 "data": self.serializer_class(tender).data,

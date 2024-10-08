@@ -28,7 +28,10 @@ class BidSerializer(BaseBidSerializer):
                 "subcontractingDetails",
                 "requirementResponses",
             }
-        elif tender_status in ("active.pre-qualification", "active.pre-qualification.stand-still"):
+        elif tender_status in (
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+        ):
             self.whitelist = {
                 "id",
                 "status",

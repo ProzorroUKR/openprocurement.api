@@ -76,7 +76,8 @@ class MongodbStore:
 
         # https://docs.mongodb.com/manual/core/causal-consistency-read-write-concerns/#causal-consistency-and-read-and-write-concerns
         raw_read_preference = os.environ.get(
-            "READ_PREFERENCE", settings.get("mongodb.read_preference", "SECONDARY_PREFERRED")
+            "READ_PREFERENCE",
+            settings.get("mongodb.read_preference", "SECONDARY_PREFERRED"),
         )
         raw_w_concert = os.environ.get("WRITE_CONCERN", settings.get("mongodb.write_concern", "majority"))
         raw_r_concern = os.environ.get("READ_CONCERN", settings.get("mongodb.read_concern", "majority"))
@@ -121,7 +122,7 @@ class MongodbStore:
     def get_next_sequence_value(self, uid):
         collection = self.get_sequences_collection()
         result = collection.find_one_and_update(
-            {'_id': uid},
+            {"_id": uid},
             {"$inc": {"value": 1}},
             return_document=ReturnDocument.AFTER,
             upsert=True,
@@ -152,7 +153,7 @@ class MongodbStore:
     @staticmethod
     def get(collection, uid):
         res = collection.find_one(
-            {'_id': uid},
+            {"_id": uid},
             projection={
                 "is_public": False,
                 "is_test": False,
@@ -197,7 +198,7 @@ class MongodbStore:
         uid = data.pop("id" if "id" in data else "_id")
         revision = data.pop("rev" if "rev" in data else "_rev", None)
 
-        data['_id'] = uid
+        data["_id"] = uid
         data["_rev"] = self.get_next_rev(revision)
         data["is_public"] = data.get("status") not in ("draft", "deleted")
         data["is_test"] = data.get("mode") == "test"
@@ -234,7 +235,7 @@ class MongodbStore:
 
     def save_data_simple(self, collection, data, insert=False):
         uid = data.pop("id" if "id" in data else "_id")
-        data['_id'] = uid
+        data["_id"] = uid
         if insert:
             collection.insert_one(data)
         else:
@@ -270,7 +271,8 @@ class BaseCollection:
     def __init__(self, store, settings):
         self.store = store
         collection_name = os.environ.get(
-            f"{self.object_name.upper()}_COLLECTION", settings[f"mongodb.{self.object_name.lower()}_collection"]
+            f"{self.object_name.upper()}_COLLECTION",
+            settings[f"mongodb.{self.object_name.lower()}_collection"],
         )
         self.collection = getattr(store.database, collection_name)
         if isinstance(self.collection.read_preference, type(ReadPreference.PRIMARY)):
@@ -312,7 +314,11 @@ class BaseCollection:
                 "is_public": True,
             },
         )
-        return [test_by_public_modified, real_by_public_modified, all_by_public_modified]
+        return [
+            test_by_public_modified,
+            real_by_public_modified,
+            all_by_public_modified,
+        ]
 
     def create_indexes(self):
         indexes = self.get_indexes()

@@ -33,7 +33,15 @@ class PatchBid(PatchObjResponsesMixin, Model):
     value = ModelType(Value)
     tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
     )
     items = ListType(ModelType(LocalizationItem, required=True))
 
@@ -48,7 +56,12 @@ class PostBid(PostBidResponsesMixin, PatchBid):
     def id(self):
         return uuid4().hex
 
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    tenderers = ListType(
+        ModelType(BusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
     value = ModelType(Value)
     documents = ListType(ModelType(PostDocument, required=True))
     requirementResponses = ListType(
@@ -57,7 +70,15 @@ class PostBid(PostBidResponsesMixin, PatchBid):
         min_size=1,
     )
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
         default="draft",
     )
     items = ListType(
@@ -77,7 +98,12 @@ class Bid(ObjResponseMixin, MetaBid):
     eligibilityDocuments = ListType(ModelType(Document, required=True))
     qualificationDocuments = ListType(ModelType(Document, required=True))
 
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    tenderers = ListType(
+        ModelType(BusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
     value = ModelType(Value)
     requirementResponses = ListType(
         ModelType(RequirementResponse),
@@ -85,7 +111,15 @@ class Bid(ObjResponseMixin, MetaBid):
         min_size=1,
     )
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
         required=True,
     )
     items = ListType(

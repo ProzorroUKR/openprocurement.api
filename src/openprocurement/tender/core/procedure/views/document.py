@@ -161,7 +161,12 @@ class DocumentResourceMixin:
             self.validate(document)
             self.state.document_on_patch(document, updated_document)
 
-            set_item(self.request.validated[self.item_name], self.container, document["id"], updated_document)
+            set_item(
+                self.request.validated[self.item_name],
+                self.container,
+                document["id"],
+                updated_document,
+            )
             if "tender" in self.request.validated:
                 self.state.always(self.request.validated["tender"])
             if self.save():

@@ -20,4 +20,12 @@ MIN_ACTIVE_CONTRACTS = 3
 MINIMAL_STEP_PERCENTAGE = 0.005
 
 CFA_SELECTION = "closeFrameworkAgreementSelectionUA"
-CFA_SELECTION_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
+CFA_SELECTION_KINDS = (
+    "authority",
+    "central",
+    "defense",
+    "general",
+    "other",
+    "social",
+    "special",
+)

@@ -68,7 +68,10 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                                 and (a["status"] != "cancelled" or not new_defence_complaints)
                             ]
                             if stand_still_ends:
-                                yield max(stand_still_ends), self.awarded_complaint_handler
+                                yield (
+                                    max(stand_still_ends),
+                                    self.awarded_complaint_handler,
+                                )
 
     def lots_awarded_events(self, tender):
         yield from self.lots_qualification_events(tender)
@@ -168,7 +171,9 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                 LOGGER.info(
                     f"Switched lot {lot['id']} of tender {tender['_id']} to unsuccessful",
                     extra=context_unpack(
-                        get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot["id"]}
+                        get_request(),
+                        {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                        {"LOT_ID": lot["id"]},
                     ),
                 )
                 self.set_object_status(lot, "unsuccessful")
@@ -188,7 +193,9 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                     LOGGER.info(
                         f"Switched lot {lot['id']} of tender {tender['_id']} to complete",
                         extra=context_unpack(
-                            get_request(), {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot['id']}
+                            get_request(),
+                            {"MESSAGE_ID": "switched_lot_complete"},
+                            {"LOT_ID": lot["id"]},
                         ),
                     )
                     self.set_object_status(lot, "complete")

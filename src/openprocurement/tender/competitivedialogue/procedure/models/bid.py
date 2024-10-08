@@ -39,7 +39,15 @@ class PatchBid(PatchObjResponsesMixin, BaseBid):
     selfQualified = BooleanType(choices=[True])
     selfEligible = BooleanType(choices=[True])
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
     )
 
 
@@ -49,7 +57,12 @@ class PostBid(PostBidResponsesMixin, BaseBid):
         return uuid4().hex
 
     items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_items_uniq])
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    tenderers = ListType(
+        ModelType(BusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(PostLotValue, required=True))
     documents = ListType(ModelType(PostDocument, required=True))
@@ -60,7 +73,15 @@ class PostBid(PostBidResponsesMixin, BaseBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
         default="draft",
     )
 
@@ -74,7 +95,12 @@ class PostBid(PostBidResponsesMixin, BaseBid):
 
 class Bid(MetaBid, PostBidResponsesMixin, BaseBid):
     items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_items_uniq])
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    tenderers = ListType(
+        ModelType(BusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
     lotValues = ListType(ModelType(LotValue, required=True))
     documents = ListType(ModelType(Document, required=True))
     financialDocuments = ListType(ModelType(Document, required=True))
@@ -84,7 +110,15 @@ class Bid(MetaBid, PostBidResponsesMixin, BaseBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
     )
 
     def validate_value(self, data, value):

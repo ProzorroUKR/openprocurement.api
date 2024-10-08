@@ -35,7 +35,12 @@ class AuctionBidSerializer(BidSerializer):
         }
 
         tender = get_tender()
-        if tender["status"] not in ("draft", "active.enquiries", "active.tendering", "active.auction"):
+        if tender["status"] not in (
+            "draft",
+            "active.enquiries",
+            "active.tendering",
+            "active.auction",
+        ):
             self.whitelist.add("tenderers")
 
 
@@ -101,5 +106,10 @@ class AuctionSerializer(BaseAuctionSerializer):
         }
 
         tender = get_tender()
-        if tender["status"] not in ("draft", "active.enquiries", "active.tendering", "active.auction"):
+        if tender["status"] not in (
+            "draft",
+            "active.enquiries",
+            "active.tendering",
+            "active.auction",
+        ):
             self.whitelist.add("awards")

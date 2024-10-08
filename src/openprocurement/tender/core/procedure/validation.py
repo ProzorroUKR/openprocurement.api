@@ -188,7 +188,10 @@ def validate_bid_operation_period(request, **_):
         or get_now().isoformat() > tender_period.get("endDate", "")  # TODO: may "endDate" be missed ?
     ):
         operation = "added" if request.method == "POST" else "deleted"
-        if request.authenticated_role != "Administrator" and request.method in ("PUT", "PATCH"):
+        if request.authenticated_role != "Administrator" and request.method in (
+            "PUT",
+            "PATCH",
+        ):
             operation = "updated"
         raise_operation_error(
             request,
@@ -215,9 +218,15 @@ def validate_bid_operation_not_in_tendering(request, **_):
     status = request.validated["tender"]["status"]
     if status != "active.tendering":
         operation = "add" if request.method == "POST" else "delete"
-        if request.authenticated_role != "Administrator" and request.method in ("PUT", "PATCH"):
+        if request.authenticated_role != "Administrator" and request.method in (
+            "PUT",
+            "PATCH",
+        ):
             operation = "update"
-        raise_operation_error(request, "Can't {} bid in current ({}) tender status".format(operation, status))
+        raise_operation_error(
+            request,
+            "Can't {} bid in current ({}) tender status".format(operation, status),
+        )
 
 
 def validate_lotvalue_value(tender, related_lot, value):
@@ -330,7 +339,8 @@ def base_validate_operation_ecriteria_objects(request, valid_statuses="", obj_na
     current_status = request.validated[obj_name]["status"]
     if current_status not in valid_statuses:
         raise_operation_error(
-            request, "Can't {} object if {} not in {} statuses".format(request.method.lower(), obj_name, valid_statuses)
+            request,
+            "Can't {} object if {} not in {} statuses".format(request.method.lower(), obj_name, valid_statuses),
         )
 
 
@@ -460,7 +470,10 @@ def validate_auction_tender_status(request, **_):
             "POST": "report auction results",
             "PATCH": "update auction urls",
         }
-        raise_operation_error(request, f"Can't {operations[request.method]} in current ({tender_status}) tender status")
+        raise_operation_error(
+            request,
+            f"Can't {operations[request.method]} in current ({tender_status}) tender status",
+        )
 
 
 def validate_auction_tender_non_lot(request, **_):
@@ -579,7 +592,8 @@ def validate_update_award_status_before_milestone_due_date(request, **_):
                 and milestone["date"] <= now <= milestone["dueDate"]
             ):
                 raise_operation_error(
-                    request, f"Can't change status to '{sent_status}' until milestone.dueDate: {milestone['dueDate']}"
+                    request,
+                    f"Can't change status to '{sent_status}' until milestone.dueDate: {milestone['dueDate']}",
                 )
 
 
@@ -591,7 +605,8 @@ def validate_award_document_tender_not_in_allowed_status_base(request, allowed_b
     status = request.validated["tender"]["status"]
     if status not in allowed_tender_statuses:
         raise_operation_error(
-            request, f"Can't {OPERATIONS.get(request.method)} document in current ({status}) tender status"
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({status}) tender status",
         )
 
 
@@ -602,7 +617,10 @@ def validate_award_document_lot_not_in_allowed_status(request, **_):
         for i in request.validated["tender"].get("lots", "")
         if i["id"] == award_lot_id
     ):
-        raise_operation_error(request, f"Can {OPERATIONS.get(request.method)} document only in active lot status")
+        raise_operation_error(
+            request,
+            f"Can {OPERATIONS.get(request.method)} document only in active lot status",
+        )
 
 
 def get_award_document_role(request):
@@ -644,7 +662,7 @@ def validate_item_quantity(request, **_):
             if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
                 tender = get_tender()
                 related_criteria = any(
-                    criterion.get("relatedItem") == item['id'] and requirement.get("status") == "active"
+                    criterion.get("relatedItem") == item["id"] and requirement.get("status") == "active"
                     for criterion in tender.get("criteria", "")
                     for rg in criterion.get("requirementGroups", "")
                     for requirement in rg.get("requirements", "")
@@ -697,7 +715,8 @@ def validate_tender_guarantee(request, **_):
             amount > 0 and needed_criterion not in tender_criteria
         ):
             raise_operation_error(
-                request, "Should be specified {} and 'guarantee.amount' more than 0".format(needed_criterion)
+                request,
+                "Should be specified {} and 'guarantee.amount' more than 0".format(needed_criterion),
             )
 
 
@@ -743,7 +762,13 @@ def validate_document_operation_in_not_allowed_period(request, **_):
     if (
         request.authenticated_role != "auction"
         and (
-            tender_status not in ("active.tendering", "draft", "draft.stage2", "active.pre-qualification")
+            tender_status
+            not in (
+                "active.tendering",
+                "draft",
+                "draft.stage2",
+                "active.pre-qualification",
+            )
             or (tender_status == "active.pre-qualification" and not_sign_docs)
         )
         or request.authenticated_role == "auction"
@@ -775,15 +800,18 @@ def validate_tender_document_update_not_by_author_or_tender_owner(request, **_):
 
 # QUALIFICATION
 def validate_qualification_update_not_in_pre_qualification(request, **_):
-    status = request.validated['tender']["status"]
+    status = request.validated["tender"]["status"]
     if status not in ["active.pre-qualification"]:
         raise_operation_error(request, f"Can't update qualification in current ({status}) tender status")
 
 
 def validate_cancelled_qualification_update(request, **_):
-    status = request.validated['qualification']["status"]
+    status = request.validated["qualification"]["status"]
     if status == "cancelled":
-        raise_operation_error(request, "Can't update qualification in current cancelled qualification status")
+        raise_operation_error(
+            request,
+            "Can't update qualification in current cancelled qualification status",
+        )
 
 
 def validate_update_qualification_only_for_active_lots(request, **_):
@@ -801,11 +829,11 @@ def validate_update_status_before_milestone_due_date(request, **_):
         QualificationMilestoneCodes,
     )
 
-    qualification = request.validated['qualification']
+    qualification = request.validated["qualification"]
     sent_status = request.validated["data"].get("status")
-    if qualification.get('status') == "pending" and qualification.get('status') != sent_status:
+    if qualification.get("status") == "pending" and qualification.get("status") != sent_status:
         now = get_now().isoformat()
-        for milestone in qualification.get('milestones', []):
+        for milestone in qualification.get("milestones", []):
             if (
                 milestone["code"]
                 in (
@@ -815,7 +843,8 @@ def validate_update_status_before_milestone_due_date(request, **_):
                 and milestone["date"] <= now <= milestone["dueDate"]
             ):
                 raise_operation_error(
-                    request, f"Can't change status to '{sent_status}' until milestone.dueDate: {milestone['dueDate']}"
+                    request,
+                    f"Can't change status to '{sent_status}' until milestone.dueDate: {milestone['dueDate']}",
                 )
 
 
@@ -873,7 +902,8 @@ def validate_qualification_document_operation_not_in_pending(request, **_):
     qualification = request.validated["qualification"]
     if qualification["status"] != "pending":
         raise_operation_error(
-            request, f"Can't {OPERATIONS.get(request.method)} document in current qualification status"
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current qualification status",
         )
 
 
@@ -882,7 +912,8 @@ def validate_contract_operation_not_in_allowed_status(request, **_):
     status = request.validated["tender"]["status"]
     if status not in ["active.qualification", "active.awarded"]:
         raise_operation_error(
-            request, f"Can't {OPERATIONS.get(request.method)} contract in current ({status}) tender status"
+            request,
+            f"Can't {OPERATIONS.get(request.method)} contract in current ({status}) tender status",
         )
 
 
@@ -892,7 +923,12 @@ def validate_update_contract_value_net_required(request, name="value", **_):
     if value is not None and requested_fields_changes(request, (name, "status")):
         contract_amount_net = value.get("amountNet")
         if contract_amount_net is None:
-            raise_operation_error(request, {"amountNet": BaseType.MESSAGES["required"]}, status=422, name=name)
+            raise_operation_error(
+                request,
+                {"amountNet": BaseType.MESSAGES["required"]},
+                status=422,
+                name=name,
+            )
 
 
 def validate_update_contract_value_with_award(request, **_):
@@ -919,13 +955,25 @@ def validate_update_contract_value_with_award(request, **_):
         if tax_included:
             if award.get("value", {}).get("valueAddedTaxIncluded"):
                 if amount > to_decimal(award.get("value", {}).get("amount")):
-                    raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+                    raise_operation_error(
+                        request,
+                        "Amount should be less or equal to awarded amount",
+                        name="value",
+                    )
             else:
                 if amount_net > to_decimal(award.get("value", {}).get("amount")):
-                    raise_operation_error(request, "AmountNet should be less or equal to awarded amount", name="value")
+                    raise_operation_error(
+                        request,
+                        "AmountNet should be less or equal to awarded amount",
+                        name="value",
+                    )
         else:
             if amount > to_decimal(award.get("value", {}).get("amount")):
-                raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+                raise_operation_error(
+                    request,
+                    "Amount should be less or equal to awarded amount",
+                    name="value",
+                )
 
 
 def validate_update_contract_value_amount(request, name="value", **_):
@@ -1046,20 +1094,25 @@ def validate_contract_input_data(model, supplier_model):
 # CONTRACT DOCUMENT
 def validate_role_for_contract_document_operation(request, **_):
     if request.authenticated_role not in ("tender_owner", "contract_supplier"):
-        raise_operation_error(request, f"Can {OPERATIONS.get(request.method)} document only buyer or supplier")
+        raise_operation_error(
+            request,
+            f"Can {OPERATIONS.get(request.method)} document only buyer or supplier",
+        )
     if (
         request.authenticated_role == "contract_supplier"
         and request.validated["contract"]["status"] != "pending.winner-signing"
     ):
         raise_operation_error(
-            request, f"Supplier can't {OPERATIONS.get(request.method)} document in current contract status"
+            request,
+            f"Supplier can't {OPERATIONS.get(request.method)} document in current contract status",
         )
     if (
         request.authenticated_role == "tender_owner"
         and request.validated["contract"]["status"] == "pending.winner-signing"
     ):
         raise_operation_error(
-            request, f"Tender owner can't {OPERATIONS.get(request.method)} document in current contract status"
+            request,
+            f"Tender owner can't {OPERATIONS.get(request.method)} document in current contract status",
         )
 
 
@@ -1067,7 +1120,10 @@ def validate_contract_document_status(operation):
     def validate(request, **_):
         tender_status = request.validated["tender"]["status"]
         if tender_status not in ("active.qualification", "active.awarded"):
-            raise_operation_error(request, f"Can't {operation} document in current ({tender_status}) tender status")
+            raise_operation_error(
+                request,
+                f"Can't {operation} document in current ({tender_status}) tender status",
+            )
         elif request.validated["tender"].get("lots"):
             contract_lots = set()
             for award in request.validated["tender"].get("awards", []):
@@ -1076,7 +1132,11 @@ def validate_contract_document_status(operation):
             for lot in request.validated["tender"]["lots"]:
                 if lot.get("id") in contract_lots and lot["status"] != "active":
                     raise_operation_error(request, f"Can {operation} document only in active lot status")
-        if request.validated["contract"]["status"] not in ("pending", "pending.winner-signing", "active"):
+        if request.validated["contract"]["status"] not in (
+            "pending",
+            "pending.winner-signing",
+            "active",
+        ):
             raise_operation_error(request, f"Can't {operation} document in current contract status")
 
     return validate
@@ -1181,16 +1241,6 @@ def validate_delete_lot_related_object(request: Request, **_) -> None:
     _validate_related_object(request, "items", lot_id)
 
 
-# Criteria
-def base_validate_operation_ecriteria_objects(request, valid_statuses="", obj_name="tender"):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
-    current_status = request.validated[obj_name]["status"]
-    if current_status not in valid_statuses:
-        raise_operation_error(
-            request, "Can't {} object if {} not in {} statuses".format(request.method.lower(), obj_name, valid_statuses)
-        )
-
-
 def validate_24h_milestone_released(request, **kwargs):
     validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
 
@@ -1227,7 +1277,10 @@ def validate_bid_document_in_tender_status_base(request, allowed_statuses):
     status = tender["status"]
     if status not in allowed_statuses:
         operation = OPERATIONS.get(request.method)
-        raise_operation_error(request, "Can't {} document in current ({}) tender status".format(operation, status))
+        raise_operation_error(
+            request,
+            "Can't {} document in current ({}) tender status".format(operation, status),
+        )
 
 
 def validate_bid_document_in_tender_status(request, **_):
@@ -1290,7 +1343,8 @@ def validate_bid_document_operation_in_bid_status(request, **_):
     bid = request.validated["bid"]
     if bid["status"] in ("unsuccessful", "deleted"):
         raise_operation_error(
-            request, "Can't {} document at '{}' bid status".format(OPERATIONS.get(request.method), bid["status"])
+            request,
+            "Can't {} document at '{}' bid status".format(OPERATIONS.get(request.method), bid["status"]),
         )
 
 
@@ -1329,8 +1383,15 @@ def validate_view_financial_bid_documents_allowed_in_bid_status(request, **_):
 
 def validate_tender_status_for_put_action_period(request, **_):
     tender_status = request.validated["tender"]["status"]
-    if tender_status not in ("active.auction", "active.pre-qualification", "active.tendering"):
-        raise_operation_error(request, f"Can't update auctionPeriod in current ({tender_status}) tender status")
+    if tender_status not in (
+        "active.auction",
+        "active.pre-qualification",
+        "active.tendering",
+    ):
+        raise_operation_error(
+            request,
+            f"Can't update auctionPeriod in current ({tender_status}) tender status",
+        )
 
 
 def validate_auction_period_start_date(request, **kwargs):
@@ -1341,13 +1402,13 @@ def validate_auction_period_start_date(request, **kwargs):
         if (get_now() + timedelta(seconds=3600)).isoformat() > start_date:
             raise_operation_error(
                 request,
-                'startDate should be no earlier than an hour later',
+                "startDate should be no earlier than an hour later",
             )
         if tender.get("auctionPeriod", {}).get("shouldStartAfter"):
             if start_date < tender["auctionPeriod"]["shouldStartAfter"]:
                 raise_operation_error(
                     request,
-                    'startDate should be after shouldStartAfter',
+                    "startDate should be after shouldStartAfter",
                 )
 
 
@@ -1363,7 +1424,6 @@ def validate_lot_status_active(request, **_):
 
 def validate_forbid_contract_action_after_date(obj_name):
     def validation(request, **_):
-
         error_text = f"{OPERATIONS.get(request.method)} is forbidden for {obj_name}"
         if request.method == "POST":
             raise_operation_error(request, error_text)
@@ -1408,11 +1468,11 @@ def check_requirements_active(criterion):
 
 
 TYPEMAP = {
-    'string': StringType(),
-    'integer': IntType(),
-    'number': DecimalType(),
-    'boolean': BooleanType(),
-    'date-time': DateTimeType(),
+    "string": StringType(),
+    "integer": IntType(),
+    "number": DecimalType(),
+    "boolean": BooleanType(),
+    "date-time": DateTimeType(),
 }
 
 
@@ -1422,7 +1482,7 @@ def validate_value_factory(type_map):
             return
         type_ = type_map.get(datatype)
         if not type_:
-            raise ValidationError('Type mismatch: value {} does not confront type {}'.format(value, type_))
+            raise ValidationError("Type mismatch: value {} does not confront type {}".format(value, type_))
         return type_.to_native(value)
 
     return validator
@@ -1447,8 +1507,9 @@ def validate_gmdn(classification_id, additional_classifications):
             )
     elif gmdn_count != 0:
         raise ValidationError(
-            "Item shouldn't have additionalClassification with scheme {} "
-            "for cpv not starts with {}".format(GMDN_2019_SCHEME, ", ".join(GMDN_CPV_PREFIXES))
+            "Item shouldn't have additionalClassification with scheme {} for cpv not starts with {}".format(
+                GMDN_2019_SCHEME, ", ".join(GMDN_CPV_PREFIXES)
+            )
         )
 
 
@@ -1461,14 +1522,19 @@ def validate_ua_road(classification_id, additional_classifications):
             )
     elif road_count != 0:
         raise ValidationError(
-            "Item shouldn't have additionalClassification with scheme {} "
-            "for cpv not starts with {}".format(UA_ROAD_SCHEME, ", ".join(UA_ROAD_CPV_PREFIXES))
+            "Item shouldn't have additionalClassification with scheme {} for cpv not starts with {}".format(
+                UA_ROAD_SCHEME, ", ".join(UA_ROAD_CPV_PREFIXES)
+            )
         )
 
 
 def validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
     min_allowed_date = calculate_tender_date(
-        get_now(), -timedelta(minutes=10), tender=None, working_days=working_days, calendar=calendar
+        get_now(),
+        -timedelta(minutes=10),
+        tender=None,
+        working_days=working_days,
+        calendar=calendar,
     )
     if min_allowed_date >= period.startDate:
         raise ValidationError("tenderPeriod.startDate should be in greater than current date")
@@ -1476,7 +1542,11 @@ def validate_tender_period_start_date(data, period, working_days=False, calendar
 
 def validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
     tender_period_end_date = calculate_tender_full_date(
-        period.startDate, duration, tender=data, working_days=working_days, calendar=calendar
+        period.startDate,
+        duration,
+        tender=data,
+        working_days=working_days,
+        calendar=calendar,
     )
     if tender_period_end_date > period.endDate:
         raise ValidationError(
@@ -1515,7 +1585,8 @@ def validate_items_unit_amount(items_unit_value_amount, data, obj_name="contract
 
         if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(data["value"]["amount"]):
             raise_operation_error(
-                get_request(), f"Total amount of unit values can't be greater than {obj_name}.value.amount"
+                get_request(),
+                f"Total amount of unit values can't be greater than {obj_name}.value.amount",
             )
 
 

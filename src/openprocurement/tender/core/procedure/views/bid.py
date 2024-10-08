@@ -65,7 +65,11 @@ class TenderBidResource(TenderBaseResource):
         if save_tender(self.request, modified=False):
             LOGGER.info(
                 "Created tender bid {}".format(bid["id"]),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_create"}, {"bid_id": bid["id"]}),
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "tender_bid_create"},
+                    {"bid_id": bid["id"]},
+                ),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)

@@ -105,7 +105,7 @@ def validate_related_buyer_in_items(data, items):
     ):
         for i in items or []:
             if not i.relatedBuyer:
-                raise ValidationError([{'relatedBuyer': ['This field is required.']}])
+                raise ValidationError([{"relatedBuyer": ["This field is required."]}])
 
 
 def validate_classification_id(items, *args):

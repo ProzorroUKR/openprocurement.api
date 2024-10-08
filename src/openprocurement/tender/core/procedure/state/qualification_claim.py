@@ -13,8 +13,14 @@ LOGGER = getLogger(__name__)
 
 class QualificationClaimStateMixin(ClaimStateMixin):
     create_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
-    update_allowed_tender_statuses = ("active.pre-qualification", "active.pre-qualification.stand-still")
-    patch_as_complaint_owner_tender_statuses = ("active.pre-qualification", "active.pre-qualification.stand-still")
+    update_allowed_tender_statuses = (
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
+    patch_as_complaint_owner_tender_statuses = (
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
 
     def claim_on_post(self, complaint):
         request = self.request
@@ -42,7 +48,10 @@ class QualificationClaimStateMixin(ClaimStateMixin):
             and claim.get("status") == "claim"
             and claim.get("bid_id") != qualification.get("bidID")
         ):
-            raise_operation_error(self.request, "Can add claim only on unsuccessful qualification of your bid")
+            raise_operation_error(
+                self.request,
+                "Can add claim only on unsuccessful qualification of your bid",
+            )
 
     def validate_tender_owner_update_claim_time(self):
         pass

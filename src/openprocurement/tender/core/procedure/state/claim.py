@@ -51,7 +51,11 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         if after == "answered":
             if not complaint.get("resolutionType"):
                 raise_operation_error(
-                    self.request, ["This field is required."], status=422, location="body", name="resolutionType"
+                    self.request,
+                    ["This field is required."],
+                    status=422,
+                    location="body",
+                    name="resolutionType",
                 )
 
     def validate_claim_on_post(self, complaint):
@@ -143,7 +147,10 @@ class ClaimStateMixin(BaseComplaintStateMixin):
             ):
                 return ClaimOwnerClaimSatisfy, empty_handler
             else:
-                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
+                raise_operation_error(
+                    self.request,
+                    f"Can't update complaint from {status} to {new_status} status",
+                )
         elif auth_role == "tender_owner":
             if status == "claim" and new_status == status:
 
@@ -169,7 +176,10 @@ class ClaimStateMixin(BaseComplaintStateMixin):
 
                 return TenderOwnerClaimAnswer, handler
             else:
-                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
+                raise_operation_error(
+                    self.request,
+                    f"Can't update complaint from {status} to {new_status} status",
+                )
         else:
             raise_operation_error(request, f"Cannot perform any action on complaint as {auth_role}")
 
@@ -190,7 +200,10 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         tender = request.validated["tender"]
         clarifications_until = tender.get("enquiryPeriod", {}).get("clarificationsUntil")
         if clarifications_until and get_now() > datetime.fromisoformat(clarifications_until):
-            raise_operation_error(self.request, "Can update complaint only before enquiryPeriod.clarificationsUntil")
+            raise_operation_error(
+                self.request,
+                "Can update complaint only before enquiryPeriod.clarificationsUntil",
+            )
 
     @staticmethod
     def validate_satisfied(satisfied):

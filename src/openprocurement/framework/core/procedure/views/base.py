@@ -129,7 +129,7 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
                         )
                 else:  # create
                     if save_object(request, "agreement", insert=True, raise_error_handler=True):
-                        agreement_id = request.validated['framework'].get('agreementID')
+                        agreement_id = request.validated["framework"].get("agreementID")
                         logger.info(
                             f"Created agreement {agreement_id}",
                             extra=context_unpack(
@@ -137,7 +137,7 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
                                 {"MESSAGE_ID": "agreement_create"},
                                 {
                                     "agreement_id": agreement_id,
-                                    "agreement_mode": request.validated['agreement'].get('mode'),
+                                    "agreement_mode": request.validated["agreement"].get("mode"),
                                 },
                             ),
                         )
@@ -158,7 +158,7 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
                             extra=context_unpack(request, {"MESSAGE_ID": "qualification_patch"}),
                         )
                 else:
-                    qualification_id = request.validated['qualification']['_id']
+                    qualification_id = request.validated["qualification"]["_id"]
                     if save_object(request, "qualification", insert=True, raise_error_handler=True):
                         logger.info(
                             f"Created qualification {qualification_id}",

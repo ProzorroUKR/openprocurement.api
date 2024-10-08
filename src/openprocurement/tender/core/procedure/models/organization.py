@@ -14,7 +14,15 @@ from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.address import Address
 from openprocurement.tender.core.procedure.models.contact import ContactPoint
 
-PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
+PROCURING_ENTITY_KINDS = (
+    "authority",
+    "central",
+    "defense",
+    "general",
+    "other",
+    "social",
+    "special",
+)
 
 
 class Organization(BaseOrganization):

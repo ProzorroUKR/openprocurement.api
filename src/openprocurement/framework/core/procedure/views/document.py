@@ -53,7 +53,11 @@ class CoreMilestoneDocumentResource(FrameworkBaseResource, DocumentResourceMixin
 
     def save(self, **kwargs):
         return save_object(
-            self.request, "agreement", modified=self.get_modified(), additional_obj_names=("milestone",), **kwargs
+            self.request,
+            "agreement",
+            modified=self.get_modified(),
+            additional_obj_names=("milestone",),
+            **kwargs,
         )
 
     def get_file(self):

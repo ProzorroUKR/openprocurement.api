@@ -4,21 +4,21 @@ from paste.translogger import TransLogger
 from paste.util.converters import asbool
 
 levels = {
-    'CRITICAL': logging.CRITICAL,
-    'FATAL': logging.FATAL,
-    'ERROR': logging.ERROR,
-    'WARN': logging.WARNING,
-    'WARNING': logging.WARNING,
-    'INFO': logging.INFO,
-    'DEBUG': logging.DEBUG,
-    'NOTSET': logging.NOTSET,
+    "CRITICAL": logging.CRITICAL,
+    "FATAL": logging.FATAL,
+    "ERROR": logging.ERROR,
+    "WARN": logging.WARNING,
+    "WARNING": logging.WARNING,
+    "INFO": logging.INFO,
+    "DEBUG": logging.DEBUG,
+    "NOTSET": logging.NOTSET,
 }
 
 
 def make_filter(
     app,
     global_conf,
-    logger_name='wsgi',
+    logger_name="wsgi",
     format=None,
     logging_level=logging.INFO,
     setup_console_handler=True,

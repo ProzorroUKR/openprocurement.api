@@ -14,7 +14,11 @@ from openprocurement.tender.core.procedure.models.organization import (
 
 
 class ReportingContract(BaseContract):
-    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True), min_size=1, max_size=1)
+    suppliers = ListType(
+        ModelType(ContactLessBusinessOrganization, required=True),
+        min_size=1,
+        max_size=1,
+    )
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
@@ -26,7 +30,11 @@ class ReportingPostContract(ReportingContract):
 
 
 class ReportingPatchContract(BasePatchContract):
-    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True), min_size=1, max_size=1)
+    suppliers = ListType(
+        ModelType(ContactLessBusinessOrganization, required=True),
+        min_size=1,
+        max_size=1,
+    )
 
 
 class NegotiationContract(BaseContract):

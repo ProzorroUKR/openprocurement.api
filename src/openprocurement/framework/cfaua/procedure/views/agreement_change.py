@@ -95,7 +95,7 @@ class AgreementChangesResource(AgreementBaseResource):
                 extra=context_unpack(
                     self.request,
                     {"MESSAGE_ID": "agreement_change_create"},
-                    {"change_id": change['id'], "agreement_id": agreement['_id']},
+                    {"change_id": change["id"], "agreement_id": agreement["_id"]},
                 ),
             )
             self.request.response.status = 201
@@ -107,7 +107,7 @@ class AgreementChangesResource(AgreementBaseResource):
                     extra=context_unpack(
                         self.request,
                         {"MESSAGE_ID": "agreement_change_create"},
-                        {"change_id": change['id'], "agreement_id": agreement['_id']},
+                        {"change_id": change["id"], "agreement_id": agreement["_id"]},
                     ),
                 )
             return response_data

@@ -1,6 +1,6 @@
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.context import get_cancellation, get_request
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.cancellation import CancellationState
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
 
@@ -34,12 +34,15 @@ class AgreementDocumentStateMixing(BaseDocumentStateMixing):
 
 class AgreementDocumentState(AgreementDocumentStateMixing, CancellationState):
     def validate_document_post(self, data):
-        request, tender, cancellation = get_request(), get_tender(), get_cancellation()
+        request, tender = get_request(), get_tender()
 
         self.validate_agreement_document(
-            request, tender, request.validated["agreement"], operation="add" if request.method == "POST" else "update"
+            request,
+            tender,
+            request.validated["agreement"],
+            operation="add" if request.method == "POST" else "update",
         )
 
     def validate_document_patch(self, before, after):
-        request, tender, cancellation = get_request(), get_tender(), get_cancellation()
+        request, tender = get_request(), get_tender()
         self.validate_agreement_document(request, tender, request.validated["agreement"], operation="update")

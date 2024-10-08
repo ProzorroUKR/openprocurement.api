@@ -7,7 +7,10 @@ from openprocurement.tender.core.procedure.state.award_complaint import (
 
 class CFAUAAwardComplaintState(AwardComplaintStateMixin, CFAUATenderState):
     create_allowed_tender_statuses = ("active.qualification.stand-still",)
-    update_allowed_tender_statuses = ("active.qualification.stand-still", "active.qualification")
+    update_allowed_tender_statuses = (
+        "active.qualification.stand-still",
+        "active.qualification",
+    )
 
     def reviewers_satisfied_handler(self, complaint):
         super().reviewers_satisfied_handler(complaint)

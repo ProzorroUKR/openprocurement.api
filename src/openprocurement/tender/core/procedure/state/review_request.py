@@ -6,7 +6,11 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class ReviewRequestStateMixin:
-    review_request_tender_statuses = ("active.enquiries", "active.qualification", "active.awarded")
+    review_request_tender_statuses = (
+        "active.enquiries",
+        "active.qualification",
+        "active.awarded",
+    )
 
     def review_request_on_post(self, data: dict) -> None:
         tender = self.request.validated["tender"]

@@ -25,8 +25,8 @@ class MilestoneState(AgreementState):
             contract = get_request().validated["contract"]
             contract["status"] = "terminated"
             for milestone in contract["milestones"]:
-                if milestone["status"] == 'scheduled':
-                    milestone["status"] = 'notMet'
+                if milestone["status"] == "scheduled":
+                    milestone["status"] = "notMet"
 
     def set_contract_status_on_post(self, data):
         contract = get_request().validated["contract"]

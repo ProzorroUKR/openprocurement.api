@@ -13,7 +13,12 @@ class PostSubmissionDocument(PostDocument, ConfidentialDocumentMixin):
 
 
 class PatchSubmissionDocument(PatchDocument):
-    confidentiality = StringType(choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value])
+    confidentiality = StringType(
+        choices=[
+            ConfidentialityTypes.PUBLIC.value,
+            ConfidentialityTypes.BUYER_ONLY.value,
+        ]
+    )
     confidentialityRationale = StringType()
 
 

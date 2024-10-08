@@ -19,20 +19,27 @@ def validate_agreement_change_add_not_in_allowed_agreement_status(request, **kwa
     agreement = request.validated["agreement"]
     if agreement["status"] != "active":
         raise_operation_error(
-            request, f"Can't add agreement change in current ({agreement['status']}) agreement status"
+            request,
+            f"Can't add agreement change in current ({agreement['status']}) agreement status",
         )
 
 
 def validate_agreement_change_update_not_in_allowed_change_status(request, **kwargs):
     change = request.validated["change"]
     if change["status"] in {"active", "cancelled"}:
-        raise_operation_error(request, f"Can't update agreement change in current ({change['status']}) status")
+        raise_operation_error(
+            request,
+            f"Can't update agreement change in current ({change['status']}) status",
+        )
 
 
 def validate_create_agreement_change(request, **kwargs):
     agreement = request.validated["agreement"]
     if agreement.get("changes") and agreement["changes"][-1]["status"] == "pending":
-        raise_operation_error(request, "Can't create new agreement change while any (pending) change exists")
+        raise_operation_error(
+            request,
+            "Can't create new agreement change while any (pending) change exists",
+        )
 
 
 # changes modifications validators
@@ -81,7 +88,8 @@ def validate_credentials_generate(request, **kwargs):
     agreement = request.validated["agreement"]
     if agreement["status"] != "active":
         raise_operation_error(
-            request, f"Can't generate credentials in current ({agreement['status']}) agreement status"
+            request,
+            f"Can't generate credentials in current ({agreement['status']}) agreement status",
         )
 
 

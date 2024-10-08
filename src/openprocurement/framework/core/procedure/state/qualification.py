@@ -36,7 +36,11 @@ class QualificationState(ChronographEventsMixing, BaseState):
         super().on_patch(before, after)
 
         if len(before.get("documents", [])) != len(after.get("documents", [])):
-            validate_doc_type_quantity(after["documents"], document_type="evaluationReports", obj_name="qualification")
+            validate_doc_type_quantity(
+                after["documents"],
+                document_type="evaluationReports",
+                obj_name="qualification",
+            )
 
         if before.get("status") != after.get("status"):
             validate_doc_type_required(after.get("documents", []), document_type="evaluationReports")

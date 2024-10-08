@@ -100,4 +100,7 @@ class ChangeState(BaseState):
 
     def validate_update_agreement_change_status(self, data):
         if data["status"] == "active" and not data.get("dateSigned", ""):
-            raise_operation_error(get_request(), "Can't update agreement change status. 'dateSigned' is required.")
+            raise_operation_error(
+                get_request(),
+                "Can't update agreement change status. 'dateSigned' is required.",
+            )

@@ -13,7 +13,12 @@ from openprocurement.framework.core.procedure.serializers.contract import (
 def resolve_contract(request):
     match_dict = request.matchdict
     if match_dict.get("contract_id"):
-        contracts = get_items(request, request.validated["agreement"], "contracts", match_dict["contract_id"])
+        contracts = get_items(
+            request,
+            request.validated["agreement"],
+            "contracts",
+            match_dict["contract_id"],
+        )
         request.validated["contract"] = contracts[0]
 
 

@@ -54,7 +54,12 @@ class PatchAgreement(Model):
     procuringEntity = ModelType(ProcuringEntity)
     changes = ListType(
         PolyModelType(
-            (ChangeTaxRate, ChangeItemPriceVariation, ChangePartyWithdrawal, ChangeThirdParty),
+            (
+                ChangeTaxRate,
+                ChangeItemPriceVariation,
+                ChangePartyWithdrawal,
+                ChangeThirdParty,
+            ),
             claim_function=get_change_class,
         ),
     )

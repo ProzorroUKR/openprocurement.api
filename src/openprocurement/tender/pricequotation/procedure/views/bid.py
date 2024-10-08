@@ -67,7 +67,11 @@ class TenderBidResource(TenderBidResource):
         validators=(
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-            validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
+            validate_input_data(
+                PatchBid,
+                filters=(filter_administrator_bid_update,),
+                none_means_remove=True,
+            ),
             validate_patch_data_simple(Bid, item_name="bid"),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,

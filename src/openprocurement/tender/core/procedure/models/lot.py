@@ -28,7 +28,11 @@ class BaseLotSerializersMixin(Model):
 
 
 class LotGuaranteeSerializerMixin(BaseLotSerializersMixin):
-    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
+    @serializable(
+        serialized_name="guarantee",
+        serialize_when_none=False,
+        type=ModelType(Guarantee),
+    )
     def lot_guarantee(self) -> Guarantee:
         tender = self.get_tender()
         if self.guarantee:
@@ -50,7 +54,11 @@ class LotSerializersMixin(LotGuaranteeSerializerMixin):
                 }
             )
 
-    @serializable(serialized_name="value", type=ModelType(EstimatedValue), serialize_when_none=False)
+    @serializable(
+        serialized_name="value",
+        type=ModelType(EstimatedValue),
+        serialize_when_none=False,
+    )
     def lot_value(self) -> EstimatedValue:
         tender = self.get_tender()
         tender_value = tender["value"] if tender.get("value") else {}

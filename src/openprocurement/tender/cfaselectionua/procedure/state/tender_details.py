@@ -79,7 +79,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 self.get_change_tender_status_handler("draft.unsuccessful")(after)
             elif before["status"] != "draft.pending" or after["status"] != "draft.pending":
                 raise_operation_error(
-                    get_request(), f"Can't switch tender from ({before['status']}) to ({after['status']}) status."
+                    get_request(),
+                    f"Can't switch tender from ({before['status']}) to ({after['status']}) status.",
                 )
 
         else:  # tender owner
@@ -91,11 +92,13 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 self.update_periods(after)
                 if not after["agreements"] or not after.get("items"):
                     raise_operation_error(
-                        get_request(), "Can't switch tender to (draft.pending) status without agreements or items."
+                        get_request(),
+                        "Can't switch tender to (draft.pending) status without agreements or items.",
                     )
             elif before["status"] != after["status"]:
                 raise_operation_error(
-                    get_request(), f"Can't switch tender from ({before['status']}) to ({after['status']}) status."
+                    get_request(),
+                    f"Can't switch tender from ({before['status']}) to ({after['status']}) status.",
                 )
 
             elif after["status"] == "active.enquiries":
@@ -107,13 +110,22 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
                 for f in ("unit", "classification", "additionalClassifications"):
                     if [item.get(f) for item in before["items"]] != [item.get(f) for item in after["items"]]:
-                        raise_operation_error(get_request(), f"Can't update {f} in items in active.enquiries")
+                        raise_operation_error(
+                            get_request(),
+                            f"Can't update {f} in items in active.enquiries",
+                        )
 
                 if before["tenderPeriod"]["startDate"] != after["tenderPeriod"].get("startDate"):
-                    raise_operation_error(get_request(), "Can't update tenderPeriod.startDate in active.enquiries")
+                    raise_operation_error(
+                        get_request(),
+                        "Can't update tenderPeriod.startDate in active.enquiries",
+                    )
 
                 if before["procuringEntity"] != after["procuringEntity"]:
-                    raise_operation_error(get_request(), "Can't update procuringEntity in active.enquiries")
+                    raise_operation_error(
+                        get_request(),
+                        "Can't update procuringEntity in active.enquiries",
+                    )
 
                 if "items" in get_request().validated["json_data"]:
                     calculate_agreement_contracts_value_amount(after)
@@ -122,7 +134,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                     if k != "procurementMethodDetails":
                         if before.get(k) != after.get(k):
                             raise_operation_error(
-                                get_request(), f"Only procurementMethodDetails can be updated at {after['status']}"
+                                get_request(),
+                                f"Only procurementMethodDetails can be updated at {after['status']}",
                             )
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
             self._validate_criterion_uniq(after.get("criteria", []))
@@ -131,7 +144,10 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     @staticmethod
     def update_periods(tender):
         enquiry_end = calculate_tender_full_date(get_now(), ENQUIRY_PERIOD, tender=tender)
-        tender["enquiryPeriod"] = {"startDate": get_now().isoformat(), "endDate": enquiry_end.isoformat()}
+        tender["enquiryPeriod"] = {
+            "startDate": get_now().isoformat(),
+            "endDate": enquiry_end.isoformat(),
+        }
         tender["tenderPeriod"] = {
             "startDate": tender["enquiryPeriod"]["endDate"],
             "endDate": calculate_tender_full_date(

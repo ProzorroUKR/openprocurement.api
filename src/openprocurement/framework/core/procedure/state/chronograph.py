@@ -41,7 +41,10 @@ class ChronographEventsMixing:
                         if number_of_submissions == 0:
                             LOGGER.info(
                                 f"Switched framework {framework['_id']} to unsuccessful",
-                                extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_framework_unsuccessful"}),
+                                extra=context_unpack(
+                                    get_request(),
+                                    {"MESSAGE_ID": "switched_framework_unsuccessful"},
+                                ),
                             )
                             framework["status"] = "unsuccessful"
                             return

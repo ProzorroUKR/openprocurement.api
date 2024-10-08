@@ -48,4 +48,7 @@ class ChangeState(BaseContractState):
     def validate_update_contract_change_status(self, data):
         json_data = self.request.validated["data"]
         if not json_data.get("dateSigned", ""):
-            raise_operation_error(self.request, "Can't update contract change status. 'dateSigned' is required.")
+            raise_operation_error(
+                self.request,
+                "Can't update contract change status. 'dateSigned' is required.",
+            )

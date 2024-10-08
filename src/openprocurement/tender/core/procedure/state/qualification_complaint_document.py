@@ -7,7 +7,10 @@ from openprocurement.tender.core.procedure.state.complaint_document import (
 
 
 class QualificationComplaintDocumentState(ComplaintDocumentState):
-    allowed_tender_statuses = ("active.pre-qualification", "active.pre-qualification.stand-still")
+    allowed_tender_statuses = (
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
 
     def validate_lot_status(self):
         tender = get_tender()

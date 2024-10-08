@@ -24,12 +24,3 @@ class OpenUATenderState(TenderState):
         for lot in tender.get("lots", ""):
             if check_auction_period(lot.get("auctionPeriod", {}), tender):
                 del lot["auctionPeriod"]["startDate"]
-
-    @staticmethod
-    def check_auction_time(tender):
-        if check_auction_period(tender.get("auctionPeriod", {}), tender):
-            del tender["auctionPeriod"]["startDate"]
-
-        for lot in tender.get("lots", ""):
-            if check_auction_period(lot.get("auctionPeriod", {}), tender):
-                del lot["auctionPeriod"]["startDate"]

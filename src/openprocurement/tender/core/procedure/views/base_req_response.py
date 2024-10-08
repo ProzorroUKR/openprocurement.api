@@ -20,7 +20,12 @@ def resolve_req_response(request: Request, parent_obj_name: str) -> None:
     match_dict = request.matchdict
     if match_dict.get("requirement_response_id"):
         req_response_id = match_dict["requirement_response_id"]
-        req_responses = get_items(request, request.validated[parent_obj_name], "requirementResponses", req_response_id)
+        req_responses = get_items(
+            request,
+            request.validated[parent_obj_name],
+            "requirementResponses",
+            req_response_id,
+        )
         request.validated["requirement_response"] = req_responses[0]
 
 
@@ -57,7 +62,7 @@ class BaseReqResponseResource(TenderBaseResource):
                     extra=context_unpack(
                         self.request,
                         {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_create"},
-                        {"requirement_response_id": req_response['id']},
+                        {"requirement_response_id": req_response["id"]},
                     ),
                 )
                 self.request.response.status = 201
@@ -86,7 +91,8 @@ class BaseReqResponseResource(TenderBaseResource):
             self.LOGGER.info(
                 f"Updated {self.parent_obj_name} requirement response {req_response['id']}",
                 extra=context_unpack(
-                    self.request, {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_patch"}
+                    self.request,
+                    {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_patch"},
                 ),
             )
             return {"data": self.serializer_class(updated_req_response).data}
@@ -103,7 +109,8 @@ class BaseReqResponseResource(TenderBaseResource):
             self.LOGGER.info(
                 f"Deleted {self.parent_obj_name} requirement response {req_response['id']}",
                 extra=context_unpack(
-                    self.request, {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_delete"}
+                    self.request,
+                    {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_delete"},
                 ),
             )
             return {"data": self.serializer_class(req_response).data}

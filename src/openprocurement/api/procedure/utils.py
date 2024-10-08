@@ -36,12 +36,22 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
         for i in patch:
             if i in orig:
                 prepare_patch(
-                    changes, orig[i], patch[i], "{}/{}".format(basepath, i), none_means_remove=none_means_remove
+                    changes,
+                    orig[i],
+                    patch[i],
+                    "{}/{}".format(basepath, i),
+                    none_means_remove=none_means_remove,
                 )
             elif patch[i] is None and none_means_remove:
                 pass  # already deleted
             else:
-                changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": patch[i]})
+                changes.append(
+                    {
+                        "op": "add",
+                        "path": "{}/{}".format(basepath, i),
+                        "value": patch[i],
+                    }
+                )
     elif isinstance(patch, list):
         if len(patch) < len(orig):
             for i in reversed(list(range(len(patch), len(orig)))):
@@ -49,7 +59,11 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
         for i, j in enumerate(patch):
             if len(orig) > i:
                 prepare_patch(
-                    changes, orig[i], patch[i], "{}/{}".format(basepath, i), none_means_remove=none_means_remove
+                    changes,
+                    orig[i],
+                    patch[i],
+                    "{}/{}".format(basepath, i),
+                    none_means_remove=none_means_remove,
                 )
             else:
                 changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": j})
@@ -117,7 +131,7 @@ def get_items(request, parent, key, uid, raise_404=True):
         # pylint: disable-next=import-outside-toplevel, cyclic-import
         from openprocurement.api.utils import error_handler
 
-        obj_name = "document" if "Document" in key else key.rstrip('s')
+        obj_name = "document" if "Document" in key else key.rstrip("s")
         request.errors.add("url", f"{obj_name}_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request)
@@ -143,7 +157,7 @@ def get_cpv_prefix_length(classifications, default=4):
     DEFAULT_PREFIX_LENGTH = 4
     CPV_PHARM_PREFIX_LENGTH = 3
     CPV_PHARM_PREFIX = CPV_PHARM_PRODUCTS[:CPV_PHARM_PREFIX_LENGTH]
-    if any(classification['id'][:CPV_PHARM_PREFIX_LENGTH] == CPV_PHARM_PREFIX for classification in classifications):
+    if any(classification["id"][:CPV_PHARM_PREFIX_LENGTH] == CPV_PHARM_PREFIX for classification in classifications):
         return CPV_PHARM_PREFIX_LENGTH
     return DEFAULT_PREFIX_LENGTH
 

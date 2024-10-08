@@ -16,7 +16,13 @@ LOGGER = getLogger(__name__)
 
 class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
     active_bid_statuses = ("active", "pending")
-    block_tender_complaint_status = ("claim", "pending", "accepted", "satisfied", "stopping")
+    block_tender_complaint_status = (
+        "claim",
+        "pending",
+        "accepted",
+        "satisfied",
+        "stopping",
+    )
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
 
     def contract_events(self, tender):

@@ -12,7 +12,7 @@ class PlanCollection(BaseCollection):
         projection = {k: True for k in fields}
         projection["revisions"] = True
         res = self.collection.find_one(
-            {'_id': uid},
+            {"_id": uid},
             projection=projection,
             session=get_db_session(),
         )

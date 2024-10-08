@@ -31,7 +31,10 @@ class BTAwardComplaintDocumentState(ComplaintDocumentState):
         status = complaint.get("status")
         if status not in STATUS4ROLE.get(self.request.authenticated_role, []):
             operation = OPERATIONS.get(self.request.method)
-            raise_operation_error(self.request, f"Can't {operation} document in current ({status}) complaint status")
+            raise_operation_error(
+                self.request,
+                f"Can't {operation} document in current ({status}) complaint status",
+            )
 
     def validate_tender_status(self):
         tender = get_tender()
@@ -41,7 +44,10 @@ class BTAwardComplaintDocumentState(ComplaintDocumentState):
             "active.awarded",
         ):
             operation = OPERATIONS.get(self.request.method)
-            raise_operation_error(self.request, f"Can't {operation} document in current ({status}) tender status")
+            raise_operation_error(
+                self.request,
+                f"Can't {operation} document in current ({status}) tender status",
+            )
 
     def validate_document_author(self, document):
         if self.request.authenticated_role != document["author"]:

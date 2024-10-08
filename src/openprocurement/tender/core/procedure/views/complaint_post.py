@@ -86,7 +86,11 @@ class BaseComplaintPostResource(TenderBaseResource):
                 kwargs[f"{self.item_name}_id"] = context["id"]
             self.LOGGER.info(
                 f"Created post {post['id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_complaint_post_create"}, kwargs),
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": f"{self.item_name}_complaint_post_create"},
+                    kwargs,
+                ),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)

@@ -74,17 +74,17 @@ def validate_relatedItem(related_item, document_of):
 
 def validate_tender_document_relations(data, documents):
     if documents:
-        lot_ids = {l["id"] for l in data.get("lots") or ""}
+        lot_ids = {lot["id"] for lot in data.get("lots") or ""}
         item_ids = {i["id"] for i in data.get("items") or ""}
         for d in documents:
             related_type = d.get("documentOf")
             related_item = d.get("relatedItem")
             if related_type == "lot":
                 if related_item not in lot_ids:
-                    raise ValidationError([{'relatedItem': ['relatedItem should be one of lots']}])
+                    raise ValidationError([{"relatedItem": ["relatedItem should be one of lots"]}])
             elif related_type == "item":
                 if related_item not in item_ids:
-                    raise ValidationError([{'relatedItem': ['relatedItem should be one of items']}])
+                    raise ValidationError([{"relatedItem": ["relatedItem should be one of items"]}])
 
 
 class BasePostDocument(BaseDocument):

@@ -56,7 +56,11 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
             pass  # allowed scenario
         else:
             raise_operation_error(
-                get_request(), f"Can't update tender to {after} status", status=403, location="body", name="status"
+                get_request(),
+                f"Can't update tender to {after} status",
+                status=403,
+                location="body",
+                name="status",
             )
         super().status_up(before, after, data)
 

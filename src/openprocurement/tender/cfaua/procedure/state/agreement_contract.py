@@ -22,7 +22,7 @@ class AgreementContractStateMixing:
 
     @staticmethod
     def validate_agreement_operation_not_in_allowed_status(request, tender):
-        if tender['status'] != "active.awarded":
+        if tender["status"] != "active.awarded":
             raise_operation_error(
                 request,
                 f"Can't {OPERATIONS.get(request.method)} agreement in current ({tender['status']}) tender status",
@@ -40,9 +40,17 @@ class AgreementContractStateMixing:
 
         if contract["status"] == "active" or "unitPrices" in request.validated["json_data"]:
             if len(agreement_items_id) != len(validated_items_id):
-                raise_operation_error(request, "unitPrice.value.amount count doesn't match with contract.", status=422)
+                raise_operation_error(
+                    request,
+                    "unitPrice.value.amount count doesn't match with contract.",
+                    status=422,
+                )
             if agreement_items_id != validated_items_id:
-                raise_operation_error(request, "All relatedItem values doesn't match with contract.", status=422)
+                raise_operation_error(
+                    request,
+                    "All relatedItem values doesn't match with contract.",
+                    status=422,
+                )
 
             unit_price_amounts = []
             for unit_price in contract.get("unitPrices", ""):
@@ -73,7 +81,11 @@ class AgreementContractStateMixing:
             value = to_decimal(value)
 
             if sum(unit_price_amounts) > value:
-                raise_operation_error(request, f"Total amount can't be greater than {error_field}", status=422)
+                raise_operation_error(
+                    request,
+                    f"Total amount can't be greater than {error_field}",
+                    status=422,
+                )
 
 
 class AgreementContractState(AgreementContractStateMixing, TenderState):

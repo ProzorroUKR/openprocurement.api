@@ -68,14 +68,14 @@ class BaseRequirementResponse(Model):
         if self.requirement:
             requirement, *_ = get_requirement_obj(self.requirement.id)
             if requirement:
-                return TYPEMAP[requirement['dataType']](self.value) if self.value else None
+                return TYPEMAP[requirement["dataType"]](self.value) if self.value else None
         return self.value
 
     def convert_values(self):
         if self.requirement:
             requirement, *_ = get_requirement_obj(self.requirement.id)
             if requirement:
-                return [TYPEMAP[requirement['dataType']](value) for value in self.values] if self.values else None
+                return [TYPEMAP[requirement["dataType"]](value) for value in self.values] if self.values else None
         return self.values
 
     @serializable(serialized_name="value", serialize_when_none=False)
@@ -137,7 +137,9 @@ class RequirementResponse(BaseRequirementResponse):
 # UTILS ---
 
 
-def get_requirement_obj(requirement_id: str) -> Tuple[Optional[dict], Optional[dict], Optional[dict]]:
+def get_requirement_obj(
+    requirement_id: str,
+) -> Tuple[Optional[dict], Optional[dict], Optional[dict]]:
     tender = get_tender()
     for criteria in tender.get("criteria", ""):
         for group in criteria.get("requirementGroups", ""):
@@ -265,8 +267,8 @@ class MatchResponseValue:
 
     @classmethod
     def _match_min_max_value(cls, datatype, requirement, value):
-        min_value = requirement.get('minValue')
-        max_value = requirement.get('maxValue')
+        min_value = requirement.get("minValue")
+        max_value = requirement.get("maxValue")
 
         if min_value is not None and value < datatype.to_native(min_value):
             raise ValidationError(
@@ -303,15 +305,15 @@ class MatchResponseValue:
     def match(cls, response):
         requirement, *_ = get_requirement_obj(response["requirement"]["id"])
 
-        datatype = TYPEMAP[requirement['dataType']]
+        datatype = TYPEMAP[requirement["dataType"]]
 
         value = response.get("value")
         values = response.get("values")
 
         if value is None and not values:
-            raise ValidationError([{'value': 'Response required at least one of field ["value", "values"]'}])
+            raise ValidationError([{"value": 'Response required at least one of field ["value", "values"]'}])
         if value is not None and values:
-            raise ValidationError([{'value': "Field 'value' conflicts with 'values'"}])
+            raise ValidationError([{"value": "Field 'value' conflicts with 'values'"}])
         values = [value] if value is not None else values
 
         if values is not None:
@@ -379,7 +381,6 @@ class PostBidResponsesMixin(ObjResponseMixin):
     """
 
     def validate_selfEligible(self, data: dict, value: Optional[bool]):
-        tender = get_tender()
         if tender_created_after(RELEASE_ECRITERIA_ARTICLE_17):
             if value is not None:
                 raise ValidationError("Rogue field.")
@@ -420,7 +421,6 @@ class PostBidResponsesMixin(ObjResponseMixin):
 
         # Iterate criteria
         for criteria in tender.get("criteria", []):
-
             # Skip criteria for not existing lots (probably)
 
             if criteria.get("relatesTo") in ("lot", "item"):
@@ -456,7 +456,6 @@ class PostBidResponsesMixin(ObjResponseMixin):
 
             # Search for answered requirements
             for rg in criteria.get("requirementGroups", []):
-
                 # Get all requirement ids for group
                 requirement_ids = {
                     i["id"]

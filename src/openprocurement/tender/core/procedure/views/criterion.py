@@ -76,7 +76,9 @@ class BaseCriterionResource(TenderBaseResource):
                 self.LOGGER.info(
                     "Created tender criterion {}".format(criterion["id"]),
                     extra=context_unpack(
-                        self.request, {"MESSAGE_ID": "tender_criterion_create"}, {"criterion_id": criterion["id"]}
+                        self.request,
+                        {"MESSAGE_ID": "tender_criterion_create"},
+                        {"criterion_id": criterion["id"]},
                     ),
                 )
 

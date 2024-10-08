@@ -54,9 +54,9 @@ def validate_items_related_lot(data, items):
     related_lots = {i["relatedLot"] for i in items if i.get("relatedLot")}
 
     if related_lots:
-        lot_ids = {l["id"] for l in data.get("lots") or []}
+        lot_ids = {lot["id"] for lot in data.get("lots") or []}
         if related_lots - lot_ids:
-            raise ValidationError([{'relatedLot': ["relatedLot should be one of lots"]}])
+            raise ValidationError([{"relatedLot": ["relatedLot should be one of lots"]}])
 
 
 def validate_award_period(data, period):
@@ -147,7 +147,9 @@ class PatchTender(PatchBaseTender):
     tenderPeriod = ModelType(PeriodEndRequired)
     awardPeriod = ModelType(Period)
     items = ListType(
-        ModelType(Item, required=True), min_size=1, validators=[validate_items_uniq, validate_classification_id]
+        ModelType(Item, required=True),
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
     )
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])

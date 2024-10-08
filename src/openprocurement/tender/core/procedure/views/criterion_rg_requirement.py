@@ -97,7 +97,6 @@ class BaseRequirementResource(TenderBaseResource):
                 ),
             )
             self.request.response.status = 201
-            tender = self.request.validated['tender']
             match_dict = self.request.matchdict
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(

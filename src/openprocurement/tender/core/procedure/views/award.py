@@ -82,7 +82,11 @@ class TenderAwardResource(TenderBaseResource):
         if save_tender(self.request):
             self.LOGGER.info(
                 f"Created tender award {award['id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_create"}, {"award_id": award["id"]}),
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "tender_award_create"},
+                    {"award_id": award["id"]},
+                ),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
@@ -127,7 +131,10 @@ class TenderAwardResource(TenderBaseResource):
                     if self.request.validated.get("contracts_added"):
                         save_contracts_to_contracting(self.request.validated["contracts_added"], award)
                     elif self.request.validated.get("cancelled_contract_ids"):
-                        update_econtracts_statuses(self.request.validated["cancelled_contract_ids"], "cancelled")
+                        update_econtracts_statuses(
+                            self.request.validated["cancelled_contract_ids"],
+                            "cancelled",
+                        )
 
                     self.LOGGER.info(
                         "Updated tender award {}".format(award["id"]),

@@ -87,7 +87,8 @@ class SubmissionsResource(FrameworkBaseResource):
             )
             self.request.response.status = 201
             self.request.response.headers["Location"] = self.request.route_url(
-                f"{submission['submissionType']}:Submissions", submission_id=submission["_id"]
+                f"{submission['submissionType']}:Submissions",
+                submission_id=submission["_id"],
             )
             return {
                 "data": self.serializer_class(submission).data,

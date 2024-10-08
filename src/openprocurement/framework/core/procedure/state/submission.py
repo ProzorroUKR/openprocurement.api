@@ -25,7 +25,7 @@ class SubmissionState(BaseState):
             after["date"] = get_now().isoformat()
         if self.submission_activated(before, after):
             qualification = self.framework.qualification.create_from_submission(after)
-            after["qualificationID"] = qualification['_id']
+            after["qualificationID"] = qualification["_id"]
             after["datePublished"] = get_now().isoformat()
 
             if before["frameworkID"] in FAST_CATALOGUE_FLOW_FRAMEWORK_IDS:

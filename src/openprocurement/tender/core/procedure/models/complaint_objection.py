@@ -45,7 +45,15 @@ OBJECTION_CRITERIA_CLASSIFICATIONS = {
 
 class Classification(Model):
     scheme = StringType(
-        required=True, choices=["article_16", "article_17", "other", "violation_amcu", "amcu", "amcu_24"]
+        required=True,
+        choices=[
+            "article_16",
+            "article_17",
+            "other",
+            "violation_amcu",
+            "amcu",
+            "amcu_24",
+        ],
     )
     id = StringType(required=True)
     description = StringType(required=True)
@@ -97,7 +105,7 @@ class Objection(Model):
 
     @staticmethod
     def find_related_item(parent_obj, obj_name, obj_id):
-        for obj in parent_obj.get(f'{obj_name}s', []):
+        for obj in parent_obj.get(f"{obj_name}s", []):
             if obj["id"] == obj_id:
                 return obj
         raise ValidationError(f"Invalid {obj_name} id")

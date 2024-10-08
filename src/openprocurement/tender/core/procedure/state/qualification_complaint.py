@@ -16,7 +16,10 @@ LOGGER = getLogger(__name__)
 
 class QualificationComplaintStateMixin(ComplaintStateMixin):
     create_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
-    update_allowed_tender_statuses = ("active.pre-qualification", "active.pre-qualification.stand-still")
+    update_allowed_tender_statuses = (
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
     draft_patch_model = DraftPatchQualificationComplaint
     complaints_configuration = "hasQualificationComplaints"
 

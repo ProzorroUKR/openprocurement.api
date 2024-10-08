@@ -89,7 +89,11 @@ class PostTender(PostBaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     lots = ListType(
-        ModelType(PostTenderLot, required=True), min_size=1, max_size=1, required=True, validators=[validate_lots_uniq]
+        ModelType(PostTenderLot, required=True),
+        min_size=1,
+        max_size=1,
+        required=True,
+        validators=[validate_lots_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
@@ -143,9 +147,16 @@ class PatchTender(PatchBaseTender):
 
     # agreements = ListType(ModelType(Agreement, required=True), min_size=1, max_size=1)
     items = ListType(
-        ModelType(Item, required=True), min_size=1, validators=[validate_items_uniq, validate_classification_id]
+        ModelType(Item, required=True),
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
     )
-    lots = ListType(ModelType(PatchTenderLot, required=True), min_size=1, max_size=1, validators=[validate_lots_uniq])
+    lots = ListType(
+        ModelType(PatchTenderLot, required=True),
+        min_size=1,
+        max_size=1,
+        validators=[validate_lots_uniq],
+    )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
@@ -189,7 +200,11 @@ class Tender(BaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     lots = ListType(
-        ModelType(Lot, required=True), min_size=1, max_size=1, required=True, validators=[validate_lots_uniq]
+        ModelType(Lot, required=True),
+        min_size=1,
+        max_size=1,
+        required=True,
+        validators=[validate_lots_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
@@ -221,7 +236,11 @@ class Tender(BaseTender):
     def validate_features(self, data, features):
         validate_features(data, features)
 
-    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
+    @serializable(
+        serialized_name="guarantee",
+        serialize_when_none=False,
+        type=ModelType(Guarantee),
+    )
     def tender_guarantee(self):
         if self.lots:
             lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]

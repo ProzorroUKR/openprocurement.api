@@ -54,5 +54,5 @@ class BaseAwardMilestoneResource(BaseMilestoneResource):
                 "tender_id": tender["_id"],
                 "{}_id".format(self.context_name): parent_obj["id"],
                 "milestone_id": milestone["id"],
-            }
+            },
         )

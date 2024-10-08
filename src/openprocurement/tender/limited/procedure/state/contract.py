@@ -75,7 +75,8 @@ class LimitedContractStateMixing:
             stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("endDate"))
             if stand_still_end > get_now():
                 raise_operation_error(
-                    self.request, f"Can't sign contract before stand-still period end ({stand_still_end.isoformat()})"
+                    self.request,
+                    f"Can't sign contract before stand-still period end ({stand_still_end.isoformat()})",
                 )
 
             blocked_complaints = any(
@@ -139,7 +140,8 @@ class LimitedReportingContractState(ContractStateMixing, LimitedContractStateMix
         status = tender["status"]
         if status != "active":
             raise_operation_error(
-                request, f"Can't {OPERATIONS.get(request.method)} contract in current " f"({status}) tender status"
+                request,
+                f"Can't {OPERATIONS.get(request.method)} contract in current " f"({status}) tender status",
             )
 
     @staticmethod

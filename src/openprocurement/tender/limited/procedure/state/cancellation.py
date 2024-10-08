@@ -12,7 +12,12 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 
 class ReportingCancellationStateMixing(BelowThresholdCancellationStateMixing):
     _before_release_reason_types = ["cancelled", "unsuccessful"]
-    _after_release_reason_types = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+    _after_release_reason_types = [
+        "noDemand",
+        "unFixable",
+        "forceMajeure",
+        "expensesCut",
+    ]
 
 
 class ReportingCancellationState(ReportingCancellationStateMixing, NegotiationTenderState):
@@ -21,7 +26,13 @@ class ReportingCancellationState(ReportingCancellationStateMixing, NegotiationTe
 
 class NegotiationCancellationStateMixing(CancellationStateMixing):
     _before_release_reason_types = ["cancelled", "unsuccessful"]
-    _after_release_reason_types = ["noObjectiveness", "unFixable", "noDemand", "expensesCut", "dateViolation"]
+    _after_release_reason_types = [
+        "noObjectiveness",
+        "unFixable",
+        "noDemand",
+        "expensesCut",
+        "dateViolation",
+    ]
 
     def validate_cancellation_post(self, data):
         super().validate_cancellation_post(data)
@@ -40,7 +51,10 @@ class NegotiationCancellationStateMixing(CancellationStateMixing):
         if tender.get("lots") and not cancellation.get("relatedLot"):
             for lot in tender.get("lots"):
                 if lot["status"] == "complete":
-                    raise_operation_error(request, "Can't perform cancellation, if there is at least one complete lot")
+                    raise_operation_error(
+                        request,
+                        "Can't perform cancellation, if there is at least one complete lot",
+                    )
 
     @staticmethod
     def use_deprecated_activation(cancellation, tender):

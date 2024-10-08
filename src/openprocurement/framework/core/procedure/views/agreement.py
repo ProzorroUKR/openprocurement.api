@@ -86,7 +86,8 @@ class AgreementsResource(FrameworkBaseResource):
             )
             self.request.response.status = 201
             self.request.response.headers["Location"] = self.request.route_url(
-                f"{agreement['agreementType']}:Agreements", agreement_id=agreement["_id"]
+                f"{agreement['agreementType']}:Agreements",
+                agreement_id=agreement["_id"],
             )
             return {
                 "data": self.serializer_class(agreement).data,
@@ -152,7 +153,7 @@ class AgreementFilterByClassificationResource(FrameworkBaseResource):
             results = [
                 x
                 for x in results
-                if {i['id'] for i in x.get("additionalClassifications", "")} == additional_classifications
+                if {i["id"] for i in x.get("additionalClassifications", "")} == additional_classifications
             ]
 
         return {"data": results}

@@ -74,16 +74,29 @@ class ContractItemsUnitValueResource(TenderBaseResource):
             contract = self.request.validated["contract"]
             # update items.unit.value magic # TODO: in a better way
             updated_contract = deepcopy(contract)
-            items = get_items(self.request, updated_contract, "items", self.request.validated["item"]["id"])
+            items = get_items(
+                self.request,
+                updated_contract,
+                "items",
+                self.request.validated["item"]["id"],
+            )
             updated_value = get_item_unit_value(items[0])
             updated_value.update(data)
             # process updated contract
             self.state.validate_contract_patch(self.request, contract, updated_contract)
-            set_item(self.request.validated["tender"], "contracts", contract["id"], updated_contract)
+            set_item(
+                self.request.validated["tender"],
+                "contracts",
+                contract["id"],
+                updated_contract,
+            )
             self.state.contract_on_patch(contract, updated_contract)
             if save_tender(self.request):
                 self.LOGGER.info(
                     f"Updated tender contract {contract['id']} item unit value",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_item_unit_value_patch"}),
+                    extra=context_unpack(
+                        self.request,
+                        {"MESSAGE_ID": "tender_contract_item_unit_value_patch"},
+                    ),
                 )
                 return {"data": self.serializer_class(updated_value).data}

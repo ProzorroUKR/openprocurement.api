@@ -91,7 +91,14 @@ class AgreementCollection(BaseCollection):
                     "is_public": True,
                     "status": "active",
                 },
-                projection=["classification", "additionalClassifications", "status", "id", "contracts", "dateModified"],
+                projection=[
+                    "classification",
+                    "additionalClassifications",
+                    "status",
+                    "id",
+                    "contracts",
+                    "dateModified",
+                ],
             )
         )
         # print(

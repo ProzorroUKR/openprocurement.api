@@ -69,7 +69,7 @@ class Agreement(Model):
             if (
                 complaint_period
                 and complaint_period.get("endDate")
-                and value <= dt_from_iso(complaint_period['endDate'])
+                and value <= dt_from_iso(complaint_period["endDate"])
             ):
                 raise ValidationError(
                     "Agreement signature date should be after "

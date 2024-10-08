@@ -18,7 +18,6 @@ from openprocurement.tender.openeu.procedure.views.cancellation import (
     description="Tender ESCO Cancellations",
 )
 class ESCOCancellationResource(EUCancellationResource):
-
     @json_view(
         permission="view_tender",
     )

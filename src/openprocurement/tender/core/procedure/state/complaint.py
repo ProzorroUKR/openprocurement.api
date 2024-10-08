@@ -38,7 +38,10 @@ class BaseComplaintStateMixin:
     def validate_add_complaint_with_tender_cancellation_in_pending(self, tender):
         if tender_created_after_2020_rules():
             if any(i.get("status") == "pending" and not i.get("relatedLot") for i in tender.get("cancellations", "")):
-                raise_operation_error(self.request, "Can't add complaint if tender have cancellation in pending status")
+                raise_operation_error(
+                    self.request,
+                    "Can't add complaint if tender have cancellation in pending status",
+                )
 
 
 class ComplaintStateMixin(BaseComplaintStateMixin):
@@ -146,7 +149,10 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
                     return BotPatchComplaint, handler
             else:
-                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
+                raise_operation_error(
+                    self.request,
+                    f"Can't update complaint from {status} to {new_status} status",
+                )
         elif auth_role == "complaint_owner":
             if new_status == "cancelled" and status == "draft" and not new_rules:
 
@@ -181,7 +187,10 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
                 return self.draft_patch_model, handler
             else:
-                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
+                raise_operation_error(
+                    self.request,
+                    f"Can't update complaint from {status} to {new_status} status",
+                )
 
         elif auth_role == "tender_owner":
             if status == "satisfied" and new_status == status:
@@ -237,7 +246,10 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
                 return ReviewPatchComplaint, handler
             else:
-                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
+                raise_operation_error(
+                    self.request,
+                    f"Can't update complaint from {status} to {new_status} status",
+                )
         elif auth_role == "Administrator":
             return AdministratorPatchComplaint, empty_handler
         else:
@@ -262,7 +274,10 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
     def validate_tender_in_complaint_period(self, tender):
         if tender.get("complaintPeriod") and get_now() > dt_from_iso(tender["complaintPeriod"]["endDate"]):
-            raise_operation_error(self.request, "Can submit complaint not later than complaintPeriod end date")
+            raise_operation_error(
+                self.request,
+                "Can submit complaint not later than complaintPeriod end date",
+            )
 
     def validate_lot_status(self):
         pass
@@ -279,7 +294,9 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         base_amount = get_uah_amount_from_value(self.request, value, {"complaint_id": complaint["id"]})
         if tender["status"] == "active.tendering":
             amount = restrict_value_to_bounds(
-                base_amount * COMPLAINT_AMOUNT_RATE, COMPLAINT_MIN_AMOUNT, COMPLAINT_MAX_AMOUNT
+                base_amount * COMPLAINT_AMOUNT_RATE,
+                COMPLAINT_MIN_AMOUNT,
+                COMPLAINT_MAX_AMOUNT,
             )
         else:
             amount = restrict_value_to_bounds(

@@ -89,7 +89,8 @@ class FrameworksResource(FrameworkBaseResource):
             )
             self.request.response.status = 201
             self.request.response.headers["Location"] = self.request.route_url(
-                f"{framework['frameworkType']}:Frameworks", framework_id=framework["_id"]
+                f"{framework['frameworkType']}:Frameworks",
+                framework_id=framework["_id"],
             )
             return {
                 "data": self.serializer_class(framework).data,
@@ -133,8 +134,8 @@ class FrameworksResource(FrameworkBaseResource):
 
 
 @resource(
-    name='FrameworkSubmissions',
-    path='/frameworks/{frameworkID}/submissions',
+    name="FrameworkSubmissions",
+    path="/frameworks/{frameworkID}/submissions",
     description="Framework Submissions",
 )
 class FrameworkSubmissionRequestResource(SubmissionsListResource):
@@ -154,8 +155,8 @@ class FrameworkSubmissionRequestResource(SubmissionsListResource):
 
 
 @resource(
-    name='FrameworkQualifications',
-    path='/frameworks/{frameworkID}/qualifications',
+    name="FrameworkQualifications",
+    path="/frameworks/{frameworkID}/qualifications",
     description="Framework Qualifications",
 )
 class FrameworkQualificationRequestResource(QualificationsListResource):

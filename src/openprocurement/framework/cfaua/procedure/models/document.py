@@ -11,7 +11,9 @@ from openprocurement.api.procedure.models.document import (
 
 class PostDocument(BasePostDocument):
     documentOf = StringType(
-        required=True, choices=["tender", "item", "contract", "agreement", "lot", "change"], default="agreement"
+        required=True,
+        choices=["tender", "item", "contract", "agreement", "lot", "change"],
+        default="agreement",
     )
 
 
@@ -21,5 +23,7 @@ class PatchDocument(BasePatchDocument):
 
 class Document(BaseDocument):
     documentOf = StringType(
-        required=True, choices=["tender", "item", "contract", "agreement", "lot", "change"], default="agreement"
+        required=True,
+        choices=["tender", "item", "contract", "agreement", "lot", "change"],
+        default="agreement",
     )

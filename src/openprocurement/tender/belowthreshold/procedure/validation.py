@@ -38,7 +38,13 @@ def validate_document_operation_in_not_allowed_period(request, **_):
     if (
         request.authenticated_role != "auction"
         and (
-            tender_status not in ("draft", "active.enquiries", "active.tendering", "active.pre-qualification")
+            tender_status
+            not in (
+                "draft",
+                "active.enquiries",
+                "active.tendering",
+                "active.pre-qualification",
+            )
             or (tender_status == "active.pre-qualification" and not_sign_docs)
         )
         or request.authenticated_role == "auction"

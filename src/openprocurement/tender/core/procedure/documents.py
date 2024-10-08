@@ -30,7 +30,13 @@ def check_document_batch(request, document, document_container, route_kwargs=Non
 def update_document_url(request, document, document_route, route_kwargs=None):
     route_kwargs = route_kwargs or {}
     key = urlparse(document["url"]).path.split("/")[-1]
-    route_kwargs.update({"_route_name": document_route, "document_id": document["id"], "_query": {"download": key}})
+    route_kwargs.update(
+        {
+            "_route_name": document_route,
+            "document_id": document["id"],
+            "_query": {"download": key},
+        }
+    )
     document_path = request.current_route_path(**route_kwargs)
     document["url"] = "/" + "/".join(document_path.split("/")[3:])
     return document

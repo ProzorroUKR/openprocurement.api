@@ -30,7 +30,6 @@ def resolve_review_request(request):
 
 
 class TenderReviewRequestResource(TenderBaseResource):
-
     serializer_class = BaseSerializer
     state_class = ReviewRequestState
 
@@ -112,7 +111,12 @@ class TenderReviewRequestResource(TenderBaseResource):
         if updated:
             review_request = self.request.validated["review_request"]
 
-            set_item(self.request.validated["tender"], "reviewRequests", review_request["id"], updated)
+            set_item(
+                self.request.validated["tender"],
+                "reviewRequests",
+                review_request["id"],
+                updated,
+            )
 
             self.state.review_request_on_patch(review_request, updated)
             self.state.always(self.request.validated["tender"])

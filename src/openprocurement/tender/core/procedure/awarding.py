@@ -95,7 +95,8 @@ class TenderStateAwardingMixing:
                     statuses.add("unsuccessful")
 
             self.recalculate_period_and_change_tender_status(
-                tender, stays_at_qualification=statuses.difference({"unsuccessful", "active"})
+                tender,
+                stays_at_qualification=statuses.difference({"unsuccessful", "active"}),
             )
         else:
             awards = tender.get("awards", [])
@@ -115,7 +116,8 @@ class TenderStateAwardingMixing:
                     self.get_change_tender_status_handler("unsuccessful")(tender)
                     return
             self.recalculate_period_and_change_tender_status(
-                tender, stays_at_qualification=tender["awards"][-1]["status"] == "pending"
+                tender,
+                stays_at_qualification=tender["awards"][-1]["status"] == "pending",
             )
 
     def generate_awards_without_awarding_order(self, tender):
@@ -283,9 +285,7 @@ class TenderStateAwardingMixing:
             lot_id=lot_id,
         )
         initial_amounts = {b["id"]: float(b["value"]["amount"]) for b in before_auction_bids}
-        initial_values = [
-            initial_amounts[b["id"]] for b in bids if b["id"] != exclude_bid_id  # except the bid being checked
-        ]
+        initial_values = [initial_amounts[b["id"]] for b in bids if b["id"] != exclude_bid_id]
         mean_value = sum(initial_values) / float(len(initial_values))
         return mean_value
 
