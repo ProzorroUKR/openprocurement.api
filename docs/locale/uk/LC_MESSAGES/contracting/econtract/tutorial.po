@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-07 09:13+0300\n"
+"POT-Creation-Date: 2024-10-08 21:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -157,11 +157,23 @@ msgstr "Якщо ви не встановите дату підписання, �
 msgid "Setting contract validity period"
 msgstr "Встановлення терміну дії договору"
 
-msgid "Setting contract validity period is required before activation, you can set appropriate `startDate` and `endDate`."
-msgstr "Встановлення терміну дії договору обов’язкове до активації, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
+msgid "Setting contract validity period is required before activation:"
+msgstr "Встановлення терміну дії договору обов’язкове до активації:"
+
+msgid "you can set appropriate `startDate` and `endDate`."
+msgstr "ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
 
 msgid "For `esco` contract validity period field `endDate` calculated automatically on activation."
 msgstr "Для `esco` контракту поле `endDate` терміну дії договору встановлюється автоматично на етапі активації."
+
+msgid "Setting contract contract number"
+msgstr "Встановлення номеру контракту"
+
+msgid "Setting contract number is required before activation:"
+msgstr "Встановлення номеру конракту обов’язкове до активації:"
+
+msgid "so let's set contract number:"
+msgstr "давайте встановимо номер контракту:"
 
 msgid "Uploading contract documentation"
 msgstr "Завантаження документації по договору"
@@ -229,8 +241,8 @@ msgstr "Постачальник заповнює інформацію підп�
 msgid "You can update signer information using same method:"
 msgstr "Інформацію підписанта можна оновоити використовуючи той самий спосіб:"
 
-msgid "If you try activate contract without required fields (`contractNumber`, `period.startDate`, etc.) you'll get error:"
-msgstr "При спробі активувати договір без заповненої обов'язкової інформації, буде отримана помилка:"
+msgid "Before activation should be set `contractNumber` (:ref:`econtracting_contract_number`) and `period.startDate` (:ref:`econtracting_validity_period`)"
+msgstr "До активації повинні бути встановлені `contractNumber` (:ref:`econtracting_contract_number`) та `period.startDate` (:ref:`econtracting_validity_period`)"
 
 msgid "After signer information and all required fields added you can activate contract:"
 msgstr "Після того, як було додано інформацію про підписантів та інші обов'язкові поля, ви можете зареєструвати договір:"
@@ -423,4 +435,3 @@ msgstr "В цьому випадку повинен бути відмінени�
 
 msgid "Let's check all contracts are cancelled:"
 msgstr "Перевіримо що всі контракти відмінені:"
-

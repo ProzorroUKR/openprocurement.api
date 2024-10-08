@@ -207,17 +207,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        #### Setting contract period
-
-        period_dates = {
-            "period": {"startDate": get_now().isoformat(), "endDate": (get_now() + timedelta(days=365)).isoformat()}
-        }
-        with open(TARGET_DIR + 'contract-period.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                f'/contracts/{contract_id}?acc_token={owner_token}', {'data': {'period': period_dates["period"]}}
-            )
-        self.assertEqual(response.status, '200 OK')
-
         #### Uploading Contract documentation
 
         with open(TARGET_DIR + 'contract-upload-document.http', 'w') as self.app.file_obj:
@@ -347,12 +336,43 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
         self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'contract-activating-error-fields.http', 'w') as self.app.file_obj:
+        #### Activation without contract period
+
+        with open(TARGET_DIR + 'activation-without-contract-period.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 f'/contracts/{contract_id}?acc_token={owner_token}',
                 {"data": {"status": "active"}},
                 status=422,
             )
+
+        #### Setting contract period
+
+        period_dates = {
+            "period": {"startDate": get_now().isoformat(), "endDate": (get_now() + timedelta(days=365)).isoformat()}
+        }
+        with open(TARGET_DIR + 'contract-period.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/contracts/{contract_id}?acc_token={owner_token}', {'data': {'period': period_dates["period"]}}
+            )
+        self.assertEqual(response.status, '200 OK')
+
+        #### Activation without contract number
+
+        with open(TARGET_DIR + 'activation-without-contract-number.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/contracts/{contract_id}?acc_token={owner_token}',
+                {"data": {"status": "active"}},
+                status=422,
+            )
+
+        #### Setting contract number
+        with open(TARGET_DIR + 'contract-number.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/contracts/{contract_id}?acc_token={owner_token}',
+                {"data": {"contractNumber": "contract #13111"}},
+            )
+        self.assertEqual(response.status, '200 OK')
+
 
         with open(TARGET_DIR + 'contract-activate.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

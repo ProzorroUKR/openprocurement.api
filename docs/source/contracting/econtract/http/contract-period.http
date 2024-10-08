@@ -21,6 +21,7 @@ Content-Type: application/json
     "awardID": "c220713cbd024586b6382ef97a852dc7",
     "contractID": "UA-2023-10-10-000001-a-1",
     "dateSigned": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tender_id": "fd45af80ad9f4574994f7f6254012693",
@@ -44,6 +45,14 @@ Content-Type: application/json
         "postalCode": "01220",
         "countryName": "Україна"
       },
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "234234234234234",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      },
       "kind": "general"
     },
     "suppliers": [
@@ -60,6 +69,14 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "01220",
           "countryName": "Україна"
+        },
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
         },
         "scale": "micro"
       }
@@ -146,6 +163,30 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
     },
+    "documents": [
+      {
+        "confidentiality": "public",
+        "id": "8bab0d7af5a64157a2c15757833cd8b3",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/8bab0d7af5a64157a2c15757833cd8b3?download=d351f09369034d459a5cd87583381c73",
+        "documentOf": "contract",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
+      },
+      {
+        "confidentiality": "public",
+        "id": "08682b48035643a39d924df55eb915e0",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_second_document.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/08682b48035643a39d924df55eb915e0?download=1ea9c5fa82c84b2a8206318bc86360df",
+        "documentOf": "contract",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "id": "479178eb904d41c5a40be7f83405f22d"
   },
   "config": {

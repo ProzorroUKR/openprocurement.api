@@ -126,16 +126,41 @@ If this date is not set, it will be auto-generated on the date of contract regis
 .. http:example:: http/contract-sign-date.http
    :code:
 
+
+.. _econtracting_validity_period:
+
 Setting contract validity period
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Setting contract validity period is required before activation, you can set appropriate `startDate` and `endDate`.
+Setting contract validity period is required before activation:
+
+.. http:example:: http/activation-without-contract-period.http
+   :code:
+
+you can set appropriate `startDate` and `endDate`.
 
 .. http:example:: http/contract-period.http
    :code:
 
 .. note::
     For `esco` contract validity period field `endDate` calculated automatically on activation.
+
+
+.. _econtracting_contract_number:
+
+Setting contract contract number
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Setting contract number is required before activation:
+
+.. http:example:: http/activation-without-contract-number.http
+   :code:
+
+so let's set contract number:
+
+.. http:example:: http/contract-number.http
+   :code:
+
 
 Uploading contract documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -229,10 +254,8 @@ You can update signer information using same method:
 .. http:example:: http/update-contract-owner-add-signer-info.http
    :code:
 
-If you try activate contract without required fields (`contractNumber`, `period.startDate`, etc.) you'll get error:
+Before activation should be set `contractNumber` (:ref:`econtracting_contract_number`) and `period.startDate` (:ref:`econtracting_validity_period`)
 
-.. http:example:: http/contract-activating-error-fields.http
-   :code:
 
 After signer information and all required fields added you can activate contract:
 

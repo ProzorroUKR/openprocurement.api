@@ -393,7 +393,6 @@ class EContractState(
             return
 
         delta = timedelta(days=duration.get("years", 0) * 365 + duration.get("days", 0))
-        period = data.get("period", {})
         if start_date := period.get("startDate"):
             end_date = calculate_full_date(parse_date(start_date), delta, ceil=True)
             period["endDate"] = end_date.isoformat()
