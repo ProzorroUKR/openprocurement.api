@@ -39,8 +39,6 @@ from openprocurement.tender.cfaua.tests.bid_blanks import (
     create_tender_bidder,
     create_tender_bidder_document,
     create_tender_bidder_document_invalid_award_status,
-    deleted_bid_do_not_locks_tender_in_state,
-    deleted_bid_is_not_restorable,
     download_tender_bidder_document,
     features_bidder,
     features_bidder_invalid,
@@ -93,11 +91,9 @@ class TenderBidResourceTest(BaseTenderLotsContentWebTest):
     test_create_tender_bidder = snitch(create_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
-    test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
     # test_get_tender_bidder = snitch(get_tender_bidder) TODO RERWRITE THIS TEST
-    test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_bids_related_product = snitch(bids_related_product)

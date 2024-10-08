@@ -540,6 +540,15 @@ def delete_tender_bid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
+    self.set_status("complete")
+
+    # finished tender does not have deleted bid
+    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}])
+
 
 def get_tender_tenderers(self):
     response = self.app.post_json(

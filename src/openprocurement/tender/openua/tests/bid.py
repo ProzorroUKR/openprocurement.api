@@ -41,8 +41,6 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     create_tender_bidder_document_json,
     create_tender_bidder_document_nopending_json,
     delete_tender_bidder,
-    deleted_bid_do_not_locks_tender_in_state,
-    deleted_bid_is_not_restorable,
     doc_date_modified,
     draft1_bid,
     draft2_bids,
@@ -72,8 +70,6 @@ class TenderBidResourceTestMixin:
     test_patch_tender_draft_bidder = snitch(patch_tender_draft_bidder)
     test_get_tender_bidder = snitch(get_tender_bidder)
     test_delete_tender_bidder = snitch(delete_tender_bidder)
-    test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
-    test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)

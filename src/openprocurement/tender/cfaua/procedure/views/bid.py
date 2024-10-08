@@ -29,7 +29,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_deleted_bid,
 )
 from openprocurement.tender.core.utils import context_view
-from openprocurement.tender.openua.procedure.views.bid import TenderBidResource
+from openprocurement.tender.openua.procedure.views.bid import OpenUATenderBidResource
 
 LOGGER = getLogger(__name__)
 
@@ -41,7 +41,7 @@ LOGGER = getLogger(__name__)
     procurementMethodType="closeFrameworkAgreementUA",
     description="Tender EU bids",
 )
-class TenderBidResource(TenderBidResource):
+class CFAUATenderBidResource(OpenUATenderBidResource):
     state_class = BidState
     serializer_class = BidSerializer
 

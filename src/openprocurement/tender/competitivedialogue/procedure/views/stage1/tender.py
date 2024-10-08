@@ -23,9 +23,6 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender i
     PostUATender,
     UATender,
 )
-from openprocurement.tender.competitivedialogue.procedure.serializers.stage1.tender import (
-    CD1StageTenderSerializer,
-)
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
     CDStage1TenderDetailsState,
 )
@@ -72,7 +69,6 @@ def conditional_ua_model(
     accept="application/json",
 )
 class CDEUTenderResource(TendersResource):
-    serializer_class = CD1StageTenderSerializer
     state_class = CDStage1TenderDetailsState
 
     def __acl__(self):
@@ -138,7 +134,6 @@ class CDEUTenderResource(TendersResource):
     accept="application/json",
 )
 class CDUATenderResource(TendersResource):
-    serializer_class = CD1StageTenderSerializer
     state_class = CDStage1TenderDetailsState
 
     def __acl__(self):

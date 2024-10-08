@@ -1,3 +1,5 @@
+from typing import Any
+
 from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
@@ -14,7 +16,6 @@ from openprocurement.tender.core.procedure.serializers.document import (
 class FrameworkSerializer(BaseUIDSerializer):
     base_private_fields = {
         "transfer_token",
-        "_rev",
         "doc_type",
         "rev",
         "owner_token",
@@ -25,8 +26,7 @@ class FrameworkSerializer(BaseUIDSerializer):
         "is_test",
         "config",
         "successful",
-        "__parent__",
-        "_attachments",
+        "attachments",
     }
     serializers = {
         "documents": ListSerializer(DocumentSerializer),
@@ -37,26 +37,30 @@ class FrameworkSerializer(BaseUIDSerializer):
         super().__init__(data)
         self.private_fields = set(self.base_private_fields)
 
+    def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
+        kwargs["framework"] = self.raw
+        return super().serialize(data, **kwargs)
 
-def test_serializer(obj, value):
+
+def test_serializer(value):
     if value is False:
         return None
     return value
 
 
-def restricted_derivatives_serializer(obj, value):
+def restricted_derivatives_serializer(value):
     if value is None:
         return False
     return value
 
 
-def clarification_until_duration_serializer(obj, value):
+def clarification_until_duration_serializer(value):
     if value is None:
         return 3
     return value
 
 
-def qualification_complain_duration_serializer(obj, value):
+def qualification_complain_duration_serializer(value):
     if value is None:
         return 0
     return value

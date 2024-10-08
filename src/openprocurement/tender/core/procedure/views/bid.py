@@ -58,7 +58,6 @@ class TenderBidResource(TenderBaseResource):
         if "bids" not in tender:
             tender["bids"] = []
         tender["bids"].append(bid)
-        # tender["numberOfBids"] = len(tender["bids"])
 
         self.state.on_post(bid)
 
@@ -78,7 +77,7 @@ class TenderBidResource(TenderBaseResource):
                 tender_id=tender["_id"],
                 bid_id=bid["id"],
             )
-            return {"data": self.serializer_class(bid).data, "access": access}
+            return {"data": self.serializer_class(bid, tender=tender).data, "access": access}
 
     @json_view(
         permission="view_tender",
@@ -86,8 +85,7 @@ class TenderBidResource(TenderBaseResource):
     )
     def collection_get(self):
         tender = self.request.validated["tender"]
-        # data = [i.serialize(self.request.validated["tender_status"]) for i in tender.bids]
-        data = tuple(self.serializer_class(b).data for b in tender.get("bids", ""))
+        data = tuple(self.serializer_class(bid, tender=tender).data for bid in tender.get("bids", ""))
         return {"data": data}
 
     @json_view(
@@ -105,27 +103,31 @@ class TenderBidResource(TenderBaseResource):
         }
     )
     def get(self):
-        # data depends on tender status
-        # data = self.request.context.serialize(self.request.validated["tender_status"])
-        data = self.serializer_class(self.request.validated["bid"]).data
+        bid = self.request.validated["bid"]
+        tender = self.request.validated["tender"]
+        data = self.serializer_class(bid, tender=tender).data
         return {"data": data}
 
     def patch(self):
         updated_bid = self.request.validated["data"]
         if updated_bid:
+            tender = self.request.validated["tender"]
             bid = self.request.validated["bid"]
             self.state.on_patch(bid, updated_bid)
-            set_item(self.request.validated["tender"], "bids", bid["id"], updated_bid)
+            set_item(tender, "bids", bid["id"], updated_bid)
             if save_tender(self.request, modified=False):
                 self.LOGGER.info(
                     f"Updated tender bid {bid['id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_patch"}),
                 )
-                return {"data": self.serializer_class(updated_bid).data}
+                return {"data": self.serializer_class(updated_bid, tender=tender).data}
 
     def delete(self):
-        bid = self.request.validated["bid"]
         tender = self.request.validated["tender"]
+        bid = self.request.validated["bid"]
+
+        # For history: there was "deleted" status that is not used anymore
+        # bid["status"] = "deleted"
 
         tender["bids"].remove(bid)
         if not tender["bids"]:
@@ -136,4 +138,4 @@ class TenderBidResource(TenderBaseResource):
                 "Deleted tender bid {}".format(bid["id"]),
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_delete"}),
             )
-            return {"data": self.serializer_class(bid).data}
+            return {"data": self.serializer_class(bid, tender=tender).data}

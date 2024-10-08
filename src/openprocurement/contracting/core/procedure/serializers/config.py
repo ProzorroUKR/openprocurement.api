@@ -1,7 +1,7 @@
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 
 
-def restricted_serializer(obj, value):
+def restricted_serializer(value):
     if value is None:
         return False
 

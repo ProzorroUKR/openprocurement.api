@@ -1,7 +1,6 @@
-from copy import deepcopy
+from typing import Any
 
 from openprocurement.api.context import get_request
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.serializers.base import (
     BaseSerializer,
     ListSerializer,
@@ -13,6 +12,9 @@ from openprocurement.tender.core.procedure.serializers.document import (
 from openprocurement.tender.core.procedure.serializers.item import (
     ItemPreQualificationSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.lot_value import (
+    LotValueSerializer,
+)
 
 
 class BidSerializer(BaseSerializer):
@@ -21,6 +23,7 @@ class BidSerializer(BaseSerializer):
         "eligibilityDocuments": ListSerializer(DocumentSerializer),
         "financialDocuments": ListSerializer(DocumentSerializer),
         "qualificationDocuments": ListSerializer(DocumentSerializer),
+        "lotValues": ListSerializer(LotValueSerializer),
     }
     private_fields = {
         "owner",
@@ -28,34 +31,50 @@ class BidSerializer(BaseSerializer):
         "transfer_token",
     }
 
-    def __init__(self, data: dict):
-        super().__init__(data)
-        self.serializers = deepcopy(self.serializers)
+    def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
+        kwargs["bid"] = self.raw
+        return super().serialize(data, **kwargs)
 
-        tender = get_tender()
+    def __init__(self, data: dict, tender=None, **kwargs):
+        super().__init__(data, tender=tender, **kwargs)
 
         # bid owner should see all fields
         if is_item_owner(get_request(), data):
             return
-        elif tender["config"]["hasPrequalification"]:
+
+        # only bid owner should see participationUrl
+        self.private_fields = self.private_fields.copy()
+        self.private_fields.add("participationUrl")
+
+        # copy serializers to change them later
+        self.serializers = self.serializers.copy()
+
+        # configure fields visibility
+        if tender["config"]["hasPrequalification"]:
             # pre-qualification rules
-            self.set_tender_with_pre_qualification_whitelist(data)
+            self.set_tender_with_pre_qualification_whitelist(data, tender)
         else:
             # no pre-qualification rules
-            if data.get("status") in ("invalid", "deleted"):
-                self.whitelist = {"id", "status"}
+            self.set_tender_without_pre_qualification_whitelist(data)
 
-    def set_tender_with_pre_qualification_whitelist(self, data):
-        tender = get_tender()
-        bid_role = self.serialize_role(tender, data)
-        if is_item_owner(get_request(), data):
-            return  # bid_role = "view"
-        elif bid_role in ("invalid", "deleted"):
+    def set_tender_without_pre_qualification_whitelist(self, data):
+        if data.get("status") in ("invalid", "deleted"):
             self.whitelist = {
                 "id",
                 "status",
+                "lotValues",
             }
-        elif bid_role == "invalid.pre-qualification":
+
+    def set_tender_with_pre_qualification_whitelist(self, data, tender):
+        bid_status = self.serialize_status(tender, data)
+
+        if bid_status in ("invalid", "deleted"):
+            self.whitelist = {
+                "id",
+                "status",
+                "lotValues",
+            }
+        elif bid_status == "invalid.pre-qualification":
             self.whitelist = {
                 "id",
                 "status",
@@ -63,8 +82,9 @@ class BidSerializer(BaseSerializer):
                 "eligibilityDocuments",
                 "tenderers",
                 "requirementResponses",
+                "lotValues",
             }
-        elif bid_role == "unsuccessful":
+        elif bid_status == "unsuccessful":
             self.whitelist = {
                 "id",
                 "status",
@@ -76,45 +96,61 @@ class BidSerializer(BaseSerializer):
                 "selfEligible",
                 "subcontractingDetails",
                 "requirementResponses",
+                "lotValues",
             }
-        else:  # based on tender status
-            if tender["status"].startswith("active.pre-qualification"):
-                self.whitelist = {
-                    "id",
-                    "status",
-                    "documents",
-                    "eligibilityDocuments",
-                    "tenderers",
-                    "requirementResponses",
-                    "items",
-                }
-                self.serializers["items"] = ListSerializer(ItemPreQualificationSerializer)
-            elif tender["status"] == "active.auction":
-                self.whitelist = {
-                    "id",
-                    "status",
-                    "documents",
-                    "eligibilityDocuments",
-                    "tenderers",
-                }
+        elif tender["status"] in (
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+            "active.stage2.pending",
+            "active.stage2.waiting",
+        ):
+            self.whitelist = {
+                "id",
+                "status",
+                "documents",
+                "eligibilityDocuments",
+                "tenderers",
+                "requirementResponses",
+                "items",
+                "lotValues",
+            }
+            self.serializers["items"] = ListSerializer(ItemPreQualificationSerializer)
 
-    def serialize_role(self, tender, bid):
+    def serialize_status(self, tender, bid):
         # TODO: get rid of this function
-        if bid["status"] not in (
+        if bid["status"] in (
             "draft",
             "invalid",
             "invalid.pre-qualification",
             "unsuccessful",
             "deleted",
         ):
-            if tender["status"] not in ("active.tendering", "cancelled") and tender.get("lots"):
-                active_lots = [lot["id"] for lot in tender["lots"] if lot["status"] in ("active", "complete")]
-                if not bid.get("lotValues"):
-                    return "invalid"
-                elif any(i["status"] == "pending" and i["relatedLot"] in active_lots for i in bid["lotValues"]):
-                    return "pending"
-                elif any(i["status"] == "active" and i["relatedLot"] in active_lots for i in bid["lotValues"]):
-                    return "active"
-                else:
-                    return "unsuccessful"
-        return bid["status"]
+            return bid["status"]
+
+        if not tender.get("lots"):
+            return bid["status"]
+
+        if tender["status"] in ("active.tendering", "cancelled"):
+            return bid["status"]
+
+        if not bid.get("lotValues"):
+            return "invalid"
+
+        active_lots_ids = set()
+        for lot in tender["lots"]:
+            if lot["status"] in ("active", "complete"):
+                active_lots_ids.add(lot["id"])
+
+        lot_values_statuses = set()
+        for lot_value in bid["lotValues"]:
+            if lot_value["relatedLot"] in active_lots_ids:
+                lot_values_statuses.add(lot_value["status"])
+
+        if "pending" in lot_values_statuses:
+            return "pending"
+
+        if "active" in lot_values_statuses:
+            return "active"
+
+        return "unsuccessful"

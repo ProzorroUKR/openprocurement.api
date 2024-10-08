@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, SANDBOX_MODE
+from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -264,6 +265,7 @@ class BaseTenderUAContentWebTest(BaseTenderUAWebTest):
     agreement_id = initial_agreement_data["_id"]
 
     def setUp(self):
+        set_now()
         super().setUp()
         if self.initial_data["procurementMethodType"] == "competitiveOrdering":
             self.create_agreement()

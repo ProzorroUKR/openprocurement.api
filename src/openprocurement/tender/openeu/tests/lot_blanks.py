@@ -1104,11 +1104,6 @@ def one_lot_3bid_1del(self):
         "https://tender.auction.url/for_bid/{}".format(bid_id),
     )
 
-    bid_id = list(bids[2].keys())[0]
-    bid2_token = list(bids[2].values())[0]
-    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid2_token))
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json(
@@ -1272,10 +1267,14 @@ def one_lot_3bid_1un(self):
     bid_id = list(bids[2].keys())[0]
     bid2_token = list(bids[2].values())[0]
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid2_token))
+    self.assertEqual("unsuccessful", response.json["data"]["status"])
     self.assertIn("lotValues", response.json["data"])
+    self.assertIn("value", response.json["data"]["lotValues"][0])  # value is visible for owner
 
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid1_token))
-    self.assertNotIn("lotValues", response.json["data"])
+    self.assertEqual("unsuccessful", response.json["data"]["status"])
+    self.assertIn("lotValues", response.json["data"])
+    self.assertNotIn("value", response.json["data"]["lotValues"][0])  # value is not visible for other bidders
 
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))

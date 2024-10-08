@@ -9,10 +9,8 @@ from openprocurement.framework.core.procedure.serializers.milestone import (
 
 class ContractSerializer(BaseSerializer):
     base_private_fields = {
-        "_rev",
         "doc_type",
         "rev",
-        "__parent__",
     }
 
     serializers = {

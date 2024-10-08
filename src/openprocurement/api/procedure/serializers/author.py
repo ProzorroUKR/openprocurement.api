@@ -7,6 +7,6 @@ class HiddenAuthorSerializer(BaseSerializer):
     whitelist = {"hash"}
 
     def get_hash(self, salt):
-        identifier_id = self._data.get("identifier", {}).get("id")
+        identifier_id = self.raw.get("identifier", {}).get("id")
         if identifier_id:
             return new("md5", f"{identifier_id}_{salt}".encode(), usedforsecurity=False).hexdigest()

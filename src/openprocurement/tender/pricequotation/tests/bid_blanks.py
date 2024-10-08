@@ -1079,6 +1079,15 @@ def delete_tender_bid(self):
     bid = response.json["data"]
     bid_token = response.json["access"]["token"]
 
+    response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"], bid)
+
+    revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
+    self.assertTrue(any(i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"))
+    self.assertTrue(any(i for i in revisions[-1]["changes"] if i["op"] == "add" and i["path"] == "/bids"))
+
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1091,108 +1100,14 @@ def delete_tender_bid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
-    response = self.app.delete(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bid["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-    revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
-    self.assertTrue(any(i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"))
-    self.assertTrue(any(i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"))
-
-    # finished tender does not show deleted bid info
     self.set_status("complete")
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
+
+    # finished tender does not have deleted bid
+    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), status=404)
+    self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]["bids"]), 1)
-    bid_data = response.json["data"]["bids"][0]
-    self.assertEqual(bid_data["id"], bid["id"])
-    self.assertEqual(bid_data["status"], "deleted")
-    self.assertFalse("tenderers" in bid_data)
-    self.assertFalse("date" in bid_data)
-
-
-def deleted_bid_is_not_restorable(self):
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
-
-    response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bid["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-    # try to restore deleted bid
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update bid in (deleted) status")
-
-    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-
-def deleted_bid_do_not_locks_tender_in_state(self):
-    bids = []
-    bids_tokens = []
-    bid_data = {"tenderers": [test_tender_pq_organization], "requirementResponses": test_tender_pq_requirement_response}
-    for bid_amount in (400, 405):
-        bid_data["value"] = {"amount": bid_amount}
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bid = response.json["data"]
-        bid_token = response.json["access"]["token"]
-        bids.append(bid)
-        bids_tokens.append(bid_token)
-
-    # delete first bid
-    response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bids[0]["id"], bids_tokens[0]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bids[0]["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-    # try to change tender state
-    self.set_status("active.qualification")
-
-    # check tender status
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
-
-    # check bids
-    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bids[0]["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "deleted")
-    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bids[1]["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}])
 
 
 def get_tender_tenderers(self):

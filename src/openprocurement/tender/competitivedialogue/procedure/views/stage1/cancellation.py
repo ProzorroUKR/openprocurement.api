@@ -2,8 +2,8 @@ from cornice.resource import resource
 
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.serializers.stage1.tender import (
-    CD1StageTenderSerializer,
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
 )
 from openprocurement.tender.core.utils import context_view
 from openprocurement.tender.openeu.procedure.views.cancellation import (
@@ -24,7 +24,7 @@ class CDEUCancellationResource(EUCancellationResource):
     )
     @context_view(
         objs={
-            "tender": CD1StageTenderSerializer,
+            "tender": TenderBaseSerializer,
         }
     )
     def get(self):

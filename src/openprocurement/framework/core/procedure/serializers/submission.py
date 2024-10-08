@@ -11,7 +11,6 @@ from openprocurement.framework.core.procedure.serializers.document import (
 class SubmissionSerializer(BaseUIDSerializer):
     base_private_fields = {
         "transfer_token",
-        "_rev",
         "doc_type",
         "rev",
         "revisions",
@@ -20,8 +19,7 @@ class SubmissionSerializer(BaseUIDSerializer):
         "is_public",
         "is_test",
         "config",
-        "__parent__",
-        "_attachments",
+        "attachments",
         "dateCreated",
         "owner_token",
         "framework_owner",
@@ -36,13 +34,13 @@ class SubmissionSerializer(BaseUIDSerializer):
         self.private_fields = set(self.base_private_fields)
 
 
-def test_serializer(obj, value):
+def test_serializer(value):
     if value is False:
         return None
     return value
 
 
-def restricted_serializer(obj, value):
+def restricted_serializer(value):
     if value is None:
         return False
     return value

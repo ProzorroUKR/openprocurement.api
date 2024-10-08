@@ -18,7 +18,9 @@ from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_period,
     validate_update_deleted_bid,
 )
-from openprocurement.tender.openuadefense.procedure.views.bid import TenderBidResource
+from openprocurement.tender.openuadefense.procedure.views.bid import (
+    OpenUADefenseTenderBidResource,
+)
 from openprocurement.tender.simpledefense.procedure.models.bid import (
     Bid,
     PatchBid,
@@ -33,7 +35,7 @@ from openprocurement.tender.simpledefense.procedure.models.bid import (
     procurementMethodType="simple.defense",
     description="Tender simple.defense bids",
 )
-class TenderBidResource(TenderBidResource):
+class SimpleDefenseTenderBidResource(OpenUADefenseTenderBidResource):
     @json_view(
         content_type="application/json",
         permission="create_bid",

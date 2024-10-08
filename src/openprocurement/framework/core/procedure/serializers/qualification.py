@@ -13,7 +13,6 @@ from openprocurement.tender.core.procedure.serializers.document import (
 
 class QualificationSerializer(BaseUIDSerializer):
     base_private_fields = {
-        "_rev",
         "doc_type",
         "rev",
         "revisions",
@@ -22,8 +21,7 @@ class QualificationSerializer(BaseUIDSerializer):
         "is_public",
         "is_test",
         "config",
-        "__parent__",
-        "_attachments",
+        "attachments",
         "dateCreated",
         "framework_owner",
         "framework_token",
@@ -39,13 +37,13 @@ class QualificationSerializer(BaseUIDSerializer):
         self.private_fields = set(self.base_private_fields)
 
 
-def test_serializer(obj, value):
+def test_serializer(value):
     if value is False:
         return None
     return value
 
 
-def restricted_serializer(obj, value):
+def restricted_serializer(value):
     if value is None:
         return False
     return value

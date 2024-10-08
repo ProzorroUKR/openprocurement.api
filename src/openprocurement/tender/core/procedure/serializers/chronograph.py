@@ -6,7 +6,7 @@ class ChronographSerializer(BaseUIDSerializer):
         super().__init__(data)
 
         self.whitelist = {
-            "_id",
+            "id",
             "status",
             "enquiryPeriod",
             "tenderPeriod",
