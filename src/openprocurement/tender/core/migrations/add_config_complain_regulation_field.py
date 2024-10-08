@@ -70,7 +70,7 @@ def run(env, args):
                     {"_id": tender["_id"]},
                     {
                         "$set": {"config.tenderComplainRegulation": tender_complain_regulation_populator(tender)},
-                        "$unset": {"complaintPeriod": ""},
+                        # "$unset": {"complaintPeriod": ""},  # WTF was this?
                     },
                 )
                 count += 1
