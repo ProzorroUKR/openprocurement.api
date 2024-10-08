@@ -112,7 +112,7 @@ def convert_min_max_value_to_string(requirement):
 
 
 def update_criteria_and_responses_integer(requirement, bids):
-    if "expectedValues" in requirement:
+    if "expectedValues" in requirement and requirement["expectedValues"]:  # not empty list
         normalize_expected_values(requirement)
         bids = update_bids_responses(bids, requirement, str)
     elif "maxValue" in requirement:
@@ -139,11 +139,13 @@ def update_criteria_and_responses_integer(requirement, bids):
                     bids = update_bids_responses(bids, requirement, str)
     else:
         get_min_value_from_responses(requirement, bids, int)
+        for field_name in ("expectedValues", "expectedMinItems", "expectedMaxItems"):
+            requirement.pop(field_name, None)
     return bids
 
 
 def update_criteria_and_responses_number(requirement, bids):
-    if "expectedValues" in requirement:
+    if "expectedValues" in requirement and requirement["expectedValues"]:  # not empty list
         normalize_expected_values(requirement)
         bids = update_bids_responses(bids, requirement, str)
     elif "maxValue" in requirement:
@@ -166,11 +168,13 @@ def update_criteria_and_responses_number(requirement, bids):
                     bids = update_bids_responses(bids, requirement, float)
     else:
         get_min_value_from_responses(requirement, bids, float)
+        for field_name in ("expectedValues", "expectedMinItems", "expectedMaxItems"):
+            requirement.pop(field_name, None)
     return bids
 
 
 def update_criteria_and_responses_string(requirement, bids):
-    if "expectedValues" in requirement:
+    if "expectedValues" in requirement and requirement["expectedValues"]:  # not empty list
         normalize_expected_values(requirement)
     elif "expectedValue" in requirement:
         convert_expected_value_to_string(requirement)
@@ -200,6 +204,8 @@ def update_criteria_and_responses_string(requirement, bids):
             requirement["expectedMinItems"] = 1
         else:
             requirement["dataType"] = "boolean"
+            for field_name in ("expectedValues", "expectedMinItems", "expectedMaxItems"):
+                requirement.pop(field_name, None)
     bids = update_bids_responses(bids, requirement, str)
     return bids
 
