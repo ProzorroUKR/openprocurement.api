@@ -115,7 +115,7 @@ def update_criteria_and_responses_integer(requirement, bids):
     if "expectedValues" in requirement:
         normalize_expected_values(requirement)
         bids = update_bids_responses(bids, requirement, str)
-    elif "maxValue" in requirement:  # add minValue to requirement
+    elif "maxValue" in requirement:
         if isinstance(requirement["maxValue"], float):
             requirement["dataType"] = "number"
             bids = update_bids_responses(bids, requirement, float)
@@ -126,6 +126,8 @@ def update_criteria_and_responses_integer(requirement, bids):
         elif not isinstance(requirement["maxValue"], int):
             convert_min_max_value_to_string(requirement)
             bids = update_bids_responses(bids, requirement, str)
+        elif "minValue" not in requirement:  # add minValue to requirement
+            requirement["minValue"] = 0
     elif "minValue" in requirement or "expectedValue" in requirement:
         for field_name in ("minValue", "expectedValue"):
             if field_name in requirement:
