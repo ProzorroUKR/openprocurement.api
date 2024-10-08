@@ -116,7 +116,9 @@ class ContractStateMixing:
                 LOGGER.info(
                     f"Switched lot {lot.get('id')} of tender {tender['_id']} to unsuccessful",
                     extra=context_unpack(
-                        get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot.get("id")}
+                        get_request(),
+                        {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                        {"LOT_ID": lot.get("id")},
                     ),
                 )
                 self.set_object_status(lot, "unsuccessful")
@@ -148,7 +150,9 @@ class ContractStateMixing:
                     LOGGER.info(
                         f"Switched lot {lot.get('id')} of tender {tender['_id']} to complete",
                         extra=context_unpack(
-                            get_request(), {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot.get("id")}
+                            get_request(),
+                            {"MESSAGE_ID": "switched_lot_complete"},
+                            {"LOT_ID": lot.get("id")},
                         ),
                     )
                     self.set_object_status(lot, "complete")
@@ -208,7 +212,8 @@ class ContractStateMixing:
                 if item["unit"].get("value"):
                     if item["quantity"] == 0 and item["unit"]["value"]["amount"] != 0:
                         raise_operation_error(
-                            get_request(), "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
+                            get_request(),
+                            "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
                         )
                     items_unit_value_amount.append(
                         to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
@@ -220,7 +225,8 @@ class ContractStateMixing:
             for item in contract.get("items", []):
                 if item.get("unit") and item["unit"].get("value", None) is None:
                     raise_operation_error(
-                        get_request(), "Can't activate contract while unit.value is not set for each item"
+                        get_request(),
+                        "Can't activate contract while unit.value is not set for each item",
                     )
 
     def validate_contract_items(self, before: dict, after: dict) -> None:
@@ -241,7 +247,10 @@ class ContractStateMixing:
                         after = {k: v for k, v in (after or {}).items() if k != "value"}
 
                     if before != after:
-                        raise_operation_error(get_request(), "Updated could be only unit.value.amount in item")
+                        raise_operation_error(
+                            get_request(),
+                            "Updated could be only unit.value.amount in item",
+                        )
 
     def validate_contract_signing(self, before: dict, after: dict):
         tender = get_tender()
@@ -264,7 +273,8 @@ class ContractStateMixing:
             stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("startDate"))
             if stand_still_end > get_now():
                 raise_operation_error(
-                    get_request(), f"Can't sign contract before award activation date ({stand_still_end.isoformat()})"
+                    get_request(),
+                    f"Can't sign contract before award activation date ({stand_still_end.isoformat()})",
                 )
 
     def _validate_contract_signing_with_pending_complaints(self, award: dict):
@@ -289,7 +299,10 @@ class ContractStateMixing:
         if before["status"] != "active" and after["status"] == "active":
             self.validate_activate_contract(after)
             self.validate_activate_contract_with_review_request(
-                self.request, self.request.validated["tender"], after, self.request.validated["award"].get("lotID")
+                self.request,
+                self.request.validated["tender"],
+                after,
+                self.request.validated["award"].get("lotID"),
             )
         if after["status"] == "active" and after.get("dateSigned", None) is None:
             after["dateSigned"] = get_now().isoformat()
@@ -333,7 +346,8 @@ class ContractStateMixing:
         status = tender["status"]
         if status not in ("active.qualification", "active.awarded"):
             raise_operation_error(
-                request, f"Can't {OPERATIONS.get(request.method)} contract in current ({status}) tender status"
+                request,
+                f"Can't {OPERATIONS.get(request.method)} contract in current ({status}) tender status",
             )
 
     @staticmethod
@@ -411,7 +425,12 @@ class ContractStateMixing:
         if value is not None and before.get("status") != after.get("status"):
             contract_amount_net = value.get("amountNet")
             if contract_amount_net is None:
-                raise_operation_error(request, {"amountNet": BaseType.MESSAGES["required"]}, status=422, name="value")
+                raise_operation_error(
+                    request,
+                    {"amountNet": BaseType.MESSAGES["required"]},
+                    status=422,
+                    name="value",
+                )
 
     @staticmethod
     def validate_update_contract_value_with_award(request, before, after):
@@ -435,15 +454,25 @@ class ContractStateMixing:
             if tax_included:
                 if award.get("value", {}).get("valueAddedTaxIncluded"):
                     if amount > to_decimal(award.get("value", {}).get("amount")):
-                        raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+                        raise_operation_error(
+                            request,
+                            "Amount should be less or equal to awarded amount",
+                            name="value",
+                        )
                 else:
                     if amount_net > to_decimal(award.get("value", {}).get("amount")):
                         raise_operation_error(
-                            request, "AmountNet should be less or equal to awarded amount", name="value"
+                            request,
+                            "AmountNet should be less or equal to awarded amount",
+                            name="value",
                         )
             else:
                 if amount > to_decimal(award.get("value", {}).get("amount")):
-                    raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+                    raise_operation_error(
+                        request,
+                        "Amount should be less or equal to awarded amount",
+                        name="value",
+                    )
 
     @staticmethod
     def validate_update_contract_value_amount(request, before, after, name="value"):
@@ -465,7 +494,11 @@ class ContractStateMixing:
                         )
                 else:
                     if amount != amount_net:
-                        raise_operation_error(request, "Amount and amountNet should be equal", name="value")
+                        raise_operation_error(
+                            request,
+                            "Amount and amountNet should be equal",
+                            name="value",
+                        )
 
     @staticmethod
     def validate_activate_contract_with_review_request(

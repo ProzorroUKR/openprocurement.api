@@ -87,7 +87,8 @@ class CommonBaseTender(Model):
     procurementMethodRationale_en = StringType()
     procurementMethodRationale_ru = StringType()
     funders = ListType(
-        ModelType(Organization, required=True), validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(Organization, required=True),
+        validators=[validate_funders_unique, validate_funders_ids],
     )
     is_masked = BooleanType()
 
@@ -149,7 +150,7 @@ class PostBaseTender(CommonBaseTender):
 
 
 class BaseTender(PatchBaseTender):
-    _id = StringType(deserialize_from=['id', 'doc_id'])
+    _id = StringType(deserialize_from=["id", "doc_id"])
     _rev = StringType()
     doc_type = StringType()
     public_modified = BaseType()

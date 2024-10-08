@@ -63,7 +63,8 @@ def validate_activate_submission(request, **kwargs):
     )
     if res:
         raise_operation_error(
-            request, f"Tenderer already have active submission for framework {submission['frameworkID']}"
+            request,
+            f"Tenderer already have active submission for framework {submission['frameworkID']}",
         )
 
     res = request.registry.mongodb.agreements.has_active_suspended_contracts(
@@ -110,7 +111,10 @@ def validate_operation_submission_in_not_allowed_period(request, **kwargs):
     operation = OPERATIONS.get(request.method)
     period = framework.get("period")
     if not period or "startDate" not in period or "endDate" not in period:
-        raise_operation_error(request, "Submission cannot be {} without framework period".format(operation))
+        raise_operation_error(
+            request,
+            "Submission cannot be {} without framework period".format(operation),
+        )
     period_startDate = dt_from_iso(period["startDate"])
     period_endDate = dt_from_iso(period["endDate"])
     now = get_now()
@@ -151,7 +155,10 @@ def validate_contract_operation_not_in_allowed_status(request, **kwargs):
 def validate_contract_suspended(request, **kwargs):
     milestone_type = request.validated["data"].get("type")
     if milestone_type and request.validated["contract"]["status"] == "suspended" and milestone_type != "activation":
-        raise_operation_error(request, f"Can't add {milestone_type} milestone for contract in suspended status")
+        raise_operation_error(
+            request,
+            f"Can't add {milestone_type} milestone for contract in suspended status",
+        )
 
 
 def validate_milestone_type(request, **kwargs):
@@ -159,7 +166,10 @@ def validate_milestone_type(request, **kwargs):
     if "documents" in request.path:
         obj_name = "document"
     if request.validated["data"].get("type") == "activation":
-        raise_operation_error(request, f"Can't {OPERATIONS.get(request.method)} {obj_name} for 'activation' milestone")
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} for 'activation' milestone",
+        )
 
 
 def validate_patch_not_activation_milestone(request, **kwargs):
@@ -173,7 +183,8 @@ def validate_action_in_milestone_status(request, **kwargs):
     status = request.validated["milestone"]["status"]
     if status != "scheduled":
         raise_operation_error(
-            request, f"Can't {OPERATIONS.get(request.method)} {obj_name} in current ({status}) status "
+            request,
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} in current ({status}) status ",
         )
 
 
@@ -186,7 +197,10 @@ def validate_patch_milestone_status(request, **kwargs):
         return
 
     if new_status != "met":
-        raise_operation_error(request, f"Can't switch milestone status from `{curr_status}` to `{new_status}`")
+        raise_operation_error(
+            request,
+            f"Can't switch milestone status from `{curr_status}` to `{new_status}`",
+        )
 
 
 def unless_administrator_or_chronograph(*validations):
@@ -222,7 +236,8 @@ def validate_document_operation_on_agreement_status(request, **kwargs):
     status = request.validated["agreement"]["status"]
     if status != "active":
         raise_operation_error(
-            request, "Can't {} document in current ({}) agreement status".format(OPERATIONS.get(request.method), status)
+            request,
+            "Can't {} document in current ({}) agreement status".format(OPERATIONS.get(request.method), status),
         )
 
 

@@ -15,4 +15,9 @@ class FeatureValue(BaseFeatureValue):
 
 
 class Feature(BaseFeature):
-    enum = ListType(ModelType(FeatureValue, required=True), default=list, min_size=1, validators=[validate_values_uniq])
+    enum = ListType(
+        ModelType(FeatureValue, required=True),
+        default=list,
+        min_size=1,
+        validators=[validate_values_uniq],
+    )

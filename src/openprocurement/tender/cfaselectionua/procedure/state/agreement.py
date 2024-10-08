@@ -17,7 +17,8 @@ class AgreementStateMixing:
         tender_status = tender["status"]
         if tender_status != "draft.pending":
             raise_operation_error(
-                request, f"Can't {OPERATIONS.get(request.method)} agreement in current ({tender_status}) tender status"
+                request,
+                f"Can't {OPERATIONS.get(request.method)} agreement in current ({tender_status}) tender status",
             )
 
 

@@ -37,7 +37,10 @@ class BaseCriterionStateMixin:
 
         for criterion in data:
             if criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:
-                item = next((item for item in tender["items"] if item["id"] == criterion["relatedItem"]), None)
+                item = next(
+                    (item for item in tender["items"] if item["id"] == criterion["relatedItem"]),
+                    None,
+                )
                 if not (item.get("category") or item.get("profile")):
                     raise_operation_error(
                         self.request,
@@ -46,7 +49,10 @@ class BaseCriterionStateMixin:
                     )
 
             if criterion["classification"]["id"] == CRITERION_LOCALIZATION:
-                item = next((item for item in tender["items"] if item["id"] == criterion["relatedItem"]), None)
+                item = next(
+                    (item for item in tender["items"] if item["id"] == criterion["relatedItem"]),
+                    None,
+                )
                 if not item.get("category"):
                     raise_operation_error(
                         self.request,

@@ -67,7 +67,10 @@ class CriterionClassification(BaseClassification):
     @staticmethod
     def _validate_guarantee_id(code, tender):
         tender_created = get_first_revision_date(tender, default=get_now())
-        criteria_to_check = ("CRITERION.OTHER.CONTRACT.GUARANTEE", "CRITERION.OTHER.BID.GUARANTEE")
+        criteria_to_check = (
+            "CRITERION.OTHER.CONTRACT.GUARANTEE",
+            "CRITERION.OTHER.BID.GUARANTEE",
+        )
         if (
             tender_created >= RELEASE_GUARANTEE_CRITERION_FROM
             and code in criteria_to_check
@@ -140,7 +143,9 @@ class BaseRequirement(Model):
     description_en = StringType()
     description_ru = StringType()
     dataType = StringType(
-        required=True, choices=["string", "number", "integer", "boolean", "date-time"], default="boolean"
+        required=True,
+        choices=["string", "number", "integer", "boolean", "date-time"],
+        default="boolean",
     )
     period = ModelType(ExtendPeriod)
     eligibleEvidences = ListType(
@@ -356,7 +361,10 @@ class BaseCriterion(Model):
     description_en = StringType()
     description_ru = StringType()
 
-    source = StringType(choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"], required=True)
+    source = StringType(
+        choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"],
+        required=True,
+    )
     relatesTo = StringType(choices=["tenderer", "item", "lot", "tender"])
     relatedItem = MD5Type()
     classification = ModelType(CriterionClassification, required=True)
@@ -498,7 +506,7 @@ def validate_requirement_expectedValue(criterion: dict, requirement: dict) -> No
     valid_value = False
     expected_value = requirement.get("expectedValue")
     if expected_value:
-        valid_value = validate_value_type(expected_value, requirement['dataType'])
+        valid_value = validate_value_type(expected_value, requirement["dataType"])
 
     classification = criterion.get("classification")
     if (

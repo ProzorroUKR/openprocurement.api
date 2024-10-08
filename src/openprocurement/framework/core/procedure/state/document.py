@@ -29,7 +29,11 @@ class QualificationDocumentState(BaseDocumentStateMixing, QualificationState):
             qualification_docs.extend(new_documents)
         else:  # PATCH/PUT
             qualification_docs.append(doc_data)
-        validate_doc_type_quantity(qualification_docs, document_type="evaluationReports", obj_name="qualification")
+        validate_doc_type_quantity(
+            qualification_docs,
+            document_type="evaluationReports",
+            obj_name="qualification",
+        )
 
     def document_always(self, data):
         self.validate_evaluation_report_document_already_exists(data)

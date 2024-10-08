@@ -35,7 +35,7 @@ for date_str in HOLIDAYS:
 
 
 def parse_str_list(value):
-    return [x.strip() for x in value.split(',') if x.strip()]
+    return [x.strip() for x in value.split(",") if x.strip()]
 
 
 DEPRECATED_FEED_USER_AGENTS = parse_str_list(os.environ.get("DEPRECATED_FEED_USER_AGENTS", ""))
@@ -127,8 +127,9 @@ def load_constants(file_path):
             config.readfp(fp)
     except Exception as e:
         raise type(e)(
-            "Can't read file '{}': use current path or override using "
-            "CONSTANTS_FILE_PATH env variable".format(file_path)
+            "Can't read file '{}': use current path or override using CONSTANTS_FILE_PATH env variable".format(
+                file_path
+            )
         )
     return config
 
@@ -143,9 +144,20 @@ def parse_date(value):
 def parse_bool(value):
     if str(value).lower() in ("yes", "y", "true", "t", "1"):
         return True
-    if str(value).lower() in ("no", "n", "false", "f", "0", "0.0", "", "none", "[]", "{}"):
+    if str(value).lower() in (
+        "no",
+        "n",
+        "false",
+        "f",
+        "0",
+        "0.0",
+        "",
+        "none",
+        "[]",
+        "{}",
+    ):
         return False
-    raise ValueError('Invalid value for boolean conversion: ' + str(value))
+    raise ValueError("Invalid value for boolean conversion: " + str(value))
 
 
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date):

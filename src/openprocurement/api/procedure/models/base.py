@@ -11,7 +11,10 @@ class Model(SchematicsModel):
         """Export options for Document."""
 
         serialize_when_none = False
-        roles = {"default": blacklist("__parent__"), "embedded": blacklist("__parent__")}
+        roles = {
+            "default": blacklist("__parent__"),
+            "embedded": blacklist("__parent__"),
+        }
 
     __parent__ = BaseType()
 
@@ -48,8 +51,18 @@ class Model(SchematicsModel):
         Return data as it would be validated. No filtering of output unless
         role is defined.
         """
-        field_converter = lambda field, value: field.to_primitive(value)
-        data = export_loop(self.__class__, self, field_converter, role=role, raise_error_on_role=True, print_none=True)
+
+        def field_converter(field, value):
+            return field.to_primitive(value)
+
+        data = export_loop(
+            self.__class__,
+            self,
+            field_converter,
+            role=role,
+            raise_error_on_role=True,
+            print_none=True,
+        )
         return data
 
     def get_role(self):
@@ -65,7 +78,7 @@ class Model(SchematicsModel):
 
 
 class RootModel(Model):
-    _id = StringType(deserialize_from=['id', 'doc_id'])
+    _id = StringType(deserialize_from=["id", "doc_id"])
     _rev = StringType()
     doc_type = StringType()
     public_modified = BaseType()
@@ -83,10 +96,10 @@ class RootModel(Model):
     def _set_id(self, value):
         """id property setter."""
         if self.id is not None:
-            raise AttributeError('id can only be set on new documents')
+            raise AttributeError("id can only be set on new documents")
         self._id = value
 
-    id = property(_get_id, _set_id, doc='The document ID')
+    id = property(_get_id, _set_id, doc="The document ID")
 
     @property
     def rev(self):

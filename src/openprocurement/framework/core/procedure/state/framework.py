@@ -133,7 +133,10 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
     def validate_framework_patch_status(self, data):
         framework_status = data.get("status")
         if get_request().authenticated_role != "Administrator" and framework_status not in ("draft", "active"):
-            raise_operation_error(get_request(), f"Can't update framework in current ({framework_status}) status")
+            raise_operation_error(
+                get_request(),
+                f"Can't update framework in current ({framework_status}) status",
+            )
 
     def update_agreement(self, data):
         agreement_data = get_request().validated["agreement"]
@@ -183,7 +186,8 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         )
         if end_date_min > end_date:
             raise_operation_error(
-                get_request(), f"qualificationPeriod must be at least {min_duration} full calendar days long"
+                get_request(),
+                f"qualificationPeriod must be at least {min_duration} full calendar days long",
             )
 
         end_date_max = calculate_framework_full_date(
@@ -194,7 +198,8 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         )
         if end_date_max < end_date:
             raise_operation_error(
-                get_request(), f"qualificationPeriod must be less than {max_duration} full calendar days long"
+                get_request(),
+                f"qualificationPeriod must be less than {max_duration} full calendar days long",
             )
 
     def calculate_framework_periods(self, data):

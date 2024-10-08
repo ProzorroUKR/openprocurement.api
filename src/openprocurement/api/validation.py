@@ -47,7 +47,9 @@ def validate_items_uniq(items, *args):
 def validate_accreditation_level_base(request, levels, name, action):
     if not request.check_accreditations(levels):
         request.errors.add(
-            "url", "accreditation", "Broker Accreditation level does not permit {} {}".format(name, action)
+            "url",
+            "accreditation",
+            "Broker Accreditation level does not permit {} {}".format(name, action),
         )
         request.errors.status = 403
         raise error_handler(request)
@@ -55,7 +57,11 @@ def validate_accreditation_level_base(request, levels, name, action):
 
 def validate_accreditation_level_mode(request, mode, name, action):
     if mode is None and request.check_accreditations((ACCR_TEST,)):
-        request.errors.add("url", "mode", "Broker Accreditation level does not permit {} {}".format(name, action))
+        request.errors.add(
+            "url",
+            "mode",
+            "Broker Accreditation level does not permit {} {}".format(name, action),
+        )
         request.errors.status = 403
         raise error_handler(request)
 
@@ -63,7 +69,9 @@ def validate_accreditation_level_mode(request, mode, name, action):
 def validate_accreditation_level_owner(request, owner, location, name, action):
     if not check_user_accreditations(request, owner, (ACCR_EXIT,), default=True):
         request.errors.add(
-            "url", "accreditation", "Owner Accreditation level does not permit {} {}".format(name, action)
+            "url",
+            "accreditation",
+            "Owner Accreditation level does not permit {} {}".format(name, action),
         )
         request.errors.status = 403
         raise error_handler(request)

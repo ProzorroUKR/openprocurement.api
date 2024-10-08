@@ -42,7 +42,15 @@ class PatchBid(BaseBid):
     lotValues = ListType(ModelType(LotValue, required=True))
     tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
     )
 
 
@@ -71,7 +79,15 @@ class CommonBid(BaseBid):
     lotValues = ListType(ModelType(LotValue, required=True))
     tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
         required=True,
     )
 
@@ -117,11 +133,24 @@ class PostBid(CommonBid):
         return uuid4().hex
 
     items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    tenderers = ListType(
+        ModelType(BusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     lotValues = ListType(ModelType(PostLotValue, required=True))
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
         default="draft",
     )
     documents = ListType(ModelType(PostDocument, required=True))
@@ -131,7 +160,11 @@ class PostBid(CommonBid):
 
 
 class PostLocalizationBid(PostBid):
-    items = ListType(ModelType(LocalizationItem, required=True), min_size=1, validators=[validate_items_uniq])
+    items = ListType(
+        ModelType(LocalizationItem, required=True),
+        min_size=1,
+        validators=[validate_items_uniq],
+    )
 
 
 # -- POST
@@ -155,7 +188,11 @@ class Bid(MetaBid, CommonBid):
 
 
 class LocalizationBid(Bid):
-    items = ListType(ModelType(LocalizationItem, required=True), min_size=1, validators=[validate_items_uniq])
+    items = ListType(
+        ModelType(LocalizationItem, required=True),
+        min_size=1,
+        validators=[validate_items_uniq],
+    )
 
 
 Administrator_bid_role = whitelist("tenderers")

@@ -31,7 +31,7 @@ class BasePostContract(Model):
         return uuid4().hex
 
     id = StringType()
-    _id = StringType(deserialize_from=['id', 'doc_id'])
+    _id = StringType(deserialize_from=["id", "doc_id"])
     awardID = StringType()
     contractID = StringType()
     buyerID = StringType()
@@ -74,7 +74,7 @@ class BasePatchContract(Model):
 class BaseContract(Model):
     """Contract"""
 
-    _id = StringType(deserialize_from=['id', 'doc_id'])
+    _id = StringType(deserialize_from=["id", "doc_id"])
     _rev = StringType()
     doc_type = StringType()
     public_modified = BaseType()
@@ -95,7 +95,12 @@ class BaseContract(Model):
 
     dateModified = IsoDateTimeType()
     dateCreated = IsoDateTimeType()
-    items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=False,
+        min_size=1,
+        validators=[validate_items_uniq],
+    )
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)
@@ -123,7 +128,11 @@ class BaseContract(Model):
 
     _attachments = BaseType()  # deprecated
 
-    @serializable(serialized_name="amountPaid", serialize_when_none=False, type=ModelType(AmountPaid))
+    @serializable(
+        serialized_name="amountPaid",
+        serialize_when_none=False,
+        type=ModelType(AmountPaid),
+    )
     def contract_amountPaid(self):
         if self.amountPaid:
             self.amountPaid.currency = self.value.currency if self.value else self.amountPaid.currency

@@ -18,18 +18,21 @@ from openprocurement.contracting.core.procedure.models.document import (
 
 
 class PostDocument(BasePostDocument, ConfidentialDocumentMixin):
-
     def validate_relatedItem(self, data, related_item):
         validate_relatedItem(related_item, data.get("documentOf"))
 
 
 class PatchDocument(BasePatchDocument):
-    confidentiality = StringType(choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value])
+    confidentiality = StringType(
+        choices=[
+            ConfidentialityTypes.PUBLIC.value,
+            ConfidentialityTypes.BUYER_ONLY.value,
+        ]
+    )
     confidentialityRationale = StringType()
 
 
 class Document(BaseDocument, ConfidentialDocumentMixin):
-
     def validate_relatedItem(self, data, related_item):
         validate_relatedItem(related_item, data.get("documentOf"))
 

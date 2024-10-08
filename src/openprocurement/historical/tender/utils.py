@@ -17,5 +17,5 @@ tenders_history_resource = partial(
         "factory": historical_tender_factory,
         PREDICATE_NAME: "extract_doc_versioned",
         "description": description,
-    }
+    },
 )

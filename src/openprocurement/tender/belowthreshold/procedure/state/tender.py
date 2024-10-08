@@ -39,7 +39,10 @@ class BelowThresholdTenderState(IgnoredClaimMixing, TenderState):
                     yield check.isoformat(), self.handle_answered_complaint(complaint)
 
                 elif complaint["status"] == "pending":
-                    yield tender["dateModified"], self.handle_pending_complaint(complaint)
+                    yield (
+                        tender["dateModified"],
+                        self.handle_pending_complaint(complaint),
+                    )
 
             for award in tender.get("awards", ""):
                 for complaint in award.get("complaints", ""):
@@ -49,9 +52,15 @@ class BelowThresholdTenderState(IgnoredClaimMixing, TenderState):
                             COMPLAINT_STAND_STILL_TIME,
                             tender=tender,
                         )
-                        yield check.isoformat(), self.handle_answered_complaint(complaint)
+                        yield (
+                            check.isoformat(),
+                            self.handle_answered_complaint(complaint),
+                        )
                     elif complaint["status"] == "pending":
-                        yield tender["dateModified"], self.handle_pending_complaint(complaint)
+                        yield (
+                            tender["dateModified"],
+                            self.handle_pending_complaint(complaint),
+                        )
 
     #  -- CHILD ITEMS EVENTS
 

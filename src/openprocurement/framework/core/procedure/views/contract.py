@@ -15,7 +15,12 @@ LOGGER = getLogger(__name__)
 def resolve_contract(request):
     match_dict = request.matchdict
     if match_dict.get("contract_id"):
-        contracts = get_items(request, request.validated["agreement"], "contracts", match_dict["contract_id"])
+        contracts = get_items(
+            request,
+            request.validated["agreement"],
+            "contracts",
+            match_dict["contract_id"],
+        )
         request.validated["contract"] = contracts[0]
 
 
@@ -45,7 +50,12 @@ class AgreementContractsResource(FrameworkBaseResource):
         updated = self.request.validated["data"]
         if updated:
             contract = self.request.validated["contract"]
-            set_item(self.request.validated["agreement"], "contracts", contract["id"], updated)
+            set_item(
+                self.request.validated["agreement"],
+                "contracts",
+                contract["id"],
+                updated,
+            )
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
                     f"Updated agreement contract {self.request.validated['contract']['id']}",

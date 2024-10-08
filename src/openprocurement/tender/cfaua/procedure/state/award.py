@@ -3,7 +3,6 @@ from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 
 
 class AwardState(AwardStateMixing, CFAUATenderState):
-
     def award_status_up_from_pending_to_active(self, award, tender):
         pass
 

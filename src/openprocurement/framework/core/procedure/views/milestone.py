@@ -17,7 +17,12 @@ LOGGER = getLogger(__name__)
 def resolve_milestone(request):
     match_dict = request.matchdict
     if match_dict.get("milestone_id"):
-        milestones = get_items(request, request.validated["contract"], "milestones", match_dict["milestone_id"])
+        milestones = get_items(
+            request,
+            request.validated["contract"],
+            "milestones",
+            match_dict["milestone_id"],
+        )
         request.validated["milestone"] = milestones[0]
 
 
@@ -68,7 +73,12 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
         if updated:
             milestone = self.request.validated["milestone"]
             self.state.on_patch(milestone, updated)
-            set_item(self.request.validated["contract"], "milestones", milestone["id"], updated)
+            set_item(
+                self.request.validated["contract"],
+                "milestones",
+                milestone["id"],
+                updated,
+            )
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
                     f"Updated agreement milestone {self.request.validated['milestone']['id']}",

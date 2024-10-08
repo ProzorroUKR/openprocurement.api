@@ -18,12 +18,12 @@ from openprocurement.planning.api.procedure.models.organization import BaseOrgan
 
 
 class BaseMilestone(Model):
-    TYPE_APPROVAL = 'approval'
+    TYPE_APPROVAL = "approval"
 
-    STATUS_SCHEDULED = 'scheduled'
-    STATUS_MET = 'met'
-    STATUS_NOT_MET = 'notMet'
-    STATUS_INVALID = 'invalid'
+    STATUS_SCHEDULED = "scheduled"
+    STATUS_MET = "met"
+    STATUS_NOT_MET = "notMet"
+    STATUS_INVALID = "invalid"
 
     TYPE_CHOICES = (TYPE_APPROVAL,)
     STATUS_CHOICES = (
@@ -48,7 +48,11 @@ class PostMilestone(BaseMilestone):
     def dateModified(self):
         return get_now().isoformat()
 
-    status = StringType(required=True, choices=BaseMilestone.STATUS_CHOICES, default=BaseMilestone.STATUS_SCHEDULED)
+    status = StringType(
+        required=True,
+        choices=BaseMilestone.STATUS_CHOICES,
+        default=BaseMilestone.STATUS_SCHEDULED,
+    )
     dueDate = IsoDateTimeType(required=True)
     title = StringType(required=True, choices=[MILESTONE_APPROVAL_TITLE])
     description = StringType(required=True, min_length=3, default=MILESTONE_APPROVAL_DESCRIPTION)

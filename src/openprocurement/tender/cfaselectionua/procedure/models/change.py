@@ -24,7 +24,11 @@ def validate_only_addend_or_only_factor(modifications):
 def validate_modifications_items_uniq(items, changes):
     for change in changes or []:
         modifications = change.modifications
-        if modifications and change.rationaleType in ("taxRate", "itemPriceVariation", "thirdParty"):
+        if modifications and change.rationaleType in (
+            "taxRate",
+            "itemPriceVariation",
+            "thirdParty",
+        ):
             agreement_items_id = {i.id for i in items or []}
             item_ids = {m.itemId for m in modifications if m.itemId in agreement_items_id}
             if len(item_ids) != len(modifications):

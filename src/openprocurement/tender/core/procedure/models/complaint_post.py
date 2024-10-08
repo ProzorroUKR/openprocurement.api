@@ -31,7 +31,10 @@ class CreateComplaintPost(Model):
     title = StringType(required=True)
     description = StringType(required=True)
     documents = ListType(ModelType(PostDocument, required=True))  # use model instead of  validate_data_documents(
-    recipient = StringType(required=True, choices=["complaint_owner", "tender_owner", "aboveThresholdReviewers"])
+    recipient = StringType(
+        required=True,
+        choices=["complaint_owner", "tender_owner", "aboveThresholdReviewers"],
+    )
     relatedPost = StringType()
 
     reviewer_roles = ["aboveThresholdReviewers"]

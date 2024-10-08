@@ -38,7 +38,12 @@ class TenderState(
         "stopping",
     )  # tender can't proceed to "active.auction" until has a tender.complaints in one of statuses
     unsuccessful_statuses = ("cancelled", "unsuccessful")
-    terminated_statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
+    terminated_statuses = (
+        "complete",
+        "unsuccessful",
+        "cancelled",
+        "draft.unsuccessful",
+    )
     calendar = WORKING_DAYS
 
     def status_up(self, before, after, data):

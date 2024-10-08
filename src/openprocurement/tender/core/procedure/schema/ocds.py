@@ -194,8 +194,8 @@ def parties_from_bids(tender, bids, lot_id=None):
 
 def prepare_release(plan, tender, lot=None):
     lot = lot or {}
-    lot_id = lot['id'] if lot else None
-    release_id = tender['id']
+    lot_id = lot["id"] if lot else None
+    release_id = tender["id"]
     if lot_id:
         release_id += f"-{lot_id}"
 
@@ -371,7 +371,12 @@ def convert_bid(b, lot_id=None, tender=None):
     }
     # documents
     documents = []
-    for key in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
+    for key in (
+        "documents",
+        "financialDocuments",
+        "eligibilityDocuments",
+        "qualificationDocuments",
+    ):
         if key in b:
             documents.extend(convert_documents(b[key], lot_id=lot_id, tender=tender))
     r["documents"] = documents
@@ -400,8 +405,8 @@ def remove_nones(data):
 def ocds_format_tender(*_, tender, tender_url, plan=None):
     releases = []
     if "lots" in tender:
-        for l in tender["lots"]:
-            releases.append(prepare_release(plan, tender, lot=l))
+        for lot in tender["lots"]:
+            releases.append(prepare_release(plan, tender, lot=lot))
     else:
         releases.append(prepare_release(plan, tender))
 

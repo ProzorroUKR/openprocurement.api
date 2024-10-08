@@ -15,7 +15,10 @@ LOGGER = getLogger(__name__)
 class AwardClaimStateMixin(ClaimStateMixin):
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
-    patch_as_complaint_owner_tender_statuses = ("active.qualification", "active.awarded")
+    patch_as_complaint_owner_tender_statuses = (
+        "active.qualification",
+        "active.awarded",
+    )
 
     def claim_on_post(self, complaint):
         request = self.request

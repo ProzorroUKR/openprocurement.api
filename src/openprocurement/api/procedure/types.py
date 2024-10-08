@@ -45,7 +45,7 @@ class DecimalType(BaseDecimalType):
     def to_native(self, value, context=None):
         value = self._apply_precision(value)
         if value.is_nan():
-            raise ConversionError(self.messages['number_coerce'].format(value))
+            raise ConversionError(self.messages["number_coerce"].format(value))
         return value
 
 
@@ -53,7 +53,7 @@ class StringDecimalType(BaseDecimalType):
     def to_primitive(self, *args, **kwargs):
         value = super().to_primitive(*args, **kwargs)
         if isinstance(value, Decimal):
-            return '{:f}'.format(value)
+            return "{:f}".format(value)
         return value
 
 
@@ -61,17 +61,17 @@ class URLType(StringType):
     # TODO: remove custom URLType after newer version of schematics will be used. The latest version has universal regex.
 
     MESSAGES = {
-        'invalid_url': "Not a well formed URL.",
+        "invalid_url": "Not a well formed URL.",
     }
 
-    URL_REGEX = re.compile(r'^https?://\S+$', re.IGNORECASE)
+    URL_REGEX = re.compile(r"^https?://\S+$", re.IGNORECASE)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def validate_url(self, value):
         if not URLType.URL_REGEX.match(value):
-            raise StopValidation(self.messages['invalid_url'])
+            raise StopValidation(self.messages["invalid_url"])
 
 
 class IsoDateTimeType(BaseType):

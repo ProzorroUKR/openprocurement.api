@@ -28,7 +28,6 @@ class TenderChronographResource(TenderBaseResource):
         validators=(validate_input_data(TenderChronographData),),
     )
     def patch(self):
-
         # 1 we convert [{"auctionPeriod": {"startDate": "2020.."}}, {"auctionPeriod": None}]
         #           to [{"auctionPeriod": {"startDate": "2020.."}}, {}]
         # TODO find a better way to specify partial update

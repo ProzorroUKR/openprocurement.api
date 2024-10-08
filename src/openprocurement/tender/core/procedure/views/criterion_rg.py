@@ -119,7 +119,12 @@ class BaseRequirementGroupResource(TenderBaseResource):
         requirement_group = self.request.validated["requirement_group"]
         criterion = self.request.validated["criterion"]
         self.state.requirement_group_on_patch(requirement_group, updated_requirement_group)
-        set_item(criterion, "requirementGroups", requirement_group["id"], updated_requirement_group)
+        set_item(
+            criterion,
+            "requirementGroups",
+            requirement_group["id"],
+            updated_requirement_group,
+        )
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):

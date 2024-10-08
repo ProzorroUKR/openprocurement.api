@@ -96,7 +96,6 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
                     {"evidence_id": evidence["id"]},
                 ),
             )
-            tender = self.request.validated["tender"]
             match_dict = self.request.matchdict
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)

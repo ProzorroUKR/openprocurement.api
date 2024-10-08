@@ -79,7 +79,10 @@ class AgreementState(BaseState, ChronographEventsMixing):
                 "frameworkID": framework["_id"],
                 "agreementType": framework["frameworkType"],
                 "status": "active",
-                "period": {"startDate": now, "endDate": framework.get("qualificationPeriod").get("endDate")},
+                "period": {
+                    "startDate": now,
+                    "endDate": framework.get("qualificationPeriod").get("endDate"),
+                },
                 "procuringEntity": framework.get("procuringEntity"),
                 "classification": framework.get("classification"),
                 "additionalClassifications": framework.get("additionalClassifications"),
@@ -100,7 +103,7 @@ class AgreementState(BaseState, ChronographEventsMixing):
             request_init_agreement(request, agreement, agreement_src={})
 
             # update framework
-            framework["agreementID"] = agreement['id']
+            framework["agreementID"] = agreement["id"]
 
     def create_agreement_contract(self):
         request = self.request

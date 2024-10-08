@@ -6,17 +6,17 @@ from pyramid.authentication import BasicAuthAuthenticationPolicy, b64decode
 from pyramid.interfaces import IAuthenticationPolicy
 from pyramid.location import lineage
 
-ACCR_1 = '1'
-ACCR_2 = '2'
-ACCR_3 = '3'
-ACCR_4 = '4'
-ACCR_5 = '5'
-ACCR_COMPETITIVE = 'c'
-ACCR_EXIT = 'x'
-ACCR_TEST = 't'
-ACCR_RESTRICTED = 'r'
+ACCR_1 = "1"
+ACCR_2 = "2"
+ACCR_3 = "3"
+ACCR_4 = "4"
+ACCR_5 = "5"
+ACCR_COMPETITIVE = "c"
+ACCR_EXIT = "x"
+ACCR_TEST = "t"
+ACCR_RESTRICTED = "r"
 
-DEFAULT_ACCRS = ''.join([ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5])
+DEFAULT_ACCRS = "".join([ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5])
 
 
 class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
@@ -144,19 +144,19 @@ def extract_http_credentials(request):
     from a given request.
     Returns a auth token or ``None`` if no credentials could be found.
     """
-    authorization = request.headers.get('Authorization')
+    authorization = request.headers.get("Authorization")
     if not authorization:
         return None
 
     try:
-        authmeth, auth = authorization.split(' ', 1)
+        authmeth, auth = authorization.split(" ", 1)
     except ValueError:  # not enough values to unpack
         return None
 
-    if authmeth.lower() == 'bearer':
+    if authmeth.lower() == "bearer":
         return auth
 
-    if authmeth.lower() != 'basic':
+    if authmeth.lower() != "basic":
         return None
 
     try:
@@ -167,12 +167,12 @@ def extract_http_credentials(request):
     # try utf-8 first, then latin-1; see discussion in
     # https://github.com/Pylons/pyramid/issues/898
     try:
-        auth = authbytes.decode('utf-8')
+        auth = authbytes.decode("utf-8")
     except UnicodeDecodeError:
-        auth = authbytes.decode('latin-1')
+        auth = authbytes.decode("latin-1")
 
     try:
-        return auth.split(':', 1)[0]
+        return auth.split(":", 1)[0]
     except ValueError:  # not enough values to unpack
         return None
 

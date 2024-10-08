@@ -24,7 +24,7 @@ class TenderCollection(BaseCollection):
         )
         indexes.append(tender_complaints)
 
-        for sub_type in ('qualifications', 'awards', 'cancellations'):
+        for sub_type in ("qualifications", "awards", "cancellations"):
             indexes.append(
                 IndexModel(
                     [(f"{sub_type}.complaints.complaintID", ASCENDING)],
@@ -60,7 +60,7 @@ class TenderCollection(BaseCollection):
         if result:
             return self._prepare_complaint_response(result, complaint_id)
 
-        for sub_type in ('qualifications', 'awards', 'cancellations'):
+        for sub_type in ("qualifications", "awards", "cancellations"):
             query = {
                 "dateCreated": {"$gt": RELEASE_2020_04_19.isoformat()},
                 sub_type: {"$elemMatch": {"complaints": {"$elemMatch": {"complaintID": complaint_id}}}},

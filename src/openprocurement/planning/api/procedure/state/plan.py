@@ -126,7 +126,7 @@ class PlanState(BaseState):
             procedures[""] = ("centralizedProcurement",)
         procurement_method_types = list(chain(*procedures.values()))
         procurement_method_types_without_above_threshold_ua_defense = list(
-            x for x in procurement_method_types if x not in ('aboveThresholdUA.defense', 'simple.defense')
+            x for x in procurement_method_types if x not in ("aboveThresholdUA.defense", "simple.defense")
         )
         kind_allows_procurement_method_type_mapping = {
             "defense": procurement_method_types,
@@ -216,7 +216,11 @@ class PlanState(BaseState):
                 names.append("budget.breakdown")
             request = get_request()
             for name in names:
-                request.errors.add("body", name, "Changing this field is not allowed after tender creation")
+                request.errors.add(
+                    "body",
+                    name,
+                    "Changing this field is not allowed after tender creation",
+                )
             if request.errors:
                 request.errors.status = 422
                 raise error_handler(request)
@@ -225,7 +229,11 @@ class PlanState(BaseState):
         status = plan.get("status")
         if status and status != "scheduled":
             request = get_request()
-            request.errors.add("body", "status", "Can't create tender in '{}' plan status".format(status))
+            request.errors.add(
+                "body",
+                "status",
+                "Can't create tender in '{}' plan status".format(status),
+            )
             request.errors.status = 422
             raise error_handler(request)
 
@@ -315,7 +323,10 @@ class PlanState(BaseState):
     def _validate_procurement_kind_is_central(self, plan, tender):
         kind = "central"
         if tender["procuringEntity"]["kind"] != kind:
-            raise raise_operation_error(self.request, "Only allowed for procurementEntity.kind = '{}'".format(kind))
+            raise raise_operation_error(
+                self.request,
+                "Only allowed for procurementEntity.kind = '{}'".format(kind),
+            )
 
     def _validate_tender_in_draft(self, plan, tender):
         if tender["status"] != "draft":

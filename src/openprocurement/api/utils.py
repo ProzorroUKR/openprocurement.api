@@ -277,7 +277,15 @@ def generate_docservice_url(request, doc_id, temporary=True, prefix=None):
         query["Prefix"] = prefix
     query["Signature"] = b64encode(signer.sign(mess.encode()).signature)
     query["KeyID"] = keyid
-    return urlunsplit((parsed_url.scheme, parsed_url.netloc, "/get/{}".format(doc_id), urlencode(query), ""))
+    return urlunsplit(
+        (
+            parsed_url.scheme,
+            parsed_url.netloc,
+            "/get/{}".format(doc_id),
+            urlencode(query),
+            "",
+        )
+    )
 
 
 def error_handler(request, request_params=True):
@@ -295,7 +303,7 @@ def error_handler(request, request_params=True):
     for item in errors:
         for key, value in item.items():
             if isinstance(value, bytes):
-                item[key] = value.decode('utf-8')
+                item[key] = value.decode("utf-8")
 
     LOGGER.info(
         'Error on processing request "{}"'.format(dumps(errors, indent=4)),
@@ -440,12 +448,16 @@ def get_currency_rates(request):
     if proxy_address:
         kwargs.update(proxies={"http": proxy_address, "https": proxy_address})
     base_url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date={}&json".format(
-        get_now().strftime('%Y%m%d')
+        get_now().strftime("%Y%m%d")
     )
     try:
         resp = requests.get(base_url, **kwargs)
     except requests.exceptions.RequestException as e:
-        raise raise_operation_error(request, "Error while getting data from bank.gov.ua: {}".format(e), status=409)
+        raise raise_operation_error(
+            request,
+            "Error while getting data from bank.gov.ua: {}".format(e),
+            status=409,
+        )
     try:
         return resp.json()
     except ValueError:
@@ -462,7 +474,9 @@ def get_uah_amount_from_value(request, value, logging_params):
                 break
         else:
             raise raise_operation_error(
-                request, "Couldn't find currency {} on bank.gov.ua".format(currency), status=422
+                request,
+                "Couldn't find currency {} on bank.gov.ua".format(currency),
+                status=422,
             )
 
         amount *= currency_rate
@@ -521,7 +535,6 @@ def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple =
     data = cache.get(cache_key)
 
     if not data:
-
         try:
             resp = requests.get(f"{catalog_api_host}/api/{uri}/{obj_id}")
         except requests.exceptions.RequestException as e:
@@ -532,7 +545,11 @@ def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple =
                 status=502,
             )
         if resp.status_code == 404:
-            raise_operation_error(request, f"{obj_name.capitalize()} {obj_id} not found in catalouges.", status=404)
+            raise_operation_error(
+                request,
+                f"{obj_name.capitalize()} {obj_id} not found in catalouges.",
+                status=404,
+            )
         elif resp.status_code != 200:
             raise_operation_error(
                 request,
@@ -593,9 +610,9 @@ def is_boolean(value):
 
     if isinstance(value, str):
         value = value.strip().lower()
-        if value in ('true', '1'):
+        if value in ("true", "1"):
             return True
-        elif value in ('false', '0'):
+        elif value in ("false", "0"):
             return False
 
     return False

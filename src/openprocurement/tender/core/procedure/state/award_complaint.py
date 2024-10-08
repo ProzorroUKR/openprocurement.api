@@ -52,7 +52,10 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
                 for award in tender.get("awards", [])
                 if award.get("lotID") == context_award.get("lotID")
             ):
-                raise_operation_error(request, "Complaint submission is allowed only after award activation.")
+                raise_operation_error(
+                    request,
+                    "Complaint submission is allowed only after award activation.",
+                )
 
     def validate_tender_in_complaint_period(self, tender):
         award = get_award()

@@ -82,7 +82,9 @@ class BaseCancellationResource(TenderBaseResource):
             LOGGER.info(
                 "Created tender cancellation {}".format(cancellation["id"]),
                 extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_cancellation_create"}, {"cancellation_id": cancellation["id"]}
+                    self.request,
+                    {"MESSAGE_ID": "tender_cancellation_create"},
+                    {"cancellation_id": cancellation["id"]},
                 ),
             )
             self.request.response.status = 201
@@ -128,7 +130,12 @@ class BaseCancellationResource(TenderBaseResource):
         if updated:
             cancellation = self.request.validated["cancellation"]
             self.state.validate_cancellation_patch(cancellation, updated)
-            set_item(self.request.validated["tender"], "cancellations", cancellation["id"], updated)
+            set_item(
+                self.request.validated["tender"],
+                "cancellations",
+                cancellation["id"],
+                updated,
+            )
             self.state.cancellation_on_patch(cancellation, updated)
             if save_tender(self.request):
                 self.LOGGER.info(

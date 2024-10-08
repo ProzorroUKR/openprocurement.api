@@ -93,7 +93,13 @@ class MongodbResourceListing(BaseResource):
             try:
                 limit = int(limit_param)
             except ValueError as e:
-                raise_operation_error(self.request, e.args[0], status=400, location="querystring", name="limit")
+                raise_operation_error(
+                    self.request,
+                    e.args[0],
+                    status=400,
+                    location="querystring",
+                    name="limit",
+                )
             else:
                 params["limit"] = min(limit, self.max_limit)
 
@@ -138,7 +144,10 @@ class MongodbResourceListing(BaseResource):
             if self.offset_field not in self.listing_allowed_fields:
                 for r in results:
                     r.pop(self.offset_field)
-        data = {"data": self.filter_results_fields(results, data_fields), "next_page": self.get_page(keys, params)}
+        data = {
+            "data": self.filter_results_fields(results, data_fields),
+            "next_page": self.get_page(keys, params),
+        }
         if self.request.params.get("descending") or self.request.params.get("offset"):
             data["prev_page"] = self.get_page(keys, prev_params)
 

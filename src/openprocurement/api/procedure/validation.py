@@ -389,7 +389,10 @@ def validate_restricted_object_action(request, obj_name, obj):
         return
 
     if all(
-        [obj["config"].get("restricted", False) is False, obj["config"].get("restrictedDerivatives", False) is False]
+        [
+            obj["config"].get("restricted", False) is False,
+            obj["config"].get("restrictedDerivatives", False) is False,
+        ]
     ):
         # Skip validation.
         # It's not a restricted object

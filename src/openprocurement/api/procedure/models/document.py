@@ -115,7 +115,10 @@ def validate_confidentiality_rationale(data, val):
 
 class ConfidentialDocumentMixin(Model):
     confidentiality = StringType(
-        choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value],
+        choices=[
+            ConfidentialityTypes.PUBLIC.value,
+            ConfidentialityTypes.BUYER_ONLY.value,
+        ],
         default=ConfidentialityTypes.PUBLIC.value,
     )
     confidentialityRationale = StringType()

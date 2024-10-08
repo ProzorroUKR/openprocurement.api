@@ -16,7 +16,7 @@ class LotData(Model):
 
 
 class TenderChronographData(Model):
-    _id = MD5Type(deserialize_from=['id'])
+    _id = MD5Type(deserialize_from=["id"])
     auctionPeriod = ModelType(AuctionPeriod)
     lots = ListType(ModelType(LotData))
 

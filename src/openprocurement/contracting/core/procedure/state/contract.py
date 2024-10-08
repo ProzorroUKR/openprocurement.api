@@ -98,7 +98,8 @@ class BaseContractState(BaseState, ContractStateMixing):
                 if item["unit"].get("value"):
                     if item["quantity"] == 0 and item["unit"]["value"]["amount"] != 0:
                         raise_operation_error(
-                            get_request(), "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
+                            get_request(),
+                            "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
                         )
                     items_unit_value_amount.append(
                         to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
@@ -125,7 +126,12 @@ class BaseContractState(BaseState, ContractStateMixing):
         if value and (before.get(name) != after.get(name) or before.get("status") != after.get("status")):
             contract_amount_net = value.get("amountNet")
             if contract_amount_net is None:
-                raise_operation_error(request, {"amountNet": BaseType.MESSAGES["required"]}, status=422, name=name)
+                raise_operation_error(
+                    request,
+                    {"amountNet": BaseType.MESSAGES["required"]},
+                    status=422,
+                    name=name,
+                )
 
     def validate_update_contract_paid_amount(self, request, before, after):
         value = after.get("value")

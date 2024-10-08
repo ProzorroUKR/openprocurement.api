@@ -86,7 +86,11 @@ class Milestone(Model):
     title = StringType(required=True)
     description = StringType()
     type = StringType(
-        required=True, choices=[TenderMilestoneTypes.FINANCING.value, TenderMilestoneTypes.DELIVERY.value]
+        required=True,
+        choices=[
+            TenderMilestoneTypes.FINANCING.value,
+            TenderMilestoneTypes.DELIVERY.value,
+        ],
     )
     code = StringType(required=True)
     percentage = FloatType(required=True, max_value=100, validators=[is_positive_float])
@@ -115,7 +119,7 @@ class Milestone(Model):
 
 
 def validate_milestones_lot(data, milestones):
-    lot_ids = {l.get("id") for l in data.get("lots") or ""}
+    lot_ids = {lot.get("id") for lot in data.get("lots") or ""}
     for milestone in milestones or "":
         if milestone.relatedLot is not None and milestone.relatedLot not in lot_ids:
             raise ValidationError("relatedLot should be one of the lots.")

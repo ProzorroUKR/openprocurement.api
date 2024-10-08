@@ -70,10 +70,16 @@ class ChronographEventsMixing:
             lots = tender.get("lots")
             if status == "active.enquiries":
                 if tender.get("tenderPeriod", {}).get("startDate"):
-                    yield tender["tenderPeriod"]["startDate"], self.get_change_tender_status_handler("active.tendering")
+                    yield (
+                        tender["tenderPeriod"]["startDate"],
+                        self.get_change_tender_status_handler("active.tendering"),
+                    )
 
                 elif tender.get("enquiryPeriod", {}).get("endDate"):
-                    yield tender["enquiryPeriod"]["endDate"], self.get_change_tender_status_handler("active.tendering")
+                    yield (
+                        tender["enquiryPeriod"]["endDate"],
+                        self.get_change_tender_status_handler("active.tendering"),
+                    )
 
             elif status == "active.tendering":
                 if (
@@ -116,10 +122,19 @@ class ChronographEventsMixing:
                 if cancellation["status"] == "pending":
                     complaint_period = cancellation.get("complaintPeriod")
                     if complaint_period and complaint_period.get("endDate"):
-                        complaint_statuses = ("invalid", "declined", "stopped", "mistaken", "draft")
+                        complaint_statuses = (
+                            "invalid",
+                            "declined",
+                            "stopped",
+                            "mistaken",
+                            "draft",
+                        )
                         if all(i["status"] in complaint_statuses for i in cancellation.get("complaints", "")):
                             # this check can switch complaint statuses to mistaken + switch cancellation to active
-                            yield complaint_period["endDate"], self.cancellation_compl_period_end_handler(cancellation)
+                            yield (
+                                complaint_period["endDate"],
+                                self.cancellation_compl_period_end_handler(cancellation),
+                            )
 
     def complaint_events(self, tender):
         if tender_created_after_2020_rules():
@@ -130,7 +145,10 @@ class ChronographEventsMixing:
             if complaint_period and complaint_period.get("endDate"):
                 for complaint in tender.get("complaints", ""):
                     if complaint["status"] == "draft" and complaint.get("type", "complaint") == "complaint":
-                        yield complaint_period["endDate"], self.draft_complaint_handler(complaint)
+                        yield (
+                            complaint_period["endDate"],
+                            self.draft_complaint_handler(complaint),
+                        )
 
             for cancellation in tender.get("cancellations", ""):
                 period_end = cancellation.get("complaintPeriod", {}).get("endDate")
@@ -144,14 +162,20 @@ class ChronographEventsMixing:
                 for q in tender.get("qualifications", ""):
                     for complaint in q.get("complaints", ""):
                         if complaint["status"] == "draft" and complaint.get("type", "complaint") == "complaint":
-                            yield qualification_period["endDate"], self.draft_complaint_handler(complaint)
+                            yield (
+                                qualification_period["endDate"],
+                                self.draft_complaint_handler(complaint),
+                            )
 
             for award in tender.get("awards", ""):
                 complaint_period = award.get("complaintPeriod")
                 if complaint_period and complaint_period.get("endDate"):
                     for complaint in award.get("complaints", ""):
                         if complaint["status"] == "draft" and complaint.get("type", "complaint") == "complaint":
-                            yield complaint_period["endDate"], self.draft_complaint_handler(complaint)
+                            yield (
+                                complaint_period["endDate"],
+                                self.draft_complaint_handler(complaint),
+                            )
 
     def contract_events(self, tender):
         tender_status = tender.get("status")
@@ -176,7 +200,10 @@ class ChronographEventsMixing:
                 for complaint in q.get("complaints", "")
                 if q.get("lotID") in active_lots
             ):
-                yield qualification_period["endDate"], self.pre_qualification_stand_still_ends_handler
+                yield (
+                    qualification_period["endDate"],
+                    self.pre_qualification_stand_still_ends_handler,
+                )
 
     def auction_events(self, tender):
         auction_period = tender.get("auctionPeriod")
@@ -223,7 +250,8 @@ class ChronographEventsMixing:
                         yield start_date, self.auction_handler
                     else:
                         auction_end_time = calc_auction_end_time(
-                            self.count_lot_bids_number(tender, lot["id"]), dt_from_iso(start_date)
+                            self.count_lot_bids_number(tender, lot["id"]),
+                            dt_from_iso(start_date),
                         ).isoformat()
                         if now < auction_end_time:
                             yield auction_end_time, self.auction_handler
@@ -253,7 +281,10 @@ class ChronographEventsMixing:
                                 if a.get("complaintPeriod", {}).get("endDate")
                             ]
                             if stand_still_ends:
-                                yield max(stand_still_ends), self.awarded_complaint_handler
+                                yield (
+                                    max(stand_still_ends),
+                                    self.awarded_complaint_handler,
+                                )
 
     def lots_awarded_events(self, tender):
         yield from self.lots_qualification_events(tender)
@@ -309,7 +340,10 @@ class ChronographEventsMixing:
                     tender=tender,
                     working_days=True,
                 )
-                tender["qualificationPeriod"] = {"startDate": start_date.isoformat(), "endDate": end_date.isoformat()}
+                tender["qualificationPeriod"] = {
+                    "startDate": start_date.isoformat(),
+                    "endDate": end_date.isoformat(),
+                }
 
             self.remove_draft_bids(tender)
             self.check_bids_number(tender)
@@ -354,7 +388,11 @@ class ChronographEventsMixing:
             for bid in bids:
                 if bid["status"] == "pending":
                     qualification = Qualification(
-                        {"bidID": bid["id"], "status": "pending", "date": get_now().isoformat()}
+                        {
+                            "bidID": bid["id"],
+                            "status": "pending",
+                            "date": get_now().isoformat(),
+                        }
                     ).serialize()
                     tender["qualifications"].append(qualification)
                     new_qualifications.append(qualification["id"])
@@ -365,7 +403,11 @@ class ChronographEventsMixing:
         self.switch_to_auction_or_qualification(tender)
 
     def switch_to_auction_or_qualification(self, tender):
-        if tender.get("status") not in ("unsuccessful", "active.qualification", "active.awarded"):
+        if tender.get("status") not in (
+            "unsuccessful",
+            "active.qualification",
+            "active.awarded",
+        ):
             if tender["config"]["hasAuction"]:
                 handler = self.get_change_tender_status_handler("active.auction")
                 handler(tender)
@@ -438,14 +480,7 @@ class ChronographEventsMixing:
         return handler
 
     def cancel(self, cancellation):
-        request, tender = get_request(), get_tender()
-
-        # this should block cancellation creation, I believe
-        # TODO: does it make sense to do validation here?
-        # TODO: chronograph expects 422 errors ?
-        # if tender_created_after_2020_rules():
-        # self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
-
+        tender = get_tender()
         if cancellation["cancellationOf"] == "lot":
             self.cancel_lot(tender, cancellation)
         else:
@@ -547,7 +582,10 @@ class ChronographEventsMixing:
     @staticmethod
     def remove_draft_bids(tender):
         if any(bid.get("status", "pending") == "draft" for bid in tender.get("bids", "")):
-            LOGGER.info("Remove draft bids", extra=context_unpack(get_request(), {"MESSAGE_ID": "remove_draft_bids"}))
+            LOGGER.info(
+                "Remove draft bids",
+                extra=context_unpack(get_request(), {"MESSAGE_ID": "remove_draft_bids"}),
+            )
             tender["bids"] = [bid for bid in tender["bids"] if bid.get("status", "pending") != "draft"]
 
     @staticmethod
@@ -602,7 +640,7 @@ class ChronographEventsMixing:
                 self.add_next_award()
 
             # set bids unsuccessful
-            active_lots = {l["id"] for l in tender["lots"] if l["status"] == "active"}
+            active_lots = {lot["id"] for lot in tender["lots"] if lot["status"] == "active"}
             for bid in tender.get("bids", ""):
                 if not any(lv["relatedLot"] in active_lots for lv in bid.get("lotValues", "")):
                     if bid.get("status", "active") in self.active_bid_statuses:
@@ -705,7 +743,9 @@ class ChronographEventsMixing:
                 LOGGER.info(
                     f"Switched lot {lot['id']} of tender {tender['_id']} to unsuccessful",
                     extra=context_unpack(
-                        get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot["id"]}
+                        get_request(),
+                        {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                        {"LOT_ID": lot["id"]},
                     ),
                 )
                 self.set_object_status(lot, "unsuccessful")
@@ -738,7 +778,9 @@ class ChronographEventsMixing:
                     LOGGER.info(
                         f"Switched lot {lot['id']} of tender {tender['_id']} to complete",
                         extra=context_unpack(
-                            get_request(), {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot['id']}
+                            get_request(),
+                            {"MESSAGE_ID": "switched_lot_complete"},
+                            {"LOT_ID": lot["id"]},
                         ),
                     )
                     self.set_object_status(lot, "complete")
@@ -746,7 +788,7 @@ class ChronographEventsMixing:
     def has_unanswered_tender_complaints(self, tender):
         lots = tender.get("lots")
         if lots:
-            active_lots = tuple(l["id"] for l in lots if l["status"] == "active")
+            active_lots = tuple(lot["id"] for lot in lots if lot["status"] == "active")
             result = any(
                 i["status"] in self.block_tender_complaint_status
                 for i in tender.get("complaints", "")
@@ -760,7 +802,7 @@ class ChronographEventsMixing:
     def has_unanswered_tender_questions(tender):
         lots = tender.get("lots")
         if lots:
-            active_lots = tuple(l["id"] for l in lots if l["status"] == "active")
+            active_lots = tuple(lot["id"] for lot in lots if lot["status"] == "active")
             active_items = tuple(
                 i["id"] for i in tender.get("items", "") if not i.get("relatedLot") or i["relatedLot"] in active_lots
             )
@@ -783,7 +825,6 @@ class ChronographEventsMixing:
             self.remove_auction_period(lot)
 
     def set_contracts_cancelled(self, tender, lot_id=None):
-
         contracts = tender.get("contracts", tuple())
         if lot_id:
             awards_ids = [i["id"] for i in tender.get("awards", "") if i["lotID"] == lot_id]

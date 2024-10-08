@@ -101,7 +101,12 @@ class CoreQuestionResource(FrameworkBaseResource):
         updated = self.request.validated["data"]
         if updated:
             question = self.request.validated["question"]
-            set_item(self.request.validated["framework"], "questions", question["id"], updated)
+            set_item(
+                self.request.validated["framework"],
+                "questions",
+                question["id"],
+                updated,
+            )
             self.state.on_patch(question, updated)
             if save_object(self.request, "framework"):
                 self.LOGGER.info(

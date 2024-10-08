@@ -43,7 +43,11 @@ from openprocurement.tender.pricequotation.procedure.validation import (
 
 def validate_tender_period_duration(data, period):
     tender_period_end_date = calculate_tender_full_date(
-        get_now(), TENDERING_DURATION, tender=data, working_days=True, calendar=WORKING_DAYS
+        get_now(),
+        TENDERING_DURATION,
+        tender=data,
+        working_days=True,
+        calendar=WORKING_DAYS,
     )
     if tender_period_end_date > period.endDate:
         raise ValidationError(f"tenderPeriod must be at least {TENDERING_DURATION.days} full business days long")

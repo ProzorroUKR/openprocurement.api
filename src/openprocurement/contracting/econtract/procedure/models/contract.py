@@ -65,17 +65,38 @@ class PatchContractPending(BasePatchContract):
 
 class AdministratorPatchContract(Model):
     contractNumber = StringType()
-    status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
+    status = StringType(
+        choices=[
+            "pending",
+            "pending.winner-signing",
+            "terminated",
+            "active",
+            "cancelled",
+        ]
+    )
     suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     buyer = ModelType(Buyer)
     mode = StringType(choices=["test"])
 
 
 class Contract(BaseContract):
-    status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
+    status = StringType(
+        choices=[
+            "pending",
+            "pending.winner-signing",
+            "terminated",
+            "active",
+            "cancelled",
+        ]
+    )
     buyer = ModelType(Buyer, required=True)
     suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
-    items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=False,
+        min_size=1,
+        validators=[validate_items_uniq],
+    )
     contractTemplateName = StringType()
     value = ModelType(ContractValue)
     documents = ListType(ModelType(Document, required=True))

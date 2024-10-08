@@ -19,7 +19,6 @@ def get_masked(request):
     url = request.params.get("url")
     response = requests.get(url)
     json = response.json()
-    name = request.params.get("name")
     mapping = {
         "submission": SUBMISSION_MASK_MAPPING,
         "qualification": QUALIFICATION_MASK_MAPPING,
@@ -27,5 +26,8 @@ def get_masked(request):
         "tender": TENDER_MASK_MAPPING,
         "contract": CONTRACT_MASK_MAPPING,
     }
-    mask_data(json["data"], TENDER_MASK_MAPPING)
+    name = request.params.get("name")
+    if name not in mapping:
+        name = "tender"
+    mask_data(json["data"], mapping[name])
     return Response(json_body=json, status=200)

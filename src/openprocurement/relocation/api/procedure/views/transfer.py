@@ -10,7 +10,12 @@ from openprocurement.relocation.api.procedure.utils import save_transfer, set_ow
 from openprocurement.relocation.api.procedure.views.base import TransferBaseResource
 
 
-@resource(name="Transfers", path="/transfers/{transfer_id}", collection_path="/transfers", description="Transfers")
+@resource(
+    name="Transfers",
+    path="/transfers/{transfer_id}",
+    collection_path="/transfers",
+    description="Transfers",
+)
 class TransferResource(TransferBaseResource):
     """Resource handler for Transfers"""
 

@@ -21,7 +21,11 @@ def validate_update_contract_value(request, name="value", attrs=("currency",), *
         for ro_attr in attrs:
             field = getattr(request.context, name)
             if field and value.get(ro_attr) != field.to_native().get(ro_attr):
-                raise_operation_error(request, "Can't update {} for contract {}".format(ro_attr, name), name=name)
+                raise_operation_error(
+                    request,
+                    "Can't update {} for contract {}".format(ro_attr, name),
+                    name=name,
+                )
 
 
 def validate_update_contract_value_net_required(request, name="value", **kwargs):
@@ -30,13 +34,17 @@ def validate_update_contract_value_net_required(request, name="value", **kwargs)
     if value is not None and requested_fields_changes(request, (name, "status")):
         contract_amount_net = value.get("amountNet")
         if contract_amount_net is None:
-            raise_operation_error(request, {"amountNet": BaseType.MESSAGES["required"]}, status=422, name=name)
+            raise_operation_error(
+                request,
+                {"amountNet": BaseType.MESSAGES["required"]},
+                status=422,
+                name=name,
+            )
 
 
 def validate_update_contract_value_amount(request, name="value", **kwargs):
     data = request.validated["data"]
     contract_value = data.get(name)
-    value = data.get("value") or data.get(name)
     if contract_value and requested_fields_changes(request, (name, "status")):
         amount = to_decimal(contract_value.get("amount"))
         amount_net = to_decimal(contract_value.get("amountNet"))
@@ -48,8 +56,9 @@ def validate_update_contract_value_amount(request, name="value", **kwargs):
                 if amount < amount_net or amount > amount_max:
                     raise_operation_error(
                         request,
-                        "Amount should be equal or greater than amountNet and differ by "
-                        "no more than {}%".format(AMOUNT_NET_COEF * 100 - 100),
+                        "Amount should be equal or greater than amountNet and differ by no more than {}%".format(
+                            AMOUNT_NET_COEF * 100 - 100
+                        ),
                         name=name,
                     )
             else:
@@ -64,7 +73,8 @@ def validate_contract_items_unit_value_amount(request, contract, **kwargs):
             if item.unit.value:
                 if item.quantity == 0 and item.unit.value.amount != 0:
                     raise_operation_error(
-                        request, "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
+                        request,
+                        "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
                     )
                 items_unit_value_amount.append(to_decimal(item.quantity) * to_decimal(item.unit.value.amount))
 
@@ -72,7 +82,10 @@ def validate_contract_items_unit_value_amount(request, contract, **kwargs):
         calculated_value = sum(items_unit_value_amount)
 
         if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(contract.value.amount):
-            raise_operation_error(request, "Total amount of unit values can't be greater than contract.value.amount")
+            raise_operation_error(
+                request,
+                "Total amount of unit values can't be greater than contract.value.amount",
+            )
 
 
 def validate_tender_matches_plan(request, **kwargs):
@@ -89,7 +102,10 @@ def validate_tender_matches_plan(request, **kwargs):
             "body",
             "procuringEntity",
             "procuringEntity.identifier doesn't match: {} {} != {} {}".format(
-                plan_identifier.scheme, plan_identifier.id, tender_identifier["scheme"], tender_identifier["id"]
+                plan_identifier.scheme,
+                plan_identifier.id,
+                tender_identifier["scheme"],
+                tender_identifier["id"],
             ),
         )
 

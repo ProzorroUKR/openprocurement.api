@@ -5,14 +5,14 @@ from urllib.parse import quote
 
 # XXX Both implementations allow stray %
 def percent_encode(string, safe, encoding):
-    return quote(string, safe, encoding, errors='strict')
+    return quote(string, safe, encoding, errors="strict")
 
 
 # RFC 2616
-separator_chars = "()<>@,;:\\\"/[]?={} \t"
+separator_chars = '()<>@,;:\\"/[]?={} \t'
 
 # RFC 5987
-attr_chars_nonalnum = '!#$&+-.^_`|~'
+attr_chars_nonalnum = "!#$&+-.^_`|~"
 
 
 def is_token_char(ch):
@@ -45,14 +45,14 @@ def is_lws_safe(text):
 
 
 def normalize_ws(text):
-    return ' '.join(text.split())
+    return " ".join(text.split())
 
 
 def qd_quote(text):
-    return text.replace('\\', '\\\\').replace('"', '\\"')
+    return text.replace("\\", "\\\\").replace('"', '\\"')
 
 
-def build_header(filename, disposition='attachment', filename_compat=None):
+def build_header(filename, disposition="attachment", filename_compat=None):
     """Generate a Content-Disposition header for a given filename.
 
     For legacy clients that don't understand the filename* parameter,
@@ -77,31 +77,31 @@ def build_header(filename, disposition='attachment', filename_compat=None):
     # While this method exists, it could also sanitize the filename
     # by rejecting slashes or other weirdness that might upset a receiver.
 
-    if disposition != 'attachment':
+    if disposition != "attachment":
         assert is_token(disposition)
 
     rv = disposition
 
     if is_token(filename):
-        rv += '; filename=%s' % (filename,)
-        return rv.encode('iso-8859-1')
+        rv += "; filename=%s" % (filename,)
+        return rv.encode("iso-8859-1")
     elif is_ascii(filename) and is_lws_safe(filename):
         qd_filename = qd_quote(filename)
         rv += '; filename="%s"' % (qd_filename,)
         if qd_filename == filename:
             # RFC 6266 claims some implementations are iffy on qdtext's
             # backslash-escaping, we'll include filename* in that case.
-            return rv.encode('iso-8859-1')
+            return rv.encode("iso-8859-1")
     elif filename_compat:
         if is_token(filename_compat):
-            rv += '; filename=%s' % (filename_compat,)
+            rv += "; filename=%s" % (filename_compat,)
         else:
             assert is_lws_safe(filename_compat)
             rv += '; filename="%s"' % (qd_quote(filename_compat),)
 
     # alnum are already considered always-safe, but the rest isn't.
     # Python encodes ~ when it shouldn't, for example.
-    rv += "; filename*=utf-8''%s" % (percent_encode(filename, safe=attr_chars_nonalnum, encoding='utf-8'),)
+    rv += "; filename*=utf-8''%s" % (percent_encode(filename, safe=attr_chars_nonalnum, encoding="utf-8"),)
 
     # This will only encode filename_compat, if it used non-ascii iso-8859-1.
-    return rv.encode('iso-8859-1')
+    return rv.encode("iso-8859-1")

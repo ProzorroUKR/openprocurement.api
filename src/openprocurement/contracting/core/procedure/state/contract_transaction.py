@@ -8,5 +8,5 @@ TRANSACTION_STATUS_MAP = {
 
 class TransactionState(BaseState):
     def transaction_on_put(self, data):
-        _status_value = data['status']
-        data['status'] = TRANSACTION_STATUS_MAP.get(_status_value, _status_value)
+        _status_value = data["status"]
+        data["status"] = TRANSACTION_STATUS_MAP.get(_status_value, _status_value)

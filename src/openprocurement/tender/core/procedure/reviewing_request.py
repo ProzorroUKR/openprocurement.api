@@ -30,7 +30,6 @@ class ReviewRequestBlockMixin:
         allowed_fields: Optional[tuple] = None,
         lot_id: str = "",
     ) -> None:
-
         request = get_request()
         tender = request.validated["tender"]
 

@@ -89,7 +89,8 @@ class PostReportingTender(PostBaseTender):
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(ReportFundOrganization, required=True),
+        validators=[validate_funders_unique, validate_funders_ids],
     )
     cause = StringType()
     causeDescription = StringType()
@@ -125,7 +126,8 @@ class PatchReportingTender(CommonBaseTender):
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(ReportFundOrganization, required=True),
+        validators=[validate_funders_unique, validate_funders_ids],
     )
     cause = StringType()
     causeDescription = StringType()
@@ -149,7 +151,8 @@ class ReportingTender(BaseTender):
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(ReportFundOrganization, required=True),
+        validators=[validate_funders_unique, validate_funders_ids],
     )
     cause = StringType()
     causeDescription = StringType()

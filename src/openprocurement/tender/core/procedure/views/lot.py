@@ -89,7 +89,11 @@ class TenderLotResource(TenderBaseResource):
         if save_tender(self.request):
             self.LOGGER.info(
                 f"Created tender lot {lot['id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_create"}, {"award_id": lot["id"]}),
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "tender_lot_create"},
+                    {"award_id": lot["id"]},
+                ),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)

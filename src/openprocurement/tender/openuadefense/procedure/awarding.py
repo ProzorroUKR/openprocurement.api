@@ -52,7 +52,9 @@ class DefenseTenderStateAwardingMixing(TenderStateAwardingMixing):
                             LOGGER.info(
                                 "Switched lot {} of tender {} to {}".format(lot["id"], tender["_id"], "unsuccessful"),
                                 extra=context_unpack(
-                                    get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot["id"]}
+                                    get_request(),
+                                    {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                                    {"LOT_ID": lot["id"]},
                                 ),
                             )
                             self.set_object_status(lot, "unsuccessful")

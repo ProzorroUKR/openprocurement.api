@@ -24,6 +24,7 @@
 .. toctree::
    :maxdepth: 3
 
+   cdb/code
    cdb/schema
    cdb/structure/index
    cdb/init

@@ -23,11 +23,17 @@ class MilestoneState(PlanState):
         assert before != after, "Statuses must be different"
 
         # Allowed status changes: scheduled -> met/notMet
-        if before == Milestone.STATUS_SCHEDULED and after in (Milestone.STATUS_MET, Milestone.STATUS_NOT_MET):
+        if before == Milestone.STATUS_SCHEDULED and after in (
+            Milestone.STATUS_MET,
+            Milestone.STATUS_NOT_MET,
+        ):
             if after == Milestone.STATUS_MET:
                 data["dateMet"] = get_now().isoformat()
         else:
-            raise_operation_error(self.request, "Can't update milestone status from '{}' to '{}'".format(before, after))
+            raise_operation_error(
+                self.request,
+                "Can't update milestone status from '{}' to '{}'".format(before, after),
+            )
 
     def milestone_validate_on_post(self, data):
         self._validate_milestone_author(data)
@@ -42,7 +48,10 @@ class MilestoneState(PlanState):
         plan = get_plan()
 
         def identifier(organization):
-            return (organization["identifier"]["scheme"], organization["identifier"]["id"])
+            return (
+                organization["identifier"]["scheme"],
+                organization["identifier"]["id"],
+            )
 
         if identifier(plan["procuringEntity"]) != identifier(data["author"]):
             request.errors.add("body", "author", "Should match plan.procuringEntity")
@@ -61,14 +70,19 @@ class MilestoneState(PlanState):
     def _validate_milestone_status_scheduled(self, data):
         if data["status"] != Milestone.STATUS_SCHEDULED:
             request = get_request()
-            request.errors.add("body", "status", "Cannot create milestone with status: {}".format(data["status"]))
+            request.errors.add(
+                "body",
+                "status",
+                "Cannot create milestone with status: {}".format(data["status"]),
+            )
             request.errors.status = 422
             raise error_handler(request)
 
     def _milestone_validate_due_date_change(self, before, after):
         if before["dueDate"] != after["dueDate"] and before["status"] != Milestone.STATUS_SCHEDULED:
             raise_operation_error(
-                self.request, "Can't update dueDate at '{}' milestone status".format(before["status"])
+                self.request,
+                "Can't update dueDate at '{}' milestone status".format(before["status"]),
             )
 
     def _milestone_validate_description_change(self, before, after):
@@ -77,5 +91,6 @@ class MilestoneState(PlanState):
             Milestone.STATUS_MET,
         ):
             raise_operation_error(
-                self.request, "Can't update description at '{}' milestone status".format(before["status"])
+                self.request,
+                "Can't update description at '{}' milestone status".format(before["status"]),
             )

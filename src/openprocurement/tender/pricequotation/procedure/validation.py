@@ -35,7 +35,10 @@ def validate_contract_document_status(operation):
     def validate(request, **_):
         tender_status = request.validated["tender"]["status"]
         if tender_status not in ["active.qualification", "active.awarded"]:
-            raise_operation_error(request, f"Can't {operation} document in current ({tender_status}) tender status")
+            raise_operation_error(
+                request,
+                f"Can't {operation} document in current ({tender_status}) tender status",
+            )
         if request.validated["contract"]["status"] not in ["pending", "active"]:
             raise_operation_error(request, f"Can't {operation} document in current contract status")
 
@@ -49,7 +52,10 @@ def validate_tender_criteria_existence(request, **_):
     new_tender_status = data.get("status", "draft")
     tender_criteria = tender["criteria"] if tender.get("criteria") else data.get("criteria")
     if new_tender_status != "draft" and not tender_criteria:
-        raise_operation_error(request, f"Can't update tender to next ({new_tender_status}) status without criteria")
+        raise_operation_error(
+            request,
+            f"Can't update tender to next ({new_tender_status}) status without criteria",
+        )
 
 
 def validate_profile_pattern(profile):

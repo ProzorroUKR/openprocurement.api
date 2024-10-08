@@ -35,9 +35,9 @@ def resolve_milestone(request):
 
 
 @resource(
-    name='Plan Milestones',
+    name="Plan Milestones",
     collection_path="/plans/{plan_id}/milestones",
-    path='/plans/{plan_id}/milestones/{milestone_id}',
+    path="/plans/{plan_id}/milestones/{milestone_id}",
 )
 class PlanMilestoneResource(PlanBaseResource):
     serializer_class = MilestoneSerializer

@@ -170,7 +170,10 @@ class BaseComplaintWriteResource(BaseComplaintResource):
             if save_tender(self.request):
                 self.LOGGER.info(
                     f"Updated {self.item_name} complaint {complaint['id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_complaint_patch"}),
+                    extra=context_unpack(
+                        self.request,
+                        {"MESSAGE_ID": f"{self.item_name}_complaint_patch"},
+                    ),
                 )
                 return {"data": self.serializer_class(updated).data}
 

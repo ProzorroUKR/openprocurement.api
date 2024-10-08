@@ -94,7 +94,12 @@ class TenderQualificationResource(TenderBaseResource):
         updated = self.request.validated["data"]
         if updated:
             qualification = self.request.validated["qualification"]
-            set_item(self.request.validated["tender"], "qualifications", qualification["id"], updated)
+            set_item(
+                self.request.validated["tender"],
+                "qualifications",
+                qualification["id"],
+                updated,
+            )
             self.state.qualification_on_patch(qualification, updated)
             self.state.always(self.request.validated["tender"])
             if save_tender(self.request):

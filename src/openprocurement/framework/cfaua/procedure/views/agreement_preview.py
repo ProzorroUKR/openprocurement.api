@@ -25,6 +25,7 @@ class AgreementPreviewResource(AgreementBaseResource):
         if warnings:
             response_data["warnings"] = warnings
             self.LOGGER.info(
-                f"warnings: {warnings}", extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_preview"})
+                f"warnings: {warnings}",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_preview"}),
             )
         return response_data

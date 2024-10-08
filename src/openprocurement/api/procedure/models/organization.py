@@ -7,7 +7,15 @@ from openprocurement.api.procedure.models.contact import ContactPoint
 from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.types import ListType, ModelType
 
-PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
+PROCURING_ENTITY_KINDS = (
+    "authority",
+    "central",
+    "defense",
+    "general",
+    "other",
+    "social",
+    "special",
+)
 
 
 class CommonOrganization(Model):

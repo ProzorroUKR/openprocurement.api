@@ -51,7 +51,10 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
             validate_input_data(PostAgreement),
             validate_config_data(AgreementConfig),
             validate_accreditation_level(
-                levels=(ACCR_3, ACCR_5), item="agreement", operation="creation", source="data"
+                levels=(ACCR_3, ACCR_5),
+                item="agreement",
+                operation="creation",
+                source="data",
             ),
         ),
     )

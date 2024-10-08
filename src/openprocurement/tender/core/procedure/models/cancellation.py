@@ -46,7 +46,7 @@ class PostCancellation(Model):
 
     def validate_relatedLot(self, data, related_lot):
         if related_lot:
-            if not any(l["id"] == related_lot for l in get_tender().get("lots", "")):
+            if not any(lot["id"] == related_lot for lot in get_tender().get("lots", "")):
                 raise ValidationError("relatedLot should be one of lots")
 
         elif data.get("cancellationOf") == "lot":

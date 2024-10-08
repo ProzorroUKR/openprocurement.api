@@ -164,7 +164,9 @@ def validate_tender(request, **kwargs):
         "draft.unsuccessful",
     ]:
         request.errors.add(
-            "body", "data", "Can't update credentials in current ({}) tender status".format(tender["status"])
+            "body",
+            "data",
+            "Can't update credentials in current ({}) tender status".format(tender["status"]),
         )
         request.errors.status = 403
         raise error_handler(request)
@@ -174,7 +176,9 @@ def validate_plan(request, **kwargs):
     plan = request.validated["plan"]
     if plan["status"] != "scheduled":
         request.errors.add(
-            "body", "data", "Can't update credentials in current ({}) plan status".format(plan["status"])
+            "body",
+            "data",
+            "Can't update credentials in current ({}) plan status".format(plan["status"]),
         )
         request.errors.status = 403
         raise error_handler(request)
@@ -184,7 +188,9 @@ def validate_contract(request, **kwargs):
     contract = request.validated["contract"]
     if contract["status"] not in ("pending", "active"):
         request.errors.add(
-            "body", "data", "Can't update credentials in current ({}) contract status".format(contract["status"])
+            "body",
+            "data",
+            "Can't update credentials in current ({}) contract status".format(contract["status"]),
         )
         request.errors.status = 403
         raise error_handler(request)
@@ -194,7 +200,9 @@ def validate_agreement(request, **kwargs):
     agreement = request.validated["agreement"]
     if agreement["status"] != "active":
         request.errors.add(
-            "body", "data", "Can't update credentials in current ({}) agreement status".format(agreement["status"])
+            "body",
+            "data",
+            "Can't update credentials in current ({}) agreement status".format(agreement["status"]),
         )
         request.errors.status = 403
         raise error_handler(request)

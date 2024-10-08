@@ -33,7 +33,10 @@ class CDStage1TenderDetailsState(OpenEUTenderDetailsMixing, CDStage1TenderState)
     def on_patch(self, before, after):
         if get_request().authenticated_role != "competitive_dialogue":
             if before["status"] == "active.stage2.waiting":
-                raise_operation_error(get_request(), "Can't update tender in (active.stage2.waiting) status")
+                raise_operation_error(
+                    get_request(),
+                    "Can't update tender in (active.stage2.waiting) status",
+                )
 
             if after["status"] == "complete":
                 raise_operation_error(get_request(), "Can't update tender to (complete) status")

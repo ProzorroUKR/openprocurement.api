@@ -46,11 +46,11 @@ def validate_related_items(data, features):
             related_item = f.relatedItem
             feature_of = f.featureOf
             if not related_item and feature_of in ("item", "lot"):
-                raise ValidationError([{'relatedItem': ['This field is required.']}])
+                raise ValidationError([{"relatedItem": ["This field is required."]}])
 
             if feature_of == "item":
                 if f.relatedItem not in item_ids:
-                    raise ValidationError([{'relatedItem': ["relatedItem should be one of items"]}])
+                    raise ValidationError([{"relatedItem": ["relatedItem should be one of items"]}])
 
             elif feature_of == "lot" and f.relatedItem not in lot_ids:
-                raise ValidationError([{'relatedItem': ["relatedItem should be one of lots"]}])
+                raise ValidationError([{"relatedItem": ["relatedItem should be one of lots"]}])

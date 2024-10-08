@@ -143,7 +143,7 @@ class Framework(RootModel):
 
 
 class FrameworkChronographData(Model):
-    _id = MD5Type(deserialize_from=['id'])
+    _id = MD5Type(deserialize_from=["id"])
     next_check = BaseType()
 
 

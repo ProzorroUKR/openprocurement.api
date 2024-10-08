@@ -74,7 +74,12 @@ class CFAUAAgreementContractResource(TenderBaseResource):
         if updated:
             contract = self.request.validated["contract"]
             self.state.validate_agreement_contract_on_patch(contract, updated)
-            set_item(self.request.validated["agreement"], "contracts", contract["id"], updated)
+            set_item(
+                self.request.validated["agreement"],
+                "contracts",
+                contract["id"],
+                updated,
+            )
 
             self.state.agreement_contract_on_patch(contract, updated)
             self.state.always(self.request.validated["tender"])

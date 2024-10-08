@@ -22,7 +22,7 @@ def render_tender_txt(data):
 
     lots_numbers = {}
     for n, lot in enumerate(data.get("lots", ""), start=1):
-        lots_numbers[lot['id']] = n
+        lots_numbers[lot["id"]] = n
 
     data.update(
         items_numbers=items_numbers,

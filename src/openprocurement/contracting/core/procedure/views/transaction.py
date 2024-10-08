@@ -26,7 +26,11 @@ def resolve_transaction(request):
         transaction_id = match_dict["transaction_id"]
         contract = request.validated["contract"]
         transaction = get_items(
-            request, contract.get("implementation", {}), "transactions", transaction_id, request.method != "PUT"
+            request,
+            contract.get("implementation", {}),
+            "transactions",
+            transaction_id,
+            request.method != "PUT",
         )
         if transaction:
             request.validated["transaction"] = transaction[0]
@@ -74,4 +78,4 @@ class ContractTransactionsResource(ContractBaseResource):
 
     @json_view(permission="view_contract")
     def get(self):
-        return {'data': BaseSerializer(self.request.validated["transaction"]).data}
+        return {"data": BaseSerializer(self.request.validated["transaction"]).data}

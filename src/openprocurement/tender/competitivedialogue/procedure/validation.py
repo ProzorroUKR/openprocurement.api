@@ -39,20 +39,35 @@ def validate_cd2_allowed_patch_fields(request, **_):
 
         for f in changes:
             if f not in tender_whitelist and tender.get(f) != changes[f]:
-                return raise_operation_error(request, "Field change's not allowed", location="body", name=f, status=422)
+                return raise_operation_error(
+                    request,
+                    "Field change's not allowed",
+                    location="body",
+                    name=f,
+                    status=422,
+                )
 
         items = changes.get("items")
         if items:
             before_items = tender["items"]
             if len(items) != len(before_items):
-                return raise_operation_error(request, "List size change's not allowed", location="body", name="items")
+                return raise_operation_error(
+                    request,
+                    "List size change's not allowed",
+                    location="body",
+                    name="items",
+                )
 
             item_whitelist = {"deliveryDate"}
             for a, b in zip(items, before_items):
                 for f in a:
                     if f not in item_whitelist and a[f] != b[f]:
                         return raise_operation_error(
-                            request, "Field change's not allowed", location="body", name=f"items.{f}", status=422
+                            request,
+                            "Field change's not allowed",
+                            location="body",
+                            name=f"items.{f}",
+                            status=422,
                         )
 
 

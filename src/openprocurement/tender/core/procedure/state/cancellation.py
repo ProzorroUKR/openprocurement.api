@@ -13,11 +13,20 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 class CancellationStateMixing:
     # additionally to terminated
-    cancellation_forbidden_statuses = {"active.auction", "active.qualification.stand-still", "draft"}
+    cancellation_forbidden_statuses = {
+        "active.auction",
+        "active.qualification.stand-still",
+        "draft",
+    }
 
     # START Validations
     _before_release_reason_types = ["cancelled", "unsuccessful"]
-    _after_release_reason_types = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+    _after_release_reason_types = [
+        "noDemand",
+        "unFixable",
+        "forceMajeure",
+        "expensesCut",
+    ]
 
     _before_release_statuses = ["pending", "active"]
     _after_release_statuses = ["draft", "pending", "unsuccessful", "active"]
@@ -51,12 +60,18 @@ class CancellationStateMixing:
     def validate_cancellation_in_allowed_tender_status(self, request, tender, _):
         tender_status = tender.get("status")
         if tender_status in self.terminated_statuses or tender_status in self.cancellation_forbidden_statuses:
-            raise_operation_error(request, f"Can't perform cancellation in current ({tender_status}) tender status")
+            raise_operation_error(
+                request,
+                f"Can't perform cancellation in current ({tender_status}) tender status",
+            )
 
     @staticmethod
     def validate_cancellation_status_draft_pending(request, tender, cancellation):
-        if cancellation['status'] not in ("draft", "pending"):
-            raise_operation_error(request, f"Can't update cancellation in current ({cancellation['status']}) status")
+        if cancellation["status"] not in ("draft", "pending"):
+            raise_operation_error(
+                request,
+                f"Can't update cancellation in current ({cancellation['status']}) status",
+            )
 
     def validate_possible_reason_types(self, request, tender, cancellation):
         reason_type = cancellation.get("reasonType")
@@ -77,7 +92,12 @@ class CancellationStateMixing:
                 return
 
         if reason_type not in choices:
-            raise raise_operation_error(request, [f"Value must be one of {choices}"], status=422, name="reasonType")
+            raise raise_operation_error(
+                request,
+                [f"Value must be one of {choices}"],
+                status=422,
+                name="reasonType",
+            )
 
     def validate_cancellation_possible_statuses(self, request, tender, cancellation):
         choices = self._after_release_statuses if tender_created_after_2020_rules() else self._before_release_statuses
@@ -140,11 +160,15 @@ class CancellationStateMixing:
              - canceling lot if there is a non-lot complaint (not complaint_lot)
             AND complaint.status is in ("pending", "accepted", "satisfied")
             """
-            if cancellation_lot == complaint_lot or None in (cancellation_lot, complaint_lot):  # same lot or both None
+            if cancellation_lot == complaint_lot or None in (
+                cancellation_lot,
+                complaint_lot,
+            ):  # same lot or both None
                 status = complaint.get("status")
                 if status in ("pending", "accepted", "satisfied"):
                     raise_operation_error(
-                        request, f"Can't perform operation for there is {item_name} complaint in {status} status"
+                        request,
+                        f"Can't perform operation for there is {item_name} complaint in {status} status",
                     )
 
         for c in tender.get("complaints", ""):

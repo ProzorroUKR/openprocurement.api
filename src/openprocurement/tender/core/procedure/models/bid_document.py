@@ -20,7 +20,12 @@ class PostDocument(BasePostDocument, ConfidentialDocumentMixin):
 
 
 class PatchDocument(BasePatchDocument):
-    confidentiality = StringType(choices=[ConfidentialityTypes.PUBLIC.value, ConfidentialityTypes.BUYER_ONLY.value])
+    confidentiality = StringType(
+        choices=[
+            ConfidentialityTypes.PUBLIC.value,
+            ConfidentialityTypes.BUYER_ONLY.value,
+        ]
+    )
     confidentialityRationale = StringType()
 
 

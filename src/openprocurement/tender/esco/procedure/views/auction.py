@@ -54,7 +54,7 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
     )
     def post(self):
         bid_values = {
-            b["id"]: {l["relatedLot"]: l["value"] for l in b.get("lotValues", "")}
+            b["id"]: {lot["relatedLot"]: lot["value"] for lot in b.get("lotValues", "")}
             for b in self.request.validated["tender"].get("bids", "")
         }
 

@@ -115,7 +115,13 @@ def append_tender_revision(request, tender, patch, date):
     status_changes = [
         p
         for p in patch
-        if all([not p["path"].startswith("/bids/"), p["path"].endswith("/status"), p["op"] == "replace"])
+        if all(
+            [
+                not p["path"].startswith("/bids/"),
+                p["path"].endswith("/status"),
+                p["op"] == "replace",
+            ]
+        )
     ]
     for change in status_changes:
         obj = resolve_pointer(tender, change["path"].replace("/status", ""))
@@ -211,7 +217,13 @@ def bid_in_invalid_status() -> Optional[bool]:
     if not status:
         bid = get_bid()
         status = bid["status"] if bid else "draft"
-    return status in ("deleted", "invalid", "invalid.pre-qualification", "unsuccessful", "draft")
+    return status in (
+        "deleted",
+        "invalid",
+        "invalid.pre-qualification",
+        "unsuccessful",
+        "draft",
+    )
 
 
 def validate_field(
@@ -264,7 +276,10 @@ def get_bids_before_auction_results(tender):
         try:
             initial_doc = apply_json_patch(initial_doc, revision["changes"])
         except (JsonPointerException, JsonPatchException) as e:
-            LOGGER.exception(e, extra=context_unpack(request, {"MESSAGE_ID": "fail_get_tendering_bids"}))
+            LOGGER.exception(
+                e,
+                extra=context_unpack(request, {"MESSAGE_ID": "fail_get_tendering_bids"}),
+            )
     return deepcopy(initial_doc["bids"])
 
 
@@ -325,13 +340,18 @@ def validate_features_custom_weight(data, features, max_sum):
         if data["lots"]:
             if any(
                 [
-                    round(vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])), 15) > max_sum
+                    round(
+                        vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])),
+                        15,
+                    )
+                    > max_sum
                     for lot in data["lots"]
                 ]
             ):
                 raise ValidationError(
-                    "Sum of max value of all features for lot should be "
-                    "less then or equal to {:.0f}%".format(max_sum * 100)
+                    "Sum of max value of all features for lot should be less then or equal to {:.0f}%".format(
+                        max_sum * 100
+                    )
                 )
         else:
             if round(vnmax(features), 15) > max_sum:
@@ -459,11 +479,11 @@ def matchdict_from_path(path, root_resource="tenders"):
 
 
 def _extract_resource(request, matchdict, parent_resource, resource_name):
-    resource_id = matchdict.get(f'{resource_name}_id')
+    resource_id = matchdict.get(f"{resource_name}_id")
     if resource_id:
-        resources = get_child_items(parent_resource, f'{resource_name}s', resource_id)
+        resources = get_child_items(parent_resource, f"{resource_name}s", resource_id)
         if not resources:
-            request.errors.add("url", f'{resource_name}_id', "Not Found")
+            request.errors.add("url", f"{resource_name}_id", "Not Found")
             request.errors.status = 404
             raise error_handler(request)
         return resources[-1]
@@ -494,7 +514,12 @@ def is_multi_currency_tender(check_funders=False):
 
 
 def was_changed_after_approve_review_request(tender: dict, review_request_date: dict) -> bool:
-    excluded_changed_field = ("questions", "tenderPeriod", "next_check", "reviewRequests")
+    excluded_changed_field = (
+        "questions",
+        "tenderPeriod",
+        "next_check",
+        "reviewRequests",
+    )
 
     request = get_request()
     tender_src = request.validated["tender_src"]

@@ -68,7 +68,10 @@ def main(global_config, **settings):
         LOGGER.info("Init sentry sdk for {}".format(dsn))
         sentry_sdk.init(
             dsn=dsn,
-            integrations=[LoggingIntegration(level=None, event_level=None), PyramidIntegration()],
+            integrations=[
+                LoggingIntegration(level=None, event_level=None),
+                PyramidIntegration(),
+            ],
             send_default_pii=True,
             request_bodies="always",
             environment=settings.get("sentry.environment", None),
@@ -117,14 +120,14 @@ def main(global_config, **settings):
     # so they both must be the same document service
     config.registry.dep_docservice_url = settings.get("dep_docservice_url")
 
-    signing_key = settings.get('dockey', '')
+    signing_key = settings.get("dockey", "")
     signer = SigningKey(signing_key, encoder=HexEncoder) if signing_key else SigningKey.generate()
     config.registry.docservice_key = signer
     verifier = signer.verify_key
 
     config.registry.keyring = {verifier.encode(encoder=HexEncoder)[:8].decode(): verifier}
-    dockeys = settings.get('dockeys', '')
-    for key in dockeys.split('\0'):
+    dockeys = settings.get("dockeys", "")
+    for key in dockeys.split("\0"):
         if key:
             config.registry.keyring[key[:8]] = VerifyKey(key, encoder=HexEncoder)
 

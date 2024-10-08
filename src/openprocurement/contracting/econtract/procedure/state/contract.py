@@ -177,7 +177,9 @@ class EContractState(
 
             if contracts_ids:
                 _contracts_values = request.registry.mongodb.contracts.list(
-                    fields={"value"}, filters={"_id": {"$in": contracts_ids}}, mode="_all_"
+                    fields={"value"},
+                    filters={"_id": {"$in": contracts_ids}},
+                    mode="_all_",
                 )
 
             _contracts_values.append({"value": value})
@@ -188,15 +190,25 @@ class EContractState(
             if tax_included:
                 if award.get("value", {}).get("valueAddedTaxIncluded"):
                     if amount > to_decimal(award.get("value", {}).get("amount")):
-                        raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+                        raise_operation_error(
+                            request,
+                            "Amount should be less or equal to awarded amount",
+                            name="value",
+                        )
                 else:
                     if amount_net > to_decimal(award.get("value", {}).get("amount")):
                         raise_operation_error(
-                            request, "AmountNet should be less or equal to awarded amount", name="value"
+                            request,
+                            "AmountNet should be less or equal to awarded amount",
+                            name="value",
                         )
             else:
                 if amount > to_decimal(award.get("value", {}).get("amount")):
-                    raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+                    raise_operation_error(
+                        request,
+                        "Amount should be less or equal to awarded amount",
+                        name="value",
+                    )
 
     def validate_required_signed_info(self, data: dict) -> None:
         tender_type = get_tender().get("procurementMethodType", "")
@@ -342,7 +354,7 @@ class EContractState(
         return tender.get("config", {}).get("hasAwardComplaints") is False
 
     def convert_items_attributes_types(self, before: dict, after: dict) -> dict:
-        if not "items" in before:
+        if "items" not in before:
             return
 
         items_before = before.get("items", [])

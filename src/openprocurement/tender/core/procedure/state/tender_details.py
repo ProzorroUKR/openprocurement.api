@@ -258,7 +258,11 @@ class TenderDetailsMixing(TenderConfigMixin):
     def status_up(self, before, after, data):
         if after == "draft" and before != "draft":
             raise_operation_error(
-                get_request(), "Can't change status to draft", status=422, location="body", name="status"
+                get_request(),
+                "Can't change status to draft",
+                status=422,
+                location="body",
+                name="status",
             )
         if after != "draft" and before == "draft":
             self.validate_pre_selection_agreement(data)
@@ -350,15 +354,15 @@ class TenderDetailsMixing(TenderConfigMixin):
                         name="milestones",
                     )
             sums[milestone["type"]][milestone.get("relatedLot")] += to_decimal(milestone.get("percentage", 0))
-            grouped_data[milestone.get('relatedLot')].append(milestone)
+            grouped_data[milestone.get("relatedLot")].append(milestone)
 
-            if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM) and milestone.get('relatedLot'):
+            if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM) and milestone.get("relatedLot"):
                 related_lot_exists = True
 
         if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM):
             for lot, milestones in grouped_data.items():
                 for i, milestone in enumerate(milestones):
-                    if related_lot_exists and not milestone.get('relatedLot'):
+                    if related_lot_exists and not milestone.get("relatedLot"):
                         raise_operation_error(
                             get_request(),
                             [
@@ -471,7 +475,10 @@ class TenderDetailsMixing(TenderConfigMixin):
 
         if has_value_estimation and lot_value_amount is not None and lot_value_amount < lot_min_step_amount:
             raise_operation_error(
-                self.request, "Minimal step value should be less than lot value", status=422, name="lots"
+                self.request,
+                "Minimal step value should be less than lot value",
+                status=422,
+                name="lots",
             )
         if self.should_validate_lot_minimal_step and has_value_estimation and lot_value_amount is not None:
             self.validate_minimal_step_limits(tender, lot_value_amount, lot_min_step_amount)
@@ -552,7 +559,10 @@ class TenderDetailsMixing(TenderConfigMixin):
 
                     if qualif_complain_duration > 0:
                         for qualification in after["qualifications"]:
-                            if qualification.get("status") in ["unsuccessful", "active"]:
+                            if qualification.get("status") in [
+                                "unsuccessful",
+                                "active",
+                            ]:
                                 qualification["complaintPeriod"] = {
                                     "startDate": get_now().isoformat(),
                                     "endDate": end_date,
@@ -844,7 +854,10 @@ class TenderDetailsMixing(TenderConfigMixin):
         prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
         if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
             raise_operation_error(
-                get_request(), [f"CPV {prefix_name} of items should be identical"], status=422, name="items"
+                get_request(),
+                [f"CPV {prefix_name} of items should be identical"],
+                status=422,
+                name="items",
             )
 
         if not self.should_validate_pre_selection_agreement:
@@ -884,7 +897,10 @@ class TenderDetailsMixing(TenderConfigMixin):
         if len(prefix_list) != 1:
             prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
             raise_operation_error(
-                get_request(), [f"Can't change classification {prefix_name} of items"], status=422, name="items"
+                get_request(),
+                [f"Can't change classification {prefix_name} of items"],
+                status=422,
+                name="items",
             )
 
     def validate_tender_period_extension(self, tender):
@@ -952,7 +968,11 @@ class TenderDetailsMixing(TenderConfigMixin):
             for item in after["items"]:
                 if not item.get("relatedLot"):
                     raise_operation_error(
-                        get_request(), "This field is required", status=422, location="body", name="item.relatedLot"
+                        get_request(),
+                        "This field is required",
+                        status=422,
+                        location="body",
+                        name="item.relatedLot",
                     )
 
     def update_complaint_period(self, tender):

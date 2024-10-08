@@ -71,7 +71,10 @@ class ContractResource(ContractBaseResource):
                         if save_tender(self.request):
                             self.LOGGER.info(
                                 f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
-                                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_update_status"}),
+                                extra=context_unpack(
+                                    self.request,
+                                    {"MESSAGE_ID": "tender_contract_update_status"},
+                                ),
                             )
 
                     self.LOGGER.info(

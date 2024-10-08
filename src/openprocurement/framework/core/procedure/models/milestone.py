@@ -4,7 +4,7 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.framework.core.procedure.models.document import (
@@ -28,7 +28,6 @@ class PostMilestone(Model):
     @serializable(serialized_name="dueDate", serialize_when_none=False)
     def milestone_dueDate(self):
         if self.type == "ban":
-            agreement = get_request().validated["agreement_src"]
             due_date = calculate_framework_full_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), ceil=True)
             return due_date.isoformat()
         return None

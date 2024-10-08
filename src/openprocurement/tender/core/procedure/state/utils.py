@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.context import get_bid
 
 def has_unanswered_questions(tender, filter_cancelled_lots=True):
     if filter_cancelled_lots and tender.get("lots"):
-        active_lots = [l["id"] for l in tender["lots"] if l["status"] == "active"]
+        active_lots = [lot["id"] for lot in tender["lots"] if lot["status"] == "active"]
         active_items = [
             i["id"] for i in tender.get("items") if not i.get("relatedLot") or i["relatedLot"] in active_lots
         ]
@@ -25,7 +25,7 @@ def has_unanswered_questions(tender, filter_cancelled_lots=True):
 
 def has_unanswered_complaints(tender, filter_cancelled_lots=True, block_tender_complaint_status=("pending",)):
     if filter_cancelled_lots and tender.get("lots"):
-        active_lots = [l["id"] for l in tender.get("lots") if l["status"] == "active"]
+        active_lots = [lot["id"] for lot in tender.get("lots") if lot["status"] == "active"]
         return any(
             [
                 i["status"] in block_tender_complaint_status

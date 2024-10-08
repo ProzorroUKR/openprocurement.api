@@ -25,13 +25,19 @@ def validate_contract_change_action_not_in_allowed_contract_status(request, **kw
 def validate_create_contract_change(request, **kwargs):
     contract = request.validated["contract"]
     if contract.get("changes") and contract["changes"][-1]["status"] == "pending":
-        raise_operation_error(request, "Can't create new contract change while any (pending) change exists")
+        raise_operation_error(
+            request,
+            "Can't create new contract change while any (pending) change exists",
+        )
 
 
 def validate_contract_change_update_not_in_allowed_change_status(request, **kwargs):
     change = request.validated["change"]
     if change["status"] == "active":
-        raise_operation_error(request, f"Can't update contract change in current ({change['status']}) status")
+        raise_operation_error(
+            request,
+            f"Can't update contract change in current ({change['status']}) status",
+        )
 
 
 # contract
@@ -44,7 +50,10 @@ def validate_contract_update_not_in_allowed_status(request, **_):
 def validate_credentials_generate(request, **_):
     contract = request.validated["contract"]
     if contract["status"] not in ["pending", "active"]:
-        raise_operation_error(request, f"Can't generate credentials in current ({contract['status']}) contract status")
+        raise_operation_error(
+            request,
+            f"Can't generate credentials in current ({contract['status']}) contract status",
+        )
 
 
 # contract document
@@ -71,7 +80,10 @@ def validate_add_document_to_active_change(request, **_):
 def validate_signer_info_update_in_not_allowed_status(request, **_):
     contract = request.validated["contract"]
     if contract["status"] != "pending":
-        raise_operation_error(request, f"Can't update contract signerInfo in current ({contract['status']}) status")
+        raise_operation_error(
+            request,
+            f"Can't update contract signerInfo in current ({contract['status']}) status",
+        )
 
 
 # Access

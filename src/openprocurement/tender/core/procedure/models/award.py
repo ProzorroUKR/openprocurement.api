@@ -36,7 +36,12 @@ class PostAward(BaseAward):
     status = StringType(required=True, choices=["pending"], default="pending")
     value = ModelType(Value)
     weightedValue = ModelType(Value)
-    suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    suppliers = ListType(
+        ModelType(BusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
     items = ListType(ModelType(Item))
     bid_id = MD5Type(required=True)
     lotID = MD5Type()
@@ -68,7 +73,12 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
     date = IsoDateTimeType(required=True)
     value = ModelType(Value)
     weightedValue = ModelType(Value)
-    suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    suppliers = ListType(
+        ModelType(BusinessOrganization, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
     bid_id = MD5Type(required=True)
     lotID = MD5Type()
     complaintPeriod = ModelType(Period)

@@ -37,7 +37,11 @@ def save_contract(request, insert=False, contract=None, contract_src=None):
                 "Saved contract {}: dateModified {} -> {}".format(
                     contract["_id"], old_date_modified, contract["dateModified"]
                 ),
-                extra=context_unpack(request, {"MESSAGE_ID": "save_contract"}, {"CONTRACT_REV": contract["_rev"]}),
+                extra=context_unpack(
+                    request,
+                    {"MESSAGE_ID": "save_contract"},
+                    {"CONTRACT_REV": contract["_rev"]},
+                ),
             )
             return True
 

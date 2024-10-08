@@ -77,7 +77,12 @@ class Feature(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    enum = ListType(ModelType(FeatureValue, required=True), default=[], min_size=1, validators=[validate_values_uniq])
+    enum = ListType(
+        ModelType(FeatureValue, required=True),
+        default=[],
+        min_size=1,
+        validators=[validate_values_uniq],
+    )
 
 
 class Item(TechFeatureItemMixin, BaseItem):
@@ -118,7 +123,12 @@ class Agreement(BaseAgreement):
     description_ru = StringType()
     changes = ListType(
         PolyModelType(
-            (ChangeTaxRate, ChangeItemPriceVariation, ChangePartyWithdrawal, ChangeThirdParty),
+            (
+                ChangeTaxRate,
+                ChangeItemPriceVariation,
+                ChangePartyWithdrawal,
+                ChangeThirdParty,
+            ),
             claim_function=get_change_class,
         ),
         default=[],
@@ -150,7 +160,12 @@ class PostAgreement(BasePostAgreement):
     description_ru = StringType()
     changes = ListType(
         PolyModelType(
-            (PostChangeTaxRate, PostChangeItemPriceVariation, PostChangePartyWithdrawal, PostChangeThirdParty),
+            (
+                PostChangeTaxRate,
+                PostChangeItemPriceVariation,
+                PostChangePartyWithdrawal,
+                PostChangeThirdParty,
+            ),
             claim_function=get_change_class,
         ),
         default=[],

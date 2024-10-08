@@ -85,7 +85,9 @@ class BaseClaimResource(TenderBaseResource):
             LOGGER.info(
                 f"Created {self.context} claim {claim['id']}",
                 extra=context_unpack(
-                    self.request, {"MESSAGE_ID": f"{self.context}_claim_create"}, {"claim_id": claim["id"]}
+                    self.request,
+                    {"MESSAGE_ID": f"{self.context}_claim_create"},
+                    {"claim_id": claim["id"]},
                 ),
             )
             self.request.response.status = 201

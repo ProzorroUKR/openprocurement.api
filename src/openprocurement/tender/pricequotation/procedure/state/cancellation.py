@@ -10,7 +10,12 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 
 class PQCancellationStateMixing(BelowThresholdCancellationStateMixing):
-    _after_release_reason_types = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+    _after_release_reason_types = [
+        "noDemand",
+        "unFixable",
+        "forceMajeure",
+        "expensesCut",
+    ]
 
     def validate_cancellation_post(self, data):
         super().validate_cancellation_post(data)
@@ -23,9 +28,10 @@ class PQCancellationStateMixing(BelowThresholdCancellationStateMixing):
     @staticmethod
     def validate_not_draft_publishing():
         tender = get_tender()
-        if tender["status"] == 'draft.publishing':
+        if tender["status"] == "draft.publishing":
             raise_operation_error(
-                get_request(), "Can't perform cancellation in current ({}) status".format("draft.publishing")
+                get_request(),
+                "Can't perform cancellation in current ({}) status".format("draft.publishing"),
             )
 
 

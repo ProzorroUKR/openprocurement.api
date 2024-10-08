@@ -76,7 +76,9 @@ class TenderContractResource(TenderBaseResource):
             self.LOGGER.info(
                 "Created tender contract {}".format(contract["id"]),
                 extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_contract_create"}, {"contract_id": contract["id"]}
+                    self.request,
+                    {"MESSAGE_ID": "tender_contract_create"},
+                    {"contract_id": contract["id"]},
                 ),
             )
             self.request.response.status = 201
@@ -95,7 +97,12 @@ class TenderContractResource(TenderBaseResource):
 
             self.state.validate_contract_patch(self.request, contract, updated_contract)
 
-            set_item(self.request.validated["tender"], "contracts", contract["id"], updated_contract)
+            set_item(
+                self.request.validated["tender"],
+                "contracts",
+                contract["id"],
+                updated_contract,
+            )
             self.state.contract_on_patch(contract, updated_contract)
 
             if save_tender(self.request):

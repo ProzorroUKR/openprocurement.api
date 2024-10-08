@@ -35,7 +35,10 @@ class AwardStateMixing:
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status
         else:
-            raise_operation_error(self.request, f"Can't update award in current ({before['status']}) status")
+            raise_operation_error(
+                self.request,
+                f"Can't update award in current ({before['status']}) status",
+            )
 
     def check_qualified_eligible_change(self, before, award):
         if award["status"] == "cancelled" and (

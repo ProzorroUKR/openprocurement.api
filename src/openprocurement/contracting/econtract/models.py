@@ -25,13 +25,26 @@ class PostContract(BasePostContract):
 
 
 class Contract(BaseContract):
-    status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
+    status = StringType(
+        choices=[
+            "pending",
+            "pending.winner-signing",
+            "terminated",
+            "active",
+            "cancelled",
+        ]
+    )
     buyer = ModelType(Organization, required=True)
     procuringEntity = ModelType(
         ProcuringEntity, required=True
     )  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     suppliers = ListType(ModelType(Organization, required=True), min_size=1, max_size=1)
-    items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=False,
+        min_size=1,
+        validators=[validate_items_uniq],
+    )
     contractTemplateName = StringType()
 
     bid_owner = StringType(required=True)

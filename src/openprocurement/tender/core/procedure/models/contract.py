@@ -36,7 +36,13 @@ class CommonContract(Model):
     description_en = StringType()
     description_ru = StringType()
     status = StringType(
-        choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"],
+        choices=[
+            "pending",
+            "pending.winner-signing",
+            "terminated",
+            "active",
+            "cancelled",
+        ],
         default="pending",
     )
     period = ModelType(Period)
@@ -109,7 +115,15 @@ class PatchContract(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
+    status = StringType(
+        choices=[
+            "pending",
+            "pending.winner-signing",
+            "terminated",
+            "active",
+            "cancelled",
+        ]
+    )
     period = ModelType(Period)
     value = ModelType(ContractValue)
     dateSigned = IsoDateTimeType()
@@ -124,7 +138,15 @@ class PatchContract(Model):
 
 # PATCH Supplier---
 class PatchContractSupplier(Model):
-    status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
+    status = StringType(
+        choices=[
+            "pending",
+            "pending.winner-signing",
+            "terminated",
+            "active",
+            "cancelled",
+        ]
+    )
 
 
 # --- PATCH Supplier
@@ -153,10 +175,10 @@ def validate_item_unit_values(data, items):
             if item_value:
                 if (
                     get_tender()["config"]["valueCurrencyEquality"] is True
-                    and item_value['currency'] != base_value['currency']
+                    and item_value["currency"] != base_value["currency"]
                 ):
                     raise ValidationError(f"Value mismatch. Expected: currency {base_value['currency']}")
-                if item_value['valueAddedTaxIncluded'] != base_value['valueAddedTaxIncluded']:
+                if item_value["valueAddedTaxIncluded"] != base_value["valueAddedTaxIncluded"]:
                     raise ValidationError(
                         f"Value mismatch. Expected: valueAddedTaxIncluded {base_value['valueAddedTaxIncluded']}"
                     )

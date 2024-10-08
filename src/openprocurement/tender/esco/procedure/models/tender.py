@@ -111,7 +111,10 @@ class PostTender(PostBaseTender):
     minValue = ModelType(EstimatedValue, default={"currency": "UAH", "valueAddedTaxIncluded": True})
     minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
     yearlyPaymentsPercentageRange = DecimalType(
-        default=Decimal("0.8"), min_value=Decimal("0"), max_value=Decimal("1"), precision=-5
+        default=Decimal("0.8"),
+        min_value=Decimal("0"),
+        max_value=Decimal("1"),
+        precision=-5,
     )
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
@@ -119,7 +122,12 @@ class PostTender(PostBaseTender):
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
-    items = ListType(ModelType(Item, required=True), required=True, min_size=1, validators=[validate_items_uniq])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq],
+    )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)

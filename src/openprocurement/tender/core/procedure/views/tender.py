@@ -124,7 +124,7 @@ class TendersResource(TenderBaseResource):
         schema = self.request.params.get("opt_schema", "")
         if "ocds" in schema.lower():
             if "plans" in data:
-                plan_id = data['plans'][0]['id']
+                plan_id = data["plans"][0]["id"]
                 plan = self.request.registry.mongodb.plans.get(plan_id)
             else:
                 plan = None

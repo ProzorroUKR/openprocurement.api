@@ -68,7 +68,7 @@ class LotAuctionUrls(Model):
         "lots": [{}, {"auctionUrl": "http://auction.."}, {}]
         """
         lot_id = get_request().matchdict.get("auction_lot_id")
-        lot_ids = [l["id"] for l in get_tender().get("lots", "")]
+        lot_ids = [lot["id"] for lot in get_tender().get("lots", "")]
         passed_ids = []
         for lot, positional_lot_id in zip_longest(lots, lot_ids):
             if None in (positional_lot_id, lot):

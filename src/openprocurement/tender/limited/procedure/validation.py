@@ -21,7 +21,10 @@ def validate_create_new_award(request, **kwargs):
     if tender.get("awards"):
         last_status = tender["awards"][-1]["status"]
         if last_status in ["pending", "active"]:
-            raise_operation_error(request, f"Can't create new award while any ({last_status}) award exists")
+            raise_operation_error(
+                request,
+                f"Can't create new award while any ({last_status}) award exists",
+            )
 
 
 def validate_lot_cancellation(request, **kwargs):
