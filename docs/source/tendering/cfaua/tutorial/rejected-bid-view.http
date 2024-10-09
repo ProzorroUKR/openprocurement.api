@@ -199,6 +199,12 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "lotValues": [
+      {
+        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "unsuccessful"
+      }
+    ],
     "selfQualified": true
   }
 }

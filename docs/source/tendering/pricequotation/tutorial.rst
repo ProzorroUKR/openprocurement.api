@@ -191,9 +191,9 @@ Now we can delete this bid:
 .. http:example:: http/delete-2nd-bid.http
    :code:
 
-If bidder try to restore you bi, we will see the next error:
+The bid is not exist in tender after deletion:
 
-.. http:example:: http/restore-deleted-bid.http
+.. http:example:: http/get-deleted-bid.http
    :code:
    
 Proposal Uploading

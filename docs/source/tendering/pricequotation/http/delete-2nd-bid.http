@@ -61,7 +61,7 @@ Content-Type: application/json
         "id": "9ce84d2d4afb41f586da84c363a2a6d5"
       }
     ],
-    "status": "deleted",
+    "status": "draft",
     "items": [
       {
         "id": "e0171c9b08d34c71948f18a5f3504f5a",

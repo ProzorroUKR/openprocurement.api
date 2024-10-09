@@ -16,8 +16,6 @@ Content-Type: application/json
     "bids": [
       {
         "id": "67eb57fa061f47b9836630fd4f90122a",
-        "date": "2023-10-10T01:01:00+03:00",
-        "submissionDate": "2023-10-10T01:01:00+03:00",
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -45,9 +43,7 @@ Content-Type: application/json
         "lotValues": [
           {
             "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
-            "subcontractingDetails": "ДКП «Орфей»",
-            "status": "active",
-            "date": "2023-10-10T01:01:00+03:00"
+            "status": "active"
           }
         ],
         "documents": [
@@ -80,13 +76,10 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "active"
       },
       {
         "id": "110e51882d0f47e5a0c6168c89e9595a",
-        "date": "2023-10-10T01:01:00+03:00",
-        "submissionDate": "2023-10-10T01:01:00+03:00",
         "tenderers": [
           {
             "name": "ДКП «Книга»",
@@ -114,8 +107,7 @@ Content-Type: application/json
         "lotValues": [
           {
             "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
-            "status": "active",
-            "date": "2023-10-10T01:01:00+03:00"
+            "status": "active"
           }
         ],
         "documents": [
@@ -148,13 +140,10 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "active"
       },
       {
         "id": "8f1f20c9676f4c51b1e41855982f5629",
-        "date": "2023-10-10T01:01:00+03:00",
-        "submissionDate": "2023-10-10T01:01:00+03:00",
         "tenderers": [
           {
             "name": "«Снігур»",
@@ -181,8 +170,7 @@ Content-Type: application/json
         "lotValues": [
           {
             "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
-            "status": "active",
-            "date": "2023-10-10T01:01:00+03:00"
+            "status": "active"
           }
         ],
         "documents": [
@@ -215,7 +203,6 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "active"
       }
     ],

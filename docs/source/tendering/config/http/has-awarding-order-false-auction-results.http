@@ -879,8 +879,7 @@ Content-Type: application/json
             },
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c"
+            "date": "2023-10-10T01:00:00+03:00"
           },
           {
             "value": {
@@ -890,8 +889,7 @@ Content-Type: application/json
             },
             "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c"
+            "date": "2023-10-10T01:00:00+03:00"
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"
@@ -1050,8 +1048,7 @@ Content-Type: application/json
             },
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=33aec5588bb84aecbaf28ee83b356bad"
+            "date": "2023-10-10T01:00:00+03:00"
           },
           {
             "value": {
@@ -1061,8 +1058,7 @@ Content-Type: application/json
             },
             "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=33aec5588bb84aecbaf28ee83b356bad"
+            "date": "2023-10-10T01:00:00+03:00"
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"

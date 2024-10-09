@@ -238,6 +238,12 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
+        "lotValues": [
+          {
+            "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
+            "status": "pending"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",
@@ -296,6 +302,12 @@ Content-Type: application/json
             "scale": "sme"
           }
         ],
+        "lotValues": [
+          {
+            "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
+            "status": "pending"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",
@@ -351,6 +363,12 @@ Content-Type: application/json
               "telephone": "+380322123456"
             },
             "scale": "mid"
+          }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
+            "status": "pending"
           }
         ],
         "documents": [
