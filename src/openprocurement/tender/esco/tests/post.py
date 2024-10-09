@@ -20,18 +20,31 @@ from openprocurement.tender.open.tests.post import (
     TenderAwardComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin,
-)
-from openprocurement.tender.open.tests.post import (
-    TenderComplaintPostResourceTest as BaseOpenTenderComplaintPostResourceTest,
-)
-from openprocurement.tender.open.tests.post import (
     TenderQualificationComplaintPostResourceMixin,
     date_after_2020_04_19,
 )
 
 
-class TenderComplaintPostResourceTest(BaseOpenTenderComplaintPostResourceTest):
-    pass
+class TenderComplaintPostResourceTest(
+    BaseESCOContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
+):
+
+    def setUp(self):
+        super().setUp()
+        objection_data = deepcopy(test_tender_open_complaint_objection)
+        objection_data["relatesTo"] = "tender"
+        objection_data["relatedItem"] = self.tender_id
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["objections"] = [objection_data]
+        response = self.app.post_json(
+            "/tenders/{}/complaints".format(self.tender_id),
+            {"data": complaint_data},
+        )
+        self.complaint_id = response.json["data"]["id"]
+        self.complaint_owner_token = response.json["access"]["token"]
+        self.objection_id = response.json["data"]["objections"][0]["id"]
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
 
 class TenderQualificationComplaintPostResourceTest(

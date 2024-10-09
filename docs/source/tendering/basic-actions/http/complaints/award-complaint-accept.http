@@ -1,13 +1,12 @@
-PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/c4977860749648c98c3c5eb180f8b1fc HTTP/1.0
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/c823c3c9df2e45f1a4bcc72a8e1c5639 HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 109
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "status": "accepted",
-    "reviewDate": "2023-01-01T00:00:03+02:00",
+    "reviewDate": "2023-10-10T01:00:03+03:00",
     "reviewPlace": "Place of review"
   }
 }
@@ -18,10 +17,27 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "c4977860749648c98c3c5eb180f8b1fc",
-    "complaintID": "UA-2023-01-01-000001-a.1",
-    "date": "2023-01-01T00:00:03+02:00",
+    "id": "c823c3c9df2e45f1a4bcc72a8e1c5639",
+    "complaintID": "UA-2023-10-10-000001-a.2",
+    "date": "2023-10-10T01:00:03+03:00",
+    "status": "accepted",
+    "documents": [
+      {
+        "id": "ef9c0a403216410f9d4d2c4326f604ed",
+        "datePublished": "2023-10-10T01:00:03+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Complaint_Attachment.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4a2c835c20234675996acdb75895c85d?Signature=iHxmOhpjYq6HoLfeXXW9NG0%2Bj8YcKzwiehIwB6tN80u9XbtRgHkyE0rU82W0sRHgSnMD%2BE1lqCGU%2F%2BdGqAHlAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:03+03:00",
+        "author": "complaint_owner",
+        "language": "uk"
+      }
+    ],
     "type": "complaint",
+    "relatedLot": "bafe97395da841668932cf800cf756af",
+    "bid_id": "c938a8780db146beaba184a25937b356",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -38,37 +54,50 @@ Content-Type: application/json
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "uri": "http://www.sc.gov.ua/",
         "id": "00137256",
-        "legalName": "ДКП «Школяр»",
-        "uri": "http://www.sc.gov.ua/"
+        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-01-01T00:00:03+02:00",
+    "dateSubmitted": "2023-10-10T01:00:03+03:00",
+    "objections": [
+      {
+        "id": "0f1bcfb2d6534f5b900a622e2a74d99b",
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "award",
+        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "id": "5256f8bd9392478b9e203f703591d1c6",
+            "type": "setAsideAward",
+            "description": "test"
+          }
+        ],
+        "arguments": [
+          {
+            "id": "ec096954a6584e8a88073a16039947ae",
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1
+      }
+    ],
+    "reviewDate": "2023-10-10T01:00:03+03:00",
+    "reviewPlace": "Place of review",
     "value": {
       "amount": 3000.0,
       "currency": "UAH"
     },
-    "status": "accepted",
-    "acceptance": true,
-    "dateAccepted": "2023-01-01T00:00:03+02:00",
-    "reviewDate": "2023-01-01T00:00:03+02:00",
-    "reviewPlace": "Place of review",
-    "documents": [
-      {
-        "id": "645505840531412998ad5f5082639ad7",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Complaint_Attachment.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c4131fd62e1246fe984547bddecceb84?Signature=9QRUeKsj3r1nMsnB9SGcga8ybnoDsYvuADXSmHrtt%2BVG2vv05KN0XKKy4idM%2BSoounPI1UIjiIohfBWiQNdtAQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:03+02:00",
-        "dateModified": "2023-01-01T00:00:03+02:00",
-        "author": "complaint_owner",
-        "documentOf": "tender",
-        "language": "uk"
-      }
-    ]
+    "dateAccepted": "2023-10-10T01:00:03+03:00",
+    "acceptance": true
   }
 }
 

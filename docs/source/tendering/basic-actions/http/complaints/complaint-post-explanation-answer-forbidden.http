@@ -1,0 +1,32 @@
+POST /api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/3131116986bb4f24a6bc60bd8b2b0b24/posts?acc_token=e3de4cad10924527927b751b1ceeae1b HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "Відповідь до пояснення",
+    "description": "Відсутній документ",
+    "recipient": "aboveThresholdReviewers",
+    "relatedObjection": "06a5b7ac05f54b63bbce19de94e12568",
+    "relatedPost": "4ac3125553134db1bdaecfdda04709a6"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "relatedPost",
+      "description": [
+        "forbidden to answer to explanations"
+      ]
+    }
+  ]
+}
+

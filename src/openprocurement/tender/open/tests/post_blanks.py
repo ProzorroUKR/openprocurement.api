@@ -1116,7 +1116,11 @@ def create_complaint_post_explanation_invalid(self):
     # change reviewDate
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         self.patch_complaint(
-            {"reviewDate": (get_now() + timedelta(days=3)).isoformat()},
+            {
+                "reviewDate": calculate_tender_full_date(
+                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), tender={}, working_days=True
+                ).isoformat(),
+            },
             self.complaint_owner_token,
         )
 

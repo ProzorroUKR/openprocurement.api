@@ -43,6 +43,34 @@ Content-Type: application/json
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+    "objections": [
+      {
+        "id": "3cb702cc7cfe4018b9916b3973b8ff46",
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "tender",
+        "relatedItem": "2a71069de9654c5ca67c8db208720fe2",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "id": "a1cbb08a1c8a4f7295a76a2961d41d61",
+            "type": "setAsideAward",
+            "description": "test"
+          }
+        ],
+        "arguments": [
+          {
+            "id": "0877f8263092461fac2e5c2d1a534505",
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1
+      }
+    ],
     "value": {
       "amount": 2000.0,
       "currency": "UAH"

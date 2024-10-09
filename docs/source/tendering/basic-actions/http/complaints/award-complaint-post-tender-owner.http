@@ -1,6 +1,5 @@
-POST /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/4450f77623cd4fa1bd42d766563485ed/posts?acc_token=596d2a1c0b3f4932bf4d825bfc8c24f2 HTTP/1.0
+POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/1739ae89d2cb4ef4b8c6c4db5ffc33ed/posts?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 665
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,11 +8,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "eb126a328c1e4f9690630391c2eedfe9",
+    "relatedPost": "97d2f492ca5a44838affa1aeaab1076a",
+    "relatedObjection": "ef70d1f721e14dc5b071a833dcb44f89",
     "documents": [
       {
         "title": "post_document_tender.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1658394562ef49b8a00da93cccbef54a?Signature=7OZNrzAjddinrTaR58UdTD9CBHNVOUEXU7SWpUze%2FD1R0yLWiCBB98GG4Zi%2BTDUoLEsrQksZm1nql8rNex0nAw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/faa222792cc44a93855e079e194d6eb6?Signature=IeW9XHHnw2ExtNqHzkuSn1pFRxmOLHUSuBKjFHyt3INm3mqUTAaoapXNE16xgzsfcWpJYWKtGss5JAJfyTwtCg%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       }
@@ -24,30 +24,32 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/4450f77623cd4fa1bd42d766563485ed/posts/f0bebfaea3754a6b8b9d4cca0bd6fe8e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/1739ae89d2cb4ef4b8c6c4db5ffc33ed/posts/2b40f4fd5f284473afad74cc7104b353
 
 {
   "data": {
-    "id": "f0bebfaea3754a6b8b9d4cca0bd6fe8e",
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "documents": [
       {
-        "id": "f67b391286bc482c97a738585694aad1",
         "hash": "md5:00000000000000000000000000000000",
         "title": "post_document_tender.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1658394562ef49b8a00da93cccbef54a?Signature=MK0mEshJldlfLibdoXVsQFsuOcM0QzA%2FzItzgU7qbcKLTbJ1SfO30%2FNjXhpdY0tsSvVRzio4SQHUbddd9QAxDw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:03+02:00",
-        "dateModified": "2023-01-01T00:00:03+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/faa222792cc44a93855e079e194d6eb6?Signature=4eO%2Fb%2B793LuLZpNP%2FLKPWbFkQkTLyKxpb2BqW83vGZdBPFho1pFqafwGYFJ8mhOebOLthrk8vTgLuVKaD4%2BrCg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "924e59fdd3334db1a72dba05f7da5a61",
+        "datePublished": "2023-10-10T01:00:03+03:00",
+        "dateModified": "2023-10-10T01:00:03+03:00",
+        "author": "tender_owner"
       }
     ],
-    "author": "tender_owner",
     "recipient": "aboveThresholdReviewers",
-    "datePublished": "2023-01-01T00:00:03+02:00",
-    "relatedPost": "eb126a328c1e4f9690630391c2eedfe9"
+    "relatedPost": "97d2f492ca5a44838affa1aeaab1076a",
+    "relatedObjection": "ef70d1f721e14dc5b071a833dcb44f89",
+    "id": "2b40f4fd5f284473afad74cc7104b353",
+    "datePublished": "2023-10-10T01:00:03+03:00",
+    "author": "tender_owner"
   }
 }
 

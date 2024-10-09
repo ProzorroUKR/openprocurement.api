@@ -1,6 +1,5 @@
-PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/f5dc284c76394fb784daf3c4b2a21e41 HTTP/1.0
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/19276d51ed8e45bc9a79d274428918e0 HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 252
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -18,10 +17,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "f5dc284c76394fb784daf3c4b2a21e41",
-    "complaintID": "UA-2023-01-01-000001-a.5",
-    "date": "2023-01-01T00:00:03+02:00",
+    "id": "19276d51ed8e45bc9a79d274428918e0",
+    "complaintID": "UA-2023-10-10-000001-a.6",
+    "date": "2023-10-10T01:00:03+03:00",
+    "status": "stopped",
     "type": "complaint",
+    "relatedLot": "bafe97395da841668932cf800cf756af",
+    "bid_id": "c938a8780db146beaba184a25937b356",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -38,27 +40,54 @@ Content-Type: application/json
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "uri": "http://www.sc.gov.ua/",
         "id": "00137256",
-        "legalName": "ДКП «Школяр»",
-        "uri": "http://www.sc.gov.ua/"
+        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-01-01T00:00:03+02:00",
+    "dateSubmitted": "2023-10-10T01:00:03+03:00",
+    "objections": [
+      {
+        "id": "ead02f419c6d470aa624ac1fde99bd7a",
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "award",
+        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "id": "22e164ff795a4adfad2e17b5288b429c",
+            "type": "setAsideAward",
+            "description": "test"
+          }
+        ],
+        "arguments": [
+          {
+            "id": "2c098e22d54c48ba8ef09214aa148020",
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1
+      }
+    ],
     "decision": "Тендер скасовується замовником",
-    "dateDecision": "2023-01-01T00:00:03+02:00",
-    "dateCanceled": "2023-01-01T00:00:03+02:00",
+    "acceptance": true,
+    "dateAccepted": "2023-10-10T01:00:03+03:00",
+    "reviewDate": "2023-10-10T01:00:03+03:00",
+    "reviewPlace": "Place of review",
     "value": {
       "amount": 3000.0,
       "currency": "UAH"
     },
     "rejectReason": "tenderCancelled",
-    "status": "stopped",
-    "acceptance": true,
-    "dateAccepted": "2023-01-01T00:00:03+02:00",
-    "reviewDate": "2023-01-01T00:00:03+02:00",
-    "reviewPlace": "Place of review"
+    "dateDecision": "2023-10-10T01:00:03+03:00",
+    "dateCanceled": "2023-10-10T01:00:03+03:00"
   }
 }
 
