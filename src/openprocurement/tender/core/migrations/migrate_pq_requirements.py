@@ -226,7 +226,7 @@ def update_criteria_and_responses_boolean(requirement, bids):
         if requirement.get("expectedValues"):
             normalize_expected_values(requirement)
             bids = update_bids_responses(bids, requirement, str)
-    elif "expectedValue" in requirement:
+    elif "expectedValue" in requirement and not isinstance(requirement["expectedValue"], bool):
         convert_expected_value_to_string(requirement)
         bids = update_bids_responses(bids, requirement, str)
     return bids
