@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-08 21:05+0300\n"
+"POT-Creation-Date: 2024-10-09 11:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -167,13 +167,13 @@ msgid "For `esco` contract validity period field `endDate` calculated automatica
 msgstr "Для `esco` контракту поле `endDate` терміну дії договору встановлюється автоматично на етапі активації."
 
 msgid "Setting contract contract number"
-msgstr "Встановлення номеру контракту"
+msgstr "Встановлення номеру договору"
 
 msgid "Setting contract number is required before activation:"
-msgstr "Встановлення номеру конракту обов’язкове до активації:"
+msgstr "Встановлення номеру договору обов’язкове до активації:"
 
 msgid "so let's set contract number:"
-msgstr "давайте встановимо номер контракту:"
+msgstr "давайте встановимо номер договору:"
 
 msgid "Uploading contract documentation"
 msgstr "Завантаження документації по договору"
@@ -241,8 +241,8 @@ msgstr "Постачальник заповнює інформацію підп�
 msgid "You can update signer information using same method:"
 msgstr "Інформацію підписанта можна оновоити використовуючи той самий спосіб:"
 
-msgid "Before activation should be set `contractNumber` (:ref:`econtracting_contract_number`) and `period.startDate` (:ref:`econtracting_validity_period`)"
-msgstr "До активації повинні бути встановлені `contractNumber` (:ref:`econtracting_contract_number`) та `period.startDate` (:ref:`econtracting_validity_period`)"
+msgid "Before activation should be set `contractNumber` (:ref:`econtracting_contract_number`) and `period` (:ref:`econtracting_validity_period`)"
+msgstr "До активації повинні бути встановлені `contractNumber` (:ref:`econtracting_contract_number`) та `period` (:ref:`econtracting_validity_period`)"
 
 msgid "After signer information and all required fields added you can activate contract:"
 msgstr "Після того, як було додано інформацію про підписантів та інші обов'язкові поля, ви можете зареєструвати договір:"
@@ -323,7 +323,7 @@ msgid "Amount and amountNet should be equal"
 msgstr ""
 
 msgid "We see the added properties have merged with existing contract data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
-msgstr "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
+msgstr "Ми бачимо, що додаткові властивості об’єднані з існуючими даними договору. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
 
 msgid "Fields that can be modified: `title`, `description`, `status`, `value.amount`, `value.amountNet`, `period`, `items`, `amountPaid.amount`, `amountPaid.amountNet`, `terminationDetails`."
 msgstr "Поля, які можна модифікувати: `title`, `description`, `status`, `value.amount`, `value.amountNet`, `period`, `items`, `amountPaid.amount`, `amountPaid.amountNet`, `terminationDetails`."
@@ -435,3 +435,4 @@ msgstr "В цьому випадку повинен бути відмінени�
 
 msgid "Let's check all contracts are cancelled:"
 msgstr "Перевіримо що всі контракти відмінені:"
+

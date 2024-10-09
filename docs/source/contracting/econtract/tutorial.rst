@@ -254,7 +254,7 @@ You can update signer information using same method:
 .. http:example:: http/update-contract-owner-add-signer-info.http
    :code:
 
-Before activation should be set `contractNumber` (:ref:`econtracting_contract_number`) and `period.startDate` (:ref:`econtracting_validity_period`)
+Before activation should be set `contractNumber` (:ref:`econtracting_contract_number`) and `period` (:ref:`econtracting_validity_period`)
 
 
 After signer information and all required fields added you can activate contract:
