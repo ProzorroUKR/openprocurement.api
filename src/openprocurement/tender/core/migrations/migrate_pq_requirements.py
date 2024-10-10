@@ -1,8 +1,6 @@
 # pylint: disable=wrong-import-position
 import traceback
 
-from openprocurement.api.procedure.utils import to_decimal
-
 if __name__ == "__main__":
     from gevent import monkey
 
@@ -17,6 +15,7 @@ from decimal import Decimal
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
+from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import get_now
 from openprocurement.tender.pricequotation.constants import PQ
 
