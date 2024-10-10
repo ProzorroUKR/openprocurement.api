@@ -10,6 +10,7 @@ import argparse
 import logging
 import os
 from copy import deepcopy
+from decimal import Decimal
 
 from pyramid.paster import bootstrap
 
@@ -33,9 +34,9 @@ def normalize_expected_values(requirement):
     requirement["expectedMinItems"] = 1
 
 
-def convert_field_to_float(requirement, field_name):
-    if isinstance(requirement[field_name], (float, int)):
-        requirement[field_name] = float(requirement[field_name])
+def convert_field_to_decimal(requirement, field_name):
+    if isinstance(requirement[field_name], (float, int, Decimal)):
+        requirement[field_name] = Decimal(requirement[field_name])
         requirement["dataType"] = "number"
         return True
     return False
@@ -116,13 +117,13 @@ def update_criteria_and_responses_integer(requirement, bids):
         normalize_expected_values(requirement)
         bids = update_bids_responses(bids, requirement, str)
     elif "maxValue" in requirement:
-        if isinstance(requirement["maxValue"], float):
+        if isinstance(requirement["maxValue"], (float, Decimal)):
             requirement["dataType"] = "number"
-            bids = update_bids_responses(bids, requirement, float)
+            bids = update_bids_responses(bids, requirement, Decimal)
             if "minValue" not in requirement:  # add minValue to requirement
                 requirement["minValue"] = 0
             else:
-                convert_field_to_float(requirement, "minValue")
+                convert_field_to_decimal(requirement, "minValue")
         elif not isinstance(requirement["maxValue"], int):
             convert_min_max_value_to_string(requirement)
             bids = update_bids_responses(bids, requirement, str)
@@ -131,9 +132,9 @@ def update_criteria_and_responses_integer(requirement, bids):
     elif "minValue" in requirement or "expectedValue" in requirement:
         for field_name in ("minValue", "expectedValue"):
             if field_name in requirement:
-                if isinstance(requirement[field_name], float):
+                if isinstance(requirement[field_name], (float, Decimal)):
                     requirement["dataType"] = "number"
-                    bids = update_bids_responses(bids, requirement, float)
+                    bids = update_bids_responses(bids, requirement, Decimal)
                 elif field_name == "expectedValue" and isinstance(requirement["expectedValue"], (bool, str)):
                     convert_expected_value_to_string(requirement)
                     bids = update_bids_responses(bids, requirement, str)
@@ -149,12 +150,12 @@ def update_criteria_and_responses_number(requirement, bids):
         normalize_expected_values(requirement)
         bids = update_bids_responses(bids, requirement, str)
     elif "maxValue" in requirement:
-        if convert_field_to_float(requirement, "maxValue"):
-            bids = update_bids_responses(bids, requirement, float)
+        if convert_field_to_decimal(requirement, "maxValue"):
+            bids = update_bids_responses(bids, requirement, Decimal)
             if "minValue" not in requirement:  # add minValue to requirement
                 requirement["minValue"] = 0
             else:
-                convert_field_to_float(requirement, "minValue")
+                convert_field_to_decimal(requirement, "minValue")
         else:
             convert_min_max_value_to_string(requirement)
             bids = update_bids_responses(bids, requirement, str)
@@ -164,10 +165,10 @@ def update_criteria_and_responses_number(requirement, bids):
                 if field_name == "expectedValue" and isinstance(requirement["expectedValue"], (bool, str)):
                     convert_expected_value_to_string(requirement)
                     bids = update_bids_responses(bids, requirement, str)
-                elif convert_field_to_float(requirement, field_name):
-                    bids = update_bids_responses(bids, requirement, float)
+                elif convert_field_to_decimal(requirement, field_name):
+                    bids = update_bids_responses(bids, requirement, Decimal)
     else:
-        get_min_value_from_responses(requirement, bids, float)
+        get_min_value_from_responses(requirement, bids, Decimal)
         for field_name in ("expectedValues", "expectedMinItems", "expectedMaxItems"):
             requirement.pop(field_name, None)
     return bids
