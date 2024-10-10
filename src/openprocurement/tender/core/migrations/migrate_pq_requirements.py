@@ -47,59 +47,9 @@ def pop_min_max_values(requirement):
     requirement.pop("minValue", None)
 
 
-def update_bids_responses(bids, requirement, obj_type):
-    if bids:
-        updated_bids = []
-        for bid_data in bids:
-            req_resp = []
-            updated = False
-            bid = deepcopy(bid_data)
-            for resp in bid.get("requirementResponses", []):
-                try:
-                    if resp["requirement"] == requirement["title"]:
-                        if resp.get("value") is not None:
-                            if not isinstance(resp["value"], obj_type):
-                                resp["value"] = obj_type(resp["value"])
-                                updated = True
-                        elif resp.get("values") is not None:
-                            for value in resp["values"]:
-                                if not isinstance(value, obj_type):
-                                    break
-                            else:
-                                continue
-                            resp["values"] = [obj_type(val) for val in resp["values"]]
-                            updated = True
-                except ValueError as e:
-                    # delete such response
-                    updated = True
-                else:
-                    req_resp.append(resp)
-            if updated:
-                bid["requirementResponses"] = req_resp
-            updated_bids.append(bid)
-        return updated_bids
-    return bids
-
-
-def get_responses_from_bids(bids, requirement):
-    responses = set()
+def invalidate_bids(bids):
     for bid in bids:
-        for resp in bid.get("requirementResponses", []):
-            if resp["requirement"] == requirement["title"]:
-                if resp.get("value") is not None:
-                    responses.add(resp["value"])
-                elif resp.get("values") is not None:
-                    responses.update(resp["values"])
-    return responses
-
-
-def get_min_value_from_responses(requirement, bids, obj_type):
-    responses = get_responses_from_bids(bids, requirement)
-    if responses:
-        responses = [obj_type(resp) for resp in responses]
-        requirement["minValue"] = min(responses)
-    else:
-        requirement["minValue"] = 0
+        bid["status"] = "invalid"
 
 
 def convert_min_max_value_to_string(requirement):
@@ -112,21 +62,18 @@ def convert_min_max_value_to_string(requirement):
     pop_min_max_values(requirement)
 
 
-def update_criteria_and_responses_integer(requirement, bids):
+def update_criteria_and_responses_integer(requirement):
     if "expectedValues" in requirement and requirement["expectedValues"]:  # not empty list
         normalize_expected_values(requirement)
-        bids = update_bids_responses(bids, requirement, str)
     elif "maxValue" in requirement:
         if isinstance(requirement["maxValue"], (float, Decimal)):
             requirement["dataType"] = "number"
-            bids = update_bids_responses(bids, requirement, Decimal)
             if "minValue" not in requirement:  # add minValue to requirement
                 requirement["minValue"] = 0
             else:
                 convert_field_to_decimal(requirement, "minValue")
         elif not isinstance(requirement["maxValue"], int):
             convert_min_max_value_to_string(requirement)
-            bids = update_bids_responses(bids, requirement, str)
         elif "minValue" not in requirement:  # add minValue to requirement
             requirement["minValue"] = 0
     elif "minValue" in requirement or "expectedValue" in requirement:
@@ -134,114 +81,84 @@ def update_criteria_and_responses_integer(requirement, bids):
             if field_name in requirement:
                 if isinstance(requirement[field_name], (float, Decimal)):
                     requirement["dataType"] = "number"
-                    bids = update_bids_responses(bids, requirement, Decimal)
                 elif field_name == "expectedValue" and isinstance(requirement["expectedValue"], (bool, str)):
                     convert_expected_value_to_string(requirement)
-                    bids = update_bids_responses(bids, requirement, str)
     else:
-        get_min_value_from_responses(requirement, bids, int)
+        requirement["minValue"] = 0
         for field_name in ("expectedValues", "expectedMinItems", "expectedMaxItems"):
             requirement.pop(field_name, None)
-    return bids
 
 
-def update_criteria_and_responses_number(requirement, bids):
+def update_criteria_and_responses_number(requirement):
     if "expectedValues" in requirement and requirement["expectedValues"]:  # not empty list
         normalize_expected_values(requirement)
-        bids = update_bids_responses(bids, requirement, str)
     elif "maxValue" in requirement:
         if convert_field_to_decimal(requirement, "maxValue"):
-            bids = update_bids_responses(bids, requirement, Decimal)
             if "minValue" not in requirement:  # add minValue to requirement
                 requirement["minValue"] = 0
             else:
                 convert_field_to_decimal(requirement, "minValue")
         else:
             convert_min_max_value_to_string(requirement)
-            bids = update_bids_responses(bids, requirement, str)
     elif "minValue" in requirement or "expectedValue" in requirement:
         for field_name in ("minValue", "expectedValue"):
             if field_name in requirement:
                 if field_name == "expectedValue" and isinstance(requirement["expectedValue"], (bool, str)):
                     convert_expected_value_to_string(requirement)
-                    bids = update_bids_responses(bids, requirement, str)
-                elif convert_field_to_decimal(requirement, field_name):
-                    bids = update_bids_responses(bids, requirement, Decimal)
+                else:
+                    convert_field_to_decimal(requirement, field_name)
     else:
-        get_min_value_from_responses(requirement, bids, Decimal)
+        requirement["minValue"] = 0
         for field_name in ("expectedValues", "expectedMinItems", "expectedMaxItems"):
             requirement.pop(field_name, None)
-    return bids
 
 
-def update_criteria_and_responses_string(requirement, bids):
+def update_criteria_and_responses_string(requirement):
     if "expectedValues" in requirement and requirement["expectedValues"]:  # not empty list
         normalize_expected_values(requirement)
     elif "expectedValue" in requirement:
         convert_expected_value_to_string(requirement)
     # maxValue + minValue одночасно
     elif "minValue" in requirement and "maxValue" in requirement:
-        responses = get_responses_from_bids(bids, requirement)
-        if responses:
-            requirement["expectedValues"] = [str(resp) for resp in responses]
-        else:
-            requirement["expectedValues"] = [str(requirement["minValue"]), str(requirement["maxValue"])]
+        requirement["expectedValues"] = [str(requirement["minValue"]), str(requirement["maxValue"])]
         requirement["expectedMinItems"] = 1
         pop_min_max_values(requirement)
     elif "minValue" in requirement or "maxValue" in requirement:
         for field_name in ("minValue", "maxValue"):
             if field_name in requirement:
-                responses = get_responses_from_bids(bids, requirement)
-                if responses:
-                    requirement["expectedValues"] = [str(resp) for resp in responses]
-                else:
-                    requirement["expectedValues"] = [str(requirement[field_name])]
+                requirement["expectedValues"] = [str(requirement[field_name])]
                 requirement["expectedMinItems"] = 1
                 pop_min_max_values(requirement)
-    else:
-        responses = get_responses_from_bids(bids, requirement)
-        if responses:
-            requirement["expectedValues"] = [str(resp) for resp in responses]
-            requirement["expectedMinItems"] = 1
-        else:
-            requirement["dataType"] = "boolean"
-            for field_name in ("expectedValues", "expectedMinItems", "expectedMaxItems"):
-                requirement.pop(field_name, None)
-    bids = update_bids_responses(bids, requirement, str)
-    return bids
 
 
-def update_criteria_and_responses_boolean(requirement, bids):
+def update_criteria_and_responses_boolean(requirement):
     if "expectedValues" in requirement:
         if len(requirement["expectedValues"]) == 1:
             if isinstance(requirement["expectedValues"][0], bool):
                 requirement["expectedValue"] = requirement["expectedValues"][0]
                 for field_name in ("expectedValues", "expectedMinItems", "expectedMaxItems"):
                     requirement.pop(field_name, None)
-                bids = update_bids_responses(bids, requirement, bool)
         elif set(requirement["expectedValues"]) == {True, False}:
             for field_name in ("expectedValues", "expectedMinItems", "expectedMaxItems"):
                 requirement.pop(field_name, None)
-            bids = update_bids_responses(bids, requirement, bool)
         # check whether expectedValues is left
         if requirement.get("expectedValues"):
             normalize_expected_values(requirement)
-            bids = update_bids_responses(bids, requirement, str)
     elif "expectedValue" in requirement and not isinstance(requirement["expectedValue"], bool):
         convert_expected_value_to_string(requirement)
-        bids = update_bids_responses(bids, requirement, str)
-    return bids
 
 
 def update_criteria(criteria: list, bids: list):
     if not criteria:
         return [], bids
     updated_criteria = []
+    updated = False
 
     for criterion in criteria:
         updated_criterion = deepcopy(criterion)
         for req_group in updated_criterion.get("requirementGroups", []):
             for requirement in req_group.get("requirements", []):
+                previous_requirement = deepcopy(requirement)
                 # Remove min/max values if expected values exist
                 if ("expectedValue" in requirement or "expectedValues" in requirement) and (
                     "minValue" in requirement or "maxValue" in requirement
@@ -249,19 +166,22 @@ def update_criteria(criteria: list, bids: list):
                     pop_min_max_values(requirement)
                 # Handle different data types
                 if requirement["dataType"] == "integer":
-                    bids = update_criteria_and_responses_integer(requirement, bids)
+                    update_criteria_and_responses_integer(requirement)
                 elif requirement["dataType"] == "number":
-                    bids = update_criteria_and_responses_number(requirement, bids)
+                    update_criteria_and_responses_number(requirement)
                 elif requirement["dataType"] == "string":
-                    bids = update_criteria_and_responses_string(requirement, bids)
+                    update_criteria_and_responses_string(requirement)
                 elif requirement["dataType"] == "boolean":
-                    bids = update_criteria_and_responses_boolean(requirement, bids)
+                    update_criteria_and_responses_boolean(requirement)
 
                 # delete unit from string and boolean requirements
                 if requirement["dataType"] in ("string", "boolean"):
                     requirement.pop("unit", None)
+                if requirement != previous_requirement:
+                    updated = True
+                    invalidate_bids(bids)
         updated_criteria.append(updated_criterion)
-    return updated_criteria, bids
+    return updated_criteria if updated else None
 
 
 def run(env, args):
@@ -289,20 +209,20 @@ def run(env, args):
     try:
         for tender in cursor:
             now = get_now()
-            set_data = {
-                "dateModified": now.isoformat(),
-                "public_modified": now.timestamp(),
-            }
             try:
-                updated_criteria, updated_bids = update_criteria(tender["criteria"], tender.get("bids", []))
+                bids = tender.get("bids", [])
+                updated_criteria = update_criteria(tender["criteria"], bids)
                 if updated_criteria:
-                    set_data["criteria"] = updated_criteria
-                if updated_bids:
-                    set_data["bids"] = updated_bids
-                if updated_criteria or updated_bids:
                     collection.update_one(
                         {"_id": tender["_id"]},
-                        {"$set": set_data},
+                        {
+                            "$set": {
+                                "dateModified": now.isoformat(),
+                                "public_modified": now.timestamp(),
+                                "criteria": updated_criteria,
+                                "bids": bids,
+                            }
+                        },
                     )
                     count += 1
                 if count and count % log_every == 0:
