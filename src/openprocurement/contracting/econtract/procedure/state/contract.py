@@ -73,7 +73,6 @@ class EContractState(
         super().status_up(before, after, data)
         if before != "active" and after == "active":
             self.validate_required_signed_info(data)
-            self.add_esco_contract_duration_to_period(data)
             self.validate_required_fields_before_activation(data)
 
     def validate_contract_patch(self, request, before: dict, after: dict) -> None:
@@ -149,6 +148,7 @@ class EContractState(
 
     def validate_threshold_contract(self, request, before: dict, after: dict) -> None:
         self.validate_contract_signing(before, after)
+        self.add_esco_contract_duration_to_period(before, after)
 
     def validate_limited_negotiation_contract(self, request, before: dict, after: dict) -> None:
         self.validate_contract_with_cancellations_and_contract_signing(before, after)
@@ -377,13 +377,13 @@ class EContractState(
                 except TypeError:
                     raise_operation_error(self.request, "items attributes type mismatch.", status=422)
 
-    def add_esco_contract_duration_to_period(self, data):
+    def add_esco_contract_duration_to_period(self, before, after):
         request = get_request()
         tender = get_tender()
         if tender["procurementMethodType"] != "esco":
             return
 
-        if not (period := data.get("period")):
+        if not (period := after.get("period")) or before.get("period") == period:
             return
 
         award = request.validated["award"]
@@ -405,7 +405,6 @@ class EContractState(
             return
 
         delta = timedelta(days=duration.get("years", 0) * 365 + duration.get("days", 0))
-        period = data.get("period", {})
         if start_date := period.get("startDate"):
             end_date = calculate_full_date(parse_date(start_date), delta, ceil=True)
             period["endDate"] = end_date.isoformat()
