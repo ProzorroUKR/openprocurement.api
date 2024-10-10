@@ -1,6 +1,8 @@
 # pylint: disable=wrong-import-position
 import traceback
 
+from openprocurement.api.procedure.utils import to_decimal
+
 if __name__ == "__main__":
     from gevent import monkey
 
@@ -36,7 +38,7 @@ def normalize_expected_values(requirement):
 
 def convert_field_to_decimal(requirement, field_name):
     if isinstance(requirement[field_name], (float, int, Decimal)):
-        requirement[field_name] = Decimal(requirement[field_name])
+        requirement[field_name] = to_decimal(requirement[field_name])
         requirement["dataType"] = "number"
         return True
     return False
