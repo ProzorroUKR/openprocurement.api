@@ -244,8 +244,8 @@ If we try to activate bidder the new sign will be needed:
 .. http:example:: tutorial/activate-bidder-without-sign.http
    :code:
 
-Confidentiality
-^^^^^^^^^^^^^^^
+Confidentiality for bids
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Documents can be either public or private:
 

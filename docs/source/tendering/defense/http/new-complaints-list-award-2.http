@@ -38,6 +38,7 @@ Content-Type: application/json
       "bid_id": "144d20967d934033b80441760bebc161",
       "documents": [
         {
+          "confidentiality": "public",
           "documentType": "notice",
           "id": "0e13a828a4994b278eaf7e13832155d2",
           "datePublished": "2023-10-10T01:00:00+03:00",
@@ -97,6 +98,7 @@ Content-Type: application/json
       "bid_id": "e46f8f0d801948559ac59fb85a66abaa",
       "documents": [
         {
+          "confidentiality": "public",
           "documentType": "notice",
           "id": "39d35a2831224254ad654f694b0a7efa",
           "datePublished": "2023-10-10T01:00:00+03:00",

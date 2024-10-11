@@ -15,6 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "public",
     "documentType": "technicalSpecifications",
     "description": "document description modified",
     "id": "bc77152edc4647f4a9ff5b77ea6647c1",

@@ -9,6 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "award_first_document.doc",
       "format": "application/msword",
@@ -21,6 +22,7 @@ Content-Type: application/json
       "author": "tender_owner"
     },
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "award_second_document.doc",
       "format": "application/msword",

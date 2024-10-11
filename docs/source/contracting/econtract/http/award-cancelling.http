@@ -49,6 +49,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fd45af80ad9f4574
     "bid_id": "6d919725d085458490f52e3e8d5606e3",
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "notice",
         "id": "9a93a788d7c54ac6aa165e8a8ec91fc2",
         "datePublished": "2023-10-10T01:00:00+03:00",

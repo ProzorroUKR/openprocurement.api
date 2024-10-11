@@ -1002,18 +1002,13 @@ def lot_patch_tender_document_json_items_none(self):
 
 
 def tender_confidential_documents(self):
-    data = self.initial_data.copy()
-    data.update({"status": "draft"})
-    data["procuringEntity"]["identifier"]["id"] = "08305644"
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    tender_id = response.json["data"]["id"]
-    tender_token = response.json["access"]["token"]
+    tender = self.mongodb.tenders.get(self.tender_id)
+    tender["procuringEntity"]["identifier"]["id"] = "08305644"
+    self.mongodb.tenders.save(tender)
 
     # try to add sign doc without confidential field
     response = self.app.post_json(
-        "/tenders/{}/documents?acc_token={}".format(tender_id, tender_token),
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "title": "sign.p7s",
@@ -1031,7 +1026,7 @@ def tender_confidential_documents(self):
     )
 
     response = self.app.post_json(
-        "/tenders/{}/documents?acc_token={}".format(tender_id, tender_token),
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "title": "sign.p7s",
@@ -1054,7 +1049,7 @@ def tender_confidential_documents(self):
     )
 
     response = self.app.post_json(
-        "/tenders/{}/documents?acc_token={}".format(tender_id, tender_token),
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "title": "sign.p7s",
@@ -1078,7 +1073,7 @@ def tender_confidential_documents(self):
     )
 
     response = self.app.post_json(
-        "/tenders/{}/documents?acc_token={}".format(tender_id, tender_token),
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "title": "sign.p7s",
@@ -1095,7 +1090,7 @@ def tender_confidential_documents(self):
     doc_id = response.json["data"]["id"]
 
     response = self.app.post_json(
-        "/tenders/{}/documents?acc_token={}".format(tender_id, tender_token),
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "title": "text.doc",
@@ -1117,7 +1112,7 @@ def tender_confidential_documents(self):
         },
     )
     response = self.app.post_json(
-        "/tenders/{}/documents?acc_token={}".format(tender_id, tender_token),
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "title": "text.doc",
@@ -1133,7 +1128,7 @@ def tender_confidential_documents(self):
     doc_id_2 = response.json["data"]["id"]
 
     response = self.app.post_json(
-        "/tenders/{}/documents?acc_token={}".format(tender_id, tender_token),
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "title": "sign.p7s",
@@ -1147,13 +1142,13 @@ def tender_confidential_documents(self):
     self.assertEqual(response.json["data"]["confidentiality"], "public")
 
     # get list as tender owner
-    response = self.app.get(f"/tenders/{tender_id}/documents?acc_token={tender_token}")
+    response = self.app.get(f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}")
     self.assertEqual(len(response.json["data"]), 3)
     for doc in response.json["data"]:
         self.assertIn("url", doc)
 
     # get list as public
-    response = self.app.get(f"/tenders/{tender_id}/documents")
+    response = self.app.get(f"/tenders/{self.tender_id}/documents")
     self.assertEqual(len(response.json["data"]), 3)
     for doc in response.json["data"]:
         if doc["confidentiality"] == "buyerOnly":
@@ -1162,20 +1157,20 @@ def tender_confidential_documents(self):
             self.assertIn("url", doc)
 
     # get directly as tender owner
-    response = self.app.get(f"/tenders/{tender_id}/documents/{doc_id}?acc_token={tender_token}")
+    response = self.app.get(f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}")
     self.assertIn("url", response.json["data"])
 
     # get directly as public
-    response = self.app.get(f"/tenders/{tender_id}/documents/{doc_id}")
+    response = self.app.get(f"/tenders/{self.tender_id}/documents/{doc_id}")
     self.assertNotIn("url", response.json["data"])
 
     # get directly as public non-confidential doc
-    response = self.app.get(f"/tenders/{tender_id}/documents/{doc_id_2}")
+    response = self.app.get(f"/tenders/{self.tender_id}/documents/{doc_id_2}")
     self.assertIn("url", response.json["data"])
 
     # download as tender owner
     response = self.app.get(
-        f"/tenders/{tender_id}/documents/{doc_id}?acc_token={tender_token}&download=1",
+        f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}&download=1",
     )
     self.assertEqual(response.status_code, 302)
     self.assertIn("http://localhost/get/", response.location)
@@ -1185,7 +1180,7 @@ def tender_confidential_documents(self):
 
     # download as tender public
     response = self.app.get(
-        f"/tenders/{tender_id}/documents/{doc_id}?download=1",
+        f"/tenders/{self.tender_id}/documents/{doc_id}?download=1",
         status=403,
     )
     self.assertEqual(

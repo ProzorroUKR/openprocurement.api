@@ -57,6 +57,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "extensionReport",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

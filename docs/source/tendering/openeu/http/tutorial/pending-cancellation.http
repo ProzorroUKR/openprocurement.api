@@ -23,6 +23,7 @@ Content-Type: application/json
     "cancellationOf": "tender",
     "documents": [
       {
+        "confidentiality": "public",
         "description": "Changed description",
         "id": "a964a248e3c843dbb96f7d8b3d21d815",
         "datePublished": "2023-10-10T01:03:00+03:00",
@@ -35,6 +36,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
+        "confidentiality": "public",
         "description": "Changed description",
         "id": "a964a248e3c843dbb96f7d8b3d21d815",
         "datePublished": "2023-10-10T01:03:00+03:00",

@@ -496,13 +496,14 @@ Content-Type: application/json
     "tenderID": "UA-2023-10-10-000001-a",
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "notice",
         "id": "3acc8466be6b4b3782cc61ed3662ad09",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/documents/3acc8466be6b4b3782cc61ed3662ad09?download=389951a70228404a81d813a8c8f3d793",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/389951a70228404a81d813a8c8f3d793?Signature=0kJ9eyKFrjCXRrVInJu%2BDv0t7vMookxw8xja5Nwb4xIm7VcZZczptQYIbb%2F2R0b%2FnkTTJGj9gjH7Ri6zNUoBDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -1078,6 +1079,7 @@ Content-Type: application/json
         "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "notice",
             "id": "832da0e2beae4231a700dc858436811a",
             "datePublished": "2023-11-09T00:00:00+02:00",
@@ -1139,6 +1141,7 @@ Content-Type: application/json
         "lotID": "5b1a9504cc16400fa33f3d9e84606053",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "notice",
             "id": "5cb1a8b80d1943af8b83c83a8b4246cd",
             "datePublished": "2023-11-09T00:00:00+02:00",

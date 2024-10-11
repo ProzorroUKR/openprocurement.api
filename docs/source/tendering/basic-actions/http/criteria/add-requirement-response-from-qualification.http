@@ -65,12 +65,13 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
+        "confidentiality": "public",
         "id": "a486651eeba943fcbf37de360d534430",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e8ac48a7259d4badb25eaebe193c8a4a/qualifications/5e7250d3a3f143eba6e5278524327429/documents/a486651eeba943fcbf37de360d534430?download=c0e9ce2d85214717a9a8c36a8b8ead0e",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c0e9ce2d85214717a9a8c36a8b8ead0e?Signature=wvbBm%2F5ovppg8BizL%2FmRQ1N5zsdTrC4p1vL%2FbZ5gGWdUSvfpnyw3jbH1FpYdqAEonMC%2FFLjWUPSi5dLPNvbcAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",

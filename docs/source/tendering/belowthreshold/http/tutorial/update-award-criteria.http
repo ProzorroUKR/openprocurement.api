@@ -21,6 +21,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "public",
     "description": "Нова версія AwardCriteria документу",
     "description_en": "new version of the AwardCriteria document",
     "id": "9e36c772ea13480da2398a2c2bd63fe5",

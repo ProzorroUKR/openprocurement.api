@@ -31,6 +31,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5c
     "description": "Додано документ",
     "documents": [
       {
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "post_document_complaint.pdf",
         "format": "application/pdf",

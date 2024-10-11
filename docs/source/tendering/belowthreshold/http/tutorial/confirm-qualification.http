@@ -52,6 +52,7 @@ Content-Type: application/json
     "lotID": "987404b67a4c4d888112d4e9755edefc",
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "notice",
         "id": "5d4f2bdc658d4f44a748a7c0b04a1a4e",
         "datePublished": "2023-10-16T01:15:06+03:00",
