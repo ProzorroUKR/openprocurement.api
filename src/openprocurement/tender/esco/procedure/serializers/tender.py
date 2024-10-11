@@ -8,6 +8,9 @@ from openprocurement.tender.core.procedure.serializers.cancellation import (
 from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.document import (
+    DocumentSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
 )
@@ -38,4 +41,5 @@ class ESCOTenderSerializer(TenderBaseSerializer):
         "lots": ListSerializer(LotSerializer),
         "awards": ListSerializer(AwardSerializer),
         "questions": ListSerializer(QuestionSerializer),
+        "documents": ListSerializer(DocumentSerializer),
     }

@@ -13,6 +13,9 @@ from openprocurement.tender.core.procedure.serializers.cancellation import (
 from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.document import (
+    DocumentSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.feature import FeatureSerializer
 from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.serializers.qualification import (
@@ -38,6 +41,7 @@ class CFAUATenderSerializer(TenderBaseSerializer):
         "agreements": ListSerializer(AgreementSerializer),
         "guarantee": GuaranteeSerializer,
         "questions": ListSerializer(QuestionSerializer),
+        "documents": ListSerializer(DocumentSerializer),
     }
 
     def __init__(self, data: dict):

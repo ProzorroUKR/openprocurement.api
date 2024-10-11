@@ -1,12 +1,12 @@
 from schematics.types import BooleanType
 
-from openprocurement.tender.core.procedure.models.bid_document import (
+from openprocurement.tender.core.procedure.models.document import (
     Document as BaseDocument,
 )
-from openprocurement.tender.core.procedure.models.bid_document import (
+from openprocurement.tender.core.procedure.models.document import (
     PatchDocument as BasePatchDocument,
 )
-from openprocurement.tender.core.procedure.models.bid_document import (
+from openprocurement.tender.core.procedure.models.document import (
     PostDocument as BasePostDocument,
 )
 

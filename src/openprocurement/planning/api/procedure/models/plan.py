@@ -33,7 +33,10 @@ from openprocurement.planning.api.procedure.models.cancellation import (
     PatchCancellation,
     PostCancellation,
 )
-from openprocurement.planning.api.procedure.models.document import Document
+from openprocurement.planning.api.procedure.models.document import (
+    Document,
+    PostDocument,
+)
 from openprocurement.planning.api.procedure.models.item import CPVClassification, Item
 from openprocurement.planning.api.procedure.models.milestone import (
     Milestone,
@@ -47,7 +50,6 @@ from openprocurement.planning.api.procedure.models.project import Project
 from openprocurement.planning.api.procedure.models.rationale import RationaleObject
 from openprocurement.planning.api.procedure.models.tender import Tender
 from openprocurement.planning.api.utils import generate_plan_id
-from openprocurement.tender.core.procedure.models.document import PostDocument
 
 
 class PostPlan(Model):

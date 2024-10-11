@@ -2,10 +2,7 @@ from schematics.types import BooleanType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.types import ListType
-from openprocurement.tender.core.procedure.models.bid_document import (
-    Document,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PostDocument
 from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.openeu.procedure.models.lot_value import (
     LotValue,

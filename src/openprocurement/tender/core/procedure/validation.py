@@ -1316,13 +1316,13 @@ def validate_bid_financial_document_in_tender_status(request, **_):
     validate_bid_document_in_tender_status_base(request, allowed_statuses)
 
 
-def validate_download_bid_document(request, **_):
+def validate_download_tender_document(request, **_):
     if request.params.get("download"):
         document = request.validated["document"]
         if (
             document.get("confidentiality", "") == ConfidentialityTypes.BUYER_ONLY
             and request.authenticated_role not in ("aboveThresholdReviewers", "sas")
-            and not is_item_owner(request, request.validated["bid"])
+            and not ("bid" in request.validated and is_item_owner(request, request.validated["bid"]))
             and not is_item_owner(request, request.validated["tender"])
         ):
             raise_operation_error(request, "Document download forbidden.")

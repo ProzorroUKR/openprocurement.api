@@ -10,10 +10,7 @@ from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ListType
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.procedure.models.bid import MetaBid
-from openprocurement.tender.core.procedure.models.bid_document import (
-    Document,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PostDocument
 from openprocurement.tender.core.procedure.models.item import LocalizationItem
 from openprocurement.tender.core.procedure.models.organization import (
     BusinessOrganization,

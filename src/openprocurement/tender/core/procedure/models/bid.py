@@ -14,10 +14,7 @@ from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.models.base import BaseBid
-from openprocurement.tender.core.procedure.models.bid_document import (
-    Document,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PostDocument
 from openprocurement.tender.core.procedure.models.item import BaseItem, LocalizationItem
 from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue,

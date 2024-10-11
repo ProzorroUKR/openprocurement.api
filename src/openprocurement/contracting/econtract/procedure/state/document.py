@@ -1,7 +1,11 @@
-from openprocurement.api.constants import CONTRACT_CONFIDENTIAL_DOCS_FROM
+from openprocurement.api.constants import (
+    CONFIDENTIAL_EDRPOU_LIST,
+    CONTRACT_CONFIDENTIAL_DOCS_FROM,
+)
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.document import ConfidentialityTypes
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.contracting.core.procedure.utils import is_contract_owner
 from openprocurement.contracting.econtract.procedure.state.contract import (
     EContractState,
 )
@@ -36,6 +40,11 @@ class EContractDocumentState(BaseDocumentStateMixing, EContractState):
             data.get("documentOf") in ("contract", "change")
             and data.get("documentType") in ("contractSigned", "contractAnnexe")
             and tender.get("cause") in CONFIDENTIAL_DOCS_CAUSES
+        ) or (
+            data.get("title") == "sign.p7s"
+            and data.get("format") == "application/pkcs7-signature"
+            and is_contract_owner(self.request, self.request.validated["contract"])
+            and tender.get("procuringEntity", {}).get("identifier", {}).get("id") in CONFIDENTIAL_EDRPOU_LIST
         ):
             if data["confidentiality"] != ConfidentialityTypes.BUYER_ONLY:
                 raise_operation_error(
