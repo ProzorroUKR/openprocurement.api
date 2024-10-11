@@ -32,7 +32,7 @@ Schema
        Cancellation was unsuccessful.
 
 :documents:
-    List of :ref:`Document` objects
+    List of :ref:`ConfidentialDocument` objects
 
     Documents accompanying the Cancellation: Protocol of Tender Committee
     with decision to cancel the Tender.

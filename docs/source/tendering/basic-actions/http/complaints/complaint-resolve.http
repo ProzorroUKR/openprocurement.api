@@ -21,6 +21,7 @@ Content-Type: application/json
     "status": "satisfied",
     "documents": [
       {
+        "confidentiality": "public",
         "id": "37e5b868adb34094805ddfe95cc6d89c",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",

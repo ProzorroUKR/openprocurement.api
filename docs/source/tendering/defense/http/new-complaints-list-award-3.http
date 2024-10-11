@@ -38,6 +38,7 @@ Content-Type: application/json
       "bid_id": "144d20967d934033b80441760bebc161",
       "documents": [
         {
+          "confidentiality": "public",
           "documentType": "notice",
           "id": "0e13a828a4994b278eaf7e13832155d2",
           "datePublished": "2023-10-10T01:00:00+03:00",
@@ -101,6 +102,7 @@ Content-Type: application/json
       },
       "documents": [
         {
+          "confidentiality": "public",
           "documentType": "notice",
           "id": "39d35a2831224254ad654f694b0a7efa",
           "datePublished": "2023-10-10T01:00:00+03:00",
@@ -156,6 +158,7 @@ Content-Type: application/json
       "bid_id": "e46f8f0d801948559ac59fb85a66abaa",
       "documents": [
         {
+          "confidentiality": "public",
           "documentType": "notice",
           "id": "fca5c6eb97ba4870ba9c39a124a31208",
           "datePublished": "2023-10-10T01:00:00+03:00",
@@ -215,6 +218,7 @@ Content-Type: application/json
       "bid_id": "da18b8ad084b41308e6e366a4c639831",
       "documents": [
         {
+          "confidentiality": "public",
           "documentType": "notice",
           "id": "0fad6a9cbdfe47859208bcbcd0f54c80",
           "datePublished": "2023-10-11T01:00:00+03:00",

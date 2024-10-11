@@ -19,6 +19,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d816e417c06e4dc4
 
 {
   "data": {
+    "confidentiality": "public",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Complaint_Attachment.pdf",
     "format": "application/pdf",

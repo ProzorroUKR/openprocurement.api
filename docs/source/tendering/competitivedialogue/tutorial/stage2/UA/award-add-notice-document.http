@@ -20,6 +20,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c429ff66bfe74085
 
 {
   "data": {
+    "confidentiality": "public",
     "documentType": "notice",
     "hash": "md5:00000000000000000000000000000000",
     "title": "sign.p7s",

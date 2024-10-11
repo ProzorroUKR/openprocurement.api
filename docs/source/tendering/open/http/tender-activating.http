@@ -503,13 +503,14 @@ Content-Type: application/json
     "tenderID": "UA-2023-10-10-000001-a",
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "notice",
         "id": "332afbad496d460faa464559641cd1bf",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de38bea4a6534e13939a382dfeef92f2/documents/332afbad496d460faa464559641cd1bf?download=5cc9e5107bdd435bae2a71979d095dd1",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5cc9e5107bdd435bae2a71979d095dd1?Signature=zw7oPBOVuWHvOqvOgV%2ByjEC03rcuNlT4XyrNuKqQhDtRJgtnYkGDWiKYk%2BTSOScx9UfXHQAJWpeeWcHvSbM2AA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",

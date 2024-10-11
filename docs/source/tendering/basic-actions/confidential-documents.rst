@@ -8,8 +8,8 @@ Confidential documents
 Confidential documents are supported for bids in the above threshold procedures.
 
 
-Confidentiality
----------------
+Confidentiality for bids
+-------------------------
 
 Documents can be either public or private:
 

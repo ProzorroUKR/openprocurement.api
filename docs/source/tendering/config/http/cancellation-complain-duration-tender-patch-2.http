@@ -23,6 +23,7 @@ Content-Type: application/json
     "cancellationOf": "tender",
     "documents": [
       {
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",

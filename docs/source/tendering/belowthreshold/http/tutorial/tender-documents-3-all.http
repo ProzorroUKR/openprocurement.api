@@ -9,6 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
+      "confidentiality": "public",
       "documentType": "notice",
       "id": "61f2dae4bb484ed293654ea67264f529",
       "datePublished": "2023-10-10T01:00:00+03:00",
@@ -22,6 +23,7 @@ Content-Type: application/json
       "language": "uk"
     },
     {
+      "confidentiality": "public",
       "documentType": "technicalSpecifications",
       "description": "змінений опис документа",
       "description_en": "document description modified",
@@ -38,6 +40,7 @@ Content-Type: application/json
       "language": "uk"
     },
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "AwardCriteria.pdf",
       "format": "application/pdf",
@@ -50,6 +53,7 @@ Content-Type: application/json
       "author": "tender_owner"
     },
     {
+      "confidentiality": "public",
       "description": "Нова версія AwardCriteria документу",
       "description_en": "new version of the AwardCriteria document",
       "id": "9e36c772ea13480da2398a2c2bd63fe5",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-21 00:02+0300\n"
+"POT-Creation-Date: 2024-10-11 17:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.12.1\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "EContract"
 msgstr ""
@@ -136,8 +136,8 @@ msgstr "|ocdsDescription| Дата підписання договору. Якщ
 msgid "documents"
 msgstr ""
 
-msgid "List of :ref:`Document` objects"
-msgstr "Список об’єктів :ref:`Document`"
+msgid "List of :ref:`ConfidentialDocument` objects"
+msgstr "Список об’єктів :ref:`ConfidentialDocument`"
 
 msgid "|ocdsDescription| All documents and attachments related to the contract, including any notices."
 msgstr "|ocdsDescription| Усі документи та додатки пов’язані з договором, включно з будь-якими повідомленнями."
@@ -210,3 +210,4 @@ msgstr "Робочий процес"
 
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
+

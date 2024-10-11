@@ -18,6 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "public",
     "id": "a5e30bfbd52c4e5ead3e1981d2e69804",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",

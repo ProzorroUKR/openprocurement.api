@@ -134,6 +134,7 @@ Content-Type: application/json
     "lotID": "b21563e537c64d7f8c31e1993bd86e8a",
     "documents": [
       {
+        "confidentiality": "public",
         "id": "d4388d25ad9d444aa3205e564dceccdb",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",

@@ -56,6 +56,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e
     "lotID": "50fc7d0cb4e3423491c35387a046af42",
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "notice",
         "id": "a2677173fb0e4d6ba85bccd900767fa1",
         "datePublished": "2023-10-10T01:01:00+03:00",

@@ -15,6 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "public",
     "description": "Changed description",
     "id": "3e991af45d064dce9895399c540ad395",
     "datePublished": "2023-10-10T01:00:01+03:00",

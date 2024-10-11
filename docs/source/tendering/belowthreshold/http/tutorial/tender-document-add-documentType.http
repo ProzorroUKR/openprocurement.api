@@ -15,6 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "public",
     "documentType": "technicalSpecifications",
     "id": "dcc28f9e5b0a4475ae1511c9195924ba",
     "datePublished": "2023-10-10T01:00:01+03:00",

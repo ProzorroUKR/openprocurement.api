@@ -19,6 +19,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
 
 {
   "data": {
+    "confidentiality": "public",
     "hash": "md5:00000000000000000000000000000000",
     "title": "agreement_second_document.doc",
     "format": "application/msdoc",
