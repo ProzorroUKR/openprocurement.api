@@ -115,6 +115,9 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
         if criterion["classification"]["id"] != CRITERION_TECHNICAL_FEATURES:
             return
 
+        if after.get("dataType") == "boolean":
+            return
+
         for field in value_fields:
             if before.get(field) is not None and after.get(field) is None:
                 raise_operation_error(
