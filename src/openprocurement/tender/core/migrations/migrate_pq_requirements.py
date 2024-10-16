@@ -48,11 +48,6 @@ def pop_min_max_values(requirement):
     requirement.pop("minValue", None)
 
 
-def invalidate_bids(bids):
-    for bid in bids:
-        bid["status"] = "invalid"
-
-
 def convert_min_max_value_to_string(requirement):
     if "minValue" not in requirement:
         requirement["expectedValues"] = [str(requirement["maxValue"])]
@@ -180,7 +175,6 @@ def update_criteria(criteria: list, bids: list):
                     requirement.pop("unit", None)
                 if requirement != previous_requirement:
                     updated = True
-                    invalidate_bids(bids)
         updated_criteria.append(updated_criterion)
     return updated_criteria if updated else None
 
