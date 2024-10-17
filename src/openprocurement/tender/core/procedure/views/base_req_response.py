@@ -66,16 +66,18 @@ class BaseReqResponseResource(TenderBaseResource):
                     ),
                 )
                 self.request.response.status = 201
-
-            return {"data": [self.serializer_class(rr).data for rr in req_responses]}
+            kwargs = {self.parent_obj_name: self.get_parent(), "tender": self.request.validated["tender"]}
+            return {"data": [self.serializer_class(rr, **kwargs).data for rr in req_responses]}
 
     def collection_get(self) -> dict:
         parent = self.get_parent()
-        data = tuple(self.serializer_class(rr).data for rr in parent.get("requirementResponses", ""))
+        kwargs = {self.parent_obj_name: parent, "tender": self.request.validated["tender"]}
+        data = tuple(self.serializer_class(rr, **kwargs).data for rr in parent.get("requirementResponses", ""))
         return {"data": data}
 
     def get(self) -> dict:
-        data = self.serializer_class(self.request.validated["requirement_response"]).data
+        kwargs = {self.parent_obj_name: self.get_parent(), "tender": self.request.validated["tender"]}
+        data = self.serializer_class(self.request.validated["requirement_response"], **kwargs).data
         return {"data": data}
 
     def patch(self) -> Optional[dict]:
@@ -95,7 +97,8 @@ class BaseReqResponseResource(TenderBaseResource):
                     {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_patch"},
                 ),
             )
-            return {"data": self.serializer_class(updated_req_response).data}
+            kwargs = {self.parent_obj_name: self.get_parent(), "tender": self.request.validated["tender"]}
+            return {"data": self.serializer_class(updated_req_response, **kwargs).data}
 
     def delete(self) -> Optional[dict]:
         parent = self.get_parent()
@@ -113,4 +116,5 @@ class BaseReqResponseResource(TenderBaseResource):
                     {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_delete"},
                 ),
             )
-            return {"data": self.serializer_class(req_response).data}
+            kwargs = {self.parent_obj_name: self.get_parent(), "tender": self.request.validated["tender"]}
+            return {"data": self.serializer_class(req_response, **kwargs).data}

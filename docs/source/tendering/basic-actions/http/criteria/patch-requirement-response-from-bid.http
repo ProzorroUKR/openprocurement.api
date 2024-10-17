@@ -74,7 +74,11 @@ Content-Type: application/json
           }
         ],
         "value": true,
-        "id": "8f8e9b710397449a86741ccd905481da"
+        "id": "8f8e9b710397449a86741ccd905481da",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+        }
       },
       {
         "title": "Requirement response 2",
@@ -95,7 +99,11 @@ Content-Type: application/json
           }
         ],
         "value": true,
-        "id": "962658803e214fabbaea8526630f84b9"
+        "id": "962658803e214fabbaea8526630f84b9",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+        }
       }
     ],
     "tenderers": [

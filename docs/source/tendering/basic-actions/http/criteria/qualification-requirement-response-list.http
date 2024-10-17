@@ -27,7 +27,11 @@ Content-Type: application/json
         }
       ],
       "value": true,
-      "id": "36ca732bafe842678f0252070c17bf51"
+      "id": "36ca732bafe842678f0252070c17bf51",
+      "classification": {
+        "scheme": " espd211",
+        "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
+      }
     },
     {
       "title": "Updated title",
@@ -57,7 +61,11 @@ Content-Type: application/json
         }
       ],
       "value": true,
-      "id": "b1b79a0f903d4d9db6edab3d629b1ff2"
+      "id": "b1b79a0f903d4d9db6edab3d629b1ff2",
+      "classification": {
+        "scheme": " espd211",
+        "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
+      }
     }
   ]
 }

@@ -8,6 +8,9 @@ from openprocurement.tender.core.procedure.serializers.document import (
 from openprocurement.tender.core.procedure.serializers.parameter import (
     ParameterSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.req_response import (
+    RequirementResponseSerializer,
+)
 from openprocurement.tender.esco.procedure.serializers.lot_value import (
     LotValueSerializer,
 )
@@ -23,4 +26,5 @@ class BidSerializer(BaseBidSerializer):
         "parameters": ListSerializer(ParameterSerializer),
         "value": ValueSerializer,
         "lotValues": ListSerializer(LotValueSerializer),
+        "requirementResponses": ListSerializer(RequirementResponseSerializer),
     }

@@ -26,7 +26,11 @@ Content-Type: application/json
       }
     ],
     "value": true,
-    "id": "14d996c8acb847beb5471b7cb1d2e980"
+    "id": "14d996c8acb847beb5471b7cb1d2e980",
+    "classification": {
+      "scheme": " espd211",
+      "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+    }
   }
 }
 

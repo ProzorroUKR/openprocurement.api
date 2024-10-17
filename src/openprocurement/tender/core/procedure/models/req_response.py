@@ -139,8 +139,10 @@ class RequirementResponse(BaseRequirementResponse):
 
 def get_requirement_obj(
     requirement_id: str,
+    tender: dict = None,
 ) -> Tuple[Optional[dict], Optional[dict], Optional[dict]]:
-    tender = get_tender()
+    if not tender:
+        tender = get_tender()
     for criteria in tender.get("criteria", ""):
         for group in criteria.get("requirementGroups", ""):
             for req in reversed(group.get("requirements", "")):

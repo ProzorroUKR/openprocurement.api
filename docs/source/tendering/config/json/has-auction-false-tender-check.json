@@ -152,6 +152,10 @@
                 ],
                 "requirementResponses": [
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "4a86569b473540e8986a5394748d3321",
                         "requirement": {
@@ -162,6 +166,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "99a8b8f984694e2b98897dab7ed0f1b1",
                         "requirement": {
@@ -172,6 +180,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "78ca36bdbfc646d9b1a79533eed0aec7",
                         "requirement": {
@@ -182,6 +194,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "9b32f07a3d9c4028b9d50a2416c54337",
                         "requirement": {
@@ -192,6 +208,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "4653099b97dd4443ac6d3d3c64bb02b2",
                         "requirement": {
@@ -202,6 +222,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "f5416c95b5034eea91de668a841bc11d",
                         "requirement": {
@@ -212,6 +236,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "cbf088a8edcc427dbf25e722cb0c175b",
                         "requirement": {
@@ -222,6 +250,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "299032da4eec4cdea32db30028b3b8dc",
                         "requirement": {
@@ -232,6 +264,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "88726f9c7b0d4d4395038effa8007a07",
                         "requirement": {
@@ -242,6 +278,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.OTHER.BID.LANGUAGE",
+                            "scheme": " ESPD211"
+                        },
                         "description": "some description",
                         "id": "a3f56c12a648499884470fd90c850a4d",
                         "requirement": {
@@ -324,6 +364,10 @@
                 ],
                 "requirementResponses": [
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "7cc3ab7908464e6eb31d00fe97fbe3cd",
                         "requirement": {
@@ -334,6 +378,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "8e04f618e8fe43d4be14a7a38bd54531",
                         "requirement": {
@@ -344,6 +392,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "db7df8174295449380dbb5c2160d2a7c",
                         "requirement": {
@@ -354,6 +406,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "71da25bdcd46404ba7c9a12dd8906e9f",
                         "requirement": {
@@ -364,6 +420,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "e116957a42e04253993830ae7bca5580",
                         "requirement": {
@@ -374,6 +434,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "725d90d8e6c14fbb9d3ba7a33c84d7c3",
                         "requirement": {
@@ -384,6 +448,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "9f3e2c53f9a84fec9630da84c7006efa",
                         "requirement": {
@@ -394,6 +462,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "7fc5b572956e4560a684a62791dca6a3",
                         "requirement": {
@@ -404,6 +476,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+                            "scheme": " espd211"
+                        },
                         "description": "some description",
                         "id": "ba97ed0a0045432cb141fd2e5d2b1f29",
                         "requirement": {
@@ -414,6 +490,10 @@
                         "value": true
                     },
                     {
+                        "classification": {
+                            "id": "CRITERION.OTHER.BID.LANGUAGE",
+                            "scheme": " ESPD211"
+                        },
                         "description": "some description",
                         "id": "27548564ec714d0597acd18fa7586330",
                         "requirement": {
