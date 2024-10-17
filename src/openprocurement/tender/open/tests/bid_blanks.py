@@ -10,6 +10,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.base import test_tender_open_bids
+from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
 
 
 def create_tender_biddder_invalid(self):
@@ -2649,6 +2650,8 @@ def patch_bid_with_responses(self):
     rrs = response.json["data"]["requirementResponses"]
     self.assertEqual(len(rrs), 2)
 
+    clean_requirement_responses(rrs)
+
     valid_data["id"] = "2" * 32
 
     response = self.app.patch_json(
@@ -2668,6 +2671,7 @@ def patch_bid_with_responses(self):
 
     rrs[0]["title"] = "Requirement response 2"
     rrs[1]["title"] = "Requirement response 3"
+    clean_requirement_responses(rrs)
 
     response = self.app.patch_json(request_path, {"data": {"requirementResponses": rrs}})
 

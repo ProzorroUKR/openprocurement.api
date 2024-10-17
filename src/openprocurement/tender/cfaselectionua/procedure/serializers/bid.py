@@ -11,6 +11,9 @@ from openprocurement.tender.core.procedure.serializers.document import (
 from openprocurement.tender.core.procedure.serializers.lot_value import (
     LotValueSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.req_response import (
+    RequirementResponseSerializer,
+)
 
 
 class BidSerializer(BaseBidSerializer):
@@ -21,4 +24,5 @@ class BidSerializer(BaseBidSerializer):
         "qualificationDocuments": ListSerializer(DocumentSerializer),
         "financialDocuments": ListSerializer(DocumentSerializer),
         "lotValues": ListSerializer(LotValueSerializer),
+        "requirementResponses": ListSerializer(RequirementResponseSerializer),
     }

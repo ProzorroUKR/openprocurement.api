@@ -15,6 +15,9 @@ from openprocurement.tender.core.procedure.serializers.item import (
 from openprocurement.tender.core.procedure.serializers.lot_value import (
     LotValueSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.req_response import (
+    RequirementResponseSerializer,
+)
 
 
 class BidSerializer(BaseSerializer):
@@ -24,6 +27,7 @@ class BidSerializer(BaseSerializer):
         "financialDocuments": ListSerializer(DocumentSerializer),
         "qualificationDocuments": ListSerializer(DocumentSerializer),
         "lotValues": ListSerializer(LotValueSerializer),
+        "requirementResponses": ListSerializer(RequirementResponseSerializer),
     }
     private_fields = {
         "owner",

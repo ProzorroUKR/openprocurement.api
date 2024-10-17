@@ -13,6 +13,13 @@ from openprocurement.tender.core.tests.utils import change_auth
 # TenderBidResourceTest
 
 
+def clean_requirement_responses(rrs: list):
+    serialized_fields = {'unit', 'classification'}
+    for rr in rrs:
+        for field in serialized_fields:
+            rr.pop(field, None)
+
+
 def create_tender_biddder_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/bids",
@@ -1786,6 +1793,7 @@ def patch_bid_requirement_response(self):
     self.assertEqual(rr["title"], updated_data["title"])
     self.assertEqual(rr["value"], updated_data["value"])
     self.assertNotIn("evidences", rr)
+    clean_requirement_responses([rr])
 
     response = self.app.patch_json(
         request_path,
@@ -2355,13 +2363,18 @@ def patch_bid_with_responses(self):
         "id": self.requirement_2_id,
         "title": self.requirement_2_title,
     }
+
+    rrs = [valid_data, valid_data_1]
+    clean_requirement_responses(rrs)
     # add
-    response = self.app.patch_json(request_path, {"data": {"requirementResponses": [valid_data, valid_data_1]}})
+    response = self.app.patch_json(request_path, {"data": {"requirementResponses": rrs}})
 
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     rrs = response.json["data"]["requirementResponses"]
     self.assertEqual(len(rrs), 2)
+
+    clean_requirement_responses(rrs)
 
     valid_data["id"] = "2" * 32
 
@@ -2382,6 +2395,8 @@ def patch_bid_with_responses(self):
 
     rrs[0]["title"] = "Requirement response 2"
     rrs[1]["title"] = "Requirement response 3"
+
+    clean_requirement_responses(rrs)
 
     response = self.app.patch_json(request_path, {"data": {"requirementResponses": rrs}})
 

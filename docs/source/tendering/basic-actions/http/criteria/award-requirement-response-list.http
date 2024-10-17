@@ -36,7 +36,11 @@ Content-Type: application/json
         }
       ],
       "value": true,
-      "id": "964e2ab697e7453498a24de1bdaf9f10"
+      "id": "964e2ab697e7453498a24de1bdaf9f10",
+      "classification": {
+        "scheme": " espd211",
+        "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
+      }
     }
   ]
 }
