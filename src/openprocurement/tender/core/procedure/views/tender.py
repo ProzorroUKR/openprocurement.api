@@ -4,7 +4,6 @@ from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
@@ -117,7 +116,7 @@ class TendersResource(TenderBaseResource):
 
     @json_view(permission="view_tender")
     def get(self):
-        tender = get_tender()
+        tender = self.request.validated["tender"]
         data = self.serializer_class(tender).data
         # convert to different schemas, for ex. OCDS-1.1
         # https://standard.open-contracting.org/latest/en/schema/release_package/

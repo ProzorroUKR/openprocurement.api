@@ -1409,11 +1409,6 @@ def one_lot_3bid_1del(self):
         "https://tender.auction.url/for_bid/{}".format(bid_id),
     )
 
-    bid_id = list(bids[2].keys())[0]
-    bid2_token = list(bids[2].values())[0]
-    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid2_token))
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json(

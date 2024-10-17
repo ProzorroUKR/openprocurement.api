@@ -15,7 +15,6 @@ class AgreementSerializer(BaseUIDSerializer):
     base_private_fields = {
         "transfer_token",
         "tender_token",
-        "_rev",
         "doc_type",
         "rev",
         "owner_token",
@@ -25,8 +24,7 @@ class AgreementSerializer(BaseUIDSerializer):
         "is_public",
         "is_test",
         "config",
-        "__parent__",
-        "_attachments",
+        "attachments",
         "date",
         "dateCreated",
         "agreementType",

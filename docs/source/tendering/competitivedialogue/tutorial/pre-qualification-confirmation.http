@@ -723,6 +723,12 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
+        "lotValues": [
+          {
+            "relatedLot": "5f416c4b1629461194116a3c41e574a8",
+            "status": "active"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",
@@ -934,6 +940,12 @@ Content-Type: application/json
             "scale": "sme"
           }
         ],
+        "lotValues": [
+          {
+            "relatedLot": "5f416c4b1629461194116a3c41e574a8",
+            "status": "active"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",
@@ -1087,6 +1099,12 @@ Content-Type: application/json
               "telephone": "+380322123456"
             },
             "scale": "mid"
+          }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "5f416c4b1629461194116a3c41e574a8",
+            "status": "unsuccessful"
           }
         ],
         "documents": [
@@ -1243,6 +1261,12 @@ Content-Type: application/json
               "telephone": "+380322123456"
             },
             "scale": "large"
+          }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "5f416c4b1629461194116a3c41e574a8",
+            "status": "active"
           }
         ],
         "documents": [

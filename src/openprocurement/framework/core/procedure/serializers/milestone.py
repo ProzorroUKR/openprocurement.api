@@ -9,10 +9,8 @@ from openprocurement.tender.core.procedure.serializers.document import (
 
 class MilestoneSerializer(BaseSerializer):
     base_private_fields = {
-        "_rev",
         "doc_type",
         "rev",
-        "__parent__",
     }
 
     serializers = {

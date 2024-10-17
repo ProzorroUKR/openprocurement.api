@@ -39,8 +39,6 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     create_tender_bid_lot,
     create_tender_bid_no_scale_invalid,
     delete_tender_bidder,
-    deleted_bid_do_not_locks_tender_in_state,
-    deleted_bid_is_not_restorable,
     features_bid,
     features_bid_invalid,
     patch_and_put_document_into_invalid_bid,
@@ -126,10 +124,8 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
     test_create_tender_bid = snitch(create_tender_bid)
     test_patch_tender_bid = snitch(patch_tender_bid)
     test_get_tender_bidder = snitch(get_tender_bidder)
-    test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
 
-    test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
 

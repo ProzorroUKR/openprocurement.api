@@ -724,6 +724,12 @@ Content-Type: application/json
         ],
         "status": "active",
         "id": "e147c97dce694dfb8977d31e05225485",
+        "lotValues": [
+          {
+            "relatedLot": "b107fd651779457994cf8d66f0c66b75",
+            "status": "active"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",
@@ -892,6 +898,12 @@ Content-Type: application/json
         ],
         "status": "active",
         "id": "894a82740ac04e92881fe41a0ad1f0f5",
+        "lotValues": [
+          {
+            "relatedLot": "b107fd651779457994cf8d66f0c66b75",
+            "status": "active"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",

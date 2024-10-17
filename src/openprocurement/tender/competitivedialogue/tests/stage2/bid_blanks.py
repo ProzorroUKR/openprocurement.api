@@ -37,31 +37,10 @@ def delete_tender_bidder_eu(self):
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bid["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-    # try to add documents to bid
-    for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
-        response = self.app.post_json(
-            "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid["id"], doc_resource, bid_token),
-            {
-                "data": {
-                    "title": "name_{}.doc".format(doc_resource[:-1]),
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }
-            },
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
+    self.assertEqual(response.json["data"], bid)
 
     revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
-
-    self.assertTrue(any(i for i in revisions[-3]["changes"] if i["op"] == "remove" and i["path"] == "/bids"))
-    self.assertTrue(any(i for i in revisions[-2]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"))
+    self.assertTrue(any(i for i in revisions[-1]["changes"] if i["op"] == "add" and i["path"] == "/bids"))
 
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -81,8 +60,6 @@ def delete_tender_bidder_eu(self):
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bid["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
 
     bid_data["lotValues"][0]["value"] = {"amount": 100}
     self.create_bid(self.tender_id, bid_data)
@@ -152,19 +129,15 @@ def delete_tender_bidder_eu(self):
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
+
     self.set_status("complete")
 
-    # finished tender does not show deleted bid info
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
+    # finished tender does not have deleted bid
+    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), status=404)
+    self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]["bids"]), 4)
-    bid_data = response.json["data"]["bids"][1]
-    self.assertEqual(bid_data["id"], bid["id"])
-    self.assertEqual(bid_data["status"], "deleted")
-    self.assertFalse("value" in bid_data)
-    self.assertFalse("tenderers" in bid_data)
-    self.assertFalse("date" in bid_data)
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}])
 
 
 @patch(
@@ -294,7 +267,8 @@ def bids_invalidation_on_tender_change_eu(self):
     for bid in response.json["data"]["bids"]:
         if bid["status"] == "invalid":
             self.assertTrue("id" in bid)
-            self.assertFalse("lotValues" in bid)
+            self.assertTrue("lotValues" in bid)
+            self.assertFalse("value" in bid["lotValues"][0])
             self.assertFalse("tenderers" in bid)
             self.assertFalse("date" in bid)
 
@@ -304,7 +278,8 @@ def bids_invalidation_on_tender_change_eu(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "invalid")
         # invalidated bids displays only 'id' and 'status' fields
-        self.assertFalse("lotValues" in response.json["data"])
+        self.assertTrue("lotValues" in response.json["data"])
+        self.assertFalse("value" in response.json["data"]["lotValues"][0])
         self.assertFalse("tenderers" in response.json["data"])
         self.assertFalse("date" in response.json["data"])
 
@@ -325,12 +300,14 @@ def bids_invalidation_on_tender_change_eu(self):
     for bid in response.json["data"]["bids"]:
         if bid["id"] in bids_access:  # previously invalidated bids
             self.assertEqual(bid["status"], "invalid")
-            self.assertFalse("lotValues" in bid)
+            self.assertTrue("lotValues" in bid)
+            self.assertFalse("value" in bid["lotValues"][0])
             self.assertFalse("tenderers" in bid)
             self.assertFalse("date" in bid)
         else:  # valid bid
             self.assertEqual(bid["status"], "active")
             self.assertTrue("lotValues" in bid)
+            self.assertTrue("value" in bid["lotValues"][0])
             self.assertTrue("tenderers" in bid)
             self.assertTrue("date" in bid)
 
@@ -885,7 +862,8 @@ def bids_invalidation_on_tender_change_ua(self):
     for bid in response.json["data"]["bids"]:
         if bid["status"] == "invalid":
             self.assertTrue("id" in bid)
-            self.assertFalse("value" in bid)
+            self.assertTrue("lotValues" in bid)
+            self.assertFalse("value" in bid["lotValues"][0])
             self.assertFalse("tenderers" in bid)
             self.assertFalse("date" in bid)
 
@@ -895,7 +873,8 @@ def bids_invalidation_on_tender_change_ua(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "invalid")
         # invalidated bids displays only 'id' and 'status' fields
-        self.assertFalse("value" in response.json["data"])
+        self.assertTrue("lotValues" in response.json["data"])
+        self.assertFalse("value" in response.json["data"]["lotValues"][0])
         self.assertFalse("tenderers" in response.json["data"])
         self.assertFalse("date" in response.json["data"])
 
@@ -916,12 +895,14 @@ def bids_invalidation_on_tender_change_ua(self):
     for bid in response.json["data"]["bids"]:
         if bid["id"] in bids_access:  # previously invalidated bids
             self.assertEqual(bid["status"], "invalid")
-            self.assertFalse("lotValues" in bid)
+            self.assertTrue("lotValues" in bid)
+            self.assertFalse("value" in bid["lotValues"][0])
             self.assertFalse("tenderers" in bid)
             self.assertFalse("date" in bid)
         else:  # valid bid
             self.assertEqual(bid["status"], "active")
             self.assertTrue("lotValues" in bid)
+            self.assertTrue("value" in bid["lotValues"][0])
             self.assertTrue("tenderers" in bid)
             self.assertTrue("date" in bid)
 
@@ -1005,44 +986,6 @@ def features_bidder_ua(self):
         bid["lotValues"][0]["value"]["amount"] = int(bid["lotValues"][0]["value"]["amount"])
         bid["lotValues"][0].pop("date")
         self.assertEqual(bid, i)
-
-
-# TenderStage2BidResourceTest
-
-
-def deleted_bid_is_not_restorable(self):
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["value"] = {"amount": 500}
-    set_bid_lotvalues(bid_data, self.initial_lots)
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
-
-    response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bid["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-    # try to restore deleted bid
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update bid in (deleted) status")
-
-    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "deleted")
 
 
 # TenderStage2BidFeaturesResourceTest

@@ -21,13 +21,9 @@ from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_period,
 )
 from openprocurement.tender.openeu.procedure.models.bid import PostBid as PostBidEU
-from openprocurement.tender.openeu.procedure.views.bid import (
-    TenderBidResource as BaseResourceEU,
-)
+from openprocurement.tender.openeu.procedure.views.bid import OpenEUTenderBidResource
 from openprocurement.tender.openua.procedure.models.bid import PostBid as PostBidUA
-from openprocurement.tender.openua.procedure.views.bid import (
-    TenderBidResource as BaseResourceUA,
-)
+from openprocurement.tender.openua.procedure.views.bid import OpenUATenderBidResource
 
 LOGGER = getLogger(__name__)
 
@@ -39,7 +35,7 @@ LOGGER = getLogger(__name__)
     procurementMethodType=STAGE_2_EU_TYPE,
     description="Competitive Dialogue  Stage2EU bids",
 )
-class CompetitiveDialogueStage2EUBidResource(BaseResourceEU):
+class CompetitiveDialogueStage2EUBidResource(OpenEUTenderBidResource):
     @json_view(
         content_type="application/json",
         permission="create_bid",
@@ -67,7 +63,7 @@ class CompetitiveDialogueStage2EUBidResource(BaseResourceEU):
     procurementMethodType=STAGE_2_UA_TYPE,
     description="Competitive Dialogue Stage2 UA bids",
 )
-class CompetitiveDialogueStage2UABidResource(BaseResourceUA):
+class CompetitiveDialogueStage2UABidResource(OpenUATenderBidResource):
     @json_view(
         content_type="application/json",
         permission="create_bid",

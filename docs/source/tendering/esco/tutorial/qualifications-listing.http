@@ -783,6 +783,12 @@ Content-Type: application/json
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
           }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+            "status": "pending"
+          }
         ]
       },
       {
@@ -937,6 +943,12 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
             "language": "uk"
+          }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+            "status": "pending"
           }
         ]
       },
@@ -1130,6 +1142,12 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
             "language": "uk"
+          }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+            "status": "pending"
           }
         ]
       }

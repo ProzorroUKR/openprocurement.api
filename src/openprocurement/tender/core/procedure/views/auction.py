@@ -1,5 +1,4 @@
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import context_unpack, json_view
@@ -37,7 +36,7 @@ class TenderAuctionResource(TenderBaseResource):
         validators=(validate_auction_tender_status,),
     )
     def collection_get(self):
-        tender = get_tender()
+        tender = self.request.validated["tender"]
         return {
             "data": self.serializer_class(tender).data,
             "config": tender["config"],

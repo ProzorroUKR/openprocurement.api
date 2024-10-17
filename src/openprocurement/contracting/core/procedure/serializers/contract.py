@@ -10,7 +10,6 @@ from openprocurement.contracting.core.procedure.serializers.document import (
 class ContractBaseSerializer(BaseUIDSerializer):
     private_fields = {
         "transfer_token",
-        "_rev",
         "doc_type",
         "rev",
         "tender_token",

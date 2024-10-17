@@ -41,7 +41,9 @@ class CoreQuestionResource(FrameworkBaseResource):
         List questions
         """
         framework = self.request.validated["framework"]
-        data = tuple(self.serializer_class(question).data for question in framework.get("questions", []))
+        data = tuple(
+            self.serializer_class(question, framework=framework).data for question in framework.get("questions", [])
+        )
         return {"data": data}
 
     @json_view(permission="view_framework")
@@ -49,7 +51,9 @@ class CoreQuestionResource(FrameworkBaseResource):
         """
         Retrieving the question
         """
-        data = self.serializer_class(self.request.validated["question"]).data
+        framework = self.request.validated["framework"]
+        question = self.request.validated["question"]
+        data = self.serializer_class(question, framework=framework).data
         return {"data": data}
 
     @json_view(
@@ -83,7 +87,7 @@ class CoreQuestionResource(FrameworkBaseResource):
                 framework_id=framework["_id"],
                 question_id=question["id"],
             )
-            return {"data": self.serializer_class(question).data}
+            return {"data": self.serializer_class(question, framework=framework).data}
 
     @json_view(
         content_type="application/json",
@@ -100,13 +104,9 @@ class CoreQuestionResource(FrameworkBaseResource):
         """
         updated = self.request.validated["data"]
         if updated:
+            framework = self.request.validated["framework"]
             question = self.request.validated["question"]
-            set_item(
-                self.request.validated["framework"],
-                "questions",
-                question["id"],
-                updated,
-            )
+            set_item(framework, "questions", question["id"], updated)
             self.state.on_patch(question, updated)
             if save_object(self.request, "framework"):
                 self.LOGGER.info(
@@ -116,4 +116,4 @@ class CoreQuestionResource(FrameworkBaseResource):
                         {"MESSAGE_ID": "framework_question_patch"},
                     ),
                 )
-                return {"data": self.serializer_class(updated).data}
+                return {"data": self.serializer_class(updated, framework=framework).data}

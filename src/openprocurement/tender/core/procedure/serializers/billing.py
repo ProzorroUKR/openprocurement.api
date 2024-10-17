@@ -21,7 +21,7 @@ class BillingTenderSerializer(BaseUIDSerializer):
         "bids": ListSerializer(BillingBidSerializer),
     }
     whitelist = {
-        "_id",
+        "id",
         "owner",
         "tenderID",
         "dateCreated",

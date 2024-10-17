@@ -1,4 +1,5 @@
-from openprocurement.api.procedure.context import get_tender
+from typing import Any
+
 from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
@@ -24,7 +25,6 @@ class TenderBaseSerializer(BaseUIDSerializer):
     base_private_fields = {
         "dialogue_token",
         "transfer_token",
-        "_rev",
         "doc_type",
         "rev",
         "owner_token",
@@ -46,14 +46,16 @@ class TenderBaseSerializer(BaseUIDSerializer):
         "questions": ListSerializer(QuestionSerializer),
     }
 
+    def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
+        kwargs["tender"] = self.raw
+        return super().serialize(data, **kwargs)
+
     def __init__(self, data: dict):
         super().__init__(data)
 
-        tender = get_tender()
-
         self.private_fields = set(self.base_private_fields) | {"dialogue_token"}
 
-        if tender["config"]["hasPrequalification"]:
+        if data["config"]["hasPrequalification"]:
             # if tender has pre-qualification bids are:
             # - fully private in: draft, active.enquiries, active.tendering
             # - partly private in: active.pre-qualification, active.pre-qualification.stand-still, active.auction

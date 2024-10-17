@@ -25,8 +25,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     create_tender_bidder_invalid,
     create_tender_bidder_invalid_confidential_document,
     create_tender_bidder_invalid_document_description,
-    deleted_bid_do_not_locks_tender_in_state,
-    deleted_bid_is_not_restorable,
     download_tender_bidder_document,
     features_bidder,
     features_bidder_invalid,
@@ -62,7 +60,6 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
     # overwriting TenderBidResourceTestMixin.test_create_tender_bidder
     test_create_tender_bidder = snitch(create_tender_bidder)
-    test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
@@ -70,7 +67,6 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
     test_create_bid_without_parameters = snitch(create_bid_without_parameters)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
     test_get_tender_bidder = snitch(get_tender_bidder)
-    test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
     test_bids_related_product = snitch(bids_related_product)

@@ -717,6 +717,12 @@ Content-Type: application/json
         ],
         "status": "pending",
         "id": "526b7a685a8b4427b01d99ca0954cec5",
+        "lotValues": [
+          {
+            "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+            "status": "pending"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",
@@ -910,6 +916,12 @@ Content-Type: application/json
         ],
         "status": "pending",
         "id": "88d8e0d7211445dfbd33d16c77a599c9",
+        "lotValues": [
+          {
+            "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+            "status": "pending"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",
@@ -1064,6 +1076,12 @@ Content-Type: application/json
         ],
         "status": "pending",
         "id": "48b5b53cabfd47d599a5bb5b9f9ee193",
+        "lotValues": [
+          {
+            "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+            "status": "pending"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",

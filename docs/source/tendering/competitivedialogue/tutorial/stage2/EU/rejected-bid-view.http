@@ -145,6 +145,12 @@ Content-Type: application/json
     ],
     "status": "unsuccessful",
     "id": "48b5b53cabfd47d599a5bb5b9f9ee193",
+    "lotValues": [
+      {
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+        "status": "unsuccessful"
+      }
+    ],
     "documents": [
       {
         "confidentiality": "public",

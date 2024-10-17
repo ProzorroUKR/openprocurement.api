@@ -18,9 +18,6 @@ from openprocurement.tender.competitivedialogue.procedure.models.bid import (
     PatchBid,
     PostBid,
 )
-from openprocurement.tender.competitivedialogue.procedure.serializers.bid import (
-    BidSerializer,
-)
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
@@ -29,7 +26,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_period,
     validate_update_deleted_bid,
 )
-from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
+from openprocurement.tender.openeu.procedure.views.bid import OpenEUTenderBidResource
 
 LOGGER = getLogger(__name__)
 
@@ -41,9 +38,7 @@ LOGGER = getLogger(__name__)
     procurementMethodType=CD_UA_TYPE,
     description="Competitive Dialogue UA bids",
 )
-class CompetitiveDialogueUABidResource(TenderBidResource):
-    serializer_class = BidSerializer
-
+class CompetitiveDialogueUABidResource(OpenEUTenderBidResource):
     @json_view(
         content_type="application/json",
         permission="create_bid",
@@ -70,11 +65,7 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
             validate_bid_operation_period,
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-            validate_input_data(
-                PatchBid,
-                filters=(filter_administrator_bid_update,),
-                none_means_remove=True,
-            ),
+            validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
             validate_patch_data_simple(Bid, item_name="bid"),
         ),
     )
@@ -89,9 +80,7 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
     procurementMethodType=CD_EU_TYPE,
     description="Competitive Dialogue EU bids",
 )
-class CompetitiveDialogueEUBidResource(TenderBidResource):
-    serializer_class = BidSerializer
-
+class CompetitiveDialogueEUBidResource(OpenEUTenderBidResource):
     @json_view(
         content_type="application/json",
         permission="create_bid",

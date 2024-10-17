@@ -49,7 +49,7 @@ from openprocurement.tender.core.migrations.add_qualification_duration import (
 )
 
 
-def has_auction_serializer(obj, value):
+def has_auction_serializer(value):
     # TODO: remove serializer after migration
     if value is None and TENDER_CONFIG_OPTIONALITY["hasAuction"] is True:
         request = get_request()
@@ -63,13 +63,13 @@ def has_auction_serializer(obj, value):
     return value
 
 
-def has_awarding_order_serializer(obj, value):
+def has_awarding_order_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasAwardingOrder"] is True:
         return True
     return value
 
 
-def has_value_restriction_serializer(obj, value):
+def has_value_restriction_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasValueRestriction"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -77,14 +77,14 @@ def has_value_restriction_serializer(obj, value):
     return value
 
 
-def currency_value_equality_serializer(obj, value):
+def currency_value_equality_serializer(value):
     # TODO: remove serializer after migration
     if value is None and TENDER_CONFIG_OPTIONALITY["valueCurrencyEquality"] is True:
         return True
     return value
 
 
-def has_prequalification_serializer(obj, value):
+def has_prequalification_serializer(value):
     # TODO: remove serializer after migration
     if value is None and TENDER_CONFIG_OPTIONALITY["hasPrequalification"] is True:
         request = get_request()
@@ -94,7 +94,7 @@ def has_prequalification_serializer(obj, value):
     return value
 
 
-def min_bids_number_serializer(obj, value):
+def min_bids_number_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["minBidsNumber"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -102,7 +102,7 @@ def min_bids_number_serializer(obj, value):
     return value
 
 
-def complain_regulation_serializer(obj, value):
+def complain_regulation_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["tenderComplainRegulation"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -110,7 +110,7 @@ def complain_regulation_serializer(obj, value):
     return value
 
 
-def pre_selection_serializer(obj, value):
+def pre_selection_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasPreSelectionAgreement"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -118,7 +118,7 @@ def pre_selection_serializer(obj, value):
     return value
 
 
-def has_tender_complaints_serializer(obj, value):
+def has_tender_complaints_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasTenderComplaints"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -126,7 +126,7 @@ def has_tender_complaints_serializer(obj, value):
     return value
 
 
-def has_award_complaints_serializer(obj, value):
+def has_award_complaints_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasAwardComplaints"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -134,7 +134,7 @@ def has_award_complaints_serializer(obj, value):
     return value
 
 
-def has_cancellation_complaints_serializer(obj, value):
+def has_cancellation_complaints_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasCancellationComplaints"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -142,7 +142,7 @@ def has_cancellation_complaints_serializer(obj, value):
     return value
 
 
-def has_value_estimation_serializer(obj, value):
+def has_value_estimation_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasValueEstimation"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -150,7 +150,7 @@ def has_value_estimation_serializer(obj, value):
     return value
 
 
-def has_qualification_complaints_serializer(obj, value):
+def has_qualification_complaints_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasQualificationComplaints"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -158,7 +158,7 @@ def has_qualification_complaints_serializer(obj, value):
     return value
 
 
-def award_complain_duration_serializer(obj, value):
+def award_complain_duration_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["awardComplainDuration"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -166,7 +166,7 @@ def award_complain_duration_serializer(obj, value):
     return value
 
 
-def qualification_complain_duration_serializer(obj, value):
+def qualification_complain_duration_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["qualificationComplainDuration"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -174,7 +174,7 @@ def qualification_complain_duration_serializer(obj, value):
     return value
 
 
-def clarification_until_duration_serializer(obj, value):
+def clarification_until_duration_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["clarificationUntilDuration"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -182,7 +182,7 @@ def clarification_until_duration_serializer(obj, value):
     return value
 
 
-def qualification_duration_serializer(obj, value):
+def qualification_duration_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["qualificationDuration"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -190,7 +190,7 @@ def qualification_duration_serializer(obj, value):
     return value
 
 
-def restricted_serializer(obj, value):
+def restricted_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["restricted"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -204,7 +204,7 @@ def restricted_serializer(obj, value):
     return value
 
 
-def cancellation_complain_duration_serializer(obj, value):
+def cancellation_complain_duration_serializer(value):
     if value is None and TENDER_CONFIG_OPTIONALITY["cancellationComplainDuration"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")

@@ -18,7 +18,9 @@ from openprocurement.tender.cfaselectionua.procedure.models.bid import (
     PatchBid,
     PostBid,
 )
-from openprocurement.tender.cfaselectionua.procedure.serializers import BidSerializer
+from openprocurement.tender.cfaselectionua.procedure.serializers.bid import (
+    BidSerializer,
+)
 from openprocurement.tender.cfaselectionua.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
@@ -45,7 +47,7 @@ LOGGER = getLogger(__name__)
     procurementMethodType="closeFrameworkAgreementSelectionUA",
     description="Tender bids",
 )
-class TenderBidResource(TenderBidResource):
+class CFASelectionTenderBidResource(TenderBidResource):
     serializer_class = BidSerializer
     state_class = BidState
 

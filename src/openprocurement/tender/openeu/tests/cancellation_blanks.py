@@ -93,10 +93,7 @@ def bids_on_tender_cancellation_in_pre_qualification(self):
             self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
         elif bid["id"] == invalid_bid_id:
             self.assertEqual(bid["status"], "invalid")
-            self.assertEqual(set(bid.keys()), {"id", "status"})
-        else:
-            self.assertEqual(bid["status"], "deleted")
-            self.assertEqual(set(bid.keys()), {"id", "status"})
+            self.assertEqual(set(bid.keys()), {"id", "status", "lotValues"})
 
     self._check_visible_fields_for_invalidated_bids()
 
@@ -196,6 +193,7 @@ def bids_on_tender_cancellation_in_qualification(self):
         "status",
         "tenderers",
         "selfQualified",
+        "lotValues",
     }
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         visible_fields.add("selfEligible")
@@ -203,21 +201,18 @@ def bids_on_tender_cancellation_in_qualification(self):
         if bid["id"] in self.valid_bids:
             self.assertEqual(bid["status"], "active")
             self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
-        elif bid["id"] == deleted_bid_id:
-            self.assertEqual(bid["status"], "deleted")
-            self.assertEqual(set(bid.keys()), {"id", "status"})
-        else:
+        elif bid["id"] != deleted_bid_id:
             self.assertEqual(bid["status"], "unsuccessful")
-            self.assertEqual(
-                set(bid.keys()),
-                visible_fields,
-            )
+            self.assertEqual(set(bid.keys()), visible_fields)
+            for lot_value in bid["lotValues"]:
+                self.assertEqual(lot_value["status"], "unsuccessful")
+                self.assertNotIn("value", lot_value)
 
     for bid_id, bid_token in self.initial_bids_tokens.items():
-        response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid_id))
-        bid_data = response.json["data"]
-
         if bid_id in self.valid_bids:
+            response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid_id))
+            bid_data = response.json["data"]
+
             self.assertEqual(set(bid_data.keys()), set(self.bid_visible_fields))
 
             for doc_resource in [
@@ -227,9 +222,8 @@ def bids_on_tender_cancellation_in_qualification(self):
                 "qualification_documents",
             ]:
                 self._bid_document_is_accessible(bid_id, doc_resource)
-        elif bid_id == deleted_bid_id:
-            self._all_documents_are_not_accessible(bid_id)
-        else:  # unsuccessful bid
+
+        elif bid_id != deleted_bid_id:  # unsuccessful bid
             for doc_resource in ["financial_documents", "qualification_documents"]:
                 response = self.app.get(
                     "/tenders/{}/bids/{}/{}".format(self.tender_id, bid_id, doc_resource), status=403
@@ -308,17 +302,14 @@ def bids_on_tender_cancellation_in_awarded(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     for bid in tender["bids"]:
-        if bid["id"] in self.valid_bids:
-            self.assertEqual(bid["status"], "active")
-            self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
-        else:
-            self.assertEqual(bid["status"], "deleted")
-            self.assertEqual(set(bid.keys()), {"id", "status"})
+        self.assertEqual(bid["status"], "active")
+        self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
 
     for bid_id, bid_token in self.initial_bids_tokens.items():
-        response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid_id))
-        bid_data = response.json["data"]
         if bid_id in self.valid_bids:
+            response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid_id))
+            bid_data = response.json["data"]
+
             self.assertEqual(set(bid_data.keys()), set(self.bid_visible_fields))
 
             for doc_resource in [

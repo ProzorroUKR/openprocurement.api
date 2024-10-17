@@ -10,7 +10,6 @@ from openprocurement.planning.api.procedure.serializers.milestone import (
 class PlanSerializer(BaseUIDSerializer):
     base_private_fields = {
         "transfer_token",
-        "_rev",
         "doc_type",
         "rev",
         "owner_token",
@@ -44,6 +43,6 @@ class PlanSerializer(BaseUIDSerializer):
 
 class PlanRevisionsSerializer(BaseUIDSerializer):
     whitelist = (
-        "_id",
+        "id",
         "revisions",
     )

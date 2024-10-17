@@ -797,14 +797,8 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
-            "value": {
-              "amount": 300.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-            "status": "unsuccessful",
-            "date": "2023-11-09T00:00:00+02:00"
+            "status": "unsuccessful"
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"

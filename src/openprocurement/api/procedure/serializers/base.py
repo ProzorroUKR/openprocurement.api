@@ -1,73 +1,119 @@
+from __future__ import annotations
+
+import inspect
+from decimal import Decimal
+from typing import Any, Callable, Union
+
 from openprocurement.api.procedure.utils import to_decimal
 
 
-def evaluate_serializer(serializer, value, obj=None):
-    if type(serializer).__name__ == "function":
-        value = serializer(obj, value)
+def evaluate_serializer(serializer: Callable, value: Any, **kwargs) -> Any:
+    if len(inspect.signature(serializer).parameters) > 1:
+        instance = serializer(value, **kwargs)
     else:
-        value = serializer(value).data
-    return value
+        instance = serializer(value)
+    if issubclass(type(instance), AbstractSerializer):
+        return instance.data
+    return instance
 
 
-class ListSerializer:
-    def __init__(self, serializer):
-        self.serializer = serializer
-
-    def __call__(self, data):
-        self._data = data
-        return self
+class AbstractSerializer:
+    _data: dict[str, Any]
+    _kwargs: dict[str, Any]
 
     @property
-    def data(self) -> list:
-        if self._data:
-            return [evaluate_serializer(self.serializer, e, self) for e in self._data]
-
-
-class BaseSerializer:
-    _data: dict
-    serializers = {}
-    private_fields = None
-    whitelist = None
-
-    def __init__(self, data: dict):
-        self._data = data
-
-    def get_raw(self, k):
-        return self._data.get(k)
+    def raw(self) -> dict[str, Any]:
+        return self._data
 
     @property
-    def data(self) -> dict:
-        items = ((k, v) for k, v in self._data.items())
+    def data(self) -> dict[str, Any]:
+        return self._data
+
+    @property
+    def kwargs(self) -> dict[str, Any]:
+        return self._kwargs
+
+
+class BaseSerializer(AbstractSerializer):
+    serializers: dict[str, Callable] = {}
+    private_fields: list[str] | None = None
+    whitelist: list[str] | None = None
+
+    def __init__(self, data: dict[str, Any], **kwargs):
+        self._data = data
+        self._kwargs = kwargs.copy()
+
+    @property
+    def data(self) -> dict[str, Any]:
+        return self.serialize(self.raw, **self.kwargs)
+
+    def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
+        # pre-serialize
+        items = data.items()
         if self.private_fields:
             items = ((k, v) for k, v in items if k not in self.private_fields)
         if self.whitelist:
             items = ((k, v) for k, v in items if k in self.whitelist)
 
-        data = {}
-        for k, v in items:
-            s = self.serialize_value(k, v)
-            if s is None:  # we don't show null in our outputs
-                continue
-            elif isinstance(s, list) and len(s) == 0:  # and empty lists
-                continue
-            data[k] = s
+        # serialize
+        serialized_data = {}
+        for key, value in items:
+            serialized_value = self.serialize_value(key, value, **kwargs)
 
-        return data
+            # post-serialize
+            if serialized_value is None:  # we don't show null in our outputs
+                continue
+            elif isinstance(serialized_value, list) and len(serialized_value) == 0:  # and empty lists
+                continue
 
-    def serialize_value(self, key, value):
-        serializer = self.serializers.get(key)
-        if serializer:
-            value = evaluate_serializer(serializer, value, self)
+            # store serialized value
+            serialized_data[key] = serialized_value
+
+        return serialized_data
+
+    def serialize_value(self, key: str, value: Any, **kwargs) -> Any:
+        if serializer := self.serializers.get(key):
+            return evaluate_serializer(serializer, value, **kwargs)
         return value
 
 
-class BaseUIDSerializer(BaseSerializer):
+class ListSerializer(AbstractSerializer):
+    def __init__(self, serializer: Callable):
+        self.serializer = serializer
+
+    def __call__(self, data: list[Any], **kwargs) -> ListSerializer:
+        self._data = data
+        self._kwargs = kwargs.copy()
+        return self
+
     @property
-    def data(self) -> dict:
-        data = super().data
-        data["id"] = data.pop("_id")
-        return data
+    def data(self) -> list[Any]:
+        return self.serialize(self.raw, **self.kwargs)
+
+    def serialize(self, data, **kwargs) -> list[Any]:
+        serialized_data = []
+        for item in data or []:
+            serialized_value = self.serialize_value(item, **kwargs)
+            serialized_data.append(serialized_value)
+        return serialized_data
+
+    def serialize_value(self, value: Any, **kwargs) -> Any:
+        return evaluate_serializer(self.serializer, value, **kwargs)
 
 
-def decimal_serializer(_, value):
+class BaseUIDSerializer(BaseSerializer):
+    un_underscore_fields = [
+        "id",
+        "rev",
+        "attachments",
+    ]
+
+    def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
+        data = data.copy()
+        for field in self.un_underscore_fields:
+            data[field] = data.pop(f"_{field}", None)
+        return super().serialize(data, **kwargs)
+
+
+def decimal_serializer(value: Union[int, float, str]) -> Decimal:
     return to_decimal(value)

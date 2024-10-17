@@ -3,11 +3,21 @@ from hashlib import sha512
 from openprocurement.api.procedure.serializers.base import BaseUIDSerializer
 
 
-class TenderCredentialsSerializer(BaseUIDSerializer):
-    whitelist = {"_id", "owner", "owner_token"}
+def tender_token_serializer(value: str) -> str:
+    return sha512(value.encode("utf-8")).hexdigest()
 
-    @property
-    def data(self) -> dict:
-        data = super().data
-        data["tender_token"] = sha512(data.pop("owner_token").encode("utf-8")).hexdigest()
-        return data
+
+class TenderCredentialsSerializer(BaseUIDSerializer):
+    serializers = {
+        "tender_token": tender_token_serializer,
+    }
+    whitelist = {
+        "id",
+        "owner",
+        "tender_token",
+    }
+
+    def serialize(self, data: dict, **kwargs) -> dict:
+        data = data.copy()
+        data["tender_token"] = data.pop("owner_token")
+        return super().serialize(data, **kwargs)

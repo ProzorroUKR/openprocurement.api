@@ -457,11 +457,27 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     for b in response.json["data"]:
-        self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
+        self.assertEqual(
+            set(b.keys()),
+            {"id", "status", "tenderers", "lotValues"},
+        )
+        for lot_value in b["lotValues"]:
+            self.assertEqual(
+                lot_value.keys(),
+                {"relatedLot", "status"},
+            )
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "tenderers"})
+    self.assertEqual(
+        set(response.json["data"].keys()),
+        {"id", "status", "tenderers", "lotValues"},
+    )
+    for lot_value in response.json["data"]["lotValues"]:
+        self.assertEqual(
+            lot_value.keys(),
+            {"relatedLot", "status"},
+        )
 
     # qualify bids
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
@@ -486,11 +502,27 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     for b in response.json["data"]:
-        self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
+        self.assertEqual(
+            set(b.keys()),
+            {"id", "status", "tenderers", "lotValues"},
+        )
+        for lot_value in b["lotValues"]:
+            self.assertEqual(
+                lot_value.keys(),
+                {"relatedLot", "status"},
+            )
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "tenderers"})
+    self.assertEqual(
+        set(response.json["data"].keys()),
+        {"id", "status", "tenderers", "lotValues"},
+    )
+    for lot_value in response.json["data"]["lotValues"]:
+        self.assertEqual(
+            lot_value.keys(),
+            {"relatedLot", "status"},
+        )
 
     # switch to active.auction
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
@@ -502,11 +534,27 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     for b in response.json["data"]:
-        self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
+        self.assertEqual(
+            set(b.keys()),
+            {"id", "status", "tenderers", "lotValues"},
+        )
+        for lot_value in b["lotValues"]:
+            self.assertEqual(
+                lot_value.keys(),
+                {"relatedLot", "status"},
+            )
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "tenderers"})
+    self.assertEqual(
+        set(response.json["data"].keys()),
+        {"id", "status", "tenderers", "lotValues"},
+    )
+    for lot_value in response.json["data"]["lotValues"]:
+        self.assertEqual(
+            lot_value.keys(),
+            {"relatedLot", "status"},
+        )
 
     # switch to qualification
     with change_auth(self.app, ("Basic", ("auction", ""))):
@@ -626,30 +674,10 @@ def delete_tender_bidder(self):
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bid["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-    # try to add documents to bid
-    for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
-        response = self.app.post_json(
-            "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid["id"], doc_resource, bid_token),
-            {
-                "data": {
-                    "title": "name_{}.doc".format(doc_resource[:-1]),
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }
-            },
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
+    self.assertEqual(response.json["data"], bid)
 
     revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
-    self.assertTrue(any(i for i in revisions[-3]["changes"] if i["op"] == "remove" and i["path"] == "/bids"))
-    self.assertTrue(any(i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"))
+    self.assertTrue(any(i for i in revisions[-1]["changes"] if i["op"] == "add" and i["path"] == "/bids"))
 
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -680,8 +708,6 @@ def delete_tender_bidder(self):
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bid["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
 
     for i in range(self.min_bids_number):
         bid_data["lotValues"][0]["value"] = {"amount": 100 + i}
@@ -748,135 +774,12 @@ def delete_tender_bidder(self):
 
     self.set_status("complete")
 
-    # finished tender does not show deleted bid info
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
+    # finished tender does not have deleted bid
+    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), status=404)
+    self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]["bids"]), self.min_bids_number + 2)
-    bid_data = response.json["data"]["bids"][1]
-    self.assertEqual(bid_data["id"], bid["id"])
-    self.assertEqual(bid_data["status"], "deleted")
-    self.assertFalse("value" in bid_data)
-    self.assertFalse("tenderers" in bid_data)
-    self.assertFalse("date" in bid_data)
-
-
-def deleted_bid_is_not_restorable(self):
-    lot_id = self.initial_lots[0]["id"]
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data.update(
-        {
-            "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
-            "tenderers": self.test_bids_data[0]["tenderers"],
-        }
-    )
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
-
-    response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bid["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-    # try to restore deleted bid
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "pending"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update bid in (deleted) status")
-
-    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-
-def deleted_bid_do_not_locks_tender_in_state(self):
-    bids = []
-    bids_tokens = []
-    bid_amount = 400
-    bid_data = deepcopy(test_tender_openeu_bids[0])
-    bid_data.update(
-        {
-            "tenderers": self.test_bids_data[0]["tenderers"],
-        }
-    )
-
-    for _ in range(self.min_bids_number):
-        bid_data.pop("value", None)
-        bid_data["lotValues"] = [{"value": {"amount": bid_amount}, "relatedLot": self.tender_lots[0]["id"]}]
-        bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
-        bid_amount += 5
-        bids.append(bid)
-        bids_tokens.append(bid_token)
-
-    # delete first bid
-    response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bids[0]["id"], bids_tokens[0]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], bids[0]["id"])
-    self.assertEqual(response.json["data"]["status"], "deleted")
-
-    bid_data["lotValues"][0]["value"] = {"amount": 101}
-    self.create_bid(self.tender_id, bid_data, "pending")
-
-    # switch to active.pre-qualification
-    self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-
-    # qualify bids
-    response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-    with change_auth(self.app, ("Basic", ("token", ""))):
-        for qualification in response.json["data"]:
-            response = self.app.patch_json(
-                "/tenders/{}/qualifications/{}".format(self.tender_id, qualification["id"]),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
-            )
-            self.assertEqual(response.status, "200 OK")
-
-    # switch to active.pre-qualification.stand-still
-    self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"status": "active.pre-qualification.stand-still"}},
-    )
-    self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
-
-    # switch to active.auction
-    self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.auction")
-
-    # switch to qualification
-    self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-    auction_bids_data = response.json["data"]["bids"]
-    response = self.app.post_json(
-        "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
-
-    # check bids
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]["bids"]), self.min_bids_number + 1)
-    self.assertEqual(response.json["data"]["bids"][0]["status"], "deleted")
-    for i in range(1, self.min_bids_number + 1):
-        self.assertEqual(response.json["data"]["bids"][i]["status"], "active")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}])
 
 
 def get_tender_tenderers(self):
@@ -1091,7 +994,8 @@ def bids_invalidation_on_tender_change(self):
     for bid in response.json["data"]["bids"]:
         if bid["status"] == "invalid":
             self.assertTrue("id" in bid)
-            self.assertFalse("value" in bid)
+            self.assertTrue("lotValues" in bid)
+            self.assertFalse("value" in bid["lotValues"][0])
             self.assertFalse("tenderers" in bid)
             self.assertFalse("date" in bid)
 
@@ -1101,7 +1005,8 @@ def bids_invalidation_on_tender_change(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "invalid")
         # invalidated bids displays only 'id' and 'status' fields
-        self.assertFalse("value" in response.json["data"])
+        self.assertTrue("lotValues" in response.json["data"])
+        self.assertFalse("value" in response.json["data"]["lotValues"][0])
         self.assertFalse("tenderers" in response.json["data"])
         self.assertFalse("date" in response.json["data"])
 
@@ -1111,6 +1016,7 @@ def bids_invalidation_on_tender_change(self):
     self.assertEqual(response.json["data"]["status"], "active")
     # and displays all his data
     self.assertTrue("lotValues" in response.json["data"])
+    self.assertTrue("value" in response.json["data"]["lotValues"][0])
     self.assertTrue("tenderers" in response.json["data"])
     self.assertTrue("date" in response.json["data"])
 
@@ -1122,12 +1028,14 @@ def bids_invalidation_on_tender_change(self):
     for bid in response.json["data"]["bids"]:
         if bid["id"] in bids_access:  # previously invalidated bids
             self.assertEqual(bid["status"], "invalid")
-            self.assertFalse("lotValues" in bid)
+            self.assertTrue("lotValues" in bid)
+            self.assertFalse("value" in bid["lotValues"][0])
             self.assertFalse("tenderers" in bid)
             self.assertFalse("date" in bid)
         else:  # valid bid
             self.assertEqual(bid["status"], "active")
             self.assertTrue("lotValues" in bid)
+            self.assertTrue("value" in bid["lotValues"][0])
             self.assertTrue("tenderers" in bid)
             self.assertTrue("date" in bid)
 
@@ -1581,14 +1489,30 @@ def get_tender_bidder_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
     self.assertEqual(
-        set(response.json["data"][0].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"][0].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
-    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
+    self.assertEqual(
+        set(response.json["data"][1].keys()),
+        {"id", "status", "tenderers", "lotValues"},
+    )
+    for bid in response.json["data"]:
+        for lot_value in bid["lotValues"]:
+            self.assertEqual(
+                lot_value.keys(),
+                {"relatedLot", "status"},
+            )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
-        set(response.json["data"].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
+    for lot_value in response.json["data"]["lotValues"]:
+        self.assertEqual(
+            lot_value.keys(),
+            {"relatedLot", "status"},
+        )
 
     for doc_resource in ["documents", "eligibility_documents"]:
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, doc_resource))
@@ -1646,14 +1570,30 @@ def get_tender_bidder_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
     self.assertEqual(
-        set(response.json["data"][0].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"][0].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
-    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
+    self.assertEqual(
+        set(response.json["data"][1].keys()),
+        {"id", "status", "tenderers", "lotValues"},
+    )
+    for bid in response.json["data"]:
+        for lot_value in bid["lotValues"]:
+            self.assertEqual(
+                lot_value.keys(),
+                {"relatedLot", "status"},
+            )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
-        set(response.json["data"].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
+    for lot_value in response.json["data"]["lotValues"]:
+        self.assertEqual(
+            lot_value.keys(),
+            {"relatedLot", "status"},
+        )
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
@@ -1683,14 +1623,30 @@ def get_tender_bidder_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
     self.assertEqual(
-        set(response.json["data"][0].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"][0].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
-    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
+    self.assertEqual(
+        set(response.json["data"][1].keys()),
+        {"id", "status", "tenderers", "lotValues"},
+    )
+    for bid in response.json["data"]:
+        for lot_value in bid["lotValues"]:
+            self.assertEqual(
+                lot_value.keys(),
+                {"relatedLot", "status"},
+            )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
-        set(response.json["data"].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
+    for lot_value in response.json["data"]["lotValues"]:
+        self.assertEqual(
+            lot_value.keys(),
+            {"relatedLot", "status"},
+        )
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
@@ -3578,14 +3534,30 @@ def get_tender_bidder_document_ds(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
     self.assertEqual(
-        set(response.json["data"][0].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"][0].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
-    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
+    self.assertEqual(
+        set(response.json["data"][1].keys()),
+        {"id", "status", "tenderers", "lotValues"},
+    )
+    for bid in response.json["data"]:
+        for lot_value in bid["lotValues"]:
+            self.assertEqual(
+                lot_value.keys(),
+                {"relatedLot", "status"},
+            )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
-        set(response.json["data"].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
+    for lot_value in response.json["data"]["lotValues"]:
+        self.assertEqual(
+            lot_value.keys(),
+            {"relatedLot", "status"},
+        )
 
     for doc_resource in ["documents", "eligibility_documents"]:
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, doc_resource))
@@ -3643,14 +3615,30 @@ def get_tender_bidder_document_ds(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
     self.assertEqual(
-        set(response.json["data"][0].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"][0].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
-    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
+    self.assertEqual(
+        set(response.json["data"][1].keys()),
+        {"id", "status", "tenderers", "lotValues"},
+    )
+    for bid in response.json["data"]:
+        for lot_value in bid["lotValues"]:
+            self.assertEqual(
+                lot_value.keys(),
+                {"relatedLot", "status"},
+            )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
-        set(response.json["data"].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
+    for lot_value in response.json["data"]["lotValues"]:
+        self.assertEqual(
+            lot_value.keys(),
+            {"relatedLot", "status"},
+        )
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
@@ -3680,14 +3668,30 @@ def get_tender_bidder_document_ds(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
     self.assertEqual(
-        set(response.json["data"][0].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"][0].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
-    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
+    self.assertEqual(
+        set(response.json["data"][1].keys()),
+        {"id", "status", "tenderers", "lotValues"},
+    )
+    for bid in response.json["data"]:
+        for lot_value in bid["lotValues"]:
+            self.assertEqual(
+                lot_value.keys(),
+                {"relatedLot", "status"},
+            )
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
-        set(response.json["data"].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
+        set(response.json["data"].keys()),
+        {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
     )
+    for lot_value in response.json["data"]["lotValues"]:
+        self.assertEqual(
+            lot_value.keys(),
+            {"relatedLot", "status"},
+        )
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)

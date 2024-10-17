@@ -1173,14 +1173,23 @@ def unsuccessful_after_prequalification_tender(self):
     response = self.app.get(f"/tenders/{tender_id}")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
-    assert_data = {"id", "status", "tenderers", "selfQualified"}
+    visible_fields = {
+        "id",
+        "status",
+        "tenderers",
+        "selfQualified",
+        "lotValues",
+    }
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
-        assert_data.add("selfEligible")
+        visible_fields.add("selfEligible")
     else:
-        assert_data.add("requirementResponses")
+        visible_fields.add("requirementResponses")
     for bid in response.json["data"]["bids"]:
         self.assertEqual(bid["status"], "unsuccessful")
-        self.assertEqual(set(bid.keys()), assert_data)
+        self.assertEqual(set(bid.keys()), visible_fields)
+        for lot_value in bid["lotValues"]:
+            self.assertEqual(lot_value["status"], "unsuccessful")
+            self.assertNotIn("value", lot_value)
 
 
 def one_qualificated_bid_tender(self):

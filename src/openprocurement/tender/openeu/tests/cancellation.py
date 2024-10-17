@@ -182,9 +182,10 @@ class TenderCancellationBidsAvailabilityUtils:
         self.app.authorization = ("Basic", ("broker", ""))
 
         for bid_id, bid_token in self.initial_bids_tokens.items():
-            response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid_id))
-            bid_data = response.json["data"]
             if bid_id in self.valid_bids:
+                response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid_id))
+                bid_data = response.json["data"]
+
                 self.assertEqual(set(bid_data.keys()), set(self.bid_visible_fields))
 
                 for doc_resource in ["documents", "eligibility_documents"]:
@@ -213,9 +214,6 @@ class TenderCancellationBidsAvailabilityUtils:
                         response.json["errors"][0]["description"],
                         "Can't view bid documents in current (invalid.pre-qualification) bid status",
                     )
-            else:
-                self.assertEqual(set(bid_data.keys()), {"id", "status"})
-                self._all_documents_are_not_accessible(bid_id)
 
         self.app.authorization = orig_authorization
 
@@ -289,7 +287,14 @@ class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest, TenderCan
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_openeu_bids * 2
     initial_lots = test_tender_openeu_lots
-    bid_visible_fields = ["status", "documents", "tenderers", "id", "eligibilityDocuments"]
+    bid_visible_fields = [
+        "status",
+        "documents",
+        "tenderers",
+        "id",
+        "eligibilityDocuments",
+        "lotValues",
+    ]
     doc_id_by_type = {}
     valid_bids = []
 

@@ -22,7 +22,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     create_tender_bidder_firm,
     create_tender_bidder_ua,
     delete_tender_bidder_eu,
-    deleted_bid_is_not_restorable,
     features_bidder_eu,
     features_bidder_invalid,
     features_bidder_ua,
@@ -46,9 +45,6 @@ from openprocurement.tender.openua.tests.bid_blanks import (
 from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 from openprocurement.tender.openua.tests.bid_blanks import (
     delete_tender_bidder as delete_tender_bidder_ua,
-)
-from openprocurement.tender.openua.tests.bid_blanks import (
-    deleted_bid_do_not_locks_tender_in_state as deleted_bid_do_not_locks_tender_in_state_ua,
 )
 from openprocurement.tender.openua.tests.bid_blanks import draft1_bid as one_draft_bid
 from openprocurement.tender.openua.tests.bid_blanks import draft2_bids as two_draft_bids
@@ -167,8 +163,6 @@ class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
     test_patch_tender_bidder = snitch(patch_tender_bidder_ua)
     test_get_tender_bidder = snitch(get_tender_bidder_ua)
     test_delete_tender_bidder = snitch(delete_tender_bidder_ua)
-    test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
-    test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state_ua)
     test_get_tender_tenderers = snitch(get_tender_tenderers_ua)
     test_bid_Administrator_change = snitch(bid_Administrator_change_ua)
     test_1_draft_bid = snitch(one_draft_bid)

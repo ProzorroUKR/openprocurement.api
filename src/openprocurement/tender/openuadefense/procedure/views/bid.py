@@ -11,17 +11,16 @@ from openprocurement.api.procedure.validation import (
     validate_item_owner,
     validate_patch_data_simple,
 )
-from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
-from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_not_in_tendering,
     validate_bid_operation_period,
     validate_update_deleted_bid,
 )
-from openprocurement.tender.openua.procedure.views.bid import TenderBidResource
+from openprocurement.tender.openua.procedure.views.bid import OpenUATenderBidResource
 from openprocurement.tender.openuadefense.procedure.models.bid import (
     Bid,
     PatchBid,
@@ -38,7 +37,7 @@ LOGGER = getLogger(__name__)
     procurementMethodType="aboveThresholdUA.defense",
     description="Tender UA.defense bids",
 )
-class TenderBidResource(TenderBidResource):
+class OpenUADefenseTenderBidResource(OpenUATenderBidResource):
     model_class = Bid
 
     @json_view(
@@ -87,11 +86,4 @@ class TenderBidResource(TenderBidResource):
         ),
     )
     def delete(self):
-        bid = self.request.validated["bid"]
-        bid["status"] = "deleted"
-        if save_tender(self.request, modified=False):
-            self.LOGGER.info(
-                "Deleted tender bid {}".format(bid["id"]),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_delete"}),
-            )
-            return {"data": self.serializer_class(bid).data}
+        return super().delete()

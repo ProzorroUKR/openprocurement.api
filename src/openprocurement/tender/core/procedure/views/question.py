@@ -55,13 +55,15 @@ class TenderQuestionResource(TenderBaseResource):
     def collection_get(self):
         """List questions"""
         tender = self.request.validated["tender"]
-        data = tuple(self.serializer_class(question).data for question in tender.get("questions", []))
+        data = tuple(self.serializer_class(question, tender=tender).data for question in tender.get("questions", []))
         return {"data": data}
 
     @json_view(permission="view_tender")
     def get(self):
         """Retrieving the question"""
-        data = self.serializer_class(self.request.validated["question"]).data
+        question = self.request.validated["question"]
+        tender = self.request.validated["tender"]
+        data = self.serializer_class(question, tender=tender).data
         return {"data": data}
 
     @json_view(
@@ -97,7 +99,7 @@ class TenderQuestionResource(TenderBaseResource):
                 tender_id=tender["_id"],
                 question_id=question["id"],
             )
-            return {"data": self.serializer_class(question).data}
+            return {"data": self.serializer_class(question, tender=tender).data}
 
     @json_view(
         content_type="application/json",
@@ -113,8 +115,9 @@ class TenderQuestionResource(TenderBaseResource):
         """Patch a question"""
         updated = self.request.validated["data"]
         if updated:
+            tender = self.request.validated["tender"]
             question = self.request.validated["question"]
-            set_item(self.request.validated["tender"], "questions", question["id"], updated)
+            set_item(tender, "questions", question["id"], updated)
             self.state.question_on_patch(question, updated)
             if save_tender(self.request):
                 self.LOGGER.info(
@@ -124,4 +127,4 @@ class TenderQuestionResource(TenderBaseResource):
                         {"MESSAGE_ID": "tender_question_patch"},
                     ),
                 )
-                return {"data": self.serializer_class(updated).data}
+                return {"data": self.serializer_class(updated, tender=tender).data}

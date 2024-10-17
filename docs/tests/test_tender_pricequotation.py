@@ -233,15 +233,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, '200 OK')
 
         # try to restore deleted bid
-        with open(TARGET_DIR + 'restore-deleted-bid.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
+        with open(TARGET_DIR + 'get-deleted-bid.http', 'w') as self.app.file_obj:
+            response = self.app.get(
                 f'/tenders/{self.tender_id}/bids/{bid2_id}?acc_token={bids_access[bid2_id]}',
-                {"data": {"status": "pending"}},
-                status=403,
+                status=404,
             )
-            self.assertEqual(response.status, "403 Forbidden")
+            self.assertEqual(response.status, "404 Not Found")
             self.assertEqual(response.content_type, "application/json")
-            self.assertEqual(response.json["errors"][0]["description"], "Can't update bid in (deleted) status")
 
         # Proposal Uploading
 

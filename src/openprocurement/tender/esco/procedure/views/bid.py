@@ -29,7 +29,7 @@ from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.esco.procedure.serializers.tender import (
     ESCOTenderSerializer,
 )
-from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
+from openprocurement.tender.openeu.procedure.views.bid import OpenEUTenderBidResource
 
 LOGGER = getLogger(__name__)
 
@@ -41,7 +41,7 @@ LOGGER = getLogger(__name__)
     procurementMethodType="esco",
     description="Tender ESCO bids",
 )
-class ESCOTenderBidResource(TenderBidResource):
+class ESCOTenderBidResource(OpenEUTenderBidResource):
     state_class = BidState
     serializer_class = BidSerializer
 

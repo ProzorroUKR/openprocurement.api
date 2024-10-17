@@ -16,11 +16,11 @@ from openprocurement.tender.esco.procedure.serializers.value import ValueSeriali
 
 class BidSerializer(BaseBidSerializer):
     serializers = {
-        "value": ValueSerializer,
-        "lotValues": ListSerializer(LotValueSerializer),
         "documents": ListSerializer(DocumentSerializer),
         "eligibilityDocuments": ListSerializer(DocumentSerializer),
         "qualificationDocuments": ListSerializer(DocumentSerializer),
         "financialDocuments": ListSerializer(DocumentSerializer),
         "parameters": ListSerializer(ParameterSerializer),
+        "value": ValueSerializer,
+        "lotValues": ListSerializer(LotValueSerializer),
     }

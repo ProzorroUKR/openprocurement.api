@@ -519,10 +519,11 @@ class ChronographEventsMixing:
         for lot in tender.get("lots", ""):
             if lot["id"] == cancellation["relatedLot"]:
                 self.set_object_status(lot, "cancelled")
+
         # find cancelled lot objects
         cancelled_lots_ids = {i["id"] for i in tender.get("lots", "") if i["status"] == "cancelled"}
         cancelled_items_ids = {i["id"] for i in tender.get("items", "") if i.get("relatedLot") in cancelled_lots_ids}
-        cancelled_lots_feature_codes = {
+        cancelled_lots_codes = {
             i["code"]
             for i in tender.get("features", "")
             if i.get("featureOf") == "lot"
@@ -530,32 +531,56 @@ class ChronographEventsMixing:
             or i.get("featureOf") == "item"
             and i.get("relatedItem") in cancelled_items_ids
         }
+
         # set cancelled agreement status (cfaua)
         if tender["status"] == "active.awarded" and tender.get("agreements"):
             for agreement in tender.get("agreements", ""):
                 if agreement["items"][0]["relatedLot"] in cancelled_lots_ids:
                     self.set_object_status(agreement, "cancelled")
-        # invalidate lot bids
+
+        # invalidate lot bids in active.tendering
+        if tender["status"] in ("active.tendering",):
+            for bid in tender.get("bids", ""):
+                parameters = bid.get("parameters", "")
+                lot_values = bid.get("lotValues", "")
+
+                # filter out parameters related to cancelled lots
+                bid["parameters"] = [param for param in parameters if param["code"] not in cancelled_lots_codes]
+                if not bid["parameters"]:
+                    del bid["parameters"]
+
+                # filter out lotValues related to cancelled lots
+                lot_values_filtered = []
+                for lot_value in lot_values:
+                    if lot_value["relatedLot"] not in cancelled_lots_ids:
+                        lot_values_filtered.append(lot_value)
+                bid["lotValues"] = lot_values_filtered
+                if not bid["lotValues"]:
+                    del bid["lotValues"]
+
+        # invalidate lot bids after pre-qualification started
         if tender["status"] in (
-            "active.tendering",
             "active.pre-qualification",
             "active.pre-qualification.stand-still",
             "active.auction",
         ):
             for bid in tender.get("bids", ""):
-                bid["parameters"] = [
-                    i for i in bid.get("parameters", "") if i["code"] not in cancelled_lots_feature_codes
-                ]
-                if not bid["parameters"]:
-                    del bid["parameters"]
+                lot_values = bid.get("lotValues", "")
 
-                bid["lotValues"] = [i for i in bid.get("lotValues", "") if i["relatedLot"] not in cancelled_lots_ids]
-                if not bid["lotValues"] and bid["status"] in ("pending", "active"):
-                    del bid["lotValues"]
-                    if tender["status"] == "active.tendering":
-                        bid["status"] = "invalid"
-                    else:
-                        bid["status"] = "invalid.pre-qualification"
+                # update status of lotValues related to cancelled lots
+                for lot_value in lot_values:
+                    if lot_value["relatedLot"] in cancelled_lots_ids:
+                        lot_value["status"] = "unsuccessful"
+
+                # check if all lotValues are inactive
+                all_lot_values_inactive = all(
+                    lot_value["status"] not in ("pending", "active") for lot_value in lot_values
+                )
+
+                # invalidate bid if all lots are inactive and bid was previously active
+                if all_lot_values_inactive and bid["status"] in ("pending", "active"):
+                    bid["status"] = "invalid.pre-qualification"
+
         # need to switch tender status ?
         lot_statuses = {lot["status"] for lot in tender["lots"]}
         if lot_statuses == {"cancelled"}:

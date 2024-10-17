@@ -147,6 +147,12 @@ Content-Type: application/json
       ],
       "status": "active",
       "id": "6c9b000bb76043f28a985112442b7301",
+      "lotValues": [
+        {
+          "relatedLot": "4b0e745d5e59434da2b2c0206ca2d89b",
+          "status": "active"
+        }
+      ],
       "documents": [
         {
           "confidentiality": "public",
@@ -355,6 +361,12 @@ Content-Type: application/json
       ],
       "status": "active",
       "id": "18a43968297841c788021800b10152f6",
+      "lotValues": [
+        {
+          "relatedLot": "4b0e745d5e59434da2b2c0206ca2d89b",
+          "status": "active"
+        }
+      ],
       "documents": [
         {
           "confidentiality": "public",
@@ -510,6 +522,12 @@ Content-Type: application/json
       ],
       "status": "unsuccessful",
       "id": "3b1586f7cadd487b84c8d86b5f485eac",
+      "lotValues": [
+        {
+          "relatedLot": "4b0e745d5e59434da2b2c0206ca2d89b",
+          "status": "unsuccessful"
+        }
+      ],
       "documents": [
         {
           "confidentiality": "public",

@@ -692,8 +692,6 @@ Content-Type: application/json
           }
         ],
         "id": "bef46d74750b4f74b30d46b87c69df0c",
-        "date": "2023-10-10T01:03:00+03:00",
-        "submissionDate": "2023-10-10T01:03:00+03:00",
         "tenderers": [
           {
             "name": "Школяр",
@@ -721,8 +719,7 @@ Content-Type: application/json
         "lotValues": [
           {
             "relatedLot": "5f416c4b1629461194116a3c41e574a8",
-            "status": "active",
-            "date": "2023-10-10T01:03:00+03:00"
+            "status": "active"
           }
         ],
         "documents": [
@@ -796,8 +793,6 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "subcontractingDetails": "ДКП «Орфей», Україна",
-        "selfQualified": true,
         "status": "active"
       },
       {
@@ -914,7 +909,6 @@ Content-Type: application/json
           }
         ],
         "id": "b63db23cfe7147aba4fde01651dc573b",
-        "date": "2023-10-10T01:03:00+03:00",
         "tenderers": [
           {
             "name": "ДКП «Книга»",
@@ -942,8 +936,7 @@ Content-Type: application/json
         "lotValues": [
           {
             "relatedLot": "5f416c4b1629461194116a3c41e574a8",
-            "status": "active",
-            "date": "2023-10-10T01:03:00+03:00"
+            "status": "active"
           }
         ],
         "documents": [
@@ -962,9 +955,7 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
-        "status": "active",
-        "submissionDate": "2023-10-10T01:03:00+03:00"
+        "status": "active"
       },
       {
         "requirementResponses": [
@@ -1103,6 +1094,12 @@ Content-Type: application/json
             "scale": "mid"
           }
         ],
+        "lotValues": [
+          {
+            "relatedLot": "5f416c4b1629461194116a3c41e574a8",
+            "status": "unsuccessful"
+          }
+        ],
         "documents": [
           {
             "confidentiality": "public",
@@ -1236,7 +1233,6 @@ Content-Type: application/json
           }
         ],
         "id": "19275a9d05654013b82b1d96a4d035f6",
-        "date": "2023-10-10T01:03:00+03:00",
         "tenderers": [
           {
             "name": "«Кенгуру»",
@@ -1263,8 +1259,7 @@ Content-Type: application/json
         "lotValues": [
           {
             "relatedLot": "5f416c4b1629461194116a3c41e574a8",
-            "status": "active",
-            "date": "2023-10-10T01:03:00+03:00"
+            "status": "active"
           }
         ],
         "documents": [
@@ -1310,9 +1305,7 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
-        "status": "active",
-        "submissionDate": "2023-10-10T01:03:00+03:00"
+        "status": "active"
       }
     ],
     "questions": [

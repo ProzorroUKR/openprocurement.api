@@ -49,8 +49,12 @@ def active_tendering_to_unsuccessful(self):
     self.assertNotIn("qualifications", tender)
     for b in tender["bids"]:
         self.assertEqual("unsuccessful", b["status"])
-        self.assertNotIn("lotValues", b)
-        self.assertNotIn("value", b)
+        if response.json["data"].get("lots"):
+            self.assertIn("lotValues", b)
+            self.assertNotIn("value", b["lotValues"][0])
+        else:
+            self.assertNotIn("lotValues", b)
+            self.assertNotIn("value", b)
 
 
 def pre_qual_switch_to_auction(self):

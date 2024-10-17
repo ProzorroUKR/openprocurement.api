@@ -129,7 +129,6 @@
                 "lotValues": [
                     {
                         "date": "2023-10-10T01:00:00+03:00",
-                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c",
                         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u041e\u0440\u0444\u0435\u0439\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -141,7 +140,6 @@
                     },
                     {
                         "date": "2023-10-10T01:00:00+03:00",
-                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c",
                         "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u041e\u0440\u0444\u0435\u0439\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -303,7 +301,6 @@
                 "lotValues": [
                     {
                         "date": "2023-10-10T01:00:00+03:00",
-                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=33aec5588bb84aecbaf28ee83b356bad",
                         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u0423\u043a\u0440 \u041f\u0440\u0456\u043d\u0442\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -315,7 +312,6 @@
                     },
                     {
                         "date": "2023-10-10T01:00:00+03:00",
-                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=33aec5588bb84aecbaf28ee83b356bad",
                         "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u0423\u043a\u0440 \u041f\u0440\u0456\u043d\u0442\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",

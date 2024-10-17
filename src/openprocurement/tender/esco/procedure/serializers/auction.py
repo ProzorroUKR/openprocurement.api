@@ -1,6 +1,5 @@
 from decimal import Decimal
 
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.serializers.base import (
     BaseSerializer,
     ListSerializer,
@@ -9,19 +8,36 @@ from openprocurement.tender.core.procedure.serializers.auction import (
     AuctionSerializer as BaseAuctionSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.feature import FeatureSerializer
+from openprocurement.tender.core.procedure.serializers.parameter import (
+    ParameterSerializer,
+)
 from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.esco.procedure.serializers.value import ValueSerializer
 
 
-def decimal_serializer(_, value):
+def decimal_serializer(value):
     if isinstance(value, str):
         return Decimal(value)
     return value
 
 
+class AuctionLotValueSerializer(BaseSerializer):
+    serializers = {
+        "value": ValueSerializer,
+        "weightedValue": ValueSerializer,
+    }
+
+
 class AuctionBidSerializer(BidSerializer):
-    def __init__(self, data: dict):
-        super().__init__(data)
+    serializers = {
+        "parameters": ListSerializer(ParameterSerializer),
+        "value": ValueSerializer,
+        "weightedValue": ValueSerializer,
+        "lotValues": ListSerializer(AuctionLotValueSerializer),
+    }
+
+    def __init__(self, data: dict, tender=None, **kwargs):
+        super().__init__(data, tender=tender, **kwargs)
 
         self.whitelist = {
             "id",
@@ -34,13 +50,7 @@ class AuctionBidSerializer(BidSerializer):
             "parameters",
         }
 
-        tender = get_tender()
-        if tender["status"] not in (
-            "draft",
-            "active.enquiries",
-            "active.tendering",
-            "active.auction",
-        ):
+        if tender["status"] not in ("draft", "active.enquiries", "active.tendering", "active.auction"):
             self.whitelist.add("tenderers")
 
 
@@ -105,11 +115,5 @@ class AuctionSerializer(BaseAuctionSerializer):
             "yearlyPaymentsPercentageRange",
         }
 
-        tender = get_tender()
-        if tender["status"] not in (
-            "draft",
-            "active.enquiries",
-            "active.tendering",
-            "active.auction",
-        ):
+        if data["status"] not in ("draft", "active.enquiries", "active.tendering", "active.auction"):
             self.whitelist.add("awards")

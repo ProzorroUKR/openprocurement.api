@@ -99,10 +99,6 @@ Content-Type: application/json
       ]
     },
     {
-      "status": "deleted",
-      "id": "55faa050ef4746c29fc00870518cecad"
-    },
-    {
       "id": "70bec639abd44364ae412469587562fc",
       "date": "2023-10-10T01:00:01+03:00",
       "documents": [

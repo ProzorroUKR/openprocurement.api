@@ -6,4 +6,9 @@ class RequirementSerializer(BaseSerializer):
 
 
 class PutCancelledRequirementSerializer(RequirementSerializer):
-    whitelist = ["id", "status", "datePublished", "dateModified"]
+    whitelist = [
+        "id",
+        "status",
+        "datePublished",
+        "dateModified",
+    ]

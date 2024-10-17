@@ -738,6 +738,12 @@ Content-Type: application/json
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
           }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+            "status": "active"
+          }
         ]
       },
       {
@@ -892,6 +898,16 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
+          }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+            "status": "active"
+          },
+          {
+            "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+            "status": "unsuccessful"
           }
         ]
       }
