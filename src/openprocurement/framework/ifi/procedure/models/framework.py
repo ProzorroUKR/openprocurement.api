@@ -18,11 +18,11 @@ from openprocurement.framework.core.procedure.models.organization import (
     PatchProcuringEntity,
     ProcuringEntity,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.framework.ifi.constants import IFI_TYPE
 
 
 class PostFramework(BasePostFramework):
-    frameworkType = StringType(default=DPS_TYPE)
+    frameworkType = StringType(default=IFI_TYPE)
     procuringEntity = ModelType(ProcuringEntity, required=True)
 
 
@@ -31,7 +31,7 @@ class PatchFramework(BasePatchFramework):
 
 
 class Framework(BaseFramework):
-    frameworkType = StringType(default=DPS_TYPE)
+    frameworkType = StringType(default=IFI_TYPE)
     procuringEntity = ModelType(ProcuringEntity, required=True)
 
 

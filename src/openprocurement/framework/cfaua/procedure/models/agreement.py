@@ -43,16 +43,16 @@ from openprocurement.framework.cfaua.procedure.models.document import (
     PostDocument,
 )
 from openprocurement.framework.core.procedure.models.agreement import (
-    Agreement as BaseAgreement,
+    CommonAgreement as BaseAgreement,
+)
+from openprocurement.framework.core.procedure.models.agreement import (
+    CommonPostAgreement as BasePostAgreement,
 )
 from openprocurement.framework.core.procedure.models.agreement import (
     PatchAgreement as BasePatchAgreement,
 )
-from openprocurement.framework.core.procedure.models.agreement import (
-    PostAgreement as BasePostAgreement,
-)
 from openprocurement.framework.core.procedure.models.contact import (
-    ContactPoint as BaseContactPoint,
+    CommonContactPoint as BaseContactPoint,
 )
 from openprocurement.framework.core.procedure.models.item import CPVClassification
 

@@ -8,14 +8,14 @@ from openprocurement.framework.core.procedure.models.agreement import (
     PostAgreement as BasePostAgreement,
 )
 from openprocurement.framework.core.procedure.models.organization import ProcuringEntity
-from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.framework.ifi.constants import IFI_TYPE
 
 
 class Agreement(BaseAgreement):
-    agreementType = StringType(default=DPS_TYPE)
+    agreementType = StringType(default=IFI_TYPE)
     procuringEntity = ModelType(ProcuringEntity, required=True)
 
 
 class PostAgreement(BasePostAgreement):
-    agreementType = StringType(default=DPS_TYPE)
+    agreementType = StringType(default=IFI_TYPE)
     procuringEntity = ModelType(ProcuringEntity, required=True)

@@ -1,0 +1,1 @@
+IFI_TYPE = "internationalFinancialInstitutions"
