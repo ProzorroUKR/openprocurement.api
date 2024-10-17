@@ -26,7 +26,7 @@ class BaseDocumentStateMixing:
         if (
             data.get("title") == "sign.p7s"
             and data.get("format") == "application/pkcs7-signature"
-            and data.get("author") == "tender_owner"
+            and data.get("author", "tender_owner") == "tender_owner"
             and tender.get("procuringEntity", {}).get("identifier", {}).get("id") in CONFIDENTIAL_EDRPOU_LIST
         ):
             if data["confidentiality"] != ConfidentialityTypes.BUYER_ONLY:
