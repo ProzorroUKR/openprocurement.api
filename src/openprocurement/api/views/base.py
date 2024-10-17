@@ -1,11 +1,8 @@
-from datetime import datetime
 from logging import getLogger
 
-from openprocurement.api.constants import (
-    CRITICAL_HEADERS_LOG_ENABLED,
-    DEPRECATED_FEED_USER_AGENTS,
-    TZ,
-)
+from bson import Timestamp
+
+from openprocurement.api.constants import CRITICAL_HEADERS_LOG_ENABLED
 from openprocurement.api.context import set_now, set_request
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.procedure.utils import parse_date
@@ -27,26 +24,33 @@ class BaseResource:
 
 
 def parse_offset(offset: str):
+    parts = offset.split(".")
+    if len(parts) == 2 and len(parts[1]) == 10:  # timestamp offset format (for public_ts field)
+        seconds, ordinal = parts
+        return Timestamp(int(seconds), int(ordinal))
     try:
-        # Used new offset in timestamp format
+        # timestamp offset format (for "public_modified" field)
         return float(offset)
     except ValueError:
         # Used deprecated offset in iso format
         return parse_date(offset.replace(" ", "+")).timestamp()
 
 
-def compose_offset(request, offset: float):
-    if request.user_agent in DEPRECATED_FEED_USER_AGENTS:
-        # Use deprecated offset in iso format
-        return datetime.fromtimestamp(offset).astimezone(TZ).isoformat()
+def compose_offset(offset: float | Timestamp) -> str:
+    # if request.user_agent in DEPRECATED_FEED_USER_AGENTS:  # can we drop this please ?
+    #     # Use deprecated offset in iso format
+    #     return datetime.fromtimestamp(offset).astimezone(TZ).isoformat()
+    if isinstance(offset, Timestamp):
+        # Timestamp(1721045886, 4)        -> '1721045886.000004'
+        # Timestamp(1721045886, 1234567)  -> '1721045886.1234567'
+        return f"{offset.time}.{offset.inc:010}"
     else:
-        # Use new offset in timestamp format
-        return offset
+        # offset in timestamp format "seconds.milliseconds"
+        return str(offset)
 
 
 class MongodbResourceListing(BaseResource):
     listing_name = "Items"
-    offset_field = "public_modified"
     listing_default_fields = {"dateModified"}
     listing_allowed_fields = {"dateModified", "created", "modified"}
     default_limit = 100
@@ -85,7 +89,7 @@ class MongodbResourceListing(BaseResource):
                     location="querystring",
                     name="offset",
                 )
-            params["offset"] = compose_offset(self.request, offset)
+            params["offset"] = compose_offset(offset)
 
         # limit param
         limit_param = self.request.params.get("limit")
@@ -125,12 +129,14 @@ class MongodbResourceListing(BaseResource):
 
         data_fields = opt_fields | self.listing_default_fields
         db_fields = self.db_fields(data_fields)
+        timestamp_offset_field = "public_ts"
+        depr_offset_field = "public_modified"
 
         # call db method
         results = self.db_listing_method(
-            offset_field=self.offset_field,
+            offset_field=depr_offset_field if isinstance(offset, float) else timestamp_offset_field,
             offset_value=offset,
-            fields=db_fields,
+            fields=db_fields | {timestamp_offset_field},
             descending=params.get("descending"),
             limit=params.get("limit", self.default_limit),
             mode=params.get("mode"),
@@ -139,11 +145,10 @@ class MongodbResourceListing(BaseResource):
 
         # prepare response
         if results:
-            params["offset"] = compose_offset(self.request, results[-1][self.offset_field])
-            prev_params["offset"] = compose_offset(self.request, results[0][self.offset_field])
-            if self.offset_field not in self.listing_allowed_fields:
-                for r in results:
-                    r.pop(self.offset_field)
+            params["offset"] = compose_offset(results[-1][timestamp_offset_field])
+            prev_params["offset"] = compose_offset(results[0][timestamp_offset_field])
+            for r in results:
+                r.pop(timestamp_offset_field)
         data = {
             "data": self.filter_results_fields(results, data_fields),
             "next_page": self.get_page(keys, params),

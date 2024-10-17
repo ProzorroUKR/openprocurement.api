@@ -3,11 +3,13 @@ import json
 import mimetypes
 import re
 import traceback
+from collections import defaultdict
 from datetime import timedelta
 from hashlib import md5
 from unittest import mock
 from uuid import UUID
 
+from bson import Timestamp
 from freezegun import freeze_time
 from tests.base.constants import API_HOST, MOCK_DATETIME, PUBLIC_API_HOST
 from webtest import forms
@@ -227,6 +229,19 @@ class MockWebTestMixin:
         self.uuid_patch.start()
         self.db_now_path = mock.patch('openprocurement.api.database.get_public_modified', lambda: get_now().timestamp())
         self.db_now_path.start()
+
+        # https://www.mongodb.com/docs/v4.4/reference/bson-types/#timestamps
+        increments = defaultdict(int)
+
+        def get_mocked_bson_timestamp():
+            seconds = int(get_now().timestamp())
+            key = str(seconds)
+            increments[key] += 1
+            return Timestamp(seconds, increments[key])
+
+        self.db_timestamp_path = mock.patch('openprocurement.api.database.get_public_ts', get_mocked_bson_timestamp)
+        self.db_timestamp_path.start()
+
         self.freezer = freeze_time(self.freezing_datetime)
         self.freezer.start()
 
@@ -234,6 +249,7 @@ class MockWebTestMixin:
         self.freezer.stop()
         self.uuid_patch.stop()
         self.db_now_path.stop()
+        self.db_timestamp_path.stop()
         self.uuid_counters = None
 
     def uuid(self, version=None, **kwargs):

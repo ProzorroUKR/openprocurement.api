@@ -184,7 +184,7 @@ class MongodbStore:
         results = list(
             collection.find(
                 filter=filters,
-                projection={f: 1 for f in fields | {offset_field}},
+                projection={f: 1 for f in fields},
                 limit=limit,
                 sort=((offset_field, DESCENDING if descending else ASCENDING),),
                 session=get_db_session(),
