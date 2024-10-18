@@ -208,13 +208,14 @@ Content-Type: application/json
     ],
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "evaluationReports",
         "id": "734679fc40f740b0ac8dcb41436f2dde",
         "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0122f7569ef34718a69b5de8643cccfd/documents/734679fc40f740b0ac8dcb41436f2dde?download=d4872a7a4e4a46e59234251b0eebde2f",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d4872a7a4e4a46e59234251b0eebde2f?Signature=Ibt2cs4LaiOBNQJQ2BIjAPt11dYWCpIuy0yRLSpBEGraovdHSOh45OoSvPMT%2Bv8%2F%2FYDuwoz%2BL0njoX%2B%2BsUpoDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:01:00+03:00",
         "author": "tender_owner",

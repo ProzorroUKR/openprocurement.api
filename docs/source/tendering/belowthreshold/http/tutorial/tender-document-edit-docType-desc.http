@@ -20,6 +20,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "public",
     "documentType": "technicalSpecifications",
     "description": "змінений опис документа",
     "description_en": "document description modified",

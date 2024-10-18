@@ -12,6 +12,9 @@ from openprocurement.tender.core.procedure.serializers.cancellation import (
 from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.document import (
+    DocumentSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
@@ -44,6 +47,7 @@ class TenderBaseSerializer(BaseUIDSerializer):
         "awards": ListSerializer(AwardSerializer),
         "lots": ListSerializer(LotSerializer),
         "questions": ListSerializer(QuestionSerializer),
+        "documents": ListSerializer(DocumentSerializer),
     }
 
     def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:

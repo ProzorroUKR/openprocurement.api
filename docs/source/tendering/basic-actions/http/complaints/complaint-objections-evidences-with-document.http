@@ -53,6 +53,7 @@ Content-Type: application/json
     "status": "draft",
     "documents": [
       {
+        "confidentiality": "public",
         "id": "5ecf6d2d17c44d0c8e63bd27cfb42afd",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",

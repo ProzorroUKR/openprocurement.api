@@ -44,6 +44,7 @@ Content-Type: application/json
       "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "documents": [
         {
+          "confidentiality": "public",
           "documentType": "notice",
           "id": "b3a891f0dcfb46b387413157d32dc5a9",
           "datePublished": "2023-10-10T01:02:01+03:00",
@@ -101,6 +102,7 @@ Content-Type: application/json
       "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "documents": [
         {
+          "confidentiality": "public",
           "documentType": "notice",
           "id": "6e5cb8bd09654354b29f29af9ba95648",
           "datePublished": "2023-10-10T01:02:01+03:00",
@@ -158,6 +160,7 @@ Content-Type: application/json
       "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "documents": [
         {
+          "confidentiality": "public",
           "documentType": "notice",
           "id": "e94425be5f184ce086c19f176356387c",
           "datePublished": "2023-10-10T01:02:01+03:00",

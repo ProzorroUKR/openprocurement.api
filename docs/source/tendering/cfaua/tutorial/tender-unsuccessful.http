@@ -593,49 +593,53 @@ Content-Type: application/json
     ],
     "documents": [
       {
+        "confidentiality": "public",
         "id": "6affe991080a440a972b5f434caead7f",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/documents/6affe991080a440a972b5f434caead7f?download=08e82c82a90b450b92200767d85104a3",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/08e82c82a90b450b92200767d85104a3?Signature=igP5CkEhwo%2F3DEmfdiufJCIVWoMkNur5ev06M99uDBxkaen%2B71RE8haDFhZudTa8M417WHPkSgA17bTvw4vGBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
+        "confidentiality": "public",
         "id": "a5e30bfbd52c4e5ead3e1981d2e69804",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/documents/a5e30bfbd52c4e5ead3e1981d2e69804?download=8ce7189cc6ed46b29851ba6da3f88e95",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8ce7189cc6ed46b29851ba6da3f88e95?Signature=Bk0kjouFNblkDYUzSsbTvEi5jaIYOxpxCijWMMDauvRQirmdfhHgrVP%2B8fA9C8yIvC66cZ8KzyJOPAj39FDcDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
+        "confidentiality": "public",
         "id": "a5e30bfbd52c4e5ead3e1981d2e69804",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/documents/a5e30bfbd52c4e5ead3e1981d2e69804?download=95b375878e764f2684727173a91fb0f9",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/95b375878e764f2684727173a91fb0f9?Signature=ek8rGhqz96FgchEsFabK97PvVAOb9cxuNrSqRUc05G2dqs%2FAE2qsQ5xkflTWG8ovBpA1bTOLaipeZEG%2B89SBCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
+        "confidentiality": "public",
         "documentType": "evaluationReports",
         "id": "3f517e8a1f47485abe0bde672bcc6589",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/documents/3f517e8a1f47485abe0bde672bcc6589?download=f66dbe7dfab54e17913151030e384c2d",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f66dbe7dfab54e17913151030e384c2d?Signature=ek%2FW5X0TxbYL%2F19Jgum%2BKJLab6bKSonY0axjlz4QqfGdYGwKgDzrJUPTMUSDMxzGKsMaEdeXvjJ8%2Bcvi%2Bv05Cg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:02:01+03:00",
         "author": "tender_owner",
@@ -920,6 +924,7 @@ Content-Type: application/json
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "notice",
             "id": "b3a891f0dcfb46b387413157d32dc5a9",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -977,6 +982,7 @@ Content-Type: application/json
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "notice",
             "id": "6e5cb8bd09654354b29f29af9ba95648",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -1034,6 +1040,7 @@ Content-Type: application/json
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "notice",
             "id": "e94425be5f184ce086c19f176356387c",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -1090,6 +1097,7 @@ Content-Type: application/json
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "notice",
             "id": "1e2fc5bb3d99484db0cb658544685526",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -1146,6 +1154,7 @@ Content-Type: application/json
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "notice",
             "id": "88a6a67c472243f7af7972ec3ff55357",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -1207,6 +1216,7 @@ Content-Type: application/json
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "notice",
             "id": "427a5bc4dd154043a6e16d2993054c3d",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -1268,6 +1278,7 @@ Content-Type: application/json
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "documents": [
           {
+            "confidentiality": "public",
             "documentType": "notice",
             "id": "5c27fd94a6df42a4995badf8cf9a523f",
             "datePublished": "2023-10-10T01:02:01+03:00",
@@ -1529,6 +1540,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
+            "confidentiality": "public",
             "hash": "md5:00000000000000000000000000000000",
             "title": "agreement_first_document.doc",
             "format": "application/msdoc",
@@ -1540,6 +1552,7 @@ Content-Type: application/json
             "dateModified": "2023-10-10T01:02:01+03:00"
           },
           {
+            "confidentiality": "public",
             "title_en": "Title of Document",
             "description_en": "Description of Document",
             "id": "cf5d18a36aa140e281d8b650976d6411",

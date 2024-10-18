@@ -9,6 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
+      "confidentiality": "public",
       "documentType": "notice",
       "id": "d6f0fac0e3d84efa979a14a50cd800c4",
       "datePublished": "2023-10-10T01:00:00+03:00",
@@ -22,6 +23,7 @@ Content-Type: application/json
       "language": "uk"
     },
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
       "format": "application/pdf",
@@ -34,6 +36,7 @@ Content-Type: application/json
       "author": "tender_owner"
     },
     {
+      "confidentiality": "public",
       "id": "251cc278c3ed40e4a63068de7371dd28",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",

@@ -81,7 +81,7 @@ Schema
     The goods and services awarded in this award, broken into line items wherever possible. Items should not be duplicated, but the quantity specified instead. 
     
 :documents:
-    List of :ref:`Document` objects
+    List of :ref:`ConfidentialDocument` objects
     
     |ocdsDescription|
     All documents and attachments related to the award, including any notices. 

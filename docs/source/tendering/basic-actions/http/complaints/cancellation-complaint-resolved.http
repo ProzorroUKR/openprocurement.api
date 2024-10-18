@@ -22,6 +22,7 @@ Content-Type: application/json
     "status": "resolved",
     "documents": [
       {
+        "confidentiality": "public",
         "id": "52547a488e454d9499ba412b4b3b1e2f",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
@@ -34,6 +35,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
+        "confidentiality": "public",
         "id": "6eec115e08bf4bccb5f798d1065e47a6",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",

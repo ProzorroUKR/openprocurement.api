@@ -7,6 +7,8 @@ from openprocurement.tender.core.procedure.validation import validate_doc_type_q
 
 
 class BidDocumentState(BaseDocumentState):
+    check_edrpou_confidentiality = False
+
     def validate_sign_documents_already_exists(self, doc_data, doc_envelope):
         bid_docs = deepcopy(get_bid().get(doc_envelope, []))
         new_documents = self.request.validated["data"]

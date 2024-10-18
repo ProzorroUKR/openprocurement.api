@@ -103,7 +103,7 @@ Schema
     Cancellation reason.
 
 :documents:
-    List of :ref:`Document` objects
+    List of :ref:`ConfidentialDocument` objects
 
 :relatedLot:
     string

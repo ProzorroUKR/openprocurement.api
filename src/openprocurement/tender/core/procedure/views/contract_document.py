@@ -4,6 +4,9 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.contract_document import (
     ContractDocumentState,
 )
+from openprocurement.tender.core.procedure.validation import (
+    validate_download_tender_document,
+)
 from openprocurement.tender.core.procedure.views.contract import resolve_contract
 from openprocurement.tender.core.procedure.views.document import (
     BaseDocumentResource,
@@ -35,6 +38,9 @@ class TenderContractDocumentResource(BaseDocumentResource):
     def collection_get(self):
         return super().collection_get()
 
-    @json_view(permission="view_tender")
+    @json_view(
+        validators=(validate_download_tender_document,),
+        permission="view_tender",
+    )
     def get(self):
         return super().get()

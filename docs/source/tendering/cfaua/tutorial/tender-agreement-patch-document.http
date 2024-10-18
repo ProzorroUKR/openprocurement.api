@@ -17,6 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "confidentiality": "public",
     "title_en": "Title of Document",
     "description_en": "Description of Document",
     "id": "cf5d18a36aa140e281d8b650976d6411",

@@ -51,6 +51,7 @@ Content-Type: application/json
     "bid_id": "e46f8f0d801948559ac59fb85a66abaa",
     "documents": [
       {
+        "confidentiality": "public",
         "documentType": "notice",
         "id": "39d35a2831224254ad654f694b0a7efa",
         "datePublished": "2023-10-10T01:00:00+03:00",

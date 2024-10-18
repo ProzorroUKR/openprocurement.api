@@ -7,6 +7,10 @@ from schematics.types.serializable import serializable
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.document import (
+    ConfidentialDocumentMixin,
+    ConfidentialityTypes,
+)
 from openprocurement.api.procedure.types import HashType
 
 DOCUMENT_TYPES = (
@@ -99,7 +103,7 @@ class BasePostDocument(BaseDocument):
         validate_relatedItem(related_item, data.get("documentOf"))
 
 
-class PostDocument(BasePostDocument):
+class PostDocument(BasePostDocument, ConfidentialDocumentMixin):
     # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
 
     @serializable
@@ -113,7 +117,7 @@ class PostDocument(BasePostDocument):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
 
 
-class Document(BaseDocument):
+class Document(BaseDocument, ConfidentialDocumentMixin):
     # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
     id = MD5Type(required=True)
     datePublished = StringType(required=True)
@@ -134,6 +138,13 @@ class PatchDocument(BaseDocument):
     # "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
     documentOf = StringType(choices=["tender", "item", "lot"])
     language = StringType(choices=["uk", "en", "ru"])
+    confidentiality = StringType(
+        choices=[
+            ConfidentialityTypes.PUBLIC.value,
+            ConfidentialityTypes.BUYER_ONLY.value,
+        ]
+    )
+    confidentialityRationale = StringType()
 
     @serializable
     def dateModified(self):

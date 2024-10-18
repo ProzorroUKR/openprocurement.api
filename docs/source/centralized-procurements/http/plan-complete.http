@@ -165,9 +165,9 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Notice.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d931b6056c5814240/milestones/38af1af8923e4f2ab7bdda3b7d94c002/documents/f01c5f2cac9d4e5eb180ab17304e1c91?download=e02eb47c177f4e078fd10eb781a99616",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d931b6056c5814240/milestones/38af1af8923e4f2ab7bdda3b7d94c002/documents/c83202f17fbd4f8a87af7071e6ad87cd?download=e02eb47c177f4e078fd10eb781a99616",
             "language": "uk",
-            "id": "f01c5f2cac9d4e5eb180ab17304e1c91",
+            "id": "c83202f17fbd4f8a87af7071e6ad87cd",
             "datePublished": "2023-10-10T01:00:10+03:00",
             "dateModified": "2023-10-10T01:00:10+03:00"
           }

@@ -10,7 +10,7 @@ from openprocurement.api.procedure.validation import (
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.bid_document import (
+from openprocurement.tender.core.procedure.models.document import (
     Document,
     PatchDocument,
     PostDocument,
@@ -23,7 +23,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_bid_document_operation_in_bid_status,
     validate_bid_document_operation_period,
     validate_bid_financial_document_in_tender_status,
-    validate_download_bid_document,
+    validate_download_tender_document,
     validate_update_bid_document_confidentiality,
     validate_view_bid_document,
     validate_view_bid_documents_allowed_in_bid_status,
@@ -106,7 +106,7 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
         validators=(
             validate_view_bid_document,
             validate_view_bid_documents_allowed_in_bid_status,
-            validate_download_bid_document,
+            validate_download_tender_document,
         ),
         permission="view_tender",
     )
@@ -218,7 +218,7 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
         validators=(
             validate_view_financial_bid_documents_allowed_in_tender_status,
             validate_view_financial_bid_documents_allowed_in_bid_status,
-            validate_download_bid_document,
+            validate_download_tender_document,
         ),
         permission="view_tender",
     )
@@ -307,7 +307,7 @@ class BaseTenderBidQualificationDocumentResource(BaseTenderBidDocumentResource):
         validators=(
             validate_view_financial_bid_documents_allowed_in_tender_status,
             validate_view_financial_bid_documents_allowed_in_bid_status,
-            validate_download_bid_document,
+            validate_download_tender_document,
         ),
         permission="view_tender",
     )

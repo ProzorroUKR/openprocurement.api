@@ -32,6 +32,9 @@ from openprocurement.tender.core.procedure.serializers.document import (
 )
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.validation import (
+    validate_download_tender_document,
+)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
@@ -201,7 +204,10 @@ class BaseDocumentResource(DocumentResourceMixin, TenderBaseResource):
     def collection_post(self):
         return super().collection_post()
 
-    @json_view(permission="view_tender")
+    @json_view(
+        validators=(validate_download_tender_document,),
+        permission="view_tender",
+    )
     def get(self):
         return super().get()
 

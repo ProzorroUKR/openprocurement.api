@@ -9,6 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
+      "confidentiality": "public",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
       "format": "application/pdf",
@@ -21,6 +22,7 @@ Content-Type: application/json
       "author": "tender_owner"
     },
     {
+      "confidentiality": "public",
       "id": "0828ad7fc7394696b2775dac1eb3bfcc",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",

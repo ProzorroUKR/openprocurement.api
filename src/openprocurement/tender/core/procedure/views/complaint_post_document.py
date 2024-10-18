@@ -20,6 +20,7 @@ from openprocurement.tender.core.procedure.state.complaint_post_document import 
 from openprocurement.tender.core.procedure.validation import (
     unless_reviewers,
     validate_any,
+    validate_download_tender_document,
 )
 from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
 from openprocurement.tender.core.procedure.views.complaint_post import (
@@ -51,7 +52,10 @@ class BaseComplaintPostDocumentResource(BaseDocumentResource):
     def collection_get(self):
         return super().collection_get()
 
-    @json_view(permission="view_tender")
+    @json_view(
+        validators=(validate_download_tender_document,),
+        permission="view_tender",
+    )
     def get(self):
         return super().get()
 

@@ -999,3 +999,194 @@ def lot_patch_tender_document_json_items_none(self):
 
     errors = {error["name"]: error["description"] for error in response.json["errors"]}
     self.assertEqual(errors["documents"][0], {"relatedItem": ["relatedItem should be one of items"]})
+
+
+def tender_confidential_documents(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    tender["procuringEntity"]["identifier"]["id"] = "08305644"
+    self.mongodb.tenders.save(tender)
+
+    # try to add sign doc without confidential field
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "notice",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "confidentiality", "description": "Document should be confidential"},
+    )
+
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "notice",
+                "confidentiality": "buyerOnly",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "confidentialityRationale",
+            "description": ["confidentialityRationale is required"],
+        },
+    )
+
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "notice",
+                "confidentiality": "buyerOnly",
+                "confidentialityRationale": "foo",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "confidentialityRationale",
+            "description": ["confidentialityRationale should contain at least 30 characters"],
+        },
+    )
+
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "notice",
+                "confidentiality": "buyerOnly",
+                "confidentialityRationale": "Файл підпису замовника позначено як конфіденційний з міркувань безпеки",
+            },
+        },
+    )
+    self.assertEqual(response.json["data"]["confidentiality"], "buyerOnly")
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "text.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "confidentiality": "buyerOnly",
+                "confidentialityRationale": "Файл підпису замовника позначено як конфіденційний з міркувань безпеки",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "confidentiality",
+            "description": "Document should be public",
+        },
+    )
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "text.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "confidentiality": "public",
+            },
+        },
+    )
+    self.assertEqual(response.json["data"]["confidentiality"], "public")
+    self.assertEqual(response.status, "201 Created")
+    doc_id_2 = response.json["data"]["id"]
+
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            },
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["confidentiality"], "public")
+
+    # get list as tender owner
+    response = self.app.get(f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}")
+    self.assertEqual(len(response.json["data"]), 3)
+    for doc in response.json["data"]:
+        self.assertIn("url", doc)
+
+    # get list as public
+    response = self.app.get(f"/tenders/{self.tender_id}/documents")
+    self.assertEqual(len(response.json["data"]), 3)
+    for doc in response.json["data"]:
+        if doc["confidentiality"] == "buyerOnly":
+            self.assertNotIn("url", doc)
+        else:
+            self.assertIn("url", doc)
+
+    # get directly as tender owner
+    response = self.app.get(f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}")
+    self.assertIn("url", response.json["data"])
+
+    # get directly as public
+    response = self.app.get(f"/tenders/{self.tender_id}/documents/{doc_id}")
+    self.assertNotIn("url", response.json["data"])
+
+    # get directly as public non-confidential doc
+    response = self.app.get(f"/tenders/{self.tender_id}/documents/{doc_id_2}")
+    self.assertIn("url", response.json["data"])
+
+    # download as tender owner
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}&download=1",
+    )
+    self.assertEqual(response.status_code, 302)
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
+
+    # download as tender public
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/documents/{doc_id}?download=1",
+        status=403,
+    )
+    self.assertEqual(
+        response.json,
+        {
+            "status": "error",
+            "errors": [{"location": "body", "name": "data", "description": "Document download forbidden."}],
+        },
+    )

@@ -11,6 +11,10 @@ from openprocurement.tender.core.procedure.utils import tender_created_after_202
 
 
 class CancellationDocumentStateMixing(BaseDocumentStateMixing, CancellationStateMixing):
+
+    def document_always(self, data):
+        self.validate_confidentiality(data)
+
     @staticmethod
     def validate_cancellation_document_allowed(request, _, cancellation):
         if tender_created_after_2020_rules():

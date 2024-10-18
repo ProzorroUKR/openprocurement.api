@@ -4,7 +4,10 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.tender_document import (
     TenderDocumentState,
 )
-from openprocurement.tender.core.procedure.validation import get_tender_document_role
+from openprocurement.tender.core.procedure.validation import (
+    get_tender_document_role,
+    validate_download_tender_document,
+)
 from openprocurement.tender.core.procedure.views.document import (
     BaseDocumentResource,
     resolve_document,
@@ -36,6 +39,9 @@ class TenderDocumentResource(BaseDocumentResource):
     def collection_get(self):
         return super().collection_get()
 
-    @json_view(permission="view_tender")
+    @json_view(
+        validators=(validate_download_tender_document,),
+        permission="view_tender",
+    )
     def get(self):
         return super().get()
