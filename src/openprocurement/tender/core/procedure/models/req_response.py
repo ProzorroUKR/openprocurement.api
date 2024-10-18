@@ -281,12 +281,29 @@ class MatchResponseValue:
                 f"Value {value} is higher then required {max_value} in requirement {requirement['id']}"
             )
 
+    @staticmethod
+    def _hack_for_values_with_string_numbers(values):
+        # TODO: remove
+        def fix_string_numbers(value):
+            if isinstance(value, str):
+                try:
+                    return str(float(value))
+                except ValueError:
+                    pass
+            return value
+
+        return [fix_string_numbers(value) for value in values]
+
     @classmethod
     def _match_expected_values(cls, datatype, requirement, values):
         expected_min_items = requirement.get("expectedMinItems")
         expected_max_items = requirement.get("expectedMaxItems")
         expected_values = requirement.get("expectedValues", [])
         expected_values = {datatype.to_native(i) for i in expected_values}
+
+        # TODO: remove
+        expected_values = cls._hack_for_values_with_string_numbers(expected_values)
+        values = cls._hack_for_values_with_string_numbers(values)
 
         if expected_min_items is not None and expected_min_items > len(values):
             raise ValidationError(
