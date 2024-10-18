@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-18 14:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "Bid Items"
+msgstr "Предмет закупівлі в пропозиції"
+
+msgid "Items in bid are available in all types of procedures"
+msgstr "Предмет закупівлі в пропозиції доступний у всіх типах процедур"
+
+msgid "Creating bid with items"
+msgstr "Створюємо пропозицію з предметом закупівлі"
+
+msgid "To create a bid with a procurement item, you need to pass the `items` field with a value containing a list of :ref:`BidItem` ."
+msgstr "Щоб створити пропозицію з предметом закупівлі, вам потрібно передати поле items зі значенням, що містить список :ref:`BidItem`."
+
+msgid "If you try to pass an item with an id that does not exist in tender.items, you will get an error:"
+msgstr "Якщо ви спробуєте передати предмет закупівлі з id, якого не існує в tender.items, ви отримаєте помилку:"
+
+msgid "Let's send correct data:"
+msgstr "Надішлемо правильні дані:"
+
+msgid "Update bid items"
+msgstr "Оновлення предмету закупівлі"
+
+msgid "You can update `quantity` and `unit` in bid items."
+msgstr "Ви можете оновити `quantity` та `unit` предмета закупівлі в пропозиції"
+
+msgid "To update the data in items, you need to pass all elements from the list along with all data; otherwise, the data that is not passed will be lost:"
+msgstr "Щоб оновити дані в items, вам потрібно передати всі елементи зі списку разом з усіма даними; в іншому випадку, дані, які не передані, будуть втрачені:"
+
+msgid "Product in bid items"
+msgstr "Продукт в предметі закупівлі пропозиції"
+
+msgid "Instead of using eligibleEvidence in criteria and evidence in requirementResponses, now you can use product in bid.items."
+msgstr "Замість використання eligibleEvidence у критерії та evidence у відповідях, можна використовувати `product` у `bid.items`."
+
+msgid "Procedures with product in bid items"
+msgstr "Процедури з продуктом в предметі закупівлі"
+
+msgid "Product in bid items is available in these procedures:"
+msgstr "Продукт в предмет закупівлі доступний у таких процедурах:"
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "Create bid with product in items"
+msgstr "Стоврення пропозиції з продуктом в предметі закупівлі"
+
+msgid "All of you need it's pass product identificator of active product from market to field `product` in bid.items."
+msgstr "Все що вам потрібно це вказати ідентифікатор активного продукту з маркету в полі `product` у bid.items."
+
+msgid "If you pass a non-existent identifier, you will get an error:"
+msgstr "Якщо ви спробуєте передати не існуючий ідентифікатор, ви отримаєте помилку:"
+
+msgid "if you try to pass identifier of product with `hidden` status, you'll also get error:"
+msgstr "Якщо ви спробуєте передати ідентифікатор продукту зі статусом `hidden`, ви отримаєте помилку:"
+
+msgid "So if all rules are met, you can create bid with product in items:"
+msgstr "тже, якщо всі правила дотримані, ви можете створити пропозицію з продуктом у предметі закупівлі:"
+
+msgid "Update product in bid items"
+msgstr "Оновлення продукту в предметі закупівлі"
+
+msgid "You can change product identifier using `PATCH` method on bid(All validations on creation also work on update):"
+msgstr "Ви можете змінити ідентифікатор продукту, використовуючи метод `PATCH` для пропозиції (усі перевірки, що здійснюються під час створення, також застосовуються під час оновлення):"
+
