@@ -114,6 +114,49 @@ Additional fields for :ref:`econtracting`:
     List of :ref:`ItemAttribute`
 
 
+.. _BidItem:
+
+BidItem
+=======
+
+Schema
+------
+
+:id:
+    string, auto-generated
+
+:description:
+    string, multilingual, required
+
+    |ocdsDescription|
+    A description of the goods, services to be provided.
+
+:unit:
+    :ref:`Unit`
+
+    |ocdsDescription|
+    Description of the unit which the good comes in e.g.  hours, kilograms.
+    Made up of a unit name, and the value of a single unit.
+
+:quantity:
+    integer
+
+    |ocdsDescription|
+    The number of units required
+
+:relatedLot:
+    string
+
+    Id of related :ref:`lot`.
+
+Additionally in :ref:`belowthreshold` :ref:`openua`, :ref:`openeu`, :ref:`open`, :ref:`competitiveordering`, :ref:`esco` and :ref:`competitivedialogue`: :ref:`pricequotation`:
+
+:product:
+    string, required
+
+    ID for related product from catalogue
+
+
 .. _Classification:
 
 Classification
