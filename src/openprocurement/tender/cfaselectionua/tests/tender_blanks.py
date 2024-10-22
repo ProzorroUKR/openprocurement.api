@@ -1513,7 +1513,7 @@ def patch_tender_bot(self):
     # patch tender with different changes by bot
     tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
     now = get_now().isoformat()
     agreement["changes"] = [
         {
@@ -1549,7 +1549,7 @@ def patch_tender_bot(self):
     # patch tender items with correct items by bot
     tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
@@ -1608,7 +1608,7 @@ def patch_tender_bot(self):
 
     agreement["features"] = features + [new_item_feature]
 
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
@@ -1670,7 +1670,7 @@ def patch_tender_bot(self):
     # patch tender with less than 3 active contracts
     tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
     agreement["contracts"] = agreement["contracts"][:2]  # only first and second contract
 
     response = self.app.patch_json(
@@ -2260,7 +2260,7 @@ def patch_tender_to_draft_pending(self):
 def edit_tender_in_active_enquiries(self):
     tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
