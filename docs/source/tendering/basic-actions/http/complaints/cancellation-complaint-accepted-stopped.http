@@ -46,6 +46,34 @@ Content-Type: application/json
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "dateSubmitted": "2023-10-10T01:00:00+03:00",
+    "objections": [
+      {
+        "id": "fb0c20c96877401cb053f48df81d3448",
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "cancellation",
+        "relatedItem": "8b3cf6c0fad24bc1a5cf5fb05119836b",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "id": "8c16b6df02ff43a1b0855b3977e96388",
+            "type": "setAsideAward",
+            "description": "test"
+          }
+        ],
+        "arguments": [
+          {
+            "id": "2837a24cb54647aeb5d454ce8a8098d7",
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1
+      }
+    ],
     "decision": "Тендер скасовується замовником",
     "acceptance": true,
     "dateAccepted": "2023-10-10T01:00:00+03:00",
@@ -56,6 +84,16 @@ Content-Type: application/json
       "currency": "UAH"
     },
     "rejectReason": "tenderCancelled",
+    "posts": [
+      {
+        "title": "Пояснення до скарги",
+        "description": "Була така необхідність",
+        "relatedObjection": "fb0c20c96877401cb053f48df81d3448",
+        "id": "ca38da2c7f064fc9b9c8fb2b68674b3e",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "author": "complaint_owner"
+      }
+    ],
     "dateDecision": "2023-10-10T01:00:00+03:00",
     "dateCanceled": "2023-10-10T01:00:00+03:00"
   }

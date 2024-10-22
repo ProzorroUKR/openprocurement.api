@@ -1,6 +1,5 @@
-PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/b7d908ebf42040359459b84b4ec247c4?acc_token=ad4de2cecad0432fb4059c2bd079052e HTTP/1.0
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/c3b46e2364504e909d2c67d3c6c50002?acc_token=e0e9ce898abb480296e0778c1c9439e2 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 29
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -16,10 +15,9 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "b7d908ebf42040359459b84b4ec247c4",
-    "complaintID": "UA-2023-01-01-000001-a.9",
-    "date": "2023-01-01T00:00:03+02:00",
-    "type": "claim",
+    "id": "c3b46e2364504e909d2c67d3c6c50002",
+    "complaintID": "UA-2023-10-10-000001-a.10",
+    "date": "2023-10-10T01:00:03+03:00",
     "author": {
       "name": "ДКП «Школяр»",
       "identifier": {
@@ -43,8 +41,11 @@ Content-Type: application/json
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-01-01T00:00:03+02:00",
-    "status": "claim"
+    "status": "claim",
+    "type": "claim",
+    "relatedLot": "bafe97395da841668932cf800cf756af",
+    "bid_id": "c938a8780db146beaba184a25937b356",
+    "dateSubmitted": "2023-10-10T01:00:03+03:00"
   }
 }
 

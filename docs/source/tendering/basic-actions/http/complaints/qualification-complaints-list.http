@@ -67,6 +67,34 @@ Content-Type: application/json
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
+      "objections": [
+        {
+          "id": "3c441dbba9af4ede99647d1949d2d9b0",
+          "title": "My objection",
+          "description": "Test objection",
+          "relatesTo": "qualification",
+          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "classification": {
+            "scheme": "violation_amcu",
+            "id": "corruptionDescription",
+            "description": "test classification"
+          },
+          "requestedRemedies": [
+            {
+              "id": "7b6c79ad149442809c88ce6f59500fff",
+              "type": "setAsideAward",
+              "description": "test"
+            }
+          ],
+          "arguments": [
+            {
+              "id": "de77e8c9f14745069bb33a7dbc80cad3",
+              "description": "test argument"
+            }
+          ],
+          "sequenceNumber": 1
+        }
+      ],
       "tendererAction": "Умови виправлено",
       "dateDecision": "2023-10-10T01:00:01+03:00",
       "acceptance": true,
@@ -111,6 +139,34 @@ Content-Type: application/json
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
+      "objections": [
+        {
+          "id": "f048fb58db57401890ba1b7aef20a69d",
+          "title": "My objection",
+          "description": "Test objection",
+          "relatesTo": "qualification",
+          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "classification": {
+            "scheme": "violation_amcu",
+            "id": "corruptionDescription",
+            "description": "test classification"
+          },
+          "requestedRemedies": [
+            {
+              "id": "d3d41f28010e463582787cbd82297493",
+              "type": "setAsideAward",
+              "description": "test"
+            }
+          ],
+          "arguments": [
+            {
+              "id": "0834bd023ed04199988372c9f94475df",
+              "description": "test argument"
+            }
+          ],
+          "sequenceNumber": 1
+        }
+      ],
       "value": {
         "amount": 3000.0,
         "currency": "UAH"
@@ -151,6 +207,34 @@ Content-Type: application/json
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
+      "objections": [
+        {
+          "id": "425f97a5a51e488da8a534eb97bdd33a",
+          "title": "My objection",
+          "description": "Test objection",
+          "relatesTo": "qualification",
+          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "classification": {
+            "scheme": "violation_amcu",
+            "id": "corruptionDescription",
+            "description": "test classification"
+          },
+          "requestedRemedies": [
+            {
+              "id": "06fed070609046289bec0f1bdbdb0823",
+              "type": "setAsideAward",
+              "description": "test"
+            }
+          ],
+          "arguments": [
+            {
+              "id": "43598201c0fc43a7b261f8ab6d39bdd2",
+              "description": "test argument"
+            }
+          ],
+          "sequenceNumber": 1
+        }
+      ],
       "acceptance": true,
       "dateAccepted": "2023-10-10T01:00:01+03:00",
       "reviewDate": "2023-10-10T01:00:01+03:00",
@@ -193,6 +277,34 @@ Content-Type: application/json
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
+      "objections": [
+        {
+          "id": "fc6d19a6a43d45e69b26ea3682e13984",
+          "title": "My objection",
+          "description": "Test objection",
+          "relatesTo": "qualification",
+          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "classification": {
+            "scheme": "violation_amcu",
+            "id": "corruptionDescription",
+            "description": "test classification"
+          },
+          "requestedRemedies": [
+            {
+              "id": "7b1148f7379b4cf6a22093dcb364fe44",
+              "type": "setAsideAward",
+              "description": "test"
+            }
+          ],
+          "arguments": [
+            {
+              "id": "c8077b82feca4380978b9ff7b8defc32",
+              "description": "test argument"
+            }
+          ],
+          "sequenceNumber": 1
+        }
+      ],
       "reviewDate": "2023-10-10T01:00:01+03:00",
       "reviewPlace": "Place of review",
       "value": {
@@ -234,6 +346,34 @@ Content-Type: application/json
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
+      "objections": [
+        {
+          "id": "672a12482e96403e92e931c96d2f0966",
+          "title": "My objection",
+          "description": "Test objection",
+          "relatesTo": "qualification",
+          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "classification": {
+            "scheme": "violation_amcu",
+            "id": "corruptionDescription",
+            "description": "test classification"
+          },
+          "requestedRemedies": [
+            {
+              "id": "c8f8786178fb4b9c89504eda44cc550f",
+              "type": "setAsideAward",
+              "description": "test"
+            }
+          ],
+          "arguments": [
+            {
+              "id": "9351379ae19046b3b906718b58288591",
+              "description": "test argument"
+            }
+          ],
+          "sequenceNumber": 1
+        }
+      ],
       "decision": "Тендер скасовується замовником",
       "acceptance": true,
       "dateAccepted": "2023-10-10T01:00:01+03:00",
@@ -310,6 +450,34 @@ Content-Type: application/json
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+      "objections": [
+        {
+          "id": "e477683631ec48c1b9ebf2dfd9aaff08",
+          "title": "My objection",
+          "description": "Test objection",
+          "relatesTo": "qualification",
+          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "classification": {
+            "scheme": "violation_amcu",
+            "id": "corruptionDescription",
+            "description": "test classification"
+          },
+          "requestedRemedies": [
+            {
+              "id": "cd4eccbd6b884000ac365958f044258c",
+              "type": "setAsideAward",
+              "description": "test"
+            }
+          ],
+          "arguments": [
+            {
+              "id": "463a707a959746ffad313072847d378e",
+              "description": "test argument"
+            }
+          ],
+          "sequenceNumber": 1
+        }
+      ],
       "value": {
         "amount": 3000.0,
         "currency": "UAH"
@@ -320,6 +488,7 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "recipient": "complaint_owner",
+          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
           "id": "1fbeaf3065e04d2e839259e8f5e1536a",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "author": "aboveThresholdReviewers"
@@ -344,6 +513,7 @@ Content-Type: application/json
           ],
           "recipient": "aboveThresholdReviewers",
           "relatedPost": "1fbeaf3065e04d2e839259e8f5e1536a",
+          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
           "id": "530ee1f4987142c5b983bb6ae1f58241",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "author": "complaint_owner"
@@ -352,6 +522,7 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "recipient": "tender_owner",
+          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
           "id": "83aa2397dedc450f92cb684b132f7765",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "author": "aboveThresholdReviewers"
@@ -376,7 +547,16 @@ Content-Type: application/json
           ],
           "recipient": "aboveThresholdReviewers",
           "relatedPost": "83aa2397dedc450f92cb684b132f7765",
+          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
           "id": "63c8c44c092e4b4889e9e9fa0021f52a",
+          "datePublished": "2023-10-10T01:00:01+03:00",
+          "author": "tender_owner"
+        },
+        {
+          "title": "Пояснення до скарги",
+          "description": "Була така необхідність",
+          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
+          "id": "03aa46c3ea3d4755ac8c96d488b73f6b",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "author": "tender_owner"
         }
@@ -425,6 +605,34 @@ Content-Type: application/json
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+      "objections": [
+        {
+          "id": "6f98ffb574bb430b9789d49e1169727c",
+          "title": "My objection",
+          "description": "Test objection",
+          "relatesTo": "qualification",
+          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "classification": {
+            "scheme": "violation_amcu",
+            "id": "corruptionDescription",
+            "description": "test classification"
+          },
+          "requestedRemedies": [
+            {
+              "id": "05b5d33c41f14e27bd9ce6f361843141",
+              "type": "setAsideAward",
+              "description": "test"
+            }
+          ],
+          "arguments": [
+            {
+              "id": "100ddc4da0404eec8692a820e3305ff7",
+              "description": "test argument"
+            }
+          ],
+          "sequenceNumber": 1
+        }
+      ],
       "value": {
         "amount": 3000.0,
         "currency": "UAH"

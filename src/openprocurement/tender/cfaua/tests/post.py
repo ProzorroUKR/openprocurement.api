@@ -11,7 +11,8 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_bids,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.openua.tests.post import (
+from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
+from openprocurement.tender.open.tests.post import (
     ClaimPostResourceMixin,
     ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
@@ -28,12 +29,18 @@ class TenderComplaintPostResourceTest(
 
     def setUp(self):
         super().setUp()
+        objection_data = deepcopy(test_tender_open_complaint_objection)
+        objection_data["relatesTo"] = "tender"
+        objection_data["relatedItem"] = self.tender_id
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["objections"] = [objection_data]
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {"data": test_tender_below_draft_complaint},
+            {"data": complaint_data},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
+        self.objection_id = response.json["data"]["objections"][0]["id"]
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
@@ -82,17 +89,22 @@ class TenderQualificationComplaintPostResourceTest(
         self.assertEqual(response.status, "200 OK")
 
         # Create complaint for qualification
+        objection_data = deepcopy(test_tender_open_complaint_objection)
+        objection_data["relatesTo"] = "qualification"
+        objection_data["relatedItem"] = self.qualification_id
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["objections"] = [objection_data]
         response = self.app.post_json(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_tender_below_draft_complaint},
+            {"data": complaint_data},
         )
         complaint = response.json["data"]
 
         self.complaint_id = complaint["id"]
         self.complaint_owner_token = response.json["access"]["token"]
-
+        self.objection_id = response.json["data"]["objections"][0]["id"]
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
@@ -112,15 +124,21 @@ class TenderAwardComplaintResourceTest(
         self.awards_ids = [award["id"] for award in response.json["data"]]
         self.award_id = self.awards_ids[0]
 
+        objection_data = deepcopy(test_tender_open_complaint_objection)
+        objection_data["relatesTo"] = "award"
+        objection_data["relatedItem"] = self.award_id
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["objections"] = [objection_data]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": test_tender_below_draft_complaint},
+            {"data": complaint_data},
         )
 
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
+        self.objection_id = response.json["data"]["objections"][0]["id"]
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
@@ -165,12 +183,17 @@ class TenderCancellationComplaintPostResourceTest(
         )
 
         # Create complaint for cancellation
-
+        objection_data = deepcopy(test_tender_open_complaint_objection)
+        objection_data["relatesTo"] = "cancellation"
+        objection_data["relatedItem"] = self.cancellation_id
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["objections"] = [objection_data]
         response = self.app.post_json(
             "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, self.cancellation_id),
-            {"data": test_tender_below_draft_complaint},
+            {"data": complaint_data},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
+        self.objection_id = response.json["data"]["objections"][0]["id"]
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

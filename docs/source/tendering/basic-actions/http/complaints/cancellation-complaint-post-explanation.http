@@ -1,0 +1,29 @@
+POST /api/2.5/tenders/b3e50c95aba5434d9d21eb46e65d8f4d/cancellations/8b3cf6c0fad24bc1a5cf5fb05119836b/complaints/b2304f13ea2e423687684af6319d7c7b/posts?acc_token=25a48b14cf254f238ed24612a98d422c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "Пояснення до скарги",
+    "description": "Була така необхідність",
+    "relatedObjection": "fb0c20c96877401cb053f48df81d3448"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b3e50c95aba5434d9d21eb46e65d8f4d/cancellations/8b3cf6c0fad24bc1a5cf5fb05119836b/complaints/b2304f13ea2e423687684af6319d7c7b/posts/ca38da2c7f064fc9b9c8fb2b68674b3e
+
+{
+  "data": {
+    "title": "Пояснення до скарги",
+    "description": "Була така необхідність",
+    "relatedObjection": "fb0c20c96877401cb053f48df81d3448",
+    "id": "ca38da2c7f064fc9b9c8fb2b68674b3e",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "author": "complaint_owner"
+  }
+}
+

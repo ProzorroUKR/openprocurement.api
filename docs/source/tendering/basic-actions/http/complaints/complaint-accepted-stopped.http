@@ -46,6 +46,34 @@ Content-Type: application/json
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "dateSubmitted": "2023-10-10T01:00:00+03:00",
+    "objections": [
+      {
+        "id": "7b2a1ada12644f99af7f67330a93b85c",
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "tender",
+        "relatedItem": "2a71069de9654c5ca67c8db208720fe2",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "id": "8392b67d13e24a0980f210968d76f60e",
+            "type": "setAsideAward",
+            "description": "test"
+          }
+        ],
+        "arguments": [
+          {
+            "id": "d6146949ce56441bb666ec3b7ccbf768",
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1
+      }
+    ],
     "decision": "Тендер скасовується замовником",
     "acceptance": true,
     "dateAccepted": "2023-10-10T01:00:00+03:00",

@@ -1,6 +1,5 @@
-PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/0e63d5219a954fbe91f6046730730061 HTTP/1.0
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/de1c41400ca748f591a6f43a39c7f2d8 HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 64
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -17,10 +16,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "0e63d5219a954fbe91f6046730730061",
-    "complaintID": "UA-2023-01-01-000001-a.2",
-    "date": "2023-01-01T00:00:03+02:00",
+    "id": "de1c41400ca748f591a6f43a39c7f2d8",
+    "complaintID": "UA-2023-10-10-000001-a.3",
+    "date": "2023-10-10T01:00:03+03:00",
+    "status": "invalid",
     "type": "complaint",
+    "relatedLot": "bafe97395da841668932cf800cf756af",
+    "bid_id": "c938a8780db146beaba184a25937b356",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -37,21 +39,48 @@ Content-Type: application/json
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "uri": "http://www.sc.gov.ua/",
         "id": "00137256",
-        "legalName": "ДКП «Школяр»",
-        "uri": "http://www.sc.gov.ua/"
+        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-01-01T00:00:03+02:00",
-    "dateDecision": "2023-01-01T00:00:03+02:00",
+    "dateSubmitted": "2023-10-10T01:00:03+03:00",
+    "objections": [
+      {
+        "id": "34ea805027a34031a0ddd0a74e571f54",
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "award",
+        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "id": "9777ded5d885421192f2bae8e569baf0",
+            "type": "setAsideAward",
+            "description": "test"
+          }
+        ],
+        "arguments": [
+          {
+            "id": "4d4deb586bd84b85be6a2020dae44794",
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1
+      }
+    ],
     "value": {
       "amount": 3000.0,
       "currency": "UAH"
     },
     "rejectReason": "alreadyExists",
-    "status": "invalid",
+    "dateDecision": "2023-10-10T01:00:03+03:00",
     "acceptance": false
   }
 }

@@ -9,6 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
     "relatedPost": "1464868655a9403ca945d3d6c748cb22",
+    "relatedObjection": "06a5b7ac05f54b63bbce19de94e12568",
     "documents": [
       {
         "title": "post_document_complaint.pdf",
@@ -46,6 +47,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5c
     ],
     "recipient": "aboveThresholdReviewers",
     "relatedPost": "1464868655a9403ca945d3d6c748cb22",
+    "relatedObjection": "06a5b7ac05f54b63bbce19de94e12568",
     "id": "13b1c47a2ae74e1ab7ab8c07b96b9f0c",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "author": "complaint_owner"

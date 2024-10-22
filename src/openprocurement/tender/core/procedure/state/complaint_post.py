@@ -47,6 +47,18 @@ class ComplaintPostValidationsMixin:
                     "full business days before reviewDate",
                 )
 
+    def validate_complaint_post_objection(self, complaint, post):
+        for obj in complaint.get("objections", []):
+            if obj["id"] == post.get("relatedObjection"):
+                break
+        else:
+            raise_operation_error(
+                self.request,
+                "should be one of complaint objections id",
+                status=422,
+                name="relatedObjection",
+            )
+
 
 class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
     post_submit_time = POST_SUBMIT_TIME
@@ -73,4 +85,5 @@ class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
             )
 
         self.validate_complaint_status(complaint)
+        self.validate_complaint_post_objection(complaint, post)
         self.validate_complaint_post_review_date(complaint)

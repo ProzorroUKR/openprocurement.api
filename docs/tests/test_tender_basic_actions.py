@@ -66,6 +66,8 @@ test_lots[1]['value'] = test_tender_data['value']
 test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
 
 complaint = deepcopy(test_docs_complaint)
+objection = deepcopy(test_tender_open_complaint_objection)
+complaint["objections"] = [objection]
 claim = deepcopy(test_docs_claim)
 test_eligible_evidence_data = deepcopy(test_docs_eligible_evidence_data)
 test_requirement_data = deepcopy(test_docs_requirement_data)
@@ -140,6 +142,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender_from_db["complaints"] = [claim_data]
         self.mongodb.tenders.save(tender_from_db)
 
+        complaint["objections"][0]["relatesTo"] = "tender"
+        complaint["objections"][0]["relatedItem"] = self.tender_id
         complaint_data = {'data': complaint.copy()}
 
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
@@ -369,6 +373,11 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         complaint8_id, complaint8_token = complaint_create_pending(self, complaint_url, complaint_data)
 
+        response = self.app.get(
+            '/tenders/{}/complaints'.format(self.tender_id, complaint8_id),
+        )
+        objection_id = response.json["data"][-1]["objections"][0]["id"]
+
         self.app.authorization = ('Basic', ('reviewer', ''))
 
         with open(TARGET_DIR + 'complaints/complaint-post-reviewer-complaint-owner.http', 'w') as self.app.file_obj:
@@ -379,6 +388,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "title": "Уточнення по вимозі",
                         "description": "Відсутній документ",
                         "recipient": "complaint_owner",
+                        "relatedObjection": objection_id,
                     }
                 },
             )
@@ -397,6 +407,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "description": "Додано документ",
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post1_id,
+                        "relatedObjection": objection_id,
                         "documents": [
                             {
                                 'title': 'post_document_complaint.pdf',
@@ -420,6 +431,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "title": "Уточнення по вимозі",
                         "description": "Відсутній документ",
                         "recipient": "tender_owner",
+                        "relatedObjection": objection_id,
                     }
                 },
             )
@@ -438,6 +450,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "description": "Додано документ",
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post2_id,
+                        "relatedObjection": objection_id,
                         "documents": [
                             {
                                 'title': 'post_document_tender.pdf',
@@ -450,6 +463,48 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 },
             )
             self.assertEqual(response.status, '201 Created')
+
+        with open(TARGET_DIR + 'complaints/complaint-post-explanation-invalid.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/complaints/{}/posts?acc_token={}'.format(self.tender_id, complaint8_id, owner_token),
+                {
+                    "data": {
+                        "title": "Пояснення до скарги",
+                        "description": "Була така необхідність",
+                        "recipient": "complaint_owner",
+                        "relatedObjection": objection_id,
+                    }
+                },
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'complaints/complaint-post-explanation.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/complaints/{}/posts?acc_token={}'.format(self.tender_id, complaint8_id, owner_token),
+                {
+                    "data": {
+                        "title": "Пояснення до скарги",
+                        "description": "Була така необхідність",
+                        "relatedObjection": objection_id,
+                    }
+                },
+            )
+            explanation_id = response.json['data']['id']
+
+        with open(TARGET_DIR + 'complaints/complaint-post-explanation-answer-forbidden.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/complaints/{}/posts?acc_token={}'.format(self.tender_id, complaint8_id, complaint8_token),
+                {
+                    "data": {
+                        "title": "Відповідь до пояснення",
+                        "description": "Відсутній документ",
+                        "recipient": "aboveThresholdReviewers",
+                        "relatedObjection": objection_id,
+                        "relatedPost": explanation_id,
+                    }
+                },
+                status=422,
+            )
 
         with open(TARGET_DIR + 'complaints/complaints-list.http', 'w') as self.app.file_obj:
             self.app.authorization = None
@@ -678,6 +733,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
 
         qualification_id = qualifications[0]['id']
+        complaint["objections"][0]["relatedItem"] = qualification_id
+        complaint["objections"][0]["relatesTo"] = "qualification"
 
         with open(TARGET_DIR + 'complaints/qualification-complaint-submission.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -816,6 +873,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint_url = "/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id)
         complaint8_id, complaint8_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
+        response = self.app.get("/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id))
+        objection_id = response.json["data"][-1]["objections"][0]["id"]
+
         self.app.authorization = ('Basic', ('reviewer', ''))
 
         with open(
@@ -830,6 +890,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "title": "Уточнення по вимозі",
                         "description": "Відсутній документ",
                         "recipient": "complaint_owner",
+                        "relatedObjection": objection_id,
                     }
                 },
             )
@@ -852,6 +913,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "description": "Додано документ",
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post1_id,
+                        "relatedObjection": objection_id,
                         "documents": [
                             {
                                 'title': 'post_document_complaint.pdf',
@@ -879,6 +941,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "title": "Уточнення по вимозі",
                         "description": "Відсутній документ",
                         "recipient": "tender_owner",
+                        "relatedObjection": objection_id,
                     }
                 },
             )
@@ -899,6 +962,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "description": "Додано документ",
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post2_id,
+                        "relatedObjection": objection_id,
                         "documents": [
                             {
                                 'title': 'post_document_tender.pdf',
@@ -911,6 +975,57 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 },
             )
             self.assertEqual(response.status, '201 Created')
+        with open(
+            TARGET_DIR + 'complaints/qualification-complaint-post-explanation-invalid.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, qualification_id, complaint8_id, owner_token
+                ),
+                {
+                    "data": {
+                        "title": "Пояснення до скарги",
+                        "description": "Була така необхідність",
+                        "recipient": "complaint_owner",
+                        "relatedObjection": objection_id,
+                    }
+                },
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'complaints/qualification-complaint-post-explanation.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, qualification_id, complaint8_id, owner_token
+                ),
+                {
+                    "data": {
+                        "title": "Пояснення до скарги",
+                        "description": "Була така необхідність",
+                        "relatedObjection": objection_id,
+                    }
+                },
+            )
+            explanation_id = response.json['data']['id']
+
+        with open(
+            TARGET_DIR + 'complaints/qualification-complaint-post-explanation-answer-forbidden.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, qualification_id, complaint8_id, complaint8_token
+                ),
+                {
+                    "data": {
+                        "title": "Відповідь до пояснення",
+                        "description": "Відсутній документ",
+                        "recipient": "aboveThresholdReviewers",
+                        "relatedObjection": objection_id,
+                        "relatedPost": explanation_id,
+                    }
+                },
+                status=422,
+            )
 
         response = self.app.post_json(
             '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token),
@@ -1208,6 +1323,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        complaint["objections"][0]["relatedItem"] = award_id
+        complaint["objections"][0]["relatesTo"] = "award"
 
         # fetch sign data
         with open(TARGET_DIR + 'sign-data/sign-award-data.http', 'w') as self.app.file_obj:
@@ -1433,6 +1550,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint_url = "/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id)
         complaint8_id, complaint8_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
+        response = self.app.get("/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id))
+        objection_id = response.json["data"][-1]["objections"][0]["id"]
+
         self.app.authorization = ('Basic', ('reviewer', ''))
 
         with open(
@@ -1445,6 +1565,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "title": "Уточнення по вимозі",
                         "description": "Відсутній документ",
                         "recipient": "complaint_owner",
+                        "relatedObjection": objection_id,
                     }
                 },
             )
@@ -1464,6 +1585,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "description": "Додано документ",
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post1_id,
+                        "relatedObjection": objection_id,
                         "documents": [
                             {
                                 'title': 'post_document_complaint.pdf',
@@ -1476,7 +1598,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 },
             )
             self.assertEqual(response.status, '201 Created')
-        return
         self.app.authorization = ('Basic', ('reviewer', ''))
 
         with open(TARGET_DIR + 'complaints/award-complaint-post-reviewer-tender-owner.http', 'w') as self.app.file_obj:
@@ -1487,6 +1608,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "title": "Уточнення по вимозі",
                         "description": "Відсутній документ",
                         "recipient": "tender_owner",
+                        "relatedObjection": objection_id,
                     }
                 },
             )
@@ -1507,6 +1629,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "description": "Додано документ",
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post2_id,
+                        "relatedObjection": objection_id,
                         "documents": [
                             {
                                 'title': 'post_document_tender.pdf',
@@ -1519,6 +1642,56 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 },
             )
             self.assertEqual(response.status, '201 Created')
+
+        with open(TARGET_DIR + 'complaints/award-complaint-post-explanation-invalid.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, award_id, complaint8_id, owner_token
+                ),
+                {
+                    "data": {
+                        "title": "Пояснення до скарги",
+                        "description": "Була така необхідність",
+                        "recipient": "complaint_owner",
+                        "relatedObjection": objection_id,
+                    }
+                },
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'complaints/award-complaint-post-explanation.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, award_id, complaint8_id, owner_token
+                ),
+                {
+                    "data": {
+                        "title": "Пояснення до скарги",
+                        "description": "Була така необхідність",
+                        "relatedObjection": objection_id,
+                    }
+                },
+            )
+            explanation_id = response.json['data']['id']
+
+        with open(
+            TARGET_DIR + 'complaints/award-complaint-post-explanation-answer-forbidden.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, award_id, complaint8_id, complaint8_token
+                ),
+                {
+                    "data": {
+                        "title": "Відповідь до пояснення",
+                        "description": "Відсутній документ",
+                        "recipient": "aboveThresholdReviewers",
+                        "relatedObjection": objection_id,
+                        "relatedPost": explanation_id,
+                    }
+                },
+                status=422,
+            )
 
         response = self.app.post_json(
             '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), {'data': claim}
@@ -1690,6 +1863,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         award_id = new_award_id
         complaint_url = "/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id)
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
@@ -1775,6 +1949,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         )
         cancellation_id = response.json['data']['id']
         self.assertEqual(response.status, '201 Created')
+        complaint["objections"][0]["relatedItem"] = cancellation_id
+        complaint["objections"][0]["relatesTo"] = "cancellation"
 
         with open(TARGET_DIR + 'sign-data/sign-cancellation-data.http', 'w') as self.app.file_obj:
             self.app.get(f"/tenders/{self.tender_id}/cancellations/{cancellation_id}?opt_context=true")
@@ -1851,6 +2027,61 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         complaint5_id, complaint5_token = complaint_create_pending(self, complaint_url, complaint_data)
         complaint6_id, complaint6_token = complaint_create_pending(self, complaint_url, complaint_data)
+
+        response = self.app.get("/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation_id))
+        objection_id = response.json["data"][-1]["objections"][0]["id"]
+
+        with open(
+            TARGET_DIR + 'complaints/cancellation-complaint-post-explanation-invalid.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/cancellations/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, cancellation_id, complaint6_id, complaint6_token
+                ),
+                {
+                    "data": {
+                        "title": "Пояснення до скарги",
+                        "description": "Була така необхідність",
+                        "recipient": "complaint_owner",
+                        "relatedObjection": objection_id,
+                    }
+                },
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'complaints/cancellation-complaint-post-explanation.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/cancellations/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, cancellation_id, complaint6_id, complaint6_token
+                ),
+                {
+                    "data": {
+                        "title": "Пояснення до скарги",
+                        "description": "Була така необхідність",
+                        "relatedObjection": objection_id,
+                    }
+                },
+            )
+            explanation_id = response.json['data']['id']
+
+        with open(
+            TARGET_DIR + 'complaints/cancellation-complaint-post-explanation-answer-forbidden.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/cancellations/{}/complaints/{}/posts?acc_token={}'.format(
+                    self.tender_id, cancellation_id, complaint6_id, owner_token
+                ),
+                {
+                    "data": {
+                        "title": "Відповідь до пояснення",
+                        "description": "Відсутній документ",
+                        "recipient": "aboveThresholdReviewers",
+                        "relatedObjection": objection_id,
+                        "relatedPost": explanation_id,
+                    }
+                },
+                status=422,
+            )
 
         self.app.authorization = ('Basic', ('reviewer', ''))
         with open(TARGET_DIR + 'complaints/cancellation-complaint-reject.http', 'w') as self.app.file_obj:
@@ -2022,6 +2253,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         )
         self.assertEqual(response.status, '200 OK')
 
+        complaint["objections"][0]["relatedItem"] = cancellation2_id
         response = self.app.post_json(
             '/tenders/{}/cancellations/{}/complaints'.format(self.tender_id, cancellation2_id), {'data': complaint}
         )

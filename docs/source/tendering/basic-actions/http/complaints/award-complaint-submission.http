@@ -29,7 +29,32 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "uri": "http://www.sc.gov.ua/"
       },
       "name": "ДКП «Школяр»"
-    }
+    },
+    "objections": [
+      {
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "award",
+        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "description": "test",
+            "type": "setAsideAward"
+          }
+        ],
+        "arguments": [
+          {
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1
+      }
+    ]
   }
 }
 
@@ -65,6 +90,34 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "status": "draft",
     "type": "complaint",
+    "objections": [
+      {
+        "id": "0f1bcfb2d6534f5b900a622e2a74d99b",
+        "title": "My objection",
+        "description": "Test objection",
+        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "id": "5256f8bd9392478b9e203f703591d1c6",
+            "type": "setAsideAward",
+            "description": "test"
+          }
+        ],
+        "arguments": [
+          {
+            "id": "ec096954a6584e8a88073a16039947ae",
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1,
+        "relatesTo": "award"
+      }
+    ],
     "id": "c823c3c9df2e45f1a4bcc72a8e1c5639",
     "date": "2023-10-10T01:00:01+03:00",
     "bid_id": "c938a8780db146beaba184a25937b356",

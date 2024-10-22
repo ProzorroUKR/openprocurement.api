@@ -1,0 +1,38 @@
+POST /api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/3131116986bb4f24a6bc60bd8b2b0b24/posts?acc_token=1589d5502f3b4b24b31d29b42c14f3f3 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "Пояснення до скарги",
+    "description": "Була така необхідність",
+    "recipient": "complaint_owner",
+    "relatedObjection": "06a5b7ac05f54b63bbce19de94e12568"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "recipient",
+      "description": [
+        "Forbidden to add recipient without relatedPost for ['complaint_owner', 'tender_owner']"
+      ]
+    },
+    {
+      "location": "body",
+      "name": "relatedPost",
+      "description": [
+        "This field is required."
+      ]
+    }
+  ]
+}
+

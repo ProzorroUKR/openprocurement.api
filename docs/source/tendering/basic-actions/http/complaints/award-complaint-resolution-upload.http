@@ -1,13 +1,12 @@
-POST /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/c4977860749648c98c3c5eb180f8b1fc/documents HTTP/1.0
+POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/c823c3c9df2e45f1a4bcc72a8e1c5639/documents HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 337
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "ComplaintResolution.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9490e878261f4fd1a919a65843a13df3?Signature=19bjSQaxvboYBj%2Bp5brtqDL4Kn0FlJ1k1r6KHcqllSZqN5EJ9dmfiO0iEuUpLRfZbsvILyDN2%2F%2BojaZLRrhtBw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/387779db79c3467fa8b929a750b5dbc6?Signature=FXRcJRD4vRdEh79v9kTOvmqsm8RFeTbTWAC5m7uT5gXLltM1iR4oKqHH49KxgtQzCDC9Ebc0J2lrD28%2FYMGRCg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -16,20 +15,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/c4977860749648c98c3c5eb180f8b1fc/documents/34d0c121a4714b18a43285d593142dc2
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/c823c3c9df2e45f1a4bcc72a8e1c5639/documents/95715a41f977492ea1af3e2b36e66986
 
 {
   "data": {
-    "id": "34d0c121a4714b18a43285d593142dc2",
     "hash": "md5:00000000000000000000000000000000",
     "title": "ComplaintResolution.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9490e878261f4fd1a919a65843a13df3?Signature=QhRB642BNnFgEyW6IBU89grmEfwAOSpfsSr9U0dcaIl6QPDLAm9bd4bBkawvJ9XKQbqrKCsUH0qjuU7KWiV%2BDQ%3D%3D&KeyID=a8968c46",
-    "datePublished": "2023-01-01T00:00:03+02:00",
-    "dateModified": "2023-01-01T00:00:03+02:00",
-    "author": "aboveThresholdReviewers",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/387779db79c3467fa8b929a750b5dbc6?Signature=%2B61%2FzHlwM2Do1rNjoS4OBZ2LnROIdHfx8JQuqiiwO%2FJNdUgC7MihOoc4rOQr7yJi7Ik%2BME2t4mPeEsuBYZRKCg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "language": "uk"
+    "language": "uk",
+    "id": "95715a41f977492ea1af3e2b36e66986",
+    "datePublished": "2023-10-10T01:00:03+03:00",
+    "dateModified": "2023-10-10T01:00:03+03:00",
+    "author": "aboveThresholdReviewers"
   }
 }
 

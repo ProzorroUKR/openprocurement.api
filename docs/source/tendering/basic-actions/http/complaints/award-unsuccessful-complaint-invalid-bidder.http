@@ -29,7 +29,32 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "uri": "http://www.sc.gov.ua/"
       },
       "name": "ДКП «Школяр»"
-    }
+    },
+    "objections": [
+      {
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "award",
+        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "description": "test",
+            "type": "setAsideAward"
+          }
+        ],
+        "arguments": [
+          {
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1
+      }
+    ]
   }
 }
 

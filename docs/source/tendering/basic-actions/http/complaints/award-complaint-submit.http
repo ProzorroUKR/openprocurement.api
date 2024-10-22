@@ -1,6 +1,5 @@
-POST /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/5c66fd76a46e4eafb1743982bc112027/complaints?acc_token=f2bfc612f7704605b9f54ae2ed3bc9f3 HTTP/1.0
+POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/4b8d5350b34c4a02be0f9707a7cd2909/complaints?acc_token=bcba1aa2011b40feb8e6c3ae4bd4fc35 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1463
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,21 +29,42 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "uri": "http://www.sc.gov.ua/"
       },
       "name": "ДКП «Школяр»"
-    }
+    },
+    "objections": [
+      {
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "award",
+        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "description": "test",
+            "type": "setAsideAward"
+          }
+        ],
+        "arguments": [
+          {
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1
+      }
+    ]
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/5c66fd76a46e4eafb1743982bc112027/complaints/959d71957952458cae871d4dd575a335
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/4b8d5350b34c4a02be0f9707a7cd2909/complaints/39df58db552846e58d5e16996582b329
 
 {
   "data": {
-    "id": "959d71957952458cae871d4dd575a335",
-    "complaintID": "UA-2023-01-01-000001-a.10",
-    "date": "2023-01-01T00:00:03+02:00",
-    "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -61,22 +81,56 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "uri": "http://www.sc.gov.ua/",
         "id": "00137256",
-        "legalName": "ДКП «Школяр»",
-        "uri": "http://www.sc.gov.ua/"
+        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "status": "draft",
+    "type": "complaint",
+    "objections": [
+      {
+        "id": "4b12adc4d90b43e693340c57a4edb891",
+        "title": "My objection",
+        "description": "Test objection",
+        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "id": "653fc971e7694cfc81950edcd666bae5",
+            "type": "setAsideAward",
+            "description": "test"
+          }
+        ],
+        "arguments": [
+          {
+            "id": "8fd81d5fb67c4aaf929698b465a1e619",
+            "description": "test argument"
+          }
+        ],
+        "sequenceNumber": 1,
+        "relatesTo": "award"
+      }
+    ],
+    "id": "39df58db552846e58d5e16996582b329",
+    "date": "2023-10-10T01:00:03+03:00",
+    "bid_id": "c938a8780db146beaba184a25937b356",
+    "complaintID": "UA-2023-10-10-000001-a.11",
+    "relatedLot": "bafe97395da841668932cf800cf756af",
     "value": {
       "amount": 3000,
       "currency": "UAH"
     }
   },
   "access": {
-    "token": "27012d928a694600aad8d0a9585b189a",
-    "transfer": "ed5ac7fda1894aba980d6c7a96624c23"
+    "token": "9b65b7d1489e46cea8ed523dc9bdff4b",
+    "transfer": "dfde2a3a015b4f579ec9fe16f4531266"
   }
 }
 
