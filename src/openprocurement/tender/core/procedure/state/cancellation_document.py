@@ -11,7 +11,6 @@ from openprocurement.tender.core.procedure.utils import tender_created_after_202
 
 
 class CancellationDocumentStateMixing(BaseDocumentStateMixing, CancellationStateMixing):
-
     def document_always(self, data):
         self.validate_confidentiality(data)
 
