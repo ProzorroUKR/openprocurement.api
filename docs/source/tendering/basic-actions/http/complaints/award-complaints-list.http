@@ -14,6 +14,7 @@ Content-Type: application/json
       "status": "satisfied",
       "documents": [
         {
+          "confidentiality": "public",
           "id": "ef9c0a403216410f9d4d2c4326f604ed",
           "datePublished": "2023-10-10T01:00:03+03:00",
           "hash": "md5:00000000000000000000000000000000",
@@ -26,6 +27,7 @@ Content-Type: application/json
           "language": "uk"
         },
         {
+          "confidentiality": "public",
           "id": "95715a41f977492ea1af3e2b36e66986",
           "datePublished": "2023-10-10T01:00:03+03:00",
           "hash": "md5:00000000000000000000000000000000",
@@ -536,6 +538,7 @@ Content-Type: application/json
           "description": "Додано документ",
           "documents": [
             {
+              "confidentiality": "public",
               "hash": "md5:00000000000000000000000000000000",
               "title": "post_document_complaint.pdf",
               "format": "application/pdf",
@@ -569,6 +572,7 @@ Content-Type: application/json
           "description": "Додано документ",
           "documents": [
             {
+              "confidentiality": "public",
               "hash": "md5:00000000000000000000000000000000",
               "title": "post_document_tender.pdf",
               "format": "application/pdf",

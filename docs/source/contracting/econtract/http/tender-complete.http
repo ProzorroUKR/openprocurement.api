@@ -309,13 +309,13 @@ Content-Type: application/json
             },
             "value": 5,
             "id": "bb9b1efbe22a4e1b841b1c377cc4ece4",
-            "unit": {
-              "code": "KGM",
-              "name": "кілограми"
-            },
             "classification": {
               "scheme": " espd211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
+            },
+            "unit": {
+              "code": "KGM",
+              "name": "кілограми"
             }
           },
           {

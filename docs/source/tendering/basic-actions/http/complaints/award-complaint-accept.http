@@ -23,6 +23,7 @@ Content-Type: application/json
     "status": "accepted",
     "documents": [
       {
+        "confidentiality": "public",
         "id": "ef9c0a403216410f9d4d2c4326f604ed",
         "datePublished": "2023-10-10T01:00:03+03:00",
         "hash": "md5:00000000000000000000000000000000",

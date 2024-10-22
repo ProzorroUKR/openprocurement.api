@@ -129,13 +129,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         },
         "value": 5,
         "id": "ac53b06c7cc04caab11c9423f8782e92",
-        "unit": {
-          "code": "KGM",
-          "name": "кілограми"
-        },
         "classification": {
           "scheme": " espd211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
+        },
+        "unit": {
+          "code": "KGM",
+          "name": "кілограми"
         }
       },
       {

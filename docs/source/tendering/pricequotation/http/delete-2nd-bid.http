@@ -55,13 +55,13 @@ Content-Type: application/json
         },
         "value": 5,
         "id": "9fa88dd9b935403b8fc2901413c2076f",
-        "unit": {
-          "code": "KGM",
-          "name": "кілограми"
-        },
         "classification": {
           "scheme": " espd211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
+        },
+        "unit": {
+          "code": "KGM",
+          "name": "кілограми"
         }
       },
       {
