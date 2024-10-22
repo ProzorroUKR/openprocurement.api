@@ -5,6 +5,9 @@ from openprocurement.api.procedure.serializers.base import (
 from openprocurement.framework.core.procedure.serializers.milestone import (
     MilestoneSerializer,
 )
+from openprocurement.framework.core.procedure.serializers.unit_price import (
+    UnitPriceSerializer,
+)
 
 
 class ContractSerializer(BaseSerializer):
@@ -14,6 +17,7 @@ class ContractSerializer(BaseSerializer):
     }
 
     serializers = {
+        "unitPrices": ListSerializer(UnitPriceSerializer),
         "milestones": ListSerializer(MilestoneSerializer),
     }
 
