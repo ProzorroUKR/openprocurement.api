@@ -13,6 +13,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
@@ -61,7 +62,7 @@ class OpenEUTenderBidResource(TenderBidResource):
     )
     @context_view(
         objs={
-            "tender": TenderBaseSerializer,
+            "tender": (TenderBaseSerializer, TENDER_MASK_MAPPING),
         }
     )
     def get(self):

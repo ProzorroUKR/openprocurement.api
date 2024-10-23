@@ -295,9 +295,15 @@ def get_tender_award_data_for_sign(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.app.authorization = auth
 
-    response = self.app.get("/tenders/{}/awards/{}?opt_context=true".format(self.tender_id, award["id"]))
+    tender = self.mongodb.tenders.get(self.tender_id)
+    tender["config"]["restricted"] = True
+    self.mongodb.tenders.save(tender)
+
+    self.app.authorization = ("Basic", ("brokerr", ""))
+    response = self.app.get(
+        "/tenders/{}/awards/{}?opt_context=true&acc_token={}".format(self.tender_id, award["id"], self.tender_token)
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(["data", "context"], list(response.json.keys()))
@@ -305,6 +311,12 @@ def get_tender_award_data_for_sign(self):
     self.assertEqual(award_data, award)
     self.assertIn("tender", response.json["context"])
     self.assertEqual(response.json["context"]["tender"]["status"], "active.qualification")
+    self.assertEqual(response.json["context"]["tender"]["items"][0]["deliveryAddress"]["countryName"], "Україна")
+
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.get("/tenders/{}/awards/{}?opt_context=true".format(self.tender_id, award["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["context"]["tender"]["items"][0]["deliveryAddress"]["countryName"], "Приховано")
 
 
 def create_tender_award_no_scale_invalid(self):

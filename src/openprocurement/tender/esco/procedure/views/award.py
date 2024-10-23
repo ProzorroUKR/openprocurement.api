@@ -7,6 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_create_award_not_in_allowed_period,
@@ -75,7 +76,7 @@ class EUTenderAwardResource(TenderAwardResource):
     )
     @context_view(
         objs={
-            "tender": ESCOTenderSerializer,
+            "tender": (ESCOTenderSerializer, TENDER_MASK_MAPPING),
         }
     )
     def get(self):

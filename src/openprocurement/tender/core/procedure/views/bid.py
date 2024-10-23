@@ -5,6 +5,7 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import unless_item_owner
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
@@ -99,7 +100,7 @@ class TenderBidResource(TenderBaseResource):
     )
     @context_view(
         objs={
-            "tender": TenderBaseSerializer,
+            "tender": (TenderBaseSerializer, TENDER_MASK_MAPPING),
         }
     )
     def get(self):
