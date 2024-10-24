@@ -1159,7 +1159,7 @@ def put_rg_requirement_valid_value_change(self):
             # 0 -> 1
 
             test_requirement_data = {
-                "title": "Фізична особа, яка є учасником процедури закупівлі, ",
+                "title": f"Фізична особа, яка є учасником процедури закупівлі {classification_id} {field}",
                 "description": "?",
                 "dataType": "integer",
                 field: 0,
@@ -1187,7 +1187,7 @@ def put_rg_requirement_valid_value_change(self):
             # 1 -> 0
 
             test_requirement_data = {
-                "title": "Фізична особа, яка є учасником процедури закупівлі, ",
+                "title": f"Фізична особа, яка є учасником процедури закупівлі {classification_id} {field} 2",
                 "description": "?",
                 "dataType": "integer",
                 field: 1,
@@ -1215,7 +1215,7 @@ def put_rg_requirement_valid_value_change(self):
             # 1 -> None
 
             test_requirement_data = {
-                "title": "Фізична особа, яка є учасником процедури закупівлі, ",
+                "title": f"Фізична особа, яка є учасником процедури закупівлі {classification_id} {field} 3",
                 "description": "?",
                 "dataType": "integer",
                 field: 1,

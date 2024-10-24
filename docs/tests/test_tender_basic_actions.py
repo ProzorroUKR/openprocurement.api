@@ -2394,6 +2394,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         requirement_id_1 = criteria_1["requirementGroups"][0]["requirements"][0]["id"]
         requirement_id_2 = criteria_2["requirementGroups"][0]["requirements"][0]["id"]
+        test_requirement_data["title"] = "Another characteristic"
 
         with open(TARGET_DIR + 'criteria/add-criteria-requirement.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
