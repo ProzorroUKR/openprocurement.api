@@ -13,3 +13,4 @@ Contents:
    config/index
    dps/index
    electroniccatalogue/index
+   ifi/index

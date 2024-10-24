@@ -1,0 +1,22 @@
+GET /api/2.5/frameworks HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "dateModified": "2023-10-26T01:00:00+03:00",
+      "id": "89208a5c9d04455eaa4c41e2b5f0d70a"
+    }
+  ],
+  "next_page": {
+    "offset": "1698271200.0000000018",
+    "path": "/api/2.5/frameworks?offset=1698271200.0000000018",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/frameworks?offset=1698271200.0000000018"
+  }
+}
+

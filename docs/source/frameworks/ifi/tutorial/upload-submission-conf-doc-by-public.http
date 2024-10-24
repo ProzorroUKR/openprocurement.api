@@ -1,0 +1,19 @@
+GET /api/2.5/submissions/995d8a97b6c24a0cbe9ed82fe2cd8e8b/documents/0892dd79961a4b7e876f5542ed89ad17?download=1 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Document download forbidden."
+    }
+  ]
+}
+

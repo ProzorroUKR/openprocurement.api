@@ -1,0 +1,105 @@
+GET /api/2.5/agreements/4860703af9044dc19e30f45f4e537fb9 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "agreementID": "UA-2023-10-26-000001",
+    "frameworkID": "89208a5c9d04455eaa4c41e2b5f0d70a",
+    "agreementType": "internationalFinancialInstitutions",
+    "status": "active",
+    "period": {
+      "startDate": "2023-10-26T01:00:00+03:00",
+      "endDate": "2023-12-09T01:00:00+03:00"
+    },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000001",
+        "email": "aa@aa.com"
+      },
+      "kind": "general"
+    },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "contracts": [
+      {
+        "id": "7ca7cc6e90f946359a8d2d151793e426",
+        "qualificationID": "78d4a13a5f274438a568fb8e618862a7",
+        "submissionID": "aabf4e9eda30494bb3f63598bb92b86a",
+        "status": "active",
+        "suppliers": [
+          {
+            "name": "ДКП «Школяр»",
+            "scale": "micro",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "uri": "http://www.sc.gov.ua/",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+            },
+            "address": {
+              "countryName": "Україна",
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "telephone": "+380432216930",
+              "email": "soleksuk@gmail.com"
+            }
+          }
+        ],
+        "milestones": [
+          {
+            "id": "53fd5467e77a4aa2b19d3f9c013aadb1",
+            "status": "scheduled",
+            "type": "activation",
+            "dueDate": "2023-12-09T01:00:00+03:00",
+            "dateModified": "2023-10-26T01:00:00+03:00"
+          }
+        ],
+        "date": "2023-10-26T01:00:00+03:00"
+      }
+    ],
+    "owner": "broker",
+    "dateModified": "2023-10-26T01:00:00+03:00",
+    "date": "2023-10-26T01:00:00+03:00",
+    "next_check": "2023-12-09T01:00:00+03:00",
+    "dateCreated": "2023-10-26T01:00:00+03:00",
+    "id": "4860703af9044dc19e30f45f4e537fb9"
+  },
+  "config": {
+    "restricted": false
+  }
+}
+
