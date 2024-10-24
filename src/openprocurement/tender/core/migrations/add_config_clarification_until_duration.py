@@ -86,10 +86,8 @@ def run(env, args):
 
     collection = env["registry"].mongodb.tenders.collection
     cursor = collection.find(
-        {
-            "config.clarificationUntilDuration": {"$exists": False},
-        },
-        {"config": 1},
+        {},
+        {"config": 1, "procurementMethodType": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)

@@ -53,7 +53,7 @@ def run(env, args):
         {
             "config.hasValueEstimation": {"$exists": False},
         },
-        {"config": 1},
+        {"config": 1, "procurementMethodType": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
