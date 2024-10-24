@@ -555,8 +555,12 @@ class ChronographEventsMixing:
                     if lot_value["relatedLot"] not in cancelled_lots_ids:
                         lot_values_filtered.append(lot_value)
                 bid["lotValues"] = lot_values_filtered
+
+                # invalidate bid if it has no lotValues
                 if not bid["lotValues"]:
                     del bid["lotValues"]
+                    if bid["status"] in ("pending", "active"):
+                        bid["status"] = "invalid"
 
         # invalidate lot bids after pre-qualification started
         if tender["status"] in (
