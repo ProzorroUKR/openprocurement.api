@@ -47,6 +47,9 @@ with open(os.path.join(current_dir, "data", "lcc_tender_criteria.json")) as json
 with open(os.path.join(current_dir, "data", "technical_feature_criteria.json")) as json_file:
     test_tech_feature_criteria = json.load(json_file)
 
+with open(os.path.join(current_dir, "data", "article_16_criteria.json")) as json_file:
+    test_article_16_criteria = json.load(json_file)
+
 
 def get_criteria_by_ids(criteria, ids):
     return [c for c in criteria if c["classification"]["id"] in ids]

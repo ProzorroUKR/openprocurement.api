@@ -18,6 +18,7 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     patch_tender_lot_minimalstep_validation,
 )
 from openprocurement.tender.core.tests.base import (
+    test_article_16_criteria,
     test_exclusion_criteria,
     test_language_criteria,
 )
@@ -105,7 +106,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_openeu_data
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
-    initial_criteria = test_exclusion_criteria + test_language_criteria
+    initial_criteria = test_exclusion_criteria + test_language_criteria + test_article_16_criteria[:1]
 
     def setUp(self):
         super().setUp()

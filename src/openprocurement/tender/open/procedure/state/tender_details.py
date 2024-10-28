@@ -30,6 +30,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
         "CRITERION.OTHER.BID.LANGUAGE",
     }
+    article_16_criteria_required = True
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False

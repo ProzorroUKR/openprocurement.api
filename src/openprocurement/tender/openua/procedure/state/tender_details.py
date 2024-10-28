@@ -28,6 +28,7 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
         "CRITERION.OTHER.BID.LANGUAGE",
     }
+    article_16_criteria_required = True
 
     should_validate_notice_doc_required = True
 
