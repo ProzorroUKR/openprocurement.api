@@ -11,6 +11,7 @@ import logging
 import os
 from time import sleep
 
+from openprocurement.api.database import get_public_modified, get_public_ts
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR, TZ
@@ -95,7 +96,8 @@ def run(env):
                             "period.endDate": framework['period']['endDate'],
                             "dateModified": framework['dateModified'],
                             "next_check": framework["next_check"],
-                            "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
+                            "public_modified": get_public_modified(),
+                            "public_ts": get_public_ts(),
                         },
                     },
                 ],
@@ -128,7 +130,8 @@ def run(env):
                             "contracts": agreement.get('contracts', []),
                             "dateModified": agreement['dateModified'],
                             "next_check": agreement["next_check"],
-                            "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
+                            "public_modified": get_public_modified(),
+                            "public_ts": get_public_ts(),
                         },
                     },
                 ],
