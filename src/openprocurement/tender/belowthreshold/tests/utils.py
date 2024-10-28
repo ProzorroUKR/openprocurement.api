@@ -45,11 +45,8 @@ def set_bid_responses(criteria):
             if criterion["source"] == "tenderer":
                 rrs.append(
                     {
-                        "title": "Requirement response",
-                        "description": "some description",
                         "requirement": {
                             "id": req["id"],
-                            "title": req["title"],
                         },
                         "value": True,
                     },

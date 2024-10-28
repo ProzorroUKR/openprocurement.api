@@ -27,6 +27,7 @@ from openprocurement.tender.core.procedure.models.organization import (
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     PostBidResponsesMixin,
+    PostBidResponsesTempMixin,
 )
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 
@@ -93,7 +94,7 @@ class PostBid(PostBidResponsesMixin, BaseBid):
         validate_lot_values(values)
 
 
-class Bid(MetaBid, PostBidResponsesMixin, BaseBid):
+class Bid(MetaBid, PostBidResponsesTempMixin, BaseBid):
     items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_items_uniq])
     tenderers = ListType(
         ModelType(BusinessOrganization, required=True),

@@ -2674,12 +2674,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         requirement_2_2 = criteria[1]["requirementGroups"][0]["requirements"][1]
 
         rr_mock = {
-            "title": "Requirement response",
-            "description": "some description",
-            "requirement": {
-                "id": requirement_1_1["id"],
-                "title": requirement_1_1["title"],
-            },
+            "requirement": {"id": requirement_1_1["id"]},
             "evidences": [
                 evidence_data,
             ],
@@ -2689,13 +2684,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         rr_1_2 = deepcopy(rr_mock)
         rr_1_2["requirement"] = {
             "id": requirement_1_2["id"],
-            "title": requirement_1_2["title"],
         }
         rr_2_1 = deepcopy(rr_mock)
-        rr_2_1["title"] = "Requirement response 2"
         rr_2_1["requirement"] = {
             "id": requirement_2_1["id"],
-            "title": requirement_2_1["title"],
         }
 
         with open(TARGET_DIR + 'criteria/requirement-response-basic-data-1.http', 'wb') as self.app.file_obj:
@@ -2750,7 +2742,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        rr_1_1["title"] = "Requirement response 1"
         with open(TARGET_DIR + 'criteria/patch-requirement-response-from-bid.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
@@ -2783,7 +2774,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, bid_id, rr_id, bid_token
                 ),
-                {'data': {'title': 'Updated title'}},
+                {'data': {'value': 'False'}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -3006,11 +2997,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         requirement_2 = criteria[1]["requirementGroups"][0]["requirements"][0]
 
         rr_mock = {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": requirement_1["id"],
-                "title": requirement_1["title"],
             },
             "evidences": [
                 evidence_data,
@@ -3019,10 +3007,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         }
         rr_1 = deepcopy(rr_mock)
         rr_2 = deepcopy(rr_mock)
-        rr_2["title"] = "Requirement response 2"
         rr_2["requirement"] = {
             "id": requirement_2["id"],
-            "title": requirement_2["title"],
         }
 
         self.tick()
@@ -3034,7 +3020,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        rr_1["title"] = "Requirement response 1"
+        rr_1["value"] = False
         with open(TARGET_DIR + 'criteria/patch-requirement-response-from-award.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
@@ -3068,7 +3054,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, award_id, rr_id, owner_token
                 ),
-                {'data': {"title": "Updated title"}},
+                {'data': {"value": False}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -3238,11 +3224,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         requirement_2 = criteria[1]["requirementGroups"][0]["requirements"][0]
 
         rr_mock = {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": requirement_1["id"],
-                "title": requirement_1["title"],
             },
             "evidences": [
                 evidence_data,
@@ -3251,10 +3234,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         }
         rr_1 = deepcopy(rr_mock)
         rr_2 = deepcopy(rr_mock)
-        rr_2["title"] = "Requirement response 2"
         rr_2["requirement"] = {
             "id": requirement_2["id"],
-            "title": requirement_2["title"],
         }
 
         self.tick()
@@ -3266,7 +3247,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        rr_1["title"] = "Requirement response 1"
+        rr_1["value"] = False
         with open(
             TARGET_DIR + 'criteria/patch-requirement-response-from-qualification.http', 'wb'
         ) as self.app.file_obj:
@@ -3305,7 +3286,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, qualification_id, rr_id, owner_token
                 ),
-                {'data': {"title": "Updated title"}},
+                {'data': {"value": False}},
             )
             self.assertEqual(response.status, '200 OK')
 

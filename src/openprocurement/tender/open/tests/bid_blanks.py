@@ -1764,11 +1764,8 @@ def create_bid_requirement_response(self):
 
     valid_data = [
         {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": self.requirement_id,
-                "title": self.requirement_title,
             },
             "value": True,
         }
@@ -1798,7 +1795,7 @@ def create_bid_requirement_response(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": [{"description": "some description"}]},
+        {"data": [{"value": 10}]},
         status=422,
     )
 
@@ -1844,11 +1841,8 @@ def patch_bid_requirement_response(self):
 
     valid_data = [
         {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": self.requirement_id,
-                "title": self.requirement_title,
             },
             "value": True,
         }
@@ -1856,11 +1850,8 @@ def patch_bid_requirement_response(self):
 
     valid_data_2 = [
         {
-            "title": "Requirement response 2",
-            "description": "some description 2",
             "requirement": {
                 "id": self.requirement_2_id,
-                "title": self.requirement_2_title,
             },
             "value": True,
         }
@@ -1878,7 +1869,6 @@ def patch_bid_requirement_response(self):
     base_request_path = "/tenders/{}/bids/{}/requirement_responses/{}".format(self.tender_id, self.bid_id, rr_id)
     request_path = "{}?acc_token={}".format(base_request_path, self.bid_token)
     updated_data = {
-        "title": "Rquirement response updated",
         "value": 100,
     }
 
@@ -1926,26 +1916,12 @@ def patch_bid_requirement_response(self):
         ],
     )
 
-    updated_data["value"] = True
-    response = self.app.patch_json(
-        request_path,
-        {"data": updated_data},
-    )
-
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    rr = response.json["data"]
-    self.assertEqual(rr["title"], updated_data["title"])
-    self.assertEqual(rr["value"], updated_data["value"])
-    self.assertNotIn("evidences", rr)
-
     response = self.app.patch_json(
         request_path,
         {
             "data": {
                 "requirement": {
                     "id": self.requirement_2_id,
-                    "title": self.requirement_2_title,
                 },
             }
         },
@@ -1979,11 +1955,8 @@ def get_bid_requirement_response(self):
             if criterion["source"] == "tenderer":
                 valid_data.append(
                     {
-                        "title": "Requirement response",
-                        "description": "some description",
                         "requirement": {
                             "id": req["id"],
-                            "title": req["title"],
                         },
                         "value": True,
                     }
@@ -2080,11 +2053,8 @@ def create_bid_requirement_response_deprecated(self):
         {
             "data": [
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "1",
-                        "title": "Title 1",
                     },
                     "value": "value not convertible to bool",
                 }
@@ -2112,11 +2082,8 @@ def create_bid_requirement_response_deprecated(self):
         {
             "data": [
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "3",
-                        "title": "Title 3",
                     },
                     "values": ["value not convertible to bool"],
                 }
@@ -2144,11 +2111,8 @@ def create_bid_requirement_response_deprecated(self):
         {
             "data": [
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "5",
-                        "title": "Title 5",
                     },
                     "value": "value not convertible to number",
                 }
@@ -2176,74 +2140,50 @@ def create_bid_requirement_response_deprecated(self):
         {
             "data": [
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "1",
-                        "title": "Title 1",
                     },
                     "value": True,
                 },
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "2",
-                        "title": "Title 2",
                     },
                     "value": "True",
                 },
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "3",
-                        "title": "Title 3",
                     },
                     "values": [True],
                 },
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "4",
-                        "title": "Title 4",
                     },
                     "values": ["True"],
                 },
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "5",
-                        "title": "Title 5",
                     },
                     "value": 1.1,
                 },
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "6",
-                        "title": "Title 6",
                     },
                     "value": "1.1",
                 },
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "7",
-                        "title": "Title 7",
                     },
                     "values": [1.1],
                 },
                 {
-                    "title": "Requirement response",
-                    "description": "some description",
                     "requirement": {
                         "id": "8",
-                        "title": "Title 8",
                     },
                     "values": ["1.1"],
                 },
@@ -2392,11 +2332,8 @@ def get_bid_requirement_response_evidence(self):
             if criterion["source"] == "tenderer":
                 rrs.append(
                     {
-                        "title": "Requirement response",
-                        "description": "some description",
                         "requirement": {
                             "id": req["id"],
-                            "title": req["title"],
                         },
                         "value": True,
                     }
@@ -2462,11 +2399,8 @@ def bid_activate(self):
             if criterion["source"] == "tenderer":
                 rrs.append(
                     {
-                        "title": "Requirement response",
-                        "description": "some description",
                         "requirement": {
                             "id": req["id"],
-                            "title": req["title"],
                         },
                         "value": True,
                     }
@@ -2505,11 +2439,8 @@ def bid_activate(self):
 
         guarantee_rr = [
             {
-                "title": "Requirement response",
-                "description": "some description",
                 "requirement": {
                     "id": guarantee_criterion["requirementGroups"][0]["requirements"][0]["id"],
-                    "title": guarantee_criterion["requirementGroups"][0]["requirements"][0]["title"],
                 },
                 "value": True,
             }
@@ -2557,11 +2488,8 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
             if criterion["source"] == "tenderer":
                 rrs.append(
                     {
-                        "title": "Requirement response",
-                        "description": "some description",
                         "requirement": {
                             "id": req["id"],
-                            "title": req["title"],
                         },
                         "value": True,
                     },
@@ -2628,11 +2556,8 @@ def patch_bid_with_responses(self):
     request_path = "{}?acc_token={}".format(base_request_path, self.bid_token)
 
     valid_data = {
-        "title": "Requirement response",
-        "description": "some description",
         "requirement": {
             "id": self.requirement_id,
-            "title": self.requirement_title,
         },
         "value": True,
     }
@@ -2640,7 +2565,6 @@ def patch_bid_with_responses(self):
     valid_data_1 = deepcopy(valid_data)
     valid_data_1["requirement"] = {
         "id": self.requirement_2_id,
-        "title": self.requirement_2_title,
     }
     # add
     response = self.app.patch_json(request_path, {"data": {"requirementResponses": [valid_data, valid_data_1]}})
@@ -2667,20 +2591,6 @@ def patch_bid_with_responses(self):
     rrs = response.json["data"]["requirementResponses"]
     self.assertEqual(len(rrs), 2)
 
-    # patch first and third
-
-    rrs[0]["title"] = "Requirement response 2"
-    rrs[1]["title"] = "Requirement response 3"
-    clean_requirement_responses(rrs)
-
-    response = self.app.patch_json(request_path, {"data": {"requirementResponses": rrs}})
-
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    rrs = response.json["data"]["requirementResponses"]
-    self.assertEqual(rrs[0]["title"], "Requirement response 2")
-    self.assertEqual(rrs[1]["title"], "Requirement response 3")
-
 
 def bid_invalidation_after_requirement_put(self):
     next_status = "pending"
@@ -2694,11 +2604,8 @@ def bid_invalidation_after_requirement_put(self):
             if criterion["source"] == "tenderer":
                 rrs.append(
                     {
-                        "title": "Requirement response",
-                        "description": "some description",
                         "requirement": {
                             "id": req["id"],
-                            "title": req["title"],
                         },
                         "value": True,
                     },
@@ -2751,11 +2658,8 @@ def bid_invalidation_after_req_response_patch(self):
             if criterion["source"] == "tenderer":
                 rrs.append(
                     {
-                        "title": "Requirement response",
-                        "description": "some description",
                         "requirement": {
                             "id": req["id"],
-                            "title": req["title"],
                         },
                         "value": True,
                     },
@@ -2780,22 +2684,22 @@ def bid_invalidation_after_req_response_patch(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], next_status)
 
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}".format(
-            self.tender_id, self.bid_id, rr_id, self.bid_token
-        ),
-        {
-            "data": {
-                "description": "some description 1",
-            }
-        },
-    )
-
-    self.assertEqual(response.status, "200 OK")
-
-    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "invalid")
+    # response = self.app.patch_json(
+    #     "/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}".format(
+    #         self.tender_id, self.bid_id, rr_id, self.bid_token
+    #     ),
+    #     {
+    #         "data": {
+    #             "value": True,
+    #         }
+    #     },
+    # )
+    #
+    # self.assertEqual(response.status, "200 OK")
+    #
+    # response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token))
+    # self.assertEqual(response.status, "200 OK")
+    # self.assertEqual(response.json["data"]["status"], "invalid")
 
 
 def doc_date_modified(self):

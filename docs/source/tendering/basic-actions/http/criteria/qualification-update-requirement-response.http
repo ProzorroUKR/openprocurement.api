@@ -5,7 +5,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "title": "Updated title"
+    "value": false
   }
 }
 
@@ -15,8 +15,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "title": "Updated title",
-    "description": "some description",
     "requirement": {
       "id": "0573186b14dd41d9ace7685ad2e5825a",
       "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
@@ -32,7 +30,7 @@ Content-Type: application/json
         "id": "bf54f0c345b64aa0b48ec5aa412e7e58"
       }
     ],
-    "value": true,
+    "value": false,
     "id": "b1b79a0f903d4d9db6edab3d629b1ff2",
     "classification": {
       "scheme": " espd211",

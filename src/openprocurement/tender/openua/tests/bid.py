@@ -88,14 +88,12 @@ class TenderBidRequirementResponseTestMixin:
 
     def setUp(self):
         super().setUp()
-        response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+        response = self.app.get(f"/tenders/{self.tender_id}/criteria")
         criteria = response.json["data"]
         requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
-        self.requirement_title = requirement["title"]
         requirement = criteria[1]["requirementGroups"][0]["requirements"][0]
         self.requirement_2_id = requirement["id"]
-        self.requirement_2_title = requirement["title"]
 
 
 class TenderBidRequirementResponseEvidenceTestMixin:
@@ -113,19 +111,13 @@ class TenderBidRequirementResponseEvidenceTestMixin:
         criteria = response.json["data"]
         requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
-        self.requirement_title = requirement["title"]
 
-        request_path = "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(
-            self.tender_id, self.bid_id, self.bid_token
-        )
+        request_path = f"/tenders/{self.tender_id}/bids/{self.bid_id}/requirement_responses?acc_token={self.bid_token}"
 
         rr_data = [
             {
-                "title": "Requirement response",
-                "description": "some description",
                 "requirement": {
                     "id": self.requirement_id,
-                    "title": self.requirement_title,
                 },
                 "value": True,
             }

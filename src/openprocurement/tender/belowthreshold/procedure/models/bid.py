@@ -16,6 +16,7 @@ from openprocurement.tender.core.procedure.models.bid import (
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     PostBidResponsesMixin,
+    PostBidResponsesTempMixin,
 )
 
 
@@ -29,6 +30,6 @@ class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     lotValues = ListType(ModelType(LotValue, required=True))
 
 
-class Bid(PostBidResponsesMixin, BaseBid):
+class Bid(PostBidResponsesTempMixin, BaseBid):
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(LotValue, required=True))

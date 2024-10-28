@@ -7,11 +7,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "requirementResponses": [
       {
-        "title": "Requirement response",
-        "description": "some description",
         "requirement": {
-          "id": "e24e1b05b98145c49f557d3c3a9eec59",
-          "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+          "id": "e24e1b05b98145c49f557d3c3a9eec59"
         },
         "evidences": [
           {
@@ -37,11 +34,8 @@ Content-Type: application/json
   "data": {
     "requirementResponses": [
       {
-        "title": "Requirement response",
-        "description": "some description",
         "requirement": {
-          "id": "e24e1b05b98145c49f557d3c3a9eec59",
-          "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+          "id": "e24e1b05b98145c49f557d3c3a9eec59"
         },
         "evidences": [
           {

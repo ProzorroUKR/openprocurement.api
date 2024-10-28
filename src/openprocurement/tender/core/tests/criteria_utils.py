@@ -59,11 +59,8 @@ def generate_responses(self, tender_id=None):
                 if criterion["source"] == "tenderer":
                     rrs.append(
                         {
-                            "title": "Requirement response",
-                            "description": "some description",
                             "requirement": {
                                 "id": req["id"],
-                                "title": req["title"],
                             },
                             "value": True,
                         },

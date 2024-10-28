@@ -17,6 +17,7 @@ from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     PostBidResponsesMixin,
+    PostBidResponsesTempMixin,
 )
 
 
@@ -34,7 +35,7 @@ class PostBid(PostBidResponsesMixin, BasePostBid):
     selfEligible = BooleanType(choices=[True])
 
 
-class Bid(PostBidResponsesMixin, BaseBid):
+class Bid(PostBidResponsesTempMixin, BaseBid):
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(LotValue, required=True))
     weightedValue = ModelType(WeightedValue)

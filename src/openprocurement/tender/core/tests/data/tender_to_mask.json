@@ -800,11 +800,8 @@
                        "requirementResponses": [
                            {
                                "id": "799e735059b14cfba92c70c5699b8d3b",
-                               "title": "Requirement response title",
-                               "description": "Requirement response description",
                                "requirement": {
-                                   "id": "fa101545e82d493690951c7149a42abc",
-                                   "title": "Вид та умови надання забезпечення тендерних пропозицій"
+                                   "id": "fa101545e82d493690951c7149a42abc"
                                },
                                "evidences": [
                                    {
@@ -821,11 +818,8 @@
                            },
                            {
                                "id": "9c443e23673249bc8d394619e3feb5be",
-                               "title": "Requirement response title",
-                               "description": "Requirement response description",
                                "requirement": {
-                                   "id": "8cd44b01978f47fc9f470cdcedfef6b6",
-                                   "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
+                                   "id": "8cd44b01978f47fc9f470cdcedfef6b6"
                                },
                                "value": true
                            }
@@ -1398,11 +1392,8 @@
            "requirementResponses": [
                {
                    "id": "8d2e2ee1656e432fa772e8131a25f8aa",
-                   "title": "Requirement response title",
-                   "description": "Requirement response description",
                    "requirement": {
-                       "id": "fa101545e82d493690951c7149a42abc",
-                       "title": "Вид та умови надання забезпечення тендерних пропозицій"
+                       "id": "fa101545e82d493690951c7149a42abc"
                    },
                    "evidences": [
                        {
@@ -1419,11 +1410,8 @@
                },
                {
                    "id": "30bd153da6f846499dd31bbcf27191a7",
-                   "title": "Requirement response title",
-                   "description": "Requirement response description",
                    "requirement": {
-                       "id": "8cd44b01978f47fc9f470cdcedfef6b6",
-                       "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
+                       "id": "8cd44b01978f47fc9f470cdcedfef6b6"
                    },
                    "value": true
                }
@@ -1489,11 +1477,8 @@
            "requirementResponses": [
                {
                    "id": "799e735059b14cfba92c70c5699b8d3b",
-                   "title": "Requirement response title",
-                   "description": "Requirement response description",
                    "requirement": {
-                       "id": "fa101545e82d493690951c7149a42abc",
-                       "title": "Вид та умови надання забезпечення тендерних пропозицій"
+                       "id": "fa101545e82d493690951c7149a42abc"
                    },
                    "evidences": [
                        {
@@ -1510,11 +1495,8 @@
                },
                {
                    "id": "9c443e23673249bc8d394619e3feb5be",
-                   "title": "Requirement response title",
-                   "description": "Requirement response description",
                    "requirement": {
-                       "id": "8cd44b01978f47fc9f470cdcedfef6b6",
-                       "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
+                       "id": "8cd44b01978f47fc9f470cdcedfef6b6"
                    },
                    "value": true
                }

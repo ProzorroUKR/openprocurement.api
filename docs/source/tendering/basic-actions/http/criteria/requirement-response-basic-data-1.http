@@ -7,11 +7,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "requirementResponses": [
       {
-        "title": "Requirement response",
-        "description": "some description",
         "requirement": {
-          "id": "307a20c8319e45d38d57fac7da4d5b27",
-          "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+          "id": "307a20c8319e45d38d57fac7da4d5b27"
         },
         "evidences": [
           {
@@ -37,12 +34,6 @@ Content-Type: application/json
   "data": {
     "requirementResponses": [
       {
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-          "id": "307a20c8319e45d38d57fac7da4d5b27",
-          "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
-        },
         "evidences": [
           {
             "title": "Requirement response",
@@ -56,6 +47,10 @@ Content-Type: application/json
         ],
         "value": true,
         "id": "a11d24140fef4267b6e7098a7db354f3",
+        "requirement": {
+          "id": "307a20c8319e45d38d57fac7da4d5b27",
+          "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+        },
         "classification": {
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"

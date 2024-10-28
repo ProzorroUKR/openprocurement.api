@@ -3375,11 +3375,8 @@ def create_qualification_requirement_response(self):
 
     valid_data = [
         {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": self.requirement_id,
-                "title": self.requirement_title,
             },
             "value": True,
         }
@@ -3414,7 +3411,6 @@ def create_qualification_requirement_response(self):
                 {
                     "requirement": {
                         "id": self.requirement_id,
-                        "title": self.requirement_title,
                     }
                 }
             ]
@@ -3438,7 +3434,7 @@ def create_qualification_requirement_response(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": [{"description": "some description"}]},
+        {"data": [{"value": 10}]},
         status=422,
     )
 
@@ -3473,11 +3469,8 @@ def patch_qualification_requirement_response(self):
 
     valid_data = [
         {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": self.requirement_id,
-                "title": self.requirement_title,
             },
             "value": True,
         }
@@ -3493,7 +3486,6 @@ def patch_qualification_requirement_response(self):
     )
     request_path = "{}?acc_token={}".format(base_request_path, self.tender_token)
     updated_data = {
-        "title": "Rquirement response updated",
         "value": 100,
     }
 
@@ -3532,19 +3524,6 @@ def patch_qualification_requirement_response(self):
         [{'description': ['Must be either true or false.'], 'location': 'body', 'name': 'value'}],
     )
 
-    updated_data["value"] = True
-    response = self.app.patch_json(
-        request_path,
-        {"data": updated_data},
-    )
-
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    rr = response.json["data"]
-    self.assertEqual(rr["title"], updated_data["title"])
-    self.assertEqual(rr["value"], updated_data["value"])
-    self.assertNotIn("evidences", rr)
-
 
 def get_qualification_requirement_response(self):
     base_request_path = "/tenders/{}/qualifications/{}/requirement_responses".format(
@@ -3554,11 +3533,8 @@ def get_qualification_requirement_response(self):
 
     valid_data = [
         {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": self.requirement_id,
-                "title": self.requirement_title,
             },
             "value": True,
         }

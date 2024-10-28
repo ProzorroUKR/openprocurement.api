@@ -20,6 +20,7 @@ from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     PostBidResponsesMixin,
     RequirementResponse,
+    RequirementResponseTemp,
 )
 from openprocurement.tender.pricequotation.procedure.validation import (
     validate_bid_value,
@@ -103,7 +104,7 @@ class Bid(ObjResponseMixin, MetaBid):
     )
     value = ModelType(Value)
     requirementResponses = ListType(
-        ModelType(RequirementResponse),
+        ModelType(RequirementResponseTemp),
         required=True,
         min_size=1,
     )

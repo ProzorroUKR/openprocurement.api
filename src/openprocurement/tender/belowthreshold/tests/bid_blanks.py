@@ -1211,11 +1211,8 @@ def update_tender_bid_pmr_related_doc(self):
 
     rr_data = [
         {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": requirement["id"],
-                "title": requirement["title"],
             },
             "value": True,
             "evidences": evidences,
@@ -1322,11 +1319,8 @@ def update_tender_bid_pmr_related_tenderer(self):
 
     rr_data = [
         {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": requirement["id"],
-                "title": requirement["title"],
             },
             "value": True,
             "relatedTenderer": {"id": "abc", "title": ""},
@@ -1365,11 +1359,8 @@ def update_tender_rr(self):
     rr_data = [
         {
             "id": "f" * 32,
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": requirement["id"],
-                "title": requirement["title"],
             },
             "value": True,
             "evidences": evidences,
@@ -1395,7 +1386,6 @@ def update_tender_rr(self):
     del rr_data[0]["value"]
     del rr_data[0]["evidences"]
     rr_data[0]["values"] = [True]
-    rr_data[0]["description"] = "changed description"
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
         {
@@ -1407,7 +1397,6 @@ def update_tender_rr(self):
         },
     )
     rr = response.json["data"]["requirementResponses"][0]
-    self.assertEqual(rr["description"], "changed description")
     self.assertEqual(rr["values"], [True])
     self.assertNotIn("value", rr)
     self.assertNotIn("evidences", rr)
@@ -1422,11 +1411,8 @@ def update_tender_rr_evidence_id(self):
     rr_data = [
         {
             "id": "f" * 32,
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": requirement["id"],
-                "title": requirement["title"],
             },
             "value": True,
             "evidences": evidences,
@@ -1452,7 +1438,6 @@ def update_tender_rr_evidence_id(self):
 
     # PATCH with changes to ids
     rr_data[0]["id"] = "c" * 32
-    rr_data[0]["description"] = "changed description"
     rr_data[0]["evidences"][0]["id"] = "b" * 32
     rr_data[0]["evidences"][0]["description"] = "changed description"
     response = self.app.patch_json(
@@ -2612,11 +2597,8 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
             if criterion["source"] == "tenderer":
                 rrs.append(
                     {
-                        "title": "Requirement response",
-                        "description": "some description",
                         "requirement": {
                             "id": req["id"],
-                            "title": req["title"],
                         },
                         "value": True,
                     },
