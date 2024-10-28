@@ -38,7 +38,7 @@ def run(env, args):
 
     cursor = collection.find(
         {"config.qualificationComplainDuration": {"$exists": False}},
-        {"config": 1},
+        {"config": 1, "frameworkType": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
