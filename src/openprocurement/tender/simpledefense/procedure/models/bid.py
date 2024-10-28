@@ -1,6 +1,7 @@
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     PostBidResponsesMixin,
+    PostBidResponsesTempMixin,
 )
 from openprocurement.tender.openuadefense.procedure.models.bid import Bid as BaseBid
 from openprocurement.tender.openuadefense.procedure.models.bid import (
@@ -21,6 +22,6 @@ class PatchBid(BasePatchBid, PatchObjResponsesMixin):
         return  # to deactivate validation of selfEligible from BidResponsesMixin
 
 
-class Bid(BaseBid, PostBidResponsesMixin):
+class Bid(BaseBid, PostBidResponsesTempMixin):
     def validate_selfEligible(self, data, value):
         return  # to deactivate validation of selfEligible from BidResponsesMixin

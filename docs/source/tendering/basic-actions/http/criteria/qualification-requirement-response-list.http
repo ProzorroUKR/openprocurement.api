@@ -9,8 +9,6 @@ Content-Type: application/json
 {
   "data": [
     {
-      "title": "Requirement response 1",
-      "description": "some description",
       "requirement": {
         "id": "e24e1b05b98145c49f557d3c3a9eec59",
         "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
@@ -26,7 +24,7 @@ Content-Type: application/json
           "id": "5b7940f94d40421398e798324e8edb59"
         }
       ],
-      "value": true,
+      "value": false,
       "id": "36ca732bafe842678f0252070c17bf51",
       "classification": {
         "scheme": " espd211",
@@ -34,8 +32,6 @@ Content-Type: application/json
       }
     },
     {
-      "title": "Updated title",
-      "description": "some description",
       "requirement": {
         "id": "0573186b14dd41d9ace7685ad2e5825a",
         "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
@@ -60,7 +56,7 @@ Content-Type: application/json
           "id": "27e0d3baad06479eafd18b6e6c31e883"
         }
       ],
-      "value": true,
+      "value": false,
       "id": "b1b79a0f903d4d9db6edab3d629b1ff2",
       "classification": {
         "scheme": " espd211",

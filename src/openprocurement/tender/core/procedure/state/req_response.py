@@ -33,8 +33,13 @@ class BaseReqResponseState(BaseState):
                 error_msg = e.messages[0]
                 if self.request.method != "POST":
                     # For operation with concrete requirement response
-                    error_name = list(e.messages[0].keys())[0]
-                    error_msg = e.messages[0][error_name]
+                    if isinstance(e.messages[0], dict):
+                        error_name = list(e.messages[0].keys())[0]
+                        error_msg = e.messages[0][error_name]
+                    else:
+                        error_name = "data"
+                        error_msg = e.messages[0]
+
                 self.request.errors.add("body", error_name, error_msg)
 
         if self.request.errors:

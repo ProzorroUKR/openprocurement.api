@@ -127,11 +127,8 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
 
         self.rr_data = [
             {
-                "title": "Requirement response",
-                "description": "some description",
                 "requirement": {
                     "id": requirement["id"],
-                    "title": requirement["title"],
                 },
                 "value": True,
             }

@@ -133,11 +133,8 @@ class TenderBidRequirementResponseEvidenceTestMixin:
 
         rr_data = [
             {
-                "title": "Requirement response",
-                "description": "some description",
                 "requirement": {
                     "id": self.requirement_id,
-                    "title": self.requirement_title,
                 },
                 "value": True,
             }

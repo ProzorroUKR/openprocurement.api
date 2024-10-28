@@ -291,24 +291,24 @@ Content-Type: application/json
         },
         "requirementResponses": [
           {
+            "value": "Розчин для інфузій",
+            "id": "d76e055dba434dd9b16abf1a237cefb0",
             "requirement": {
               "id": "b22fa1e284974d76995dd722ce93acc5",
               "title": "Форма випуску"
             },
-            "value": "Розчин для інфузій",
-            "id": "d76e055dba434dd9b16abf1a237cefb0",
             "classification": {
               "scheme": " espd211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
             }
           },
           {
+            "value": 5,
+            "id": "bb9b1efbe22a4e1b841b1c377cc4ece4",
             "requirement": {
               "id": "8e2191f53baa43d48a430539f706f403",
               "title": "Доза діючої речовини"
             },
-            "value": 5,
-            "id": "bb9b1efbe22a4e1b841b1c377cc4ece4",
             "classification": {
               "scheme": " espd211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
@@ -319,15 +319,15 @@ Content-Type: application/json
             }
           },
           {
-            "requirement": {
-              "id": "20a33781df4249738954d69d01ea2572",
-              "title": "Форма випуску"
-            },
             "values": [
               "Відповідь1",
               "Відповідь2"
             ],
             "id": "6a618d6264e54f90b1d470e6e2f6add8",
+            "requirement": {
+              "id": "20a33781df4249738954d69d01ea2572",
+              "title": "Форма випуску"
+            },
             "classification": {
               "scheme": " espd211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"

@@ -8,8 +8,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "title": "Updated title",
-    "description": "some description",
     "requirement": {
       "id": "4f8eed02f2a94d54b06682a0094890f3",
       "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
@@ -34,7 +32,7 @@ Content-Type: application/json
         "id": "70fbf2a0a6cd4038bff8f9438ac216f2"
       }
     ],
-    "value": true,
+    "value": false,
     "id": "964e2ab697e7453498a24de1bdaf9f10",
     "classification": {
       "scheme": " espd211",

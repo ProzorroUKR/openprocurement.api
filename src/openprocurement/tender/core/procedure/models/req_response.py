@@ -14,7 +14,10 @@ from openprocurement.api.constants import (
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.models.reference import Reference
+from openprocurement.api.procedure.models.reference import (
+    Reference,
+    RequirementReference,
+)
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.models.evidence import Evidence
@@ -44,15 +47,9 @@ class ExtendPeriod(Period):
 
 
 class BaseRequirementResponse(Model):
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
 
     period = ModelType(ExtendPeriod)
-    requirement = ModelType(Reference, required=True)
+    requirement = ModelType(RequirementReference, required=True)
     relatedTenderer = ModelType(Reference)
     relatedItem = MD5Type()
     evidences = ListType(
@@ -101,7 +98,7 @@ class BaseRequirementResponse(Model):
 
 
 class PatchRequirementResponse(BaseRequirementResponse):
-    requirement = ModelType(Reference)
+    requirement = ModelType(RequirementReference)
 
 
 class RequirementResponse(BaseRequirementResponse):
@@ -132,6 +129,23 @@ class RequirementResponse(BaseRequirementResponse):
 
         for evidence in evidences:
             validate_evidence_type(data, evidence)
+
+
+# TEMPORARY MODELS, TODO: AFTER RELEASE DELETE ---
+
+
+class RequirementReferenceTemp(RequirementReference):
+    title = StringType()
+
+
+class RequirementResponseTemp(RequirementResponse):
+    title = StringType()
+    title_en = StringType()
+    title_ru = StringType()
+    description = StringType()
+    description_en = StringType()
+    description_ru = StringType()
+    requirement = ModelType(RequirementReferenceTemp)
 
 
 # UTILS ---
@@ -504,6 +518,14 @@ class PostBidResponsesMixin(ObjResponseMixin):
                 "Responses are required for all requirements in a requirement group, "
                 f"failed for criteria {', '.join(missed_partial_criteria_ids)}"
             )
+
+
+class PostBidResponsesTempMixin(PostBidResponsesMixin):
+    # TODO: remove after release
+    requirementResponses = ListType(
+        ModelType(RequirementResponseTemp, required=True),
+        validators=[validate_object_id_uniq, validate_response_requirement_uniq],
+    )
 
 
 # --- requirementResponses mixin

@@ -3721,11 +3721,8 @@ def activate_bid_guarantee_multilot(self):
             if criterion["source"] == "tenderer" and criterion["relatesTo"] != "lot":
                 rrs.append(
                     {
-                        "title": "Requirement response",
-                        "description": "some description",
                         "requirement": {
                             "id": req["id"],
-                            "title": req["title"],
                         },
                         "value": True,
                     },
@@ -3765,11 +3762,8 @@ def activate_bid_guarantee_multilot(self):
 
     lot_rr = [
         {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": lot_req["id"],
-                "title": lot_req["title"],
             },
             "value": True,
         }
@@ -3802,11 +3796,8 @@ def activate_bid_guarantee_multilot(self):
 
     lot_rr = [
         {
-            "title": "Requirement response",
-            "description": "some description",
             "requirement": {
                 "id": winner_req["id"],
-                "title": winner_req["title"],
             },
             "value": True,
         }

@@ -8,8 +8,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "title": "Updated title",
-    "description": "some description",
     "requirement": {
       "id": "307a20c8319e45d38d57fac7da4d5b27",
       "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
@@ -25,7 +23,7 @@ Content-Type: application/json
         "id": "697c479299af40a58282ea49a8222a0e"
       }
     ],
-    "value": true,
+    "value": false,
     "id": "14d996c8acb847beb5471b7cb1d2e980",
     "classification": {
       "scheme": " espd211",
