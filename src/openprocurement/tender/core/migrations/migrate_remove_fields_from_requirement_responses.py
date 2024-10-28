@@ -61,7 +61,7 @@ def run(env, args):
         {
             "criteria": {"$exists": True},
         },
-        {"bids": 1},
+        {"bids": 1, "awards": 1, "qualifications": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
@@ -70,17 +70,21 @@ def run(env, args):
             updated_data = {}
             try:
                 for obj_name in ("bids", "awards", "qualifications"):
+                    is_updated = False
                     for i in tender.get(obj_name, ""):
                         if update_requirement_responses(i.get("requirementResponses", "")):
-                            updated_data[obj_name] = i
+                            is_updated = True
+
+                    if is_updated:
+                        updated_data[obj_name] = tender[obj_name]
 
                 if updated_data:
-
                     collection.update_one(
                         {"_id": tender["_id"]},
                         {"$set": updated_data},
                     )
                     count += 1
+
                 if count and count % log_every == 0:
                     logger.info(
                         f"Updating tenders requirementResponses(bids, awards, qualifications): "
