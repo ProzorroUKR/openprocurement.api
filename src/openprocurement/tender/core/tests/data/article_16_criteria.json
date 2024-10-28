@@ -1,0 +1,138 @@
+[
+  {
+    "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+    "description": "Наявність в учасника процедури закупівлі обладнання, матеріально-технічної бази та технологій;",
+    "source": "tenderer",
+    "relatesTo": "tender",
+    "classification": {
+      "scheme": "ESPD211",
+      "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+    },
+    "legislation": [
+      {
+        "version": "2021-12-16",
+        "identifier": {
+          "id": "922-VIII",
+          "legalName": "Закон України \"Про публічні закупівлі\"",
+          "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+        },
+        "type": "NATIONAL_LEGISLATION",
+        "article": "16.2.1"
+      }
+    ],
+    "requirementGroups": [
+      {
+        "description": "Підтверджується, що",
+        "requirements": [
+          {
+            "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+            "dataType": "boolean",
+            "expectedValue": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Наявність працівників відповідної кваліфікації",
+    "description": "Наявність в учасника процедури закупівлі працівників відповідної кваліфікації, які мають необхідні знання та досвід;",
+    "source": "tenderer",
+    "relatesTo": "tender",
+    "classification": {
+      "scheme": "ESPD211",
+      "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.STAFF_FOR_CARRYING_SCOPE"
+    },
+    "legislation": [
+      {
+        "version": "2021-12-16",
+        "identifier": {
+          "id": "922-VIII",
+          "legalName": "Закон України \"Про публічні закупівлі\"",
+          "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+        },
+        "type": "NATIONAL_LEGISLATION",
+        "article": "16.2.2"
+      }
+    ],
+    "requirementGroups": [
+      {
+        "description": "Підтверджується, що",
+        "requirements": [
+          {
+            "title": "Наявність працівників відповідної кваліфікації",
+            "dataType": "boolean",
+            "expectedValue": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Наявність досвіду виконання аналогічного (аналогічних) договору (договорів)",
+    "description": "Наявність документально підтвердженого досвіду виконання аналогічного (аналогічних) за предметом закупівлі договору (договорів);",
+    "source": "tenderer",
+    "relatesTo": "tender",
+    "classification": {
+      "scheme": "ESPD211",
+      "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.REFERENCES.WORKS_PERFORMANCE"
+    },
+    "legislation": [
+      {
+        "version": "2021-12-16",
+        "identifier": {
+          "id": "922-VIII",
+          "legalName": "Закон України \"Про публічні закупівлі\"",
+          "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+        },
+        "type": "NATIONAL_LEGISLATION",
+        "article": "16.2.3"
+      }
+    ],
+    "requirementGroups": [
+      {
+        "description": "Підтверджується, що",
+        "requirements": [
+          {
+            "title": "Наявність досвіду виконання аналогічного (аналогічних) договору (договорів)",
+            "dataType": "boolean",
+            "expectedValue": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Наявність фінансової спроможності",
+    "description": "Наявність фінансової спроможності, яка підтверджується фінансовою звітністю.",
+    "source": "tenderer",
+    "relatesTo": "tender",
+    "classification": {
+      "scheme": "ESPD211",
+      "id": "CRITERION.SELECTION.ECONOMIC_FINANCIAL_STANDING"
+    },
+    "legislation": [
+      {
+        "version": "2021-12-16",
+        "identifier": {
+          "id": "922-VIII",
+          "legalName": "Закон України \"Про публічні закупівлі\"",
+          "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+        },
+        "type": "NATIONAL_LEGISLATION",
+        "article": "16.2.4"
+      }
+    ],
+    "requirementGroups": [
+      {
+        "description": "Підтверджується, що",
+        "requirements": [
+          {
+            "title": "Наявність фінансової спроможності",
+            "dataType": "boolean",
+            "expectedValue": true
+          }
+        ]
+      }
+    ]
+  }
+]

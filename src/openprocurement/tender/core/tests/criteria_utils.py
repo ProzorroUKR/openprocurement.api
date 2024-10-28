@@ -3,6 +3,7 @@ from webtest import TestApp
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import (
+    test_article_16_criteria,
     test_exclusion_criteria,
     test_language_criteria,
 )
@@ -30,6 +31,13 @@ def add_criteria(self, tender_id=None, tender_token=None, criteria=test_exclusio
         response = app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
             {"data": criteria},
+        )
+
+        assert response.status == "201 Created"
+
+        response = app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
+            {"data": test_article_16_criteria[:1]},
         )
 
         assert response.status == "201 Created"
