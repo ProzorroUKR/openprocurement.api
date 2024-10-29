@@ -10,3 +10,4 @@ class CFAUAAwardComplaintDocumentState(AwardComplaintDocumentState):
         "active.qualification.stand-still",
         "active.qualification",
     )
+    check_edrpou_confidentiality = False

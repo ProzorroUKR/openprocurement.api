@@ -1,5 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.tender.cfaua.procedure.state.complaint_post_document import (
+    CFAUAComplaintPostDocumentState,
+)
 from openprocurement.tender.core.procedure.views.cancellation_complaint_post_document import (
     BaseCancellationComplaintPostDocumentResource,
 )
@@ -13,4 +16,4 @@ from openprocurement.tender.core.procedure.views.cancellation_complaint_post_doc
     description="Tender cancellation complaint post documents",
 )
 class CFAUACancellationComplaintPostDocumentResource(BaseCancellationComplaintPostDocumentResource):
-    pass
+    state_class = CFAUAComplaintPostDocumentState

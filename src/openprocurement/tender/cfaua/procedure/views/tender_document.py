@@ -1,5 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.tender.cfaua.procedure.state.tender_document import (
+    CFAUATenderDocumentState,
+)
 from openprocurement.tender.openua.procedure.views.tender_document import (
     UATenderDocumentResource,
 )
@@ -13,4 +16,4 @@ from openprocurement.tender.openua.procedure.views.tender_document import (
     description="Tender closeFrameworkAgreementUA related binary files (PDFs, etc.)",
 )
 class CFAUATenderDocumentResource(UATenderDocumentResource):
-    pass
+    state_class = CFAUATenderDocumentState

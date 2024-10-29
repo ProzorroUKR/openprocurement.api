@@ -33,6 +33,8 @@ class AgreementDocumentStateMixing(BaseDocumentStateMixing):
 
 
 class AgreementDocumentState(AgreementDocumentStateMixing, CancellationState):
+    check_edrpou_confidentiality = False
+
     def validate_document_post(self, data):
         request, tender = get_request(), get_tender()
 
