@@ -51,6 +51,7 @@ from openprocurement.tender.belowthreshold.tests.utils import (
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
+    test_article_16_criteria,
     test_contract_guarantee_criteria,
     test_exclusion_criteria,
     test_language_criteria,
@@ -210,6 +211,7 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
                 del test_criteria_data[i]
                 break
         test_criteria_data.extend(test_language_criteria)
+        test_criteria_data.extend(test_article_16_criteria[:1])
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token), {'data': test_criteria_data}
         )
@@ -2276,6 +2278,7 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
         #### Tender activating
         test_criteria_data = deepcopy(test_exclusion_criteria)
         test_criteria_data.extend(test_language_criteria)
+        test_criteria_data.extend(test_article_16_criteria[:1])
 
         response = self.app.post_json(
             f'/tenders/{self.tender_id}/criteria?acc_token={owner_token}', {'data': test_criteria_data}
@@ -2462,6 +2465,7 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
         #### Tender activating
         test_criteria_data = deepcopy(test_exclusion_criteria)
         test_criteria_data.extend(test_language_criteria)
+        test_criteria_data.extend(test_article_16_criteria[:1])
         response = self.app.post_json(
             f'/tenders/{self.tender_id}/criteria?acc_token={owner_token}', {'data': test_criteria_data}
         )
@@ -2706,6 +2710,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
                 del test_criteria_data[i]
                 break
         test_criteria_data.extend(test_language_criteria)
+        test_criteria_data.extend(test_article_16_criteria[:1])
         test_criteria_data.extend(test_contract_guarantee_criteria)
 
         # Creating tender

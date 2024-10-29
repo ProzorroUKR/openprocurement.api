@@ -22,6 +22,7 @@ from tests.test_tender_config import TenderConfigCSVMixin
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import (
+    test_article_16_criteria,
     test_exclusion_criteria,
     test_language_criteria,
 )
@@ -156,6 +157,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
         # Tender activating
         test_criteria_data = deepcopy(test_exclusion_criteria)
         test_criteria_data.extend(test_language_criteria)
+        test_criteria_data.extend(test_article_16_criteria[:1])
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
