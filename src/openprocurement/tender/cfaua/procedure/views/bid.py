@@ -18,6 +18,7 @@ from openprocurement.tender.cfaua.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.cfaua.procedure.serializers.tender import (
     CFAUATenderSerializer,
 )
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
@@ -63,7 +64,7 @@ class CFAUATenderBidResource(OpenUATenderBidResource):
     )
     @context_view(
         objs={
-            "tender": CFAUATenderSerializer,
+            "tender": (CFAUATenderSerializer, TENDER_MASK_MAPPING),
         }
     )
     def get(self):

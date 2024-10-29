@@ -7,6 +7,7 @@ from openprocurement.tender.cfaua.procedure.serializers.tender import (
 from openprocurement.tender.cfaua.procedure.state.cancellation import (
     CFAUACancellationState,
 )
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.views.cancellation import (
     BaseCancellationResource,
 )
@@ -28,7 +29,7 @@ class CFAUACancellationResource(BaseCancellationResource):
     )
     @context_view(
         objs={
-            "tender": CFAUATenderSerializer,
+            "tender": (CFAUATenderSerializer, TENDER_MASK_MAPPING),
         }
     )
     def get(self):

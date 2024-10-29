@@ -10,6 +10,7 @@ from openprocurement.tender.core.procedure.contracting import (
     save_contracts_to_contracting,
     update_econtracts_statuses,
 )
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.award import PostAward
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.core.procedure.serializers.tender import (
@@ -110,7 +111,7 @@ class TenderAwardResource(TenderBaseResource):
     )
     @context_view(
         objs={
-            "tender": TenderBaseSerializer,
+            "tender": (TenderBaseSerializer, TENDER_MASK_MAPPING),
         }
     )
     def get(self):

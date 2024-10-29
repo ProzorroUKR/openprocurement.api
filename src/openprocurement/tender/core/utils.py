@@ -6,6 +6,7 @@ from logging import getLogger
 from dateorro import calc_datetime
 
 from openprocurement.api.constants import WORKING_DAYS
+from openprocurement.api.mask import mask_object_data
 from openprocurement.api.utils import calculate_date, calculate_full_date, is_boolean
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.open.constants import (
@@ -118,8 +119,10 @@ def context_view(objs):
             response = func(self, *args, **kwargs)
             if is_boolean(self.request.params.get("opt_context")):
                 context = {}
-                for parent_name, parent_serializer_class in objs.items():
+                for parent_name, parent_params in objs.items():
+                    parent_serializer_class, mask_mapping = parent_params
                     if parent_obj := self.request.validated.get(parent_name):
+                        mask_object_data(self.request, parent_obj, mask_mapping)
                         context[parent_name] = parent_serializer_class(parent_obj).data
                 response.update({"context": context})
             return response
