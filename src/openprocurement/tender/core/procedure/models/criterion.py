@@ -469,7 +469,7 @@ class PatchCriterion(BaseCriterion):
 # Criterion ----
 
 
-def validate_criteria_requirement_id_uniq(criteria, *_) -> None:
+def validate_criteria_requirement_uniq(criteria, *_) -> None:
     if criteria:
         req_ids = [req["id"] for c in criteria for rg in c["requirementGroups"] for req in rg["requirements"]]
         if get_first_revision_date(get_tender(), default=get_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:

@@ -5,7 +5,7 @@ from openprocurement.tender.core.constants import (
     CRITERION_TECHNICAL_FEATURES,
 )
 from openprocurement.tender.core.procedure.models.criterion import (
-    validate_criteria_requirement_id_uniq,
+    validate_criteria_requirement_uniq,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.utils import validation_error_handler
@@ -89,7 +89,7 @@ class CriterionStateMixin(BaseCriterionStateMixin):
     def _validate_ids_uniq(self, data) -> None:
         criteria = self.request.validated["tender"]["criteria"]
         validate_object_id_uniq(criteria, obj_name="Criterion")
-        validate_criteria_requirement_id_uniq(criteria)
+        validate_criteria_requirement_uniq(criteria)
 
     def _validate_criterion_uniq_patch(self, before: dict, after: dict) -> None:
         criteria = get_tender().get("criteria")

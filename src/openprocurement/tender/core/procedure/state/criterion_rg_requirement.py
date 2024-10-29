@@ -14,7 +14,8 @@ from openprocurement.tender.core.procedure.models.criterion import (
     PatchExclusionLccRequirement,
     PatchRequirement,
     PatchTechnicalFeatureRequirement,
-    validate_criteria_requirement_id_uniq,
+    ReqStatuses,
+    validate_criteria_requirement_uniq,
     validate_requirement,
 )
 from openprocurement.tender.core.procedure.state.criterion import (
@@ -86,9 +87,13 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
 
     def validate_on_patch(self, before: dict, after: dict) -> None:
         self._validate_change_requirement_objects()
+        if after.get("title") and before["title"] != after["title"]:
+            self._validate_reqs_uniq(after)
 
     def validate_on_put(self, before: dict, after: dict) -> None:
         self._validate_put_requirement_objects()
+        if after.get("title") and before["title"] != after["title"]:
+            self._validate_reqs_uniq(after)
 
     def validate_always(self, data: dict) -> None:
         self._validate_requirement_data(data)
@@ -97,7 +102,21 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     @validation_error_handler
     def _validate_ids_uniq(self) -> None:
         criteria = self.request.validated["tender"]["criteria"]
-        validate_criteria_requirement_id_uniq(criteria)
+        validate_criteria_requirement_uniq(criteria)
+
+    def _validate_reqs_uniq(self, data) -> None:
+        rg = self.request.validated["requirement_group"]
+        for req in rg["requirements"]:
+            if (
+                req["title"] == data["title"]
+                and req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
+                and data.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
+            ):
+                raise_operation_error(
+                    self.request,
+                    "Requirement title should be uniq for one requirementGroup",
+                    status=422,
+                )
 
     def _validate_put_requirement_objects(self) -> None:
         validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
