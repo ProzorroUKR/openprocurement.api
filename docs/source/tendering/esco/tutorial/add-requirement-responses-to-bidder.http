@@ -71,6 +71,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "id": "127f8fb59e834e82b6f1952437db7be3"
         },
         "value": true
+      },
+      {
+        "requirement": {
+          "id": "07f6159d5f0647e3a33ef3d3b206c69b"
+        },
+        "value": true
       }
     ]
   }
@@ -213,6 +219,18 @@ Content-Type: application/json
         "classification": {
           "scheme": " ESPD211",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
+        }
+      },
+      {
+        "value": true,
+        "id": "b09947b9925d4835be5ed4f8187bd576",
+        "requirement": {
+          "id": "07f6159d5f0647e3a33ef3d3b206c69b",
+          "title": "Наявність обладнання, матеріально-технічної бази та технологій"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
         }
       }
     ],
