@@ -67,13 +67,18 @@ class TenderQualificationResource(TenderBaseResource):
     def collection_get(self):
         """List qualifications"""
         tender = self.request.validated["tender"]
-        data = tuple(self.serializer_class(qualification).data for qualification in tender.get("qualifications", []))
+        data = tuple(
+            self.serializer_class(qualification, tender=tender).data
+            for qualification in tender.get("qualifications", [])
+        )
         return {"data": data}
 
     @json_view(permission="view_tender")
     def get(self):
         """Retrieving the qualification"""
-        data = self.serializer_class(self.request.validated["qualification"]).data
+        tender = self.request.validated["tender"]
+        qualification = self.request.validated["qualification"]
+        data = self.serializer_class(qualification, tender=tender).data
         return {"data": data}
 
     @json_view(
@@ -92,10 +97,11 @@ class TenderQualificationResource(TenderBaseResource):
     def patch(self):
         """Post a qualification resolution"""
         updated = self.request.validated["data"]
+        tender = self.request.validated["tender"]
         if updated:
             qualification = self.request.validated["qualification"]
             set_item(
-                self.request.validated["tender"],
+                tender,
                 "qualifications",
                 qualification["id"],
                 updated,
@@ -107,4 +113,4 @@ class TenderQualificationResource(TenderBaseResource):
                     "Updated tender qualification {}".format(qualification["id"]),
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_qualification_patch"}),
                 )
-                return {"data": self.serializer_class(updated).data}
+                return {"data": self.serializer_class(updated, tender=tender).data}
