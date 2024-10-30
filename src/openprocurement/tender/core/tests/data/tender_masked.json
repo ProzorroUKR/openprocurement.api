@@ -358,7 +358,8 @@
                         "id": "CRITERION.OTHER.BID.GUARANTEE"
                     },
                     "requirement": {
-                        "id": "fa101545e82d493690951c7149a42abc"
+                        "id": "fa101545e82d493690951c7149a42abc",
+                        "title": "Вид та умови надання забезпечення тендерних пропозицій"
                     },
                     "evidences": [
                         {
@@ -380,7 +381,8 @@
                         "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
                     },
                     "requirement": {
-                        "id": "8cd44b01978f47fc9f470cdcedfef6b6"
+                        "id": "8cd44b01978f47fc9f470cdcedfef6b6",
+                        "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
                     },
                     "value": true
                 }
@@ -448,7 +450,8 @@
                         "id": "CRITERION.OTHER.BID.GUARANTEE"
                     },
                     "requirement": {
-                        "id": "fa101545e82d493690951c7149a42abc"
+                        "id": "fa101545e82d493690951c7149a42abc",
+                        "title": "Вид та умови надання забезпечення тендерних пропозицій"
                     },
                     "evidences": [
                         {
@@ -470,7 +473,8 @@
                         "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
                     },
                     "requirement": {
-                        "id": "8cd44b01978f47fc9f470cdcedfef6b6"
+                        "id": "8cd44b01978f47fc9f470cdcedfef6b6",
+                        "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
                     },
                     "value": true
                 }
