@@ -13,7 +13,7 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.core.procedure.models.criterion import (
     Criterion,
-    validate_criteria_requirement_id_uniq,
+    validate_criteria_requirement_uniq,
 )
 from openprocurement.tender.core.procedure.models.document import (
     Document,
@@ -101,7 +101,7 @@ class CommonBaseTender(Model):
 class PatchBaseTender(CommonBaseTender):
     criteria = ListType(
         ModelType(Criterion, required=True),
-        validators=[validate_object_id_uniq, validate_criteria_requirement_id_uniq],
+        validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
     )
 
 

@@ -469,7 +469,7 @@ class PatchCriterion(BaseCriterion):
 # Criterion ----
 
 
-def validate_criteria_requirement_id_uniq(criteria, *_) -> None:
+def validate_criteria_requirement_uniq(criteria, *_) -> None:
     if criteria:
         req_ids = [req["id"] for c in criteria for rg in c["requirementGroups"] for req in rg["requirements"]]
         if get_first_revision_date(get_tender(), default=get_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:
@@ -482,6 +482,15 @@ def validate_criteria_requirement_id_uniq(criteria, *_) -> None:
             ]
         if req_ids and len(set(req_ids)) != len(req_ids):
             raise ValidationError("Requirement id should be uniq for all requirements in tender")
+        for criterion in criteria:
+            for rg in criterion.get("requirementGroups", []):
+                req_titles = [
+                    req["title"]
+                    for req in rg.get("requirements", [])
+                    if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
+                ]
+                if len(set(req_titles)) != len(req_titles):
+                    raise ValidationError("Requirement title should be uniq for one requirementGroup")
 
 
 # TODO: should to write on this cases for work with requirement and requirement_groups

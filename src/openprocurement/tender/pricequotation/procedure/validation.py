@@ -5,6 +5,7 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 
 
@@ -80,3 +81,9 @@ def validate_criteria_id_uniq(objs, *args):
         req_ids = [req.id for c in objs for rg in c.requirementGroups or "" for req in rg.requirements or ""]
         if len(req_ids) != len(set(req_ids)):
             raise ValidationError("Requirement id should be uniq for all requirements in tender")
+
+        for criterion in objs:
+            for rg in criterion.requirementGroups or "":
+                req_titles = [req.title for req in rg.requirements or "" if req.status == ReqStatuses.ACTIVE]
+                if len(set(req_titles)) != len(req_titles):
+                    raise ValidationError("Requirement title should be uniq for one requirementGroup")

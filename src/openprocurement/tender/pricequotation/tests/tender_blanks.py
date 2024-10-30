@@ -839,6 +839,27 @@ def create_tender_draft_with_criteria(self):
             for r in g["requirements"]:
                 r["id"] = uuid4().hex
 
+    patch_criteria[0]["requirementGroups"][0]["requirements"].append(
+        self.test_criteria_1[0]["requirementGroups"][0]["requirements"][0]
+    )
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}", {"data": {"criteria": patch_criteria}}, status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "criteria",
+                "description": ["Requirement title should be uniq for one requirementGroup"],
+            }
+        ],
+    )
+
+    # change status
+    patch_criteria[0]["requirementGroups"][0]["requirements"][1]["status"] = "cancelled"
+
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={token}",
         {"data": {"criteria": patch_criteria}},

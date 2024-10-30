@@ -1,8 +1,9 @@
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.utils import error_handler
+from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.models.criterion import (
-    validate_criteria_requirement_id_uniq,
+    ReqStatuses,
+    validate_criteria_requirement_uniq,
     validate_requirement,
 )
 from openprocurement.tender.core.procedure.state.criterion import (
@@ -23,6 +24,7 @@ class RequirementGroupStateMixin(BaseCriterionStateMixin):
         self.requirement_group_always(after)
 
     def requirement_group_always(self, data: dict) -> None:
+        self._validate_reqs_uniq(data)
         self.invalidate_bids()
         self._validate_requirements_data(data)
         self.validate_action_with_exist_inspector_review_request()
@@ -44,7 +46,20 @@ class RequirementGroupStateMixin(BaseCriterionStateMixin):
         criteria = self.request.validated["tender"]["criteria"]
         rgs = self.request.validated["criterion"]["requirementGroups"]
         validate_object_id_uniq(rgs, obj_name="requirementGroup")
-        validate_criteria_requirement_id_uniq(criteria)
+        validate_criteria_requirement_uniq(criteria)
+
+    def _validate_reqs_uniq(self, data) -> None:
+        req_titles = [
+            req["title"]
+            for req in data.get("requirements", [])
+            if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
+        ]
+        if len(set(req_titles)) != len(req_titles):
+            raise_operation_error(
+                self.request,
+                "Requirement title should be uniq for one requirementGroup",
+                status=422,
+            )
 
     def _validate_requirements_data(self, data: dict) -> None:
         criterion = self.request.validated["criterion"]
