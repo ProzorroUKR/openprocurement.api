@@ -13,6 +13,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
 
 # TenderQualificationResourceTest
 
@@ -3452,6 +3453,7 @@ def create_qualification_requirement_response(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     rr = response.json["data"]
+    clean_requirement_responses(rr)
 
     for i, rr_data in enumerate(valid_data):
         for k, v in rr_data.items():
@@ -3552,6 +3554,7 @@ def get_qualification_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
 
     rrs = response.json["data"]
+    clean_requirement_responses(rrs)
     self.assertEqual(len(rrs), 1)
 
     for i, rr_data in enumerate(valid_data):
@@ -3566,6 +3569,7 @@ def get_qualification_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
 
     rr = response.json["data"]
+    clean_requirement_responses([rr])
     for k, v in valid_data[0].items():
         self.assertIn(k, rr)
         self.assertEqual(v, rr[k])

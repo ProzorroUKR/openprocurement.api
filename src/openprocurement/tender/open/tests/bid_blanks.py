@@ -1987,6 +1987,7 @@ def get_bid_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
 
     rrs = response.json["data"]
+    clean_requirement_responses(rrs)
     self.assertEqual(len(rrs), 10)
 
     for i, rr_data in enumerate(valid_data):
@@ -1999,6 +2000,7 @@ def get_bid_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
 
     rr = response.json["data"]
+    clean_requirement_responses([rr])
     for k, v in valid_data[0].items():
         self.assertIn(k, rr)
         self.assertEqual(v, rr[k])

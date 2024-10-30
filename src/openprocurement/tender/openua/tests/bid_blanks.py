@@ -14,10 +14,13 @@ from openprocurement.tender.core.tests.utils import change_auth
 
 
 def clean_requirement_responses(rrs: list):
-    serialized_fields = {'unit', 'classification'}
+    serialized_fields = {'unit', 'classification', 'requirement.title'}
     for rr in rrs:
         for field in serialized_fields:
-            rr.pop(field, None)
+            if field == "requirement.title":
+                rr.get("requirement", {}).pop("title", None)
+            else:
+                rr.pop(field, None)
 
 
 def create_tender_biddder_invalid(self):
@@ -1858,6 +1861,7 @@ def get_bid_requirement_response(self):
     rrs = response.json["data"]
     self.assertEqual(len(rrs), 10)
 
+    clean_requirement_responses(rrs)
     for i, rr_data in enumerate(valid_data):
         for k, v in rr_data.items():
             self.assertIn(k, rrs[i])
@@ -1868,6 +1872,7 @@ def get_bid_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
 
     rr = response.json["data"]
+    clean_requirement_responses([rr])
     for k, v in valid_data[0].items():
         self.assertIn(k, rr)
         self.assertEqual(v, rr[k])
