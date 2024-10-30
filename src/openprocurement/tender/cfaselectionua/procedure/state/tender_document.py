@@ -4,4 +4,4 @@ from openprocurement.tender.core.procedure.state.tender_document import (
 
 
 class CFASelectionTenderDocumentState(TenderDocumentState):
-    check_edrpou_confidentiality = False
+    all_documents_should_be_public = True

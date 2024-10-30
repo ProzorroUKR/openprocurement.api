@@ -7,6 +7,7 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 
 class BaseDocumentStateMixing:
     check_edrpou_confidentiality = True
+    all_documents_should_be_public = False
 
     def document_on_post(self, data):
         self.validate_document_post(data)
@@ -24,7 +25,8 @@ class BaseDocumentStateMixing:
             return
         tender = get_tender()
         if (
-            data.get("title") == "sign.p7s"
+            not self.all_documents_should_be_public
+            and data.get("title") == "sign.p7s"
             and data.get("format") == "application/pkcs7-signature"
             and data.get("author", "tender_owner") == "tender_owner"
             and tender.get("procuringEntity", {}).get("identifier", {}).get("id") in CONFIDENTIAL_EDRPOU_LIST

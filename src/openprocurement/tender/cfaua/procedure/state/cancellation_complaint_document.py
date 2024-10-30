@@ -4,4 +4,4 @@ from openprocurement.tender.openua.procedure.state.complaint_document import (
 
 
 class CFAUACancellationComplaintDocumentState(OpenUAComplaintDocumentState):
-    check_edrpou_confidentiality = False
+    all_documents_should_be_public = True

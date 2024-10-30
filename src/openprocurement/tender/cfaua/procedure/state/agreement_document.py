@@ -33,7 +33,7 @@ class AgreementDocumentStateMixing(BaseDocumentStateMixing):
 
 
 class AgreementDocumentState(AgreementDocumentStateMixing, CancellationState):
-    check_edrpou_confidentiality = False
+    all_documents_should_be_public = True
 
     def validate_document_post(self, data):
         request, tender = get_request(), get_tender()
@@ -48,3 +48,7 @@ class AgreementDocumentState(AgreementDocumentStateMixing, CancellationState):
     def validate_document_patch(self, before, after):
         request, tender = get_request(), get_tender()
         self.validate_agreement_document(request, tender, request.validated["agreement"], operation="update")
+
+    def document_always(self, data):
+        self.invalidate_review_requests()
+        self.validate_confidentiality(data)

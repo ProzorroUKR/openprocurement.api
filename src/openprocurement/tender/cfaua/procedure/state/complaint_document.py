@@ -4,4 +4,4 @@ from openprocurement.tender.open.procedure.state.complaint_document import (
 
 
 class CFAUAComplaintDocumentState(OpenComplaintDocumentState):
-    check_edrpou_confidentiality = False
+    all_documents_should_be_public = True

@@ -4,4 +4,4 @@ from openprocurement.tender.core.procedure.state.cancellation_document import (
 
 
 class CFAUACancellationDocumentState(CancellationDocumentState):
-    check_edrpou_confidentiality = False
+    all_documents_should_be_public = True
