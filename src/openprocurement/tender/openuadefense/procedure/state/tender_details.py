@@ -31,5 +31,4 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
 
 
 class AboveThresholdUADefenseTenderDetailsState(DefenseTenderDetailsState):
-    def validate_related_lot_in_items(self, after):
-        pass
+    should_validate_related_lot_in_items = False

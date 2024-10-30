@@ -11,14 +11,16 @@ class ReportingTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
     tender_create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
-    has_enquiry_period = False
+    should_initialize_enquiry_period = False
+    should_validate_related_lot_in_items = False
 
 
 class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
-    has_enquiry_period = False
+    should_initialize_enquiry_period = False
+    should_validate_related_lot_in_items = True
 
     def on_patch(self, before, after):
         if before.get("awards"):
@@ -27,4 +29,3 @@ class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState)
                 "Can't update tender when there is at least one award.",
             )
         super().on_patch(before, after)
-        self.validate_related_lot_in_items(after)
