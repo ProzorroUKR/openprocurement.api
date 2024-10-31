@@ -96,14 +96,14 @@ class TenderAwardResource(TenderBaseResource):
                 tender_id=tender["_id"],
                 award_id=award["id"],
             )
-            return {"data": self.serializer_class(award).data}
+            return {"data": self.serializer_class(award, tender=tender).data}
 
     @json_view(
         permission="view_tender",
     )
     def collection_get(self):
         tender = self.request.validated["tender"]
-        data = [self.serializer_class(b).data for b in tender.get("awards", "")]
+        data = [self.serializer_class(b, tender=tender).data for b in tender.get("awards", "")]
         return {"data": data}
 
     @json_view(
@@ -115,16 +115,19 @@ class TenderAwardResource(TenderBaseResource):
         }
     )
     def get(self):
-        data = self.serializer_class(self.request.validated["award"]).data
+        award = self.request.validated["award"]
+        tender = self.request.validated["tender"]
+        data = self.serializer_class(award, tender=tender).data
         return {"data": data}
 
     def patch(self):
         updated = self.request.validated["data"]
+        tender = self.request.validated["tender"]
         if updated:
             award = self.request.validated["award"]
             self.state.validate_award_patch(award, updated)
 
-            set_item(self.request.validated["tender"], "awards", award["id"], updated)
+            set_item(tender, "awards", award["id"], updated)
             self.state.award_on_patch(award, updated)
             self.state.always(self.request.validated["tender"])
             with atomic_transaction():
@@ -141,4 +144,4 @@ class TenderAwardResource(TenderBaseResource):
                         "Updated tender award {}".format(award["id"]),
                         extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_patch"}),
                     )
-                    return {"data": self.serializer_class(updated).data}
+                    return {"data": self.serializer_class(updated, tender=tender).data}

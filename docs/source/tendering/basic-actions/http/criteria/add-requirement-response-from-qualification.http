@@ -35,7 +35,8 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "e24e1b05b98145c49f557d3c3a9eec59"
+          "id": "e24e1b05b98145c49f557d3c3a9eec59",
+          "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
           {
@@ -49,7 +50,11 @@ Content-Type: application/json
           }
         ],
         "value": true,
-        "id": "3cafbf924b9c48e9b2001bc17eb14d3b"
+        "id": "3cafbf924b9c48e9b2001bc17eb14d3b",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
+        }
       }
     ],
     "id": "5e7250d3a3f143eba6e5278524327429",

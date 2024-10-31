@@ -3452,15 +3452,26 @@ def create_qualification_requirement_response(self):
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    rr = response.json["data"]
-    clean_requirement_responses(rr)
+    rrs = response.json["data"]
+    self.assertIn("classification", rrs[0])
+    self.assertIn("title", rrs[0]["requirement"])
+    clean_requirement_responses(rrs)
 
     for i, rr_data in enumerate(valid_data):
         for k, v in rr_data.items():
             if k == "value":
-                self.assertEqual(str(rr[i][k]), str(v))
+                self.assertEqual(str(rrs[i][k]), str(v))
             else:
-                self.assertEqual(rr[i][k], v)
+                self.assertEqual(rrs[i][k], v)
+
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}?acc_token={self.tender_token}"
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    rrs = response.json["data"]["requirementResponses"]
+    self.assertIn("classification", rrs[0])
+    self.assertIn("title", rrs[0]["requirement"])
 
 
 def patch_qualification_requirement_response(self):
