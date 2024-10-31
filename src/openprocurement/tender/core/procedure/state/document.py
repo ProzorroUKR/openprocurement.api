@@ -1,8 +1,8 @@
-from openprocurement.api.constants import CONFIDENTIAL_EDRPOU_LIST
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.models.document import ConfidentialityTypes
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.validation import (
+    validate_edrpou_confidentiality_doc,
+)
 
 
 class BaseDocumentStateMixing:
@@ -23,28 +23,7 @@ class BaseDocumentStateMixing:
     def validate_confidentiality(self, data):
         if not self.check_edrpou_confidentiality:
             return
-        tender = get_tender()
-        if (
-            not self.all_documents_should_be_public
-            and data.get("title") == "sign.p7s"
-            and data.get("format") == "application/pkcs7-signature"
-            and data.get("author", "tender_owner") == "tender_owner"
-            and tender.get("procuringEntity", {}).get("identifier", {}).get("id") in CONFIDENTIAL_EDRPOU_LIST
-        ):
-            if data["confidentiality"] != ConfidentialityTypes.BUYER_ONLY:
-                raise_operation_error(
-                    self.request,
-                    "Document should be confidential",
-                    name="confidentiality",
-                    status=422,
-                )
-        elif data["confidentiality"] == ConfidentialityTypes.BUYER_ONLY:
-            raise_operation_error(
-                self.request,
-                "Document should be public",
-                name="confidentiality",
-                status=422,
-            )
+        validate_edrpou_confidentiality_doc(data, should_be_public=self.all_documents_should_be_public)
 
     def validate_document_post(self, data):
         pass

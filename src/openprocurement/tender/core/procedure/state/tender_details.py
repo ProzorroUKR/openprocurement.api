@@ -67,6 +67,7 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
     validate_doc_type_required,
+    validate_edrpou_confidentiality_doc,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.constants import (
@@ -930,6 +931,11 @@ class TenderDetailsMixing(TenderConfigMixin):
                 validate_doc_type_quantity(documents)
             if tender_created_after(EVALUATION_REPORTS_DOC_REQUIRED_FROM):
                 validate_doc_type_quantity(documents, document_type="evaluationReports")
+        self.validate_tender_docs_confidentiality(documents)
+
+    def validate_tender_docs_confidentiality(self, documents):
+        for doc in documents:
+            validate_edrpou_confidentiality_doc(doc)
 
     @staticmethod
     def calculate_item_identification_tuple(item):

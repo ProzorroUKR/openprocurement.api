@@ -34,6 +34,9 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     validate_field,
 )
+from openprocurement.tender.core.procedure.validation import (
+    validate_edrpou_confidentiality_doc,
+)
 from openprocurement.tender.core.utils import (
     calculate_tender_date,
     calculate_tender_full_date,
@@ -139,6 +142,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                             )
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
             self._validate_criterion_uniq(after.get("criteria", []))
+        self.validate_docs(after, before)
         self.always(after)
 
     @staticmethod
@@ -238,6 +242,10 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
     def validate_tender_period_extension(self, tender):
         pass
+
+    def validate_tender_docs_confidentiality(self, documents):
+        for doc in documents:
+            validate_edrpou_confidentiality_doc(doc, should_be_public=True)
 
 
 class CFASelectionTenderDetailsState(CFASelectionTenderDetailsMixing, CFASelectionTenderState):
