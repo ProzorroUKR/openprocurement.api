@@ -20,6 +20,7 @@ from schematics.types import (
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import (
     ATC_SCHEME,
+    CCCE_UA_SCHEME,
     CONFIDENTIAL_EDRPOU_LIST,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     FUNDERS,
@@ -1526,6 +1527,14 @@ def validate_ua_road(classification_id, additional_classifications):
             "Item shouldn't have additionalClassification with scheme {} for cpv not starts with {}".format(
                 UA_ROAD_SCHEME, ", ".join(UA_ROAD_CPV_PREFIXES)
             )
+        )
+
+
+def validate_ccce_ua(additional_classifications):
+    ccce_count = sum(1 for i in additional_classifications if i["scheme"] == CCCE_UA_SCHEME)
+    if ccce_count > 1:
+        raise ValidationError(
+            f"Object shouldn't have more than 1 additionalClassification with scheme {CCCE_UA_SCHEME}"
         )
 
 

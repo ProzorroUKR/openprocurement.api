@@ -2,9 +2,6 @@ from schematics.types import StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request
-from openprocurement.api.procedure.models.item import (
-    Classification as BaseClassification,
-)
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.framework.core.procedure.models.agreement import (
     Agreement as BaseAgreement,
@@ -12,7 +9,10 @@ from openprocurement.framework.core.procedure.models.agreement import (
 from openprocurement.framework.core.procedure.models.agreement import (
     PostAgreement as BasePostAgreement,
 )
-from openprocurement.framework.core.procedure.models.framework import DKClassification
+from openprocurement.framework.core.procedure.models.framework import (
+    AdditionalClassification,
+    DKClassification,
+)
 from openprocurement.framework.core.utils import generate_agreement_id
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.organization import ProcuringEntity
@@ -23,7 +23,7 @@ class Agreement(BaseAgreement):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     frameworkID = StringType()
     classification = ModelType(DKClassification, required=True)
-    additionalClassifications = ListType(ModelType(BaseClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     frameworkDetails = StringType()
 
     @serializable(serialize_when_none=False)
@@ -51,5 +51,5 @@ class PostAgreement(BasePostAgreement):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     frameworkID = StringType()
     classification = ModelType(DKClassification, required=True)
-    additionalClassifications = ListType(ModelType(BaseClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     frameworkDetails = StringType()

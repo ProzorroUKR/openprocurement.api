@@ -14,7 +14,7 @@ from openprocurement.tender.core.procedure.models.unit import Unit
 
 
 class TenderItem(BaseItem):
-    additionalClassifications = ListType(ModelType(AdditionalClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
 
     unit = ModelType(Unit)
     profile = StringType(required=True)
