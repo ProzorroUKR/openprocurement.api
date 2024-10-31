@@ -9,6 +9,9 @@ from openprocurement.api.procedure.validation import (
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.cfaselectionua.procedure.state.tender_document import (
+    CFASelectionTenderDocumentState,
+)
 from openprocurement.tender.cfaselectionua.procedure.validation import (
     validate_document_operation_in_not_allowed_period,
 )
@@ -34,6 +37,8 @@ from openprocurement.tender.core.procedure.views.tender_document import (
     description="Tender closeFrameworkAgreementSelectionUA related binary files (PDFs, etc.)",
 )
 class CFASelectionTenderDocumentResource(TenderDocumentResource):
+    state_class = CFASelectionTenderDocumentState
+
     @json_view(
         validators=(
             unless_bots_or_auction(validate_item_owner("tender")),

@@ -10,6 +10,9 @@ from openprocurement.tender.cfaua.constants import (
 )
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.validation import (
+    validate_edrpou_confidentiality_doc,
+)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openua.procedure.state.tender_details import (
     OpenUATenderDetailsMixing,
@@ -122,6 +125,10 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
     @staticmethod
     def watch_value_meta_changes(tender):
         pass  # TODO: shouldn't it work here
+
+    def validate_tender_docs_confidentiality(self, documents):
+        for doc in documents:
+            validate_edrpou_confidentiality_doc(doc, should_be_public=True)
 
 
 class CFAUATenderDetailsState(CFAUATenderDetailsMixing, CFAUATenderState):

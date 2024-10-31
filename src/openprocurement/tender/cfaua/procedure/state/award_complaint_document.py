@@ -10,3 +10,4 @@ class CFAUAAwardComplaintDocumentState(AwardComplaintDocumentState):
         "active.qualification.stand-still",
         "active.qualification",
     )
+    all_documents_should_be_public = True

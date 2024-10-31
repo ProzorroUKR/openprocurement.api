@@ -1,5 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.tender.cfaua.procedure.state.qualification_complaint_document import (
+    CFAUAQualificationComplaintDocumentState,
+)
 from openprocurement.tender.core.procedure.views.qualification_complaint_document import (
     QualificationComplaintDocumentResource,
 )
@@ -13,4 +16,4 @@ from openprocurement.tender.core.procedure.views.qualification_complaint_documen
     description="Tender qualification complaint documents",
 )
 class CFAUAQualificationComplaintDocumentResource(QualificationComplaintDocumentResource):
-    pass
+    state_class = CFAUAQualificationComplaintDocumentState

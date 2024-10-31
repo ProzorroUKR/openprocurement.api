@@ -9,6 +9,7 @@ from openprocurement.contracting.core.procedure.utils import is_contract_owner
 from openprocurement.contracting.econtract.procedure.state.contract import (
     EContractState,
 )
+from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
 from openprocurement.tender.core.procedure.utils import tender_created_before
 
@@ -44,6 +45,7 @@ class EContractDocumentState(BaseDocumentStateMixing, EContractState):
             data.get("title") == "sign.p7s"
             and data.get("format") == "application/pkcs7-signature"
             and is_contract_owner(self.request, self.request.validated["contract"])
+            and tender.get("procurementMethodType") != CFA_SELECTION  # in cfa all docs should be public
             and tender.get("procuringEntity", {}).get("identifier", {}).get("id") in CONFIDENTIAL_EDRPOU_LIST
         ):
             if data["confidentiality"] != ConfidentialityTypes.BUYER_ONLY:

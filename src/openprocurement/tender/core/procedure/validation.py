@@ -20,6 +20,7 @@ from schematics.types import (
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import (
     ATC_SCHEME,
+    CONFIDENTIAL_EDRPOU_LIST,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     FUNDERS,
     GMDN_2019_SCHEME,
@@ -1656,4 +1657,29 @@ def validate_doc_type_required(documents, document_type="notice", document_of=No
             f"Document with type '{document_type}' and format pkcs7-signature is required",
             status=422,
             name="documents",
+        )
+
+
+def validate_edrpou_confidentiality_doc(doc, should_be_public=False):
+    tender = get_tender()
+    if (
+        not should_be_public
+        and doc.get("title") == "sign.p7s"
+        and doc.get("format") == "application/pkcs7-signature"
+        and doc.get("author", "tender_owner") == "tender_owner"
+        and tender.get("procuringEntity", {}).get("identifier", {}).get("id") in CONFIDENTIAL_EDRPOU_LIST
+    ):
+        if doc.get("confidentiality", ConfidentialityTypes.BUYER_ONLY) != ConfidentialityTypes.BUYER_ONLY:
+            raise_operation_error(
+                get_request(),
+                "Document should be confidential",
+                name="confidentiality",
+                status=422,
+            )
+    elif doc.get("confidentiality") == ConfidentialityTypes.BUYER_ONLY:
+        raise_operation_error(
+            get_request(),
+            "Document should be public",
+            name="confidentiality",
+            status=422,
         )

@@ -8,6 +8,9 @@ from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
+from openprocurement.tender.core.procedure.validation import (
+    validate_edrpou_confidentiality_doc,
+)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
@@ -42,6 +45,7 @@ class CancellationStateMixing:
 
         self.validate_possible_reason_types(request, tender, data)
         self.validate_cancellation_possible_statuses(request, tender, data)
+        self.validate_docs(data)
 
     def validate_cancellation_patch(self, before, after):
         request, tender = get_request(), get_tender()
@@ -56,6 +60,7 @@ class CancellationStateMixing:
 
         self.validate_possible_reason_types(request, tender, after)
         self.validate_cancellation_possible_statuses(request, tender, after)
+        self.validate_docs(after)
 
     def validate_cancellation_in_allowed_tender_status(self, request, tender, _):
         tender_status = tender.get("status")
@@ -193,6 +198,10 @@ class CancellationStateMixing:
         if before["status"] != after["status"]:
             self.cancellation_status_up(before["status"], after["status"], after)
             self.always(get_tender())
+
+    def validate_docs(self, data):
+        for doc in data.get("documents", []):
+            validate_edrpou_confidentiality_doc(doc)
 
     def cancellation_status_up(self, before, after, cancellation):
         request, tender = get_request(), get_tender()

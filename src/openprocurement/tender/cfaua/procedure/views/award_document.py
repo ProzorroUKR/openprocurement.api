@@ -10,6 +10,9 @@ from openprocurement.api.procedure.validation import (
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.cfaua.procedure.state.award_document import (
+    CFAUAAwardDocumentState,
+)
 from openprocurement.tender.cfaua.procedure.validation import (
     validate_award_document_tender_not_in_allowed_status,
 )
@@ -39,6 +42,8 @@ from openprocurement.tender.openua.procedure.validation import (
     description="Tender award documents",
 )
 class CFAUATenderAwardDocumentResource(BaseAwardDocumentResource):
+    state_class = CFAUAAwardDocumentState
+
     @json_view(
         validators=(
             unless_bots(validate_item_owner("tender")),

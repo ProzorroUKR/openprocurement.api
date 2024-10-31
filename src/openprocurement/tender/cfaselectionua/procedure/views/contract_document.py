@@ -15,6 +15,9 @@ from openprocurement.tender.cfaselectionua.procedure.models.document import (
     ContractPatchDocument,
     ContractPostDocument,
 )
+from openprocurement.tender.cfaselectionua.procedure.state.contract_document import (
+    CFASelectionContractDocumentState,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_contract_document_status,
     validate_contract_supplier,
@@ -34,6 +37,8 @@ from openprocurement.tender.core.procedure.views.contract_document import (
     description="Tender contract documents",
 )
 class CFASelectionContractDocumentResource(TenderContractDocumentResource):
+    state_class = CFASelectionContractDocumentState
+
     @json_view(
         validators=(
             validate_forbid_contract_action_after_date("contract document"),
