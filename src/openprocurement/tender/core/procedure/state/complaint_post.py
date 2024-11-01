@@ -12,6 +12,9 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after_2020_rules,
 )
+from openprocurement.tender.core.procedure.validation import (
+    validate_edrpou_confidentiality_doc,
+)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 LOGGER = getLogger(__name__)
@@ -87,3 +90,8 @@ class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
         self.validate_complaint_status(complaint)
         self.validate_complaint_post_objection(complaint, post)
         self.validate_complaint_post_review_date(complaint)
+        self.validate_docs(post)
+
+    def validate_docs(self, data):
+        for doc in data.get("documents", []):
+            validate_edrpou_confidentiality_doc(doc)
