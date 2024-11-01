@@ -1,4 +1,4 @@
-from openprocurement.contracting.core.procedure.state.document import BaseDocumentState
+from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 
 
 class CFAUAQualificationDocumentState(BaseDocumentState):
