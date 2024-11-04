@@ -23,10 +23,14 @@ class TenderQuestionStateMixin:
         self.always(get_tender())
 
     def validate_question_on_post(self, question):
-        self.validate_question_operation(get_tender(), question)
+        tender = get_tender()
+        self.validate_question_add(tender)
+        self.validate_question_operation(tender, question)
 
     def validate_question_on_patch(self, before, question):
-        self.validate_question_operation(get_tender(), question)
+        tender = get_tender()
+        self.validate_question_update(tender)
+        self.validate_question_operation(tender, question)
 
     def validate_question_accreditation_level(self):
         if not self.question_create_accreditations:
@@ -50,6 +54,32 @@ class TenderQuestionStateMixin:
             raise_operation_error(
                 get_request(),
                 "Can add/update question only in active lot status",
+            )
+
+    def validate_question_add(self, tender):
+        now = get_now().isoformat()
+        enquiry_period = tender["enquiryPeriod"]
+
+        if not enquiry_period["startDate"] <= now <= enquiry_period["endDate"]:
+            raise_operation_error(
+                get_request(),
+                "Can add question only in enquiryPeriod",
+            )
+
+    def validate_question_update(self, tender):
+        now = get_now().isoformat()
+        enquiry_period = tender["enquiryPeriod"]
+
+        if tender["status"] not in ("active.enquiries", "active.tendering"):
+            raise_operation_error(
+                get_request(),
+                "Can't update question in current ({}) tender status".format(tender["status"]),
+            )
+
+        if "clarificationsUntil" in enquiry_period and now > enquiry_period["clarificationsUntil"]:
+            raise_operation_error(
+                get_request(),
+                "Can update question only before enquiryPeriod.clarificationsUntil",
             )
 
 
