@@ -1,4 +1,3 @@
-from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
 from openprocurement.api.procedure.validation import (
@@ -31,12 +30,6 @@ from openprocurement.tender.core.procedure.views.qualification import (
 )
 
 
-@resource(
-    name="Tender Qualification Documents",
-    collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/documents",
-    path="/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}",
-    description="Tender qualification documents",
-)
 class BaseQualificationDocumentResource(BaseDocumentResource):
     item_name = "qualification"
 
