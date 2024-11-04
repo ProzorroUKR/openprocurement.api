@@ -31,6 +31,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         "active.awarded",
     )
     patch_as_complaint_owner_tender_statuses = ("active.tendering",)
+    should_validate_is_satisfied = True
 
     def claim_on_post(self, complaint):
         if complaint.get("status") == "claim":
@@ -205,9 +206,10 @@ class ClaimStateMixin(BaseComplaintStateMixin):
                 "Can update complaint only before enquiryPeriod.clarificationsUntil",
             )
 
-    @staticmethod
-    def validate_satisfied(satisfied):
-        return satisfied is True
+    def validate_satisfied(self, satisfied):
+        if self.should_validate_is_satisfied:
+            return satisfied is True
+        return isinstance(satisfied, bool)
 
 
 class TenderClaimState(ClaimStateMixin, TenderState):
