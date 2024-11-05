@@ -18,7 +18,6 @@ from openprocurement.tender.belowthreshold.procedure.views.bid import (
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
-from openprocurement.tender.core.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_not_in_tendering,
     validate_bid_operation_period,
@@ -30,6 +29,7 @@ from openprocurement.tender.pricequotation.procedure.models.bid import (
     PatchBid,
     PostBid,
 )
+from openprocurement.tender.pricequotation.procedure.state.bid import PQBidState
 
 LOGGER = getLogger(__name__)
 
@@ -42,7 +42,7 @@ LOGGER = getLogger(__name__)
     description="Tender bids",
 )
 class PQTenderBidResource(BelowThresholdTenderBidResource):
-    state_class = BidState
+    state_class = PQBidState
 
     @json_view(
         content_type="application/json",

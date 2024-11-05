@@ -2,14 +2,19 @@ from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_organization,
     test_tender_pq_requirement_response,
 )
+from openprocurement.tender.pricequotation.tests.utils import copy_tender_items
 
 
 # TenderSwitchQualificationResourceTest
 def switch_to_qualification(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     bid, token = self.create_bid(
         self.tender_id,
         {
             "tenderers": [test_tender_pq_organization],
+            "items": copy_tender_items(tender["items"]),
             "value": {"amount": 500},
             "requirementResponses": test_tender_pq_requirement_response,
         },

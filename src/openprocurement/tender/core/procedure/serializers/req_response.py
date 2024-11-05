@@ -8,7 +8,7 @@ from openprocurement.tender.core.procedure.models.req_response import (
 
 class RequirementResponseSerializer(BaseSerializer):
     def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
-        fields_from_requirement = {"unit", "classification", "title"}
+        fields_from_requirement = ("unit", "classification", "title")
         tender = kwargs["tender"]
         kwargs["requirementResponse"] = self.raw
         requirement_id = data["requirement"]["id"]

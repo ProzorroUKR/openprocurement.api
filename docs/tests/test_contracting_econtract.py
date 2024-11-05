@@ -120,7 +120,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                             "code": "KGM",
                             "value": {"amount": 8},
                         },
-                    }
+                    },
+                    {
+                        "id": tender_items[1]["id"],
+                        "description": "Комп’ютерне обладнання",
+                        "quantity": 5,
+                        "unit": {
+                            "name": "кг",
+                            "code": "KGM",
+                            "value": {"amount": 6},
+                        },
+                    },
                 ],
             },
         )
