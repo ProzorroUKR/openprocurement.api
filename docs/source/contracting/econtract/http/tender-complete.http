@@ -309,13 +309,13 @@ Content-Type: application/json
               "id": "8e2191f53baa43d48a430539f706f403",
               "title": "Доза діючої речовини"
             },
-            "classification": {
-              "scheme": " espd211",
-              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
-            },
             "unit": {
               "code": "KGM",
               "name": "кілограми"
+            },
+            "classification": {
+              "scheme": " espd211",
+              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
             }
           },
           {
@@ -349,6 +349,20 @@ Content-Type: application/json
               "code": "KGM"
             },
             "quantity": 10.0
+          },
+          {
+            "id": "c8f30df33ae14c65b38931d68e63d757",
+            "description": "Комп’ютерне обладнання",
+            "unit": {
+              "name": "кг",
+              "value": {
+                "amount": 6.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true
+              },
+              "code": "KGM"
+            },
+            "quantity": 5.0
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"

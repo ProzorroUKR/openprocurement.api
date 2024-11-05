@@ -16,7 +16,10 @@ from openprocurement.tender.pricequotation.tests.base import (
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_short_profile,
 )
-from openprocurement.tender.pricequotation.tests.utils import copy_criteria_req_id
+from openprocurement.tender.pricequotation.tests.utils import (
+    copy_criteria_req_id,
+    copy_tender_items,
+)
 
 
 def create_tender_bid_invalid(self):
@@ -274,6 +277,9 @@ def create_tender_bid(self):
     data = self.mongodb.tenders.get(self.tender_id)
     criteria = data.pop('criteria')
 
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     for status in ('draft', 'draft.publishing', 'draft.unsuccessful'):
         data['status'] = status
         self.mongodb.tenders.save(data)
@@ -283,6 +289,7 @@ def create_tender_bid(self):
             {
                 "data": {
                     "tenderers": [test_tender_pq_organization],
+                    "items": copy_tender_items(tender["items"]),
                     "value": {"amount": 500},
                     "requirementResponses": test_tender_pq_requirement_response_valid,
                 }
@@ -311,6 +318,7 @@ def create_tender_bid(self):
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": test_tender_pq_requirement_response,
                 "documents": None,
@@ -330,6 +338,7 @@ def create_tender_bid(self):
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 501},
                 "requirementResponses": test_tender_pq_requirement_response,
             }
@@ -344,6 +353,7 @@ def create_tender_bid(self):
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": test_tender_pq_requirement_response,
             }
@@ -366,6 +376,7 @@ def requirement_response_validation_multiple_criterias(self):
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": rr,
             }
@@ -729,6 +740,7 @@ def requirement_response_value_validation_for_expected_values(self):
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": rr,
             }
@@ -746,6 +758,7 @@ def requirement_response_value_validation_for_expected_values(self):
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
             }
@@ -882,6 +895,7 @@ def requirement_response_validation_one_group_multiple_requirements(self):
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": rr,
             }
@@ -892,11 +906,15 @@ def requirement_response_validation_one_group_multiple_requirements(self):
 
 
 def patch_tender_bid(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "status": "draft",
                 "value": {"amount": 500},
                 "requirementResponses": test_tender_pq_requirement_response,
@@ -1005,11 +1023,15 @@ def patch_tender_bid(self):
 
 
 def get_tender_bid(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": test_tender_pq_requirement_response,
             }
@@ -1064,11 +1086,15 @@ def get_tender_bid(self):
 
 
 def delete_tender_bid(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": test_tender_pq_requirement_response,
             }
@@ -1111,11 +1137,15 @@ def delete_tender_bid(self):
 
 
 def get_tender_tenderers(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": test_tender_pq_requirement_response,
             }
@@ -1148,11 +1178,15 @@ def get_tender_tenderers(self):
 
 
 def bid_Administrator_change(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": test_tender_pq_requirement_response,
             }
@@ -1298,10 +1332,14 @@ def create_tender_bid_document_invalid_award_status(self):
 
 
 def invalidate_not_agreement_member_bid_via_chronograph(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
+                "items": copy_tender_items(tender["items"]),
                 "tenderers": [test_tender_pq_organization],
                 "status": "draft",
                 "value": {"amount": 500},

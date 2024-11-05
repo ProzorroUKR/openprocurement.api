@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 class BidState(BaseState):
     items_unit_value_required_for_funders = False
+    check_all_exist_tender_items = False
 
     def status_up(self, before, after, data):
         if before in ("draft", "invalid") and after == "pending":
@@ -254,7 +255,10 @@ class BidState(BaseState):
                 f"Bid items ids should be on tender items ids{' for current lot' if items_for_lot else ''}",
                 status=422,
             )
-        if self.request.validated["tender"].get("funders") and tender_items_id - bid_items_id:
+
+        check_all_tender_items = self.check_all_exist_tender_items or self.request.validated["tender"].get("funders")
+
+        if check_all_tender_items and tender_items_id - bid_items_id:
             raise_operation_error(
                 self.request,
                 f"Bid items ids should include all tender items ids{' for current lot' if items_for_lot else ''}",

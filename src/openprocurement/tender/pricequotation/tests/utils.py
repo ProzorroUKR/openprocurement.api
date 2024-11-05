@@ -22,7 +22,7 @@ def copy_criteria_req_id(criteria, responses):
 
 def copy_tender_items(tender_items):
     copy_fields = ["id", "description", "unit", "quantity"]
-    return [{k: item[k] for k in copy_fields} for item in tender_items]
+    return [{k: item[k] for k in copy_fields if item.get(k)} for item in tender_items]
 
 
 def activate_econtract(self, contract_id, tender_token, bid_token):

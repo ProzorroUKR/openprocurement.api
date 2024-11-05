@@ -6,6 +6,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.pricequotation.tests.utils import copy_tender_items
 
 # TenderBidResourceTest
 
@@ -2357,8 +2358,11 @@ def create_tender_bid_with_document(self):
     ]
     docs_container = self.docs_container if hasattr(self, "docs_container") else "documents"
     docs_container_url = self.docs_container_url if hasattr(self, "docs_container_url") else "documents"
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
     bid_data = deepcopy(self.bid_data_wo_docs)
     bid_data[docs_container] = docs
+    bid_data["items"] = copy_tender_items(tender["items"])
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2483,6 +2487,10 @@ def create_tender_bid_with_documents(self):
     docs_container_url = self.docs_container_url if hasattr(self, "docs_container_url") else "documents"
     bid_data = deepcopy(self.bid_data_wo_docs)
     bid_data[docs_container] = docs
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
+    bid_data["items"] = copy_tender_items(tender["items"])
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

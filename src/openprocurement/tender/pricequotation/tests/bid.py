@@ -46,7 +46,10 @@ from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_criteria_3,
     test_tender_pq_criteria_4,
 )
-from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
+from openprocurement.tender.pricequotation.tests.utils import (
+    copy_tender_items,
+    criteria_drop_uuids,
+)
 
 
 @patch(
@@ -117,12 +120,15 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         # Create bid
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        bid_items = copy_tender_items(response.json["data"]["items"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {
                 "data": {
                     "tenderers": [test_tender_pq_organization],
                     "value": {"amount": 500},
+                    "items": bid_items,
                     "requirementResponses": test_tender_pq_requirement_response,
                 }
             },
