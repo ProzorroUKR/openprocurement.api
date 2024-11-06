@@ -74,9 +74,9 @@ OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "dele
 
 def validate_item_operation_in_disallowed_tender_statuses(item_name, allowed_statuses):
     """
-    Factory disallowed any operation in specified statuses
+    Factory sallowed operation in specified statuses
     :param item_name: str
-    :param not_allowed_statuses: list
+    :param allowed_statuses: list
     :return:
     """
 
@@ -753,35 +753,48 @@ def validate_tender_change_status_with_cancellation_lot_pending(request, **_):
 
 
 # tender documents
-def validate_document_operation_in_not_allowed_period(request, **_):
-    tender_status = request.validated["tender"]["status"]
-    if isinstance(request.validated["data"], list):
-        not_sign_docs = any(
-            [doc for doc in request.validated["data"] if doc.get("documentType") != "evaluationReports"]
-        )
-    else:
-        not_sign_docs = request.validated["data"].get("documentType") != "evaluationReports"
-    if (
-        request.authenticated_role != "auction"
-        and (
-            tender_status
-            not in (
-                "draft",
-                "draft.stage2",  # competitive dialogue
-                "draft.pending",  # cfaselectionua
-                "active.enquiries",
-                "active.tendering",
-                "active.pre-qualification",
+def validate_document_operation_in_allowed_tender_statuses(allowed_statuses):
+    """
+    Factory allowed operation in specified statuses
+    :param allowed_statuses: list
+    :return:
+    """
+
+    def validate(request, **_):
+        valid_statuses = list(allowed_statuses)
+
+        if request.authenticated_role == "auction":
+            valid_statuses = [
+                "active.auction",
+                "active.qualification",
+            ]
+        else:
+            data = request.validated["data"]
+            documents = data if isinstance(data, list) else [data]
+
+            # Check if all documents are evaluation reports (sign docs)
+            if all(doc.get("documentType") == "evaluationReports" for doc in documents):
+                # If it's only sign docs, then we can allow operation in pre-qualification status
+                valid_statuses.append("active.pre-qualification")
+
+        tender_status = request.validated["tender"]["status"]
+        if tender_status not in valid_statuses:
+            raise_operation_error(
+                request,
+                f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
             )
-            or (tender_status == "active.pre-qualification" and not_sign_docs)
-        )
-        or request.authenticated_role == "auction"
-        and tender_status not in ("active.auction", "active.qualification")
-    ):
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
-        )
+
+    return validate
+
+
+validate_tender_document_operation_in_allowed_tender_statuses = validate_document_operation_in_allowed_tender_statuses(
+    (
+        "draft",
+        "draft.stage2",  # competitive dialogue
+        "active.enquiries",
+        "active.tendering",
+    )
+)
 
 
 def get_tender_document_role(request):
