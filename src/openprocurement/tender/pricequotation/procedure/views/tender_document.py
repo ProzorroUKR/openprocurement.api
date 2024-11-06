@@ -16,15 +16,13 @@ from openprocurement.tender.core.procedure.models.document import (
 )
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
+    validate_document_operation_in_not_allowed_period,
     validate_tender_document_update_not_by_author_or_tender_owner,
 )
 from openprocurement.tender.core.procedure.views.tender_document import (
     TenderDocumentResource,
 )
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.pricequotation.procedure.validation import (
-    validate_document_operation_in_not_allowed_period,
-)
 
 
 @resource(

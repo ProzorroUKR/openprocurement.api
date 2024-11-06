@@ -682,7 +682,6 @@ class TenderDetailsMixing(TenderConfigMixin):
 
     def initialize_enquiry_period(self, tender):
         if self.should_initialize_enquiry_period:
-
             if not self.enquiry_before_tendering:
                 tender["enquiryPeriod"] = tender.get("enquiryPeriod") or {}
                 tender["enquiryPeriod"]["startDate"] = tender["tenderPeriod"]["startDate"]

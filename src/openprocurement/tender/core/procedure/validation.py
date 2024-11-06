@@ -766,9 +766,11 @@ def validate_document_operation_in_not_allowed_period(request, **_):
         and (
             tender_status
             not in (
-                "active.tendering",
                 "draft",
-                "draft.stage2",
+                "draft.stage2",  # competitive dialogue
+                "draft.pending",  # cfaselectionua
+                "active.enquiries",
+                "active.tendering",
                 "active.pre-qualification",
             )
             or (tender_status == "active.pre-qualification" and not_sign_docs)
