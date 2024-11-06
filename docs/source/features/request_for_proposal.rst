@@ -18,6 +18,7 @@ requestForProposal
    1. Створити модуль openprocurement.framework.rfp (**requestForProposal**) аналогічний до openprocurement.framework.dps (**dynamicPurchasingSystem**)
    2. Створити нову схему конфігурації для openprocurement.framework.rfp **requestForProposal**
       https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/FrameworkConfig
+   3. Додати документацію для openprocurement.framework.rfp (**requestForProposal**)
 
 Тендер
 ~~~~~~
@@ -43,6 +44,7 @@ requestForProposal
    3. Створити нову схему конфігурації для openprocurement.tender.rfp (**requestForProposal**)
       https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/TenderConfig
    4. Пересвідчитись в роботі hasPreSelectionAgreement конфігурації в openprocurement.tender.rfp (**requestForProposal**) або допрацювати/реалізувати її
+   5. Додати документацію для openprocurement.tender.rfp (**requestForProposal**)
 
 3. Вимкнути в openprocurement.tender.belowthreshold (**belowThreshold**) функціональність що не відповідає новим вимогам цього типу процедури
 

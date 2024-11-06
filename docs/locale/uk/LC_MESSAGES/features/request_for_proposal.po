@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 02:51+0300\n"
+"POT-Creation-Date: 2024-11-06 15:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -41,6 +41,9 @@ msgid "Створити модуль openprocurement.framework.rfp (**requestFor
 msgstr ""
 
 msgid "Створити нову схему конфігурації для openprocurement.framework.rfp **requestForProposal** https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/FrameworkConfig"
+msgstr ""
+
+msgid "Додати документацію для openprocurement.framework.rfp (**requestForProposal**)"
 msgstr ""
 
 msgid "Тендер"
@@ -89,6 +92,9 @@ msgid "Створити нову схему конфігурації для open
 msgstr ""
 
 msgid "Пересвідчитись в роботі hasPreSelectionAgreement конфігурації в openprocurement.tender.rfp (**requestForProposal**) або допрацювати/реалізувати її"
+msgstr ""
+
+msgid "Додати документацію для openprocurement.tender.rfp (**requestForProposal**)"
 msgstr ""
 
 msgid "Вимкнути в openprocurement.tender.belowthreshold (**belowThreshold**) функціональність що не відповідає новим вимогам цього типу процедури"
