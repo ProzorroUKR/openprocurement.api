@@ -19,10 +19,8 @@ from openprocurement.contracting.econtract.procedure.models.contract import (
     PostContract,
     Supplier,
 )
-from openprocurement.tender.belowthreshold.procedure.utils import (
-    prepare_tender_item_for_contract,
-)
 from openprocurement.tender.core.procedure.context import get_award, get_request
+from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
 
 LOGGER = getLogger(__name__)
 

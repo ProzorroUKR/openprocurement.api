@@ -3,10 +3,8 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.procedure.utils import (
-    prepare_tender_item_for_contract,
-)
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
+from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
 
 
 def patch_tender_multi_contracts(self):
