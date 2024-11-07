@@ -9,9 +9,8 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.belowthreshold.procedure.models.award import Award
 from openprocurement.tender.belowthreshold.procedure.state.award import AwardState
-from openprocurement.tender.core.procedure.models.award import PatchAward
+from openprocurement.tender.core.procedure.models.award import Award, PatchAward
 from openprocurement.tender.core.procedure.validation import (
     validate_update_award_in_not_allowed_status,
     validate_update_award_only_for_active_lots,

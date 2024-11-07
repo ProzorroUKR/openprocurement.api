@@ -7,15 +7,15 @@ from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.tender.core.procedure.models.bid import Bid as BaseBid
 from openprocurement.tender.core.procedure.models.bid import PatchBid as BasePatchBid
 from openprocurement.tender.core.procedure.models.bid import PostBid as BasePostBid
+from openprocurement.tender.core.procedure.models.lot_value import (
+    LotValue,
+    PostLotValue,
+)
 from openprocurement.tender.core.procedure.models.parameter import (
     Parameter,
     PatchParameter,
 )
 from openprocurement.tender.core.procedure.validation import validate_bid_value
-from openprocurement.tender.openua.procedure.models.lot_value import (
-    LotValue,
-    PostLotValue,
-)
 
 
 class PostBid(BasePostBid):

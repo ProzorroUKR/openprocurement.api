@@ -10,13 +10,4 @@ STATUS4ROLE = {
     "reviewers": ["pending"],
     "tender_owner": ["claim"],
 }
-BELOW_THRESHOLD_KINDS = (
-    "authority",
-    "central",
-    "defense",
-    "general",
-    "other",
-    "social",
-    "special",
-)
 TENDERING_EXTRA_PERIOD = timedelta(days=2)
