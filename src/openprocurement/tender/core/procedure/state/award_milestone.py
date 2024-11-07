@@ -32,13 +32,26 @@ class AwardMilestoneState(QualificationMilestoneState):
                 name=f"{context_name}s",
             )
         if milestone["code"] == AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value:
-            parent_period_start_date = dt_from_iso(parent["period"]["startDate"])
-            parent["period"]["endDate"] = milestone["dueDate"] = calculate_tender_full_date(
-                parent_period_start_date,
-                timedelta(days=20),
-                tender=get_tender(),
-                working_days=True,
-            ).isoformat()
+            if parent.get("period"):
+                parent_period_start_date = dt_from_iso(parent["period"]["startDate"])
+                parent["period"]["endDate"] = milestone["dueDate"] = calculate_tender_full_date(
+                    parent_period_start_date,
+                    timedelta(days=20),
+                    tender=get_tender(),
+                    working_days=True,
+                ).isoformat()
+            else:
+                raise_operation_error(
+                    get_request(),
+                    [
+                        {
+                            "milestones": [
+                                f"Forbidden to add milestone with code {milestone['code']} for award without period"
+                            ]
+                        }
+                    ],
+                    name=f"{context_name}s",
+                )
 
 
 class AwardExtensionMilestoneState(AwardMilestoneState):
