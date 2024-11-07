@@ -28,6 +28,7 @@ from openprocurement.api.procedure.utils import is_obj_const_active
 from openprocurement.tender.core.procedure.models.address import Address
 from openprocurement.tender.core.procedure.models.unit import Unit
 from openprocurement.tender.core.procedure.validation import (
+    validate_ccce_ua,
     validate_gmdn,
     validate_ua_road,
 )
@@ -55,7 +56,7 @@ class BaseItem(Model):
 
 class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     deliveryDate = ModelType(Period)
     deliveryAddress = ModelType(Address)
     deliveryLocation = ModelType(Location)
@@ -74,6 +75,7 @@ class Item(BaseItem):
             classification_id = data["classification"]["id"]
             validate_ua_road(classification_id, items)
             validate_gmdn(classification_id, items)
+            validate_ccce_ua(items)
 
 
 class TechFeatureItem(TechFeatureItemMixin, Item):

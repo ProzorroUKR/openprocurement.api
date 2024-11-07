@@ -50,6 +50,7 @@ from openprocurement.planning.api.procedure.models.project import Project
 from openprocurement.planning.api.procedure.models.rationale import RationaleObject
 from openprocurement.planning.api.procedure.models.tender import Tender
 from openprocurement.planning.api.utils import generate_plan_id
+from openprocurement.tender.core.procedure.validation import validate_ccce_ua
 
 
 class PostPlan(Model):
@@ -70,7 +71,7 @@ class PostPlan(Model):
     tender = ModelType(Tender, required=True)
     budget = ModelType(Budget)
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     tender_id = MD5Type()
     mode = StringType(choices=["test"])
     items = ListType(ModelType(Item, required=True), validators=[validate_items_uniq])
@@ -92,6 +93,10 @@ class PostPlan(Model):
     def validate_buyers(self, plan, buyers):
         validate_buyers(plan, buyers)
 
+    def validate_additionalClassifications(self, plan, classifications):
+        if classifications is not None:
+            validate_ccce_ua(classifications)
+
 
 class PatchPlan(Model):
     status = StringType(choices=["draft", "scheduled", "cancelled", "complete"])
@@ -99,7 +104,7 @@ class PatchPlan(Model):
     tender = ModelType(Tender)
     budget = ModelType(Budget)
     classification = ModelType(CPVClassification)
-    additionalClassifications = ListType(ModelType(AdditionalClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     tender_id = MD5Type()
     mode = StringType(choices=["test"])
     items = ListType(ModelType(Item, required=True), validators=[validate_items_uniq])
@@ -157,6 +162,10 @@ class Plan(Model):
 
     def validate_buyers(self, plan, buyers):
         validate_buyers(plan, buyers)
+
+    def validate_additionalClassifications(self, plan, classifications):
+        if classifications is not None:
+            validate_ccce_ua(classifications)
 
 
 def validate_buyers(plan, buyers):

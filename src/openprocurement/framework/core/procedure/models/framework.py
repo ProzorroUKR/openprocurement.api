@@ -5,7 +5,12 @@ from schematics.types import BaseType, BooleanType, IntType, MD5Type, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.constants import DK_CODES, SANDBOX_MODE
+from openprocurement.api.constants import (
+    CCCE_UA,
+    CCCE_UA_SCHEME,
+    DK_CODES,
+    SANDBOX_MODE,
+)
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model, RootModel
 from openprocurement.api.procedure.models.item import (
@@ -23,6 +28,7 @@ from openprocurement.framework.core.procedure.models.document import (
 from openprocurement.framework.core.procedure.models.question import Question
 from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.tender.core.procedure.validation import validate_ccce_ua
 
 
 class DKClassification(BaseClassification):
@@ -32,6 +38,12 @@ class DKClassification(BaseClassification):
     def validate_id(self, data, id):
         if id not in DK_CODES:
             raise ValidationError(BaseType.MESSAGES["choices"].format(DK_CODES))
+
+
+class AdditionalClassification(BaseClassification):
+    def validate_id(self, data, value):
+        if data["scheme"] == CCCE_UA_SCHEME and value not in CCCE_UA:
+            raise ValidationError(f"{CCCE_UA_SCHEME} id not found in standards")
 
 
 class EnquiryPeriod(PeriodEndRequired):
@@ -64,13 +76,17 @@ class PostFramework(Model):
     qualificationPeriod = ModelType(PeriodEndRequired, required=True)
     procuringEntity = ModelType(BaseOrganization, required=True)
     classification = ModelType(DKClassification, required=True)
-    additionalClassifications = ListType(ModelType(BaseClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     documents = ListType(ModelType(PostDocument, required=True), default=[])
     agreementID = StringType()
 
     def validate_frameworkDetails(self, *args, **kw):
         if self.mode == "test" and self.frameworkDetails and self.frameworkDetails != "":
             raise ValidationError("frameworkDetails should be used with mode test")
+
+    def validate_additionalClassifications(self, framework, classifications):
+        if classifications is not None:
+            validate_ccce_ua(classifications)
 
 
 class PatchFramework(Model):
@@ -90,7 +106,7 @@ class PatchFramework(Model):
     qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
     classification = ModelType(DKClassification)
-    additionalClassifications = ListType(ModelType(BaseClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification))
     documents = ListType(ModelType(PostDocument))
     agreementID = StringType()
 
@@ -118,7 +134,7 @@ class Framework(RootModel):
         frameworkDetails = StringType()
     procuringEntity = ModelType(BaseOrganization, required=True)
     classification = ModelType(DKClassification, required=True)
-    additionalClassifications = ListType(ModelType(BaseClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     documents = ListType(ModelType(Document, required=True), default=[])
     agreementID = StringType()
     questions = ListType(ModelType(Question, required=True))
@@ -140,6 +156,10 @@ class Framework(RootModel):
     revisions = BaseType()
     next_check = BaseType()
     config = BaseType()
+
+    def validate_additionalClassifications(self, framework, classifications):
+        if classifications is not None:
+            validate_ccce_ua(classifications)
 
 
 class FrameworkChronographData(Model):

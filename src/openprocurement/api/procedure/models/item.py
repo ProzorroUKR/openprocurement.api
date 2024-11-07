@@ -6,6 +6,8 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.constants import (
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
+    CCCE_UA,
+    CCCE_UA_SCHEME,
     CPV_CODES,
     CPV_NOT_CPV,
     DK_CODES,
@@ -48,6 +50,8 @@ class AdditionalClassification(Classification):
             raise ValidationError(f"{GMDN_2019_SCHEME} id not found in standards")
         if data["scheme"] == GMDN_2023_SCHEME and value not in GMDN_2023:
             raise ValidationError(f"{GMDN_2023_SCHEME} id not found in standards")
+        if data["scheme"] == CCCE_UA_SCHEME and value not in CCCE_UA:
+            raise ValidationError(f"{CCCE_UA_SCHEME} id not found in standards")
 
     def validate_description(self, data, value):
         if data["scheme"] == UA_ROAD_SCHEME and UA_ROAD.get(data["id"]) != value:
@@ -93,7 +97,7 @@ class Item(Model):
     description_en = StringType()
     description_ru = StringType()
     classification = ModelType(CPVClassification)
-    additionalClassifications = ListType(ModelType(AdditionalClassification), default=[])
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
     quantity = FloatType(min_value=0)  # The number of units required
     deliveryLocation = ModelType(Location)
     relatedLot = MD5Type()

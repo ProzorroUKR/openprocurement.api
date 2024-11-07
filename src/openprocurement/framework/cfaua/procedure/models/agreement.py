@@ -87,7 +87,7 @@ class Feature(Model):
 
 class Item(TechFeatureItemMixin, BaseItem):
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification, default=[]))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
     description_en = StringType(required=True, min_length=1)
     deliveryDate = ModelType(PeriodEndRequired, required=True)
     deliveryAddress = ModelType(Address, required=True)
