@@ -15,6 +15,7 @@ class PostLotValue(Model):
     status = StringType(choices=["pending"], default="pending", required=True)
     value = ModelType(Value, required=True)
     relatedLot = MD5Type(required=True)
+    subcontractingDetails = StringType()
 
     def validate_value(self, data, value):
         validate_lotvalue_value(get_tender(), data["relatedLot"], value)

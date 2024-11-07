@@ -1,4 +1,4 @@
-from schematics.types import BooleanType, StringType
+from schematics.types import BooleanType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.context import get_tender
@@ -30,7 +30,6 @@ from openprocurement.tender.open.procedure.models.lot_value import (
 class PatchBid(BasePatchBid, PatchObjResponsesMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(choices=[True])
-    subcontractingDetails = StringType()
     lotValues = ListType(ModelType(LotValue, required=True))
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
 
@@ -38,7 +37,6 @@ class PatchBid(BasePatchBid, PatchObjResponsesMixin):
 class PostBid(BasePostBid, PostBidResponsesMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(required=True, choices=[True])
-    subcontractingDetails = StringType()
     lotValues = ListType(ModelType(PostLotValue, required=True))
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
 
@@ -50,7 +48,6 @@ class PostBid(BasePostBid, PostBidResponsesMixin):
 class Bid(BaseBid, PostBidResponsesTempMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(required=True, choices=[True])
-    subcontractingDetails = StringType()
     lotValues = ListType(ModelType(LotValue, required=True))
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
 

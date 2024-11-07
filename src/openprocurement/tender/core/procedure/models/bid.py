@@ -49,6 +49,7 @@ class PatchBid(BaseBid):
             "deleted",
         ],
     )
+    subcontractingDetails = StringType()
 
 
 class PatchLocalizationBid(PatchBid):
@@ -87,6 +88,7 @@ class CommonBid(BaseBid):
         ],
         required=True,
     )
+    subcontractingDetails = StringType()
 
     def validate_value(self, data, value):
         tender = get_tender()
