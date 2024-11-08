@@ -98,6 +98,8 @@ Schema
     
     * `complaints` - **Complaints and decisions**
 
+    * `extensionReport` - **Eprotocol for period extension**
+
     
     Possible values for :ref:`contract`
     
