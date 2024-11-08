@@ -45,6 +45,7 @@ from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
+from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,
@@ -77,6 +78,7 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
 
 class TenderConfigMixin:
@@ -349,6 +351,7 @@ class TenderDetailsMixing(TenderConfigMixin):
             tender_agreement_type_mapping = {
                 COMPETITIVE_ORDERING: DPS_TYPE,
                 PQ: ELECTRONIC_CATALOGUE_TYPE,
+                REQUEST_FOR_PROPOSAL: IFI_TYPE,
             }
 
             if tender_agreement_type_mapping[tender["procurementMethodType"]] != agreement["agreementType"]:

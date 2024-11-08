@@ -288,7 +288,7 @@ def patch_tender_with_review_request(self):
                 "description": "Updated description",
                 "tenderPeriod": {
                     "startDate": (get_now() + timedelta(days=10)).isoformat(),
-                    "endDate": (get_now() + timedelta(days=16)).isoformat(),
+                    "endDate": (get_now() + timedelta(days=17)).isoformat(),
                 },
             }
         },
@@ -312,7 +312,7 @@ def patch_tender_with_review_request(self):
             "data": {
                 "tenderPeriod": {
                     "startDate": (get_now() + timedelta(days=10)).isoformat(),
-                    "endDate": (get_now() + timedelta(days=16)).isoformat(),
+                    "endDate": (get_now() + timedelta(days=17)).isoformat(),
                 }
             }
         },

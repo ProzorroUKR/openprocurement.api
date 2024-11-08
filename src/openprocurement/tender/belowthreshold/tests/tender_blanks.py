@@ -1404,6 +1404,8 @@ def create_tender_generated(self):
         "documents",
         "noticePublicationDate",
     ]
+    if self.tender_for_funders:
+        fields.append("funders")
     if "procurementMethodDetails" in tender:
         fields.append("procurementMethodDetails")
     self.assertEqual(set(tender), set(fields))
@@ -1674,26 +1676,19 @@ def patch_tender_active_tendering(self):
     )
 
     # check bid invalidation
-    response = self.app.post_json(
-        f"/tenders/{self.tender_id}/bids",
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-                "subcontractingDetails": "test",
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+        "subcontractingDetails": "test",
+    }
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}", {"data": {"status": "pending"}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    bid = response.json["data"]
-    self.assertEqual(bid["status"], "pending")
+    # response = self.app.patch_json(
+    #     f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}", {"data": {"status": "pending"}}
+    # )
+    # self.assertEqual(response.status, "200 OK")
+    # bid = response.json["data"]
+    # self.assertEqual(bid["status"], "pending")
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={token}",

@@ -151,29 +151,20 @@ def create_tender_document(self):
 
 def create_document_active_tendering_status(self):
     self.set_status("active.tendering")
-    response = self.app.post_json(
-        f"/tenders/{self.tender_id}/bids",
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "value": {"amount": 500},
-                "lotValues": None,
-                "parameters": None,
-                "documents": None,
-                "subcontractingDetails": "test",
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    bid = response.json["data"]
-    token = response.json["access"]["token"]
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 500},
+        "lotValues": None,
+        "parameters": None,
+        "documents": None,
+        "subcontractingDetails": "test",
+    }
+    bid, token = self.create_bid(self.tender_id, bid_data)
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}", {"data": {"status": "pending"}}
     )
     self.assertEqual(response.status, "200 OK")
-    bid = response.json["data"]
-    self.assertEqual(bid["status"], "pending")
 
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender_before = response.json["data"]

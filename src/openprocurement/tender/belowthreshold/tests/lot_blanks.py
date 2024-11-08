@@ -1232,19 +1232,11 @@ def create_tender_bid_invalid(self):
 
 def patch_tender_bid(self):
     lot_id = self.initial_lots[0]["id"]
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id, "subcontractingDetails": "test"}],
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    token = response.json["access"]["token"]
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id, "subcontractingDetails": "test"}],
+    }
+    bid, token = self.create_bid(self.tender_id, bid_data)
     lot_values = bid["lotValues"]
     lot = lot_values[0]
 
@@ -1536,26 +1528,18 @@ def create_tender_bid_invalid_feature(self):
 
 def create_tender_bid_feature(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
-    response = self.app.post_json(
-        request_path,
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.lot_id}],
-                "parameters": [
-                    {"code": "code_item", "value": 0.01},
-                    {"code": "code_tenderer", "value": 0.01},
-                    {"code": "code_lot", "value": 0.01},
-                ],
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.lot_id}],
+        "parameters": [
+            {"code": "code_item", "value": 0.01},
+            {"code": "code_tenderer", "value": 0.01},
+            {"code": "code_lot", "value": 0.01},
+        ],
+    }
+    bid, _ = self.create_bid(self.tender_id, bid_data)
     self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
     self.assertIn("id", bid)
-    self.assertIn(bid["id"], response.headers["Location"])
 
     self.set_status("complete")
 
@@ -2014,16 +1998,11 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     # for first lot
     lot_id = lots[0]
     # create bid #2 for 1 lot
-    self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
-            }
-        },
-    )
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+    }
+    self.create_bid(self.tender_id, bid_data)
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
     cancellation = deepcopy(test_tender_below_cancellation)

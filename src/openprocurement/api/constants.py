@@ -27,6 +27,7 @@ GUARANTEE_ALLOWED_TENDER_TYPES = (
     "aboveThresholdEU",
     "esco",
     "priceQuotation",
+    "requestForProposal",
 )
 
 WORKING_DAYS = {}
@@ -111,6 +112,7 @@ TENDER_CONFIG_JSONSCHEMAS = {
     "priceQuotation": standards.load("data_model/schema/TenderConfig/priceQuotation.json"),
     "reporting": standards.load("data_model/schema/TenderConfig/reporting.json"),
     "simple.defense": standards.load("data_model/schema/TenderConfig/simple.defense.json"),
+    "requestForProposal": standards.load("data_model/schema/TenderConfig/requestForProposal.json"),
 }
 
 FRAMEWORK_CONFIG_JSONSCHEMAS = {

@@ -18,6 +18,7 @@ class CancellationBlockMixing:
         if tender["procurementMethodType"] in (
             "belowThreshold",
             "closeFrameworkAgreementSelectionUA",
+            "requestForProposal",
         ):
             return False
 
