@@ -40,6 +40,7 @@ from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
+from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,
@@ -192,7 +193,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     tender_complain_regulation_working_days = False
     enquiry_before_tendering = False
     should_validate_related_lot_in_items = True
-    agreement_allowed_types = []
+    agreement_allowed_types = [IFI_TYPE]
     agreement_with_items_forbidden = False
     agreement_without_items_forbidden = False
     items_profile_required = False

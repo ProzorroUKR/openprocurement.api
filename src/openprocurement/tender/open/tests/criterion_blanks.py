@@ -759,7 +759,7 @@ def create_rg_requirement_invalid(self):
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender_type = response.json["data"]["procurementMethodType"]
-    if tender_type not in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
+    if tender_type not in ("belowThreshold", "closeFrameworkAgreementSelectionUA", "requestForProposal"):
         response = self.app.post_json(exclusion_request_path, {"data": requirement_data}, status=403)
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")

@@ -21,6 +21,7 @@ from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
 from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
 from openprocurement.tender.pricequotation.constants import PQ as PRICEQUOTATION
+from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 
 PROCUREMENT_METHOD_SELECTIVE = "selective"
@@ -69,6 +70,7 @@ FIRST_STAGE_PROCUREMENT_TYPES = {
     ABOVE_THRESHOLD_UA_DEFENSE,
     SIMPLE_DEFENSE,
     PRICEQUOTATION,
+    REQUEST_FOR_PROPOSAL,
 }
 
 CRITERION_LIFE_CYCLE_COST_IDS = [
