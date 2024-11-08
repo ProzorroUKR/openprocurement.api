@@ -86,10 +86,8 @@ class CreateBidMixin:
         bid_data = self.test_bids_data[0].copy()
         bid_data["status"] = self.base_bid_status
         set_bid_items(self, bid_data)
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
-        bid = response.json["data"]
+        bid, self.bid_token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
 
 
 class TenderBidResourceTestMixin:

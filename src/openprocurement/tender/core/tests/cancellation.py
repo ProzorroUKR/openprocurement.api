@@ -29,6 +29,7 @@ def activate_cancellation_after_2020_04_19(self, cancellation_id, tender_id=None
         "negotiation",
         "negotiation.quick",
         "competitiveOrdering",
+        "requestForProposal",
     ]
     tender_type = tender["procurementMethodType"]
 

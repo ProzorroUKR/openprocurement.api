@@ -16,6 +16,10 @@ from openprocurement.tender.core.procedure.models.document import PostDocument
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.item import TechFeatureItem as Item
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
+from openprocurement.tender.core.procedure.models.lot import (
+    PatchTenderLot,
+    validate_lots_uniq,
+)
 from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.period import (
@@ -113,6 +117,7 @@ class PatchActiveTender(Model):
     description_en = StringType()
     description_ru = StringType()
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
 
 class PatchDraftTender(PatchTender):

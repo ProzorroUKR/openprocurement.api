@@ -1379,6 +1379,8 @@ def create_tender_generated(self):
         "documents",
         "noticePublicationDate",
     ]
+    if self.tender_for_funders:
+        fields.append("funders")
     if "procurementMethodDetails" in tender:
         fields.append("procurementMethodDetails")
     self.assertEqual(set(tender), set(fields))

@@ -44,12 +44,12 @@ class Qualification(ObjResponseMixin, PatchQualification, QualificationMilestone
     @staticmethod
     def should_be_qualified():
         # TODO: find a way to determine, not based on procurementMethodType
-        return get_tender()["procurementMethodType"] != "belowThreshold"
+        return get_tender()["procurementMethodType"] not in ("belowThreshold", "requestForProposal")
 
     @staticmethod
     def should_be_eligible():
         # TODO: find a way to determine, not based on procurementMethodType
-        return get_tender()["procurementMethodType"] != "belowThreshold"
+        return get_tender()["procurementMethodType"] not in ("belowThreshold", "requestForProposal")
 
     @serializable(serialized_name="qualified", serialize_when_none=False)
     def default_qualified(self):
