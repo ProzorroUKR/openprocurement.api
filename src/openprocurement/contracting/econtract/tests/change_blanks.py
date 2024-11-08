@@ -2,6 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
+from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
 from openprocurement.contracting.econtract.tests.data import test_signer_info
 from openprocurement.contracting.econtract.tests.utils import create_contract
 
@@ -212,13 +213,7 @@ def create_change(self):
             {
                 "location": "body",
                 "name": "rationaleTypes",
-                "description": [
-                    [
-                        "Value must be one of ('durationExtension', 'fiscalYearExtension', 'itemPriceVariation', "
-                        "'itemPriceChange', 'priceReduction', 'priceReductionWithoutQuantity', 'qualityImprovement', "
-                        "'taxRate', 'taxationSystem', 'thirdParty', 'externalIndicators', 'volumeCuts')."
-                    ]
-                ],
+                "description": [[f"Value must be one of {RATIONALE_TYPES}."]],
             }
         ],
     )
@@ -314,13 +309,7 @@ def patch_change(self):
             {
                 "location": "body",
                 "name": "rationaleTypes",
-                "description": [
-                    [
-                        "Value must be one of ('durationExtension', 'fiscalYearExtension', 'itemPriceVariation', "
-                        "'itemPriceChange', 'priceReduction', 'priceReductionWithoutQuantity', 'qualityImprovement', "
-                        "'taxRate', 'taxationSystem', 'thirdParty', 'externalIndicators', 'volumeCuts')."
-                    ]
-                ],
+                "description": [[f"Value must be one of {RATIONALE_TYPES}."]],
             }
         ],
     )
