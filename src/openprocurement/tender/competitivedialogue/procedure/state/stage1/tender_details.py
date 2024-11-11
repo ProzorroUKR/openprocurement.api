@@ -27,6 +27,7 @@ class CDStage1TenderDetailsState(OpenEUTenderDetailsMixing, CDStage1TenderState)
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
         "CRITERION.OTHER.BID.LANGUAGE",
     }
+    article_16_criteria_required = True
 
     should_validate_notice_doc_required = False
 

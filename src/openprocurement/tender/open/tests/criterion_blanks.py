@@ -2,10 +2,12 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
 
+from openprocurement.api.constants import ARTICLE_16
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_criteria
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
+    test_article_16_criteria,
     test_exclusion_criteria,
     test_language_criteria,
     test_lcc_lot_criteria,
@@ -478,8 +480,17 @@ def activate_tender(self):
 
     # If there are required criteria
     if self.required_criteria:
-        test_criteria = get_criteria_by_ids(test_exclusion_criteria + test_language_criteria, self.required_criteria)
+        doc = self.mongodb.tenders.get(self.tender_id)
+        doc["mainProcurementCategory"] = "services"
+        self.mongodb.tenders.save(doc)
 
+        criteria_ids = self.required_criteria.union(
+            {"CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"}
+        )
+        test_criteria = get_criteria_by_ids(
+            test_exclusion_criteria + test_language_criteria + test_article_16_criteria,
+            criteria_ids,
+        )
         # Try to activate without criteria
         response = self.app.patch_json(
             request_path,
@@ -506,7 +517,7 @@ def activate_tender(self):
         # Add required criteria (except one)
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_criteria[:-1]},
+            {"data": test_criteria[:-2]},
         )
 
         self.assertEqual(response.status, "201 Created")
@@ -575,7 +586,33 @@ def activate_tender(self):
             ],
         )
 
-        # Add missing criteria
+        # Add missing required criteria
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_criteria[-2:-1]},
+        )
+
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+
+        response = self.app.patch_json(
+            request_path,
+            {"data": {"status": self.primary_tender_status}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertIn("errors", response.json)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    'description': (f"Tender must contain one of ARTICLE_16 criteria: {', '.join(sorted(ARTICLE_16))}"),
+                    'location': 'body',
+                    'name': 'data',
+                }
+            ],
+        )
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": test_criteria[-1:]},
@@ -591,7 +628,10 @@ def activate_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
-    self.assertEqual(len(response.json["data"].get("criteria", [])), len(self.required_criteria))
+    self.assertEqual(
+        len(response.json["data"].get("criteria", [])),
+        len(self.required_criteria) + 1 if self.required_criteria else 0,  # plus article 16
+    )
 
 
 def create_criteria_rg(self):

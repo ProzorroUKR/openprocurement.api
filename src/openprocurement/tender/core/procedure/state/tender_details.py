@@ -7,7 +7,9 @@ from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
 from openprocurement.api.constants import (
+    ARTICLE_16,
     CPV_PREFIX_LENGTH_TO_NAME,
+    CRITERIA_ARTICLE_16_REQUIRED,
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
@@ -185,6 +187,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     clarification_period_working_day = True
 
     required_criteria = ()
+    article_16_criteria_required = False
 
     enquiry_period_timedelta: timedelta
     tendering_period_extra_working_days = False
@@ -721,6 +724,20 @@ class TenderDetailsMixing(TenderConfigMixin):
             raise_operation_error(
                 get_request(),
                 f"Tender must contain all required criteria: {', '.join(sorted(cls.required_criteria))}",
+            )
+        if (
+            get_now() > CRITERIA_ARTICLE_16_REQUIRED
+            and cls.article_16_criteria_required
+            and get_tender().get("mainProcurementCategory", "services")
+            in (
+                "works",
+                "services",
+            )  # stage2 CD doesn't have this field but there are only works and services options for these procedures anyway
+            and not tender_criteria.intersection(ARTICLE_16)
+        ):
+            raise_operation_error(
+                get_request(),
+                f"Tender must contain one of ARTICLE_16 criteria: {', '.join(sorted(ARTICLE_16))}",
             )
 
     def validate_minimal_step(self, data, before=None):

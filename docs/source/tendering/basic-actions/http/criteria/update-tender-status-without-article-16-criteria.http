@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/92e26eb8f6c740bfae20555818088151?acc_token=1a57c656f3354703a2ae3bea53de34f1 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Tender must contain one of ARTICLE_16 criteria: CRITERION.SELECTION.ECONOMIC_FINANCIAL_STANDING, CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.REFERENCES.WORKS_PERFORMANCE, CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT, CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.STAFF_FOR_CARRYING_SCOPE"
+    }
+  ]
+}
+

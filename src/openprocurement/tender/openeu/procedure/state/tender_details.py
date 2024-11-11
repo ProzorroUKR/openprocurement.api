@@ -26,6 +26,7 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
         "CRITERION.OTHER.BID.LANGUAGE",
     }
+    article_16_criteria_required = True
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
 

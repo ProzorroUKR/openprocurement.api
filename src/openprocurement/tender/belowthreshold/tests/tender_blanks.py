@@ -31,6 +31,7 @@ from openprocurement.tender.belowthreshold.tests.utils import (
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
+    test_article_16_criteria,
     test_contract_guarantee_criteria,
     test_exclusion_criteria,
     test_language_criteria,
@@ -2670,7 +2671,12 @@ def guarantee(self):
         if data["procurementMethodType"] in GUARANTEE_ALLOWED_TENDER_TYPES:
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(tender["id"], token),
-                {"data": test_exclusion_criteria + test_language_criteria + test_tender_guarantee_criteria},
+                {
+                    "data": test_exclusion_criteria
+                    + test_language_criteria
+                    + test_tender_guarantee_criteria
+                    + test_article_16_criteria[:1]
+                },
                 status=201,
             )
             self.add_sign_doc(tender["id"], token)
@@ -3622,7 +3628,12 @@ def tender_with_guarantee_multilot(self):
     tender_lot_guarantee_criteria[0]["relatedItem"] = related_lot_id
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_exclusion_criteria + test_language_criteria + tender_lot_guarantee_criteria},
+        {
+            "data": test_exclusion_criteria
+            + test_language_criteria
+            + tender_lot_guarantee_criteria
+            + test_article_16_criteria[:1]
+        },
         status=201,
     )
     self.add_sign_doc(self.tender_id, self.tender_token)
@@ -3690,6 +3701,7 @@ def activate_bid_guarantee_multilot(self):
             + test_language_criteria
             + tender_lot_guarantee_criteria
             + contract_lot_guarantee_criteria
+            + test_article_16_criteria[:1]
         },
         status=201,
     )

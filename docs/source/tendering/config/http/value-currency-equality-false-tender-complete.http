@@ -488,6 +488,45 @@ Content-Type: application/json
             ]
           }
         ]
+      },
+      {
+        "id": "669cbfe875fb4141b93a5462e4de0deb",
+        "description": "Наявність в учасника процедури закупівлі обладнання, матеріально-технічної бази та технологій;",
+        "source": "tenderer",
+        "relatesTo": "tender",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+        },
+        "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+        "legislation": [
+          {
+            "version": "2021-12-16",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "16.2.1"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "id": "c217d69ba7c24e48957812d29780fe8e",
+            "description": "Підтверджується, що",
+            "requirements": [
+              {
+                "id": "268058b10a9641fd9a6055ec9c4bfeca",
+                "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+                "dataType": "boolean",
+                "status": "active",
+                "expectedValue": true,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ]
+          }
+        ]
       }
     ],
     "date": "2023-11-09T00:00:00+02:00",
@@ -820,6 +859,18 @@ Content-Type: application/json
             "classification": {
               "scheme": " ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
+            }
+          },
+          {
+            "value": true,
+            "id": "f616e87d994f4e7bbc3433c06153623e",
+            "requirement": {
+              "id": "268058b10a9641fd9a6055ec9c4bfeca",
+              "title": "Наявність обладнання, матеріально-технічної бази та технологій"
+            },
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
             }
           }
         ],

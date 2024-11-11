@@ -23,6 +23,7 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
         "CRITERION.OTHER.BID.LANGUAGE",
     }
+    article_16_criteria_required = True
 
     def on_post(self, tender):
         super().on_post(tender)

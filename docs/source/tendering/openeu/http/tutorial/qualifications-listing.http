@@ -571,6 +571,45 @@ Content-Type: application/json
             ]
           }
         ]
+      },
+      {
+        "id": "247f03bccd844938baf2a45d67ad44b6",
+        "description": "Наявність в учасника процедури закупівлі обладнання, матеріально-технічної бази та технологій;",
+        "source": "tenderer",
+        "relatesTo": "tender",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+        },
+        "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+        "legislation": [
+          {
+            "version": "2021-12-16",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "16.2.1"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "id": "5e6d07f37801411495e7670c81703586",
+            "description": "Підтверджується, що",
+            "requirements": [
+              {
+                "id": "3abb32dfa9414db19fb8725415901354",
+                "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+                "dataType": "boolean",
+                "status": "active",
+                "expectedValue": true,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ]
+          }
+        ]
       }
     ],
     "date": "2023-10-10T01:03:00+03:00",
@@ -710,6 +749,18 @@ Content-Type: application/json
             "classification": {
               "scheme": " ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
+            }
+          },
+          {
+            "value": true,
+            "id": "07199a5e04ac4a07b6214c4879236b29",
+            "requirement": {
+              "id": "3abb32dfa9414db19fb8725415901354",
+              "title": "Наявність обладнання, матеріально-технічної бази та технологій"
+            },
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
             }
           }
         ],
@@ -946,6 +997,18 @@ Content-Type: application/json
               "scheme": " ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
             }
+          },
+          {
+            "value": true,
+            "id": "2995c89227ce4f36a0d23374c9cf8d9c",
+            "requirement": {
+              "id": "3abb32dfa9414db19fb8725415901354",
+              "title": "Наявність обладнання, матеріально-технічної бази та технологій"
+            },
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+            }
           }
         ],
         "tenderers": [
@@ -1000,7 +1063,7 @@ Content-Type: application/json
         "requirementResponses": [
           {
             "value": true,
-            "id": "2995c89227ce4f36a0d23374c9cf8d9c",
+            "id": "00a8f0c9762b438cae6a9eb8c31702c9",
             "requirement": {
               "id": "7d299ee099134e6f9dbb382851651a0d",
               "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
@@ -1012,7 +1075,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "00a8f0c9762b438cae6a9eb8c31702c9",
+            "id": "2bb2e0f51a904bb9aafa6d2748a626ac",
             "requirement": {
               "id": "9a1a19dbf5c8415b9a511b65218febea",
               "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
@@ -1024,7 +1087,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "2bb2e0f51a904bb9aafa6d2748a626ac",
+            "id": "b4555a2593884aceb8e4b9684a9a555c",
             "requirement": {
               "id": "e61f538d3f81498c87c76dcf92819634",
               "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
@@ -1036,7 +1099,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "b4555a2593884aceb8e4b9684a9a555c",
+            "id": "8f22674658c64587a3fa05488850194f",
             "requirement": {
               "id": "6d970a68339643a3be92f4043739c600",
               "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
@@ -1048,7 +1111,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "8f22674658c64587a3fa05488850194f",
+            "id": "07004e9878a840df9e3fae8b80a774c2",
             "requirement": {
               "id": "f041502460f1465182eddfd2c650a813",
               "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
@@ -1060,7 +1123,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "07004e9878a840df9e3fae8b80a774c2",
+            "id": "861f23c6b94f47cab3b129c18ff76dac",
             "requirement": {
               "id": "b9a2eb0c70c642a08972c039522fcef1",
               "title": "Він не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
@@ -1072,7 +1135,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "861f23c6b94f47cab3b129c18ff76dac",
+            "id": "44a8c61826204344a6452a265493b857",
             "requirement": {
               "id": "c160b06f5af146cf8c897c89223c30ef",
               "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
@@ -1084,7 +1147,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "44a8c61826204344a6452a265493b857",
+            "id": "ef052201c0fc401589cd26c52ca24054",
             "requirement": {
               "id": "e9fbc7bb6a7542f19f5e74ac67d4952e",
               "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
@@ -1096,7 +1159,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "ef052201c0fc401589cd26c52ca24054",
+            "id": "39e95d93cb1949c2a04de9f6b4ff059b",
             "requirement": {
               "id": "d34a2d3a4d0c433cbd41c20a29c28e42",
               "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
@@ -1108,7 +1171,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "39e95d93cb1949c2a04de9f6b4ff059b",
+            "id": "8e43f3cdc0e74171a71763903f63f9b6",
             "requirement": {
               "id": "1d18df9673a24e819c148525b83c136f",
               "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
@@ -1120,7 +1183,7 @@ Content-Type: application/json
           },
           {
             "value": true,
-            "id": "8e43f3cdc0e74171a71763903f63f9b6",
+            "id": "67838b4794d54c5f99958fa1e480de10",
             "requirement": {
               "id": "f3103cfec5bb418394a65cd0f4ef7b82",
               "title": "Мова тендерної пропозиції українська"
@@ -1128,6 +1191,18 @@ Content-Type: application/json
             "classification": {
               "scheme": " ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
+            }
+          },
+          {
+            "value": true,
+            "id": "bb0d653a9407408385affbe43139ea79",
+            "requirement": {
+              "id": "3abb32dfa9414db19fb8725415901354",
+              "title": "Наявність обладнання, матеріально-технічної бази та технологій"
+            },
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
             }
           }
         ],

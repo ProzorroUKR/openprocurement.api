@@ -140,6 +140,18 @@ Content-Type: application/json
           "scheme": " ESPD211",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         }
+      },
+      {
+        "value": true,
+        "id": "a83a58956ae94164a65e3a45afe30040",
+        "requirement": {
+          "id": "850c75621f444d738ebbc7a789490acb",
+          "title": "Наявність обладнання, матеріально-технічної бази та технологій"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+        }
       }
     ],
     "tenderers": [

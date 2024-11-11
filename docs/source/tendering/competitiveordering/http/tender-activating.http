@@ -495,6 +495,45 @@ Content-Type: application/json
             ]
           }
         ]
+      },
+      {
+        "id": "6db211bfdccb40019938774a1e4867db",
+        "description": "Наявність в учасника процедури закупівлі обладнання, матеріально-технічної бази та технологій;",
+        "source": "tenderer",
+        "relatesTo": "tender",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+        },
+        "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+        "legislation": [
+          {
+            "version": "2021-12-16",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "16.2.1"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "id": "41c6567f84cb4f52875468063c299673",
+            "description": "Підтверджується, що",
+            "requirements": [
+              {
+                "id": "2bacf39fece14ddcb78fd86fdabce388",
+                "title": "Наявність обладнання, матеріально-технічної бази та технологій",
+                "dataType": "boolean",
+                "status": "active",
+                "expectedValue": true,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ]
+          }
+        ]
       }
     ],
     "date": "2023-10-10T01:00:00+03:00",

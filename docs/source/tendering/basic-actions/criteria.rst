@@ -198,7 +198,7 @@ competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage
 
 You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:
 
-.. http:example:: http/criteria/update-tender-status-without-criteria.http
+.. http:example:: http/criteria/update-tender-status-without-exclusion-criteria.http
    :code:
 
 EXCLUSION criteria and all criteria objects are unchangeable:
@@ -385,3 +385,16 @@ Exclusion criteria workflow
             }
         }
     }
+
+Article 16 criteria
+--------------------
+
+Article 16 criteria available and required for the following procedures: aboveThreshold, competitiveOrdering, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA,
+competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA
+
+`Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_16.json>`__
+
+You can't update tender to status `active.tendering` without at least one of ARTICLE_16 criterion:
+
+.. http:example:: http/criteria/update-tender-status-without-article-16-criteria.http
+   :code:

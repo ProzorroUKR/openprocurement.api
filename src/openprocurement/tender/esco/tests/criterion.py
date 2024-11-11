@@ -31,6 +31,7 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, BaseESCOContentWebTest):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
         "CRITERION.OTHER.BID.LANGUAGE",
     }
+    article_16_criteria_required = True
 
 
 class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseESCOContentWebTest):

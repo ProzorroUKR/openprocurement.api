@@ -38,6 +38,7 @@ from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
+    test_language_criteria,
     test_tech_feature_criteria,
 )
 from openprocurement.tender.core.tests.utils import change_auth
@@ -2298,8 +2299,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         criteria_1 = response.json['data'][0]
         criteria_id_1 = criteria_1['id']
 
-        # Try to update tender from `draft` to `active.tendering` without criteria
-        with open(TARGET_DIR + 'criteria/update-tender-status-without-criteria.http', 'wb') as self.app.file_obj:
+        # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria
+        with open(
+            TARGET_DIR + 'criteria/update-tender-status-without-exclusion-criteria.http', 'wb'
+        ) as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
                 {"data": {"status": "active.tendering"}},
@@ -2594,6 +2597,41 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': {'status': 'cancelled'}},
             )
             self.assertEqual(response.status, '200 OK')
+
+    def test_tender_criteria_article_16(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        tender_data = deepcopy(test_tender_data)
+        tender_data.update({"status": "draft"})
+
+        response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.tender_id = tender['id']
+
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        test_criteria_data.extend(test_language_criteria)
+        with open(TARGET_DIR + 'criteria/bulk-create-exclusion-criteria.http', 'wb') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': test_criteria_data},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        criteria_2 = response.json['data'][0]
+        criteria_id_2 = criteria_2['id']
+
+        # Try to update tender from `draft` to `active.tendering` without ARTICLE_16 criteria
+        with open(
+            TARGET_DIR + 'criteria/update-tender-status-without-article-16-criteria.http', 'wb'
+        ) as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                {"data": {"status": "active.tendering"}},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
 
     def test_bid_requirement_response(self):
         tender_data = deepcopy(self.initial_data)
