@@ -729,10 +729,75 @@ def requirement_response_value_validation_for_expected_values(self):
 
     # try to response value on expectedValues
     rr = [
-        {"requirement": {"id": "400496-0001-001-01"}, "value": "Розчин для інфузій"},
-        {"requirement": {"id": "400496-0002-001-01"}, "values": [5, 7, 6]},
+        {
+            "requirement": {"id": tender['criteria'][0]['requirementGroups'][0]['requirements'][0]['id']},
+            "value": "Розчин для інфузій",
+        },
+        {
+            "requirement": {"id": tender['criteria'][1]['requirementGroups'][0]['requirements'][0]['id']},
+            "values": [5, 7, 6],
+        },
     ]
     copy_criteria_req_id(tender["criteria"], rr)
+
+    response = self.app.post_json(
+        f"/tenders/{tender['id']}/bids",
+        {
+            "data": {
+                "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
+                "value": {"amount": 500},
+                "requirementResponses": rr,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    data = response.json
+    self.assertEqual(data['status'], "error")
+    self.assertEqual(
+        data['errors'],
+        [
+            {
+                'description': f"only 'values' allowed in response for requirement {tender['criteria'][0]['requirementGroups'][0]['requirements'][0]['id']}",
+                'location': 'body',
+                'name': 'requirementResponses',
+            }
+        ],
+    )
+
+    rr[0] = {
+        "requirement": {"id": tender['criteria'][0]['requirementGroups'][0]['requirements'][0]['id']},
+        "values": ["Розчин для інфузій"],
+    }
+
+    response = self.app.post_json(
+        f"/tenders/{tender['id']}/bids",
+        {
+            "data": {
+                "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
+                "value": {"amount": 500},
+                "requirementResponses": rr,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    data = response.json
+    self.assertEqual(data['status'], "error")
+    self.assertEqual(
+        data['errors'],
+        [
+            {
+                'description': f"only 'value' allowed in response for requirement {tender['criteria'][1]['requirementGroups'][0]['requirements'][0]['id']}",
+                'location': 'body',
+                'name': 'requirementResponses',
+            }
+        ],
+    )
+
+    rr[1] = {"requirement": {"id": tender['criteria'][1]['requirementGroups'][0]['requirements'][0]['id']}, "value": 5}
 
     response = self.app.post_json(
         f"/tenders/{tender['id']}/bids",
@@ -751,7 +816,7 @@ def requirement_response_value_validation_for_expected_values(self):
     # invalid value in response
     test_response = deepcopy(rr)
     copy_criteria_req_id(tender["criteria"], test_response)
-    test_response[0]['value'] = 'ivalid'
+    test_response[0]['values'] = ['ivalid']
     response = self.app.post_json(
         f"/tenders/{tender['id']}/bids",
         {

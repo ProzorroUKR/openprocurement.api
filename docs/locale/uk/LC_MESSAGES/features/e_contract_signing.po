@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-19 13:08+0300\n"
+"POT-Creation-Date: 2024-11-12 13:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -136,7 +136,7 @@ msgstr ""
 msgid "Назва характеристики - **items.attributes.name**"
 msgstr ""
 
-msgid "Значення характеристики - **items.attributes.values**"
+msgid "Значення характеристики - **items.attributes.values**/**items.attributes.value**"
 msgstr ""
 
 msgid "Одиниця виміру характеристики  - **items.attributes.unit**"
@@ -369,4 +369,7 @@ msgstr ""
 
 msgid "При неправільній імпліментації керування може отримувати або неправильний користувач, або неочікуваний для користувача майданчик"
 msgstr ""
+
+#~ msgid "Значення характеристики - **items.attributes.values**"
+#~ msgstr ""
 

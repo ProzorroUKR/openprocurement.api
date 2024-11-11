@@ -21,3 +21,8 @@ Schema
     string, required
 
     List of strings, required
+
+:value:
+    boolean/int/decimal
+
+    The value of attribute. The value must be of the type defined in the requirement.dataType field.

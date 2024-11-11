@@ -1,9 +1,7 @@
 from typing import Any
 
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.tender.core.procedure.models.req_response import (
-    get_requirement_obj,
-)
+from openprocurement.tender.core.procedure.utils import get_requirement_obj
 
 
 class RequirementResponseSerializer(BaseSerializer):

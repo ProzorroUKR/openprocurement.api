@@ -57,6 +57,7 @@ from openprocurement.tender.core.procedure.utils import (
     find_item_by_id,
     find_lot,
     get_criterion_requirement,
+    get_requirement_obj,
     is_multi_currency_tender,
     tender_created_after,
     tender_created_after_2020_rules,
@@ -1705,3 +1706,21 @@ def validate_required_fields(request, data: dict, required_fields: dict, name="d
     errors = validation(data, required_fields)
     if errors:
         raise_operation_error(request, errors, name=name, status=422)
+
+
+def validate_req_response_values(response):
+    requirement, *_ = get_requirement_obj(response["requirement"]["id"])
+    if requirement.get("expectedValues") is not None and response.get("value") is not None:
+        raise_operation_error(
+            get_request(),
+            f"only 'values' allowed in response for requirement {requirement['id']}",
+            name="requirementResponses",
+            status=422,
+        )
+    elif requirement.get("expectedValues") is None and response.get("values") is not None:
+        raise_operation_error(
+            get_request(),
+            f"only 'value' allowed in response for requirement {requirement['id']}",
+            name="requirementResponses",
+            status=422,
+        )

@@ -16,6 +16,7 @@ from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.constants import (
+    CRITERION_REQUIREMENT_STATUSES_FROM,
     BID_ITEMS_REQUIRED_FROM,
     BID_REQUIRED_ITEMS_TENDER_TYPES,
     RELEASE_2020_04_19,
@@ -587,3 +588,19 @@ def is_bid_items_required():
     tender = get_tender()
     tender_pm = tender["procurementMethodType"]
     return is_obj_const_active(tender, BID_ITEMS_REQUIRED_FROM) and tender_pm in BID_REQUIRED_ITEMS_TENDER_TYPES
+
+
+def get_requirement_obj(requirement_id: str, tender: dict = None):
+    if not tender:
+        tender = get_tender()
+    for criteria in tender.get("criteria", ""):
+        for group in criteria.get("requirementGroups", ""):
+            for req in reversed(group.get("requirements", "")):
+                if req["id"] == requirement_id:
+                    if (
+                        tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM)
+                        and req.get("status", "active") != "active"
+                    ):
+                        continue
+                    return req, group, criteria
+    return None, None, None

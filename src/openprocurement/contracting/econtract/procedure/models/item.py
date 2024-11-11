@@ -11,6 +11,7 @@ class Attribute(Model):
     name = StringType(required=True)
     unit = ModelType(Unit)
     values = ListType(BaseType(required=True))
+    value = BaseType()
 
 
 class Item(BaseItem):
