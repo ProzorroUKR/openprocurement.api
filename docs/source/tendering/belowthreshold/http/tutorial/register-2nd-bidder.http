@@ -100,6 +100,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
         "scale": "sme"
       }
     ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
+        "date": "2023-10-16T01:15:06+03:00"
+      }
+    ],
     "status": "draft",
     "documents": [
       {
@@ -140,18 +152,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
           "code": "KGM"
         },
         "quantity": 5.0
-      }
-    ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
-        "date": "2023-10-16T01:15:06+03:00"
       }
     ],
     "id": "9a6691c52a6e40478d3057022922c776",

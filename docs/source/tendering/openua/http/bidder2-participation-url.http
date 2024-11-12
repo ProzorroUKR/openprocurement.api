@@ -154,6 +154,19 @@ Content-Type: application/json
         }
       }
     ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "dad62a18553c4c349038eadaa055072c",
+        "status": "active",
+        "date": "2023-10-10T01:02:01+03:00",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/a450405f3c6840318420a210894cccb1_dad62a18553c4c349038eadaa055072c?key_for_bid=e877600f38564bebbc35523f62b4df08"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -197,19 +210,6 @@ Content-Type: application/json
       }
     ],
     "selfQualified": true,
-    "lotValues": [
-      {
-        "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "dad62a18553c4c349038eadaa055072c",
-        "status": "active",
-        "date": "2023-10-10T01:02:01+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/a450405f3c6840318420a210894cccb1_dad62a18553c4c349038eadaa055072c?key_for_bid=e877600f38564bebbc35523f62b4df08"
-      }
-    ],
     "submissionDate": "2023-10-10T01:02:01+03:00"
   }
 }

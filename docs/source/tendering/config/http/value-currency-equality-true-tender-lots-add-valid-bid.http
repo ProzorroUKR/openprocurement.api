@@ -80,7 +80,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "scale": "micro"
       }
     ],
-    "status": "draft",
     "lotValues": [
       {
         "status": "pending",
@@ -103,6 +102,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
+    "status": "draft",
     "id": "4b2f22ec008b4f4e88f2f69ea174242c",
     "date": "2023-10-10T01:00:00+03:00"
   },

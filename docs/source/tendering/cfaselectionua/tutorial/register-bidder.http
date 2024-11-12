@@ -78,17 +78,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e
         "scale": "large"
       }
     ],
-    "status": "draft",
-    "parameters": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE",
-        "value": 0.1
-      },
-      {
-        "code": "OCDS-123454-YEARS",
-        "value": 0.1
-      }
-    ],
     "lotValues": [
       {
         "status": "pending",
@@ -99,6 +88,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e
         },
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "status": "draft",
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "value": 0.1
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "value": 0.1
       }
     ],
     "id": "086af210a2bc41908a0dd9988134a118",

@@ -160,9 +160,9 @@ Content-Type: application/json
       }
     ],
     "status": "draft",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "987b40daa8334398a3f222f3fb033be2",
     "date": "2023-10-10T01:00:00+03:00",
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
       {
         "value": {

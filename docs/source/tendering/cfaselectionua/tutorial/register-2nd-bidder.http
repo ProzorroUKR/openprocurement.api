@@ -91,6 +91,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e
         "scale": "micro"
       }
     ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
+        "date": "2023-10-10T01:01:00+03:00"
+      }
+    ],
     "status": "draft",
     "documents": [
       {
@@ -126,18 +138,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e
       {
         "code": "OCDS-123454-YEARS",
         "value": 0.1
-      }
-    ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
-        "date": "2023-10-10T01:01:00+03:00"
       }
     ],
     "id": "5e3e02b6dd9849d98c48bf9d741a036e",

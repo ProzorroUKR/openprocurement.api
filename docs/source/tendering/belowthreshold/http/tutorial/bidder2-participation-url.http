@@ -32,6 +32,19 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
+        "date": "2023-10-16T01:15:06+03:00",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3_987404b67a4c4d888112d4e9755edefc?key_for_bid=9a6691c52a6e40478d3057022922c776"
+      }
+    ],
     "status": "draft",
     "documents": [
       {
@@ -72,19 +85,6 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0
-      }
-    ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
-        "date": "2023-10-16T01:15:06+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3_987404b67a4c4d888112d4e9755edefc?key_for_bid=9a6691c52a6e40478d3057022922c776"
       }
     ],
     "id": "9a6691c52a6e40478d3057022922c776",

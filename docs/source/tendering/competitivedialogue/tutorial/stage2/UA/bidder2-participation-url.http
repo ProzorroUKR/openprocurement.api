@@ -32,8 +32,6 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
-    "status": "draft",
-    "selfQualified": true,
     "lotValues": [
       {
         "status": "pending",
@@ -47,6 +45,8 @@ Content-Type: application/json
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c429ff66bfe7408592ede2909ac98702_9d95d7c5f19f4d24b17d650fe94a42f5?key_for_bid=933771e1159d4c478afc9638b0f276ae"
       }
     ],
+    "status": "draft",
+    "selfQualified": true,
     "id": "933771e1159d4c478afc9638b0f276ae",
     "date": "2023-10-10T01:03:00+03:00"
   }

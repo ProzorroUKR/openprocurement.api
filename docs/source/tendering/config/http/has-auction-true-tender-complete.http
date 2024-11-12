@@ -941,9 +941,9 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+            "subcontractingDetails": "ДКП «Орфей», Україна",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00",
-            "subcontractingDetails": "ДКП «Орфей», Україна"
+            "date": "2023-10-10T01:00:00+03:00"
           },
           {
             "value": {
@@ -952,9 +952,9 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+            "subcontractingDetails": "ДКП «Орфей», Україна",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00",
-            "subcontractingDetails": "ДКП «Орфей», Україна"
+            "date": "2023-10-10T01:00:00+03:00"
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"
@@ -1145,9 +1145,9 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+            "subcontractingDetails": "ДКП «Укр Прінт», Україна",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00",
-            "subcontractingDetails": "ДКП «Укр Прінт», Україна"
+            "date": "2023-10-10T01:00:00+03:00"
           },
           {
             "value": {
@@ -1156,9 +1156,9 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+            "subcontractingDetails": "ДКП «Укр Прінт», Україна",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00",
-            "subcontractingDetails": "ДКП «Укр Прінт», Україна"
+            "date": "2023-10-10T01:00:00+03:00"
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"

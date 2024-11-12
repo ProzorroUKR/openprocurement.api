@@ -15,6 +15,18 @@ Content-Type: application/json
 
 {
   "data": {
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
+        "status": "pending",
+        "date": "2023-10-16T01:14:06+03:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -70,18 +82,6 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
-        "status": "pending",
-        "date": "2023-10-16T01:14:06+03:00"
       }
     ],
     "submissionDate": "2023-10-16T01:14:06+03:00"

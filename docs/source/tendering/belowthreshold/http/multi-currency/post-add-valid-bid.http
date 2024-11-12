@@ -106,6 +106,28 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c1d6775dda6d43d9
         "scale": "micro"
       }
     ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 200.0,
+          "currency": "USD",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "cca0671762d34aa183864d6a01e27315",
+        "date": "2023-10-10T01:00:00+03:00"
+      },
+      {
+        "status": "pending",
+        "value": {
+          "amount": 400.0,
+          "currency": "EUR",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "5cb16cd4783e4dd0b325487872b4e585",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "status": "draft",
     "items": [
       {
@@ -133,28 +155,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c1d6775dda6d43d9
           "code": "KGM"
         },
         "quantity": 1.0
-      }
-    ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 200.0,
-          "currency": "USD",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "cca0671762d34aa183864d6a01e27315",
-        "date": "2023-10-10T01:00:00+03:00"
-      },
-      {
-        "status": "pending",
-        "value": {
-          "amount": 400.0,
-          "currency": "EUR",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "5cb16cd4783e4dd0b325487872b4e585",
-        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "id": "d1e6b26dd69f4b7fb6e62833644a492b",

@@ -26,6 +26,18 @@ Content-Type: application/json
 
 {
   "data": {
+    "lotValues": [
+      {
+        "value": {
+          "amount": 510.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
+        "status": "pending",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "Державне управління справами",
@@ -75,18 +87,6 @@ Content-Type: application/json
       {
         "code": "OCDS-123454-YEARS",
         "value": 0.1
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 510.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
-        "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
       }
     ]
   }

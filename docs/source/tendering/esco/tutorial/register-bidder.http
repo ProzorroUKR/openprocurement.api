@@ -77,6 +77,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
 
 {
   "data": {
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -102,7 +103,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
       }
     ],
     "status": "draft",
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "selfQualified": true,
     "lotValues": [
       {

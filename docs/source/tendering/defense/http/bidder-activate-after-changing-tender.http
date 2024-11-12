@@ -45,6 +45,7 @@ Content-Type: application/json
       }
     ],
     "status": "pending",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "ca0b06136e7e4e7d89a15fbafaaacc72",
     "date": "2023-10-10T01:00:01+03:00",
     "documents": [
@@ -76,7 +77,6 @@ Content-Type: application/json
     ],
     "selfEligible": true,
     "selfQualified": true,
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "submissionDate": "2023-10-10T01:00:01+03:00"
   }
 }
