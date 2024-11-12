@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-11 17:12+0300\n"
+"POT-Creation-Date: 2024-11-12 14:03+0200\n"
 "PO-Revision-Date: 2021-03-03 21:36+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -181,6 +181,18 @@ msgstr ""
 
 msgid "Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents."
 msgstr "Підтверджує відповідність критеріям прийнятності, встановлених замовником в тендерній документації."
+
+msgid "Additionally in all procedures except :ref:`limited`:"
+msgstr "Додатково для всіх процедур окрім :ref:`limited`:"
+
+msgid "period"
+msgstr "period"
+
+msgid ":ref:`Period`"
+msgstr ":ref:`Period`"
+
+msgid "The timeframe for making decision regarding award."
+msgstr "Період для прийняття рішення по аварду."
 
 msgid "Additionally in :ref:`limited`:"
 msgstr "Додатково :ref:`limited`:"

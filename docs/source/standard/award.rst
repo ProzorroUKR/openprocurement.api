@@ -120,6 +120,13 @@ Additionally in :ref:`defense`, :ref:`esco`, :ref:`competitivedialogue`, :ref:`c
 
     Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents.
 
+Additionally in all procedures except :ref:`limited`:
+
+:period:
+    :ref:`Period`
+
+    The timeframe for making decision regarding award.
+
 
 Additionally in :ref:`limited`:
 
