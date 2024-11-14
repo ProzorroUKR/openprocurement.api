@@ -113,7 +113,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/89208a5c9d044
   "config": {
     "clarificationUntilDuration": 3,
     "restrictedDerivatives": false,
-    "qualificationComplainDuration": 0
+    "qualificationComplainDuration": 0,
+    "hasItems": false
   }
 }
 

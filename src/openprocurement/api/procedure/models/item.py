@@ -100,8 +100,6 @@ class Item(Model):
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
     quantity = FloatType(min_value=0)  # The number of units required
     deliveryLocation = ModelType(Location)
-    relatedLot = MD5Type()
-    relatedBuyer = MD5Type()
 
 
 class TechFeatureItemMixin(Model):

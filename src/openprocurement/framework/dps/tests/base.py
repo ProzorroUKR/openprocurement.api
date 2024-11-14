@@ -41,6 +41,7 @@ test_framework_dps_config = {
     "restrictedDerivatives": False,
     "clarificationUntilDuration": 3,
     "qualificationComplainDuration": 0,
+    "hasItems": False,
 }
 
 test_dps_documents = [

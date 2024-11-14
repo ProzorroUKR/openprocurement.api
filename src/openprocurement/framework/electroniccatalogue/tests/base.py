@@ -66,6 +66,7 @@ test_framework_electronic_catalogue_config = {
     "restrictedDerivatives": False,
     "clarificationUntilDuration": 3,
     "qualificationComplainDuration": 0,
+    "hasItems": False,
 }
 
 test_electronicCatalogue_documents = [

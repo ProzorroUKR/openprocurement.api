@@ -70,4 +70,5 @@ class FrameworkConfigSerializer(BaseConfigSerializer):
         "restrictedDerivatives": framework_config_default_serializer("restrictedDerivatives"),
         "clarificationUntilDuration": framework_config_default_serializer("clarificationUntilDuration"),
         "qualificationComplainDuration": framework_config_default_serializer("qualificationComplainDuration"),
+        "hasItems": framework_config_default_serializer("hasItems"),
     }

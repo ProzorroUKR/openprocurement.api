@@ -1,3 +1,4 @@
+from schematics.types import MD5Type
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.address import Address
@@ -29,3 +30,5 @@ class Item(BaseItem):
     unit = ModelType(Unit)
     deliveryAddress = ModelType(Address)
     deliveryDate = ModelType(Period)
+    relatedLot = MD5Type()
+    relatedBuyer = MD5Type()

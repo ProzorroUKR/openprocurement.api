@@ -1,7 +1,7 @@
 from decimal import Decimal
 from uuid import uuid4
 
-from schematics.types import StringType
+from schematics.types import StringType, MD5Type
 from schematics.types.compound import PolyModelType
 from schematics.types.serializable import serializable
 
@@ -92,6 +92,8 @@ class Item(TechFeatureItemMixin, BaseItem):
     deliveryDate = ModelType(PeriodEndRequired, required=True)
     deliveryAddress = ModelType(Address, required=True)
     unit = ModelType(Unit)
+    relatedLot = MD5Type()
+    relatedBuyer = MD5Type()
 
 
 class ContactPoint(BaseContactPoint):

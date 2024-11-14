@@ -783,6 +783,88 @@ def create_framework_config_restricted(self):
         )
 
 
+def create_framework_config_has_items(self):
+    data = deepcopy(self.initial_data)
+
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
+        config = deepcopy(self.initial_config)
+        config["hasItems"] = True
+        response = self.app.post_json(
+            "/frameworks",
+            {
+                "data": data,
+                "config": config,
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        framework = response.json["data"]
+        token = response.json["access"]["token"]
+        self.assertEqual(framework["status"], "draft")
+
+        response = self.app.patch_json(
+            "/frameworks/{}?acc_token={}".format(framework["id"], token),
+            {"data": {"status": "active"}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": "Items are required for framework with hasItems set to true",
+                    "location": "body",
+                    "name": "items",
+                }
+            ],
+        )
+
+        config["hasItems"] = False
+        data["items"] = [
+            {
+                "description": "description",
+                "classification": {
+                    "scheme": "ДК021",
+                    "description": "Antiperspirants",
+                    "id": "33711120-4",
+                },
+            }
+        ]
+        response = self.app.post_json(
+            "/frameworks",
+            {
+                "data": data,
+                "config": config,
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        framework = response.json["data"]
+        token = response.json["access"]["token"]
+        self.assertEqual(framework["status"], "draft")
+
+        response = self.app.patch_json(
+            "/frameworks/{}?acc_token={}".format(framework["id"], token),
+            {"data": {"status": "active"}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": "Items are not allowed for framework with hasItems set to false",
+                    "location": "body",
+                    "name": "items",
+                }
+            ],
+        )
+
+
 def patch_framework_draft(self):
     data = deepcopy(self.initial_data)
     response = self.app.post_json(

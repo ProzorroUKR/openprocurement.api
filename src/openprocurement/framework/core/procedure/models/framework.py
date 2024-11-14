@@ -15,6 +15,7 @@ from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model, RootModel
 from openprocurement.api.procedure.models.item import (
     Classification as BaseClassification,
+    Item as BaseItem,
 )
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
@@ -30,6 +31,10 @@ from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
+
+
+class Item(BaseItem):
+    pass
 
 
 class DKClassification(BaseClassification):
@@ -76,6 +81,7 @@ class PostFramework(Model):
         frameworkDetails = StringType()
     qualificationPeriod = ModelType(PeriodEndRequired, required=True)
     procuringEntity = ModelType(BaseOrganization, required=True)
+    items = ListType(ModelType(Item, required=True))
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     documents = ListType(ModelType(PostDocument, required=True), default=[])
@@ -106,6 +112,7 @@ class PatchFramework(Model):
     description_ru = StringType()
     qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
+    items = ListType(ModelType(Item, required=True))
     classification = ModelType(DKClassification)
     additionalClassifications = ListType(ModelType(AdditionalClassification))
     documents = ListType(ModelType(PostDocument))
@@ -134,6 +141,7 @@ class Framework(RootModel):
     if SANDBOX_MODE:
         frameworkDetails = StringType()
     procuringEntity = ModelType(BaseOrganization, required=True)
+    items = ListType(ModelType(Item, required=True))
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     documents = ListType(ModelType(Document, required=True), default=[])
@@ -181,6 +189,7 @@ class PatchActiveFramework(Model):
     description_ru = StringType()
     qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
+    items = ListType(ModelType(Item, required=True))
     documents = ListType(ModelType(PostDocument))
     if SANDBOX_MODE:
         frameworkDetails = StringType()
@@ -191,6 +200,7 @@ class FrameworkConfig(Model):
     clarificationUntilDuration = IntType(min_value=0)
     restrictedDerivatives = BooleanType()
     qualificationComplainDuration = IntType(min_value=0)
+    hasItems = BooleanType()
 
     def validate_restrictedDerivatives(self, data, value):
         framework = get_request().validated.get("data")
