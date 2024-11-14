@@ -16,9 +16,9 @@ from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.constants import (
-    CRITERION_REQUIREMENT_STATUSES_FROM,
     BID_ITEMS_REQUIRED_FROM,
     BID_REQUIRED_ITEMS_TENDER_TYPES,
+    CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_2020_04_19,
     TZ,
 )

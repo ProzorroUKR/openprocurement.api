@@ -160,10 +160,7 @@ def clean_contract_value(value: dict) -> dict:
 
 
 def set_attributes_to_contract_items(tender, bid, contract):
-    req_responses = {
-        rr["requirement"]["id"]: rr["values"] if rr.get("values") else rr["value"]
-        for rr in bid.get("requirementResponses", "")
-    }
+    req_responses = {rr["requirement"]["id"]: rr for rr in bid.get("requirementResponses", "")}
 
     items_attributes = {}
     for c in tender.get("criteria", ""):
@@ -185,10 +182,13 @@ def set_attributes_to_contract_items(tender, bid, contract):
                 item_attr = {
                     "name": req["title"],
                 }
-                if isinstance(req_responses[req["id"]], list):
-                    item_attr["values"] = req_responses[req["id"]]
-                else:
-                    item_attr["value"] = req_responses[req["id"]]
+
+                if "value" in req_responses[req["id"]]:
+                    item_attr["value"] = req_responses[req["id"]]["value"]
+
+                if "values" in req_responses[req["id"]]:
+                    item_attr["values"] = req_responses[req["id"]]["values"]
+
                 if "unit" in req:
                     item_attr["unit"] = req["unit"]
 

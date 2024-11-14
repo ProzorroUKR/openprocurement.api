@@ -1393,7 +1393,7 @@ def update_tender_rr(self):
             "requirement": {
                 "id": requirement["id"],
             },
-            "value": True,
+            "values": ["Українська"],
             "evidences": evidences,
         }
     ]
@@ -1414,9 +1414,7 @@ def update_tender_rr(self):
     rr = bid["requirementResponses"][0]
 
     # PATCH with changes to ids
-    del rr_data[0]["value"]
     del rr_data[0]["evidences"]
-    rr_data[0]["values"] = ["Українська"]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
         {
@@ -1428,8 +1426,6 @@ def update_tender_rr(self):
         },
     )
     rr = response.json["data"]["requirementResponses"][0]
-    self.assertEqual(rr["values"], ["Українська"])
-    self.assertNotIn("value", rr)
     self.assertNotIn("evidences", rr)
 
 
@@ -1445,7 +1441,7 @@ def update_tender_rr_evidence_id(self):
             "requirement": {
                 "id": requirement["id"],
             },
-            "value": True,
+            "values": ["Українська"],
             "evidences": evidences,
         }
     ]

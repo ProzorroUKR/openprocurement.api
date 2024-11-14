@@ -26,8 +26,8 @@ from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
     validate_doc_type_required,
     validate_items_unit_amount,
-    validate_required_fields,
     validate_req_response_values,
+    validate_required_fields,
 )
 
 logger = logging.getLogger(__name__)
