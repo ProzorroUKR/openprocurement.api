@@ -705,8 +705,7 @@ class TenderDetailsMixing(TenderConfigMixin):
                     name="procuringEntity",
                 )
 
-    @classmethod
-    def validate_required_criteria(cls, before, after):
+    def validate_required_criteria(self, before, after):
         if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
             return
 
@@ -720,14 +719,14 @@ class TenderDetailsMixing(TenderConfigMixin):
         }
 
         # exclusion criteria
-        if set(cls.required_criteria) - tender_criteria:
+        if set(self.required_criteria) - tender_criteria:
             raise_operation_error(
                 get_request(),
-                f"Tender must contain all required criteria: {', '.join(sorted(cls.required_criteria))}",
+                f"Tender must contain all required criteria: {', '.join(sorted(self.required_criteria))}",
             )
         if (
             get_now() > CRITERIA_ARTICLE_16_REQUIRED
-            and cls.article_16_criteria_required
+            and self.article_16_criteria_required
             and get_tender().get("mainProcurementCategory", "services")
             in (
                 "works",

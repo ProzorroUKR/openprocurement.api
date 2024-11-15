@@ -26,8 +26,7 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
 
     should_validate_notice_doc_required = False
 
-    @classmethod
-    def validate_required_criteria(cls, before, after):
+    def validate_required_criteria(self, before, after):
         pass
 
 
