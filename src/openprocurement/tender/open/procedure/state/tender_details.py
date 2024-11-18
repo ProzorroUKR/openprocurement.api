@@ -1,5 +1,6 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
@@ -30,12 +31,15 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
         "CRITERION.OTHER.BID.LANGUAGE",
     }
-    article_16_criteria_required = True
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     should_validate_notice_doc_required = True
+
+    @property
+    def article_16_criteria_required(self):
+        return get_tender().get("procurementMethodType") != COMPETITIVE_ORDERING
 
     @classmethod
     def get_items_classification_prefix_length(cls, tender):

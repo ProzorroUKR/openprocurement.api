@@ -389,7 +389,7 @@ Exclusion criteria workflow
 Article 16 criteria
 --------------------
 
-Article 16 criteria available and required for the following procedures: aboveThreshold, competitiveOrdering, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA,
+Article 16 criteria are required for the following procedures: aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA,
 competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA
 
 `Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_16.json>`__
