@@ -240,7 +240,7 @@ test_tender_below_config = {
     "hasValueEstimation": True,
     "hasQualificationComplaints": False,
     "tenderComplainRegulation": 0,
-    "qualificationComplainDuration": 0,
+    "qualificationComplainDuration": 10,
     "awardComplainDuration": 2,
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 1,
