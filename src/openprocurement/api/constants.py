@@ -26,6 +26,7 @@ GUARANTEE_ALLOWED_TENDER_TYPES = (
     "aboveThresholdUA",
     "aboveThresholdEU",
     "esco",
+    "priceQuotation",
 )
 
 WORKING_DAYS = {}
