@@ -14,7 +14,7 @@
         "hasValueEstimation": true,
         "hasValueRestriction": true,
         "minBidsNumber": 1,
-        "qualificationComplainDuration": 0,
+        "qualificationComplainDuration": 10,
         "qualificationDuration": 20,
         "restricted": false,
         "tenderComplainRegulation": 0,

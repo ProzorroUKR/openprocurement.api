@@ -12,7 +12,7 @@ hasCancellationComplaints,false,false
 hasValueEstimation,"true,false",true
 hasQualificationComplaints,false,false
 tenderComplainRegulation,0,0
-qualificationComplainDuration,0,0
+qualificationComplainDuration,10,10
 awardComplainDuration,2,2
 cancellationComplainDuration,0,0
 clarificationUntilDuration,1,1
