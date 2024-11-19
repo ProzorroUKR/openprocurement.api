@@ -27,7 +27,7 @@ from openprocurement.tender.pricequotation.constants import PQ
 
 
 @resource(
-    name="{}:Tender Award Documents".format(PQ),
+    name=f"{PQ}:Tender Award Documents",
     collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
     procurementMethodType=PQ,

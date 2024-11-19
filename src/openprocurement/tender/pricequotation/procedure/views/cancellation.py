@@ -10,7 +10,7 @@ from openprocurement.tender.pricequotation.procedure.state.cancellation import (
 
 
 @resource(
-    name="{}:Tender Cancellations".format(PQ),
+    name=f"{PQ}:Tender Cancellations",
     collection_path="/tenders/{tender_id}/cancellations",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
     procurementMethodType=PQ,

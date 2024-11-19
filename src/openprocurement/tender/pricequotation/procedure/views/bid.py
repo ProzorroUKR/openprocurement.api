@@ -35,7 +35,7 @@ LOGGER = getLogger(__name__)
 
 
 @resource(
-    name="{}:Tender Bids".format(PQ),
+    name=f"{PQ}:Tender Bids",
     collection_path="/tenders/{tender_id}/bids",
     path="/tenders/{tender_id}/bids/{bid_id}",
     procurementMethodType=PQ,

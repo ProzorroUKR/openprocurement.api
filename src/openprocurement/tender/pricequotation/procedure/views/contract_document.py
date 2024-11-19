@@ -23,13 +23,14 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.core.procedure.views.contract_document import (
     TenderContractDocumentResource,
 )
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.validation import (
     validate_contract_document_status,
 )
 
 
 @resource(
-    name="priceQuotation:Tender Contract Documents",
+    name=f"{PQ}:Tender Contract Documents",
     collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
     path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
     procurementMethodType="priceQuotation",

@@ -14,6 +14,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_forbid_contract_action_after_date,
 )
 from openprocurement.tender.core.procedure.views.contract import TenderContractResource
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.models.contract import (
     Contract,
     PatchContract,
@@ -28,7 +29,7 @@ LOGGER = getLogger(__name__)
 
 
 @resource(
-    name="priceQuotation:Tender Contracts",
+    name=f"{PQ}:Tender Contracts",
     collection_path="/tenders/{tender_id}/contracts",
     procurementMethodType="priceQuotation",
     path="/tenders/{tender_id}/contracts/{contract_id}",
