@@ -17,7 +17,7 @@ from openprocurement.tender.pricequotation.procedure.state.award import AwardSta
 
 
 @resource(
-    name="{}:Tender Awards".format(PQ),
+    name=f"{PQ}:Tender Awards",
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender awards",

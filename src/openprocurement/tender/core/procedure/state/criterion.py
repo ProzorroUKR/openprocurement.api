@@ -17,9 +17,10 @@ from openprocurement.tender.core.procedure.validation import (
 
 
 class BaseCriterionStateMixin:
+    tender_valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
+
     def _validate_operation_criterion_in_tender_status(self) -> None:
-        valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
-        base_validate_operation_ecriteria_objects(self.request, valid_statuses)
+        base_validate_operation_ecriteria_objects(self.request, self.tender_valid_statuses)
 
     def _validate_patch_exclusion_ecriteria_objects(self, before: dict) -> None:
         if before["classification"]["id"].startswith("CRITERION.EXCLUSION"):
@@ -38,7 +39,7 @@ class BaseCriterionStateMixin:
         for criterion in data:
             if criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:
                 item = next(
-                    (item for item in tender["items"] if item["id"] == criterion["relatedItem"]),
+                    (item for item in tender["items"] if item["id"] == criterion.get("relatedItem")),
                     None,
                 )
                 if not (item.get("category") or item.get("profile")):
@@ -50,7 +51,7 @@ class BaseCriterionStateMixin:
 
             if criterion["classification"]["id"] == CRITERION_LOCALIZATION:
                 item = next(
-                    (item for item in tender["items"] if item["id"] == criterion["relatedItem"]),
+                    (item for item in tender["items"] if item["id"] == criterion.get("relatedItem")),
                     None,
                 )
                 if not item.get("category"):
@@ -99,7 +100,7 @@ class CriterionStateMixin(BaseCriterionStateMixin):
             return
 
         for existed_criterion in criteria:
-            if after.get("relatesTo") == existed_criterion["relatesTo"] and after.get(
+            if after.get("relatesTo") == existed_criterion.get("relatesTo") and after.get(
                 "relatedItem", ""
             ) == existed_criterion.get("relatedItem", ""):
                 if updated_criterion_classification == existed_criterion["classification"]["id"]:

@@ -393,15 +393,14 @@ class Criterion(ValidateIdMixing, BaseCriterion):
 
     def validate_relatesTo(self, data, value):
         tender = get_tender() or get_json_data()
-        if tender.get("procurementMethodType") in (PQ,):
-            # relatesTo is not required for PQ
-            return
-
-        if get_first_revision_date(tender, default=get_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
-            if not value:
-                raise ValidationError("This field is required.")
-
         classification = data.get("classification")
+
+        if tender.get("procurementMethodType") not in (PQ,):
+
+            if get_first_revision_date(tender, default=get_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
+                if not value:
+                    raise ValidationError("This field is required.")
+
         if classification and classification["id"] in CRITERION_LIFE_CYCLE_COST_IDS:
             if not tender.get("lots") and value != "tender":
                 raise ValidationError(

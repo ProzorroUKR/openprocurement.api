@@ -64,7 +64,6 @@ class PostBid(PostBidResponsesMixin, PatchBid):
     documents = ListType(ModelType(PostDocument, required=True))
     requirementResponses = ListType(
         ModelType(RequirementResponse),
-        required=True,
         min_size=1,
     )
     status = StringType(
@@ -105,7 +104,6 @@ class Bid(ObjResponseMixin, MetaBid):
     value = ModelType(Value)
     requirementResponses = ListType(
         ModelType(RequirementResponseTemp),
-        required=True,
         min_size=1,
     )
     status = StringType(

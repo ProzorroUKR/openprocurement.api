@@ -26,7 +26,7 @@ class TenderCriterionMixin:
 
                 for existed_criterion in previous_criteria:
                     if (
-                        new_criterion.get("relatesTo") == existed_criterion["relatesTo"]
+                        new_criterion.get("relatesTo") == existed_criterion.get("relatesTo")
                         and new_criterion.get("relatedItem") == existed_criterion.get("relatedItem")
                         and new_criterion["classification"]["id"] == existed_criterion["classification"]["id"]
                     ):

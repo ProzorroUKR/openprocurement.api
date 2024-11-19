@@ -210,6 +210,7 @@ def create_tender_bid_invalid(self):
         request_path,
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500, "currency": "USD"},
                 "requirementResponses": test_tender_pq_requirement_response,
@@ -238,17 +239,6 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
-
-    response = self.app.post_json(
-        request_path, {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500}}}, status=422
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "requirementResponses"}],
-    )
 
     non_shortlist_org = deepcopy(test_tender_pq_organization)
     non_shortlist_org["identifier"]["id"] = "69"
@@ -391,6 +381,7 @@ def requirement_response_validation_multiple_criterias(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
@@ -423,6 +414,7 @@ def requirement_response_validation_multiple_criterias(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
@@ -455,6 +447,7 @@ def requirement_response_validation_multiple_criterias(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
@@ -494,6 +487,7 @@ def requirement_response_validation_multiple_criterias(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
@@ -523,6 +517,7 @@ def requirement_response_validation_multiple_criterias(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
@@ -552,6 +547,7 @@ def requirement_response_validation_multiple_criterias(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
@@ -584,6 +580,7 @@ def requirement_response_validation_multiple_criterias(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
@@ -616,6 +613,7 @@ def requirement_response_validation_multiple_criterias(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
@@ -757,6 +755,7 @@ def requirement_response_value_validation_for_expected_values(self):
         f"/tenders/{tender['id']}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
@@ -790,6 +789,7 @@ def requirement_response_validation_multiple_groups(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": rr,
@@ -826,6 +826,7 @@ def requirement_response_validation_multiple_groups_multiple_requirements(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": rr,
@@ -859,9 +860,10 @@ def requirement_response_validation_one_group_multiple_requirements(self):
     copy_criteria_req_id(tender["criteria"], rr)
 
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
+        f"/tenders/{self.tender_id}/bids",
         {
             "data": {
+                "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500},
                 "requirementResponses": rr,
