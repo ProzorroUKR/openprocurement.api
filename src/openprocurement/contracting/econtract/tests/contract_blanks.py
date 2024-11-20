@@ -1463,6 +1463,76 @@ def patch_tender_contract_amount_paid_zero(self):
     self.assertEqual(response.json["data"]["amountPaid"]["valueAddedTaxIncluded"], True)
 
 
+def patch_tender_contract_period(self):
+    tender_token = self.initial_data["tender_token"]
+    credentials_url = f"/contracts/{self.contract['id']}/credentials?acc_token={tender_token}"
+    response = self.app.patch_json(credentials_url, {"data": ""})
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={tender_token}",
+        {
+            "data": {
+                "period": {
+                    "startDate": "2016-03-20T18:47:47.155143+02:00",
+                },
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        {"endDate": ["This field is required."]},
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={tender_token}",
+        {
+            "data": {
+                "period": {
+                    "endDate": "2016-06-20T18:47:47.155143+02:00",
+                },
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        {"startDate": ["This field is required."]},
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={tender_token}",
+        {
+            "data": {
+                "period": {
+                    "startDate": "2016-06-20T18:47:47.155143+02:00",
+                    "endDate": "2016-06-10T18:47:47.155143+02:00",
+                },
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        {"startDate": ["period should begin before its end"]},
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={tender_token}",
+        {
+            "data": {
+                "period": {
+                    "startDate": "2016-03-20T18:47:47.155143+02:00",
+                    "endDate": "2016-06-20T18:47:47.155143+02:00",
+                },
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["period"]["startDate"], "2016-03-20T18:47:47.155143+02:00")
+
+
 def patch_tender_contract_single_request(self):
     tender_token = self.initial_data["tender_token"]
     credentials_url = f"/contracts/{self.contract['id']}/credentials?acc_token={tender_token}"
