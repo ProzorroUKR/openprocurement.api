@@ -67,6 +67,7 @@ entry_points = {
         "framework.electroniccatalogue = openprocurement.framework.electroniccatalogue.includeme:includeme",
         "framework.dps = openprocurement.framework.dps.includeme:includeme",
         "framework.cfaua = openprocurement.framework.cfaua.includeme:includeme",
+        "framework.ifi = openprocurement.framework.ifi.includeme:includeme",
     ],
     "openprocurement.contracting.core.plugins": [
         "contracting.econtract = openprocurement.contracting.econtract.includeme:includeme",

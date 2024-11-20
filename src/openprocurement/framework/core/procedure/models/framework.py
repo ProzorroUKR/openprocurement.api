@@ -28,6 +28,7 @@ from openprocurement.framework.core.procedure.models.document import (
 from openprocurement.framework.core.procedure.models.question import Question
 from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
 
 
@@ -195,7 +196,7 @@ class FrameworkConfig(Model):
         framework = get_request().validated.get("data")
         if not framework:
             return
-        if framework.get("frameworkType") == DPS_TYPE:
+        if framework.get("frameworkType") in (DPS_TYPE, IFI_TYPE):
             if value is None:
                 raise ValidationError("restrictedDerivatives is required for this framework type")
             if framework.get("procuringEntity", {}).get("kind") == "defense":

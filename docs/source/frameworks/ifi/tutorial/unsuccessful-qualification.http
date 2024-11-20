@@ -1,0 +1,54 @@
+PATCH /api/2.5/qualifications/61da52d3fbea49129c50b9171ce98c39?acc_token=c029ed2daf2c446a9adf956529cf0bc3 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "unsuccessful"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "documents": [
+      {
+        "id": "de1b17be13294eb89f5b48f6763575d7",
+        "datePublished": "2023-10-26T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "qualification.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5b3f7bd6512745f8aa676efc89dbeb46?Signature=HafRwGFXL%2BvgAl%2FkDMzxbaOpoWh3YjZb58%2BkOf6OKFH9XNyUQt7JFWJ0Diz2UNYkRW%2BO%2BlpGTu0uOQ9c2OwsAg%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-26T01:00:00+03:00",
+        "language": "uk"
+      },
+      {
+        "documentType": "evaluationReports",
+        "id": "26d0ce97ca2b4c2497ef490530723f58",
+        "datePublished": "2023-10-26T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c301888666eb496b836650f2f0c2ff8a?Signature=wKR0t9cwE1N4k7CgKYjrDNjhHfhkSwDWNFdaLN5QOAD0197N2NUvOTJJBHG0%2Bj3JEauJ3W%2F0kZrt2%2F6F7PIfCA%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-26T01:00:00+03:00",
+        "language": "uk"
+      }
+    ],
+    "submissionID": "3da2f72300dc4a9f882583f13279d626",
+    "frameworkID": "89208a5c9d04455eaa4c41e2b5f0d70a",
+    "status": "unsuccessful",
+    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
+    "qualificationType": "internationalFinancialInstitutions",
+    "id": "61da52d3fbea49129c50b9171ce98c39"
+  },
+  "config": {
+    "restricted": false,
+    "qualificationComplainDuration": 0
+  }
+}
+

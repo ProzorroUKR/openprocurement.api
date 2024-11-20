@@ -116,6 +116,9 @@ TENDER_CONFIG_JSONSCHEMAS = {
 FRAMEWORK_CONFIG_JSONSCHEMAS = {
     "electronicCatalogue": standards.load("data_model/schema/FrameworkConfig/electronicCatalogue.json"),
     "dynamicPurchasingSystem": standards.load("data_model/schema/FrameworkConfig/dynamicPurchasingSystem.json"),
+    "internationalFinancialInstitutions": standards.load(
+        "data_model/schema/FrameworkConfig/internationalFinancialInstitutions.json"
+    ),
 }
 
 

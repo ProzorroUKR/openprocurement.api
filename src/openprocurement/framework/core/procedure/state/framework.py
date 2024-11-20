@@ -92,7 +92,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
 
     def on_patch(self, before, after):
         self.validate_on_patch(before, after)
-        self.validate_framework_patch_status(after)
+        self.validate_framework_patch_status(before)
         self.validate_procuring_entity_kind(before, after)
         super().on_patch(before, after)
 

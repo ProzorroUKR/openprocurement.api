@@ -13,12 +13,12 @@ from openprocurement.framework.core.procedure.models.framework import (
 from openprocurement.framework.core.procedure.models.framework import (
     PostFramework as BasePostFramework,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.framework.dps.procedure.models.organization import (
+from openprocurement.framework.core.procedure.models.organization import (
     PatchActiveProcuringEntity,
     PatchProcuringEntity,
     ProcuringEntity,
 )
+from openprocurement.framework.dps.constants import DPS_TYPE
 
 
 class PostFramework(BasePostFramework):

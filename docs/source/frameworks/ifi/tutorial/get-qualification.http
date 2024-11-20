@@ -1,0 +1,24 @@
+GET /api/2.5/qualifications/61da52d3fbea49129c50b9171ce98c39 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "frameworkID": "89208a5c9d04455eaa4c41e2b5f0d70a",
+    "submissionID": "3da2f72300dc4a9f882583f13279d626",
+    "qualificationType": "internationalFinancialInstitutions",
+    "status": "pending",
+    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
+    "id": "61da52d3fbea49129c50b9171ce98c39"
+  },
+  "config": {
+    "restricted": false,
+    "qualificationComplainDuration": 0
+  }
+}
+

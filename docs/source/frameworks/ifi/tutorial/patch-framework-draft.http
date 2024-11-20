@@ -1,0 +1,76 @@
+PATCH /api/2.5/frameworks/89208a5c9d04455eaa4c41e2b5f0d70a?acc_token=c029ed2daf2c446a9adf956529cf0bc3 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "procuringEntity": {
+      "contactPoint": {
+        "telephone": "+0440000001"
+      }
+    },
+    "title": "updated in draft status"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "prettyID": "UA-F-2023-10-10-000001",
+    "title": "updated in draft status",
+    "description": "Назва предмета закупівлі",
+    "status": "draft",
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "owner": "broker",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "qualificationPeriod": {
+      "endDate": "2023-12-09T01:00:00+03:00"
+    },
+    "frameworkType": "internationalFinancialInstitutions",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000001",
+        "email": "aa@aa.com"
+      },
+      "kind": "general"
+    },
+    "id": "89208a5c9d04455eaa4c41e2b5f0d70a"
+  },
+  "config": {
+    "clarificationUntilDuration": 3,
+    "restrictedDerivatives": false,
+    "qualificationComplainDuration": 0
+  }
+}
+

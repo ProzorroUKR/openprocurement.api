@@ -13,12 +13,14 @@ from openprocurement.framework.core.procedure.models.framework import (
 from openprocurement.framework.core.procedure.models.framework import (
     PostFramework as BasePostFramework,
 )
+from openprocurement.framework.core.procedure.models.organization import (
+    PatchActiveProcuringEntity as PatchActiveCentralProcuringEntity,
+)
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
 from openprocurement.framework.electroniccatalogue.procedure.models.organization import (
     CentralProcuringEntity,
-    PatchActiveCentralProcuringEntity,
     PatchCentralProcuringEntity,
 )
 

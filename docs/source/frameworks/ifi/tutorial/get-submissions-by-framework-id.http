@@ -1,0 +1,86 @@
+GET /api/2.5/frameworks/89208a5c9d04455eaa4c41e2b5f0d70a/submissions HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "tenderers": [
+        {
+          "name": "ДКП «Школяр»",
+          "scale": "micro",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "uri": "http://www.sc.gov.ua/",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+          },
+          "address": {
+            "countryName": "Україна",
+            "streetAddress": "вул. Островського, 33",
+            "locality": "м. Вінниця",
+            "region": "Вінницька область",
+            "postalCode": "21100"
+          },
+          "contactPoint": {
+            "name": "Сергій Олексюк",
+            "telephone": "+380432216930",
+            "email": "soleksuk@gmail.com"
+          }
+        }
+      ],
+      "frameworkID": "89208a5c9d04455eaa4c41e2b5f0d70a",
+      "status": "complete",
+      "dateCreated": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
+      "date": "2023-10-26T01:00:00+03:00",
+      "qualificationID": "61da52d3fbea49129c50b9171ce98c39",
+      "datePublished": "2023-10-26T01:00:00+03:00",
+      "id": "3da2f72300dc4a9f882583f13279d626"
+    },
+    {
+      "tenderers": [
+        {
+          "name": "ДКП «Школяр»",
+          "scale": "micro",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "uri": "http://www.sc.gov.ua/",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+          },
+          "address": {
+            "countryName": "Україна",
+            "streetAddress": "вул. Островського, 33",
+            "locality": "м. Вінниця",
+            "region": "Вінницька область",
+            "postalCode": "21100"
+          },
+          "contactPoint": {
+            "name": "Сергій Олексюк",
+            "telephone": "+380432216930",
+            "email": "soleksuk@gmail.com"
+          }
+        }
+      ],
+      "frameworkID": "89208a5c9d04455eaa4c41e2b5f0d70a",
+      "status": "complete",
+      "dateCreated": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
+      "date": "2023-10-26T01:00:00+03:00",
+      "qualificationID": "78d4a13a5f274438a568fb8e618862a7",
+      "datePublished": "2023-10-26T01:00:00+03:00",
+      "id": "aabf4e9eda30494bb3f63598bb92b86a"
+    }
+  ],
+  "next_page": {
+    "offset": "1698271200.0000000020",
+    "path": "/api/2.5/submissions?offset=1698271200.0000000020",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1698271200.0000000020"
+  }
+}
+
