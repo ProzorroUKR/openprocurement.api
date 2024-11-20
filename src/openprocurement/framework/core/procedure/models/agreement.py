@@ -90,7 +90,7 @@ class AgreementChronographData(Model):
 class Agreement(CommonAgreement):
     frameworkID = StringType()
     classification = ModelType(DKClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     frameworkDetails = StringType()
 
     @serializable(serialize_when_none=False)
@@ -116,5 +116,5 @@ class PostAgreement(CommonPostAgreement):
 
     frameworkID = StringType()
     classification = ModelType(DKClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     frameworkDetails = StringType()
