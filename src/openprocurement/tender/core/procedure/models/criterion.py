@@ -396,7 +396,6 @@ class Criterion(ValidateIdMixing, BaseCriterion):
         classification = data.get("classification")
 
         if tender.get("procurementMethodType") not in (PQ,):
-
             if get_first_revision_date(tender, default=get_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
                 if not value:
                     raise ValidationError("This field is required.")

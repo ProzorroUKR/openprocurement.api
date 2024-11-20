@@ -47,7 +47,6 @@ class ExtendPeriod(Period):
 
 
 class BaseRequirementResponse(Model):
-
     period = ModelType(ExtendPeriod)
     requirement = ModelType(RequirementReference, required=True)
     relatedTenderer = ModelType(Reference)
