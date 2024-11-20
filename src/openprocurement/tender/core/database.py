@@ -4,7 +4,6 @@ from pymongo import ASCENDING, IndexModel, ReadPreference
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.database import BaseCollection
-from openprocurement.tender.pricequotation.constants import PQ
 
 logger = logging.getLogger(__name__)
 
