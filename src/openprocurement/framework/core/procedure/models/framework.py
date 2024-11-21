@@ -15,8 +15,8 @@ from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model, RootModel
 from openprocurement.api.procedure.models.item import (
     Classification as BaseClassification,
-    Item as BaseItem,
 )
+from openprocurement.api.procedure.models.item import Item as BaseItem
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )

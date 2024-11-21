@@ -9,8 +9,8 @@ from openprocurement.framework.dps.tests.base import (
 from openprocurement.framework.dps.tests.framework_blanks import (
     accreditation_level,
     complete_status,
-    create_framework_config_restricted,
     create_framework_config_has_items,
+    create_framework_config_restricted,
     create_framework_config_test,
     create_framework_draft,
     create_framework_draft_invalid,

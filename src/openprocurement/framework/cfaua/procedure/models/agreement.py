@@ -1,13 +1,16 @@
 from decimal import Decimal
 from uuid import uuid4
 
-from schematics.types import StringType, MD5Type
+from schematics.types import MD5Type, StringType
 from schematics.types.compound import PolyModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import AdditionalClassification
+from openprocurement.api.procedure.models.item import (
+    AdditionalClassification,
+    CPVClassification,
+)
 from openprocurement.api.procedure.models.item import Item as BaseItem
 from openprocurement.api.procedure.models.item import TechFeatureItemMixin
 from openprocurement.api.procedure.models.organization import (
@@ -54,7 +57,6 @@ from openprocurement.framework.core.procedure.models.agreement import (
 from openprocurement.framework.core.procedure.models.contact import (
     CommonContactPoint as BaseContactPoint,
 )
-from openprocurement.framework.core.procedure.models.item import CPVClassification
 
 
 class FeatureValue(Model):

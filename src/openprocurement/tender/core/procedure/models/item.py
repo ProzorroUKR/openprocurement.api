@@ -12,15 +12,12 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import AdditionalClassification
 from openprocurement.api.procedure.models.item import (
-    CPVClassification as BaseCPVClassification,
-)
-from openprocurement.api.procedure.models.item import (
+    AdditionalClassification,
+    CPVClassification,
     Location,
     TechFeatureItemMixin,
     validate_additional_classifications,
-    validate_scheme,
 )
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import ListType, ModelType
@@ -32,11 +29,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_gmdn,
     validate_ua_road,
 )
-
-
-class CPVClassification(BaseCPVClassification):
-    def validate_scheme(self, data, scheme):
-        validate_scheme(get_tender(), scheme)
 
 
 class BaseItem(Model):
