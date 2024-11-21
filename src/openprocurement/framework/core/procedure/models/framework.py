@@ -31,10 +31,20 @@ from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
-
+from openprocurement.api.procedure.models.unit import Unit
+from openprocurement.api.procedure.models.item import (
+    AdditionalClassification,
+    CPVClassification,
+)
+from openprocurement.api.procedure.models.address import Address
 
 class Item(BaseItem):
-    pass
+    classification = ModelType(CPVClassification, required=True)
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
+    description_en = StringType(required=True, min_length=1)
+    deliveryDate = ModelType(PeriodEndRequired, required=True)
+    deliveryAddress = ModelType(Address, required=True)
+    unit = ModelType(Unit)
 
 
 class DKClassification(BaseClassification):
