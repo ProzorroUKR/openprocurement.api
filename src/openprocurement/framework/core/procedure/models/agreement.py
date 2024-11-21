@@ -4,7 +4,6 @@ from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model, RootModel
 from openprocurement.api.procedure.models.organization import Organization
 from openprocurement.api.procedure.models.period import PeriodEndRequired
@@ -14,7 +13,6 @@ from openprocurement.framework.core.procedure.models.framework import (
     AdditionalClassification,
     DKClassification,
 )
-from openprocurement.framework.core.utils import generate_agreement_id
 from openprocurement.framework.dps.constants import DPS_TYPE
 
 
@@ -107,14 +105,3 @@ class Agreement(CommonAgreement):
                 checks.append(min(milestone_dueDates))
             checks.append(self.period.endDate)
         return min(checks).isoformat() if checks else None
-
-
-class PostAgreement(CommonPostAgreement):
-    @serializable(serialized_name="agreementID")
-    def agreement_id(self):
-        return generate_agreement_id(get_request())
-
-    frameworkID = StringType()
-    classification = ModelType(DKClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
-    frameworkDetails = StringType()
