@@ -97,8 +97,11 @@ class AgreementState(BaseState, ChronographEventsMixing):
                 "config": {
                     "test": framework["config"].get("test", False),
                     "restricted": framework["config"].get("restrictedDerivatives", False),
+                    "hasItems": framework["config"].get("hasItems", False),
                 },
             }
+            if "items" in framework:
+                agreement["items"] = framework["items"]
 
             request_init_agreement(request, agreement, agreement_src={})
 

@@ -78,6 +78,7 @@ class CommonPostAgreement(Model):
 class AgreementConfig(Model):
     test = BooleanType()
     restricted = BooleanType()
+    hasItems = BooleanType()
 
 
 class AgreementChronographData(Model):
