@@ -256,7 +256,9 @@ class BidState(BaseState):
                 status=422,
             )
 
-        check_all_tender_items = self.check_all_exist_tender_items or self.request.validated["tender"].get("funders")
+        check_all_tender_items = self.check_all_exist_tender_items or (
+            self.items_unit_value_required_for_funders and self.request.validated["tender"].get("funders")
+        )
 
         if check_all_tender_items and tender_items_id - bid_items_id:
             raise_operation_error(
