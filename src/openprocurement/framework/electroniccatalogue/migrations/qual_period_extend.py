@@ -1,11 +1,11 @@
 # pylint: disable=wrong-import-position
+from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
 
     monkey.patch_all(thread=False, select=False)
 
-import argparse
 import datetime
 import logging
 import os
@@ -13,7 +13,7 @@ from time import sleep
 
 from pyramid.paster import bootstrap
 
-from openprocurement.api.constants import BASE_DIR, TZ
+from openprocurement.api.constants import TZ
 from openprocurement.api.context import get_request
 from openprocurement.api.database import get_public_modified, get_public_ts
 from openprocurement.api.procedure.utils import parse_date
@@ -149,20 +149,7 @@ def run(env):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-p",
-        default=os.path.join(BASE_DIR, "etc/service.ini"),
-        help="Path to service.ini file",
-    )
-    parser.add_argument(
-        "-b",
-        type=int,
-        default=1000,
-        help=(
-            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
-        ),
-    )
+    parser = MigrationArgumentParser()
     parser.add_argument("-f", type=str, required=True, help=("File csv with the list of framework ids."))
     parser.add_argument("-d", type=str, required=True, help=("New qualificationPeriod.endDate."))
     args = parser.parse_args()

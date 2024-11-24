@@ -1,11 +1,11 @@
 # pylint: disable=wrong-import-position
+from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
 
     monkey.patch_all(thread=False, select=False)
 
-import argparse
 import logging
 import os
 import re
@@ -16,7 +16,6 @@ from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
-from openprocurement.api.constants import BASE_DIR
 from openprocurement.api.utils import get_now
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -225,20 +224,7 @@ def run(env):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-p",
-        default=os.path.join(BASE_DIR, "etc/service.ini"),
-        help="Path to service.ini file",
-    )
-    parser.add_argument(
-        "-b",
-        type=int,
-        default=1000,
-        help=(
-            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
-        ),
-    )
+    parser = MigrationArgumentParser()
     parser.add_argument("-c", type=str, default="tenders", help="Collection name.")
     args = parser.parse_args()
 

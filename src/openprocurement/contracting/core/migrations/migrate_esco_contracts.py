@@ -3,6 +3,7 @@
 from collections import defaultdict
 
 from openprocurement.api.context import set_now
+from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.api.procedure.utils import append_revision, get_revision_changes
 
 if __name__ == "__main__":
@@ -10,14 +11,12 @@ if __name__ == "__main__":
 
     monkey.patch_all(thread=False, select=False)
 
-import argparse
 import logging
 import os
 
 from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
-from openprocurement.api.constants import BASE_DIR
 from openprocurement.contracting.econtract.procedure.models.contract import (
     Buyer,
     Supplier,
@@ -200,21 +199,7 @@ def run(env, args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-p",
-        default=os.path.join(BASE_DIR, "etc/service.ini"),
-        help="Path to service.ini file",
-    )
-    parser.add_argument(
-        "-b",
-        type=int,
-        default=1000,
-        help=(
-            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
-        ),
-    )
-
+    parser = MigrationArgumentParser()
     parser.add_argument(
         "-s",
         default="pending",
