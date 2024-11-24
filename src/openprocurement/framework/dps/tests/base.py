@@ -151,6 +151,8 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_dps_data
     initial_config = test_framework_dps_config
+    initial_submission_data = None
+    initial_submission_config = None
     framework_class = Framework
     framework_type = DPS_TYPE
     periods = PERIODS
@@ -188,19 +190,6 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
             self.mongodb.frameworks.save(self.framework_document)
             self.framework_document = self.mongodb.frameworks.get(self.framework_id)
             self.framework_document_patch = {}
-
-
-class FrameworkContentWebTest(BaseFrameworkWebTest):
-    initial_status = None
-
-    def setUp(self):
-        super().setUp()
-        self.create_framework()
-
-
-class BaseSubmissionContentWebTest(FrameworkContentWebTest):
-    initial_submission_data = None
-    initial_submission_config = test_submission_config
 
     def get_submission(self, role):
         with change_auth(self.app, ("Basic", (role, ""))):
@@ -279,22 +268,6 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
         self.assertEqual(response.json["data"]["qualificationType"], self.framework_type)
         return response
 
-    def setUp(self):
-        super().setUp()
-        self.initial_submission_data["frameworkID"] = self.framework_id
-        self.activate_framework()
-
-    def tearDown(self):
-        super().tearDown()
-
-
-class SubmissionContentWebTest(BaseSubmissionContentWebTest):
-    def setUp(self):
-        super().setUp()
-        self.create_submission()
-
-
-class BaseAgreementContentWebTest(SubmissionContentWebTest):
     def set_agreement_status(self, status, extra=None):
         self.now = get_now()
         self.agreement_document = self.mongodb.agreements.get(self.agreement_id)
@@ -341,10 +314,42 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
         return self.get_agreement("view")
 
 
+class FrameworkContentWebTest(BaseFrameworkWebTest):
+    initial_status = None
+
+    def setUp(self):
+        super().setUp()
+        self.create_framework()
+
+
+class BaseSubmissionContentWebTest(FrameworkContentWebTest):
+    initial_submission_data = None
+    initial_submission_config = test_submission_config
+
+    def setUp(self):
+        super().setUp()
+        if self.initial_submission_data:
+            self.initial_submission_data["frameworkID"] = self.framework_id
+        self.activate_framework()
+
+    def tearDown(self):
+        super().tearDown()
+
+
+class SubmissionContentWebTest(BaseSubmissionContentWebTest):
+    def setUp(self):
+        super().setUp()
+        self.create_submission()
+
+
+class BaseAgreementContentWebTest(SubmissionContentWebTest):
+    pass
+
+
 class AgreementContentWebTest(BaseAgreementContentWebTest):
     def setUp(self):
         super().setUp()
-        response = self.activate_submission()
+        self.activate_submission()
         self.activate_qualification()
         response = self.get_framework()
         self.agreement_id = response.json["data"]["agreementID"]

@@ -13,3 +13,4 @@ Contents:
    restricted_derivatives
    clarification_until_duration
    qualification_complain_duration
+   has_items
