@@ -1,7 +1,4 @@
 # pylint: disable=wrong-import-position
-import traceback
-
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -10,8 +7,11 @@ if __name__ == "__main__":
 
 import logging
 import os
+import traceback
 
 from pyramid.paster import bootstrap
+
+from openprocurement.api.migrations.base import MigrationArgumentParser
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)

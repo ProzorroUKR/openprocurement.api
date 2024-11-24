@@ -1,7 +1,4 @@
 # pylint: disable=wrong-import-position
-from time import sleep
-
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -10,11 +7,13 @@ if __name__ == "__main__":
 
 import logging
 import os
+from time import sleep
 
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
+from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.limited.constants import (

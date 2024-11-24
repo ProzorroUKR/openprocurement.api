@@ -1,5 +1,4 @@
 # pylint: disable=wrong-import-position
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -16,6 +15,7 @@ from pyramid.paster import bootstrap
 from openprocurement.api.constants import TZ
 from openprocurement.api.context import get_request
 from openprocurement.api.database import get_public_modified, get_public_ts
+from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.state.agreement import (

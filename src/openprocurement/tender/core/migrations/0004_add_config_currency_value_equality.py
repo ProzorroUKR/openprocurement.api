@@ -1,5 +1,4 @@
 # pylint: disable=wrong-import-position
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -10,6 +9,8 @@ import logging
 import os
 
 from pyramid.paster import bootstrap
+
+from openprocurement.api.migrations.base import MigrationArgumentParser
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)

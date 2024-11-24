@@ -4,7 +4,6 @@
 
 Add value estimation parameter to all existed tenders.
 """
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -16,6 +15,7 @@ import os
 
 from pyramid.paster import bootstrap
 
+from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.tender.esco.constants import ESCO
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')

@@ -1,5 +1,4 @@
 # pylint: disable=wrong-import-position
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -13,6 +12,7 @@ from datetime import timedelta
 import pymongo
 from pyramid.paster import bootstrap
 
+from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE

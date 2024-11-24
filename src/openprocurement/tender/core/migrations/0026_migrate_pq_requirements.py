@@ -1,7 +1,4 @@
 # pylint: disable=wrong-import-position
-import traceback
-
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -10,11 +7,13 @@ if __name__ == "__main__":
 
 import logging
 import os
+import traceback
 from copy import deepcopy
 from decimal import Decimal
 
 from pyramid.paster import bootstrap
 
+from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import get_now
 from openprocurement.tender.pricequotation.constants import PQ

@@ -3,8 +3,6 @@ from copy import deepcopy
 from datetime import datetime
 from time import sleep
 
-from openprocurement.api.migrations.base import MigrationArgumentParser
-
 if __name__ == "__main__":
     from gevent import monkey
 
@@ -16,6 +14,8 @@ import os
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
+
+from openprocurement.api.migrations.base import MigrationArgumentParser
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)

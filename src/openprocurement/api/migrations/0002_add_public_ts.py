@@ -1,5 +1,4 @@
 # pylint: disable=wrong-import-position
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -13,6 +12,8 @@ from decimal import Decimal
 from bson import Timestamp
 from pymongo import ASCENDING, IndexModel
 from pyramid.paster import bootstrap
+
+from openprocurement.api.migrations.base import MigrationArgumentParser
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)

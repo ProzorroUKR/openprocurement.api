@@ -1,5 +1,4 @@
 # pylint: disable=wrong-import-position
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -16,6 +15,7 @@ from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
+from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.api.utils import get_now
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')

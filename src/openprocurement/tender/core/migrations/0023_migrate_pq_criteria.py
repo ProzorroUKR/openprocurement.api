@@ -1,5 +1,4 @@
 # pylint: disable=wrong-import-position
-from openprocurement.api.migrations.base import MigrationArgumentParser
 
 if __name__ == "__main__":
     from gevent import monkey
@@ -12,6 +11,7 @@ import os
 from bson.decimal128 import Decimal128
 from pyramid.paster import bootstrap
 
+from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
