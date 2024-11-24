@@ -58,6 +58,7 @@ class FrameworkConfigCSVMixin:
         framework_types = [
             "dynamicPurchasingSystem",
             "electronicCatalogue",
+            "internationalFinancialInstitutions"
         ]
 
         headers = [
