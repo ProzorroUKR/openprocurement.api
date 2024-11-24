@@ -99,7 +99,8 @@ Content-Type: application/json
     "id": "4860703af9044dc19e30f45f4e537fb9"
   },
   "config": {
-    "restricted": false
+    "restricted": false,
+    "hasItems": false
   }
 }
 

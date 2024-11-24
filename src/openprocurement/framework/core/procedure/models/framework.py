@@ -12,15 +12,19 @@ from openprocurement.api.constants import (
     SANDBOX_MODE,
 )
 from openprocurement.api.context import get_request
+from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model, RootModel
+from openprocurement.api.procedure.models.item import AdditionalClassification
 from openprocurement.api.procedure.models.item import (
     Classification as BaseClassification,
 )
+from openprocurement.api.procedure.models.item import CPVClassification
 from openprocurement.api.procedure.models.item import Item as BaseItem
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
 from openprocurement.api.procedure.models.period import PeriodEndRequired
+from openprocurement.api.procedure.models.unit import Unit
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.framework.core.procedure.models.document import (
     Document,
@@ -31,12 +35,7 @@ from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
-from openprocurement.api.procedure.models.unit import Unit
-from openprocurement.api.procedure.models.item import (
-    AdditionalClassification,
-    CPVClassification,
-)
-from openprocurement.api.procedure.models.address import Address
+
 
 class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)

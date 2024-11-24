@@ -2,15 +2,10 @@ from decimal import Decimal
 from uuid import uuid4
 
 from schematics.types import StringType
+
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import (
-    DecimalType,
-    ListType,
-    ModelType,
-)
-from openprocurement.api.procedure.validation import (
-    validate_values_uniq,
-)
+from openprocurement.api.procedure.types import DecimalType, ListType, ModelType
+from openprocurement.api.procedure.validation import validate_values_uniq
 
 
 class FeatureValue(Model):

@@ -1,20 +1,11 @@
-from openprocurement.framework.cfaua.procedure.models.feature import Feature
-from openprocurement.framework.cfaua.procedure.models.item import Item
-from openprocurement.framework.cfaua.procedure.models.organization import ProcuringEntity
 from schematics.types import StringType
 from schematics.types.compound import PolyModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.types import (
-    IsoDateTimeType,
-    ListType,
-    ModelType,
-)
-from openprocurement.api.procedure.validation import (
-    validate_features_uniq,
-)
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.utils import get_change_class
 from openprocurement.framework.cfaua.procedure.models.change import (
     ChangeItemPriceVariation,
@@ -30,6 +21,11 @@ from openprocurement.framework.cfaua.procedure.models.contract import Contract
 from openprocurement.framework.cfaua.procedure.models.document import (
     Document,
     PostDocument,
+)
+from openprocurement.framework.cfaua.procedure.models.feature import Feature
+from openprocurement.framework.cfaua.procedure.models.item import Item
+from openprocurement.framework.cfaua.procedure.models.organization import (
+    ProcuringEntity,
 )
 from openprocurement.framework.core.procedure.models.agreement import (
     CommonAgreement as BaseAgreement,

@@ -1,16 +1,15 @@
 from schematics.types import StringType
-from openprocurement.api.procedure.types import (
-    ListType,
-    ModelType,
-)
+
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.organization import (
     PROCURING_ENTITY_KINDS,
     Organization,
 )
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.framework.core.procedure.models.contact import (
     CommonContactPoint as BaseContactPoint,
 )
+
 
 class ContactPoint(BaseContactPoint):
     availableLanguage = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
