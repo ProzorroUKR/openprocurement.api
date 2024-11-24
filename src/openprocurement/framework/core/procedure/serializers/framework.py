@@ -1,10 +1,15 @@
 from typing import Any
 
+from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
+from openprocurement.api.context import get_request
 from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
 )
-from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
+from openprocurement.api.procedure.serializers.config import (
+    BaseConfigSerializer,
+    false_is_none_serializer,
+)
 from openprocurement.framework.core.procedure.serializers.question import (
     QuestionSerializer,
 )
@@ -42,34 +47,27 @@ class FrameworkSerializer(BaseUIDSerializer):
         return super().serialize(data, **kwargs)
 
 
-def test_serializer(value):
-    if value is False:
-        return None
-    return value
+def framework_config_default_value(key):
+    request = get_request()
+    framework = request.validated.get("framework") or request.validated.get("data")
+    framework_type = framework.get("frameworkType")
+    config_schema = FRAMEWORK_CONFIG_JSONSCHEMAS.get(framework_type)
+    return config_schema["properties"][key]["default"]
 
 
-def restricted_derivatives_serializer(value):
-    if value is None:
-        return False
-    return value
+def framework_config_default_serializer(key):
+    def serializer(value):
+        if value is None:
+            return framework_config_default_value(key)
+        return value
 
-
-def clarification_until_duration_serializer(value):
-    if value is None:
-        return 3
-    return value
-
-
-def qualification_complain_duration_serializer(value):
-    if value is None:
-        return 0
-    return value
+    return serializer
 
 
 class FrameworkConfigSerializer(BaseConfigSerializer):
     serializers = {
-        "test": test_serializer,
-        "restrictedDerivatives": restricted_derivatives_serializer,
-        "clarificationUntilDuration": clarification_until_duration_serializer,
-        "qualificationComplainDuration": qualification_complain_duration_serializer,
+        "test": false_is_none_serializer,
+        "restrictedDerivatives": framework_config_default_serializer("restrictedDerivatives"),
+        "clarificationUntilDuration": framework_config_default_serializer("clarificationUntilDuration"),
+        "qualificationComplainDuration": framework_config_default_serializer("qualificationComplainDuration"),
     }
