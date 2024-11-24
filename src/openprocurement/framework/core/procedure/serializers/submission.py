@@ -2,7 +2,11 @@ from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
 )
-from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
+from openprocurement.api.procedure.serializers.config import (
+    BaseConfigSerializer,
+    false_is_none_serializer,
+    none_is_false_serializer,
+)
 from openprocurement.framework.core.procedure.serializers.document import (
     SubmissionDocumentSerializer,
 )
@@ -34,20 +38,8 @@ class SubmissionSerializer(BaseUIDSerializer):
         self.private_fields = set(self.base_private_fields)
 
 
-def test_serializer(value):
-    if value is False:
-        return None
-    return value
-
-
-def restricted_serializer(value):
-    if value is None:
-        return False
-    return value
-
-
 class SubmissionConfigSerializer(BaseConfigSerializer):
     serializers = {
-        "test": test_serializer,
-        "restricted": restricted_serializer,
+        "test": false_is_none_serializer,
+        "restricted": none_is_false_serializer,
     }

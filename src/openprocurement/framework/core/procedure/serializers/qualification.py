@@ -2,9 +2,13 @@ from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
 )
-from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
+from openprocurement.api.procedure.serializers.config import (
+    BaseConfigSerializer,
+    false_is_none_serializer,
+    none_is_false_serializer,
+)
 from openprocurement.framework.core.procedure.serializers.framework import (
-    qualification_complain_duration_serializer,
+    framework_config_default_serializer,
 )
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
@@ -37,21 +41,9 @@ class QualificationSerializer(BaseUIDSerializer):
         self.private_fields = set(self.base_private_fields)
 
 
-def test_serializer(value):
-    if value is False:
-        return None
-    return value
-
-
-def restricted_serializer(value):
-    if value is None:
-        return False
-    return value
-
-
 class QualificationConfigSerializer(BaseConfigSerializer):
     serializers = {
-        "test": test_serializer,
-        "restricted": restricted_serializer,
-        "qualificationComplainDuration": qualification_complain_duration_serializer,
+        "test": false_is_none_serializer,
+        "restricted": none_is_false_serializer,
+        "qualificationComplainDuration": framework_config_default_serializer("qualificationComplainDuration"),
     }

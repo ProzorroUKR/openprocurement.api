@@ -12,3 +12,15 @@ class BaseConfigSerializer(BaseSerializer):
                 self._data[field_name] = None
 
     serializers = {}
+
+
+def false_is_none_serializer(value):
+    if value is False:
+        return None
+    return value
+
+
+def none_is_false_serializer(value):
+    if value is None:
+        return False
+    return value
