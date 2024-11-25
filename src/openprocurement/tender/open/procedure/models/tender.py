@@ -32,9 +32,9 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD,
+    CO_TENDERING_DURATION,
     COMPETITIVE_ORDERING,
     TENDERING_DURATION,
-    CO_TENDERING_DURATION,
 )
 from openprocurement.tender.open.procedure.models.item import Item
 from openprocurement.tender.open.procedure.models.organization import ProcuringEntity

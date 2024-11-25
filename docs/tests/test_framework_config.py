@@ -55,11 +55,7 @@ class FrameworkConfigCSVMixin:
         return row
 
     def write_config_values_csv(self, config_name, file_path):
-        framework_types = [
-            "dynamicPurchasingSystem",
-            "electronicCatalogue",
-            "internationalFinancialInstitutions"
-        ]
+        framework_types = ["dynamicPurchasingSystem", "electronicCatalogue", "internationalFinancialInstitutions"]
 
         headers = [
             "frameworkType",
