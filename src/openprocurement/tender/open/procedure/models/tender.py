@@ -34,6 +34,7 @@ from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD,
     COMPETITIVE_ORDERING,
     TENDERING_DURATION,
+    CO_TENDERING_DURATION,
 )
 from openprocurement.tender.open.procedure.models.item import Item
 from openprocurement.tender.open.procedure.models.organization import ProcuringEntity
@@ -68,7 +69,11 @@ class PostTender(BasePostTender):
     def validate_tenderPeriod(self, data, period):
         if period:
             validate_tender_period_start_date(data, period)
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
+            if data.get("procurementMethodType") == COMPETITIVE_ORDERING:
+                # TODO: Move to separate procedure
+                validate_tender_period_duration(data, period, CO_TENDERING_DURATION)
+            else:
+                validate_tender_period_duration(data, period, TENDERING_DURATION)
 
 
 class PatchTender(BasePatchTender):
@@ -136,4 +141,8 @@ class Tender(BaseTender):
 
     def validate_tenderPeriod(self, data, period):
         if period:
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
+            if data.get("procurementMethodType") == COMPETITIVE_ORDERING:
+                # TODO: Move to separate procedure
+                validate_tender_period_duration(data, period, CO_TENDERING_DURATION)
+            else:
+                validate_tender_period_duration(data, period, TENDERING_DURATION)

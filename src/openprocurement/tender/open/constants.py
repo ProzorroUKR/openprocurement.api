@@ -4,6 +4,11 @@ from openprocurement.api.constants import TZ
 
 TENDERING_DAYS = 7
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
+
+# TODO: Move to separate procedure
+CO_TENDERING_DAYS = 3
+CO_TENDERING_DURATION = timedelta(days=CO_TENDERING_DAYS)
+
 STAND_STILL_TIME = timedelta(days=5)
 ENQUIRY_STAND_STILL_TIME = timedelta(days=3)
 CLAIM_SUBMIT_TIME = timedelta(days=3)
