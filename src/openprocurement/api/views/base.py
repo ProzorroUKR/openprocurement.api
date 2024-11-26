@@ -1,5 +1,8 @@
 from logging import getLogger
 
+from hashlib import md5
+from typing import Any
+
 from bson import Timestamp
 
 from openprocurement.api.constants import CRITICAL_HEADERS_LOG_ENABLED
@@ -23,26 +26,45 @@ class BaseResource:
             self.LOGGER.info("Log request", extra=context_unpack(self.request, {}))
 
 
-def parse_offset(offset: str):
+def parse_offset(offset: str) -> tuple[Timestamp | float, int, str]:
+    skip_len = 0
+    skip_hash = ""
+
     parts = offset.split(".")
-    if len(parts) == 2 and len(parts[1]) == 10:  # timestamp offset format (for public_ts field)
-        seconds, ordinal = parts
-        return Timestamp(int(seconds), int(ordinal))
+    if len(parts) > 2 and len(parts[1]) == 10:  # timestamp offset format (for public_ts field)
+        seconds, ordinal = parts[:2]
+        offset_value = Timestamp(int(seconds), int(ordinal))
+        if len(parts) == 4:
+            skip_len, skip_hash = parts[2:]
+            skip_len = int(skip_len)
+        return offset_value, skip_len, skip_hash
+
     try:
         # timestamp offset format (for "public_modified" field)
-        return float(offset)
+        offset_value = float(offset)
     except ValueError:
         # Used deprecated offset in iso format
-        return parse_date(offset.replace(" ", "+")).timestamp()
+        offset_value = parse_date(offset.replace(" ", "+")).timestamp()
+
+    return offset_value, skip_len, skip_hash
 
 
-def compose_offset(offset: float | Timestamp) -> str:
-    # if request.user_agent in DEPRECATED_FEED_USER_AGENTS:  # can we drop this please ?
-    #     # Use deprecated offset in iso format
-    #     return datetime.fromtimestamp(offset).astimezone(TZ).isoformat()
+def get_offset_params(offset: Timestamp, items: list[dict[str, Any]], offset_field: str) -> tuple[str, int]:
+    offset_item_ids = sorted(r["id"] for r in items if r[offset_field] == offset)
+    skip_hash = md5(
+        "".join(offset_item_ids).encode()
+    ).hexdigest()
+    skip_len = len(offset_item_ids)
+    return skip_hash, skip_len
+
+
+def compose_offset(offset: Timestamp, items: list[dict[str, Any]], offset_field: str) -> str:
+    skip_hash, skip_len = get_offset_params(offset, items, offset_field)
+    return f"{offset.time}.{offset.inc:010}.{skip_len}.{skip_hash}"
+
+
+def compose_offset_depr(offset: float | Timestamp) -> str:
     if isinstance(offset, Timestamp):
-        # Timestamp(1721045886, 4)        -> '1721045886.000004'
-        # Timestamp(1721045886, 1234567)  -> '1721045886.1234567'
         return f"{offset.time}.{offset.inc:010}"
     else:
         # offset in timestamp format "seconds.milliseconds"
@@ -75,12 +97,13 @@ class MongodbResourceListing(BaseResource):
         if self.request.params.get("mode"):
             params["mode"] = self.request.params.get("mode")
 
-        # offset param
-        offset = None
+        # parse offset param
+        skip_len = 0
+        offset_value = skip_hash = None
         offset_param = self.request.params.get("offset")
         if offset_param:
             try:
-                offset = parse_offset(offset_param)
+                offset_value, skip_len, skip_hash = parse_offset(offset_param)
             except ValueError:
                 raise_operation_error(
                     self.request,
@@ -89,7 +112,6 @@ class MongodbResourceListing(BaseResource):
                     location="querystring",
                     name="offset",
                 )
-            params["offset"] = compose_offset(offset)
 
         # limit param
         limit_param = self.request.params.get("limit")
@@ -129,26 +151,45 @@ class MongodbResourceListing(BaseResource):
 
         data_fields = opt_fields | self.listing_default_fields
         db_fields = self.db_fields(data_fields)
-        timestamp_offset_field = "public_ts"
+        ts_offset_field = "public_ts"
         depr_offset_field = "public_modified"
 
         # call db method
+        limit_results = params.get("limit", self.default_limit)
         results = self.db_listing_method(
-            offset_field=depr_offset_field if isinstance(offset, float) else timestamp_offset_field,
-            offset_value=offset,
-            fields=db_fields | {timestamp_offset_field},
+            offset_field=depr_offset_field if isinstance(offset_value, float) else ts_offset_field,
+            offset_value=offset_value,
+            fields=db_fields | {ts_offset_field},
             descending=params.get("descending"),
-            limit=params.get("limit", self.default_limit),
+            limit=limit_results + skip_len,  # + offset items length
             mode=params.get("mode"),
             filters=filters,
+            inclusive_filter=skip_len > 0,
         )
 
         # prepare response
         if results:
-            params["offset"] = compose_offset(results[-1][timestamp_offset_field])
-            prev_params["offset"] = compose_offset(results[0][timestamp_offset_field])
+            # find same offset results
+            if skip_len:  # should be always the case with new offsets
+                actual_skip_hash, actual_skip_len = get_offset_params(offset_value, results, ts_offset_field)
+                # we only "hide" items with provided 'offset_value', when their ids hash is equal to the expected
+                if actual_skip_len == skip_len and actual_skip_hash == skip_hash:
+                    results = [r for r in results if r[ts_offset_field] != offset_value]
+
+            if offset_value is None or isinstance(offset_value, Timestamp):
+                # for Timestamp we always calculate new forward and backward offsets
+                # that include offset values, lengths and hashes
+                params["offset"] = compose_offset(results[-1][ts_offset_field], results, ts_offset_field)
+                prev_params["offset"] = compose_offset(results[0][ts_offset_field], results, ts_offset_field)
+            else:
+                params["offset"] = str(results[-1][ts_offset_field])
+                prev_params["offset"] = str(results[0][ts_offset_field])
+
             for r in results:
-                r.pop(timestamp_offset_field)
+                r.pop(ts_offset_field)
+        else:
+            params["offset"] = offset_param or ""  # remain the same if there is no results
+
         data = {
             "data": self.filter_results_fields(results, data_fields),
             "next_page": self.get_page(keys, params),

@@ -1,9 +1,11 @@
+import logging
 import os
 from contextlib import contextmanager
 from decimal import Decimal
 from logging import getLogger
 from uuid import uuid4
 
+from bson import Timestamp
 from bson.codec_options import CodecOptions, TypeCodec, TypeRegistry
 from bson.decimal128 import Decimal128
 from pymongo import (
@@ -166,6 +168,7 @@ class MongodbStore:
         self,
         collection,
         fields,
+        inclusive_filter: bool,
         offset_field="_id",
         offset_value=None,
         mode="all",
@@ -180,7 +183,9 @@ class MongodbStore:
         elif mode != "_all_":
             filters["is_test"] = False
         if offset_value:
-            filters[offset_field] = {"$lt" if descending else "$gt": offset_value}
+            suffix = "e" if inclusive_filter else ""
+            operator = "$lt" if descending else "$gt"
+            filters[offset_field] = {operator + suffix: offset_value}
         results = list(
             collection.find(
                 filter=filters,
