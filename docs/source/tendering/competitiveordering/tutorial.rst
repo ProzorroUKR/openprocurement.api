@@ -37,11 +37,6 @@ If we try to add complaint about tender, we will see the error:
 .. http:example:: http/tender-add-complaint-error.http
    :code:
 
-Tender can contain only one lot. If we will try to add more than one lot, we will get error:
-
-.. http:example:: http/tender-add-lot-more-than-1-error.http
-   :code:
-
 Also you will need to update data about item's related lots:
 
 .. http:example:: http/tender-add-relatedLot-to-item.http
