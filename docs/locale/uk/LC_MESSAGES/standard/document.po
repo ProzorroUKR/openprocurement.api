@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-08 14:22+0200\n"
+"POT-Creation-Date: 2024-11-27 17:16+0200\n"
 "PO-Revision-Date: 2019-02-04 11:33+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -51,149 +51,17 @@ msgstr "`proposal` - **Файл підпису підтвердження про
 msgid "Can be used in  :ref:`bid`"
 msgstr "Використовується в документах до :ref:`bid`"
 
-msgid "Possible values for :ref:`tender`"
-msgstr "Можливі значення для :ref:`tender`"
+msgid "Possible values for :ref:`tender`: `tender document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_"
+msgstr "Можливі значення :ref:`tender`: `типи документів для зкупівлі. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_"
 
-msgid "`notice` - **Tender notice**"
-msgstr "`notice` - **Повідомлення про закупівлю**"
+msgid "Possible values for :ref:`award`: `award document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/award.json>`_"
+msgstr "Можливі значення :ref:`award`: `типи документів для авардів. <https://github.com/ProzorroUKR/standards/blob/master/document_types/award.json>`_"
 
-msgid "NOT USED ANYMORE. Now it's use as sign document."
-msgstr "БІЛЬШЕ НЕ ВИКОРИСТОВУЄТЬСЯ. Зараз цей тип документу використовується в якості файлу підпису."
+msgid "Possible values for :ref:`contract`: `contract document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/contract.json>`_"
+msgstr "Можливі значення :ref:`contract`: `типи документів для контрактів. <https://github.com/ProzorroUKR/standards/blob/master/document_types/contract.json>`_"
 
-msgid "Earlier this type of document was used as the formal notice that gives details of a tender. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained."
-msgstr "Раніше цей тип документу використовувався як офіційне повідомлення, що містить деталі закупівлі. Це може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень, де розміщено повідомлення."
-
-msgid "`biddingDocuments` - **Bidding Documents**"
-msgstr "`biddingDocuments` - **Документи закупівлі**"
-
-msgid "Information for potential suppliers, describing the goals of the contract (e.g. goods and services to be procured), and the bidding process."
-msgstr "Інформація для потенційних постачальників, що описує цілі договору (наприклад, товари та послуги, які будуть закуплені) і процес торгів."
-
-msgid "`technicalSpecifications` - **Technical Specifications**"
-msgstr "`technicalSpecifications` - **Технічні специфікації**"
-
-msgid "Detailed technical information about goods or services to be provided."
-msgstr "Детальна технічна інформація про товари або послуги, що повинні бути надані."
-
-msgid "`evaluationCriteria` - **Evaluation Criteria**"
-msgstr "`evaluationCriteria` - **Критерії оцінки**"
-
-msgid "Information about how bids will be evaluated."
-msgstr "Інформація про те, як будуть оцінюватись пропозиції."
-
-msgid "`clarifications` - **Clarifications to bidders questions**"
-msgstr "`clarifications` - **Пояснення до питань заданих учасниками**"
-
-msgid "Including replies to issues raised in pre-bid conferences."
-msgstr "Включає відповіді на питання, підняті на передтендерних конференціях."
-
-msgid "`eligibilityCriteria` - **Eligibility Criteria**"
-msgstr "`eligibilityCriteria` - **Критерії прийнятності**"
-
-msgid "Detailed documents about the eligibility of bidders."
-msgstr "Докладні документи про критерії відбору."
-
-msgid "`shortlistedFirms` - **Shortlisted Firms**"
-msgstr "`shortlistedFirms` - **Фірми у короткому списку**"
-
-msgid "`riskProvisions` - **Provisions for management of risks and liabilities**"
-msgstr "`riskProvisions` - **Положення для управління ризиками та зобов'язаннями**"
-
-msgid "`billOfQuantity` - **Bill Of Quantity**"
-msgstr "`billOfQuantity` - **Кошторис**"
-
-msgid "For Open EU procedure `billOfQuantity` should be contained in `financialDocuments` envelope. See :ref:`bid`."
-msgstr ""
-
-msgid "`bidders` - **Information on bidders**"
-msgstr "`bidders` - **Інформація про учасників**"
-
-msgid "Information on bidders or participants, their validation documents and any procedural exemptions for which they qualify."
-msgstr "Інформація про учасників, їхні документи для перевірки та будь-які процесуальні пільги, на які вони можуть претендувати."
-
-msgid "`conflictOfInterest` - **Conflicts of interest uncovered**"
-msgstr "`conflictOfInterest` - **Виявлені конфлікти інтересів**"
-
-msgid "`debarments` - **Debarments issued**"
-msgstr "`debarments` - **Відмова у допуску до закупівлі**"
-
-msgid "`contractProforma` - **Draft contract**"
-msgstr "`contractProforma` - **Проект договору**"
-
-msgid "Possible values for :ref:`award`"
-msgstr "Можливі значення для :ref:`award`"
-
-msgid "`notice` - **Award Notice**"
-msgstr "`notice` - **Повідомлення про рішення**"
-
-msgid "Earlier this type of document was used as the formal notice that gives details of the contract award. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained."
-msgstr "Раніше цей тип документу використовувався як офіційне повідомлення, що містить деталі рішення про визначення переможця. Це може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень, де розміщено повідомлення."
-
-msgid "`evaluationReports` - **Evaluation report**"
-msgstr "`evaluationReports` - **Звіт про оцінку**"
-
-msgid "Earlier this type of document was used as report on the evaluation of the bids and the application of the evaluation criteria, including the justification fo the award."
-msgstr "Раніше цей тип документу використовувався як звіт про оцінку пропозицій і застосування критеріїв оцінки, у тому числі, обґрунтування рішення про визначення переможця."
-
-msgid "`winningBid` - **Winning Bid**"
-msgstr "`winningBid` - **Пропозиція, що перемогла**"
-
-msgid "`complaints` - **Complaints and decisions**"
-msgstr "`complaints` - **Скарги та рішення**"
-
-msgid "`extensionReport` - **Eprotocol for period extension**"
-msgstr "`extensionReport` - **Електроний протокол про продовження строку**"
-
-msgid "Possible values for :ref:`contract`"
-msgstr "Можливі значення для :ref:`contract`"
-
-msgid "`notice` - **Contract notice**"
-msgstr "`notice` - **Повідомлення про договір**"
-
-msgid "Earlier this type of document was used as the formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained."
-msgstr "Раніше цей тип документу використовувався як офіційне повідомлення, що містить деталі підписання договору та початку його реалізації. Це може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень, де розміщено повідомлення."
-
-msgid "`contractSigned` - **Signed Contract**"
-msgstr "`contractSigned` - **Підписаний договір**"
-
-msgid "`contractArrangements` - **Arrangements for ending contract**"
-msgstr "`contractArrangements` - **Заходи для припинення договору**"
-
-msgid "`contractSchedule` - **Schedules and milestones**"
-msgstr "`contractSchedule` - **Розклад та етапи**"
-
-msgid "`contractAnnexe` - **Annexes to the Contract**"
-msgstr "`contractAnnexe` - **Додатки до договору**"
-
-msgid "`contractGuarantees` - **Guarantees**"
-msgstr "`contractGuarantees` - **Забезпечення тендерних пропозицій**"
-
-msgid "`subContract` - **Subcontracts**"
-msgstr "`subContract` - **Субпідряд**"
-
-msgid "Possible values for :ref:`bid`"
-msgstr "Можливі значення для :ref:`bid`"
-
-msgid "`commercialProposal` - **Сommercial proposal**"
-msgstr "`commercialProposal` - **Цінова пропозиція**"
-
-msgid "For Open EU procedure `commercialProposal` should be contained in `financialDocuments` envelope. See :ref:`bid`."
-msgstr "Для Відкритих торгів з публікацією англійською мовою `commercialProposal` мають зберігатися в конверті `financialDocuments`. Дивитись :ref:`bid`."
-
-msgid "`qualificationDocuments` - **Qualification documents**"
-msgstr "`qualificationDocuments` - **Документи, що підтверджують кваліфікацію**"
-
-msgid "For Open EU procedure `qualificationDocuments` should be contained in `documents` envelope. See :ref:`bid`."
-msgstr "Для Відкритих торгів з публікацією англійською мовою `qualificationDocuments` мають зберігатися в конверті `documents`. Дивитись :ref:`bid`."
-
-msgid "`eligibilityDocuments` - **Eligibility documents**"
-msgstr "`eligibilityDocuments` - **Документи, що підтверджують відповідність** (в тому числі, відповідність вимогам ст. 17)"
-
-msgid "For Open EU procedure `eligibilityDocuments` should be contained in `eligibilityDocuments` envelope. See :ref:`bid`."
-msgstr "Для Відкритих торгів з публікацією англійською мовою `eligibilityDocuments` мають зберігатися в конверті `eligibilityDocuments`. Дивитись :ref:`bid`."
-
-msgid "`winningBid` - **Documentation of the winning bid**, including, wherever applicable, a full copy of the proposal received."
-msgstr "`winningBid` - **Документи до переможної пропозиції**, включаючи, де це можливо, повну копію отриманої пропозиції."
+msgid "Possible values for :ref:`bid`: `bid document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/bid.json>`_"
+msgstr "Можливі значення :ref:`bid`: `типи документів для пропозиції. <https://github.com/ProzorroUKR/standards/blob/master/document_types/bid.json>`_"
 
 msgid "Possible values for :ref:`agreement`"
 msgstr "Можливі значення для :ref:`agreement`"
@@ -201,14 +69,29 @@ msgstr "Можливі значення для :ref:`agreement`"
 msgid "`notice` - **Framework agreement notice**"
 msgstr "`notice` - **Повідомлення про Рамкову угоду**"
 
+msgid "NOT USED ANYMORE. Now it's use as sign document."
+msgstr "БІЛЬШЕ НЕ ВИКОРИСТОВУЄТЬСЯ. Зараз цей тип документу використовується в якості файлу підпису."
+
+msgid "Earlier this type of document was used as the formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained."
+msgstr "Раніше цей тип документу використовувався як офіційне повідомлення, що містить деталі підписання договору та початку його реалізації. Це може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень, де розміщено повідомлення."
+
 msgid "`contractSigned` - **Signed Framework agreement**"
 msgstr "`contractSigned` - **Підписана Рамкова угода**"
 
 msgid "`contractArrangements` - **Arrangements for ending Framework agreement**"
 msgstr "`contractArrangements` - **Заходи для припинення Рамкової угоди**"
 
+msgid "`contractSchedule` - **Schedules and milestones**"
+msgstr "`contractSchedule` - **Розклад та етапи**"
+
 msgid "`contractAnnexe` - **Annexes to the Framework agreement**"
 msgstr "`contractAnnexe` - **Додатки до Рамкової угоди**"
+
+msgid "`contractGuarantees` - **Guarantees**"
+msgstr "`contractGuarantees` - **Забезпечення тендерних пропозицій**"
+
+msgid "`subContract` - **Subcontracts**"
+msgstr "`subContract` - **Субпідряд**"
 
 msgid "title"
 msgstr ""
@@ -293,4 +176,3 @@ msgstr ""
 
 msgid "Id of related :ref:`contract`, :ref:`change`, :ref:`lot` or :ref:`item`."
 msgstr "ID пов’язаних :ref:`contract`, :ref:`change`, :ref:`lot` або :ref:`item`."
-

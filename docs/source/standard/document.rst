@@ -31,117 +31,17 @@ Schema
 
       Can be used in  :ref:`bid`
 
-    Possible values for :ref:`tender`
-    
-
-    * `notice` - **Tender notice**
-
-      NOT USED ANYMORE. Now it's use as sign document.
-      
-      Earlier this type of document was used as the formal notice that gives details of a tender. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
-    
-    * `biddingDocuments` - **Bidding Documents**
-      
-      Information for potential suppliers, describing the goals of the contract (e.g. goods and services to be procured), and the bidding process.
-
-    * `technicalSpecifications` - **Technical Specifications**
-    
-      Detailed technical information about goods or services to be provided.
-
-    * `evaluationCriteria` - **Evaluation Criteria**
-    
-      Information about how bids will be evaluated.
-    
-    * `clarifications` - **Clarifications to bidders questions**
-    
-      Including replies to issues raised in pre-bid conferences.
-    
-    * `eligibilityCriteria` - **Eligibility Criteria**
-   
-      Detailed documents about the eligibility of bidders.
-    
-    * `shortlistedFirms` - **Shortlisted Firms**
-    
-    * `riskProvisions` - **Provisions for management of risks and liabilities**
-    
-    * `billOfQuantity` - **Bill Of Quantity**
-
-        For Open EU procedure `billOfQuantity` should be contained in `financialDocuments` envelope. See :ref:`bid`.
-
-    * `bidders` - **Information on bidders**
-    
-      Information on bidders or participants, their validation documents and any procedural exemptions for which they qualify.
-    
-    * `conflictOfInterest` - **Conflicts of interest uncovered**
-    
-    * `debarments` - **Debarments issued**
-    
-    * `contractProforma` - **Draft contract**
+    Possible values for :ref:`tender`: `tender document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_
     
     
-    Possible values for :ref:`award`
-    
-    
-    * `notice` - **Award Notice**
-
-      NOT USED ANYMORE. Now it's use as sign document.
-    
-      Earlier this type of document was used as the formal notice that gives details of the contract award. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
-    
-    * `evaluationReports` - **Evaluation report**
-
-      NOT USED ANYMORE. Now it's use as sign document.
-    
-      Earlier this type of document was used as report on the evaluation of the bids and the application of the evaluation criteria, including the justification fo the award.
-    
-    * `winningBid` - **Winning Bid**
-    
-    * `complaints` - **Complaints and decisions**
-
-    * `extensionReport` - **Eprotocol for period extension**
+    Possible values for :ref:`award`: `award document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/award.json>`_
 
     
-    Possible values for :ref:`contract`
+    Possible values for :ref:`contract`: `contract document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/contract.json>`_
     
     
-    * `notice` - **Contract notice**
-    
-      NOT USED ANYMORE. Now it's use as sign document.
+    Possible values for :ref:`bid`: `bid document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/bid.json>`_
 
-      Earlier this type of document was used as the formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
-    
-    * `contractSigned` - **Signed Contract**
-    
-    * `contractArrangements` - **Arrangements for ending contract**
-    
-    * `contractSchedule` - **Schedules and milestones**
-    
-    * `contractAnnexe` - **Annexes to the Contract**
-    
-    * `contractGuarantees` - **Guarantees**
-    
-    * `subContract` - **Subcontracts**
-    
-    
-    Possible values for :ref:`bid`
-    
-
-    * `commercialProposal` - **Сommercial proposal**
-
-        For Open EU procedure `commercialProposal` should be contained in `financialDocuments` envelope. See :ref:`bid`.
-    
-    * `qualificationDocuments` - **Qualification documents**
-
-        For Open EU procedure `qualificationDocuments` should be contained in `documents` envelope. See :ref:`bid`.
-
-    * `eligibilityDocuments` - **Eligibility documents**
-
-        For Open EU procedure `eligibilityDocuments` should be contained in `eligibilityDocuments` envelope. See :ref:`bid`.
-
-
-    * `winningBid` - **Documentation of the winning bid**, including, wherever applicable, a full copy of the proposal received.
-
-    * `proposal` - **Proposal**
 
     Possible values for :ref:`agreement`
 

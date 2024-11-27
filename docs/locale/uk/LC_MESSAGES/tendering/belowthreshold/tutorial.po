@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 17:49+0300\n"
+"POT-Creation-Date: 2024-11-27 17:16+0200\n"
 "PO-Revision-Date: 2017-07-25 15:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -89,6 +89,9 @@ msgid "0"
 msgstr ""
 
 msgid "qualificationComplainDuration"
+msgstr ""
+
+msgid "10"
 msgstr ""
 
 msgid "awardComplainDuration"
