@@ -20,7 +20,6 @@ class LotStateMixin:
         self.pre_save_validations(data)
         self.validate_minimal_step(data)
         self.validate_lot_value(tender, data)
-        self.validate_lots_count(tender)
         self.set_lot_data(data)
         self.lot_always(data)
 

@@ -209,7 +209,6 @@ class TenderDetailsMixing(TenderConfigMixin):
     def on_post(self, tender):
         self.validate_config(tender)
         self.validate_procurement_method(tender)
-        self.validate_lots_count(tender)
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
         self.validate_milestones(tender)
@@ -230,7 +229,6 @@ class TenderDetailsMixing(TenderConfigMixin):
 
     def on_patch(self, before, after):
         self.validate_procurement_method(after, before=before)
-        self.validate_lots_count(after)
         self.validate_milestones(after)
         self.validate_pre_qualification_status_change(before, after)
         self.validate_tender_period_start_date_change(before, after)
@@ -398,20 +396,6 @@ class TenderDetailsMixing(TenderConfigMixin):
                         status=422,
                         name="milestones",
                     )
-
-    def validate_lots_count(self, tender):
-        tender = get_tender()
-        if tender.get("procurementMethodType") == COMPETITIVE_ORDERING:
-            # TODO: consider using config
-            max_lots_count = 1
-            if len(tender.get("lots", "")) > max_lots_count:
-                raise_operation_error(
-                    get_request(),
-                    "Can't create more than {} lots".format(max_lots_count),
-                    status=422,
-                    location="body",
-                    name="lots",
-                )
 
     def validate_tender_lots(self, tender: dict, before=None) -> None:
         """Validate tender lots

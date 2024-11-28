@@ -6,6 +6,7 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 )
 from openprocurement.tender.core.procedure.utils import check_auction_period
 from openprocurement.tender.open.constants import (
+    CO_TENDERING_EXTRA_PERIOD,
     COMPETITIVE_ORDERING,
     ENQUIRY_PERIOD_TIME,
     TENDERING_EXTRA_PERIOD,
@@ -32,10 +33,16 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "CRITERION.OTHER.BID.LANGUAGE",
     }
 
-    tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     should_validate_notice_doc_required = True
+
+    @property
+    def tendering_period_extra(self):
+        if get_tender().get("procurementMethodType") == COMPETITIVE_ORDERING:
+            # TODO: Move to separate procedure
+            return CO_TENDERING_EXTRA_PERIOD
+        return TENDERING_EXTRA_PERIOD
 
     @property
     def article_16_criteria_required(self):

@@ -212,18 +212,6 @@ class TenderResourceTest(
                 response.json['errors'][0]['description'], "Can't add complaint as it is forbidden by configuration"
             )
 
-        # add lots
-
-        with open(TARGET_DIR + 'tender-add-lot-more-than-1-error.http', 'w') as self.app.file_obj:
-            lot2 = deepcopy(test_docs_lots[1])
-            lot2['value'] = data['value']
-            lot2['minimalStep'] = data['minimalStep']
-            response = self.app.post_json(
-                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': lot2}, status=422
-            )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
-            self.assertEqual(response.json['errors'][0]['description'], "Can't create more than 1 lots")
-
         # add relatedLot for item
 
         items = deepcopy(tender["items"])
