@@ -9,6 +9,7 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     ENQUIRY_PERIOD_TIME,
     TENDERING_EXTRA_PERIOD,
+    CO_TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 
@@ -36,6 +37,13 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     tendering_period_extra_working_days = False
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     should_validate_notice_doc_required = True
+
+    @property
+    def tendering_period_extra(self):
+        if get_tender().get("procurementMethodType") != COMPETITIVE_ORDERING:
+            # TODO: Move to separate procedure
+            return CO_TENDERING_EXTRA_PERIOD
+        return TENDERING_EXTRA_PERIOD
 
     @property
     def article_16_criteria_required(self):
