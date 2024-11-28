@@ -725,7 +725,7 @@ class TenderDetailsMixing(TenderConfigMixin):
                 f"Tender must contain all required criteria: {', '.join(sorted(self.required_criteria))}",
             )
         if (
-            get_now() > CRITERIA_ARTICLE_16_REQUIRED
+            tender_created_after(CRITERIA_ARTICLE_16_REQUIRED)
             and self.article_16_criteria_required
             and get_tender().get("mainProcurementCategory", "services")
             in (
