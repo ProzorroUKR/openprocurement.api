@@ -6,10 +6,10 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 )
 from openprocurement.tender.core.procedure.utils import check_auction_period
 from openprocurement.tender.open.constants import (
+    CO_TENDERING_EXTRA_PERIOD,
     COMPETITIVE_ORDERING,
     ENQUIRY_PERIOD_TIME,
     TENDERING_EXTRA_PERIOD,
-    CO_TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 
