@@ -21,7 +21,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "tenderPeriod should be extended by 3 days"
+      "description": "tenderPeriod should be extended by 4 days"
     }
   ]
 }

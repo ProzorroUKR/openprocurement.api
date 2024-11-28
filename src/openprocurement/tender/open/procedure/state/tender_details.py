@@ -40,7 +40,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
 
     @property
     def tendering_period_extra(self):
-        if get_tender().get("procurementMethodType") != COMPETITIVE_ORDERING:
+        if get_tender().get("procurementMethodType") == COMPETITIVE_ORDERING:
             # TODO: Move to separate procedure
             return CO_TENDERING_EXTRA_PERIOD
         return TENDERING_EXTRA_PERIOD
