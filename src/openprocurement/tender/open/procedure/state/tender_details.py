@@ -33,7 +33,6 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "CRITERION.OTHER.BID.LANGUAGE",
     }
 
-    tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     should_validate_notice_doc_required = True
