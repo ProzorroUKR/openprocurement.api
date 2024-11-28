@@ -4,7 +4,6 @@ from openprocurement.api.constants import PQ_CRITERIA_ID_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
-from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 
@@ -22,14 +21,6 @@ def validate_bid_value(tender, value):
         raise ValidationError(
             "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
         )
-
-
-# tender documents
-def validate_document_operation_in_not_allowed_period(request, **_):
-    status = request.validated["tender"]["status"]
-    if status not in ("active.tendering", "draft"):
-        operation = OPERATIONS.get(request.method)
-        raise_operation_error(request, f"Can't {operation} document in current ({status}) tender status")
 
 
 def validate_contract_document_status(operation):

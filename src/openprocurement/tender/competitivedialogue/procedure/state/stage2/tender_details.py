@@ -20,12 +20,10 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
 
     tendering_duration = EU_TENDERING_DURATION
     should_validate_notice_doc_required = False
+    should_validate_related_lot_in_items = False
 
     @staticmethod
     def watch_value_meta_changes(tender):
-        pass
-
-    def validate_related_lot_in_items(self, after):
         pass
 
     def on_post(self, tender):

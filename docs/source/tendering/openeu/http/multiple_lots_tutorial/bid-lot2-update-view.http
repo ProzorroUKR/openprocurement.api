@@ -208,9 +208,9 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "b107fd651779457994cf8d66f0c66b75",
+        "subcontractingDetails": "ДКП «Орфей»",
         "status": "pending",
-        "date": "2023-10-10T01:01:00+03:00",
-        "subcontractingDetails": "ДКП «Орфей»"
+        "date": "2023-10-10T01:01:00+03:00"
       }
     ],
     "documents": [

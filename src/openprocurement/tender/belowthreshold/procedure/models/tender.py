@@ -12,9 +12,6 @@ from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
-from openprocurement.tender.belowthreshold.procedure.models.organization import (
-    ProcuringEntity,
-)
 from openprocurement.tender.core.procedure.models.document import PostDocument
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.item import TechFeatureItem as Item
@@ -70,7 +67,6 @@ def validate_tender_period(data, period):
 
 class PostTender(BasePostTender):
     procurementMethodType = StringType(choices=[BELOW_THRESHOLD], default=BELOW_THRESHOLD)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
     enquiryPeriod = ModelType(StartedEnquiryPeriodEndRequired, required=True)
 
     items = ListType(
@@ -89,7 +85,6 @@ class PostTender(BasePostTender):
 
 class PatchTender(BasePatchTender):
     enquiryPeriod = ModelType(EnquiryPeriodEndRequired)
-    procuringEntity = ModelType(ProcuringEntity)
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
@@ -131,7 +126,6 @@ class PatchDraftTender(PatchTender):
 
 class Tender(BaseTender):
     procurementMethodType = StringType(choices=[BELOW_THRESHOLD], required=True)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
     enquiryPeriod = ModelType(EnquiryPeriodEndRequired, required=True)
     items = ListType(
         ModelType(Item, required=True),

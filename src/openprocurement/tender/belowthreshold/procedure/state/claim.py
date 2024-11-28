@@ -16,9 +16,7 @@ class BelowThresholdTenderClaimState(ClaimStateMixin, BelowThresholdTenderState)
         "active.enquiries",
         "active.tendering",
     )
+    should_validate_is_satisfied = False
 
     def validate_submit_claim(self, claim):
         pass
-
-    def validate_satisfied(self, satisfied):
-        return isinstance(satisfied, bool)

@@ -1,5 +1,4 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
-from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
@@ -38,21 +37,10 @@ class OpenUATenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
     tendering_period_extra_working_days = False
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
 
-    def on_post(self, tender):
-        super().on_post(tender)  # TenderDetailsMixing.on_post
-
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
-        self.validate_related_lot_in_items(after)
         self.validate_items_classification_prefix_unchanged(before, after)
-
-        # bid invalidation rules
-        if before["status"] == "active.tendering":
-            self.validate_tender_period_extension(after)
-            self.invalidate_bids_data(after)
-        elif after["status"] == "active.tendering":
-            after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
 
     @staticmethod
     def check_auction_time(tender):

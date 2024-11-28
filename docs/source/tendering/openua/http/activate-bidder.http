@@ -161,6 +161,18 @@ Content-Type: application/json
         }
       }
     ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "dad62a18553c4c349038eadaa055072c",
+        "status": "pending",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -186,6 +198,7 @@ Content-Type: application/json
       }
     ],
     "status": "pending",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "020c67f8680340e48ada4a03d9a58f08",
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
@@ -204,19 +217,6 @@ Content-Type: application/json
       }
     ],
     "selfQualified": true,
-    "subcontractingDetails": "ДКП «Орфей», Україна",
-    "lotValues": [
-      {
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "dad62a18553c4c349038eadaa055072c",
-        "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
-      }
-    ],
     "submissionDate": "2023-10-10T01:00:00+03:00"
   }
 }

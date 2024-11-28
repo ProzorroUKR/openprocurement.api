@@ -80,7 +80,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "scale": "micro"
       }
     ],
-    "status": "draft",
     "lotValues": [
       {
         "status": "pending",
@@ -103,6 +102,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
+    "status": "draft",
     "id": "4b2f22ec008b4f4e88f2f69ea174242c",
     "date": "2023-10-10T01:00:00+03:00"
   },
@@ -705,6 +705,26 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -769,26 +789,6 @@ Content-Type: application/json
       }
     ],
     "procurementMethodType": "belowThreshold",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
-      },
-      "kind": "general"
-    },
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "clarificationsUntil": "2023-10-19T00:00:00+03:00",
@@ -1133,6 +1133,28 @@ Content-Type: application/json
         }
       }
     ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 600.0,
+          "currency": "USD",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+        "status": "pending",
+        "date": "2023-10-10T01:00:00+03:00"
+      },
+      {
+        "value": {
+          "amount": 700.0,
+          "currency": "EUR",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "6670a4933d854a00afa53a2979728a6d",
+        "status": "pending",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -1173,28 +1195,6 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 600.0,
-          "currency": "USD",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-        "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
-      },
-      {
-        "value": {
-          "amount": 700.0,
-          "currency": "EUR",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "6670a4933d854a00afa53a2979728a6d",
-        "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "submissionDate": "2023-10-10T01:00:00+03:00"

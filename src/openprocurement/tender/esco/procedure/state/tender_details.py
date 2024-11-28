@@ -29,10 +29,6 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
         super().on_post(tender)
         self.update_periods(tender)
 
-    def on_patch(self, before, after):
-        super().on_patch(before, after)
-        self.validate_related_lot_in_items(after)
-
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
         self.update_periods(data)

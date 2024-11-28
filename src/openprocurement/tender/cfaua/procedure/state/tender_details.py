@@ -31,19 +31,9 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
 
     should_validate_notice_doc_required = False
 
-    def on_post(self, tender):
-        super().on_post(tender)
-
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)
         self.validate_qualification_status_change(before, after)
-
-        # bid invalidation rules
-        if before["status"] == "active.tendering":
-            self.validate_tender_period_extension(after)
-            self.invalidate_bids_data(after)
-        elif after["status"] == "active.tendering":
-            after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
 
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 

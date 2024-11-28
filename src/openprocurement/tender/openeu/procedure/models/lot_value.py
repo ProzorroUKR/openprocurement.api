@@ -1,7 +1,7 @@
-from openprocurement.tender.openua.procedure.models.lot_value import (
+from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue as BaseLotValue,
 )
-from openprocurement.tender.openua.procedure.models.lot_value import (
+from openprocurement.tender.core.procedure.models.lot_value import (
     PostLotValue as BasePostLotValue,
 )
 

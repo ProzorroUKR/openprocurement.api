@@ -60,6 +60,7 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
+    check_auction_period,
     dt_from_iso,
     set_mode_test_titles,
     tender_created_after,
@@ -182,7 +183,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     tender_create_accreditations = None
     tender_central_accreditations = None
     tender_edit_accreditations = None
-    has_enquiry_period = True
+    should_initialize_enquiry_period = True
     tender_period_working_day = True
     clarification_period_working_day = True
 
@@ -198,6 +199,8 @@ class TenderDetailsMixing(TenderConfigMixin):
     agreement_field = "agreements"
     should_validate_lot_minimal_step = True
     tender_complain_regulation_working_days = False
+    enquiry_before_tendering = False
+    should_validate_related_lot_in_items = True
 
     calendar = WORKING_DAYS
 
@@ -228,6 +231,33 @@ class TenderDetailsMixing(TenderConfigMixin):
             doc["author"] = "tender_owner"
 
     def on_patch(self, before, after):
+        enquire_start = before.get("enquiryPeriod", {}).get("startDate")
+        if enquire_start and not after.get("enquiryPeriod", {}).get("startDate"):
+            raise_operation_error(
+                get_request(),
+                {"startDate": ["This field cannot be deleted"]},
+                status=422,
+                location="body",
+                name="enquiryPeriod",
+            )
+
+        tendering_start = before.get("tenderPeriod", {}).get("startDate")
+        if tendering_start and not after.get("tenderPeriod", {}).get("startDate"):
+            raise_operation_error(
+                get_request(),
+                {"startDate": ["This field cannot be deleted"]},
+                status=422,
+                location="body",
+                name="tenderPeriod",
+            )
+
+        # bid invalidation rules
+        if before["status"] == "active.tendering":
+            self.validate_tender_period_extension(after)
+            self.invalidate_bids_data(after)
+        elif after["status"] == "active.tendering":
+            self.set_enquiry_period_invalidation_date(after)
+
         self.validate_procurement_method(after, before=before)
         self.validate_milestones(after)
         self.validate_pre_qualification_status_change(before, after)
@@ -249,8 +279,12 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
         self.validate_change_item_profile_or_category(after, before)
-        if after["status"] in ("draft", "active.tendering"):
+        if after["status"] in ("draft", "draft.stage2", "active.tendering"):
             self.initialize_enquiry_period(after)
+
+        if self.should_validate_related_lot_in_items:
+            self.validate_related_lot_in_items(after)
+
         super().on_patch(before, after)
 
     def always(self, data):
@@ -631,32 +665,25 @@ class TenderDetailsMixing(TenderConfigMixin):
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
 
     def initialize_enquiry_period(self, tender):
-        if self.has_enquiry_period:
+        if self.should_initialize_enquiry_period:
+            if not self.enquiry_before_tendering:
+                tender["enquiryPeriod"] = tender.get("enquiryPeriod") or {}
+                tender["enquiryPeriod"]["startDate"] = tender["tenderPeriod"]["startDate"]
+                tender["enquiryPeriod"]["endDate"] = calculate_tender_full_date(
+                    dt_from_iso(tender["tenderPeriod"]["endDate"]),
+                    self.enquiry_period_timedelta,
+                    tender=tender,
+                    working_days=self.tender_period_working_day,
+                ).isoformat()
+
             clarification_until_duration = tender["config"]["clarificationUntilDuration"]
-
-            tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-
-            end_date = calculate_tender_full_date(
-                tendering_end,
-                self.enquiry_period_timedelta,
-                tender=tender,
-                working_days=self.tender_period_working_day,
-            )
-            clarifications_until = calculate_tender_full_date(
-                end_date,
-                timedelta(days=clarification_until_duration),
-                tender=tender,
-                working_days=self.clarification_period_working_day,
-            )
-            enquiry_period = tender.get("enquiryPeriod")
-            tender["enquiryPeriod"] = {
-                "startDate": tender["tenderPeriod"]["startDate"],
-                "endDate": end_date.isoformat(),
-                "clarificationsUntil": clarifications_until.isoformat(),
-            }
-            invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
-            if invalidation_date:
-                tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
+            if clarification_until_duration > 0:
+                tender["enquiryPeriod"]["clarificationsUntil"] = calculate_tender_full_date(
+                    dt_from_iso(tender["enquiryPeriod"]["endDate"]),
+                    timedelta(days=clarification_until_duration),
+                    tender=tender,
+                    working_days=self.clarification_period_working_day,
+                ).isoformat()
 
     def validate_tender_period_start_date_change(self, before, after):
         if before["status"] in ("draft", "draft.stage2", "active.enquiries"):
@@ -1049,6 +1076,26 @@ class TenderDetailsMixing(TenderConfigMixin):
                     for req in rg.get("requirements", ""):
                         req["status"] = ReqStatuses.CANCELLED
                         req["dateModified"] = now.isoformat()
+
+    @staticmethod
+    def check_auction_time(tender):
+        if check_auction_period(tender.get("auctionPeriod", {}), tender):
+            del tender["auctionPeriod"]["startDate"]
+
+        for lot in tender.get("lots", ""):
+            if check_auction_period(lot.get("auctionPeriod", {}), tender):
+                del lot["auctionPeriod"]["startDate"]
+
+    def invalidate_bids_data(self, tender):
+        self.check_auction_time(tender)
+        self.set_enquiry_period_invalidation_date(tender)
+        for bid in tender.get("bids", ""):
+            if bid.get("status") not in ("deleted", "draft"):
+                bid["status"] = "invalid"
+
+    @staticmethod
+    def set_enquiry_period_invalidation_date(tender):
+        tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

@@ -720,6 +720,12 @@ Content-Type: application/json
             }
           }
         ],
+        "lotValues": [
+          {
+            "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+            "status": "active"
+          }
+        ],
         "tenderers": [
           {
             "name": "Школяр",
@@ -812,12 +818,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
-          }
-        ],
-        "lotValues": [
-          {
-            "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
-            "status": "active"
           }
         ]
       },
@@ -956,6 +956,12 @@ Content-Type: application/json
             }
           }
         ],
+        "lotValues": [
+          {
+            "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+            "status": "active"
+          }
+        ],
         "tenderers": [
           {
             "name": "ДКП «Книга»",
@@ -995,12 +1001,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
             "language": "uk"
-          }
-        ],
-        "lotValues": [
-          {
-            "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
-            "status": "active"
           }
         ]
       },
@@ -1139,6 +1139,12 @@ Content-Type: application/json
             }
           }
         ],
+        "lotValues": [
+          {
+            "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+            "status": "unsuccessful"
+          }
+        ],
         "tenderers": [
           {
             "name": "«Снігур»",
@@ -1216,12 +1222,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
             "language": "uk"
-          }
-        ],
-        "lotValues": [
-          {
-            "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
-            "status": "unsuccessful"
           }
         ],
         "selfQualified": true
@@ -1361,6 +1361,12 @@ Content-Type: application/json
             }
           }
         ],
+        "lotValues": [
+          {
+            "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+            "status": "active"
+          }
+        ],
         "tenderers": [
           {
             "name": "«Снігур»",
@@ -1438,12 +1444,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:02:01+03:00",
             "language": "uk"
-          }
-        ],
-        "lotValues": [
-          {
-            "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
-            "status": "active"
           }
         ]
       }

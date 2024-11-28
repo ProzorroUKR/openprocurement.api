@@ -556,6 +556,26 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -645,26 +665,6 @@ Content-Type: application/json
       }
     ],
     "procurementMethodType": "belowThreshold",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
-      },
-      "kind": "general"
-    },
     "enquiryPeriod": {
       "startDate": "2023-10-02T01:00:00+03:00",
       "clarificationsUntil": "2023-10-19T00:00:00+03:00",
@@ -900,6 +900,28 @@ Content-Type: application/json
             }
           }
         ],
+        "lotValues": [
+          {
+            "value": {
+              "amount": 300.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+            "status": "active",
+            "date": "2023-10-10T01:00:00+03:00"
+          },
+          {
+            "value": {
+              "amount": 400.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "6670a4933d854a00afa53a2979728a6d",
+            "status": "active",
+            "date": "2023-10-10T01:00:00+03:00"
+          }
+        ],
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -940,28 +962,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
-          }
-        ],
-        "lotValues": [
-          {
-            "value": {
-              "amount": 300.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
-            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-            "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
-          },
-          {
-            "value": {
-              "amount": 400.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
-            "relatedLot": "6670a4933d854a00afa53a2979728a6d",
-            "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"
@@ -1101,6 +1101,28 @@ Content-Type: application/json
             }
           }
         ],
+        "lotValues": [
+          {
+            "value": {
+              "amount": 400.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+            "status": "active",
+            "date": "2023-10-10T01:00:00+03:00"
+          },
+          {
+            "value": {
+              "amount": 500.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "6670a4933d854a00afa53a2979728a6d",
+            "status": "active",
+            "date": "2023-10-10T01:00:00+03:00"
+          }
+        ],
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -1141,28 +1163,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
-          }
-        ],
-        "lotValues": [
-          {
-            "value": {
-              "amount": 400.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
-            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-            "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
-          },
-          {
-            "value": {
-              "amount": 500.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
-            "relatedLot": "6670a4933d854a00afa53a2979728a6d",
-            "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"

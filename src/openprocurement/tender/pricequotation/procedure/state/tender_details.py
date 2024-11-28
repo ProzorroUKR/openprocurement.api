@@ -17,7 +17,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     tender_create_accreditations = (ACCR_1, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
-    has_enquiry_period = False
+    should_initialize_enquiry_period = False
 
     required_criteria = ()
 
@@ -25,6 +25,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     should_validate_cpv_prefix = False
     should_validate_notice_doc_required = True
     agreement_field = "agreement"
+    should_validate_related_lot_in_items = False
 
     def on_post(self, tender):
         self.validate_agreement_exists()
@@ -124,3 +125,13 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
                     "Tender agreement doesn't match profile agreement",
                     status=422,
                 )
+
+    def validate_tender_period_extension(self, tender):
+        pass
+
+    @staticmethod
+    def set_enquiry_period_invalidation_date(tender):
+        pass
+
+    def invalidate_bids_data(self, tender):
+        pass

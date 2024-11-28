@@ -67,6 +67,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ebe09f71f241dc
 
 {
   "data": {
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -91,6 +92,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ebe09f71f241dc
         "scale": "micro"
       }
     ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "27d79285cd894e7eb504fcdce191a963",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "status": "draft",
     "items": [
       {
@@ -108,19 +121,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ebe09f71f241dc
           "code": "KGM"
         },
         "quantity": 5.0
-      }
-    ],
-    "subcontractingDetails": "ДКП «Орфей», Україна",
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "27d79285cd894e7eb504fcdce191a963",
-        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "id": "8a026030cc98450eb55797d1ccd65d16",

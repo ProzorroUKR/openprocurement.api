@@ -5,8 +5,7 @@ from openprocurement.tender.core.procedure.state.award_claim import AwardClaimSt
 
 
 class BelowThresholdAwardClaimState(AwardClaimStateMixin, BelowThresholdTenderState):
+    should_validate_is_satisfied = False
+
     def validate_submit_claim(self, claim):
         pass
-
-    def validate_satisfied(self, satisfied):
-        return isinstance(satisfied, bool)
