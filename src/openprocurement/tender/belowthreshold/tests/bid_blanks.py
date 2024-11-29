@@ -2602,7 +2602,7 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
     rrs = []
     for criterion in criteria[:-1]:
         for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer":
+            if criterion["source"] in ("tenderer", "winner"):
                 rrs.append(
                     {
                         "requirement": {

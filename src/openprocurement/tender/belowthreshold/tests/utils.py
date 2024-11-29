@@ -42,7 +42,7 @@ def set_bid_responses(criteria):
     rrs = []
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer":
+            if criterion["source"] in ("tenderer", "winner"):
                 rrs.append(
                     {
                         "requirement": {
