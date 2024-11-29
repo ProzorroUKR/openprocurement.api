@@ -471,7 +471,7 @@ def requirement_response_validation_multiple_criterias(self):
         [
             {
                 'description': [
-                    "Responses are required for all criteria with source tenderer, "
+                    "Responses are required for all criteria with source tenderer/winner, "
                     f"failed for criteria {missed_criterion['id']}"
                 ],
                 'location': 'body',
