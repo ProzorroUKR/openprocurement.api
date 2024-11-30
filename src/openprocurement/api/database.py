@@ -166,6 +166,7 @@ class MongodbStore:
         self,
         collection,
         fields,
+        inclusive_filter: bool = False,
         offset_field="_id",
         offset_value=None,
         mode="all",
@@ -180,7 +181,9 @@ class MongodbStore:
         elif mode != "_all_":
             filters["is_test"] = False
         if offset_value:
-            filters[offset_field] = {"$lt" if descending else "$gt": offset_value}
+            suffix = "e" if inclusive_filter else ""
+            operator = "$lt" if descending else "$gt"
+            filters[offset_field] = {operator + suffix: offset_value}
         results = list(
             collection.find(
                 filter=filters,
