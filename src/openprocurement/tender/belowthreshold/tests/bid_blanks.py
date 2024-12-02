@@ -2618,18 +2618,17 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
     with change_auth(self.app, self.tender_auth) as app:
         criterion_to_cancel = criteria[-1]
         criterion_id = criterion_to_cancel["id"]
-        rg_id = criterion_to_cancel["requirementGroups"][0]["id"]
-        requirement_ids = [
-            requirement["id"] for requirement in criterion_to_cancel["requirementGroups"][0]["requirements"]
-        ]
-        requirement_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
-        for requirement_id in requirement_ids:
-            response = self.app.put_json(
-                requirement_url.format(self.tender_id, criterion_id, rg_id, requirement_id, self.tender_token),
-                {"data": {"status": "cancelled"}},
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
+        for rg in criterion_to_cancel["requirementGroups"]:
+            rg_id = rg["id"]
+            requirement_ids = [requirement["id"] for requirement in rg["requirements"]]
+            requirement_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
+            for requirement_id in requirement_ids:
+                response = self.app.put_json(
+                    requirement_url.format(self.tender_id, criterion_id, rg_id, requirement_id, self.tender_token),
+                    {"data": {"status": "cancelled"}},
+                )
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
 
     self.set_status("active.tendering")
     response = self.app.post_json(

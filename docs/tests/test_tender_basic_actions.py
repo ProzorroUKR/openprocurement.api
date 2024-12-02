@@ -21,6 +21,7 @@ from tests.base.data import (
     test_docs_subcontracting,
     test_docs_tender_below,
     test_docs_tender_openeu,
+    test_docs_tender_openua,
 )
 from tests.base.helpers import complaint_create_pending
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
@@ -44,6 +45,7 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
+from openprocurement.tender.openua.tests.base import test_tender_openua_config
 from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_short_profile,
 )
@@ -2299,9 +2301,26 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         criteria_1 = response.json['data'][0]
         criteria_id_1 = criteria_1['id']
 
-        # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria
+        # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdUA
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1', {'data': test_docs_tender_openua, 'config': test_tender_openua_config}
+        )
+        self.assertEqual(response.status, '201 Created')
+        tender_ua_id = response.json["data"]["id"]
+        tender_ua_owner_token = response.json["access"]["token"]
         with open(
-            TARGET_DIR + 'criteria/update-tender-status-without-exclusion-criteria.http', 'wb'
+            TARGET_DIR + 'criteria/update-tender-status-without-exclusion-criteria-general.http', 'wb'
+        ) as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender_ua_id, tender_ua_owner_token),
+                {"data": {"status": "active.tendering"}},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdEU
+        with open(
+            TARGET_DIR + 'criteria/update-tender-status-without-exclusion-criteria-open.http', 'wb'
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),

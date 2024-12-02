@@ -11,7 +11,7 @@ Criteria is part of tender documentation, so all operation with criteria make te
 Create Tender Criteria
 """"""""""""""""""""""
 
-Criteria exist in procedures: belowThreshold, aboveThresholdUA, aboveThresholdEU,
+Criteria exist in procedures: belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering,
 competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2,
 competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA
 
@@ -191,14 +191,19 @@ Retrieve Eligible Evidence
 Exclusion criteria
 ------------------
 
-Exclusion criteria available and required for the following procedures: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA,
+Exclusion criteria available and required for the following procedures: aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA,
 competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA
 
 `Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__
 
-You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:
+You can't update tender to status `active.tendering` without 11 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:
 
-.. http:example:: http/criteria/update-tender-status-without-exclusion-criteria.http
+.. http:example:: http/criteria/update-tender-status-without-exclusion-criteria-general.http
+   :code:
+
+For aboveThreshold, competitiveOrdering, aboveThresholdEU you can't update tender to status `active.tendering` without 10 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:
+
+.. http:example:: http/criteria/update-tender-status-without-exclusion-criteria-open.http
    :code:
 
 EXCLUSION criteria and all criteria objects are unchangeable:
@@ -319,7 +324,7 @@ Exclusion criteria workflow
             width = 2
         ]
         create_criteria_object [
-            label = "Create Criteria\n(9 Exclusion criteria \nare required for \nsome procedures)"
+            label = "Create Criteria\n(11 Exclusion criteria \nare required for \nsome procedures)"
             shape = rect
             style = filled
             fillcolor = lightsalmon

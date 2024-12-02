@@ -798,47 +798,55 @@ test_docs_requirement_data = {
     "dataType": "boolean",
     "eligibleEvidences": [test_docs_eligible_evidence_data],
     "expectedValue": True,
-    "title": "Фізична особа, яка є учасником процедури закупівлі, "
-    "не була засуджена за злочин, учинений з корисливих мотивів "
-    "(зокрема, пов'язаний з хабарництвом та відмиванням коштів), "
-    "судимість з якої знято або погашено у встановленому законом порядку",
+    "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за "
+    "порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів "
+    "торгів, аукціонів, конкурсів, тендерів",
 }
 
 test_docs_requirement_group_data = {
     "requirements": [test_docs_requirement_data],
-    "description": "Учасник фізична особа підтверджує, що",
+    "description": "Підтверджується, що",
 }
 
 test_docs_criterion_data = {
     "requirementGroups": [test_docs_requirement_group_data],
-    "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію "
-    "(або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, "
-    "яка є учасником процедури закупівлі, не була засуджена за злочин, "
-    "учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), "
-    "судимість з якої знято або погашено у встановленому законом порядку",
-    "classification": {"scheme": " espd211", "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"},
-    "title": "Вчинення злочинів, учинених з корисливих мотивів",
-    "relatesTo": "tenderer",
+    "description": "Cуб’єкт господарювання (учасник) протягом останніх трьох років притягувався до відповідальності "
+    "за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 "
+    "Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних "
+    "узгоджених дій, що стосуються спотворення результатів тендерів",
+    "classification": {"scheme": "ESPD211", "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"},
+    "title": "Вчинення економічних правопорушень",
+    "relatesTo": "tender",
     "legislation": [
         {
-            "article": "17.1.5",
-            "version": "2020-04-19",
-            "type": "NATIONAL_LEGISLATION",
+            "version": "2024-10-23",
             "identifier": {
-                "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
                 "id": "922-VIII",
                 "legalName": "Закон України \"Про публічні закупівлі\"",
+                "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1261",
             },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.4",
         },
         {
-            "article": "17.1.6",
-            "version": "2020-04-19",
-            "type": "NATIONAL_LEGISLATION",
+            "version": "2024-05-16",
             "identifier": {
-                "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
-                "id": "922-VIII",
-                "legalName": "Закон України \"Про публічні закупівлі\"",
+                "id": "2210-III",
+                "legalName": "Закон України \"Про захист економічної конкуренції\"",
+                "uri": "https://zakon.rada.gov.ua/laws/show/2210-14#n46",
             },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "6.2.4",
+        },
+        {
+            "version": "2024-05-16",
+            "identifier": {
+                "id": "2210-III",
+                "legalName": "Закон України \"Про захист економічної конкуренції\"",
+                "uri": "https://zakon.rada.gov.ua/laws/show/2210-14#n456",
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "50.1",
         },
     ],
     "source": "tenderer",
