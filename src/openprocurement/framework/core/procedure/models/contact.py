@@ -24,10 +24,3 @@ class ContactPoint(CommonContactPoint):
 class PatchContactPoint(ContactPoint):
     name = StringType()
     email = EmailType()
-
-
-class SubmissionContactPoint(BaseContactPoint):
-    email = EmailType(required=True)
-
-    def validate_email(self, data, value):
-        validate_email(data, value)

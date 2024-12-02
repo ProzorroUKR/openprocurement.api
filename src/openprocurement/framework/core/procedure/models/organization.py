@@ -16,7 +16,6 @@ from openprocurement.framework.core.procedure.models.address import Address, Ful
 from openprocurement.framework.core.procedure.models.contact import (
     ContactPoint,
     PatchContactPoint,
-    SubmissionContactPoint,
 )
 from openprocurement.framework.core.procedure.models.identifier import (
     Identifier,
@@ -59,7 +58,7 @@ class PatchActiveProcuringEntity(Model):
 class SubmissionBusinessOrganization(BusinessOrganization):
     identifier = ModelType(SubmissionIdentifier, required=True)
     address = ModelType(FullAddress, required=True)
-    contactPoint = ModelType(SubmissionContactPoint, required=True)
+    contactPoint = ModelType(ContactPoint, required=True)
 
 
 class ContractBusinessOrganization(BusinessOrganization):
