@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-11 17:00+0300\n"
+"POT-Creation-Date: 2024-12-05 17:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,9 +136,6 @@ msgstr "Тендер `competitiveOrdering` не містить оскаржен�
 
 msgid "That's why there is no `complaintPeriod` in tender body after it was created. If we try to add complaint about tender, we will see the error:"
 msgstr "Тому в тендері немає `complaintPeriod` після створення. Якщо ми спробуємо подати скаргу на тендер, ми побачимо помилку:"
-
-msgid "Tender can contain only one lot. If we will try to add more than one lot, we will get error:"
-msgstr "Тендер може містити в собі тільки один лот. Якщо ми спробуєм додати більше ніж один лот, то отримаємо помилку:"
 
 msgid "Also you will need to update data about item's related lots:"
 msgstr "Також необхідно відредагувати дані `relatedLot` в `items`:"

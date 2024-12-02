@@ -93,8 +93,8 @@ def create_tender_criteria_valid(self):
     )
 
     criteria = response.json["data"][0]
-    self.assertEqual("Вчинення злочинів, учинених з корисливих мотивів", criteria["title"])
-    self.assertEqual("tenderer", criteria["source"])
+    self.assertEqual("Вчинення кримінальних правопорушень", criteria["title"])
+    self.assertEqual("winner", criteria["source"])
     self.assertIn("requirementGroups", criteria)
     for requirementGroup in criteria["requirementGroups"]:
         self.assertIn("requirements", requirementGroup)
@@ -381,7 +381,7 @@ def patch_tender_criteria_valid(self):
         response.json["errors"], [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
     )
 
-    updated_data["relatesTo"] = "tender"
+    updated_data["relatesTo"] = "tenderer"
     self.app.patch_json(request_path, {"data": updated_data}, status=200)
 
 
@@ -682,7 +682,7 @@ def create_criteria_rg(self):
 
     rg = response.json["data"]
 
-    self.assertEqual("Учасник фізична особа підтверджує, що", rg["description"])
+    self.assertEqual("Фізичною особою підтверджується, що", rg["description"])
     self.assertIn("requirements", rg)
     for requirement in rg["requirements"]:
         self.assertEqual("boolean", requirement["dataType"])
