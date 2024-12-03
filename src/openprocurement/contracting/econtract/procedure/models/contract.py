@@ -21,7 +21,6 @@ from openprocurement.contracting.econtract.procedure.models.organization import 
 from openprocurement.tender.core.procedure.models.contract import (
     validate_item_unit_values,
 )
-from openprocurement.tender.core.procedure.models.period import PeriodStartEndRequired
 
 
 class PostContract(BasePostContract):
@@ -48,7 +47,6 @@ class PatchContract(BasePatchContract):
     terminationDetails = StringType()
     amountPaid = ModelType(AmountPaid)
     value = ModelType(ContractValue)
-    period = ModelType(PeriodStartEndRequired)
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
