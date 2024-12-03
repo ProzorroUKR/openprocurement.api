@@ -3,7 +3,6 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
-    test_tender_below_lots_no_min_step,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (

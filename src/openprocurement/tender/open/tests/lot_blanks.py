@@ -908,7 +908,7 @@ def create_tender_bidder_feature_invalid(self):
 
 def create_tender_bidder_feature(self):
     # fake agreement parameters
-    if hasattr(self, "initial_agreement_data"):
+    if self.initial_agreement_data:
         agreement = self.initial_agreement_data
         for contract in agreement["contracts"]:
             contract["parameters"] = [

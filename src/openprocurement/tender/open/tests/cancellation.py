@@ -39,7 +39,6 @@ from openprocurement.tender.open.tests.cancellation_blanks import (
     create_tender_cancellation_before_19_04_2020,
     create_tender_cancellation_complaint,
     create_tender_cancellation_with_cancellation_lots,
-    create_tender_dps_lot_cancellation_complaint,
     create_tender_lots_cancellation_complaint,
     get_tender_cancellation_complaints,
     patch_tender_cancellation,
@@ -47,7 +46,6 @@ from openprocurement.tender.open.tests.cancellation_blanks import (
     patch_tender_cancellation_2020_04_19_to_pending,
     patch_tender_cancellation_before_19_04_2020,
     patch_tender_cancellation_complaint,
-    patch_tender_dps_lot_cancellation,
     permission_cancellation_pending,
 )
 

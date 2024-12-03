@@ -1,85 +1,45 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award import (
     Tender2LotAwardDocumentResourceTestMixin,
-    TenderAwardComplaintDocumentResourceTestMixin,
-    TenderAwardComplaintResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    create_tender_lots_award_complaint_document,
-    get_tender_lot_award_complaint,
-    get_tender_lot_award_complaints,
     patch_tender_lot_award_lots_none,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_draft_complaint,
-    test_tender_below_lots,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitiveordering.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_below_organization,
     test_tender_co_bids,
-    test_tender_co_three_bids,
 )
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.award_blanks import (
-    another_award_for_one_lot_has_considered_complaint,
-    another_award_has_considered_complaint,
-    any_award_has_not_considered_complaint,
-    any_lot_award_has_not_considered_complaint,
-    award_for_another_lot_has_considered_complaint,
-    award_has_resolved_complaint,
-    award_has_satisfied_complaint,
     award_sign,
-    bot_patch_tender_award_complaint,
-    bot_patch_tender_award_complaint_forbidden,
     check_tender_award_complaint_period_dates,
     create_award_requirement_response,
     create_award_requirement_response_evidence,
     create_tender_award,
-    create_tender_award_claim,
-    create_tender_award_complaint,
-    create_tender_award_complaint_after_2020_04_19,
-    create_tender_award_complaint_not_active,
     create_tender_award_invalid,
     create_tender_award_no_scale_invalid,
     create_tender_lot_award,
-    create_tender_lot_award_complaint,
     create_tender_lots_award,
-    create_tender_lots_award_complaint,
-    create_tender_lots_unsuccessful_award_complaint_check_bidders,
     get_award_requirement_response,
     get_award_requirement_response_evidence,
     get_tender_award,
     last_award_unsuccessful_next_check,
-    lot_award_has_resolved_complaint,
-    lot_award_has_satisfied_complaint,
     patch_award_requirement_response,
     patch_award_requirement_response_evidence,
     patch_tender_award,
     patch_tender_award_active,
-    patch_tender_award_complaint,
-    patch_tender_award_complaint_document,
     patch_tender_award_unsuccessful,
-    patch_tender_award_unsuccessful_complaint_first,
-    patch_tender_award_unsuccessful_complaint_second,
-    patch_tender_award_unsuccessful_complaint_third,
     patch_tender_lot_award,
-    patch_tender_lot_award_complaint,
     patch_tender_lot_award_unsuccessful,
     patch_tender_lots_award,
-    patch_tender_lots_award_complaint,
-    patch_tender_lots_award_complaint_document,
     prolongation_award,
-    put_tender_lots_award_complaint_document,
     qualified_eligible_awards,
-    review_tender_award_claim,
-    review_tender_award_complaint,
-    review_tender_award_stopping_complaint,
     tender_award_complaint_period,
 )
 
