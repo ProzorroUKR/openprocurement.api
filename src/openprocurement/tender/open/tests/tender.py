@@ -19,15 +19,11 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 )
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAWebTest,
-    test_tender_dps_config,
-    test_tender_dps_data,
     test_tender_open_bids,
     test_tender_open_data,
 )
 from openprocurement.tender.open.tests.tender_blanks import (
     activate_bid_after_adding_lot,
-    create_tender_dps,
-    create_tender_dps_invalid_config,
     create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
@@ -106,15 +102,6 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)
     test_invalid1_and_1draft_bids_tender = snitch(invalid1_and_1draft_bids_tender)
     test_activate_bid_after_adding_lot = snitch(activate_bid_after_adding_lot)
-
-
-class TenderDPSResourceTest(BaseTenderUAWebTest):
-    initial_lots = test_tender_below_lots
-    initial_config = test_tender_dps_config
-    initial_data = test_tender_dps_data
-
-    test_create_tender = snitch(create_tender_dps)
-    test_create_tender_invalid_config = snitch(create_tender_dps_invalid_config)
 
 
 def suite():

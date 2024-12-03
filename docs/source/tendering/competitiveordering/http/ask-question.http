@@ -39,7 +39,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
 {
   "data": {
     "author": {
-      "hash": "f40c18f9c6cf2f7aa7edad753ef079dc"
+      "hash": "c257b1ea952df6ac8895dc35c567f03d"
     },
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",

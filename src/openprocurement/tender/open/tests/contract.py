@@ -1,10 +1,8 @@
 import unittest
-from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
-    test_tender_below_lots_no_min_step,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
@@ -24,13 +22,10 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 )
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
-    test_tender_dps_config,
-    test_tender_dps_no_auction,
     test_tender_open_bids,
     test_tender_open_multi_buyers_data,
 )
-from openprocurement.tender.open.tests.contract_blanks import (  # EContract; create_tender_contract,
-    patch_econtract_dps_multi_currency,
+from openprocurement.tender.open.tests.contract_blanks import (
     patch_tender_contract,
     patch_tender_contract_datesigned,
 )
@@ -159,34 +154,6 @@ class TenderEContractResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_open_bids
     initial_lots = test_tender_below_lots
-
-    def setUp(self):
-        super().setUp()
-        self.create_award()
-
-
-class TenderEContractDPSResourceTest(
-    BaseTenderUAContentWebTest,
-    CreateActiveAwardMixin,
-    TenderEcontractResourceTestMixin,
-):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_open_bids
-    initial_lots = test_tender_below_lots_no_min_step
-    initial_data = test_tender_dps_no_auction
-    tender_for_funders = True
-    config = deepcopy(test_tender_dps_config)
-    config.update(
-        {
-            "hasAuction": False,
-            "hasAwardingOrder": False,
-            "hasValueRestriction": False,
-            "valueCurrencyEquality": False,
-        }
-    )
-    initial_config = config
-
-    test_patch_econtract_dps_multi_currency = snitch(patch_econtract_dps_multi_currency)
 
     def setUp(self):
         super().setUp()

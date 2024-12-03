@@ -14,10 +14,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_forbid_contract_action_after_date,
 )
 from openprocurement.tender.core.procedure.views.contract import TenderContractResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_GROUP,
-    ABOVE_THRESHOLD_GROUP_NAME,
-)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.procedure.models.contract import (
     Contract,
     PatchContract,
@@ -30,10 +27,10 @@ LOGGER = getLogger(__name__)
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Contracts",
+    name=f"{ABOVE_THRESHOLD}:Tender Contracts",
     collection_path="/tenders/{tender_id}/contracts",
     path="/tenders/{tender_id}/contracts/{contract_id}",
-    procurementMethodType=ABOVE_THRESHOLD_GROUP,
+    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender contracts",
 )
 class UAContractResource(TenderContractResource):

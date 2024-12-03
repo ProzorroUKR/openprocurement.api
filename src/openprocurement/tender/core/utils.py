@@ -9,10 +9,6 @@ from openprocurement.api.constants import WORKING_DAYS
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.utils import calculate_date, calculate_full_date, is_boolean
 from openprocurement.api.validation import validate_json_data
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_GROUP,
-    ABOVE_THRESHOLD_GROUP_NAME,
-)
 
 LOGGER = getLogger("openprocurement.tender.core")
 
@@ -61,10 +57,7 @@ class ProcurementMethodTypePredicate:
 
     @classmethod
     def route_prefix(cls, request):
-        procurement_method_type = cls.procurement_method_type(request)
-        if procurement_method_type in ABOVE_THRESHOLD_GROUP:
-            return ABOVE_THRESHOLD_GROUP_NAME
-        return procurement_method_type
+        return cls.procurement_method_type(request)
 
 
 class ComplaintTypePredicate:

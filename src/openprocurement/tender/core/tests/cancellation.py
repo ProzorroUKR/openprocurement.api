@@ -62,27 +62,41 @@ def activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(tender_id, cancellation_id, tender_token),
-        {"data": {"status": "pending"}},
-    )
-    cancellation = response.json["data"]
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(cancellation["status"], "pending")
-
-    # go to complaintPeriod end
     tender = self.mongodb.tenders.get(tender_id)
-    for c in tender["cancellations"]:
-        if c["status"] == "pending":
-            c["complaintPeriod"]["endDate"] = get_now().isoformat()
-    self.mongodb.tenders.save(tender)
 
-    self.check_chronograph()
+    if tender["config"]["hasCancellationComplaints"] is True:
+        response = self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(tender_id, cancellation_id, tender_token),
+            {"data": {"status": "pending"}},
+        )
+        cancellation = response.json["data"]
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(cancellation["status"], "pending")
 
-    response = self.app.get("/tenders/{}/cancellations/{}".format(self.tender_id, cancellation_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
+        # go to complaintPeriod end
+        tender = self.mongodb.tenders.get(tender_id)
+        for c in tender["cancellations"]:
+            if c["status"] == "pending":
+                c["complaintPeriod"]["endDate"] = get_now().isoformat()
+        self.mongodb.tenders.save(tender)
+
+        self.check_chronograph()
+
+        response = self.app.get("/tenders/{}/cancellations/{}".format(self.tender_id, cancellation_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "active")
+
+    else:
+        response = self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(tender_id, cancellation_id, tender_token),
+            {"data": {"status": "pending"}},
+        )
+        cancellation = response.json["data"]
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(cancellation["status"], "active")
+
+        self.check_chronograph()
 
 
 def activate_cancellation_without_complaints_after_2020_04_19(self, cancellation_id, tender_id=None, tender_token=None):

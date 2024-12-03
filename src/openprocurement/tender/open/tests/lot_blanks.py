@@ -907,6 +907,17 @@ def create_tender_bidder_feature_invalid(self):
 
 
 def create_tender_bidder_feature(self):
+    # fake agreement parameters
+    if self.initial_agreement_data:
+        agreement = self.initial_agreement_data
+        for contract in agreement["contracts"]:
+            contract["parameters"] = [
+                {"code": "code_item", "value": 0.01},
+                {"code": "code_tenderer", "value": 0.01},
+                {"code": "code_lot", "value": 0.01},
+            ]
+        self.mongodb.agreements.save(agreement)
+
     request_path = "/tenders/{}/bids".format(self.tender_id)
 
     bid_data = deepcopy(self.test_bids_data[0])
@@ -1739,9 +1750,22 @@ def proc_2lot_2bid_2com_2win(self):
 
 
 def lots_features_delete(self):
+    if self.initial_agreement_data:
+        agreement = self.initial_agreement_data
+        agreement_id = agreement["_id"]
+        for contract in agreement["contracts"]:
+            contract["parameters"] = [
+                {"code": "code_item", "value": 0.01},
+                {"code": "code_tenderer", "value": 0.01},
+                {"code": "code_lot", "value": 0.01},
+            ]
+        self.mongodb.agreements.save(agreement)
+
     # create tender
     tender_data = deepcopy(self.test_features_tender_data)
     set_tender_lots(tender_data, self.test_lots_data)
+    if self.initial_agreement_data:
+        tender_data["agreements"] = [{"id": agreement_id}]
     self.test_lots_data = tender_data["lots"]
 
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})

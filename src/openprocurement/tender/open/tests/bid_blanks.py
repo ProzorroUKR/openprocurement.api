@@ -932,6 +932,12 @@ def create_tender_bid_no_scale_invalid(self):
 
 
 def features_bidder(self):
+    if self.initial_agreement_data:
+        agreement = self.initial_agreement_data
+        for contract in agreement["contracts"]:
+            contract["parameters"] = [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]]
+        self.mongodb.agreements.save(agreement)
+
     test_features_bids = deepcopy(self.test_bids_data)
     test_features_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]]
     test_features_bids[1].update(

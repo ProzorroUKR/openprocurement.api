@@ -25,13 +25,14 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
     NEGOTIATION_QUICK,
     REPORTING,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD, COMPETITIVE_ORDERING
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
 from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE

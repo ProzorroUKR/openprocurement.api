@@ -603,7 +603,7 @@ def create_tender_invalid(self):
                 "description": [
                     {
                         "additionalClassifications": [
-                            "One of additional classifications should be " "one of [ДК003, ДК015, ДК018, specialNorms]."
+                            "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
                         ]
                     }
                 ],
@@ -1056,6 +1056,10 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33611000-6"
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        agreement["classification"] = {"id": "33611000-6", "scheme": "ДК021"}
+        self.mongodb.agreements.save(agreement)
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
@@ -1069,6 +1073,10 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33652000-5"
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        agreement["classification"] = {"id": "33652000-5", "scheme": "ДК021"}
+        self.mongodb.agreements.save(agreement)
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
@@ -1831,6 +1839,11 @@ def create_tender(self):
     }
     data["items"][0]["additionalClassifications"] = [additional_classification_0]
 
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        agreement["classification"] = {"id": "33600000-6", "scheme": "ДК021"}
+        self.mongodb.agreements.save(agreement)
+
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.status, "201 Created")
@@ -1858,6 +1871,11 @@ def create_tender(self):
     initial_data["items"][0]["classification"]["id"] = "99999999-9"
     additional_classification = initial_data["items"][0].pop("additionalClassifications")
     additional_classification[0]["scheme"] = "specialNorms"
+
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        agreement["classification"] = {"id": "99999999-9", "scheme": "ДК021"}
+        self.mongodb.agreements.save(agreement)
 
     response = self.app.post_json("/tenders", {"data": initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")

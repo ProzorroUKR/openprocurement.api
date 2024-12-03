@@ -1,11 +1,8 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
 from openprocurement.tender.open.constants import (
-    CO_TENDERING_EXTRA_PERIOD,
-    COMPETITIVE_ORDERING,
     ENQUIRY_PERIOD_TIME,
     TENDERING_EXTRA_PERIOD,
 )
@@ -31,26 +28,11 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "CRITERION.OTHER.BID.LANGUAGE",
     }
 
+    tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     should_validate_notice_doc_required = True
-
-    @property
-    def tendering_period_extra(self):
-        if get_tender().get("procurementMethodType") == COMPETITIVE_ORDERING:
-            # TODO: Move to separate procedure
-            return CO_TENDERING_EXTRA_PERIOD
-        return TENDERING_EXTRA_PERIOD
-
-    @property
-    def article_16_criteria_required(self):
-        return get_tender().get("procurementMethodType") != COMPETITIVE_ORDERING
-
-    @classmethod
-    def get_items_classification_prefix_length(cls, tender):
-        if tender.get("procurementMethodType") == COMPETITIVE_ORDERING:
-            return 3
-        return super().get_items_classification_prefix_length(tender)
+    article_16_criteria_required = True
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch

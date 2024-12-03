@@ -20,8 +20,6 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 )
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
-    test_tender_dps_config,
-    test_tender_dps_data,
     test_tender_open_bids,
 )
 from openprocurement.tender.open.tests.cancellation_blanks import (
@@ -41,7 +39,6 @@ from openprocurement.tender.open.tests.cancellation_blanks import (
     create_tender_cancellation_before_19_04_2020,
     create_tender_cancellation_complaint,
     create_tender_cancellation_with_cancellation_lots,
-    create_tender_dps_lot_cancellation_complaint,
     create_tender_lots_cancellation_complaint,
     get_tender_cancellation_complaints,
     patch_tender_cancellation,
@@ -49,7 +46,6 @@ from openprocurement.tender.open.tests.cancellation_blanks import (
     patch_tender_cancellation_2020_04_19_to_pending,
     patch_tender_cancellation_before_19_04_2020,
     patch_tender_cancellation_complaint,
-    patch_tender_dps_lot_cancellation,
     permission_cancellation_pending,
 )
 
@@ -94,15 +90,6 @@ class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
 
     test_create_tender_lot_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_lot_cancellation = snitch(patch_tender_lot_cancellation)
-
-
-class TenderDPSLotCancellationResourceTest(BaseTenderUAContentWebTest):
-    initial_lots = test_tender_below_lots
-    initial_data = test_tender_dps_data
-    initial_config = test_tender_dps_config
-
-    test_tender_lot_cancellation_complaint = snitch(create_tender_dps_lot_cancellation_complaint)
-    test_patch_tender_dps_lot_cancellation = snitch(patch_tender_dps_lot_cancellation)
 
 
 class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):

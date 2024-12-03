@@ -130,6 +130,7 @@ class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
     initial_lots = test_tender_below_lots
     initial_status = "draft"
 
+    article_16_criteria_required = True
     required_criteria = {
         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
         "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
