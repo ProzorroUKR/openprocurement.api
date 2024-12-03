@@ -873,6 +873,15 @@ def get_qualification(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
+    # check config generation by serializer if it's not provided (not migrated)
+    qualification = self.mongodb.qualifications.get(qualification_id)
+    qualification["config"] = {}
+    self.mongodb.qualifications.save(qualification)
+
+    response = self.app.get("/qualifications/{}".format(qualification_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
 
 def qualification_fields(self):
     response = self.app.patch_json(
