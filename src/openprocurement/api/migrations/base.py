@@ -9,13 +9,11 @@ class MigrationArgumentParser(ArgumentParser):
         super().__init__()
         self.add_argument(
             "-p",
-            "--path",
             default=os.path.join(BASE_DIR, "etc/service.ini"),
             help="Path to service.ini file",
         )
         self.add_argument(
             "-b",
-            "--batch-size",
             type=int,
             default=1000,
             help=(
