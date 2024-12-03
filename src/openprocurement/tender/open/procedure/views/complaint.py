@@ -5,10 +5,7 @@ from openprocurement.tender.core.procedure.views.complaint import (
     BaseTenderComplaintGetResource,
     TenderComplaintResource,
 )
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_GROUP,
-    ABOVE_THRESHOLD_GROUP_NAME,
-)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.procedure.state.claim import OpenTenderClaimState
 from openprocurement.tender.open.procedure.state.complaint import (
     OpenTenderComplaintState,
@@ -16,10 +13,10 @@ from openprocurement.tender.open.procedure.state.complaint import (
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Complaints Get",
+    name=f"{ABOVE_THRESHOLD}:Tender Complaints Get",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=ABOVE_THRESHOLD_GROUP,
+    procurementMethodType=ABOVE_THRESHOLD,
     request_method=["GET"],
     description="Tender complaints get",
 )
@@ -28,10 +25,10 @@ class OpenTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Claims",
+    name=f"{ABOVE_THRESHOLD}:Tender Claims",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=ABOVE_THRESHOLD_GROUP,
+    procurementMethodType=ABOVE_THRESHOLD,
     request_method=["PATCH"],
     complaintType="claim",
     description="Tender claims",
@@ -41,10 +38,10 @@ class OpenTenderClaimResource(TenderClaimResource):
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Complaints",
+    name=f"{ABOVE_THRESHOLD}:Tender Complaints",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=ABOVE_THRESHOLD_GROUP,
+    procurementMethodType=ABOVE_THRESHOLD,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Tender complaints",

@@ -1774,8 +1774,8 @@ def post_tender_lots_auction_features(self):
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
     # self.assertIn(tender["awards"][0]["id"], response.headers['Location'])
     self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[1]["id"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], patch_data["bids"][0]["lotValues"][0]["value"]["amount"])
-    self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
+    self.assertEqual(tender["awards"][0]["value"]["amount"], patch_data["bids"][1]["lotValues"][0]["value"]["amount"])
+    self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[1]["tenderers"])
 
     response = self.app.post_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=403)
     self.assertEqual(response.status, "403 Forbidden")

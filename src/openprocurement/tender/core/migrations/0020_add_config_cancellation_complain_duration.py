@@ -13,8 +13,8 @@ from pyramid.paster import bootstrap
 from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.limited.constants import REPORTING
-from openprocurement.tender.open.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")

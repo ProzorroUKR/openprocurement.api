@@ -196,13 +196,6 @@ test_agreement_dps_data = {
     ],
 }
 
-test_tender_dps_no_auction = deepcopy(test_tender_dps_data)
-del test_tender_dps_no_auction["minimalStep"]
-test_tender_dps_no_auction["funders"] = [deepcopy(test_tender_below_organization)]
-test_tender_dps_no_auction["funders"][0]["identifier"]["id"] = "44000"
-test_tender_dps_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
-del test_tender_dps_no_auction["funders"][0]["scale"]
-
 
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
@@ -261,23 +254,8 @@ class BaseTenderUAContentWebTest(BaseTenderUAWebTest):
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
-    initial_agreement_data = test_agreement_dps_data
-    agreement_id = initial_agreement_data["_id"]
 
     def setUp(self):
         set_now()
         super().setUp()
-        if self.initial_data["procurementMethodType"] == "competitiveOrdering":
-            self.create_agreement()
-            self.initial_data["agreements"] = [{"id": self.agreement_id}]
         self.create_tender()
-
-    def create_agreement(self):
-        if self.mongodb.agreements.get(self.agreement_id):
-            self.delete_agreement()
-        agreement = self.initial_agreement_data
-        agreement["dateModified"] = get_now().isoformat()
-        self.mongodb.agreements.save(agreement, insert=True)
-
-    def delete_agreement(self):
-        self.mongodb.agreements.delete(self.agreement_id)

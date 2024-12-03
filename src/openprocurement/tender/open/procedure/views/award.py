@@ -15,20 +15,17 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_award_with_accepted_complaint,
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_GROUP,
-    ABOVE_THRESHOLD_GROUP_NAME,
-)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.procedure.models.award import Award, PatchAward
 from openprocurement.tender.open.procedure.state.award import AwardState
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Awards",
+    name=f"{ABOVE_THRESHOLD}:Tender Awards",
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender awards",
-    procurementMethodType=ABOVE_THRESHOLD_GROUP,
+    procurementMethodType=ABOVE_THRESHOLD,
 )
 class UATenderAwardResource(TenderAwardResource):
     state_class = AwardState

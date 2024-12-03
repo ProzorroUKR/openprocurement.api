@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
+from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
@@ -160,11 +161,11 @@ test_tender_below_features_data["features"] = [
 ]
 test_tender_below_bids = [
     {
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [deepcopy(test_tender_below_organization)],
         "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": True},
     },
     {
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [deepcopy(test_tender_below_organization)],
         "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": True},
     },
 ]
@@ -261,6 +262,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_bids = None
     initial_lots = None
     initial_criteria = None
+    initial_agreement_data = None
+    agreement_id = None
     tender_for_funders = False
     initial_auth = ("Basic", ("broker", ""))
     min_bids_number = MIN_BIDS_NUMBER
@@ -289,7 +292,11 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.set_status("active.tendering", extra={"status": "active.enquires"})
 
     def setUp(self):
+        set_now()
         super().setUp()
+        if self.initial_config["hasPreSelectionAgreement"]:
+            self.create_agreement()
+            self.initial_data["agreements"] = [{"id": self.agreement_id}]
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
         if self.initial_lots:
@@ -308,6 +315,16 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 self.initial_data.get("lots", []),
                 self.initial_data.get("items", []),
             )
+
+    def create_agreement(self):
+        if self.mongodb.agreements.get(self.agreement_id):
+            self.delete_agreement()
+        agreement = self.initial_agreement_data
+        agreement["dateModified"] = get_now().isoformat()
+        self.mongodb.agreements.save(agreement, insert=True)
+
+    def delete_agreement(self):
+        self.mongodb.agreements.delete(self.agreement_id)
 
     def create_tender(self, config=None):
         data = deepcopy(self.initial_data)

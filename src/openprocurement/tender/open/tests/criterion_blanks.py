@@ -595,6 +595,8 @@ def activate_tender(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
+    if self.article_16_criteria_required:
+
         response = self.app.patch_json(
             request_path,
             {"data": {"status": self.primary_tender_status}},
@@ -628,9 +630,12 @@ def activate_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
+    expected_criteria_count = len(self.required_criteria) if self.required_criteria else 0
+    if self.article_16_criteria_required:
+        expected_criteria_count += 1
     self.assertEqual(
         len(response.json["data"].get("criteria", [])),
-        len(self.required_criteria) + 1 if self.required_criteria else 0,  # plus article 16
+        expected_criteria_count,
     )
 
 

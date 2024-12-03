@@ -19,10 +19,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_GROUP,
-    ABOVE_THRESHOLD_GROUP_NAME,
-)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.procedure.models.tender import (
     PatchTender,
     PostTender,
@@ -34,10 +31,10 @@ from openprocurement.tender.open.procedure.state.tender_details import (
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tenders",
+    name=f"{ABOVE_THRESHOLD}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType=ABOVE_THRESHOLD_GROUP,
+    procurementMethodType=ABOVE_THRESHOLD,
     description="Tenders",
     accept="application/json",
 )

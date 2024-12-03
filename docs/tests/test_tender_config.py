@@ -48,6 +48,7 @@ from openprocurement.tender.belowthreshold.tests.utils import (
     set_bid_lotvalues,
     set_tender_lots,
 )
+from openprocurement.tender.competitiveordering.tests.base import test_tender_co_config
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
@@ -58,10 +59,7 @@ from openprocurement.tender.core.tests.base import (
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.esco.tests.base import test_tender_esco_config
-from openprocurement.tender.open.tests.base import (
-    test_tender_dps_config,
-    test_tender_open_config,
-)
+from openprocurement.tender.open.tests.base import test_tender_open_config
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.openeu.tests.base import test_tender_openeu_config
 from openprocurement.tender.openeu.tests.periods import PERIODS
@@ -2729,7 +2727,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
 
         data['lots'] = [lot]
 
-        config = deepcopy(test_tender_dps_config)
+        config = deepcopy(test_tender_co_config)
 
         for item in data['items']:
             item['relatedLot'] = lot['id']

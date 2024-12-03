@@ -30,12 +30,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_duration,
     validate_tender_period_start_date,
 )
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    CO_TENDERING_DURATION,
-    COMPETITIVE_ORDERING,
-    TENDERING_DURATION,
-)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD, TENDERING_DURATION
 from openprocurement.tender.open.procedure.models.item import Item
 from openprocurement.tender.open.procedure.models.organization import ProcuringEntity
 
@@ -43,7 +38,7 @@ from openprocurement.tender.open.procedure.models.organization import ProcuringE
 class PostTender(BasePostTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
-    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, COMPETITIVE_ORDERING], default=ABOVE_THRESHOLD)
+    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD], default=ABOVE_THRESHOLD)
     awardCriteria = StringType(
         choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
         default=AWARD_CRITERIA_LOWEST_COST,
@@ -69,11 +64,7 @@ class PostTender(BasePostTender):
     def validate_tenderPeriod(self, data, period):
         if period:
             validate_tender_period_start_date(data, period)
-            if data.get("procurementMethodType") == COMPETITIVE_ORDERING:
-                # TODO: Move to separate procedure
-                validate_tender_period_duration(data, period, CO_TENDERING_DURATION)
-            else:
-                validate_tender_period_duration(data, period, TENDERING_DURATION)
+            validate_tender_period_duration(data, period, TENDERING_DURATION)
 
 
 class PatchTender(BasePatchTender):
@@ -116,7 +107,7 @@ class Tender(BaseTender):
             "unsuccessful",
         ],
     )
-    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, COMPETITIVE_ORDERING], required=True)
+    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD], required=True)
     awardCriteria = StringType(
         choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
         required=True,
@@ -141,8 +132,4 @@ class Tender(BaseTender):
 
     def validate_tenderPeriod(self, data, period):
         if period:
-            if data.get("procurementMethodType") == COMPETITIVE_ORDERING:
-                # TODO: Move to separate procedure
-                validate_tender_period_duration(data, period, CO_TENDERING_DURATION)
-            else:
-                validate_tender_period_duration(data, period, TENDERING_DURATION)
+            validate_tender_period_duration(data, period, TENDERING_DURATION)

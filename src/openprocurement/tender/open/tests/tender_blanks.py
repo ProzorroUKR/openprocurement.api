@@ -8,10 +8,7 @@ from jsonschema import validate
 from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_draft_complaint,
-    test_tender_below_lots,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -20,8 +17,6 @@ from openprocurement.tender.core.tests.base import (
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.open.tests.base import test_tender_open_data
 
 
 def empty_listing(self):
@@ -120,7 +115,12 @@ def create_tender_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethodType": ABOVE_THRESHOLD, "invalid_field": "invalid_value"}},
+        {
+            "data": {
+                "procurementMethodType": self.initial_data["procurementMethodType"],
+                "invalid_field": "invalid_value",
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -131,7 +131,9 @@ def create_tender_invalid(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": ABOVE_THRESHOLD, "value": "invalid_value"}}, status=422
+        request_path,
+        {"data": {"procurementMethodType": self.initial_data["procurementMethodType"], "value": "invalid_value"}},
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -149,7 +151,12 @@ def create_tender_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethodType": ABOVE_THRESHOLD, "procurementMethod": "invalid_value"}},
+        {
+            "data": {
+                "procurementMethodType": self.initial_data["procurementMethodType"],
+                "procurementMethod": "invalid_value",
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -179,7 +186,12 @@ def create_tender_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethodType": ABOVE_THRESHOLD, "enquiryPeriod": {"endDate": "invalid_value"}}},
+        {
+            "data": {
+                "procurementMethodType": self.initial_data["procurementMethodType"],
+                "enquiryPeriod": {"endDate": "invalid_value"},
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -200,7 +212,7 @@ def create_tender_invalid(self):
         request_path,
         {
             "data": {
-                "procurementMethodType": ABOVE_THRESHOLD,
+                "procurementMethodType": self.initial_data["procurementMethodType"],
                 "enquiryPeriod": {"endDate": "9999-12-31T23:59:59.999999"},
             }
         },
@@ -327,6 +339,28 @@ def create_tender_invalid(self):
             }
         ],
     )
+
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        agreement["classification"] = {"id": "99999999-9", "scheme": "ДК021"}
+        self.mongodb.agreements.save(agreement)
+
+        response = self.app.post_json(
+            request_path, {"data": self.initial_data, "config": self.initial_config}, status=422
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": ["CPV class of items should be identical to agreement cpv"],
+                    "location": "body",
+                    "name": "items",
+                }
+            ],
+        )
 
     data = self.initial_data["items"][0].pop("additionalClassifications")
     cpv_code = self.initial_data["items"][0]["classification"]["id"]
@@ -474,6 +508,7 @@ def create_tender_generated(self):
     self.assertEqual(response.content_type, "application/json")
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
+    config = response.json["config"]
     if "procurementMethodDetails" in tender:
         tender.pop("procurementMethodDetails")
     fields = [
@@ -485,7 +520,6 @@ def create_tender_generated(self):
         "status",
         "enquiryPeriod",
         "tenderPeriod",
-        "complaintPeriod",
         "minimalStep",
         "items",
         "value",
@@ -508,6 +542,10 @@ def create_tender_generated(self):
         fields.append("lots")
     else:
         fields.append("auctionPeriod")
+    if self.agreement_id:
+        fields.append("agreements")
+    if config["hasTenderComplaints"]:
+        fields.append("complaintPeriod")
     self.assertEqual(set(tender), set(fields))
     self.assertNotEqual(data["id"], tender["id"])
 
@@ -518,34 +556,31 @@ def tender_fields(self):
     self.assertEqual(response.content_type, "application/json")
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
+    config = response.json["config"]
     self.tender_id = tender["id"]
-    tender_set = set(tender)
-    if "procurementMethodDetails" in tender_set:
-        tender_set.remove("procurementMethodDetails")
 
-    difference = tender_set - set(self.initial_data)
-    difference -= {"auctionPeriod"}  # openeu
-    self.assertEqual(
-        difference,
-        {
-            "id",
-            "dateModified",
-            "dateCreated",
-            "enquiryPeriod",
-            "complaintPeriod",
-            "criteria",
-            "tenderID",
-            "status",
-            "procurementMethod",
-            "awardCriteria",
-            "submissionMethod",
-            "next_check",
-            "owner",
-            "date",
-            "documents",
-            "noticePublicationDate",
-        },
-    )
+    expected_difference = {
+        "id",
+        "dateModified",
+        "dateCreated",
+        "enquiryPeriod",
+        "criteria",
+        "tenderID",
+        "status",
+        "procurementMethod",
+        "awardCriteria",
+        "submissionMethod",
+        "next_check",
+        "owner",
+        "date",
+        "documents",
+        "noticePublicationDate",
+    }
+    if config["hasTenderComplaints"] is True:
+        expected_difference.add("complaintPeriod")
+
+    difference = set(tender) - set(self.initial_data)
+    self.assertEqual(difference, expected_difference)
 
     self.set_status("complete")
     self.check_chronograph()
@@ -555,26 +590,12 @@ def tender_fields(self):
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual(tender["status"], "complete")
-    expected_keys = {
-        "id",
-        "dateCreated",
-        "dateModified",
-        "enquiryPeriod",
-        "auctionPeriod",
-        "complaintPeriod",
-        "criteria",
-        "tenderID",
-        "status",
-        "procurementMethod",
-        "awardCriteria",
-        "submissionMethod",
-        "owner",
-        "date",
-        "awardPeriod",
-        "documents",
-        "noticePublicationDate",
-    }
-    self.assertEqual(set(tender.keys()) - set(self.initial_data.keys()), expected_keys)
+    expected_difference.add("awardPeriod")
+    expected_difference.add("auctionPeriod")
+    expected_difference.remove("next_check")
+
+    difference = set(tender) - set(self.initial_data)
+    self.assertEqual(difference, expected_difference)
 
 
 def patch_draft_invalid_json(self):
@@ -900,6 +921,13 @@ def invalid_bid_tender_features(self):
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     response = self.set_initial_status(response.json)
+
+    # fake agreement parameters
+    if self.initial_agreement_data:
+        agreement = self.initial_agreement_data
+        for contract in agreement["contracts"]:
+            contract["parameters"] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0.1}]
+        self.mongodb.agreements.save(agreement)
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1529,7 +1557,9 @@ def get_ocds_schema(self):
     get_now() + timedelta(days=1),
 )
 def tender_created_before_related_lot_constant(self):
-    data = deepcopy(test_tender_open_data)
+    data = deepcopy(self.initial_data)
+    for i in data["items"]:
+        i.pop("relatedLot", None)
     data["status"] = "draft"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
@@ -1549,7 +1579,7 @@ def tender_created_before_related_lot_constant(self):
     self.assertEqual(response.status, '201 Created')
     self.add_sign_doc(self.tender_id, self.tender_token)
 
-    # forbid patch tender without lot even before RELATED_LOT_REQUIRED_FROM constant for aboveThreshold
+    # forbid patch tender without lot even before RELATED_LOT_REQUIRED_FROM constant
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.tendering"}}, status=422
     )
@@ -1557,42 +1587,3 @@ def tender_created_before_related_lot_constant(self):
         response.json["errors"],
         [{"location": "body", "name": "item.relatedLot", "description": "This field is required"}],
     )
-
-
-# TenderDPSResourceTest
-
-
-def create_tender_dps(self):
-    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("complaintPeriod", response.json["data"])
-    tender_id = response.json["data"]["id"]
-
-    # try to add complaint
-    complaint_data = deepcopy(test_tender_below_draft_complaint)
-    response = self.app.post_json(f"/tenders/{tender_id}/complaints", {"data": complaint_data}, status=403)
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add complaint as it is forbidden by configuration"
-    )
-
-
-def create_tender_dps_invalid_config(self):
-    for config_name in ("hasTenderComplaints", "hasAwardComplaints", "hasCancellationComplaints"):
-        config = deepcopy(self.initial_config)
-        config.update({config_name: True})
-        response = self.app.post_json(
-            "/tenders",
-            {
-                "data": self.initial_data,
-                "config": config,
-            },
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [{"description": "True is not one of [False]", "location": "body", "name": config_name}],
-        )

@@ -43,6 +43,7 @@ from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,
@@ -73,10 +74,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_edrpou_confidentiality_doc,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_GROUP,
-    COMPETITIVE_ORDERING,
-)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.pricequotation.constants import PQ
 
 
@@ -996,7 +994,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     def validate_related_lot_in_items(self, after):
         if (
             tender_created_after(RELATED_LOT_REQUIRED_FROM)
-            or after.get("procurementMethodType") in ABOVE_THRESHOLD_GROUP
+            or after.get("procurementMethodType") in [ABOVE_THRESHOLD, COMPETITIVE_ORDERING]
         ) and after["status"] != "draft":
             for item in after["items"]:
                 if not item.get("relatedLot"):

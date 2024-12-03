@@ -18,16 +18,16 @@ from openprocurement.framework.dps.tests.base import (
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
+from openprocurement.tender.competitiveordering.tests.base import (
+    BaseTenderUAWebTest,
+    test_tender_co_config,
+)
 from openprocurement.tender.core.tests.base import (
     test_article_16_criteria,
     test_exclusion_criteria,
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.open.tests.base import (
-    BaseTenderUAWebTest,
-    test_tender_dps_config,
-)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/http/')
@@ -180,7 +180,7 @@ class TenderResourceTest(
 
         data['lots'] = [lot]
 
-        config = deepcopy(test_tender_dps_config)
+        config = deepcopy(test_tender_co_config)
 
         for item in data['items']:
             item['relatedLot'] = lot['id']

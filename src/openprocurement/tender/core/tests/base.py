@@ -13,12 +13,13 @@ from openprocurement.api.constants import SESSION, TWO_PHASE_COMMIT_FROM, TZ
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import get_now
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.procedure.models.qualification_milestone import (
     QualificationMilestoneCodes,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_date
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD, COMPETITIVE_ORDERING
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 
 now = datetime.now()
 

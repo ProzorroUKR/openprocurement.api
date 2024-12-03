@@ -21,20 +21,17 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_deleted_bid,
 )
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_GROUP,
-    ABOVE_THRESHOLD_GROUP_NAME,
-)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.procedure.models.bid import Bid, PatchBid, PostBid
 
 LOGGER = getLogger(__name__)
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Bids",
+    name=f"{ABOVE_THRESHOLD}:Tender Bids",
     collection_path="/tenders/{tender_id}/bids",
     path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType=ABOVE_THRESHOLD_GROUP,
+    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender bids",
 )
 class OpenTenderBidResource(TenderBidResource):
