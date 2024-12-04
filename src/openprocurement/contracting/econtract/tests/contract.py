@@ -30,6 +30,7 @@ from openprocurement.contracting.econtract.tests.contract_blanks import (
     patch_tender_contract,
     patch_tender_contract_amount_paid_zero,
     patch_tender_contract_identical,
+    patch_tender_contract_period,
     patch_tender_contract_readonly,
     patch_tender_contract_single_request,
     patch_tender_contract_value_amount,
@@ -92,6 +93,7 @@ class ContractActiveResource4BrokersTest(BaseEContractWebTest):
     test_patch_tender_contract_value_amount = snitch(patch_tender_contract_value_amount)
     test_patch_tender_contract_without_value = snitch(patch_tender_contract_without_value)
     test_patch_tender_contract_amount_paid_zero = snitch(patch_tender_contract_amount_paid_zero)
+    test_patch_tender_contract_period = snitch(patch_tender_contract_period)
 
 
 class ContractResource4BrokersTestMultipleItems(BaseEContractWebTestTwoItems):

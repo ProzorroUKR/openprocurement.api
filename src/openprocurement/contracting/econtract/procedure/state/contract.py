@@ -159,6 +159,7 @@ class EContractState(
         self.validate_update_contract_value_net_required(request, before, after, name="amountPaid")
         self.validate_update_contract_paid_amount(request, before, after)
         self.validate_terminate_contract_without_amountPaid(request, before, after)
+        self.validate_period(before, after)
 
     @staticmethod
     def validate_update_contract_value_with_award(request, tender: dict, before: dict, after: dict) -> None:
@@ -237,6 +238,20 @@ class EContractState(
             raise_operation_error(
                 self.request,
                 "contractNumber is required for contract in `active` status",
+                status=422,
+            )
+
+    def validate_period(self, before, after):
+        if before.get("period", {}).get("startDate") and not after.get("period", {}).get("startDate"):
+            after["period"]["startDate"] = before["period"]["startDate"]
+        if before.get("period", {}).get("endDate") and not after.get("period", {}).get("endDate"):
+            after["period"]["endDate"] = before["period"]["endDate"]
+        if (after.get("period", {}).get("startDate") and after.get("period", {}).get("endDate")) and dt_from_iso(
+            after["period"]["endDate"]
+        ) < dt_from_iso(after["period"]["startDate"]):
+            raise_operation_error(
+                self.request,
+                "period should begin before its end",
                 status=422,
             )
 
