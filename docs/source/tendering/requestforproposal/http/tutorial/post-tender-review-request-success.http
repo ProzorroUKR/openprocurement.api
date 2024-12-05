@@ -1,0 +1,22 @@
+POST /api/2.5/tenders/977d8a4eb3e440b3acdc8a7f39b7c764/review_requests?acc_token=dae7afe6e0d149468a4426e0384ca817 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {}
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/977d8a4eb3e440b3acdc8a7f39b7c764/review_requests/0b98081079674cf1834f21d5e0e3d3ac
+
+{
+  "data": {
+    "id": "0b98081079674cf1834f21d5e0e3d3ac",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderStatus": "active.enquiries"
+  }
+}
+

@@ -39,8 +39,8 @@ from openprocurement.api.utils import (
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
-from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.framework.ifi.constants import IFI_TYPE
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,

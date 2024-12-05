@@ -12,28 +12,28 @@ from tests.base.data import (
     test_docs_items_open,
     test_docs_lots,
     test_docs_question,
-    test_docs_tender_below,
-    test_docs_tender_below_maximum,
+    test_docs_tender_rfp,
+    test_docs_tender_rfp_maximum,
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.econtract.tests.data import test_signer_info
-from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest,
-    test_tender_below_bids,
-    test_tender_below_lots,
-    test_tender_below_organization,
-)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
+from openprocurement.tender.requestforproposal.tests.base import (
+    BaseTenderWebTest,
+    test_tender_rfp_bids,
+    test_tender_rfp_lots,
+    test_tender_rfp_organization,
+)
 
-test_tender_data = deepcopy(test_docs_tender_below)
+test_tender_data = deepcopy(test_docs_tender_rfp)
 
 TARGET_DIR = 'docs/source/tendering/requestforproposal/http/'
 TARGET_CSV_DIR = 'docs/source/tendering/requestforproposal/csv/'
@@ -44,7 +44,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
-    initial_bids = test_tender_below_bids
+    initial_bids = test_tender_rfp_bids
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 
@@ -58,7 +58,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(
-            pmt="belowThreshold",
+            pmt="requestForProposal",
             file_path=TARGET_CSV_DIR + "config.csv",
         )
 
@@ -79,7 +79,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         owner_token = response.json['access']['token']
         # add lots
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_tender_below_lots[0]}
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_tender_rfp_lots[0]}
         )
         self.assertEqual(response.status, '201 Created')
 
@@ -130,7 +130,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             response = self.app.get('/tenders')
             self.assertEqual(response.status, '200 OK')
 
-        test_tender_data_maximum = deepcopy(test_docs_tender_below_maximum)
+        test_tender_data_maximum = deepcopy(test_docs_tender_rfp_maximum)
         test_tender_data_maximum['items'][0]['id'] = uuid4().hex
         for feature in test_tender_data_maximum['features']:
             if feature['featureOf'] == 'item':
@@ -139,7 +139,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # add lots
         with open(TARGET_DIR + 'tutorial/tender-add-lot.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/lots?acc_token={}'.format(self.tender_id, owner_token), {'data': test_tender_below_lots[0]}
+                '/tenders/{}/lots?acc_token={}'.format(self.tender_id, owner_token), {'data': test_tender_rfp_lots[0]}
             )
             self.assertEqual(response.status, '201 Created')
             lot_id = response.json['data']['id']
@@ -180,7 +180,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Create second tender
 
-        test_tender_data_maximum = deepcopy(test_docs_tender_below_maximum)
+        test_tender_data_maximum = deepcopy(test_docs_tender_rfp_maximum)
         set_tender_lots(test_tender_data_maximum, tender_lots)
         self.initial_bids = deepcopy(self.initial_bids)
         for bid in self.initial_bids:
@@ -215,7 +215,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # add lots
         response = self.app.post_json(
             '/tenders/{}/lots?acc_token={}'.format(tender["id"], tender_2_owner_token),
-            {'data': test_tender_below_lots[0]},
+            {'data': test_tender_rfp_lots[0]},
         )
         self.assertEqual(response.status, '201 Created')
 
@@ -744,10 +744,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             }
         )
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = test_docs_items_open
         del test_tender_data["minimalStep"]
-        test_tender_data["funders"] = [deepcopy(test_tender_below_organization)]
+        test_tender_data["funders"] = [deepcopy(test_tender_rfp_organization)]
         test_tender_data["funders"][0]["identifier"]["id"] = "44000"
         test_tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
         del test_tender_data["funders"][0]["scale"]
@@ -1153,7 +1153,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             owner_token = response.json["access"]["token"]
 
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_tender_below_lots[0]}
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_tender_rfp_lots[0]}
         )
         self.assertEqual(response.status, '201 Created')
         lot_id = response.json["data"]["id"]
@@ -1222,7 +1222,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                     'data': {
                         'tenderPeriod': {
                             'startDate': (get_now() + timedelta(days=10)).isoformat(),
-                            'endDate': (get_now() + timedelta(days=15)).isoformat(),
+                            'endDate': (get_now() + timedelta(days=18)).isoformat(),
                         }
                     }
                 },

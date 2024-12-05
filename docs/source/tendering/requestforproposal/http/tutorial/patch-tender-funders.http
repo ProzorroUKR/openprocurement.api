@@ -1,0 +1,235 @@
+PATCH /api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e?acc_token=3d5baa5d82af4c94a467591dfe699af2 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "funders": [
+      {
+        "additionalIdentifiers": [],
+        "address": {
+          "countryName": "Швейцарська Конфедерація",
+          "locality": "Geneva",
+          "postalCode": "1218",
+          "region": "Grand-Saconnex",
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40"
+        },
+        "contactPoint": {
+          "email": "ccm@theglobalfund.org",
+          "faxNumber": "+41 44 580 6820",
+          "name": "",
+          "telephone": "+41587911700",
+          "url": "https://www.theglobalfund.org/en/"
+        },
+        "identifier": {
+          "id": "47045",
+          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією",
+          "scheme": "XM-DAC"
+        },
+        "name": "Глобальний фонд"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "funders": [
+      {
+        "name": "Глобальний фонд",
+        "identifier": {
+          "scheme": "XM-DAC",
+          "id": "47045",
+          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
+        },
+        "address": {
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40",
+          "locality": "Geneva",
+          "region": "Grand-Saconnex",
+          "postalCode": "1218",
+          "countryName": "Швейцарська Конфедерація"
+        },
+        "contactPoint": {
+          "name": "",
+          "email": "ccm@theglobalfund.org",
+          "telephone": "+41587911700",
+          "faxNumber": "+41 44 580 6820",
+          "url": "https://www.theglobalfund.org/en/"
+        }
+      }
+    ],
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:01+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "de3138903e444a2181435a3b5efd912b",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f98d671dccf847d29f7a0a6bbd3a847b?Signature=D%2Fc8yzHDEVur6Tl8QEcF0%2BiZtX42CUiVmVYzsyocRp90LxO5L65%2FqyzxkRVY50wkDAQwRJ010xsfshZhHJpvBQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "status": "active.enquiries",
+    "owner": "broker",
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
+    "procurementMethod": "open",
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
+    "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
+    },
+    "next_check": "2023-10-17T00:00:00+02:00",
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderPeriod": {
+      "startDate": "2023-10-17T00:00:00+02:00",
+      "endDate": "2023-10-25T01:00:11+03:00"
+    },
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "status": "active",
+        "id": "880b8274983b40cfa8455e8e3d82bb70",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "id": "93cf6e486f974b7182000f7b56c1e557",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2
+      }
+    ],
+    "procurementMethodType": "requestForProposal",
+    "enquiryPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "clarificationsUntil": "2023-10-24T00:00:00+03:00",
+      "endDate": "2023-10-17T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "relatedLot": "880b8274983b40cfa8455e8e3d82bb70"
+      }
+    ],
+    "id": "d825f322bda5487a8c8e5d9c1e58fd9e"
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 2,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 4,
+    "qualificationDuration": 20,
+    "restricted": false
+  }
+}
+

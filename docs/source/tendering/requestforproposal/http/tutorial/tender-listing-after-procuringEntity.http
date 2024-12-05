@@ -1,0 +1,26 @@
+GET /api/2.5/tenders HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "id": "d825f322bda5487a8c8e5d9c1e58fd9e"
+    },
+    {
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "id": "0a6891e35335413c84571febcaedd50d"
+    }
+  ],
+  "next_page": {
+    "offset": "1696888800.0.2.9f00ebba695dce3aadf010ab24b23f25",
+    "path": "/api/2.5/tenders?offset=1696888800.0.2.9f00ebba695dce3aadf010ab24b23f25",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=1696888800.0.2.9f00ebba695dce3aadf010ab24b23f25"
+  }
+}
+

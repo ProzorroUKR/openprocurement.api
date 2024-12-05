@@ -1,0 +1,396 @@
+POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "футляри до державних нагород",
+    "title_en": "Cases with state awards",
+    "title_ru": "футляры к государственным наградам",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 5,
+      "currency": "UAH"
+    },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "amount": 6
+          }
+        },
+        "quantity": 5,
+        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+      }
+    ],
+    "enquiryPeriod": {
+      "endDate": "2023-10-17T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2023-10-24T00:00:00+02:00"
+    },
+    "procurementMethodType": "requestForProposal",
+    "mode": "test",
+    "features": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "featureOf": "item",
+        "relatedItem": "ffffffffffffffffffffffffffffffff",
+        "title": "Потужність всмоктування",
+        "title_en": "Air Intake",
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+        "enum": [
+          {
+            "value": 0.1,
+            "title": "До 1000 Вт"
+          },
+          {
+            "value": 0.15,
+            "title": "Більше 1000 Вт"
+          }
+        ]
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "featureOf": "tenderer",
+        "title": "Років на ринку",
+        "title_en": "Years trading",
+        "description": "Кількість років, які організація учасник працює на ринку",
+        "enum": [
+          {
+            "value": 0.05,
+            "title": "До 3 років"
+          },
+          {
+            "value": 0.1,
+            "title": "Більше 3 років, менше 5 років"
+          },
+          {
+            "value": 0.15,
+            "title": "Більше 5 років"
+          }
+        ]
+      }
+    ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 1,
+        "percentage": 45.55,
+        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+      },
+      {
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2,
+        "percentage": 54.45,
+        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+      }
+    ],
+    "mainProcurementCategory": "services",
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "status": "active",
+        "id": "85459ec7097d4e0489bc373a9f039e7a",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ]
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 2,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 4,
+    "qualificationDuration": 20,
+    "restricted": false
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d9348acb91fa4dd59c3248bf74029319
+
+{
+  "data": {
+    "mainProcurementCategory": "services",
+    "title_en": "[TESTING] Cases with state awards",
+    "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам",
+    "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
+    "mode": "test",
+    "status": "draft",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderPeriod": {
+      "startDate": "2023-10-17T00:00:00+02:00",
+      "endDate": "2023-10-24T00:00:00+02:00"
+    },
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "date": "2023-10-10T01:00:00+03:00",
+        "id": "85459ec7097d4e0489bc373a9f039e7a",
+        "status": "active",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
+    "features": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "featureOf": "item",
+        "relatedItem": "ffffffffffffffffffffffffffffffff",
+        "title": "Потужність всмоктування",
+        "title_en": "Air Intake",
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+        "enum": [
+          {
+            "value": 0.1,
+            "title": "До 1000 Вт"
+          },
+          {
+            "value": 0.15,
+            "title": "Більше 1000 Вт"
+          }
+        ]
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "featureOf": "tenderer",
+        "title": "Років на ринку",
+        "title_en": "Years trading",
+        "description": "Кількість років, які організація учасник працює на ринку",
+        "enum": [
+          {
+            "value": 0.05,
+            "title": "До 3 років"
+          },
+          {
+            "value": 0.1,
+            "title": "Більше 3 років, менше 5 років"
+          },
+          {
+            "value": 0.15,
+            "title": "Більше 5 років"
+          }
+        ]
+      }
+    ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 1,
+        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+      },
+      {
+        "id": "4424c48c141a405ca2acea491e7421dc",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2,
+        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+      }
+    ],
+    "procurementMethodType": "requestForProposal",
+    "enquiryPeriod": {
+      "endDate": "2023-10-17T00:00:00+02:00",
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "clarificationsUntil": "2023-10-24T00:00:00+03:00"
+    },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+      }
+    ],
+    "tenderID": "UA-2023-10-10-000002-a",
+    "owner": "broker",
+    "procurementMethod": "open",
+    "submissionMethod": "electronicAuction",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "id": "d9348acb91fa4dd59c3248bf74029319"
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 2,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 4,
+    "qualificationDuration": 20,
+    "restricted": false
+  },
+  "access": {
+    "token": "c15de98e7a17408e95e488963349b713",
+    "transfer": "8c79c0513bb34497835251331efce717"
+  }
+}
+

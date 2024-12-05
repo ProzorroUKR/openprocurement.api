@@ -1,0 +1,168 @@
+POST /api/2.5/tenders/6694d8a81cfc4ddc8d56a87558eaf7e7/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "draft",
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 200,
+          "currency": "USD"
+        },
+        "relatedLot": "a1b71828e35f4f83b5bc1754af3856c1"
+      },
+      {
+        "value": {
+          "amount": 400,
+          "currency": "EUR"
+        },
+        "relatedLot": "f74e1edcbf7c49da83fb6b3eafb1248d"
+      }
+    ],
+    "items": [
+      {
+        "quantity": 5,
+        "description": "папір",
+        "id": "651c07757e6f4d5c9e742a24f6d45726",
+        "unit": {
+          "code": "KGM",
+          "value": {
+            "amount": 0.2,
+            "currency": "EUR"
+          }
+        }
+      },
+      {
+        "quantity": 1,
+        "description": "степлер",
+        "id": "0e3435a1eb8143219ee9a9638a4c9563",
+        "unit": {
+          "code": "KGM",
+          "value": {
+            "amount": 0,
+            "currency": "USD"
+          }
+        }
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6694d8a81cfc4ddc8d56a87558eaf7e7/bids/01617bb98a904d03bac7353bcd47b52c
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 200.0,
+          "currency": "USD",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "a1b71828e35f4f83b5bc1754af3856c1",
+        "date": "2023-10-10T01:00:00+03:00"
+      },
+      {
+        "status": "pending",
+        "value": {
+          "amount": 400.0,
+          "currency": "EUR",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "f74e1edcbf7c49da83fb6b3eafb1248d",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "status": "draft",
+    "items": [
+      {
+        "id": "651c07757e6f4d5c9e742a24f6d45726",
+        "description": "папір",
+        "unit": {
+          "value": {
+            "amount": 0.2,
+            "currency": "EUR",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      },
+      {
+        "id": "0e3435a1eb8143219ee9a9638a4c9563",
+        "description": "степлер",
+        "unit": {
+          "value": {
+            "amount": 0.0,
+            "currency": "USD",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0
+      }
+    ],
+    "id": "01617bb98a904d03bac7353bcd47b52c",
+    "date": "2023-10-10T01:00:00+03:00"
+  },
+  "access": {
+    "token": "1467d27f344048078986666d6af3355e",
+    "transfer": "f13f016d106b4bce974658faa5b869c5"
+  }
+}
+
