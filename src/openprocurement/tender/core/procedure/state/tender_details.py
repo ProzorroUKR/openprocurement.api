@@ -33,8 +33,8 @@ from openprocurement.api.utils import (
     get_tender_profile,
     raise_operation_error,
 )
-from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.framework.ifi.constants import IFI_TYPE
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,

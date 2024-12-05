@@ -1,0 +1,113 @@
+PATCH /api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e/bids/4723f26e27044daebdc065be7140e59c?acc_token=86498b9bd8114fe6b3874ac2340bf614 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "Школяр",
+        "scale": "micro"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "880b8274983b40cfa8455e8e3d82bb70",
+        "status": "pending",
+        "date": "2023-10-16T01:14:06+03:00"
+      }
+    ],
+    "tenderers": [
+      {
+        "name": "Школяр",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
+      }
+    ],
+    "status": "invalid",
+    "id": "4723f26e27044daebdc065be7140e59c",
+    "date": "2023-10-16T01:14:06+03:00",
+    "submissionDate": "2023-10-16T01:14:06+03:00",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "proposal",
+        "id": "4947523771de4d7ea963bb65ffd92b13",
+        "datePublished": "2023-10-16T01:14:06+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.p7s",
+        "format": "sign/p7s",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7ccd8d40fc3e4a74beb969f8949c8d67?Signature=I1%2FWtkNS5vCIlYLjfyPEJ1udaq2k0M48c67pEHG6p0gkWp%2FQZcb5aIm7NhM2lNYwnpx3DM8LqMfi8wPIpYreDA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-16T01:14:06+03:00",
+        "language": "uk"
+      }
+    ],
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "папір",
+        "unit": {
+          "value": {
+            "amount": 0.6,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ]
+  }
+}
+

@@ -2,7 +2,7 @@
     "config": {
         "awardComplainDuration": 2,
         "cancellationComplainDuration": 0,
-        "clarificationUntilDuration": 1,
+        "clarificationUntilDuration": 4,
         "hasAuction": true,
         "hasAwardComplaints": false,
         "hasAwardingOrder": false,
@@ -14,7 +14,7 @@
         "hasValueEstimation": true,
         "hasValueRestriction": true,
         "minBidsNumber": 1,
-        "qualificationComplainDuration": 10,
+        "qualificationComplainDuration": 0,
         "qualificationDuration": 20,
         "restricted": false,
         "tenderComplainRegulation": 0,
@@ -1251,7 +1251,7 @@
             }
         ],
         "enquiryPeriod": {
-            "clarificationsUntil": "2023-10-19T00:00:00+03:00",
+            "clarificationsUntil": "2023-10-24T00:00:00+03:00",
             "endDate": "2023-10-07T01:00:00+03:00",
             "startDate": "2023-10-02T01:00:00+03:00"
         },
@@ -1418,7 +1418,7 @@
         "noticePublicationDate": "2023-10-10T01:00:00+03:00",
         "owner": "broker",
         "procurementMethod": "open",
-        "procurementMethodType": "belowThreshold",
+        "procurementMethodType": "requestForProposal",
         "procuringEntity": {
             "address": {
                 "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",

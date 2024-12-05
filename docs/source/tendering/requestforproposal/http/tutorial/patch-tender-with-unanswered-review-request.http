@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/977d8a4eb3e440b3acdc8a7f39b7c764?acc_token=dae7afe6e0d149468a4426e0384ca817 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "description": "Оновлений опис"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "With unanswered review request can be patched only ('tenderPeriod',) fields"
+    }
+  ]
+}
+

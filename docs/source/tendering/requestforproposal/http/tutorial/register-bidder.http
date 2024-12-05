@@ -1,0 +1,126 @@
+POST /api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
+      }
+    ],
+    "status": "draft",
+    "items": [
+      {
+        "quantity": 5,
+        "description": "папір",
+        "id": "ffffffffffffffffffffffffffffffff",
+        "unit": {
+          "code": "KGM",
+          "value": {
+            "amount": 0.6,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500
+        },
+        "relatedLot": "880b8274983b40cfa8455e8e3d82bb70"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e/bids/4723f26e27044daebdc065be7140e59c
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "880b8274983b40cfa8455e8e3d82bb70",
+        "date": "2023-10-16T01:14:06+03:00"
+      }
+    ],
+    "status": "draft",
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "папір",
+        "unit": {
+          "value": {
+            "amount": 0.6,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ],
+    "id": "4723f26e27044daebdc065be7140e59c",
+    "date": "2023-10-16T01:14:06+03:00"
+  },
+  "access": {
+    "token": "86498b9bd8114fe6b3874ac2340bf614",
+    "transfer": "0cbbbe0b37a14661a9d0b999b526149a"
+  }
+}
+
