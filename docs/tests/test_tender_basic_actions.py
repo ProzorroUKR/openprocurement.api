@@ -34,14 +34,13 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_config,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
     test_tech_feature_criteria,
 )
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import change_auth, set_bid_lotvalues
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.pricequotation.tests.base import (

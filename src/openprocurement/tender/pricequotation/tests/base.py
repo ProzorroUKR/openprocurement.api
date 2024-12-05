@@ -5,7 +5,6 @@ from uuid import uuid4
 from mock import Mock, patch
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
@@ -191,17 +190,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
         status = tender["status"]
         if self.initial_status and self.initial_status != status:
             self.set_status(self.initial_status)
-
-    def create_agreement(self):
-        if self.mongodb.agreements.get(self.agreement_id):
-            self.delete_agreement()
-        agreement = test_agreement_pq_data
-        agreement["dateModified"] = get_now().isoformat()
-        set_now()
-        self.mongodb.agreements.save(agreement, insert=True)
-
-    def delete_agreement(self):
-        self.mongodb.agreements.delete(self.agreement_id)
 
 
 class TenderContentWebTest(BaseTenderWebTest):

@@ -6,13 +6,10 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    activate_contract,
-    get_contract_data,
-)
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_organization,
 )
+from openprocurement.tender.core.tests.utils import activate_contract, get_contract_data
 
 # Tender Lot Resouce Test
 

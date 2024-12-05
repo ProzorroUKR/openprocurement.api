@@ -12,9 +12,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_features_data,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.tests.periods import PERIODS
+from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 
 now = get_now()
 
@@ -200,6 +200,11 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     )
 
     periods = PERIODS
+
+    def setUp(self):
+        super().setUp()
+        self.create_agreement()
+        self.initial_data["agreements"] = [{"id": self.agreement_id}]
 
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", startend="enquiry_end")

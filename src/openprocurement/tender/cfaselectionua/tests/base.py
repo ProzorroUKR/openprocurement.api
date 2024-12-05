@@ -7,16 +7,16 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_tender_criteria,
-    set_tender_multi_buyers,
-)
 from openprocurement.tender.cfaselectionua.constants import (
     BOT_NAME,
     MINIMAL_STEP_PERCENTAGE,
 )
 from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
+from openprocurement.tender.core.tests.utils import (
+    set_tender_criteria,
+    set_tender_multi_buyers,
+)
 
 here = os.path.dirname(os.path.abspath(__file__))
 now = datetime.now(TZ)

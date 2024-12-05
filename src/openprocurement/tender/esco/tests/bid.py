@@ -19,7 +19,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     patch_pending_bid,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.esco.procedure.utils import to_decimal
 from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,

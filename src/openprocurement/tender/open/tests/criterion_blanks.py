@@ -4,7 +4,6 @@ from unittest import mock
 
 from openprocurement.api.constants import ARTICLE_16
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_criteria
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
@@ -14,6 +13,7 @@ from openprocurement.tender.core.tests.base import (
     test_requirement_groups,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 
 
 def create_tender_criteria_valid(self):

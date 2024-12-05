@@ -5,7 +5,6 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
@@ -36,6 +35,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     patch_tender_with_bids_lots_none,
     status_jumping,
 )
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openeu.tests.bid_blanks import (
     bids_activation_on_tender_documents,

@@ -11,7 +11,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
 )
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.cfaselectionua.constants import (
     BOT_NAME,
     ENQUIRY_PERIOD,
@@ -27,7 +26,7 @@ from openprocurement.tender.core.constants import AGREEMENT_IDENTIFIER_MESSAGE
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_without_complaints_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import activate_contract, change_auth
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 

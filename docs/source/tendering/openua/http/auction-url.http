@@ -713,7 +713,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "dad62a18553c4c349038eadaa055072c",
+        "id": "4cfff5f086e54dd5b555cf499c773177",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -729,7 +729,7 @@ Content-Type: application/json
           "startDate": "2023-10-10T01:02:01+03:00",
           "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/a450405f3c6840318420a210894cccb1_dad62a18553c4c349038eadaa055072c"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/a450405f3c6840318420a210894cccb1_4cfff5f086e54dd5b555cf499c773177"
       }
     ],
     "milestones": [
@@ -822,7 +822,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "dad62a18553c4c349038eadaa055072c",
+        "relatedLot": "4cfff5f086e54dd5b555cf499c773177",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"

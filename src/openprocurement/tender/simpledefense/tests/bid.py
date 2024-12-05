@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2L
     patch_tender_bid_with_exceeded_lot_values,
     post_tender_bid_with_exceeded_lot_values,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentResourceTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,

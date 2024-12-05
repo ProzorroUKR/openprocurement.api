@@ -2,7 +2,6 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
@@ -27,6 +26,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     features_bidder_ua,
     ukrainian_author_id,
 )
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openeu.tests.bid import (
     Tender2BidResourceTestMixin,
     TenderBidDocumentResourceTestMixin,

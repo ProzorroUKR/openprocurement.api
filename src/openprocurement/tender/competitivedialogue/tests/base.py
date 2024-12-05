@@ -11,10 +11,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_bid_responses,
-    set_tender_multi_buyers,
-)
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
@@ -24,6 +20,10 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.tests.periods import (
     PERIODS,
     PERIODS_UA_STAGE_2,
+)
+from openprocurement.tender.core.tests.utils import (
+    set_bid_responses,
+    set_tender_multi_buyers,
 )
 from openprocurement.tender.openeu.tests.base import (
     test_tender_openeu_bids,

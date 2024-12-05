@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.pricequotation.constants import PQ
 
 now = get_now()

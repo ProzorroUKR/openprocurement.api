@@ -17,13 +17,13 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import (
     test_article_16_criteria,
     test_exclusion_criteria,
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 
 test_tender_data = deepcopy(test_docs_tender_openeu)

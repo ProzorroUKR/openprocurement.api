@@ -13,7 +13,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_features_data,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.tests.periods import PERIODS
 

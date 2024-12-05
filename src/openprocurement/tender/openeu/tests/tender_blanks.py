@@ -7,11 +7,8 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    activate_contract,
-    set_bid_lotvalues,
-)
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 # TenderResourceTest

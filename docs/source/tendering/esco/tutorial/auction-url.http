@@ -859,7 +859,7 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
-            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+            "relatedLot": "9027f283c1e74dafad1cd0ff659ca922",
             "status": "active"
           }
         ]
@@ -1054,7 +1054,7 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
-            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+            "relatedLot": "9027f283c1e74dafad1cd0ff659ca922",
             "status": "active"
           }
         ]
@@ -1287,7 +1287,7 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
-            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+            "relatedLot": "9027f283c1e74dafad1cd0ff659ca922",
             "status": "unsuccessful"
           }
         ],
@@ -1428,7 +1428,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "id": "9027f283c1e74dafad1cd0ff659ca922",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
           "currency": "UAH",
@@ -1441,7 +1441,7 @@ Content-Type: application/json
           "startDate": "2023-10-10T01:02:01+03:00",
           "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_ce7777a3b9954a00a43ea3c722f5af5b"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_9027f283c1e74dafad1cd0ff659ca922"
       }
     ],
     "items": [
@@ -1468,7 +1468,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
+        "relatedLot": "9027f283c1e74dafad1cd0ff659ca922"
       },
       {
         "id": "f0a94f5146424cdeb3e9103add626234",
@@ -1493,7 +1493,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
+        "relatedLot": "9027f283c1e74dafad1cd0ff659ca922"
       }
     ],
     "milestones": [
@@ -1541,7 +1541,7 @@ Content-Type: application/json
       {
         "id": "b65d0c22559a4547a8df25f2e17aed44",
         "bidID": "cd1a12fedb634aa88390b3156568df61",
-        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "lotID": "9027f283c1e74dafad1cd0ff659ca922",
         "status": "active",
         "date": "2023-10-10T01:02:01+03:00",
         "qualified": true,
@@ -1554,7 +1554,7 @@ Content-Type: application/json
       {
         "id": "1fa00365bbc642a7bfe77722e1639a08",
         "bidID": "ef452425b58e4ff1a339e6f39dcaf360",
-        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "lotID": "9027f283c1e74dafad1cd0ff659ca922",
         "status": "active",
         "date": "2023-10-10T01:02:01+03:00",
         "qualified": true,
@@ -1567,7 +1567,7 @@ Content-Type: application/json
       {
         "id": "c98cd796b6ee496caa67d81734d23473",
         "bidID": "a5c09f985bd14b2f8c9c5c34e07f8c76",
-        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "lotID": "9027f283c1e74dafad1cd0ff659ca922",
         "status": "unsuccessful",
         "date": "2023-10-10T01:02:01+03:00",
         "qualified": false,

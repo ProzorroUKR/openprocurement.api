@@ -11,11 +11,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.core.procedure.models.award_milestone import (
     AwardMilestoneCodes,
 )
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import activate_contract, change_auth
 from openprocurement.tender.limited.tests.utils import get_award_data
 
 

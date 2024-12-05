@@ -8,8 +8,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_milestones,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers
 from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.openeu.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest

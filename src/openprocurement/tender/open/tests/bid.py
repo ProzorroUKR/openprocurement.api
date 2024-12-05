@@ -17,8 +17,8 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     patch_tender_bid_with_disabled_lot_values_restriction,
     post_tender_bid_with_disabled_lot_values_restriction,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_open_bids,

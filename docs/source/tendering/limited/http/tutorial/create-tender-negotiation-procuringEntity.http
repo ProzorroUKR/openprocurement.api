@@ -39,7 +39,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1,
-        "relatedLot": "7f81aa54ae384f99a92fcd646844a0cd"
+        "relatedLot": "1dc5cf29f0cc4a6f89c005db7ccc4460"
       }
     ],
     "procurementMethod": "limited",
@@ -88,7 +88,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 1,
         "percentage": 45.55,
-        "relatedLot": "7f81aa54ae384f99a92fcd646844a0cd"
+        "relatedLot": "1dc5cf29f0cc4a6f89c005db7ccc4460"
       },
       {
         "title": "deliveryOfGoods",
@@ -100,7 +100,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 2,
         "percentage": 54.45,
-        "relatedLot": "7f81aa54ae384f99a92fcd646844a0cd"
+        "relatedLot": "1dc5cf29f0cc4a6f89c005db7ccc4460"
       }
     ],
     "mainProcurementCategory": "services",
@@ -117,7 +117,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "id": "7f81aa54ae384f99a92fcd646844a0cd"
+        "id": "1dc5cf29f0cc4a6f89c005db7ccc4460"
       }
     ]
   },
@@ -212,7 +212,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "7f81aa54ae384f99a92fcd646844a0cd",
+        "relatedLot": "1dc5cf29f0cc4a6f89c005db7ccc4460",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -234,7 +234,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "7f81aa54ae384f99a92fcd646844a0cd",
+        "id": "1dc5cf29f0cc4a6f89c005db7ccc4460",
         "status": "active",
         "value": {
           "amount": 500000.0,
@@ -256,7 +256,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "7f81aa54ae384f99a92fcd646844a0cd"
+        "relatedLot": "1dc5cf29f0cc4a6f89c005db7ccc4460"
       },
       {
         "id": "7f96196af29c4c89bc9c58b8070f95fa",
@@ -269,7 +269,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "7f81aa54ae384f99a92fcd646844a0cd"
+        "relatedLot": "1dc5cf29f0cc4a6f89c005db7ccc4460"
       }
     ],
     "tenderID": "UA-2023-10-10-000001-a",

@@ -6,10 +6,9 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import change_auth, set_bid_lotvalues
 
 extra = {"agreements": [{"contracts": [{"unitPrices": [{"value": {"amount": 0}}]}] * 3}]}
 

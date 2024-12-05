@@ -9,13 +9,13 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
     test_lcc_lot_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.utils import activate_contract
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 

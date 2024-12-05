@@ -3,22 +3,16 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
-from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.tests.periods import PERIODS
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_bid_items,
+from openprocurement.tender.core.tests.base import BaseCoreWebTest
+from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
-    set_bid_responses,
     set_tender_criteria,
     set_tender_lots,
     set_tender_multi_buyers,
-)
-from openprocurement.tender.core.tests.base import (
-    BaseCoreWebTest,
-    test_contract_guarantee_criteria,
 )
 
 now = get_now()
@@ -262,8 +256,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_bids = None
     initial_lots = None
     initial_criteria = None
-    initial_agreement_data = None
-    agreement_id = None
     tender_for_funders = False
     initial_auth = ("Basic", ("broker", ""))
     min_bids_number = MIN_BIDS_NUMBER
@@ -292,11 +284,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.set_status("active.tendering", extra={"status": "active.enquires"})
 
     def setUp(self):
-        set_now()
         super().setUp()
-        if self.initial_config["hasPreSelectionAgreement"]:
-            self.create_agreement()
-            self.initial_data["agreements"] = [{"id": self.agreement_id}]
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
         if self.initial_lots:
@@ -315,61 +303,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 self.initial_data.get("lots", []),
                 self.initial_data.get("items", []),
             )
-
-    def create_agreement(self):
-        if self.mongodb.agreements.get(self.agreement_id):
-            self.delete_agreement()
-        agreement = self.initial_agreement_data
-        agreement["dateModified"] = get_now().isoformat()
-        self.mongodb.agreements.save(agreement, insert=True)
-
-    def delete_agreement(self):
-        self.mongodb.agreements.delete(self.agreement_id)
-
-    def create_tender(self, config=None):
-        data = deepcopy(self.initial_data)
-        config = config if config else deepcopy(self.initial_config)
-        response = self.app.post_json("/tenders", {"data": data, "config": config})
-        tender = response.json["data"]
-        self.tender_token = response.json["access"]["token"]
-        self.tender_id = tender["id"]
-        criteria = []
-        if self.initial_criteria:
-            response = self.app.post_json(
-                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-                {"data": self.initial_criteria},
-            )
-            criteria = response.json["data"]
-        if self.guarantee_criterion:
-            self.app.post_json(
-                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-                {"data": getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria)},
-                status=201,
-            )
-
-        status = tender["status"]
-        if self.initial_bids:
-            self.initial_bids_tokens = {}
-            response = self.set_status("active.tendering")
-            # self.app.patch_json(f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {}})
-            status = response.json["data"]["status"]
-            bids = []
-            rrs = set_bid_responses(criteria)
-            for bid in self.initial_bids:
-                bid = bid.copy()
-                if self.tender_for_funders:
-                    set_bid_items(bid, tender["items"])
-                if self.initial_criteria:
-                    bid["requirementResponses"] = rrs
-                if hasattr(self, "initial_bid_status") and self.initial_bid_status:
-                    bid["status"] = self.initial_bid_status
-                bid, bid_token = self.create_bid(self.tender_id, bid)
-                bid_id = bid["id"]
-                bids.append(bid)
-                self.initial_bids_tokens[bid_id] = bid_token
-            self.initial_bids = bids
-        if self.initial_status and self.initial_status != status:
-            self.set_status(self.initial_status)
 
 
 class TenderContentWebTest(BaseTenderWebTest):

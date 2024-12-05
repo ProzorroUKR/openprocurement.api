@@ -11,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 
 now = datetime.now()
 test_tender_reporting_data = test_tender_below_data.copy()

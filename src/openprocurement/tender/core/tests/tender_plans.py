@@ -12,8 +12,8 @@ from openprocurement.api.tests.base import (  # pylint: disable=unused-import
 )
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.utils import set_tender_lots
 from openprocurement.tender.openua.tests.base import (
     test_tender_openua_config,
     test_tender_openua_data,

@@ -722,7 +722,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "id": "9027f283c1e74dafad1cd0ff659ca922",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
           "currency": "UAH",
@@ -757,7 +757,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
+        "relatedLot": "9027f283c1e74dafad1cd0ff659ca922"
       },
       {
         "id": "f0a94f5146424cdeb3e9103add626234",
@@ -782,7 +782,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
+        "relatedLot": "9027f283c1e74dafad1cd0ff659ca922"
       }
     ],
     "milestones": [

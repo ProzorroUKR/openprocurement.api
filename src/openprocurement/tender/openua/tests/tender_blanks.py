@@ -8,10 +8,10 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_lcc_tender_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.utils import activate_contract
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 # TenderUAResourceTest

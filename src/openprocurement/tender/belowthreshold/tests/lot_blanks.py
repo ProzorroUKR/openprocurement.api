@@ -9,13 +9,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    activate_contract,
-    get_contract_data,
-)
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
+from openprocurement.tender.core.tests.utils import activate_contract, get_contract_data
 
 # Tender Lot Resouce Test
 
