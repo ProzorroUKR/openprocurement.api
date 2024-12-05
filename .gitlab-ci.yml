@@ -1,4 +1,4 @@
 include:
   - project: 'cdb/openprocurement.api-ci'
-    ref: 'halii/add-test-ifi-pipeline'
+    ref: 'master'
     file: 'api-ci.yml'
