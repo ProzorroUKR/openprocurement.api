@@ -268,6 +268,34 @@ class TenderEContractResourceTest(
         self.create_award()
 
 
+class TenderEContractNoFundersResourceTest(
+    TenderContentWebTest,
+    CreateActiveAwardMixin,
+    TenderEcontractResourceTestMixin,
+):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_below_bids
+    config = deepcopy(test_tender_below_config)
+    config.update(
+        {
+            "hasAuction": False,
+            "hasAwardingOrder": False,
+            "hasValueRestriction": False,
+            "valueCurrencyEquality": False,
+        }
+    )
+    initial_config = config
+    initial_data = deepcopy(test_tender_below_data_no_auction)
+    del initial_data["funders"]
+    tender_for_funders = False
+
+    test_patch_econtract_multi_currency = snitch(patch_econtract_multi_currency)
+
+    def setUp(self):
+        super().setUp()
+        self.create_award()
+
+
 class TenderEContractMultiBuyersResourceTest(
     TenderContentWebTest,
     CreateActiveAwardMixin,

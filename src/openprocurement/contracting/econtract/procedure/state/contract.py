@@ -162,7 +162,7 @@ class EContractState(
 
     @staticmethod
     def validate_update_contract_value_with_award(request, tender: dict, before: dict, after: dict) -> None:
-        if is_multi_currency_tender(check_funders=True):
+        if is_multi_currency_tender():
             return
         value = after.get("value")
         if value and (before.get("value") != after.get("value") or before.get("status") != after.get("status")):

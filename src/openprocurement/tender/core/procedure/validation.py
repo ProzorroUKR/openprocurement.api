@@ -56,7 +56,6 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.procedure.utils import (
     find_item_by_id,
     find_lot,
-    get_contracts_values_related_to_patched_contract,
     get_criterion_requirement,
     is_multi_currency_tender,
     tender_created_after,
@@ -946,51 +945,6 @@ def validate_update_contract_value_net_required(request, name="value", **_):
                 status=422,
                 name=name,
             )
-
-
-def validate_update_contract_value_with_award(request, **_):
-    data = request.validated["data"]
-    updated_value = data.get("value")
-
-    if updated_value and {"status", "value"} & set(request.validated["json_data"].keys()):
-        award = [
-            award
-            for award in request.validated["tender"].get("awards", [])
-            if award.get("id") == request.validated["contract"].get("awardID")
-        ][0]
-
-        _contracts_values = get_contracts_values_related_to_patched_contract(
-            request.validated["tender"].get("contracts"),
-            request.validated["contract"]["id"],
-            updated_value,
-            request.validated["contract"].get("awardID"),
-        )
-
-        amount = sum(to_decimal(value.get("amount", 0)) for value in _contracts_values)
-        amount_net = sum(to_decimal(value.get("amountNet", 0)) for value in _contracts_values)
-        tax_included = updated_value.get("valueAddedTaxIncluded")
-        if tax_included:
-            if award.get("value", {}).get("valueAddedTaxIncluded"):
-                if amount > to_decimal(award.get("value", {}).get("amount")):
-                    raise_operation_error(
-                        request,
-                        "Amount should be less or equal to awarded amount",
-                        name="value",
-                    )
-            else:
-                if amount_net > to_decimal(award.get("value", {}).get("amount")):
-                    raise_operation_error(
-                        request,
-                        "AmountNet should be less or equal to awarded amount",
-                        name="value",
-                    )
-        else:
-            if amount > to_decimal(award.get("value", {}).get("amount")):
-                raise_operation_error(
-                    request,
-                    "Amount should be less or equal to awarded amount",
-                    name="value",
-                )
 
 
 def validate_update_contract_value_amount(request, name="value", **_):
