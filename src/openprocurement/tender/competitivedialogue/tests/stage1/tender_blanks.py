@@ -9,10 +9,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_bid_lotvalues,
-    set_tender_lots,
-)
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
@@ -21,7 +17,11 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_stage1_bids,
 )
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import (
+    change_auth,
+    set_bid_lotvalues,
+    set_tender_lots,
+)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 

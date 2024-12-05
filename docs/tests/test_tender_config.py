@@ -44,10 +44,6 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_data,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_bid_lotvalues,
-    set_tender_lots,
-)
 from openprocurement.tender.competitiveordering.tests.base import test_tender_co_config
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -57,6 +53,7 @@ from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.esco.tests.base import test_tender_esco_config
 from openprocurement.tender.open.tests.base import test_tender_open_config

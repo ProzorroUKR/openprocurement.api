@@ -12,10 +12,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,
     test_tender_below_lots,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 from openprocurement.tender.core.procedure.models.lot import Lot
 from openprocurement.tender.core.procedure.models.milestone import TenderMilestoneTypes
 from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
+from openprocurement.tender.core.tests.utils import set_tender_lots
 
 test_tender_data = deepcopy(test_tender_below_data)
 del test_tender_data["procurementMethodType"]

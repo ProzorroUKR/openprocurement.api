@@ -11,7 +11,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central as create_tender_central_base,
 )
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
@@ -21,7 +20,7 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import activate_contract, change_auth
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 

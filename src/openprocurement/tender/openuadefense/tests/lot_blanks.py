@@ -12,13 +12,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    activate_contract,
-    set_bid_lotvalues,
-)
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
+from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues
 
 
 # TenderLotEdgeCasesTest

@@ -23,12 +23,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_claim,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    activate_contract,
-    get_contract_data,
-    set_bid_lotvalues,
-    set_tender_lots,
-)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
     test_article_16_criteria,
@@ -41,7 +35,13 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import (
+    activate_contract,
+    change_auth,
+    get_contract_data,
+    set_bid_lotvalues,
+    set_tender_lots,
+)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 

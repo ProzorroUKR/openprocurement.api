@@ -21,8 +21,8 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2L
     patch_tender_lot_values_any_order,
     post_tender_bid_with_exceeded_lot_values,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,

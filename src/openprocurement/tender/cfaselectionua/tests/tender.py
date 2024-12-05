@@ -9,7 +9,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     tender_milestones_not_required,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,
     test_tender_cfaselectionua_agreement,
@@ -54,6 +53,7 @@ from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
+from openprocurement.tender.core.tests.utils import set_tender_lots
 from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
 
 test_tender_cfaselectionua_data = deepcopy(test_tender_cfaselectionua_data)

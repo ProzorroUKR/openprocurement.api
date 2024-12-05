@@ -26,15 +26,12 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_bid_lotvalues,
-    set_tender_lots,
-)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
 
 test_tender_data = deepcopy(test_docs_tender_below)
 

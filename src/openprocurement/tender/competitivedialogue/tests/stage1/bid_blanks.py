@@ -7,7 +7,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 
 # CompetitiveDialogEUBidResourceTest
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 
 
 def create_tender_bidder(self):

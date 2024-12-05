@@ -5,7 +5,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_draft_complaint,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
@@ -13,6 +12,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_lots,
     test_tender_cd_stage1_bids,
 )
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.open.tests.post import (
     ClaimPostResourceMixin,

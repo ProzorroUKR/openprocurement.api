@@ -5,7 +5,7 @@ from openprocurement.api.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.pricequotation.tests.utils import copy_tender_items
 
 # TenderBidResourceTest

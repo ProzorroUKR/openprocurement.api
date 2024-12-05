@@ -12,7 +12,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_documents,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentResourceTestMixin,
     TenderBidResourceTestMixin,

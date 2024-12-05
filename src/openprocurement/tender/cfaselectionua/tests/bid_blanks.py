@@ -1,9 +1,9 @@
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_organization,
 )
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 
 # TenderBidResourceTest
 

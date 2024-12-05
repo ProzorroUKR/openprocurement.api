@@ -14,15 +14,12 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_bid_lotvalues,
-    set_tender_lots,
-)
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, TENDERING_DAYS
 from openprocurement.tender.cfaua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest as BaseBaseTenderWebTest,

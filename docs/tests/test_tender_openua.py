@@ -18,13 +18,13 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now, raise_operation_error
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import (
     test_article_16_criteria,
     test_exclusion_criteria,
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
 
 test_tender_ua_data = deepcopy(test_docs_tender_openua)

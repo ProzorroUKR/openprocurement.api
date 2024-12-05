@@ -20,13 +20,13 @@ from tests.test_contracting_econtract import TARGET_DIR as ECONTRACT_TARGET_DIR
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import (
     test_article_16_criteria,
     test_exclusion_criteria,
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.esco.tests.base import BaseESCOWebTest
 
 test_tender_data = deepcopy(test_docs_tender_esco)
