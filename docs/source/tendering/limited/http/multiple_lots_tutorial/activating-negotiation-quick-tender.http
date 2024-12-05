@@ -80,7 +80,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "dcc3f8f1b92b47128900eacef2094061",
+        "relatedLot": "3ca88a12eda04d19896630fa319d6b2a",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -102,7 +102,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "dcc3f8f1b92b47128900eacef2094061",
+        "id": "3ca88a12eda04d19896630fa319d6b2a",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500000.0,
@@ -123,7 +123,7 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "dcc3f8f1b92b47128900eacef2094061"
+        "relatedLot": "3ca88a12eda04d19896630fa319d6b2a"
       },
       {
         "id": "7f96196af29c4c89bc9c58b8070f95fa",
@@ -136,7 +136,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "dcc3f8f1b92b47128900eacef2094061"
+        "relatedLot": "3ca88a12eda04d19896630fa319d6b2a"
       }
     ],
     "procurementMethodType": "negotiation.quick",

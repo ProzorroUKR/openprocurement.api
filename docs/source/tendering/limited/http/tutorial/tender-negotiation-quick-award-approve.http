@@ -65,7 +65,7 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "lotID": "dcc3f8f1b92b47128900eacef2094061",
+    "lotID": "3ca88a12eda04d19896630fa319d6b2a",
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-16T00:00:00+03:00"

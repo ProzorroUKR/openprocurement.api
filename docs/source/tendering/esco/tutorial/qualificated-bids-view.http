@@ -251,7 +251,7 @@ Content-Type: application/json
       ],
       "lotValues": [
         {
-          "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+          "relatedLot": "9027f283c1e74dafad1cd0ff659ca922",
           "status": "active"
         }
       ]
@@ -446,7 +446,7 @@ Content-Type: application/json
       ],
       "lotValues": [
         {
-          "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+          "relatedLot": "9027f283c1e74dafad1cd0ff659ca922",
           "status": "active"
         }
       ]
@@ -680,7 +680,7 @@ Content-Type: application/json
       ],
       "lotValues": [
         {
-          "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+          "relatedLot": "9027f283c1e74dafad1cd0ff659ca922",
           "status": "unsuccessful"
         }
       ],
