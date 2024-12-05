@@ -11,6 +11,7 @@ from requests.models import Response
 from webtest import AppError
 
 from openprocurement.api.constants import SESSION, TWO_PHASE_COMMIT_FROM, TZ
+from openprocurement.api.context import set_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import get_now
@@ -125,8 +126,10 @@ class BaseCoreWebTest(BaseWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
+    initial_agreement_data = None
     tender_for_funders = None
 
+    agreement_id = None
     tender_id = None
 
     periods = None
@@ -432,3 +435,14 @@ class BaseCoreWebTest(BaseWebTest):
             self.initial_bids = bids
         if self.initial_status and self.initial_status != status:
             self.set_status(self.initial_status)
+
+    def create_agreement(self):
+        if self.mongodb.agreements.get(self.agreement_id):
+            self.delete_agreement()
+        agreement = self.initial_agreement_data
+        agreement["dateModified"] = get_now().isoformat()
+        set_now()
+        self.mongodb.agreements.save(agreement, insert=True)
+
+    def delete_agreement(self):
+        self.mongodb.agreements.delete(self.agreement_id)
