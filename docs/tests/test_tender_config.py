@@ -87,6 +87,7 @@ class TenderConfigCSVMixin:
             "priceQuotation",
             "reporting",
             "simple.defense",
+            "requestForProposal",
         ]
 
         headers = [

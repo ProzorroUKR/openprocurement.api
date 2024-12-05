@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e/bids/4723f26e27044daebdc065be7140e59c?acc_token=86498b9bd8114fe6b3874ac2340bf614 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "pending"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "documents",
+      "description": "Document with type 'proposal' and format pkcs7-signature is required"
+    }
+  ]
+}
+

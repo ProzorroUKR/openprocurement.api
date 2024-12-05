@@ -11,7 +11,6 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import set_tender_lots
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.requestforproposal.tests.base import (
-    test_agreement_rfp_data,
     test_tender_rfp_data,
     test_tender_rfp_organization,
 )

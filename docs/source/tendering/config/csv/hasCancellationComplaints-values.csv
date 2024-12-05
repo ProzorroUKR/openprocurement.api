@@ -17,3 +17,4 @@ negotiation.quick,true,true
 priceQuotation,false,false
 reporting,false,false
 simple.defense,true,true
+requestForProposal,false,false
