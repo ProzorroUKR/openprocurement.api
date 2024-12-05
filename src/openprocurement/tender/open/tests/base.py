@@ -100,28 +100,6 @@ test_tender_open_config = {
     "restricted": False,
 }
 
-test_tender_dps_config = {
-    "hasAuction": True,
-    "hasAwardingOrder": True,
-    "hasValueRestriction": False,
-    "valueCurrencyEquality": True,
-    "hasPrequalification": False,
-    "minBidsNumber": 1,
-    "hasPreSelectionAgreement": True,
-    "hasTenderComplaints": False,
-    "hasAwardComplaints": False,
-    "hasCancellationComplaints": False,
-    "hasValueEstimation": True,
-    "hasQualificationComplaints": False,
-    "tenderComplainRegulation": 0,
-    "qualificationComplainDuration": 0,
-    "awardComplainDuration": 5,
-    "cancellationComplainDuration": 0,
-    "clarificationUntilDuration": 3,
-    "qualificationDuration": 0,
-    "restricted": False,
-}
-
 test_tender_open_complaint_objection = {
     "title": "My objection",
     "description": "Test objection",
@@ -131,69 +109,6 @@ test_tender_open_complaint_objection = {
     "requestedRemedies": [{"description": "test", "type": "setAsideAward"}],
     "arguments": [{"description": "test argument"}],
     "sequenceNumber": 1,
-}
-
-
-test_agreement_dps_data = {
-    "_id": "2e14a78a2074952d5a2d256c3c004dda",
-    "doc_type": "Agreement",
-    "agreementID": "UA-2021-11-12-000001",
-    "agreementType": "dynamicPurchasingSystem",
-    "frameworkID": "985a2e3eab47427283a5c51e84d0986d",
-    "period": {"startDate": "2021-11-12T00:00:00.318051+02:00", "endDate": "2022-02-24T20:14:24.577158+03:00"},
-    "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
-    "contracts": [
-        {
-            "status": "active",
-            "suppliers": [
-                {
-                    "address": {
-                        "countryName": "Україна",
-                        "locality": "м.Київ",
-                        "postalCode": "01100",
-                        "region": "Київська область",
-                        "streetAddress": "бул.Дружби Народів, 8",
-                    },
-                    "contactPoint": {
-                        "email": "contact@pixel.pix",
-                        "name": "Оксана Піксель",
-                        "telephone": "+0671234567",
-                    },
-                    "id": "UA-EDR-12345678",
-                    "identifier": {
-                        "id": "00037256",
-                        "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
-                        "scheme": "UA-EDR",
-                    },
-                    "name": "Товариство з обмеженою відповідальністю «Пікселі»",
-                    "scale": "large",
-                }
-            ],
-        },
-        {
-            "status": "suspended",
-            "suppliers": [
-                {
-                    "address": {
-                        "countryName": "Україна",
-                        "locality": "м.Тернопіль",
-                        "postalCode": "46000",
-                        "region": "Тернопільська область",
-                        "streetAddress": "вул. Кластерна, 777-К",
-                    },
-                    "contactPoint": {"email": "info@shteker.pek", "name": "Олег Штекер", "telephone": "+0951234567"},
-                    "id": "UA-EDR-87654321",
-                    "identifier": {
-                        "id": "87654321",
-                        "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
-                        "scheme": "UA-EDR",
-                    },
-                    "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
-                    "scale": "large",
-                }
-            ],
-        },
-    ],
 }
 
 
