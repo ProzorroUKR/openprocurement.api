@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-15 14:28+0200\n"
+"POT-Creation-Date: 2024-12-05 17:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,8 +29,8 @@ msgstr "Критерії - це частина тендерної докумен
 msgid "Create Tender Criteria"
 msgstr "Створення критеріїв закупівлі"
 
-msgid "Criteria exist in procedures: belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
-msgstr "Критерії існують в наступних процедурах:  belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA."
+msgid "Criteria exist in procedures: belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
+msgstr "Критерії існують в наступних процедурах:  belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA."
 
 msgid "Criteria can be related to tenderer, lot, item and tender. You cannot cancel lot or item if there is at least one related criterion with requirement in `active` status. To cancel lot or set item quantity to 0 you should set `cancelled` status to all active requirements in related criterion."
 msgstr "Критерії можуть бути пов'язані з tenderer, lot, item та tender. Ви не можете відмінити item, якщо існує хоча б один пов'язаний критерій з вимогою в статусі `active`. Щоб вказати кількість item рівною 0, необхідно перевести у статус `cancelled` всі активні вимоги пов'язаного критерію."
@@ -137,14 +137,17 @@ msgstr "Отримання інформації по прийнятних док
 msgid "Exclusion criteria"
 msgstr "Виключні критерії"
 
-msgid "Exclusion criteria available and required for the following procedures: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
-msgstr "Виключні критерії доступні та обов'язкові в наступних процедурах: aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
+msgid "Exclusion criteria available and required for the following procedures: aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
+msgstr "Виключні критерії доступні та обов'язкові в наступних процедурах: aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA"
 
 msgid "`Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
 msgstr "`Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
 
-msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:"
-msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийняткових та одного мовного критеріїв:"
+msgid "You can't update tender to status `active.tendering` without 11 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:"
+msgstr "Неможливо перевести тендер у статус `active.tendering` без 11-ти вийняткових та одного мовного критеріїв:"
+
+msgid "For aboveThreshold, competitiveOrdering, aboveThresholdEU you can't update tender to status `active.tendering` without 10 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:"
+msgstr "Для закупівель aboveThreshold, competitiveOrdering, aboveThresholdEU неможливо перевести тендер у статус `active.tendering` без 10-ти вийняткових та одного мовного критеріїв:"
 
 msgid "EXCLUSION criteria and all criteria objects are unchangeable:"
 msgstr "Вийняткові критерії та всі дочірні об'єкти є незмінними:"

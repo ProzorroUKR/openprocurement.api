@@ -500,7 +500,7 @@ class PostBidResponsesMixin(ObjResponseMixin):
 
         if missed_full_criteria_ids:
             raise ValidationError(
-                "Responses are required for all criteria with source tenderer, "
+                "Responses are required for all criteria with source tenderer/winner, "
                 f"failed for criteria {', '.join(missed_full_criteria_ids)}"
             )
 

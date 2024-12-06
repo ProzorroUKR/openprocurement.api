@@ -3748,7 +3748,7 @@ def activate_bid_guarantee_multilot(self):
     winner_criteria = None
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer" and criterion["relatesTo"] != "lot":
+            if criterion["source"] in ("tenderer", "winner") and criterion["relatesTo"] != "lot":
                 rrs.append(
                     {
                         "requirement": {
@@ -3781,7 +3781,7 @@ def activate_bid_guarantee_multilot(self):
         [
             {
                 'description': [
-                    'Responses are required for all criteria with source tenderer, '
+                    'Responses are required for all criteria with source tenderer/winner, '
                     f'failed for criteria {lot_criteria["id"]}, {winner_criteria["id"]}'
                 ],
                 'location': 'body',
@@ -3815,7 +3815,7 @@ def activate_bid_guarantee_multilot(self):
         [
             {
                 'description': [
-                    'Responses are required for all criteria with source tenderer, '
+                    'Responses are required for all criteria with source tenderer/winner, '
                     f'failed for criteria {winner_criteria["id"]}'
                 ],
                 'location': 'body',

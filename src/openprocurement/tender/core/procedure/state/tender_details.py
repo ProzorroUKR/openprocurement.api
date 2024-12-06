@@ -18,6 +18,7 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
+    NEW_ARTICLE_17_CRITERIA_REQUIRED,
     NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
@@ -727,11 +728,20 @@ class TenderDetailsMixing(TenderConfigMixin):
             if criterion.get("classification")
         }
 
+        required_criteria = set(self.required_criteria)
+        if required_criteria and tender_created_after(NEW_ARTICLE_17_CRITERIA_REQUIRED):
+            required_criteria = required_criteria.union(
+                {
+                    "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
+                    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
+                }
+            )
+
         # exclusion criteria
-        if set(self.required_criteria) - tender_criteria:
+        if required_criteria - tender_criteria:
             raise_operation_error(
                 get_request(),
-                f"Tender must contain all required criteria: {', '.join(sorted(self.required_criteria))}",
+                f"Tender must contain all required criteria: {', '.join(sorted(required_criteria))}",
             )
         if (
             tender_created_after(CRITERIA_ARTICLE_16_REQUIRED)

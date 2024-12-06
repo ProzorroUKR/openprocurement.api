@@ -1957,7 +1957,7 @@ def get_bid_requirement_response(self):
     valid_data = []
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer":
+            if criterion["source"] in ("tenderer", "winner"):
                 valid_data.append(
                     {
                         "requirement": {
@@ -2336,7 +2336,7 @@ def get_bid_requirement_response_evidence(self):
     rrs = []
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer":
+            if criterion["source"] in ("tenderer", "winner"):
                 rrs.append(
                     {
                         "requirement": {
@@ -2403,7 +2403,9 @@ def bid_activate(self):
 
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer":
+            if criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
+                guarantee_criterion = criterion
+            elif criterion["source"] in ("tenderer", "winner"):
                 rrs.append(
                     {
                         "requirement": {
@@ -2414,8 +2416,6 @@ def bid_activate(self):
                 )
                 if criterion["id"] not in criteria_ids:
                     criteria_ids.append(criterion["id"])
-            elif criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
-                guarantee_criterion = criterion
 
     rrs = rrs[1:]
     criteria_ids = criteria_ids[1:]
@@ -2435,7 +2435,7 @@ def bid_activate(self):
             [
                 {
                     'description': [
-                        "Responses are required for all criteria with source tenderer, "
+                        "Responses are required for all criteria with source tenderer/winner, "
                         f"failed for criteria {', '.join(criteria_ids + [guarantee_criterion['id']])}"
                     ],
                     'location': 'body',
@@ -2470,7 +2470,7 @@ def bid_activate(self):
             [
                 {
                     'description': [
-                        "Responses are required for all criteria with source tenderer, "
+                        "Responses are required for all criteria with source tenderer/winner, "
                         f"failed for criteria {', '.join(criteria_ids)}"
                     ],
                     'location': 'body',
@@ -2492,7 +2492,7 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
 
     for criterion in criteria[:-1]:
         for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer":
+            if criterion["source"] in ("tenderer", "winner"):
                 rrs.append(
                     {
                         "requirement": {
@@ -2524,7 +2524,7 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
         [
             {
                 'description': [
-                    'Responses are required for all criteria with source tenderer, '
+                    'Responses are required for all criteria with source tenderer/winner, '
                     f'failed for criteria {criteria[-1]["id"]}'
                 ],
                 'location': 'body',
@@ -2537,18 +2537,17 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
     with change_auth(self.app, self.tender_auth) as app:
         criterion_to_cancel = criteria[-1]
         criterion_id = criterion_to_cancel["id"]
-        rg_id = criterion_to_cancel["requirementGroups"][0]["id"]
-        requirement_ids = [
-            requirement["id"] for requirement in criterion_to_cancel["requirementGroups"][0]["requirements"]
-        ]
-        requirement_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
-        for requirement_id in requirement_ids:
-            response = self.app.put_json(
-                requirement_url.format(self.tender_id, criterion_id, rg_id, requirement_id, self.tender_token),
-                {"data": {"status": "cancelled"}},
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
+        for rg in criterion_to_cancel["requirementGroups"]:
+            rg_id = rg["id"]
+            requirement_ids = [requirement["id"] for requirement in rg["requirements"]]
+            requirement_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
+            for requirement_id in requirement_ids:
+                response = self.app.put_json(
+                    requirement_url.format(self.tender_id, criterion_id, rg_id, requirement_id, self.tender_token),
+                    {"data": {"status": "cancelled"}},
+                )
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
@@ -2608,7 +2607,7 @@ def bid_invalidation_after_requirement_put(self):
     rrs = []
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer":
+            if criterion["source"] in ("tenderer", "winner"):
                 rrs.append(
                     {
                         "requirement": {
@@ -2662,7 +2661,7 @@ def bid_invalidation_after_req_response_patch(self):
     rrs = []
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer":
+            if criterion["source"] in ("tenderer", "winner"):
                 rrs.append(
                     {
                         "requirement": {
