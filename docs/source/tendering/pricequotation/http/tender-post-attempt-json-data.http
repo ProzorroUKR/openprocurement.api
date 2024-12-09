@@ -257,6 +257,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
     },
     "items": [
       {
+        "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
         "id": "e0171c9b08d34c71948f18a5f3504f5a",
         "description": "Комп’ютерне обладнання",
@@ -292,8 +293,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
-        },
-        "profile": "655360-30230000-889652-40000777"
+        }
       }
     ],
     "criteria": [

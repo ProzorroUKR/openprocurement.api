@@ -48,6 +48,7 @@ Content-Type: application/json
     },
     "items": [
       {
+        "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
         "id": "a23a71262ac642b88f2fdb69011d74b1",
         "description": "Комп’ютерне обладнання",
@@ -83,10 +84,10 @@ Content-Type: application/json
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
-        },
-        "profile": "655360-30230000-889652-40000777"
+        }
       },
       {
+        "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
         "id": "c8f30df33ae14c65b38931d68e63d757",
         "description": "Комп’ютерне обладнання",
@@ -122,8 +123,7 @@ Content-Type: application/json
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
-        },
-        "profile": "655360-30230000-889652-40000777"
+        }
       }
     ],
     "criteria": [

@@ -1,0 +1,26 @@
+PATCH /api/2.5/frameworks/08238232b095420687b4e273ae56d878?acc_token=e8b68517319b4d4699c42692c138e6a0 HTTP/1.0
+Authorization: Bearer brokerr
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "items",
+      "description": "Items are not allowed for framework with hasItems set to false"
+    }
+  ]
+}
+

@@ -76,6 +76,7 @@ Content-Type: application/json
     },
     "items": [
       {
+        "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
         "id": "e0171c9b08d34c71948f18a5f3504f5a",
         "description": "Комп’ютерне обладнання",
@@ -111,8 +112,7 @@ Content-Type: application/json
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
-        },
-        "profile": "655360-30230000-889652-40000777"
+        }
       }
     ],
     "criteria": [

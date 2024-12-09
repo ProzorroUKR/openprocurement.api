@@ -17,7 +17,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "00037256",
         "legalName": "Назва організації"
       },
-      "kind": "defense",
+      "kind": "general",
       "address": {
         "countryName": "Україна",
         "postalCode": "01220",
@@ -46,7 +46,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     }
   },
   "config": {
-    "restrictedDerivatives": true,
+    "restrictedDerivatives": false,
     "clarificationUntilDuration": 3,
     "qualificationComplainDuration": 0,
     "hasItems": false
@@ -56,7 +56,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/08238232b095420687b4e273ae56d878
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/285143e2862e45be9036ada269ddedde
 
 {
   "data": {
@@ -98,22 +98,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/08238232b0954
         "telephone": "+0440000000",
         "email": "aa@aa.com"
       },
-      "kind": "defense"
+      "kind": "general"
     },
-    "prettyID": "UA-F-2023-10-10-000001",
+    "prettyID": "UA-F-2023-10-10-000002",
     "owner": "brokerr",
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "08238232b095420687b4e273ae56d878"
+    "id": "285143e2862e45be9036ada269ddedde"
   },
   "access": {
-    "token": "e8b68517319b4d4699c42692c138e6a0",
-    "transfer": "dd191aaedece43279902bc8a271edc6f"
+    "token": "7ef83e3c4a0b427ebdb7d52f346b4445",
+    "transfer": "5a7e636846834903ad61b6594de5e6b5"
   },
   "config": {
     "clarificationUntilDuration": 3,
-    "restrictedDerivatives": true,
+    "restrictedDerivatives": false,
     "qualificationComplainDuration": 0,
     "hasItems": false
   }

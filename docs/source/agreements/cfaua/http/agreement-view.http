@@ -143,7 +143,6 @@ Content-Type: application/json
         "id": "00662cb27141433b86593cedfcd4c3d9",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
-        "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -156,7 +155,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "description_en": "Cases for state awards",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -171,7 +169,9 @@ Content-Type: application/json
         "unit": {
           "name": "item",
           "code": "KGM"
-        }
+        },
+        "description_en": "Cases for state awards",
+        "relatedLot": "04651361e47848abb6eda21e59c8b4a1"
       }
     ],
     "procuringEntity": {

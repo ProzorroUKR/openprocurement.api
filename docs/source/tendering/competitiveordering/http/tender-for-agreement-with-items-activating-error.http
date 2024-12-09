@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4?acc_token=3f07ab10456e4f519a3cf51c24d19c80 HTTP/1.0
+PATCH /api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35?acc_token=c782381dc42044419e7b795dac6655ef HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,8 +18,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "agreement",
-      "description": "Agreement status is not active"
+      "name": "agreements",
+      "description": "Agreement with items is not allowed."
     }
   ]
 }

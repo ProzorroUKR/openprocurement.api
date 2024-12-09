@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/08238232b095420687b4e273ae56d878?acc_token=e8b68517319b4d4699c42692c138e6a0 HTTP/1.0
+PATCH /api/2.5/frameworks/285143e2862e45be9036ada269ddedde?acc_token=7ef83e3c4a0b427ebdb7d52f346b4445 HTTP/1.0
 Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "prettyID": "UA-F-2023-10-10-000001",
+    "prettyID": "UA-F-2023-10-10-000002",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "status": "active",
@@ -59,7 +59,7 @@ Content-Type: application/json
         "telephone": "+0440000000",
         "email": "aa@aa.com"
       },
-      "kind": "defense"
+      "kind": "general"
     },
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
@@ -71,11 +71,11 @@ Content-Type: application/json
       "endDate": "2023-11-09T00:00:00+02:00"
     },
     "next_check": "2023-11-08T00:00:00+02:00",
-    "id": "08238232b095420687b4e273ae56d878"
+    "id": "285143e2862e45be9036ada269ddedde"
   },
   "config": {
     "clarificationUntilDuration": 3,
-    "restrictedDerivatives": true,
+    "restrictedDerivatives": false,
     "qualificationComplainDuration": 0,
     "hasItems": false
   }

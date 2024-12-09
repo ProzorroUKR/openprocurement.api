@@ -29,14 +29,6 @@ We can create tender connected to this agreement:
 .. http:example:: http/tender-post-attempt-json-data.http
    :code:
 
-Tender `competitiveOrdering` does not contain an appeal in the form of filing a complaint with the AMCU at any stage where such an appeal arises (follow configurations description :ref:`tender_complaints`, :ref:`award_complaints`, :ref:`cancellation_complaints`).
-
-That's why there is no `complaintPeriod` in tender body after it was created.
-If we try to add complaint about tender, we will see the error:
-
-.. http:example:: http/tender-add-complaint-error.http
-   :code:
-
 Also you will need to update data about item's related lots:
 
 .. http:example:: http/tender-add-relatedLot-to-item.http
@@ -63,6 +55,12 @@ There is the list of all validation errors that can be raised during tender acti
 * Agreement status is not active
 * Agreement has less than 3 active contracts
 * tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)
+* Agreement with items is not allowed
+
+For competitiveOrdering tender it is required to have agreement with no items specified. In case of agreement where items are specified, we will see the error on activation attempt:
+
+.. http:example:: http/tender-for-agreement-with-items-activating-error.http
+   :code:
 
 Before activating tender it is required to add sign document to tender.
 If there is no sign document during activation, we will see an error:
@@ -116,6 +114,17 @@ After that second contract supplier in agreement was disqualified during `active
 Let's see our bid status after `active.tendering` period ends. This bid was disqualified:
 
 .. http:example:: http/active-tendering-end-not-member-bid.http
+   :code:
+
+Complaints
+----------
+
+Tender `competitiveOrdering` does not contain an appeal in the form of filing a complaint with the AMCU at any stage where such an appeal arises (follow configurations description :ref:`tender_complaints`, :ref:`award_complaints`, :ref:`cancellation_complaints`).
+
+That's why there is no `complaintPeriod` in tender body after it was created.
+If we try to add complaint about tender, we will see the error:
+
+.. http:example:: http/tender-add-complaint-error.http
    :code:
 
 
