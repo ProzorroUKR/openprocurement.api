@@ -39,6 +39,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_generated,
     create_tender_in_not_draft_status,
     create_tender_invalid,
+    create_tender_pq_from_dps_invalid_agreement,
     create_tender_with_inn,
     draft_activation_validations,
     invalid_tender_conditions,
@@ -86,6 +87,7 @@ class TenderResourceTestMixin:
     test_create_tender_config_test = snitch(create_tender_config_test)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_create_tender_invalid_agreement = snitch(create_tender_pq_from_dps_invalid_agreement)
 
 
 @patch(
@@ -93,7 +95,7 @@ class TenderResourceTestMixin:
     get_now() + timedelta(days=1),
 )
 @patch(
-    "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
     Mock(return_value=test_tender_pq_short_profile),
 )
 @patch(

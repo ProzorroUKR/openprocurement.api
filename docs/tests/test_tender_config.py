@@ -22,7 +22,7 @@ from tests.base.data import (
     test_docs_subcontracting,
     test_docs_tender_below,
     test_docs_tender_below_maximum,
-    test_docs_tender_dps,
+    test_docs_tender_co,
     test_docs_tender_esco,
     test_docs_tender_open,
 )
@@ -2710,9 +2710,8 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
 
         # Creating tender
 
-        data = deepcopy(test_docs_tender_dps)
+        data = deepcopy(test_docs_tender_co)
         data["items"] = [data["items"][0]]
-        data["procurementMethodType"] = "competitiveOrdering"
         data['procuringEntity']['identifier']['id'] = test_framework_dps_data['procuringEntity']['identifier']['id']
 
         data['agreements'] = [{'id': self.agreement_id}]

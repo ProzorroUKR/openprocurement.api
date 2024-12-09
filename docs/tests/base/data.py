@@ -639,11 +639,11 @@ test_docs_tender_open = {
     "mainProcurementCategory": "services",
 }
 
-test_docs_tender_dps = {
+test_docs_tender_co = {
     "tenderPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=15)).isoformat()},
     "title": "футляри до державних нагород",
     "minimalStep": {"currency": "UAH", "amount": 5},
-    "procurementMethodType": "aboveThreshold",
+    "procurementMethodType": "competitiveOrdering",
     "value": {"currency": "UAH", "amount": 500},
     "procuringEntity": test_docs_procuring_entity_ua,
     "items": [test_docs_items_open[0]],

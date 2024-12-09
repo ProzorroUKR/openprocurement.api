@@ -41,6 +41,7 @@ class FrameworkConfigMixin:
         "restrictedDerivatives",
         "clarificationUntilDuration",
         "qualificationComplainDuration",
+        "hasItems",
     )
 
     def validate_config(self, data):
@@ -122,12 +123,29 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
                 f"Can't switch to {status} status",
             )
         if status == "active":
+            self.validate_items(after)
             self.calculate_framework_periods(after)
             self.validate_qualification_period_duration(
                 before,
                 after,
                 MIN_QUALIFICATION_DURATION,
                 MAX_QUALIFICATION_DURATION,
+            )
+
+    def validate_items(self, data):
+        if data["config"]["hasItems"] is False and data.get("items"):
+            raise_operation_error(
+                get_request(),
+                "Items are not allowed for framework with hasItems set to false",
+                status=422,
+                name="items",
+            )
+        if data["config"]["hasItems"] is True and not data.get("items"):
+            raise_operation_error(
+                get_request(),
+                "Items are required for framework with hasItems set to true",
+                status=422,
+                name="items",
             )
 
     def validate_framework_patch_status(self, data):

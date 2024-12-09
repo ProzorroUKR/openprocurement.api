@@ -12,15 +12,12 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import AdditionalClassification
 from openprocurement.api.procedure.models.item import (
-    CPVClassification as BaseCPVClassification,
-)
-from openprocurement.api.procedure.models.item import (
+    AdditionalClassification,
+    CPVClassification,
     Location,
     TechFeatureItemMixin,
     validate_additional_classifications,
-    validate_scheme,
 )
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import ListType, ModelType
@@ -32,11 +29,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_gmdn,
     validate_ua_road,
 )
-
-
-class CPVClassification(BaseCPVClassification):
-    def validate_scheme(self, data, scheme):
-        validate_scheme(get_tender(), scheme)
 
 
 class BaseItem(Model):
@@ -80,23 +72,6 @@ class Item(BaseItem):
 
 class TechFeatureItem(TechFeatureItemMixin, Item):
     pass
-
-
-class RelatedBuyerMixing:
-    """
-    Add this mixing to tender or contract
-    """
-
-    def validate_items(self, data, items):
-        tender_data = get_tender() or data
-        if (
-            data.get("status", tender_data.get("status")) != "draft"
-            and data.get("buyers", tender_data.get("buyers"))
-            and is_obj_const_active(tender_data, MULTI_CONTRACTS_REQUIRED_FROM)
-        ):
-            for i in items or []:
-                if not i.relatedBuyer:
-                    raise ValidationError(BaseType.MESSAGES["required"])
 
 
 def validate_related_buyer_in_items(data, items):

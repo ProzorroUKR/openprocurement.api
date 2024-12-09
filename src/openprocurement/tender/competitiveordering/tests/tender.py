@@ -25,6 +25,7 @@ from openprocurement.tender.competitiveordering.tests.base import (
 )
 from openprocurement.tender.competitiveordering.tests.tender_blanks import (
     create_tender_co,
+    create_tender_co_invalid_agreement,
     create_tender_co_invalid_config,
     patch_tender,
     patch_tender_period,
@@ -114,6 +115,7 @@ class TenderCOResourceTest(BaseTenderUAWebTest):
 
     test_create_tender = snitch(create_tender_co)
     test_create_tender_invalid_config = snitch(create_tender_co_invalid_config)
+    test_create_tender_invalid_agreement = snitch(create_tender_co_invalid_agreement)
 
 
 def suite():

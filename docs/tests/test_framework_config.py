@@ -6,7 +6,7 @@ from datetime import timedelta
 
 import standards
 from tests.base.constants import DOCS_URL
-from tests.base.data import test_docs_tenderer
+from tests.base.data import test_docs_items_en, test_docs_tenderer
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.tests.base import change_auth
@@ -17,14 +17,18 @@ from openprocurement.framework.core.procedure.mask import (
     SUBMISSION_MASK_MAPPING,
 )
 from openprocurement.framework.dps.tests.base import (
+    BaseAgreementContentWebTest,
     BaseFrameworkWebTest,
     test_framework_dps_config,
     test_framework_dps_data,
+    test_submission_data,
 )
+
+TARGET_DIR = 'docs/source/frameworks/config/http/'
+TARGET_CSV_DIR = 'docs/source/frameworks/config/csv/'
 
 TARGET_DIR_RESTRICTED = 'docs/source/frameworks/config/http/restricted/'
 TARGET_CSV_DIR_RESTRICTED = 'docs/source/frameworks/config/csv/restricted/'
-TARGET_CSV_DIR = 'docs/source/frameworks/config/csv/'
 
 test_framework_dps_data = deepcopy(test_framework_dps_data)
 test_framework_dps_config = deepcopy(test_framework_dps_config)
@@ -336,3 +340,184 @@ class FrameworkQualificationComplainDurationResourceTest(FrameworkConfigBaseReso
             config_name="qualificationComplainDuration",
             file_path=TARGET_CSV_DIR + "qualification-complain-duration-values.csv",
         )
+
+
+class FrameworkHasItemsResourceTest(FrameworkConfigBaseResouceTest):
+    def test_docs_has_items_values_csv(self):
+        self.write_config_values_csv(
+            config_name="hasItems",
+            file_path=TARGET_CSV_DIR + "has-items-values.csv",
+        )
+
+    def test_docs(self):
+        data = deepcopy(self.initial_data)
+        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
+
+        config = deepcopy(self.initial_config)
+
+        # hasItems = False
+        config["hasItems"] = False
+
+        # with items
+        data["items"] = test_docs_items_en
+
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
+
+            with open(TARGET_DIR + 'has-items-false-with-items-create.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(
+                    '/frameworks',
+                    {
+                        'data': data,
+                        'config': config,
+                    },
+                )
+                self.assertEqual(response.status, '201 Created')
+
+            self.assertEqual(response.json['config']['hasItems'], False)
+
+            framework = response.json['data']
+            self.framework_id = framework["id"]
+            self.framework_token = response.json['access']['token']
+
+            with open(TARGET_DIR + 'has-items-false-with-items-activate-error.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/frameworks/{}?acc_token={}'.format(self.framework_id, self.framework_token),
+                    {'data': {"status": "active"}},
+                    status=422,
+                )
+                self.assertEqual(response.status, '422 Unprocessable Entity')
+                self.assertEqual(
+                    response.json['errors'],
+                    [
+                        {
+                            "location": "body",
+                            "name": "items",
+                            "description": "Items are not allowed for framework with hasItems set to false",
+                        }
+                    ],
+                )
+
+        # without items
+        data.pop("items", None)
+
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
+
+            with open(TARGET_DIR + 'has-items-false-without-items-create.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(
+                    '/frameworks',
+                    {
+                        'data': data,
+                        'config': config,
+                    },
+                )
+                self.assertEqual(response.status, '201 Created')
+
+            self.assertEqual(response.json['config']['hasItems'], False)
+
+            framework = response.json['data']
+            self.framework_id = framework["id"]
+            self.framework_token = response.json['access']['token']
+
+            with open(TARGET_DIR + 'has-items-false-without-items-activate-success.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/frameworks/{}?acc_token={}'.format(self.framework_id, self.framework_token),
+                    {'data': {"status": "active"}},
+                )
+                self.assertEqual(response.status, '200 OK')
+
+            self.create_submission(data=test_submission_data)
+            self.activate_submission()
+            self.activate_qualification()
+            response = self.get_framework()
+            framework = response.json["data"]
+            self.agreement_id = framework["agreementID"]
+
+            response = self.app.get("/agreements/{}".format(self.agreement_id))
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+
+            self.assertNotIn("items", response.json["data"])
+
+        # hasItems = True
+        config["hasItems"] = True
+
+        # without items
+        data.pop("items", None)
+
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
+
+            with open(TARGET_DIR + 'has-items-true-without-items-create.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(
+                    '/frameworks',
+                    {
+                        'data': data,
+                        'config': config,
+                    },
+                )
+                self.assertEqual(response.status, '201 Created')
+
+            self.assertEqual(response.json['config']['hasItems'], True)
+
+            framework = response.json['data']
+            self.framework_id = framework["id"]
+            self.framework_token = response.json['access']['token']
+
+            with open(TARGET_DIR + 'has-items-true-without-items-activate-error.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/frameworks/{}?acc_token={}'.format(self.framework_id, self.framework_token),
+                    {'data': {"status": "active"}},
+                    status=422,
+                )
+                self.assertEqual(response.status, '422 Unprocessable Entity')
+                self.assertEqual(
+                    response.json['errors'],
+                    [
+                        {
+                            "location": "body",
+                            "name": "items",
+                            "description": "Items are required for framework with hasItems set to true",
+                        }
+                    ],
+                )
+
+        # with items
+        data["items"] = test_docs_items_en
+
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
+
+            with open(TARGET_DIR + 'has-items-true-with-items-create.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(
+                    '/frameworks',
+                    {
+                        'data': data,
+                        'config': config,
+                    },
+                )
+                self.assertEqual(response.status, '201 Created')
+
+            self.assertEqual(response.json['config']['hasItems'], True)
+
+            framework = response.json['data']
+            self.framework_id = framework["id"]
+            self.framework_token = response.json['access']['token']
+
+            with open(TARGET_DIR + 'has-items-true-with-items-activate-success.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/frameworks/{}?acc_token={}'.format(self.framework_id, self.framework_token),
+                    {'data': {"status": "active"}},
+                )
+                self.assertEqual(response.status, '200 OK')
+
+            self.create_submission(data=test_submission_data)
+            self.activate_submission()
+            self.activate_qualification()
+            response = self.get_framework()
+            framework = response.json["data"]
+            self.agreement_id = framework["agreementID"]
+
+            with open(TARGET_DIR + 'has-items-true-with-items-agreement.http', 'w') as self.app.file_obj:
+                response = self.app.get("/agreements/{}".format(self.agreement_id))
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
+
+            self.assertNotIn(response.json["data"]["items"], framework["items"])

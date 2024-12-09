@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, FloatType, MD5Type, StringType
+from schematics.types import BaseType, FloatType, StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.constants import (
@@ -41,6 +41,10 @@ class CPVClassification(Classification):
         elif data.get("scheme") == "ДК021" and code not in DK_CODES:
             raise ValidationError("Value must be one of ДК021 codes")
 
+    def validate_scheme(self, data, scheme):
+        if scheme != "ДК021":
+            raise ValidationError(BaseType.MESSAGES["choices"].format(["ДК021"]))
+
 
 class AdditionalClassification(Classification):
     def validate_id(self, data, value):
@@ -56,11 +60,6 @@ class AdditionalClassification(Classification):
     def validate_description(self, data, value):
         if data["scheme"] == UA_ROAD_SCHEME and UA_ROAD.get(data["id"]) != value:
             raise ValidationError("{} description invalid".format(UA_ROAD_SCHEME))
-
-
-def validate_scheme(obj, scheme):
-    if scheme != "ДК021":
-        raise ValidationError(BaseType.MESSAGES["choices"].format(["ДК021"]))
 
 
 def validate_additional_classifications(obj, data, items):
@@ -100,8 +99,6 @@ class Item(Model):
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
     quantity = FloatType(min_value=0)  # The number of units required
     deliveryLocation = ModelType(Location)
-    relatedLot = MD5Type()
-    relatedBuyer = MD5Type()
 
 
 class TechFeatureItemMixin(Model):

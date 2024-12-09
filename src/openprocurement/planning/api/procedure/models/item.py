@@ -5,13 +5,10 @@ from schematics.types import FloatType, StringType
 
 from openprocurement.api.constants import CCCE_UA, CCCE_UA_SCHEME
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import Classification
 from openprocurement.api.procedure.models.item import (
-    CPVClassification as BaseCPVClassification,
-)
-from openprocurement.api.procedure.models.item import (
+    Classification,
+    CPVClassification,
     validate_additional_classifications,
-    validate_scheme,
 )
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import ListType, ModelType
@@ -22,11 +19,6 @@ from openprocurement.tender.core.procedure.validation import validate_ccce_ua
 from openprocurement.tender.pricequotation.procedure.validation import (
     validate_profile_pattern,
 )
-
-
-class CPVClassification(BaseCPVClassification):
-    def validate_scheme(self, classification, scheme):
-        validate_scheme(get_plan(), scheme)
 
 
 class AdditionalClassification(Classification):

@@ -1,4 +1,5 @@
 import os.path
+from datetime import timedelta
 
 from openprocurement.api.constants import SESSION
 from openprocurement.api.procedure.utils import apply_data_patch
@@ -12,10 +13,37 @@ from openprocurement.tender.core.tests.base import BaseWebTest
 here = os.path.dirname(os.path.abspath(__file__))
 srequest = SESSION.request
 
+now = get_now()
+
 test_framework_data = {
     "id": "117e88a375404c3faf85cdef60f47902",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
+}
+
+test_framework_item_data = {
+    "description": "футляри до державних нагород",
+    "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
+    "additionalClassifications": [
+        {"scheme": "ДКПП", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
+    ],
+    "unit": {
+        "name": "кг",
+        "code": "KGM",
+        "value": {"amount": 6},
+    },
+    "quantity": 5,
+    "deliveryDate": {
+        "startDate": (now + timedelta(days=2)).isoformat(),
+        "endDate": (now + timedelta(days=5)).isoformat(),
+    },
+    "deliveryAddress": {
+        "countryName": "Україна",
+        "postalCode": "79000",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова 1",
+    },
 }
 
 
