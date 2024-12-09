@@ -13,10 +13,8 @@ from openprocurement.api.constants import (
     OTHER_CRITERIA,
     VIOLATION_AMCU,
 )
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.procedure.context import get_complaint
 from openprocurement.tender.core.procedure.models.complaint_objection_argument import (
     Argument,
 )
@@ -89,48 +87,12 @@ class Objection(Model):
     )
     sequenceNumber = IntType(min_value=0, serialize_when_none=True)
 
-    def validate_relatedItem(self, data, value):
-        complaint = get_complaint() or data.get("__parent__", {})
-        if complaint.get("status", "draft") == "draft":
-            tender = get_tender()
-            relates_to = data["relatesTo"]
-            if relates_to == ObjectionRelatesTo.tender.value:
-                if value != tender.get("_id"):
-                    raise ValidationError("Invalid tender id")
-            else:
-                obj = self.find_related_item(tender, relates_to, value)
-                if relates_to in ("award", "qualification") and obj.get("status") not in ("active", "unsuccessful"):
-                    raise ValidationError(f"Relate objection to {relates_to} in {obj.get('status')} is forbidden")
-        return value
-
-    @staticmethod
-    def find_related_item(parent_obj, obj_name, obj_id):
-        for obj in parent_obj.get(f"{obj_name}s", []):
-            if obj["id"] == obj_id:
-                return obj
-        raise ValidationError(f"Invalid {obj_name} id")
-
 
 class TenderComplaintObjection(Objection):
     relatesTo = StringType(
         choices=[obj.value for obj in (ObjectionRelatesTo.tender, ObjectionRelatesTo.lot)],
         required=True,
     )
-
-    def validate_relatedItem(self, data, value):
-        super().validate_relatedItem(self, data, value)
-        complaint = get_complaint() or data.get("__parent__", {})
-        related_lot = complaint.get("relatedLot")
-        if data["relatesTo"] == ObjectionRelatesTo.lot.value:
-            if not related_lot or value != related_lot:
-                raise ValidationError(
-                    "Complaint's objection must relate to the same lot id as mentioned in complaint's relatedLot"
-                )
-        elif related_lot:
-            raise ValidationError(
-                f"Complaint's objection must not relate to {data['relatesTo']} if relatedLot mentioned"
-            )
-        return value
 
 
 class AwardComplaintObjection(Objection):
