@@ -56,6 +56,13 @@ TENDER_IDS = [
     "1420bde75f5b47c7b988085b42045942",
     "a13a0ab0f9c04d95be13535698a88f6c",
     "c59791eb364a474a9e996ca68c6e1d2d",
+    # ST
+    "98ce8dbfed1341a28bb1efe841896498",
+    "ef46ada1473b440aa9e5f3130c266c61",
+    "dc1369f90fec41b09aab7e091c1c8668",
+    "cacd80bacbb24646be93d690d015ff06",
+    "ce45ac219fb94fd3bd8c4833d783ea25",
+    "2371a1afd07c486aabba664c7e763afc",
 ]
 
 
