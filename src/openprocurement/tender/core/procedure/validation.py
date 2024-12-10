@@ -394,9 +394,8 @@ def validate_operation_ecriteria_objects_evidences(request, **_):
     tender = request.validated["tender"]
     requirement_id = request.validated["requirement_response"]["requirement"]["id"]
     criterion = get_criterion_requirement(tender, requirement_id)
-    guarantee_criterion = "CRITERION.OTHER.CONTRACT.GUARANTEE"
 
-    if criterion and criterion["classification"]["id"].startswith(guarantee_criterion):
+    if criterion and criterion["source"] == "winner":
         awarded_status = ["active.awarded", "active.qualification"]
         valid_statuses.extend(awarded_status)
         if tender["status"] not in awarded_status:
@@ -410,7 +409,7 @@ def validate_operation_ecriteria_objects_evidences(request, **_):
                 break
 
         if active_award is None:
-            raise_operation_error(request, f"{guarantee_criterion} available only with active award")
+            raise_operation_error(request, f"Winner criteria available only with active award")
 
         current_contract = None
         for contract in tender.get("contracts", ""):

@@ -117,11 +117,10 @@ class RequirementResponse(BaseRequirementResponse):
         if not evidences:
             return
         tender = get_tender()
-        guarantee_criterion = "CRITERION.OTHER.CONTRACT.GUARANTEE"
         criterion = get_criterion_requirement(tender, data["requirement"].id)
 
         # should work only for bids !!
-        if criterion and criterion["classification"]["id"].startswith(guarantee_criterion):
+        if criterion and criterion["source"] == "winner":
             valid_statuses = ["active.awarded", "active.qualification"]
             if tender["status"] not in valid_statuses:
                 raise ValidationError("available only in {} status".format(valid_statuses))

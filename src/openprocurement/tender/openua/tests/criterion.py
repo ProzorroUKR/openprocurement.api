@@ -93,8 +93,8 @@ class TenderCriteriaRGRequirementTestMixin:
         self.criteria_id = response.json["data"][0]["id"]
         self.rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
 
-        self.exclusion_criteria_id = response.json["data"][1]["id"]
-        self.exclusion_rg_id = response.json["data"][1]["requirementGroups"][0]["id"]
+        self.exclusion_criteria_id = response.json["data"][2]["id"]
+        self.exclusion_rg_id = response.json["data"][2]["requirementGroups"][0]["id"]
 
 
 class TenderCriteriaRGRequirementEvidenceTestMixin:
