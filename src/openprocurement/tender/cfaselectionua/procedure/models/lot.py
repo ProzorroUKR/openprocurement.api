@@ -8,7 +8,6 @@ from openprocurement.tender.core.procedure.models.guarantee import (
 )
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
-    LotGuaranteeSerializerMixin,
     PostBaseLot,
     TenderLotMixin,
 )
@@ -17,7 +16,7 @@ from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 # -- START model for view ---
 
 
-class PostLot(PostBaseLot, LotGuaranteeSerializerMixin):
+class PostLot(PostBaseLot):
     guarantee = ModelType(Guarantee)
 
 
@@ -41,7 +40,7 @@ class PatchTenderLot(BaseLot, TenderLotMixin):
     minimalStep = ModelType(Value)
 
 
-class Lot(BaseLot, TenderLotMixin, LotGuaranteeSerializerMixin):
+class Lot(BaseLot, TenderLotMixin):
     id = MD5Type(required=True)
     value = ModelType(EstimatedValue)
     minimalStep = ModelType(Value)

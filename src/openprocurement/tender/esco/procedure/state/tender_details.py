@@ -100,6 +100,15 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
                     status=422,
                     name="lots.minValue.amount",
                 )
+            self.set_tender_lot_data(tender, lot)
+
+    def set_tender_lot_data(self, tender, lot):
+        self.set_lot_guarantee(tender, lot)
+        lot["fundingKind"] = tender.get("fundingKind", "other")
+        lot["minValue"] = {
+            "currency": tender["minValue"]["currency"],
+            "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"],
+        }
 
     def validate_minimal_step(self, data, before=None):
         # TODO: adjust this validation in case of it will be allowed to disable auction in esco

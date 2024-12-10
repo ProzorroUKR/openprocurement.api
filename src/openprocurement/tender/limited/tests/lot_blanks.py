@@ -396,6 +396,7 @@ def patch_tender_vat(self):
         {"data": {"value": {**lot["value"], "valueAddedTaxIncluded": True}}},
     )
     self.assertEqual(response.status, "200 OK")
+    self.assertFalse(response.json["data"]["valueAddedTaxIncluded"])
     # but the value stays unchanged
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
     self.assertEqual(response.status, "200 OK")

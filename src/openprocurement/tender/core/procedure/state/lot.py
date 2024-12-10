@@ -67,6 +67,9 @@ class LotStateMixin:
     def set_lot_data(self, data: dict) -> None:
         tender = get_tender()
         self.set_auction_period_should_start_after(tender, data)
+        self.set_lot_guarantee(tender, data)
+        self.set_lot_value(tender, data)
+        self.set_lot_minimal_step(tender, data)
 
     def set_auction_period_should_start_after(self, tender: dict, data: dict) -> None:
         if tender["config"]["hasAuction"] is False:

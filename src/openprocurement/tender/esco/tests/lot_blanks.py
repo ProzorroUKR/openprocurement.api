@@ -487,17 +487,9 @@ def lot_yppr_validation(self):
         response.json["errors"],
         [
             {
-                "description": [
-                    {
-                        "value": {
-                            "yearlyPaymentsPercentage": [
-                                "yearlyPaymentsPercentage should be greater than 0 and less than 0.6"
-                            ]
-                        }
-                    }
-                ],
+                "description": "yearlyPaymentsPercentage should be greater than 0 and less than 0.6",
                 "location": "body",
-                "name": "lotValues",
+                "name": "lotValues.value",
             }
         ],
     )
