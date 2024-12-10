@@ -20,7 +20,16 @@ Content-Type: application/json
       "location": "body",
       "name": "requirementResponses",
       "description": [
-        "Responses are allowed for only one group of requirements per criterion, failed for criteria d64844feb8b4428c80bd0b4c1ec0bfdc"
+        {
+          "evidences": [
+            "available only in ['active.awarded', 'active.qualification'] status"
+          ]
+        },
+        {
+          "evidences": [
+            "available only in ['active.awarded', 'active.qualification'] status"
+          ]
+        }
       ]
     }
   ]

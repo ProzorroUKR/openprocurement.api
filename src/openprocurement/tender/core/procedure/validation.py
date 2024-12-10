@@ -409,7 +409,7 @@ def validate_operation_ecriteria_objects_evidences(request, **_):
                 break
 
         if active_award is None:
-            raise_operation_error(request, f"Winner criteria available only with active award")
+            raise_operation_error(request, "Winner criteria available only with active award")
 
         current_contract = None
         for contract in tender.get("contracts", ""):
