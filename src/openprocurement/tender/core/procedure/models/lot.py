@@ -12,7 +12,6 @@ from openprocurement.tender.core.procedure.models.guarantee import (
     Guarantee,
     PostEstimatedValue,
     PostGuarantee,
-    Value,
 )
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 

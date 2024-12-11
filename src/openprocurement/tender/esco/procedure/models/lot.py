@@ -2,7 +2,6 @@ from decimal import Decimal
 
 from schematics.types import StringType, URLType
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import DecimalType

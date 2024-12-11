@@ -17,7 +17,6 @@ from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
-from openprocurement.tender.core.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_not_in_tendering,
     validate_bid_operation_period,
@@ -30,6 +29,7 @@ from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.esco.procedure.serializers.tender import (
     ESCOTenderSerializer,
 )
+from openprocurement.tender.esco.procedure.state.bid import ESCOBidState
 from openprocurement.tender.openeu.procedure.views.bid import OpenEUTenderBidResource
 
 LOGGER = getLogger(__name__)
@@ -43,7 +43,7 @@ LOGGER = getLogger(__name__)
     description="Tender ESCO bids",
 )
 class ESCOTenderBidResource(OpenEUTenderBidResource):
-    state_class = BidState
+    state_class = ESCOBidState
     serializer_class = BidSerializer
 
     @json_view(

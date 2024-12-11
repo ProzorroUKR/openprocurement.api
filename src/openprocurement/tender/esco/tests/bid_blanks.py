@@ -486,7 +486,7 @@ def create_tender_bid_invalid_funding_kind_budget(self):
             {
                 "location": "body",
                 "name": "lotValues.value",
-                "description": "yearlyPaymentsPercentage should be greater than 0 and less than 0.5"
+                "description": "yearlyPaymentsPercentage should be greater than 0 and less than 0.5",
             }
         ],
     )
