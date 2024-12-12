@@ -1832,8 +1832,6 @@ def get_bid_requirement_response(self):
                         "value": True,
                     }
                 )
-            elif criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
-                guarantee_criterion = criterion
 
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
@@ -2137,7 +2135,7 @@ def bid_activate(self):
         ],
     )
 
-    another_rg_req = criteria[0]["requirementGroups"][1]["requirements"][0]
+    another_rg_req = criteria[2]["requirementGroups"][1]["requirements"][0]
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {
@@ -2169,7 +2167,7 @@ def bid_activate(self):
             {
                 'description': [
                     "Responses are allowed for only one group of requirements per criterion, "
-                    f"failed for criteria {criteria[0]['id']}"
+                    f"failed for criteria {criteria[2]['id']}"
                 ],
                 'location': 'body',
                 'name': 'requirementResponses',

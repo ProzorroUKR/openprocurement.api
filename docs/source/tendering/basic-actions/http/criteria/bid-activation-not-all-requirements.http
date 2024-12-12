@@ -20,7 +20,11 @@ Content-Type: application/json
       "location": "body",
       "name": "requirementResponses",
       "description": [
-        "Responses are required for all requirements in a requirement group, failed for criteria 63918671459348759ad4e30745a16ba0"
+        {
+          "evidences": [
+            "available only in ['active.awarded', 'active.qualification'] status"
+          ]
+        }
       ]
     }
   ]

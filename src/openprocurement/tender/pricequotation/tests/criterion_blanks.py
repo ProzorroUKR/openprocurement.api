@@ -311,7 +311,7 @@ def delete_requirement_evidence(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(len(response.json["data"]), 0)
 
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(

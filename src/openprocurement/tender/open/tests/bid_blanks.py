@@ -1966,8 +1966,6 @@ def get_bid_requirement_response(self):
                         "value": True,
                     }
                 )
-            elif criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
-                guarantee_criterion = criterion
 
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
@@ -2345,8 +2343,6 @@ def get_bid_requirement_response_evidence(self):
                         "value": True,
                     }
                 )
-            elif criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
-                guarantee_criterion = criterion
     rrs = rrs[1:]
 
     response = self.app.post_json(

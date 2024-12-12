@@ -2726,9 +2726,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         }
 
         requirement_1_1 = criteria[0]["requirementGroups"][0]["requirements"][0]
-        requirement_1_2 = criteria[0]["requirementGroups"][1]["requirements"][0]
+        requirement_1_2 = criteria[1]["requirementGroups"][1]["requirements"][0]
         requirement_2_1 = criteria[1]["requirementGroups"][0]["requirements"][0]
-        requirement_2_2 = criteria[1]["requirementGroups"][0]["requirements"][1]
 
         rr_mock = {
             "requirement": {"id": requirement_1_1["id"]},
