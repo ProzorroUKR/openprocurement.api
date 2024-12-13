@@ -1,6 +1,6 @@
 from copy import deepcopy
-from datetime import datetime, timedelta
-from unittest.mock import patch
+from datetime import datetime
+from unittest import mock
 
 from esculator import escp, npv
 
@@ -510,9 +510,9 @@ def create_tender_bid_invalid_funding_kind_budget(self):
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def create_tender_bid(self):
     tender = self.mongodb.tenders.get(self.tender_id)

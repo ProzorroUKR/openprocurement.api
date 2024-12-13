@@ -1,6 +1,6 @@
 import unittest
 from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
@@ -25,11 +25,11 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUSta
 
     required_criteria = ()
 
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-        get_now() - timedelta(days=1),
+    @mock.patch(
+        "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+        mock.Mock(return_value={}),
     )
-    @patch(
+    @mock.patch(
         "openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
         get_now() - timedelta(days=1),
     )
@@ -44,11 +44,11 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUASta
 
     required_criteria = ()
 
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-        get_now() - timedelta(days=1),
+    @mock.patch(
+        "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+        mock.Mock(return_value={}),
     )
-    @patch(
+    @mock.patch(
         "openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
         get_now() - timedelta(days=1),
     )

@@ -2,12 +2,11 @@ import os
 from copy import deepcopy
 from datetime import datetime, timedelta
 from hashlib import sha512
-from unittest.mock import patch
+from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
@@ -429,9 +428,9 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
     self.app.authorization = ("Basic", ("broker", ""))
 
     # TODO add criteria to the test data ?
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-        get_now() + timedelta(days=1),
+    with mock.patch(
+        "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+        mock.Mock(return_value={}),
     ):
         self.app.patch_json(
             "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),

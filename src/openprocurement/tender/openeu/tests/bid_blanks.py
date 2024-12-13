@@ -1,6 +1,5 @@
 from copy import deepcopy
-from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
@@ -662,9 +661,9 @@ def create_tender_bid_no_scale_invalid(self):
     )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def delete_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
@@ -883,9 +882,9 @@ def bid_Administrator_change(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["identifier"]["id"], "00000000")
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def bids_invalidation_on_tender_change(self):
     bids_access = {}
@@ -2647,9 +2646,9 @@ def patch_tender_bidder_document(self):
         )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def patch_and_put_document_into_invalid_bid(self):
     doc_id_by_type = {}

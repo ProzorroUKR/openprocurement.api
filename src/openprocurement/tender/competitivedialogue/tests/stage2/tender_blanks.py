@@ -1,6 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 
 from openprocurement.api.constants import RELEASE_2020_04_19, ROUTE_PREFIX, TZ
 from openprocurement.api.utils import get_now
@@ -204,9 +204,9 @@ def create_tender_invalid_eu(self):
     )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def patch_tender_eu(self):
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
@@ -503,9 +503,9 @@ def create_tender_invalid_ua(self):
     )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def patch_tender_ua(self):
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
@@ -1335,9 +1335,9 @@ def tender_features(self):
     self.assertIn("features", response.json["data"])
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def patch_tender_1(self):
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))

@@ -8,6 +8,8 @@ from ciso8601 import parse_datetime
 from pytz import timezone
 from requests import Session
 
+from openprocurement.api.constants_utils import load_criteria_rules
+
 LOGGER = getLogger("openprocurement.api")
 VERSION = "2.5"
 ROUTE_PREFIX = "/api/{}".format(VERSION)
@@ -460,3 +462,26 @@ CRITERIA_ARTICLE_16_REQUIRED = get_constant(CONSTANTS_CONFIG, "CRITERIA_ARTICLE_
 
 # CS-18305
 NEW_ARTICLE_17_CRITERIA_REQUIRED = get_constant(CONSTANTS_CONFIG, "NEW_ARTICLE_17_CRITERIA_REQUIRED")
+
+# Should be at the end of the file for now
+# TODO: move to modules initialization
+TENDER_CRITERIA_RULES = {
+    "aboveThreshold": load_criteria_rules("aboveThreshold", globals()),
+    "competitiveOrdering": load_criteria_rules("competitiveOrdering", globals()),
+    "aboveThresholdEU": load_criteria_rules("aboveThresholdEU", globals()),
+    "aboveThresholdUA.defense": load_criteria_rules("aboveThresholdUA.defense", globals()),
+    "aboveThresholdUA": load_criteria_rules("aboveThresholdUA", globals()),
+    "belowThreshold": load_criteria_rules("belowThreshold", globals()),
+    "closeFrameworkAgreementSelectionUA": load_criteria_rules("closeFrameworkAgreementSelectionUA", globals()),
+    "closeFrameworkAgreementUA": load_criteria_rules("closeFrameworkAgreementUA", globals()),
+    "competitiveDialogueEU": load_criteria_rules("competitiveDialogueEU", globals()),
+    "competitiveDialogueEU.stage2": load_criteria_rules("competitiveDialogueEU.stage2", globals()),
+    "competitiveDialogueUA": load_criteria_rules("competitiveDialogueUA", globals()),
+    "competitiveDialogueUA.stage2": load_criteria_rules("competitiveDialogueUA.stage2", globals()),
+    "esco": load_criteria_rules("esco", globals()),
+    "negotiation": load_criteria_rules("negotiation", globals()),
+    "negotiation.quick": load_criteria_rules("negotiation.quick", globals()),
+    "priceQuotation": load_criteria_rules("priceQuotation", globals()),
+    "reporting": load_criteria_rules("reporting", globals()),
+    "simple.defense": load_criteria_rules("simple.defense", globals()),
+}
