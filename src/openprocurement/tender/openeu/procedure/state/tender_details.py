@@ -13,22 +13,7 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
-
-    required_criteria = {
-        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-        "CRITERION.EXCLUSION.NATIONAL.OTHER",
-        "CRITERION.OTHER.BID.LANGUAGE",
-    }
-    article_16_criteria_required = True
-
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     tender_period_working_day = False
 

@@ -1,6 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 
 from freezegun import freeze_time
 
@@ -56,9 +56,9 @@ def bids_on_tender_cancellation_in_tendering(self):
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def bids_on_tender_cancellation_in_pre_qualification(self):
     self._mark_one_bid_deleted()
@@ -833,7 +833,7 @@ def cancellation_unsuccessful_award(self):
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
 
-@patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_cancellation_in_qualification_complaint_period(self):
     self.set_status("active.pre-qualification.stand-still")
 

@@ -1,7 +1,6 @@
 import unittest
 from copy import deepcopy
-from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 
 from esculator import escp, npv
 
@@ -108,9 +107,9 @@ bid_amount = round(
 )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 class TenderBidResourceTest(BaseESCOContentWebTest):
     initial_status = "active.tendering"
@@ -170,9 +169,9 @@ class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):
     test_features_bid_invalid = snitch(features_bid_invalid)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))

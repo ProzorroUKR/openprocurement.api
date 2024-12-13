@@ -2,7 +2,6 @@ import unittest
 from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
-from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -61,9 +60,9 @@ class TenderLotEdgeCasesTestMixin:
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     initial_auth = ("Basic", ("broker", ""))

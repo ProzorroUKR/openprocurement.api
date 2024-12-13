@@ -2,7 +2,7 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 from hashlib import sha512
-from unittest.mock import patch
+from unittest import mock
 from uuid import uuid4
 
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
@@ -757,9 +757,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             self.new_tender_token = response.json['access']['token']
 
         with open(TARGET_DIR + 'tender_stage2_modify_status.http', 'w') as self.app.file_obj:
-            with patch(
-                "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-                get_now() + timedelta(days=1),
+            with mock.patch(
+                "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+                mock.Mock(return_value={}),
             ):
                 response = self.app.patch_json(
                     '/tenders/{}?acc_token={}'.format(new_tender_id, self.new_tender_token),

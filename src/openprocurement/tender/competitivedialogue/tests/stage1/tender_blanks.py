@@ -1,6 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.constants import TZ
@@ -1275,9 +1275,9 @@ def update_status_complete_owner_ua(self):
 
 
 # CompetitiveDialogEUResourceTest
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def patch_tender_eu_ua(self):
     """

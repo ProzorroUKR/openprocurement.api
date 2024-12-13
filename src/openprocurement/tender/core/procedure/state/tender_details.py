@@ -7,9 +7,7 @@ from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
 from openprocurement.api.constants import (
-    ARTICLE_16,
     CPV_PREFIX_LENGTH_TO_NAME,
-    CRITERIA_ARTICLE_16_REQUIRED,
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
@@ -18,10 +16,8 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
-    NEW_ARTICLE_17_CRITERIA_REQUIRED,
     NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
-    RELEASE_ECRITERIA_ARTICLE_17,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
@@ -66,7 +62,6 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     set_mode_test_titles,
     tender_created_after,
-    tender_created_before,
     validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
@@ -74,7 +69,10 @@ from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_required,
     validate_edrpou_confidentiality_doc,
 )
-from openprocurement.tender.core.utils import calculate_tender_full_date
+from openprocurement.tender.core.utils import (
+    calculate_tender_full_date,
+    get_criteria_rules,
+)
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.pricequotation.constants import PQ
 
@@ -185,10 +183,6 @@ class TenderDetailsMixing(TenderConfigMixin):
     should_initialize_enquiry_period = True
     tender_period_working_day = True
     clarification_period_working_day = True
-
-    required_criteria = ()
-    article_16_criteria_required = False
-
     enquiry_period_timedelta: timedelta
     tendering_period_extra_working_days = False
     agreement_min_active_contracts = 3
@@ -716,10 +710,11 @@ class TenderDetailsMixing(TenderConfigMixin):
                 )
 
     def validate_required_criteria(self, before, after):
-        if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
+        if after.get("status") not in ("active", "active.tendering"):
             return
 
-        if after.get("status") not in ("active", "active.tendering"):
+        rules = get_criteria_rules(after)
+        if not rules:
             return
 
         tender_criteria = {
@@ -728,34 +723,31 @@ class TenderDetailsMixing(TenderConfigMixin):
             if criterion.get("classification")
         }
 
-        required_criteria = set(self.required_criteria)
-        if required_criteria and tender_created_after(NEW_ARTICLE_17_CRITERIA_REQUIRED):
-            required_criteria = required_criteria.union(
-                {
-                    "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
-                    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
-                }
-            )
+        required_criteria = set()
+        required_article_16_criteria = set()
 
-        # exclusion criteria
+        for criterion_id, criterion_rules in rules.items():
+            if "required" in criterion_rules["rules"]:
+                required_criteria.add(criterion_id)
+            if "required_article_16" in criterion_rules["rules"]:
+                required_article_16_criteria.add(criterion_id)
+
+        # Check required criteria
         if required_criteria - tender_criteria:
             raise_operation_error(
                 get_request(),
                 f"Tender must contain all required criteria: {', '.join(sorted(required_criteria))}",
             )
+
+        # Check article 16 criteria if required
         if (
-            tender_created_after(CRITERIA_ARTICLE_16_REQUIRED)
-            and self.article_16_criteria_required
-            and get_tender().get("mainProcurementCategory", "services")
-            in (
-                "works",
-                "services",
-            )  # stage2 CD doesn't have this field but there are only works and services options for these procedures anyway
-            and not tender_criteria.intersection(ARTICLE_16)
+            required_article_16_criteria
+            and get_tender().get("mainProcurementCategory", "services") in ("works", "services")
+            and not tender_criteria.intersection(required_article_16_criteria)
         ):
             raise_operation_error(
                 get_request(),
-                f"Tender must contain one of ARTICLE_16 criteria: {', '.join(sorted(ARTICLE_16))}",
+                f"Tender must contain one of ARTICLE_16 criteria: {', '.join(sorted(required_article_16_criteria))}",
             )
 
     def validate_minimal_step(self, data, before=None):

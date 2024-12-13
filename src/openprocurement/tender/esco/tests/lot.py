@@ -1,7 +1,7 @@
 import unittest
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 
 from esculator import escp, npv
 
@@ -93,11 +93,11 @@ lot_bid_amount = round(
 )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
-@patch(
+@mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
     get_now() + timedelta(days=1),
 )
@@ -136,9 +136,9 @@ class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin
     test_author = test_tender_below_author
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     initial_lots = 2 * test_tender_esco_lots
@@ -157,9 +157,9 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     test_tender_lot_document = snitch(tender_lot_document)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 class TenderLotBidResourceTest(BaseESCOContentWebTest):
     initial_lots = test_tender_esco_lots
@@ -173,9 +173,9 @@ class TenderLotBidResourceTest(BaseESCOContentWebTest):
     test_bids_invalidation_on_lot_change = snitch(bids_invalidation_on_lot_change)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     initial_lots = test_tender_esco_lots
@@ -189,9 +189,9 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
         items = deepcopy(self.initial_data["items"])
         items[0].update(relatedLot=self.lot_id, id="1")
 
-        with patch(
-            "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-            get_now() + timedelta(days=1),
+        with mock.patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+            mock.Mock(return_value={}),
         ):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -231,7 +231,7 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     test_create_tender_bid = snitch(create_tender_feature_bid)
 
 
-@patch(
+@mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
     get_now() + timedelta(days=1),
 )

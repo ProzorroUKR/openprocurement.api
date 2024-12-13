@@ -5,9 +5,15 @@ from logging import getLogger
 
 from dateorro import calc_datetime
 
-from openprocurement.api.constants import WORKING_DAYS
+from openprocurement.api.constants import TENDER_CRITERIA_RULES, WORKING_DAYS
+from openprocurement.api.context import get_now
 from openprocurement.api.mask import mask_object_data
-from openprocurement.api.utils import calculate_date, calculate_full_date, is_boolean
+from openprocurement.api.utils import (
+    calculate_date,
+    calculate_full_date,
+    get_first_revision_date,
+    is_boolean,
+)
 from openprocurement.api.validation import validate_json_data
 
 LOGGER = getLogger("openprocurement.tender.core")
@@ -123,3 +129,23 @@ def context_view(objs):
         return wrapper
 
     return decorator
+
+
+def get_criteria_rules(tender):
+    periods = TENDER_CRITERIA_RULES.get(tender.get("procurementMethodType", ""), [])
+
+    tender_created = get_first_revision_date(tender, default=get_now())
+
+    for period in periods:
+        start_date = period["period"].get("start_date")
+        end_date = period["period"].get("end_date")
+
+        if start_date is not None and tender_created < start_date:
+            continue
+
+        if end_date is not None and tender_created > end_date:
+            continue
+
+        return period["criteria"]
+
+    return {}

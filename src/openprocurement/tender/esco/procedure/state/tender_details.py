@@ -11,20 +11,6 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 class ESCOTenderDetailsState(BaseTenderDetailsState):
     enquiry_period_timedelta = -QUESTIONS_STAND_STILL
 
-    required_criteria = {
-        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
-        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-        "CRITERION.EXCLUSION.NATIONAL.OTHER",
-        "CRITERION.OTHER.BID.LANGUAGE",
-    }
-    article_16_criteria_required = True
-
     def on_post(self, tender):
         super().on_post(tender)
         self.update_periods(tender)

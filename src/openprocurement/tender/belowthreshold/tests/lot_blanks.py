@@ -1,7 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
-from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -906,9 +905,9 @@ def tender_value(self):
     )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def tender_features_invalid(self):
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)

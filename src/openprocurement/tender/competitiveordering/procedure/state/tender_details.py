@@ -17,24 +17,10 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     tender_edit_accreditations = (ACCR_4,)
     tender_period_working_day = False
     clarification_period_working_day = False
-
-    required_criteria = {
-        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-        "CRITERION.EXCLUSION.NATIONAL.OTHER",
-        "CRITERION.OTHER.BID.LANGUAGE",
-    }
-
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     should_validate_notice_doc_required = True
-    article_16_criteria_required = False
 
     @classmethod
     def get_items_classification_prefix_length(cls, tender):

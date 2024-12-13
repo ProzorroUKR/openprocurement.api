@@ -1,10 +1,8 @@
 import unittest
 from copy import deepcopy
-from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
@@ -48,9 +46,9 @@ from openprocurement.tender.openua.tests.bid import (
 from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_status = "active.tendering"
@@ -99,9 +97,9 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ("Basic", ("broker", ""))

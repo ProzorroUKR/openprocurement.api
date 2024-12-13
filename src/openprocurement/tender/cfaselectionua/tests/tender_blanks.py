@@ -1,7 +1,7 @@
 import random
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.constants import RELEASE_2020_04_19, ROUTE_PREFIX, SANDBOX_MODE
@@ -1232,9 +1232,9 @@ def patch_tender_jsonpatch(self):
     self.assertEqual(response.content_type, "application/json")
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def patch_tender(self):
     data = deepcopy(self.initial_data)

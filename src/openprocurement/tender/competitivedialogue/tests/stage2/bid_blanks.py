@@ -1,6 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -140,9 +140,9 @@ def delete_tender_bidder_eu(self):
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}])
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def bids_invalidation_on_tender_change_eu(self):
     bids_access = {}
@@ -799,9 +799,9 @@ def create_tender_bidder_ua(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def bids_invalidation_on_tender_change_ua(self):
     bids_access = {}

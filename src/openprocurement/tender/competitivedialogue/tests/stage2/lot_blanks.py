@@ -1,6 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
+from unittest import mock
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -123,9 +123,9 @@ def create_tender_lot_invalid(self):
     )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def create_tender_lot(self):
     response = self.app.post_json(
@@ -333,9 +333,9 @@ def patch_tender_vat(self):
     )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def get_tender_lot(self):
     self.create_tender()
@@ -377,9 +377,9 @@ def get_tender_lot(self):
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-    get_now() + timedelta(days=1),
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
+    mock.Mock(return_value={}),
 )
 def get_tender_lots(self):
     self.create_tender()
