@@ -18,6 +18,7 @@ from logging import getLogger
 
 import sentry_sdk
 import simplejson
+from bson import Timestamp
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
 from pkg_resources import iter_entry_points
@@ -49,6 +50,8 @@ LOGGER = getLogger("{}.init".format(__name__))
 
 class CustomJSONEncoder(simplejson.JSONEncoder):
     def default(self, obj):
+        if isinstance(obj, Timestamp):
+            return f"{obj.time}.{obj.inc:010}"
         if isinstance(obj, datetime):
             if not obj.tzinfo:
                 obj = utc.localize(obj).astimezone(TZ)

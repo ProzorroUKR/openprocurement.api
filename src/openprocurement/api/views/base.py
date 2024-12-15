@@ -30,34 +30,35 @@ def parse_offset(offset: str) -> tuple[Timestamp | float, int, str]:
     skip_hash = ""
 
     parts = offset.split(".")
+    if len(parts) == 4:
+        skip_len, skip_hash = parts[2:]
+        skip_len = int(skip_len)
+
     if len(parts) > 1 and len(parts[1]) == 10:  # timestamp offset format (for public_ts field)
         seconds, ordinal = parts[:2]
         offset_value = Timestamp(int(seconds), int(ordinal))
-        if len(parts) == 4:
-            skip_len, skip_hash = parts[2:]
-            skip_len = int(skip_len)
         return offset_value, skip_len, skip_hash
 
-    try:
-        # timestamp offset format (for "public_modified" field)
-        offset_value = float(offset)
+    try:  # timestamp offset format (for "public_modified" field)
+        offset_value = float(".".join(parts[:2]))
     except ValueError:
-        # Used deprecated offset in iso format
+        # deprecated format
         offset_value = parse_date(offset.replace(" ", "+")).timestamp()
+        return offset_value, skip_len, skip_hash
+    else:
+        return offset_value, skip_len, skip_hash
 
-    return offset_value, skip_len, skip_hash
 
-
-def get_offset_params(offset: Timestamp, items: list[dict[str, Any]], offset_field: str) -> tuple[str, int]:
+def get_offset_params(offset: float, items: list[dict[str, Any]], offset_field: str) -> tuple[str, int]:
     offset_item_ids = sorted(r["id"] for r in items if r[offset_field] == offset)
     skip_hash = md5("".join(offset_item_ids).encode()).hexdigest()
     skip_len = len(offset_item_ids)
     return skip_hash, skip_len
 
 
-def compose_offset(offset: Timestamp, items: list[dict[str, Any]], offset_field: str) -> str:
+def compose_offset(offset: float, items: list[dict[str, Any]], offset_field: str) -> str:
     skip_hash, skip_len = get_offset_params(offset, items, offset_field)
-    return f"{offset.time}.{offset.inc:010}.{skip_len}.{skip_hash}"
+    return f"{offset}.{skip_len}.{skip_hash}"
 
 
 class MongodbResourceListing(BaseResource):
@@ -141,14 +142,15 @@ class MongodbResourceListing(BaseResource):
         data_fields = opt_fields | self.listing_default_fields
         db_fields = self.db_fields(data_fields)
         ts_offset_field = "public_ts"
-        depr_offset_field = "public_modified"
+        time_offset_field = "public_modified"
 
         # call db method
         limit_results = params.get("limit", self.default_limit)
+
         results = self.db_listing_method(
-            offset_field=depr_offset_field if isinstance(offset_value, float) else ts_offset_field,
+            offset_field=ts_offset_field if isinstance(offset_value, Timestamp) else time_offset_field,
             offset_value=offset_value,
-            fields=db_fields | {ts_offset_field},
+            fields=db_fields | {time_offset_field},
             descending=params.get("descending"),
             limit=limit_results + skip_len,  # + offset items length
             mode=params.get("mode"),
@@ -158,18 +160,19 @@ class MongodbResourceListing(BaseResource):
 
         # find same offset results and skip them if already seen
         if results and skip_len:  # should be always the case with new offsets
-            actual_skip_hash, actual_skip_len = get_offset_params(offset_value, results, ts_offset_field)
+            actual_skip_hash, actual_skip_len = get_offset_params(offset_value, results, time_offset_field)
             # we only "hide" items with provided 'offset_value', when their ids hash is equal to the expected
             if actual_skip_len == skip_len and actual_skip_hash == skip_hash:
-                results = [r for r in results if r[ts_offset_field] != offset_value]
+                results = [r for r in results if r[time_offset_field] != offset_value]
 
         # prepare response
         if results:
-            params["offset"] = compose_offset(results[-1][ts_offset_field], results, ts_offset_field)
-            prev_params["offset"] = compose_offset(results[0][ts_offset_field], results, ts_offset_field)
+            params["offset"] = compose_offset(results[-1][time_offset_field], results, time_offset_field)
+            prev_params["offset"] = compose_offset(results[0][time_offset_field], results, time_offset_field)
 
-            for r in results:
-                r.pop(ts_offset_field)
+            if time_offset_field not in opt_fields:
+                for r in results:
+                    r.pop(time_offset_field)
         elif offset_param:
             params["offset"] = offset_param  # remain the same if there is no results
 

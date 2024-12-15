@@ -28,9 +28,9 @@ Content-Type: application/json
     }
   ],
   "next_page": {
-    "offset": "1696888800.0000000006.1.33bdd6e8986a67b232de172bde2f7d3a",
-    "path": "/api/2.5/submissions?opt_fields=documents%2CframeworkID%2Cstatus&offset=1696888800.0000000006.1.33bdd6e8986a67b232de172bde2f7d3a",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?opt_fields=documents%2CframeworkID%2Cstatus&offset=1696888800.0000000006.1.33bdd6e8986a67b232de172bde2f7d3a"
+    "offset": "1696888800.0.1.33bdd6e8986a67b232de172bde2f7d3a",
+    "path": "/api/2.5/submissions?opt_fields=documents%2CframeworkID%2Cstatus&offset=1696888800.0.1.33bdd6e8986a67b232de172bde2f7d3a",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?opt_fields=documents%2CframeworkID%2Cstatus&offset=1696888800.0.1.33bdd6e8986a67b232de172bde2f7d3a"
   }
 }
 

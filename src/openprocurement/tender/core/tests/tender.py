@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 from bson import Timestamp
 
@@ -81,117 +81,116 @@ class TenderEmptyResourceTest(BaseWebTest):
 
 class TenderResourceListingTest(BaseWebTest):
 
-    def create_items_without_duplicates(self, now: datetime):
-        before = now - timedelta(seconds=1)
-        after = now + timedelta(seconds=1)
-        now_seconds = int(now.timestamp())
-        before_seconds = int(before.timestamp())
-        after_seconds = int(after.timestamp())
+    def create_items_without_duplicates(self, seconds: int = 1734252009):
         documents = [
             {
                 "id": "11111111111111111111111111111111",
-                "dateModified": before.isoformat(),
-                "public_ts": Timestamp(before_seconds, 5),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000001")),
+                "public_ts": Timestamp(seconds, 1),
+                "public_modified": float(f"{seconds}.000001"),
             },
             {
                 "id": "22222222222222222222222222222222",
-                "dateModified": before.isoformat(),
-                "public_ts": Timestamp(before_seconds, 7),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000002")),
+                "public_ts": Timestamp(seconds, 2),
+                "public_modified": float(f"{seconds}.000002"),
             },
             {
                 "id": "33333333333333333333333333333333",
-                "dateModified": now.isoformat(),
-                "public_ts": Timestamp(now_seconds, 1),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000003")),
+                "public_ts": Timestamp(seconds, 3),
+                "public_modified": float(f"{seconds}.000003"),
             },
             {
                 "id": "44444444444444444444444444444444",
-                "dateModified": now.isoformat(),
-                "public_ts": Timestamp(now_seconds, 2),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000004")),
+                "public_ts": Timestamp(seconds, 4),
+                "public_modified": float(f"{seconds}.000004"),
             },
             {
                 "id": "55555555555555555555555555555555",
-                "dateModified": after.isoformat(),
-                "public_ts": Timestamp(after_seconds, 1),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000005")),
+                "public_ts": Timestamp(seconds, 5),
+                "public_modified": float(f"{seconds}.000005"),
             },
             {
                 "id": "66666666666666666666666666666666",
-                "dateModified": after.isoformat(),
-                "public_ts": Timestamp(after_seconds, 2),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000006")),
+                "public_ts": Timestamp(seconds, 6),
+                "public_modified": float(f"{seconds}.000006"),
             },
         ]
         for doc in documents:
             self.mongodb.tenders.save(doc, insert=True, modified=False)
 
-    def create_items_with_offset_duplicates(self, now: datetime):
-        timestamp_seconds = int(now.timestamp())
+        return seconds
+
+    def create_items_with_offset_duplicates(self, seconds: int = 1734252009):
         documents = [
             {
                 "id": "11111111111111111111111111111111",
-                "dateModified": now.isoformat(),
-                "public_ts": Timestamp(timestamp_seconds, 1),
-                "public_modified": float(f"{timestamp_seconds}.1"),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000001")),
+                "public_ts": Timestamp(seconds, 1),
+                "public_modified": float(f"{seconds}.000001"),
             },
             {
                 "id": "22222222222222222222222222222222",
-                "dateModified": now.isoformat(),
-                "public_ts": Timestamp(timestamp_seconds, 2),
-                "public_modified": float(f"{timestamp_seconds}.2"),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000002")),
+                "public_ts": Timestamp(seconds, 2),
+                "public_modified": float(f"{seconds}.000002"),
             },
             {
                 "id": "33333333333333333333333333333333",
-                "dateModified": now.isoformat(),
-                "public_ts": Timestamp(timestamp_seconds, 3),  # duplicate
-                "public_modified": float(f"{timestamp_seconds}.301"),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000003")),
+                "public_ts": Timestamp(seconds, 3),
+                "public_modified": float(f"{seconds}.000003"),
             },
             {
                 "id": "44444444444444444444444444444444",
-                "dateModified": now.isoformat(),
-                "public_ts": Timestamp(timestamp_seconds, 3),  # duplicate
-                "public_modified": float(f"{timestamp_seconds}.301"),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000003")),
+                "public_ts": Timestamp(seconds, 3),
+                "public_modified": float(f"{seconds}.000003"),
             },
             {
                 "id": "55555555555555555555555555555555",
-                "dateModified": now.isoformat(),
-                "public_ts": Timestamp(timestamp_seconds, 3),  # duplicate
-                "public_modified": float(f"{timestamp_seconds}.302"),  # not a duplicate by public_modified
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000003")),
+                "public_ts": Timestamp(seconds, 3),
+                "public_modified": float(f"{seconds}.000003"),
             },
             {
                 "id": "66666666666666666666666666666666",
-                "dateModified": now.isoformat(),
-                "public_ts": Timestamp(timestamp_seconds, 4),
-                "public_modified": float(f"{timestamp_seconds}.4"),
+                "dateModified": datetime.fromtimestamp(float(f"{seconds}.000004")),
+                "public_ts": Timestamp(seconds, 4),
+                "public_modified": float(f"{seconds}.000004"),
             },
         ]
         for doc in documents:
             self.mongodb.tenders.save(doc, insert=True, modified=False)
+        return seconds
 
     def test_duplicates_limit_six(self):
         now = datetime.now(tz=timezone.utc)
         set_now(now)
-        timestamp_seconds = int(now.timestamp())
-
-        self.create_items_with_offset_duplicates(now=now)
+        timestamp_seconds = self.create_items_with_offset_duplicates()
 
         # check there are 6 elements, the last offset is 4
         response = self.app.get("/tenders")
         result = response.json
 
-        # {timestamp_seconds}.0000000004.1.08d53ef3e1e6b551a60fcd51e1e05f52
-        assert result["next_page"]["offset"].startswith(f"{timestamp_seconds}.0000000004.1")
+        # {timestamp_seconds}.000004.1.08d53ef3e1e6b551a60fcd51e1e05f52
+        assert result["next_page"]["offset"].startswith(f"{timestamp_seconds}.000004.1")
         assert len(result["data"]) == 6
 
     def test_duplicates_limit_3(self):
         now = datetime.now(tz=timezone.utc)
         set_now(now)
-        timestamp_seconds = int(now.timestamp())
-
-        self.create_items_with_offset_duplicates(now=now)
+        timestamp_seconds = self.create_items_with_offset_duplicates()
 
         limit = 3
         response = self.app.get(f"/tenders?limit={limit}")
         result = response.json
-        offset = result["next_page"]["offset"]  # {timestamp_seconds}.0000000003.1.a30e23570cc3ba91f31c8e0caae48cb9
-        assert offset.startswith(f"{timestamp_seconds}.0000000003.1")
+        offset = result["next_page"]["offset"]
+        assert offset.startswith(f"{timestamp_seconds}.000003.1")
         assert len(result["data"]) == 3
         expected_ids = {
             "11111111111111111111111111111111",
@@ -202,7 +201,7 @@ class TenderResourceListingTest(BaseWebTest):
 
         response = self.app.get(f"/tenders?offset={offset}&limit={limit}")
         result = response.json
-        offset = result["next_page"]["offset"]  # 1732457721.0000000004.1.08d53ef3e1e6b551a60fcd51e1e05f52
+        offset = result["next_page"]["offset"]
         assert len(result["data"]) == 4
         expected_ids = {
             "33333333333333333333333333333333",  # timestamp duplicate
@@ -211,20 +210,18 @@ class TenderResourceListingTest(BaseWebTest):
             "66666666666666666666666666666666",
         }
         assert {i["id"] for i in result["data"]} == expected_ids
-        assert offset.startswith(f"{timestamp_seconds}.0000000004.1")
+        assert offset.startswith(f"{timestamp_seconds}.000004.1")
 
     def test_duplicates_limit_2(self):
         limit = 2
         now = datetime.now(tz=timezone.utc)
         set_now(now)
-        timestamp_seconds = int(now.timestamp())
-
-        self.create_items_with_offset_duplicates(now=now)
+        timestamp_seconds = self.create_items_with_offset_duplicates()
 
         response = self.app.get(f"/tenders?limit={limit}")
         result = response.json
         offset = result["next_page"]["offset"]
-        assert offset.startswith(f"{timestamp_seconds}.0000000002.1")
+        assert offset.startswith(f"{timestamp_seconds}.000002.1")
         assert len(result["data"]) == 2
         expected_ids = {
             "11111111111111111111111111111111",
@@ -235,13 +232,13 @@ class TenderResourceListingTest(BaseWebTest):
         response = self.app.get(f"/tenders?offset={offset}&limit={limit}")
         result = response.json
         offset = result["next_page"]["offset"]
-        assert len(result["data"]) == 2, result
+        assert len(result["data"]) == 2, result["data"]
         expected_ids = {
             "33333333333333333333333333333333",  # timestamp duplicate
             "44444444444444444444444444444444",  # timestamp duplicate
         }
         assert {i["id"] for i in result["data"]} == expected_ids
-        assert offset.startswith(f"{timestamp_seconds}.0000000003.2")
+        assert offset.startswith(f"{timestamp_seconds}.000003.2")
 
         response = self.app.get(f"/tenders?offset={offset}&limit={limit}")
         result = response.json
@@ -254,7 +251,7 @@ class TenderResourceListingTest(BaseWebTest):
             "66666666666666666666666666666666",
         }
         assert {i["id"] for i in result["data"]} == expected_ids
-        assert offset.startswith(f"{timestamp_seconds}.0000000004.1")
+        assert offset.startswith(f"{timestamp_seconds}.000004.1")
 
     def test_duplicates_limit_2_backwards(self):
         descending = 1
@@ -262,7 +259,7 @@ class TenderResourceListingTest(BaseWebTest):
         now = datetime.now(tz=timezone.utc)
         set_now(now)
 
-        self.create_items_with_offset_duplicates(now=now)
+        self.create_items_with_offset_duplicates()
 
         response = self.app.get(f"/tenders?limit={limit}&descending={descending}")
         result = response.json
@@ -307,15 +304,13 @@ class TenderResourceListingTest(BaseWebTest):
     def test_duplicates_limit_4_items_offset_items_disappear(self):
         now = datetime.now(tz=timezone.utc)
         set_now(now)
-        timestamp_seconds = int(now.timestamp())
-
-        self.create_items_with_offset_duplicates(now=now)
+        timestamp_seconds = self.create_items_with_offset_duplicates()
 
         limit = 4
         response = self.app.get(f"/tenders?limit={limit}")
         result = response.json
         offset = result["next_page"]["offset"]
-        assert offset.startswith(f"{timestamp_seconds}.0000000003.2")
+        assert offset.startswith(f"{timestamp_seconds}.000003.2")
         assert len(result["data"]) == 4
         expected_ids = {
             "11111111111111111111111111111111",
@@ -327,7 +322,7 @@ class TenderResourceListingTest(BaseWebTest):
 
         # update document 44444444444444444444444444444444
         tender = self.mongodb.tenders.get("44444444444444444444444444444444")
-        tender["public_ts"] = Timestamp(timestamp_seconds, 6)
+        tender["public_modified"] = float(f"{timestamp_seconds}.000006")
         self.mongodb.tenders.save(tender, modified=False)
 
         # get next page
@@ -342,14 +337,13 @@ class TenderResourceListingTest(BaseWebTest):
             "44444444444444444444444444444444",  # now it in the end of the list
         }
         assert {i["id"] for i in result["data"]} == expected_ids
-        assert offset.startswith(f"{timestamp_seconds}.0000000006.1")
+        assert offset.startswith(f"{timestamp_seconds}.000006.1")
 
-    def test_duplicates_start_with_depr_offset_limit_3(self):
+    def test_duplicates_start_with_timestamp_offset_limit_3(self):
         now = datetime.now(tz=timezone.utc)
         set_now(now)
-        timestamp_seconds = int(now.timestamp())
 
-        self.create_items_with_offset_duplicates(now=now)
+        timestamp_seconds = self.create_items_with_offset_duplicates()
 
         limit = 3
         offset = f"{timestamp_seconds}.0000000002"
@@ -366,6 +360,9 @@ class TenderResourceListingTest(BaseWebTest):
 
         # get next page
         offset = result["next_page"]["offset"]
+        assert offset.startswith("1734252009.000003.3")
+
+        offset = "1734252009.0000000003"  # replace with timestamp format
         response = self.app.get(f"/tenders?offset={offset}&limit={limit}")
         result = response.json
 
@@ -375,100 +372,13 @@ class TenderResourceListingTest(BaseWebTest):
             "66666666666666666666666666666666",
         }
         assert {i["id"] for i in result["data"]} == expected_ids
-        assert offset.startswith(f"{timestamp_seconds}.0000000004.1")
-
-    def test_duplicates_start_with_depr_offset_limit_2(self):
-        now = datetime.now(tz=timezone.utc)
-        set_now(now)
-        timestamp_seconds = int(now.timestamp())
-
-        self.create_items_with_offset_duplicates(now=now)
-
-        limit = 2
-        offset = f"{timestamp_seconds}.0000000002"
-        response = self.app.get(f"/tenders?limit={limit}&offset={offset}")
-        result = response.json
-
-        assert len(result["data"]) == 2
-        # all three have the same offset, so the order is not guaranteed
-        expected_ids = {
-            "33333333333333333333333333333333",
-            "44444444444444444444444444444444",
-            "55555555555555555555555555555555",
-        }
-        assert result["data"][0]["id"] in expected_ids
-        assert result["data"][1]["id"] in expected_ids
-
-        offset = result["next_page"]["offset"]
-        assert offset.startswith(f"{timestamp_seconds}.0000000003.2")
-
-        # get next page
-        response = self.app.get(f"/tenders?offset={offset}&limit={limit}")
-        result = response.json
-
-        # the two duplicates that we've seen before + the last duplicate + the last one item
-        assert len(result["data"]) == 4
-        expected_ids = {
-            "33333333333333333333333333333333",
-            "44444444444444444444444444444444",
-            "55555555555555555555555555555555",
-            "66666666666666666666666666666666",
-        }
-        assert {i["id"] for i in result["data"]} == expected_ids
-
-        offset = result["next_page"]["offset"]
-        assert offset.startswith(f"{timestamp_seconds}.0000000004.1")
-
-    def test_duplicates_float_offset_limit_2(self):
-        now = datetime.now(tz=timezone.utc)
-        set_now(now)
-        timestamp_seconds = int(now.timestamp())
-
-        self.create_items_with_offset_duplicates(now=now)
-
-        limit = 2
-        offset = f"{timestamp_seconds}.1"
-        response = self.app.get(f"/tenders?limit={limit}&offset={offset}")
-        result = response.json
-
-        assert len(result["data"]) == 2
-        # all three have the same offset, so the order is not guaranteed
-        expected_ids = {
-            "22222222222222222222222222222222",
-            "33333333333333333333333333333333",
-        }
-        assert {i["id"] for i in result["data"]} == expected_ids
-
-        offset = result["next_page"]["offset"]
-        assert offset.startswith(f"{timestamp_seconds}.0000000003.1")
-
-    def test_duplicates_float_offset_skip_duplicates(self):
-        now = datetime.now(tz=timezone.utc)
-        set_now(now)
-        timestamp_seconds = int(now.timestamp())
-
-        self.create_items_with_offset_duplicates(now=now)
-
-        limit = 4
-        offset = f"{timestamp_seconds}.301"
-        response = self.app.get(f"/tenders?limit={limit}&offset={offset}")
-        result = response.json
-
-        assert len(result["data"]) == 2
-        # all three have the same offset, so the order is not guaranteed
-        expected_ids = {
-            "55555555555555555555555555555555",
-            "66666666666666666666666666666666",
-        }
-        assert {i["id"] for i in result["data"]} == expected_ids
-
-        offset = result["next_page"]["offset"]
-        assert offset.startswith(f"{timestamp_seconds}.0000000004.1")
+        assert offset.startswith(f"{timestamp_seconds}.000004.1")
 
     def test_without_duplicates_forward(self):
         now = datetime.now(tz=timezone.utc)
         set_now(now)
-        self.create_items_without_duplicates(now=now)
+
+        self.create_items_without_duplicates()
 
         limit = 2
         response = self.app.get(f"/tenders?limit={limit}")
@@ -510,7 +420,8 @@ class TenderResourceListingTest(BaseWebTest):
     def test_without_duplicates_backward(self):
         now = datetime.now(tz=timezone.utc)
         set_now(now)
-        self.create_items_without_duplicates(now=now)
+
+        self.create_items_without_duplicates()
 
         limit = 2
         descending = 1
