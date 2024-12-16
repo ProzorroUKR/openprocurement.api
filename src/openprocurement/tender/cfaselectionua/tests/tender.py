@@ -44,6 +44,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     patch_tender_bot,
     patch_tender_jsonpatch,
     patch_tender_to_draft_pending,
+    switch_tender_to_draft_pending,
     tender_features_invalid,
     tender_fields,
     tender_funders,
@@ -65,6 +66,7 @@ class TenderResourceTestMixin:
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
+    test_switch_tender_to_draft_pending = snitch(switch_tender_to_draft_pending)
     test_create_tender_draft = snitch(create_tender_draft)
     test_create_tender = snitch(create_tender)
     test_create_tender_central = snitch(create_tender_central)

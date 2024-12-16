@@ -20,8 +20,13 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage2.item imp
     EUItem,
     UAItem,
 )
+from openprocurement.tender.core.procedure.models.criterion import (
+    Criterion,
+    validate_criteria_requirement_uniq,
+)
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
+from openprocurement.tender.core.procedure.validation import validate_object_id_uniq
 from openprocurement.tender.openeu.procedure.models.tender import (
     PatchTender as BasePatchTender,
 )
@@ -65,6 +70,11 @@ class PostEUTender(BasePostTender):
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     tenderPeriod = ModelType(Period)
+
+    criteria = ListType(
+        ModelType(Criterion, required=True),
+        validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
+    )
 
     @serializable(serialized_name="tenderID")
     def serialize_tender_id(self):
@@ -178,6 +188,11 @@ class PostUATender(UABasePostTender):
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     tenderPeriod = ModelType(Period)
+
+    criteria = ListType(
+        ModelType(Criterion, required=True),
+        validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
+    )
 
     @serializable(serialized_name="tenderID")
     def serialize_tender_id(self):

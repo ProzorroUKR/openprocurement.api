@@ -1,10 +1,15 @@
 from copy import deepcopy
+from logging import getLogger
 
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.constants import CRITERIA_CLASSIFICATION_UNIQ_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import (
+    get_agreement_by_id,
+    get_tender_by_id,
+    raise_operation_error,
+)
 from openprocurement.tender.cfaselectionua.constants import (
     ENQUIRY_PERIOD,
     MIN_ACTIVE_CONTRACTS,
@@ -41,6 +46,8 @@ from openprocurement.tender.core.utils import (
     calculate_tender_date,
     calculate_tender_full_date,
 )
+
+LOGGER = getLogger(__name__)
 
 
 class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
@@ -100,6 +107,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                         get_request(),
                         "Can't switch tender to (draft.pending) status without agreements or items.",
                     )
+                self.validate_exist_guarantee_criteria(after)
             elif before["status"] != after["status"]:
                 raise_operation_error(
                     get_request(),
@@ -248,6 +256,32 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         for doc in documents:
             validate_edrpou_confidentiality_doc(doc, should_be_public=True)
 
+    def validate_exist_guarantee_criteria(self, tender):
+        agreement_id = tender["agreements"][0]["id"]
+        if not (agreement := get_agreement_by_id(get_request(), agreement_id, raise_error=False)):
+            return
+
+        if not (cfaua_tender := get_tender_by_id(get_request(), agreement["tender_id"], raise_error=False)):
+            return
+
+        if not (criterion_for_check := get_guarantee_criterion(tender)):
+            return
+
+        if not (needed_criterion := get_guarantee_criterion(cfaua_tender)):
+            raise_operation_error(
+                get_request(),
+                "CRITERION.OTHER.CONTRACT.GUARANTEE criterion is forbidden",
+            )
+
+        clean_criteria(needed_criterion)
+        clean_criteria(criterion_for_check)
+
+        if needed_criterion != criterion_for_check:
+            raise_operation_error(
+                get_request(),
+                "CRITERION.OTHER.CONTRACT.GUARANTEE should be identical to criterion in cfaua",
+            )
+
 
 class CFASelectionTenderDetailsState(CFASelectionTenderDetailsMixing, CFASelectionTenderState):
     pass
@@ -297,3 +331,32 @@ def calculate_tender_features(tender):
                 tender_features.append(feature)
 
         tender["features"] = tender_features
+
+
+def get_guarantee_criterion(tender):
+    guarantee_clasif_id = "CRITERION.OTHER.CONTRACT.GUARANTEE"
+    return deepcopy(
+        next(
+            (c for c in tender.get("criteria", "") if c.get("classification", {}).get("id") == guarantee_clasif_id),
+            None,
+        )
+    )
+
+
+def clean_criteria(criterion):
+    def remove_fields(data):
+        field_for_remove = ('id', 'date', 'datePublished', 'eligibleEvidences')
+        for f in field_for_remove:
+            data.pop(f, None)
+
+    remove_fields(criterion)
+    for rg in criterion.get("requirementGroups", ""):
+        remove_fields(rg)
+        requirements = rg.get("requirements", "")
+
+        for req in requirements[:]:
+            if req.get("status", "active") != "active":
+                requirements.remove(req)
+                continue
+
+            remove_fields(req)

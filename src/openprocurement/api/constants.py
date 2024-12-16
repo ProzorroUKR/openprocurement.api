@@ -29,6 +29,12 @@ GUARANTEE_ALLOWED_TENDER_TYPES = (
     "aboveThresholdEU",
     "esco",
     "priceQuotation",
+    "competitiveDialogueUA",
+    "competitiveDialogueEU",
+    "competitiveDialogueUA.stage2",
+    "competitiveDialogueEU.stage2",
+    "closeFrameworkAgreementUA",
+    "closeFrameworkAgreementSelectionUA",
 )
 
 WORKING_DAYS = {}
