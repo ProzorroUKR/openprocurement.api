@@ -558,6 +558,131 @@ def create_tender_draft_pending(self):
     self.assertEqual(response.json["data"]["status"], "draft.pending")
 
 
+def switch_tender_to_draft_pending(self):
+    create_tender_draft(self)
+
+    guarantee_criterion = {
+        "id": "1" * 32,
+        "title": "Забезпечення виконання договору",
+        "source": "winner",
+        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"},
+        "relatesTo": "tenderer",
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
+        "requirementGroups": [
+            {
+                "id": "1" * 32,
+                "description": "Учасник підтверджує, що",
+                "requirements": [
+                    {
+                        "id": "1" * 32,
+                        "title": "Розмір та умови надання забезпечення виконання договору про закупівлю",
+                        "dataType": "boolean",
+                        "status": "active",
+                        "expectedValue": True,
+                        "datePublished": "2021-11-08T16:55:38.669219+02:00",
+                    }
+                ],
+            }
+        ],
+    }
+
+    cfaua_tender_test_data = {"id": "1" * 32, "criteria": [guarantee_criterion]}
+    cfaua_tender_without_criteria_test_data = {"id": "1" * 32}
+    agreement_test_data = {"tender_id": "1" * 32}
+
+    create_tender_draft(self)
+
+    with (
+        patch(
+            "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_agreement_by_id",
+            Mock(return_value=agreement_test_data),
+        ),
+        patch(
+            "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_tender_by_id",
+            Mock(return_value=cfaua_tender_without_criteria_test_data),
+        ),
+    ):
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"status": "draft.pending", "criteria": [guarantee_criterion]}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "CRITERION.OTHER.CONTRACT.GUARANTEE criterion is forbidden",
+                }
+            ],
+        )
+
+    invalid_guarantee_criterion = deepcopy(guarantee_criterion)
+    invalid_guarantee_criterion["title"] = "changed title"
+
+    with (
+        patch(
+            "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_agreement_by_id",
+            Mock(return_value=agreement_test_data),
+        ),
+        patch(
+            "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_tender_by_id",
+            Mock(return_value=cfaua_tender_test_data),
+        ),
+    ):
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"status": "draft.pending", "criteria": [invalid_guarantee_criterion]}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "CRITERION.OTHER.CONTRACT.GUARANTEE should be identical to criterion in cfaua",
+                }
+            ],
+        )
+
+    with (
+        patch(
+            "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_agreement_by_id",
+            Mock(return_value=agreement_test_data),
+        ),
+        patch(
+            "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_tender_by_id",
+            Mock(return_value=cfaua_tender_test_data),
+        ),
+    ):
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"status": "draft.pending", "criteria": [guarantee_criterion]}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["data"]["status"],
+            "draft.pending",
+        )
+
+
 def create_tender_draft_pending_without_features(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
