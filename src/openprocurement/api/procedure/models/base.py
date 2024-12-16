@@ -1,5 +1,5 @@
 from schematics.models import Model as SchematicsModel
-from schematics.transforms import blacklist, convert, export_loop
+from schematics.transforms import export_loop
 from schematics.types import BaseType, StringType
 from schematics.types.serializable import serializable
 
@@ -9,8 +9,6 @@ class Model(SchematicsModel):
         """Export options for Document."""
 
         serialize_when_none = False
-
-    __parent__ = BaseType()
 
     def __getitem__(self, name):
         try:
