@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "title": "Пояснення до скарги",
     "description": "Була така необхідність",
-    "relatedObjection": "fb0c20c96877401cb053f48df81d3448"
+    "relatedObjection": "33a6ef887a974fba9dfa34285e5851d0"
   }
 }
 
@@ -20,7 +20,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b3e50c95aba5434d
   "data": {
     "title": "Пояснення до скарги",
     "description": "Була така необхідність",
-    "relatedObjection": "fb0c20c96877401cb053f48df81d3448",
+    "relatedObjection": "33a6ef887a974fba9dfa34285e5851d0",
     "id": "ca38da2c7f064fc9b9c8fb2b68674b3e",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "author": "complaint_owner"

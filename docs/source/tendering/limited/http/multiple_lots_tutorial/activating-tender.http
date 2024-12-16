@@ -56,7 +56,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "02f14fa680c8460f803c5fefeb3f9a74",
+        "id": "7de091a5de774ca78aacbe579972d39d",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -80,7 +80,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "ca54d1673c8445ac8a53f411406d170c",
+        "relatedLot": "867f1242bbf840f7b35a25de5756015e",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -102,7 +102,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "ca54d1673c8445ac8a53f411406d170c",
+        "id": "867f1242bbf840f7b35a25de5756015e",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500000.0,
@@ -125,7 +125,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "86cf8f5e53964cae99e652b8c0050e5f",
+        "id": "9016514e93f345448b331a4310e33a9b",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",

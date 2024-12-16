@@ -22,7 +22,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
+        "relatedLot": "d6fba8716672449f87efa3a5781c7760",
         "status": "pending",
         "date": "2023-10-16T01:14:06+03:00"
       }
@@ -58,7 +58,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "d9d97777da46409e8a84ed5f9d61860b",
+        "id": "2207f7f1351144a39db0f36796584daf",
         "datePublished": "2023-10-16T01:14:06+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",

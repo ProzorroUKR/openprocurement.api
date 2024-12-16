@@ -29,7 +29,7 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "53c2fa9b943a4c9e976b2461a55a5c57",
+        "id": "c6a1ffd114854c008510a26fa1b21c00",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -42,7 +42,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "76a4bed05322478993d703fad4a917d3",
+        "id": "6acd9a5dc2a04574ad7ebab6e489596f",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -55,7 +55,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "76a4bed05322478993d703fad4a917d3",
+        "id": "6acd9a5dc2a04574ad7ebab6e489596f",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -105,7 +105,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "5913e805a15e4ee484617292a375c8c4",
+        "id": "7986908fe481470ca5d8314df1d038b5",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -158,7 +158,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "e77f949c4e1c48808802b8d42ed135d8",
+        "id": "a2c01d547823435c9b45f7498a146caa",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",

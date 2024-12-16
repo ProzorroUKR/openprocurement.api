@@ -106,7 +106,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "a23a71262ac642b88f2fdb69011d74b1",
+        "id": "687e8ce64af241ed9a7df097b8ce713a",
         "description": "Комп’ютерне обладнання для біда",
         "quantity": 2.0,
         "classification": {
@@ -143,7 +143,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "c8f30df33ae14c65b38931d68e63d757",
+        "id": "170e83a4fe9e4594aff8fb4aefb8a303",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {

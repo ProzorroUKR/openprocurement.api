@@ -258,7 +258,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
     "items": [
       {
         "category": "655360-30230000-889652",
-        "id": "e0171c9b08d34c71948f18a5f3504f5a",
+        "id": "168cfd28fd9643e69495464611debce9",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -298,7 +298,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
     ],
     "criteria": [
       {
-        "id": "bdf27086b44e45f4bd53f2cc82506f8b",
+        "id": "dc2946c9a6cc47b9bd3b196fe2b0369c",
         "description": "Форма випуску",
         "source": "tenderer",
         "classification": {
@@ -319,11 +319,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         ],
         "requirementGroups": [
           {
-            "id": "908040dfbe4e433f87b6eff3c324a3fa",
+            "id": "239147c997ff42ccb3a96dcff2716421",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "cdc512a2b4bb40248d9acc3856293743",
+                "id": "e00ff388599e42ce842a4d3dec0a110d",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -335,7 +335,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         ]
       },
       {
-        "id": "3ab4e18f94cb4f419b848c1da90019f8",
+        "id": "0c38a99c21304364b46d84c7814be3cb",
         "description": "Доза діючої речовини",
         "source": "tenderer",
         "classification": {
@@ -356,11 +356,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         ],
         "requirementGroups": [
           {
-            "id": "2cceb52b85b1408182ad5a032d7c1049",
+            "id": "5980efcd986644278cf07c53c39d73db",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "97d57858d27a4d25a2bfc93285fe6bbd",
+                "id": "021928a6395b4787adbba08acfd9c8d2",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -376,7 +376,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         ]
       },
       {
-        "id": "eb5f83dbc4e14b96b58ec3652e72b2fe",
+        "id": "e34b9aea95744d9db7e329a91f3c1657",
         "description": "Форма випуску",
         "source": "tenderer",
         "classification": {
@@ -397,11 +397,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         ],
         "requirementGroups": [
           {
-            "id": "3307ebf5c9a045f591077d680624f298",
+            "id": "56120db470a443c6a1085bf8b4c49e83",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "ce5f65d294914370b88867ea6ef13fe8",
+                "id": "9ee3c16ec0874793a9ec23376a0a9b11",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",

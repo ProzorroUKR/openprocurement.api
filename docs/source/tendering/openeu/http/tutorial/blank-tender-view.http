@@ -35,7 +35,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "e389e69c763f4938bb8d5be9318c8eb3",
+        "id": "8f82dccab4134a3a8497aa51839b0c10",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -81,7 +81,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "f5e6103079974585b00660575d3220df",
+        "id": "adcd9912dbc146738577dbd4a4cc3ab3",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -119,7 +119,7 @@ Content-Type: application/json
         "description_en": "Services in school canteens"
       },
       {
-        "id": "44d8bbe028464413a13eebba93eadd41",
+        "id": "26fc93303fcc4fcb93d4f1bfcc6e86b1",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",

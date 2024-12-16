@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d816e417c06e4dc4a33d89a4478b102f/qualifications/cc89ff18122c432eb4f5331a15969dec/complaints HTTP/1.0
+GET /api/2.5/tenders/d816e417c06e4dc4a33d89a4478b102f/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -15,7 +15,7 @@ Content-Type: application/json
       "documents": [
         {
           "confidentiality": "public",
-          "id": "f77930ef917a412886575918c07704a1",
+          "id": "c6bbb42e59b04a71b0165ab57db953f7",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
@@ -28,7 +28,7 @@ Content-Type: application/json
         },
         {
           "confidentiality": "public",
-          "id": "8dba7d29ac5a44d8b8bcb20b17dd3acf",
+          "id": "03af789404a94e3ab0e222e4f7a15e6f",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
@@ -41,7 +41,7 @@ Content-Type: application/json
         }
       ],
       "type": "complaint",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
       "author": {
         "name": "ДКП «Школяр»",
@@ -69,11 +69,11 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
       "objections": [
         {
-          "id": "3c441dbba9af4ede99647d1949d2d9b0",
+          "id": "b18d257f29cf4e4487753c05074311c5",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -81,14 +81,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "7b6c79ad149442809c88ce6f59500fff",
+              "id": "bd8c56d0d4f6476aaf736dfadc01198f",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "de77e8c9f14745069bb33a7dbc80cad3",
+              "id": "6bb49168f47e41f68f37960478fddfb6",
               "description": "test argument"
             }
           ],
@@ -113,7 +113,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "invalid",
       "type": "complaint",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
       "author": {
         "name": "ДКП «Школяр»",
@@ -141,11 +141,11 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
       "objections": [
         {
-          "id": "f048fb58db57401890ba1b7aef20a69d",
+          "id": "34cd3756a9b6450c87b239ce190e34c3",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -153,14 +153,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "d3d41f28010e463582787cbd82297493",
+              "id": "3dd5b1a129d24f7eadcc091145df6e69",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "0834bd023ed04199988372c9f94475df",
+              "id": "4f9692f2538b45dda45fd34d1304cfed",
               "description": "test argument"
             }
           ],
@@ -181,7 +181,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "declined",
       "type": "complaint",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
       "author": {
         "name": "ДКП «Школяр»",
@@ -209,11 +209,11 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
       "objections": [
         {
-          "id": "425f97a5a51e488da8a534eb97bdd33a",
+          "id": "1323df1a8a2f480e8978703b4e316937",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -221,14 +221,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "06fed070609046289bec0f1bdbdb0823",
+              "id": "f45388a1e6c1423e9926ac388ba2d71e",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "43598201c0fc43a7b261f8ab6d39bdd2",
+              "id": "288bb906b06f48be8b5c7354b057cf71",
               "description": "test argument"
             }
           ],
@@ -251,7 +251,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "accepted",
       "type": "complaint",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
       "author": {
         "name": "ДКП «Школяр»",
@@ -279,11 +279,11 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
       "objections": [
         {
-          "id": "fc6d19a6a43d45e69b26ea3682e13984",
+          "id": "cc54c68bafd14518a0f26a34f8e7a367",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -291,14 +291,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "7b1148f7379b4cf6a22093dcb364fe44",
+              "id": "2cef37dc22854261b27a45988d5f7fb2",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "c8077b82feca4380978b9ff7b8defc32",
+              "id": "da301f9e917a44a899503104eb75c79e",
               "description": "test argument"
             }
           ],
@@ -320,7 +320,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "stopped",
       "type": "complaint",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
       "author": {
         "name": "ДКП «Школяр»",
@@ -348,11 +348,11 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
       "objections": [
         {
-          "id": "672a12482e96403e92e931c96d2f0966",
+          "id": "ab3199ad8428455694b835e4c889aac9",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -360,14 +360,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "c8f8786178fb4b9c89504eda44cc550f",
+              "id": "32ecf4623f4f44b4b69d9500256aa18d",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "9351379ae19046b3b906718b58288591",
+              "id": "f759d6b917ea4474b1bc92c67c53bfb0",
               "description": "test argument"
             }
           ],
@@ -400,7 +400,7 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
       "satisfied": true,
       "type": "claim",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b"
     },
     {
@@ -416,7 +416,7 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
       "satisfied": false,
       "type": "claim",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b"
     },
     {
@@ -425,7 +425,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "pending",
       "type": "complaint",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
       "author": {
         "name": "ДКП «Школяр»",
@@ -452,11 +452,11 @@ Content-Type: application/json
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "objections": [
         {
-          "id": "e477683631ec48c1b9ebf2dfd9aaff08",
+          "id": "415d82565f774126a7e865abc6afb2c9",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -464,14 +464,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "cd4eccbd6b884000ac365958f044258c",
+              "id": "7bf5c0767bed45aab3c7b890ef466e20",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "463a707a959746ffad313072847d378e",
+              "id": "28bafe4f2e0047b3a2a2a0e285cc4fd5",
               "description": "test argument"
             }
           ],
@@ -488,7 +488,7 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "recipient": "complaint_owner",
-          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
+          "relatedObjection": "415d82565f774126a7e865abc6afb2c9",
           "id": "1fbeaf3065e04d2e839259e8f5e1536a",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "author": "aboveThresholdReviewers"
@@ -505,7 +505,7 @@ Content-Type: application/json
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/88f3c6159f9a4c10b47f50ca39411d53?Signature=W9V%2FrlR5ktPEvXkbOjgmcxFEzhfd7%2F154xmdpyhj9xsaDmutuR16ZH8ujmGiloQNvJhhxjnu%2F4Fjxf%2FZTS1fDA%3D%3D&KeyID=a8968c46",
               "documentOf": "tender",
               "language": "uk",
-              "id": "9b7cabd2f31844cdbc45100a92d2a365",
+              "id": "24027c56af4f4117b43bbf03844ea5ef",
               "datePublished": "2023-10-10T01:00:01+03:00",
               "dateModified": "2023-10-10T01:00:01+03:00",
               "author": "complaint_owner"
@@ -513,7 +513,7 @@ Content-Type: application/json
           ],
           "recipient": "aboveThresholdReviewers",
           "relatedPost": "1fbeaf3065e04d2e839259e8f5e1536a",
-          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
+          "relatedObjection": "415d82565f774126a7e865abc6afb2c9",
           "id": "530ee1f4987142c5b983bb6ae1f58241",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "author": "complaint_owner"
@@ -522,7 +522,7 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "recipient": "tender_owner",
-          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
+          "relatedObjection": "415d82565f774126a7e865abc6afb2c9",
           "id": "83aa2397dedc450f92cb684b132f7765",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "author": "aboveThresholdReviewers"
@@ -539,7 +539,7 @@ Content-Type: application/json
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/be45cb04b88c4ac0a3b8a03c46c24ee0?Signature=ltemvlxFiIQ1Ere9QS0LHOyn580cNtsYSN4%2FBrcegGS1tZI8%2BQ4ovl5rrtLeMp5qQrPFyqm5i40%2BmOoBPns%2BDg%3D%3D&KeyID=a8968c46",
               "documentOf": "tender",
               "language": "uk",
-              "id": "aeeb647ae29349a198218cec8efeff13",
+              "id": "9a228d6e98c84508aba0b7882eb44d1e",
               "datePublished": "2023-10-10T01:00:01+03:00",
               "dateModified": "2023-10-10T01:00:01+03:00",
               "author": "tender_owner"
@@ -547,7 +547,7 @@ Content-Type: application/json
           ],
           "recipient": "aboveThresholdReviewers",
           "relatedPost": "83aa2397dedc450f92cb684b132f7765",
-          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
+          "relatedObjection": "415d82565f774126a7e865abc6afb2c9",
           "id": "63c8c44c092e4b4889e9e9fa0021f52a",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "author": "tender_owner"
@@ -555,7 +555,7 @@ Content-Type: application/json
         {
           "title": "Пояснення до скарги",
           "description": "Була така необхідність",
-          "relatedObjection": "e477683631ec48c1b9ebf2dfd9aaff08",
+          "relatedObjection": "415d82565f774126a7e865abc6afb2c9",
           "id": "03aa46c3ea3d4755ac8c96d488b73f6b",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "author": "tender_owner"
@@ -570,7 +570,7 @@ Content-Type: application/json
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "status": "claim",
       "type": "claim",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
       "dateSubmitted": "2023-10-10T01:00:01+03:00"
     },
@@ -580,7 +580,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "mistaken",
       "type": "complaint",
-      "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+      "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
       "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
       "author": {
         "name": "ДКП «Школяр»",
@@ -607,11 +607,11 @@ Content-Type: application/json
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "objections": [
         {
-          "id": "6f98ffb574bb430b9789d49e1169727c",
+          "id": "a53f093b801740939918950a2e416a72",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "qualification",
-          "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+          "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -619,14 +619,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "05b5d33c41f14e27bd9ce6f361843141",
+              "id": "a824972b894247b5aa6f67f257529c7a",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "100ddc4da0404eec8692a820e3305ff7",
+              "id": "e056d48030d14d35ae53f6c0d3ec5961",
               "description": "test argument"
             }
           ],

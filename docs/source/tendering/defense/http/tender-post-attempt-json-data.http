@@ -158,7 +158,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/99bce310829042bb
         "sequenceNumber": 1
       },
       {
-        "id": "9f64088d8fde4dfa848e7312473af646",
+        "id": "8bd2c1f00e25443e89637677e8586753",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -201,7 +201,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/99bce310829042bb
     },
     "items": [
       {
-        "id": "1072171f3636481eadf77895aaf35c09",
+        "id": "c2249595dfba450c91913e4c2fee0a2c",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",

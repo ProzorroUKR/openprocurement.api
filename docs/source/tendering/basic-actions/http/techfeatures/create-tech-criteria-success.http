@@ -48,7 +48,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "3d2bda2ac1544820a298a2783dc649cb",
+      "id": "e5f5a1e205064c3eb2d07b29ee975625",
       "source": "tenderer",
       "relatesTo": "item",
       "relatedItem": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
@@ -70,11 +70,11 @@ Content-Type: application/json
       ],
       "requirementGroups": [
         {
-          "id": "750cac47db26445da5cecfbbdca5cd10",
+          "id": "dbbda9b552e045c4aa78940893d0cbb7",
           "description": "Діагоніль екрану",
           "requirements": [
             {
-              "id": "bd116cd8a94c4632a06717a2b91dfd37",
+              "id": "268e8be02d2a4dadb458d9f36c3dcc4a",
               "title": "Мова тендерної пропозиції українська",
               "dataType": "integer",
               "status": "active",

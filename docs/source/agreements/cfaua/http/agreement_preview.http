@@ -42,7 +42,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "00662cb27141433b86593cedfcd4c3d9",
+            "relatedItem": "a0aa16102ff345948a7508d8c03bb529",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -84,7 +84,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "00662cb27141433b86593cedfcd4c3d9",
+            "relatedItem": "a0aa16102ff345948a7508d8c03bb529",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -126,7 +126,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "00662cb27141433b86593cedfcd4c3d9",
+            "relatedItem": "a0aa16102ff345948a7508d8c03bb529",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -141,7 +141,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "00662cb27141433b86593cedfcd4c3d9",
+        "id": "a0aa16102ff345948a7508d8c03bb529",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
@@ -212,7 +212,7 @@ Content-Type: application/json
         "rationaleType": "taxRate",
         "modifications": [
           {
-            "itemId": "00662cb27141433b86593cedfcd4c3d9",
+            "itemId": "a0aa16102ff345948a7508d8c03bb529",
             "factor": 0.1605
           }
         ]

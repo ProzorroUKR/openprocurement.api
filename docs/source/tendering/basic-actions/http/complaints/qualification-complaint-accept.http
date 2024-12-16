@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d816e417c06e4dc4a33d89a4478b102f/qualifications/cc89ff18122c432eb4f5331a15969dec/complaints/cebe355f90434f498ed10306128fc635 HTTP/1.0
+PATCH /api/2.5/tenders/d816e417c06e4dc4a33d89a4478b102f/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/cebe355f90434f498ed10306128fc635 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -24,7 +24,7 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "f77930ef917a412886575918c07704a1",
+        "id": "c6bbb42e59b04a71b0165ab57db953f7",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
@@ -37,7 +37,7 @@ Content-Type: application/json
       }
     ],
     "type": "complaint",
-    "relatedLot": "9fa780b5476240129cdd58b49c4d6ddf",
+    "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
     "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
     "author": {
       "name": "ДКП «Школяр»",
@@ -65,11 +65,11 @@ Content-Type: application/json
     "dateSubmitted": "2023-10-10T01:00:01+03:00",
     "objections": [
       {
-        "id": "3c441dbba9af4ede99647d1949d2d9b0",
+        "id": "b18d257f29cf4e4487753c05074311c5",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "qualification",
-        "relatedItem": "cc89ff18122c432eb4f5331a15969dec",
+        "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -77,14 +77,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "7b6c79ad149442809c88ce6f59500fff",
+            "id": "bd8c56d0d4f6476aaf736dfadc01198f",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "de77e8c9f14745069bb33a7dbc80cad3",
+            "id": "6bb49168f47e41f68f37960478fddfb6",
             "description": "test argument"
           }
         ],

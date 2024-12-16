@@ -43,7 +43,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "bafe97395da841668932cf800cf756af",
+        "relatedLot": "c94486b261084c09ac0c731b74d35c85",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
@@ -52,7 +52,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "19c13f19dbbc404a8c566493c3238adc",
+        "id": "02bede37b7ea4648a12686900b5e8421",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -93,7 +93,7 @@ Content-Type: application/json
           "title": "Лот №1",
           "description": "Опис Лот №1",
           "status": "active",
-          "id": "bafe97395da841668932cf800cf756af",
+          "id": "c94486b261084c09ac0c731b74d35c85",
           "date": "2023-10-10T01:00:00+03:00",
           "value": {
             "amount": 500.0,
@@ -121,7 +121,7 @@ Content-Type: application/json
           "sequenceNumber": 1
         },
         {
-          "id": "f4f6f5a0e7034ee68dc319245a560b52",
+          "id": "74ff67bd10d24f16a1583eaed7645b5c",
           "title": "deliveryOfGoods",
           "type": "financing",
           "code": "postpayment",
@@ -173,7 +173,7 @@ Content-Type: application/json
       },
       "items": [
         {
-          "id": "555bf20c259e4bd79caba5d9d85d4d7b",
+          "id": "8840f90710624691b182d38026bbbe44",
           "description": "Послуги шкільних їдалень",
           "unit": {
             "name": "кілограм",
@@ -197,7 +197,7 @@ Content-Type: application/json
               "description": "Послуги шкільних їдалень"
             }
           ],
-          "relatedLot": "bafe97395da841668932cf800cf756af",
+          "relatedLot": "c94486b261084c09ac0c731b74d35c85",
           "deliveryDate": {
             "startDate": "2023-10-30T00:00:00+02:00",
             "endDate": "2023-11-29T00:00:00+02:00"
@@ -212,7 +212,7 @@ Content-Type: application/json
           "description_en": "Services in school canteens"
         },
         {
-          "id": "1ce1cd766ffc4843a26f4ea9b1f58638",
+          "id": "ff7b47fdbdf04d5692cdb738f54c20bb",
           "description": "Послуги шкільних їдалень",
           "unit": {
             "name": "упаковка",
@@ -236,7 +236,7 @@ Content-Type: application/json
               "description": "Послуги шкільних їдалень"
             }
           ],
-          "relatedLot": "bafe97395da841668932cf800cf756af",
+          "relatedLot": "c94486b261084c09ac0c731b74d35c85",
           "deliveryDate": {
             "startDate": "2023-10-30T00:00:00+02:00",
             "endDate": "2023-11-29T00:00:00+02:00"

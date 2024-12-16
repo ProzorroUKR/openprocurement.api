@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "aaed0128db6840e8b65f0afdc48bc33b",
       "status": "pending",
-      "awardID": "b8fb3660bde84144b43165b9834128f5",
+      "awardID": "79156f3725074d84a850ac421d48f19b",
       "date": "2023-10-10T01:00:00+03:00",
       "contractID": "UA-2023-10-10-000001-a-1",
       "value": {
@@ -24,7 +24,7 @@ Content-Type: application/json
     {
       "id": "16db2d0dab1240ff81a54d8725562b44",
       "status": "pending",
-      "awardID": "b8fb3660bde84144b43165b9834128f5",
+      "awardID": "79156f3725074d84a850ac421d48f19b",
       "date": "2023-10-10T01:00:00+03:00",
       "contractID": "UA-2023-10-10-000001-a-2",
       "value": {

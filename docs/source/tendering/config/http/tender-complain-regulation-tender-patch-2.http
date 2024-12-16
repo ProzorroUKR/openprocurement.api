@@ -33,7 +33,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
+        "relatedLot": "13e393636d614660a90f07fa8b4feea6"
       }
     ]
   }
@@ -95,7 +95,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "5b1a9504cc16400fa33f3d9e84606053",
+        "id": "13e393636d614660a90f07fa8b4feea6",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -123,7 +123,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "54885e2435434072891db5e792b35a43",
+        "id": "ad63536cbc0d4fd8b7c49031d56cd337",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -169,7 +169,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
+        "relatedLot": "13e393636d614660a90f07fa8b4feea6"
       }
     ],
     "id": "38bca89f7ba4477d97f553d576fd6994"

@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "c3f9ef125fde41f2b0559a39a9527282",
+        "id": "0e078f21edb14004adbc8fd8f746b15a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -43,10 +43,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens",
-        "relatedLot": "3d9bd8f913544205bad6df7a3843e883"
+        "relatedLot": "176e6033e7af4efc95f6a5c290a3311d"
       },
       {
-        "id": "ecdc7b89d8574bf293dec751fef6d3d2",
+        "id": "c472d4bf00ea4079b38a832aafc02dfb",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -82,7 +82,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens",
-        "relatedLot": "21068d0f3d3849709ec8f44d8bd0c140"
+        "relatedLot": "cdab28eeafd5467e935a8a62fb9d0f21"
       }
     ]
   }
@@ -126,7 +126,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "b81f2856d0b04849810c73b463a23f4b",
+        "id": "502412ca34264781a185eac09a5763fe",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -183,7 +183,7 @@ Content-Type: application/json
     "status": "draft",
     "items": [
       {
-        "id": "c3f9ef125fde41f2b0559a39a9527282",
+        "id": "0e078f21edb14004adbc8fd8f746b15a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -207,7 +207,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
+        "relatedLot": "176e6033e7af4efc95f6a5c290a3311d",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -222,7 +222,7 @@ Content-Type: application/json
         "description_en": "Services in school canteens"
       },
       {
-        "id": "ecdc7b89d8574bf293dec751fef6d3d2",
+        "id": "c472d4bf00ea4079b38a832aafc02dfb",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -246,7 +246,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "21068d0f3d3849709ec8f44d8bd0c140",
+        "relatedLot": "cdab28eeafd5467e935a8a62fb9d0f21",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -266,7 +266,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "3d9bd8f913544205bad6df7a3843e883",
+        "id": "176e6033e7af4efc95f6a5c290a3311d",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -283,7 +283,7 @@ Content-Type: application/json
         "title": "Лот №2",
         "description": "Опис Лот №2",
         "status": "active",
-        "id": "21068d0f3d3849709ec8f44d8bd0c140",
+        "id": "cdab28eeafd5467e935a8a62fb9d0f21",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,

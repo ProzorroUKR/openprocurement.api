@@ -36,7 +36,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "27d79285cd894e7eb504fcdce191a963"
+        "relatedLot": "043d36ce0feb4d0db21e430faa9019a2"
       }
     ],
     "items": [
@@ -100,7 +100,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ebe09f71f241dc
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "27d79285cd894e7eb504fcdce191a963",
+        "relatedLot": "043d36ce0feb4d0db21e430faa9019a2",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],

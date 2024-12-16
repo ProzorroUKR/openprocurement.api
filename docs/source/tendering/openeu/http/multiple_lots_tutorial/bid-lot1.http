@@ -37,7 +37,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "b107fd651779457994cf8d66f0c66b75"
+        "relatedLot": "90605edc448c4de18fee176ba1865b55"
       }
     ]
   }
@@ -83,7 +83,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/438aef21947a4a09
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "b107fd651779457994cf8d66f0c66b75",
+        "relatedLot": "90605edc448c4de18fee176ba1865b55",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "date": "2023-10-10T01:00:00+03:00"
       }

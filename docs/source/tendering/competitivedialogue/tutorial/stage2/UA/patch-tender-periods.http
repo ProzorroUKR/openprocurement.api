@@ -135,7 +135,7 @@ Content-Type: application/json
     "status": "draft.stage2",
     "items": [
       {
-        "id": "62fd2faf1672406a8db6d59752ef5cce",
+        "id": "13f0040df5734d49897e3a210624414e",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [

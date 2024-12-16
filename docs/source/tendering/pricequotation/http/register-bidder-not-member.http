@@ -35,19 +35,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "cdc512a2b4bb40248d9acc3856293743"
+          "id": "e00ff388599e42ce842a4d3dec0a110d"
         },
         "value": "Розчин для інфузій"
       },
       {
         "requirement": {
-          "id": "97d57858d27a4d25a2bfc93285fe6bbd"
+          "id": "021928a6395b4787adbba08acfd9c8d2"
         },
         "value": 5
       },
       {
         "requirement": {
-          "id": "ce5f65d294914370b88867ea6ef13fe8"
+          "id": "9ee3c16ec0874793a9ec23376a0a9b11"
         },
         "values": [
           "Відповідь1",
@@ -58,7 +58,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "items": [
       {
-        "id": "e0171c9b08d34c71948f18a5f3504f5a",
+        "id": "168cfd28fd9643e69495464611debce9",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",

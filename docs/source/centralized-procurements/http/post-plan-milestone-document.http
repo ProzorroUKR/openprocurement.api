@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d931b6056c5814240/milestones/38af1af8923e4f2ab7bdda3b7d94c002/documents/c83202f17fbd4f8a87af7071e6ad87cd
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d931b6056c5814240/milestones/38af1af8923e4f2ab7bdda3b7d94c002/documents/c8a16e2a836041288c00158ec2f1f50d
 
 {
   "data": {
@@ -24,7 +24,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d93
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e02eb47c177f4e078fd10eb781a99616?Signature=rN9%2BwQqp%2FjcIsh194eH4myfxHp7SzO3wXo9uAwzsF8ktudixiljJfdi7VP8qVHaRw4IhD6zi%2BmVMWZpLDOO0AA%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "c83202f17fbd4f8a87af7071e6ad87cd",
+    "id": "c8a16e2a836041288c00158ec2f1f50d",
     "datePublished": "2023-10-10T01:00:10+03:00",
     "dateModified": "2023-10-10T01:00:10+03:00"
   }

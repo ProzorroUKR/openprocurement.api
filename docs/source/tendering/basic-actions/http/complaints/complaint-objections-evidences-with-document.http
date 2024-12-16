@@ -29,13 +29,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
               {
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "5ecf6d2d17c44d0c8e63bd27cfb42afd"
+                "relatedDocument": "f589945a01814deb8f4a0c714853853c"
               }
             ]
           }
         ],
         "sequenceNumber": 1,
-        "id": "ae731fe27f904e038913c411b3673dc4"
+        "id": "461006fa0a8d4f51b7581fcb30339b97"
       }
     ]
   }
@@ -54,7 +54,7 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "5ecf6d2d17c44d0c8e63bd27cfb42afd",
+        "id": "f589945a01814deb8f4a0c714853853c",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Evidence_Attachment.pdf",
@@ -92,7 +92,7 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "ae731fe27f904e038913c411b3673dc4",
+        "id": "461006fa0a8d4f51b7581fcb30339b97",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
@@ -104,21 +104,21 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "b66452042f564a0aa328878f2b1602ef",
+            "id": "0ab05e888cee452cb46bc62704825884",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "94c89aad19d742f5afee7488fc6251ba",
+            "id": "a070a0256a1e4f648ae494a166c5df82",
             "description": "test argument",
             "evidences": [
               {
-                "id": "135b0940f74342b084be11a0054d6a8f",
+                "id": "2583bffdf6444e56930d4fba47642abc",
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "5ecf6d2d17c44d0c8e63bd27cfb42afd"
+                "relatedDocument": "f589945a01814deb8f4a0c714853853c"
               }
             ]
           }

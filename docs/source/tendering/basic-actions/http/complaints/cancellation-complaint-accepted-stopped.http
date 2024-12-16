@@ -48,7 +48,7 @@ Content-Type: application/json
     "dateSubmitted": "2023-10-10T01:00:00+03:00",
     "objections": [
       {
-        "id": "fb0c20c96877401cb053f48df81d3448",
+        "id": "33a6ef887a974fba9dfa34285e5851d0",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "cancellation",
@@ -60,14 +60,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "8c16b6df02ff43a1b0855b3977e96388",
+            "id": "4970a141859f42beae826bd033c28410",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "2837a24cb54647aeb5d454ce8a8098d7",
+            "id": "b901cbec5b4a40759be22fe4c4cfbf4c",
             "description": "test argument"
           }
         ],
@@ -88,7 +88,7 @@ Content-Type: application/json
       {
         "title": "Пояснення до скарги",
         "description": "Була така необхідність",
-        "relatedObjection": "fb0c20c96877401cb053f48df81d3448",
+        "relatedObjection": "33a6ef887a974fba9dfa34285e5851d0",
         "id": "ca38da2c7f064fc9b9c8fb2b68674b3e",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "author": "complaint_owner"

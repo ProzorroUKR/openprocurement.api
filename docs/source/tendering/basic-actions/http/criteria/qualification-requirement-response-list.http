@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e8ac48a7259d4badb25eaebe193c8a4a/qualifications/5e7250d3a3f143eba6e5278524327429/requirement_responses HTTP/1.0
+GET /api/2.5/tenders/e8ac48a7259d4badb25eaebe193c8a4a/qualifications/73f63504520247fa9b86d1bd8882cd4c/requirement_responses HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": [
     {
       "requirement": {
-        "id": "e24e1b05b98145c49f557d3c3a9eec59",
+        "id": "f88fc7d2951a4a3abfb3b5c59874d439",
         "title": "Учасник процедури закупівлі є пов'язаною особою з іншими учасниками та/або з уповноваженою особою (особами), та/або з керівником замовника"
       },
       "evidences": [
@@ -18,14 +18,14 @@ Content-Type: application/json
           "title": "Requirement response",
           "type": "document",
           "relatedDocument": {
-            "id": "a486651eeba943fcbf37de360d534430",
+            "id": "8e181d86dd0a49bb86ba68aecc97b2e5",
             "title": "name.doc"
           },
-          "id": "5b7940f94d40421398e798324e8edb59"
+          "id": "7a73635a42ca4a6aacaddb734bab1723"
         }
       ],
       "value": false,
-      "id": "36ca732bafe842678f0252070c17bf51",
+      "id": "694b2b6e0a7a45a3aca94f5b26db22ed",
       "classification": {
         "scheme": "ESPD211",
         "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
@@ -33,7 +33,7 @@ Content-Type: application/json
     },
     {
       "requirement": {
-        "id": "0573186b14dd41d9ace7685ad2e5825a",
+        "id": "059441eb12d94b8f8ef7c28893c64458",
         "title": "Учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
       },
       "evidences": [
@@ -41,23 +41,23 @@ Content-Type: application/json
           "title": "Requirement response",
           "type": "document",
           "relatedDocument": {
-            "id": "a486651eeba943fcbf37de360d534430",
+            "id": "8e181d86dd0a49bb86ba68aecc97b2e5",
             "title": "name.doc"
           },
-          "id": "bf54f0c345b64aa0b48ec5aa412e7e58"
+          "id": "1b08a274c42444269e92adb28220aab1"
         },
         {
           "title": "Update evidence title",
           "type": "document",
           "relatedDocument": {
-            "id": "a486651eeba943fcbf37de360d534430",
+            "id": "8e181d86dd0a49bb86ba68aecc97b2e5",
             "title": "name.doc"
           },
-          "id": "27e0d3baad06479eafd18b6e6c31e883"
+          "id": "14084d72fe0045878f7af8e8de20796b"
         }
       ],
       "value": false,
-      "id": "b1b79a0f903d4d9db6edab3d629b1ff2",
+      "id": "a8f72759a761470a9caeeb85dc16c4d3",
       "classification": {
         "scheme": "ESPD211",
         "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"

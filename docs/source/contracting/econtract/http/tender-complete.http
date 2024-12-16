@@ -49,7 +49,7 @@ Content-Type: application/json
     "items": [
       {
         "category": "655360-30230000-889652",
-        "id": "a23a71262ac642b88f2fdb69011d74b1",
+        "id": "687e8ce64af241ed9a7df097b8ce713a",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -88,7 +88,7 @@ Content-Type: application/json
       },
       {
         "category": "655360-30230000-889652",
-        "id": "c8f30df33ae14c65b38931d68e63d757",
+        "id": "170e83a4fe9e4594aff8fb4aefb8a303",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -128,7 +128,7 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "8fef845ff65043e4a6e08850d7281304",
+        "id": "8591306226b0478aa8e3344ded0b38ed",
         "description": "Форма випуску",
         "source": "tenderer",
         "classification": {
@@ -149,11 +149,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "2bb03af7cf76484b99b4c72c037a7979",
+            "id": "dea65c53427d451b8f44a8130af05176",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "b22fa1e284974d76995dd722ce93acc5",
+                "id": "dcb542ea21d649bf9cfbe6a0c8a965d6",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -165,7 +165,7 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "ebad8df21c0f4c229c2c328fa743fd81",
+        "id": "bc6eb4a016974b0e8946f006c0cdd209",
         "description": "Доза діючої речовини",
         "source": "tenderer",
         "classification": {
@@ -186,11 +186,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "2dba1bb9612c43a093c8595d28b39d46",
+            "id": "96a8a23a412941f4ba6dc8e97fc6f11a",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "8e2191f53baa43d48a430539f706f403",
+                "id": "0f1a8d4a9518477688ceb44e14457e1f",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -206,7 +206,7 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "699df0e531fb49759f3361aff1292619",
+        "id": "bf027ea2bb9340218fcaae853b811e47",
         "description": "Форма випуску",
         "source": "tenderer",
         "classification": {
@@ -227,11 +227,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "6150d1b30a754972acdad3e93a47bbc2",
+            "id": "ca1ca8888ffb4a9fbae383146d5175e9",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "20a33781df4249738954d69d01ea2572",
+                "id": "f1278d8afa134275bcb6f6a4c62fc05d",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -292,9 +292,9 @@ Content-Type: application/json
         "requirementResponses": [
           {
             "value": "Розчин для інфузій",
-            "id": "d76e055dba434dd9b16abf1a237cefb0",
+            "id": "b8992b957a55498e85864b62927f4c51",
             "requirement": {
-              "id": "b22fa1e284974d76995dd722ce93acc5",
+              "id": "dcb542ea21d649bf9cfbe6a0c8a965d6",
               "title": "Форма випуску"
             },
             "classification": {
@@ -304,9 +304,9 @@ Content-Type: application/json
           },
           {
             "value": 5,
-            "id": "bb9b1efbe22a4e1b841b1c377cc4ece4",
+            "id": "2902331d756f440face59a5e207a53af",
             "requirement": {
-              "id": "8e2191f53baa43d48a430539f706f403",
+              "id": "0f1a8d4a9518477688ceb44e14457e1f",
               "title": "Доза діючої речовини"
             },
             "unit": {
@@ -323,9 +323,9 @@ Content-Type: application/json
               "Відповідь1",
               "Відповідь2"
             ],
-            "id": "6a618d6264e54f90b1d470e6e2f6add8",
+            "id": "ecb183a4818540a09fd9537017c8a6fa",
             "requirement": {
-              "id": "20a33781df4249738954d69d01ea2572",
+              "id": "f1278d8afa134275bcb6f6a4c62fc05d",
               "title": "Форма випуску"
             },
             "classification": {
@@ -337,7 +337,7 @@ Content-Type: application/json
         "status": "active",
         "items": [
           {
-            "id": "a23a71262ac642b88f2fdb69011d74b1",
+            "id": "687e8ce64af241ed9a7df097b8ce713a",
             "description": "Комп’ютерне обладнання для біда",
             "unit": {
               "name": "кг",
@@ -351,7 +351,7 @@ Content-Type: application/json
             "quantity": 10.0
           },
           {
-            "id": "c8f30df33ae14c65b38931d68e63d757",
+            "id": "170e83a4fe9e4594aff8fb4aefb8a303",
             "description": "Комп’ютерне обладнання",
             "unit": {
               "name": "кг",
@@ -408,7 +408,7 @@ Content-Type: application/json
           {
             "confidentiality": "public",
             "documentType": "notice",
-            "id": "9a93a788d7c54ac6aa165e8a8ec91fc2",
+            "id": "44cdb75275a440608f43ec27e838fdfa",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
@@ -423,7 +423,7 @@ Content-Type: application/json
         "qualified": true
       },
       {
-        "id": "d34b1b53a7dd43c3ac6bdc6a932ebe54",
+        "id": "bd5424320e624bad831a616d0a701243",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {

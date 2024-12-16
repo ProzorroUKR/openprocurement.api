@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "361b64c9a53f473788bac3b7b70412d1",
+        "id": "097876a4ccce409e85ad30246cb689af",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -105,7 +105,7 @@ Content-Type: application/json
         "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
       },
       {
-        "id": "0aa2894f618e473da868f162a5d0322c",
+        "id": "aede98af4b7147d7a7192ee112cd0ade",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -148,7 +148,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "361b64c9a53f473788bac3b7b70412d1",
+        "id": "097876a4ccce409e85ad30246cb689af",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",

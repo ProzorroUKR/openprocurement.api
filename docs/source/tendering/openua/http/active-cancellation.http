@@ -18,7 +18,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "description": "Changed description",
-        "id": "277b61d87d654592b7f7d7e8c026308c",
+        "id": "f6cd266b5bce4b4181f7f8ed2c6dd12f",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -31,7 +31,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "description": "Changed description",
-        "id": "277b61d87d654592b7f7d7e8c026308c",
+        "id": "f6cd266b5bce4b4181f7f8ed2c6dd12f",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e8ac48a7259d4badb25eaebe193c8a4a/qualifications/5e7250d3a3f143eba6e5278524327429?acc_token=289610ea5a9b448e9b44db767a3ca67f HTTP/1.0
+PATCH /api/2.5/tenders/e8ac48a7259d4badb25eaebe193c8a4a/qualifications/73f63504520247fa9b86d1bd8882cd4c?acc_token=289610ea5a9b448e9b44db767a3ca67f HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,13 +8,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "e24e1b05b98145c49f557d3c3a9eec59"
+          "id": "f88fc7d2951a4a3abfb3b5c59874d439"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "a486651eeba943fcbf37de360d534430",
+              "id": "8e181d86dd0a49bb86ba68aecc97b2e5",
               "title": "name.doc"
             },
             "type": "document"
@@ -35,7 +35,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "e24e1b05b98145c49f557d3c3a9eec59",
+          "id": "f88fc7d2951a4a3abfb3b5c59874d439",
           "title": "Учасник процедури закупівлі є пов'язаною особою з іншими учасниками та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
@@ -43,29 +43,29 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "a486651eeba943fcbf37de360d534430",
+              "id": "8e181d86dd0a49bb86ba68aecc97b2e5",
               "title": "name.doc"
             },
-            "id": "8667253cfea349bfaa7dcb5079fb48c0"
+            "id": "cefb5f80b27a458487c8f81aca43dfe3"
           }
         ],
         "value": true,
-        "id": "3cafbf924b9c48e9b2001bc17eb14d3b",
+        "id": "4ebd6a38309840eeb65b0837a705dcf3",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
         }
       }
     ],
-    "id": "5e7250d3a3f143eba6e5278524327429",
+    "id": "73f63504520247fa9b86d1bd8882cd4c",
     "bidID": "1e5a862911ab40f98c27427d3a3c1320",
-    "lotID": "290d1c910a734651b728c7f3f4eac72a",
+    "lotID": "5ed94a370bd64d5cadece97b771c5b9e",
     "status": "pending",
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "a486651eeba943fcbf37de360d534430",
+        "id": "8e181d86dd0a49bb86ba68aecc97b2e5",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
