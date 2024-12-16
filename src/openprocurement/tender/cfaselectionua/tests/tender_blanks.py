@@ -603,13 +603,13 @@ def switch_tender_to_draft_pending(self):
     create_tender_draft(self)
 
     with (
-        patch(
+        mock.patch(
             "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_agreement_by_id",
-            Mock(return_value=agreement_test_data),
+            mock.Mock(return_value=agreement_test_data),
         ),
-        patch(
+        mock.patch(
             "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_tender_by_id",
-            Mock(return_value=cfaua_tender_without_criteria_test_data),
+            mock.Mock(return_value=cfaua_tender_without_criteria_test_data),
         ),
     ):
         response = self.app.patch_json(
@@ -634,13 +634,13 @@ def switch_tender_to_draft_pending(self):
     invalid_guarantee_criterion["title"] = "changed title"
 
     with (
-        patch(
+        mock.patch(
             "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_agreement_by_id",
-            Mock(return_value=agreement_test_data),
+            mock.Mock(return_value=agreement_test_data),
         ),
-        patch(
+        mock.patch(
             "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_tender_by_id",
-            Mock(return_value=cfaua_tender_test_data),
+            mock.Mock(return_value=cfaua_tender_test_data),
         ),
     ):
         response = self.app.patch_json(
@@ -662,13 +662,13 @@ def switch_tender_to_draft_pending(self):
         )
 
     with (
-        patch(
+        mock.patch(
             "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_agreement_by_id",
-            Mock(return_value=agreement_test_data),
+            mock.Mock(return_value=agreement_test_data),
         ),
-        patch(
+        mock.patch(
             "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_tender_by_id",
-            Mock(return_value=cfaua_tender_test_data),
+            mock.Mock(return_value=cfaua_tender_test_data),
         ),
     ):
         response = self.app.patch_json(
