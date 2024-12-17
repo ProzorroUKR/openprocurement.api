@@ -246,7 +246,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       ],
       "requirementGroups": [
         {
-          "description": "При відсутності заборгованності підтверджується, що",
+          "description": "При відсутності заборгованості підтверджується, що",
           "requirements": [
             {
               "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)",
@@ -895,7 +895,7 @@ Content-Type: application/json
       "requirementGroups": [
         {
           "id": "ecf9aa4541c048aab3cb5b2226c39bce",
-          "description": "При відсутності заборгованності підтверджується, що",
+          "description": "При відсутності заборгованості підтверджується, що",
           "requirements": [
             {
               "id": "f859723104b446d7b0ed987b12e842ed",

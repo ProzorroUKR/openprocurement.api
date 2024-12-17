@@ -34,7 +34,10 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.criteria_utils import (
+    add_criteria,
+    generate_guarantee_criterion_responses,
+)
 from openprocurement.tender.core.tests.utils import (
     activate_contract,
     change_auth,
@@ -3824,14 +3827,17 @@ def activate_bid_guarantee_multilot(self):
         ],
     )
 
-    lot_rr = [
-        {
-            "requirement": {
-                "id": winner_req["id"],
-            },
-            "value": True,
-        }
-    ]
+    if winner_criteria["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
+        lot_rr = generate_guarantee_criterion_responses(winner_criteria)
+    else:
+        lot_rr = [
+            {
+                "requirement": {
+                    "id": winner_req["id"],
+                },
+                "value": True,
+            }
+        ]
     self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
         {"data": lot_rr},

@@ -50,6 +50,35 @@ def add_criteria(self, tender_id=None, tender_token=None, criteria=test_exclusio
         assert response.status == "201 Created"
 
 
+def generate_guarantee_criterion_responses(criterion):
+    return [
+        {
+            "requirement": {
+                "id": criterion["requirementGroups"][0]["requirements"][0]["id"],
+            },
+            "value": 4.0,
+        },
+        {
+            "requirement": {
+                "id": criterion["requirementGroups"][0]["requirements"][1]["id"],
+            },
+            "value": 6,
+        },
+        {
+            "requirement": {
+                "id": criterion["requirementGroups"][0]["requirements"][2]["id"],
+            },
+            "value": True,
+        },
+        {
+            "requirement": {
+                "id": criterion["requirementGroups"][0]["requirements"][3]["id"],
+            },
+            "values": ["Гарантія фінансової установи"],
+        },
+    ]
+
+
 def generate_responses(self, tender_id=None):
     app = self if isinstance(self, TestApp) else self.app
     if not tender_id:
@@ -63,14 +92,18 @@ def generate_responses(self, tender_id=None):
     rrs = []
     if get_now() > RELEASE_ECRITERIA_ARTICLE_17:
         for criterion in tender.get("criteria", []):
-            for req in criterion["requirementGroups"][0]["requirements"]:
-                if criterion["source"] in ("tenderer", "winner"):
-                    rrs.append(
-                        {
-                            "requirement": {
-                                "id": req["id"],
+            if criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
+                guarantee_responses = generate_guarantee_criterion_responses(criterion)
+                rrs.extend(guarantee_responses)
+            else:
+                for req in criterion["requirementGroups"][0]["requirements"]:
+                    if criterion["source"] in ("tenderer", "winner"):
+                        rrs.append(
+                            {
+                                "requirement": {
+                                    "id": req["id"],
+                                },
+                                "value": True,
                             },
-                            "value": True,
-                        },
-                    )
+                        )
     return rrs
