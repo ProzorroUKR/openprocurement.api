@@ -62,6 +62,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     update_tender_rr_evidence_id,
 )
 from openprocurement.tender.core.tests.base import test_language_criteria
+from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.openeu.tests.bid import (
     CreateBidMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
@@ -125,14 +126,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
             "requirementGroups"
         ][0]["requirements"][0]
 
-        self.rr_data = [
-            {
-                "requirement": {
-                    "id": requirement["id"],
-                },
-                "value": True,
-            }
-        ]
+        self.rr_data = generate_responses(self)
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(

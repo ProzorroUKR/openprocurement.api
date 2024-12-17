@@ -637,35 +637,85 @@ Content-Type: application/json
       },
       {
         "id": "172e8c6baf874618ae495c10e8e94fcf",
+        "description": "Забезпечення виконання договору про закупівлю повертається: 1) після виконання переможцем процедури закупівлі/спрощеної закупівлі договору про закупівлю; 2) за рішенням суду щодо повернення забезпечення договору у випадку визнання результатів процедури закупівлі/спрощеної закупівлі недійсними або договору про закупівлю нікчемним; 3) у випадках, передбачених статтею 43 цього Закону; 4) згідно з умовами, зазначеними в договорі про закупівлю, але не пізніше ніж протягом п’яти банківських днів з дня настання зазначених обставин",
         "source": "winner",
         "relatesTo": "tenderer",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
         },
-        "title": "Забезпечення виконання договору",
+        "title": "Забезпечення виконання договору про закупівлю",
         "legislation": [
+          {
+            "version": "2024-10-23",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "22.2.16"
+          },
           {
             "version": "2020-04-19",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1483"
             },
-            "type": "NATIONAL_LEGISLATION"
+            "type": "NATIONAL_LEGISLATION",
+            "article": "27"
           }
         ],
         "requirementGroups": [
           {
             "id": "446206033420419b82b7bdaaedbe4216",
-            "description": "Учасник підтверджує, що",
+            "description": "При наданні забезпечення підтверджується, що",
             "requirements": [
               {
                 "id": "7854e163ae3247358d0a3235b6e81816",
+                "title": "Сума забезпечення виконання Договору про закупівлю становить % від ціни цього Договору про закупівлю",
+                "dataType": "number",
+                "status": "active",
+                "unit": {
+                  "code": "P1",
+                  "name": "відсоток"
+                },
+                "minValue": 0.0,
+                "maxValue": 5.0,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "id": "986b5d60b9e64014bd150ad1ceed7a05",
+                "title": "Строк дії гарантії перевищує строк дії Договору про закупівлю на",
+                "dataType": "integer",
+                "status": "active",
+                "unit": {
+                  "code": "DAY",
+                  "name": "день"
+                },
+                "minValue": 5,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "id": "26a1344b647948e2b2a1c9d7c6df5b21",
                 "title": "Розмір та умови надання забезпечення виконання договору про закупівлю",
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "id": "022ada3bfdf7460181c95f6c66a4a058",
+                "title": "Форма забезпечення",
+                "dataType": "string",
+                "status": "active",
+                "expectedValues": [
+                  "Гарантія фінансової установи",
+                  "Іншій формі"
+                ],
+                "expectedMinItems": 1,
+                "expectedMaxItems": 1,
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]

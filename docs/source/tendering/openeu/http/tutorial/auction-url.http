@@ -289,7 +289,7 @@ Content-Type: application/json
         "requirementGroups": [
           {
             "id": "35d4f52b2d494ef4953cfbf63c05c64e",
-            "description": "При відсутності заборгованності підтверджується, що",
+            "description": "При відсутності заборгованості підтверджується, що",
             "requirements": [
               {
                 "id": "8c86881fc5434798a56d921a62efd4d2",
