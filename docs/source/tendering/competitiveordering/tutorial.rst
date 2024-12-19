@@ -148,3 +148,17 @@ then cancellation will automatically update status to `active` and tender is bei
 
 .. http:example:: http/pending-cancellation.http
    :code:
+
+
+Confirming qualification
+------------------------
+
+Qualification comission can set award to `active` or `unsuccessful` status.
+
+There are validations before registering qualification decision:
+
+* `qualified: True` - for setting award from `pending` to `active`
+
+* `qualified: False` - for setting award from `pending` to `unsuccessful`
+
+As `competitiveOrdering` doesn't have ARTICLE 17 criteria, it is forbidden to set field `eligible` for award.

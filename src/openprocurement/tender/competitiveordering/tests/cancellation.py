@@ -1,6 +1,9 @@
 import unittest
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_lots,
@@ -57,6 +60,10 @@ class TenderAwardsCancellationResourceTestMixin:
     test_create_cancellation_in_award_complaint_period = snitch(create_cancellation_in_award_complaint_period)
 
 
+@patch(
+    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    get_now() + timedelta(days=1),
+)
 class TenderCancellationResourceTest(
     BaseTenderUAContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
@@ -91,6 +98,10 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
     test_create_lot_cancellation_with_tender_cancellation = snitch(create_lot_cancellation_with_tender_cancellation)
 
 
+@patch(
+    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    get_now() + timedelta(days=1),
+)
 class TenderAwardsCancellationResourceTest(BaseTenderUAContentWebTest, TenderAwardsCancellationResourceTestMixin):
     initial_lots = 2 * test_tender_below_lots
     initial_status = "active.auction"
@@ -100,6 +111,10 @@ class TenderAwardsCancellationResourceTest(BaseTenderUAContentWebTest, TenderAwa
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
 
 
+@patch(
+    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    get_now() + timedelta(days=1),
+)
 class TenderLotsCancellationQualificationResourceTest(BaseTenderUAContentWebTest):
     initial_lots = 2 * test_tender_below_lots
     initial_status = "active.auction"

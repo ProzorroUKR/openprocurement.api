@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
@@ -92,6 +95,10 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_get_ocds_schema = snitch(get_ocds_schema)
 
 
+@patch(
+    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    get_now() + timedelta(days=1),
+)
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots

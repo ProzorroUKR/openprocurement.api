@@ -518,7 +518,7 @@ class TenderResourceTest(
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={owner_token}',
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            {"data": {"status": "active", "qualified": True}},
             status=200,
         )
 

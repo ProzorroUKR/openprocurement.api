@@ -18,9 +18,9 @@ class Award(BaseAward):
     items = ListType(ModelType(Item, required=True))
     eligible = BooleanType()
 
-    def validate_eligible(self, data, eligible):
-        if data["status"] == "active" and not eligible:
-            raise ValidationError("Can't update award to active status with not eligible")
+    def validate_qualified(self, data, qualified):
+        if data["status"] == "active" and not qualified:
+            raise ValidationError("Can't update award to active status with not qualified")
 
 
 class PatchAward(BasePatchAward):

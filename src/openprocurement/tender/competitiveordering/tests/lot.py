@@ -167,6 +167,10 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
     get_now() + timedelta(days=1),
 )
+@mock.patch(
+    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    get_now() + timedelta(days=1),
+)
 class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
     initial_data = test_tender_co_data
 

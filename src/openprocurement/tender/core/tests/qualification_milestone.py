@@ -546,7 +546,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         self.assertEqual(milestone["description"], ALP_MILESTONE_REASONS[0])
 
         # try to change award status
-        if procurement_method_type in ("belowThreshold", "simple.defense"):
+        if procurement_method_type in ("belowThreshold", "simple.defense", "competitiveOrdering"):
             unsuccessful_data = {"status": "unsuccessful", "qualified": False}
         else:
             unsuccessful_data = {"status": "unsuccessful", "qualified": False, "eligible": False}

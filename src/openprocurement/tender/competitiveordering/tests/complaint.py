@@ -202,7 +202,7 @@ class TenderQualificationComplaintObjectionMixin:
         for qualification in qualifications:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}/qualifications/{qualification['id']}?acc_token={self.tender_token}",
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
@@ -274,7 +274,7 @@ class TenderAwardComplaintObjectionMixin:
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(
                 f"/tenders/{self.tender_id}/awards/{self.award_id}",
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
 
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):

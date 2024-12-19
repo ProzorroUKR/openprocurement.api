@@ -4593,18 +4593,18 @@ def qualified_eligible_awards(self):
     )
 
     # successful activation
-    response = self.app.patch_json(
+    self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
 
     # cancel the winner
-    response = self.app.patch_json(
+    self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
         {"data": {"status": "cancelled"}},
     )
 
-    # set award to unsuccesssful status without qualified or eligible False
+    # set award to unsuccessful status without qualified or eligible False
     new_award = self.app.get(f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}").json["data"][-1]
     new_award_id = new_award["id"]
     self.assertEqual(new_award["status"], "pending")
@@ -4621,32 +4621,32 @@ def qualified_eligible_awards(self):
         ["Can't update award to unsuccessful status when qualified/eligible isn't set to False"],
     )
 
-    response = self.app.patch_json(
+    self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
         {"data": {"status": "unsuccessful", "eligible": False}},
         status=422,
     )
 
-    response = self.app.patch_json(
+    self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
         {"data": {"status": "unsuccessful", "qualified": False}},
         status=422,
     )
 
-    response = self.app.patch_json(
+    self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
         {"data": {"status": "unsuccessful", "eligible": True}},
         status=422,
     )
 
-    response = self.app.patch_json(
+    self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
         {"data": {"status": "unsuccessful", "qualified": True}},
         status=422,
     )
 
     # successful setting unsuccessful
-    response = self.app.patch_json(
+    self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{new_award_id}?acc_token={self.tender_token}",
         {"data": {"status": "unsuccessful", "qualified": False, "eligible": True}},
     )
