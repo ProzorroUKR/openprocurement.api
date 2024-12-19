@@ -3627,7 +3627,15 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         tech_criteria[0]["relatedItem"] = items[1]["id"]
 
-        with open(TARGET_DIR + 'techfeatures/create-tech-criteria-success.http', 'w') as self.app.file_obj:
+        with patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_category",
+            Mock(return_value=category),
+        ), patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(return_value=profile),
+        ), open(
+            TARGET_DIR + 'techfeatures/create-tech-criteria-success.http', 'w'
+        ) as self.app.file_obj:
             response = self.app.post_json(
                 f'/tenders/{tender_id}/criteria?acc_token={tender_token}',
                 {'data': tech_criteria},

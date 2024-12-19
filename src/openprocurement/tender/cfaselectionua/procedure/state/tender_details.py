@@ -155,6 +155,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                             )
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
             self._validate_criterion_uniq(after.get("criteria", []))
+        if before.get("criteria") != after.get("criteria"):
+            self.validate_criteria_requirement_from_market(after.get("criteria", []))
         self.validate_docs(after, before)
         self.always(after)
 

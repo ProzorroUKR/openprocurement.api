@@ -1347,6 +1347,10 @@ def put_rg_requirement_valid(self):
     #     self.assertNotEqual(put_exclusion_ignore_data.get(field), response.json["data"][4].get(field))
 
 
+@patch(
+    "openprocurement.tender.core.procedure.criteria.NEW_REQUIREMENTS_RULES_FROM",
+    (get_now() + timedelta(days=1)),
+)
 def put_rg_requirement_valid_value_change(self):
     post_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}"
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
@@ -2140,6 +2144,14 @@ def lcc_criterion_invalid(self):
     "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
     Mock(return_value={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []}),
 )
+@patch(
+    "openprocurement.tender.core.procedure.criteria.get_tender_category",
+    Mock(return_value={"id": "1" * 32, "criteria": []}),
+)
+@patch(
+    "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+    Mock(return_value={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []}),
+)
 def tech_feature_criterion(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
@@ -2222,3 +2234,544 @@ def tech_feature_criterion(self):
     self.assertNotIn("profile", response.json["data"]["items"][1])
     criterion_req = response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
     self.assertEqual(criterion_req["status"], "cancelled")
+
+
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+    Mock(return_value={"id": "0" * 32, "criteria": []}),
+)
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+    Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": []}),
+)
+def criterion_from_market_profile(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    items = tender["items"]
+    tech_item = items[0].copy()
+    tech_item["profile"] = "1" * 32
+    tech_item["category"] = "0" * 32
+
+    del tech_item["id"]
+    items.append(tech_item)
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    items = response.json["data"]["items"]
+
+    criteria_data = deepcopy(test_tech_feature_criteria)
+    criteria_data[0]["relatedItem"] = items[1]["id"]
+
+    market_tech_feature = deepcopy(test_tech_feature_criteria)
+    market_tech_feature[0]["requirementGroups"] = [
+        {
+            "description": "Діагоніль екрану",
+            "requirements": [
+                {"title": "Мова тендерної пропозиції українська", "dataType": "integer", "expectedValue": 15}
+            ],
+        }
+    ]
+
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": []}),
+    ), patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
+    ):
+        # expectedValue in profile requirements != expectedValue in tender requirement
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'expectedValue' for 'Мова тендерної пропозиції українська' should be equal "
+                    "in tender and market requirement",
+                },
+            ],
+        )
+
+    market_tech_feature[0]["requirementGroups"] = [
+        {
+            "description": "Діагоніль екрану",
+            "requirements": [{"title": "Мова тендерної пропозиції", "dataType": "integer", "expectedValue": 10}],
+        }
+    ]
+
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": []}),
+    ), patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
+    ):
+        # title in profile requirements != title in tender requirement
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES "
+                    "there are requirements that don't exist in profile or archived: {'Мова тендерної пропозиції українська'}",
+                },
+            ],
+        )
+
+        # dataType in profile requirements != dataType in tender requirement
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["title"] = "Мова тендерної пропозиції"
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "number"
+
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'dataType' for 'Мова тендерної пропозиції' should be equal in tender and market requirement",
+                },
+            ],
+        )
+
+        # no expectedValue in tender requirement
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "integer"
+        del criteria_data[0]["requirementGroups"][0]["requirements"][0]["expectedValue"]
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["minValue"] = 0
+
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'expectedValue' for 'Мова тендерної пропозиції' should be equal in tender and market requirement",
+                },
+            ],
+        )
+
+    market_tech_feature[0]["requirementGroups"][0]["requirements"].append(
+        {
+            "title": "Req 2",
+            "dataType": "string",
+            "expectedValues": ["value1", "value2"],
+            "expectedMinItems": 1,
+            "expectedMaxItems": 2,
+        }
+    )
+
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": []}),
+    ), patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
+    ):
+        # title in profile requirements != title in tender requirement
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES lacks requirements from profile {'Req 2'}",
+                },
+            ],
+        )
+
+        # no expectedValue in tender requirement
+        del criteria_data[0]["requirementGroups"][0]["requirements"][0]["minValue"]
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = 10
+        criteria_data[0]["requirementGroups"][0]["requirements"].append(
+            {
+                "title": "Req 2",
+                "dataType": "string",
+                "expectedValues": ["value1", "value3"],
+                "expectedMinItems": 1,
+                "expectedMaxItems": 2,
+            }
+        )
+
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'expectedValues' for 'Req 2' should be equal in tender and market requirement",
+                },
+            ],
+        )
+
+        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedValues"] = ["value1", "value2"]
+        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMaxItems"] = 1
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement",
+                },
+            ],
+        )
+
+        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMaxItems"] = 2
+        criteria_data[0]["requirementGroups"][0]["requirements"].append(
+            {
+                "title": "Req 3",
+                "dataType": "number",
+                "minValue": 1,
+            }
+        )
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES there are "
+                    "requirements that don't exist in profile or archived: {'Req 3'}",
+                },
+            ],
+        )
+        criteria_data[0]["requirementGroups"][0]["requirements"] = criteria_data[0]["requirementGroups"][0][
+            "requirements"
+        ][:-1]
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+        )
+        criterion_id = response.json["data"][0]["id"]
+        req_group_id = response.json["data"][0]["requirementGroups"][0]["id"]
+        req_id = response.json["data"][0]["requirementGroups"][0]["requirements"][-1]["id"]
+
+        # try to patch requirement via requirements endpoint
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{criterion_id}/requirement_groups/{req_group_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedMaxItems": 1}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement",
+                },
+            ],
+        )
+
+        # try to patch criteria via tender endpoint
+        response = self.app.get(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+        )
+
+        tender_criteria = response.json["data"]
+        tender_criteria[0]["requirementGroups"][0]["requirements"][-1]["expectedValues"] = ["value 4", "value 5"]
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"criteria": tender_criteria}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'expectedValues' for 'Req 2' should be equal in tender and market requirement",
+                },
+            ],
+        )
+
+
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+    Mock(return_value={"id": "0" * 32, "criteria": []}),
+)
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+    Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": []}),
+)
+def criterion_from_market_category(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    items = tender["items"]
+    tech_item = items[0].copy()
+    tech_item["profile"] = "1" * 32
+    tech_item["category"] = "0" * 32
+
+    del tech_item["id"]
+    items.append(tech_item)
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    items = response.json["data"]["items"]
+
+    criteria_data = deepcopy(test_tech_feature_criteria)
+    criteria_data[0]["relatedItem"] = items[1]["id"]
+
+    market_tech_feature = deepcopy(test_tech_feature_criteria)
+    market_tech_feature[0]["requirementGroups"] = [
+        {
+            "description": "Діагоніль екрану",
+            "requirements": [{"title": "Мова тендерної пропозиції", "dataType": "integer", "expectedValue": 10}],
+        }
+    ]
+
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+    ), patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
+    ):
+        # title in category requirements != title in tender requirement
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data[0]},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES "
+                    "there are requirements that don't exist in category or archived: {'Мова тендерної пропозиції українська'}",
+                },
+            ],
+        )
+
+        # dataType in category requirements != dataType in tender requirement
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["title"] = "Мова тендерної пропозиції"
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "number"
+
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'dataType' for 'Мова тендерної пропозиції' should be equal in tender and market requirement",
+                },
+            ],
+        )
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "integer"
+
+    market_tech_feature[0]["requirementGroups"][0]["requirements"].append(
+        {
+            "title": "Req 2",
+            "dataType": "string",
+            "expectedValues": ["value1", "value2"],
+            "expectedMinItems": 1,
+            "expectedMaxItems": 2,
+        }
+    )
+
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+    ), patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
+    ):
+
+        # no expectedValue in tender requirement
+        criteria_data[0]["requirementGroups"][0]["requirements"].append(
+            {
+                "title": "Req 2",
+                "dataType": "string",
+                "expectedValues": ["value1", "value3"],
+                "expectedMinItems": 1,
+                "expectedMaxItems": 2,
+            }
+        )
+
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Requirement 'Req 2' expectedValues should have values from category requirement",
+                },
+            ],
+        )
+
+        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedValues"] = ["value1", "value2"]
+        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMaxItems"] = 1
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement",
+                },
+            ],
+        )
+
+        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMaxItems"] = 2
+        criteria_data[0]["requirementGroups"][0]["requirements"].append(
+            {
+                "title": "Req 3",
+                "dataType": "number",
+                "minValue": 1,
+            }
+        )
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES there are "
+                    "requirements that don't exist in category or archived: {'Req 3'}",
+                },
+            ],
+        )
+
+    market_tech_feature[0]["requirementGroups"][0]["requirements"].append(
+        {
+            "title": "Req 3",
+            "dataType": "number",
+            "minValue": 0,
+        }
+    )
+
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+    ), patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
+    ):
+        # not all requirements from category should be in tender
+        criteria_data[0]["requirementGroups"][0]["requirements"] = criteria_data[0]["requirementGroups"][0][
+            "requirements"
+        ][:-1]
+        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMinItems"] = 0
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data},
+        )
+
+        # try to patch requirement via requirementGroups endpoint
+        criterion_id = response.json["data"][0]["id"]
+        req_group_id = response.json["data"][0]["requirementGroups"][0]["id"]
+        req_data = {
+            "title": "Req 3",
+            "dataType": "integer",
+            "minValue": 0,
+        }
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{criterion_id}/requirement_groups/{req_group_id}?acc_token={self.tender_token}",
+            {"data": {"requirements": [req_data]}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'dataType' for 'Req 3' should be equal in tender and market requirement",
+                },
+            ],
+        )
+
+        # try to post new requirement via requirements endpoint
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria/{criterion_id}/requirement_groups/{req_group_id}/requirements?acc_token={self.tender_token}",
+            {"data": req_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Field 'dataType' for 'Req 3' should be equal in tender and market requirement",
+                },
+            ],
+        )
+
+        req_data["dataType"] = "number"
+        self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria/{criterion_id}/requirement_groups/{req_group_id}/requirements?acc_token={self.tender_token}",
+            {"data": req_data},
+        )

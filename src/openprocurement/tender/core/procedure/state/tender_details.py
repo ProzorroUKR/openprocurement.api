@@ -223,6 +223,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_change_item_profile_or_category(tender, {})
         self.validate_contract_template_name(tender, {})
         self.validate_criteria_requirements_rules(tender.get("criteria", []))
+        self.validate_criteria_requirement_from_market(tender.get("criteria", []))
         super().on_post(tender)
 
         # set author for documents passed with tender data
@@ -280,6 +281,7 @@ class TenderDetailsMixing(TenderConfigMixin):
             self._validate_criterion_uniq(after.get("criteria", []))
         if before.get("criteria") != after.get("criteria"):
             self.validate_criteria_requirements_rules(after.get("criteria", []))
+            self.validate_criteria_requirement_from_market(after.get("criteria", []))
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
         self.validate_change_item_profile_or_category(after, before)
