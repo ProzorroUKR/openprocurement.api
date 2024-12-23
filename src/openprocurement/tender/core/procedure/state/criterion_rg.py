@@ -4,7 +4,7 @@ from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.models.criterion import (
     ReqStatuses,
     validate_criteria_requirement_uniq,
-    validate_requirement,
+    validate_requirement_eligibleEvidences,
 )
 from openprocurement.tender.core.procedure.state.criterion import (
     BaseCriterionStateMixin,
@@ -65,7 +65,7 @@ class RequirementGroupStateMixin(BaseCriterionStateMixin):
         criterion = self.request.validated["criterion"]
         for req in data.get("requirements", ""):
             try:
-                validate_requirement(criterion, req)
+                validate_requirement_eligibleEvidences(criterion, req)
             except ValidationError as e:
                 self.request.errors.status = 422
                 self.request.errors.add("body", "requirements", e.messages)

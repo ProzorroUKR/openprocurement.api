@@ -451,7 +451,7 @@ class Criterion(ValidateIdMixing, BaseCriterion):
             if not requirements:
                 return
             for requirement in requirements:
-                validate_requirement(data, requirement)
+                validate_requirement_eligibleEvidences(data, requirement)
 
     def validate_legislation(self, data, value):
         if data.get("classification", {}).get("id") != "CRITERION.OTHER.CONTRACT.GUARANTEE":
@@ -489,40 +489,6 @@ def validate_criteria_requirement_uniq(criteria, *_) -> None:
                 ]
                 if len(set(req_titles)) != len(req_titles):
                     raise ValidationError("Requirement title should be uniq for one requirementGroup")
-
-
-# TODO: should to write on this cases for work with requirement and requirement_groups
-def validate_requirement(criterion: dict, requirement: dict) -> None:
-    validate_requirement_dataType(criterion, requirement)
-    validate_requirement_expectedValue(criterion, requirement)
-    validate_requirement_eligibleEvidences(criterion, requirement)
-
-
-def validate_requirement_dataType(criterion: dict, requirement: dict) -> None:
-    classification = criterion.get("classification")
-    if (
-        classification
-        and classification.get("id")
-        and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE")
-        and requirement.get("dataType") != "boolean"
-    ):
-        raise ValidationError([{"dataType": ["dataType must be boolean"]}])
-
-
-def validate_requirement_expectedValue(criterion: dict, requirement: dict) -> None:
-    valid_value = False
-    expected_value = requirement.get("expectedValue")
-    if expected_value:
-        valid_value = validate_value_type(expected_value, requirement["dataType"])
-
-    classification = criterion.get("classification")
-    if (
-        classification
-        and classification["id"]
-        and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE")
-        and valid_value is not True
-    ):
-        raise ValidationError([{"expectedValue": ["Value must be true"]}])
 
 
 def validate_requirement_eligibleEvidences(criterion: dict, requirement: dict) -> None:

@@ -16,7 +16,7 @@ from openprocurement.tender.core.procedure.models.criterion import (
     PatchTechnicalFeatureRequirement,
     ReqStatuses,
     validate_criteria_requirement_uniq,
-    validate_requirement,
+    validate_requirement_eligibleEvidences,
 )
 from openprocurement.tender.core.procedure.state.criterion import (
     BaseCriterionStateMixin,
@@ -126,7 +126,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     @validation_error_handler
     def _validate_requirement_data(self, data: dict) -> None:
         criterion = self.request.validated["criterion"]
-        validate_requirement(criterion, data)
+        validate_requirement_eligibleEvidences(criterion, data)
 
     def validate_patch_requirement_values(self, before: dict, after: dict) -> None:
         value_fields = ("expectedValue", "expectedValues", "minValue", "maxValue")

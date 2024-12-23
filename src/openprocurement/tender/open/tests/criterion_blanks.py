@@ -234,44 +234,6 @@ def create_tender_criteria_invalid(self):
     )
 
     lang_criterion = deepcopy(test_language_criteria)
-    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = False
-    response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "requirementGroups",
-                "description": [
-                    {
-                        "expectedValue": ["Value must be true"],
-                    }
-                ],
-            }
-        ],
-    )
-
-    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = True
-    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "string"
-    response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                'location': 'body',
-                'name': 'requirementGroups',
-                'description': [{"dataType": ["dataType must be boolean"]}],
-            }
-        ],
-    )
-
-    lang_criterion[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "boolean"
     lang_criterion[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"] = [
         {"description": "Довідка в довільній формі", "type": "document", "title": "Документальне підтвердження"}
     ]
