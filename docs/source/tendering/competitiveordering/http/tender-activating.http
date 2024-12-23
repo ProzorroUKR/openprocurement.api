@@ -559,35 +559,39 @@ Content-Type: application/json
       },
       {
         "id": "a07ae43c06a34cd2be0f609c637411eb",
+        "description": "Мова (мови), якою (якими) повинні бути складені тендерні пропозиції",
         "source": "tenderer",
-        "relatesTo": "tenderer",
+        "relatesTo": "tender",
         "classification": {
-          "scheme": " ESPD211",
+          "scheme": "ESPD211",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
-        "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
+        "title": "Мова (мови) тендерної пропозиції",
         "legislation": [
           {
-            "version": "2020-04-19",
+            "version": "2024-10-23",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
             },
-            "type": "NATIONAL_LEGISLATION"
+            "type": "NATIONAL_LEGISLATION",
+            "article": "22.2.13"
           }
         ],
         "requirementGroups": [
           {
             "id": "8f8968a3257b40e8895e5991f67d72b4",
-            "description": "Учасник фізична особа підтверджує, що",
+            "description": "Підтверджується, що",
             "requirements": [
               {
                 "id": "56305e32abe94dbab81bfe9b54369c29",
-                "title": "Мова тендерної пропозиції українська",
-                "dataType": "boolean",
+                "title": "Мова тендерної пропозиції",
+                "dataType": "string",
                 "status": "active",
-                "expectedValue": true,
+                "expectedValues": [
+                  "Українська"
+                ],
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]

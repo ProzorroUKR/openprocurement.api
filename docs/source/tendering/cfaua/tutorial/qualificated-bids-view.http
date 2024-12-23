@@ -131,14 +131,16 @@ Content-Type: application/json
           }
         },
         {
-          "value": true,
+          "values": [
+            "Українська"
+          ],
           "id": "cf7e9e8e826247f09cd10daa76f53a3d",
           "requirement": {
             "id": "8a40f068327d4771a633d9b665e1b2d8",
-            "title": "Мова тендерної пропозиції українська"
+            "title": "Мова тендерної пропозиції"
           },
           "classification": {
-            "scheme": " ESPD211",
+            "scheme": "ESPD211",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           }
         }
@@ -367,14 +369,16 @@ Content-Type: application/json
           }
         },
         {
-          "value": true,
+          "values": [
+            "Українська"
+          ],
           "id": "137217912e04464d914aa1986ded932c",
           "requirement": {
             "id": "8a40f068327d4771a633d9b665e1b2d8",
-            "title": "Мова тендерної пропозиції українська"
+            "title": "Мова тендерної пропозиції"
           },
           "classification": {
-            "scheme": " ESPD211",
+            "scheme": "ESPD211",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           }
         }
@@ -550,14 +554,16 @@ Content-Type: application/json
           }
         },
         {
-          "value": true,
+          "values": [
+            "Українська"
+          ],
           "id": "030d5ad9d21f4172b98cf4e3987f6698",
           "requirement": {
             "id": "8a40f068327d4771a633d9b665e1b2d8",
-            "title": "Мова тендерної пропозиції українська"
+            "title": "Мова тендерної пропозиції"
           },
           "classification": {
-            "scheme": " ESPD211",
+            "scheme": "ESPD211",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           }
         }
@@ -772,14 +778,16 @@ Content-Type: application/json
           }
         },
         {
-          "value": true,
+          "values": [
+            "Українська"
+          ],
           "id": "1357ac149ed84b0bb1f971d959bab7d2",
           "requirement": {
             "id": "8a40f068327d4771a633d9b665e1b2d8",
-            "title": "Мова тендерної пропозиції українська"
+            "title": "Мова тендерної пропозиції"
           },
           "classification": {
-            "scheme": " ESPD211",
+            "scheme": "ESPD211",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           }
         }

@@ -130,14 +130,16 @@ Content-Type: application/json
         }
       },
       {
-        "value": true,
+        "values": [
+          "Українська"
+        ],
         "id": "62ad184e461240bfbbdb65f64a13eab7",
         "requirement": {
           "id": "aec3f0218adc469f922ae22437e183d7",
-          "title": "Мова тендерної пропозиції українська"
+          "title": "Мова тендерної пропозиції"
         },
         "classification": {
-          "scheme": " ESPD211",
+          "scheme": "ESPD211",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         }
       },

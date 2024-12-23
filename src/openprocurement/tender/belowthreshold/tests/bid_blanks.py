@@ -1215,7 +1215,7 @@ def update_tender_bid_pmr_related_doc(self):
             "requirement": {
                 "id": requirement["id"],
             },
-            "value": True,
+            "values": ["Українська"],
             "evidences": evidences,
         }
     ]
@@ -1323,7 +1323,7 @@ def update_tender_bid_pmr_related_tenderer(self):
             "requirement": {
                 "id": requirement["id"],
             },
-            "value": True,
+            "values": ["Українська"],
             "relatedTenderer": {"id": "abc", "title": ""},
         }
     ]
@@ -1386,7 +1386,7 @@ def update_tender_rr(self):
     # PATCH with changes to ids
     del rr_data[0]["value"]
     del rr_data[0]["evidences"]
-    rr_data[0]["values"] = [True]
+    rr_data[0]["values"] = ["Українська"]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
         {
@@ -1398,7 +1398,7 @@ def update_tender_rr(self):
         },
     )
     rr = response.json["data"]["requirementResponses"][0]
-    self.assertEqual(rr["values"], [True])
+    self.assertEqual(rr["values"], ["Українська"])
     self.assertNotIn("value", rr)
     self.assertNotIn("evidences", rr)
 

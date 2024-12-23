@@ -131,14 +131,16 @@ Content-Type: application/json
           }
         },
         {
-          "value": true,
+          "values": [
+            "Українська"
+          ],
           "id": "62ad184e461240bfbbdb65f64a13eab7",
           "requirement": {
             "id": "aec3f0218adc469f922ae22437e183d7",
-            "title": "Мова тендерної пропозиції українська"
+            "title": "Мова тендерної пропозиції"
           },
           "classification": {
-            "scheme": " ESPD211",
+            "scheme": "ESPD211",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           }
         },
@@ -379,14 +381,16 @@ Content-Type: application/json
           }
         },
         {
-          "value": true,
+          "values": [
+            "Українська"
+          ],
           "id": "645708b6b5a14a6b99cba886180e843c",
           "requirement": {
             "id": "aec3f0218adc469f922ae22437e183d7",
-            "title": "Мова тендерної пропозиції українська"
+            "title": "Мова тендерної пропозиції"
           },
           "classification": {
-            "scheme": " ESPD211",
+            "scheme": "ESPD211",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           }
         },
@@ -574,14 +578,16 @@ Content-Type: application/json
           }
         },
         {
-          "value": true,
+          "values": [
+            "Українська"
+          ],
           "id": "67838b4794d54c5f99958fa1e480de10",
           "requirement": {
             "id": "aec3f0218adc469f922ae22437e183d7",
-            "title": "Мова тендерної пропозиції українська"
+            "title": "Мова тендерної пропозиції"
           },
           "classification": {
-            "scheme": " ESPD211",
+            "scheme": "ESPD211",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
           }
         },

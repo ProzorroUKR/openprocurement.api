@@ -635,35 +635,39 @@ Content-Type: application/json
       },
       {
         "id": "b305c336d8ce4d42a1dc40f72ac46062",
+        "description": "Мова (мови), якою (якими) повинні бути складені тендерні пропозиції",
         "source": "tenderer",
-        "relatesTo": "tenderer",
+        "relatesTo": "tender",
         "classification": {
-          "scheme": " ESPD211",
+          "scheme": "ESPD211",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
-        "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
+        "title": "Мова (мови) тендерної пропозиції",
         "legislation": [
           {
-            "version": "2020-04-19",
+            "version": "2024-10-23",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
             },
-            "type": "NATIONAL_LEGISLATION"
+            "type": "NATIONAL_LEGISLATION",
+            "article": "22.2.13"
           }
         ],
         "requirementGroups": [
           {
             "id": "446206033420419b82b7bdaaedbe4216",
-            "description": "Учасник фізична особа підтверджує, що",
+            "description": "Підтверджується, що",
             "requirements": [
               {
                 "id": "26a1344b647948e2b2a1c9d7c6df5b21",
-                "title": "Мова тендерної пропозиції українська",
-                "dataType": "boolean",
+                "title": "Мова тендерної пропозиції",
+                "dataType": "string",
                 "status": "active",
-                "expectedValue": true,
+                "expectedValues": [
+                  "Українська"
+                ],
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
@@ -848,14 +852,16 @@ Content-Type: application/json
             }
           },
           {
-            "value": true,
+            "values": [
+              "Українська"
+            ],
             "id": "f616e87d994f4e7bbc3433c06153623e",
             "requirement": {
               "id": "26a1344b647948e2b2a1c9d7c6df5b21",
-              "title": "Мова тендерної пропозиції українська"
+              "title": "Мова тендерної пропозиції"
             },
             "classification": {
-              "scheme": " ESPD211",
+              "scheme": "ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
             }
           },
@@ -1043,14 +1049,16 @@ Content-Type: application/json
             }
           },
           {
-            "value": true,
+            "values": [
+              "Українська"
+            ],
             "id": "c4fae84d8e244fccb60996e07df246a5",
             "requirement": {
               "id": "26a1344b647948e2b2a1c9d7c6df5b21",
-              "title": "Мова тендерної пропозиції українська"
+              "title": "Мова тендерної пропозиції"
             },
             "classification": {
-              "scheme": " ESPD211",
+              "scheme": "ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
             }
           },
