@@ -1,6 +1,9 @@
 import unittest
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award import (
     Tender2LotAwardDocumentResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
@@ -9,6 +12,9 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_lot_award_lots_none,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.competitiveordering.tests.award_blanks import (
+    qualified_eligible_awards,
+)
 from openprocurement.tender.competitiveordering.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_below_organization,
@@ -39,7 +45,6 @@ from openprocurement.tender.open.tests.award_blanks import (
     patch_tender_lot_award_unsuccessful,
     patch_tender_lots_award,
     prolongation_award,
-    qualified_eligible_awards,
     tender_award_complaint_period,
 )
 
@@ -62,6 +67,10 @@ class TenderAwardRequirementResponseEvidenceTestMixin:
     test_get_award_requirement_response_evidence = snitch(get_award_requirement_response_evidence)
 
 
+@patch(
+    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    get_now() + timedelta(days=1),
+)
 class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
@@ -81,6 +90,10 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_prolongation_award = snitch(prolongation_award)
 
 
+@patch(
+    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    get_now() + timedelta(days=1),
+)
 class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
@@ -92,6 +105,10 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
 
 
+@patch(
+    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    get_now() + timedelta(days=1),
+)
 class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_lots = 2 * test_tender_below_lots
@@ -133,7 +150,7 @@ class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                {"data": {"status": "active", "qualified": True}},
             )
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
 
