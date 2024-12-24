@@ -2261,6 +2261,7 @@ def switch_draft_to_tendering_success(self):
             response.json["data"]["tenderPeriod"]["startDate"],
             tender_prev["tenderPeriod"]["startDate"],
         )
+        self.assertIn("contractTemplateName", response.json["data"])
 
 
 def switch_draft_to_publishing_forbidden(self):
