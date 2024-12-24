@@ -95,6 +95,15 @@ def generate_responses(self, tender_id=None):
             if criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
                 guarantee_responses = generate_guarantee_criterion_responses(criterion)
                 rrs.extend(guarantee_responses)
+            elif criterion["classification"]["id"] == "CRITERION.OTHER.BID.LANGUAGE":
+                rrs.append(
+                    {
+                        "requirement": {
+                            "id": criterion["requirementGroups"][0]["requirements"][0]["id"],
+                        },
+                        "values": ["Українська"],
+                    }
+                )
             else:
                 for req in criterion["requirementGroups"][0]["requirements"]:
                     if criterion["source"] in ("tenderer", "winner"):

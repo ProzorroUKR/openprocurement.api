@@ -3752,14 +3752,24 @@ def activate_bid_guarantee_multilot(self):
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
             if criterion["source"] in ("tenderer", "winner") and criterion["relatesTo"] != "lot":
-                rrs.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
+                if criterion["classification"]["id"] == "CRITERION.OTHER.BID.LANGUAGE":
+                    rrs.append(
+                        {
+                            "requirement": {
+                                "id": criterion["requirementGroups"][0]["requirements"][0]["id"],
+                            },
+                            "values": ["Українська"],
+                        }
+                    )
+                else:
+                    rrs.append(
+                        {
+                            "requirement": {
+                                "id": req["id"],
+                            },
+                            "value": True,
                         },
-                        "value": True,
-                    },
-                )
+                    )
             elif criterion["source"] == "tenderer" and criterion["relatesTo"] == "lot":
                 lot_req = req
                 lot_criteria = criterion
