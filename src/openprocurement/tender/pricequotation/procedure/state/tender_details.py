@@ -73,7 +73,11 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         if not classification_id:
             return
 
-        classification_id = classification_id[:4] if classification_id[:3] != "336" else "336"
+        classification_id = (
+            classification_id[:2]
+            if classification_id[:2] == "15"
+            else classification_id[:3] if classification_id[:3] == "336" else classification_id[:4]
+        )
         if classification_id not in EXCLUDED_TEMPLATE_CLASSIFICATION:
             for key in CONTRACT_TEMPLATES_KEYS:
                 if key.startswith(classification_id):
