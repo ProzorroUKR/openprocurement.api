@@ -62,7 +62,9 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
             self.set_contracts_cancelled(after)
 
     def set_contract_template_name(self, data):
-        EXCLUDED_TEMPLATE_CLASSIFICATION = ("0931",)
+        DEFAULT_TEMPLATE_CLASSIFICATION_PREFIX_LENGTH = 4
+        CUSTOM_LENGTH_TEMPLATE_CLASSIFICATION_PREFIXES = ("15", "336")
+        EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES = ("0931",)
 
         items = data.get("items")
         if not items or any(i.get("documentType", "") == "contractProforma" for i in data.get("documents", "")):
@@ -73,14 +75,17 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         if not classification_id:
             return
 
-        classification_id = (
-            classification_id[:2]
-            if classification_id[:2] == "15"
-            else classification_id[:3] if classification_id[:3] == "336" else classification_id[:4]
-        )
-        if classification_id not in EXCLUDED_TEMPLATE_CLASSIFICATION:
+        if any(classification_id.startswith(prefix) for prefix in CUSTOM_LENGTH_TEMPLATE_CLASSIFICATION_PREFIXES):
+            for prefix in CUSTOM_LENGTH_TEMPLATE_CLASSIFICATION_PREFIXES:
+                if classification_id.startswith(prefix):
+                    classification_prefix = classification_id[: len(prefix)]
+                    break
+        else:
+            classification_prefix = classification_id[:DEFAULT_TEMPLATE_CLASSIFICATION_PREFIX_LENGTH]
+
+        if classification_prefix not in EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES:
             for key in CONTRACT_TEMPLATES_KEYS:
-                if key.startswith(classification_id):
+                if key.startswith(classification_prefix):
                     template_name = key
                     break
                 elif key.startswith(DEFAULT_TEMPLATE_KEY):
