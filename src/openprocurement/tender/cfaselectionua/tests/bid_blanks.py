@@ -3,7 +3,7 @@ from copy import deepcopy
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_organization,
 )
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 
 # TenderBidResourceTest
 
@@ -227,14 +227,14 @@ def create_tender_bid_invalid(self):
     tenderer = deepcopy(test_tender_cfaselectionua_organization)
     old_id = tenderer["identifier"]["id"]
     tenderer["identifier"]["id"] = "test_id"
+    bid_data = {
+        "tenderers": [tenderer],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "tenderers": [tenderer],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -246,14 +246,14 @@ def create_tender_bid_invalid(self):
     )
     tenderer = deepcopy(test_tender_cfaselectionua_organization)
     tenderer["identifier"]["id"] = "00037251"
+    bid_data = {
+        "tenderers": [tenderer],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "tenderers": [tenderer],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -265,22 +265,21 @@ def create_tender_bid_invalid(self):
 
 def create_tender_bid(self):
     dateModified = self.mongodb.tenders.get(self.tender_id).get("dateModified")
-
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "subcontractingDetails": "test_details",
+        "lotValues": [
+            {
+                "subcontractingDetails": "test_details",
+                "value": {"amount": 500.54},
+                "relatedLot": self.initial_lots[0]["id"],
+            }
+        ],
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_cfaselectionua_organization],
-                "subcontractingDetails": "test_details",
-                "lotValues": [
-                    {
-                        "subcontractingDetails": "test_details",
-                        "value": {"amount": 500.54},
-                        "relatedLot": self.initial_lots[0]["id"],
-                    }
-                ],
-            }
-        },
+        {"data": bid_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -295,24 +294,25 @@ def create_tender_bid(self):
         ],
     )
 
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "subcontractingDetails": "test_details",
+        "lotValues": [
+            {
+                "subcontractingDetails": "test_details",
+                "value": {"amount": 500},
+                "relatedLot": self.initial_lots[0]["id"],
+            }
+        ],
+        "value": None,
+        "parameters": None,
+        "documents": None,
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_cfaselectionua_organization],
-                "subcontractingDetails": "test_details",
-                "lotValues": [
-                    {
-                        "subcontractingDetails": "test_details",
-                        "value": {"amount": 500},
-                        "relatedLot": self.initial_lots[0]["id"],
-                    }
-                ],
-                "value": None,
-                "parameters": None,
-                "documents": None,
-            }
-        },
+        {"data": bid_data},
     )
 
     self.assertEqual(response.status, "201 Created")
@@ -342,15 +342,16 @@ def create_tender_bid(self):
 
 
 def patch_tender_bid(self):
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "status": "draft",
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_cfaselectionua_organization],
-                "status": "draft",
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -487,14 +488,15 @@ def patch_tender_bid(self):
 
 
 def get_tender_bid(self):
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_cfaselectionua_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -546,14 +548,15 @@ def get_tender_bid(self):
 
 
 def delete_tender_bid(self):
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_cfaselectionua_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -592,14 +595,15 @@ def delete_tender_bid(self):
 
 
 def get_tender_tenderers(self):
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_cfaselectionua_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -693,6 +697,8 @@ def features_bid(self):
         bid.pop("submissionDate", None)
         bid["lotValues"][0].pop("date")
         bid["lotValues"][0].pop("status")
+        bid.pop("items")
+        i.pop("items")
         self.assertEqual(bid.pop("documents", []), [])
         self.assertEqual(bid, i)
 
@@ -720,6 +726,8 @@ def features_bid(self):
     bid.pop("date")
     bid.pop("id")
     bid.pop("submissionDate", None)
+    bid.pop("items")
+    feat_bid.pop("items")
     bid["lotValues"][0].pop("date")
     bid["lotValues"][0].pop("status")
     self.assertEqual(bid.pop("documents", []), [])
@@ -788,6 +796,7 @@ def features_bid_invalid(self):
     # no parameter could be found in agreement
     data["parameters"][1]["value"] = 0.05
     data["lotValues"][0]["value"]["amount"] = 500
+    set_bid_items(self, data)
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -820,6 +829,8 @@ def patch_features_bid_invalid(self):
     bid.pop("submissionDate")
     bid["lotValues"][0].pop("date")
     bid["lotValues"][0].pop("status")
+    bid.pop("items")
+    test_bid.pop("items")
     self.assertEqual(bid.pop("documents", []), [])
     self.assertEqual(bid, test_bid)
 
@@ -1042,14 +1053,14 @@ def patch_tender_bid_document(self):
 
 
 def create_tender_bid_document_invalid_award_status(self):
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_cfaselectionua_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
+        {"data": bid_data},
     )
     bid = response.json["data"]
     token = response.json["access"]["token"]
@@ -1493,6 +1504,8 @@ def create_tender_bid_with_document(self):
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": self.bid_data_wo_docs["value"], "relatedLot": self.initial_lots[0]["id"]}]
     bid_data[docs_container] = docs
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1618,6 +1631,7 @@ def create_tender_bid_with_documents(self):
     bid_data[docs_container] = docs
     del bid_data["value"]
     bid_data["lotValues"] = [{"relatedLot": self.initial_lots[0]["id"], "value": self.bid_data_wo_docs["value"]}]
+    set_bid_items(self, bid_data)
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

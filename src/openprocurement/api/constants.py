@@ -37,6 +37,22 @@ GUARANTEE_ALLOWED_TENDER_TYPES = (
     "closeFrameworkAgreementSelectionUA",
 )
 
+BID_REQUIRED_ITEMS_TENDER_TYPES = (
+    "belowThreshold",
+    "aboveThreshold",
+    "competitiveOrdering",
+    "aboveThresholdUA",
+    "aboveThresholdEU",
+    "competitiveDialogueUA",
+    "competitiveDialogueEU",
+    "competitiveDialogueUA.stage2",
+    "competitiveDialogueEU.stage2",
+    "closeFrameworkAgreementUA",
+    "closeFrameworkAgreementSelectionUA",
+    "esco",
+    "priceQuotation",
+)
+
 WORKING_DAYS = {}
 HOLIDAYS = standards.load("calendars/workdays_off.json")
 for date_str in HOLIDAYS:
@@ -491,3 +507,6 @@ TENDER_CRITERIA_RULES = {
     "reporting": load_criteria_rules("reporting", globals()),
     "simple.defense": load_criteria_rules("simple.defense", globals()),
 }
+
+# CS-18389
+BID_ITEMS_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "BID_ITEMS_REQUIRED_FROM")

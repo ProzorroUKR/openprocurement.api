@@ -1660,3 +1660,48 @@ def validate_edrpou_confidentiality_doc(doc, should_be_public=False):
             name="confidentiality",
             status=422,
         )
+
+
+def validate_required_fields(request, data: dict, required_fields: dict, name="data") -> dict:
+    """
+    Validates that all required fields are present in the given data, including nested fields.
+
+    Args:
+        data (dict): The dictionary to validate.
+        required_fields (dict): A dictionary where keys are field names and values are:
+            - `None` for non-nested fields.
+            - `dict` describing nested required fields for nested dictionaries or lists.
+
+    Returns:
+        dict: A nested dictionary of missing fields with their respective error messages.
+    """
+
+    def validation(data: dict, required_fields: dict):
+        errors = {}
+        for field, nested_fields in required_fields.items():
+            if field not in data or not data[field]:
+                errors[field] = BaseType.MESSAGES["required"]
+
+            elif isinstance(nested_fields, dict):
+                if isinstance(data[field], dict):
+                    nested_errors = validation(data[field], nested_fields)
+                    if nested_errors:
+                        errors[field] = nested_errors
+
+                elif isinstance(data[field], list):
+                    list_errors = {}
+                    for i, item in enumerate(data[field]):
+                        if isinstance(item, dict):
+                            item_errors = validation(item, nested_fields)
+                            if item_errors:
+                                list_errors[i] = item_errors
+                        else:
+                            list_errors[i] = BaseType.MESSAGES["required"]
+                    if list_errors:
+                        errors[field] = list_errors
+
+        return errors
+
+    errors = validation(data, required_fields)
+    if errors:
+        raise_operation_error(request, errors, name=name, status=422)

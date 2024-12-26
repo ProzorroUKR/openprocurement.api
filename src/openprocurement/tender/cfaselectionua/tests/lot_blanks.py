@@ -9,7 +9,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_organization,
 )
-from openprocurement.tender.core.tests.utils import activate_contract, get_contract_data
+from openprocurement.tender.core.tests.utils import (
+    activate_contract,
+    get_contract_data,
+    set_bid_items,
+)
 
 # Tender Lot Resouce Test
 
@@ -1186,14 +1190,15 @@ def patch_tender_bid(self):
     self.set_status("active.tendering")
 
     lot_id = self.initial_lots[0]["id"]
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_cfaselectionua_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

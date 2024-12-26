@@ -22,7 +22,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2L
     post_tender_bid_with_exceeded_lot_values,
 )
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
@@ -85,6 +85,7 @@ class CreateBidMixin:
         self.app.authorization = ('Basic', ('broker', ''))
         bid_data = self.test_bids_data[0].copy()
         bid_data["status"] = self.base_bid_status
+        set_bid_items(self, bid_data)
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         bid = response.json["data"]
         self.bid_id = bid["id"]
@@ -127,6 +128,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
         for bid in test_tender_openeu_bids:
             bid_data = deepcopy(bid)
             set_bid_lotvalues(bid_data, self.tender_lots)
+            set_bid_items(self, bid_data)
             self.test_bids_data.append(bid_data)
 
 

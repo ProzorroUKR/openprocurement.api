@@ -33,6 +33,7 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     patch_tender_with_bids_lots_none,
     put_tender_bid_document_json,
 )
+from openprocurement.tender.core.tests.utils import set_bid_items
 from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
@@ -102,15 +103,16 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
 
     def setUp(self):
         super().setUp()
+        bid_data = {
+            "tenderers": [test_tender_cfaselectionua_organization],
+            "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+        }
+        set_bid_items(self, bid_data)
+
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "tenderers": [test_tender_cfaselectionua_organization],
-                    "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-                }
-            },
+            {"data": bid_data},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]

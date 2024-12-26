@@ -9,7 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
 
 
 def get_tender_lot(self):
@@ -1630,6 +1630,8 @@ def one_lot_1bid(self):
     self.assertEqual(response.status, "200 OK")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
+
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -1804,6 +1806,8 @@ def create_tender_feature_bidder(self):
         {"code": "code_tenderer", "value": 0.01},
     ]
     del bid_data["value"]
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         request_path,
         {"data": bid_data},

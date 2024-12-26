@@ -63,6 +63,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 )
 from openprocurement.tender.core.tests.base import test_language_criteria
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
+from openprocurement.tender.core.tests.utils import set_bid_items
 from openprocurement.tender.openeu.tests.bid import (
     CreateBidMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
@@ -114,9 +115,12 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         # Create bid
+        bid_data = {"status": "draft", "tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+        set_bid_items(self, bid_data)
+
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"status": "draft", "tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+            {"data": bid_data},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]
@@ -172,9 +176,11 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         # Create bid
+        bid_data = {"status": "draft", "tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+        set_bid_items(self, bid_data)
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"status": "draft", "tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+            {"data": bid_data},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]

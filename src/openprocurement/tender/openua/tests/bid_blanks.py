@@ -10,7 +10,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.criteria_utils import (
     generate_guarantee_criterion_responses,
 )
-from openprocurement.tender.core.tests.utils import change_auth, set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import (
+    change_auth,
+    set_bid_items,
+    set_bid_lotvalues,
+)
 
 # TenderBidResourceTest
 
@@ -247,6 +251,8 @@ def create_tender_biddder_invalid(self):
 def create_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update({"parameters": None, "documents": None})
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -297,7 +303,8 @@ def create_tender_bidder(self):
 
 def patch_tender_bidder_decimal_problem(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
-    tender_value = response.json["data"]["value"]["amount"]
+    tender = response.json["data"]
+    tender_value = tender["value"]["amount"]
     self.assertEqual(319400.52, tender_value)
 
     bid_data = deepcopy(self.test_bids_data[0])
@@ -307,6 +314,7 @@ def patch_tender_bidder_decimal_problem(self):
             "status": "draft",
         }
     )
+    set_bid_items(self, bid_data, tender["items"])
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -316,9 +324,13 @@ def patch_tender_bidder_decimal_problem(self):
 
 
 def patch_tender_bidder(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     bid_data = deepcopy(self.test_bids_data[0])
     set_bid_lotvalues(bid_data, self.initial_lots)
     bid_data.update({"status": "draft"})
+    set_bid_items(self, bid_data, tender["items"])
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -421,6 +433,9 @@ def patch_tender_bidder(self):
 
 
 def patch_tender_draft_bidder(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update(
         {
@@ -428,6 +443,7 @@ def patch_tender_draft_bidder(self):
         }
     )
     set_bid_lotvalues(bid_data, self.initial_lots)
+    set_bid_items(self, bid_data, tender["items"])
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -475,12 +491,17 @@ def patch_tender_draft_bidder(self):
 
 
 def create_bid_after_removing_lot(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     # create bid
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
     bid_data["documents"] = None
     bid_data["parameters"] = None
     bid_data.pop("value")
+    set_bid_items(self, bid_data, tender["items"])
+
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data})
     bid, bid_token = response.json["data"], response.json["access"]["token"]
     bid_id = bid["id"]
@@ -571,8 +592,13 @@ def get_tender_bidder(self):
 
 
 def delete_tender_bidder(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     bid_data = deepcopy(self.test_bids_data[0])
     set_bid_lotvalues(bid_data, self.initial_lots)
+    set_bid_items(self, bid_data, tender["items"])
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -614,6 +640,9 @@ def delete_tender_bidder(self):
 
 
 def get_tender_tenderers(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update(
         {
@@ -622,6 +651,7 @@ def get_tender_tenderers(self):
         }
     )
     set_bid_lotvalues(bid_data, self.initial_lots)
+    set_bid_items(self, bid_data, tender["items"])
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -653,9 +683,13 @@ def get_tender_tenderers(self):
 
 
 def bid_Administrator_change(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
     set_bid_lotvalues(bid_data, self.initial_lots)
+    set_bid_items(self, bid_data, tender["items"])
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -684,6 +718,9 @@ def bid_Administrator_change(self):
 
 
 def draft1_bid(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update(
         {
@@ -693,6 +730,7 @@ def draft1_bid(self):
         }
     )
     set_bid_lotvalues(bid_data, self.initial_lots)
+    set_bid_items(self, bid_data, tender["items"])
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -711,11 +749,15 @@ def draft1_bid(self):
 
 
 def draft2_bids(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
     bid_data["status"] = "draft"
     bid_data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
     set_bid_lotvalues(bid_data, self.initial_lots)
+    set_bid_items(self, bid_data, tender["items"])
 
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     response = self.app.post_json(
@@ -809,6 +851,8 @@ def features_bidder(self):
         bid.pop("date")
         bid.pop("id")
         bid.pop("submissionDate", None)
+        bid.pop("items")
+        i.pop("items")
         for k in ("documents", "lotValues"):
             self.assertEqual(bid.pop(k, []), [])
         self.assertEqual(bid, i)
@@ -1023,10 +1067,14 @@ def patch_tender_bidder_document_json(self):
 
 # TenderBidDocumentResourceTest
 def create_tender_bidder_document_nopending_json(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     bid_data = deepcopy(self.test_bids_data[0])
     if getattr(self, "initial_lots"):
         set_bid_lotvalues(bid_data, self.initial_lots)
 
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -2479,7 +2527,11 @@ def bids_related_product(self):
             "quantity": 4,
             "description": "футляри до державних нагород",
             "id": tender_item_1["id"],
-            # "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": True}},
+            "unit": {
+                "name": "Item",
+                "code": "KGM",
+                "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": True},
+            },
             "product": related_product_id,
         },
     ]

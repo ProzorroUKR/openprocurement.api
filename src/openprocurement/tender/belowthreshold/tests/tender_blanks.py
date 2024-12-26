@@ -42,6 +42,7 @@ from openprocurement.tender.core.tests.utils import (
     activate_contract,
     change_auth,
     get_contract_data,
+    set_bid_items,
     set_bid_lotvalues,
     set_tender_lots,
 )
@@ -1676,16 +1677,17 @@ def patch_tender_active_tendering(self):
         response.json["errors"], [{"location": "body", "name": "enquiryPeriod", "description": "Rogue field"}]
     )
 
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+        "subcontractingDetails": "test",
+    }
+    set_bid_items(self, bid_data)
+
     # check bid invalidation
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-                "subcontractingDetails": "test",
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     bid = response.json["data"]
@@ -3727,14 +3729,16 @@ def activate_bid_guarantee_multilot(self):
         status=201,
     )
     self.add_sign_doc(self.tender_id, self.tender_token)
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.tendering"}},
         status=200,
     )
+    tender = response.json["data"]
 
     bid = deepcopy(self.test_bids_data)[0]
     set_bid_lotvalues(bid, lots)
+    set_bid_items(self, bid, tender["items"])
     bid["status"] = "draft"
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     bid_id = response.json["data"]["id"]

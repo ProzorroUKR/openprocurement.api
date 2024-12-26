@@ -4,6 +4,7 @@ from unittest.mock import Mock, patch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
+from openprocurement.tender.core.tests.utils import set_bid_items
 from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_organization,
     test_tender_pq_requirement_response,
@@ -242,15 +243,15 @@ def create_tender_bid_invalid(self):
 
     non_shortlist_org = deepcopy(test_tender_pq_organization)
     non_shortlist_org["identifier"]["id"] = "69"
+    bid_data = {
+        "tenderers": [non_shortlist_org],
+        "value": {"amount": 500},
+        "requirementResponses": test_tender_pq_requirement_response,
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [non_shortlist_org],
-                "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
-            }
-        },
+        {"data": bid_data},
         status=403,
     )
     self.assertEqual(

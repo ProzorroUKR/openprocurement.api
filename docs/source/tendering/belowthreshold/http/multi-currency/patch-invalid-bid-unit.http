@@ -46,7 +46,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value"
+      "description": "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of bid lotValues"
     }
   ]
 }

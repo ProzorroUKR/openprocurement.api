@@ -11,7 +11,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.utils import activate_contract, get_contract_data
+from openprocurement.tender.core.tests.utils import (
+    activate_contract,
+    get_contract_data,
+    set_bid_items,
+)
 
 # Tender Lot Resouce Test
 
@@ -1231,14 +1235,14 @@ def create_tender_bid_invalid(self):
 
 def patch_tender_bid(self):
     lot_id = self.initial_lots[0]["id"]
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id, "subcontractingDetails": "test"}],
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id, "subcontractingDetails": "test"}],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1535,19 +1539,20 @@ def create_tender_bid_invalid_feature(self):
 
 def create_tender_bid_feature(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.lot_id}],
+        "parameters": [
+            {"code": "code_item", "value": 0.01},
+            {"code": "code_tenderer", "value": 0.01},
+            {"code": "code_lot", "value": 0.01},
+        ],
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         request_path,
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.lot_id}],
-                "parameters": [
-                    {"code": "code_item", "value": 0.01},
-                    {"code": "code_tenderer", "value": 0.01},
-                    {"code": "code_lot", "value": 0.01},
-                ],
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2014,14 +2019,15 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     lot_id = lots[0]
     # create bid #2 for 1 lot
     self.app.authorization = ("Basic", ("broker", ""))
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+    }
+    bid_data = set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
-            }
-        },
+        {"data": bid_data},
     )
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2679,7 +2685,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
-    response = self.set_status(
+    self.set_status(
         "active.tendering",
         {
             "lots": [

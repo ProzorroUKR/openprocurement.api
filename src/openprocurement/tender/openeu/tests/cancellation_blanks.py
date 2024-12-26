@@ -165,6 +165,7 @@ def bids_on_tender_cancellation_in_qualification(self):
         "financialDocuments",
         "qualificationDocuments",
         "submissionDate",
+        "items",
     ]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         self.bid_visible_fields.append("selfEligible")
@@ -255,6 +256,7 @@ def bids_on_tender_cancellation_in_awarded(self):
         "financialDocuments",
         "qualificationDocuments",
         "submissionDate",
+        "items",
     ]
 
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:

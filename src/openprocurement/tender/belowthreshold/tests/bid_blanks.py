@@ -5,8 +5,7 @@ from openprocurement.api.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
-from openprocurement.tender.pricequotation.tests.utils import copy_tender_items
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 
 # TenderBidResourceTest
 
@@ -225,18 +224,19 @@ def create_tender_bid(self):
         "currency of bid should be identical to currency of value of tender", response.json["errors"][0]["description"]
     )
 
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 500},
+        "lotValues": None,
+        "parameters": None,
+        "documents": None,
+        "subcontractingDetails": "test",
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "value": {"amount": 500},
-                "lotValues": None,
-                "parameters": None,
-                "documents": None,
-                "subcontractingDetails": "test",
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -260,18 +260,18 @@ def create_tender_bid(self):
 
 
 def patch_tender_bid(self):
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "status": "draft",
+        "value": {"amount": 500},
+        "lotValues": None,
+        "parameters": None,
+        "documents": None,
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "status": "draft",
-                "value": {"amount": 500},
-                "lotValues": None,
-                "parameters": None,
-                "documents": None,
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -397,9 +397,12 @@ def patch_tender_bid(self):
 
 
 def get_tender_bid(self):
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -463,9 +466,12 @@ def get_tender_bid(self):
 
 
 def get_tender_bid_data_for_sign(self):
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -511,9 +517,12 @@ def get_tender_bid_data_for_sign(self):
 
 
 def delete_tender_bid(self):
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -552,9 +561,12 @@ def delete_tender_bid(self):
 
 
 def get_tender_tenderers(self):
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -594,9 +606,12 @@ def get_tender_tenderers(self):
 
 
 def bid_Administrator_change(self):
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -660,6 +675,8 @@ def patch_tender_lot_values_any_order(self):
 
     # applying for the first lot
     bid["lotValues"] = [{"value": value_1, "relatedLot": lots[0]["id"]}]
+    set_bid_items(self, bid)
+
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     bid_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
@@ -699,12 +716,14 @@ def post_tender_bid_with_exceeded_lot_values(self):
 
 
 def patch_tender_bid_with_exceeded_lot_values(self):
-    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+    tender = self.mongodb.tenders.get(self.tender_id)
+    lots = tender.get("lots")
 
     bid = deepcopy(self.test_bids_data[0])
     value = bid.pop("value", None)
     value["amount"] = 450
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    set_bid_items(self, bid, tender["items"])
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
@@ -750,7 +769,7 @@ def post_tender_bid_with_another_currency(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+            "unit": {"name": "Item", "code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
         },
     ]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid}, status=422)
@@ -767,7 +786,11 @@ def post_tender_bid_with_another_currency(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False}},
+            "unit": {
+                "name": "Item",
+                "code": "KGM",
+                "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False},
+            },
         },
     ]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid}, status=422)
@@ -775,7 +798,7 @@ def post_tender_bid_with_another_currency(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
+        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of bid lotValues",
     )
 
 
@@ -786,6 +809,8 @@ def patch_tender_bid_with_another_currency(self):
     value = bid.pop("value", None)
     value["currency"] = "UAH"
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    set_bid_items(self, bid)
+
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
@@ -833,9 +858,11 @@ def patch_pending_bid(self):
 
 def bid_proposal_doc(self):
     bid_data = deepcopy(self.test_bids_data[0])
-    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+    tender = self.mongodb.tenders.get(self.tender_id)
+    lots = tender.get("lots")
 
     set_bid_lotvalues(bid_data, lots)
+    set_bid_items(self, bid_data)
 
     # try to create pending bid without proposal for non UA resident
     bid_data["tenderers"][0]["identifier"]["scheme"] = "US-DOS"
@@ -1033,6 +1060,8 @@ def features_bid(self):
         bid.pop("date")
         bid.pop("id")
         bid.pop("submissionDate", None)
+        bid.pop("items", None)
+        i.pop("items", None)
         for k in ("documents", "lotValues"):
             self.assertEqual(bid.pop(k, []), [])
         self.assertEqual(bid, i)
@@ -1221,15 +1250,16 @@ def update_tender_bid_pmr_related_doc(self):
     ]
 
     # POST
+    bid_data = {
+        "requirementResponses": rr_data,
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 500},
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "requirementResponses": rr_data,
-                "tenderers": [test_tender_below_organization],
-                "value": {"amount": 500},
-            }
-        },
+        {"data": bid_data},
     )
     bid_id = response.json["data"]["id"]
     bid_token = response.json["access"]["token"]
@@ -1248,25 +1278,25 @@ def update_tender_bid_pmr_related_doc(self):
     )
 
     # you cannot set document.id, so you cannot post requirementResponses with relatedDocument.id
+    bid_data = {
+        "requirementResponses": rr_data,
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 500},
+        "documents": [
+            {
+                "id": "a" * 32,
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        ],
+    }
+    set_bid_items(self, bid_data)
     del rr_data[0]["evidences"]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "requirementResponses": rr_data,
-                "tenderers": [test_tender_below_organization],
-                "value": {"amount": 500},
-                "documents": [
-                    {
-                        "id": "a" * 32,
-                        "title": "name.doc",
-                        "url": self.generate_docservice_url(),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/msword",
-                    }
-                ],
-            }
-        },
+        {"data": bid_data},
     )
     bid = response.json["data"]
     bid_id = bid["id"]
@@ -1369,15 +1399,15 @@ def update_tender_rr(self):
     ]
 
     # POST with passed ids
+    bid_data = {
+        "requirementResponses": rr_data,
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 500},
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "requirementResponses": rr_data,
-                "tenderers": [test_tender_below_organization],
-                "value": {"amount": 500},
-            }
-        },
+        {"data": bid_data},
     )
     bid = response.json["data"]
     token = response.json["access"]["token"]
@@ -1421,15 +1451,16 @@ def update_tender_rr_evidence_id(self):
     ]
 
     # POST with passed ids
+    bid_data = {
+        "requirementResponses": rr_data,
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 500},
+    }
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "requirementResponses": rr_data,
-                "tenderers": [test_tender_below_organization],
-                "value": {"amount": 500},
-            }
-        },
+        {"data": bid_data},
     )
     bid = response.json["data"]
     token = response.json["access"]["token"]
@@ -1542,15 +1573,15 @@ def patch_tender_bid_document(self):
 
 
 def create_tender_bid_document_invalid_award_status(self):
+    bid_data = {
+        "requirementResponses": self.rr_data,
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 500},
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "requirementResponses": self.rr_data,
-                "tenderers": [test_tender_below_organization],
-                "value": {"amount": 500},
-            }
-        },
+        {"data": bid_data},
     )
     bid = response.json["data"]
     token = response.json["access"]["token"]
@@ -2362,7 +2393,7 @@ def create_tender_bid_with_document(self):
     tender = response.json["data"]
     bid_data = deepcopy(self.bid_data_wo_docs)
     bid_data[docs_container] = docs
-    bid_data["items"] = copy_tender_items(tender["items"])
+    set_bid_items(self, bid_data)
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2490,7 +2521,7 @@ def create_tender_bid_with_documents(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
-    bid_data["items"] = copy_tender_items(tender["items"])
+    set_bid_items(self, bid_data)
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2656,6 +2687,7 @@ def post_tender_bid_with_disabled_lot_values_restriction(self):
     value = bid.pop("value", None)
     value["amount"] = 700
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    set_bid_items(self, bid)
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     self.assertEqual(response.status, "201 Created")
 
@@ -2667,6 +2699,8 @@ def patch_tender_bid_with_disabled_lot_values_restriction(self):
     value = bid.pop("value", None)
     value["amount"] = 450
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    set_bid_items(self, bid)
+
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
@@ -2687,17 +2721,23 @@ def patch_tender_bid_with_disabled_lot_values_restriction(self):
 
 
 def post_tender_bid_with_disabled_value_restriction(self):
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 700}}
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 700}}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
 
 
 def patch_tender_bid_with_disabled_value_restriction(self):
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 450}}
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 450}}},
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
@@ -2728,7 +2768,7 @@ def post_tender_bid_with_disabled_lot_values_currency_equality(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"code": "DMQ", "value": {"amount": 100, "currency": "UAH"}},
+            "unit": {"name": "Item", "code": "DMQ", "value": {"amount": 100, "currency": "UAH"}},
         },
     ]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
@@ -2749,7 +2789,7 @@ def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+            "unit": {"name": "Item", "code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
         },
     ]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
@@ -2784,23 +2824,27 @@ def post_bid_multi_currency(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "items is required for tender with funders",
+        "This field is required.",
     )
-
     # try to change valueAddedTaxIncluded different from lot
+    bid["lotValues"] = [{"value": value, "relatedLot": tender["lots"][0]["id"]}]
     bid["items"] = [
         {
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False}},
+            "unit": {
+                "name": "Item",
+                "code": "KGM",
+                "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False},
+            },
         },
     ]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
+        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of bid lotValues",
     )
     bid["items"][0]["unit"]["value"] = {"amount": 0.5, "currency": "USD", "valueAddedTaxIncluded": True}
 
@@ -2857,7 +2901,7 @@ def patch_bid_multi_currency(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+            "unit": {"name": "Item", "code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
         },
     ]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
@@ -2880,7 +2924,7 @@ def patch_bid_multi_currency(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
+        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of bid lotValues",
     )
 
     # try to change amount and currency different from lot
@@ -2903,7 +2947,7 @@ def post_tender_bid_with_disabled_value_currency_equality(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+            "unit": {"name": "Item", "code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
         },
     ]
     response = self.app.post_json(
@@ -2927,7 +2971,7 @@ def patch_tender_bid_with_disabled_value_currency_equality(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+            "unit": {"name": "Item", "code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
         },
     ]
     response = self.app.post_json(

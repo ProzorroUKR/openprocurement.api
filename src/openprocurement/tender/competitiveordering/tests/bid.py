@@ -24,7 +24,7 @@ from openprocurement.tender.competitiveordering.tests.base import (
     test_tender_co_features_data,
 )
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from openprocurement.tender.open.tests.bid_blanks import (
     bid_activate,
     bid_activate_with_cancelled_tenderer_criterion,
@@ -169,6 +169,7 @@ class CreateBidMixin:
         bid_data = deepcopy(test_tender_co_bids[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
         bid_data["status"] = self.base_bid_status
+        set_bid_items(self, bid_data)
 
         # Create bid
         response = self.app.post_json(

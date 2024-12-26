@@ -13,7 +13,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.utils import activate_contract, set_tender_lots
+from openprocurement.tender.core.tests.utils import (
+    activate_contract,
+    set_bid_items,
+    set_tender_lots,
+)
 from openprocurement.tender.open.tests.base import test_tender_open_bids
 
 
@@ -643,6 +647,7 @@ def patch_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id}]
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -930,6 +935,7 @@ def create_tender_bidder_feature(self):
             ],
         }
     )
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -980,6 +986,7 @@ def proc_1lot_1bid(self):
     bid_data = deepcopy(test_tender_open_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"subcontractingDetails": "test", "value": {"amount": 500}, "relatedLot": lot_id}]
+    set_bid_items(self, bid_data)
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -1183,6 +1190,7 @@ def proc_1lot_3bid_1un(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": lot_id}]
+    set_bid_items(self, bid_data)
     bids_data = {}
     for i in range(3):
         self.app.authorization = ("Basic", ("broker", ""))
@@ -1329,6 +1337,7 @@ def proc_2lot_1bid_0com_1can(self):
     bid_data = deepcopy(test_tender_open_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
 
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
@@ -1358,6 +1367,13 @@ def proc_2lot_2bid_1lot_del(self):
         lots.append(response.json["data"]["id"])
     self.initial_lots = lots
     # add item
+    tender_items = []
+    for i in lots:
+        item = self.initial_data["items"][0]
+        if i == lots[1]:
+            item["relatedLot"] = i
+        tender_items.append(item)
+
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
@@ -1376,6 +1392,7 @@ def proc_2lot_2bid_1lot_del(self):
     bid_data = deepcopy(test_tender_open_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
@@ -1432,7 +1449,7 @@ def proc_2lot_1bid_2com_1win(self):
     bid_data = deepcopy(test_tender_open_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
-
+    set_bid_items(self, bid_data)
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -1522,6 +1539,7 @@ def proc_2lot_1bid_0com_0win(self):
     bid_data = deepcopy(test_tender_open_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
 
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
@@ -1573,6 +1591,8 @@ def proc_2lot_1bid_1com_1win(self):
     bid_data = deepcopy(test_tender_open_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
+
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -1783,12 +1803,15 @@ def lots_features_delete(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         lots.append(response.json["data"]["id"])
+    tender_items = tender["items"]
+    tender_items.extend([{**self.initial_data["items"][0], "relatedLot": i} for i in lots])
 
     # add features
     self.app.patch_json(
         "/tenders/{}?acc_token={}&opt_pretty=1".format(tender["id"], owner_token),
         {
             "data": {
+                "items": tender_items,
                 "features": [
                     {
                         "code": "code_item",
@@ -1810,7 +1833,7 @@ def lots_features_delete(self):
                         "title": "tenderer feature",
                         "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
                     },
-                ]
+                ],
             }
         },
     )
@@ -1823,6 +1846,7 @@ def lots_features_delete(self):
             "parameters": [{"code": "code_lot", "value": 0.01}, {"code": "code_tenderer", "value": 0.01}],
         }
     )
+    set_bid_items(self, bid_data)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),

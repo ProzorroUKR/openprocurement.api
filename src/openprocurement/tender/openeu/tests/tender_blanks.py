@@ -719,13 +719,13 @@ def invalid_bid_tender_lot(self):
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
 
-    lots = []
     for lot in self.test_lots_data * 2:
         response = self.app.post_json("/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": lot})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
-        lots.append(response.json["data"]["id"])
 
+    response = self.app.get("/tenders/{}/lots?acc_token={}".format(tender_id, owner_token))
+    lots = response.json["data"]
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -733,14 +733,13 @@ def invalid_bid_tender_lot(self):
     del bid_data["value"]
     bid_data.update(
         {
-            "status": "draft",
-            "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": i} for i in lots],
+            "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": i["id"]} for i in lots],
         }
     )
 
     self.create_bid(tender_id, bid_data, "pending")
 
-    response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(tender_id, lots[0], owner_token))
+    response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(tender_id, lots[1]["id"], owner_token))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 

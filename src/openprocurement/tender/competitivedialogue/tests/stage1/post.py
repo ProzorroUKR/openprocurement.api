@@ -12,7 +12,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_lots,
     test_tender_cd_stage1_bids,
 )
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.open.tests.post import (
     ClaimPostResourceMixin,
@@ -85,6 +85,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
         # Create bid
         bid_data = deepcopy(test_tender_cd_stage1_bids[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
+        set_bid_items(self, bid_data)
         bidder_data = bid_data["tenderers"][0]
         bidder_data["identifier"]["id"] = "00037256"
         response = self.app.post_json(
@@ -175,6 +176,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
         # Create bid
         bid_data = deepcopy(self.initial_bid_data[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
+        set_bid_items(self, bid_data)
         bidder_data = bid_data["tenderers"][0]
         bidder_data["identifier"]["id"] = "00037256"
         response = self.app.post_json(

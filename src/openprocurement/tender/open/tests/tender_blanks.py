@@ -15,7 +15,7 @@ from openprocurement.tender.core.tests.base import (
     test_lcc_lot_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.core.tests.utils import activate_contract
+from openprocurement.tender.core.tests.utils import activate_contract, set_bid_items
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
@@ -1012,11 +1012,8 @@ def invalid_bid_tender_lot(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data.update(
-        {"value": None, "status": "draft", "lotValues": [{"value": {"amount": 500}, "relatedLot": i} for i in lots]}
-    )
-    bid, bid_token = self.create_bid(tender_id, bid_data)
-    bid_id = bid["id"]
+    bid_data.update({"value": None})
+    self.create_bid(tender_id, bid_data)
 
     response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(tender_id, lots[0], owner_token))
     self.assertEqual(response.status, "200 OK")
@@ -1047,6 +1044,7 @@ def one_valid_bid_tender_ua(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["lotValues"][0]["value"] = {"amount": 500}
+    set_bid_items(self, bid_data)
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1103,6 +1101,7 @@ def activate_bid_after_adding_lot(self):
     self.assertEqual(response.json["data"], [])
     # create tender
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    items = response.json["data"]["items"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     response = self.set_initial_status(response.json)
@@ -1117,6 +1116,14 @@ def activate_bid_after_adding_lot(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     lot_id = response.json["data"]["id"]
+    items[0]["relatedLot"] = lot_id
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid_token))

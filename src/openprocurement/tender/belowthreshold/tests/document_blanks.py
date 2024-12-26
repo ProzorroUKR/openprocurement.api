@@ -3,6 +3,7 @@
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
+from openprocurement.tender.core.tests.utils import set_bid_items
 
 
 def not_found(self):
@@ -151,18 +152,18 @@ def create_tender_document(self):
 
 def create_document_active_tendering_status(self):
     self.set_status("active.tendering")
+    bid_data = {
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 500},
+        "lotValues": None,
+        "parameters": None,
+        "documents": None,
+        "subcontractingDetails": "test",
+    }
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {
-            "data": {
-                "tenderers": [test_tender_below_organization],
-                "value": {"amount": 500},
-                "lotValues": None,
-                "parameters": None,
-                "documents": None,
-                "subcontractingDetails": "test",
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     bid = response.json["data"]

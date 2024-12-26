@@ -13,7 +13,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.utils import activate_contract
+from openprocurement.tender.core.tests.utils import activate_contract, set_bid_items
 
 
 def question_blocking(self):
@@ -634,6 +634,7 @@ def create_tender_feature_bidder(self):
             ],
         }
     )
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -941,9 +942,16 @@ def two_lot_2bid_1lot_del(self):
         lots.append(response.json["data"]["id"])
     self.initial_lots = lots
     # add item
+    tender_items = []
+    for i in lots:
+        item = self.initial_data["items"][0]
+        if i == lots[1]:
+            item["relatedLot"] = i
+        tender_items.append(item)
+
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": tender_items}},
     )
 
     response = self.set_status(
@@ -968,6 +976,7 @@ def two_lot_2bid_1lot_del(self):
     del bid_data["value"]
     bid_data["status"] = "draft"
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(

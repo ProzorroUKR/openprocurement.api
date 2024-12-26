@@ -8,7 +8,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
-from openprocurement.tender.core.tests.utils import change_auth, set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import (
+    change_auth,
+    set_bid_items,
+    set_bid_lotvalues,
+)
 
 extra = {"agreements": [{"contracts": [{"unitPrices": [{"value": {"amount": 0}}]}] * 3}]}
 
@@ -1546,6 +1550,7 @@ def bid_Administrator_change(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
     set_bid_lotvalues(bid_data, self.initial_lots)
+    set_bid_items(self, bid_data)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -1974,6 +1979,8 @@ def features_bidder(self):
         bid.pop("date")
         bid.pop("id")
         bid.pop("submissionDate")
+        bid.pop("items")
+        i.pop("items")
         bid["lotValues"][0].pop("date")
         bid["lotValues"][0].pop("status")
         self.assertEqual(bid.pop("documents", []), [])
@@ -2075,6 +2082,7 @@ def create_tender_bid_with_documents(self):
 
     bid_data = deepcopy(initial_bids[0])
     bid_data[docs_container] = docs
+    set_bid_items(self, bid_data)
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2193,6 +2201,8 @@ def create_tender_bid_with_document(self):
 
     bid_data = deepcopy(initial_bids[0])
     bid_data[docs_container] = docs
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2576,11 +2586,11 @@ def get_tender_bidder_document_ds(self):
         self.assertEqual(len(response.json["data"]), self.min_bids_number)
         self.assertEqual(
             set(response.json["data"][0].keys()),
-            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
+            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues", "items"},
         )
         self.assertEqual(
             set(response.json["data"][1].keys()),
-            {"id", "status", "tenderers", "lotValues"},
+            {"id", "status", "tenderers", "lotValues", "items"},
         )
         for bid in response.json["data"]:
             for lot_value in bid["lotValues"]:
@@ -2592,7 +2602,7 @@ def get_tender_bidder_document_ds(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(
             set(response.json["data"].keys()),
-            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
+            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues", "items"},
         )
         for lot_value in response.json["data"]["lotValues"]:
             self.assertEqual(
@@ -2657,11 +2667,11 @@ def get_tender_bidder_document_ds(self):
         self.assertEqual(len(response.json["data"]), self.min_bids_number)
         self.assertEqual(
             set(response.json["data"][0].keys()),
-            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
+            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues", "items"},
         )
         self.assertEqual(
             set(response.json["data"][1].keys()),
-            {"id", "status", "tenderers", "lotValues"},
+            {"id", "status", "tenderers", "lotValues", "items"},
         )
         for bid in response.json["data"]:
             for lot_value in bid["lotValues"]:
@@ -2673,7 +2683,7 @@ def get_tender_bidder_document_ds(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(
             set(response.json["data"].keys()),
-            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
+            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues", "items"},
         )
         for lot_value in response.json["data"]["lotValues"]:
             self.assertEqual(
@@ -2710,11 +2720,11 @@ def get_tender_bidder_document_ds(self):
         self.assertEqual(len(response.json["data"]), self.min_bids_number)
         self.assertEqual(
             set(response.json["data"][0].keys()),
-            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
+            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues", "items"},
         )
         self.assertEqual(
             set(response.json["data"][1].keys()),
-            {"id", "status", "tenderers", "lotValues"},
+            {"id", "status", "tenderers", "lotValues", "items"},
         )
         for bid in response.json["data"]:
             for lot_value in bid["lotValues"]:
@@ -2726,7 +2736,7 @@ def get_tender_bidder_document_ds(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(
             set(response.json["data"].keys()),
-            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues"},
+            {"id", "status", "documents", "eligibilityDocuments", "tenderers", "lotValues", "items"},
         )
         for lot_value in response.json["data"]["lotValues"]:
             self.assertEqual(
@@ -2783,9 +2793,10 @@ def get_tender_bidder_document_ds(self):
         "financialDocuments",
         "selfQualified",
         "submissionDate",
+        "items",
     }
 
-    assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate"}
+    assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate", "items"}
 
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data_1.add("selfEligible")
@@ -2901,6 +2912,7 @@ def get_tender_bidder_document_ds(self):
             "financialDocuments",
             "selfQualified",
             "submissionDate",
+            "items",
         }
         self.assertEqual(
             set(response.json["data"][0].keys()),
@@ -2914,6 +2926,7 @@ def get_tender_bidder_document_ds(self):
             "tenderers",
             "selfQualified",
             "submissionDate",
+            "items",
         }
         self.assertEqual(
             set(response.json["data"][1].keys()),
@@ -3084,6 +3097,8 @@ def create_tender_bid_with_all_documents(self):
     bid_data["qualificationDocuments"] = deepcopy(docs)
     bid_data["eligibilityDocuments"] = deepcopy(docs)
     bid_data["financialDocuments"] = deepcopy(docs)
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -3340,7 +3355,7 @@ def view_bid_in_qualification_st_st(self):  # CS-5342
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification.stand-still")
     bids = response.json["data"]["bids"]
-    expected_keys = {"id", "status", "selfQualified", "lotValues", "tenderers", "date", "submissionDate"}
+    expected_keys = {"id", "status", "selfQualified", "lotValues", "tenderers", "date", "submissionDate", "items"}
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         expected_keys.add("selfEligible")
     self.assertEqual(set(bids[0].keys()), expected_keys)
