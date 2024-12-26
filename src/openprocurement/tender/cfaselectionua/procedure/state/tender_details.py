@@ -345,7 +345,7 @@ def get_guarantee_criterion(tender):
 
 def clean_criteria(criterion):
     def remove_fields(data):
-        field_for_remove = ('id', 'date', 'datePublished', 'eligibleEvidences')
+        field_for_remove = ("id", "date", "datePublished", "eligibleEvidences")
         for f in field_for_remove:
             data.pop(f, None)
 
