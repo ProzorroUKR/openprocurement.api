@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 TENDER_IDS = [
-    "adc7b7456a8b455fbbf25398c172633e",
+    "b02c5a1ffd7f44179a877fdf162f2ee0",
     "1df98a61b024438b8c70dbacb184e347",
     "5bc7fe5b190944c5b05b8da1d1a8ef22",
     "da30a3a0507b4fd68b71df0d2b650e33",
@@ -40,7 +40,6 @@ TENDER_IDS = [
     "37dc78121a2e4962b000641a9ad955ee",
     "88d8b58689d648979b9bf388f141c75a",
     "b2f5bebc8d37477e8d3f16b479377b24",
-    "b0879613cc5f416b9884696f88861c81",
     "b0879613cc5f416b9884696f88861c81",
     "4d09ceff4c6f4945aa9fc604e7f88814",
     "46a575d5471f4fcdb08847eadac548c8",
