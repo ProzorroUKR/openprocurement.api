@@ -736,7 +736,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         if required_criteria - tender_criteria:
             raise_operation_error(
                 get_request(),
-                f"Tender must contain all required criteria: {', '.join(sorted(required_criteria))}",
+                f"Tender must contain all required criteria: {', '.join(sorted(required_criteria - tender_criteria))}",
             )
 
         # Check article 16 criteria if required

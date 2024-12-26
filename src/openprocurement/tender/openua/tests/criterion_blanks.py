@@ -479,6 +479,11 @@ def activate_tender(self):
         doc = self.mongodb.tenders.get(self.tender_id)
         doc["mainProcurementCategory"] = "services"
         self.mongodb.tenders.save(doc)
+        tender_criteria = {
+            criterion["classification"]["id"]
+            for criterion in doc.get("criteria", "")
+            if criterion.get("classification")
+        }
 
         criteria_ids = self.required_criteria.union(
             {"CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"}
@@ -503,7 +508,8 @@ def activate_tender(self):
             [
                 {
                     'description': (
-                        f"Tender must contain all required criteria: " f"{', '.join(sorted(self.required_criteria))}"
+                        f"Tender must contain all required criteria: "
+                        f"{', '.join(sorted(self.required_criteria - tender_criteria))}"
                     ),
                     'location': 'body',
                     'name': 'data',
@@ -519,6 +525,12 @@ def activate_tender(self):
 
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
+        doc = self.mongodb.tenders.get(self.tender_id)
+        tender_criteria = {
+            criterion["classification"]["id"]
+            for criterion in doc.get("criteria", "")
+            if criterion.get("classification")
+        }
 
         # Try to activate once again (still not all required criteria)
         response = self.app.patch_json(
@@ -534,7 +546,8 @@ def activate_tender(self):
             [
                 {
                     'description': (
-                        f"Tender must contain all required criteria: " f"{', '.join(sorted(self.required_criteria))}"
+                        f"Tender must contain all required criteria: "
+                        f"{', '.join(sorted(self.required_criteria - tender_criteria))}"
                     ),
                     'location': 'body',
                     'name': 'data',
@@ -562,6 +575,13 @@ def activate_tender(self):
             ],
         )
 
+        doc = self.mongodb.tenders.get(self.tender_id)
+        tender_criteria = {
+            criterion["classification"]["id"]
+            for criterion in doc.get("criteria", "")
+            if criterion.get("classification")
+        }
+
         response = self.app.patch_json(
             request_path,
             {"data": {"status": self.primary_tender_status}},
@@ -575,7 +595,8 @@ def activate_tender(self):
             [
                 {
                     'description': (
-                        f"Tender must contain all required criteria: " f"{', '.join(sorted(self.required_criteria))}"
+                        f"Tender must contain all required criteria: "
+                        f"{', '.join(sorted(self.required_criteria - tender_criteria))}"
                     ),
                     'location': 'body',
                     'name': 'data',
