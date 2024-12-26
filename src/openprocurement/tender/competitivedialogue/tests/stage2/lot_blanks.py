@@ -15,7 +15,7 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import activate_contract
+from openprocurement.tender.core.tests.utils import activate_contract, set_bid_items
 
 # TenderStage2EU(UA)LotResourceTest
 
@@ -981,6 +981,8 @@ def create_tender_with_features_bidder(self):
             ],
         }
     )
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -1042,6 +1044,8 @@ def one_lot_1bid(self):
     # create bid
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
     bid_data["requirementResponses"] = generate_responses(self)
+    set_bid_items(self, bid_data)
+
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -1283,6 +1287,8 @@ def two_lot_2bid_1lot_del(self):
         }
     )
     bid_data["requirementResponses"] = generate_responses(self)
+    set_bid_items(self, bid_data)
+
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -1928,6 +1934,8 @@ def patch_tender_bidder_ua(self):
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
         }
     )
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -2129,6 +2137,8 @@ def one_lot_3bid_1un_ua(self):
     for i in range(3):
         bid_data["tenderers"] = tenderers[i]
         bid_data["requirementResponses"] = generate_responses(self)
+        set_bid_items(self, bid_data)
+
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -2299,6 +2309,7 @@ def two_lot_1bid_0com_1can_ua(self):
         }
     )
     bid_data["requirementResponses"] = generate_responses(self)
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
@@ -2338,6 +2349,8 @@ def two_lot_1bid_2com_1win_ua(self):
         }
     )
     bid_data["requirementResponses"] = generate_responses(self)
+    set_bid_items(self, bid_data)
+
     self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -2411,6 +2424,8 @@ def two_lot_1bid_0com_0win_ua(self):
         }
     )
     bid_data["requirementResponses"] = generate_responses(self)
+    set_bid_items(self, bid_data)
+
     self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -2448,6 +2463,8 @@ def two_lot_1bid_1com_1win_ua(self):
         }
     )
     bid_data["requirementResponses"] = generate_responses(self)
+    set_bid_items(self, bid_data)
+
     self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},

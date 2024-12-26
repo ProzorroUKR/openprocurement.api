@@ -20,7 +20,11 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.core.tests.utils import activate_contract, change_auth
+from openprocurement.tender.core.tests.utils import (
+    activate_contract,
+    change_auth,
+    set_bid_items,
+)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
@@ -1676,6 +1680,7 @@ def one_valid_bid_tender_ua(self):
     bid_data["tenderers"][0]["identifier"]["id"] = identifier["id"]
     bid_data["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
     bid_data["value"] = {"amount": 500}
+    set_bid_items(self, bid_data)
 
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
@@ -1709,6 +1714,8 @@ def one_invalid_and_1draft_bids_tender(self):
     bid_data["tenderers"][0]["identifier"]["id"] = identifier["id"]
     bid_data["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
     bid_data["value"] = {"amount": 500}
+    set_bid_items(self, bid_data)
+
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},

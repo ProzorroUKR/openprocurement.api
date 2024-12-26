@@ -16,6 +16,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
     test_tender_below_organization,
 )
+from openprocurement.tender.core.tests.utils import set_bid_items
 
 test_data_with_revisions = deepcopy(mock_doc)
 test_data_with_revisions["doc_type"] = "Tender"
@@ -239,15 +240,14 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tendering_historical = tendering_historical.json["data"]
         tendering = tendering.json["data"]
         self.assertEqual(tendering_historical, tendering)
-
+        bid_data = {
+            "lotValues": [{"value": {"amount": 499}, "relatedLot": self.initial_lots[0]["id"]}],
+            "tenderers": [test_tender_below_organization],
+        }
+        set_bid_items(self, bid_data, tender_id=tender["id"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender["id"]),
-            {
-                "data": {
-                    "lotValues": [{"value": {"amount": 499}, "relatedLot": self.initial_lots[0]["id"]}],
-                    "tenderers": [test_tender_below_organization],
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

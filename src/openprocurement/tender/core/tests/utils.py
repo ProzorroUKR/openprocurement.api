@@ -241,20 +241,37 @@ def set_tender_criteria(criteria, lots, items):
     return criteria
 
 
-def set_bid_items(bid, items):
-    bid["items"] = []
+def set_bid_items(self, bid, items=None, tender_id=None):
+    if not tender_id:
+        tender_id = self.tender_id
+
+    response = self.app.get(f"/tenders/{tender_id}")
+    tender = response.json["data"]
+    if not items:
+        items = tender["items"]
+
+    valueAddedTaxIncluded = None
+    if bid_value := bid.get("value", {}):
+        valueAddedTaxIncluded = bid_value.get("valueAddedTaxIncluded")
+    bid_items = []
     related_lot_ids = {lot_value["relatedLot"] for lot_value in bid.get("lotValues") or []}
     for item in items:
         if "relatedLot" in item and item["relatedLot"] not in related_lot_ids:
             continue
-        bid["items"].append(
+        bid_items.append(
             {
-                "quantity": 4,
+                "quantity": 4.0,
                 "description": "футляри до державних нагород",
                 "id": item['id'],
-                "unit": {"code": "KGM", "value": {"amount": 10, "currency": "UAH"}},
+                "unit": {
+                    "name": "Item",
+                    "code": "KGM",
+                    "value": {"amount": 10.0, "currency": "UAH", "valueAddedTaxIncluded": valueAddedTaxIncluded},
+                },
             }
         )
+    if bid_items:
+        bid["items"] = bid_items
     return bid
 
 

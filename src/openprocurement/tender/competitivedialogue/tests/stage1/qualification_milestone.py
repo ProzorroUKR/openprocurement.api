@@ -8,6 +8,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 from openprocurement.tender.core.tests.qualification_milestone import (
     TenderQualificationMilestone24HMixin,
 )
+from openprocurement.tender.core.tests.utils import set_bid_items
 
 
 class TenderPreQualificationMixin:
@@ -21,6 +22,8 @@ class TenderPreQualificationMixin:
         for n, bid in enumerate(self.initial_bids_data):
             bid = deepcopy(bid)
             bid["tenderers"][0]["identifier"]["id"] = "0000{}".format(n)
+            set_bid_items(self, bid)
+
             self.app.post_json(
                 "/tenders/{}/bids".format(self.tender_id),
                 {"data": bid},

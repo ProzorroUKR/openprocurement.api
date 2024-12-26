@@ -22,6 +22,7 @@ from openprocurement.tender.core.procedure.models.qualification_milestone import
 from openprocurement.tender.core.tests.utils import (
     change_auth,
     set_bid_items,
+    set_bid_lotvalues,
     set_bid_responses,
 )
 from openprocurement.tender.core.utils import calculate_tender_date
@@ -159,9 +160,11 @@ class BaseCoreWebTest(BaseWebTest):
         return response
 
     def create_bid(self, tender_id, bid_data, status=None):
-        if self.tender_for_funders:
-            tender = self.mongodb.tenders.get(tender_id)
-            set_bid_items(bid_data, tender["items"])
+        tender = self.mongodb.tenders.get(tender_id)
+        if tender.get("lots") and not bid_data.get("lotValues"):
+            set_bid_lotvalues(bid_data, tender["lots"])
+        if not bid_data.get("items"):
+            set_bid_items(self, bid_data, tender["items"], tender_id=tender_id)
 
         response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
         token = response.json["access"]["token"]
@@ -422,8 +425,7 @@ class BaseCoreWebTest(BaseWebTest):
             rrs = set_bid_responses(criteria)
             for bid in self.initial_bids:
                 bid = bid.copy()
-                if self.tender_for_funders:
-                    set_bid_items(bid, tender["items"])
+                set_bid_items(self, bid, tender["items"])
                 if self.initial_criteria:
                     bid["requirementResponses"] = rrs
                 if hasattr(self, "initial_bid_status") and self.initial_bid_status:

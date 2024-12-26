@@ -18,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     post_tender_bid_with_disabled_lot_values_restriction,
 )
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_open_bids,
@@ -169,6 +169,7 @@ class CreateBidMixin:
         bid_data = deepcopy(test_tender_open_bids[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
         bid_data["status"] = self.base_bid_status
+        set_bid_items(self, bid_data)
 
         # Create bid
         response = self.app.post_json(

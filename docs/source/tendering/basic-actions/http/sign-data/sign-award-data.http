@@ -142,6 +142,36 @@ Content-Type: application/json
           "status": "active",
           "id": "a5bf718ab7f14f40bef4ad334f3c936a",
           "date": "2023-10-10T01:00:00+03:00",
+          "items": [
+            {
+              "id": "555bf20c259e4bd79caba5d9d85d4d7b",
+              "description": "футляри до державних нагород",
+              "unit": {
+                "name": "Item",
+                "value": {
+                  "amount": 10.0,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true
+                },
+                "code": "KGM"
+              },
+              "quantity": 4.0
+            },
+            {
+              "id": "1ce1cd766ffc4843a26f4ea9b1f58638",
+              "description": "футляри до державних нагород",
+              "unit": {
+                "name": "Item",
+                "value": {
+                  "amount": 10.0,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true
+                },
+                "code": "KGM"
+              },
+              "quantity": 4.0
+            }
+          ],
           "lotValues": [
             {
               "value": {

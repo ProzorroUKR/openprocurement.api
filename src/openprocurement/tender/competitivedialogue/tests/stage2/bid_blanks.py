@@ -7,7 +7,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     now,
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 
 
 def create_tender_bidder_firm(self):
@@ -387,6 +387,8 @@ def features_bidder_eu(self):
         bid.pop("date")
         bid.pop("id")
         bid.pop("submissionDate")
+        bid.pop("items")
+        i.pop("items")
         bid["lotValues"][0].pop("date")
         bid["lotValues"][0]["value"]["amount"] = int(bid["lotValues"][0]["value"]["amount"])
         self.assertEqual(bid, i)
@@ -759,6 +761,8 @@ def create_tender_bidder_ua(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
     set_bid_lotvalues(bid_data, self.initial_lots)
+    set_bid_items(self, bid_data)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -983,6 +987,8 @@ def features_bidder_ua(self):
         bid.pop("date")
         bid.pop("id")
         bid.pop("submissionDate")
+        bid.pop("items")
+        i.pop("items")
         bid["lotValues"][0]["value"]["amount"] = int(bid["lotValues"][0]["value"]["amount"])
         bid["lotValues"][0].pop("date")
         self.assertEqual(bid, i)

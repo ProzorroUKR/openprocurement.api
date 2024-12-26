@@ -13,7 +13,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.utils import activate_contract
+from openprocurement.tender.core.tests.utils import (
+    activate_contract,
+    set_bid_items,
+    set_bid_lotvalues,
+)
 from openprocurement.tender.openua.tests.base import test_tender_openua_bids
 
 
@@ -665,10 +669,14 @@ def create_tender_bidder_invalid(self):
 
 
 def patch_tender_bidder(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     lot_id = self.initial_lots[0]["id"]
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id}]
+    set_bid_items(self, bid_data, tender["items"])
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -952,6 +960,9 @@ def create_tender_bidder_feature_invalid(self):
 
 
 def create_tender_bidder_feature(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     request_path = "/tenders/{}/bids".format(self.tender_id)
 
     bid_data = deepcopy(self.test_bids_data[0])
@@ -967,6 +978,7 @@ def create_tender_bidder_feature(self):
             ],
         }
     )
+    set_bid_items(self, bid_data, tender["items"])
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -1014,12 +1026,15 @@ def proc_1lot_1bid(self):
     # switch to active.tendering
     start_date = get_now() + timedelta(days=self.days_till_auction_starts)
     response = self.set_status("active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}}]})
+    tender = response.json["data"]
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"subcontractingDetails": "test", "value": {"amount": 500}, "relatedLot": lot_id}]
+
+    set_bid_items(self, bid_data, tender["items"])
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -1219,11 +1234,13 @@ def proc_1lot_3bid_1un(self):
     # switch to active.tendering
     start_date = get_now() + timedelta(days=self.days_till_auction_starts)
     response = self.set_status("active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}}]})
+    tender = response.json["data"]
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bids
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": lot_id}]
+    set_bid_items(self, bid_data, tender["items"])
     bids_data = {}
     for i in range(3):
         self.app.authorization = ("Basic", ("broker", ""))
@@ -1354,7 +1371,7 @@ def proc_2lot_1bid_0com_1can(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
-    self.set_status(
+    response = self.set_status(
         "active.tendering",
         {
             "lots": [
@@ -1367,6 +1384,7 @@ def proc_2lot_1bid_0com_1can(self):
             ]
         },
     )
+    tender = response.json["data"]
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -1374,6 +1392,7 @@ def proc_2lot_1bid_0com_1can(self):
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
 
+    set_bid_items(self, bid_data, tender["items"])
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -1401,10 +1420,17 @@ def proc_2lot_2bid_1lot_del(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     self.initial_lots = lots
+    tender_items = []
+    for i in lots:
+        item = self.initial_data["items"][0]
+        if i == lots[1]:
+            item["relatedLot"] = i
+        tender_items.append(item)
+
     # add item
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": tender_items}},
     )
 
     # switch to active.tendering
@@ -1420,6 +1446,7 @@ def proc_2lot_2bid_1lot_del(self):
     bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
@@ -1454,7 +1481,7 @@ def proc_2lot_1bid_2com_1win(self):
         lots.append(response.json["data"]["id"])
     # add item
     items = [deepcopy(self.initial_data["items"][0]) for i in lots]
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": items}},
     )
@@ -1468,14 +1495,17 @@ def proc_2lot_1bid_2com_1win(self):
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
     start_date = get_now() + timedelta(days=self.days_till_auction_starts)
-    self.set_status(
+    response = self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}} for i in lots]}
     )
+    tender = response.json["data"]
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
+
+    set_bid_items(self, bid_data, tender["items"])
 
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
@@ -1557,9 +1587,10 @@ def proc_2lot_1bid_0com_0win(self):
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
     start_date = get_now() + timedelta(days=self.days_till_auction_starts)
-    self.set_status(
+    response = self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}} for i in lots]}
     )
+    tender = response.json["data"]
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -1567,6 +1598,7 @@ def proc_2lot_1bid_0com_0win(self):
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
 
+    set_bid_items(self, bid_data, tender["items"])
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -1609,14 +1641,16 @@ def proc_2lot_1bid_1com_1win(self):
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
     start_date = get_now() + timedelta(days=self.days_till_auction_starts)
-    self.set_status(
+    response = self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}} for i in lots]}
     )
+    tender = response.json['data']
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data, tender["items"])
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {"data": bid_data},
@@ -1820,7 +1854,7 @@ def lots_features_delete(self):
     item["relatedLot"] = lots[0]
 
     # add features
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}?acc_token={}&opt_pretty=1".format(tender["id"], owner_token),
         {
             "data": {
@@ -1850,16 +1884,23 @@ def lots_features_delete(self):
             }
         },
     )
-    self.set_initial_status(tender_response)
+    response = self.set_initial_status(tender_response)
+    tender = response.json["data"]
     # create bid
     bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data.update(
         {
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[1]}],
-            "parameters": [{"code": "code_lot", "value": 0.01}, {"code": "code_tenderer", "value": 0.01}],
+            "parameters": [
+                {"code": "code_lot", "value": 0.01},
+                {"code": "code_tenderer", "value": 0.01},
+                {"code": "code_item", "value": 0.01},
+            ],
         }
     )
+    set_bid_lotvalues(bid_data, tender["lots"])
+    set_bid_items(self, bid_data)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),

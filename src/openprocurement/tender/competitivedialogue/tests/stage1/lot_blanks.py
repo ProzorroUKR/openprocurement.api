@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
+from openprocurement.tender.core.tests.utils import set_bid_items
 
 
 def create_tender_bidder_invalid(self):
@@ -50,6 +51,7 @@ def create_tender_bidder_invalid(self):
 
     # Field 'value' doesn't exists on first stage
     bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.initial_lots[0]["id"]}]
+    set_bid_items(self, bid_data)
 
     response = self.app.post_json(request_path, {"data": bid_data}, status=422)
     self.assertEqual(
@@ -160,6 +162,7 @@ def create_tender_with_features_bidder_invalid(self):
 
     # Field 'value' doesn't exists on first stage
     bid_data["lotValues"] = [{"relatedLot": self.lot_id}]
+    set_bid_items(self, bid_data)
 
     response = self.app.post_json(
         request_path,
@@ -379,22 +382,15 @@ def two_lot_2bid_1lot_del(self):
 
     bids = []
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"] = [{"relatedLot": lot_id} for lot_id in lots]
-    self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    bids.append(response.json)
+    # bid_data["lotValues"] = [{"relatedLot": lot_id} for lot_id in lots]
+    bid, _ = self.create_bid(tender_id, bid_data)
+    bids.append(bid)
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
 
     bid_data["tenderers"] = self.test_bids_data[1]["tenderers"]
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    bids.append(response.json)
+    bid, _ = self.create_bid(tender_id, bid_data)
+    bids.append(bid)
     response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lots[0], owner_token))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

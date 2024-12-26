@@ -15,7 +15,12 @@ from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.constants import RELEASE_2020_04_19, TZ
+from openprocurement.api.constants import (
+    BID_ITEMS_REQUIRED_FROM,
+    BID_REQUIRED_ITEMS_TENDER_TYPES,
+    RELEASE_2020_04_19,
+    TZ,
+)
 from openprocurement.api.context import get_json_data, get_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
@@ -24,6 +29,7 @@ from openprocurement.api.procedure.utils import (
     append_revision,
     apply_data_patch,
     get_revision_changes,
+    is_obj_const_active,
     parse_date,
 )
 from openprocurement.api.utils import (
@@ -575,3 +581,9 @@ def prepare_tender_item_for_contract(item):
     if prepated_item.get("profile", None):
         prepated_item.pop("profile")
     return prepated_item
+
+
+def is_bid_items_required():
+    tender = get_tender()
+    tender_pm = tender["procurementMethodType"]
+    return is_obj_const_active(tender, BID_ITEMS_REQUIRED_FROM) and tender_pm in BID_REQUIRED_ITEMS_TENDER_TYPES

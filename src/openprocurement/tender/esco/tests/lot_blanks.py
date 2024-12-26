@@ -3,7 +3,7 @@ from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
 
 
 def create_tender_lot_invalid(self):
@@ -529,6 +529,7 @@ def lot_yppr_validation(self):
     bid["lotValues"][0]["value"]["yearlyPaymentsPercentage"] = 0.65
     bid["lotValues"][1]["value"]["yearlyPaymentsPercentage"] = 0.4
     bid["status"] = "draft"
+    set_bid_items(self, bid, tender_id=tender_id)
     response = self.app.post_json("/tenders/{}/bids?acc_token={}".format(tender_id, owner_token), {"data": bid})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "draft")
@@ -1576,6 +1577,7 @@ def create_tender_feature_bid(self):
             ],
         }
     )
+    set_bid_items(self, bid_data)
     response = self.app.post_json(
         request_path,
         {"data": bid_data},

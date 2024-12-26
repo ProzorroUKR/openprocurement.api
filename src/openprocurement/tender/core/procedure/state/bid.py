@@ -2,6 +2,8 @@ import logging
 from collections import defaultdict
 from decimal import Decimal
 
+from schematics.types import BaseType
+
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
@@ -15,11 +17,15 @@ from openprocurement.tender.cfaselectionua.procedure.utils import (
     equals_decimal_and_corrupted,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.utils import get_supplier_contract
+from openprocurement.tender.core.procedure.utils import (
+    get_supplier_contract,
+    is_bid_items_required,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
     validate_doc_type_required,
     validate_items_unit_amount,
+    validate_required_fields,
 )
 
 logger = logging.getLogger(__name__)
@@ -27,7 +33,10 @@ logger = logging.getLogger(__name__)
 
 class BidState(BaseState):
     items_unit_value_required_for_funders = False
-    check_all_exist_tender_items = False
+
+    @property
+    def check_all_exist_tender_items(self):
+        return is_bid_items_required()
 
     def status_up(self, before, after, data):
         if before in ("draft", "invalid") and after == "pending":
@@ -37,7 +46,7 @@ class BidState(BaseState):
     def on_post(self, data):
         now = get_now().isoformat()
         data["date"] = now
-
+        self.validate_items_required_field(data)
         self.validate_bid_unit_value(data)
         self.validate_status(data)
         self.validate_bid_vs_agreement(data)
@@ -53,6 +62,7 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
+        self.validate_items_required_field(after)
         self.lot_values_patch_keep_unchange(after, before)
         self.validate_bid_unit_value(after)
         self.validate_status_change(before, after)
@@ -63,22 +73,24 @@ class BidState(BaseState):
         self.invalidate_pending_bid_after_patch(after, before)
         super().on_patch(before, after)
 
+    def raise_items_error(self, message):
+        raise_operation_error(
+            self.request,
+            message,
+            status=422,
+            location="body",
+            name="items",
+        )
+
     def validate_bid_unit_value(self, data):
         tender = get_tender()
         items_for_lot = False
         tender_items_id = {}
-
-        def raise_items_error(message):
-            raise_operation_error(
-                self.request,
-                message,
-                status=422,
-                location="body",
-                name="items",
-            )
+        tender_lot_id = {}
 
         tender_items = tender.get("items", [])
         if lot_values := data.get("lotValues"):
+            tender_lot_id = {item["id"]: item["relatedLot"] for item in tender_items if item.get("relatedLot")}
             items_unit_value_amount = defaultdict(lambda: [])
             lot_values_by_id = {}
             for lot_value in lot_values:
@@ -95,17 +107,35 @@ class BidState(BaseState):
         if data.get("items"):
             for item in data["items"]:
                 if value := item.get("unit", {}).get("value"):
-                    if tender.get("value", {}).get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
-                        raise_items_error(
-                            "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
-                        )
-                    if tender["config"]["valueCurrencyEquality"] is True and tender.get("value", {}).get(
-                        "currency"
-                    ) != value.get("currency"):
-                        raise_items_error("currency of bid unit should be identical to currency of tender value")
+                    if items_for_lot:
+                        lot_id = tender_lot_id.get(item["id"])
+                        if (lot_value := lot_values_by_id.get(lot_id)) and lot_value.get("value"):
+                            if lot_value["value"].get("valueAddedTaxIncluded") is not None and lot_value["value"].get(
+                                "valueAddedTaxIncluded"
+                            ) != value.get("valueAddedTaxIncluded"):
+                                self.raise_items_error(
+                                    "valueAddedTaxIncluded of bid unit should be identical "
+                                    "to valueAddedTaxIncluded of bid lotValues",
+                                )
+                    elif bid_value := data.get("value", {}):
+                        if bid_value.get("valueAddedTaxIncluded") is not None and bid_value.get(
+                            "valueAddedTaxIncluded"
+                        ) != value.get("valueAddedTaxIncluded"):
+                            self.raise_items_error(
+                                "valueAddedTaxIncluded of bid unit should be identical "
+                                "to valueAddedTaxIncluded of bid value",
+                            )
+
+                    if tender_value := tender.get("value", {}):
+                        if tender["config"]["valueCurrencyEquality"] is True and tender_value.get(
+                            "currency"
+                        ) != value.get("currency"):
+                            self.raise_items_error(
+                                "currency of bid unit should be identical to currency of tender value"
+                            )
                     if item.get("quantity") is not None:
                         if item["quantity"] == 0 and item["unit"]["value"]["amount"] != 0:
-                            raise_items_error(
+                            self.raise_items_error(
                                 "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
                             )
                         if items_for_lot:
@@ -121,9 +151,9 @@ class BidState(BaseState):
                             )
 
                 elif self.items_unit_value_required_for_funders and tender.get("funders"):
-                    raise_items_error("items.unit.value is required for tender with funders")
+                    self.raise_items_error("items.unit.value is required for tender with funders")
         elif self.items_unit_value_required_for_funders and tender.get("funders"):
-            raise_items_error("items is required for tender with funders")
+            self.raise_items_error("items is required for tender with funders")
 
         if items_for_lot:
             for lot_id, items_ids in items_unit_value_amount.items():
@@ -266,6 +296,29 @@ class BidState(BaseState):
                 f"Bid items ids should include all tender items ids{' for current lot' if items_for_lot else ''}",
                 status=422,
             )
+
+    def validate_items_required_field(self, after: dict):
+        tender = self.request.validated["tender"]
+        tender_items = tender.get("items")
+        bid_items = after.get("items")
+
+        if not is_bid_items_required() or not tender_items:
+            return
+
+        if tender_items and not bid_items:
+            self.raise_items_error(BaseType.MESSAGES["required"])
+
+        item_required_fields = {
+            "description": None,
+            "unit": {
+                "name": None,
+                "code": None,
+            },
+            "quantity": None,
+        }
+
+        for item in bid_items:
+            validate_required_fields(self.request, item, item_required_fields, name="items")
 
     def validate_items_related_product(self, after: dict, before: dict) -> None:
         after_items_rps = {item["id"]: item.get("product", "") for item in after.get("items", "")}

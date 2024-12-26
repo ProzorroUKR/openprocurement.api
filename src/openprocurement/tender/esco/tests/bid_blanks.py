@@ -9,7 +9,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
 from openprocurement.tender.esco.procedure.utils import to_decimal
 from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,
@@ -534,6 +534,8 @@ def create_tender_bid(self):
             ],
         }
     )
+    set_bid_items(self, data)
+
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -567,6 +569,8 @@ def create_tender_bid(self):
     ecriteria_released = get_now() < RELEASE_ECRITERIA_ARTICLE_17
     if ecriteria_released:
         data["selfEligible"] = False
+
+    set_bid_items(self, data)
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -587,6 +591,7 @@ def create_tender_bid(self):
     for status in ("active", "unsuccessful", "deleted", "invalid"):
         data = deepcopy(self.test_bids_data[0])
         data.update({"status": status})
+        set_bid_items(self, data)
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=403)
         self.assertEqual(response.status, "403 Forbidden")
 
@@ -614,6 +619,7 @@ def create_tender_bid_lot(self):
             "qualificationDocuments": None,
         }
     )
+    set_bid_items(self, data)
 
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
     self.assertEqual(response.status, "201 Created")
@@ -667,7 +673,7 @@ def create_tender_bid_31_12(self):
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["noticePublicationDate"] = datetime(2017, 12, 31).isoformat()
     self.mongodb.tenders.save(tender)
-
+    set_bid_items(self, self.test_bids_data[0])
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": self.test_bids_data[0]})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1052,6 +1058,7 @@ def delete_tender_bidder(self):
 
 
 def bid_Administrator_change(self):
+    set_bid_items(self, self.test_bids_data[0])
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": self.test_bids_data[0]})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1361,6 +1368,7 @@ def features_bid_invalid(self):
     )
     data["parameters"][1]["code"] = "OCDS-123454-YEARS"
     data["parameters"][1]["value"] = 0.2
+    set_bid_items(self, data)
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1380,6 +1388,7 @@ def features_bid_invalid(self):
 def features_bid(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update({"parameters": [{"code": i["code"], "value": 0.03} for i in self.initial_data["features"]]})
+    set_bid_items(self, bid_data)
     for i in [bid_data] * 2:
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
         i["status"] = "pending"
