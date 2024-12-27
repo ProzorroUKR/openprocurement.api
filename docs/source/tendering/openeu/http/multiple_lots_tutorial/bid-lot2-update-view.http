@@ -11,7 +11,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "b107fd651779457994cf8d66f0c66b75",
+        "relatedLot": "90605edc448c4de18fee176ba1865b55",
         "date": "2023-10-10T01:00:00+03:00",
         "subcontractingDetails": "ДКП «Орфей»"
       }
@@ -29,9 +29,9 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "value": true,
-        "id": "9f5f4ac54f514df0aae37c82604f5ff4",
+        "id": "f088b043ed1747b1b1deb3025b8d4213",
         "requirement": {
-          "id": "82ba47d81be4425b9e1b84a2d5d79631",
+          "id": "9fc1e972ae6d483ca90b39378f32e04e",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
         },
         "classification": {
@@ -41,9 +41,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "b6f96662596c4467a6578a65e54cd423",
+        "id": "47762be9dca049cda55024d58abb9e69",
         "requirement": {
-          "id": "75995858297f48d1803bcc8725b76219",
+          "id": "a99634bf28d64c858c449a37f1d78bc9",
           "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "classification": {
@@ -53,9 +53,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "35e982bef9b241fa91cd8998668853cb",
+        "id": "69a0ae324e18419d90c40fc09d0029ea",
         "requirement": {
-          "id": "bcc793c4c6e246a8ae7aaba4df2e68fa",
+          "id": "f17ce68702824fdc8526844a6539639a",
           "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
         },
         "classification": {
@@ -65,9 +65,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "b88ee3b0f9ee46759b2e621432a6c13e",
+        "id": "f03af0046c86460197d2b7cdca67e6e3",
         "requirement": {
-          "id": "1e4aa30c763a45dfb5b24e712d5b46fd",
+          "id": "2ea5198a6ae94af2b4af48cedf7c72a9",
           "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
         },
         "classification": {
@@ -77,9 +77,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "c19fd72e56a04b1b8bcaf46edaf56322",
+        "id": "fd3bb29d42ca4b37a4ea41b83f7cbff9",
         "requirement": {
-          "id": "23589d391d0b4090805384c85f269cf6",
+          "id": "7314b7bbc43f4e19871af88643ef50b6",
           "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
         },
         "classification": {
@@ -89,9 +89,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "8c4d1861feff4df391f5c5916276c440",
+        "id": "7f0f64c4bd3e4c1f8076a836d0491e7d",
         "requirement": {
-          "id": "376437b9479f4b64a085bdbb6241d7f0",
+          "id": "0ed02e7073eb4f018ce5199a1f52b621",
           "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
         },
         "classification": {
@@ -101,9 +101,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "d419aef3dab1477e9ba5eb8cdae75354",
+        "id": "22645db6a3f84fd68a5133cf0e3c6960",
         "requirement": {
-          "id": "c47e65de8ec943d5a4f476f6d7e8a16c",
+          "id": "b51230b2e4194c6790678ff17a4974cd",
           "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
         },
         "classification": {
@@ -113,9 +113,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "823394b9afd946558d440ce94f550353",
+        "id": "1a12bcb0f3cf41e49ef0bdcf18993939",
         "requirement": {
-          "id": "3890b7db8e6c4aeb8e4b493628f79134",
+          "id": "e3616e05e5904e698e61d1d1899c4119",
           "title": "Учасник процедури закупівлі не мав з цим самим замовником договорів достроково розірваних через невиконання (учасником) своїх зобов'язань через що було застосовано санкції у вигляді штрафів та/або відшкодування збитків"
         },
         "classification": {
@@ -125,9 +125,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "fb6ab1dd41fc45c79f11909e54037b32",
+        "id": "ede3e533c40c4270a97116a9c18a5e55",
         "requirement": {
-          "id": "a1d712a541964d4caa2bcf4319e67f32",
+          "id": "f1a4c52c84834e5588b933d3545bfb4b",
           "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
         },
         "classification": {
@@ -137,9 +137,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "d629a3c73c6c418fbd41cfe3ffb6c0db",
+        "id": "68f1aa2f82f84a26a75b266f25f6ed82",
         "requirement": {
-          "id": "d907889b438f4091b8521e3c4b959d0f",
+          "id": "0971040a6d594a84b1c7559504e1eb13",
           "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
         },
         "classification": {
@@ -151,9 +151,9 @@ Content-Type: application/json
         "values": [
           "Українська"
         ],
-        "id": "469243bff40b43c88eab7cd489479db2",
+        "id": "5b7957f4387c4121b12ea0ed99cb6510",
         "requirement": {
-          "id": "a57dec07da6b40fc914acd7ef775f148",
+          "id": "0010ac5cd8244983888a3d3c7604c186",
           "title": "Мова тендерної пропозиції"
         },
         "classification": {
@@ -163,9 +163,9 @@ Content-Type: application/json
       },
       {
         "value": true,
-        "id": "0a62e926de25462ebf234614412702c1",
+        "id": "3edc7c6394924820be8a79f9f7d9289e",
         "requirement": {
-          "id": "9a8e3be9588340ecab7b9fc49eeda010",
+          "id": "04cd380a7d3f462eae802cd478850d85",
           "title": "Наявність обладнання, матеріально-технічної бази та технологій"
         },
         "classification": {
@@ -209,7 +209,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "b107fd651779457994cf8d66f0c66b75",
+        "relatedLot": "90605edc448c4de18fee176ba1865b55",
         "subcontractingDetails": "ДКП «Орфей»",
         "status": "pending",
         "date": "2023-10-10T01:01:00+03:00"
@@ -219,7 +219,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "b87341ba0de7495e93f3d1020403e5bc",
+        "id": "5f2b063c4a254d9988ec606d1b8b16be",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -232,7 +232,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "b87341ba0de7495e93f3d1020403e5bc",
+        "id": "5f2b063c4a254d9988ec606d1b8b16be",
         "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

@@ -469,6 +469,7 @@ def create_tender_bid_invalid_funding_kind_budget(self):
             }
         ],
     }
+    set_bid_items(self, bid_data)
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid_data["selfEligible"] = True
 

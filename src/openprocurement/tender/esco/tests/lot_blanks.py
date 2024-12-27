@@ -476,6 +476,7 @@ def lot_yppr_validation(self):
     bid["lotValues"][0]["relatedLot"] = lot_id1
     bid["lotValues"][1]["relatedLot"] = lot_id2
     del bid["value"]
+    set_bid_items(self, bid, tender_id=tender_id)
 
     response = self.app.post_json(
         "/tenders/{}/bids?acc_token={}".format(tender_id, owner_token), {"data": bid}, status=422

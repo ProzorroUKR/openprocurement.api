@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      SANDBOX_MODE: 'True'
+      SANDBOX_MODE: ''
     depends_on:
       - mongo
     volumes:

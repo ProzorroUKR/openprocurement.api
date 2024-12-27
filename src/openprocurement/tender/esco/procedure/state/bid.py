@@ -7,7 +7,6 @@ from openprocurement.tender.core.procedure.state.bid import BidState
 
 
 class ESCOBidState(BidState):
-
     def on_post(self, data):
         super().on_post(data)
         self.set_yearly_payments_percentage_for_lots(data)

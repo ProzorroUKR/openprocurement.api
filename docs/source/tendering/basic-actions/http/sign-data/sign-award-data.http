@@ -144,7 +144,7 @@ Content-Type: application/json
           "date": "2023-10-10T01:00:00+03:00",
           "items": [
             {
-              "id": "555bf20c259e4bd79caba5d9d85d4d7b",
+              "id": "8840f90710624691b182d38026bbbe44",
               "description": "футляри до державних нагород",
               "unit": {
                 "name": "Item",
@@ -158,7 +158,7 @@ Content-Type: application/json
               "quantity": 4.0
             },
             {
-              "id": "1ce1cd766ffc4843a26f4ea9b1f58638",
+              "id": "ff7b47fdbdf04d5692cdb738f54c20bb",
               "description": "футляри до державних нагород",
               "unit": {
                 "name": "Item",

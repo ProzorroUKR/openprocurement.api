@@ -375,7 +375,6 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
 
 class TenderComplaintState(ComplaintStateMixin, TenderState):
-
     def validate_objection_related_item(self, complaint):
         super().validate_objection_related_item(complaint)
         if objections := complaint.get("objections", []):
