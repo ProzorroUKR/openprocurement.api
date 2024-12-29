@@ -56,6 +56,6 @@ class TenderState(
 
     def always(self, data):
         super().always(data)
-        self.update_next_check(data)
         self.calc_auction_periods(data)
+        self.update_next_check(data)  # next_check should be after calc_auction_periods
         self.calc_tender_values(data)
