@@ -1,0 +1,4 @@
+frameworkType,values,default
+dynamicPurchasingSystem,"true,false",false
+electronicCatalogue,false,false
+internationalFinancialInstitutions,"true,false",false

@@ -1,0 +1,106 @@
+POST /api/2.5/frameworks HTTP/1.0
+Authorization: Bearer brokerr
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "frameworkType": "dynamicPurchasingSystem",
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "kind": "general",
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "name": "Державне управління справами"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "classification": {
+      "scheme": "ДК021",
+      "description": "Mustard seeds",
+      "id": "03111600-8"
+    },
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
+    "qualificationPeriod": {
+      "endDate": "2023-12-09T01:00:00+03:00"
+    },
+    "items": [
+      {
+        "description": "футляри до державних нагород",
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Mustard seeds",
+          "id": "03111600-8"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "amount": 6
+          }
+        },
+        "quantity": 5,
+        "deliveryDate": {
+          "startDate": "2023-10-12T00:00:00+02:00",
+          "endDate": "2023-10-15T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
+        }
+      }
+    ]
+  },
+  "config": {
+    "restrictedDerivatives": false,
+    "clarificationUntilDuration": 3,
+    "qualificationComplainDuration": 0,
+    "hasItems": false
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "items",
+      "description": "Items are not allowed for framework with hasItems set to false"
+    }
+  ]
+}
+
