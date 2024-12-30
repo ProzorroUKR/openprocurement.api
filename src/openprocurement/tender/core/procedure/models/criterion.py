@@ -20,6 +20,7 @@ from openprocurement.api.procedure.models.item import (
 )
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.reference import Reference
+from openprocurement.api.procedure.models.unit import Unit as BaseUnit
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.constants import (
@@ -30,7 +31,6 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.procedure.models.identifier import (
     LegislationIdentifier,
 )
-from openprocurement.tender.core.procedure.models.unit import Unit as BaseUnit
 from openprocurement.tender.core.procedure.validation import (
     TYPEMAP,
     validate_object_id_uniq,

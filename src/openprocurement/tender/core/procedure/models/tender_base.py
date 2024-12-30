@@ -20,6 +20,9 @@ from openprocurement.tender.core.procedure.models.document import (
     PostDocument,
     validate_tender_document_relations,
 )
+from openprocurement.tender.core.procedure.models.item import (
+    validate_related_buyer_in_items,
+)
 from openprocurement.tender.core.procedure.models.organization import (
     Buyer,
     Organization,
@@ -133,6 +136,9 @@ class PostBaseTender(CommonBaseTender):
         if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
 
+    def validate_items(self, data, items):
+        validate_related_buyer_in_items(data, items)
+
     def validate_procurementMethodDetails(self, data, value):
         if self.mode and self.mode == "test" and self.procurementMethodDetails and self.procurementMethodDetails != "":
             raise ValidationError("procurementMethodDetails should be used with mode test")
@@ -206,6 +212,9 @@ class BaseTender(PatchBaseTender):
 
     numberOfBids = BaseType()  # deprecated
     _attachments = BaseType()  # deprecated
+
+    def validate_items(self, data, items):
+        validate_related_buyer_in_items(data, items)
 
     def validate_mainProcurementCategory(self, data, value):
         if value is None:

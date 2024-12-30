@@ -6,7 +6,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     activate_bid_guarantee_multilot,
     create_tender_central,
     create_tender_central_invalid,
-    create_tender_with_earlier_non_required_unit,
     create_tender_with_inn,
     create_tender_with_required_unit,
     guarantee,
@@ -74,7 +73,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
-    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_not_author = snitch(patch_not_author)
 

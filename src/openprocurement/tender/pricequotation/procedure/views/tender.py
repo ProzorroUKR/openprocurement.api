@@ -27,9 +27,6 @@ from openprocurement.tender.pricequotation.procedure.models.tender import (
 from openprocurement.tender.pricequotation.procedure.state.tender_details import (
     TenderDetailsState,
 )
-from openprocurement.tender.pricequotation.procedure.validation import (
-    validate_tender_criteria_existence,
-)
 
 
 @resource(
@@ -71,7 +68,6 @@ class PriceQuotationTenderResource(TendersResource):
             ),
             validate_input_data(PatchTender, none_means_remove=True),
             validate_patch_data_simple(Tender, item_name="tender"),
-            validate_tender_criteria_existence,
             validate_item_quantity,
             validate_tender_guarantee,
         ),

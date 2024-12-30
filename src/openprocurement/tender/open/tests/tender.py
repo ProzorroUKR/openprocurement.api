@@ -7,7 +7,6 @@ from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTes
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
-    create_tender_with_earlier_non_required_unit,
     create_tender_with_inn,
     create_tender_with_required_unit,
     guarantee,
@@ -83,7 +82,6 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
-    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_get_ocds_schema = snitch(get_ocds_schema)
     test_tender_created_before_related_lot_constant = snitch(tender_created_before_related_lot_constant)

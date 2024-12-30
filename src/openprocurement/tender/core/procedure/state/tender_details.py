@@ -36,7 +36,6 @@ from openprocurement.api.utils import (
     get_tender_profile,
     raise_operation_error,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
@@ -74,7 +73,6 @@ from openprocurement.tender.core.utils import (
     get_criteria_rules,
 )
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.pricequotation.constants import PQ
 
 
 class TenderConfigMixin:
@@ -194,6 +192,10 @@ class TenderDetailsMixing(TenderConfigMixin):
     tender_complain_regulation_working_days = False
     enquiry_before_tendering = False
     should_validate_related_lot_in_items = True
+    agreement_allowed_types = []
+    agreement_with_items_forbidden = False
+    agreement_without_items_forbidden = False
+    items_profile_required = False
 
     calendar = WORKING_DAYS
 
@@ -281,6 +283,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         super().on_patch(before, after)
 
     def always(self, data):
+        self.validate_items_profile(data)
         self.set_mode_test(data)
         super().always(data)
 
@@ -328,11 +331,16 @@ class TenderDetailsMixing(TenderConfigMixin):
             )
 
         if tender["config"]["hasPreSelectionAgreement"] is True:
-            agreements = [tender["agreement"]] if tender.get("agreement") else tender.get("agreements")
-            if not agreements:
+            tender_agreements = tender.get(self.agreement_field)
+
+            if not isinstance(tender_agreements, list):
+                # PQ has field "agreement" with single object instead of "agreements" with list of objects
+                tender_agreements = [tender_agreements]
+
+            if not tender_agreements:
                 raise_agreements_error("This field is required.")
 
-            if len(agreements) != 1:
+            if len(tender_agreements) != 1:
                 raise_agreements_error("Exactly one agreement is expected.")
 
             agreement = get_object("agreement")
@@ -340,13 +348,14 @@ class TenderDetailsMixing(TenderConfigMixin):
             if not agreement:
                 raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
 
-            tender_agreement_type_mapping = {
-                COMPETITIVE_ORDERING: DPS_TYPE,
-                PQ: ELECTRONIC_CATALOGUE_TYPE,
-            }
-
-            if tender_agreement_type_mapping[tender["procurementMethodType"]] != agreement["agreementType"]:
+            if agreement["agreementType"] not in self.agreement_allowed_types:
                 raise_agreements_error("Agreement type mismatch.")
+
+            if self.agreement_with_items_forbidden and agreement.get("items"):
+                raise_agreements_error("Agreement with items is not allowed.")
+
+            if self.agreement_without_items_forbidden and not agreement.get("items"):
+                raise_agreements_error("Agreement without items is not allowed.")
 
             if self.is_agreement_not_active(agreement):
                 raise_agreements_error(AGREEMENT_STATUS_MESSAGE)
@@ -356,6 +365,49 @@ class TenderDetailsMixing(TenderConfigMixin):
 
             if self.has_mismatched_procuring_entities(tender, agreement):
                 raise_agreements_error(AGREEMENT_IDENTIFIER_MESSAGE)
+
+            self.validate_profiles(tender)
+
+    def validate_profiles(self, tender):
+        agreement = get_object("agreement")
+
+        profile_ids = []
+
+        if "profile" in tender:
+            # Tender profile field is deprecated. Switched to profile field in items
+            profile_ids = [tender["profile"]]
+
+            if not profile_ids and agreement.get("agreementType") == ELECTRONIC_CATALOGUE_TYPE:
+                raise_operation_error(
+                    self.request,
+                    "Profiles not found",
+                    status=422,
+                )
+        else:
+            for items in tender.get("items", []):
+                profile_id = items.get("profile")
+                if profile_id:
+                    profile_ids.append(profile_id)
+
+                if not profile_id and agreement.get("agreementType") == ELECTRONIC_CATALOGUE_TYPE:
+                    raise_operation_error(
+                        self.request,
+                        f"Profile not found in item {items['id']}",
+                        name="items.profile",
+                        status=422,
+                    )
+
+        for profile_id in profile_ids:
+            profile = get_tender_profile(self.request, profile_id, validate_status=("active", "general"))
+
+            profile_agreement_id = profile.get("agreementID")
+            tender_agreement_id = tender.get("agreement", {}).get("id")
+            if profile_agreement_id != tender_agreement_id:
+                raise_operation_error(
+                    self.request,
+                    "Tender agreement doesn't match profile agreement",
+                    status=422,
+                )
 
     def set_mode_test(self, tender):
         if tender["config"].get("test"):
@@ -743,15 +795,10 @@ class TenderDetailsMixing(TenderConfigMixin):
             return
 
         rules = get_criteria_rules(after)
-        if not rules:
-            return
 
-        tender_criteria = {
-            criterion["classification"]["id"]
-            for criterion in after.get("criteria", "")
-            if criterion.get("classification")
-        }
+        criteria = after.get("criteria", "")
 
+        # Load criteria rules
         required_criteria = set()
         required_article_16_criteria = set()
 
@@ -760,6 +807,18 @@ class TenderDetailsMixing(TenderConfigMixin):
                 required_criteria.add(criterion_id)
             if "required_article_16" in criterion_rules["rules"]:
                 required_article_16_criteria.add(criterion_id)
+
+        # Gather tender criteria and item criteria
+        tender_criteria = []
+        item_criteria = {}
+        for criterion in criteria:
+            if criterion.get("classification"):
+                tender_criteria.append(criterion["classification"]["id"])
+                if criterion.get("relatesTo") == "item":
+                    related_item = criterion.get("relatedItem")
+                    if related_item:
+                        item_criteria[related_item] = criterion["classification"]["id"]
+        tender_criteria = set(tender_criteria)
 
         # Check required criteria
         if required_criteria - tender_criteria:
@@ -778,6 +837,18 @@ class TenderDetailsMixing(TenderConfigMixin):
                 get_request(),
                 f"Tender must contain one of ARTICLE_16 criteria: {', '.join(sorted(required_article_16_criteria))}",
             )
+
+        # TODO: Move to criteria rules standard
+        # Check TECHNICAL_FEATURES criteria
+        # FIXME: Fix tests
+        # items = after.get("items", "")
+        # for item in items:
+        #     if "profile" in item:
+        #         if CRITERION_TECHNICAL_FEATURES not in item_criteria.get(item["id"], []):
+        #             raise_operation_error(
+        #                 get_request(),
+        #                 f"Tender must contain {CRITERION_TECHNICAL_FEATURES} criteria for items with profile defined",
+        #             )
 
     def validate_minimal_step(self, data, before=None):
         """
@@ -909,7 +980,7 @@ class TenderDetailsMixing(TenderConfigMixin):
 
         prefix_length = get_cpv_prefix_length(classifications)
         prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
-        if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
+        if classifications and len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
             raise_operation_error(
                 get_request(),
                 [f"CPV {prefix_name} of items should be identical"],
@@ -1125,6 +1196,17 @@ class TenderDetailsMixing(TenderConfigMixin):
     @staticmethod
     def set_enquiry_period_invalidation_date(tender):
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+
+    def validate_items_profile(self, tender):
+        if self.items_profile_required:
+            for item in tender["items"]:
+                if not item.get("profile"):
+                    raise_operation_error(
+                        self.request,
+                        [{"profile": ["This field is required."]}],
+                        status=422,
+                        name="items",
+                    )
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

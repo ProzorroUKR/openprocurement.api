@@ -7,36 +7,27 @@ from openprocurement.api.constants import (
     CPV_PHARM_PRODUCTS,
     INN_SCHEME,
     MULTI_CONTRACTS_REQUIRED_FROM,
-    UNIT_CODE_REQUIRED_FROM,
     UNIT_PRICE_REQUIRED_FROM,
 )
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import AdditionalClassification
 from openprocurement.api.procedure.models.item import (
-    CPVClassification as BaseCPVClassification,
-)
-from openprocurement.api.procedure.models.item import (
+    AdditionalClassification,
+    CPVClassification,
     Location,
     TechFeatureItemMixin,
     validate_additional_classifications,
-    validate_scheme,
 )
 from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.unit import Unit
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.api.procedure.utils import is_obj_const_active
-from openprocurement.tender.core.procedure.models.address import Address
-from openprocurement.tender.core.procedure.models.unit import Unit
 from openprocurement.tender.core.procedure.validation import (
     validate_ccce_ua,
     validate_gmdn,
     validate_ua_road,
 )
-
-
-class CPVClassification(BaseCPVClassification):
-    def validate_scheme(self, data, scheme):
-        validate_scheme(get_tender(), scheme)
 
 
 class BaseItem(Model):
@@ -66,8 +57,7 @@ class Item(BaseItem):
 
     def validate_unit(self, data, value):
         if not value:
-            if is_obj_const_active(get_tender(), UNIT_CODE_REQUIRED_FROM):
-                raise ValidationError(BaseType.MESSAGES["required"])
+            raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_additionalClassifications(self, data, items):
         validate_additional_classifications(get_tender(), data, items)
@@ -80,23 +70,6 @@ class Item(BaseItem):
 
 class TechFeatureItem(TechFeatureItemMixin, Item):
     pass
-
-
-class RelatedBuyerMixing:
-    """
-    Add this mixing to tender or contract
-    """
-
-    def validate_items(self, data, items):
-        tender_data = get_tender() or data
-        if (
-            data.get("status", tender_data.get("status")) != "draft"
-            and data.get("buyers", tender_data.get("buyers"))
-            and is_obj_const_active(tender_data, MULTI_CONTRACTS_REQUIRED_FROM)
-        ):
-            for i in items or []:
-                if not i.relatedBuyer:
-                    raise ValidationError(BaseType.MESSAGES["required"])
 
 
 def validate_related_buyer_in_items(data, items):

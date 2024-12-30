@@ -887,14 +887,3 @@ def generate_credentials_invalid(self):
             }
         ],
     )
-
-
-def skip_address_validation(self):
-    data = deepcopy(self.initial_data)
-    data["contracts"][1]["suppliers"][0]["address"]["countryName"] = "any country"
-    data["contracts"][1]["suppliers"][0]["address"]["region"] = "any region"
-    data["id"] = uuid4().hex
-
-    with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
-        response = self.app.post_json("/agreements", {"data": data})
-    self.assertEqual(response.status, "201 Created")

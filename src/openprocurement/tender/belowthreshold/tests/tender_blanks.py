@@ -1255,35 +1255,6 @@ def create_tender_without_estimated_value(self):
 
 
 @mock.patch("openprocurement.tender.core.procedure.models.item.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.item.UNIT_CODE_REQUIRED_FROM", get_now() - timedelta(days=1))
-def create_tender_with_earlier_non_required_unit(self):
-    # can be removed later
-
-    response = self.app.get("/tenders")
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 0)
-    tender_data = deepcopy(self.initial_data)
-
-    _unit = tender_data["items"][0].pop("unit")
-    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{'description': [{'unit': ['This field is required.']}], 'location': 'body', 'name': 'items'}],
-    )
-
-    tender_data = deepcopy(self.initial_data)
-    _quantity = tender_data["items"][0].pop("quantity")
-    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("quantity", response.json["data"]['items'][0])
-
-
-@mock.patch("openprocurement.tender.core.procedure.models.item.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.item.UNIT_CODE_REQUIRED_FROM", get_now() - timedelta(days=1))
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")

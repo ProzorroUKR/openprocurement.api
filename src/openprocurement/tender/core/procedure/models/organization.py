@@ -3,6 +3,7 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType
 
 from openprocurement.api.constants import SCALE_CODES
+from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.organization import (
     BusinessOrganization as BaseBusinessOrganization,
 )
@@ -11,7 +12,6 @@ from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
 from openprocurement.api.procedure.types import ListType, ModelType
-from openprocurement.tender.core.procedure.models.address import Address
 from openprocurement.tender.core.procedure.models.contact import ContactPoint
 
 PROCURING_ENTITY_KINDS = (

@@ -217,7 +217,7 @@ def get_tender_criteria(self):
 
 
 @patch(
-    "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
     Mock(return_value=test_tender_pq_short_profile),
 )
 @patch(

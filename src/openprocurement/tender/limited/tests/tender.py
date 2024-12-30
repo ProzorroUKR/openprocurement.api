@@ -6,7 +6,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central_invalid,
     create_tender_config_test,
     create_tender_draft,
-    create_tender_with_earlier_non_required_unit,
     create_tender_with_inn,
     create_tender_with_required_unit,
     dateModified_tender,
@@ -102,7 +101,6 @@ class TenderResourceTest(BaseTenderWebTest):
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
-    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
     test_create_tender_config_test = snitch(create_tender_config_test)

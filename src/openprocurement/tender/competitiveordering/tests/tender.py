@@ -10,7 +10,6 @@ from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTes
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
-    create_tender_with_earlier_non_required_unit,
     create_tender_with_inn,
     create_tender_with_required_unit,
     guarantee,
@@ -28,6 +27,7 @@ from openprocurement.tender.competitiveordering.tests.base import (
 )
 from openprocurement.tender.competitiveordering.tests.tender_blanks import (
     create_tender_co,
+    create_tender_co_invalid_agreement,
     create_tender_co_invalid_config,
     patch_tender,
     patch_tender_period,
@@ -90,7 +90,6 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
-    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_get_ocds_schema = snitch(get_ocds_schema)
 
@@ -121,6 +120,7 @@ class TenderCOResourceTest(BaseTenderUAWebTest):
 
     test_create_tender = snitch(create_tender_co)
     test_create_tender_invalid_config = snitch(create_tender_co_invalid_config)
+    test_create_tender_invalid_agreement = snitch(create_tender_co_invalid_agreement)
 
 
 def suite():

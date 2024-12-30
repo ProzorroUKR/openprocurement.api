@@ -1,8 +1,8 @@
 from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType
 
+from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.tender.core.procedure.models.address import Address
 from openprocurement.tender.core.procedure.models.item import Item as BaseItem
 
 

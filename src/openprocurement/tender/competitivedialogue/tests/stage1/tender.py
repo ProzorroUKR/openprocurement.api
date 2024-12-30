@@ -5,7 +5,6 @@ from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTes
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
-    create_tender_with_earlier_non_required_unit,
     create_tender_with_required_unit,
     guarantee,
     patch_tender_minimalstep_validation,
@@ -75,7 +74,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
-    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_financing_milestones = snitch(tender_financing_milestones)
@@ -103,7 +101,6 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
-    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_financing_milestones = snitch(tender_financing_milestones)

@@ -37,19 +37,6 @@ def validate_contract_document_status(operation):
     return validate
 
 
-# criteria
-def validate_tender_criteria_existence(request, **_):
-    tender = request.validated["tender"]
-    data = request.validated["data"]
-    new_tender_status = data.get("status", "draft")
-    tender_criteria = tender["criteria"] if tender.get("criteria") else data.get("criteria")
-    if new_tender_status != "draft" and not tender_criteria:
-        raise_operation_error(
-            request,
-            f"Can't update tender to next ({new_tender_status}) status without criteria",
-        )
-
-
 def validate_profile_pattern(profile):
     result = PROFILE_PATTERN.findall(profile)
     if len(result) != 1:

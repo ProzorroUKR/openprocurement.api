@@ -17,7 +17,6 @@ class Unit(Model):
     value = ModelType(Value)
     code = StringType(required=True)
 
-
-def validate_code(unit, code):
-    if code not in UNIT_CODES:
-        raise ValidationError("Code should be one of valid unit codes.")
+    def validate_code(self, unit, code):
+        if code not in UNIT_CODES:
+            raise ValidationError("Code should be one of valid unit codes.")
