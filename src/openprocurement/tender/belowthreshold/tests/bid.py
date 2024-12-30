@@ -5,10 +5,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
-    test_tender_below_data_no_auction,
     test_tender_below_features_data,
     test_tender_below_lots,
-    test_tender_below_lots_no_min_step,
     test_tender_below_organization,
     test_tender_below_simple_data,
 )
@@ -36,23 +34,17 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     get_tender_bid_data_for_sign,
     get_tender_tenderers,
     not_found,
-    patch_bid_multi_currency,
     patch_pending_bid,
     patch_tender_bid,
     patch_tender_bid_document,
     patch_tender_bid_with_another_currency,
-    patch_tender_bid_with_disabled_lot_values_currency_equality,
     patch_tender_bid_with_disabled_lot_values_restriction,
-    patch_tender_bid_with_disabled_value_currency_equality,
     patch_tender_bid_with_disabled_value_restriction,
     patch_tender_bid_with_exceeded_lot_values,
     patch_tender_lot_values_any_order,
     patch_tender_with_bids_lots_none,
-    post_bid_multi_currency,
     post_tender_bid_with_another_currency,
-    post_tender_bid_with_disabled_lot_values_currency_equality,
     post_tender_bid_with_disabled_lot_values_restriction,
-    post_tender_bid_with_disabled_value_currency_equality,
     post_tender_bid_with_disabled_value_restriction,
     post_tender_bid_with_exceeded_lot_values,
     put_tender_bid_document_json,
@@ -252,60 +244,6 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
         self.create_tender(config=config)
 
 
-class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
-    initial_status = "active.tendering"
-    test_bids_data = test_tender_below_bids
-    initial_lots = 2 * deepcopy(test_tender_below_lots_no_min_step)
-    initial_data = test_tender_below_data_no_auction
-
-    test_post_tender_bid_with_disabled_lot_values_currency_equality = snitch(
-        post_tender_bid_with_disabled_lot_values_currency_equality
-    )
-    test_patch_tender_bid_with_disabled_lot_values_currency_equality = snitch(
-        patch_tender_bid_with_disabled_lot_values_currency_equality
-    )
-    test_post_bid_multi_currency = snitch(post_bid_multi_currency)
-    test_patch_bid_multi_currency = snitch(patch_bid_multi_currency)
-
-    def setUp(self):
-        super(TenderContentWebTest, self).setUp()
-        config = deepcopy(self.initial_config)
-        config.update(
-            {
-                "hasAuction": False,
-                "hasAwardingOrder": False,
-                "hasValueRestriction": False,
-                "valueCurrencyEquality": False,
-            }
-        )
-        self.create_tender(config=config)
-
-
-class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
-    initial_status = "active.tendering"
-    initial_data = test_tender_below_data_no_auction
-
-    test_post_tender_bid_with_disabled_value_currency_equality = snitch(
-        post_tender_bid_with_disabled_value_currency_equality
-    )
-    test_patch_tender_bid_with_disabled_value_currency_equality = snitch(
-        patch_tender_bid_with_disabled_value_currency_equality
-    )
-
-    def setUp(self):
-        super(TenderContentWebTest, self).setUp()
-        config = deepcopy(self.initial_config)
-        config.update(
-            {
-                "hasAuction": False,
-                "hasAwardingOrder": False,
-                "hasValueRestriction": False,
-                "valueCurrencyEquality": False,
-            }
-        )
-        self.create_tender(config=config)
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
@@ -315,8 +253,6 @@ def suite():
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotsWithDisabledValueRestriction))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderWithDisabledValueRestriction))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotsWithDisabledValueCurrencyEquality))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderWithDisabledValueCurrencyEquality))
     return suite
 
 

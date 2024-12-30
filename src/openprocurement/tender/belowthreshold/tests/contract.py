@@ -1,12 +1,9 @@
 import unittest
-from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
-    test_tender_below_config,
-    test_tender_below_data_no_auction,
     test_tender_below_lots,
     test_tender_below_multi_buyers_data,
     test_tender_below_organization,
@@ -18,7 +15,6 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # Ten
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_round,
     patch_contract_single_item_unit_value_with_status,
-    patch_econtract_multi_currency,
     patch_multiple_contracts_in_contracting,
     patch_tender_contract,
     patch_tender_contract_rationale_simple,
@@ -241,61 +237,6 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
     test_patch_lot_tender_multi_contracts = snitch(patch_tender_multi_contracts)
 
 
-class TenderEContractResourceTest(
-    TenderContentWebTest,
-    CreateActiveAwardMixin,
-    TenderEcontractResourceTestMixin,
-):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_below_bids
-    config = deepcopy(test_tender_below_config)
-    config.update(
-        {
-            "hasAuction": False,
-            "hasAwardingOrder": False,
-            "hasValueRestriction": False,
-            "valueCurrencyEquality": False,
-        }
-    )
-    initial_config = config
-    initial_data = test_tender_below_data_no_auction
-    tender_for_funders = True
-
-    test_patch_econtract_multi_currency = snitch(patch_econtract_multi_currency)
-
-    def setUp(self):
-        super().setUp()
-        self.create_award()
-
-
-class TenderEContractNoFundersResourceTest(
-    TenderContentWebTest,
-    CreateActiveAwardMixin,
-    TenderEcontractResourceTestMixin,
-):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_below_bids
-    config = deepcopy(test_tender_below_config)
-    config.update(
-        {
-            "hasAuction": False,
-            "hasAwardingOrder": False,
-            "hasValueRestriction": False,
-            "valueCurrencyEquality": False,
-        }
-    )
-    initial_config = config
-    initial_data = deepcopy(test_tender_below_data_no_auction)
-    del initial_data["funders"]
-    tender_for_funders = False
-
-    test_patch_econtract_multi_currency = snitch(patch_econtract_multi_currency)
-
-    def setUp(self):
-        super().setUp()
-        self.create_award()
-
-
 class TenderEContractMultiBuyersResourceTest(
     TenderContentWebTest,
     CreateActiveAwardMixin,
@@ -316,7 +257,6 @@ def suite():
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractVATNotIncludedResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractMultiBuyersResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotContractMultiBuyersResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEContractResourceTest))
     return suite
 
 

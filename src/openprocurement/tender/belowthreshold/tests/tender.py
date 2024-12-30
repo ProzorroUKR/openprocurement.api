@@ -24,7 +24,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_estimated_value,
     create_tender_with_inn,
     create_tender_with_required_unit,
-    create_tender_without_estimated_value,
     dateModified_tender,
     first_bid_tender,
     get_tender,
@@ -140,7 +139,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_tender_created_before_related_lot_is_required = snitch(tender_created_before_related_lot_is_required)
     test_tender_created_after_related_lot_is_required = snitch(tender_created_after_related_lot_is_required)
     test_create_tender_with_estimated_value = snitch(create_tender_with_estimated_value)
-    test_create_tender_without_estimated_value = snitch(create_tender_without_estimated_value)
     test_check_notice_doc_during_activation = snitch(check_notice_doc_during_activation)
 
 

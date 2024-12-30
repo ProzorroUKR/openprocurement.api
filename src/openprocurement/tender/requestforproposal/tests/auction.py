@@ -17,18 +17,18 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # Tend
     post_tender_auction_feature,
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
-    post_tender_auction_with_disabled_awarding_order,
-    post_tender_auction_with_disabled_awarding_order_cancelling_awards,
     post_tender_lot_auction_document,
     post_tender_lot_auction_weighted_value,
     post_tender_lots_auction_document,
     post_tender_lots_auction_features,
     post_tender_lots_auction_weighted_value,
-    post_tender_lots_auction_with_disabled_awarding_order,
-    post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award,
 )
 from openprocurement.tender.requestforproposal.tests.auction_blanks import (
+    post_tender_auction_with_disabled_awarding_order,
+    post_tender_auction_with_disabled_awarding_order_cancelling_awards,
     post_tender_lots_auction,
+    post_tender_lots_auction_with_disabled_awarding_order,
+    post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award,
 )
 from openprocurement.tender.requestforproposal.tests.base import (
     TenderContentWebTest,

@@ -1,10 +1,7 @@
 import unittest
 from copy import deepcopy
-from datetime import timedelta
-from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # TenderAuctionResourceTest; TenderAuctionResourceDisabledAwardingOrder; TenderLotsAuctionDisabledAwardingOrderResourceTest; TenderSameValueAuctionResourceTest; TenderLotAuctionResourceTest; TenderMultipleLotAuctionResourceTest; TenderFeaturesAuctionResourceTest; TenderFeaturesMultilotAuctionResourceTest
     get_tender_auction_feature,
     get_tender_auction_not_found,
@@ -17,16 +14,12 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # Tend
     post_tender_auction_feature,
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
-    post_tender_auction_with_disabled_awarding_order,
-    post_tender_auction_with_disabled_awarding_order_cancelling_awards,
     post_tender_lot_auction_document,
     post_tender_lot_auction_weighted_value,
     post_tender_lots_auction,
     post_tender_lots_auction_document,
     post_tender_lots_auction_features,
     post_tender_lots_auction_weighted_value,
-    post_tender_lots_auction_with_disabled_awarding_order,
-    post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
@@ -67,49 +60,6 @@ class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestM
     initial_bids = deepcopy(test_tender_below_bids)
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_below_lots
-
-
-@patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
-)
-class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
-    initial_data = auction_test_tender_data
-    initial_status = "active.tendering"
-    initial_bids = deepcopy(test_tender_below_bids)
-    initial_auth = ("Basic", ("broker", ""))
-    test_post_tender_auction_with_disabled_awarding_order = snitch(post_tender_auction_with_disabled_awarding_order)
-    test_post_tender_auction_with_disabled_awarding_order_cancelling_awards = snitch(
-        post_tender_auction_with_disabled_awarding_order_cancelling_awards
-    )
-
-    def setUp(self):
-        super(TenderContentWebTest, self).setUp()
-        config = deepcopy(self.initial_config)
-        config.update({"hasAwardingOrder": False})
-        self.create_tender(config=config)
-
-
-@patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
-)
-class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
-    initial_data = auction_test_tender_data
-    initial_status = "active.tendering"
-    initial_bids = deepcopy(test_tender_below_bids)
-    initial_auth = ("Basic", ("broker", ""))
-    initial_lots = [test_tender_below_lots[0], test_tender_below_lots[0]]
-    test_post_tender_lots_auction_with_disabled_awarding_order = snitch(
-        post_tender_lots_auction_with_disabled_awarding_order
-    )
-    test_post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award = snitch(
-        post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award
-    )
-
-    def setUp(self):
-        super(TenderContentWebTest, self).setUp()
-        config = deepcopy(self.initial_config)
-        config.update({"hasAwardingOrder": False})
-        self.create_tender(config=config)
 
 
 class TenderSameValueAuctionResourceTest(TenderContentWebTest):
@@ -177,8 +127,6 @@ class TenderFeaturesMultilotAuctionResourceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionDisabledAwardingOrderResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotsAuctionDisabledAwardingOrderResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSameValueAuctionResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesAuctionResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesMultilotAuctionResourceTest))
