@@ -48,6 +48,8 @@ class PlansListResource(MongodbResourceListing):
         "procuringEntity",
         "procurementMethodType",
         "mode",
+        "public_modified",
+        "public_ts",
     }
 
     def __init__(self, request, context=None):

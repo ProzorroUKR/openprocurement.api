@@ -59,9 +59,9 @@ Content-Type: application/json
     }
   ],
   "next_page": {
-    "offset": "1696888800.0000000033",
-    "path": "/api/2.5/tenders?opt_fields=procuringEntity&offset=1696888800.0000000033",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?opt_fields=procuringEntity&offset=1696888800.0000000033"
+    "offset": "1696888800.0.2.c9e589b703dacf9b5ed4833357465084",
+    "path": "/api/2.5/tenders?opt_fields=procuringEntity&offset=1696888800.0.2.c9e589b703dacf9b5ed4833357465084",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?opt_fields=procuringEntity&offset=1696888800.0.2.c9e589b703dacf9b5ed4833357465084"
   }
 }
 

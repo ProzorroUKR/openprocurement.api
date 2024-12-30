@@ -53,6 +53,8 @@ class TendersListResource(RestrictedResourceListingMixin, MongodbResourceListing
         "next_check",
         "mode",
         "stage2TenderID",
+        "public_modified",
+        "public_ts",
     }
     mask_deprecated_required_fields = {"is_masked", "procuringEntity"}
     mask_mapping = TENDER_MASK_MAPPING

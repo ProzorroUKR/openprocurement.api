@@ -14,9 +14,9 @@ Content-Type: application/json
     }
   ],
   "next_page": {
-    "offset": "1696888800.0000000012",
-    "path": "/api/2.5/agreements?offset=1696888800.0000000012",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/agreements?offset=1696888800.0000000012"
+    "offset": "1696888800.0.1.7a0b3a8f86e6d2fba676ea926e706493",
+    "path": "/api/2.5/agreements?offset=1696888800.0.1.7a0b3a8f86e6d2fba676ea926e706493",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/agreements?offset=1696888800.0.1.7a0b3a8f86e6d2fba676ea926e706493"
   }
 }
 

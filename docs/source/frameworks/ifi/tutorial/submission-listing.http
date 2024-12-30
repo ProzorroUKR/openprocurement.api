@@ -14,9 +14,9 @@ Content-Type: application/json
     }
   ],
   "next_page": {
-    "offset": "1698271200.0000000008",
-    "path": "/api/2.5/submissions?offset=1698271200.0000000008",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1698271200.0000000008"
+    "offset": "1698271200.0.1.66fdc81d593130f879756ea4852ebad5",
+    "path": "/api/2.5/submissions?offset=1698271200.0.1.66fdc81d593130f879756ea4852ebad5",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1698271200.0.1.66fdc81d593130f879756ea4852ebad5"
   }
 }
 
