@@ -4,9 +4,16 @@ from logging import getLogger
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
-from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
+from openprocurement.api.constants import (
+    CPV_PREFIX_LENGTH_TO_NAME,
+    FRAMEWORK_CONFIG_JSONSCHEMAS,
+)
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.utils import (
+    get_cpv_prefix_length,
+    get_cpv_uniq_prefixes,
+)
 from openprocurement.api.utils import context_unpack, raise_operation_error
 from openprocurement.framework.core.constants import (
     ENQUIRY_PERIOD_DURATION,
@@ -41,6 +48,7 @@ class FrameworkConfigMixin:
         "restrictedDerivatives",
         "clarificationUntilDuration",
         "qualificationComplainDuration",
+        "hasItems",
     )
 
     def validate_config(self, data):
@@ -88,10 +96,14 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
             data["mode"] = "test"
         if data.get("procuringEntity", {}).get("kind") == "defense":
             data["config"]["restrictedDerivatives"] = True
+        self.validate_items_presence(data)
+        self.validate_items_classification_prefix(data)
         super().on_post(data)
 
     def on_patch(self, before, after):
         self.validate_on_patch(before, after)
+        self.validate_items_presence(after)
+        self.validate_items_classification_prefix(after)
         self.validate_framework_patch_status(before)
         self.validate_procuring_entity_kind(before, after)
         super().on_patch(before, after)
@@ -128,6 +140,25 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
                 after,
                 MIN_QUALIFICATION_DURATION,
                 MAX_QUALIFICATION_DURATION,
+            )
+
+    def validate_items_presence(self, data):
+        # Items are not allowed for framework with hasItems set to false
+        if data["config"]["hasItems"] is False and data.get("items"):
+            raise_operation_error(
+                get_request(),
+                "Items are not allowed for framework with hasItems set to false",
+                status=422,
+                name="items",
+            )
+        # Items are required for framework with hasItems set to true
+        # Validate only on switch to active status or in active status to allow items manipulation in draft status
+        if data["config"]["hasItems"] is True and not data.get("items") and data["status"] == "active":
+            raise_operation_error(
+                get_request(),
+                "Items are required for framework with hasItems set to true",
+                status=422,
+                name="items",
             )
 
     def validate_framework_patch_status(self, data):
@@ -268,3 +299,29 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
                     name="procuringEntity.kind",
                     status=422,
                 )
+
+    def validate_items_classification_prefix(self, framework):
+        classifications = [item["classification"] for item in framework.get("items", "")]
+
+        prefix_length = get_cpv_prefix_length(classifications)
+        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
+        if classifications and len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
+            raise_operation_error(
+                get_request(),
+                [f"CPV {prefix_name} of items should be identical"],
+                status=422,
+                name="items",
+            )
+
+        # framework.items.classification + framework.classification
+        classifications.append(framework["classification"])
+
+        prefix_length = get_cpv_prefix_length(classifications)
+        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
+        if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
+            raise_operation_error(
+                get_request(),
+                [f"CPV {prefix_name} of items should be identical to framework cpv"],
+                status=422,
+                name="items",
+            )

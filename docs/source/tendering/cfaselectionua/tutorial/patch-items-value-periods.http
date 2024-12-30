@@ -31,6 +31,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
         },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
@@ -40,13 +47,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
         }
       }
     ]
@@ -165,16 +165,16 @@ Content-Type: application/json
               "startDate": "2018-06-27T13:39:09.362837+03:00",
               "endDate": "2018-06-30T13:39:09.362837+03:00"
             },
-            "unit": {
-              "name": "item",
-              "code": "KGM"
-            },
             "deliveryAddress": {
               "streetAddress": "вул. Банкова 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "79000",
               "countryName": "Україна"
+            },
+            "unit": {
+              "name": "item",
+              "code": "KGM"
             }
           }
         ],
@@ -461,6 +461,13 @@ Content-Type: application/json
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
         },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
@@ -470,13 +477,6 @@ Content-Type: application/json
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
         }
       }
     ],

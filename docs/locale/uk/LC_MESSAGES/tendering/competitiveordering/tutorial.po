@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -150,10 +150,10 @@ msgid "Let's try to activate tender:"
 msgstr "Спробуємо активувати тендер:"
 
 msgid "You can see that we got error, because we have not enough active contracts in our agreement."
-msgstr "Ми побачимо помилку, тому що в нас недостатньо активних контрактів в нашому агріменті. "
+msgstr "Ми побачимо помилку, тому що в нас недостатньо активних контрактів в нашій угоді. "
 
 msgid "There is the list of all validation errors that can be raised during tender activation related to agreement:"
-msgstr "Список помилок пов'язаних з агріментом, які можуть виникати при активації тендеру:"
+msgstr "Список помилок пов'язаних з угодою, які можуть виникати при активації тендеру:"
 
 msgid "Agreement not found in agreements"
 msgstr ""
@@ -167,6 +167,12 @@ msgstr ""
 msgid "tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"
 msgstr ""
 
+msgid "Agreement with items is not allowed"
+msgstr ""
+
+msgid "For competitiveOrdering tender it is required to have agreement with no items specified. In case of agreement where items are specified, we will see the error on activation attempt:"
+msgstr "Для тендеру `competitiveOrdering` необхідно мати угоду без вказаних номенклатур (`items`). Якщо в угоді вказані номенклатури, ми побачимо помилку під час активації:"
+
 msgid "Before activating tender it is required to add sign document to tender. If there is no sign document during activation, we will see an error:"
 msgstr "Перед активацією тендера необхідно обов'язково додати файл підпису. Якщо такого документу нема, під час активації буде помилка:"
 
@@ -174,7 +180,7 @@ msgid "Sign document should have `documentType: notice` and `title: *.p7s`. Let'
 msgstr "Файл підпису повинен мати `documentType: notice` та `title: *.p7s`. Додамо такий документ:"
 
 msgid "After adding more active contracts to our agreement and sign document let's make another attempt to activate tender:"
-msgstr "Після того, як були додані ще активні контракти до нашого агріменту та файл підпису, зробимо ще одну спробу активації тендеру:"
+msgstr "Після того, як були додані ще активні контракти до нашої угоди та файл підпису, зробимо ще одну спробу активації тендеру:"
 
 msgid "You can see that tender was activated successfully."
 msgstr "Ми побачимо, що тендер був успішно активований:"
@@ -205,6 +211,15 @@ msgstr "Вже після цього цей постачальник в угод
 
 msgid "Let's see our bid status after `active.tendering` period ends. This bid was disqualified:"
 msgstr "Подивимося на статус нашої пропозицій після закінчення періоду `active.tendering`. Пропозиція, в якій постачальник був дискваліфікований в угоді, тепер має статус `invalid`:"
+
+msgid "Complaints"
+msgstr "Оскарження"
+
+msgid "Tender `competitiveOrdering` does not contain an appeal in the form of filing a complaint with the AMCU at any stage where such an appeal arises (follow configurations description :ref:`tender_complaints`, :ref:`award_complaints`, :ref:`cancellation_complaints`)."
+msgstr "Тендер `competitiveOrdering` не містить оскарження у вигляді подання скарг до АМКУ на будь якому етапі, де таке оскарження виникає (дивитись опис конфігурацій :ref:`tender_complaints`, :ref:`award_complaints`, :ref:`cancellation_complaints`)."
+
+msgid "That's why there is no `complaintPeriod` in tender body after it was created. If we try to add complaint about tender, we will see the error:"
+msgstr "Тому в тендері немає `complaintPeriod` після створення. Якщо ми спробуємо подати скаргу на тендер, ми побачимо помилку:"
 
 msgid "Qualification complaints"
 msgstr "Оскарження кваліцікації"

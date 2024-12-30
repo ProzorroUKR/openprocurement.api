@@ -36,7 +36,6 @@ Content-Type: application/json
         "id": "936e1c60ead34817b3f7502374ddc203",
         "description": "папір",
         "quantity": 5.0,
-        "relatedLot": "65fbd35f0fb84c5eb1fd63c17607e451",
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -60,6 +59,7 @@ Content-Type: application/json
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
         },
+        "relatedLot": "65fbd35f0fb84c5eb1fd63c17607e451",
         "unit": {
           "value": {
             "amount": 0.2,

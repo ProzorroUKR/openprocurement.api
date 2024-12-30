@@ -2,7 +2,11 @@ from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.constants import CONTRACT_TEMPLATES_KEYS
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object
-from openprocurement.api.utils import get_tender_profile, raise_operation_error
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
+)
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
@@ -23,6 +27,18 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     should_validate_notice_doc_required = True
     agreement_field = "agreement"
     should_validate_related_lot_in_items = False
+    agreement_allowed_types = [
+        DPS_TYPE,
+        ELECTRONIC_CATALOGUE_TYPE,
+    ]
+
+    @property
+    def agreement_without_items_forbidden(self):
+        return get_object("agreement")["agreementType"] == DPS_TYPE
+
+    @property
+    def items_profile_required(self):
+        return get_object("agreement")["agreementType"] == ELECTRONIC_CATALOGUE_TYPE
 
     def on_post(self, tender):
         self.validate_agreement_exists()
@@ -99,38 +115,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
     def has_insufficient_active_contracts(self, agreement):
         pass
-
-    def validate_pre_selection_agreement(self, tender):
-        self.validate_profiles(tender)
-        super().validate_pre_selection_agreement(tender)
-
-    def validate_profiles(self, tender):
-        profile_ids = []
-        if "profile" in tender:
-            profile_ids = [tender["profile"]]
-        else:
-            for items in tender.get("items", []):
-                profile_id = items.get("profile")
-                if profile_id:
-                    profile_ids.append(profile_id)
-        if not profile_ids:
-            raise_operation_error(
-                self.request,
-                f"Profiles not found in tender {tender['_id']}",
-                status=422,
-            )
-
-        for profile_id in profile_ids:
-            profile = get_tender_profile(self.request, profile_id, validate_status=("active", "general"))
-
-            profile_agreement_id = profile.get("agreementID")
-            tender_agreement_id = tender.get("agreement", {}).get("id")
-            if profile_agreement_id != tender_agreement_id:
-                raise_operation_error(
-                    self.request,
-                    "Tender agreement doesn't match profile agreement",
-                    status=422,
-                )
 
     def validate_tender_period_extension(self, tender):
         pass

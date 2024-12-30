@@ -39,7 +39,6 @@ from openprocurement.contracting.econtract.tests.contract_blanks import (
     patch_tender_contract_wo_amount_net,
     put_transaction_to_contract,
     simple_add_contract,
-    skip_address_validation,
 )
 from openprocurement.contracting.econtract.tests.data import (
     test_contract_data,
@@ -65,7 +64,6 @@ class ContractResourceTest(BaseEContractTest):
     test_not_found = snitch(not_found)
     test_create_contract_transfer_token = snitch(create_contract_transfer_token)
     test_create_contract_w_documents = snitch(create_contract_w_documents)
-    test_skip_address_validation = snitch(skip_address_validation)
 
 
 class ContractResource4BrokersTest(BaseEContractWebTest):

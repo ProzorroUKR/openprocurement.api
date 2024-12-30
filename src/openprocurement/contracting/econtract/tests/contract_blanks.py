@@ -1887,17 +1887,6 @@ def generate_credentials_invalid(self):
     )
 
 
-def skip_address_validation(self):
-    initial_data = deepcopy(self.initial_data)
-    initial_data["items"][0]["deliveryAddress"]["countryName"] = "any country"
-    initial_data["items"][0]["deliveryAddress"]["region"] = "any region"
-    u = initial_data
-    u["contractID"] = "UA-C"
-    u["dateModified"] = get_now().isoformat()
-    self.mongodb.contracts.save(u, insert=True)
-    assert "rev" not in u
-
-
 def contract_cancelled(self):
     tender_token = self.initial_data["tender_token"]
 

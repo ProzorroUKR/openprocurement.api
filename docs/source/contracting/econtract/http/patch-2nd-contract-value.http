@@ -59,7 +59,6 @@ Content-Type: application/json
         "id": "fa935473378a4ca39aebfb1fabaa4a9e",
         "description": "портфелі",
         "quantity": 5.0,
-        "relatedBuyer": "22222222222222222222222222222222",
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -83,6 +82,7 @@ Content-Type: application/json
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
         },
+        "relatedBuyer": "22222222222222222222222222222222",
         "unit": {
           "name": "кг",
           "value": {
@@ -97,7 +97,6 @@ Content-Type: application/json
         "id": "70bf866714a34e608b07cc77c3aa14fb",
         "description": "портфелі",
         "quantity": 5.0,
-        "relatedBuyer": "22222222222222222222222222222222",
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -121,6 +120,7 @@ Content-Type: application/json
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
         },
+        "relatedBuyer": "22222222222222222222222222222222",
         "unit": {
           "name": "кг",
           "value": {

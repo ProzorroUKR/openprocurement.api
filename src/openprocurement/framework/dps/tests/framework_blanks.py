@@ -9,6 +9,7 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
+from openprocurement.framework.core.tests.base import test_framework_item_data
 from openprocurement.framework.core.utils import (
     get_framework_unsuccessful_status_check_date,
 )
@@ -781,6 +782,129 @@ def create_framework_config_restricted(self):
                 }
             ],
         )
+
+
+def create_framework_items(self):
+    self.app.authorization = ("Basic", ("brokerr", ""))
+    data = deepcopy(self.initial_data)
+    config = deepcopy(self.initial_config)
+    config["hasItems"] = True
+    response = self.app.post_json(
+        "/frameworks",
+        {
+            "data": data,
+            "config": config,
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    framework = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(framework["status"], "draft")
+
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"status": "active"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Items are required for framework with hasItems set to true",
+                "location": "body",
+                "name": "items",
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"items": [test_framework_item_data]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    framework = response.json["data"]
+
+    test_framework_item_data_with_invalid_classification = deepcopy(test_framework_item_data)
+    test_framework_item_data_with_invalid_classification["classification"]["id"] = "33600000-6"
+
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"items": [test_framework_item_data_with_invalid_classification]}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": ["CPV group of items should be identical to framework cpv"],
+            }
+        ],
+    )
+
+    self.assertIn("items", framework)
+
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    framework = response.json["data"]
+
+    self.assertIn("items", framework)
+    self.assertEqual(len(framework["items"]), 1)
+
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"items": [test_framework_item_data, test_framework_item_data]}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "items", "description": "Rogue field"}],
+    )
+
+
+def create_framework_items_required(self):
+    self.app.authorization = ("Basic", ("brokerr", ""))
+    data = deepcopy(self.initial_data)
+    config = deepcopy(self.initial_config)
+    config["hasItems"] = False
+    data["items"] = [test_framework_item_data]
+    response = self.app.post_json(
+        "/frameworks",
+        {
+            "data": data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Items are not allowed for framework with hasItems set to false",
+                "location": "body",
+                "name": "items",
+            }
+        ],
+    )
 
 
 def patch_framework_draft(self):

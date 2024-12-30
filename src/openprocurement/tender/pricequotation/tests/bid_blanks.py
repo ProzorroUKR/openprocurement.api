@@ -639,7 +639,7 @@ def requirement_response_validation_multiple_criterias(self):
 
 
 @patch(
-    "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
     Mock(return_value=test_tender_pq_short_profile),
 )
 def requirement_response_value_validation_for_expected_values(self):

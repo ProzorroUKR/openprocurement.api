@@ -6,7 +6,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_config_test,
-    create_tender_with_earlier_non_required_unit,
     create_tender_with_required_unit,
     dateModified_tender,
     get_tender,
@@ -39,6 +38,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_generated,
     create_tender_in_not_draft_status,
     create_tender_invalid,
+    create_tender_pq_from_dps_invalid_agreement,
     create_tender_with_inn,
     draft_activation_validations,
     invalid_tender_conditions,
@@ -86,6 +86,7 @@ class TenderResourceTestMixin:
     test_create_tender_config_test = snitch(create_tender_config_test)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_create_tender_invalid_agreement = snitch(create_tender_pq_from_dps_invalid_agreement)
 
 
 @patch(
@@ -93,7 +94,7 @@ class TenderResourceTestMixin:
     get_now() + timedelta(days=1),
 )
 @patch(
-    "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
     Mock(return_value=test_tender_pq_short_profile),
 )
 @patch(
@@ -123,9 +124,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_patch_tender_status = snitch(patch_tender_status)
-    test_create_pricequotation_tender_with_earlier_non_required_unit = snitch(
-        create_tender_with_earlier_non_required_unit
-    )
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_tender_criteria_values_type = snitch(tender_criteria_values_type)
 

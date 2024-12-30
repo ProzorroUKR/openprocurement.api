@@ -63,7 +63,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
     def activate_tender(self, profile, filename):
         with patch(
-            "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
             Mock(status=200, return_value=Mock({"data": profile})),
         ), open(TARGET_DIR + f'{filename}.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -180,7 +180,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         agreement["status"] = "active"
         self.mongodb.agreements.save(agreement)
         with patch(
-            "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
             Mock(return_value=test_tender_pq_short_profile),
         ), open(TARGET_DIR + 'tender-active.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

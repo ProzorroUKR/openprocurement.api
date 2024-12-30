@@ -1,8 +1,13 @@
+from openprocurement.api.context import get_request
 from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
 )
-from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
+from openprocurement.api.procedure.serializers.config import (
+    BaseConfigSerializer,
+    false_is_none_serializer,
+    none_is_false_serializer,
+)
 from openprocurement.framework.core.procedure.serializers.contract import (
     ContractSerializer,
 )
@@ -33,20 +38,18 @@ class AgreementSerializer(BaseUIDSerializer):
         self.private_fields = set(self.base_private_fields)
 
 
-def test_serializer(value):
-    if value is False:
-        return None
-    return value
-
-
-def restricted_serializer(value):
+def has_items_serializer(value):
+    request = get_request()
     if value is None:
-        return False
+        agreement_patch = request.validated.get("agreement")
+        agreement_post = request.validated.get("data")
+        agreement = agreement_patch or agreement_post
+        return bool(agreement.get("items"))
     return value
 
 
 class AgreementConfigSerializer(BaseConfigSerializer):
     serializers = {
-        "test": test_serializer,
-        "restricted": restricted_serializer,
+        "test": false_is_none_serializer,
+        "restricted": none_is_false_serializer,
     }

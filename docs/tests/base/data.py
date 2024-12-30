@@ -400,6 +400,33 @@ test_docs_items_open = [
     },
 ]
 
+test_docs_items_dps = [
+    {
+        "description": "футляри до державних нагород",
+        "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
+        "additionalClassifications": [
+            {"scheme": "ДКПП", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
+        ],
+        "unit": {
+            "name": "кг",
+            "code": "KGM",
+            "value": {"amount": 6},
+        },
+        "quantity": 5,
+        "deliveryDate": {
+            "startDate": (parse(MOCK_DATETIME) + timedelta(days=2)).isoformat(),
+            "endDate": (parse(MOCK_DATETIME) + timedelta(days=5)).isoformat(),
+        },
+        "deliveryAddress": {
+            "countryName": "Україна",
+            "postalCode": "79000",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова 1",
+        },
+    }
+]
+
 test_docs_procuring_entity = {
     "name": "Державне управління справами",
     "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
@@ -639,11 +666,11 @@ test_docs_tender_open = {
     "mainProcurementCategory": "services",
 }
 
-test_docs_tender_dps = {
+test_docs_tender_co = {
     "tenderPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=15)).isoformat()},
     "title": "футляри до державних нагород",
     "minimalStep": {"currency": "UAH", "amount": 5},
-    "procurementMethodType": "aboveThreshold",
+    "procurementMethodType": "competitiveOrdering",
     "value": {"currency": "UAH", "amount": 500},
     "procuringEntity": test_docs_procuring_entity_ua,
     "items": [test_docs_items_open[0]],

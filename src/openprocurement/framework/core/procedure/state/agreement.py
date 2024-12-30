@@ -99,6 +99,8 @@ class AgreementState(BaseState, ChronographEventsMixing):
                     "restricted": framework["config"].get("restrictedDerivatives", False),
                 },
             }
+            if "items" in framework:
+                agreement["items"] = framework["items"]
 
             request_init_agreement(request, agreement, agreement_src={})
 

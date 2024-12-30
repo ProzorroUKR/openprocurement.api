@@ -1,4 +1,5 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
+from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.competitiveordering.constants import (
     ENQUIRY_PERIOD_TIME,
     TENDERING_EXTRA_PERIOD,
@@ -21,6 +22,8 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     tendering_period_extra_working_days = False
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     should_validate_notice_doc_required = True
+    agreement_allowed_types = [DPS_TYPE]
+    agreement_with_items_forbidden = True
 
     @classmethod
     def get_items_classification_prefix_length(cls, tender):

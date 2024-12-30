@@ -1,0 +1,121 @@
+POST /api/2.5/frameworks HTTP/1.0
+Authorization: Bearer brokerr
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "frameworkType": "dynamicPurchasingSystem",
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "kind": "general",
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "name": "Державне управління справами"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "classification": {
+      "scheme": "ДК021",
+      "description": "Mustard seeds",
+      "id": "03111600-8"
+    },
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
+    "qualificationPeriod": {
+      "endDate": "2023-12-09T01:00:00+03:00"
+    }
+  },
+  "config": {
+    "restrictedDerivatives": false,
+    "clarificationUntilDuration": 3,
+    "qualificationComplainDuration": 0,
+    "hasItems": false
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/285143e2862e45be9036ada269ddedde
+
+{
+  "data": {
+    "status": "draft",
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
+    "qualificationPeriod": {
+      "endDate": "2023-12-09T01:00:00+03:00"
+    },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "frameworkType": "dynamicPurchasingSystem",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "kind": "general"
+    },
+    "prettyID": "UA-F-2023-10-10-000002",
+    "owner": "brokerr",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "id": "285143e2862e45be9036ada269ddedde"
+  },
+  "access": {
+    "token": "7ef83e3c4a0b427ebdb7d52f346b4445",
+    "transfer": "5a7e636846834903ad61b6594de5e6b5"
+  },
+  "config": {
+    "clarificationUntilDuration": 3,
+    "restrictedDerivatives": false,
+    "qualificationComplainDuration": 0,
+    "hasItems": false
+  }
+}
+

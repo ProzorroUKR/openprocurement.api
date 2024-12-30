@@ -4,11 +4,12 @@ from copy import deepcopy
 from uuid import uuid4
 
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
-from tests.base.data import test_docs_lots, test_docs_question, test_docs_tender_dps
+from tests.base.data import test_docs_lots, test_docs_question, test_docs_tender_co
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.context import get_now, set_now
+from openprocurement.framework.core.tests.base import test_framework_item_data
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_config,
     test_framework_dps_data,
@@ -60,14 +61,15 @@ class TenderResourceTest(
             file_path=TARGET_CSV_DIR + "config.csv",
         )
 
-    def create_framework(self):
-        data = deepcopy(test_framework_dps_data)
+    def create_framework(self, data=None, config=None):
+        data = data or deepcopy(test_framework_dps_data)
+        config = config or deepcopy(test_framework_dps_config)
         data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
         response = self.app.post_json(
             "/frameworks",
             {
                 "data": data,
-                "config": test_framework_dps_config,
+                "config": config,
             },
         )
         self.framework_token = response.json["access"]["token"]
@@ -166,9 +168,8 @@ class TenderResourceTest(
 
         # Creating tender
 
-        data = deepcopy(test_docs_tender_dps)
+        data = deepcopy(test_docs_tender_co)
         data["items"] = [data["items"][0]]
-        data["procurementMethodType"] = "competitiveOrdering"
         data['procuringEntity']['identifier']['id'] = test_framework_dps_data['procuringEntity']['identifier']['id']
 
         data['agreements'] = [{'id': self.agreement_id}]
@@ -199,18 +200,6 @@ class TenderResourceTest(
         tender = response.json['data']
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-
-        # try to add complaint
-        with open(TARGET_DIR + 'tender-add-complaint-error.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                f'/tenders/{tender_id}/complaints?acc_token={owner_token}',
-                {'data': test_tender_below_draft_complaint},
-                status=403,
-            )
-            self.assertEqual(response.status, '403 Forbidden')
-            self.assertEqual(
-                response.json['errors'][0]['description'], "Can't add complaint as it is forbidden by configuration"
-            )
 
         # add relatedLot for item
 
@@ -262,6 +251,23 @@ class TenderResourceTest(
         self.activate_submission()
         self.activate_qualification()
 
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        agreement["items"] = [{"id": "12345678"}]
+        self.mongodb.agreements.save(agreement)
+
+        with open(TARGET_DIR + 'tender-for-agreement-with-items-activating-error.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                {'data': {"status": "active.tendering"}},
+                status=422,
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+            self.assertEqual(response.json['errors'][0]['description'], "Agreement with items is not allowed.")
+
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        agreement.pop("items", None)
+        self.mongodb.agreements.save(agreement)
+
         # Tender activating
         with open(TARGET_DIR + 'notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
@@ -278,6 +284,18 @@ class TenderResourceTest(
                 '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.tendering"}}
             )
             self.assertEqual(response.status, '200 OK')
+
+        # try to add complaint
+        with open(TARGET_DIR + 'tender-add-complaint-error.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/complaints?acc_token={owner_token}',
+                {'data': test_tender_below_draft_complaint},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(
+                response.json['errors'][0]['description'], "Can't add complaint as it is forbidden by configuration"
+            )
 
         # asking questions
         docs_data = deepcopy(test_docs_question)

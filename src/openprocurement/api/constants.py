@@ -233,7 +233,6 @@ COUNTRIES_MAP = standards.load("classifiers/countries.json")
 # Address validation
 COUNTRIES = {c["name_uk"] for c in COUNTRIES_MAP.values()}
 UA_REGIONS = standards.load("classifiers/ua_regions.json")
-VALIDATE_ADDRESS_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_ADDRESS_FROM")
 
 # address and kind fields required for procuringEntity and buyers objects in plan
 PLAN_ADDRESS_KIND_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "PLAN_ADDRESS_KIND_REQUIRED_FROM")
@@ -273,9 +272,6 @@ VALIDATE_CURRENCY_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_CURRENCY_FROM"
 
 # CS-10207 multi contracts required for multi buyers
 MULTI_CONTRACTS_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "MULTI_CONTRACTS_REQUIRED_FROM")
-
-# CS-11202 add new constant for validate code
-UNIT_CODE_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "UNIT_CODE_REQUIRED_FROM")
 
 # CS-11411 multi profile available for pq tenders
 PQ_MULTI_PROFILE_FROM = get_constant(CONSTANTS_CONFIG, "PQ_MULTI_PROFILE_FROM")

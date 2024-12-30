@@ -56,7 +56,6 @@ Content-Type: application/json
         "id": "9726ad9d9cae4a40b5e4407ee284031f",
         "description": "телевізори",
         "quantity": 5.0,
-        "relatedBuyer": "11111111111111111111111111111111",
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -80,6 +79,7 @@ Content-Type: application/json
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
         },
+        "relatedBuyer": "11111111111111111111111111111111",
         "unit": {
           "name": "кг",
           "value": {

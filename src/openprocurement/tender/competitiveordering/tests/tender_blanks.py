@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants import TZ, parse_date
 from openprocurement.api.utils import get_now
+from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_lots,
@@ -331,3 +332,62 @@ def create_tender_co_invalid_config(self):
             response.json["errors"],
             [{"description": "True is not one of [False]", "location": "body", "name": config_name}],
         )
+
+
+def create_tender_co_invalid_agreement(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+
+    config = deepcopy(self.initial_config)
+    config.update({"hasPreSelectionAgreement": True})
+
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    tender_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+
+    self.tender_id, self.tender_token = tender_id, owner_token
+    add_criteria(self)
+
+    # Invalid agreement type
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["agreementType"] = "invalid"
+    self.mongodb.agreements.save(agreement)
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"status": "active.tendering"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "agreements", "description": "Agreement type mismatch."}],
+    )
+
+    # DPS agreement with items is forbidden
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["agreementType"] = DPS_TYPE
+    agreement["items"] = [{}]
+    self.mongodb.agreements.save(agreement)
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"status": "active.tendering"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "agreements", "description": "Agreement with items is not allowed."}],
+    )
