@@ -65,7 +65,7 @@ Content-Type: application/json
     "maxAwardsCount": 4,
     "items": [
       {
-        "id": "00662cb27141433b86593cedfcd4c3d9",
+        "id": "a0aa16102ff345948a7508d8c03bb529",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
@@ -463,7 +463,7 @@ Content-Type: application/json
         "id": "b7536ab0fbe34a1dafa73fe7943ff79c",
         "items": [
           {
-            "id": "00662cb27141433b86593cedfcd4c3d9",
+            "id": "a0aa16102ff345948a7508d8c03bb529",
             "description": "футляри до державних нагород",
             "unit": {
               "name": "item",
@@ -532,7 +532,7 @@ Content-Type: application/json
             "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
-                "relatedItem": "00662cb27141433b86593cedfcd4c3d9",
+                "relatedItem": "a0aa16102ff345948a7508d8c03bb529",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
@@ -574,7 +574,7 @@ Content-Type: application/json
             "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
-                "relatedItem": "00662cb27141433b86593cedfcd4c3d9",
+                "relatedItem": "a0aa16102ff345948a7508d8c03bb529",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
@@ -616,7 +616,7 @@ Content-Type: application/json
             "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
-                "relatedItem": "00662cb27141433b86593cedfcd4c3d9",
+                "relatedItem": "a0aa16102ff345948a7508d8c03bb529",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,

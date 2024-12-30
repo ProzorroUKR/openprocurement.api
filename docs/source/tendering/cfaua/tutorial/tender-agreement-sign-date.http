@@ -21,7 +21,7 @@ Content-Type: application/json
     "dateSigned": "2023-10-10T01:03:03+03:00",
     "items": [
       {
-        "id": "fec087d72d65432bb5300282a222cd05",
+        "id": "d7b3fb7152ec4af88ec6210d2be36685",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
@@ -55,7 +55,7 @@ Content-Type: application/json
         "description_en": "Cases for state awards"
       },
       {
-        "id": "716051ad684148d9a80d20739ee3691c",
+        "id": "238026bfe5c1443e91d205578eac6419",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
@@ -119,7 +119,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "fec087d72d65432bb5300282a222cd05",
+            "relatedItem": "d7b3fb7152ec4af88ec6210d2be36685",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -127,7 +127,7 @@ Content-Type: application/json
             }
           },
           {
-            "relatedItem": "716051ad684148d9a80d20739ee3691c",
+            "relatedItem": "238026bfe5c1443e91d205578eac6419",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -135,7 +135,7 @@ Content-Type: application/json
             }
           }
         ],
-        "awardID": "74cfc212ef074ef68bf35e860cd27515",
+        "awardID": "38b196e95ad147f9aa09040a36a54964",
         "bidID": "d36d4d7ab1d54578b92e72a7bf21354e",
         "date": "2023-10-10T01:02:01+03:00"
       },
@@ -168,7 +168,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "fec087d72d65432bb5300282a222cd05",
+            "relatedItem": "d7b3fb7152ec4af88ec6210d2be36685",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -176,7 +176,7 @@ Content-Type: application/json
             }
           },
           {
-            "relatedItem": "716051ad684148d9a80d20739ee3691c",
+            "relatedItem": "238026bfe5c1443e91d205578eac6419",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -184,7 +184,7 @@ Content-Type: application/json
             }
           }
         ],
-        "awardID": "f383a684a1ff4e08862d1fa6b8a0135f",
+        "awardID": "36b9fc7fa38d41d9990670956f8f12f8",
         "bidID": "5d3dc5765f7b493e88a8cf48097c37b1",
         "date": "2023-10-10T01:02:01+03:00"
       },
@@ -217,7 +217,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "fec087d72d65432bb5300282a222cd05",
+            "relatedItem": "d7b3fb7152ec4af88ec6210d2be36685",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -225,7 +225,7 @@ Content-Type: application/json
             }
           },
           {
-            "relatedItem": "716051ad684148d9a80d20739ee3691c",
+            "relatedItem": "238026bfe5c1443e91d205578eac6419",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -233,7 +233,7 @@ Content-Type: application/json
             }
           }
         ],
-        "awardID": "5b914088f3394751918ca1a47c417efa",
+        "awardID": "afa433c494e44739930128fe436e711d",
         "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
         "date": "2023-10-10T01:02:01+03:00"
       }
@@ -247,7 +247,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/633d2c4405c7411c964a2f74bef204a7?Signature=2FPFBDAzfNSjUJaNN2kihHCxVudB2V0CD6h50sD7W1ycSlcAAXwRxoJBUbxf5xayR7FIx2%2B1bw8tl8s0jqACBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "98985d798dfd435094a925ea3451931b",
+        "id": "423f7bf339ec4ae7a2ba951d261b20c8",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "dateModified": "2023-10-10T01:02:01+03:00"
       },
@@ -255,7 +255,7 @@ Content-Type: application/json
         "confidentiality": "public",
         "title_en": "Title of Document",
         "description_en": "Description of Document",
-        "id": "cf5d18a36aa140e281d8b650976d6411",
+        "id": "ca39088c239d4dfeb6e2d5849bb499ce",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_second_document.doc",

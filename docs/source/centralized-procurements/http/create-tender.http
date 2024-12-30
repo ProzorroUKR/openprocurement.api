@@ -289,7 +289,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/420fdea4c7d74816
         "sequenceNumber": 1
       },
       {
-        "id": "8776ed5990124cf1969d3318f70d8f3a",
+        "id": "bb46992e44154543b6ef9666fe25107b",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -330,7 +330,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/420fdea4c7d74816
     },
     "items": [
       {
-        "id": "dcda8ed9e08a4416b765681768ffd303",
+        "id": "79e1b88cd53b4156974edfe9e55dc4f9",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -362,7 +362,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/420fdea4c7d74816
         }
       },
       {
-        "id": "c5dacd40f07e410a9726bf8e24176714",
+        "id": "918477f031144160a6408b36969c345e",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -394,7 +394,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/420fdea4c7d74816
         }
       },
       {
-        "id": "9a527d7617154225b43988cbb29977c2",
+        "id": "e290d5e8fe5a446582e58b7e66fd2b36",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",

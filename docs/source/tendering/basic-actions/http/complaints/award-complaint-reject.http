@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/de1c41400ca748f591a6f43a39c7f2d8 HTTP/1.0
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/b2df0a3f487a401987b1cdf1170a93be/complaints/de1c41400ca748f591a6f43a39c7f2d8 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -21,7 +21,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:03+03:00",
     "status": "invalid",
     "type": "complaint",
-    "relatedLot": "bafe97395da841668932cf800cf756af",
+    "relatedLot": "c94486b261084c09ac0c731b74d35c85",
     "bid_id": "c938a8780db146beaba184a25937b356",
     "author": {
       "name": "ДКП «Школяр»",
@@ -49,11 +49,11 @@ Content-Type: application/json
     "dateSubmitted": "2023-10-10T01:00:03+03:00",
     "objections": [
       {
-        "id": "34ea805027a34031a0ddd0a74e571f54",
+        "id": "f973452c0c2e4fbbb3051c7280b708a7",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "award",
-        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "relatedItem": "46b5dff235cc48fb952fae6c72243c12",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -61,14 +61,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "9777ded5d885421192f2bae8e569baf0",
+            "id": "144f7dca4ab643709025e58f80ea5d17",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "4d4deb586bd84b85be6a2020dae44794",
+            "id": "a50cce6ae63541fcad56986f13a79558",
             "description": "test argument"
           }
         ],

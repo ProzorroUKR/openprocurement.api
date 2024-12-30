@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "status": "scheduled",
     "procuringEntity": {
-      "id": "473320227d9d4e959c81266ac1862f55",
+      "id": "ee375426feb343b099a26fdb435d6662",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -56,7 +56,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "9b211ce8a6a646ffb43f49e0bbf010a0",
+          "id": "a5c554f31f6a484f9ea6aaaf0240ec34",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -81,7 +81,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
-        "id": "80a3a54e309a4c8a8085f740da8652bc",
+        "id": "1fa353458f8842c7b7af644567101a20",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -114,7 +114,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "e9b0fc29f3f04736be502e2a9ac44775",
+        "id": "aca25f71a3ce4fdb8d22f87508f58375",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "milestones": [
       {
-        "id": "a9e3871f21ee40c1a8d2e096fe390c38",
+        "id": "fb8d3e7fee1f4dff8fc0e4c90b60333c",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -17,10 +17,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "type": "banking"
         },
         "sequenceNumber": 0,
-        "relatedLot": "9cb8f22596d64ab09d23b3b5007bd96f"
+        "relatedLot": "c6ee20adc9dd4d8ca172d4b91db92240"
       },
       {
-        "id": "56a863f66dfc4d46a033dd466795a172",
+        "id": "54e5d486cab44da8bcb491b2529045a4",
         "title": "anotherEvent",
         "type": "financing",
         "code": "postpayment",
@@ -31,7 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 1,
         "description": "Підозрілий опис",
-        "relatedLot": "9cb8f22596d64ab09d23b3b5007bd96f"
+        "relatedLot": "c6ee20adc9dd4d8ca172d4b91db92240"
       }
     ]
   }
@@ -93,7 +93,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "9cb8f22596d64ab09d23b3b5007bd96f",
+        "id": "c6ee20adc9dd4d8ca172d4b91db92240",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -109,7 +109,7 @@ Content-Type: application/json
     ],
     "milestones": [
       {
-        "id": "a9e3871f21ee40c1a8d2e096fe390c38",
+        "id": "fb8d3e7fee1f4dff8fc0e4c90b60333c",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -119,10 +119,10 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 0,
-        "relatedLot": "9cb8f22596d64ab09d23b3b5007bd96f"
+        "relatedLot": "c6ee20adc9dd4d8ca172d4b91db92240"
       },
       {
-        "id": "56a863f66dfc4d46a033dd466795a172",
+        "id": "54e5d486cab44da8bcb491b2529045a4",
         "title": "anotherEvent",
         "description": "Підозрілий опис",
         "type": "financing",
@@ -133,7 +133,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 1,
-        "relatedLot": "9cb8f22596d64ab09d23b3b5007bd96f"
+        "relatedLot": "c6ee20adc9dd4d8ca172d4b91db92240"
       }
     ],
     "procurementMethodType": "belowThreshold",

@@ -54,7 +54,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "61f2dae4bb484ed293654ea67264f529",
+        "id": "cd8449f4d78c4f088c61ca2d58851f67",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -71,7 +71,7 @@ Content-Type: application/json
         "description": "змінений опис документа",
         "description_en": "document description modified",
         "relatedItem": "ffffffffffffffffffffffffffffffff",
-        "id": "dcc28f9e5b0a4475ae1511c9195924ba",
+        "id": "292d5babf89340e3b3e16e0635048e96",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.doc",
@@ -84,7 +84,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "9e36c772ea13480da2398a2c2bd63fe5",
+        "id": "c8d64dfb8acb418297db4b41a849885f",
         "datePublished": "2023-10-10T01:06:04+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -99,7 +99,7 @@ Content-Type: application/json
         "confidentiality": "public",
         "description": "Нова версія AwardCriteria документу",
         "description_en": "new version of the AwardCriteria document",
-        "id": "9e36c772ea13480da2398a2c2bd63fe5",
+        "id": "c8d64dfb8acb418297db4b41a849885f",
         "datePublished": "2023-10-10T01:10:05+03:00",
         "hash": "md5:11111111111111111111111111111111",
         "title": "AwardCriteria.pdf",
@@ -163,7 +163,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "987404b67a4c4d888112d4e9755edefc",
+        "id": "d6fba8716672449f87efa3a5781c7760",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -178,7 +178,7 @@ Content-Type: application/json
         "auctionPeriod": {
           "startDate": "2023-10-16T01:15:06+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3_987404b67a4c4d888112d4e9755edefc"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3_d6fba8716672449f87efa3a5781c7760"
       }
     ],
     "milestones": [
@@ -195,7 +195,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "a408d2d9993b4d5ca7e7b2774859ddfe",
+        "id": "4ebd2f1924444abf8652fff952b58d34",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -242,7 +242,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "987404b67a4c4d888112d4e9755edefc"
+        "relatedLot": "d6fba8716672449f87efa3a5781c7760"
       }
     ],
     "auctionPeriod": {

@@ -69,7 +69,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "710605e764c346f7bf598f9ea591faba",
+        "id": "4275850879e54d0693bc2b1c99076568",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -150,7 +150,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "c5688ea55ff244c7815a7c00dcf5f23c",
+        "id": "a79da76c72074b438c9218794b23fadc",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -178,7 +178,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "0683f2311f1642cab50f792f4f48d0df",
+        "id": "be152050abc14f07ab796cb566d21c65",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",

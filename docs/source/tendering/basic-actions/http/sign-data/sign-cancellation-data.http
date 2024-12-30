@@ -42,7 +42,7 @@ Content-Type: application/json
           "title": "Лот №1",
           "description": "Опис Лот №1",
           "status": "active",
-          "id": "6f606171f1284f90bf50a51f71715179",
+          "id": "abd33014351945b7b4254c1b37d4e8bc",
           "date": "2023-10-10T01:00:00+03:00",
           "value": {
             "amount": 500.0,
@@ -70,7 +70,7 @@ Content-Type: application/json
           "sequenceNumber": 1
         },
         {
-          "id": "cbda9faeee6c449eb845e869736b5742",
+          "id": "8995cff346364b308e3ccc007ae3ce40",
           "title": "deliveryOfGoods",
           "type": "financing",
           "code": "postpayment",
@@ -122,7 +122,7 @@ Content-Type: application/json
       },
       "items": [
         {
-          "id": "7db8a01ea2c94802866eea66d58427ea",
+          "id": "73361e63b124473f8dd3f144db8de44c",
           "description": "Послуги шкільних їдалень",
           "unit": {
             "name": "кілограм",
@@ -146,7 +146,7 @@ Content-Type: application/json
               "description": "Послуги шкільних їдалень"
             }
           ],
-          "relatedLot": "6f606171f1284f90bf50a51f71715179",
+          "relatedLot": "abd33014351945b7b4254c1b37d4e8bc",
           "deliveryDate": {
             "startDate": "2023-10-30T00:00:00+02:00",
             "endDate": "2023-11-29T00:00:00+02:00"
@@ -161,7 +161,7 @@ Content-Type: application/json
           "description_en": "Services in school canteens"
         },
         {
-          "id": "b8f08e21ae664959aa45f8d9de661a95",
+          "id": "300e41b38893457bb57d60cbc09b280c",
           "description": "Послуги шкільних їдалень",
           "unit": {
             "name": "упаковка",
@@ -185,7 +185,7 @@ Content-Type: application/json
               "description": "Послуги шкільних їдалень"
             }
           ],
-          "relatedLot": "6f606171f1284f90bf50a51f71715179",
+          "relatedLot": "abd33014351945b7b4254c1b37d4e8bc",
           "deliveryDate": {
             "startDate": "2023-10-30T00:00:00+02:00",
             "endDate": "2023-11-29T00:00:00+02:00"

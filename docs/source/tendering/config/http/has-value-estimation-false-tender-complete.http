@@ -60,7 +60,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "702316ea37734975bcf4cd091ce636cd",
+        "id": "89a731eaa2b5403ab1da858efe113ed8",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -80,7 +80,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "4bb51392e7724e88b10b312453ac7db9",
+        "id": "0e77ac7ddcc2484e81cb0bfdf2bd2637",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -117,7 +117,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "2b41b4f7834c44d59a1dbd78f36ccf6e",
+        "id": "8cfd5bc8c3e246bd90f251bcecf8a78c",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -166,7 +166,7 @@ Content-Type: application/json
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "9dcdb4eb18734e52bbd56421b7fed34c",
+        "id": "ffb255f57e054aaa9f45701dbce47420",
         "status": "active",
         "value": {
           "amount": 0.0,

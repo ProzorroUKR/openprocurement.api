@@ -199,7 +199,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0122f7569ef34718
         "sequenceNumber": 1
       },
       {
-        "id": "b81f2856d0b04849810c73b463a23f4b",
+        "id": "502412ca34264781a185eac09a5763fe",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -246,7 +246,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0122f7569ef34718
     "status": "draft",
     "items": [
       {
-        "id": "c3f9ef125fde41f2b0559a39a9527282",
+        "id": "0e078f21edb14004adbc8fd8f746b15a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -284,7 +284,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0122f7569ef34718
         "description_en": "Services in school canteens"
       },
       {
-        "id": "ecdc7b89d8574bf293dec751fef6d3d2",
+        "id": "c472d4bf00ea4079b38a832aafc02dfb",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",

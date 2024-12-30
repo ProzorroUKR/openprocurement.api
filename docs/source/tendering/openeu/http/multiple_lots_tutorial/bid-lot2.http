@@ -36,14 +36,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "b107fd651779457994cf8d66f0c66b75"
+        "relatedLot": "90605edc448c4de18fee176ba1865b55"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "value": {
           "amount": 500
         },
-        "relatedLot": "afe07033399b483eae6a28a485626881"
+        "relatedLot": "fb3576b2e3fc409bb7efaee95c9f259e"
       }
     ]
   }
@@ -89,7 +89,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/438aef21947a4a09
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "b107fd651779457994cf8d66f0c66b75",
+        "relatedLot": "90605edc448c4de18fee176ba1865b55",
         "date": "2023-10-10T01:00:00+03:00"
       },
       {
@@ -99,7 +99,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/438aef21947a4a09
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "afe07033399b483eae6a28a485626881",
+        "relatedLot": "fb3576b2e3fc409bb7efaee95c9f259e",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "date": "2023-10-10T01:00:00+03:00"
       }

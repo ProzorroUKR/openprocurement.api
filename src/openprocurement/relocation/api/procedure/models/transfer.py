@@ -9,6 +9,8 @@ from openprocurement.api.utils import get_now
 
 
 class PostTransfer(Model):
+    _id = StringType(deserialize_from=["id", "doc_id"])
+
     @serializable(serialized_name="_id")
     def id(self):
         return uuid4().hex

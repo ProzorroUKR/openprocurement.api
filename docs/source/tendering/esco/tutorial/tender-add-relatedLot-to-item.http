@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "8b07ce7f8c1d44a6af2cae40d3ab701d",
+        "id": "6da3dad17b78420aa852e3ba1341aa38",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -32,7 +32,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "9027f283c1e74dafad1cd0ff659ca922"
       },
       {
-        "id": "f0a94f5146424cdeb3e9103add626234",
+        "id": "f468fcb82caa4dab8f05db1e73036820",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -130,7 +130,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "8b07ce7f8c1d44a6af2cae40d3ab701d",
+        "id": "6da3dad17b78420aa852e3ba1341aa38",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -155,7 +155,7 @@ Content-Type: application/json
         "relatedLot": "9027f283c1e74dafad1cd0ff659ca922"
       },
       {
-        "id": "f0a94f5146424cdeb3e9103add626234",
+        "id": "f468fcb82caa4dab8f05db1e73036820",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -194,7 +194,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "4d525299c60841739d84314aefa3e436",
+        "id": "826379ad16604907903766a11bdf384b",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",

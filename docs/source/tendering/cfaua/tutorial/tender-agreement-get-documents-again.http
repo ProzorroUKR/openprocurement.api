@@ -16,7 +16,7 @@ Content-Type: application/json
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/633d2c4405c7411c964a2f74bef204a7?Signature=2FPFBDAzfNSjUJaNN2kihHCxVudB2V0CD6h50sD7W1ycSlcAAXwRxoJBUbxf5xayR7FIx2%2B1bw8tl8s0jqACBQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "language": "uk",
-      "id": "98985d798dfd435094a925ea3451931b",
+      "id": "423f7bf339ec4ae7a2ba951d261b20c8",
       "datePublished": "2023-10-10T01:02:01+03:00",
       "dateModified": "2023-10-10T01:02:01+03:00"
     },
@@ -24,7 +24,7 @@ Content-Type: application/json
       "confidentiality": "public",
       "title_en": "Title of Document",
       "description_en": "Description of Document",
-      "id": "cf5d18a36aa140e281d8b650976d6411",
+      "id": "ca39088c239d4dfeb6e2d5849bb499ce",
       "datePublished": "2023-10-10T01:02:01+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "agreement_second_document.doc",

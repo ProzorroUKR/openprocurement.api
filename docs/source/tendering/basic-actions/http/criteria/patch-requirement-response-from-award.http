@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1f57390f567248e78a17e2dbd55d6a10/awards/4733603c425b4815a5d9e919883dc101?acc_token=01a0e598f3b04f3080aa4ba86237db40 HTTP/1.0
+PATCH /api/2.5/tenders/1f57390f567248e78a17e2dbd55d6a10/awards/e8514568cae0466faad333590224b7cc?acc_token=01a0e598f3b04f3080aa4ba86237db40 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,13 +8,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "4f8eed02f2a94d54b06682a0094890f3"
+          "id": "b9f9c2090e2d4b218f2dacb35b33a3bd"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "d4388d25ad9d444aa3205e564dceccdb",
+              "id": "7db6373a0527432e8ead9806bf100c4d",
               "title": "name.doc"
             },
             "type": "document"
@@ -24,13 +24,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "a2f55a3aa46544b78c499250f1ed35e7"
+          "id": "c23f5caa223442e7ba21d20a348dd3de"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "d4388d25ad9d444aa3205e564dceccdb",
+              "id": "7db6373a0527432e8ead9806bf100c4d",
               "title": "name.doc"
             },
             "type": "document"
@@ -51,7 +51,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "4f8eed02f2a94d54b06682a0094890f3",
+          "id": "b9f9c2090e2d4b218f2dacb35b33a3bd",
           "title": "Учасник процедури закупівлі є пов'язаною особою з іншими учасниками та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
@@ -59,14 +59,14 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "d4388d25ad9d444aa3205e564dceccdb",
+              "id": "7db6373a0527432e8ead9806bf100c4d",
               "title": "name.doc"
             },
-            "id": "1f30ec09fe524ab1b3402b0e397282d6"
+            "id": "b7d30ab9e40a40a1b59d83ffbe600c92"
           }
         ],
         "value": false,
-        "id": "c13dc6729fa34ea597255a83dc161c08",
+        "id": "bc5d638a76e6452f807c607e87cd9b33",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
@@ -74,7 +74,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "a2f55a3aa46544b78c499250f1ed35e7",
+          "id": "c23f5caa223442e7ba21d20a348dd3de",
           "title": "Учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         },
         "evidences": [
@@ -82,21 +82,21 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "d4388d25ad9d444aa3205e564dceccdb",
+              "id": "7db6373a0527432e8ead9806bf100c4d",
               "title": "name.doc"
             },
-            "id": "e706ca6c32924e498da757ee0348f462"
+            "id": "6ccb60336b414883946b85ca07c0c0c3"
           }
         ],
         "value": true,
-        "id": "875ee16078b245d38091562f5b5b816a",
+        "id": "26d59986aac0434dace68bdaa9561c03",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         }
       }
     ],
-    "id": "4733603c425b4815a5d9e919883dc101",
+    "id": "e8514568cae0466faad333590224b7cc",
     "status": "pending",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
@@ -129,11 +129,11 @@ Content-Type: application/json
       }
     ],
     "bid_id": "b10ae0e005674aa1a5f4a72a9357a49d",
-    "lotID": "b21563e537c64d7f8c31e1993bd86e8a",
+    "lotID": "9b3a6173ce8d40af8eb3f7d24641e38d",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "d4388d25ad9d444aa3205e564dceccdb",
+        "id": "7db6373a0527432e8ead9806bf100c4d",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

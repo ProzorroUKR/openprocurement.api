@@ -23,7 +23,7 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "95cb620849604b198f2bc7bf07e5f4eb",
+        "id": "531bebcd7513437fae759167b2d03c38",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_first_document.doc",
@@ -36,7 +36,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "62839329e9d74120bf15d5020470ebac",
+        "id": "49c212b8eac34727a41266b9e3e01445",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_second_document.doc",

@@ -10,7 +10,7 @@ from openprocurement.tender.limited.procedure.state.tender_details import (
 
 class NegotiationLotState(LotStateMixin, NegotiationTenderDetailsState):
     def lot_on_patch(self, before: dict, after: dict) -> None:
-        super().lot_on_patch(after, before)
+        super().lot_on_patch(before, after)
         self.validate_update_lot_with_cancellations(after)
 
     def update_tender_data(self) -> None:

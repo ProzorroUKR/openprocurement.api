@@ -188,7 +188,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c710ed7a14274e5c
         "sequenceNumber": 1
       },
       {
-        "id": "054e167d8b7c4b74b887f71705f45375",
+        "id": "c571db8d10f04d0089754b8a1320ed77",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -208,7 +208,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c710ed7a14274e5c
     },
     "items": [
       {
-        "id": "c38231f6a2e24ff1899ff69758f08c0e",
+        "id": "b52d7cba792047588f3324ba6b9d3b43",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",

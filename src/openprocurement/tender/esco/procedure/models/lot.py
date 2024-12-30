@@ -2,7 +2,6 @@ from decimal import Decimal
 
 from schematics.types import StringType, URLType
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import DecimalType
@@ -13,7 +12,6 @@ from openprocurement.tender.core.procedure.models.guarantee import (
 )
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
-    LotGuaranteeSerializerMixin,
     PostBaseLot,
     TenderLotMixin,
 )
@@ -24,23 +22,7 @@ from openprocurement.tender.esco.procedure.constants import (
 )
 
 
-class LotSerializersMixin(LotGuaranteeSerializerMixin):
-    @serializable(serialized_name="fundingKind")
-    def lot_fundingKind(self):
-        return self.get_tender().get("fundingKind", "other")
-
-    @serializable(serialized_name="minValue", type=ModelType(EstimatedValue))
-    def lot_minValue(self):
-        tender = self.get_tender()
-        return EstimatedValue(
-            {
-                "currency": tender["minValue"]["currency"],
-                "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"],
-            }
-        )
-
-
-class PostLot(PostBaseLot, LotSerializersMixin):
+class PostLot(PostBaseLot):
     minimalStepPercentage = DecimalType(
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,
@@ -96,7 +78,7 @@ class PatchTenderLot(BaseLot, TenderLotMixin):
     )
 
 
-class Lot(BaseLot, TenderLotMixin, LotSerializersMixin):
+class Lot(BaseLot, TenderLotMixin):
     minValue = ModelType(EstimatedValue)
     minimalStepPercentage = DecimalType(
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,

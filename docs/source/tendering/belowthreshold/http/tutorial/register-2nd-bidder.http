@@ -48,7 +48,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 499
         },
-        "relatedLot": "987404b67a4c4d888112d4e9755edefc"
+        "relatedLot": "d6fba8716672449f87efa3a5781c7760"
       }
     ],
     "items": [
@@ -108,7 +108,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
+        "relatedLot": "d6fba8716672449f87efa3a5781c7760",
         "date": "2023-10-16T01:15:06+03:00"
       }
     ],
@@ -122,7 +122,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf174abb36e944eb8ca48f1afe8eb4d2?Signature=nhY11nzZvoAKjFc3a%2FPpyp9%2BxrzoIXCWAYyrTlcJ%2FVzF6BLISq%2FmFK7mkqMFMxpbHQrYyJ%2B0DcVJExrJdvE1DA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "b57bff4881434c139ba83f203f41d9dc",
+        "id": "6555e3c6bdae40be840aa6b6db4b4c5f",
         "datePublished": "2023-10-16T01:15:06+03:00",
         "dateModified": "2023-10-16T01:15:06+03:00"
       },
@@ -134,7 +134,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fa5035ab921b4fb2888800987217ada4?Signature=9meqwsW99XL5YpmHvnJQjExFMu2X6to3Wor7h88g%2F%2FV5eb6%2FfKI%2B872U0tVny68LXkJ0GMTjT2raZPL%2BOC%2BXAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "6dedbd358d08409eac7efb40cb71f63d",
+        "id": "38ed91ae20594d09a5a1c039bac6c60e",
         "datePublished": "2023-10-16T01:15:06+03:00",
         "dateModified": "2023-10-16T01:15:06+03:00"
       }

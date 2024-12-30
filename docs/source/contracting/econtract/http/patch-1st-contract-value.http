@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "data": {
     "buyerID": "11111111111111111111111111111111",
-    "awardID": "e7818db48ced43fdb835d12196d87996",
+    "awardID": "6523042f453342e0aeeeb46d819ede62",
     "contractID": "UA-2023-10-10-000001-a-1",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
@@ -56,7 +56,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "b3017423d9b9407ead3d67858b997889",
+        "id": "4dc85365c49d41ab9d6cbdcab24c4921",
         "description": "телевізори",
         "quantity": 5.0,
         "relatedBuyer": "11111111111111111111111111111111",

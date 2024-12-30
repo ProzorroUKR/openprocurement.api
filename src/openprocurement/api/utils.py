@@ -251,11 +251,6 @@ def get_now():
     return datetime.now(TZ)
 
 
-def set_parent(item, parent):
-    if hasattr(item, "__parent__") and item.__parent__ is None:
-        item.__parent__ = parent
-
-
 def generate_id():
     return uuid4().hex
 

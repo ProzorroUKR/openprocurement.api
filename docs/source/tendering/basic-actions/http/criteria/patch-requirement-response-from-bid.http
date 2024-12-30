@@ -8,13 +8,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "307a20c8319e45d38d57fac7da4d5b27"
+          "id": "454dc5b524874c2891fcc5424aa8293c"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "3367c62610004e63bc05756d076023cf",
+              "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
             "type": "document"
@@ -24,13 +24,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "7bf943d4ba254287abbb4c315c2d69bd"
+          "id": "c63023e54fd04a02869e09a265bdacda"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "3367c62610004e63bc05756d076023cf",
+              "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
             "type": "document"
@@ -55,16 +55,16 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "3367c62610004e63bc05756d076023cf",
+              "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "b0e1929549dd4303bd1dff574d07407b"
+            "id": "cf484aaee8e44f03b1f570349a8718f1"
           }
         ],
         "value": true,
-        "id": "8f8e9b710397449a86741ccd905481da",
+        "id": "c5787d833b7647a3a1205634f706d091",
         "requirement": {
-          "id": "307a20c8319e45d38d57fac7da4d5b27",
+          "id": "454dc5b524874c2891fcc5424aa8293c",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
         },
         "classification": {
@@ -78,16 +78,16 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "3367c62610004e63bc05756d076023cf",
+              "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "2212c2c957cc4361806d371a6c408bd8"
+            "id": "ca778a15a7984608bd99c867efc8727c"
           }
         ],
         "value": true,
-        "id": "962658803e214fabbaea8526630f84b9",
+        "id": "5e9c5595d91040eda8b4bb8790e3e954",
         "requirement": {
-          "id": "7bf943d4ba254287abbb4c315c2d69bd",
+          "id": "c63023e54fd04a02869e09a265bdacda",
           "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "classification": {
@@ -131,7 +131,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "ab777668b8ff4f4a82faccf36709dd59",
+        "relatedLot": "251405ab88ff4e62806566f189709a65",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
@@ -139,7 +139,7 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "3367c62610004e63bc05756d076023cf",
+        "id": "ed166e26753444678ed95a3ebd151434",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

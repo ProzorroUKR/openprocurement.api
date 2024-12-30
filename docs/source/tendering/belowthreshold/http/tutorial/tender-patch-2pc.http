@@ -23,7 +23,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "600813e236004188b19b8a305d5c5c88",
+        "id": "36c6142ae19c445792ad7bb22b07b78d",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -81,7 +81,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "21c927c942a143dda8d92601c0bf59c6",
+        "id": "6b8ad58bef944bbea838bfb80252b489",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -109,7 +109,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "74c6d05cb02c444e908446d55a2de7f3",
+        "id": "1905a6a7d4ec450e9165b56c79958d60",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -155,7 +155,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "21c927c942a143dda8d92601c0bf59c6"
+        "relatedLot": "6b8ad58bef944bbea838bfb80252b489"
       }
     ],
     "noticePublicationDate": "2023-10-10T01:00:00+03:00",

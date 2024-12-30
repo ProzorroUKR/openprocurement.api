@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/c823c3c9df2e45f1a4bcc72a8e1c5639 HTTP/1.0
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/b2df0a3f487a401987b1cdf1170a93be/complaints/c823c3c9df2e45f1a4bcc72a8e1c5639 HTTP/1.0
 Authorization: Bearer bot
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -22,7 +22,7 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "ef9c0a403216410f9d4d2c4326f604ed",
+        "id": "84a2f466856343b8b33f0ec524c2321a",
         "datePublished": "2023-10-10T01:00:03+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
@@ -35,7 +35,7 @@ Content-Type: application/json
       }
     ],
     "type": "complaint",
-    "relatedLot": "bafe97395da841668932cf800cf756af",
+    "relatedLot": "c94486b261084c09ac0c731b74d35c85",
     "bid_id": "c938a8780db146beaba184a25937b356",
     "author": {
       "name": "ДКП «Школяр»",
@@ -62,11 +62,11 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "0f1bcfb2d6534f5b900a622e2a74d99b",
+        "id": "d2655b362ffe473ab4a214915da867c4",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "award",
-        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "relatedItem": "46b5dff235cc48fb952fae6c72243c12",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -74,14 +74,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "5256f8bd9392478b9e203f703591d1c6",
+            "id": "7e1fc95dcab744609f07130f17ebb65c",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "ec096954a6584e8a88073a16039947ae",
+            "id": "be3f89d2bd3447bf9d1c50879468a42e",
             "description": "test argument"
           }
         ],

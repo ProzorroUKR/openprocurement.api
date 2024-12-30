@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "lotValues": [
       {
-        "relatedLot": "3d9bd8f913544205bad6df7a3843e883"
+        "relatedLot": "176e6033e7af4efc95f6a5c290a3311d"
       }
     ],
     "status": "pending"
@@ -48,7 +48,7 @@ Content-Type: application/json
     ],
     "lotValues": [
       {
-        "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
+        "relatedLot": "176e6033e7af4efc95f6a5c290a3311d",
         "status": "pending",
         "date": "2023-10-10T01:01:00+03:00"
       }
@@ -57,7 +57,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "e589a6fae2464832a22fc7bf61712a9f",
+        "id": "92b1918ea2394d55a2d73f9d123e22ed",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -71,7 +71,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "e589a6fae2464832a22fc7bf61712a9f",
+        "id": "92b1918ea2394d55a2d73f9d123e22ed",
         "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

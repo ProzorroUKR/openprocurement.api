@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/947ff50dcf6549189085ee3723213288/requirement_groups HTTP/1.0
+GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/bbff38f98f1c45deb2a2d3c28ed1224f/requirement_groups HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,11 +9,11 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "638322bdff484f88a17037ea543928bf",
+      "id": "434e2574301a467e8328a7d6a8ce6916",
       "description": "Updated description",
       "requirements": [
         {
-          "id": "1a722896658842638f37cf86dc812082",
+          "id": "081dceb6c124494cbdf71784175644c6",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
           "dataType": "boolean",
           "eligibleEvidences": [
@@ -21,7 +21,7 @@ Content-Type: application/json
               "title": "Документальне підтвердження",
               "description": "Довідка в довільній формі",
               "type": "document",
-              "id": "9d6f612aa9414cffb617d7680c509380"
+              "id": "9c3165639f7a4a70abe5dec4167ec3cc"
             }
           ],
           "status": "active",
@@ -31,11 +31,11 @@ Content-Type: application/json
       ]
     },
     {
-      "id": "3fc26544cf4d4440a813b84e56039a4f",
+      "id": "30300c3f7fce42b68fa3695c1eda534b",
       "description": "Підтверджується, що",
       "requirements": [
         {
-          "id": "c84d2b867e7f49f981fcef27264848fc",
+          "id": "f9f5ae3751ee4340aad63f7038e818df",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
           "dataType": "boolean",
           "eligibleEvidences": [
@@ -43,7 +43,7 @@ Content-Type: application/json
               "title": "Документальне підтвердження",
               "description": "Довідка в довільній формі",
               "type": "document",
-              "id": "8b19671038034aeab033b9b992ca6948"
+              "id": "8d3509854db342c9b8eeb1a7cbca6fd2"
             }
           ],
           "status": "active",

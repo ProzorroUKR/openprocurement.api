@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/63d45e7d060440c8b42df0103d3e4e71/bids/f4d63c639fda4121b0186a837f165f9d/documents/ff45d78e3963481eb6b99165e7d3474e?acc_token=497b4b28bcef4df1b7ddce233c0ef1bd HTTP/1.0
+PUT /api/2.5/tenders/63d45e7d060440c8b42df0103d3e4e71/bids/f4d63c639fda4121b0186a837f165f9d/documents/01c2c1926b6e45e28ab3538e6e070487?acc_token=497b4b28bcef4df1b7ddce233c0ef1bd HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "data": {
     "confidentiality": "public",
-    "id": "ff45d78e3963481eb6b99165e7d3474e",
+    "id": "01c2c1926b6e45e28ab3538e6e070487",
     "datePublished": "2023-10-10T01:00:01+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "укр.doc",

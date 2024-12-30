@@ -33,19 +33,19 @@ Content-Type: application/json
           "scale": "mid"
         }
       ],
-      "awardID": "74cfc212ef074ef68bf35e860cd27515",
+      "awardID": "38b196e95ad147f9aa09040a36a54964",
       "bidID": "d36d4d7ab1d54578b92e72a7bf21354e",
       "date": "2023-10-10T01:02:01+03:00",
       "unitPrices": [
         {
-          "relatedItem": "fec087d72d65432bb5300282a222cd05",
+          "relatedItem": "d7b3fb7152ec4af88ec6210d2be36685",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           }
         },
         {
-          "relatedItem": "716051ad684148d9a80d20739ee3691c",
+          "relatedItem": "238026bfe5c1443e91d205578eac6419",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
@@ -80,19 +80,19 @@ Content-Type: application/json
           "scale": "sme"
         }
       ],
-      "awardID": "f383a684a1ff4e08862d1fa6b8a0135f",
+      "awardID": "36b9fc7fa38d41d9990670956f8f12f8",
       "bidID": "5d3dc5765f7b493e88a8cf48097c37b1",
       "date": "2023-10-10T01:02:01+03:00",
       "unitPrices": [
         {
-          "relatedItem": "fec087d72d65432bb5300282a222cd05",
+          "relatedItem": "d7b3fb7152ec4af88ec6210d2be36685",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           }
         },
         {
-          "relatedItem": "716051ad684148d9a80d20739ee3691c",
+          "relatedItem": "238026bfe5c1443e91d205578eac6419",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
@@ -127,19 +127,19 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "awardID": "5b914088f3394751918ca1a47c417efa",
+      "awardID": "afa433c494e44739930128fe436e711d",
       "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
       "date": "2023-10-10T01:02:01+03:00",
       "unitPrices": [
         {
-          "relatedItem": "fec087d72d65432bb5300282a222cd05",
+          "relatedItem": "d7b3fb7152ec4af88ec6210d2be36685",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           }
         },
         {
-          "relatedItem": "716051ad684148d9a80d20739ee3691c",
+          "relatedItem": "238026bfe5c1443e91d205578eac6419",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true

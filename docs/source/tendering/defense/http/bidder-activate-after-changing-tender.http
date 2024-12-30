@@ -51,7 +51,7 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "75b07275c0f248a8bc4839d71fd086d3",
+        "id": "d840f714073548e4a099c9a6f3d72605",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
@@ -64,7 +64,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "61ebc69c45b548c2b3017df37a16fb8f",
+        "id": "d009c50c74344f8fb6dff7c5937c9b10",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

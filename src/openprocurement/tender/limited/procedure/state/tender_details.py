@@ -29,3 +29,11 @@ class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState)
                 "Can't update tender when there is at least one award.",
             )
         super().on_patch(before, after)
+
+    @staticmethod
+    def set_lot_guarantee(tender: dict, data: dict) -> None:
+        pass
+
+    @staticmethod
+    def set_lot_minimal_step(tender: dict, data: dict) -> None:
+        pass

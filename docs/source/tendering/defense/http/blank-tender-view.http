@@ -34,7 +34,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "5913e805a15e4ee484617292a375c8c4",
+        "id": "7986908fe481470ca5d8314df1d038b5",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -77,7 +77,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "e77f949c4e1c48808802b8d42ed135d8",
+        "id": "a2c01d547823435c9b45f7498a146caa",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",

@@ -33,7 +33,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "5f416c4b1629461194116a3c41e574a8"
+        "relatedLot": "ad1db171228241499c0b61c8c29f611e"
       }
     ]
   }
@@ -72,7 +72,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
     ],
     "lotValues": [
       {
-        "relatedLot": "5f416c4b1629461194116a3c41e574a8",
+        "relatedLot": "ad1db171228241499c0b61c8c29f611e",
         "status": "pending",
         "date": "2023-10-10T01:03:00+03:00"
       }

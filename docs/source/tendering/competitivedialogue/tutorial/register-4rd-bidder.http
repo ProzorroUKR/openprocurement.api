@@ -48,7 +48,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "5f416c4b1629461194116a3c41e574a8"
+        "relatedLot": "ad1db171228241499c0b61c8c29f611e"
       }
     ]
   }
@@ -86,7 +86,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
     ],
     "lotValues": [
       {
-        "relatedLot": "5f416c4b1629461194116a3c41e574a8",
+        "relatedLot": "ad1db171228241499c0b61c8c29f611e",
         "status": "pending",
         "date": "2023-10-10T01:03:00+03:00"
       }
@@ -100,7 +100,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/512e62ad72064144a492ddadd0c8df6f?Signature=jowdtY2DvSznH4xF0PR4itAaLc1gBn4qAjnxkvLwn4e7WieDPO%2Fv4jwtUcgQhtwIfMXehOy%2FUjRzg9R22JdAAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "a7e0aedf87d145878ea880ddd51ac126",
+        "id": "57e8df6724d544a7a30030544776faad",
         "isDescriptionDecision": false,
         "datePublished": "2023-10-10T01:03:00+03:00",
         "dateModified": "2023-10-10T01:03:00+03:00"
@@ -113,7 +113,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
         "format": "application/pdf",
         "documentOf": "tender",
         "language": "uk",
-        "id": "f8b358824b8c48b3a091cf482fc7fe44",
+        "id": "a00d7d3365c346fdb1fbdf954a8f618a",
         "isDescriptionDecision": false,
         "datePublished": "2023-10-10T01:03:00+03:00",
         "dateModified": "2023-10-10T01:03:00+03:00"

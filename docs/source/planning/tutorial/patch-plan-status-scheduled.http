@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "status": "scheduled",
     "procuringEntity": {
-      "id": "59fd7716ba954f7c9ed44eff506106a5",
+      "id": "3dd578dcb6d34f1fa29434f9f012065d",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -70,7 +70,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
-        "id": "e163ef58b47e42ccbacc9706d4fbd0eb",
+        "id": "5d8f4d521f7f4ba3a95eb3a2fb963185",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -101,7 +101,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "ae37d2d419704b4e85311f2b59b7d2f3",
+        "id": "7f17f2512dd443bfa3712e1769932462",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -132,7 +132,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "e0e469224d1a4746a9cf02d4a7ccc70c",
+        "id": "f51476be3de34b909a8da1ddd85ccc48",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -165,7 +165,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "e0cc0f5599f44b6cbf9acffd0a6c9dd0",
+        "id": "9fd8252016044c9b8175f44b4e4b88fa",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

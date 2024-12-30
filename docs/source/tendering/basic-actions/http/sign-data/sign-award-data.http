@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/d76690e7b5e149e1a7dec8e501f8d9b5?opt_context=true HTTP/1.0
+GET /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/46b5dff235cc48fb952fae6c72243c12?opt_context=true HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "d76690e7b5e149e1a7dec8e501f8d9b5",
+    "id": "46b5dff235cc48fb952fae6c72243c12",
     "status": "pending",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
@@ -41,7 +41,7 @@ Content-Type: application/json
       }
     ],
     "bid_id": "a5bf718ab7f14f40bef4ad334f3c936a",
-    "lotID": "bafe97395da841668932cf800cf756af",
+    "lotID": "c94486b261084c09ac0c731b74d35c85",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-18T00:00:00+03:00"
@@ -91,7 +91,7 @@ Content-Type: application/json
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
               },
-              "relatedLot": "bafe97395da841668932cf800cf756af",
+              "relatedLot": "c94486b261084c09ac0c731b74d35c85",
               "status": "active",
               "date": "2023-10-10T01:00:00+03:00"
             }
@@ -100,7 +100,7 @@ Content-Type: application/json
             {
               "confidentiality": "public",
               "documentType": "proposal",
-              "id": "19c13f19dbbc404a8c566493c3238adc",
+              "id": "02bede37b7ea4648a12686900b5e8421",
               "datePublished": "2023-10-10T01:00:00+03:00",
               "hash": "md5:00000000000000000000000000000000",
               "title": "sign.p7s",
@@ -144,7 +144,7 @@ Content-Type: application/json
           "date": "2023-10-10T01:00:00+03:00",
           "items": [
             {
-              "id": "555bf20c259e4bd79caba5d9d85d4d7b",
+              "id": "8840f90710624691b182d38026bbbe44",
               "description": "футляри до державних нагород",
               "unit": {
                 "name": "Item",
@@ -158,7 +158,7 @@ Content-Type: application/json
               "quantity": 4.0
             },
             {
-              "id": "1ce1cd766ffc4843a26f4ea9b1f58638",
+              "id": "ff7b47fdbdf04d5692cdb738f54c20bb",
               "description": "футляри до державних нагород",
               "unit": {
                 "name": "Item",
@@ -179,7 +179,7 @@ Content-Type: application/json
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
               },
-              "relatedLot": "bafe97395da841668932cf800cf756af",
+              "relatedLot": "c94486b261084c09ac0c731b74d35c85",
               "status": "active",
               "date": "2023-10-10T01:00:00+03:00"
             }
@@ -192,7 +192,7 @@ Content-Type: application/json
         {
           "confidentiality": "public",
           "documentType": "evaluationReports",
-          "id": "8f57cf72458e4e1487a638adca4c1b67",
+          "id": "74597fecddea4dbea0d3cdd6048e226d",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
@@ -224,7 +224,7 @@ Content-Type: application/json
           "title": "Лот №1",
           "description": "Опис Лот №1",
           "status": "active",
-          "id": "bafe97395da841668932cf800cf756af",
+          "id": "c94486b261084c09ac0c731b74d35c85",
           "date": "2023-10-10T01:00:00+03:00",
           "value": {
             "amount": 500.0,
@@ -256,7 +256,7 @@ Content-Type: application/json
           "sequenceNumber": 1
         },
         {
-          "id": "f4f6f5a0e7034ee68dc319245a560b52",
+          "id": "74ff67bd10d24f16a1583eaed7645b5c",
           "title": "deliveryOfGoods",
           "type": "financing",
           "code": "postpayment",
@@ -275,9 +275,9 @@ Content-Type: application/json
       },
       "qualifications": [
         {
-          "id": "7a1b225edd7d4c07aa71fe5654308e4a",
+          "id": "063cd6d3b836451785d7ad5954080796",
           "bidID": "c938a8780db146beaba184a25937b356",
-          "lotID": "bafe97395da841668932cf800cf756af",
+          "lotID": "c94486b261084c09ac0c731b74d35c85",
           "status": "active",
           "date": "2023-10-10T01:00:00+03:00",
           "qualified": true,
@@ -288,9 +288,9 @@ Content-Type: application/json
           }
         },
         {
-          "id": "80d5e531b34f478b871cf71786d09bde",
+          "id": "089cdf2c9a9b409589e0df274088f454",
           "bidID": "a5bf718ab7f14f40bef4ad334f3c936a",
-          "lotID": "bafe97395da841668932cf800cf756af",
+          "lotID": "c94486b261084c09ac0c731b74d35c85",
           "status": "active",
           "date": "2023-10-10T01:00:00+03:00",
           "qualified": true,
@@ -341,7 +341,7 @@ Content-Type: application/json
       },
       "items": [
         {
-          "id": "555bf20c259e4bd79caba5d9d85d4d7b",
+          "id": "8840f90710624691b182d38026bbbe44",
           "description": "Послуги шкільних їдалень",
           "unit": {
             "name": "кілограм",
@@ -365,7 +365,7 @@ Content-Type: application/json
               "description": "Послуги шкільних їдалень"
             }
           ],
-          "relatedLot": "bafe97395da841668932cf800cf756af",
+          "relatedLot": "c94486b261084c09ac0c731b74d35c85",
           "deliveryDate": {
             "startDate": "2023-10-30T00:00:00+02:00",
             "endDate": "2023-11-29T00:00:00+02:00"
@@ -380,7 +380,7 @@ Content-Type: application/json
           "description_en": "Services in school canteens"
         },
         {
-          "id": "1ce1cd766ffc4843a26f4ea9b1f58638",
+          "id": "ff7b47fdbdf04d5692cdb738f54c20bb",
           "description": "Послуги шкільних їдалень",
           "unit": {
             "name": "упаковка",
@@ -404,7 +404,7 @@ Content-Type: application/json
               "description": "Послуги шкільних їдалень"
             }
           ],
-          "relatedLot": "bafe97395da841668932cf800cf756af",
+          "relatedLot": "c94486b261084c09ac0c731b74d35c85",
           "deliveryDate": {
             "startDate": "2023-10-30T00:00:00+02:00",
             "endDate": "2023-11-29T00:00:00+02:00"
@@ -431,7 +431,7 @@ Content-Type: application/json
       },
       "awards": [
         {
-          "id": "d76690e7b5e149e1a7dec8e501f8d9b5",
+          "id": "46b5dff235cc48fb952fae6c72243c12",
           "status": "pending",
           "date": "2023-10-10T01:00:00+03:00",
           "value": {
@@ -464,7 +464,7 @@ Content-Type: application/json
             }
           ],
           "bid_id": "a5bf718ab7f14f40bef4ad334f3c936a",
-          "lotID": "bafe97395da841668932cf800cf756af",
+          "lotID": "c94486b261084c09ac0c731b74d35c85",
           "period": {
             "startDate": "2023-10-10T01:00:00+03:00",
             "endDate": "2023-10-18T00:00:00+03:00"

@@ -447,8 +447,37 @@ class TenderDetailsMixing(TenderConfigMixin):
                 )
 
             for lot in lots:
+                self.set_lot_guarantee(tender, lot)
+                self.set_lot_value(tender, lot)
+                self.set_lot_minimal_step(tender, lot)
                 self.validate_minimal_step(lot, before)
                 self.validate_lot_value(tender, lot)
+
+    @staticmethod
+    def set_lot_guarantee(tender: dict, lot: dict) -> None:
+        if guarantee := lot.get("guarantee"):
+            currency = tender["guarantee"]["currency"] if tender.get("guarantee") else guarantee.get("currency")
+            lot["guarantee"]["currency"] = currency
+
+    @staticmethod
+    def set_lot_value(tender: dict, lot: dict) -> None:
+        if tender_value := tender.get("value"):
+            lot["value"].update(
+                {
+                    "currency": tender_value["currency"],
+                    "valueAddedTaxIncluded": tender_value["valueAddedTaxIncluded"],
+                }
+            )
+
+    @staticmethod
+    def set_lot_minimal_step(tender: dict, lot: dict) -> None:
+        if lot.get("minimalStep") and (tender_minimal_step := tender.get("minimalStep")):
+            lot["minimalStep"].update(
+                {
+                    "currency": tender_minimal_step.get("currency"),
+                    "valueAddedTaxIncluded": tender_minimal_step.get("valueAddedTaxIncluded"),
+                }
+            )
 
     def validate_lot_value(self, tender: dict, lot: dict) -> None:
         """Validate lot value.

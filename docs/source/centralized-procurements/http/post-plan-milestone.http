@@ -41,7 +41,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d93
     "description": "Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників",
     "type": "approval",
     "author": {
-      "id": "f2aa390c3e55435d92d2b920e099369c",
+      "id": "5eb3a24a09454272a717b820d4209dbf",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",

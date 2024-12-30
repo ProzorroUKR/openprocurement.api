@@ -31,3 +31,8 @@ class TenderLotState(LotInvalidationBidStateMixin, ESCOTenderDetailsState):
                 status=422,
                 name="yearlyPaymentsPercentageRange",
             )
+
+    def set_lot_data(self, data: dict) -> None:
+        tender = get_tender()
+        self.set_auction_period_should_start_after(tender, data)
+        self.set_tender_lot_data(tender, data)

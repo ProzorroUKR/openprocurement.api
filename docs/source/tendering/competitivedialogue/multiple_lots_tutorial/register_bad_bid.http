@@ -37,7 +37,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "3d9bd8f913544205bad6df7a3843e883"
+        "relatedLot": "176e6033e7af4efc95f6a5c290a3311d"
       }
     ]
   }

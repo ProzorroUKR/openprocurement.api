@@ -96,7 +96,7 @@ Content-Type: application/json
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "items": [
       {
-        "id": "3dd461fd0d704443b8a7032d7c8741a5",
+        "id": "eb132877a4d447ab9a0651dbd4d5d20a",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -135,7 +135,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "59b7ffa72994420ab99bb537ab9c0523",
+        "id": "f2de1df5aad94b62beb2c89a23c04c0e",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [

@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "data": {
     "buyerID": "22222222222222222222222222222222",
-    "awardID": "e7818db48ced43fdb835d12196d87996",
+    "awardID": "6523042f453342e0aeeeb46d819ede62",
     "contractID": "UA-2023-10-10-000001-a-2",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
@@ -56,7 +56,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "8bc6840649524204a2587e504710a015",
+        "id": "fa935473378a4ca39aebfb1fabaa4a9e",
         "description": "портфелі",
         "quantity": 5.0,
         "relatedBuyer": "22222222222222222222222222222222",
@@ -94,7 +94,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "7ce20f04e58e4e678aa1f591966d096c",
+        "id": "70bf866714a34e608b07cc77c3aa14fb",
         "description": "портфелі",
         "quantity": 5.0,
         "relatedBuyer": "22222222222222222222222222222222",

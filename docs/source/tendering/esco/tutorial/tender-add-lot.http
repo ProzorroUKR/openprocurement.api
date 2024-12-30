@@ -25,12 +25,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
     "status": "active",
     "minimalStepPercentage": 0.006,
     "yearlyPaymentsPercentageRange": 0.8,
+    "date": "2023-10-10T01:00:00+03:00",
     "fundingKind": "other",
     "minValue": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true
-    },
-    "date": "2023-10-10T01:00:00+03:00"
+    }
   }
 }
 

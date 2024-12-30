@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/782a773bcc70490e923de940a94a5ada/cancellations/08f6451bcfcd450a91d812798971e820/documents/f625585c8ef5479b9674d874bfb91c95?acc_token=ee095d9d556042c3afc71a91cc4b9236 HTTP/1.0
+PATCH /api/2.5/tenders/782a773bcc70490e923de940a94a5ada/cancellations/08f6451bcfcd450a91d812798971e820/documents/41a764a4e8ce4f31b3fc5b5bcf93de76?acc_token=ee095d9d556042c3afc71a91cc4b9236 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "confidentiality": "public",
     "description": "Changed description",
-    "id": "f625585c8ef5479b9674d874bfb91c95",
+    "id": "41a764a4e8ce4f31b3fc5b5bcf93de76",
     "datePublished": "2023-10-10T01:01:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",

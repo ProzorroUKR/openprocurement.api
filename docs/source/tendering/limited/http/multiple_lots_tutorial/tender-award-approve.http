@@ -53,7 +53,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "264639d159334651a68b037b0033ec98",
+        "id": "45c01de475314b38aebf05fc8553395e",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -65,7 +65,7 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "lotID": "ca54d1673c8445ac8a53f411406d170c",
+    "lotID": "867f1242bbf840f7b35a25de5756015e",
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-16T00:00:00+03:00"

@@ -36,14 +36,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 200,
           "currency": "USD"
         },
-        "relatedLot": "cca0671762d34aa183864d6a01e27315"
+        "relatedLot": "65fbd35f0fb84c5eb1fd63c17607e451"
       }
     ],
     "items": [
       {
         "quantity": 5,
         "description": "папір",
-        "id": "37767739243c4a61a045afaf5e1e5b21",
+        "id": "69c9df75aa874a1ead92c1036aec543d",
         "unit": {
           "code": "KGM",
           "value": {

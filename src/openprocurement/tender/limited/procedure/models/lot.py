@@ -1,15 +1,11 @@
 from schematics.types import StringType
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 
 from openprocurement.tender.core.procedure.models.guarantee import (
     EstimatedValue,
     PostEstimatedValue,
 )
-from openprocurement.tender.core.procedure.models.lot import (
-    BaseLot,
-    BaseLotSerializersMixin,
-)
+from openprocurement.tender.core.procedure.models.lot import BaseLot
 from openprocurement.tender.core.procedure.models.lot import PatchLot as BasePatchLot
 from openprocurement.tender.core.procedure.models.lot import (
     PatchTenderLot as BasePatchTenderLot,
@@ -17,20 +13,7 @@ from openprocurement.tender.core.procedure.models.lot import (
 from openprocurement.tender.core.procedure.models.lot import PostBaseLot, TenderLotMixin
 
 
-class LotValueSerializerMixin(BaseLotSerializersMixin):
-    @serializable(serialized_name="value", type=ModelType(EstimatedValue))
-    def lot_value(self):
-        tender = self.get_tender()
-        return EstimatedValue(
-            {
-                "amount": self.value.amount,
-                "currency": tender["value"]["currency"],
-                "valueAddedTaxIncluded": tender["value"]["valueAddedTaxIncluded"],
-            }
-        )
-
-
-class PostLot(PostBaseLot, LotValueSerializerMixin):
+class PostLot(PostBaseLot):
     value = ModelType(PostEstimatedValue, required=True)
 
 
@@ -47,5 +30,5 @@ class PatchTenderLot(BasePatchTenderLot, TenderLotMixin):
     value = ModelType(EstimatedValue, required=True)
 
 
-class Lot(BaseLot, TenderLotMixin, LotValueSerializerMixin):
+class Lot(BaseLot, TenderLotMixin):
     value = ModelType(EstimatedValue, required=True)

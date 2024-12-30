@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "lotValues": [
       {
         "subcontractingDetails": "ДКП «Орфей»",
-        "relatedLot": "3d9bd8f913544205bad6df7a3843e883"
+        "relatedLot": "176e6033e7af4efc95f6a5c290a3311d"
       }
     ],
     "status": "pending"
@@ -50,7 +50,7 @@ Content-Type: application/json
     ],
     "lotValues": [
       {
-        "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
+        "relatedLot": "176e6033e7af4efc95f6a5c290a3311d",
         "subcontractingDetails": "ДКП «Орфей»",
         "status": "pending",
         "date": "2023-10-10T01:01:00+03:00"
@@ -60,7 +60,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "8e5745e3890d4fc5a0880b9d660d1a87",
+        "id": "3c5544a57b084d7aaddbf1034ba963aa",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -74,7 +74,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "8e5745e3890d4fc5a0880b9d660d1a87",
+        "id": "3c5544a57b084d7aaddbf1034ba963aa",
         "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

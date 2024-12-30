@@ -22,9 +22,13 @@ from openprocurement.tender.core.procedure.models.complaint import (
     TendererActionPatchComplaint,
     TendererResolvePatchComplaint,
 )
+from openprocurement.tender.core.procedure.models.complaint_objection import (
+    ObjectionRelatesTo,
+)
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
+    find_item_by_id,
     restrict_value_to_bounds,
     round_up_to_ten,
     tender_created_after,
@@ -56,8 +60,8 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         self.validate_complaint_config()
         self.validate_create_allowed_tender_status()
         self.validate_lot_status()
-        self.validate_tender_in_complaint_period(tender)
         self.validate_objections(complaint)
+        self.validate_tender_in_complaint_period(tender)
 
         self.validate_add_complaint_with_tender_cancellation_in_pending(tender)
         self.validate_add_complaint_with_lot_cancellation_in_pending(tender, complaint)
@@ -335,7 +339,59 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                         "Can't add more than 1 argument for objection",
                         status=422,
                     )
+        self.validate_objection_related_item(complaint)
+
+    def validate_objection_related_item(self, complaint):
+        if complaint.get("status", "draft") == "draft" and (objections := complaint.get("objections", [])):
+            tender = get_tender()
+            for objection in objections:
+                relates_to = objection["relatesTo"]
+                related_item = objection["relatedItem"]
+                if relates_to == ObjectionRelatesTo.tender.value:
+                    if related_item != tender.get("_id"):
+                        raise_operation_error(
+                            self.request,
+                            "Invalid tender id",
+                            status=422,
+                            name="objections.relatedItem",
+                        )
+                else:
+                    items = tender.get(f"{relates_to}s", [])
+                    obj = find_item_by_id(items, related_item)
+                    if not obj:
+                        raise_operation_error(
+                            self.request,
+                            f"Invalid {relates_to} id",
+                            status=422,
+                            name="objections.relatedItem",
+                        )
+                    if relates_to in ("award", "qualification") and obj.get("status") not in ("active", "unsuccessful"):
+                        raise_operation_error(
+                            self.request,
+                            f"Relate objection to {relates_to} in {obj.get('status')} is forbidden",
+                            status=422,
+                            name="objections.relatedItem",
+                        )
 
 
 class TenderComplaintState(ComplaintStateMixin, TenderState):
-    pass
+    def validate_objection_related_item(self, complaint):
+        super().validate_objection_related_item(complaint)
+        if objections := complaint.get("objections", []):
+            related_lot = complaint.get("relatedLot")
+            for objection in objections:
+                if objection["relatesTo"] == ObjectionRelatesTo.lot.value:
+                    if not related_lot or objection["relatedItem"] != related_lot:
+                        raise_operation_error(
+                            self.request,
+                            "Complaint's objection must relate to the same lot id as mentioned in complaint's relatedLot",
+                            status=422,
+                            name="objections.relatedItem",
+                        )
+                elif related_lot:
+                    raise_operation_error(
+                        self.request,
+                        f"Complaint's objection must not relate to {objection['relatesTo']} if relatedLot mentioned",
+                        status=422,
+                        name="objections.relatedItem",
+                    )

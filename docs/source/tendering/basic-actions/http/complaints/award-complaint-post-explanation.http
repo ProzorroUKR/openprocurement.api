@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/1739ae89d2cb4ef4b8c6c4db5ffc33ed/posts?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/b2df0a3f487a401987b1cdf1170a93be/complaints/1739ae89d2cb4ef4b8c6c4db5ffc33ed/posts?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,20 +7,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "title": "Пояснення до скарги",
     "description": "Була така необхідність",
-    "relatedObjection": "ef70d1f721e14dc5b071a833dcb44f89"
+    "relatedObjection": "6422d924c59b440c8ae4b5b11227e0ed"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/995688bcf2a34c3db7650bb4693f0d8b/complaints/1739ae89d2cb4ef4b8c6c4db5ffc33ed/posts/dbef3aa1d3064b8e9ec6ccefbb758c6a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/b2df0a3f487a401987b1cdf1170a93be/complaints/1739ae89d2cb4ef4b8c6c4db5ffc33ed/posts/dbef3aa1d3064b8e9ec6ccefbb758c6a
 
 {
   "data": {
     "title": "Пояснення до скарги",
     "description": "Була така необхідність",
-    "relatedObjection": "ef70d1f721e14dc5b071a833dcb44f89",
+    "relatedObjection": "6422d924c59b440c8ae4b5b11227e0ed",
     "id": "dbef3aa1d3064b8e9ec6ccefbb758c6a",
     "datePublished": "2023-10-10T01:00:03+03:00",
     "author": "tender_owner"

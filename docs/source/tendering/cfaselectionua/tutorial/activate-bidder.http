@@ -56,7 +56,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "b336781d876d47e281e111bf33ffd16b",
+        "id": "f9a3894c17ab449f8192d62a5e36867d",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",

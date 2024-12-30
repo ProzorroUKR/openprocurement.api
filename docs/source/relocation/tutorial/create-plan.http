@@ -177,7 +177,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
   "data": {
     "status": "scheduled",
     "procuringEntity": {
-      "id": "348cb0420d074d0fa9c46e626ebc8e76",
+      "id": "052f948ae08e4180a51ad3fa2dd3c133",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -216,7 +216,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
       },
       "breakdown": [
         {
-          "id": "880d4e1ef7d84cd0be15ba5678c6306d",
+          "id": "ecbb25472b214005922ee931861bf48f",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -240,7 +240,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
     ],
     "items": [
       {
-        "id": "1cacdbcc3bb7446aab11f090bc5b971b",
+        "id": "da85720c5ca84b15ac85b413e1f49c42",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -265,7 +265,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
         "description": "Насіння гірчиці"
       },
       {
-        "id": "3aaa9e8a6a3e4d618bc8e8af0a406b45",
+        "id": "b585d23eab874e829d8d03303a920df3",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -290,7 +290,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
         "description": "Насіння соняшнику"
       },
       {
-        "id": "8ae59717ad824e6ba1988907e91c554c",
+        "id": "d80a234ca5334ae3a1059d82b33aa6e7",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -317,7 +317,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
     ],
     "buyers": [
       {
-        "id": "b70ea6f297d64c4a96a32ec1636b3eca",
+        "id": "fca99422df704eab814413694313b96c",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

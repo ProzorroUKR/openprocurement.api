@@ -282,6 +282,14 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 "CRITERION.OTHER.CONTRACT.GUARANTEE should be identical to criterion in cfaua",
             )
 
+    @staticmethod
+    def set_lot_value(tender: dict, data: dict) -> None:
+        pass
+
+    @staticmethod
+    def set_lot_minimal_step(tender: dict, data: dict) -> None:
+        pass
+
 
 class CFASelectionTenderDetailsState(CFASelectionTenderDetailsMixing, CFASelectionTenderState):
     pass

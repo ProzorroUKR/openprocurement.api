@@ -469,6 +469,7 @@ def create_tender_bid_invalid_funding_kind_budget(self):
             }
         ],
     }
+    set_bid_items(self, bid_data)
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid_data["selfEligible"] = True
 
@@ -485,16 +486,8 @@ def create_tender_bid_invalid_funding_kind_budget(self):
         [
             {
                 "location": "body",
-                "name": "lotValues",
-                "description": [
-                    {
-                        "value": {
-                            "yearlyPaymentsPercentage": [
-                                "yearlyPaymentsPercentage should be greater than 0 and less than 0.5"
-                            ]
-                        }
-                    }
-                ],
+                "name": "lotValues.value",
+                "description": "yearlyPaymentsPercentage should be greater than 0 and less than 0.5",
             }
         ],
     )

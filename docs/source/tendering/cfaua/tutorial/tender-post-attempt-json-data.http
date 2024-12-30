@@ -234,7 +234,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
     "maxAwardsCount": 4,
     "items": [
       {
-        "id": "fec087d72d65432bb5300282a222cd05",
+        "id": "d7b3fb7152ec4af88ec6210d2be36685",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
@@ -268,7 +268,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
         "description_en": "Cases for state awards"
       },
       {
-        "id": "716051ad684148d9a80d20739ee3691c",
+        "id": "238026bfe5c1443e91d205578eac6419",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",

@@ -8,13 +8,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "307a20c8319e45d38d57fac7da4d5b27"
+          "id": "454dc5b524874c2891fcc5424aa8293c"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "3367c62610004e63bc05756d076023cf",
+              "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
             "type": "document"
@@ -39,16 +39,16 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "3367c62610004e63bc05756d076023cf",
+              "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "a519e7caad93435a9412b5cb2b0750f6"
+            "id": "3701457a1e024d019cfaa956f3e44d14"
           }
         ],
         "value": true,
-        "id": "a11d24140fef4267b6e7098a7db354f3",
+        "id": "20334020e0654cf9bebbb1d05bb45601",
         "requirement": {
-          "id": "307a20c8319e45d38d57fac7da4d5b27",
+          "id": "454dc5b524874c2891fcc5424aa8293c",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
         },
         "classification": {
@@ -92,7 +92,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "ab777668b8ff4f4a82faccf36709dd59",
+        "relatedLot": "251405ab88ff4e62806566f189709a65",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
@@ -100,7 +100,7 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "3367c62610004e63bc05756d076023cf",
+        "id": "ed166e26753444678ed95a3ebd151434",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "unitPrices": [
       {
-        "relatedItem": "fec087d72d65432bb5300282a222cd05",
+        "relatedItem": "d7b3fb7152ec4af88ec6210d2be36685",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         }
       },
       {
-        "relatedItem": "716051ad684148d9a80d20739ee3691c",
+        "relatedItem": "238026bfe5c1443e91d205578eac6419",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -60,7 +60,7 @@ Content-Type: application/json
     ],
     "unitPrices": [
       {
-        "relatedItem": "fec087d72d65432bb5300282a222cd05",
+        "relatedItem": "d7b3fb7152ec4af88ec6210d2be36685",
         "value": {
           "currency": "UAH",
           "amount": 0.5,
@@ -68,7 +68,7 @@ Content-Type: application/json
         }
       },
       {
-        "relatedItem": "716051ad684148d9a80d20739ee3691c",
+        "relatedItem": "238026bfe5c1443e91d205578eac6419",
         "value": {
           "currency": "UAH",
           "amount": 0.5,
@@ -76,7 +76,7 @@ Content-Type: application/json
         }
       }
     ],
-    "awardID": "5b914088f3394751918ca1a47c417efa",
+    "awardID": "afa433c494e44739930128fe436e711d",
     "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
     "date": "2023-10-10T01:02:01+03:00"
   }

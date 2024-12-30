@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/awards/74cfc212ef074ef68bf35e860cd27515?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+PATCH /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/awards/38b196e95ad147f9aa09040a36a54964?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "74cfc212ef074ef68bf35e860cd27515",
+    "id": "38b196e95ad147f9aa09040a36a54964",
     "status": "active",
     "date": "2023-10-10T01:02:01+03:00",
     "value": {
@@ -54,7 +54,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "88a6a67c472243f7af7972ec3ff55357",
+        "id": "408d2abc37e54c2e93c079980fca1a11",
         "datePublished": "2023-10-10T01:02:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

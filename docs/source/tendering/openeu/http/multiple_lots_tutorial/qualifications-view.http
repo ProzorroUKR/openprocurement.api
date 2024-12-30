@@ -9,18 +9,18 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "19d8145759324c759e0b9fe8fc9b0b49",
+      "id": "70e501c9a35d48b9b41344c451d36fa2",
       "bidID": "e147c97dce694dfb8977d31e05225485",
-      "lotID": "b107fd651779457994cf8d66f0c66b75",
+      "lotID": "90605edc448c4de18fee176ba1865b55",
       "status": "pending",
       "date": "2023-10-10T01:01:00+03:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "53e540ee40f548f9b30af0d358863f79",
+      "id": "bf89b439f1ba41de8182594152fa1f20",
       "bidID": "894a82740ac04e92881fe41a0ad1f0f5",
-      "lotID": "b107fd651779457994cf8d66f0c66b75",
+      "lotID": "90605edc448c4de18fee176ba1865b55",
       "status": "pending",
       "date": "2023-10-10T01:01:00+03:00",
       "qualified": false,

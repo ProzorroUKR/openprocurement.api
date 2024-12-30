@@ -94,22 +94,12 @@ class ESCOValue(BaseESCOValue):
 
     def validate_yearlyPaymentsPercentage(self, data, value):
         if data.get("status") != "draft":
-            parent = data["__parent__"]
             tender = get_tender()
 
             if tender["fundingKind"] == "other" and value < Decimal("0.8"):
                 raise ValidationError("yearlyPaymentsPercentage should be greater than 0.8 and less than 1")
             if tender["fundingKind"] == "budget":
-                if tender.get("lots"):
-                    lots = [i for i in tender.get("lots", "") if i["id"] == parent["relatedLot"]]
-
-                    if lots and value > Decimal(lots[0]["yearlyPaymentsPercentageRange"]):
-                        raise ValidationError(
-                            "yearlyPaymentsPercentage should be greater than 0 and less than {}".format(
-                                lots[0]["yearlyPaymentsPercentageRange"]
-                            )
-                        )
-                else:
+                if not tender.get("lots"):
                     if value > Decimal(tender["yearlyPaymentsPercentageRange"]):
                         raise ValidationError(
                             "yearlyPaymentsPercentage should be greater than 0 and less than {}".format(

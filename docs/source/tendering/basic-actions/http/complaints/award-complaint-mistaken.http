@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/4b8d5350b34c4a02be0f9707a7cd2909/complaints/5ad9b454c79346d898b47701c6bbf71c?acc_token=f0788ec7f7ef4a178504f19bfb56126e HTTP/1.0
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/22538da636d84b5b88ad4598942e3823/complaints/5ad9b454c79346d898b47701c6bbf71c?acc_token=f0788ec7f7ef4a178504f19bfb56126e HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -20,7 +20,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:03+03:00",
     "status": "mistaken",
     "type": "complaint",
-    "relatedLot": "bafe97395da841668932cf800cf756af",
+    "relatedLot": "c94486b261084c09ac0c731b74d35c85",
     "bid_id": "c938a8780db146beaba184a25937b356",
     "author": {
       "name": "ДКП «Школяр»",
@@ -47,11 +47,11 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "44ed875b7b404ed683cab5df53486328",
+        "id": "d5b883d3af6444fc966ebc410142f231",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "award",
-        "relatedItem": "d76690e7b5e149e1a7dec8e501f8d9b5",
+        "relatedItem": "46b5dff235cc48fb952fae6c72243c12",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -59,14 +59,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "ed1ef6f25ac14c85b0633cec0c689f8e",
+            "id": "6a2da6227954439cae5499946223dc04",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "49193f37a90e44bf99a4e39b4c062821",
+            "id": "9fc8e548ce124ac5a44bf11dea178a80",
             "description": "test argument"
           }
         ],
