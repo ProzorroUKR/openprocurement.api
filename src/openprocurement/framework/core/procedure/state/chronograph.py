@@ -3,7 +3,6 @@ from logging import getLogger
 
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.utils import context_unpack
-from openprocurement.framework.core.constants import DAYS_TO_UNSUCCESSFUL_STATUS
 from openprocurement.framework.core.procedure.utils import (
     get_framework_number_of_submissions,
 )
@@ -14,6 +13,10 @@ LOGGER = getLogger(__name__)
 
 
 class ChronographEventsMixing:
+    min_submissions_number = 3
+    min_submissions_number_days = 15
+    min_submissions_number_working_days = False
+
     def update_next_check(self, data):
         # next_check is field that shows object's expectation to be triggered at a certain time
         next_check = self.get_next_check(data)
@@ -28,28 +31,21 @@ class ChronographEventsMixing:
     def check_status(self, framework):
         if framework.get("status") == "active":
             if not framework.get("successful"):
-                if start_date := framework.get("period", {}).get("startDate"):
-                    unsuccessful_status_check = calculate_framework_full_date(
-                        dt_from_iso(start_date),
-                        timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
-                        framework=framework,
-                        working_days=True,
-                        ceil=True,
-                    )
-                    if unsuccessful_status_check < get_now():
-                        number_of_submissions = get_framework_number_of_submissions(get_request(), framework)
-                        if number_of_submissions == 0:
-                            LOGGER.info(
-                                f"Switched framework {framework['_id']} to unsuccessful",
-                                extra=context_unpack(
-                                    get_request(),
-                                    {"MESSAGE_ID": "switched_framework_unsuccessful"},
-                                ),
-                            )
-                            framework["status"] = "unsuccessful"
-                            return
-                        else:
-                            framework["successful"] = True
+                unsuccessful_status_check = self.get_unsuccessful_status_check_date(framework)
+                if unsuccessful_status_check and unsuccessful_status_check < get_now():
+                    number_of_submissions = get_framework_number_of_submissions(get_request(), framework)
+                    if number_of_submissions < self.min_submissions_number:
+                        LOGGER.info(
+                            f"Switched framework {framework['_id']} to unsuccessful",
+                            extra=context_unpack(
+                                get_request(),
+                                {"MESSAGE_ID": "switched_framework_unsuccessful"},
+                            ),
+                        )
+                        framework["status"] = "unsuccessful"
+                        return
+                    else:
+                        framework["successful"] = True
 
             if dt_from_iso(framework.get("qualificationPeriod", {}).get("endDate")) < get_now():
                 LOGGER.info(
@@ -58,6 +54,16 @@ class ChronographEventsMixing:
                 )
                 framework["status"] = "complete"
                 return
+
+    def get_unsuccessful_status_check_date(self, data):
+        if period_start := data.get("period", {}).get("startDate"):
+            return calculate_framework_full_date(
+                dt_from_iso(period_start),
+                timedelta(days=self.min_submissions_number_days),
+                framework=data,
+                working_days=self.min_submissions_number_working_days,
+                ceil=True,
+            )
 
     def patch_statuses_by_chronograph(self, data):
         if not self.check_agreement_status(data):

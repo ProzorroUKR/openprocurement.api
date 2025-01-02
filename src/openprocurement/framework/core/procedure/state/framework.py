@@ -23,10 +23,7 @@ from openprocurement.framework.core.procedure.state.qualification import (
     QualificationState,
 )
 from openprocurement.framework.core.procedure.state.submission import SubmissionState
-from openprocurement.framework.core.procedure.utils import (
-    get_framework_unsuccessful_status_check_date,
-    save_object,
-)
+from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
@@ -108,7 +105,7 @@ class FrameworkState(FrameworkConfigMixin, ChronographEventsMixing, BaseState):
         checks = []
         if data["status"] == "active":
             if not data.get("successful"):
-                unsuccessful_status_check = get_framework_unsuccessful_status_check_date(data)
+                unsuccessful_status_check = self.get_unsuccessful_status_check_date(data)
                 if unsuccessful_status_check:
                     checks.append(unsuccessful_status_check)
             checks.append(dt_from_iso(data["qualificationPeriod"]["endDate"]))

@@ -1,4 +1,3 @@
-from datetime import timedelta
 from functools import wraps
 from logging import getLogger
 
@@ -13,7 +12,6 @@ LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10
 SUBMISSION_STAND_STILL_DURATION = 30
 ENQUIRY_STAND_STILL_TIME = 3
-DAYS_TO_UNSUCCESSFUL_STATUS = 20
 MILESTONE_CONTRACT_STATUSES = {
     "ban": "suspended",
     "terminated": "terminated",
@@ -158,14 +156,3 @@ def calculate_framework_full_date(
     ceil=False,
 ):
     return calculate_full_date(date_obj, timedelta_obj, working_days=working_days, calendar=calendar, ceil=ceil)
-
-
-def get_framework_unsuccessful_status_check_date(framework):
-    if framework.period and framework.period.startDate:
-        return calculate_framework_full_date(
-            framework.period.startDate,
-            timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
-            framework=framework,
-            working_days=True,
-            ceil=True,
-        )

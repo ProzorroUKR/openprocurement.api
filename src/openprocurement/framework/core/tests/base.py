@@ -229,3 +229,14 @@ class BaseFrameworkCoreWebTest(BaseWebTest, FrameworkActionsTestMixin):
 
 class BaseAgreementTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
+
+
+def get_framework_unsuccessful_status_check_date(framework, days, working_days):
+    if framework.period and framework.period.startDate:
+        return calculate_framework_full_date(
+            framework.period.startDate,
+            timedelta(days=days),
+            framework=framework,
+            working_days=working_days,
+            ceil=True,
+        )

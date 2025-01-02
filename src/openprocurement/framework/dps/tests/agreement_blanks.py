@@ -634,6 +634,7 @@ def post_ban_milestone(self):
     milestone = response.json["data"]
     self.assertEqual(milestone["type"], milestone_data["type"])
     self.assertIsNotNone(milestone["dateModified"])
+    # TODO: fix this, fails near midnight
     self.assertTrue(parse_datetime(milestone["dueDate"]) - get_now() >= timedelta(days=CONTRACT_BAN_DURATION))
 
     contract = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
@@ -673,6 +674,7 @@ def post_ban_milestone_with_documents(self):
     self.assertIsNotNone(milestone["dateModified"])
     self.assertEqual(milestone["documents"][0]["dateModified"], milestone["documents"][0]["datePublished"])
     self.assertEqual(len(milestone["documents"]), len(milestone_data["documents"]))
+    # TODO: fix this, fails near midnight
     self.assertTrue(parse_datetime(milestone["dueDate"]) - get_now() >= timedelta(days=CONTRACT_BAN_DURATION))
 
     contract = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]

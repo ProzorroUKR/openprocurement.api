@@ -45,6 +45,10 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     initial_data = test_framework_dps_data
     initial_auth = ("Basic", ("broker", ""))
 
+    min_submissions_number = 3
+    min_submissions_number_days = 15
+    min_submissions_number_working_days = False
+
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
