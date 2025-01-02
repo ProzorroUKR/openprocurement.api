@@ -10,10 +10,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-IPN",
+        "scheme": "UA-EDR",
         "id": "00037256",
-        "uri": "http://www.dus.gov.ua/",
-        "legalName": "Державне управління справами"
+        "uri": "http://www.dus.gov.ua/"
       },
       "address": {
         "countryName": "Україна",
@@ -38,7 +37,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
+        "id": "ffffffffffffffffffffffffffffffff",
         "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
         "classification": {
           "scheme": "ДК021",
           "id": "44617100-9",
@@ -52,31 +54,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         ],
         "unit": {
-          "name": "кг",
+          "name": "кілограм",
           "code": "KGM",
           "value": {
             "amount": 6
           }
         },
-        "quantity": 5,
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "locality": "м. Київ",
-          "streetAddress": "вул. Банкова 1"
-        }
+        "quantity": 5
       }
     ],
     "enquiryPeriod": {
-      "endDate": "2023-10-17T01:00:00+03:00"
+      "endDate": "2023-10-17T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "endDate": "2023-10-24T01:00:00+03:00"
+      "endDate": "2023-10-24T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "milestones": [
@@ -142,9 +133,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c710ed7a14274e5c
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-IPN",
+        "scheme": "UA-EDR",
         "id": "00037256",
-        "legalName": "Державне управління справами",
         "uri": "http://www.dus.gov.ua/"
       },
       "address": {
@@ -171,8 +161,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c710ed7a14274e5c
       "amount": 15.0
     },
     "tenderPeriod": {
-      "startDate": "2023-10-17T01:00:00+03:00",
-      "endDate": "2023-10-24T01:00:00+03:00"
+      "startDate": "2023-10-17T00:00:00+02:00",
+      "endDate": "2023-10-24T00:00:00+02:00"
     },
     "milestones": [
       {
@@ -202,16 +192,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c710ed7a14274e5c
     ],
     "procurementMethodType": "belowThreshold",
     "enquiryPeriod": {
-      "endDate": "2023-10-17T01:00:00+03:00",
+      "endDate": "2023-10-17T00:00:00+02:00",
       "startDate": "2023-10-10T01:00:00+03:00",
       "clarificationsUntil": "2023-10-19T00:00:00+03:00"
     },
     "items": [
       {
-        "id": "b52d7cba792047588f3324ba6b9d3b43",
+        "id": "ffffffffffffffffffffffffffffffff",
         "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
         "unit": {
-          "name": "кг",
+          "name": "кілограм",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
@@ -231,18 +223,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c710ed7a14274e5c
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
+        ]
       }
     ],
     "tenderID": "UA-2023-10-10-000001-a",

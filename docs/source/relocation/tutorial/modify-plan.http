@@ -16,8 +16,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "id": "12303111000-2",
       "description": "broker1 now can change the plan",
       "period": {
-        "startDate": "2024-01-01T00:00:00",
-        "endDate": "2024-12-31T00:00:00"
+        "startDate": "2023-01-01T00:00:00",
+        "endDate": "2023-12-31T00:00:00"
       },
       "breakdown": [
         {
@@ -75,8 +75,8 @@ Content-Type: application/json
         "name": "proj_name"
       },
       "period": {
-        "startDate": "2024-01-01T00:00:00+02:00",
-        "endDate": "2024-12-31T00:00:00+02:00"
+        "startDate": "2023-01-01T00:00:00+02:00",
+        "endDate": "2023-12-31T00:00:00+02:00"
       },
       "breakdown": [
         {
@@ -123,6 +123,13 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -148,6 +155,13 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 2000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -173,6 +187,13 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 3000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -196,13 +217,13 @@ Content-Type: application/json
           "postalCode": "01220",
           "countryName": "Україна"
         },
-        "kind": "general",
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        }
+        "kind": "general"
       }
     ],
+    "rationale": {
+      "description": "Недостатньо змістовне обгрунтування",
+      "date": "2023-10-10T01:00:00+03:00"
+    },
     "project": {
       "title": "DREAMs come true",
       "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile"

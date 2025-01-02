@@ -195,6 +195,10 @@ Content-Type: application/json
       "description": "Недостатньо змістовне обгрунтування",
       "date": "2023-10-11T02:00:33+03:00"
     },
+    "project": {
+      "title": "DREAMs come true",
+      "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile"
+    },
     "owner": "broker",
     "dateCreated": "2023-10-11T02:00:33+03:00",
     "dateModified": "2023-10-11T02:00:33+03:00",

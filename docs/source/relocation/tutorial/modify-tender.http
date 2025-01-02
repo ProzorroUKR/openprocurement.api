@@ -30,9 +30,8 @@ Content-Type: application/json
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-IPN",
+        "scheme": "UA-EDR",
         "id": "00037256",
-        "legalName": "Державне управління справами",
         "uri": "http://www.dus.gov.ua/"
       },
       "address": {
@@ -59,8 +58,8 @@ Content-Type: application/json
       "amount": 15.0
     },
     "tenderPeriod": {
-      "startDate": "2023-10-17T01:00:00+03:00",
-      "endDate": "2023-10-24T01:00:00+03:00"
+      "startDate": "2023-10-17T00:00:00+02:00",
+      "endDate": "2023-10-24T00:00:00+02:00"
     },
     "milestones": [
       {
@@ -92,14 +91,16 @@ Content-Type: application/json
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "clarificationsUntil": "2023-10-19T00:00:00+03:00",
-      "endDate": "2023-10-17T01:00:00+03:00"
+      "endDate": "2023-10-17T00:00:00+02:00"
     },
     "items": [
       {
-        "id": "b52d7cba792047588f3324ba6b9d3b43",
+        "id": "ffffffffffffffffffffffffffffffff",
         "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
         "unit": {
-          "name": "кг",
+          "name": "кілограм",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
@@ -119,18 +120,7 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
+        ]
       }
     ],
     "id": "c710ed7a14274e5c969285e368125b9c"

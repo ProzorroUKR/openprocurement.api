@@ -5,6 +5,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
+    "rationale": {
+      "description": "Недостатньо змістовне обгрунтування"
+    },
     "tender": {
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
@@ -17,6 +20,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
         },
         "additionalClassifications": [
           {
@@ -42,6 +52,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
         },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -65,6 +82,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
         },
         "additionalClassifications": [
           {
@@ -129,10 +153,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова, 11, корпус 1"
         },
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        },
         "kind": "general"
       }
     ],
@@ -147,8 +167,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "id": "12303111000-2",
       "description": "budget_description",
       "period": {
-        "startDate": "2024-01-01T00:00:00",
-        "endDate": "2024-12-31T00:00:00"
+        "startDate": "2023-01-01T00:00:00",
+        "endDate": "2023-12-31T00:00:00"
       },
       "breakdown": [
         {
@@ -211,8 +231,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
         "name": "proj_name"
       },
       "period": {
-        "startDate": "2024-01-01T00:00:00+02:00",
-        "endDate": "2024-12-31T00:00:00+02:00"
+        "startDate": "2023-01-01T00:00:00+02:00",
+        "endDate": "2023-12-31T00:00:00+02:00"
       },
       "breakdown": [
         {
@@ -258,6 +278,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
           "code": "KGM"
         },
         "quantity": 1000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -283,6 +310,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
           "code": "KGM"
         },
         "quantity": 2000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -308,6 +342,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
           "code": "KGM"
         },
         "quantity": 3000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -331,13 +372,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
           "postalCode": "01220",
           "countryName": "Україна"
         },
-        "kind": "general",
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        }
+        "kind": "general"
       }
     ],
+    "rationale": {
+      "description": "Недостатньо змістовне обгрунтування",
+      "date": "2023-10-10T01:00:00+03:00"
+    },
     "project": {
       "title": "DREAMs come true",
       "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile"

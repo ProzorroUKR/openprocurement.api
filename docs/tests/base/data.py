@@ -813,6 +813,10 @@ test_docs_plan_data = {
             }
         ],
     },
+    "project": {
+        "title": "DREAMs come true",
+        "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile",
+    },
 }
 
 test_docs_eligible_evidence_data = {

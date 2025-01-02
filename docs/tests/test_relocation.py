@@ -4,6 +4,7 @@ from datetime import timedelta
 from hashlib import sha512
 from uuid import uuid4
 
+from tests.base.data import test_docs_plan_data, test_docs_tender_below
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.tests.base import BaseWebTest
@@ -11,11 +12,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.contracting.econtract.tests.base import test_contract_data
 from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.framework.cfaua.tests.base import test_agreement_data
-from openprocurement.planning.api.tests.base import test_plan_data
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_config,
-    test_tender_below_data,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 
 
 class TransferDocsTest(BaseWebTest, MockWebTestMixin):
@@ -31,20 +28,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         super().tearDown()
 
     def test_tenders_docs(self):
-        data = deepcopy(test_tender_below_data)
-
-        now = get_now()
-        for item in data['items']:
-            item['deliveryDate'] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat(),
-            }
-        data.update(
-            {
-                "enquiryPeriod": {"endDate": (now + timedelta(days=7)).isoformat()},
-                "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
-            }
-        )
+        data = deepcopy(test_docs_tender_below)
 
         self.app.authorization = ('Basic', ('brokerx', ''))
 
@@ -247,7 +231,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             )
 
     def test_plans_docs(self):
-        data = deepcopy(test_plan_data)
+        data = deepcopy(test_docs_plan_data)
 
         now = get_now()
         for item in data['items']:
