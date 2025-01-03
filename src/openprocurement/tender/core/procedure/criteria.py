@@ -126,7 +126,7 @@ class TenderCriterionMixin:
                     market_obj = get_tender_category(self.request, category_id)
 
                 for market_criterion in market_obj.get("criteria", []):
-                    if market_criterion["classification"]["id"] == tender_criterion["classification"]["id"]:
+                    if market_criterion.get("classification", {}).get("id") == tender_criterion["classification"]["id"]:
                         market_requirements = {
                             req["title"]: req
                             for rg in market_criterion.get("requirementGroups", "")
