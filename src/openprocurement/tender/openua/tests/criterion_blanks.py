@@ -897,6 +897,188 @@ def create_rg_requirement_invalid(self):
     )
 
 
+def validate_rg_requirement_strict_rules(self):
+    request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
+        self.tender_id, self.criteria_id, self.rg_id, self.tender_token
+    )
+
+    # BOOLEAN
+    requirement_data = {
+        "title": "Характеристика Так/Ні",
+        "description": "?",
+        "dataType": "boolean",
+        "expectedValues": [True, False],
+    }
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": f"req: {requirement_data['title']}: only expectedValue is allowed for dataType boolean",
+            }
+        ],
+    )
+
+    del requirement_data["expectedValues"]
+    requirement_data["minValue"] = 1
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "minValue", "description": ["minValue must be integer or number"]},
+        ],
+    )
+
+    del requirement_data["minValue"]
+    requirement_data["unit"] = {"code": "HUR", "name": "година"}
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": f"req: {requirement_data['title']}: unit is forbidden for dataType boolean",
+            }
+        ],
+    )
+
+    # boolean requirement can exist without expectedValue - successful case
+    del requirement_data["unit"]
+    self.app.post_json(request_path, {"data": requirement_data})
+
+    # STRING
+    requirement_data = {
+        "title": "Характеристика довідник",
+        "description": "?",
+        "dataType": "string",
+        "expectedValue": "foo",
+    }
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": f"req: {requirement_data['title']}: expectedValues is required when dataType string",
+            }
+        ],
+    )
+
+    del requirement_data["expectedValue"]
+    requirement_data["expectedValues"] = ["Foo", "Bar"]
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": f"req: {requirement_data['title']}: expectedMinItems is required and should be equal 1",
+            }
+        ],
+    )
+
+    requirement_data["expectedMinItems"] = 1
+    requirement_data["expectedMaxItems"] = 2
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": f"req: {requirement_data['title']}: expectedMaxItems permitted value is 1",
+            }
+        ],
+    )
+
+    del requirement_data["expectedMaxItems"]
+    requirement_data["unit"] = {"code": "HUR", "name": "година"}
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": f"req: {requirement_data['title']}: unit is forbidden for dataType string",
+            }
+        ],
+    )
+
+    del requirement_data["unit"]
+    self.app.post_json(request_path, {"data": requirement_data})
+
+    # NUMBER/INTEGER
+    for data_type in ("number", "integer"):
+        requirement_data = {
+            "title": f"Характеристика {data_type}",
+            "description": "?",
+            "dataType": data_type,
+        }
+        response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "requirements",
+                    "description": f"req: {requirement_data['title']}: expectedValue or minValue is required for dataType {data_type}",
+                }
+            ],
+        )
+
+        requirement_data["expectedValues"] = 10
+        response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "requirements",
+                    "description": f"req: {requirement_data['title']}: expectedValues is allowed only for dataType string",
+                }
+            ],
+        )
+
+        del requirement_data["expectedValues"]
+        requirement_data["expectedValue"] = 1
+        requirement_data["maxValue"] = 20
+        response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "expectedValue",
+                    "description": ["expectedValue conflicts with ['minValue', 'maxValue', 'expectedValues']"],
+                }
+            ],
+        )
+
+        del requirement_data["expectedValue"]
+        requirement_data["minValue"] = -10
+        requirement_data["maxValue"] = -1
+        response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "requirements",
+                    "description": f"req: {requirement_data['title']}: unit is required for dataType {data_type}",
+                }
+            ],
+        )
+
+        requirement_data["unit"] = {"code": "HUR", "name": "година"}
+        self.app.post_json(request_path, {"data": requirement_data})
+
+
 def patch_rg_requirement(self):
     self.set_status("draft")
     response = self.app.post_json(
@@ -969,9 +1151,8 @@ def put_rg_requirement_valid(self):
     self.assertNotEqual(response.json["data"][0]["datePublished"], response.json["data"][1]["datePublished"])
 
     put_fields = {
-        "title": "Фізична особа",
+        "title": "Фізична особа 2",
         "expectedValue": None,
-        "expectedValues": [False, True],
     }
     response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
     self.assertEqual(response.status, "200 OK")
@@ -996,7 +1177,6 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.json["data"][2]["status"], "active")
     self.assertEqual(response.json["data"][2]["id"], self.requirement_id)
     self.assertEqual(response.json["data"][2]["title"], put_fields["title"])
-    self.assertEqual(response.json["data"][2]["expectedValues"], put_fields["expectedValues"])
     self.assertNotIn("expectedValue", response.json["data"][2])
     self.assertIsNone(response.json["data"][2].get("dateModified"))
     self.assertNotEqual(response.json["data"][1]["datePublished"], response.json["data"][2]["datePublished"])
@@ -1186,8 +1366,11 @@ def put_rg_requirement_valid_value_change(self):
                 "title": f"Фізична особа, яка є учасником процедури закупівлі {classification_id} {field}",
                 "description": "?",
                 "dataType": "integer",
+                "unit": {"code": "H87", "name": "штук"},
                 field: 0,
             }
+            if field == "maxValue":
+                test_requirement_data["minValue"] = 0
 
             response = self.app.post_json(
                 post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
@@ -1214,8 +1397,12 @@ def put_rg_requirement_valid_value_change(self):
                 "title": f"Фізична особа, яка є учасником процедури закупівлі {classification_id} {field} 2",
                 "description": "?",
                 "dataType": "integer",
+                "unit": {"code": "H87", "name": "штук"},
                 field: 1,
             }
+
+            if field == "maxValue":
+                test_requirement_data["minValue"] = 0
 
             response = self.app.post_json(
                 post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
@@ -1242,8 +1429,12 @@ def put_rg_requirement_valid_value_change(self):
                 "title": f"Фізична особа, яка є учасником процедури закупівлі {classification_id} {field} 3",
                 "description": "?",
                 "dataType": "integer",
+                "unit": {"code": "H87", "name": "штук"},
                 field: 1,
             }
+
+            if field == "maxValue":
+                test_requirement_data["minValue"] = 0
 
             response = self.app.post_json(
                 post_url.format(self.tender_id, self.criteria_id, self.rg_id, self.tender_token),
@@ -1276,13 +1467,32 @@ def put_rg_requirement_valid_value_change(self):
                         }
                     ],
                 )
-            else:
+            elif field == "maxValue":
                 response = self.app.put_json(
                     put_url.format(self.tender_id, self.criteria_id, self.rg_id, requirement_id, self.tender_token),
                     {"data": put_fields},
                 )
                 self.assertEqual(response.status, "200 OK")
                 self.assertEqual(response.content_type, "application/json")
+            else:
+                response = self.app.put_json(
+                    put_url.format(self.tender_id, self.criteria_id, self.rg_id, requirement_id, self.tender_token),
+                    {"data": put_fields},
+                    status=422,
+                )
+                self.assertEqual(response.status, "422 Unprocessable Entity")
+                self.assertEqual(response.content_type, "application/json")
+                self.assertEqual(response.json["status"], "error")
+                self.assertEqual(
+                    response.json["errors"],
+                    [
+                        {
+                            "location": "body",
+                            "name": "requirements",
+                            "description": f"req: {test_requirement_data['title']}: expectedValue or minValue is required for dataType integer",
+                        }
+                    ],
+                )
 
 
 def put_rg_requirement_invalid(self):

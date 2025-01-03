@@ -66,13 +66,13 @@ PERIODS = {
 
 test_tender_pq_requirement_response_valid = [
     {"value": 23.8, 'requirement': {'id': "655360-0001-001-01"}},
-    {"value": "1920x1080", 'requirement': {'id': "655360-0002-001-01"}},
-    {"value": "16:9", 'requirement': {'id': "655360-0003-001-01"}},
+    {"values": ["1920x1080"], 'requirement': {'id': "655360-0002-001-01"}},
+    {"values": ["16:9"], 'requirement': {'id': "655360-0003-001-01"}},
     {"value": 250, 'requirement': {'id': "655360-0004-001-01"}},
-    {"value": "1000:1", 'requirement': {'id': "655360-0005-001-01"}},
+    {"values": ["1000:1"], 'requirement': {'id': "655360-0005-001-01"}},
     {"value": 1, 'requirement': {'id': "655360-0006-001-01"}},
     {"value": 1, 'requirement': {'id': "655360-0007-001-01"}},
-    {"value": "HDMI", 'requirement': {'id': "655360-0008-001-01"}},
+    {"values": ["HDMI"], 'requirement': {'id': "655360-0008-001-01"}},
     {"value": 36, 'requirement': {'id': "655360-0009-001-01"}},
 ]
 
@@ -127,7 +127,13 @@ test_tender_pq_criteria = [
             {
                 "description": "Роздільна здатність - 1920x1080",
                 "requirements": [
-                    {"dataType": "string", "expectedValue": "1920x1080", "id": "b" * 32, "title": "Роздільна здатність"}
+                    {
+                        "dataType": "string",
+                        "expectedValues": ["1920x1080"],
+                        "id": "b" * 32,
+                        "title": "Роздільна здатність",
+                        "expectedMinItems": 1,
+                    }
                 ],
             }
         ],
@@ -396,7 +402,8 @@ test_tender_pq_short_profile = {
                     "requirements": [
                         {
                             "dataType": "string",
-                            "expectedValue": "1920x1080",
+                            "expectedValues": ["1920x1080"],
+                            "expectedMinItems": 1,
                             "id": "655360-0002-001-01",
                             "title": "Роздільна здатність",
                         }
@@ -431,7 +438,8 @@ test_tender_pq_short_profile = {
                     "requirements": [
                         {
                             "dataType": "string",
-                            "expectedValue": "16:9",
+                            "expectedValues": ["16:9"],
+                            "expectedMinItems": 1,
                             "id": "655360-0003-001-01",
                             "title": "Співвідношення сторін",
                         }
@@ -467,6 +475,7 @@ test_tender_pq_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0004-001-01",
+                            "minValue": 0,
                             "maxValue": 250,
                             "title": "Яскравість дисплея",
                             "unit": {"code": "A24", "name": "кд/м²"},
@@ -502,7 +511,8 @@ test_tender_pq_short_profile = {
                     "requirements": [
                         {
                             "dataType": "string",
-                            "expectedValue": "1000:1",
+                            "expectedValues": ["1000:1"],
+                            "expectedMinItems": 1,
                             "id": "655360-0005-001-01",
                             "title": "Контрастність (статична)",
                         }
@@ -609,7 +619,8 @@ test_tender_pq_short_profile = {
                     "requirements": [
                         {
                             "dataType": "string",
-                            "expectedValue": "HDMI",
+                            "expectedValues": ["HDMI"],
+                            "expectedMinItems": 1,
                             "id": "655360-0008-001-01",
                             "title": "Кабель для під’єднання",
                         }
@@ -691,9 +702,10 @@ test_tender_pq_criteria_1 = [
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": "Розчин для інфузій",
+                        "expectedValues": ["Розчин для інфузій"],
                         "id": "400496-0001-001-01",
                         "title": "Форма випуску",
+                        "expectedMinItems": 1,
                     }
                 ],
             }
@@ -757,8 +769,8 @@ test_tender_pq_criteria_1 = [
                     {
                         "dataType": "string",
                         "expectedValues": ["Відповідь1", "Відповідь2", "Відповідь3", "Відповідь4"],
-                        "expectedMinItems": 2,
-                        "expectedMaxItems": 3,
+                        "expectedMinItems": 1,
+                        "expectedMaxItems": 1,
                         "id": "400496-0003-001-01",
                         "title": "Форма випуску",
                     }
@@ -793,9 +805,10 @@ test_tender_pq_criteria_2 = [
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": "Розчин",
+                        "expectedValues": ["Розчин"],
                         "id": "400496-0001-001-01",
                         "title": "Форма випуску",
+                        "expectedMinItems": 1,
                     }
                 ],
             },
@@ -805,9 +818,10 @@ test_tender_pq_criteria_2 = [
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": "Порошок",
+                        "expectedValues": ["Порошок"],
                         "id": "400496-0001-002-01",
                         "title": "Форма випуску",
+                        "expectedMinItems": 1,
                     }
                 ],
             },
@@ -841,9 +855,10 @@ test_tender_pq_criteria_3 = [
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": "Розчин",
+                        "expectedValues": ["Розчин"],
                         "id": "400496-0001-001-01",
                         "title": "Форма випуску",
+                        "expectedMinItems": 1,
                     },
                     {
                         "dataType": "integer",
@@ -860,9 +875,10 @@ test_tender_pq_criteria_3 = [
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": "Порошок",
+                        "expectedValues": ["Порошок"],
                         "id": "400496-0001-002-01",
                         "title": "Форма випуску",
+                        "expectedMinItems": 1,
                     }
                 ],
             },
@@ -897,7 +913,8 @@ test_tender_pq_criteria_4 = [
                 "requirements": [
                     {
                         "dataType": "string",
-                        "expectedValue": "Розчин",
+                        "expectedValues": ["Розчин"],
+                        "expectedMinItems": 1,
                         "id": "400496-0001-001-01",
                         "title": "Форма випуску",
                     },
@@ -922,27 +939,27 @@ test_tender_pq_criteria_4 = [
 ]
 
 test_tender_pq_response_1 = [
-    {"requirement": {"id": "400496-0001-001-01"}, "value": "Розчин для інфузій"},
+    {"requirement": {"id": "400496-0001-001-01"}, "values": ["Розчин для інфузій"]},
     {"requirement": {"id": "400496-0002-001-01"}, "value": 5},
-    {"requirement": {"id": "400496-0003-001-01"}, "values": ["Відповідь1", "Відповідь2"]},
+    {"requirement": {"id": "400496-0003-001-01"}, "values": ["Відповідь1"]},
 ]
 
 
 test_tender_pq_response_2 = [
-    {"requirement": {"id": "400496-0001-001-01"}, "value": "Розчин"},
-    {"requirement": {"id": "400496-0001-002-01"}, "value": "Порошок"},
+    {"requirement": {"id": "400496-0001-001-01"}, "values": ["Розчин"]},
+    {"requirement": {"id": "400496-0001-002-01"}, "values": ["Порошок"]},
 ]
 
 
 test_tender_pq_response_3 = [
-    {"requirement": {"id": "400496-0001-001-01"}, "value": "Розчин"},
+    {"requirement": {"id": "400496-0001-001-01"}, "values": ["Розчин"]},
     {"requirement": {"id": "400496-0001-001-02"}, "value": 500},
-    {"requirement": {"id": "400496-0001-002-01"}, "value": "Порошок"},
+    {"requirement": {"id": "400496-0001-002-01"}, "values": ["Порошок"]},
 ]
 
 
 test_tender_pq_response_4 = [
-    {"requirement": {"id": "400496-0001-001-01"}, "value": "Порошок"},
+    {"requirement": {"id": "400496-0001-001-01"}, "values": ["Порошок"]},
     {"requirement": {"id": "400496-0001-001-02"}, "value": 500},
     {"requirement": {"id": "400496-0001-001-03"}, "value": 1},
 ]

@@ -60,6 +60,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
         self.validate_on_post(data)
         self.requirement_always(data)
         self.validate_tech_feature_localization_criteria(self.request.validated["criterion"])
+        self.validate_criteria_requirements_rules(self.request.validated["criterion"])
 
     def requirement_on_patch(self, before: dict, after: dict) -> None:
         if before["status"] != "active" and after["status"] == "active":

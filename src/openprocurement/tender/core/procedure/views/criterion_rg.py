@@ -125,6 +125,7 @@ class BaseRequirementGroupResource(TenderBaseResource):
             requirement_group["id"],
             updated_requirement_group,
         )
+        self.state.validate_criteria_requirements_rules(criterion)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
