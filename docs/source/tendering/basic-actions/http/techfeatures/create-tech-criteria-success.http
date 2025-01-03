@@ -26,12 +26,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
       ],
       "requirementGroups": [
         {
-          "description": "Діагоніль екрану",
+          "description": "Діагонaль екрану",
           "requirements": [
             {
-              "title": "Мова тендерної пропозиції українська",
+              "title": "Діагонaль екрану",
               "dataType": "integer",
-              "expectedValue": 10
+              "expectedValue": 15,
+              "unit": {
+                "code": "INH",
+                "name": "дюйм"
+              }
             }
           ]
         }
@@ -71,14 +75,18 @@ Content-Type: application/json
       "requirementGroups": [
         {
           "id": "dbbda9b552e045c4aa78940893d0cbb7",
-          "description": "Діагоніль екрану",
+          "description": "Діагонaль екрану",
           "requirements": [
             {
               "id": "268e8be02d2a4dadb458d9f36c3dcc4a",
-              "title": "Мова тендерної пропозиції українська",
+              "title": "Діагонaль екрану",
               "dataType": "integer",
               "status": "active",
-              "expectedValue": 10,
+              "unit": {
+                "code": "INH",
+                "name": "дюйм"
+              },
+              "expectedValue": 15,
               "datePublished": "2023-10-10T01:00:00+03:00"
             }
           ]

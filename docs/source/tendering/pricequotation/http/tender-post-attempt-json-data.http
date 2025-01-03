@@ -102,8 +102,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "requirements": [
               {
                 "dataType": "string",
-                "expectedValue": "Розчин для інфузій",
-                "title": "Форма випуску"
+                "expectedValues": [
+                  "Розчин для інфузій"
+                ],
+                "title": "Форма випуску",
+                "expectedMinItems": 1
               }
             ]
           }
@@ -176,8 +179,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "Відповідь3",
                   "Відповідь4"
                 ],
-                "expectedMinItems": 2,
-                "expectedMaxItems": 3,
+                "expectedMinItems": 1,
+                "expectedMaxItems": 1,
                 "title": "Форма випуску"
               }
             ]
@@ -329,7 +332,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
-                "expectedValue": "Розчин для інфузій",
+                "expectedValues": [
+                  "Розчин для інфузій"
+                ],
+                "expectedMinItems": 1,
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
@@ -413,8 +419,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
                   "Відповідь3",
                   "Відповідь4"
                 ],
-                "expectedMinItems": 2,
-                "expectedMaxItems": 3,
+                "expectedMinItems": 1,
+                "expectedMaxItems": 1,
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]

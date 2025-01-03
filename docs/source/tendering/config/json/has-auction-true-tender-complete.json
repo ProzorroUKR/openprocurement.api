@@ -1168,6 +1168,7 @@
                             {
                                 "dataType": "string",
                                 "datePublished": "2023-10-10T01:00:00+03:00",
+                                "expectedMinItems": 1,
                                 "expectedValues": [
                                     "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430"
                                 ],

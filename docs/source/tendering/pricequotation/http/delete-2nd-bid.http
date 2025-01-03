@@ -41,7 +41,9 @@ Content-Type: application/json
           "id": "e00ff388599e42ce842a4d3dec0a110d",
           "title": "Форма випуску"
         },
-        "value": "Розчин для інфузій",
+        "values": [
+          "Розчин для інфузій"
+        ],
         "id": "ae3c56525ee24792ae59483f7f6ef8cc",
         "classification": {
           "scheme": " espd211",
@@ -70,8 +72,7 @@ Content-Type: application/json
           "title": "Форма випуску"
         },
         "values": [
-          "Відповідь1",
-          "Відповідь2"
+          "Відповідь1"
         ],
         "id": "1d6f50c280f74205a1fe5db20d2ec8f5",
         "classification": {

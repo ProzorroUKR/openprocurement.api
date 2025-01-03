@@ -37,7 +37,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "requirement": {
           "id": "e00ff388599e42ce842a4d3dec0a110d"
         },
-        "value": "Розчин для інфузій"
+        "values": [
+          "Розчин для інфузій"
+        ]
       },
       {
         "requirement": {
@@ -50,8 +52,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "id": "9ee3c16ec0874793a9ec23376a0a9b11"
         },
         "values": [
-          "Відповідь1",
-          "Відповідь2"
+          "Відповідь1"
         ]
       }
     ],
@@ -115,7 +116,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
           "id": "e00ff388599e42ce842a4d3dec0a110d",
           "title": "Форма випуску"
         },
-        "value": "Розчин для інфузій",
+        "values": [
+          "Розчин для інфузій"
+        ],
         "id": "349d027ced4f428f8c23d7334f74f5bc",
         "classification": {
           "scheme": " espd211",
@@ -144,8 +147,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
           "title": "Форма випуску"
         },
         "values": [
-          "Відповідь1",
-          "Відповідь2"
+          "Відповідь1"
         ],
         "id": "29786cc56dbe44beaa6d021bd5382c24",
         "classification": {

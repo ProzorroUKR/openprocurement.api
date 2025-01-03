@@ -53,22 +53,27 @@ Schema
        The requirement response must be of type boolean
 
 :minValue:
-    string
+    int/float
 
     |ocdsDescription|
     Used to state the lower bound of the requirement when the response must be within a certain range.
 
 :maxValue:
-    string
+    int/float
 
     |ocdsDescription|
     Used to state the higher bound of the requirement when the response must be within a certain range.
 
 :expectedValue:
-    string
+    int/float/bool
 
     |ocdsDescription|
     Used to state the requirement when the response must be particular value.
+
+:expectedValues:
+    string
+
+    Used to state the requirement when the response must be an array of particular values.
 
 :period:
     :ref:`extendPeriod`

@@ -26,12 +26,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
       ],
       "requirementGroups": [
         {
-          "description": "Діагоніль екрану",
+          "description": "Діагонaль екрану",
           "requirements": [
             {
-              "title": "Мова тендерної пропозиції українська",
+              "title": "Діагонaль екрану",
               "dataType": "integer",
-              "expectedValue": 10
+              "expectedValue": 15,
+              "unit": {
+                "code": "INH",
+                "name": "дюйм"
+              }
             }
           ]
         }
