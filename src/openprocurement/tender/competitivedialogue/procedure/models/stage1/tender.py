@@ -84,6 +84,7 @@ class PatchEUTender(BasePatchTender):
         choices=[
             "draft",
             "active.tendering",
+            "active.pre-qualification",
             "active.pre-qualification.stand-still",
             "active.stage2.waiting",
         ],

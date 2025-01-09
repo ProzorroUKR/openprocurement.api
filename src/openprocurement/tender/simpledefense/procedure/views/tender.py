@@ -68,6 +68,7 @@ class SimpleDefenseTenderResource(AboveThresholdUADefenseTenderResource):
                     "draft",
                     "active.tendering",
                     "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+                    "active.pre-qualification.stand-still",
                 )
             ),
             validate_input_data(PatchTender, none_means_remove=True),

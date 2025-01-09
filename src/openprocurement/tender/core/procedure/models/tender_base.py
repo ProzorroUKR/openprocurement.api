@@ -73,6 +73,7 @@ class CommonBaseTender(Model):
         choices=[
             "draft",
             "active.enquiries",
+            "active.pre-qualification",
             "active.pre-qualification.stand-still",
         ]
     )

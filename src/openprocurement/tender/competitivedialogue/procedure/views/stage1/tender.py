@@ -106,6 +106,7 @@ class CDEUTenderResource(TendersResource):
                     "draft",
                     "active.tendering",
                     "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+                    "active.pre-qualification.stand-still",
                     "active.stage2.pending",
                     "active.stage2.waiting",
                 )
@@ -171,6 +172,7 @@ class CDUATenderResource(TendersResource):
                     "draft",
                     "active.tendering",
                     "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+                    "active.pre-qualification.stand-still",
                     "active.stage2.pending",
                     "active.stage2.waiting",
                 )
