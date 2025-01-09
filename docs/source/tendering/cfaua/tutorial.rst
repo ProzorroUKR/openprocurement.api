@@ -410,6 +410,8 @@ Procuring entity may change ``status`` of Bid on opposite during `active.prequal
 
 You may notice 10 day stand-still time set in `qualificationPeriod`.
 
+You can switch back to preliminary qualification stage: :ref:`stand-still-to-pre-qualification`
+
 .. ПРЕЦЕДЕНТ Т11. Брати участь в аукціоні
 
 Auction

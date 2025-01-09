@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 17:49+0300\n"
+"POT-Creation-Date: 2025-01-10 00:15+0200\n"
 "PO-Revision-Date: 2019-03-25 12:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -379,6 +379,9 @@ msgstr "Замовник може змінити ``status`` пропозиції
 
 msgid "You may notice 10 day stand-still time set in `qualificationPeriod`."
 msgstr "Зверніть увагу, що термін простою `qualificationPeriod` встановлюється на 10 днів."
+
+msgid "You can switch back to preliminary qualification stage: :ref:`stand-still-to-pre-qualification`"
+msgstr "Ви можете повернутись на попередню кваліфікацію: :ref:`stand-still-to-pre-qualification`"
 
 msgid "Auction"
 msgstr "Аукціон"

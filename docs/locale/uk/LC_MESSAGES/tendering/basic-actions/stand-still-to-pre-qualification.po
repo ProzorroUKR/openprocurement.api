@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-10 00:15+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "Repeat of the preliminary qualification"
+msgstr "Повторне проведення попередньої кваліфікації"
+
+msgid "There are two ways to return a tender to the preliminary qualification stage:"
+msgstr "Існує два способи повернення тендера на етап попередньої кваліфікації:"
+
+msgid "Patching the tender status from active.pre-qualification.stand-still to active.pre-qualification."
+msgstr "Зміна статусу тендера з `active.pre-qualification.stand-still` на `active.pre-qualification`."
+
+msgid "Resolve the complaint."
+msgstr "Вирішення скарги."
+
+msgid "Before proceeding to the description of the steps, let’s ensure that the tender is in the active.pre-qualification.stand-still status:"
+msgstr "Перед тим як перейти до опису кроків, переконаймося, що тендер знаходиться у статусі `active.pre-qualification.stand-still`:"
+
+msgid "1-st Way: Update Tender Status"
+msgstr "Перший спосіб: Оновлення статусу тендера"
+
+msgid "If you want to return to the preliminary qualification stage by updating the tender status through a PATCH request, you must ensure that there are no complaints with the statuses `draft`, `pending`, or `accepted` on the qualification object."
+msgstr "Якщо ви хочете повернутись до етапу попередньої кваліфікації через оновлення статусу тендера за допомогою PATCH-запиту, необхідно переконатися, що немає скарг у статусах `draft`, `pending` або `accepted` на обʼєкті кваліфікації."
+
+msgid "For example you have two complaints in `draft` and `pending` statuses:"
+msgstr "Наприклад, у вас є дві скарги у статусах `draft` і `pending`:"
+
+msgid "If you try to patch tender to `active.pre-qualification.stand-still` status, you'll get error:"
+msgstr "Якщо ви спробуєте оновити статус тендера на `active.pre-qualification.stand-still`, ви отримаєте помилку:"
+
+msgid "After changing 1-st to complaint to `mistaken` status and 2-nd status:"
+msgstr "Після зміни статусу першої скарги на `mistaken` і другої скарги на `invalid`:"
+
+msgid "You can successfully return to previous stage:"
+msgstr "Ви зможете успішно повернутись до попередньої кваліфікації."
+
+msgid "2-nd Way: Resolve Complaint"
+msgstr "Другий спосіб: Вирішення скарги"
+
+msgid "You can resolve existing complaint(complaint resolving process you can see in :ref:`qualification-complaint-resolution`):"
+msgstr "Ви можете вирішити наявну скаргу (процес вирішення скарги описано у :ref:`qualification-complaint-resolution`):"
+
+msgid "And system automatically switch tender to preliminary qualification stage:"
+msgstr "І система автоматично переведе тендер на етап попередньої кваліфікації."

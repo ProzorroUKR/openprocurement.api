@@ -26,4 +26,5 @@ Contents:
    prolongation_awards
    2pc
    sign-data
+   stand-still-to-pre-qualification
 

@@ -106,6 +106,8 @@ It is forbidden to answer an explanation can submit by setting explanation's pos
    :code:
 
 
+.. _qualification-complaint-resolution:
+
 Complaint Resolution
 ====================
 

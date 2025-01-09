@@ -1,0 +1,518 @@
+PATCH /api/2.5/tenders/a04f9a7653f5415592950518cb78fae6?acc_token=618fefb7c7f744f9bda91aa48ee6af15 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.pre-qualification"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "title_en": "Services in school canteens",
+    "date": "2023-10-10T01:00:01+03:00",
+    "dateModified": "2023-10-10T01:00:01+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
+    "bids": [
+      {
+        "tenderers": [
+          {
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            },
+            "scale": "micro"
+          }
+        ],
+        "status": "active",
+        "id": "c29512bd544040d38190460f5381ea21",
+        "lotValues": [
+          {
+            "relatedLot": "84488f74fe9b415f926bf498b4adbc73",
+            "status": "active"
+          }
+        ],
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "011081633419476dbaf85dd87a4463d6",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "sign/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e8336906c4e74f0ea7c0b7e861ae88c3?Signature=eAh%2FgYfL3xo1p%2F2%2Fte%2FnzMB0UmJoV%2F2liqOGb5x897Iecz%2FbK365TOkWITJ0YZGr7EAzMZnUaaP1u2qBuxzqCQ%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "language": "uk"
+          }
+        ]
+      },
+      {
+        "tenderers": [
+          {
+            "name": "ДКП «Книга»",
+            "identifier": {
+              "scheme": "UA-IPN",
+              "id": "00137226",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Андрій Олексюк",
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930"
+            },
+            "scale": "sme"
+          }
+        ],
+        "status": "active",
+        "id": "949c4fd194d04dfe935c0e7f184e929f",
+        "items": [
+          {
+            "id": "9baeb5e9c09040639064350ed4e91bc8",
+            "description": "футляри до державних нагород",
+            "unit": {
+              "name": "Item",
+              "code": "KGM"
+            },
+            "quantity": 4.0
+          },
+          {
+            "id": "148e7e8389c748cb8e25a1bff5c169b7",
+            "description": "футляри до державних нагород",
+            "unit": {
+              "name": "Item",
+              "code": "KGM"
+            },
+            "quantity": 4.0
+          }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "84488f74fe9b415f926bf498b4adbc73",
+            "status": "active"
+          }
+        ]
+      }
+    ],
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "evaluationReports",
+        "id": "83899e0081a14cd397f5449450f5f857",
+        "datePublished": "2023-10-10T01:00:01+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8374dd84ff7745469615dfb5815af7ca?Signature=UuvaU3t%2BtDk2yoOi09Jh7%2FEkHuAcextTlmEn%2Fo0cxEgRUrzKXkzqS4VegjYou9MDr7KDsvwQumTQy4nWPuqBCQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:01+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "owner": "broker",
+    "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
+    "procurementMethod": "open",
+    "submissionMethod": "electronicAuction",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
+    },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "84488f74fe9b415f926bf498b4adbc73",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "id": "7b0fbd575d2d4890978850db6fe96f6d",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-16T00:00:00+03:00",
+      "reportingDatePublication": "2023-10-10T01:00:01+03:00"
+    },
+    "qualifications": [
+      {
+        "id": "8ed024eba5cb49b392e6189506f06020",
+        "bidID": "c29512bd544040d38190460f5381ea21",
+        "lotID": "84488f74fe9b415f926bf498b4adbc73",
+        "status": "active",
+        "date": "2023-10-10T01:00:00+03:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:00:01+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        },
+        "complaints": [
+          {
+            "id": "6de618b42e1d4a308636a510fda76902",
+            "complaintID": "UA-2023-10-10-000001-a.1",
+            "date": "2023-10-10T01:00:01+03:00",
+            "status": "mistaken",
+            "type": "complaint",
+            "relatedLot": "84488f74fe9b415f926bf498b4adbc73",
+            "bid_id": "c29512bd544040d38190460f5381ea21",
+            "author": {
+              "name": "ДКП «Школяр»",
+              "address": {
+                "streetAddress": "вул. Островського, 33",
+                "locality": "м. Вінниця",
+                "region": "Вінницька область",
+                "postalCode": "21100",
+                "countryName": "Україна"
+              },
+              "contactPoint": {
+                "name": "Сергій Олексюк",
+                "email": "soleksuk@gmail.com",
+                "telephone": "+380432216930"
+              },
+              "identifier": {
+                "scheme": "UA-EDR",
+                "uri": "http://www.sc.gov.ua/",
+                "id": "00137256",
+                "legalName": "ДКП «Школяр»"
+              }
+            },
+            "title": "Недостатньо інформації",
+            "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+            "objections": [
+              {
+                "id": "8cc4b870e4c84a91bd21968b3d580949",
+                "title": "My objection",
+                "description": "Test objection",
+                "relatesTo": "qualification",
+                "relatedItem": "8ed024eba5cb49b392e6189506f06020",
+                "classification": {
+                  "scheme": "violation_amcu",
+                  "id": "corruptionDescription",
+                  "description": "test classification"
+                },
+                "requestedRemedies": [
+                  {
+                    "id": "4657714378cc4010ac1cb208b715a529",
+                    "type": "setAsideAward",
+                    "description": "test"
+                  }
+                ],
+                "arguments": [
+                  {
+                    "id": "b86fad71af844cf8993d4d6598206429",
+                    "description": "test argument"
+                  }
+                ],
+                "sequenceNumber": 1
+              }
+            ],
+            "value": {
+              "amount": 3000.0,
+              "currency": "UAH"
+            },
+            "rejectReason": "cancelledByComplainant"
+          },
+          {
+            "id": "00446cfd9df2427c9ef558960aba5558",
+            "complaintID": "UA-2023-10-10-000001-a.2",
+            "date": "2023-10-10T01:00:01+03:00",
+            "status": "invalid",
+            "type": "complaint",
+            "relatedLot": "84488f74fe9b415f926bf498b4adbc73",
+            "bid_id": "c29512bd544040d38190460f5381ea21",
+            "author": {
+              "name": "ДКП «Школяр»",
+              "address": {
+                "streetAddress": "вул. Островського, 33",
+                "locality": "м. Вінниця",
+                "region": "Вінницька область",
+                "postalCode": "21100",
+                "countryName": "Україна"
+              },
+              "contactPoint": {
+                "name": "Сергій Олексюк",
+                "email": "soleksuk@gmail.com",
+                "telephone": "+380432216930"
+              },
+              "identifier": {
+                "scheme": "UA-EDR",
+                "uri": "http://www.sc.gov.ua/",
+                "id": "00137256",
+                "legalName": "ДКП «Школяр»"
+              }
+            },
+            "title": "Недостатньо інформації",
+            "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+            "dateSubmitted": "2023-10-10T01:00:01+03:00",
+            "objections": [
+              {
+                "id": "cf4f538dab0b4e149a672d223ff2c893",
+                "title": "My objection",
+                "description": "Test objection",
+                "relatesTo": "qualification",
+                "relatedItem": "8ed024eba5cb49b392e6189506f06020",
+                "classification": {
+                  "scheme": "violation_amcu",
+                  "id": "corruptionDescription",
+                  "description": "test classification"
+                },
+                "requestedRemedies": [
+                  {
+                    "id": "7303877e455346338e86499bb55a6c30",
+                    "type": "setAsideAward",
+                    "description": "test"
+                  }
+                ],
+                "arguments": [
+                  {
+                    "id": "2b5923f8b5e0460bb5287c66523aa7ac",
+                    "description": "test argument"
+                  }
+                ],
+                "sequenceNumber": 1
+              }
+            ],
+            "value": {
+              "amount": 3000.0,
+              "currency": "UAH"
+            },
+            "rejectReason": "alreadyExists",
+            "dateDecision": "2023-10-10T01:00:01+03:00",
+            "acceptance": false
+          }
+        ]
+      },
+      {
+        "id": "3bc53b2d70594b49aea83a415d04f084",
+        "bidID": "949c4fd194d04dfe935c0e7f184e929f",
+        "lotID": "84488f74fe9b415f926bf498b4adbc73",
+        "status": "active",
+        "date": "2023-10-10T01:00:00+03:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:00:01+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
+      }
+    ],
+    "procurementMethodType": "aboveThresholdEU",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "name_en": "Kutsa Svitlana V.",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
+    "status": "active.pre-qualification",
+    "awardCriteria": "lowestCost",
+    "enquiryPeriod": {
+      "startDate": "2023-09-10T01:00:00+03:00",
+      "endDate": "2023-09-30T01:00:00+03:00",
+      "clarificationsUntil": "2023-11-03T00:00:00+02:00",
+      "invalidationDate": "2023-10-10T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2023-09-09T01:00:00+03:00",
+      "endDate": "2023-10-10T01:00:00+03:00"
+    },
+    "items": [
+      {
+        "id": "9baeb5e9c09040639064350ed4e91bc8",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "relatedLot": "84488f74fe9b415f926bf498b4adbc73",
+        "deliveryDate": {
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
+      },
+      {
+        "id": "148e7e8389c748cb8e25a1bff5c169b7",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "relatedLot": "84488f74fe9b415f926bf498b4adbc73",
+        "deliveryDate": {
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
+      }
+    ],
+    "complaintPeriod": {
+      "startDate": "2023-09-09T01:00:00+03:00",
+      "endDate": "2023-10-06T00:00:00+03:00"
+    },
+    "id": "a04f9a7653f5415592950518cb78fae6"
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true,
+    "minBidsNumber": 2,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": true,
+    "hasAwardComplaints": true,
+    "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
+    "restricted": false
+  }
+}
+

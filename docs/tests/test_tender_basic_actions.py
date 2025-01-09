@@ -1210,6 +1210,211 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
+    def test_back_to_qualification_from_complaint_stage(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.set_status("active.tendering")
+
+        bid_data = deepcopy(bid)
+        set_bid_lotvalues(bid_data, [lot])
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
+        bid_id = response.json['data']['id']
+        bid_token = response.json['access']['token']
+
+        self.add_sign_doc(
+            self.tender_id,
+            bid_token,
+            docs_url=f"/bids/{bid_id}/documents",
+            document_type="proposal",
+        )
+        response = self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
+            {'data': {"status": "pending"}},
+        )
+
+        # create second bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        bid_data_2 = deepcopy(bid2)
+        bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
+        set_bid_lotvalues(bid_data_2, [lot])
+        self.create_bid(self.tender_id, bid_data_2)
+
+        # Pre-qualification
+        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+
+        self.check_chronograph()
+
+        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
+        qualifications = response.json['data']
+
+        for qualification in qualifications:
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], owner_token),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+            self.assertEqual(response.status, "200 OK")
+
+        self.tick()
+
+        # active.pre-qualification.stand-still
+        self.add_sign_doc(self.tender_id, owner_token, document_type="evaluationReports")
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+            {"data": {"status": "active.pre-qualification.stand-still"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+
+        with open(TARGET_DIR + 'back-to-pre-qualification/tender-pre-qualification-stand-still.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/tenders/{self.tender_id}')
+            self.assertEqual(response.status, '200 OK')
+
+        qualification_id = qualifications[0]['id']
+        complaint["objections"][0]["relatedItem"] = qualification_id
+        complaint["objections"][0]["relatesTo"] = "qualification"
+
+        complaint_data = {'data': complaint.copy()}
+
+        complaint_url = "/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id)
+
+        response = self.app.post_json(
+            '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
+                self.tender_id,
+                qualification_id,
+                bid_token,
+            ),
+            {'data': complaint},
+        )
+        self.assertEqual(response.status, '201 Created')
+        complaint1_id = response.json['data']['id']
+        complaint1_token = response.json['access']['token']
+
+        complaint2_id, complaint2_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
+
+        with open(TARGET_DIR + 'back-to-pre-qualification/complaint-list-1.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                f'/tenders/{self.tender_id}/qualifications/{qualification_id}/complaints?acc_token={bid_token}'
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'back-to-pre-qualification/switch-tender-to-pre-qualification-forbid.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}?acc_token={owner_token}',
+                {
+                    "data": {"status": "active.pre-qualification"}
+                },
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        response = self.app.patch_json(
+            f'/tenders/{self.tender_id}/qualifications/{qualification_id}/complaints/{complaint1_id}?acc_token={complaint1_token}',
+            {
+                "data": {"status": "mistaken"}
+            },
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('reviewer', ''))
+
+        response = self.app.patch_json(
+            f'/tenders/{self.tender_id}/qualifications/{qualification_id}/complaints/{complaint2_id}',
+            {"data": {"status": "invalid", "rejectReason": "alreadyExists"}},
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = auth
+
+        with open(TARGET_DIR + 'back-to-pre-qualification/complaint-list-2.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                f'/tenders/{self.tender_id}/qualifications/{qualification_id}/complaints?acc_token={bid_token}'
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'back-to-pre-qualification/switch-tender-to-pre-qualification-success.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}?acc_token={owner_token}',
+                {
+                    "data": {"status": "active.pre-qualification"}
+                },
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        self.set_status("active.pre-qualification.stand-still")
+
+        complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+
+        response = self.app.patch_json(
+            '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint3_id),
+            {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.post_json(
+            '/tenders/{}/qualifications/{}/complaints/{}/documents'.format(
+                self.tender_id, qualification_id, complaint3_id
+            ),
+            {
+                "data": {
+                    "title": "ComplaintResolution.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        with open(TARGET_DIR + 'back-to-pre-qualification/qualification-complaint-satisfy.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}/qualifications/{qualification_id}/complaints/{complaint3_id}?acc_token={complaint3_token}',
+                {
+                    "data": {"status": "satisfied"},
+                },
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = auth
+
+        self.tick()
+
+        with open(TARGET_DIR + 'back-to-pre-qualification/check-tender-pre-qualification.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                f'/tenders/{self.tender_id}',
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], "active.pre-qualification")
+
     def test_award_complaints(self):
         self.app.authorization = ('Basic', ('broker', ''))
 

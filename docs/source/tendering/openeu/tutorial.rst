@@ -393,6 +393,8 @@ Let's approve qualifications one more time:
 
 You may notice 10 day stand-still time set in `qualificationPeriod`.
 
+You can switch back to preliminary qualification stage: :ref:`stand-still-to-pre-qualification`
+
 Auction
 -------
 

@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/a04f9a7653f5415592950518cb78fae6?acc_token=618fefb7c7f744f9bda91aa48ee6af15 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.pre-qualification"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Can't switch to 'active.pre-qualification' before resolve all complaints"
+    }
+  ]
+}
+

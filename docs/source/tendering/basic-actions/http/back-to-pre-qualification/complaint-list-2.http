@@ -1,0 +1,146 @@
+GET /api/2.5/tenders/a04f9a7653f5415592950518cb78fae6/qualifications/8ed024eba5cb49b392e6189506f06020/complaints?acc_token=ba00ac631fa74c9fb4d4092553962dec HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "id": "6de618b42e1d4a308636a510fda76902",
+      "complaintID": "UA-2023-10-10-000001-a.1",
+      "date": "2023-10-10T01:00:01+03:00",
+      "status": "mistaken",
+      "type": "complaint",
+      "relatedLot": "84488f74fe9b415f926bf498b4adbc73",
+      "bid_id": "c29512bd544040d38190460f5381ea21",
+      "author": {
+        "name": "ДКП «Школяр»",
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "uri": "http://www.sc.gov.ua/",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»"
+        }
+      },
+      "title": "Недостатньо інформації",
+      "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+      "objections": [
+        {
+          "id": "8cc4b870e4c84a91bd21968b3d580949",
+          "title": "My objection",
+          "description": "Test objection",
+          "relatesTo": "qualification",
+          "relatedItem": "8ed024eba5cb49b392e6189506f06020",
+          "classification": {
+            "scheme": "violation_amcu",
+            "id": "corruptionDescription",
+            "description": "test classification"
+          },
+          "requestedRemedies": [
+            {
+              "id": "4657714378cc4010ac1cb208b715a529",
+              "type": "setAsideAward",
+              "description": "test"
+            }
+          ],
+          "arguments": [
+            {
+              "id": "b86fad71af844cf8993d4d6598206429",
+              "description": "test argument"
+            }
+          ],
+          "sequenceNumber": 1
+        }
+      ],
+      "value": {
+        "amount": 3000.0,
+        "currency": "UAH"
+      },
+      "rejectReason": "cancelledByComplainant"
+    },
+    {
+      "id": "00446cfd9df2427c9ef558960aba5558",
+      "complaintID": "UA-2023-10-10-000001-a.2",
+      "date": "2023-10-10T01:00:01+03:00",
+      "status": "invalid",
+      "type": "complaint",
+      "relatedLot": "84488f74fe9b415f926bf498b4adbc73",
+      "bid_id": "c29512bd544040d38190460f5381ea21",
+      "author": {
+        "name": "ДКП «Школяр»",
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "uri": "http://www.sc.gov.ua/",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»"
+        }
+      },
+      "title": "Недостатньо інформації",
+      "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+      "dateSubmitted": "2023-10-10T01:00:01+03:00",
+      "objections": [
+        {
+          "id": "cf4f538dab0b4e149a672d223ff2c893",
+          "title": "My objection",
+          "description": "Test objection",
+          "relatesTo": "qualification",
+          "relatedItem": "8ed024eba5cb49b392e6189506f06020",
+          "classification": {
+            "scheme": "violation_amcu",
+            "id": "corruptionDescription",
+            "description": "test classification"
+          },
+          "requestedRemedies": [
+            {
+              "id": "7303877e455346338e86499bb55a6c30",
+              "type": "setAsideAward",
+              "description": "test"
+            }
+          ],
+          "arguments": [
+            {
+              "id": "2b5923f8b5e0460bb5287c66523aa7ac",
+              "description": "test argument"
+            }
+          ],
+          "sequenceNumber": 1
+        }
+      ],
+      "value": {
+        "amount": 3000.0,
+        "currency": "UAH"
+      },
+      "rejectReason": "alreadyExists",
+      "dateDecision": "2023-10-10T01:00:01+03:00",
+      "acceptance": false
+    }
+  ]
+}
+
