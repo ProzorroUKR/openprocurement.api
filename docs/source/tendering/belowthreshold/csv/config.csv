@@ -1,20 +1,20 @@
 name,values,default
 hasAuction,"true,false",true
-hasAwardingOrder,"true,false",true
+hasAwardingOrder,true,true
 hasValueRestriction,"true,false",true
-valueCurrencyEquality,"true,false",true
-hasPrequalification,"true,false",false
-minBidsNumber,1 - 9,1
+valueCurrencyEquality,true,true
+hasPrequalification,false,false
+minBidsNumber,1,1
 hasPreSelectionAgreement,false,false
 hasTenderComplaints,false,false
 hasAwardComplaints,false,false
 hasCancellationComplaints,false,false
-hasValueEstimation,"true,false",true
+hasValueEstimation,true,true
 hasQualificationComplaints,false,false
 tenderComplainRegulation,0,0
-qualificationComplainDuration,10,10
+qualificationComplainDuration,0,0
 awardComplainDuration,2,2
 cancellationComplainDuration,0,0
 clarificationUntilDuration,1,1
-qualificationDuration,20,20
+qualificationDuration,0,0
 restricted,false,false
