@@ -1329,6 +1329,96 @@ def create_tender_qualification_complaint_invalid(self):
     )
 
 
+def switch_pre_qualif_stand_still_to_pre_qualif(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.pre-qualification"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+    self.set_status("active.pre-qualification.stand-still")
+
+    response = self.app.post_json(
+        "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
+            self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
+        ),
+        {"data": test_tender_below_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    complaint_token = response.json["access"]["token"]
+    self.assertIn("id", complaint)
+    self.assertIn(complaint["id"], response.headers["Location"])
+
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}"
+            f"/complaints/{complaint['id']}?acc_token={complaint_token}",
+            {"data": {"status": "pending"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], "pending")
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"status": "active.pre-qualification"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't switch to 'active.pre-qualification' before resolve all complaints",
+            }
+        ],
+    )
+
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("reviewer", ""))
+
+    response = self.app.patch_json(
+        "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, self.qualification_id, complaint["id"]),
+        {"data": {"decision": "complaint", "rejectReasonDescription": "reject reason"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, self.qualification_id, complaint["id"]),
+        {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "some"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "accepted")
+
+    response = self.app.patch_json(
+        "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.qualification_id, complaint["id"], self.tender_token
+        ),
+        {"data": {"status": "stopped"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "stopped")
+
+    self.app.authorization = auth
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.pre-qualification"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+
 def create_tender_qualification_complaint(self):
     complaint_data = deepcopy(test_tender_below_draft_claim)
     response = self.app.post_json(

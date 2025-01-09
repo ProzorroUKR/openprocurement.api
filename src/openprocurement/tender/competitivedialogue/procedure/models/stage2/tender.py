@@ -112,6 +112,7 @@ class PatchEUTender(BasePatchTender):
         choices=[
             "draft",
             "active.tendering",
+            "active.pre-qualification",
             "active.pre-qualification.stand-still",
         ]
     )
@@ -232,6 +233,7 @@ class PatchUATender(UABasePatchTender):
         choices=[
             "draft",
             "active.tendering",
+            "active.pre-qualification",
             "active.pre-qualification.stand-still",
         ]
     )

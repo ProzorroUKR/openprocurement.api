@@ -152,6 +152,7 @@ class PatchTender(BasePatchTender):
         choices=[
             "draft",
             "active.tendering",
+            "active.pre-qualification",
             "active.pre-qualification.stand-still",
             "active.qualification",
             "active.qualification.stand-still",

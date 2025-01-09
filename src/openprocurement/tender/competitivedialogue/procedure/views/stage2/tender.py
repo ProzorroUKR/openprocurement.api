@@ -124,6 +124,7 @@ class TenderStage2UEResource(TendersResource):
                     "draft.stage2",
                     "active.tendering",
                     "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+                    "active.pre-qualification.stand-still",
                 )
             ),
             validate_input_data(conditional_eu_model, none_means_remove=True),
@@ -186,6 +187,7 @@ class TenderStage2UAResource(TendersResource):
                     "draft.stage2",
                     "active.tendering",
                     "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+                    "active.pre-qualification.stand-still",
                 )
             ),
             validate_input_data(conditional_ua_model, none_means_remove=True),

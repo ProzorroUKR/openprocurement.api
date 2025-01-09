@@ -43,6 +43,8 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
             and after == "active.tendering"
             or before == "active.pre-qualification"
             and after == "active.pre-qualification.stand-still"
+            or before == "active.pre-qualification.stand-still"
+            and after == "active.pre-qualification"
             or before == "active.qualification"
             and after == "active.qualification.stand-still"
         ):

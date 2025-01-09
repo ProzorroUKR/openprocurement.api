@@ -50,6 +50,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     review_tender_award_claim,
     review_tender_qualification_complaint,
     review_tender_qualification_stopping_complaint,
+    switch_pre_qualif_stand_still_to_pre_qualif,
     tender_owner_create_qualification_document,
 )
 
@@ -145,6 +146,7 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
     test_change_status_to_standstill_with_complaint = snitch(change_status_to_standstill_with_complaint)
     test_bot_patch_tender_qualification_complaint = snitch(bot_patch_tender_qualification_complaint)
     test_bot_patch_tender_qualification_complaint_forbidden = snitch(bot_patch_tender_qualification_complaint_forbidden)
+    test_switch_pre_qualif_stand_still_to_pre_qualif = snitch(switch_pre_qualif_stand_still_to_pre_qualif)
 
 
 class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintResourceTest):
