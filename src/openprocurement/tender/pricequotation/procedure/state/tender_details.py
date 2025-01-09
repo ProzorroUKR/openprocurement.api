@@ -1,5 +1,4 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
-from openprocurement.api.constants import CONTRACT_TEMPLATES_KEYS
 from openprocurement.api.context import get_now
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
@@ -8,7 +7,6 @@ from openprocurement.framework.electroniccatalogue.constants import (
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
-from openprocurement.tender.pricequotation.constants import DEFAULT_TEMPLATE_KEY
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PriceQuotationTenderState,
 )
@@ -33,50 +31,16 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     agreement_min_active_contracts = 3
     should_match_agreement_procuring_entity = True
 
+    contract_template_name_patch_statuses = ("draft",)
+
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
         if before == "draft" and after == "active.tendering":
             data["tenderPeriod"]["startDate"] = get_now().isoformat()
 
-        if after == "active.tendering" and after != before:
-            self.set_contract_template_name(data)
-
         if after in self.unsuccessful_statuses:
             self.set_contracts_cancelled(after)
-
-    def set_contract_template_name(self, data):
-        DEFAULT_TEMPLATE_CLASSIFICATION_PREFIX_LENGTH = 4
-        CUSTOM_LENGTH_TEMPLATE_CLASSIFICATION_PREFIXES = ("15", "336")
-        EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES = ("0931",)
-
-        items = data.get("items")
-        if not items or any(i.get("documentType", "") == "contractProforma" for i in data.get("documents", "")):
-            return
-
-        classification_id = items[0].get("classification", {}).get("id")
-        template_name = None
-        if not classification_id:
-            return
-
-        if any(classification_id.startswith(prefix) for prefix in CUSTOM_LENGTH_TEMPLATE_CLASSIFICATION_PREFIXES):
-            for prefix in CUSTOM_LENGTH_TEMPLATE_CLASSIFICATION_PREFIXES:
-                if classification_id.startswith(prefix):
-                    classification_prefix = classification_id[: len(prefix)]
-                    break
-        else:
-            classification_prefix = classification_id[:DEFAULT_TEMPLATE_CLASSIFICATION_PREFIX_LENGTH]
-
-        if classification_prefix not in EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES:
-            for key in CONTRACT_TEMPLATES_KEYS:
-                if key.startswith(classification_prefix):
-                    template_name = key
-                    break
-                elif key.startswith(DEFAULT_TEMPLATE_KEY):
-                    template_name = key
-
-        if template_name:
-            data["contractTemplateName"] = template_name
 
     def validate_tender_period_extension(self, tender):
         pass

@@ -9,6 +9,7 @@ from openprocurement.api.procedure.validation import (
     validate_config_data,
     validate_data_documents,
     validate_input_data,
+    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
 )
@@ -24,7 +25,8 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender i
     UATender,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
-    CDStage1TenderDetailsState,
+    CDEUStage1TenderDetailsState,
+    CDUAStage1TenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import (
     unless_cd_bridge,
@@ -40,26 +42,6 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 
 
-def conditional_eu_model(
-    data,
-):  # TODO: bot should use a distinct endpoint, like chronograph
-    if get_request().authenticated_role == "competitive_dialogue":
-        model = BotPatchTender
-    else:
-        model = PatchEUTender
-    return model(data)
-
-
-def conditional_ua_model(
-    data,
-):  # TODO: bot should use a distinct endpoint, like chronograph
-    if get_request().authenticated_role == "competitive_dialogue":
-        model = BotPatchTender
-    else:
-        model = PatchUATender
-    return model(data)
-
-
 @resource(
     name=f"{CD_EU_TYPE}:Tenders",
     collection_path="/tenders",
@@ -69,7 +51,7 @@ def conditional_ua_model(
     accept="application/json",
 )
 class CDEUTenderResource(TendersResource):
-    state_class = CDStage1TenderDetailsState
+    state_class = CDEUStage1TenderDetailsState
 
     def __acl__(self):
         acl = super().__acl__()
@@ -111,7 +93,7 @@ class CDEUTenderResource(TendersResource):
                     "active.stage2.waiting",
                 )
             ),
-            validate_input_data(conditional_eu_model, none_means_remove=True),
+            validate_input_data_from_resolved_model(none_means_remove=True),
             validate_patch_data_simple(EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,
@@ -135,7 +117,7 @@ class CDEUTenderResource(TendersResource):
     accept="application/json",
 )
 class CDUATenderResource(TendersResource):
-    state_class = CDStage1TenderDetailsState
+    state_class = CDUAStage1TenderDetailsState
 
     def __acl__(self):
         acl = super().__acl__()
@@ -177,7 +159,7 @@ class CDUATenderResource(TendersResource):
                     "active.stage2.waiting",
                 )
             ),
-            validate_input_data(conditional_ua_model, none_means_remove=True),
+            validate_input_data_from_resolved_model(none_means_remove=True),
             validate_patch_data_simple(UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,

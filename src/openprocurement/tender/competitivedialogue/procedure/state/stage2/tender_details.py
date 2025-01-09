@@ -1,5 +1,10 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5, ACCR_COMPETITIVE
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_now, get_request
+from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
+    BotPatchTender,
+    PatchEUTender,
+    PatchUATender,
+)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION as EU_TENDERING_DURATION,
@@ -21,6 +26,13 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     tendering_duration = EU_TENDERING_DURATION
     should_validate_notice_doc_required = False
     should_validate_related_lot_in_items = False
+
+    contract_template_name_patch_statuses = ("draft",)
+
+    def get_patch_data_model(self):
+        if get_request().authenticated_role == "competitive_dialogue":
+            return BotPatchTender
+        return PatchEUTender
 
     @staticmethod
     def watch_value_meta_changes(tender):
@@ -50,6 +62,13 @@ class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
     tender_transfer_accreditations = (ACCR_3, ACCR_5)
 
     tendering_duration = UA_TENDERING_DURATION
+
+    contract_template_name_patch_statuses = ("draft",)
+
+    def get_patch_data_model(self):
+        if get_request().authenticated_role == "competitive_dialogue":
+            return BotPatchTender
+        return PatchUATender
 
     @staticmethod
     def watch_value_meta_changes(tender):

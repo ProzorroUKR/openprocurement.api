@@ -12,6 +12,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     check_notice_doc_during_activation,
+    contract_template_name_set,
     create_tender,
     create_tender_central,
     create_tender_central_invalid,
@@ -98,6 +99,7 @@ class TenderResourceTestMixin:
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
     test_tender_notice_documents = snitch(tender_notice_documents)
+    test_contract_template_name_set = snitch(contract_template_name_set)
 
 
 class TenderTest(BaseApiWebTest):

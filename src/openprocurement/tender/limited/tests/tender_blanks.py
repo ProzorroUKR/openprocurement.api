@@ -1628,3 +1628,40 @@ def tender_cause_reporting(self):
     data["value"]["amount"] = 2000000
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
+
+
+def reporting_contract_template_name_forbid(self):
+    data = self.initial_data.copy()
+    data["contractTemplateName"] = "contract_template_name"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "contractTemplateName",
+                "description": "Rogue field",
+            }
+        ],
+    )
+
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {"data": {"contractTemplateName": "contract_template_name"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "contractTemplateName",
+                "description": "Rogue field",
+            }
+        ],
+    )

@@ -48,6 +48,10 @@ class PatchTender(BasePatchTender):
     )
 
 
+class PatchDraftTender(PatchTender):
+    pass
+
+
 class Tender(BaseTender):
     procurementMethodType = StringType(choices=[ABOVE_THRESHOLD_UA_DEFENSE], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)

@@ -449,6 +449,7 @@ def move_award_contract_to_contracting(self):
         "suppliers",
         "value",
         "buyer",
+        "contractTemplateName",
     }
 
     self.assertEqual(contract_fields, set(response.json["data"].keys()))
