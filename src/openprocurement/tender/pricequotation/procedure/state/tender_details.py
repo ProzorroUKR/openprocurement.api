@@ -40,6 +40,16 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     def items_profile_required(self):
         return get_object("agreement")["agreementType"] == ELECTRONIC_CATALOGUE_TYPE
 
+    @property
+    def agreement_min_active_contracts(self):
+        if get_object("agreement")["agreementType"] == ELECTRONIC_CATALOGUE_TYPE:
+            return 1
+        return 3
+
+    @property
+    def should_match_agreement_procuring_entity(self):
+        return get_object("agreement")["agreementType"] != ELECTRONIC_CATALOGUE_TYPE
+
     def on_post(self, tender):
         self.validate_agreement_exists()
         super().on_post(tender)
@@ -109,12 +119,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
         if template_name:
             data["contractTemplateName"] = template_name
-
-    def has_mismatched_procuring_entities(self, tender, agreement):
-        pass
-
-    def has_insufficient_active_contracts(self, agreement):
-        pass
 
     def validate_tender_period_extension(self, tender):
         pass

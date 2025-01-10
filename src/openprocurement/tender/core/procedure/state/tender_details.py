@@ -186,6 +186,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
+    should_match_agreement_procuring_entity = True
     should_validate_notice_doc_required = False
     agreement_field = "agreements"
     should_validate_lot_minimal_step = True
@@ -1079,13 +1080,13 @@ class TenderDetailsMixing(TenderConfigMixin):
     def is_agreement_not_active(cls, agreement):
         return agreement.get("status") != "active"
 
-    @classmethod
-    def has_insufficient_active_contracts(cls, agreement):
+    def has_insufficient_active_contracts(self, agreement):
         active_contracts_count = sum(c["status"] == "active" for c in agreement.get("contracts", ""))
-        return active_contracts_count < cls.agreement_min_active_contracts
+        return active_contracts_count < self.agreement_min_active_contracts
 
-    @classmethod
-    def has_mismatched_procuring_entities(cls, tender, agreement):
+    def has_mismatched_procuring_entities(self, tender, agreement):
+        if not self.should_match_agreement_procuring_entity:
+            return False
         agreement_identifier = agreement["procuringEntity"]["identifier"]
         tender_identifier = tender["procuringEntity"]["identifier"]
         return (
