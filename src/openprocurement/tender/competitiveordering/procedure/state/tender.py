@@ -1,7 +1,6 @@
 from openprocurement.api.context import get_now
 from openprocurement.tender.competitiveordering.procedure.models.award import Award
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.utils import check_auction_period
 
 
 class OpenTenderState(TenderState):
@@ -10,17 +9,7 @@ class OpenTenderState(TenderState):
 
     @classmethod
     def invalidate_bids_data(cls, tender):
-        cls.check_auction_time(tender)
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
         for bid in tender.get("bids", ""):
             if bid.get("status") not in ("deleted", "draft"):
                 bid["status"] = "invalid"
-
-    @staticmethod
-    def check_auction_time(tender):
-        if check_auction_period(tender.get("auctionPeriod", {}), tender):
-            del tender["auctionPeriod"]["startDate"]
-
-        for lot in tender.get("lots", ""):
-            if check_auction_period(lot.get("auctionPeriod", {}), tender):
-                del lot["auctionPeriod"]["startDate"]

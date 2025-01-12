@@ -48,8 +48,7 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.procedure.context import get_bid, get_request
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.utils import QUICK, calculate_tender_date
-from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
+from openprocurement.tender.core.utils import QUICK
 
 LOGGER = getLogger(__name__)
 
@@ -376,17 +375,6 @@ def restrict_value_to_bounds(value, min_value, max_value):
     if value > max_value:
         return max_value
     return value
-
-
-def check_auction_period(period, tender):
-    if period and period.get("startDate") and period.get("shouldStartAfter"):
-        start = parse_date(period["shouldStartAfter"])
-        should_start = calculate_tender_date(start, AUCTION_PERIOD_TIME, tender=tender, working_days=True)
-        start = period["startDate"]
-        if isinstance(start, str):
-            start = parse_date(period["startDate"])
-        return start > should_start
-    return False
 
 
 def calc_auction_end_time(bids, start):

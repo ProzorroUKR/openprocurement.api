@@ -144,7 +144,7 @@ class ShouldStartAfterMixing:
 
     def period_add_auction_start_date(self, period: dict[str, str], start_after: str) -> None:
         start_date = period.get("startDate")
-        if not start_date or start_date < start_after:  # iso string comparison works good enough
+        if start_date is None or start_date < start_after:  # iso string comparison works good enough
             period["startDate"] = self.get_auction_start_date(start_after)
 
     @staticmethod

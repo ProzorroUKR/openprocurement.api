@@ -20,3 +20,4 @@ Contents:
    contract_change
    awarding_prolongation
    rendering_documents
+   auction_planning

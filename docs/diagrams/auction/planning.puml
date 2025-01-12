@@ -1,0 +1,22 @@
+@startuml
+
+Хронограф --> API: тендер переходить у \nactive.pre-qualification.stand-still\nабо active.tendering
+API --> API: генерує \nauctionPeriod.shouldStartAfter
+
+
+API --> Планувальник: надає auctionPeriod.shouldStartAfter
+API <-- Планувальник: рахує і передає auctionPeriod.startDate
+
+
+Хронограф --> API: тендер переходить у \nactive.auction
+API --> API: перевіряє чи достатньо учасників\n\
+для аукціону (інакше видаляє auctionPeriod)
+
+
+API --> Аукціони: надає auctionPeriod.startDate
+Аукціони --> Аукціони: перевіряє чи дата в майбутньому\n\
+і створює аукціон
+
+API <-- Аукціони: надає посилання на аукціон
+
+@enduml
