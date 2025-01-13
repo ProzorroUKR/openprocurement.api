@@ -3,7 +3,14 @@ from copy import deepcopy
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.auth import ACCR_RESTRICTED
-from openprocurement.api.procedure.utils import apply_data_patch, is_item_owner
+from openprocurement.api.constants import CPV_PREFIX_LENGTH_TO_NAME
+from openprocurement.api.context import get_request
+from openprocurement.api.procedure.utils import (
+    apply_data_patch,
+    get_cpv_prefix_length,
+    get_cpv_uniq_prefixes,
+    is_item_owner,
+)
 from openprocurement.api.utils import (
     delete_nones,
     handle_data_exceptions,
@@ -409,3 +416,37 @@ def validate_restricted_object_action(request, obj_name, obj):
         obj_name,
         "restricted data access",
     )
+
+
+def validate_classifications_prefixes(
+    classifications,
+    root_classification=None,
+    root_name='root',
+    raise_validateion_error=False,
+):
+    """
+    Validate that all CPV codes have the same prefix
+
+    For example, if we have a root classification with CPV code 12340000-9
+    and items with CPV codes 12341111-9 and 12342222-9:
+       - the prefix length is 4
+       - prefix name is 'class'
+       - the actual prefixes to compare are 1234, 1234, 1234 (validation error will not be raised)
+    """
+    if root_classification:
+        classifications.append(root_classification)
+    prefix_length = get_cpv_prefix_length(classifications)
+    prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
+    error_message = f"CPV {prefix_name} of items should be identical"
+    if root_classification:
+        error_message += f" to {root_name} cpv"
+    if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
+        if raise_validateion_error:
+            raise ValidationError(error_message)
+        else:
+            raise_operation_error(
+                get_request(),
+                [error_message],
+                status=422,
+                name="items",
+            )

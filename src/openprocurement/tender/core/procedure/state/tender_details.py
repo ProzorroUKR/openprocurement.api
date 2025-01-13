@@ -25,11 +25,8 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
-from openprocurement.api.procedure.utils import (
-    get_cpv_prefix_length,
-    get_cpv_uniq_prefixes,
-    to_decimal,
-)
+from openprocurement.api.procedure.utils import to_decimal
+from openprocurement.api.procedure.validation import validate_classifications_prefixes
 from openprocurement.api.utils import (
     get_first_revision_date,
     get_tender_category,
@@ -976,18 +973,12 @@ class TenderDetailsMixing(TenderConfigMixin):
         if not self.should_validate_cpv_prefix:
             return
 
-        # tender.items.classification
         classifications = [item["classification"] for item in tender.get("items", "")]
 
-        prefix_length = get_cpv_prefix_length(classifications)
-        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
-        if classifications and len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
-            raise_operation_error(
-                get_request(),
-                [f"CPV {prefix_name} of items should be identical"],
-                status=422,
-                name="items",
-            )
+        if not classifications:
+            return
+
+        validate_classifications_prefixes(classifications)
 
         if not self.should_validate_pre_selection_agreement:
             return
@@ -1002,18 +993,11 @@ class TenderDetailsMixing(TenderConfigMixin):
         if not agreement:
             return
 
-        # tender.items.classification + agreement.classification
-        classifications.append(agreement["classification"])
-
-        prefix_length = get_cpv_prefix_length(classifications)
-        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
-        if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
-            raise_operation_error(
-                get_request(),
-                [f"CPV {prefix_name} of items should be identical to agreement cpv"],
-                status=422,
-                name="items",
-            )
+        validate_classifications_prefixes(
+            classifications,
+            root_classification=agreement["classification"],
+            root_name="agreement",
+        )
 
     @classmethod
     def validate_items_classification_prefix_unchanged(cls, before, after):

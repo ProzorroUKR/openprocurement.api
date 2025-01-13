@@ -4,16 +4,10 @@ from logging import getLogger
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
-from openprocurement.api.constants import (
-    CPV_PREFIX_LENGTH_TO_NAME,
-    FRAMEWORK_CONFIG_JSONSCHEMAS,
-)
+from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.procedure.utils import (
-    get_cpv_prefix_length,
-    get_cpv_uniq_prefixes,
-)
+from openprocurement.api.procedure.validation import validate_classifications_prefixes
 from openprocurement.api.utils import context_unpack, raise_operation_error
 from openprocurement.framework.core.constants import (
     ENQUIRY_PERIOD_DURATION,
@@ -302,26 +296,11 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
 
     def validate_items_classification_prefix(self, framework):
         classifications = [item["classification"] for item in framework.get("items", "")]
-
-        prefix_length = get_cpv_prefix_length(classifications)
-        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
-        if classifications and len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
-            raise_operation_error(
-                get_request(),
-                [f"CPV {prefix_name} of items should be identical"],
-                status=422,
-                name="items",
-            )
-
-        # framework.items.classification + framework.classification
-        classifications.append(framework["classification"])
-
-        prefix_length = get_cpv_prefix_length(classifications)
-        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
-        if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
-            raise_operation_error(
-                get_request(),
-                [f"CPV {prefix_name} of items should be identical to framework cpv"],
-                status=422,
-                name="items",
-            )
+        if not classifications:
+            return
+        validate_classifications_prefixes(classifications)
+        validate_classifications_prefixes(
+            classifications,
+            root_classification=framework["classification"],
+            root_name="framework",
+        )

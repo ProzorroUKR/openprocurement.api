@@ -6,7 +6,6 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
     BUDGET_BREAKDOWN_REQUIRED_FROM,
-    CPV_PREFIX_LENGTH_TO_NAME,
     PLAN_BUYERS_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request
@@ -16,12 +15,8 @@ from openprocurement.api.procedure.models.item import (
     validate_items_uniq,
 )
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.api.procedure.utils import (
-    get_cpv_prefix_length,
-    get_cpv_uniq_prefixes,
-    is_obj_const_active,
-    to_decimal,
-)
+from openprocurement.api.procedure.utils import is_obj_const_active, to_decimal
+from openprocurement.api.procedure.validation import validate_classifications_prefixes
 from openprocurement.planning.api.constants import (
     MULTI_YEAR_BUDGET_MAX_YEARS,
     MULTI_YEAR_BUDGET_PROCEDURES,
@@ -186,22 +181,15 @@ def validate_status(plan, status):
 
 
 def validate_items(plan, items):
-    if items:
-        # plan.items.classification
-        classifications = [item["classification"] for item in items]
-
-        prefix_length = get_cpv_prefix_length(classifications)
-        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
-        if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
-            raise ValidationError(f"CPV {prefix_name} of items should be identical")
-
-        # plan.items.classification + plan.classification
-        classifications.append(plan["classification"])
-
-        prefix_length = get_cpv_prefix_length(classifications)
-        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
-        if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
-            raise ValidationError(f"CPV {prefix_name} of items should be identical to root cpv")
+    if not items:
+        return
+    classifications = [item["classification"] for item in items]
+    validate_classifications_prefixes(classifications, raise_validateion_error=True)
+    validate_classifications_prefixes(
+        classifications,
+        root_classification=plan["classification"],
+        raise_validateion_error=True,
+    )
 
 
 def validate_budget(plan, budget):
