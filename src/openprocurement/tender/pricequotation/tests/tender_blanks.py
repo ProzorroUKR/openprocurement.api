@@ -2192,7 +2192,7 @@ def draft_activation_validations(self):
         )
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
-            response.json["errors"][0]["description"], f"Profiles {profile['id']}: hidden not in ('active', 'general')"
+            response.json["errors"][0]["description"], f"Profiles {profile['id']}: hidden not in ('active',)"
         )
 
     # agreement in profile not equals agreement in tender
