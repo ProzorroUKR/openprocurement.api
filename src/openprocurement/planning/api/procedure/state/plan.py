@@ -9,6 +9,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.validation import validate_classifications_prefixes
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.planning.api.constants import (
     PROCEDURES,
@@ -59,12 +60,14 @@ class PlanState(BaseState):
     def validate_on_post(self, data):
         self._validate_plan_availability(data)
         self._validate_tender_procurement_method_type(data)
+        self._validate_items_classification_prefix(data)
 
     def validate_on_patch(self, before, after):
         self._validate_plan_changes_in_terminated(before, after)
         self._validate_plan_procurement_method_type_update(before, after)
         self._validate_plan_status_update(before, after)
         self._validate_plan_with_tender(before, after)
+        self._validate_items_classification_prefix(after)
 
     def plan_tender_validate_on_post(self, plan, tender):
         self._validate_plan_scheduled(plan)
@@ -331,3 +334,13 @@ class PlanState(BaseState):
     def _validate_tender_in_draft(self, plan, tender):
         if tender["status"] != "draft":
             raise raise_operation_error(self.request, "Only allowed in draft tender status")
+
+    def _validate_items_classification_prefix(self, plan):
+        classifications = [item["classification"] for item in plan.get("items", [])]
+        if not classifications:
+            return
+        validate_classifications_prefixes(classifications)
+        validate_classifications_prefixes(
+            classifications,
+            root_classification=plan["classification"],
+        )

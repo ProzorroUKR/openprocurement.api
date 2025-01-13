@@ -16,7 +16,6 @@ from openprocurement.api.procedure.models.item import (
 )
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.procedure.utils import is_obj_const_active, to_decimal
-from openprocurement.api.procedure.validation import validate_classifications_prefixes
 from openprocurement.planning.api.constants import (
     MULTI_YEAR_BUDGET_MAX_YEARS,
     MULTI_YEAR_BUDGET_PROCEDURES,
@@ -78,9 +77,6 @@ class PostPlan(Model):
 
     def validate_status(self, plan, status):
         validate_status(plan, status)
-
-    def validate_items(self, plan, items):
-        validate_items(plan, items)
 
     def validate_budget(self, plan, budget):
         validate_budget(plan, budget)
@@ -149,9 +145,6 @@ class Plan(Model):
     def validate_status(self, plan, status):
         validate_status(plan, status)
 
-    def validate_items(self, plan, items):
-        validate_items(plan, items)
-
     def validate_budget(self, plan, budget):
         validate_budget(plan, budget)
 
@@ -178,18 +171,6 @@ def validate_status(plan, status):
             method = plan.get("tender").get("procurementMethodType")
             if method not in ("belowThreshold", "reporting", ""):
                 raise ValidationError("Can't complete plan with '{}' " "tender.procurementMethodType".format(method))
-
-
-def validate_items(plan, items):
-    if not items:
-        return
-    classifications = [item["classification"] for item in items]
-    validate_classifications_prefixes(classifications, raise_validateion_error=True)
-    validate_classifications_prefixes(
-        classifications,
-        root_classification=plan["classification"],
-        raise_validateion_error=True,
-    )
 
 
 def validate_budget(plan, budget):

@@ -421,8 +421,7 @@ def validate_restricted_object_action(request, obj_name, obj):
 def validate_classifications_prefixes(
     classifications,
     root_classification=None,
-    root_name='root',
-    raise_validateion_error=False,
+    root_name="root",
 ):
     """
     Validate that all CPV codes have the same prefix
@@ -441,12 +440,9 @@ def validate_classifications_prefixes(
     if root_classification:
         error_message += f" to {root_name} cpv"
     if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
-        if raise_validateion_error:
-            raise ValidationError(error_message)
-        else:
-            raise_operation_error(
-                get_request(),
-                [error_message],
-                status=422,
-                name="items",
-            )
+        raise_operation_error(
+            get_request(),
+            [error_message],
+            status=422,
+            name="items",
+        )
