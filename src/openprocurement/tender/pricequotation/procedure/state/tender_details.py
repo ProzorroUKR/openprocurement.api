@@ -31,24 +31,10 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         DPS_TYPE,
         ELECTRONIC_CATALOGUE_TYPE,
     ]
-
-    @property
-    def agreement_without_items_forbidden(self):
-        return get_object("agreement")["agreementType"] == DPS_TYPE
-
-    @property
-    def items_profile_required(self):
-        return get_object("agreement")["agreementType"] == ELECTRONIC_CATALOGUE_TYPE
-
-    @property
-    def agreement_min_active_contracts(self):
-        if get_object("agreement")["agreementType"] == ELECTRONIC_CATALOGUE_TYPE:
-            return 1
-        return 3
-
-    @property
-    def should_match_agreement_procuring_entity(self):
-        return get_object("agreement")["agreementType"] != ELECTRONIC_CATALOGUE_TYPE
+    agreement_without_items_forbidden = False
+    items_profile_required = False
+    agreement_min_active_contracts = 3
+    should_match_agreement_procuring_entity = True
 
     def on_post(self, tender):
         self.validate_agreement_exists()
@@ -129,3 +115,13 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
     def invalidate_bids_data(self, tender):
         pass
+
+
+class CatalogueTenderDetailsState(TenderDetailsState):
+    items_profile_required = True
+    agreement_min_active_contracts = 1
+    should_match_agreement_procuring_entity = False
+
+
+class DPSTenderDetailsState(TenderDetailsState):
+    agreement_without_items_forbidden = True
