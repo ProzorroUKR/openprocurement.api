@@ -983,20 +983,20 @@ def validate_rg_requirement_strict_rules(self):
     )
 
     requirement_data["expectedMinItems"] = 1
-    requirement_data["expectedMaxItems"] = 2
+    requirement_data["expectedMaxItems"] = 3
     response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
     self.assertEqual(
         response.json["errors"],
         [
             {
                 "location": "body",
-                "name": "requirements",
-                "description": f"req {requirement_data['title']}: expectedMaxItems permitted value is 1",
+                "name": "expectedValues",
+                "description": ["expectedMaxItems couldn't be higher then count of items in expectedValues"],
             }
         ],
     )
 
-    del requirement_data["expectedMaxItems"]
+    requirement_data["expectedMaxItems"] = 2
     requirement_data["unit"] = {"code": "HUR", "name": "година"}
     response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
     self.assertEqual(

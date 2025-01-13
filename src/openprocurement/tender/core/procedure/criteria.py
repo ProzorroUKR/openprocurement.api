@@ -59,8 +59,6 @@ class TenderCriterionMixin:
                 raise_requirement_error(req, "expectedValues is required when dataType is string")
             if req.get("expectedMinItems") != 1:
                 raise_requirement_error(req, "expectedMinItems is required and should be equal to 1")
-            if req.get("expectedMaxItems") and req["expectedMaxItems"] != 1:
-                raise_requirement_error(req, "expectedMaxItems permitted value is 1")
             if req.get("unit"):
                 raise_requirement_error(req, "unit is forbidden for dataType string")
 

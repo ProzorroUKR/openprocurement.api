@@ -564,7 +564,7 @@ def requirement_response_validation_multiple_criterias(self):
         [
             {
                 'description': [
-                    f'Count of items higher then maximum required 1 '
+                    f'Count of items higher then maximum required 3 '
                     f'in requirement {test_response[2]["requirement"]["id"]}'
                 ],
                 'location': 'body',
@@ -575,7 +575,7 @@ def requirement_response_validation_multiple_criterias(self):
 
     test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
-    test_response[2]["values"] = ["Відповідь5"]
+    test_response[2]["values"] = ["Відповідь1", "Відповідь2", "Відповідь5"]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {

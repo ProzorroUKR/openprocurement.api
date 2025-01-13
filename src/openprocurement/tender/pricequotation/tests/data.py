@@ -770,7 +770,7 @@ test_tender_pq_criteria_1 = [
                         "dataType": "string",
                         "expectedValues": ["Відповідь1", "Відповідь2", "Відповідь3", "Відповідь4"],
                         "expectedMinItems": 1,
-                        "expectedMaxItems": 1,
+                        "expectedMaxItems": 3,
                         "id": "400496-0003-001-01",
                         "title": "Форма випуску",
                     }
@@ -941,7 +941,7 @@ test_tender_pq_criteria_4 = [
 test_tender_pq_response_1 = [
     {"requirement": {"id": "400496-0001-001-01"}, "values": ["Розчин для інфузій"]},
     {"requirement": {"id": "400496-0002-001-01"}, "value": 5},
-    {"requirement": {"id": "400496-0003-001-01"}, "values": ["Відповідь1"]},
+    {"requirement": {"id": "400496-0003-001-01"}, "values": ["Відповідь1", "Відповідь2"]},
 ]
 
 

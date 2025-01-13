@@ -52,7 +52,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "id": "9ee3c16ec0874793a9ec23376a0a9b11"
         },
         "values": [
-          "Відповідь1"
+          "Відповідь1",
+          "Відповідь2"
         ]
       }
     ],
@@ -147,7 +148,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
           "title": "Форма випуску"
         },
         "values": [
-          "Відповідь1"
+          "Відповідь1",
+          "Відповідь2"
         ],
         "id": "1d6f50c280f74205a1fe5db20d2ec8f5",
         "classification": {

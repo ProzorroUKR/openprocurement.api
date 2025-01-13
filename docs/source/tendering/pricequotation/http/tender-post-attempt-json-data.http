@@ -180,7 +180,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
                   "Відповідь4"
                 ],
                 "expectedMinItems": 1,
-                "expectedMaxItems": 1,
+                "expectedMaxItems": 3,
                 "title": "Форма випуску"
               }
             ]
@@ -420,7 +420,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
                   "Відповідь4"
                 ],
                 "expectedMinItems": 1,
-                "expectedMaxItems": 1,
+                "expectedMaxItems": 3,
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
