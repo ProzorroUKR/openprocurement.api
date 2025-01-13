@@ -391,3 +391,7 @@ def create_tender_co_invalid_agreement(self):
         response.json["errors"],
         [{"location": "body", "name": "agreements", "description": "Agreement with items is not allowed."}],
     )
+
+
+def create_tender_co_invalid_items(self):
+    pass

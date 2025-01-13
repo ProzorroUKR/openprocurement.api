@@ -33,9 +33,6 @@ from openprocurement.api.utils import (
     get_tender_profile,
     raise_operation_error,
 )
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
-)
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
@@ -170,8 +167,6 @@ class TenderDetailsMixing(TenderConfigMixin):
     when they prepare tender for tendering stage
     """
 
-    config: dict
-
     tender_create_accreditations = None
     tender_central_accreditations = None
     tender_edit_accreditations = None
@@ -211,6 +206,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_minimal_step(tender)
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
+        self.validate_pre_selection_agreement(tender)
         self.validate_docs(tender)
         self.watch_value_meta_changes(tender)
         self.initialize_enquiry_period(tender)
@@ -262,6 +258,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_kind_change(after, before)
         self.validate_award_criteria_change(after, before)
         self.validate_items_classification_prefix(after)
+        self.validate_pre_selection_agreement(after)
         self.validate_action_with_exist_inspector_review_request(("tenderPeriod",))
         self.validate_docs(after, before)
         self.update_complaint_period(after)
@@ -295,7 +292,8 @@ class TenderDetailsMixing(TenderConfigMixin):
                 name="status",
             )
         if after != "draft" and before == "draft":
-            self.validate_pre_selection_agreement(data)
+            self.validate_pre_selection_agreement_on_activation(data)
+            self.validate_profiles(data)
             self.validate_notice_doc_required(data)
         elif after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
@@ -315,91 +313,94 @@ class TenderDetailsMixing(TenderConfigMixin):
         validate_doc_type_required(tender.get("documents", []), document_of="tender")
         tender["noticePublicationDate"] = get_now().isoformat()
 
+    def get_tender_agreements(self, tender):
+        tender_agreements = tender.get(self.agreement_field)
+
+        if not isinstance(tender_agreements, list):
+            # PQ has field "agreement" with single object instead of "agreements" with list of objects
+            tender_agreements = [tender_agreements]
+
+        return tender_agreements
+
     def validate_pre_selection_agreement(self, tender):
         if self.should_validate_pre_selection_agreement is False:
             return
 
-        def raise_agreements_error(message):
-            raise_operation_error(
-                self.request,
-                message,
-                status=422,
-                location="body",
-                name=self.agreement_field,
-            )
+        if tender["config"]["hasPreSelectionAgreement"] is False:
+            return
 
-        if tender["config"]["hasPreSelectionAgreement"] is True:
-            tender_agreements = tender.get(self.agreement_field)
+        tender_agreements = self.get_tender_agreements(tender)
 
-            if not isinstance(tender_agreements, list):
-                # PQ has field "agreement" with single object instead of "agreements" with list of objects
-                tender_agreements = [tender_agreements]
+        if not tender_agreements:
+            message = "This field is required."
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
-            if not tender_agreements:
-                raise_agreements_error("This field is required.")
+        if len(tender_agreements) != 1:
+            message = "Exactly one agreement is expected."
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
-            if len(tender_agreements) != 1:
-                raise_agreements_error("Exactly one agreement is expected.")
-
-            agreement = get_object("agreement")
-
-            if not agreement:
-                raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
-
-            if agreement["agreementType"] not in self.agreement_allowed_types:
-                raise_agreements_error("Agreement type mismatch.")
-
-            if self.agreement_with_items_forbidden and agreement.get("items"):
-                raise_agreements_error("Agreement with items is not allowed.")
-
-            if self.agreement_without_items_forbidden and not agreement.get("items"):
-                raise_agreements_error("Agreement without items is not allowed.")
-
-            if self.is_agreement_not_active(agreement):
-                raise_agreements_error(AGREEMENT_STATUS_MESSAGE)
-
-            if self.has_insufficient_active_contracts(agreement):
-                raise_agreements_error(AGREEMENT_CONTRACTS_MESSAGE.format(self.agreement_min_active_contracts))
-
-            if self.has_mismatched_procuring_entities(tender, agreement):
-                raise_agreements_error(AGREEMENT_IDENTIFIER_MESSAGE)
-
-            self.validate_profiles(tender)
-
-    def validate_profiles(self, tender):
         agreement = get_object("agreement")
 
+        if not agreement:
+            message = AGREEMENT_NOT_FOUND_MESSAGE
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
+
+        if agreement["agreementType"] not in self.agreement_allowed_types:
+            message = "Agreement type mismatch."
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
+
+        if self.agreement_with_items_forbidden and agreement.get("items"):
+            message = "Agreement with items is not allowed."
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
+
+        if self.agreement_without_items_forbidden and not agreement.get("items"):
+            message = "Agreement without items is not allowed."
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
+
+    def validate_pre_selection_agreement_on_activation(self, tender):
+        """
+        Validations of agreement on activation
+        We dont care if agreement was changed after tender was activated
+        and those valdations no longer pass
+        """
+        if self.should_validate_pre_selection_agreement is False:
+            return
+
+        if tender["config"]["hasPreSelectionAgreement"] is False:
+            return
+
+        agreement = get_object("agreement")
+
+        if self.is_agreement_not_active(agreement):
+            message = AGREEMENT_STATUS_MESSAGE
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
+
+        if self.has_insufficient_active_contracts(agreement):
+            message = AGREEMENT_CONTRACTS_MESSAGE.format(self.agreement_min_active_contracts)
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
+
+        if self.has_mismatched_procuring_entities(tender, agreement):
+            message = AGREEMENT_IDENTIFIER_MESSAGE
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
+
+    def validate_profiles(self, tender):
         profile_ids = []
 
-        if "profile" in tender:
-            # Tender profile field is deprecated. Switched to profile field in items
-            profile_ids = [tender["profile"]]
+        tender_agreements = self.get_tender_agreements(tender)
 
-            if not profile_ids and agreement.get("agreementType") == ELECTRONIC_CATALOGUE_TYPE:
-                raise_operation_error(
-                    self.request,
-                    "Profiles not found",
-                    status=422,
-                )
-        else:
-            for items in tender.get("items", []):
-                profile_id = items.get("profile")
-                if profile_id:
-                    profile_ids.append(profile_id)
+        if not tender_agreements:
+            return
 
-                if not profile_id and agreement.get("agreementType") == ELECTRONIC_CATALOGUE_TYPE:
-                    raise_operation_error(
-                        self.request,
-                        f"Profile not found in item {items['id']}",
-                        name="items.profile",
-                        status=422,
-                    )
+        for items in tender.get("items", []):
+            profile_id = items.get("profile")
+            if profile_id:
+                profile_ids.append(profile_id)
 
         for profile_id in profile_ids:
             profile = get_tender_profile(self.request, profile_id, validate_status=("active", "general"))
 
             profile_agreement_id = profile.get("agreementID")
-            tender_agreement_id = tender.get("agreement", {}).get("id")
+            tender_agreement_id = tender_agreements[0].get("id")
             if profile_agreement_id != tender_agreement_id:
                 raise_operation_error(
                     self.request,
