@@ -207,6 +207,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
         self.validate_pre_selection_agreement(tender)
+        self.validate_items_with_agreement(tender)
         self.validate_docs(tender)
         self.watch_value_meta_changes(tender)
         self.initialize_enquiry_period(tender)
@@ -259,6 +260,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_award_criteria_change(after, before)
         self.validate_items_classification_prefix(after)
         self.validate_pre_selection_agreement(after)
+        self.validate_items_with_agreement(after)
         self.validate_action_with_exist_inspector_review_request(("tenderPeriod",))
         self.validate_docs(after, before)
         self.update_complaint_period(after)
@@ -1000,6 +1002,62 @@ class TenderDetailsMixing(TenderConfigMixin):
             root_name="agreement",
         )
 
+    def validate_items_with_agreement(self, tender):
+        """
+        Validate items in tender is subset of items in agreement
+        """
+        COMPARE_FIELDS = (
+            "description",
+            "classification.scheme",
+            "classification.id",
+            "unit.code",
+        )
+
+        agreement = get_object("agreement")
+        if not agreement or not agreement.get("items"):
+            return
+
+        def get_field_value(item, field):
+            value = item
+            for key in field.split("."):
+                value = value.get(key, {})
+            return value if not isinstance(value, dict) else None
+
+        agreement_field_values = {
+            field: {get_field_value(item, field) for item in agreement["items"]} for field in COMPARE_FIELDS
+        }
+
+        # Validate each tender item field is in agreement items
+        for item in tender.get("items", []):
+            for field in COMPARE_FIELDS:
+                tender_value = get_field_value(item, field)
+                if tender_value and tender_value not in agreement_field_values[field]:
+                    raise_operation_error(
+                        self.request,
+                        f"Item {field} '{tender_value}' not found in agreement items",
+                        status=422,
+                        name="items",
+                    )
+
+        # Validate field combinations exist in agreement
+        tender_combinations = {
+            tuple(get_field_value(item, field) for field in COMPARE_FIELDS) for item in tender.get("items", [])
+        }
+
+        agreement_combinations = {
+            tuple(get_field_value(item, field) for field in COMPARE_FIELDS) for item in agreement["items"]
+        }
+
+        invalid_combinations = tender_combinations - agreement_combinations
+        if invalid_combinations:
+            invalid_item = next(iter(invalid_combinations))
+            raise_operation_error(
+                self.request,
+                "Item not found in agreement items: {}".format(invalid_item),
+                status=422,
+                name="items",
+            )
+
     @classmethod
     def validate_items_classification_prefix_unchanged(cls, before, after):
         prefix_list = set()
@@ -1072,6 +1130,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     def has_mismatched_procuring_entities(self, tender, agreement):
         if not self.should_match_agreement_procuring_entity:
             return False
+
         agreement_identifier = agreement["procuringEntity"]["identifier"]
         tender_identifier = tender["procuringEntity"]["identifier"]
         return (

@@ -2516,6 +2516,7 @@ def create_tender_pq_from_dps_invalid_agreement(self):
 
     # DPS agreement with hasItems set to True is forbidden
     agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement.pop("items")
     agreement["agreementType"] = DPS_TYPE
     agreement["hasItems"] = False
     self.mongodb.agreements.save(agreement)
@@ -2530,4 +2531,125 @@ def create_tender_pq_from_dps_invalid_agreement(self):
     self.assertEqual(
         response.json["errors"],
         [{"location": "body", "name": "agreement", "description": "Agreement without items is not allowed."}],
+    )
+
+
+def create_tender_pq_from_dps_invalid_items(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+
+    config = deepcopy(self.initial_config)
+    config.update({"hasPreSelectionAgreement": True})
+
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    tender_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+
+    self.tender_id = tender_id
+
+    # description mismatch
+
+    items = deepcopy(self.initial_data["items"])
+    items[0]["description"] = "different from agreement item description"
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Item description 'different from agreement item description' not found in agreement items",
+            }
+        ],
+    )
+
+    # classification.id mismatch
+
+    items = deepcopy(self.initial_data["items"])
+    items[0]["classification"]["id"] = "33611000-6"
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Item classification.id '33611000-6' not found in agreement items",
+            }
+        ],
+    )
+
+    # unit.code mismatch
+
+    items = deepcopy(self.initial_data["items"])
+    items[0]["unit"]["code"] = "GM"
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Item unit.code 'GM' not found in agreement items",
+            }
+        ],
+    )
+
+    # Combination mismatch
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement_item = deepcopy(agreement["items"][0])
+    agreement_item["description"] = "лікарські засоби"
+    agreement_item["classification"]["id"] = "33611000-6"
+    agreement["items"].append(agreement_item)
+    self.mongodb.agreements.save(agreement)
+
+    items = deepcopy(self.initial_data["items"])
+    items[0]["classification"]["id"] = "33611000-6"
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Item not found in agreement items: ('Комп’ютерне обладнання', 'ДК021', '33611000-6', 'KGM')",
+            }
+        ],
     )
