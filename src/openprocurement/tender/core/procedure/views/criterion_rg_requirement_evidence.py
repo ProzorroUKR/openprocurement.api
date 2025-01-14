@@ -164,7 +164,7 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
 
         self.state.always(self.request.validated["tender"])
 
-        if save_tender(self.request, modified=False):
+        if save_tender(self.request):
             self.LOGGER.info(
                 f"Deleted requirement eligible evidence {evidence['id']}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": "requirement_eligible_evidence_delete"}),

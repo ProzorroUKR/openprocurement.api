@@ -3959,6 +3959,8 @@ def create_award_requirement_response(self):
         ],
     )
 
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    previous_tender_date_modified = response.json["data"]["dateModified"]
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -3967,6 +3969,8 @@ def create_award_requirement_response(self):
     for i, rr_data in enumerate(valid_data):
         for k, v in rr_data.items():
             self.assertEqual(rr[i][k], v)
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertNotEqual(response.json["data"]["dateModified"], previous_tender_date_modified)
 
 
 def patch_award_requirement_response(self):
