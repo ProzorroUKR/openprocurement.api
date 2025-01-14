@@ -488,7 +488,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": {"id": ["id must be one of exists agreement"]},
+                "description": "Agreement not found",
                 "location": "body",
                 "name": "agreement",
             }

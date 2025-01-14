@@ -1,7 +1,6 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.constants import CONTRACT_TEMPLATES_KEYS
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.context import get_object
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
@@ -36,20 +35,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     agreement_min_active_contracts = 3
     should_match_agreement_procuring_entity = True
 
-    def on_post(self, tender):
-        self.validate_agreement_exists()
-        super().on_post(tender)
-
-    def validate_agreement_exists(self):
-        agreement = get_object("agreement")
-        if not agreement:
-            raise_operation_error(
-                self.request,
-                {"id": ["id must be one of exists agreement"]},
-                status=422,
-                name=self.agreement_field,
-            )
-
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
@@ -59,6 +44,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         # TODO: it's insurance for some period while refusing PQ bot, just to have opportunity manually activate tender
         if before == "draft.publishing" and after == "active.tendering":
             self.validate_pre_selection_agreement(data)
+            self.validate_pre_selection_agreement_on_activation(data)
             data["tenderPeriod"]["startDate"] = get_now().isoformat()
 
         if before == "draft.unsuccessful" and after != before:
