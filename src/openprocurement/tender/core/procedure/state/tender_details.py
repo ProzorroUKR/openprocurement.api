@@ -359,6 +359,10 @@ class TenderDetailsMixing(TenderConfigMixin):
             message = "Agreement without items is not allowed."
             raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
+        if self.has_mismatched_procuring_entities(tender, agreement):
+            message = AGREEMENT_IDENTIFIER_MESSAGE
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
+
     def validate_pre_selection_agreement_on_activation(self, tender):
         """
         Validations of agreement on activation
@@ -379,10 +383,6 @@ class TenderDetailsMixing(TenderConfigMixin):
 
         if self.has_insufficient_active_contracts(agreement):
             message = AGREEMENT_CONTRACTS_MESSAGE.format(self.agreement_min_active_contracts)
-            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
-
-        if self.has_mismatched_procuring_entities(tender, agreement):
-            message = AGREEMENT_IDENTIFIER_MESSAGE
             raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
     def validate_profiles(self, tender):
