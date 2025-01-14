@@ -1,12 +1,10 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.constants import CONTRACT_TEMPLATES_KEYS
 from openprocurement.api.context import get_now
-from openprocurement.api.utils import raise_operation_error
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
@@ -40,18 +38,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
         if before == "draft" and after == "active.tendering":
             data["tenderPeriod"]["startDate"] = get_now().isoformat()
-
-        # TODO: it's insurance for some period while refusing PQ bot, just to have opportunity manually activate tender
-        if before == "draft.publishing" and after == "active.tendering":
-            self.validate_pre_selection_agreement(data)
-            self.validate_pre_selection_agreement_on_activation(data)
-            data["tenderPeriod"]["startDate"] = get_now().isoformat()
-
-        if before == "draft.unsuccessful" and after != before:
-            raise_operation_error(
-                get_request(),
-                f"Can't change status from {before} to {after}",
-            )
 
         if after == "active.tendering" and after != before:
             self.set_contract_template_name(data)

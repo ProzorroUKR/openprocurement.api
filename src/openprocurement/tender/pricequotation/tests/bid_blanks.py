@@ -264,40 +264,39 @@ def create_tender_bid_invalid(self):
 
 
 def create_tender_bid(self):
-    # Revert tender to statuses ('draft', 'draft.unsuccessful', 'draft.publishing')
     data = self.mongodb.tenders.get(self.tender_id)
     criteria = data.pop('criteria')
 
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
-    for status in ('draft', 'draft.publishing', 'draft.unsuccessful'):
-        data['status'] = status
-        self.mongodb.tenders.save(data)
+    # Revert tender to draft status
+    data['status'] = 'draft'
+    self.mongodb.tenders.save(data)
 
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {
+            "data": {
+                "tenderers": [test_tender_pq_organization],
+                "items": copy_tender_items(tender["items"]),
+                "value": {"amount": 500},
+                "requirementResponses": test_tender_pq_requirement_response_valid,
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json['errors'],
+        [
             {
-                "data": {
-                    "tenderers": [test_tender_pq_organization],
-                    "items": copy_tender_items(tender["items"]),
-                    "value": {"amount": 500},
-                    "requirementResponses": test_tender_pq_requirement_response_valid,
-                }
-            },
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(
-            response.json['errors'],
-            [
-                {
-                    "location": "body",
-                    "name": "data",
-                    "description": "Can't add bid in current ({}) tender status".format(status),
-                }
-            ],
-        )
+                "location": "body",
+                "name": "data",
+                "description": "Can't add bid in current (draft) tender status",
+            }
+        ],
+    )
 
     # Restore tender to 'active' status
     data['status'] = "active.tendering"

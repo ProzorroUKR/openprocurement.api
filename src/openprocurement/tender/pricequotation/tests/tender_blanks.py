@@ -635,7 +635,6 @@ def create_tender_draft(self):
     )
 
     forbidden_statuses = (
-        "draft.unsuccessful",
         "active.qualification",
         "active.awarded",
         "complete",
@@ -1196,7 +1195,6 @@ def tender_criteria_values_type(self):
 def create_tender_in_not_draft_status(self):
     data = self.initial_data.copy()
     forbidden_statuses = (
-        "draft.unsuccessful",
         "active.qualification",
         "active.awarded",
         "complete",
@@ -2264,44 +2262,6 @@ def switch_draft_to_tendering_success(self):
             tender_prev["tenderPeriod"]["startDate"],
         )
         self.assertIn("contractTemplateName", response.json["data"])
-
-
-def switch_draft_to_publishing_forbidden(self):
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    ):
-        response = self.app.patch_json(
-            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-            {"data": {"status": "draft.publishing"}},
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(
-            response.json["errors"][0]["description"],
-            ["Value must be one of ['draft', 'active.tendering']."],
-        )
-
-
-def switch_draft_publishing_to_tendering_manually(self):
-    self.set_status("draft.publishing")
-    tender_prev = self.app.get(f"/tenders/{self.tender_id}?acc_token={self.tender_token}").json["data"]
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    ):
-        response = self.app.patch_json(
-            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active.tendering"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["status"], "active.tendering")
-        self.assertNotEqual(response.json["data"]["date"], tender_prev["date"])
-        self.assertNotEqual(response.json["data"]["dateModified"], tender_prev["dateModified"])
-        self.assertNotEqual(
-            response.json["data"]["tenderPeriod"]["startDate"],
-            tender_prev["tenderPeriod"]["startDate"],
-        )
 
 
 def tender_delivery_milestones(self):

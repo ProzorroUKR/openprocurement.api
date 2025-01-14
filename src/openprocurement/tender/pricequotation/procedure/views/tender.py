@@ -91,7 +91,7 @@ class PriceQuotationTenderResource(TendersResource):
         validators=(
             unless_administrator(
                 validate_item_owner("tender"),
-                validate_tender_status_allows_update("draft", "draft.publishing"),
+                validate_tender_status_allows_update("draft"),
             ),
             validate_input_data(PatchTender, none_means_remove=True),
             validate_patch_data_simple(Tender, item_name="tender"),
