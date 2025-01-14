@@ -46,6 +46,9 @@ class BaseReqResponseResource(TenderBaseResource):
     def get_parent(self) -> dict:
         return self.request.validated[self.parent_obj_name]
 
+    def modify_tender(self):
+        return self.parent_obj_name != "bid"
+
     def collection_post(self) -> Optional[dict]:
         parent = self.get_parent()
         req_responses = self.request.validated["data"]
@@ -55,7 +58,7 @@ class BaseReqResponseResource(TenderBaseResource):
 
         self.state.on_post(req_responses)
 
-        if save_tender(self.request, modified=False):
+        if save_tender(self.request, modified=self.modify_tender()):
             for req_response in req_responses:
                 self.LOGGER.info(
                     f"Created {self.parent_obj_name} requirement response {req_response['id']}",
@@ -89,7 +92,7 @@ class BaseReqResponseResource(TenderBaseResource):
         set_item(parent, "requirementResponses", req_response["id"], updated_req_response)
         self.state.on_patch(req_response, updated_req_response)
 
-        if save_tender(self.request):
+        if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
                 f"Updated {self.parent_obj_name} requirement response {req_response['id']}",
                 extra=context_unpack(
@@ -108,7 +111,7 @@ class BaseReqResponseResource(TenderBaseResource):
         if not parent["requirementResponses"]:
             del parent["requirementResponses"]
 
-        if save_tender(self.request, modified=False):
+        if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
                 f"Deleted {self.parent_obj_name} requirement response {req_response['id']}",
                 extra=context_unpack(

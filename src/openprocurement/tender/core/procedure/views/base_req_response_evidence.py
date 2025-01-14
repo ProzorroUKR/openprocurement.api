@@ -38,6 +38,9 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
     state_class: ReqResponseEvidenceState
     parent_obj_name: str
 
+    def modify_tender(self):
+        return self.parent_obj_name != "bid"
+
     def collection_post(self) -> Optional[dict]:
         req_response = self.request.validated["requirement_response"]
         evidence = self.request.validated["data"]
@@ -46,7 +49,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
         req_response["evidences"].append(evidence)
 
         self.state.on_post(evidence)
-        if save_tender(self.request):
+        if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
                 f"Created {self.parent_obj_name} requirement response evidence {evidence['id']}",
                 extra=context_unpack(
@@ -76,7 +79,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
         set_item(req_response, "evidences", evidence["id"], updated_evidence)
         self.state.on_patch(evidence, updated_evidence)
 
-        if save_tender(self.request):
+        if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
                 f"Updated {self.parent_obj_name} requirement response evidence {evidence['id']}",
                 extra=context_unpack(
@@ -94,7 +97,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
         if not req_response["evidences"]:
             del req_response["evidences"]
 
-        if save_tender(self.request, modified=False):
+        if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
                 f"Deleted {self.parent_obj_name} requirement response evidence {evidence['id']}",
                 extra=context_unpack(

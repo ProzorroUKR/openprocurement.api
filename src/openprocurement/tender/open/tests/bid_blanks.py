@@ -1835,10 +1835,14 @@ def create_bid_requirement_response(self):
     )
 
     del valid_data[0]["value"]
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    previous_tender_date_modified = response.json["data"]["dateModified"]
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     rr_id = response.json["data"][0]["id"]
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.json["data"]["dateModified"], previous_tender_date_modified)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
