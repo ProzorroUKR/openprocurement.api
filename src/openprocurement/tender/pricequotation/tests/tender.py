@@ -58,6 +58,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     tender_owner_can_change_in_draft,
     tender_owner_cannot_change_in_draft,
     tender_period_update,
+    validate_restricted_from_agreement,
 )
 
 
@@ -157,6 +158,7 @@ class TenderDPSPQResourceTest(MockCatalogueMixin, MockCriteriaIDMixin, BaseTende
     test_tender_criteria_values_type = snitch(tender_criteria_values_type)
     test_create_tender_invalid_agreement = snitch(create_tender_pq_from_dps_invalid_agreement)
     test_create_tender_invalid_items = snitch(create_tender_pq_from_dps_invalid_items)
+    test_validate_restricted_from_agreement = snitch(validate_restricted_from_agreement)
 
 
 class TenderActivationTest(TenderContentWebTest):
