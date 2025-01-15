@@ -1710,17 +1710,18 @@ def validate_required_fields(request, data: dict, required_fields: dict, name="d
 
 def validate_req_response_values(response):
     requirement, *_ = get_requirement_obj(response["requirement"]["id"])
-    if requirement.get("expectedValues") is not None and response.get("value") is not None:
-        raise_operation_error(
-            get_request(),
-            f"only 'values' allowed in response for requirement {requirement['id']}",
-            name="requirementResponses",
-            status=422,
-        )
-    elif requirement.get("expectedValues") is None and response.get("values") is not None:
-        raise_operation_error(
-            get_request(),
-            f"only 'value' allowed in response for requirement {requirement['id']}",
-            name="requirementResponses",
-            status=422,
-        )
+    if requirement:
+        if requirement.get("expectedValues") is not None and response.get("value") is not None:
+            raise_operation_error(
+                get_request(),
+                f"only 'values' allowed in response for requirement {requirement['id']}",
+                name="requirementResponses",
+                status=422,
+            )
+        elif requirement.get("expectedValues") is None and response.get("values") is not None:
+            raise_operation_error(
+                get_request(),
+                f"only 'value' allowed in response for requirement {requirement['id']}",
+                name="requirementResponses",
+                status=422,
+            )
