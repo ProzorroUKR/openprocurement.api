@@ -1,13 +1,10 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.constants import CONTRACT_TEMPLATES_KEYS
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.context import get_object
-from openprocurement.api.utils import raise_operation_error
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
@@ -31,45 +28,16 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         DPS_TYPE,
         ELECTRONIC_CATALOGUE_TYPE,
     ]
-
-    @property
-    def agreement_without_items_forbidden(self):
-        return get_object("agreement")["agreementType"] == DPS_TYPE
-
-    @property
-    def items_profile_required(self):
-        return get_object("agreement")["agreementType"] == ELECTRONIC_CATALOGUE_TYPE
-
-    def on_post(self, tender):
-        self.validate_agreement_exists()
-        super().on_post(tender)
-
-    def validate_agreement_exists(self):
-        agreement = get_object("agreement")
-        if not agreement:
-            raise_operation_error(
-                self.request,
-                {"id": ["id must be one of exists agreement"]},
-                status=422,
-                name=self.agreement_field,
-            )
+    agreement_without_items_forbidden = False
+    items_profile_required = False
+    agreement_min_active_contracts = 3
+    should_match_agreement_procuring_entity = True
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
         if before == "draft" and after == "active.tendering":
             data["tenderPeriod"]["startDate"] = get_now().isoformat()
-
-        # TODO: it's insurance for some period while refusing PQ bot, just to have opportunity manually activate tender
-        if before == "draft.publishing" and after == "active.tendering":
-            self.validate_pre_selection_agreement(data)
-            data["tenderPeriod"]["startDate"] = get_now().isoformat()
-
-        if before == "draft.unsuccessful" and after != before:
-            raise_operation_error(
-                get_request(),
-                f"Can't change status from {before} to {after}",
-            )
 
         if after == "active.tendering" and after != before:
             self.set_contract_template_name(data)
@@ -110,12 +78,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         if template_name:
             data["contractTemplateName"] = template_name
 
-    def has_mismatched_procuring_entities(self, tender, agreement):
-        pass
-
-    def has_insufficient_active_contracts(self, agreement):
-        pass
-
     def validate_tender_period_extension(self, tender):
         pass
 
@@ -125,3 +87,13 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
     def invalidate_bids_data(self, tender):
         pass
+
+
+class CatalogueTenderDetailsState(TenderDetailsState):
+    items_profile_required = True
+    agreement_min_active_contracts = 1
+    should_match_agreement_procuring_entity = False
+
+
+class DPSTenderDetailsState(TenderDetailsState):
+    agreement_without_items_forbidden = True

@@ -8,70 +8,6 @@ from openprocurement.tender.pricequotation.constants import PQ
 
 now = get_now()
 
-test_agreement_pq_data = {
-    "_id": "2e14a78a2074952d5a2d256c3c004dda",
-    "doc_type": "Agreement",
-    "agreementID": "UA-2021-11-12-000001",
-    "agreementType": "electronicCatalogue",
-    "frameworkID": "985a2e3eab47427283a5c51e84d0986d",
-    "period": {"startDate": "2021-11-12T00:00:00.318051+02:00", "endDate": "2022-02-24T20:14:24.577158+03:00"},
-    "status": "active",
-    "contracts": [
-        {
-            "id": "eb228ceafee5470ca947af3fc2c03662",
-            "status": "active",
-            "suppliers": [
-                {
-                    "address": {
-                        "countryName": "Україна",
-                        "locality": "м.Київ",
-                        "postalCode": "01100",
-                        "region": "Київська область",
-                        "streetAddress": "бул.Дружби Народів, 8",
-                    },
-                    "contactPoint": {
-                        "email": "contact@pixel.pix",
-                        "name": "Оксана Піксель",
-                        "telephone": "+0671234567",
-                    },
-                    "id": "UA-EDR-12345678",
-                    "identifier": {
-                        "id": "00037256",
-                        "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
-                        "scheme": "UA-IPN",
-                    },
-                    "name": "Товариство з обмеженою відповідальністю «Пікселі»",
-                    "scale": "large",
-                }
-            ],
-        },
-        {
-            "id": "4dcabeaff7714881a9e2275e3b4eefcc",
-            "status": "active",
-            "suppliers": [
-                {
-                    "address": {
-                        "countryName": "Україна",
-                        "locality": "м.Тернопіль",
-                        "postalCode": "46000",
-                        "region": "Тернопільська область",
-                        "streetAddress": "вул. Кластерна, 777-К",
-                    },
-                    "contactPoint": {"email": "info@shteker.pek", "name": "Олег Штекер", "telephone": "+0951234567"},
-                    "id": "UA-EDR-87654321",
-                    "identifier": {
-                        "id": "87654321",
-                        "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
-                        "scheme": "UA-IPN",
-                    },
-                    "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
-                    "scale": "large",
-                }
-            ],
-        },
-    ],
-}
-
 PERIODS = {
     "active.tendering": {
         "start": {
@@ -1012,3 +948,87 @@ test_tender_pq_response_4 = [
 ]
 
 test_tender_pq_response_5 = [{}]
+
+test_agreement_contracts_data = [
+    {
+        "id": "eb228ceafee5470ca947af3fc2c03662",
+        "status": "active",
+        "suppliers": [
+            {
+                "address": {
+                    "countryName": "Україна",
+                    "locality": "м.Київ",
+                    "postalCode": "01100",
+                    "region": "Київська область",
+                    "streetAddress": "бул.Дружби Народів, 8",
+                },
+                "contactPoint": {
+                    "email": "contact@pixel.pix",
+                    "name": "Оксана Піксель",
+                    "telephone": "+0671234567",
+                },
+                "id": "UA-EDR-12345678",
+                "identifier": {
+                    "id": "00037256",
+                    "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
+                    "scheme": "UA-IPN",
+                },
+                "name": "Товариство з обмеженою відповідальністю «Пікселі»",
+                "scale": "large",
+            }
+        ],
+    },
+    {
+        "id": "4dcabeaff7714881a9e2275e3b4eefcc",
+        "status": "active",
+        "suppliers": [
+            {
+                "address": {
+                    "countryName": "Україна",
+                    "locality": "м.Тернопіль",
+                    "postalCode": "46000",
+                    "region": "Тернопільська область",
+                    "streetAddress": "вул. Кластерна, 777-К",
+                },
+                "contactPoint": {"email": "info@shteker.pek", "name": "Олег Штекер", "telephone": "+0951234567"},
+                "id": "UA-EDR-87654321",
+                "identifier": {
+                    "id": "87654321",
+                    "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+                    "scheme": "UA-IPN",
+                },
+                "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+                "scale": "large",
+            }
+        ],
+    },
+]
+
+test_agreement_pq_data = {
+    "_id": "2e14a78a2074952d5a2d256c3c004dda",
+    "doc_type": "Agreement",
+    "agreementID": "UA-2021-11-12-000001",
+    "agreementType": "electronicCatalogue",
+    "frameworkID": "985a2e3eab47427283a5c51e84d0986d",
+    "period": {"startDate": "2021-11-12T00:00:00.318051+02:00", "endDate": "2022-02-24T20:14:24.577158+03:00"},
+    "status": "active",
+    "contracts": test_agreement_contracts_data,
+    "procuringEntity": test_tender_pq_procuring_entity,
+}
+
+test_agreement_dps_data = {
+    "_id": "2e14a78a2074952d5a2d256c3c004dda",
+    "doc_type": "Agreement",
+    "agreementID": "UA-2021-11-12-000001",
+    "agreementType": "dynamicPurchasingSystem",
+    "frameworkID": "985a2e3eab47427283a5c51e84d0986d",
+    "period": {"startDate": "2021-11-12T00:00:00.318051+02:00", "endDate": "2022-02-24T20:14:24.577158+03:00"},
+    "status": "active",
+    "items": [test_tender_pq_item],
+    "contracts": [
+        test_agreement_contracts_data[0],
+        test_agreement_contracts_data[1],
+        test_agreement_contracts_data[1],
+    ],
+    "procuringEntity": test_tender_pq_procuring_entity,
+}

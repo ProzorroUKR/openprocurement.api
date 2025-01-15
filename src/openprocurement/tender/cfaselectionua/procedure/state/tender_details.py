@@ -174,27 +174,26 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     def watch_value_meta_changes(tender):
         pass  # TODO: shouldn't it work here
 
-    @classmethod
-    def find_agreement_unsuccessful_reason(cls, tender, agreement):
-        if cls.is_agreement_not_active(agreement):
+    def find_agreement_unsuccessful_reason(self, tender, agreement):
+        if self.is_agreement_not_active(agreement):
             return AGREEMENT_STATUS_MESSAGE
 
-        if cls.are_tender_items_is_not_subset_of_agreement_items(tender, agreement):
+        if self.are_tender_items_is_not_subset_of_agreement_items(tender, agreement):
             return AGREEMENT_ITEMS_MESSAGE
 
-        if cls.is_agreement_expired(tender, agreement):
-            return AGREEMENT_EXPIRED_MESSAGE.format(cls.agreement_min_period_until_end.days)
+        if self.is_agreement_expired(tender, agreement):
+            return AGREEMENT_EXPIRED_MESSAGE.format(self.agreement_min_period_until_end.days)
 
-        elif cls.is_agreement_start_date_later(tender, agreement):
+        elif self.is_agreement_start_date_later(tender, agreement):
             return AGREEMENT_START_DATE_MESSAGE
 
-        if cls.is_agreement_has_pending_changes(agreement):
+        if self.is_agreement_has_pending_changes(agreement):
             return AGREEMENT_CHANGE_MESSAGE
 
-        if cls.has_insufficient_active_contracts(agreement):
-            return AGREEMENT_CONTRACTS_MESSAGE.format(cls.agreement_min_active_contracts)
+        if self.has_insufficient_active_contracts(agreement):
+            return AGREEMENT_CONTRACTS_MESSAGE.format(self.agreement_min_active_contracts)
 
-        if cls.has_mismatched_procuring_entities(tender, agreement):
+        if self.has_mismatched_procuring_entities(tender, agreement):
             return AGREEMENT_IDENTIFIER_MESSAGE
 
     @classmethod

@@ -149,8 +149,6 @@ class Tender(BaseTender):
     status = StringType(
         choices=[
             "draft",
-            "draft.publishing",  # deprecated after PQ bot removing
-            "draft.unsuccessful",  # deprecated after PQ bot removing
             "active.tendering",
             "active.pre-qualification",
             "active.pre-qualification.stand-still",

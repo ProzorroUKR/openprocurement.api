@@ -9,7 +9,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_required_unit,
     dateModified_tender,
     get_tender,
-    guarantee,
     patch_not_author,
     patch_tender_jsonpatch,
     tender_funders,
@@ -23,6 +22,7 @@ from openprocurement.tender.open.tests.tender_blanks import create_tender_invali
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
+    test_agreement_dps_data,
     test_tender_pq_data,
 )
 from openprocurement.tender.pricequotation.tests.data import (
@@ -39,6 +39,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_in_not_draft_status,
     create_tender_invalid,
     create_tender_pq_from_dps_invalid_agreement,
+    create_tender_pq_from_dps_invalid_items,
     create_tender_with_inn,
     draft_activation_validations,
     invalid_tender_conditions,
@@ -49,8 +50,6 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     patch_tender,
     patch_tender_status,
     required_field_deletion,
-    switch_draft_publishing_to_tendering_manually,
-    switch_draft_to_publishing_forbidden,
     switch_draft_to_tendering_success,
     tender_criteria_values_type,
     tender_delivery_milestones,
@@ -66,13 +65,7 @@ class TenderResourceTestMixin:
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
-    test_create_tender_draft = snitch(create_tender_draft)
-    test_create_tender_draft_with_criteria = snitch(create_tender_draft_with_criteria)
-    test_create_tender_draft_with_criteria_expected_values = snitch(create_tender_draft_with_criteria_expected_values)
-
-    test_tender_owner_can_change_in_draft = snitch(tender_owner_can_change_in_draft)
     test_tender_period_update = snitch(tender_period_update)
-    test_tender_owner_cannot_change_in_draft = snitch(tender_owner_cannot_change_in_draft)
     test_create_tender = snitch(create_tender)
     test_get_tender = snitch(get_tender)
     test_dateModified_tender = snitch(dateModified_tender)
@@ -86,35 +79,50 @@ class TenderResourceTestMixin:
     test_create_tender_config_test = snitch(create_tender_config_test)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
-    test_create_tender_invalid_agreement = snitch(create_tender_pq_from_dps_invalid_agreement)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM",
-    get_now() + timedelta(days=1),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value=test_tender_pq_short_profile),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value=test_tender_pq_short_profile),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-    Mock(return_value=test_tender_pq_category),
-)
-class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
+class MockCatalogueMixin:
+    def setUp(self):
+        super().setUp()
+        tender_profile_patch = patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+            Mock(return_value=test_tender_pq_short_profile),
+        )
+        tender_profile_patch.start()
+        self.addCleanup(tender_profile_patch.stop)
+        tender_category_patch = patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+            Mock(return_value=test_tender_pq_category),
+        )
+        tender_category_patch.start()
+        self.addCleanup(tender_category_patch.stop)
+
+
+class MockCriteriaIDMixin:
+    def setUp(self):
+        super().setUp()
+        criteria_id_patch = patch(
+            "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM",
+            get_now() + timedelta(days=1),
+        )
+        criteria_id_patch.start()
+        self.addCleanup(criteria_id_patch.stop)
+
+
+class TenderResourceTest(MockCatalogueMixin, MockCriteriaIDMixin, BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_pq_data
     initial_auth = ("Basic", ("broker", ""))
     test_criteria = test_tender_pq_short_profile['criteria']
     test_criteria_1 = test_tender_pq_criteria_1
 
-    Test_guarantee = snitch(guarantee)
+    test_create_tender_draft = snitch(create_tender_draft)
+    test_create_tender_draft_with_criteria = snitch(create_tender_draft_with_criteria)
+    test_create_tender_draft_with_criteria_expected_values = snitch(create_tender_draft_with_criteria_expected_values)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_generated = snitch(create_tender_generated)
+    test_tender_owner_can_change_in_draft = snitch(tender_owner_can_change_in_draft)
+    test_tender_owner_cannot_change_in_draft = snitch(tender_owner_cannot_change_in_draft)
     test_tender_fields = snitch(tender_fields)
     test_tender_items_float_quantity = snitch(tender_items_float_quantity)
     test_tender_items_negative_quantity = snitch(tender_items_negative_quantity)
@@ -128,11 +136,32 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_tender_criteria_values_type = snitch(tender_criteria_values_type)
 
 
+class TenderDPSPQResourceTest(MockCatalogueMixin, MockCriteriaIDMixin, BaseTenderWebTest, TenderResourceTestMixin):
+    initial_data = test_tender_pq_data
+    initial_auth = ("Basic", ("broker", ""))
+    test_criteria = test_tender_pq_short_profile['criteria']
+    test_criteria_1 = test_tender_pq_criteria_1
+
+    initial_agreement_data = test_agreement_dps_data
+
+    test_create_tender_generated = snitch(create_tender_generated)
+    test_tender_fields = snitch(tender_fields)
+    test_tender_items_float_quantity = snitch(tender_items_float_quantity)
+    test_tender_items_negative_quantity = snitch(tender_items_negative_quantity)
+    test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)
+    test_patch_tender = snitch(patch_tender)
+    test_required_field_deletion = snitch(required_field_deletion)
+    test_invalid_tender_conditions = snitch(invalid_tender_conditions)
+    test_patch_tender_status = snitch(patch_tender_status)
+    test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
+    test_tender_criteria_values_type = snitch(tender_criteria_values_type)
+    test_create_tender_invalid_agreement = snitch(create_tender_pq_from_dps_invalid_agreement)
+    test_create_tender_invalid_items = snitch(create_tender_pq_from_dps_invalid_items)
+
+
 class TenderActivationTest(TenderContentWebTest):
     test_draft_activation_validations = snitch(draft_activation_validations)
     test_switch_draft_to_tendering_success = snitch(switch_draft_to_tendering_success)
-    test_switch_draft_to_publishing_forbidden = snitch(switch_draft_to_publishing_forbidden)
-    test_switch_draft_publishing_to_tendering_manually = snitch(switch_draft_publishing_to_tendering_manually)
 
 
 def suite():
