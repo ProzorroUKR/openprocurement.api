@@ -14,6 +14,6 @@ competitiveDialogueUA.stage2,false,false
 esco,false,false
 negotiation,false,false
 negotiation.quick,false,false
-priceQuotation,false,false
+priceQuotation,"true,false",false
 reporting,false,false
 simple.defense,false,false

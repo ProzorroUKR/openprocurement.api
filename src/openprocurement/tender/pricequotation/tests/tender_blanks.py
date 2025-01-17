@@ -2613,3 +2613,96 @@ def create_tender_pq_from_dps_invalid_items(self):
             }
         ],
     )
+
+
+def validate_restricted_from_agreement(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+
+    config = deepcopy(self.initial_config)
+    config.update({"hasPreSelectionAgreement": True})
+
+    # Non restricted agreement
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["config"] = {"restricted": False}
+    self.mongodb.agreements.save(agreement)
+
+    config = deepcopy(self.initial_config)
+    config.update({"hasPreSelectionAgreement": True, "restricted": True})
+
+    self.app.authorization = ("Basic", ("brokerr", ""))
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "restricted", "description": "Value must be False."}],
+    )
+
+    # Restricted agreement
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["config"] = {"restricted": True}
+    self.mongodb.agreements.save(agreement)
+
+    config["restricted"] = False
+
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "restricted", "description": "Value must be True."}],
+    )
+
+    # restricted PQ from broker
+    config["restricted"] = True
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+        status=403,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "url",
+                "name": "accreditation",
+                "description": "Broker Accreditation level does not permit tender restricted data access",
+            }
+        ],
+    )
+
+    # restricted PQ from brokerr
+    self.app.authorization = ("Basic", ("brokerr", ""))
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender_id = response.json["data"]["id"]
+
+    # check masked items
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.get(f"/tenders/{tender_id}")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"], "Приховано")
