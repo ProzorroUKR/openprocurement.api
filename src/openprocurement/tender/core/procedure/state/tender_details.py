@@ -399,7 +399,7 @@ class TenderDetailsMixing(TenderConfigMixin):
                 profile_ids.append(profile_id)
 
         for profile_id in profile_ids:
-            profile = get_tender_profile(self.request, profile_id, validate_status=("active", "general"))
+            profile = get_tender_profile(self.request, profile_id, validate_status=("active",))
 
             profile_agreement_id = profile.get("agreementID")
             tender_agreement_id = tender_agreements[0].get("id")
@@ -1226,7 +1226,7 @@ class TenderDetailsMixing(TenderConfigMixin):
                     get_tender_category(request, category_id, ("active",))
 
                 if profile_id := after_values.get("profile"):
-                    profile = get_tender_profile(request, profile_id, ("active", "general"))
+                    profile = get_tender_profile(request, profile_id, ("active",))
 
                     if profile.get("relatedCategory") != category_id:
                         raise_operation_error(request, "Profile should be related to category", status=422)
