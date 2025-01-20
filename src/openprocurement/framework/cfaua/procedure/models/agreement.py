@@ -66,7 +66,6 @@ class Agreement(BaseAgreement):
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     items = ListType(ModelType(Item, required=True))
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    terminationDetails = StringType()
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
 
@@ -103,7 +102,6 @@ class PostAgreement(BasePostAgreement):
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     items = ListType(ModelType(Item, required=True))
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    terminationDetails = StringType()
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
 
@@ -114,16 +112,13 @@ class PostAgreement(BasePostAgreement):
 
 class PatchActiveAgreement(BasePatchAgreement):
     documents = ListType(ModelType(PostDocument))
-    terminationDetails = StringType()
 
 
 class PatchTerminatedAgreement(Model):
     pass
 
 
-class PatchAgreementByAdministrator(Model):
+class PatchAgreementByAdministrator(BasePatchAgreement):
     documents = ListType(ModelType(PostDocument))
     procuringEntity = ModelType(ProcuringEntity)
-    terminationDetails = StringType()
-    status = StringType(choices=["active", "terminated"])
     mode = StringType(choices=["test"])

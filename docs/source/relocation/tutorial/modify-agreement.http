@@ -17,6 +17,7 @@ Content-Type: application/json
   "data": {
     "agreementID": "UA-2018-07-30-000001-afe4b1ed046845bcae5d675b0b8ca5aa1",
     "status": "active",
+    "terminationDetails": "broker3 now can change the contract",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "owner": "broker3",
     "dateSigned": "2023-10-10T01:00:00+03:00",
@@ -195,7 +196,6 @@ Content-Type: application/json
         "countryName": "Україна"
       }
     },
-    "terminationDetails": "broker3 now can change the contract",
     "tender_id": "f394ae7a792e404c96103b00547a61d5",
     "numberOfContracts": 3,
     "id": "5f2c362583984e0daed42cb21777cee3"

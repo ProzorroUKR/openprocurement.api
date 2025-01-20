@@ -9,6 +9,9 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
+from openprocurement.framework.core.constants import (
+    AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGHT_SUBMISSIONS,
+)
 from openprocurement.framework.core.tests.base import (
     get_framework_unsuccessful_status_check_date,
     test_framework_item_data,
@@ -1581,9 +1584,23 @@ def unsuccessful_status(self):
     self.assertEqual(response.content_type, "application/json")
 
     self.check_chronograph()
+
+    if self.min_submissions_number > 1:
+        # Create fake agreement to test status change
+        # Naturaly agreement is being created by qualification activation
+        agreement_id = uuid4().hex
+        agreement = {
+            "id": agreement_id,
+            "agreementType": self.framework_type,
+            "status": "active",
+        }
+        self.mongodb.agreements.save(agreement, insert=True)
+        framework = self.mongodb.frameworks.get(self.framework_id)
+        framework["agreementID"] = agreement_id
+        self.mongodb.frameworks.save(framework)
+
     response = self.app.get("/frameworks/{}".format(self.framework_id))
     self.assertEqual(response.json["data"]["status"], "active")
-
     framework = Framework(response.json["data"])
     date = get_framework_unsuccessful_status_check_date(
         framework,
@@ -1599,6 +1616,13 @@ def unsuccessful_status(self):
     response = self.app.get("/frameworks/{}".format(self.framework_id))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
+    if self.min_submissions_number > 1:
+        response = self.app.get(f"/agreements/{agreement_id}")
+        self.assertEqual(response.json["data"]["status"], "terminated")
+        self.assertEqual(
+            response.json["data"]["terminationDetails"],
+            AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGHT_SUBMISSIONS,
+        )
     # With submissions
     response = self.app.post_json(
         "/frameworks",

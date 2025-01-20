@@ -17,13 +17,12 @@ from openprocurement.framework.core.constants import (
 )
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
 from openprocurement.framework.core.procedure.state.chronograph import (
-    ChronographEventsMixing,
+    FrameworkChronographEventsMixing,
 )
 from openprocurement.framework.core.procedure.state.qualification import (
     QualificationState,
 )
 from openprocurement.framework.core.procedure.state.submission import SubmissionState
-from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
@@ -62,7 +61,7 @@ class FrameworkConfigMixin(ConfigMixin):
         super().validate_config(data)
 
 
-class FrameworkState(FrameworkConfigMixin, ChronographEventsMixing, BaseState):
+class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEventsMixing):
     agreement_class = AgreementState
     qualification_class = QualificationState
     submission_class = SubmissionState
@@ -91,15 +90,8 @@ class FrameworkState(FrameworkConfigMixin, ChronographEventsMixing, BaseState):
         self.validate_items_presence(after)
         self.validate_items_classification_prefix(after)
         self.validate_framework_patch_status(before)
+        self.update_agreement(after)
         super().on_patch(before, after)
-
-    def after_patch(self, data):
-        if (
-            any(field in data for field in AGREEMENT_DEPENDENT_FIELDS)
-            and data.get("agreementID")
-            and get_request().validated["agreement_src"]["status"] == "active"
-        ):
-            self.update_agreement(data)
 
     def get_next_check(self, data):
         checks = []
@@ -155,33 +147,29 @@ class FrameworkState(FrameworkConfigMixin, ChronographEventsMixing, BaseState):
             )
 
     def update_agreement(self, data):
-        agreement_data = get_request().validated["agreement"]
+        if (
+            any(field in data for field in AGREEMENT_DEPENDENT_FIELDS)
+            and data.get("agreementID")
+            and get_request().validated["agreement_src"]["status"] == "active"
+        ):
+            agreement_data = get_request().validated["agreement"]
 
-        end_date = data["qualificationPeriod"]["endDate"]
+            end_date = data["qualificationPeriod"]["endDate"]
 
-        agreement_data.update(
-            {
-                "period": {
-                    "startDate": agreement_data["period"]["startDate"],
-                    "endDate": end_date,
-                },
-                "procuringEntity": data["procuringEntity"],
-                "contracts": agreement_data["contracts"],
-            }
-        )
-        for contract in agreement_data["contracts"]:
-            for milestone in contract["milestones"]:
-                if milestone["type"] == "activation":
-                    milestone["dueDate"] = end_date
-
-        if save_object(get_request(), "agreement"):
-            LOGGER.info(
-                f"Updated agreement {agreement_data['_id']}",
-                extra=context_unpack(
-                    get_request(),
-                    {"MESSAGE_ID": "framework_patch"},
-                ),
+            agreement_data.update(
+                {
+                    "period": {
+                        "startDate": agreement_data["period"]["startDate"],
+                        "endDate": end_date,
+                    },
+                    "procuringEntity": data["procuringEntity"],
+                    "contracts": agreement_data["contracts"],
+                }
             )
+            for contract in agreement_data["contracts"]:
+                for milestone in contract["milestones"]:
+                    if milestone["type"] == "activation":
+                        milestone["dueDate"] = end_date
 
     def validate_qualification_period_duration(self, before, after, min_duration, max_duration):
         if before["status"] == "active" and before["qualificationPeriod"] == after["qualificationPeriod"]:

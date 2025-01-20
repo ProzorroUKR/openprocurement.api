@@ -18,6 +18,7 @@ from openprocurement.framework.dps.constants import DPS_TYPE
 
 class PatchAgreement(Model):
     status = StringType(choices=["active", "terminated"])
+    terminationDetails = StringType()
 
 
 class CommonAgreement(RootModel):
@@ -27,6 +28,7 @@ class CommonAgreement(RootModel):
     period = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(Organization, required=True)
     contracts = ListType(ModelType(Contract, required=True), default=[])
+    terminationDetails = StringType()
 
     _attachments = DictType(DictType(BaseType), default={})
 
@@ -57,6 +59,7 @@ class CommonPostAgreement(Model):
     period = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(Organization, required=True)
     contracts = ListType(ModelType(Contract, required=True), default=[])
+    terminationDetails = StringType()
 
     _attachments = DictType(DictType(BaseType), default={})
 

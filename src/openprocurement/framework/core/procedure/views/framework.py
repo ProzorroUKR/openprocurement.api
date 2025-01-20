@@ -111,22 +111,12 @@ class FrameworksResource(FrameworkBaseResource):
         framework = self.request.validated["framework"]
         framework_src = self.request.validated["framework_src"]
         if self.request.authenticated_role == "chronograph":
-            self.state.check_status(framework)
-            self.state.update_next_check(framework)
-            if save_object(self.request, "framework"):
-                self.LOGGER.info(
-                    "Updated framework by chronograph",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_chronograph_patch"}),
-                )
+            self.state.on_chronograph_patch(framework)
+            self.save_all_objects()
         elif updated:
             framework = self.request.validated["framework"] = updated
             self.state.on_patch(framework_src, framework)
-            if save_object(self.request, "framework"):
-                self.LOGGER.info(
-                    f"Updated framework {framework['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}),
-                )
-            self.state.after_patch(updated)
+            self.save_all_objects()
         return {
             "data": self.serializer_class(framework).data,
             "config": framework["config"],

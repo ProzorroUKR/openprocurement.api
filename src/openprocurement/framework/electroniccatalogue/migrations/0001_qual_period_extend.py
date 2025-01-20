@@ -18,9 +18,7 @@ from openprocurement.api.database import get_public_modified, get_public_ts
 from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.framework.core.procedure.state.agreement import (
-    get_agreement_next_check,
-)
+from openprocurement.framework.core.procedure.state.agreement import AgreementState
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.utils import (
     SUBMISSION_STAND_STILL_DURATION,
@@ -119,7 +117,7 @@ def run(env):
                         milestone['dueDate'] = new_qual_period_end_date.isoformat()
                         milestone['dateModified'] = now.isoformat()
 
-            agreement["next_check"] = get_agreement_next_check(agreement)
+            agreement["next_check"] = AgreementState.get_next_check(agreement)
 
             agreements_collection.find_one_and_update(
                 {"_id": agreement['_id'], "_rev": agreement["_rev"]},

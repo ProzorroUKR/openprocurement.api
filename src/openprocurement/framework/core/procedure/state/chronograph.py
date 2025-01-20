@@ -3,6 +3,9 @@ from logging import getLogger
 
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.utils import context_unpack
+from openprocurement.framework.core.constants import (
+    AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGHT_SUBMISSIONS,
+)
 from openprocurement.framework.core.procedure.utils import (
     get_framework_number_of_submissions,
 )
@@ -12,11 +15,7 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso
 LOGGER = getLogger(__name__)
 
 
-class ChronographEventsMixing:
-    min_submissions_number = 3
-    min_submissions_number_days = 15
-    min_submissions_number_working_days = False
-
+class BaseChronographEventsMixing:
     def update_next_check(self, data):
         # next_check is field that shows object's expectation to be triggered at a certain time
         next_check = self.get_next_check(data)
@@ -27,6 +26,16 @@ class ChronographEventsMixing:
 
     def get_next_check(self, data):
         pass
+
+
+class FrameworkChronographEventsMixing(BaseChronographEventsMixing):
+    min_submissions_number = 3
+    min_submissions_number_days = 15
+    min_submissions_number_working_days = False
+
+    def on_chronograph_patch(self, data):
+        self.check_status(data)
+        self.update_next_check(data)
 
     def check_status(self, framework):
         if framework.get("status") == "active":
@@ -42,6 +51,7 @@ class ChronographEventsMixing:
                                 {"MESSAGE_ID": "switched_framework_unsuccessful"},
                             ),
                         )
+                        self.terminate_agreement()
                         framework["status"] = "unsuccessful"
                         return
                     else:
@@ -65,10 +75,36 @@ class ChronographEventsMixing:
                 ceil=True,
             )
 
-    def patch_statuses_by_chronograph(self, data):
+    def terminate_agreement(self):
+        agreement = self.request.validated.get("agreement")
+        if agreement:
+            agreement["status"] = "terminated"
+            agreement["terminationDetails"] = AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGHT_SUBMISSIONS
+
+
+class AgreementChronographEventsMixing(BaseChronographEventsMixing):
+    @staticmethod
+    def get_next_check(data):
+        checks = []
+        if data["status"] == "active":
+            milestone_due_dates = [
+                milestone["dueDate"]
+                for contract in data.get("contracts", [])
+                for milestone in contract.get("milestones", [])
+                if milestone.get("dueDate") and milestone["status"] == "scheduled"
+            ]
+            if milestone_due_dates:
+                checks.append(min(milestone_due_dates))
+            checks.append(data["period"]["endDate"])
+        return min(checks) if checks else None
+
+    def on_chronograph_patch(self, data):
+        self.check_status(data)
+        self.update_next_check(data)
+
+    def check_status(self, data):
         if not self.check_agreement_status(data):
             self.check_contract_statuses(data)
-        self.update_next_check(data)
 
     @staticmethod
     def check_agreement_status(data):
