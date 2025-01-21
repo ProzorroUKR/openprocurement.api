@@ -309,13 +309,22 @@ class BidState(BaseState):
             self.raise_items_error(BaseType.MESSAGES["required"])
 
         item_required_fields = {
-            "description": None,
+            "description": True,
             "unit": {
-                "name": None,
-                "code": None,
+                "name": True,
+                "code": True,
             },
-            "quantity": None,
+            "quantity": True,
         }
+        if tender["procurementMethodType"] == "esco":
+            item_required_fields = {
+                "description": True,
+                "unit": {
+                    "__required__": False,
+                    "name": True,
+                    "code": True,
+                },
+            }
 
         for item in bid_items:
             validate_required_fields(self.request, item, item_required_fields, name="items")
