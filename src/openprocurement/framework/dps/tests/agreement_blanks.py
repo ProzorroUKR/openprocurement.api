@@ -385,6 +385,25 @@ def patch_agreement_terminated_status(self):
     self.assertIsNone(response.json["data"].get("next_check"))
 
 
+def patch_agreement_manually_to_terminated_status(self):
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}?acc_token={self.framework_token}",
+        {
+            "data": {
+                "status": "terminated",
+                "terminationDetails": "Some termination details",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "terminated")
+    self.assertEqual(response.json["data"]["terminationDetails"], "Some termination details")
+    self.assertIsNone(response.json["data"].get("next_check"))
+
+
 def patch_contract_active_status(self):
     response = self.app.post_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",

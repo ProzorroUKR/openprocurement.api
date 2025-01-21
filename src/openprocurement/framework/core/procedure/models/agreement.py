@@ -12,6 +12,7 @@ from openprocurement.framework.core.procedure.models.contract import Contract
 from openprocurement.framework.core.procedure.models.framework import (
     AdditionalClassification,
     DKClassification,
+    Item,
 )
 from openprocurement.framework.dps.constants import DPS_TYPE
 
@@ -88,4 +89,5 @@ class Agreement(CommonAgreement):
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     frameworkDetails = StringType()
+    items = ListType(ModelType(Item, required=True), default=[])
     next_check = BaseType()
