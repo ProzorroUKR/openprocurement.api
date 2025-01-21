@@ -2505,6 +2505,7 @@ def patch_tender(self):
     self.assertEqual(response.content_type, "application/json")
     new_tender = response.json["data"]
     self.assertIn("startDate", new_tender["enquiryPeriod"])
+    self.assertIn("clarificationsUntil", new_tender["enquiryPeriod"])
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
