@@ -1669,8 +1669,9 @@ def validate_required_fields(request, data: dict, required_fields: dict, name="d
     Args:
         data (dict): The dictionary to validate.
         required_fields (dict): A dictionary where keys are field names and values are:
-            - `None` for non-nested fields.
-            - `dict` describing nested required fields for nested dictionaries or lists.
+            - `True`: Field is required.
+            - `False`: Field is optional.
+            - A dictionary for nested fields, optionally with `__required__`.
 
     Returns:
         dict: A nested dictionary of missing fields with their respective error messages.
@@ -1678,21 +1679,34 @@ def validate_required_fields(request, data: dict, required_fields: dict, name="d
 
     def validation(data: dict, required_fields: dict):
         errors = {}
-        for field, nested_fields in required_fields.items():
-            if field not in data or not data[field]:
-                errors[field] = BaseType.MESSAGES["required"]
+        for field, rules in required_fields.items():
+            # Determine if the field itself is required
+            if isinstance(rules, bool):  # Simple required/optional case
+                is_required = rules
+                nested_rules = {}
+            elif isinstance(rules, dict):  # Nested rules or explicit "__required__"
+                is_required = rules.get("__required__", True)
+                nested_rules = {k: v for k, v in rules.items() if k != "__required__"}
+            else:
+                continue  # Ignore invalid rule definitions
 
-            elif isinstance(nested_fields, dict):
-                if isinstance(data[field], dict):
-                    nested_errors = validation(data[field], nested_fields)
+            # Check if the field is missing or None
+            if field not in data or data[field] is None:
+                if is_required:
+                    errors[field] = BaseType.MESSAGES["required"]
+                continue
+
+            # Validate nested fields if present
+            if nested_rules:
+                if isinstance(data[field], dict):  # Validate nested dict
+                    nested_errors = validation(data[field], nested_rules)
                     if nested_errors:
                         errors[field] = nested_errors
-
-                elif isinstance(data[field], list):
+                elif isinstance(data[field], list):  # Validate list of nested dicts
                     list_errors = {}
                     for i, item in enumerate(data[field]):
                         if isinstance(item, dict):
-                            item_errors = validation(item, nested_fields)
+                            item_errors = validation(item, nested_rules)
                             if item_errors:
                                 list_errors[i] = item_errors
                         else:
