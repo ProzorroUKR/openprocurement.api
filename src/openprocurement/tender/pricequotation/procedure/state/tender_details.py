@@ -93,6 +93,7 @@ class CatalogueTenderDetailsState(TenderDetailsState):
     items_profile_required = True
     agreement_min_active_contracts = 1
     should_match_agreement_procuring_entity = False
+    should_validate_profiles_agreement_id = True
 
 
 class DPSTenderDetailsState(TenderDetailsState):

@@ -178,6 +178,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
+    should_validate_profiles_agreement_id = False
     should_match_agreement_procuring_entity = True
     should_validate_notice_doc_required = False
     agreement_field = "agreements"
@@ -295,7 +296,7 @@ class TenderDetailsMixing(TenderConfigMixin):
             )
         if after != "draft" and before == "draft":
             self.validate_pre_selection_agreement_on_activation(data)
-            self.validate_profiles(data)
+            self.validate_profiles_agreement_id(data)
             self.validate_notice_doc_required(data)
         elif after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
@@ -387,7 +388,10 @@ class TenderDetailsMixing(TenderConfigMixin):
             message = AGREEMENT_CONTRACTS_MESSAGE.format(self.agreement_min_active_contracts)
             raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
-    def validate_profiles(self, tender):
+    def validate_profiles_agreement_id(self, tender):
+        if self.should_validate_profiles_agreement_id is False:
+            return
+
         profile_ids = []
 
         tender_agreements = self.get_tender_agreements(tender)
