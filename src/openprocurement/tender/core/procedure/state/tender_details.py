@@ -271,7 +271,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
         self.validate_change_item_profile_or_category(after, before)
-        if after["status"] in ("draft", "draft.stage2", "active.tendering"):
+        if after["status"] in ("draft", "draft.stage2", "active.enquiries", "active.tendering"):
             self.initialize_enquiry_period(after)
 
         if self.should_validate_related_lot_in_items:
