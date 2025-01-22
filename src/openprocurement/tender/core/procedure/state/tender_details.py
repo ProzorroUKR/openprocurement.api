@@ -317,6 +317,8 @@ class TenderDetailsMixing(TenderConfigMixin):
 
     def get_tender_agreements(self, tender):
         tender_agreements = tender.get(self.agreement_field)
+        if not tender_agreements:
+            return []
 
         if not isinstance(tender_agreements, list):
             # PQ has field "agreement" with single object instead of "agreements" with list of objects
