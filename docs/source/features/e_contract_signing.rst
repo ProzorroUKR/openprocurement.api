@@ -419,7 +419,7 @@
     - Характеристики предмету закупівлі - **items.attributes**
 
         - Назва характеристики - **items.attributes.name**
-        - Значення характеристики - **items.attributes.values**
+        - Значення характеристики - **items.attributes.values**/**items.attributes.value**
         - Одиниця виміру характеристики  - **items.attributes.unit**
 
     - Кількість предмету закупівлі - не редагується - **items.quantity**

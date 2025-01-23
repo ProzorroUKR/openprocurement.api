@@ -1,5 +1,7 @@
 from schematics.exceptions import ValidationError
 
+from openprocurement.api.constants import REQ_RESPONSE_VALUES_VALIDATION_FROM
+from openprocurement.api.context import get_now
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import error_handler
 from openprocurement.tender.core.procedure.models.req_response import (
@@ -10,6 +12,9 @@ from openprocurement.tender.core.procedure.models.req_response import (
     validate_response_requirement_uniq,
 )
 from openprocurement.tender.core.procedure.state.utils import invalidate_pending_bid
+from openprocurement.tender.core.procedure.validation import (
+    validate_req_response_values,
+)
 
 
 class BaseReqResponseState(BaseState):
@@ -51,6 +56,8 @@ class BaseReqResponseState(BaseState):
         MatchResponseValue.match(req_response)
         validate_req_response_related_tenderer(parent, req_response)
         validate_req_response_evidences_relatedDocument(parent, req_response, self.parent_obj_name)
+        if get_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
+            validate_req_response_values(req_response)
 
 
 class BidReqResponseState(BaseReqResponseState):

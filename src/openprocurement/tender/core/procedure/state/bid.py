@@ -4,6 +4,7 @@ from decimal import Decimal
 
 from schematics.types import BaseType
 
+from openprocurement.api.constants import REQ_RESPONSE_VALUES_VALIDATION_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
@@ -25,6 +26,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
     validate_doc_type_required,
     validate_items_unit_amount,
+    validate_req_response_values,
     validate_required_fields,
 )
 
@@ -53,6 +55,7 @@ class BidState(BaseState):
         self.validate_items_id(data)
         self.validate_items_related_product(data, {})
         self.validate_proposal_docs(data)
+        self.validate_req_responses(data)
 
         lot_values = data.get("lotValues")
         if lot_values:  # TODO: move to post model as serializible
@@ -71,6 +74,7 @@ class BidState(BaseState):
         self.validate_items_related_product(after, before)
         self.validate_proposal_docs(after, before)
         self.invalidate_pending_bid_after_patch(after, before)
+        self.validate_req_responses(after)
         super().on_patch(before, after)
 
     def raise_items_error(self, message):
@@ -190,6 +194,11 @@ class BidState(BaseState):
             return
         if before.get("status") == after.get("status") == "pending" and before != after:
             after["status"] = "invalid"
+
+    def validate_req_responses(self, data):
+        if get_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
+            for resp in data.get("requirementResponses", []):
+                validate_req_response_values(resp)
 
     def update_date_for_new_lot_values(self, after, before):
         now = get_now().isoformat()

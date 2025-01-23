@@ -1,5 +1,5 @@
 from logging import getLogger
-from typing import List, Optional, Tuple
+from typing import List, Optional
 from uuid import uuid4
 
 from schematics.exceptions import ConversionError, ValidationError
@@ -24,6 +24,7 @@ from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.utils import (
     bid_in_invalid_status,
     get_criterion_requirement,
+    get_requirement_obj,
     tender_created_after,
     tender_created_before,
 )
@@ -145,30 +146,6 @@ class RequirementResponseTemp(RequirementResponse):
     description_ru = StringType()
     requirement = ModelType(RequirementReferenceTemp)
 
-
-# UTILS ---
-
-
-def get_requirement_obj(
-    requirement_id: str,
-    tender: dict = None,
-) -> Tuple[Optional[dict], Optional[dict], Optional[dict]]:
-    if not tender:
-        tender = get_tender()
-    for criteria in tender.get("criteria", ""):
-        for group in criteria.get("requirementGroups", ""):
-            for req in reversed(group.get("requirements", "")):
-                if req["id"] == requirement_id:
-                    if (
-                        tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM)
-                        and req.get("status", ReqStatuses.DEFAULT) != ReqStatuses.ACTIVE
-                    ):
-                        continue
-                    return req, group, criteria
-    return None, None, None
-
-
-# --- UTILS
 
 # Validations ---
 

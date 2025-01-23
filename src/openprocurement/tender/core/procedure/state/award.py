@@ -3,6 +3,7 @@ from datetime import timedelta
 from openprocurement.api.constants import (
     AWARD_NOTICE_DOC_REQUIRED_FROM,
     QUALIFICATION_AFTER_COMPLAINT_FROM,
+    REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
@@ -12,7 +13,10 @@ from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.tender.core.procedure.validation import validate_doc_type_required
+from openprocurement.tender.core.procedure.validation import (
+    validate_doc_type_required,
+    validate_req_response_values,
+)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
@@ -26,6 +30,9 @@ class AwardStateMixing:
         tender = get_tender()
         self.validate_cancellation_blocks(self.request, tender, lot_id=before.get("lotID"))
         self.validate_action_with_exist_inspector_review_request(lot_id=before.get("lotID"))
+        if get_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
+            for resp in after.get("requirementResponses", []):
+                validate_req_response_values(resp)
 
     def award_on_patch(self, before, award):
         if before["status"] != award["status"]:

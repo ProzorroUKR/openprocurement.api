@@ -455,6 +455,7 @@ def move_award_contract_to_contracting(self):
     item = response.json["data"]["items"][0]
     self.assertIn("attributes", item)
     self.assertEqual(len(item["attributes"]), 1)
+    self.assertIn("value", item["attributes"][0])
     self.assertEqual(item["description"], "Комп’ютерне обладнання для біда")
     self.assertEqual(item["quantity"], 10)
     self.assertEqual(item["unit"]["value"]["amount"], 12)

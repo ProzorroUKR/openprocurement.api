@@ -1,9 +1,13 @@
 from logging import getLogger
 
+from openprocurement.api.constants import REQ_RESPONSE_VALUES_VALIDATION_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.validation import (
+    validate_req_response_values,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -51,6 +55,9 @@ class QualificationState(TenderState):
             self.qualification_status_up(before["status"], qualification["status"], qualification)
         elif before["status"] != "pending":
             raise_operation_error(self.request, "Can't update qualification status")
+        if get_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
+            for resp in qualification.get("requirementResponses", []):
+                validate_req_response_values(resp)
 
     def qualification_status_up(self, before, after, qualification):
         qualification["date"] = get_now().isoformat()
