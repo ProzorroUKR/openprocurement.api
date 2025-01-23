@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e?acc_token=3d5baa5d82af4c94a467591dfe699af2 HTTP/1.0
+PATCH /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64?acc_token=393a491380684a1b82995ce57d50794c HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -39,7 +39,12 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
-    "procurementMethod": "open",
+    "agreements": [
+      {
+        "id": "5f21fdefbd1e40e78262f8c6476168a2"
+      }
+    ],
+    "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -109,7 +114,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "93cf6e486f974b7182000f7b56c1e557",
+        "id": "a11d57fac3a04d448f860b29cb73f234",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -146,7 +151,7 @@ Content-Type: application/json
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "03111600-8"
         },
         "additionalClassifications": [
           {
@@ -160,7 +165,7 @@ Content-Type: application/json
     ],
     "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "next_check": "2023-10-17T00:00:00+02:00",
-    "id": "d825f322bda5487a8c8e5d9c1e58fd9e"
+    "id": "285d5c5b074a45f198c9a207b4c60b64"
   },
   "config": {
     "hasAuction": true,
@@ -169,7 +174,7 @@ Content-Type: application/json
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
     "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false,
+    "hasPreSelectionAgreement": true,
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,

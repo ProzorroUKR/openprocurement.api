@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e HTTP/1.0
+GET /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -40,7 +40,7 @@ Content-Type: application/json
       {
         "id": "18aed6d02f154d56b9784733349f80f0",
         "author": {
-          "hash": "9830d44f9e970d3d87461d4b4665afba"
+          "hash": "1aed9a553aa8fab0177d7427516aa4fe"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -115,7 +115,12 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
-    "procurementMethod": "open",
+    "agreements": [
+      {
+        "id": "5f21fdefbd1e40e78262f8c6476168a2"
+      }
+    ],
+    "procurementMethod": "selective",
     "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
@@ -178,7 +183,7 @@ Content-Type: application/json
         "auctionPeriod": {
           "startDate": "2023-10-16T01:15:06+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d825f322bda5487a8c8e5d9c1e58fd9e_880b8274983b40cfa8455e8e3d82bb70"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/285d5c5b074a45f198c9a207b4c60b64_880b8274983b40cfa8455e8e3d82bb70"
       }
     ],
     "milestones": [
@@ -195,7 +200,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "93cf6e486f974b7182000f7b56c1e557",
+        "id": "a11d57fac3a04d448f860b29cb73f234",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -233,7 +238,7 @@ Content-Type: application/json
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "03111600-8"
         },
         "additionalClassifications": [
           {
@@ -248,7 +253,7 @@ Content-Type: application/json
     "auctionPeriod": {
       "startDate": "2023-10-16T01:15:06+03:00"
     },
-    "id": "d825f322bda5487a8c8e5d9c1e58fd9e"
+    "id": "285d5c5b074a45f198c9a207b4c60b64"
   },
   "config": {
     "hasAuction": true,
@@ -257,7 +262,7 @@ Content-Type: application/json
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
     "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false,
+    "hasPreSelectionAgreement": true,
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,

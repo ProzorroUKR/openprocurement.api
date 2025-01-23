@@ -25,8 +25,14 @@ You can get info here: :ref:`inspector_tutorial`
 
 Creating tender
 ---------------
+Tender `requestForProposal` may have pre-selection procedure and can be connected to agreement.
 
-Let's create tender with the minimal (only required) data set:
+Let's use next agreement for our example:
+
+.. http:example:: http/tutorial/view-agreement-1-contract.http
+   :code:
+
+We can create tender connected to this agreement:
 
 .. http:example:: http/tutorial/tender-post-attempt-json-data.http
    :code:

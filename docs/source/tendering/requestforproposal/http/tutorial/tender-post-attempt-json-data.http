@@ -43,7 +43,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description_ru": "футляры к государственным наградам",
         "classification": {
           "scheme": "ДК021",
-          "id": "44617100-9",
+          "id": "03111600-8",
           "description": "Cartons"
         },
         "additionalClassifications": [
@@ -94,6 +94,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 2,
         "percentage": 54.45
       }
+    ],
+    "agreements": [
+      {
+        "id": "5f21fdefbd1e40e78262f8c6476168a2"
+      }
     ]
   },
   "config": {
@@ -103,7 +108,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
     "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false,
+    "hasPreSelectionAgreement": true,
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
@@ -122,13 +127,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64
 
 {
   "data": {
     "mainProcurementCategory": "goods",
     "title": "футляри до державних нагород",
     "status": "draft",
+    "agreements": [
+      {
+        "id": "5f21fdefbd1e40e78262f8c6476168a2"
+      }
+    ],
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -178,7 +188,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d825f322bda5487a
         "sequenceNumber": 1
       },
       {
-        "id": "93cf6e486f974b7182000f7b56c1e557",
+        "id": "a11d57fac3a04d448f860b29cb73f234",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -215,7 +225,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d825f322bda5487a
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "03111600-8"
         },
         "additionalClassifications": [
           {
@@ -228,12 +238,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d825f322bda5487a
     ],
     "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
-    "procurementMethod": "open",
+    "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "d825f322bda5487a8c8e5d9c1e58fd9e"
+    "id": "285d5c5b074a45f198c9a207b4c60b64"
   },
   "config": {
     "hasAuction": true,
@@ -242,7 +252,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d825f322bda5487a
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
     "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false,
+    "hasPreSelectionAgreement": true,
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
@@ -257,8 +267,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d825f322bda5487a
     "restricted": false
   },
   "access": {
-    "token": "3d5baa5d82af4c94a467591dfe699af2",
-    "transfer": "906e5921d1764567a3b1c72521dbecc6"
+    "token": "393a491380684a1b82995ce57d50794c",
+    "transfer": "5908a1c84377494181d53c46db8975bc"
   }
 }
 

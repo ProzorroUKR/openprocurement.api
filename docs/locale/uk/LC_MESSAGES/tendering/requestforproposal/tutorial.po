@@ -133,8 +133,14 @@ msgstr "Ви можете отримати інформацію тут: :ref:`in
 msgid "Creating tender"
 msgstr "Створення закупівлі"
 
-msgid "Let's create tender with the minimal (only required) data set:"
-msgstr "Створимо закупівлю з мінімально допустимим (обовязковим для заповнення) набором даних:"
+msgid "Tender `requestForProposal` may have pre-selection procedure and can be connected to agreement."
+msgstr "Для тендеру `requestForProposal` замовник може зазначити, що був попередній відбір учасників та вказати id agreement."
+
+msgid "Let's use next agreement for our example:"
+msgstr "Використаємо `agreement` для прикладу:"
+
+msgid "We can create tender connected to this agreement:"
+msgstr "Ми можемо створити тендер, вказавши цей `agreement`:"
 
 msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified. Pay attention to the `procurementMethodType`. Note that tender is created with `draft` status."
 msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу на `procurementMethodType`, а також на те, що закупівля створюється зі статусом `draft`."

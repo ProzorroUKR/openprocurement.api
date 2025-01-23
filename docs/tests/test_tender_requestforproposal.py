@@ -20,6 +20,12 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.framework.ifi.tests.base import (
+    test_framework_ifi_config,
+    test_framework_ifi_data,
+    test_submission_config,
+    test_submission_data,
+)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -61,6 +67,82 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             pmt="requestForProposal",
             file_path=TARGET_CSV_DIR + "config.csv",
         )
+
+    def create_framework(self, data=None, config=None):
+        data = data or deepcopy(test_framework_ifi_data)
+        config = config or deepcopy(test_framework_ifi_config)
+        data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=120)).isoformat()}
+        response = self.app.post_json(
+            "/frameworks",
+            {
+                "data": data,
+                "config": config,
+            },
+        )
+        self.framework_token = response.json["access"]["token"]
+        self.framework_id = response.json["data"]["id"]
+        return response
+
+    def get_framework(self):
+        url = "/frameworks/{}".format(self.framework_id)
+        response = self.app.get(url)
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        return response
+
+    def activate_framework(self):
+        response = self.app.patch_json(
+            "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        return response
+
+    def create_submission(self, identifier=uuid4().hex):
+        data = deepcopy(test_submission_data)
+        data["frameworkID"] = self.framework_id
+        data["tenderers"][0]["identifier"]["id"] = identifier
+        self.tenderer = data["tenderers"][0]
+        response = self.app.post_json(
+            "/submissions",
+            {
+                "data": data,
+                "config": test_submission_config,
+            },
+        )
+        self.submission_id = response.json["data"]["id"]
+        self.submission_token = response.json["access"]["token"]
+        return response
+
+    def activate_submission(self):
+        response = self.app.patch_json(
+            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.qualification_id = response.json["data"]["qualificationID"]
+        return response
+
+    def activate_qualification(self):
+        response = self.app.post_json(
+            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
+            {
+                "data": {
+                    "title": "sign.p7s",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pkcs7-signature",
+                    "documentType": "evaluationReports",
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        response = self.app.patch_json(
+            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        return response
 
     def test_docs_2pc(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -110,12 +192,46 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             response = self.app.post_json(request_path, {}, content_type='application/json', status=422)
             self.assertEqual(response.status, '422 Unprocessable Entity')
 
+        # Create agreement
+
+        self.create_framework()
+        self.activate_framework()
+
+        self.create_submission(identifier="12345678")
+        self.activate_submission()
+        self.activate_qualification()
+
+        self.create_submission(identifier="12345679")
+        self.activate_submission()
+        self.activate_qualification()
+
+        self.create_submission(identifier="12345671")
+        self.activate_submission()
+        self.activate_qualification()
+
+        response = self.get_framework()
+        self.agreement_id = response.json["data"]["agreementID"]
+
+        # View agreement
+
+        with open(TARGET_DIR + 'tutorial/view-agreement-1-contract.http', 'w') as self.app.file_obj:
+            response = self.app.get("/agreements/{}".format(self.agreement_id))
+            self.assertEqual(response.status, '200 OK')
+
         # Creating tender
         config = deepcopy(self.initial_config)
         config.update({"valueCurrencyEquality": True})
+        config.update({"hasPreSelectionAgreement": True})
+
+        data = deepcopy(test_docs_tender_rfp)
+
+        data['agreements'] = [{'id': self.agreement_id}]
+
+        for item in data['items']:
+            item['classification']['id'] = test_framework_ifi_data['classification']['id']
 
         with open(TARGET_DIR + 'tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config})
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': data, 'config': config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -386,9 +502,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Enquiries
 
+        docs_data = deepcopy(test_docs_question)
+        docs_data["author"]["identifier"]["id"] = "12345678"
         with open(TARGET_DIR + 'tutorial/ask-question.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/questions'.format(self.tender_id), {"data": test_docs_question}, status=201
+                '/tenders/{}/questions'.format(self.tender_id), {"data": docs_data}, status=201
             )
             question_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
@@ -455,6 +573,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             }
         ]
         set_bid_lotvalues(bid_data, tender_lots)
+        bid_data['tenderers'][0]['identifier']['id'] = '12345678'
         with open(TARGET_DIR + 'tutorial/register-bidder-invalid.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=403)
 
@@ -547,6 +666,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 },
             }
         ]
+        bid_with_docs['tenderers'][0]['identifier']['id'] = '12345678'
         with open(TARGET_DIR + 'tutorial/register-2nd-bidder.http', 'w') as self.app.file_obj:
             for document in bid_with_docs['documents']:
                 document['url'] = self.generate_docservice_url()

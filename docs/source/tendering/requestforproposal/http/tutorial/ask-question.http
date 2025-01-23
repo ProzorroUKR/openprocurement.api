@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e/questions HTTP/1.0
+POST /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/questions HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -21,7 +21,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "identifier": {
         "scheme": "UA-EDR",
         "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
-        "id": "00137226",
+        "id": "12345678",
         "uri": "http://www.sc.gov.ua/"
       },
       "name": "ДКП «Книга»"
@@ -34,12 +34,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d825f322bda5487a8c8e5d9c1e58fd9e/questions/18aed6d02f154d56b9784733349f80f0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/questions/18aed6d02f154d56b9784733349f80f0
 
 {
   "data": {
     "author": {
-      "hash": "9830d44f9e970d3d87461d4b4665afba"
+      "hash": "1aed9a553aa8fab0177d7427516aa4fe"
     },
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",
