@@ -63,6 +63,7 @@ class PostTender(PostBaseTender):
     status = StringType(choices=["draft"], default="draft")
     # profile = StringType()  # Not used anymore
     agreement = ModelType(Agreement, required=True)
+    agreements = None
     classification = ModelType(Classification)
 
     value = ModelType(Value, required=True)
@@ -119,6 +120,7 @@ class PatchTender(PatchBaseTender):
     )
     profile = StringType()
     agreement = ModelType(Agreement)
+    agreements = None
 
     value = ModelType(Value)
     tenderPeriod = ModelType(PeriodEndRequired)

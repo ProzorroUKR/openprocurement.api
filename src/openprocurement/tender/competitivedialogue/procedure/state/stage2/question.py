@@ -14,10 +14,6 @@ from openprocurement.tender.openua.procedure.state.question import (
 
 
 class CDStage2TenderQuestionStateMixin(UATenderQuestionStateMixin):
-    def validate_question_on_post(self, question):
-        super().validate_question_on_post(question)
-        self.validate_question_author(question)
-
     def validate_question_on_patch(self, before, question):
         super().validate_question_on_patch(before, question)
         self.validate_question_author(question)

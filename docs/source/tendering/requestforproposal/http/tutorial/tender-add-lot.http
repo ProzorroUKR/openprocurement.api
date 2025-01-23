@@ -1,0 +1,45 @@
+POST /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/lots?acc_token=393a491380684a1b82995ce57d50794c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "lot title",
+    "description": "lot description",
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
+    }
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/lots/880b8274983b40cfa8455e8e3d82bb70
+
+{
+  "data": {
+    "title": "lot title",
+    "description": "lot description",
+    "id": "880b8274983b40cfa8455e8e3d82bb70",
+    "status": "active",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "date": "2023-10-10T01:00:00+03:00"
+  }
+}
+

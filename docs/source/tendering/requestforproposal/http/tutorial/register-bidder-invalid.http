@@ -1,0 +1,73 @@
+POST /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "12345678",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
+      }
+    ],
+    "status": "draft",
+    "items": [
+      {
+        "quantity": 5,
+        "description": "папір",
+        "id": "ffffffffffffffffffffffffffffffff",
+        "unit": {
+          "code": "KGM",
+          "value": {
+            "amount": 1500,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500
+        },
+        "relatedLot": "880b8274983b40cfa8455e8e3d82bb70"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Total amount of unit values can't be greater than bid.lotValues.value.amount"
+    }
+  ]
+}
+

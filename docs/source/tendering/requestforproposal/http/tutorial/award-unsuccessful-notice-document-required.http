@@ -1,0 +1,28 @@
+PATCH /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/awards/c0a45c00adaa490dafd6b7ee6f3329ef?acc_token=393a491380684a1b82995ce57d50794c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "unsuccessful"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "qualified",
+      "description": [
+        "Can't update award to unsuccessful status when qualified/eligible isn't set to False"
+      ]
+    }
+  ]
+}
+

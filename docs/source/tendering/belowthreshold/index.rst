@@ -10,4 +10,3 @@ Contents:
 
    inspector
    tutorial
-   multicurrency

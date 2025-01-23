@@ -20,11 +20,11 @@ from tests.base.data import (
     test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
-    test_docs_tender_below,
-    test_docs_tender_below_maximum,
     test_docs_tender_co,
     test_docs_tender_esco,
     test_docs_tender_open,
+    test_docs_tender_rfp,
+    test_docs_tender_rfp_maximum,
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
@@ -43,7 +43,6 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from openprocurement.tender.competitiveordering.tests.base import test_tender_co_config
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -60,6 +59,7 @@ from openprocurement.tender.open.tests.base import test_tender_open_config
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.openeu.tests.base import test_tender_openeu_config
 from openprocurement.tender.openeu.tests.periods import PERIODS
+from openprocurement.tender.requestforproposal.tests.base import test_tender_rfp_config
 
 TARGET_DIR = 'docs/source/tendering/config/http/'
 TARGET_JSON_DIR = 'docs/source/tendering/config/json/'
@@ -87,6 +87,7 @@ class TenderConfigCSVMixin:
             "priceQuotation",
             "reporting",
             "simple.defense",
+            "requestForProposal",
         ]
 
         headers = [
@@ -181,8 +182,8 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
-    initial_data = test_docs_tender_below
-    initial_config = test_tender_below_config
+    initial_data = test_docs_tender_rfp
+    initial_config = test_tender_rfp_config
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 
@@ -631,7 +632,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["hasAwardingOrder"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["awardCriteria"] = "lowestCost"
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
@@ -793,7 +794,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["hasAwardingOrder"] = False
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
@@ -957,7 +958,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["hasAwardingOrder"] = False
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_lots = deepcopy(test_docs_lots[:1])
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
@@ -1208,7 +1209,7 @@ class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
     def test_docs_lots_has_value_estimation_true(self):
         config = deepcopy(self.initial_config)
         config["hasValueEstimation"] = True
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = deepcopy(test_docs_items_open)
 
         with open(TARGET_DIR + 'has-value-estimation-true-tender-lots-post.http', 'w') as self.app.file_obj:
@@ -1242,7 +1243,7 @@ class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
         config["hasValueEstimation"] = False
         config["hasValueRestriction"] = False
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         with open(TARGET_DIR + 'has-value-estimation-false-tender-lots-post-invalid.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -1300,7 +1301,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["hasValueRestriction"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
@@ -1431,7 +1432,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["hasValueRestriction"] = False
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
@@ -1512,7 +1513,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["valueCurrencyEquality"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
         lot1['minimalStep'] = test_tender_data['minimalStep']
@@ -1652,7 +1653,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
             }
         )
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         del test_tender_data["minimalStep"]
         lot1 = deepcopy(test_docs_lots[0])
@@ -1780,7 +1781,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
-    initial_data = deepcopy(test_docs_tender_below)
+    initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_min_bids_number_values_csv(self):
         self.write_config_values_csv(
@@ -1948,7 +1949,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["minBidsNumber"] = 2
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data['items'] = deepcopy(test_docs_items_open)
 
         lot1 = deepcopy(test_docs_lots[0])
@@ -2069,8 +2070,8 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderComplainRegulationResourceTest(TenderConfigBaseResourceTest):
-    initial_data = deepcopy(test_docs_tender_below)
-    initial_config = deepcopy(test_tender_below_config)
+    initial_data = deepcopy(test_docs_tender_rfp)
+    initial_config = deepcopy(test_tender_rfp_config)
 
     def test_docs_tender_complain_regulation_values_csv(self):
         self.write_config_values_csv(
@@ -2894,7 +2895,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
-    initial_data = deepcopy(test_docs_tender_below)
+    initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_award_complain_duration_values_csv(self):
         self.write_config_values_csv(
@@ -2906,7 +2907,7 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["hasAwardingOrder"] = False
 
-        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data = deepcopy(test_docs_tender_rfp)
         test_lots = deepcopy(test_docs_lots[:1])
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
@@ -3040,7 +3041,7 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderCancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
-    initial_data = deepcopy(test_docs_tender_below)
+    initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_cancellation_complain_duration_values_csv(self):
         self.write_config_values_csv(
@@ -3186,7 +3187,7 @@ class TenderCancellationComplainDurationResourceTest(TenderConfigBaseResourceTes
 
 
 class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
-    initial_data = deepcopy(test_docs_tender_below)
+    initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_cancellation_complain_duration_values_csv(self):
         self.write_config_values_csv(
@@ -3398,13 +3399,13 @@ class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest)
         with open(TARGET_DIR + "clarification-until-duration-1-working-day.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': deepcopy(test_docs_tender_below_maximum), 'config': deepcopy(test_tender_below_config)},
+                {'data': deepcopy(test_docs_tender_rfp_maximum), 'config': deepcopy(test_tender_rfp_config)},
             )
             self.assertEqual(response.status, '201 Created')
             end_date = dt_from_iso(response.json["data"]['enquiryPeriod']['endDate'])
             expected_clarif_until = calculate_tender_full_date(
                 end_date,
-                datetime.timedelta(days=test_tender_below_config["clarificationUntilDuration"]),
+                datetime.timedelta(days=test_tender_rfp_config["clarificationUntilDuration"]),
                 tender=response.json["data"],
                 working_days=True,
             )

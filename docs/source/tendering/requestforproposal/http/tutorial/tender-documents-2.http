@@ -1,0 +1,57 @@
+GET /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/documents HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "confidentiality": "public",
+      "documentType": "notice",
+      "id": "de3138903e444a2181435a3b5efd912b",
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "sign.p7s",
+      "format": "sign/pkcs7-signature",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f98d671dccf847d29f7a0a6bbd3a847b?Signature=D%2Fc8yzHDEVur6Tl8QEcF0%2BiZtX42CUiVmVYzsyocRp90LxO5L65%2FqyzxkRVY50wkDAQwRJ010xsfshZhHJpvBQ%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
+      "confidentiality": "public",
+      "documentType": "technicalSpecifications",
+      "description": "змінений опис документа",
+      "description_en": "document description modified",
+      "relatedItem": "ffffffffffffffffffffffffffffffff",
+      "id": "0eb8412a31bf4fb495e2d50c6a0876d5",
+      "datePublished": "2023-10-10T01:00:01+03:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "Notice.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc867212802644aea197d58690d3ba5a?Signature=MtSkXRos1yrfdfBsgMVs8NAB4Wh%2F3OPVOFqVj5MdI%2BUj6iyTIMVI7fe6VbiXH3hp71yoRH90hxn6jwSEUdesDQ%3D%3D&KeyID=a8968c46",
+      "documentOf": "item",
+      "dateModified": "2023-10-10T01:03:03+03:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
+      "confidentiality": "public",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "AwardCriteria.pdf",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c9a7351bbd9c4577b75310df27591499?Signature=MunTW%2BVyETXx31v93sGhr6mh73PISFITfTGZpi50QbReHquPGEuZi04vK%2F9JcE45YC5McBK17PE%2FTSY6U%2FB%2BAQ%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "language": "uk",
+      "id": "fc20014ad6434b7b93c655c13b2f699a",
+      "datePublished": "2023-10-10T01:06:04+03:00",
+      "dateModified": "2023-10-10T01:06:04+03:00",
+      "author": "tender_owner"
+    }
+  ]
+}
+

@@ -882,3 +882,34 @@ test_docs_criterion_data = {
     ],
     "source": "tenderer",
 }
+
+
+test_docs_tender_rfp = {
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
+    "procuringEntity": test_docs_procuring_entity,
+    "value": {"amount": 500, "currency": "UAH"},
+    "minimalStep": {"amount": 15, "currency": "UAH"},
+    "items": test_docs_items,
+    "enquiryPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=7)).isoformat()},
+    "tenderPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=14)).isoformat()},
+    "procurementMethodType": "requestForProposal",
+    "milestones": test_tender_below_milestones,
+}
+
+test_docs_tender_rfp_maximum = {
+    "title": "футляри до державних нагород",
+    "title_en": "Cases with state awards",
+    "title_ru": "футляры к государственным наградам",
+    "procuringEntity": test_docs_procuring_entity,
+    "value": {"amount": 500, "currency": "UAH"},
+    "minimalStep": {"amount": 5, "currency": "UAH"},
+    "items": test_docs_items,
+    "enquiryPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=7)).isoformat()},
+    "tenderPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=14)).isoformat()},
+    "procurementMethodType": "requestForProposal",
+    "mode": "test",
+    "features": test_docs_features,
+    "milestones": test_tender_below_milestones,
+    "mainProcurementCategory": "services",
+}

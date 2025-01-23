@@ -112,7 +112,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "tenderPeriod": {
       "endDate": "2023-10-24T00:00:00+02:00"
     },
-    "procurementMethodType": "belowThreshold",
+    "procurementMethodType": "requestForProposal",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -170,10 +170,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
-    "qualificationComplainDuration": 10,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 2,
     "cancellationComplainDuration": 0,
-    "clarificationUntilDuration": 1,
+    "clarificationUntilDuration": 4,
     "qualificationDuration": 20,
     "restricted": false
   }
@@ -271,11 +271,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
-    "procurementMethodType": "belowThreshold",
+    "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
       "endDate": "2023-10-17T00:00:00+02:00",
       "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-19T00:00:00+03:00"
+      "clarificationsUntil": "2023-10-24T00:00:00+03:00"
     },
     "items": [
       {
@@ -377,10 +377,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
-    "qualificationComplainDuration": 10,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 2,
     "cancellationComplainDuration": 0,
-    "clarificationUntilDuration": 1,
+    "clarificationUntilDuration": 4,
     "qualificationDuration": 20,
     "restricted": false
   },

@@ -69,7 +69,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "tenderPeriod": {
       "endDate": "2023-10-24T00:00:00+02:00"
     },
-    "procurementMethodType": "belowThreshold",
+    "procurementMethodType": "requestForProposal",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -110,10 +110,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
-    "qualificationComplainDuration": 10,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 2,
     "cancellationComplainDuration": 0,
-    "clarificationUntilDuration": 1,
+    "clarificationUntilDuration": 4,
     "qualificationDuration": 20,
     "restricted": false
   }

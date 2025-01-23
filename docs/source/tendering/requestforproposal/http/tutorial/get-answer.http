@@ -1,0 +1,23 @@
+GET /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/questions/18aed6d02f154d56b9784733349f80f0 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "18aed6d02f154d56b9784733349f80f0",
+    "author": {
+      "hash": "1aed9a553aa8fab0177d7427516aa4fe"
+    },
+    "title": "Калорійність",
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
+    "date": "2023-10-10T01:10:05+03:00",
+    "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+    "questionOf": "tender",
+    "dateAnswered": "2023-10-10T01:10:05+03:00"
+  }
+}
+

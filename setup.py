@@ -60,6 +60,7 @@ entry_points = {
         "tender.cfaselectionua = openprocurement.tender.cfaselectionua.includeme:includeme",
         "tender.pricequotation = openprocurement.tender.pricequotation.includeme:includeme",
         "tender.simpledefense = openprocurement.tender.simpledefense.includeme:includeme",
+        "tender.requestforproposal = openprocurement.tender.requestforproposal.includeme:includeme",
     ],
     "openprocurement.historical.core.plugins": [
         "historical.tender = openprocurement.historical.tender.includeme:includeme",

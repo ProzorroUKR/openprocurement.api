@@ -870,17 +870,17 @@ def create_plan_invalid_procuring_entity(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-
     self.assertEqual(
         response.json["errors"],
         [
             {
-                "description": (
-                    "procuringEntity with general kind cannot publish this type of procedure. Procurement "
-                    "method types allowed for this kind: centralizedProcurement, belowThreshold, aboveThreshold, "
-                    "aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, esco, "
-                    "closeFrameworkAgreementUA, priceQuotation, reporting, negotiation, negotiation.quick."
-                ),
+                'description': 'procuringEntity with general kind cannot publish this type '
+                'of procedure. Procurement method types allowed for this '
+                'kind: centralizedProcurement, belowThreshold, '
+                'aboveThreshold, aboveThresholdUA, aboveThresholdEU, '
+                'competitiveDialogueUA, competitiveDialogueEU, esco, '
+                'closeFrameworkAgreementUA, requestForProposal, '
+                'priceQuotation, reporting, negotiation, negotiation.quick.',
                 'location': 'body',
                 'name': 'kind',
             }

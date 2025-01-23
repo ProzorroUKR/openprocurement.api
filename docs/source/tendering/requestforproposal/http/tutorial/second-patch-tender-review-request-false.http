@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/977d8a4eb3e440b3acdc8a7f39b7c764/review_requests/0b98081079674cf1834f21d5e0e3d3ac HTTP/1.0
+Authorization: Bearer inspector
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "approved": true
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Disallowed re-patching review request"
+    }
+  ]
+}
+

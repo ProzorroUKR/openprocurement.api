@@ -662,7 +662,17 @@ def patch_tender_with_bids_lots_none(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": None}}, status=422
     )
-    self.assertEqual(response.json["errors"], [{"location": "body", "name": "lots", "description": "Rogue field"}])
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "milestones", "description": ["relatedLot should be one of the lots."]},
+            {
+                "location": "body",
+                "name": "items",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+            },
+        ],
+    )
 
 
 def patch_tender_lot_values_any_order(self):

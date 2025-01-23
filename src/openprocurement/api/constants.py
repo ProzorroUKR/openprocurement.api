@@ -35,6 +35,7 @@ GUARANTEE_ALLOWED_TENDER_TYPES = (
     "competitiveDialogueEU.stage2",
     "closeFrameworkAgreementUA",
     "closeFrameworkAgreementSelectionUA",
+    "requestForProposal",
 )
 
 BID_REQUIRED_ITEMS_TENDER_TYPES = (
@@ -51,6 +52,7 @@ BID_REQUIRED_ITEMS_TENDER_TYPES = (
     "closeFrameworkAgreementSelectionUA",
     "esco",
     "priceQuotation",
+    "requestForProposal",
 )
 
 WORKING_DAYS = {}
@@ -135,6 +137,7 @@ TENDER_CONFIG_JSONSCHEMAS = {
     "priceQuotation": standards.load("data_model/schema/TenderConfig/priceQuotation.json"),
     "reporting": standards.load("data_model/schema/TenderConfig/reporting.json"),
     "simple.defense": standards.load("data_model/schema/TenderConfig/simple.defense.json"),
+    "requestForProposal": standards.load("data_model/schema/TenderConfig/requestForProposal.json"),
 }
 
 FRAMEWORK_CONFIG_JSONSCHEMAS = {

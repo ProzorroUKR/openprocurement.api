@@ -18,6 +18,7 @@ Example tutorials:
 
 Standard rules:
     * :ref:`competitiveordering` → :ref:`competitiveordering_tutorial`
+    * :ref:`requestforproposal` → :ref:`requestforproposal_tutorial`
 
 Special rules:
     * :ref:`cfaselectionua` → :ref:`cfaselection_tutorial`

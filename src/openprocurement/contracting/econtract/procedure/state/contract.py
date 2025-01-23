@@ -11,6 +11,7 @@ from openprocurement.api.utils import (
     raise_operation_error,
 )
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
+from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     IgnoredClaimMixing,
 )
@@ -26,6 +27,7 @@ from openprocurement.tender.esco.procedure.state.contract import ESCOContractSta
 from openprocurement.tender.limited.procedure.state.contract import (
     LimitedContractStateMixing,
 )
+from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
 LOGGER = getLogger(__name__)
 
@@ -61,7 +63,7 @@ class EContractState(
 
         if tender_type == "closeFrameworkAgreementSelectionUA":
             complaint_status = ("answered", "pending")
-        elif tender_type == "belowThreshold":
+        elif tender_type in (BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL):
             complaint_status = ()
 
         return complaint_status
@@ -112,6 +114,7 @@ class EContractState(
             "reporting": self.check_reporting_tender_status_method,
             "negotiation": self.check_negotiation_tender_status_method,
             "negotiation.quick": self.check_negotiation_tender_status_method,
+            REQUEST_FOR_PROPOSAL: self.check_belowtreshold_status_method,
         }
         tender_type = self.request.validated["tender"]["procurementMethodType"]
         tender_status_method = tender_status_methods.get(tender_type, super().check_tender_status_method)
@@ -134,6 +137,7 @@ class EContractState(
             "esco",
             "competitiveDialogueEU.stage2",
             "competitiveDialogueUA.stage2",
+            REQUEST_FOR_PROPOSAL,
         ):
             self.validate_threshold_contract(request, before, after)
         elif tender_type in ("negotiation", "negotiation.quick"):

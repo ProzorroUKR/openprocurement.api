@@ -72,11 +72,11 @@ Content-Type: application/json
         "sequenceNumber": 2
       }
     ],
-    "procurementMethodType": "belowThreshold",
+    "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
       "endDate": "2023-10-17T00:00:00+02:00",
       "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-19T00:00:00+03:00"
+      "clarificationsUntil": "2023-10-24T00:00:00+03:00"
     },
     "items": [
       {
@@ -197,10 +197,10 @@ Content-Type: application/json
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
-    "qualificationComplainDuration": 10,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 2,
     "cancellationComplainDuration": 0,
-    "clarificationUntilDuration": 1,
+    "clarificationUntilDuration": 4,
     "qualificationDuration": 20,
     "restricted": false
   }

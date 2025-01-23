@@ -1,0 +1,167 @@
+POST /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Львів",
+          "postalCode": "79013",
+          "region": "Львівська область",
+          "streetAddress": "вул. Островського, 34"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "name": "Андрій Олексюк",
+          "telephone": "+380322916930"
+        },
+        "identifier": {
+          "scheme": "UA-IPN",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "id": "12345678",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»",
+        "scale": "sme"
+      }
+    ],
+    "documents": [
+      {
+        "title": "Proposal_part1.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/deac80b383ff42fda5cfcdd724525b10?Signature=7P1EB%2FQi8l%2Bd5w2BkbUwjnyrcFMJCNeDOJDUM7IWzOoDxGqWqpN8Ve3PCz5aJkNWquLEwiYEaJ1Cg58FpK3OBg%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      },
+      {
+        "title": "Proposal_part2.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9a280ea4d55b488cb4a2fe24ca2b23a0?Signature=cjXYUD21PnQ1RhZ3YxmDzAuIvI23E1nWXGWO%2BZTK6eJjyi9l2wn4NjXl9pENKYTzYWV%2FzbJs%2Bkhc%2BASTzv7OBg%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf",
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Only our company sells badgers with pink hair."
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499
+        },
+        "relatedLot": "880b8274983b40cfa8455e8e3d82bb70"
+      }
+    ],
+    "items": [
+      {
+        "quantity": 5,
+        "description": "папір",
+        "id": "ffffffffffffffffffffffffffffffff",
+        "unit": {
+          "code": "KGM",
+          "value": {
+            "amount": 0.6,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/bids/c9c4aaf7df5e4f5dacb4a02c06e28913
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "12345678",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930"
+        },
+        "scale": "sme"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "880b8274983b40cfa8455e8e3d82bb70",
+        "date": "2023-10-16T01:15:06+03:00"
+      }
+    ],
+    "status": "draft",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part1.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/deac80b383ff42fda5cfcdd724525b10?Signature=29nICiPxbfTuyFCt%2FRxEi7iH%2Fj1Ax%2BmRjAnJFyzSxXr8YKhdwaKulPnB8Ocd8%2B19ptzalZSdFUVQP%2FeRAomPBQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "612d99bbe3b140cfb36debd5959ff4bb",
+        "datePublished": "2023-10-16T01:15:06+03:00",
+        "dateModified": "2023-10-16T01:15:06+03:00"
+      },
+      {
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Only our company sells badgers with pink hair.",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part2.pdf",
+        "format": "application/pdf",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "0498e88100a04d8186522db70e752ded",
+        "datePublished": "2023-10-16T01:15:06+03:00",
+        "dateModified": "2023-10-16T01:15:06+03:00"
+      }
+    ],
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "папір",
+        "unit": {
+          "value": {
+            "amount": 0.6,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ],
+    "id": "c9c4aaf7df5e4f5dacb4a02c06e28913",
+    "date": "2023-10-16T01:15:06+03:00"
+  },
+  "access": {
+    "token": "db0c253d0e7b4629a3a71227034d0ee0",
+    "transfer": "9be7fa6a5e5548c7b4dd45bb233655ff"
+  }
+}
+
