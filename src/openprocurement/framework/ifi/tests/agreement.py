@@ -5,7 +5,6 @@ from openprocurement.framework.dps.tests.agreement_blanks import (
     agreement_chronograph_milestones,
     change_agreement,
     create_agreement,
-    create_agreement_config_restricted,
     create_agreement_config_test,
     create_milestone_document_forbidden,
     create_milestone_document_json_bulk,
@@ -61,7 +60,6 @@ class TestAgreementCreation(QualificationContentWebTest):
 
     test_create_agreement = snitch(create_agreement)
     test_create_agreement_config_test = snitch(create_agreement_config_test)
-    test_create_agreement_config_restricted = snitch(create_agreement_config_restricted)
 
 
 class TestAgreementChanges(AgreementContentWebTest):
