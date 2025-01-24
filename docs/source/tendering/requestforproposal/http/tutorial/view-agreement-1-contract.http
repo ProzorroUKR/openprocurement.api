@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/5f21fdefbd1e40e78262f8c6476168a2 HTTP/1.0
+GET /api/2.5/agreements/144de8e79e64488a967c57cebaacb0d3 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2023-10-10-000001",
-    "frameworkID": "b2ec1da4f32c49c98fc6554e35278f59",
+    "frameworkID": "5bbf44a4849d4cb8a80c469d8d91231e",
     "agreementType": "internationalFinancialInstitutions",
     "status": "active",
     "period": {
@@ -51,9 +51,9 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "49003c4eb02d4b1188d5bf0b1e49b6aa",
-        "qualificationID": "09130e05ad0649ab8e76d8fd7659c857",
-        "submissionID": "41d0b71b692b4cc99071c9dc218b423b",
+        "id": "0024966553564a8f812f84689d34148c",
+        "qualificationID": "da120b087f8c42f18d4c12b374cdf2eb",
+        "submissionID": "78e643e7c5c94f6c9e686ffa9c723713",
         "status": "active",
         "suppliers": [
           {
@@ -84,7 +84,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "96c3767919e74a6fb508948a3fbc9c75",
+            "id": "00464c7636ce464bb05b8504af6f9d9b",
             "status": "scheduled",
             "type": "activation",
             "dueDate": "2024-02-07T01:00:00+03:00",
@@ -94,9 +94,9 @@ Content-Type: application/json
         "date": "2023-10-10T01:00:00+03:00"
       },
       {
-        "id": "e772317514a847cfb8f5f1dec21ce4f4",
-        "qualificationID": "e7a4daf1cc144e838dbf4e276eed2e25",
-        "submissionID": "852a958708ad428b8f47b937e5d6bcb8",
+        "id": "71493e93a3804e8b8c23cfcc21d838cf",
+        "qualificationID": "93225b64f2dc409292bfe706bf11b712",
+        "submissionID": "73c23c0a23454500a3a406ef0b592b69",
         "status": "active",
         "suppliers": [
           {
@@ -127,7 +127,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "bb63206037af4fd2b1f029b3b2ccbacb",
+            "id": "f09b253e29ee403a93db4be0fc9c4d54",
             "status": "scheduled",
             "type": "activation",
             "dueDate": "2024-02-07T01:00:00+03:00",
@@ -137,9 +137,9 @@ Content-Type: application/json
         "date": "2023-10-10T01:00:00+03:00"
       },
       {
-        "id": "079191d8e2d84dada4bf4e0bca171ec7",
-        "qualificationID": "d7c525592ced482286db70bdf10926dc",
-        "submissionID": "76db0e669da7454d8d5af3780925d80b",
+        "id": "a4ff7ab0a7794f20af93e8f54678b8f6",
+        "qualificationID": "1de5a50bb22b483baf5812ade87f8d0a",
+        "submissionID": "65b9f9a60a1d4d82998ca065a810da81",
         "status": "active",
         "suppliers": [
           {
@@ -170,7 +170,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "0f7d07dbf2e140a69d04d59902095f1e",
+            "id": "6cb16718fd5c44beb4a3d0fc3a6323ed",
             "status": "scheduled",
             "type": "activation",
             "dueDate": "2024-02-07T01:00:00+03:00",
@@ -185,7 +185,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "next_check": "2024-02-07T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "id": "5f21fdefbd1e40e78262f8c6476168a2"
+    "id": "144de8e79e64488a967c57cebaacb0d3"
   },
   "config": {
     "restricted": false

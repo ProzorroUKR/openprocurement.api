@@ -34,9 +34,6 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
         self.tearDownMock()
         super().tearDown()
 
-    def create_framework(self):
-        pass
-
     def test_docs(self):
         self.app.authorization = ('Basic', ('broker', ''))
         # empty frameworks listing

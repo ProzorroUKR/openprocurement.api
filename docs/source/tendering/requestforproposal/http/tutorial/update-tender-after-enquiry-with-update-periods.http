@@ -130,7 +130,7 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "agreements": [
       {
-        "id": "5f21fdefbd1e40e78262f8c6476168a2"
+        "id": "144de8e79e64488a967c57cebaacb0d3"
       }
     ],
     "procurementMethod": "selective",

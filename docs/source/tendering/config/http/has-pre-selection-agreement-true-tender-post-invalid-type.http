@@ -1,0 +1,150 @@
+POST /api/2.5/tenders HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "kind": "general",
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "name": "Державне управління справами"
+    },
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
+    },
+    "items": [
+      {
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "description": "Послуги шкільних їдалень",
+        "deliveryDate": {
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
+        },
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "id": "03111600-8",
+          "scheme": "ДК021"
+        },
+        "unit": {
+          "code": "KGM",
+          "name": "папір",
+          "value": {
+            "amount": 10
+          }
+        },
+        "quantity": 1
+      }
+    ],
+    "enquiryPeriod": {
+      "endDate": "2023-10-17T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2023-10-24T00:00:00+02:00"
+    },
+    "procurementMethodType": "requestForProposal",
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 1,
+        "percentage": 45.55
+      },
+      {
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2,
+        "percentage": 54.45
+      }
+    ],
+    "agreements": [
+      {
+        "id": "514d764704784304906b25138785146c"
+      }
+    ]
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": true,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 2,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 4,
+    "qualificationDuration": 20,
+    "restricted": false
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "agreements",
+      "description": "Agreement type mismatch."
+    }
+  ]
+}
+

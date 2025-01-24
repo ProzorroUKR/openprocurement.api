@@ -1,4 +1,4 @@
-.. _inspector_tutorial:
+.. _requestforproposal_inspector_tutorial:
 
 
 Tender Inspector Tutorial

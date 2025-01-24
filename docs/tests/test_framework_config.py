@@ -112,9 +112,6 @@ class FrameworkConfigBaseResouceTest(BaseFrameworkWebTest, MockWebTestMixin, Fra
         self.tearDownMock()
         super().tearDown()
 
-    def create_framework(self):
-        pass
-
     def test_docs_restricted_submission_mask_mapping_csv(self):
         self.write_config_mask_csv(
             mapping=SUBMISSION_MASK_MAPPING,

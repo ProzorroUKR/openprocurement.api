@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/01278dd733b64ae78c8370b5b14a3374 HTTP/1.0
+GET /api/2.5/agreements/53179c8e9b7f40699828faa144cd4f7c HTTP/1.0
 Authorization: Bearer brokerr
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -51,9 +51,9 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "8518a2421cf7464e99c6747919430f2d",
-        "qualificationID": "263c71b3cf604c1b819747a3fde6bb48",
-        "submissionID": "4e4ee965969a40109d28a95168be78e1",
+        "id": "b68dbac1cb764c26b721248d7c0fa580",
+        "qualificationID": "670f61175e264618a43b8a4bf7713f07",
+        "submissionID": "158e08f58c8e46b2b069ea3d10b92fde",
         "status": "active",
         "suppliers": [
           {
@@ -84,7 +84,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "7498ff6c14ac4802bf3457734f0882e4",
+            "id": "149e891b6d564af98aba0a11bb624bdc",
             "status": "scheduled",
             "type": "activation",
             "dueDate": "2023-12-09T01:00:00+03:00",
@@ -138,7 +138,7 @@ Content-Type: application/json
     ],
     "next_check": "2023-12-09T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "id": "01278dd733b64ae78c8370b5b14a3374"
+    "id": "53179c8e9b7f40699828faa144cd4f7c"
   },
   "config": {
     "restricted": false

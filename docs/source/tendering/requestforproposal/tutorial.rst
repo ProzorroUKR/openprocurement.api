@@ -1,4 +1,4 @@
-.. _tutorial:
+.. _requestforproposal_tutorial:
 
 Tutorial
 ========
@@ -21,7 +21,7 @@ You can look for more details in :ref:`config` section.
 Tender with inspector
 ---------------------
 
-You can get info here: :ref:`inspector_tutorial`
+You can get info here: :ref:`requestforproposal_inspector_tutorial`
 
 Creating tender
 ---------------
@@ -161,7 +161,6 @@ That is why tenderPeriod has to be extended by minimum 2 days.
 
 
 .. index:: Document
-.. _bt-documents-tutorial:
 
 Uploading documentation
 -----------------------

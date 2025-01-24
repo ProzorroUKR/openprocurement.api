@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/ff788b3d362643e58c3ea3553e4555e5 HTTP/1.0
+GET /api/2.5/frameworks/a60d073eaaa043d2b0fb20bdde5bba05 HTTP/1.0
 Authorization: Bearer token
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -30,7 +30,7 @@ Content-Type: application/json
     "dateModified": "2023-01-16T00:00:00+02:00",
     "qualificationPeriod": {
       "endDate": "2023-05-01T00:00:00+02:00",
-      "startDate": "2022-12-31T23:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00"
     },
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {
@@ -55,17 +55,17 @@ Content-Type: application/json
       "kind": "central"
     },
     "enquiryPeriod": {
-      "startDate": "2022-12-31T23:00:00+02:00",
+      "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-14T00:00:00+02:00",
       "clarificationsUntil": "2023-01-19T00:00:00+02:00"
     },
     "period": {
-      "startDate": "2022-12-31T23:00:00+02:00",
+      "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-04-01T00:00:00+03:00"
     },
     "next_check": "2023-01-28T00:00:00+02:00",
     "agreementID": "6a527caaceb94ad398f77579768a6d67",
-    "id": "ff788b3d362643e58c3ea3553e4555e5"
+    "id": "a60d073eaaa043d2b0fb20bdde5bba05"
   },
   "config": {
     "clarificationUntilDuration": 3,

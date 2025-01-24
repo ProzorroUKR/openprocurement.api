@@ -1,4 +1,4 @@
-.. _cdb_documentation:
+.. _cdb_code:
 
 Python linter and code formatters
 =================================

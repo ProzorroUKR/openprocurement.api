@@ -2,12 +2,10 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from freezegun import freeze_time
-
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest, change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.framework.core.tests.base import BaseCoreWebTest
+from openprocurement.framework.core.tests.base import BaseFrameworkCoreWebTest
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.framework import Framework
 from openprocurement.framework.dps.tests.periods import PERIODS
@@ -148,7 +146,7 @@ class BaseApiWebTest(BaseWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
 
-class BaseFrameworkWebTest(BaseCoreWebTest):
+class BaseFrameworkWebTest(BaseFrameworkCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_dps_data
     initial_config = test_framework_dps_config
@@ -158,32 +156,6 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
     framework_type = DPS_TYPE
     periods = PERIODS
 
-    def create_framework(self, data=None, config=None):
-        data = data if data is not None else deepcopy(self.initial_data)
-        config = config if config is not None else deepcopy(self.initial_config)
-
-        response = self.app.post_json(
-            "/frameworks",
-            {
-                "data": data,
-                "config": config,
-            },
-        )
-        self.framework_token = response.json["access"]["token"]
-        self.framework_id = response.json["data"]["id"]
-        self.assertEqual(response.json["data"]["frameworkType"], self.framework_type)
-        return response
-
-    def activate_framework(self):
-        with freeze_time((get_now() - timedelta(hours=1)).isoformat()):
-            response = self.app.patch_json(
-                "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
-                {"data": {"status": "active"}},
-            )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["frameworkType"], self.framework_type)
-        return response
-
     def save_changes(self):
         if self.framework_document_patch:
             patch = apply_data_patch(self.framework_document, self.framework_document_patch)
@@ -191,15 +163,6 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
             self.mongodb.frameworks.save(self.framework_document)
             self.framework_document = self.mongodb.frameworks.get(self.framework_id)
             self.framework_document_patch = {}
-
-    def get_submission(self, role):
-        with change_auth(self.app, ("Basic", (role, ""))):
-            url = "/submissions/{}".format(self.submission_id)
-            response = self.app.get(url)
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
-            self.assertEqual(response.json["data"]["submissionType"], self.framework_type)
-        return response
 
     def set_submission_status(self, status, extra=None):
         self.now = get_now()
@@ -218,57 +181,6 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
             self.submission_document = self.mongodb.submissions.get(self.submission_id)
             self.submission_document_patch = {}
 
-    def create_submission(self, data=None, config=None, status=201):
-        data = data if data is not None else deepcopy(self.initial_submission_data)
-        config = config if config is not None else deepcopy(self.initial_submission_config)
-        data["frameworkID"] = self.framework_id
-        response = self.app.post_json(
-            "/submissions",
-            {
-                "data": data,
-                "config": config,
-            },
-            status=status,
-        )
-        if status == 201:
-            self.submission_id = response.json["data"]["id"]
-            self.submission_token = response.json["access"]["token"]
-            self.assertEqual(response.json["data"]["submissionType"], self.framework_type)
-        return response
-
-    def activate_submission(self):
-        response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["submissionType"], self.framework_type)
-        self.qualification_id = response.json["data"]["qualificationID"]
-        return response
-
-    def activate_qualification(self, qualification_id=None):
-        qual_id = qualification_id or self.qualification_id
-        response = self.app.post_json(
-            "/qualifications/{}/documents?acc_token={}".format(qual_id, self.framework_token),
-            {
-                "data": {
-                    "title": "sign.p7s",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pkcs7-signature",
-                    "documentType": "evaluationReports",
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
-        response = self.app.patch_json(
-            f"/qualifications/{qual_id}?acc_token={self.framework_token}",
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["qualificationType"], self.framework_type)
-        return response
-
     def set_agreement_status(self, status, extra=None):
         self.now = get_now()
         self.agreement_document = self.mongodb.agreements.get(self.agreement_id)
@@ -285,15 +197,6 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
             self.mongodb.agreements.save(self.agreement_document)
             self.agreement_document = self.mongodb.agreements.get(self.agreement_id)
             self.agreement_document_patch = {}
-
-    def get_agreement(self, role=None):
-        with change_auth(self.app, self.get_auth(role)):
-            url = "/agreements/{}".format(self.agreement_id)
-            response = self.app.get(url)
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
-            self.assertEqual(response.json["data"]["agreementType"], self.framework_type)
-        return response
 
     def set_contract_status(self, status):
         self.now = get_now()

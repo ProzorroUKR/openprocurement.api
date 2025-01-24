@@ -20,6 +20,8 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
+from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.framework.ifi.tests.base import (
     test_framework_ifi_config,
     test_framework_ifi_data,
@@ -45,7 +47,12 @@ TARGET_DIR = 'docs/source/tendering/requestforproposal/http/'
 TARGET_CSV_DIR = 'docs/source/tendering/requestforproposal/csv/'
 
 
-class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
+class TenderResourceTest(
+    BaseTenderWebTest,
+    MockWebTestMixin,
+    FrameworkActionsTestMixin,
+    TenderConfigCSVMixin,
+):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -53,6 +60,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
     initial_bids = test_tender_rfp_bids
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
+    framework_type = IFI_TYPE
 
     def setUp(self):
         super().setUp()
@@ -67,82 +75,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             pmt="requestForProposal",
             file_path=TARGET_CSV_DIR + "config.csv",
         )
-
-    def create_framework(self, data=None, config=None):
-        data = data or deepcopy(test_framework_ifi_data)
-        config = config or deepcopy(test_framework_ifi_config)
-        data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=120)).isoformat()}
-        response = self.app.post_json(
-            "/frameworks",
-            {
-                "data": data,
-                "config": config,
-            },
-        )
-        self.framework_token = response.json["access"]["token"]
-        self.framework_id = response.json["data"]["id"]
-        return response
-
-    def get_framework(self):
-        url = "/frameworks/{}".format(self.framework_id)
-        response = self.app.get(url)
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        return response
-
-    def activate_framework(self):
-        response = self.app.patch_json(
-            "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        return response
-
-    def create_submission(self, identifier=uuid4().hex):
-        data = deepcopy(test_submission_data)
-        data["frameworkID"] = self.framework_id
-        data["tenderers"][0]["identifier"]["id"] = identifier
-        self.tenderer = data["tenderers"][0]
-        response = self.app.post_json(
-            "/submissions",
-            {
-                "data": data,
-                "config": test_submission_config,
-            },
-        )
-        self.submission_id = response.json["data"]["id"]
-        self.submission_token = response.json["access"]["token"]
-        return response
-
-    def activate_submission(self):
-        response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.qualification_id = response.json["data"]["qualificationID"]
-        return response
-
-    def activate_qualification(self):
-        response = self.app.post_json(
-            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            {
-                "data": {
-                    "title": "sign.p7s",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pkcs7-signature",
-                    "documentType": "evaluationReports",
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
-        response = self.app.patch_json(
-            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        return response
 
     def test_docs_2pc(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -194,18 +126,31 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Create agreement
 
-        self.create_framework()
+        framework_data = deepcopy(test_framework_ifi_data)
+        framework_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=120)).isoformat()}
+        framework_config = deepcopy(test_framework_ifi_config)
+
+        self.create_framework(data=framework_data, config=framework_config)
         self.activate_framework()
 
-        self.create_submission(identifier="12345678")
+        submission_data = deepcopy(test_submission_data)
+        submission_data["tenderers"][0]["identifier"]["id"] = "12345678"
+        submission_config = deepcopy(test_submission_config)
+        self.create_submission(data=submission_data, config=submission_config)
         self.activate_submission()
         self.activate_qualification()
 
-        self.create_submission(identifier="12345679")
+        submission_data = deepcopy(test_submission_data)
+        submission_data["tenderers"][0]["identifier"]["id"] = "12345679"
+        submission_config = deepcopy(test_submission_config)
+        self.create_submission(data=submission_data, config=submission_config)
         self.activate_submission()
         self.activate_qualification()
 
-        self.create_submission(identifier="12345671")
+        submission_data = deepcopy(test_submission_data)
+        submission_data["tenderers"][0]["identifier"]["id"] = "12345671"
+        submission_config = deepcopy(test_submission_config)
+        self.create_submission(data=submission_data, config=submission_config)
         self.activate_submission()
         self.activate_qualification()
 
