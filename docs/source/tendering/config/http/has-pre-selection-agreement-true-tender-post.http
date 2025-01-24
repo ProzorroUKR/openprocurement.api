@@ -1,4 +1,4 @@
-POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+POST /api/2.5/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -19,25 +19,25 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "amount": 500
     },
     "procuringEntity": {
-      "kind": "special",
-      "address": {
-        "countryName": "Україна",
-        "locality": "м. Вінниця",
-        "postalCode": "21027",
-        "region": "Вінницька область",
-        "streetAddress": "вул. Стахурського. 22"
-      },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
       },
       "identifier": {
+        "scheme": "UA-EDR",
         "id": "00037256",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "scheme": "UA-EDR"
+        "legalName": "Назва організації"
       },
-      "name": "ЗОСШ #10 м.Вінниці"
+      "kind": "general",
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "name": "Державне управління справами"
     },
     "items": [
       {
@@ -50,8 +50,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -72,8 +72,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "amount": 10
           }
         },
-        "quantity": 1,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "quantity": 1
       }
     ],
     "milestones": [
@@ -87,8 +86,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "percentage": 45.55,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "percentage": 45.55
       },
       {
         "title": "deliveryOfGoods",
@@ -99,29 +97,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "percentage": 54.45,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "percentage": 54.45
       }
     ],
     "mainProcurementCategory": "services",
     "agreements": [
       {
-        "id": "5fc0128d227246bb93babd98a94f0ba0"
-      }
-    ],
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "value": {
-          "currency": "UAH",
-          "amount": 500
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "amount": 5
-        },
-        "id": "0e04ecea261746bc8fbcced833cde77c"
+        "id": "514d764704784304906b25138785146c"
       }
     ]
   },
@@ -151,7 +133,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994
 
 {
   "data": {
@@ -159,7 +141,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
     "title": "футляри до державних нагород",
     "agreements": [
       {
-        "id": "5fc0128d227246bb93babd98a94f0ba0"
+        "id": "514d764704784304906b25138785146c"
       }
     ],
     "value": {
@@ -168,29 +150,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
       "amount": 500.0
     },
     "minimalStep": {
-      "amount": 5.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 5.0
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "id": "0e04ecea261746bc8fbcced833cde77c",
-        "status": "active",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "minimalStep": {
-          "amount": 5.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "date": "2023-10-10T01:00:00+03:00"
-      }
-    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -202,11 +165,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 1,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "sequenceNumber": 1
       },
       {
-        "id": "aede98af4b7147d7a7192ee112cd0ade",
+        "id": "ad63536cbc0d4fd8b7c49031d56cd337",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -215,30 +177,29 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 2,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "sequenceNumber": 2
       }
     ],
     "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
+      "name": "Державне управління справами",
       "identifier": {
         "scheme": "UA-EDR",
         "id": "00037256",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+        "legalName": "Назва організації"
       },
       "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "name": "Державне управління справами",
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
       },
-      "kind": "special"
+      "kind": "general"
     },
     "status": "draft",
     "procurementMethodType": "competitiveOrdering",
@@ -249,7 +210,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
     },
     "items": [
       {
-        "id": "097876a4ccce409e85ad30246cb689af",
+        "id": "c5b0023de71046108dde1a721e00de87",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -273,10 +234,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c",
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -299,7 +259,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "eedf00bccdb24a20b547ba72173a8d35"
+    "id": "38bca89f7ba4477d97f553d576fd6994"
   },
   "config": {
     "hasAuction": true,
@@ -323,8 +283,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
     "restricted": false
   },
   "access": {
-    "token": "c782381dc42044419e7b795dac6655ef",
-    "transfer": "c778d957e2b64f99bc7f4f9dbc20def2"
+    "token": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+    "transfer": "af1e4a374fe0437f9b6d522c0e415a6e"
   }
 }
 

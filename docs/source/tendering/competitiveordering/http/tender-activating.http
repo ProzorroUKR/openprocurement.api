@@ -673,7 +673,7 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "agreements": [
       {
-        "id": "567bbf54067e4d2094dec43e56743b59"
+        "id": "5fc0128d227246bb93babd98a94f0ba0"
       }
     ],
     "procurementMethod": "selective",

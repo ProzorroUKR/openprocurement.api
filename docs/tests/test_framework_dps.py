@@ -19,7 +19,7 @@ TARGET_DIR = 'docs/source/frameworks/dps/tutorial/'
 test_framework_dps_data = deepcopy(test_framework_dps_data)
 
 
-class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
+class FrameworkDPSResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_dps_data
@@ -33,9 +33,6 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super().tearDown()
-
-    def create_framework(self):
-        pass
 
     def test_docs(self):
         self.app.authorization = ('Basic', ('broker', ''))

@@ -1,0 +1,42 @@
+@startuml tender_agreement_relations
+
+' ===== Settings =====
+
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 90
+skinparam padding 2
+skinparam defaultTextAlignment center
+
+' ===== Palette =====
+
+!define LIGHT_BLUE #ADD8E6
+!define LIGHT_GREEN #90EE90
+
+' ===== Components =====
+
+' Agreement Types
+package "agreementType" as agreementType {
+    rectangle "closeFrameworkAgreement" as agreementType_closeFrameworkAgreement LIGHT_GREEN
+    rectangle "dynamicPurchasingSystem" as agreementType_dynamicPurchasingSystem LIGHT_GREEN
+    rectangle "electronicCatalogue" as agreementType_electronicCatalogue LIGHT_GREEN
+    rectangle "internationalFinancialInstitutions" as agreementType_internationalFinancialInstitutions LIGHT_GREEN
+}
+
+' Procurement Method Types
+package "procurementMethodType" as procurementMethodType {
+    rectangle "closeFrameworkAgreementSelectionUA" as procurementMethodType_closeFrameworkAgreementSelectionUA LIGHT_BLUE
+    rectangle "priceQuotation" as procurementMethodType_priceQuotation LIGHT_BLUE
+    rectangle "competitiveOrdering" as procurementMethodType_competitiveOrdering LIGHT_BLUE
+    rectangle "requestForProposal" as procurementMethodType_requestForProposal LIGHT_BLUE
+}
+
+' ===== Connections =====
+
+agreementType_closeFrameworkAgreement <-- procurementMethodType_closeFrameworkAgreementSelectionUA
+agreementType_dynamicPurchasingSystem <-- procurementMethodType_competitiveOrdering
+agreementType_dynamicPurchasingSystem <-- procurementMethodType_priceQuotation
+agreementType_electronicCatalogue <-- procurementMethodType_priceQuotation
+agreementType_internationalFinancialInstitutions <-- procurementMethodType_requestForProposal
+
+@enduml

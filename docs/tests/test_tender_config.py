@@ -37,6 +37,8 @@ from openprocurement.contracting.econtract.tests.data import (
     test_signer_info,
 )
 from openprocurement.contracting.econtract.tests.utils import create_contract
+from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
+from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_config,
     test_framework_dps_data,
@@ -2169,12 +2171,77 @@ class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
         )
 
 
-class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest):
+class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest, FrameworkActionsTestMixin):
+    framework_type = DPS_TYPE
+
     def test_docs_has_pre_selection_agreement_values_csv(self):
         self.write_config_values_csv(
             config_name="hasPreSelectionAgreement",
             file_path=TARGET_CSV_DIR + "has-pre-selection-agreement-values.csv",
         )
+
+    def test_docs_has_pre_selection_agreement(self):
+        set_now()
+
+        framework_data = deepcopy(test_framework_dps_data)
+        framework_data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
+        self.create_framework(data=test_framework_dps_data, config=test_framework_dps_config)
+        self.activate_framework()
+
+        submission_data_1 = deepcopy(test_submission_data)
+        submission_data_1["tenderers"][0]["identifier"]["id"] = uuid4().hex
+        self.create_submission(data=submission_data_1, config=test_submission_config)
+        self.activate_submission()
+        self.activate_qualification()
+
+        submission_data_2 = deepcopy(test_submission_data)
+        submission_data_2["tenderers"][0]["identifier"]["id"] = uuid4().hex
+        self.create_submission(data=submission_data_2, config=test_submission_config)
+        self.activate_submission()
+        self.activate_qualification()
+
+        submission_data_3 = deepcopy(test_submission_data)
+        submission_data_3["tenderers"][0]["identifier"]["id"] = uuid4().hex
+        self.create_submission(data=submission_data_3, config=test_submission_config)
+        self.activate_submission()
+        self.activate_qualification()
+
+        response = self.get_framework()
+        self.agreement_id = response.json["data"]["agreementID"]
+
+        # Creating tender
+
+        procuring_entity = deepcopy(test_framework_dps_data['procuringEntity'])
+        item = deepcopy(test_docs_tender_co["items"][0])
+        item['classification']['id'] = test_framework_dps_data['classification']['id']
+        items = [item]
+        agreements = [{'id': self.agreement_id}]
+
+        data = deepcopy(test_docs_tender_co)
+        data["items"] = items
+        data['procuringEntity'] = procuring_entity
+        data['agreements'] = agreements
+        config = deepcopy(test_tender_co_config)
+        config['hasPreSelectionAgreement'] = True
+
+        with open(TARGET_DIR + 'has-pre-selection-agreement-true-tender-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json("/tenders", {"data": data, "config": config})
+            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.json['data']['agreements'][0]['id'], self.agreement_id)
+
+        data = deepcopy(test_docs_tender_rfp)
+        data["items"] = items
+        data['procuringEntity'] = procuring_entity
+        data['agreements'] = agreements
+        config = deepcopy(test_tender_rfp_config)
+        config['hasPreSelectionAgreement'] = True
+
+        with open(
+            TARGET_DIR + 'has-pre-selection-agreement-true-tender-post-invalid-type.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+            self.assertEqual(response.json['errors'][0]['description'], "Agreement type mismatch.")
 
 
 class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
@@ -2574,8 +2641,9 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(end_date, calculated_end_date)
 
 
-class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
+class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkActionsTestMixin):
     initial_auth = ("Basic", ("brokerr", ""))
+    framework_type = DPS_TYPE
 
     def test_docs_restricted_values_csv(self):
         self.write_config_values_csv(
@@ -2595,80 +2663,6 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
             file_path=TARGET_CSV_DIR + "contract-mask-mapping.csv",
         )
 
-    def create_framework(self):
-        data = deepcopy(test_framework_dps_data)
-        data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
-        response = self.app.post_json(
-            "/frameworks",
-            {
-                "data": data,
-                "config": test_framework_dps_config,
-            },
-        )
-        self.framework_token = response.json["access"]["token"]
-        self.framework_id = response.json["data"]["id"]
-        return response
-
-    def get_framework(self):
-        url = "/frameworks/{}".format(self.framework_id)
-        response = self.app.get(url)
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        return response
-
-    def activate_framework(self):
-        response = self.app.patch_json(
-            "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        return response
-
-    def create_submission(self):
-        data = deepcopy(test_submission_data)
-        data["frameworkID"] = self.framework_id
-        data["tenderers"][0]["identifier"]["id"] = uuid4().hex
-        response = self.app.post_json(
-            "/submissions",
-            {
-                "data": data,
-                "config": test_submission_config,
-            },
-        )
-        self.submission_id = response.json["data"]["id"]
-        self.submission_token = response.json["access"]["token"]
-        return response
-
-    def activate_submission(self):
-        response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.qualification_id = response.json["data"]["qualificationID"]
-        return response
-
-    def activate_qualification(self):
-        response = self.app.post_json(
-            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            {
-                "data": {
-                    "title": "sign.p7s",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pkcs7-signature",
-                    "documentType": "evaluationReports",
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
-        response = self.app.patch_json(
-            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        return response
-
     def test_docs_restricted(self):
         set_now()
         request_path = '/tenders?opt_pretty=1'
@@ -2677,21 +2671,30 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
 
         self.tick(datetime.timedelta(days=-15))
 
-        self.create_framework()
+        framework_data = deepcopy(test_framework_dps_data)
+        framework_data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
+
+        self.create_framework(data=framework_data, config=test_framework_dps_config)
         self.activate_framework()
 
         # TODO: fix tick method
         self.tick(datetime.timedelta(days=30))
 
-        self.create_submission()
+        submission_data_1 = deepcopy(test_submission_data)
+        submission_data_1["tenderers"][0]["identifier"]["id"] = uuid4().hex
+        self.create_submission(data=submission_data_1, config=test_submission_config)
         self.activate_submission()
         self.activate_qualification()
 
-        self.create_submission()
+        submission_data_2 = deepcopy(test_submission_data)
+        submission_data_2["tenderers"][0]["identifier"]["id"] = uuid4().hex
+        self.create_submission(data=submission_data_2, config=test_submission_config)
         self.activate_submission()
         self.activate_qualification()
 
-        self.create_submission()
+        submission_data_3 = deepcopy(test_submission_data)
+        submission_data_3["tenderers"][0]["identifier"]["id"] = uuid4().hex
+        self.create_submission(data=submission_data_3, config=test_submission_config)
         self.activate_submission()
         self.activate_qualification()
 

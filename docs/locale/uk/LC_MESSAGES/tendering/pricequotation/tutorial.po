@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-09 01:11+0300\n"
+"POT-Creation-Date: 2025-01-24 04:58+0200\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -101,6 +101,9 @@ msgid "qualificationDuration"
 msgstr ""
 
 msgid "restricted"
+msgstr ""
+
+msgid "true,false"
 msgstr ""
 
 msgid "You can look for more details in :ref:`config` section."
@@ -381,3 +384,4 @@ msgstr "Завантажити нову версію документа"
 
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту на відміну закупівлі"
+

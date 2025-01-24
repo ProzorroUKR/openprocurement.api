@@ -9,6 +9,8 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.context import get_now, set_now
+from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
+from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_config,
     test_framework_dps_data,
@@ -37,6 +39,7 @@ TARGET_CSV_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/cs
 class TenderResourceTest(
     BaseTenderUAWebTest,
     TenderConfigCSVMixin,
+    FrameworkActionsTestMixin,
     MockWebTestMixin,
 ):
     AppClass = DumpsWebTestApp
@@ -44,6 +47,7 @@ class TenderResourceTest(
     relative_to = os.path.dirname(__file__)
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
+    framework_type = DPS_TYPE
 
     def setUp(self):
         super().setUp()
@@ -60,82 +64,6 @@ class TenderResourceTest(
             file_path=TARGET_CSV_DIR + "config.csv",
         )
 
-    def create_framework(self, data=None, config=None):
-        data = data or deepcopy(test_framework_dps_data)
-        config = config or deepcopy(test_framework_dps_config)
-        data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
-        response = self.app.post_json(
-            "/frameworks",
-            {
-                "data": data,
-                "config": config,
-            },
-        )
-        self.framework_token = response.json["access"]["token"]
-        self.framework_id = response.json["data"]["id"]
-        return response
-
-    def get_framework(self):
-        url = "/frameworks/{}".format(self.framework_id)
-        response = self.app.get(url)
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        return response
-
-    def activate_framework(self):
-        response = self.app.patch_json(
-            "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        return response
-
-    def create_submission(self, identifier=uuid4().hex):
-        data = deepcopy(test_submission_data)
-        data["frameworkID"] = self.framework_id
-        data["tenderers"][0]["identifier"]["id"] = identifier
-        self.tenderer = data["tenderers"][0]
-        response = self.app.post_json(
-            "/submissions",
-            {
-                "data": data,
-                "config": test_submission_config,
-            },
-        )
-        self.submission_id = response.json["data"]["id"]
-        self.submission_token = response.json["access"]["token"]
-        return response
-
-    def activate_submission(self):
-        response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.qualification_id = response.json["data"]["qualificationID"]
-        return response
-
-    def activate_qualification(self):
-        response = self.app.post_json(
-            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            {
-                "data": {
-                    "title": "sign.p7s",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pkcs7-signature",
-                    "documentType": "evaluationReports",
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
-        response = self.app.patch_json(
-            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        return response
-
     def test_docs_tutorial(self):
         request_path = '/tenders?opt_pretty=1'
 
@@ -143,13 +71,19 @@ class TenderResourceTest(
 
         self.tick(datetime.timedelta(days=-15))
 
-        self.create_framework()
+        framework_data = deepcopy(test_framework_dps_data)
+        framework_data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
+        framework_config = deepcopy(test_framework_dps_config)
+        self.create_framework(data=framework_data, config=framework_config)
         self.activate_framework()
 
         # TODO: fix tick method
         self.tick(datetime.timedelta(days=30))
 
-        self.create_submission(identifier="12345678")
+        submission_data = deepcopy(test_submission_data)
+        submission_data["tenderers"][0]["identifier"]["id"] = "12345678"
+        submission_config = deepcopy(test_submission_config)
+        self.create_submission(data=submission_data, config=submission_config)
         self.activate_submission()
         self.activate_qualification()
 
@@ -242,13 +176,21 @@ class TenderResourceTest(
 
         self.app.authorization = ('Basic', ('broker', ''))
 
-        self.create_submission(identifier="11111111")
+        submission_data = deepcopy(test_submission_data)
+        submission_data["tenderers"][0]["identifier"]["id"] = "11111111"
+        submission_config = deepcopy(test_submission_config)
+        self.create_submission(data=submission_data, config=submission_config)
         self.activate_submission()
         self.activate_qualification()
 
-        self.create_submission(identifier="22222222")
+        submission_data = deepcopy(test_submission_data)
+        submission_data["tenderers"][0]["identifier"]["id"] = "22222222"
+        submission_config = deepcopy(test_submission_config)
+        self.create_submission(data=submission_data, config=submission_config)
         self.activate_submission()
         self.activate_qualification()
+
+        self.tenderer = submission_data["tenderers"][0]
 
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["items"] = [{"id": "12345678"}]

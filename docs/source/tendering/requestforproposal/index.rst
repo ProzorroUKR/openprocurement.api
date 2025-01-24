@@ -1,7 +1,7 @@
 .. _requestforproposal:
 
 Request For Proposal procedure - ``requestForProposal``
-==============================================
+=======================================================
 
 Contents:
 
