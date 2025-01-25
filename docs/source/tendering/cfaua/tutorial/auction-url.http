@@ -1831,7 +1831,7 @@ Content-Type: application/json
           "currency": "USD"
         },
         "auctionPeriod": {
-          "startDate": "2023-10-10T01:02:01+03:00",
+          "startDate": "2023-10-11T12:22:15.236000+03:00",
           "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/30730028a07b4aee97ed094ebd250c58_9dea7e57fca24c0fa6c43f752611342d"
@@ -1848,7 +1848,7 @@ Content-Type: application/json
       "endDate": "2023-10-05T01:02:01+03:00"
     },
     "status": "active.auction",
-    "next_check": "2023-10-10T01:44:01+03:00",
+    "next_check": "2023-10-11T12:22:15.236000+03:00",
     "auctionPeriod": {
       "startDate": "2023-10-10T01:02:01+03:00"
     },

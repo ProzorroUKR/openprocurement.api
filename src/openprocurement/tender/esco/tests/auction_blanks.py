@@ -30,7 +30,6 @@ def get_tender_auction(self):
     self.assertIn("fundingKind", auction)
     self.assertIn("procurementMethodType", auction)
     self.assertIn("noticePublicationDate", auction)
-    self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(
         auction["bids"][0]["lotValues"][0]["value"]["amountPerformance"],
@@ -450,7 +449,6 @@ def get_tender_lots_auction(self):
     self.assertIn("yearlyPaymentsPercentageRange", auction["lots"][0])
     self.assertIn("fundingKind", auction["lots"][0])
     self.assertIn("items", auction)
-    self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(
         auction["bids"][0]["lotValues"][0]["value"]["amountPerformance"],

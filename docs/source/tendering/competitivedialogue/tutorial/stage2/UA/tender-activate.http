@@ -764,7 +764,8 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "auctionPeriod": {
-          "shouldStartAfter": "2023-11-10T00:00:00+02:00"
+          "shouldStartAfter": "2023-11-10T00:00:00+02:00",
+          "startDate": "2023-11-10T13:09:55.701000+02:00"
         }
       }
     ],

@@ -1267,7 +1267,8 @@
         "lots": [
             {
                 "auctionPeriod": {
-                    "endDate": "2023-11-09T00:00:00+02:00"
+                    "endDate": "2023-11-09T00:00:00+02:00",
+                    "startDate": "2023-11-09T12:29:40.230000+02:00"
                 },
                 "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6",
                 "date": "2023-10-10T01:00:00+03:00",
@@ -1288,7 +1289,8 @@
             },
             {
                 "auctionPeriod": {
-                    "endDate": "2023-11-09T00:00:00+02:00"
+                    "endDate": "2023-11-09T00:00:00+02:00",
+                    "startDate": "2023-11-09T12:04:26.072000+02:00"
                 },
                 "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_ffb255f57e054aaa9f45701dbce47420",
                 "date": "2023-10-10T01:00:00+03:00",
