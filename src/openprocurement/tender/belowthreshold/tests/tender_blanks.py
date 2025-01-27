@@ -4390,7 +4390,7 @@ def contract_template_name_set(self):
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
 
-    if pmt not in ("negotiation", "negotiation.quick"):
+    if pmt not in ("negotiation", "negotiation.quick", "aboveThresholdUA.defense"):
         criteria = (
             test_exclusion_criteria
             + test_language_criteria

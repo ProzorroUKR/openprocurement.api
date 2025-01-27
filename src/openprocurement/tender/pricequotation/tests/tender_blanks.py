@@ -1383,7 +1383,6 @@ def tender_owner_can_change_in_draft(self):
     patch_data = {
         "items": items,
         "criteria": self.test_criteria_1,
-        "contractTemplateName": get_contract_template_name(self, tender=tender),
     }
     patch_data.update(status)
     response = self.app.patch_json(
@@ -2132,7 +2131,6 @@ def patch_items_related_buyer_id(self):
             "data": {
                 "status": self.primary_tender_status,
                 "criteria": self.test_criteria_1,
-                "contractTemplateName": get_contract_template_name(self, tender_id=tender_id),
             }
         },
     )

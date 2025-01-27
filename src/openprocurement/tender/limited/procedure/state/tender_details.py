@@ -14,7 +14,7 @@ class ReportingTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
     should_initialize_enquiry_period = False
     should_validate_related_lot_in_items = False
 
-    contract_template_name_patch_statuses = list()
+    contract_template_name_patch_statuses = []
 
 
 class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
