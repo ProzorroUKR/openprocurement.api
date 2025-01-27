@@ -142,7 +142,7 @@ test_tender_pq_criteria = [
 ]
 test_tender_pq_requirement_response = [
     {"value": 23.8, 'requirement': {'id': "a" * 32}},
-    {"value": "1920x1080", 'requirement': {'id': "b" * 32}},
+    {"values": ["1920x1080"], 'requirement': {'id': "b" * 32}},
 ]
 
 test_tender_pq_organization = {
