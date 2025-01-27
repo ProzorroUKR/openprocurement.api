@@ -46,35 +46,35 @@ class TenderCriterionMixin:
         if not isinstance(data, list):
             data = [data]
 
-        def raise_requirement_error(req, message):
+        def raise_requirement_error(message):
             raise_operation_error(
                 self.request,
-                f"req {req['title']}: {message}",
+                message,
                 status=422,
                 name="requirements",
             )
 
         def validate_string(req):
             if req.get("expectedValues") is None:
-                raise_requirement_error(req, "expectedValues is required when dataType is string")
+                raise_requirement_error("expectedValues is required when dataType is string")
             if req.get("expectedMinItems") != 1:
-                raise_requirement_error(req, "expectedMinItems is required and should be equal to 1")
+                raise_requirement_error("expectedMinItems is required and should be equal to 1 for dataType string")
             if req.get("unit"):
-                raise_requirement_error(req, "unit is forbidden for dataType string")
+                raise_requirement_error("unit is forbidden for dataType string")
 
         def validate_boolean(req):
             if req.get("expectedValues") is not None:  # minValue/maxValue check exists in Requirement model
-                raise_requirement_error(req, "only expectedValue is allowed for dataType boolean")
+                raise_requirement_error("only expectedValue is allowed for dataType boolean")
             if req.get("unit"):
-                raise_requirement_error(req, "unit is forbidden for dataType boolean")
+                raise_requirement_error("unit is forbidden for dataType boolean")
 
         def validate_number_or_integer(req):
             if req.get("expectedValues") is not None:
-                raise_requirement_error(req, "expectedValues is allowed only for dataType string")
+                raise_requirement_error("expectedValues is allowed only for dataType string")
             if req.get("expectedValue") is None and req.get("minValue") is None:
-                raise_requirement_error(req, f"expectedValue or minValue is required for dataType {req['dataType']}")
+                raise_requirement_error(f"expectedValue or minValue is required for dataType {req['dataType']}")
             if not req.get("unit"):
-                raise_requirement_error(req, f"unit is required for dataType {req['dataType']}")
+                raise_requirement_error(f"unit is required for dataType {req['dataType']}")
 
         validation_rules = {
             "string": validate_string,

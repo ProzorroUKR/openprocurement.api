@@ -916,7 +916,7 @@ def validate_rg_requirement_strict_rules(self):
             {
                 "location": "body",
                 "name": "requirements",
-                "description": f"req {requirement_data['title']}: only expectedValue is allowed for dataType boolean",
+                "description": "only expectedValue is allowed for dataType boolean",
             }
         ],
     )
@@ -940,7 +940,7 @@ def validate_rg_requirement_strict_rules(self):
             {
                 "location": "body",
                 "name": "requirements",
-                "description": f"req {requirement_data['title']}: unit is forbidden for dataType boolean",
+                "description": "unit is forbidden for dataType boolean",
             }
         ],
     )
@@ -963,7 +963,7 @@ def validate_rg_requirement_strict_rules(self):
             {
                 "location": "body",
                 "name": "requirements",
-                "description": f"req {requirement_data['title']}: expectedValues is required when dataType is string",
+                "description": "expectedValues is required when dataType is string",
             }
         ],
     )
@@ -977,7 +977,7 @@ def validate_rg_requirement_strict_rules(self):
             {
                 "location": "body",
                 "name": "requirements",
-                "description": f"req {requirement_data['title']}: expectedMinItems is required and should be equal to 1",
+                "description": "expectedMinItems is required and should be equal to 1 for dataType string",
             }
         ],
     )
@@ -1005,7 +1005,7 @@ def validate_rg_requirement_strict_rules(self):
             {
                 "location": "body",
                 "name": "requirements",
-                "description": f"req {requirement_data['title']}: unit is forbidden for dataType string",
+                "description": "unit is forbidden for dataType string",
             }
         ],
     )
@@ -1027,7 +1027,7 @@ def validate_rg_requirement_strict_rules(self):
                 {
                     "location": "body",
                     "name": "requirements",
-                    "description": f"req {requirement_data['title']}: expectedValue or minValue is required for dataType {data_type}",
+                    "description": f"expectedValue or minValue is required for dataType {data_type}",
                 }
             ],
         )
@@ -1040,7 +1040,7 @@ def validate_rg_requirement_strict_rules(self):
                 {
                     "location": "body",
                     "name": "requirements",
-                    "description": f"req {requirement_data['title']}: expectedValues is allowed only for dataType string",
+                    "description": "expectedValues is allowed only for dataType string",
                 }
             ],
         )
@@ -1070,7 +1070,7 @@ def validate_rg_requirement_strict_rules(self):
                 {
                     "location": "body",
                     "name": "requirements",
-                    "description": f"req {requirement_data['title']}: unit is required for dataType {data_type}",
+                    "description": f"unit is required for dataType {data_type}",
                 }
             ],
         )
@@ -1489,7 +1489,7 @@ def put_rg_requirement_valid_value_change(self):
                         {
                             "location": "body",
                             "name": "requirements",
-                            "description": f"req {test_requirement_data['title']}: expectedValue or minValue is required for dataType integer",
+                            "description": "expectedValue or minValue is required for dataType integer",
                         }
                     ],
                 )
