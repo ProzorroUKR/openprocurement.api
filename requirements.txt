@@ -38,4 +38,4 @@ git+https://github.com/ProzorroUKR/barbecue.git@0.2#egg=barbecue
 # https://github.com/ProzorroUKR/prozorro_tasks
 
 # TODO: change before merge
-git+https://github.com/AlexZherebnykh/standards-1@40ccecca815fde816b59f658954a3e81f6585408#egg=standards
+git+https://github.com/AlexZherebnykh/standards-1@ebeb84e9c52a5c4940eebca30f63c5281f47a7a3#egg=standards
