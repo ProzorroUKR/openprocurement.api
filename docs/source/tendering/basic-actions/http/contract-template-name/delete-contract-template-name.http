@@ -1,0 +1,165 @@
+PATCH /api/2.5/tenders/30d32652b4d84d83bc8e5c059038343f?acc_token=9f381f341f214924b00d8c01849aa8bc HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "contractTemplateName": null
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "tenderNotice",
+        "id": "5e3f144af8c94d9fa2256ddbad809e0a",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "name.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/005d993382014f54baf676364786c270?Signature=vgB8nIMRx4dLli%2F8lP5ThhcDkMUXRTXJWE2CY90ayPAT9Umz2jczWMJx2gBSbtSFPvmFv%2BfMyxU87NLK2c%2FLBQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "status": "draft",
+    "owner": "broker",
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
+    "procurementMethod": "open",
+    "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
+    },
+    "minimalStep": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 15.0
+    },
+    "tenderPeriod": {
+      "startDate": "2023-10-17T00:00:00+02:00",
+      "endDate": "2023-10-24T00:00:00+02:00"
+    },
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "id": "8b53656980024f0ba5e4b4a3b1e7644d",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2
+      }
+    ],
+    "procurementMethodType": "belowThreshold",
+    "enquiryPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "clarificationsUntil": "2023-10-19T00:00:00+03:00",
+      "endDate": "2023-10-17T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ]
+      }
+    ],
+    "id": "30d32652b4d84d83bc8e5c059038343f"
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 10,
+    "awardComplainDuration": 2,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 1,
+    "qualificationDuration": 20,
+    "restricted": false
+  }
+}
+
