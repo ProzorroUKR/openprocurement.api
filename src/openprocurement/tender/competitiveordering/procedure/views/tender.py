@@ -7,7 +7,6 @@ from openprocurement.api.procedure.validation import (
     validate_config_data,
     validate_data_documents,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
 )

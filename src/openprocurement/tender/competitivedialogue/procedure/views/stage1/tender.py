@@ -16,10 +16,7 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (
-    BotPatchTender,
     EUTender,
-    PatchEUTender,
-    PatchUATender,
     PostEUTender,
     PostUATender,
     UATender,
@@ -31,7 +28,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_de
 from openprocurement.tender.competitivedialogue.procedure.validation import (
     unless_cd_bridge,
 )
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
