@@ -68,6 +68,7 @@ class RequestForProposalTenderResource(TendersResource):
                     "draft",
                     "active.enquiries",
                     "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+                    "active.pre-qualification.stand-still",
                     "active.tendering",
                 )
             ),
