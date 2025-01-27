@@ -4383,7 +4383,7 @@ def contract_template_name_set(self):
     pmt = data["procurementMethodType"]
     if pmt == "belowThreshold":
         set_statuses = ["draft", "active.enquiries"]
-    elif pmt in ("priceQuotation", "negotiation", "negotiation.quick"):
+    elif pmt in ("closeFrameworkAgreementSelectionUA", "priceQuotation", "negotiation", "negotiation.quick"):
         set_statuses = ["draft"]
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -4433,8 +4433,9 @@ def contract_template_name_set(self):
 
         if getattr(self, "agreement_id"):
             agreement = self.mongodb.agreements.get(self.agreement_id)
-            agreement["classification"]["id"] = classification_id
-            self.mongodb.agreements.save(agreement)
+            if agreement:
+                agreement["classification"]["id"] = classification_id
+                self.mongodb.agreements.save(agreement)
 
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -4508,8 +4509,9 @@ def contract_template_name_set(self):
 
         if "agreements" in tender:
             agreement = self.mongodb.agreements.get(tender["agreements"][0]["id"])
-            agreement["classification"]["id"] = classification_id
-            self.mongodb.agreements.save(agreement)
+            if agreement:
+                agreement["classification"]["id"] = classification_id
+                self.mongodb.agreements.save(agreement)
 
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",

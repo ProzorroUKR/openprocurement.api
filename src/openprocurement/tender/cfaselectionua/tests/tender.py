@@ -3,6 +3,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    contract_template_name_set,
     create_tender_central,
     create_tender_central_invalid,
     create_tender_config_test,
@@ -111,6 +112,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_edit_tender_in_active_enquiries = snitch(edit_tender_in_active_enquiries)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
+    test_contract_template_name_set = snitch(contract_template_name_set)
 
 
 class TenderProcessTest(BaseTenderWebTest):
