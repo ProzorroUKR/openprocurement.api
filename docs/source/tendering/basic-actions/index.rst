@@ -26,4 +26,5 @@ Contents:
    prolongation_awards
    2pc
    sign-data
+   contract-template-name
 

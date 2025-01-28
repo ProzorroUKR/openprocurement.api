@@ -5,8 +5,10 @@ from math import ceil, floor
 
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
+from schematics.types import BaseType
 
 from openprocurement.api.constants import (
+    CONTRACT_TEMPLATES_KEYS,
     CPV_PREFIX_LENGTH_TO_NAME,
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
@@ -194,6 +196,9 @@ class TenderDetailsMixing(TenderConfigMixin):
 
     calendar = WORKING_DAYS
 
+    contract_template_name_required = False
+    contract_template_name_patch_statuses = ("draft", "active.tendering")
+
     def validate_tender_patch(self, before, after):
         request = get_request()
         if before["status"] != after["status"]:
@@ -216,6 +221,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.update_complaint_period(tender)
         self.update_date(tender)
         self.validate_change_item_profile_or_category(tender, {})
+        self.validate_contract_template_name(tender, {})
         super().on_post(tender)
 
         # set author for documents passed with tender data
@@ -250,6 +256,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         elif after["status"] == "active.tendering":
             self.set_enquiry_period_invalidation_date(after)
 
+        self.validate_contract_template_name(after, before=before)
         self.validate_procurement_method(after, before=before)
         self.validate_milestones(after)
         self.validate_pre_qualification_status_change(before, after)
@@ -1287,6 +1294,78 @@ class TenderDetailsMixing(TenderConfigMixin):
                         status=422,
                         name="items",
                     )
+
+    def validate_contract_template_name(self, after, before):
+        def raise_contract_template_name_error(message):
+            raise_operation_error(
+                self.request,
+                message,
+                status=422,
+                location="body",
+                name="contractTemplateName",
+            )
+
+        def get_expected_template_names(classification_id):
+            expected_names = set()
+            for k, v in CONTRACT_TEMPLATES_KEYS.items():
+                if v["active"] and (classif_len := v.get("matchLength")):
+                    if classification_id.startswith(k[:classif_len]):
+                        expected_names.add(k)
+
+            if not expected_names:
+                expected_names.add(
+                    next(
+                        (k for k, v in CONTRACT_TEMPLATES_KEYS.items() if v["active"] and not v.get("matchLength")),
+                        None,
+                    )
+                )
+            return expected_names
+
+        EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES = ("0931",)
+
+        before_ctn = before.get("contractTemplateName")
+        ctn = after.get("contractTemplateName")
+
+        if ctn != before_ctn and after["status"] not in self.contract_template_name_patch_statuses:
+            raise_contract_template_name_error("Rogue field")
+
+        items = after.get("items")
+        classification_id = items[0].get("classification", {}).get("id") if items else None
+        tender_documents = after.get("documents", "")
+
+        # contractTemplateName forbidden for procedures contract_template_name_available - False
+        # forbid together with contractProforma document
+        # and for some classifications prefixes
+
+        excluded_conditions = (
+            not classification_id
+            or any(i.get("documentType", "") == "contractProforma" for i in tender_documents)
+            or any(
+                classification_id.startswith(excluded_prefix)
+                for excluded_prefix in EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES
+            )
+        )
+
+        if not ctn:
+            if not excluded_conditions and self.contract_template_name_required:
+                # Now required option work only for PQ
+                # Later for procedure with active.enquiries it will not work,
+                # maybe later we will need another solution
+                # cause from active.enquiries to active.tendering status switches automatically
+                if after["status"] in ("active.tendering",):
+                    raise_contract_template_name_error(BaseType.MESSAGES["required"])
+            return
+
+        elif excluded_conditions:
+            raise_contract_template_name_error("Rogue field")
+
+        expected_template_names = get_expected_template_names(classification_id)
+
+        if ctn not in expected_template_names:
+            raise_contract_template_name_error(
+                f"Incorrect template for current classification {classification_id}, "
+                f"use of that templates {expected_template_names}",
+            )
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

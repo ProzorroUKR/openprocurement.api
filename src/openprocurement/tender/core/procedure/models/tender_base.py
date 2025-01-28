@@ -97,6 +97,7 @@ class CommonBaseTender(Model):
     is_masked = BooleanType()
 
     procurementMethod = StringType(choices=PROCUREMENT_METHODS)
+    contractTemplateName = StringType()
 
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()

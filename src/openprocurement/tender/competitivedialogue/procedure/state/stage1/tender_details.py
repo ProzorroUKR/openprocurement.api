@@ -1,5 +1,10 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import raise_operation_error
+from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (
+    BotPatchTender,
+    PatchEUTender,
+    PatchUATender,
+)
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import (
     CDStage1TenderState,
 )
@@ -10,7 +15,7 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 )
 
 
-class CDStage1TenderDetailsState(OpenEUTenderDetailsMixing, CDStage1TenderState):
+class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderState):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
@@ -37,3 +42,17 @@ class CDStage1TenderDetailsState(OpenEUTenderDetailsMixing, CDStage1TenderState)
         validate_field(data, "submissionMethodDetails", required=False)
         validate_field(data, "submissionMethodDetails_en", required=False)
         validate_field(data, "submissionMethodDetails_ru", required=False)
+
+
+class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+    def get_patch_data_model(self):
+        if get_request().authenticated_role == "competitive_dialogue":
+            return BotPatchTender
+        return PatchEUTender
+
+
+class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+    def get_patch_data_model(self):
+        if get_request().authenticated_role == "competitive_dialogue":
+            return BotPatchTender
+        return PatchUATender

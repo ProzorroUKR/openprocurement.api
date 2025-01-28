@@ -10,6 +10,8 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.data import test_contract_template_name_keys
+from openprocurement.tender.core.tests.utils import get_contract_template_name
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     test_tender_pq_bids,
@@ -19,7 +21,6 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_data,
     test_tender_pq_response_1,
     test_tender_pq_short_profile,
-    test_tender_pq_shortlisted_firms,
 )
 from openprocurement.tender.pricequotation.tests.data import test_agreement_pq_data
 from openprocurement.tender.pricequotation.tests.utils import (
@@ -36,6 +37,10 @@ TARGET_DIR = 'docs/source/tendering/pricequotation/http/'
 TARGET_CSV_DIR = 'docs/source/tendering/pricequotation/csv/'
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.CONTRACT_TEMPLATES_KEYS",
+    test_contract_template_name_keys,
+)
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
@@ -91,6 +96,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             {
                 "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
                 "criteria": criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1)),
+                "contractTemplateName": get_contract_template_name(self, tender=test_tender_data),
             }
         )
 

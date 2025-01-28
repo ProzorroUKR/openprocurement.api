@@ -226,6 +226,7 @@ Content-Type: application/json
         ]
       }
     ],
+    "contractTemplateName": "00000000-0.0002.01",
     "id": "3f38940af1314712ac29867b3e4eced4"
   },
   "config": {

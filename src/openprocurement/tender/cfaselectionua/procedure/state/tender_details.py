@@ -68,6 +68,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         self.check_owner_forbidden_fields(tender)
 
     def on_patch(self, before, after):
+        self.validate_contract_template_name(after, before)
         if get_request().authenticated_role == "agreement_selection":
             if after["status"] == "active.enquiries":
                 agreement = after["agreements"][0]
@@ -144,7 +145,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                     calculate_agreement_contracts_value_amount(after)
             else:
                 for k in get_request().validated["json_data"].keys():
-                    if k != "procurementMethodDetails":
+                    if k not in ("procurementMethodDetails", "contractTemplateName"):
                         if before.get(k) != after.get(k):
                             raise_operation_error(
                                 get_request(),
