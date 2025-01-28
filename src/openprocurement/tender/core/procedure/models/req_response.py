@@ -232,7 +232,7 @@ class MatchResponseValue:
     @classmethod
     def _match_expected_value(cls, datatype, requirement, value):
         expected_value = requirement.get("expectedValue")
-        if expected_value:
+        if expected_value is not None:
             if datatype.to_native(expected_value) != value:
                 raise ValidationError(
                     f'Value "{value}" does not match expected value "{expected_value}" '
