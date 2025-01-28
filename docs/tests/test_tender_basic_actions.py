@@ -41,6 +41,7 @@ from openprocurement.tender.core.tests.base import (
     test_language_criteria,
     test_tech_feature_criteria,
 )
+from openprocurement.tender.core.tests.data import test_contract_template_name_keys
 from openprocurement.tender.core.tests.utils import change_auth, set_bid_lotvalues
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
@@ -3750,3 +3751,80 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         tech_criteria = deepcopy(test_tech_feature_criteria)
         tech_criteria[0]["relatesTo"] = "tenderer"
+
+    @patch(
+        "openprocurement.tender.core.procedure.state.tender_details.CONTRACT_TEMPLATES_KEYS",
+        test_contract_template_name_keys,
+    )
+    def test_tender_contract_template_name(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        self.tender_id = response.json["data"]["id"]
+        self.tender_token = response.json["access"]["token"]
+
+        # Set invalid contractTemplateName
+        with open(
+            TARGET_DIR + 'contract-template-name/set-contract-template-name-invalid.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+                {"data": {"contractTemplateName": "09130000-9.0001.01"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'contract-template-name/add-contract-proforma.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
+                {
+                    "data": {  # pass documents with the tender post request
+                        "title": "name.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                        "documentType": "contractProforma",
+                    }
+                },
+            )
+            doc_id = response.json["data"]["id"]
+
+        with open(TARGET_DIR + 'contract-template-name/invalid-with-contract-proforma.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+                {"data": {"contractTemplateName": "00000000-0.0002.01"}},
+                status=422,
+            )
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}",
+            {"data": {"documentType": "tenderNotice"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        with open(
+            TARGET_DIR + 'contract-template-name/set-contract-template-name-success.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+                {"data": {"contractTemplateName": "00000000-0.0002.01"}},
+            )
+
+        with open(TARGET_DIR + 'contract-template-name/delete-contract-template-name.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"contractTemplateName": None}}
+            )
+
+        self.set_status("active.pre-qualification")
+
+        with open(
+            TARGET_DIR + 'contract-template-name/set-contract-template-in-incorrect-statuese.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+                {"data": {"contractTemplateName": "00000000-0.0002.01"}},
+                status=422,
+            )

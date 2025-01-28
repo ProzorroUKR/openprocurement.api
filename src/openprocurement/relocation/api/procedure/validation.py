@@ -17,7 +17,8 @@ from openprocurement.tender.cfaua.procedure.state.tender_details import (
     CFAUATenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
-    CDStage1TenderDetailsState,
+    CDEUStage1TenderDetailsState,
+    CDUAStage1TenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
     CDEUStage2TenderDetailsState,
@@ -67,8 +68,8 @@ def validate_tender_transfer_accreditation_level(request, **kwargs):
         "negotiation": NegotiationTenderDetailsState,
         "negotiation.quick": NegotiationTenderDetailsState,
         "aboveThresholdUA.defense": DefenseTenderDetailsState,
-        "competitiveDialogueUA": CDStage1TenderDetailsState,
-        "competitiveDialogueEU": CDStage1TenderDetailsState,
+        "competitiveDialogueUA": CDUAStage1TenderDetailsState,
+        "competitiveDialogueEU": CDEUStage1TenderDetailsState,
         "competitiveDialogueUA.stage2": CDUAStage2TenderDetailsState,
         "competitiveDialogueEU.stage2": CDEUStage2TenderDetailsState,
         "reporting": ReportingTenderDetailsState,

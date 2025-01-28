@@ -37,4 +37,5 @@ git+https://github.com/ProzorroUKR/barbecue.git@0.2#egg=barbecue
 # https://github.com/ProzorroUKR/openprocurement.audit.api
 # https://github.com/ProzorroUKR/prozorro_tasks
 
-git+https://github.com/ProzorroUKR/standards.git@1.0.131#egg=standards
+# TODO: change before merge
+git+https://github.com/AlexZherebnykh/standards-1@ebeb84e9c52a5c4940eebca30f63c5281f47a7a3#egg=standards

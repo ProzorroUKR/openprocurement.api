@@ -185,7 +185,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "title": "Форма випуску"
       }
-    ]
+    ],
+    "contractTemplateName": "00000000-0.0002.01"
   },
   "config": {
     "hasAuction": false,
@@ -219,6 +220,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
   "data": {
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
+    "contractTemplateName": "00000000-0.0002.01",
     "title": "Комп’ютерне обладнання",
     "procurementMethodType": "priceQuotation",
     "awardCriteria": "lowestCost",

@@ -28,6 +28,7 @@ from openprocurement.tender.limited.procedure.models.tender import (
     ReportingTender,
 )
 from openprocurement.tender.limited.procedure.state.tender_details import (
+    NegotiationQuickTenderDetailsState,
     NegotiationTenderDetailsState,
     ReportingTenderDetailsState,
 )
@@ -130,7 +131,7 @@ class NegotiationTenderResource(TendersResource):
     accept="application/json",
 )
 class NegotiationQuickTenderResource(TendersResource):
-    state_class = NegotiationTenderDetailsState
+    state_class = NegotiationQuickTenderDetailsState
 
     @json_view(
         content_type="application/json",

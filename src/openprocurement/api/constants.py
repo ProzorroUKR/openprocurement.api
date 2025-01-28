@@ -415,7 +415,7 @@ ECONTRACT_SIGNER_INFO_REQUIRED = get_constant(
 
 # Contract templates
 
-CONTRACT_TEMPLATES_KEYS = set(standards.load("templates/contract_templates_keys.json"))
+CONTRACT_TEMPLATES_KEYS = standards.load("templates/contract_templates_keys.json")
 
 # Related lot is required
 

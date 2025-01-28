@@ -2,6 +2,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    contract_template_name_set,
     create_tender_central,
     create_tender_central_invalid,
     create_tender_config_test,
@@ -46,6 +47,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     listing_changes,
     multiple_awards_tender,
     patch_tender,
+    reporting_contract_template_name_forbid,
     single_award_tender,
     tender_award_create,
     tender_cancellation,
@@ -74,6 +76,7 @@ class TenderTest(BaseTenderWebTest):
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
     test_tender_set_fund_organizations = snitch(tender_set_fund_organizations)
     test_tender_cause = snitch(tender_cause_reporting)
+    test_reporting_contract_template_name_forbid = snitch(reporting_contract_template_name_forbid)
 
 
 class TenderResourceTest(BaseTenderWebTest):
@@ -117,6 +120,7 @@ class TenderNegotiationResourceTest(TenderResourceTest):
     test_initial_lot_date = snitch(initial_lot_date)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
+    test_contract_template_name_set = snitch(contract_template_name_set)
 
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):

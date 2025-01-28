@@ -38,6 +38,7 @@ from openprocurement.tender.core.tests.criteria_utils import (
     add_criteria,
     generate_guarantee_criterion_responses,
 )
+from openprocurement.tender.core.tests.data import test_contract_template_name_keys
 from openprocurement.tender.core.tests.utils import (
     activate_contract,
     change_auth,
@@ -4367,3 +4368,178 @@ def check_notice_doc_during_activation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("noticePublicationDate", response.json["data"])
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.CONTRACT_TEMPLATES_KEYS",
+    test_contract_template_name_keys,
+)
+def contract_template_name_set(self):
+
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+
+    set_statuses = ["draft", "active.tendering"]
+    pmt = data["procurementMethodType"]
+    if pmt == "belowThreshold":
+        set_statuses = ["draft", "active.enquiries"]
+    elif pmt in ("closeFrameworkAgreementSelectionUA", "priceQuotation", "negotiation", "negotiation.quick"):
+        set_statuses = ["draft"]
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+
+    if pmt not in ("negotiation", "negotiation.quick", "aboveThresholdUA.defense"):
+        criteria = (
+            test_exclusion_criteria
+            + test_language_criteria
+            # + test_tender_guarantee_criteria
+            + test_article_16_criteria[:1]
+        )
+        self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria},
+            status=201,
+        )
+
+    for status in set_statuses:
+        tender = self.mongodb.tenders.get(self.tender_id)
+
+        items = tender["items"]
+        tender["items"][0]["classification"]["id"] = "44617100-9"
+        self.mongodb.tenders.save(tender)
+
+        self.set_status(status)
+        # Disallowed set contractTemplateName for forbidden classification (0931)
+        classification_id = items[0]["classification"]["id"]
+        tender = self.mongodb.tenders.get(self.tender_id)
+        tender["items"][0]["classification"]["id"] = '09310000-5'
+        self.mongodb.tenders.save(tender)
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"contractTemplateName": "invalid_contract_template_name"}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "body", "name": "contractTemplateName", "description": "Rogue field"}],
+        )
+
+        tender = self.mongodb.tenders.get(self.tender_id)
+        tender["items"][0]["classification"]["id"] = classification_id
+        self.mongodb.tenders.save(tender)
+
+        if getattr(self, "agreement_id"):
+            agreement = self.mongodb.agreements.get(self.agreement_id)
+            if agreement:
+                agreement["classification"]["id"] = classification_id
+                self.mongodb.agreements.save(agreement)
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"contractTemplateName": None}},
+        )
+
+        self.assertNotIn("contractTemplateName", response.json["data"])
+
+        # Disallowed set contractTemplateName if exist document with documentType contractProforma
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
+            {
+                "data": {  # pass documents with the tender post request
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "contractProforma",
+                }
+            },
+        )
+        doc_id = response.json["data"]["id"]
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"contractTemplateName": "invalid_contract_template_name"}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "body", "name": "contractTemplateName", "description": "Rogue field"}],
+        )
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}",
+            {"data": {"documentType": "tenderNotice"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # Set invalid contractTemplateName value
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"contractTemplateName": "invalid_contract_template_name"}},
+            status=422,
+        )
+
+        self.assertEqual(response.json["errors"][0]["name"], "contractTemplateName")
+        self.assertEqual(
+            f"Incorrect template for current classification {classification_id}, "
+            f"use of that templates {{'00000000-0.0002.01'}}",
+            response.json["errors"][0]["description"],
+        )
+
+        classification_id = '03221000-6'
+        tender = self.mongodb.tenders.get(self.tender_id)
+        tender["items"][0]["classification"]["id"] = classification_id
+        self.mongodb.tenders.save(tender)
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"contractTemplateName": "00000000-0.0002.01"}},
+            status=422,
+        )
+        self.assertEqual(response.json["errors"][0]["name"], "contractTemplateName")
+        self.assertIn(
+            f"Incorrect template for current classification {classification_id}, "
+            f"use of that templates {{'03220000-9.0001.01'}}",
+            response.json["errors"][0]["description"],
+        )
+
+        if "agreements" in tender:
+            agreement = self.mongodb.agreements.get(tender["agreements"][0]["id"])
+            if agreement:
+                agreement["classification"]["id"] = classification_id
+                self.mongodb.agreements.save(agreement)
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"contractTemplateName": "03220000-9.0001.01"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["contractTemplateName"], "03220000-9.0001.01")
+
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
+            {
+                "data": {  # pass documents with the tender post request
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "contractProforma",
+                }
+            },
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "contractProforma is invalid documentType while exist contractTemplateName",
+                }
+            ],
+        )

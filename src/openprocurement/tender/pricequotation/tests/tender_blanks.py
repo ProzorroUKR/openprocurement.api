@@ -12,6 +12,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.utils import get_contract_template_name
 from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
 from openprocurement.tender.pricequotation.tests.data import (
     test_agreement_pq_data,
@@ -596,7 +597,7 @@ def create_tender_generated(self):
 
 def create_tender_draft(self):
     data = self.initial_data.copy()
-    data.update({"status": "draft"})
+    data.update({"status": "draft", "contractTemplateName": get_contract_template_name(self, tender=data)})
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2125,7 +2126,13 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
 
     response = self.app.patch_json(
-        patch_request_path, {"data": {"status": self.primary_tender_status, "criteria": self.test_criteria_1}}
+        patch_request_path,
+        {
+            "data": {
+                "status": self.primary_tender_status,
+                "criteria": self.test_criteria_1,
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2251,7 +2258,7 @@ def switch_draft_to_tendering_success(self):
     ):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active.tendering"}},
+            {"data": {"status": "active.tendering", "contractTemplateName": get_contract_template_name(self)}},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active.tendering")
@@ -2436,6 +2443,7 @@ def tender_finance_milestones(self):
 def create_tender_pq_from_dps_invalid_agreement(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
+    data["contractTemplateName"] = get_contract_template_name(self, tender=data)
 
     config = deepcopy(self.initial_config)
     config.update({"hasPreSelectionAgreement": True})
@@ -2443,7 +2451,7 @@ def create_tender_pq_from_dps_invalid_agreement(self):
     response = self.app.post_json(
         "/tenders",
         {
-            "data": self.initial_data,
+            "data": data,
             "config": config,
         },
     )

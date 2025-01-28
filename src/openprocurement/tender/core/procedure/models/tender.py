@@ -188,7 +188,6 @@ class Tender(BaseTender):
     qualificationPeriod = ModelType(QualificationPeriod)
     complaintPeriod = ModelType(Period)
     qualifications = BaseType()
-    contractTemplateName = StringType()
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)

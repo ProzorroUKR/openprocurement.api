@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/30d32652b4d84d83bc8e5c059038343f?acc_token=9f381f341f214924b00d8c01849aa8bc HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "contractTemplateName": "09130000-9.0001.01"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "contractTemplateName",
+      "description": "Incorrect template for current classification 44617100-9, use of that templates {'00000000-0.0002.01'}"
+    }
+  ]
+}
+
