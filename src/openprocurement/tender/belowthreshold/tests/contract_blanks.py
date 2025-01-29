@@ -1062,6 +1062,7 @@ def create_tender_contract(self):
         "status",
         "suppliers",
         "buyer",
+        "milestones",
     }
 
     if "value" in award:
@@ -1351,3 +1352,58 @@ def patch_econtract_multi_currency(self):
     response = self.activate_contract(self.contracts_ids[0])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
+
+
+def econtract_milestones_from_tender(self):
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
+    )
+    award_lot_1 = response.json["data"]
+    # get last award for second lot
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
+    )
+    award_lot_2 = response.json["data"][-1]
+    self.assertEqual(award_lot_2["status"], "pending")
+    self.assertNotEqual(award_lot_1["lotID"], award_lot_2["lotID"])
+
+    # add milestone in tender for second lot
+    doc = self.mongodb.tenders.get(self.tender_id)
+    milestone_lot_2 = deepcopy(doc["milestones"][0])
+    milestone_lot_2["relatedLot"] = award_lot_2["lotID"]
+    milestone_lot_2["percentage"] = 100
+    doc["milestones"].append(milestone_lot_2)
+    self.mongodb.tenders.save(doc)
+
+    # activate award for lot 2
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_lot_2['id']}/documents")
+    self.app.patch_json(
+        f"/tenders/{self.tender_id}/awards/{award_lot_2['id']}?acc_token={self.tender_token}",
+        {"data": {"status": "active", "qualified": True}},
+    )
+
+    # get contracts
+    response = self.app.get("/contracts")
+    contract_lot_1_id = response.json["data"][0]["id"]
+    contract_lot_2_id = response.json["data"][1]["id"]
+
+    response = self.app.get(f"/contracts/{contract_lot_1_id}")
+    milestones = response.json["data"]["milestones"]
+    self.assertEqual(len(milestones), 2)
+    for milestone in milestones:
+        self.assertEqual(milestone["relatedLot"], award_lot_1["lotID"])
+
+    response = self.app.get(f"/contracts/{contract_lot_2_id}")
+    milestones = response.json["data"]["milestones"]
+    self.assertEqual(len(milestones), 1)
+    self.assertEqual(milestones[0]["relatedLot"], award_lot_2["lotID"])
+
+    # forbid to patch milestones
+    response = self.app.patch_json(
+        f"/contracts/{contract_lot_1_id}?acc_token={self.tender_token}",
+        {"data": {"milestones": [milestone_lot_2]}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0], {"location": "body", "name": "milestones", "description": "Rogue field"}
+    )

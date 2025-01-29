@@ -21,6 +21,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_data_with_milestones,
     test_tender_cfaselectionua_lots,
     test_tender_cfaselectionua_multi_buyers_data,
     test_tender_cfaselectionua_organization,
@@ -71,6 +72,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderEcontractResourceTe
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.contracts_ids = [i["id"] for i in response.json["data"]["contracts"]]
 
+    initial_data = test_tender_cfaselectionua_data_with_milestones
     initial_status = "active.awarded"
     initial_bids = test_tender_cfaselectionua_bids
     initial_lots = test_tender_cfaselectionua_lots

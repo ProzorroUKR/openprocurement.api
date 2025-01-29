@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-11 17:12+0300\n"
+"POT-Creation-Date: 2025-01-29 16:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -105,6 +105,12 @@ msgstr "Список об’єктів :ref:`Item`, генерується ав�
 
 msgid "|ocdsDescription| The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat."
 msgstr "|ocdsDescription| Товари, послуги та інші нематеріальні результати у цій угоді. Зверніть увагу: Якщо список співпадає з визначенням переможця `award`, то його не потрібно повторювати."
+
+msgid "milestones"
+msgstr ""
+
+msgid "List of :ref:`Milestone` objects."
+msgstr "Список об’єктів :ref:`Milestone`."
 
 msgid "suppliers"
 msgstr ""

@@ -57,6 +57,26 @@ with open(os.path.join(here, "data/tender_data.json")) as _in:
     test_tender_cfaselectionua_data = json.load(_in)
 test_tender_cfaselectionua_data["procuringEntity"] = test_tender_cfaselectionua_procuring_entity
 test_tender_cfaselectionua_data["items"] = test_tender_cfaselectionua_items
+test_tender_cfaselectionua_data_with_milestones = deepcopy(test_tender_cfaselectionua_data)
+test_tender_cfaselectionua_data_with_milestones["milestones"] = [
+    {
+        "id": "a" * 32,
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {"days": 2, "type": "banking"},
+        "sequenceNumber": 1,
+        "percentage": 45.55,
+    },
+    {
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {"days": 900, "type": "calendar"},
+        "sequenceNumber": 2,
+        "percentage": 54.45,
+    },
+]
 
 if SANDBOX_MODE:
     test_tender_cfaselectionua_data["procurementMethodDetails"] = "quick, accelerator=1440"
@@ -308,6 +328,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
             data["lots"] = self.initial_lots = lots
             for i, item in enumerate(data["items"]):
                 item["relatedLot"] = lots[i % len(lots)]["id"]
+            for milestone in data.get("milestones", []):
+                milestone["relatedLot"] = lots[0]["id"]
         response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]

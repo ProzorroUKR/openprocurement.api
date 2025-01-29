@@ -8,12 +8,14 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
     test_tender_below_data_no_auction,
     test_tender_below_lots,
+    test_tender_below_lots_no_min_step,
     test_tender_below_multi_buyers_data,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # TenderContractResourceTest; Tender2LotContractResourceTest; TenderContractDocumentResourceTest; Tender2LotContractDocumentResourceTest; Econtract
     cancelling_award_contract_sync,
     create_tender_contract,
+    econtract_milestones_from_tender,
     patch_contract_multi_items_unit_value,
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_round,
@@ -100,16 +102,17 @@ class CreateActiveAwardMixin:
     def create_award(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
+        award_data = {
+            "suppliers": [test_tender_below_organization],
+            "status": "pending",
+            "bid_id": self.initial_bids[0]["id"],
+            "value": self.initial_data["value"],
+        }
+        if self.initial_lots:
+            award_data["lotID"] = self.initial_lots[0]["id"]
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards",
-            {
-                "data": {
-                    "suppliers": [test_tender_below_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "value": self.initial_data["value"],
-                }
-            },
+            {"data": award_data},
         )
         self.app.authorization = auth
         award = response.json["data"]
@@ -259,9 +262,11 @@ class TenderEContractResourceTest(
     )
     initial_config = config
     initial_data = test_tender_below_data_no_auction
+    initial_lots = test_tender_below_lots_no_min_step * 2
     tender_for_funders = True
 
     test_patch_econtract_multi_currency = snitch(patch_econtract_multi_currency)
+    test_econtract_milestones_from_tender = snitch(econtract_milestones_from_tender)
 
     def setUp(self):
         super().setUp()

@@ -70,6 +70,10 @@ Schema
     |ocdsDescription|
     The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat.
 
+:milestones:
+
+   List of :ref:`Milestone` objects.
+
 :suppliers:
     List of :ref:`EContractOrganization` objects, auto-generated, read-only
 
