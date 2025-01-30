@@ -39,7 +39,10 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
     parent_obj_name: str
 
     def modify_tender(self):
-        return self.parent_obj_name != "bid"
+        return (
+            self.request.validated["tender"].get("status") not in ("active.enquiries", "active.tendering")
+            or self.parent_obj_name != "bid"
+        )
 
     def collection_post(self) -> Optional[dict]:
         req_response = self.request.validated["requirement_response"]
