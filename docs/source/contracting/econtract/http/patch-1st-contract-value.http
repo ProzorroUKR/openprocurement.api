@@ -111,7 +111,8 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 1
+        "sequenceNumber": 1,
+        "status": "notMet"
       },
       {
         "id": "f713ed8600a34b07a8771288885a4d8d",
@@ -123,7 +124,8 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 2
+        "sequenceNumber": 2,
+        "status": "notMet"
       }
     ],
     "id": "ef463372c2584156b6025079b5f1a783"

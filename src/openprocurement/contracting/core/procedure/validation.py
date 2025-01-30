@@ -86,6 +86,15 @@ def validate_signer_info_update_in_not_allowed_status(request, **_):
         )
 
 
+def validate_milestone_update_in_not_allowed_status(request, **_):
+    contract = request.validated["contract"]
+    if contract["status"] != "active":
+        raise_operation_error(
+            request,
+            f"Can't update contract milestone in current ({contract['status']}) status",
+        )
+
+
 # Access
 def validate_tender_owner(request, **_):
     contract = request.validated["contract"]

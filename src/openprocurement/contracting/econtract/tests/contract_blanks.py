@@ -2036,3 +2036,115 @@ def contract_activate(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
+
+
+def patch_tender_contract_milestones(self):
+    contract_doc = self.mongodb.contracts.get(self.contract["id"])
+    milestone_financing = {
+        "id": "a" * 32,
+        "title": "signingTheContract",
+        "type": "financing",
+        "duration": {"days": 1500, "type": "calendar"},
+        "sequenceNumber": 1,
+        "code": "prepayment",
+        "percentage": 50,
+        "status": "notMet",
+    }
+    milestone_financing_2 = deepcopy(milestone_financing)
+    milestone_financing_2["id"] = "b" * 32
+    milestone_delivery = {
+        "id": "c" * 32,
+        "title": "signingTheContract",
+        "type": "delivery",
+        "duration": {"days": 1500, "type": "calendar"},
+        "sequenceNumber": 1,
+        "code": "recurring",
+        "percentage": 100,
+        "status": "notMet",
+    }
+    contract_doc['milestones'] = [milestone_financing, milestone_financing_2, milestone_delivery]
+    self.mongodb.contracts.save(contract_doc)
+
+    response = self.app.get(
+        f"/contracts/{self.contract['id']}/milestones",
+    )
+    self.assertEqual(len(response.json["data"]), 3)
+
+    # try to patch milestone with empty body
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}/milestones/{'c' * 32}?acc_token={self.bid_token}",
+        {"data": {}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0], {"location": "body", "name": "status", "description": ["This field is required."]}
+    )
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}/milestones/{'c' * 32}?acc_token={self.bid_token}",
+        {"data": {"status": "notMet"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        ["Value must be one of ['met']."],
+    )
+
+    # try to patch delivary milestone by supplier
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}/milestones/{'c' * 32}?acc_token={self.bid_token}",
+        {"data": {"status": "met"}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Supplier can update only financing milestones",
+    )
+
+    # update financing milestone by buyer
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}/milestones/{'a' * 32}?acc_token={self.tender_token}",
+        {"data": {"status": "met"}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Buyer can update only delivery milestones",
+    )
+
+    # update delivery milestone by buyer
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}/milestones/{'c' * 32}?acc_token={self.tender_token}",
+        {"data": {"status": "met"}},
+    )
+    milestone = response.json["data"]
+    self.assertIn("dateMet", milestone)
+    self.assertEqual(milestone["status"], "met")
+
+    response = self.app.get(f"/contracts/{self.contract['id']}")
+    self.assertEqual(milestone["dateMet"], response.json["data"]["dateModified"])
+
+    # update second time milestone by buyer
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}/milestones/{'c' * 32}?acc_token={self.tender_token}",
+        {"data": {"status": "met"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Milestone already met",
+    )
+    # nothing happens with dateModified in contract
+    response = self.app.get(f"/contracts/{self.contract['id']}")
+    self.assertEqual(milestone["dateMet"], response.json["data"]["dateModified"])
+
+    # update financing milestone by supplier
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}/milestones/{'a' * 32}?acc_token={self.bid_token}",
+        {"data": {"status": "met"}},
+    )
+    milestone = response.json["data"]
+    self.assertIn("dateMet", milestone)
+    self.assertEqual(milestone["status"], "met")
+
+    response = self.app.get(f"/contracts/{self.contract['id']}")
+    self.assertEqual(milestone["dateMet"], response.json["data"]["dateModified"])

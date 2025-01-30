@@ -11,6 +11,9 @@ from openprocurement.contracting.core.procedure.models.contract import (
     BasePatchContract,
     BasePostContract,
 )
+from openprocurement.contracting.core.procedure.models.milestone import (
+    ContractMilestone,
+)
 from openprocurement.contracting.core.procedure.models.value import AmountPaid
 from openprocurement.contracting.econtract.procedure.models.document import Document
 from openprocurement.contracting.econtract.procedure.models.item import Item
@@ -21,7 +24,6 @@ from openprocurement.contracting.econtract.procedure.models.organization import 
 from openprocurement.tender.core.procedure.models.contract import (
     validate_item_unit_values,
 )
-from openprocurement.tender.core.procedure.models.milestone import Milestone
 
 
 class PostContract(BasePostContract):
@@ -36,7 +38,7 @@ class PostContract(BasePostContract):
     amountPaid = ModelType(AmountPaid)
     contractTemplateName = StringType()
     items = ListType(ModelType(Item, required=True))
-    milestones = ListType(ModelType(Milestone, required=True))
+    milestones = ListType(ModelType(ContractMilestone, required=True))
     buyer = ModelType(Buyer, required=True)
     value = ModelType(ContractValue)
     bid_owner = StringType(required=True)
@@ -102,4 +104,4 @@ class Contract(BaseContract):
     contractTemplateName = StringType()
     value = ModelType(ContractValue)
     documents = ListType(ModelType(Document, required=True))
-    milestones = ListType(ModelType(Milestone, required=True))
+    milestones = ListType(ModelType(ContractMilestone, required=True))

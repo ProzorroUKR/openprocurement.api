@@ -1397,6 +1397,8 @@ def econtract_milestones_from_tender(self):
     milestones = response.json["data"]["milestones"]
     self.assertEqual(len(milestones), 1)
     self.assertEqual(milestones[0]["relatedLot"], award_lot_2["lotID"])
+    self.assertEqual(milestones[0]["status"], "notMet")
+    self.assertNotIn("dateMet", milestones[0])
 
     # forbid to patch milestones
     response = self.app.patch_json(
