@@ -2415,7 +2415,7 @@ def criterion_from_market_profile(self):
             {
                 "title": "Req 2",
                 "dataType": "string",
-                "expectedValues": ["value1", "value3"],
+                "expectedValues": ["value2", "value1", "value1"],
                 "expectedMinItems": 1,
                 "expectedMaxItems": 2,
             }
@@ -2432,7 +2432,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedValues' for 'Req 2' should be equal in tender and market requirement",
+                    "description": "Field 'expectedValues' for 'Req 2' should have the same values in tender and market requirement",
                 },
             ],
         )
@@ -2525,7 +2525,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedValues' for 'Req 2' should be equal in tender and market requirement",
+                    "description": "Field 'expectedValues' for 'Req 2' should have the same values in tender and market requirement",
                 },
             ],
         )

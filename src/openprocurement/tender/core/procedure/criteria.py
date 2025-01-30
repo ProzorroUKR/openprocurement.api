@@ -1,3 +1,5 @@
+from collections import Counter
+
 from openprocurement.api.constants import NEW_REQUIREMENTS_RULES_FROM
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import (
@@ -108,11 +110,13 @@ class TenderCriterionMixin:
         if not isinstance(data, list):
             data = [data]
 
+        # get profile and category for each tender item
         tender_items_market_objects = {
             item["id"]: (item.get("profile"), item.get("category")) for item in tender.get("items", [])
         }
 
         for tender_criterion in data:
+            # check only localization and tech criteria, because only these are in market
             if tender_criterion["classification"]["id"] in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
                 requirements_from_profile = False
                 profile_id, category_id = tender_items_market_objects[tender_criterion["relatedItem"]]
@@ -163,7 +167,15 @@ class TenderCriterionMixin:
                                         ["expectedValue", "expectedMinItems", "expectedValues", "minValue", "maxValue"]
                                     )
                                 for field in fields:
-                                    if market_req.get(field) != tender_req.get(field):
+                                    if field == "expectedValues" and market_req.get(field):
+                                        # Counter works like set but check the length of lists too
+                                        if Counter(tender_req.get(field)) != Counter(market_req[field]):
+                                            raise_operation_error(
+                                                self.request,
+                                                f"Field '{field}' for '{market_req['title']}' should have the same values in tender and market requirement",
+                                                status=422,
+                                            )
+                                    elif market_req.get(field) != tender_req.get(field):
                                         raise_operation_error(
                                             self.request,
                                             f"Field '{field}' for '{market_req['title']}' should be equal in tender and market requirement",
