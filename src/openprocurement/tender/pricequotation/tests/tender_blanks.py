@@ -1388,10 +1388,21 @@ def tender_owner_can_change_in_draft(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": patch_data},
+        status=422,
     )
 
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "This field is required.", "location": "body", "name": "contractTemplateName"}],
+    )
     self.assertEqual(response.content_type, "application/json")
+
+    patch_data["contractTemplateName"] = get_contract_template_name(self, tender=tender)
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": patch_data},
+    )
     tender = response.json["data"]
 
     self.assertEqual(tender["status"], status["status"])
@@ -2131,6 +2142,7 @@ def patch_items_related_buyer_id(self):
             "data": {
                 "status": self.primary_tender_status,
                 "criteria": self.test_criteria_1,
+                "contractTemplateName": get_contract_template_name(self, tender_id=tender_id),
             }
         },
     )

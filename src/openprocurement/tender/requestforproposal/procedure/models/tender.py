@@ -120,6 +120,7 @@ class PatchActiveTender(Model):
     description_ru = StringType()
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
+    contractTemplateName = StringType()
 
 
 class PatchDraftTender(PatchTender):

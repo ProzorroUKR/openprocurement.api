@@ -63,6 +63,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     should_initialize_enquiry_period = False
     enquiry_before_tendering = True
 
+    contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
+
     def on_post(self, tender):
         super().on_post(tender)
         self.check_owner_forbidden_fields(tender)
