@@ -126,6 +126,19 @@ Content-Type: application/json
         },
         "sequenceNumber": 2,
         "status": "notMet"
+      },
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "recurring",
+        "percentage": 100.0,
+        "duration": {
+          "days": 1500,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "status": "notMet"
       }
     ],
     "id": "ef463372c2584156b6025079b5f1a783"

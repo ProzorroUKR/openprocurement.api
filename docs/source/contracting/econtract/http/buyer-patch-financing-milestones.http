@@ -1,0 +1,26 @@
+PATCH /api/2.5/contracts/7d0469536315497ba366cce980e167af/milestones/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa?acc_token=27066118c7f245328af63ebee6924f12 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "met"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "url",
+      "name": "role",
+      "description": "Buyer can update only delivery milestones"
+    }
+  ]
+}
+

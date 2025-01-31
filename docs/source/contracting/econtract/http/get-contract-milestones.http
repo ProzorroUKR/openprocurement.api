@@ -1,0 +1,52 @@
+GET /api/2.5/contracts/7d0469536315497ba366cce980e167af/milestones?acc_token=27066118c7f245328af63ebee6924f12 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "title": "signingTheContract",
+      "type": "financing",
+      "code": "prepayment",
+      "percentage": 45.55,
+      "duration": {
+        "days": 2,
+        "type": "banking"
+      },
+      "sequenceNumber": 1,
+      "status": "notMet"
+    },
+    {
+      "id": "f713ed8600a34b07a8771288885a4d8d",
+      "title": "deliveryOfGoods",
+      "type": "financing",
+      "code": "postpayment",
+      "percentage": 54.45,
+      "duration": {
+        "days": 900,
+        "type": "calendar"
+      },
+      "sequenceNumber": 2,
+      "status": "notMet"
+    },
+    {
+      "id": "cccccccccccccccccccccccccccccccc",
+      "title": "signingTheContract",
+      "type": "delivery",
+      "code": "recurring",
+      "percentage": 100.0,
+      "duration": {
+        "days": 1500,
+        "type": "calendar"
+      },
+      "sequenceNumber": 1,
+      "status": "notMet"
+    }
+  ]
+}
+

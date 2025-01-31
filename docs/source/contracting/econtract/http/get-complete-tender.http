@@ -1,0 +1,396 @@
+GET /api/2.5/tenders/d1c99512210a440d8816081d0616ce15 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "mainProcurementCategory": "goods",
+    "buyers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "id": "11111111111111111111111111111111"
+      },
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037254",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "id": "22222222222222222222222222222222"
+      }
+    ],
+    "title": "футляри до державних нагород",
+    "status": "complete",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-IPN",
+        "id": "00037256",
+        "legalName": "Державне управління справами",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
+    },
+    "minimalStep": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 15.0
+    },
+    "tenderPeriod": {
+      "startDate": "2023-09-22T01:00:00+03:00",
+      "endDate": "2023-09-29T01:00:00+03:00"
+    },
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "id": "f713ed8600a34b07a8771288885a4d8d",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2
+      },
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "recurring",
+        "percentage": 100.0,
+        "duration": {
+          "days": 1500,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      }
+    ],
+    "procurementMethodType": "belowThreshold",
+    "enquiryPeriod": {
+      "endDate": "2023-09-22T01:00:00+03:00",
+      "startDate": "2023-09-14T01:00:00+03:00",
+      "clarificationsUntil": "2023-10-04T01:00:00+03:00"
+    },
+    "items": [
+      {
+        "id": "4dc85365c49d41ab9d6cbdcab24c4921",
+        "description": "телевізори",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedBuyer": "11111111111111111111111111111111"
+      },
+      {
+        "id": "fa935473378a4ca39aebfb1fabaa4a9e",
+        "description": "портфелі",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedBuyer": "22222222222222222222222222222222"
+      },
+      {
+        "id": "70bf866714a34e608b07cc77c3aa14fb",
+        "description": "портфелі",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedBuyer": "22222222222222222222222222222222"
+      }
+    ],
+    "tenderID": "UA-2023-10-10-000001-a",
+    "owner": "broker",
+    "procurementMethod": "open",
+    "submissionMethod": "electronicAuction",
+    "date": "2023-10-10T01:00:01+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:01+03:00",
+    "bids": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "tenderers": [
+          {
+            "name": "Державне управління справами",
+            "identifier": {
+              "scheme": "UA-IPN",
+              "id": "00037256",
+              "legalName": "Державне управління справами",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "01220",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
+            "scale": "micro"
+          }
+        ],
+        "status": "active",
+        "id": "8a2720500ee84b0e87b1824f5b1db002",
+        "date": "2023-10-10T01:00:00+03:00",
+        "submissionDate": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "awardPeriod": {
+      "startDate": "2023-09-30T01:00:00+03:00",
+      "endDate": "2023-09-30T01:00:00+03:00"
+    },
+    "awards": [
+      {
+        "id": "6523042f453342e0aeeeb46d819ede62",
+        "status": "active",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "suppliers": [
+          {
+            "name": "Державне управління справами",
+            "identifier": {
+              "scheme": "UA-IPN",
+              "id": "00037256",
+              "legalName": "Державне управління справами",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "01220",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
+            "scale": "micro"
+          }
+        ],
+        "bid_id": "8a2720500ee84b0e87b1824f5b1db002",
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "notice",
+            "id": "d31aab0d1db34152b6c65e183fe7d0ea",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "sign/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7eed73ee992845b1915ab15349f6628e?Signature=HWDuoMzeaCHO6eYXu6b5aQfVUoXvGXjPy3AoNlHUU4G0H9mcMwAqpf0x6XgqkWp%2B2%2F%2FUIme2FihQnLoj31rUAQ%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "author": "tender_owner",
+            "language": "uk"
+          }
+        ],
+        "period": {
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "endDate": "2023-10-18T00:00:00+03:00"
+        },
+        "qualified": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        }
+      }
+    ],
+    "contracts": [
+      {
+        "id": "ef463372c2584156b6025079b5f1a783",
+        "status": "active",
+        "awardID": "6523042f453342e0aeeeb46d819ede62",
+        "date": "2023-10-10T01:00:01+03:00",
+        "contractID": "UA-2023-10-10-000001-a-1",
+        "value": {
+          "amount": 100.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amountNet": 95.0
+        }
+      },
+      {
+        "id": "7d0469536315497ba366cce980e167af",
+        "status": "active",
+        "awardID": "6523042f453342e0aeeeb46d819ede62",
+        "date": "2023-10-10T01:00:01+03:00",
+        "contractID": "UA-2023-10-10-000001-a-2",
+        "value": {
+          "amount": 200.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amountNet": 190.0
+        }
+      }
+    ],
+    "auctionPeriod": {
+      "startDate": "2023-09-29T01:00:00+03:00",
+      "endDate": "2023-09-30T01:00:00+03:00"
+    },
+    "id": "d1c99512210a440d8816081d0616ce15"
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 10,
+    "awardComplainDuration": 2,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 1,
+    "qualificationDuration": 20,
+    "restricted": false
+  }
+}
+

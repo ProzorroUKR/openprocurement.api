@@ -581,6 +581,17 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         tender_data["items"][0]["relatedBuyer"] = "1" * 32
         tender_data["items"][1]["relatedBuyer"] = "2" * 32
         tender_data["items"][2]["relatedBuyer"] = "2" * 32
+        tender_data["milestones"].append(
+            {
+                "id": "c" * 32,
+                "title": "signingTheContract",
+                "type": "delivery",
+                "duration": {"days": 1500, "type": "calendar"},
+                "sequenceNumber": 1,
+                "code": "recurring",
+                "percentage": 100,
+            }
+        )
 
         for item in tender_data['items']:
             item['deliveryDate'] = {
@@ -693,8 +704,46 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         )
         self.assertEqual(response.status, '200 OK')
 
-        response = self.app.get(f'/tenders/{self.tender_id}')
-        self.assertEqual(response.json["data"]["status"], "complete")
+        with open(TARGET_DIR + 'get-complete-tender.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/tenders/{self.tender_id}')
+            self.assertEqual(response.json["data"]["status"], "complete")
+
+        with open(TARGET_DIR + 'get-contract-milestones.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/contracts/{contracts[1]["id"]}/milestones?acc_token={self.owner_token}')
+            milestones = response.json["data"]
+
+        with open(TARGET_DIR + 'buyer-patch-delivery-milestones.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/contracts/{contracts[1]["id"]}/milestones/{milestones[-1]["id"]}?acc_token={self.owner_token}',
+                {"data": {"status": "met"}},
+            )
+
+        with open(TARGET_DIR + 'supplier-patch-delivery-milestones.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/contracts/{contracts[1]["id"]}/milestones/{milestones[-1]["id"]}?acc_token={self.bid_token}',
+                {"data": {"status": "met"}},
+                status=403,
+            )
+
+        with open(TARGET_DIR + 'supplier-patch-financing-milestones.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/contracts/{contracts[1]["id"]}/milestones/{milestones[0]["id"]}?acc_token={self.bid_token}',
+                {"data": {"status": "met"}},
+            )
+
+        with open(TARGET_DIR + 'buyer-patch-financing-milestones.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/contracts/{contracts[1]["id"]}/milestones/{milestones[0]["id"]}?acc_token={self.owner_token}',
+                {"data": {"status": "met"}},
+                status=403,
+            )
+
+        with open(TARGET_DIR + 'supplier-patch-financing-milestones-second-time.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/contracts/{contracts[1]["id"]}/milestones/{milestones[0]["id"]}?acc_token={self.bid_token}',
+                {"data": {"status": "met"}},
+                status=422,
+            )
 
     def test_docs_contracts_cancelled(self):
         self.app.authorization = ('Basic', ('broker', ''))

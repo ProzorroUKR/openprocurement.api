@@ -388,6 +388,48 @@ And we can see that it is overriding the original version:
 .. index:: Enquiries, Question, Answer
 
 
+Modifying milestones
+--------------------
+
+Milestones can be "met" after contract activation, the system should track when the payment or delivery condition was met, i.e. the goods were delivered or money was transferred.
+
+Milestones were transferred from tender during contract creation according to related lot or whole tender for non-lot procedure.
+Let's look at complete tender which milestones tender has:
+
+.. http:example:: http/get-complete-tender.http
+   :code:
+
+We can see what milestones contract has after creation:
+
+.. http:example:: http/get-contract-milestones.http
+   :code:
+
+At any moment during the life of the contract (before termination), the customer can prove that a specific delivery condition has been met, i.e. the customer has accepted the goods:
+
+.. http:example:: http/buyer-patch-delivery-milestones.http
+   :code:
+
+The supplier can't patch delivery milestones:
+
+.. http:example:: http/supplier-patch-delivery-milestones.http
+   :code:
+
+At any moment during the life of the contract (before termination), the supplier can indicate that a specific payment condition has been met, i.e. the supplier has received payment.
+
+.. http:example:: http/supplier-patch-financing-milestones.http
+   :code:
+
+The buyer can't patch financing milestones:
+
+.. http:example:: http/buyer-patch-financing-milestones.http
+   :code:
+
+It is forbidden to patch second time already met milestone:
+
+.. http:example:: http/supplier-patch-financing-milestones-second-time.http
+   :code:
+
+
 Completing contract
 -------------------
 

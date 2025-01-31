@@ -1,0 +1,26 @@
+PATCH /api/2.5/contracts/7d0469536315497ba366cce980e167af/milestones/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa?acc_token=bd8938058ebf4213b259c797f88fb9ff HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "met"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Milestone already met"
+    }
+  ]
+}
+

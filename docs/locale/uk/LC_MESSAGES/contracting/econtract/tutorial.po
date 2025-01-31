@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-08 18:20+0300\n"
+"POT-Creation-Date: 2025-02-03 12:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -363,6 +363,33 @@ msgstr "Якщо сталась помилка, ми можемо ще раз з
 
 msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
+
+msgid "Modifying milestones"
+msgstr "Редагування умов оплати і доставки"
+
+msgid "Milestones can be \"met\" after contract activation, the system should track when the payment or delivery condition was met, i.e. the goods were delivered or money was transferred."
+msgstr "Умови оплати і доставки можливо \\“виконати\\” після активації контракту, система повинна відслідковувати коли була виконана умова оплати або поставки, тобто поставлено товар або переказано гроші."
+
+msgid "Milestones were transferred from tender during contract creation according to related lot or whole tender for non-lot procedure. Let's look at complete tender which milestones tender has:"
+msgstr "Умови оплати і доставки переносяться з тендеру під час створення контракту для лота, по якому сформовано контракт, або до всього тендеру в разі безлотової закупівлі. Подивимося на завершений тендер, які умови оплати і доставки має закупівля:"
+
+msgid "We can see what milestones contract has after creation:"
+msgstr "Тепер подивимося, які умови оплати і доставки має контракт після створення:"
+
+msgid "At any moment during the life of the contract (before termination), the customer can prove that a specific delivery condition has been met, i.e. the customer has accepted the goods:"
+msgstr "У будь-який момент життя контракту (до термінації) замовник може проставити, що конкретна умова поставки виконана, тобто замовник прийняв товар:"
+
+msgid "The supplier can't patch delivery milestones:"
+msgstr "Постачальник не може патчити умови поставок:"
+
+msgid "At any moment during the life of the contract (before termination), the supplier can indicate that a specific payment condition has been met, i.e. the supplier has received payment."
+msgstr "У будь-який момент життя контракт (до термінації) постачальник може проставити, що конкретна умова оплат виконана, тобто постачальник отримав оплату:"
+
+msgid "The buyer can't patch financing milestones:"
+msgstr "Замовник не може патчити умови оплати:"
+
+msgid "It is forbidden to patch second time already met milestone:"
+msgstr "Якщо умова вже виконана, то заборонено її редагувати другий раз:"
 
 msgid "Completing contract"
 msgstr "Завершення договору"
