@@ -176,6 +176,10 @@ class BaseTenderWebTest(BaseCoreWebTest):
         data = self.mongodb.tenders.get(self.tender_id)
         return data['owner_token']
 
+    @tender_token.setter
+    def tender_token(self, value):
+        pass
+
     @patch(
         "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
         Mock(return_value=test_tender_pq_short_profile),

@@ -6,6 +6,7 @@ from unittest.mock import patch
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    contract_template_name_set,
     create_tender,
     create_tender_central,
     create_tender_central_invalid,
@@ -106,6 +107,7 @@ class TenderResourceTestMixin:
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
     test_tender_notice_documents = snitch(tender_notice_documents)
+    test_contract_template_name_set = snitch(contract_template_name_set)
 
 
 class TenderTest(BaseApiWebTest):

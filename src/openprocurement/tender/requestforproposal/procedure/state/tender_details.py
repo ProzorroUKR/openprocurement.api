@@ -24,6 +24,8 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
     should_validate_notice_doc_required = True
     enquiry_before_tendering = True
 
+    contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
+
     def get_patch_data_model(self):
         tender = get_tender()
         if tender.get("status", "") == "active.tendering":

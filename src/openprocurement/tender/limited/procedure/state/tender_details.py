@@ -24,6 +24,8 @@ class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState)
     should_initialize_enquiry_period = False
     should_validate_related_lot_in_items = True
 
+    contract_template_name_patch_statuses = ("draft", "active")
+
     def on_patch(self, before, after):
         if before.get("awards"):
             raise_operation_error(

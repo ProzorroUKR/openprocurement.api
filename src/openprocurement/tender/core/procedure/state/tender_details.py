@@ -1326,7 +1326,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         before_ctn = before.get("contractTemplateName")
         ctn = after.get("contractTemplateName")
 
-        if ctn != before_ctn and after["status"] not in self.contract_template_name_patch_statuses:
+        if ctn != before_ctn and before.get("status", "draft") not in self.contract_template_name_patch_statuses:
             raise_contract_template_name_error("Rogue field")
 
         items = after.get("items")
