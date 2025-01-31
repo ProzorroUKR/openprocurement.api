@@ -38,7 +38,7 @@ Let's update plan by supplementing it with all other essential properties:
 
 .. XXX body is empty for some reason (printf fails)
 
-We see the added properies have merged with existing plan data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+We see the added properties have merged with existing plan data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
 
 Checking the listing again reflects the new modification date:
 

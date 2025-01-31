@@ -2358,3 +2358,55 @@ def plan_rationale(self):
     self.assertEqual(rationale_date_changed, changes[1]["date"])
     self.assertEqual(rationale_date_changed, changes[1]["data"]["rationale"]["date"])
     self.assertEqual("test 2", changes[1]["data"]["rationale"]["description"])
+
+
+def plan_additional_classifications_based_on_breakdown(self):
+    data = deepcopy(self.initial_data)
+    del data["additionalClassifications"]
+    for breakdown_title in ("own", "other", "loan"):
+        breakdown_item = {
+            "id": "f" * 32,
+            "title": breakdown_title,
+            "description": "For a moment, nothing happened. Then, after a second or so, nothing continued to happen.",
+            "value": {"amount": 1500, "currency": "UAH"},
+        }
+        data["budget"]["breakdown"] = [breakdown_item]
+
+        response = self.app.post_json("/plans", {"data": data})
+
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+
+    for breakdown_title in ("state", "crimea", "local", "fund"):
+        data["budget"]["breakdown"][0]["title"] = breakdown_title
+        response = self.app.post_json("/plans", {"data": data}, status=422)
+
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "additionalClassifications",
+                    "description": [f"КПКВ is required for {breakdown_title} budget."],
+                }
+            ],
+        )
+
+    data["additionalClassifications"] = [
+        {
+            "scheme": "КПКВ",
+            "id": "1001010",
+            "description": "Керівництво та управління діяльністю Міністерства внутрішніх справ України",
+        }
+    ]
+    own_breakdown_item = {
+        "id": "b" * 32,
+        "title": "own",
+        "value": {"amount": 1500, "currency": "UAH"},
+    }
+    data["budget"]["breakdown"].append(own_breakdown_item)
+    response = self.app.post_json("/plans", {"data": data})
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")

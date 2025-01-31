@@ -15,6 +15,10 @@ from openprocurement.api.constants import (
     GMDN_2019_SCHEME,
     GMDN_2023,
     GMDN_2023_SCHEME,
+    KEKV_UK,
+    KEKV_UK_SCHEME,
+    KPKV_UK,
+    KPKV_UK_SCHEME,
     UA_ROAD,
     UA_ROAD_SCHEME,
 )
@@ -56,6 +60,10 @@ class AdditionalClassification(Classification):
             raise ValidationError(f"{GMDN_2023_SCHEME} id not found in standards")
         if data["scheme"] == CCCE_UA_SCHEME and value not in CCCE_UA:
             raise ValidationError(f"{CCCE_UA_SCHEME} id not found in standards")
+        if data["scheme"] == KPKV_UK_SCHEME and value not in KPKV_UK:
+            raise ValidationError(f"{KPKV_UK_SCHEME} id not found in standards")
+        if data["scheme"] == KEKV_UK_SCHEME and value not in KEKV_UK:
+            raise ValidationError(f"{KEKV_UK_SCHEME} id not found in standards")
 
     def validate_description(self, data, value):
         if data["scheme"] == UA_ROAD_SCHEME and UA_ROAD.get(data["id"]) != value:

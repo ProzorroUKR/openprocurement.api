@@ -93,6 +93,8 @@ GMDN_CPV_PREFIXES = standards.load("classifiers/gmdn_cpv_prefixes.json")
 UA_ROAD = standards.load("classifiers/ua_road.json")
 UA_ROAD_CPV_PREFIXES = standards.load("classifiers/ua_road_cpv_prefixes.json")
 CCCE_UA = standards.load("classifiers/ccce_ua.json")
+KPKV_UK = standards.load("classifiers/kpkv_uk_2025.json")
+KEKV_UK = standards.load("classifiers/kekv_uk.json")
 
 # complaint objections classifications
 ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_16.json")}
@@ -111,6 +113,8 @@ GMDN_2019_SCHEME = "GMDN"
 GMDN_2023_SCHEME = "GMDN-2023"
 UA_ROAD_SCHEME = "UA-ROAD"
 CCCE_UA_SCHEME = "CCCE-UA"
+KPKV_UK_SCHEME = "КПКВ"
+KEKV_UK_SCHEME = "КЕКВ"
 
 COORDINATES_REG_EXP = re.compile(r"-?\d{1,3}\.\d+|-?\d{1,3}")
 
