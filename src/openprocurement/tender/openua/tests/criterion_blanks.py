@@ -996,7 +996,21 @@ def validate_rg_requirement_strict_rules(self):
         ],
     )
 
+    requirement_data["expectedValues"] = ["Foo", "Bar", "Bar"]
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": "expectedValues should be unique",
+            }
+        ],
+    )
+
     requirement_data["expectedMaxItems"] = 2
+    requirement_data["expectedValues"] = ["Foo", "Bar"]
     requirement_data["unit"] = {"code": "HUR", "name": "година"}
     response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
     self.assertEqual(

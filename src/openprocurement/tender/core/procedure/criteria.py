@@ -57,6 +57,8 @@ class TenderCriterionMixin:
         def validate_string(req):
             if req.get("expectedValues") is None:
                 raise_requirement_error("expectedValues is required when dataType is string")
+            if len(req["expectedValues"]) != len(set(req["expectedValues"])):
+                raise_requirement_error("expectedValues should be unique")
             if req.get("expectedMinItems") != 1:
                 raise_requirement_error("expectedMinItems is required and should be equal to 1 for dataType string")
             if req.get("unit"):
