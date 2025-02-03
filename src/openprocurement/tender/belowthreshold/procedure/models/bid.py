@@ -6,12 +6,12 @@ from openprocurement.tender.core.procedure.models.bid import (
     PostLocalizationBid as BasePostBid,
 )
 from openprocurement.tender.core.procedure.models.req_response import (
+    BidResponsesMixin,
     PatchObjResponsesMixin,
-    PostBidResponsesMixin,
 )
 
 
-class PostBid(BasePostBid, PostBidResponsesMixin):
+class PostBid(BasePostBid, BidResponsesMixin):
     pass
 
 
@@ -19,5 +19,5 @@ class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     pass
 
 
-class Bid(PostBidResponsesMixin, BaseBid):
+class Bid(BidResponsesMixin, BaseBid):
     pass

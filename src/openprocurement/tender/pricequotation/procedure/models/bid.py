@@ -16,9 +16,8 @@ from openprocurement.tender.core.procedure.models.organization import (
     BusinessOrganization,
 )
 from openprocurement.tender.core.procedure.models.req_response import (
-    ObjResponseMixin,
+    BidResponsesMixin,
     PatchObjResponsesMixin,
-    PostBidResponsesMixin,
     RequirementResponse,
 )
 from openprocurement.tender.pricequotation.procedure.validation import (
@@ -28,7 +27,11 @@ from openprocurement.tender.pricequotation.procedure.validation import (
 
 class PatchBid(PatchObjResponsesMixin, Model):
     value = ModelType(Value)
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
+    tenderers = ListType(
+        ModelType(BusinessOrganization, required=True),
+        min_size=1,
+        max_size=1,
+    )
     status = StringType(
         choices=[
             "draft",
@@ -48,7 +51,7 @@ class PatchBid(PatchObjResponsesMixin, Model):
             validate_bid_value(tender, value)
 
 
-class PostBid(PostBidResponsesMixin, PatchBid):
+class PostBid(BidResponsesMixin, PatchBid):
     @serializable
     def id(self):
         return uuid4().hex
@@ -88,7 +91,7 @@ class PostBid(PostBidResponsesMixin, PatchBid):
         validate_bid_value(tender, value)
 
 
-class Bid(ObjResponseMixin, MetaBid):
+class Bid(BidResponsesMixin, MetaBid):
     documents = ListType(ModelType(Document, required=True))
     financialDocuments = ListType(ModelType(Document, required=True))
     eligibilityDocuments = ListType(ModelType(Document, required=True))

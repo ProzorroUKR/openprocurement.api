@@ -10,8 +10,8 @@ from openprocurement.tender.core.procedure.models.bid import (
 )
 from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.models.req_response import (
+    BidResponsesMixin,
     PatchObjResponsesMixin,
-    PostBidResponsesMixin,
 )
 
 
@@ -20,11 +20,11 @@ class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     selfEligible = BooleanType(choices=[True])  # tests fail because they in different order
 
 
-class PostBid(PostBidResponsesMixin, BasePostBid):
+class PostBid(BidResponsesMixin, BasePostBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
 
 
-class Bid(PostBidResponsesMixin, BaseBid):
+class Bid(BidResponsesMixin, BaseBid):
     weightedValue = ModelType(WeightedValue)
     selfQualified = BooleanType(required=True, choices=[True])
