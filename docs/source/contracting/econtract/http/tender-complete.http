@@ -291,24 +291,24 @@ Content-Type: application/json
         },
         "requirementResponses": [
           {
-            "value": "Розчин для інфузій",
-            "id": "b8992b957a55498e85864b62927f4c51",
             "requirement": {
               "id": "dcb542ea21d649bf9cfbe6a0c8a965d6",
               "title": "Форма випуску"
             },
+            "value": "Розчин для інфузій",
+            "id": "b8992b957a55498e85864b62927f4c51",
             "classification": {
               "scheme": " espd211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
             }
           },
           {
-            "value": 5,
-            "id": "2902331d756f440face59a5e207a53af",
             "requirement": {
               "id": "0f1a8d4a9518477688ceb44e14457e1f",
               "title": "Доза діючої речовини"
             },
+            "value": 5,
+            "id": "2902331d756f440face59a5e207a53af",
             "unit": {
               "code": "KGM",
               "name": "кілограми"
@@ -319,15 +319,15 @@ Content-Type: application/json
             }
           },
           {
+            "requirement": {
+              "id": "f1278d8afa134275bcb6f6a4c62fc05d",
+              "title": "Форма випуску"
+            },
             "values": [
               "Відповідь1",
               "Відповідь2"
             ],
             "id": "ecb183a4818540a09fd9537017c8a6fa",
-            "requirement": {
-              "id": "f1278d8afa134275bcb6f6a4c62fc05d",
-              "title": "Форма випуску"
-            },
             "classification": {
               "scheme": " espd211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"

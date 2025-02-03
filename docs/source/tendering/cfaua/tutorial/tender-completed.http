@@ -676,134 +676,134 @@ Content-Type: application/json
       {
         "requirementResponses": [
           {
-            "value": true,
-            "id": "1877095f59a944fab9bdb852e5962794",
             "requirement": {
               "id": "1ee6bd58dd9f45c892887914ef37f80c",
               "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
             },
+            "value": true,
+            "id": "1877095f59a944fab9bdb852e5962794",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
             }
           },
           {
-            "value": true,
-            "id": "89f02d35959b458bae76c63b36ae3d86",
             "requirement": {
               "id": "e4f63136465840e3a640124de986aec2",
               "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
             },
+            "value": true,
+            "id": "89f02d35959b458bae76c63b36ae3d86",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
             }
           },
           {
-            "value": true,
-            "id": "50df36b7a4a94c2db66a438e246593ab",
             "requirement": {
               "id": "fc3ab7dda1eb48d6a994f0c319bbdf73",
               "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
             },
+            "value": true,
+            "id": "50df36b7a4a94c2db66a438e246593ab",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
             }
           },
           {
-            "value": true,
-            "id": "a59e5956d5db45c6b0665b4f5674e02e",
             "requirement": {
               "id": "52a13f43a222412c83a7ed00e2e6a44c",
               "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
             },
+            "value": true,
+            "id": "a59e5956d5db45c6b0665b4f5674e02e",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
             }
           },
           {
-            "value": true,
-            "id": "71e74a9ba5514be1947d96505974f936",
             "requirement": {
               "id": "3a6dbd0273564c19a58b9bdfb045a38d",
               "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
             },
+            "value": true,
+            "id": "71e74a9ba5514be1947d96505974f936",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
             }
           },
           {
-            "value": true,
-            "id": "0440c3bebd2e4431bccbdbb1ce962381",
             "requirement": {
               "id": "c2a8ad005ff549fd9f8f09ad33211574",
               "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
             },
+            "value": true,
+            "id": "0440c3bebd2e4431bccbdbb1ce962381",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
             }
           },
           {
-            "value": true,
-            "id": "89ce31da7c074c29b076d5183f1bae06",
             "requirement": {
               "id": "a7e30f3be4774e349ab38af71d0e270a",
               "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
             },
+            "value": true,
+            "id": "89ce31da7c074c29b076d5183f1bae06",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
             }
           },
           {
-            "value": true,
-            "id": "1d10e9f8fc78425b9af781696733b46d",
             "requirement": {
               "id": "006a7a10dfdf4899b29276b895e6d479",
               "title": "Учасник процедури закупівлі не мав з цим самим замовником договорів достроково розірваних через невиконання (учасником) своїх зобов'язань через що було застосовано санкції у вигляді штрафів та/або відшкодування збитків"
             },
+            "value": true,
+            "id": "1d10e9f8fc78425b9af781696733b46d",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
             }
           },
           {
-            "value": true,
-            "id": "417d0d5f9f3c4b65820cdd6908e9b144",
             "requirement": {
               "id": "6e2bfddcd50e456eb9f7afc79dbe6eae",
               "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
             },
+            "value": true,
+            "id": "417d0d5f9f3c4b65820cdd6908e9b144",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
             }
           },
           {
-            "value": true,
-            "id": "4070863e31cb48459c27648d8da57d01",
             "requirement": {
               "id": "3e09aaf58f9242899a0c1d4e47a35bbc",
               "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
             },
+            "value": true,
+            "id": "4070863e31cb48459c27648d8da57d01",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
             }
           },
           {
-            "values": [
-              "Українська"
-            ],
-            "id": "4a3c587b256948d1a7e407828ff79c39",
             "requirement": {
               "id": "b3eb5e8d7177427780204a9d40aa5749",
               "title": "Мова тендерної пропозиції"
             },
+            "values": [
+              "Українська"
+            ],
+            "id": "4a3c587b256948d1a7e407828ff79c39",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
@@ -987,134 +987,134 @@ Content-Type: application/json
       {
         "requirementResponses": [
           {
-            "value": true,
-            "id": "ae021c724d0d485d8be68c5dab3e5f20",
             "requirement": {
               "id": "1ee6bd58dd9f45c892887914ef37f80c",
               "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
             },
+            "value": true,
+            "id": "ae021c724d0d485d8be68c5dab3e5f20",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
             }
           },
           {
-            "value": true,
-            "id": "9e20c1f7d512449684f789b9b6ba9db3",
             "requirement": {
               "id": "e4f63136465840e3a640124de986aec2",
               "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
             },
+            "value": true,
+            "id": "9e20c1f7d512449684f789b9b6ba9db3",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
             }
           },
           {
-            "value": true,
-            "id": "40571c3efe0245f8928f111d7f6dcf73",
             "requirement": {
               "id": "fc3ab7dda1eb48d6a994f0c319bbdf73",
               "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
             },
+            "value": true,
+            "id": "40571c3efe0245f8928f111d7f6dcf73",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
             }
           },
           {
-            "value": true,
-            "id": "ad6523a94ecb49c6a39ac1d5f9d8fc3c",
             "requirement": {
               "id": "52a13f43a222412c83a7ed00e2e6a44c",
               "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
             },
+            "value": true,
+            "id": "ad6523a94ecb49c6a39ac1d5f9d8fc3c",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
             }
           },
           {
-            "value": true,
-            "id": "b1f2c904ca7640a2b8d5b62ea0e25b2f",
             "requirement": {
               "id": "3a6dbd0273564c19a58b9bdfb045a38d",
               "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
             },
+            "value": true,
+            "id": "b1f2c904ca7640a2b8d5b62ea0e25b2f",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
             }
           },
           {
-            "value": true,
-            "id": "06efb0931ee84ea9a3f585b50b47594a",
             "requirement": {
               "id": "c2a8ad005ff549fd9f8f09ad33211574",
               "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
             },
+            "value": true,
+            "id": "06efb0931ee84ea9a3f585b50b47594a",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
             }
           },
           {
-            "value": true,
-            "id": "4866140928a84b83a853b63c972412bd",
             "requirement": {
               "id": "a7e30f3be4774e349ab38af71d0e270a",
               "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
             },
+            "value": true,
+            "id": "4866140928a84b83a853b63c972412bd",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
             }
           },
           {
-            "value": true,
-            "id": "6e0927cc99e947fb9073b98efb6aff10",
             "requirement": {
               "id": "006a7a10dfdf4899b29276b895e6d479",
               "title": "Учасник процедури закупівлі не мав з цим самим замовником договорів достроково розірваних через невиконання (учасником) своїх зобов'язань через що було застосовано санкції у вигляді штрафів та/або відшкодування збитків"
             },
+            "value": true,
+            "id": "6e0927cc99e947fb9073b98efb6aff10",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
             }
           },
           {
-            "value": true,
-            "id": "dd6e5bcd5fab42be9fc1fe6980e0e109",
             "requirement": {
               "id": "6e2bfddcd50e456eb9f7afc79dbe6eae",
               "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
             },
+            "value": true,
+            "id": "dd6e5bcd5fab42be9fc1fe6980e0e109",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
             }
           },
           {
-            "value": true,
-            "id": "49e6d0aae49c4d64a01ec63f8f0558d0",
             "requirement": {
               "id": "3e09aaf58f9242899a0c1d4e47a35bbc",
               "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
             },
+            "value": true,
+            "id": "49e6d0aae49c4d64a01ec63f8f0558d0",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
             }
           },
           {
-            "values": [
-              "Українська"
-            ],
-            "id": "37c5303f18784bb3bf753d2f04c92c76",
             "requirement": {
               "id": "b3eb5e8d7177427780204a9d40aa5749",
               "title": "Мова тендерної пропозиції"
             },
+            "values": [
+              "Українська"
+            ],
+            "id": "37c5303f18784bb3bf753d2f04c92c76",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
@@ -1181,134 +1181,134 @@ Content-Type: application/json
       {
         "requirementResponses": [
           {
-            "value": true,
-            "id": "aea94d6a07ae4c6383b233650ec43ac9",
             "requirement": {
               "id": "1ee6bd58dd9f45c892887914ef37f80c",
               "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
             },
+            "value": true,
+            "id": "aea94d6a07ae4c6383b233650ec43ac9",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
             }
           },
           {
-            "value": true,
-            "id": "0ff51046e37943ebaa5236fa0419652a",
             "requirement": {
               "id": "e4f63136465840e3a640124de986aec2",
               "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
             },
+            "value": true,
+            "id": "0ff51046e37943ebaa5236fa0419652a",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
             }
           },
           {
-            "value": true,
-            "id": "b981fac16ab44b75b69cc34ae9d6d77b",
             "requirement": {
               "id": "fc3ab7dda1eb48d6a994f0c319bbdf73",
               "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
             },
+            "value": true,
+            "id": "b981fac16ab44b75b69cc34ae9d6d77b",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
             }
           },
           {
-            "value": true,
-            "id": "7075c1339e914781871384335fcdf33f",
             "requirement": {
               "id": "52a13f43a222412c83a7ed00e2e6a44c",
               "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
             },
+            "value": true,
+            "id": "7075c1339e914781871384335fcdf33f",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
             }
           },
           {
-            "value": true,
-            "id": "58e72a17a70c4fd0bca14a2be9d7d2ea",
             "requirement": {
               "id": "3a6dbd0273564c19a58b9bdfb045a38d",
               "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
             },
+            "value": true,
+            "id": "58e72a17a70c4fd0bca14a2be9d7d2ea",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
             }
           },
           {
-            "value": true,
-            "id": "af6e25f0e88b425abc321c9d44b4948d",
             "requirement": {
               "id": "c2a8ad005ff549fd9f8f09ad33211574",
               "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
             },
+            "value": true,
+            "id": "af6e25f0e88b425abc321c9d44b4948d",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
             }
           },
           {
-            "value": true,
-            "id": "6fdb3aa432594b718b31847d8968845d",
             "requirement": {
               "id": "a7e30f3be4774e349ab38af71d0e270a",
               "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
             },
+            "value": true,
+            "id": "6fdb3aa432594b718b31847d8968845d",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
             }
           },
           {
-            "value": true,
-            "id": "ab415936f1f543b782a3ffddb54253d2",
             "requirement": {
               "id": "006a7a10dfdf4899b29276b895e6d479",
               "title": "Учасник процедури закупівлі не мав з цим самим замовником договорів достроково розірваних через невиконання (учасником) своїх зобов'язань через що було застосовано санкції у вигляді штрафів та/або відшкодування збитків"
             },
+            "value": true,
+            "id": "ab415936f1f543b782a3ffddb54253d2",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
             }
           },
           {
-            "value": true,
-            "id": "5548cf95740248088d70fe385c026180",
             "requirement": {
               "id": "6e2bfddcd50e456eb9f7afc79dbe6eae",
               "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
             },
+            "value": true,
+            "id": "5548cf95740248088d70fe385c026180",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
             }
           },
           {
-            "value": true,
-            "id": "6a73eee7b75040efb2ad30f4ef72e8d6",
             "requirement": {
               "id": "3e09aaf58f9242899a0c1d4e47a35bbc",
               "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
             },
+            "value": true,
+            "id": "6a73eee7b75040efb2ad30f4ef72e8d6",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
             }
           },
           {
-            "values": [
-              "Українська"
-            ],
-            "id": "f1142880c59b4079b35017d507a09ad2",
             "requirement": {
               "id": "b3eb5e8d7177427780204a9d40aa5749",
               "title": "Мова тендерної пропозиції"
             },
+            "values": [
+              "Українська"
+            ],
+            "id": "f1142880c59b4079b35017d507a09ad2",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
@@ -1404,134 +1404,134 @@ Content-Type: application/json
       {
         "requirementResponses": [
           {
-            "value": true,
-            "id": "5f7e75ee1f89452bb924863c1154d5ee",
             "requirement": {
               "id": "1ee6bd58dd9f45c892887914ef37f80c",
               "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
             },
+            "value": true,
+            "id": "5f7e75ee1f89452bb924863c1154d5ee",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
             }
           },
           {
-            "value": true,
-            "id": "9a1f5852b5f24c6d82902dd48e881220",
             "requirement": {
               "id": "e4f63136465840e3a640124de986aec2",
               "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
             },
+            "value": true,
+            "id": "9a1f5852b5f24c6d82902dd48e881220",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
             }
           },
           {
-            "value": true,
-            "id": "a34ceca0fc8b4b02bf060ce4b3d0e9a3",
             "requirement": {
               "id": "fc3ab7dda1eb48d6a994f0c319bbdf73",
               "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
             },
+            "value": true,
+            "id": "a34ceca0fc8b4b02bf060ce4b3d0e9a3",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
             }
           },
           {
-            "value": true,
-            "id": "4a0530c7215b462c8d54ef45a446054b",
             "requirement": {
               "id": "52a13f43a222412c83a7ed00e2e6a44c",
               "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
             },
+            "value": true,
+            "id": "4a0530c7215b462c8d54ef45a446054b",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
             }
           },
           {
-            "value": true,
-            "id": "1ce062f85cd74c7aa0cd221ab40e9313",
             "requirement": {
               "id": "3a6dbd0273564c19a58b9bdfb045a38d",
               "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
             },
+            "value": true,
+            "id": "1ce062f85cd74c7aa0cd221ab40e9313",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
             }
           },
           {
-            "value": true,
-            "id": "3800159b6ce5418fbf059cf94ab0bbd4",
             "requirement": {
               "id": "c2a8ad005ff549fd9f8f09ad33211574",
               "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
             },
+            "value": true,
+            "id": "3800159b6ce5418fbf059cf94ab0bbd4",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
             }
           },
           {
-            "value": true,
-            "id": "f6d2a6388b0e4d759fc2cc544680065d",
             "requirement": {
               "id": "a7e30f3be4774e349ab38af71d0e270a",
               "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
             },
+            "value": true,
+            "id": "f6d2a6388b0e4d759fc2cc544680065d",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
             }
           },
           {
-            "value": true,
-            "id": "fe4ce76ac06740c5be18a041d3a84e97",
             "requirement": {
               "id": "006a7a10dfdf4899b29276b895e6d479",
               "title": "Учасник процедури закупівлі не мав з цим самим замовником договорів достроково розірваних через невиконання (учасником) своїх зобов'язань через що було застосовано санкції у вигляді штрафів та/або відшкодування збитків"
             },
+            "value": true,
+            "id": "fe4ce76ac06740c5be18a041d3a84e97",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
             }
           },
           {
-            "value": true,
-            "id": "0aa6e69e0c2748f994934e4fb958ced4",
             "requirement": {
               "id": "6e2bfddcd50e456eb9f7afc79dbe6eae",
               "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
             },
+            "value": true,
+            "id": "0aa6e69e0c2748f994934e4fb958ced4",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
             }
           },
           {
-            "value": true,
-            "id": "9371964b7a834cdc9e38cfba6f609b17",
             "requirement": {
               "id": "3e09aaf58f9242899a0c1d4e47a35bbc",
               "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
             },
+            "value": true,
+            "id": "9371964b7a834cdc9e38cfba6f609b17",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
             }
           },
           {
-            "values": [
-              "Українська"
-            ],
-            "id": "13fe48f2757046aeaec0362033e0fdf7",
             "requirement": {
               "id": "b3eb5e8d7177427780204a9d40aa5749",
               "title": "Мова тендерної пропозиції"
             },
+            "values": [
+              "Українська"
+            ],
+            "id": "13fe48f2757046aeaec0362033e0fdf7",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
