@@ -341,7 +341,11 @@ class ObjResponseMixin(PatchObjResponsesMixin):
                 parent_obj_name = name
                 break
 
-        # Validation requirement_response data
+        self._validate_requirement_responses_data(self, data, requirement_responses, parent_obj_name)
+
+    def _validate_requirement_responses_data(
+        self, data: dict, requirement_responses: List[dict], parent_obj_name: str
+    ) -> None:
         for response in requirement_responses:
             validate_req_response_requirement(response, parent_obj_name=parent_obj_name)
             MatchResponseValue.match(response)
@@ -349,7 +353,7 @@ class ObjResponseMixin(PatchObjResponsesMixin):
             validate_req_response_evidences_relatedDocument(data, response, parent_obj_name=parent_obj_name)
 
 
-class PostBidResponsesMixin(ObjResponseMixin):
+class BidResponsesMixin(ObjResponseMixin):
     """
     this model is used to update "full" data during patch and post requests
     """
@@ -361,25 +365,10 @@ class PostBidResponsesMixin(ObjResponseMixin):
         elif value is None:
             raise ValidationError("This field is required.")
 
-    def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
-        requirement_responses = requirement_responses or []
-
-        if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
-            if requirement_responses:
-                raise ValidationError("Rogue field.")
-            return
-
-        validation_statuses = ["pending", "active"]
-
-        if data["status"] not in validation_statuses:
-            return
-
-        # Validation requirement_response data
-        for response in requirement_responses:
-            validate_req_response_requirement(response)
-            MatchResponseValue.match(response)
-            validate_req_response_related_tenderer(data, response)
-            validate_req_response_evidences_relatedDocument(data, response, parent_obj_name="bid")
+    def _validate_requirement_responses_data(
+        self, data: dict, requirement_responses: List[dict], parent_obj_name: str
+    ) -> None:
+        super()._validate_requirement_responses_data(self, data, requirement_responses, parent_obj_name)
 
         tender = get_tender()
 
@@ -393,19 +382,28 @@ class PostBidResponsesMixin(ObjResponseMixin):
 
         # Iterate criteria
         for criteria in tender.get("criteria", []):
-            # Skip criteria for not existing lots (probably)
+            # Initialize variable for lot relation
+            related_lot = None
 
-            if criteria.get("relatesTo") in ("lot", "item"):
-                if criteria.get("relatesTo") == "item":
-                    item = [item for item in tender.get("items", "") if item["id"] == criteria["relatedItem"]][0]
-                    related_lot = item.get("relatedLot")
-                else:
-                    related_lot = criteria["relatedItem"]
+            # Find direct relation to lot
+            if criteria.get("relatesTo") == "lot":
+                related_lot = criteria["relatedItem"]
 
+            # Find relation to lot through item
+            if criteria.get("relatesTo") == "item":
+                item = [item for item in tender.get("items", "") if item["id"] == criteria["relatedItem"]][0]
+                related_lot = item.get("relatedLot")
+
+            # Skip criteria of lots in which bid is not participating
+            if related_lot:
+                # Relation to lot is present
+                # Check if bid participates in the lot
                 for lotVal in data.get("lotValues", ""):
                     if related_lot == lotVal["relatedLot"]:
                         break
                 else:
+                    # Bid does not participate in the lot
+                    # Skip criteria
                     continue
 
             # Skip non-bid criteria

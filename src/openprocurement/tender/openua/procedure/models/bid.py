@@ -16,8 +16,8 @@ from openprocurement.tender.core.procedure.models.parameter import (
     PatchParameter,
 )
 from openprocurement.tender.core.procedure.models.req_response import (
+    BidResponsesMixin,
     PatchObjResponsesMixin,
-    PostBidResponsesMixin,
 )
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 
@@ -28,7 +28,7 @@ class PatchBid(BasePatchBid, PatchObjResponsesMixin):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
 
 
-class PostBid(BasePostBid, PostBidResponsesMixin):
+class PostBid(BasePostBid, BidResponsesMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(required=True, choices=[True])
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
@@ -38,7 +38,7 @@ class PostBid(BasePostBid, PostBidResponsesMixin):
         validate_bid_value(tender, value)
 
 
-class Bid(BaseBid, PostBidResponsesMixin):
+class Bid(BaseBid, BidResponsesMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(required=True, choices=[True])
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
