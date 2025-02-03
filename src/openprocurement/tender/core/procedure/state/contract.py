@@ -214,6 +214,7 @@ class ContractStateMixing:
                         raise_operation_error(
                             get_request(),
                             "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
+                            status=422,
                         )
                     items_unit_value_amount.append(
                         to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
