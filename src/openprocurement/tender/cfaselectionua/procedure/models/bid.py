@@ -13,7 +13,6 @@ from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     PostBidResponsesMixin,
-    PostBidResponsesTempMixin,
 )
 
 
@@ -25,6 +24,6 @@ class PostBid(PostBidResponsesMixin, BasePostBid):
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
 
 
-class Bid(PostBidResponsesTempMixin, BaseBid):
+class Bid(PostBidResponsesMixin, BaseBid):
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     weightedValue = ModelType(WeightedValue)

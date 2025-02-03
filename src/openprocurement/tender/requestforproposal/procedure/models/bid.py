@@ -8,7 +8,6 @@ from openprocurement.tender.core.procedure.models.bid import (
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     PostBidResponsesMixin,
-    PostBidResponsesTempMixin,
 )
 
 
@@ -20,5 +19,5 @@ class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     pass
 
 
-class Bid(PostBidResponsesTempMixin, BaseBid):
+class Bid(PostBidResponsesMixin, BaseBid):
     pass

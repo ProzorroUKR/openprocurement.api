@@ -130,23 +130,6 @@ class RequirementResponse(BaseRequirementResponse):
             validate_evidence_type(data, evidence)
 
 
-# TEMPORARY MODELS, TODO: AFTER RELEASE DELETE ---
-
-
-class RequirementReferenceTemp(RequirementReference):
-    title = StringType()
-
-
-class RequirementResponseTemp(RequirementResponse):
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    requirement = ModelType(RequirementReferenceTemp)
-
-
 # Validations ---
 
 
@@ -491,14 +474,6 @@ class PostBidResponsesMixin(ObjResponseMixin):
                 "Responses are required for all requirements in a requirement group, "
                 f"failed for criteria {', '.join(missed_partial_criteria_ids)}"
             )
-
-
-class PostBidResponsesTempMixin(PostBidResponsesMixin):
-    # TODO: remove after release
-    requirementResponses = ListType(
-        ModelType(RequirementResponseTemp, required=True),
-        validators=[validate_object_id_uniq, validate_response_requirement_uniq],
-    )
 
 
 # --- requirementResponses mixin
