@@ -76,8 +76,8 @@ Content-Type: application/json
     "additionalClassifications": [
       {
         "scheme": "КЕКВ",
-        "id": "1",
-        "description": "-"
+        "id": "2000",
+        "description": "Поточні видатки"
       }
     ],
     "tender_id": "7f5e6c2aa6f54cc3a2f6589002f0d6ce",
