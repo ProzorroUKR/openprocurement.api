@@ -2291,6 +2291,8 @@ def patch_bid_requirement_response_evidence(self):
         "type": "document",
     }
 
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    previous_tender_date_modified = response.json["data"]["dateModified"]
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(
             self.tender_id, self.bid_id, self.rr_id, self.bid_token
@@ -2301,6 +2303,9 @@ def patch_bid_requirement_response_evidence(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     evidence_id = response.json["data"]["id"]
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.json["data"]["dateModified"], previous_tender_date_modified)
 
     updated_data = {
         "title": "Updated title",
