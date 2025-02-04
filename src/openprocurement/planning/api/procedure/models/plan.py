@@ -6,6 +6,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
     BUDGET_BREAKDOWN_REQUIRED_FROM,
+    KPKV_UK_SCHEME,
     PLAN_BUYERS_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request
@@ -17,6 +18,7 @@ from openprocurement.api.procedure.models.item import (
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.procedure.utils import is_obj_const_active, to_decimal
 from openprocurement.planning.api.constants import (
+    BREAKDOWN_OTHER,
     MULTI_YEAR_BUDGET_MAX_YEARS,
     MULTI_YEAR_BUDGET_PROCEDURES,
 )
@@ -87,6 +89,7 @@ class PostPlan(Model):
     def validate_additionalClassifications(self, plan, classifications):
         if classifications is not None:
             validate_ccce_ua(classifications)
+        validate_required_additional_classifications(plan, classifications)
 
 
 class PatchPlan(Model):
@@ -154,6 +157,7 @@ class Plan(Model):
     def validate_additionalClassifications(self, plan, classifications):
         if classifications is not None:
             validate_ccce_ua(classifications)
+        validate_required_additional_classifications(plan, classifications)
 
 
 def validate_buyers(plan, buyers):
@@ -235,3 +239,13 @@ def validate_budget_end_date_single_year(plan, budget):
                         plan["tender"]["procurementMethodType"]
                     )
                 )
+
+
+def validate_required_additional_classifications(plan, classifications):
+    if plan.get("budget") and plan["budget"].get("breakdown"):
+        for breakdown in plan["budget"]["breakdown"]:
+            if breakdown.get("title") not in ("own", "loan", BREAKDOWN_OTHER) and (
+                classifications is None
+                or not any(classification["scheme"] == KPKV_UK_SCHEME for classification in classifications)
+            ):
+                raise ValidationError(f"{KPKV_UK_SCHEME} is required for {breakdown['title']} budget.")

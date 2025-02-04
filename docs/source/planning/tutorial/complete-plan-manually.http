@@ -63,8 +63,8 @@ Content-Type: application/json
     "additionalClassifications": [
       {
         "scheme": "КЕКВ",
-        "id": "1",
-        "description": "-"
+        "id": "2000",
+        "description": "Поточні видатки"
       }
     ],
     "planID": "UA-P-2023-10-11-000001-a",

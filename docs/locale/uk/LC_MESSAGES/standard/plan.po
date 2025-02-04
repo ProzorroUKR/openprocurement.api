@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 17:40+0300\n"
+"POT-Creation-Date: 2025-01-31 13:20+0200\n"
 "PO-Revision-Date: 2019-12-02 11:48+0200\n"
 "Last-Translator: \n"
 "Language: uk\n"
@@ -148,7 +148,7 @@ msgstr "Список об’єктів :ref:`Classification`"
 msgid "|ocdsDescription| An array of additional classifications for the item. See the itemClassificationScheme codelist for common options to use in OCDS. This may also be used to present codes from an internal classification scheme."
 msgstr "|ocdsDescription| Масив додаткових класифікацій для елемента. Дивіться у список кодів itemClassificationScheme, щоб використати поширені варіанти в OCDS. Також можна використовувати для представлення кодів з внутрішньої схеми класифікації."
 
-msgid "Item wich classification.id starts with 336 and contains additionalClassification objects have to contain no more than one additionalClassifications with scheme=INN."
+msgid "Item which classification.id starts with 336 and contains additionalClassification objects have to contain no more than one additionalClassifications with scheme=INN."
 msgstr "Елемент, у якому classification.id починається з 336 і містить додаткові об’єкти класифікації, повинен містити не більше однієї додаткової класифікації зі схемою INN."
 
 msgid "Item with classification.id=33600000-6 have to contain exactly one additionalClassifications with scheme=INN."
@@ -156,6 +156,9 @@ msgstr "Елемент з classification.id = 33600000-6 повинен міст
 
 msgid "It is mandatory to have at least one item with `ДКПП` as `scheme`."
 msgstr "Обов’язково мати принаймні один елемент з `ДКПП` як `scheme`."
+
+msgid "If plan has `budget.breakdown.title` some of `local`, `state`, `crimea`, `fund` it is required to have KPKV additional classificator."
+msgstr "Якщо джерело фінансування `budget.breakdown.title` вказано одне зі значень `local`, `state`, `crimea`, `fund`, класифікатор КПКВ має зазначатись обовʼязково."
 
 msgid "documents"
 msgstr ""

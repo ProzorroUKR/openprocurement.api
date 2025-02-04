@@ -55,8 +55,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "additionalClassifications": [
       {
         "scheme": "КЕКВ",
-        "id": "1",
-        "description": "-"
+        "id": "2000",
+        "description": "Поточні видатки"
       }
     ],
     "procuringEntity": {
@@ -192,8 +192,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d93
     "additionalClassifications": [
       {
         "scheme": "КЕКВ",
-        "id": "1",
-        "description": "-"
+        "id": "2000",
+        "description": "Поточні видатки"
       }
     ],
     "items": [

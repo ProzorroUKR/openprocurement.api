@@ -767,7 +767,7 @@ test_docs_plan_data = {
         },
     ],
     "classification": {"scheme": "ДК021", "description": "Seeds", "id": "03111000-2"},
-    "additionalClassifications": [{"scheme": "КЕКВ", "id": "1", "description": "-"}],
+    "additionalClassifications": [{"scheme": "КЕКВ", "id": "2000", "description": "Поточні видатки"}],
     "procuringEntity": {
         "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
         "name": "ДУС",

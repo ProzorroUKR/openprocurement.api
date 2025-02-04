@@ -148,7 +148,7 @@ additionalClassifications
     This may also be used to present codes from an internal classification
     scheme.
 
-    Item wich classification.id starts with 336 and contains
+    Item which classification.id starts with 336 and contains
     additionalClassification objects have to contain no more than one
     additionalClassifications with scheme=INN.
 
@@ -156,6 +156,9 @@ additionalClassifications
     additionalClassifications with scheme=INN.
 
     It is mandatory to have at least one item with `ДКПП` as `scheme`.
+
+    If plan has `budget.breakdown.title` some of `local`, `state`, `crimea`, `fund`
+    it is required to have KPKV additional classificator.
 
 documents
 ---------
