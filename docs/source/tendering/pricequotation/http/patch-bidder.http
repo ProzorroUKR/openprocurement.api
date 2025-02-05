@@ -52,7 +52,9 @@ Content-Type: application/json
           "id": "e00ff388599e42ce842a4d3dec0a110d",
           "title": "Форма випуску"
         },
-        "value": "Розчин для інфузій",
+        "values": [
+          "Розчин для інфузій"
+        ],
         "id": "349d027ced4f428f8c23d7334f74f5bc",
         "classification": {
           "scheme": " espd211",
