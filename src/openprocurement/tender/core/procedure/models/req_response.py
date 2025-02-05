@@ -33,7 +33,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_object_id_uniq,
     validate_value_type,
 )
-from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
 
