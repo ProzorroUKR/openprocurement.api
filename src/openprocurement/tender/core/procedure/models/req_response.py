@@ -329,9 +329,6 @@ class ObjResponseMixin(PatchObjResponsesMixin):
             return
 
         validation_statuses = ["pending", "active"]
-        if get_tender()["procurementMethodType"] in (PQ,):
-            validation_statuses.append("draft")
-
         if data["status"] not in validation_statuses:
             return
 
