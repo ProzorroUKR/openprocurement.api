@@ -35,6 +35,7 @@ from openprocurement.tender.openua.tests.criterion_blanks import (  # Requiremen
     put_rg_requirement_valid_value_change,
     tech_feature_criterion,
     validate_requirement_evidence_document,
+    validate_rg_requirement_strict_rules,
 )
 
 
@@ -72,6 +73,7 @@ class TenderCriteriaRGRequirementTestMixin:
     test_put_rg_requirement_valid_value_change = snitch(put_rg_requirement_valid_value_change)
     test_put_rg_requirement_invalid = snitch(put_rg_requirement_invalid)
     test_get_rg_requirement = snitch(get_rg_requirement)
+    test_validate_rg_requirement_strict_rules = snitch(validate_rg_requirement_strict_rules)
 
     test_requirement_data = {
         "title": "Фізична особа, яка є учасником процедури закупівлі, ",

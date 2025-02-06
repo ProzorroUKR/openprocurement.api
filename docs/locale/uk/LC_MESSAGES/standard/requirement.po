@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-17 17:37+0200\n"
+"POT-Creation-Date: 2025-01-03 15:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Requirement"
 msgstr ""
@@ -100,6 +100,9 @@ msgstr "Відповідь на вимогу має бути надана у б�
 msgid "minValue"
 msgstr ""
 
+msgid "int/float"
+msgstr ""
+
 msgid "|ocdsDescription| Used to state the lower bound of the requirement when the response must be within a certain range."
 msgstr "|ocdsDescription| Використовується для визначення нижньої межі вимоги, коли відповідь повинна знаходитися в певному діапазоні."
 
@@ -112,8 +115,17 @@ msgstr "|ocdsDescription| Використовується для визначе
 msgid "expectedValue"
 msgstr ""
 
+msgid "int/float/bool"
+msgstr ""
+
 msgid "|ocdsDescription| Used to state the requirement when the response must be particular value."
 msgstr "|ocdsDescription| Використовується коли відповідь на вимогу має мати визначене значення."
+
+msgid "expectedValues"
+msgstr ""
+
+msgid "Used to state the requirement when the response must be an array of particular values."
+msgstr "Використовується коли відповідь на вимогу має мати визначене значення з довідника."
 
 msgid "period"
 msgstr ""

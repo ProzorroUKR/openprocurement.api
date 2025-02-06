@@ -133,7 +133,10 @@ Content-Type: application/json
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
-                "expectedValue": "Розчин для інфузій",
+                "expectedValues": [
+                  "Розчин для інфузій"
+                ],
+                "expectedMinItems": 1,
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
@@ -217,7 +220,7 @@ Content-Type: application/json
                   "Відповідь3",
                   "Відповідь4"
                 ],
-                "expectedMinItems": 2,
+                "expectedMinItems": 1,
                 "expectedMaxItems": 3,
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }

@@ -277,7 +277,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
             {
               "title": "Сума існуючої заборгованості, грн.",
               "dataType": "number",
-              "minValue": 0.0
+              "minValue": 0.0,
+              "unit": {
+                "code": "H87",
+                "name": "штук"
+              }
             }
           ]
         }
@@ -561,7 +565,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "dataType": "string",
               "expectedValues": [
                 "Українська"
-              ]
+              ],
+              "expectedMinItems": 1
             }
           ]
         }
@@ -898,6 +903,10 @@ Content-Type: application/json
               "title": "Сума існуючої заборгованості, грн.",
               "dataType": "number",
               "status": "active",
+              "unit": {
+                "code": "H87",
+                "name": "штук"
+              },
               "minValue": 0.0,
               "datePublished": "2023-10-10T01:00:00+03:00"
             }
@@ -1227,6 +1236,7 @@ Content-Type: application/json
               "expectedValues": [
                 "Українська"
               ],
+              "expectedMinItems": 1,
               "datePublished": "2023-10-10T01:00:00+03:00"
             }
           ]

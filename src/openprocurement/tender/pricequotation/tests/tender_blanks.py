@@ -1098,23 +1098,25 @@ def tender_criteria_values_type(self):
     data = {"data": {"criteria": criteria}}
 
     requirement["dataType"] = "string"
-    requirement["expectedValue"] = 1
+    requirement["expectedValues"] = [1]
     response = self.app.patch_json(req_path, data)
 
     self.assertEqual(
-        response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]['expectedValue'], "1"
+        response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]['expectedValues'], ["1"]
     )
 
-    requirement["dataType"] = "string"
-    requirement["expectedValue"] = True
+    requirement["expectedValues"] = [True]
     response = self.app.patch_json(req_path, data)
 
     self.assertEqual(
-        response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]['expectedValue'], "True"
+        response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]['expectedValues'], ["True"]
     )
 
     # Test dataType == "integer"
     requirement["dataType"] = "integer"
+    requirement["unit"] = {"code": "H87", "name": "штук"}
+    requirement["expectedValues"] = None
+    requirement["expectedMinItems"] = None
     requirement["expectedValue"] = "5"
     response = self.app.patch_json(req_path, data)
 
@@ -1143,6 +1145,7 @@ def tender_criteria_values_type(self):
     # Test dataType == "boolean"
 
     requirement["dataType"] = "boolean"
+    del requirement["unit"]
 
     requirement["expectedValue"] = "False"
     response = self.app.patch_json(req_path, data)
@@ -1161,6 +1164,7 @@ def tender_criteria_values_type(self):
     # dataType == "string" for expectedValues
     del requirement["expectedValue"]
     requirement["dataType"] = "string"
+    requirement["expectedMinItems"] = 1
 
     requirement["expectedValues"] = ["hello", 11, "world"]
     response = self.app.patch_json(req_path, data)
@@ -1168,28 +1172,6 @@ def tender_criteria_values_type(self):
     self.assertEqual(
         response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]['expectedValues'],
         ["hello", "11", "world"],
-    )
-
-    # dataType == "integer" for expectedValues
-    requirement["dataType"] = "integer"
-
-    requirement["expectedValues"] = [5, "6", 7]
-    response = self.app.patch_json(req_path, data)
-
-    self.assertEqual(
-        response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]['expectedValues'], [5, 6, 7]
-    )
-
-    # Test dataType == "boolean" for expectedValues
-
-    requirement["dataType"] = "boolean"
-
-    requirement["expectedValues"] = [True, False, "False"]
-    response = self.app.patch_json(req_path, data)
-
-    self.assertEqual(
-        response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]['expectedValues'],
-        [True, False, False],
     )
 
 

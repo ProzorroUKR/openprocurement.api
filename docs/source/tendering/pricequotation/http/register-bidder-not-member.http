@@ -37,7 +37,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "requirement": {
           "id": "e00ff388599e42ce842a4d3dec0a110d"
         },
-        "value": "Розчин для інфузій"
+        "values": [
+          "Розчин для інфузій"
+        ]
       },
       {
         "requirement": {

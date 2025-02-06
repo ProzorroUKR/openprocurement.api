@@ -29,7 +29,8 @@
                         "dataType": "string",
                         "expectedValues": [
                             "Українська"
-                        ]
+                        ],
+                        "expectedMinItems": 1
                     }
                 ]
             }

@@ -928,9 +928,8 @@ def put_rg_requirement_valid(self):
     self.assertNotEqual(response.json["data"][0]["datePublished"], response.json["data"][1]["datePublished"])
 
     put_fields = {
-        "title": "Фізична особа",
+        "title": "Фізична особа 2",
         "expectedValue": None,
-        "expectedValues": [False, True],
     }
     response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
     self.assertEqual(response.status, "200 OK")
@@ -955,7 +954,6 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.json["data"][2]["status"], "active")
     self.assertEqual(response.json["data"][2]["id"], self.requirement_id)
     self.assertEqual(response.json["data"][2]["title"], put_fields["title"])
-    self.assertEqual(response.json["data"][2]["expectedValues"], put_fields["expectedValues"])
     self.assertNotIn("expectedValue", response.json["data"][2])
     self.assertIsNone(response.json["data"][2].get("dateModified"))
     self.assertNotEqual(response.json["data"][1]["datePublished"], response.json["data"][2]["datePublished"])

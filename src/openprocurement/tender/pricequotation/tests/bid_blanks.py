@@ -379,7 +379,7 @@ def requirement_response_validation_multiple_criterias(self):
     self.assertEqual(response.content_type, "application/json")
     test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
-    test_response[0]['value'] = 'ivalid'
+    test_response[0]['values'] = ['ivalid']
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {
@@ -400,10 +400,7 @@ def requirement_response_validation_multiple_criterias(self):
         data['errors'],
         [
             {
-                'description': [
-                    'Value "ivalid" does not match expected value "Розчин для інфузій" '
-                    f'in requirement {test_response[0]["requirement"]["id"]}'
-                ],
+                'description': [f'Values are not in requirement {test_response[0]["requirement"]["id"]}'],
                 'location': 'body',
                 'name': 'requirementResponses',
             }
@@ -545,39 +542,6 @@ def requirement_response_validation_multiple_criterias(self):
 
     test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
-    test_response[2]["values"] = ["Відповідь4"]
-    response = self.app.post_json(
-        f"/tenders/{self.tender_id}/bids",
-        {
-            "data": {
-                "status": "active",
-                "tenderers": [test_tender_pq_organization],
-                "value": {"amount": 500},
-                "requirementResponses": test_response,
-            }
-        },
-        status=422,
-    )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, "application/json")
-    data = response.json
-    self.assertEqual(data['status'], "error")
-    self.assertEqual(
-        data['errors'],
-        [
-            {
-                'description': [
-                    f'Count of items lower then minimal required 2 '
-                    f'in requirement {test_response[2]["requirement"]["id"]}'
-                ],
-                'location': 'body',
-                'name': 'requirementResponses',
-            }
-        ],
-    )
-
-    test_response = deepcopy(test_tender_pq_response_1)
-    copy_criteria_req_id(tender["criteria"], test_response)
     test_response[2]["values"] = ["Відповідь1", "Відповідь2", "Відповідь3", "Відповідь4"]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
@@ -675,7 +639,12 @@ def requirement_response_value_validation_for_expected_values(self):
                 {
                     "description": "Форма випуску",
                     "requirements": [
-                        {"dataType": "string", "expectedValues": ["Розчин для інфузій"], "title": "Форма випуску"},
+                        {
+                            "dataType": "string",
+                            "expectedValues": ["Розчин для інфузій"],
+                            "title": "Форма випуску",
+                            "expectedMinItems": 1,
+                        },
                     ],
                 }
             ],
@@ -947,10 +916,7 @@ def requirement_response_validation_one_group_multiple_requirements(self):
         data['errors'],
         [
             {
-                'description': [
-                    'Value "Порошок" does not match expected value "Розчин" '
-                    f'in requirement {rr[0]["requirement"]["id"]}'
-                ],
+                'description': [f'Values are not in requirement {rr[0]["requirement"]["id"]}'],
                 'location': 'body',
                 'name': 'requirementResponses',
             }
@@ -959,7 +925,7 @@ def requirement_response_validation_one_group_multiple_requirements(self):
 
     rr = deepcopy(test_tender_pq_response_4)
     copy_criteria_req_id(tender["criteria"], rr)
-    rr[0]['value'] = 'Розчин'
+    rr[0]['values'] = ['Розчин']
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {

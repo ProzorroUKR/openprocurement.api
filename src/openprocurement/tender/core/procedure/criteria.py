@@ -1,4 +1,6 @@
+from openprocurement.api.constants import NEW_REQUIREMENTS_RULES_FROM
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.utils import tender_created_after
 
 
 class TenderCriterionMixin:
@@ -37,3 +39,55 @@ class TenderCriterionMixin:
                 check(new_criterion)
         else:
             check(data)
+
+    def validate_criteria_requirements_rules(self, data: dict) -> None:
+        if not tender_created_after(NEW_REQUIREMENTS_RULES_FROM):
+            return
+        if not isinstance(data, list):
+            data = [data]
+
+        def raise_requirement_error(message):
+            raise_operation_error(
+                self.request,
+                message,
+                status=422,
+                name="requirements",
+            )
+
+        def validate_string(req):
+            if req.get("expectedValues") is None:
+                raise_requirement_error("expectedValues is required when dataType is string")
+            if len(req["expectedValues"]) != len(set(req["expectedValues"])):
+                raise_requirement_error("expectedValues should be unique")
+            if req.get("expectedMinItems") != 1:
+                raise_requirement_error("expectedMinItems is required and should be equal to 1 for dataType string")
+            if req.get("unit"):
+                raise_requirement_error("unit is forbidden for dataType string")
+
+        def validate_boolean(req):
+            if req.get("expectedValues") is not None:  # minValue/maxValue check exists in Requirement model
+                raise_requirement_error("only expectedValue is allowed for dataType boolean")
+            if req.get("unit"):
+                raise_requirement_error("unit is forbidden for dataType boolean")
+
+        def validate_number_or_integer(req):
+            if req.get("expectedValues") is not None:
+                raise_requirement_error("expectedValues is allowed only for dataType string")
+            if req.get("expectedValue") is None and req.get("minValue") is None:
+                raise_requirement_error(f"expectedValue or minValue is required for dataType {req['dataType']}")
+            if not req.get("unit"):
+                raise_requirement_error(f"unit is required for dataType {req['dataType']}")
+
+        validation_rules = {
+            "string": validate_string,
+            "boolean": validate_boolean,
+            "number": validate_number_or_integer,
+            "integer": validate_number_or_integer,
+        }
+
+        for tender_criterion in data:
+            for rg in tender_criterion.get("requirementGroups", []):
+                for req in rg.get("requirements", []):
+                    data_type = req.get("dataType")
+                    if data_type in validation_rules:
+                        validation_rules[data_type](req)
