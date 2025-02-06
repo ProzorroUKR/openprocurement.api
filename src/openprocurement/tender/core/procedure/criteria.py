@@ -1,5 +1,16 @@
+from collections import Counter
+
 from openprocurement.api.constants import NEW_REQUIREMENTS_RULES_FROM
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import (
+    get_tender_category,
+    get_tender_profile,
+    raise_operation_error,
+)
+from openprocurement.tender.core.constants import (
+    CRITERION_LOCALIZATION,
+    CRITERION_TECHNICAL_FEATURES,
+)
 from openprocurement.tender.core.procedure.utils import tender_created_after
 
 
@@ -91,3 +102,94 @@ class TenderCriterionMixin:
                     data_type = req.get("dataType")
                     if data_type in validation_rules:
                         validation_rules[data_type](req)
+
+    def validate_criteria_requirement_from_market(self, data: dict) -> None:
+        if not tender_created_after(NEW_REQUIREMENTS_RULES_FROM):
+            return
+        tender = get_tender()
+        if not isinstance(data, list):
+            data = [data]
+
+        # get profile and category for each tender item
+        tender_items_market_objects = {
+            item["id"]: (item.get("profile"), item.get("category")) for item in tender.get("items", [])
+        }
+
+        for tender_criterion in data:
+            # check only localization and tech criteria, because only these are in market
+            if tender_criterion["classification"]["id"] in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
+                requirements_from_profile = False
+                profile_id, category_id = tender_items_market_objects[tender_criterion["relatedItem"]]
+                if profile_id:
+                    profile = get_tender_profile(self.request, profile_id)
+                    if profile.get("status", "active") == "active":
+                        requirements_from_profile = True
+                        market_obj = profile
+                # check requirements from category only if there is no profile in item or profile is general
+                if not requirements_from_profile and category_id:
+                    market_obj = get_tender_category(self.request, category_id)
+
+                for market_criterion in market_obj.get("criteria", []):
+                    if market_criterion.get("classification", {}).get("id") == tender_criterion["classification"]["id"]:
+                        market_requirements = {
+                            req["title"]: req
+                            for rg in market_criterion.get("requirementGroups", "")
+                            for req in rg.get("requirements", "")
+                            if not req.get("isArchived", False)
+                        }
+                        tender_requirements = {
+                            req["title"]: req
+                            for rg in tender_criterion.get("requirementGroups", "")
+                            for req in rg.get("requirements", "")
+                        }
+                        if set(tender_requirements.keys()) - set(market_requirements.keys()):
+                            raise_operation_error(
+                                self.request,
+                                f"For criterion {tender_criterion['classification']['id']} there are "
+                                f"requirements that don't exist in {'profile' if requirements_from_profile else 'category'} "
+                                f"or archived: {set(tender_requirements.keys()) - set(market_requirements.keys())}",
+                                status=422,
+                            )
+                        if requirements_from_profile and set(market_requirements.keys()) - set(
+                            tender_requirements.keys()
+                        ):
+                            raise_operation_error(
+                                self.request,
+                                f"Criterion {tender_criterion['classification']['id']} lacks requirements from "
+                                f"profile {set(market_requirements.keys()) - set(tender_requirements.keys())}",
+                                status=422,
+                            )
+                        for market_req in list(market_requirements.values()):
+                            if tender_req := tender_requirements.get(market_req["title"]):
+                                fields = ["title", "unit", "dataType", "expectedMaxItems"]
+                                if requirements_from_profile:
+                                    fields.extend(
+                                        ["expectedValue", "expectedMinItems", "expectedValues", "minValue", "maxValue"]
+                                    )
+                                for field in fields:
+                                    if field == "expectedValues" and market_req.get(field):
+                                        # Counter works like set but check the length of lists too
+                                        if Counter(tender_req.get(field)) != Counter(market_req[field]):
+                                            raise_operation_error(
+                                                self.request,
+                                                f"Field '{field}' for '{market_req['title']}' should have the same values in tender and market requirement",
+                                                status=422,
+                                            )
+                                    elif market_req.get(field) != tender_req.get(field):
+                                        raise_operation_error(
+                                            self.request,
+                                            f"Field '{field}' for '{market_req['title']}' should be equal in tender and market requirement",
+                                            status=422,
+                                        )
+                                if not requirements_from_profile and (
+                                    expected_values := market_req.get("expectedValues")
+                                ):
+                                    if not tender_req.get("expectedValues") or set(
+                                        tender_req["expectedValues"]
+                                    ).difference(set(expected_values)):
+                                        raise_operation_error(
+                                            self.request,
+                                            f"Requirement '{tender_req['title']}' expectedValues should have values "
+                                            f"from category requirement",
+                                            status=422,
+                                        )

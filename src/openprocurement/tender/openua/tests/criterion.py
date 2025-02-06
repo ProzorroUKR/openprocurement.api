@@ -18,6 +18,8 @@ from openprocurement.tender.openua.tests.criterion_blanks import (  # Requiremen
     create_rg_requirement_valid,
     create_tender_criteria_invalid,
     create_tender_criteria_valid,
+    criterion_from_market_category,
+    criterion_from_market_profile,
     delete_requirement_evidence,
     get_criteria_rg,
     get_requirement_evidence,
@@ -137,6 +139,8 @@ class TenderCriteriaLccTestMixin:
 
 class TenderTechFeatureCriteriaTestMixin:
     test_tech_feature_criterion = snitch(tech_feature_criterion)
+    test_criterion_from_market_profile = snitch(criterion_from_market_profile)
+    test_criterion_from_market_category = snitch(criterion_from_market_category)
 
 
 class TenderUACriteriaTest(
