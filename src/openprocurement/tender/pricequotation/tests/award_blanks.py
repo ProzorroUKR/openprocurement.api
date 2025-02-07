@@ -414,7 +414,7 @@ def move_award_contract_to_contracting(self):
             "unit": {
                 "name": "кг",
                 "code": "KGM",
-                "value": {"amount": 12},
+                "value": {"amount": 50},
             },
         }
     ]
@@ -459,7 +459,7 @@ def move_award_contract_to_contracting(self):
     self.assertIn("value", item["attributes"][0])
     self.assertEqual(item["description"], "Комп’ютерне обладнання для біда")
     self.assertEqual(item["quantity"], 10)
-    self.assertEqual(item["unit"]["value"]["amount"], 12)
+    self.assertEqual(item["unit"]["value"]["amount"], 50)
 
     response = self.app.put_json(
         f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",
@@ -492,6 +492,28 @@ def move_award_contract_to_contracting(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    item["unit"]["value"] = {"amount": 10, "currency": "UAH", "valueAddedTaxIncluded": True}
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "items": [item],
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Total amount of unit values must be less than contract.value.amount no more than 20 percent",
+    )
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",

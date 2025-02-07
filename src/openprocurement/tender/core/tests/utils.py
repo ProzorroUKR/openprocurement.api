@@ -251,9 +251,7 @@ def set_bid_items(self, bid, items=None, tender_id=None):
     if not items:
         items = tender["items"]
 
-    valueAddedTaxIncluded = None
-    if bid_value := bid.get("value", {}):
-        valueAddedTaxIncluded = bid_value.get("valueAddedTaxIncluded")
+    valueAddedTaxIncluded = False
     bid_items = []
     related_lot_ids = {lot_value["relatedLot"] for lot_value in bid.get("lotValues") or []}
     for item in items:
@@ -267,7 +265,11 @@ def set_bid_items(self, bid, items=None, tender_id=None):
                 "unit": {
                     "name": "Item",
                     "code": "KGM",
-                    "value": {"amount": 10.0, "currency": "UAH", "valueAddedTaxIncluded": valueAddedTaxIncluded},
+                    "value": {
+                        "amount": 100.0 / len(items),
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": valueAddedTaxIncluded,
+                    },
                 },
             }
         )

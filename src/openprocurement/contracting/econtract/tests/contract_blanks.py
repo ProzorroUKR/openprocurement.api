@@ -914,16 +914,30 @@ def contract_items_change(self):
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {"data": {"items": [{**item, "quantity": 12, "description": "тапочки для тараканів"}]}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
             {
                 "location": "body",
-                "name": "data",
+                "name": "items",
                 "description": "Total amount of unit values can't be greater than contract.value.amount",
+            }
+        ],
+    )
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [{**item, "quantity": 2, "description": "тапочки для тараканів"}]}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Total amount of unit values must be less than contract.value.amount no more than 20 percent",
             }
         ],
     )
@@ -961,7 +975,7 @@ def contract_items_change(self):
                         "unit": {
                             "code": "KGM",
                             "name": "кг",
-                            "value": {"currency": "UAH", "amount": 3.2394, "valueAddedTaxIncluded": True},
+                            "value": {"currency": "UAH", "amount": 18.2394, "valueAddedTaxIncluded": True},
                         },
                     }
                 ]
@@ -974,7 +988,7 @@ def contract_items_change(self):
         response.json["data"]["items"][0]["classification"],
         {"scheme": "CPV", "description": "Cartons", "id": "44617100-9"},
     )
-    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 3.2394)
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 18.2394)
     self.assertEqual(response.json["data"]["items"][0]["description"], "тапочки для тараканів")
 
     # add one more item
@@ -1068,7 +1082,7 @@ def contract_items_change(self):
                 "items": [
                     {
                         **old_item,
-                        "quantity": 0.005,
+                        "quantity": 5.005,
                         "deliveryAddress": {
                             **old_item["deliveryAddress"],
                             "postalCode": "79011",
@@ -1080,7 +1094,7 @@ def contract_items_change(self):
             }
         },
     )
-    self.assertEqual(response.json["data"]["items"][0]["quantity"], 0.005)
+    self.assertEqual(response.json["data"]["items"][0]["quantity"], 5.005)
     self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["postalCode"], "79011")
     self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"], "вул. Літаючого Хом’яка")
     self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["region"], "м. Київ")
@@ -1297,12 +1311,11 @@ def patch_tender_contract_value_vat_change(self):
         response.json["data"]["value"]["valueAddedTaxIncluded"],
     )
 
-    # check contract.items.unit.value.valueAddedTaxIncluded
-    # is the same as contract.value.valueAddedTaxIncluded
+    # check contract.items.unit.value.valueAddedTaxIncluded is False
     for item in response.json["data"]["items"]:
         self.assertEqual(
             item["unit"]["value"]["valueAddedTaxIncluded"],
-            response.json["data"]["value"]["valueAddedTaxIncluded"],
+            False,
         )
 
     # change contract.value.valueAddedTaxIncluded from True to False
@@ -1554,7 +1567,7 @@ def patch_tender_contract_single_request(self):
         f"/contracts/{self.contract['id']}?acc_token={token}",
         {
             "data": {
-                "value": {"valueAddedTaxIncluded": False, "amount": 200, "amountNet": 200},
+                "value": {"valueAddedTaxIncluded": False, "amount": 250, "amountNet": 250},
                 "amountPaid": {"valueAddedTaxIncluded": False, "amount": 100, "amountNet": 100},
                 "status": "terminated",
                 "terminationDetails": "sink",

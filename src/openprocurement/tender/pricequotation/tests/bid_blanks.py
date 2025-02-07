@@ -1,6 +1,8 @@
 from copy import deepcopy
+from datetime import timedelta
 from unittest.mock import Mock, patch
 
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
@@ -1403,3 +1405,75 @@ def invalidate_not_agreement_member_bid_via_chronograph(self):
     self.check_chronograph()
     response = self.app.get(f"/tenders/{self.tender_id}/bids")
     self.assertEqual(response.json["data"][0]["status"], "invalid")
+
+
+def bid_items_unit_value_validations(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": test_tender_pq_requirement_response,
+    }
+    set_bid_items(self, bid_data)
+    self.assertEqual(tender["value"]["valueAddedTaxIncluded"], True)
+    bid_data["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = True
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"][0]["description"], "valueAddedTaxIncluded of bid unit should be False")
+
+    bid_data["items"][0].update(
+        {
+            "quantity": 4,
+            "unit": {
+                "name": "Item",
+                "code": "KGM",
+                "value": {"amount": 99.0, "currency": "UAH", "valueAddedTaxIncluded": False},
+            },
+        }
+    )
+
+    # quantity * value.amount is less than 20.8% of bid.value.amount
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Total amount of unit values must be less than bid.value.amount no more than 20 percent",
+    )
+
+    # value.amount is 0
+    bid_data["items"][0]["unit"]["value"]["amount"] = 0
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Total amount of unit values must be less than bid.value.amount no more than 20 percent",
+    )
+
+    # quantity * value.amount is less than 20.8% of bid.value.amount
+    bid_data["items"][0]["unit"]["value"]["amount"] = 100.0
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": bid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    with patch(
+        "openprocurement.tender.core.procedure.validation.ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM",
+        get_now() + timedelta(days=1),
+    ):
+        bid_data["items"][0]["unit"]["value"]["amount"] = 0
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {"data": bid_data},
+        )
+        self.assertEqual(response.status, "201 Created")

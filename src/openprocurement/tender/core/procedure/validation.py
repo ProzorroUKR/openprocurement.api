@@ -29,6 +29,8 @@ from openprocurement.api.constants import (
     GMDN_CPV_PREFIXES,
     GUARANTEE_ALLOWED_TENDER_TYPES,
     INN_SCHEME,
+    ITEMS_UNIT_VALUE_AMOUNT_PERCENTAGE,
+    ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
@@ -54,6 +56,7 @@ from openprocurement.tender.core.constants import (
     FIRST_STAGE_PROCUREMENT_TYPES,
 )
 from openprocurement.tender.core.procedure.utils import (
+    count_percentage_between_two_values,
     find_item_by_id,
     find_lot,
     get_criterion_requirement,
@@ -67,6 +70,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_date,
     calculate_tender_full_date,
 )
+from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -1560,13 +1564,32 @@ def validate_object_id_uniq(objs, *_, obj_name=None):
 
 def validate_items_unit_amount(items_unit_value_amount, data, obj_name="contract"):
     if items_unit_value_amount and data.get("value") and not is_multi_currency_tender():
-        calculated_value = sum(items_unit_value_amount)
+        calculated_value = sum(items_unit_value_amount).quantize(Decimal("1E-2"), rounding=ROUND_FLOOR)
+        obj_value = to_decimal(data["value"]["amount"])
 
-        if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(data["value"]["amount"]):
+        if calculated_value > obj_value:
             raise_operation_error(
                 get_request(),
                 f"Total amount of unit values can't be greater than {obj_name}.value.amount",
+                name="items",
+                status=422,
             )
+        # For PQ from particular date it is required that sum of all items.unit.value.amount
+        # should be no more than 20% less than obj value
+        elif (
+            tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM)
+            and get_tender().get("procurementMethodType") == PQ
+        ):
+            if (
+                calculated_value <= 0
+                or count_percentage_between_two_values(obj_value, calculated_value) > ITEMS_UNIT_VALUE_AMOUNT_PERCENTAGE
+            ):
+                raise_operation_error(
+                    get_request(),
+                    f"Total amount of unit values must be less than {obj_name}.value.amount no more than {ITEMS_UNIT_VALUE_AMOUNT_PERCENTAGE} percent",
+                    name="items",
+                    status=422,
+                )
 
 
 def validate_numerated(field_name="sequenceNumber"):
