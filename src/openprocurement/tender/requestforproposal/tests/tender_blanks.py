@@ -1161,7 +1161,6 @@ def validate_pre_selection_agreement(self):
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    print(response.json["errors"][0]["description"])
     self.assertEqual(response.json["errors"][0]["description"], "Agreement type mismatch.")
 
     # not active agreement

@@ -60,7 +60,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 20.8,
+            "amount": 40.8,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },

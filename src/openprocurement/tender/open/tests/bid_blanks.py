@@ -806,7 +806,7 @@ def bids_invalidation_on_tender_change(self):
         {
             "data": {
                 "value": {
-                    "amount": 300.0,
+                    "amount": 500.0,
                     "currency": "UAH",
                     "valueAddedTaxIncluded": True,
                 },
@@ -819,7 +819,7 @@ def bids_invalidation_on_tender_change(self):
         },
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["value"]["amount"], 300)
+    self.assertEqual(response.json["data"]["value"]["amount"], 500)
 
     # check bids status
     for bid_id, token in bids_access.items():
@@ -829,7 +829,7 @@ def bids_invalidation_on_tender_change(self):
 
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
-    data["value"]["amount"] = 299
+    data["value"]["amount"] = 499
     set_bid_lotvalues(data, self.initial_lots)
     bid, bid_token = self.create_bid(self.tender_id, data)
     valid_bid_id = bid["id"]

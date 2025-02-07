@@ -99,13 +99,13 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 6.0,
+            "amount": 100.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 5.0
+        "quantity": 4.0
       }
     ],
     "submissionDate": "2023-10-10T01:00:01+03:00"

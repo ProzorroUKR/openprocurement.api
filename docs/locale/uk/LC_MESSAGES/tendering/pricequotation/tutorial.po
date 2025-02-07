@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-24 04:58+0200\n"
+"POT-Creation-Date: 2025-02-10 11:37+0200\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -210,6 +210,12 @@ msgstr "Статус закупівлі ``active.tendering`` дозволяє п
 
 msgid "If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:"
 msgstr "Якщо `tenderer` в пропозиції не є кваліфікованим учасником в угоді, то ми побачимо помилку під час подання пропозиції:"
+
+msgid "For PQ bids have strict validation: the amount of bids by item (`item.quantity * item.unit.value.amount`) must be greater than 0, and may differ downwards from bid.value.amount by no more than 20%."
+msgstr "Для типу закупівлі priceQuotation існує валідація: сума добутків по позиціям (`item.quantity * item.unit.value.amount`) повинна бути більше 0, і може відрізнятись в нижню сторону від bid.value.amount не більше ніж на 20%."
+
+msgid "If sum of unit items values are less than `bid.value.amount` more than 20%, the bidder will see the error:"
+msgstr "Якщо сума добутків цін за одиницю менше `bid.value.amount` більше ніж на 20%, учасник побачить помилку:"
 
 msgid "Bidder can register a bid with ``draft`` status:"
 msgstr "Учасник може зареєструвати пропозицію зі статусом ``draft`` (чернетка):"

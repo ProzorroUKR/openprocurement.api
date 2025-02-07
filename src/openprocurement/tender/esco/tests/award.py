@@ -93,7 +93,7 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardChec
     initial_bids[2]["tenderers"][0]["identifier"]["id"] = "44437256"
     initial_bids[1]["value"] = {
         "yearlyPaymentsPercentage": 0.9,
-        "annualCostsReduction": [100] * 21,
+        "annualCostsReduction": [500] * 21,
         "contractDuration": {"years": 2, "days": 10},
     }
 

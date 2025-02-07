@@ -94,7 +94,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 6.0,
+            "amount": 100.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },

@@ -711,7 +711,7 @@ def delete_tender_bidder(self):
     self.assertEqual(response.content_type, "application/json")
 
     for i in range(self.min_bids_number):
-        bid_data["lotValues"][0]["value"] = {"amount": 100 + i}
+        bid_data["lotValues"][0]["value"] = {"amount": 500 - i}
         self.create_bid(self.tender_id, bid_data, "pending")
 
     # switch to active.pre-qualification
@@ -937,13 +937,13 @@ def bids_invalidation_on_tender_change(self):
     # check that tender status change does not invalidate bids
     # submit valid bid
     data = deepcopy(self.test_bids_data[0])
-    data["lotValues"][0]["value"]["amount"] = 299
+    data["lotValues"][0]["value"]["amount"] = 499
     bid, valid_bid_token = self.create_bid(self.tender_id, data, "pending")
     valid_bid_id = bid["id"]
     valid_bid_date = bid["date"]
 
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"][0]["value"]["amount"] = 101
+    bid_data["lotValues"][0]["value"]["amount"] = 401
 
     for i in range(1, self.min_bids_number):
         bid_data.update({"tenderers": self.test_bids_data[i]["tenderers"]})

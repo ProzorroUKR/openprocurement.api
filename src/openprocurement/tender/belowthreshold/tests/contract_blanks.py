@@ -65,9 +65,13 @@ def patch_tender_multi_contracts(self):
     )
 
     # 1st contract.value + 2nd contract.value <= award.amount.value
+    contract_2["items"][0]["quantity"] = 4
+    contract_2["items"][0]["unit"]["value"]["amount"] = 20
+    contract_2["items"][1]["quantity"] = 4
+    contract_2["items"][1]["unit"]["value"]["amount"] = 20
     response = self.app.patch_json(
         f"/contracts/{contract_2['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 190, "amountNet": 185, "currency": "UAH"}}},
+        {"data": {"value": {"amount": 190, "amountNet": 185, "currency": "UAH"}, "items": contract_2["items"]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 190)
@@ -696,7 +700,7 @@ def patch_contract_single_item_unit_value(self):
                 },
             }
         },
-        status=403,
+        status=422,
     )
     self.assertEqual(
         response.json["errors"],
@@ -704,7 +708,7 @@ def patch_contract_single_item_unit_value(self):
             {
                 "description": "Total amount of unit values can't be greater than contract.value.amount",
                 "location": "body",
-                "name": "data",
+                "name": "items",
             }
         ],
     )
@@ -777,16 +781,15 @@ def patch_contract_single_item_unit_value_with_status(self):
                 },
             }
         },
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
             {
                 "description": "Total amount of unit values can't be greater than contract.value.amount",
                 "location": "body",
-                "name": "data",
+                "name": "items",
             }
         ],
     )
@@ -942,16 +945,15 @@ def patch_contract_multi_items_unit_value(self):
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {"data": {"status": "active"}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
             {
                 "description": "Total amount of unit values can't be greater than contract.value.amount",
                 "location": "body",
-                "name": "data",
+                "name": "items",
             }
         ],
     )
@@ -1162,9 +1164,18 @@ def patch_multiple_contracts_in_contracting(self):
     )
 
     # 1st contract.value + 2nd contract.value <= award.amount.value
+    contract2["items"][0]["quantity"] = 4
+    contract2["items"][0]["unit"]["value"]["amount"] = 20
+    contract2["items"][1]["quantity"] = 4
+    contract2["items"][1]["unit"]["value"]["amount"] = 20
     response = self.app.patch_json(
         f"/contracts/{self.contracts_ids[1]}?acc_token={self.tender_token}",
-        {"data": {"value": {**contract2["value"], "amount": 190, "amountNet": 185, "currency": "UAH"}}},
+        {
+            "data": {
+                "value": {**contract2["value"], "amount": 190, "amountNet": 185, "currency": "UAH"},
+                "items": contract2["items"],
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 190)
@@ -1256,22 +1267,7 @@ def patch_econtract_multi_currency(self):
     self.assertEqual(contract["value"]["amount"], 500)
     self.assertEqual(contract["value"]["currency"], "UAH")
 
-    # try to change VAT different from contract value VAT
-    contract["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
-
-    response = self.app.patch_json(
-        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
-        {"data": {"items": contract["items"]}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        ["Value mismatch. Expected: valueAddedTaxIncluded True"],
-    )
-
-    # try to change VAT along with contract value VAT
-    contract["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
+    # try to change contract value VAT
     contract["value"]["valueAddedTaxIncluded"] = False
 
     response = self.app.patch_json(

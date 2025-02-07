@@ -3685,6 +3685,15 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         set_bid_lotvalues(bid_data, [lot])
         bid_data["items"] = bid_items
+
+        with open(
+            TARGET_DIR + 'bid-items-localization/unsuccessful-create-bid-with-items-VAT.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=422)
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        for item in bid_data["items"]:
+            item["unit"]["value"]["valueAddedTaxIncluded"] = False
         tender_item_id = bid_items[0]["id"]
         bid_items[0]["id"] = "e" * 32
 

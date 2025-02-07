@@ -7,8 +7,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "status": "terminated",
     "amountPaid": {
-      "amount": 430,
-      "amountNet": 420,
+      "amount": 240,
+      "amountNet": 238,
       "valueAddedTaxIncluded": true
     }
   }
@@ -48,9 +48,9 @@ Content-Type: application/json
       }
     ],
     "amountPaid": {
-      "amount": 430.0,
+      "amount": 240.0,
       "currency": "UAH",
-      "amountNet": 420.0,
+      "amountNet": 238.0,
       "valueAddedTaxIncluded": true
     },
     "status": "terminated",
@@ -108,7 +108,7 @@ Content-Type: application/json
       {
         "id": "687e8ce64af241ed9a7df097b8ce713a",
         "description": "Комп’ютерне обладнання для біда",
-        "quantity": 2.0,
+        "quantity": 20.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -135,9 +135,9 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 8.0,
+            "amount": 9.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         }
@@ -172,19 +172,19 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 6.0,
+            "amount": 10.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         }
       }
     ],
     "value": {
-      "amount": 438.0,
+      "amount": 240.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amountNet": 430.0
+      "amountNet": 238.0
     },
     "documents": [
       {

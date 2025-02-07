@@ -43,13 +43,13 @@ def bids_invalidation_on_tender_change(self):
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
         {
             "data": {
-                "value": {**lot["value"], "amount": 300.0},
+                "value": {**lot["value"], "amount": 500.0},
                 "minimalStep": {**lot["minimalStep"], "amount": 9.0},
             }
         },
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["value"]["amount"], 300)
+    self.assertEqual(response.json["data"]["value"]["amount"], 500)
 
     # check bids status
     for bid_id, token in bids_access.items():
@@ -74,6 +74,8 @@ def bids_invalidation_on_tender_change(self):
 
     # check that tender status change does not invalidate bids
     # submit one more bid. check for invalid value first
+    data = initial_bids[0]
+    data["lotValues"][0]["value"]["amount"] = 600
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": initial_bids[0]}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -90,14 +92,14 @@ def bids_invalidation_on_tender_change(self):
     )
     # and submit valid bid
     data = initial_bids[0]
-    data["lotValues"][0]["value"]["amount"] = 299
+    data["lotValues"][0]["value"]["amount"] = 499
     bid, valid_bid_token = self.create_bid(self.tender_id, data)
     valid_bid_id = bid["id"]
     valid_bid_date = bid["date"]
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["lotValues"] = [{"value": {"amount": 101}, "relatedLot": self.initial_lots[0]["id"]}]
+    bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
 
     for i in range(1, self.min_bids_number):
         bid_data["tenderers"] = initial_bids[i]["tenderers"]

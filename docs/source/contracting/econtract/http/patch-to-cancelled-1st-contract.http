@@ -85,7 +85,7 @@ Content-Type: application/json
           "value": {
             "amount": 6.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         }

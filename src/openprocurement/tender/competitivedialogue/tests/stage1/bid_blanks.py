@@ -28,7 +28,7 @@ def create_tender_bidder(self):
                     "unit": {
                         "name": "Item",
                         "code": "KGM",
-                        "value": {"amount": 10.0, "currency": "UAH"},
+                        "value": {"amount": 10.0, "currency": "UAH", "valueAddedTaxIncluded": False},
                     },
                 },
             ],

@@ -35,27 +35,27 @@ from openprocurement.tender.openua.tests.award_blanks import (
 tender_award_complaint_period_params = [
     [
         "working_day",
-        "2019-09-12T12:00:00+03:00",  # Tender created on working date
-        "2019-09-19T00:00:00+03:00",  # Award period end date
-        "2019-09-12T12:04:00+03:00",  # Award period end date sandbox mode
+        "2024-09-12T12:00:00+03:00",  # Tender created on working date
+        "2024-09-19T00:00:00+03:00",  # Award period end date
+        "2024-09-12T12:04:00+03:00",  # Award period end date sandbox mode
     ],
     [
         "working_day",
-        "2019-09-16T12:00:00+03:00",  # Tender created on working date
-        "2019-09-21T00:00:00+03:00",  # Award period end date on last working (but actually saturday 00:00)
-        "2019-09-16T12:04:00+03:00",  # Award period end date sandbox mode
+        "2024-09-16T12:00:00+03:00",  # Tender created on working date
+        "2024-09-21T00:00:00+03:00",  # Award period end date on last working (but actually saturday 00:00)
+        "2024-09-16T12:04:00+03:00",  # Award period end date sandbox mode
     ],
     [
         "non_working_day",
-        "2019-09-14T12:00:00+03:00",  # Tender created on weekend
-        "2019-09-20T00:00:00+03:00",  # Award period end date
-        "2019-09-14T12:04:00+03:00",  # Award period end date sandbox mode
+        "2024-09-14T12:00:00+03:00",  # Tender created on weekend
+        "2024-09-20T00:00:00+03:00",  # Award period end date
+        "2024-09-14T12:04:00+03:00",  # Award period end date sandbox mode
     ],
     [
         "non_working_day",
-        "2019-09-15T12:00:00+03:00",  # Tender created on weekend
-        "2019-09-20T00:00:00+03:00",  # Award period end date
-        "2019-09-15T12:04:00+03:00",  # Award period end date sandbox mode
+        "2024-09-15T12:00:00+03:00",  # Tender created on weekend
+        "2024-09-20T00:00:00+03:00",  # Award period end date
+        "2024-09-15T12:04:00+03:00",  # Award period end date sandbox mode
     ],
 ]
 
@@ -89,6 +89,7 @@ def tender_award_complaint_period(self, date, expected_date, expected_sb_date):
         patch_data = {"status": "active", "qualified": True}
         if self.initial_data['procurementMethodType'] != "simple.defense":
             patch_data["eligible"] = True
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
             {"data": patch_data},

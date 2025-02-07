@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "value": {
             "amount": 0.6,
             "currency": "EUR",
-            "valueAddedTaxIncluded": false
+            "valueAddedTaxIncluded": true
           }
         }
       },
@@ -46,7 +46,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of bid lotValues"
+      "description": "valueAddedTaxIncluded of bid unit should be False"
     }
   ]
 }

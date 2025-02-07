@@ -61,10 +61,10 @@ def delete_tender_bidder_eu(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    bid_data["lotValues"][0]["value"] = {"amount": 100}
+    bid_data["lotValues"][0]["value"] = {"amount": 498}
     self.create_bid(self.tender_id, bid_data)
 
-    bid_data["lotValues"][0]["value"] = {"amount": 101}
+    bid_data["lotValues"][0]["value"] = {"amount": 499}
     self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
@@ -200,12 +200,12 @@ def bids_invalidation_on_tender_change_eu(self):
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-    data["lotValues"][0]["value"]["amount"] = 299
+    data["lotValues"][0]["value"]["amount"] = 499
     bid, valid_bid_token = self.create_bid(self.tender_id, data)
     valid_bid_id = bid["id"]
     valid_bid_date = bid["date"]
 
-    test_bid["lotValues"][0]["value"] = {"amount": 101}
+    test_bid["lotValues"][0]["value"] = {"amount": 499}
 
     self.create_bid(self.tender_id, test_bid)
 
@@ -848,7 +848,7 @@ def bids_invalidation_on_tender_change_ua(self):
 
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
-    data["value"]["amount"] = 299
+    data["value"]["amount"] = 499
     set_bid_lotvalues(data, self.initial_lots)
     bid, bid_token = self.create_bid(self.tender_id, data)
     valid_bid_id = bid["id"]

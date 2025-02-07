@@ -2530,7 +2530,7 @@ def bids_related_product(self):
             "unit": {
                 "name": "Item",
                 "code": "KGM",
-                "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": True},
+                "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False},
             },
             "product": related_product_id,
         },
@@ -2565,7 +2565,8 @@ def bids_related_product(self):
         bid_token = response.json["access"]["token"]
 
     items = bid_data["items"].copy()
-    items[0]["quantity"] = 2
+    items[0]["quantity"] = 9
+    items[0]["unit"]["value"]["amount"] = 50
 
     with patch(
         "requests.get",

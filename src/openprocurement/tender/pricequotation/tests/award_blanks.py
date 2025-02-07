@@ -414,7 +414,7 @@ def move_award_contract_to_contracting(self):
             "unit": {
                 "name": "кг",
                 "code": "KGM",
-                "value": {"amount": 50},
+                "value": {"amount": 45},
             },
         }
     ]
@@ -459,7 +459,7 @@ def move_award_contract_to_contracting(self):
     self.assertIn("value", item["attributes"][0])
     self.assertEqual(item["description"], "Комп’ютерне обладнання для біда")
     self.assertEqual(item["quantity"], 10)
-    self.assertEqual(item["unit"]["value"]["amount"], 50)
+    self.assertEqual(item["unit"]["value"]["amount"], 45)
 
     response = self.app.put_json(
         f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",

@@ -109,7 +109,10 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["contractID"], contract["contractID"])
-    self.assertEqual(response.json["data"]["items"], contract["items"])
+    for item in response.json["data"]["items"]:
+        for key in item.keys():
+            if key != "unit":
+                self.assertEqual(item[key], contract["items"][0][key])
     self.assertEqual(response.json["data"]["suppliers"], contract["suppliers"])
     self.assertEqual(response.json["data"]["dateSigned"], custom_signature_date)
 
@@ -177,16 +180,15 @@ def patch_contract_single_item_unit_value(self):
                 },
             }
         },
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
             {
                 "description": "Total amount of unit values can't be greater than contract.value.amount",
                 "location": "body",
-                "name": "data",
+                "name": "items",
             }
         ],
     )

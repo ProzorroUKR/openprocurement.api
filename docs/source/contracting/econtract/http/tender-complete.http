@@ -79,7 +79,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 6.0,
+            "amount": 100.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },
@@ -118,7 +118,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 6.0,
+            "amount": 100.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },
@@ -347,9 +347,9 @@ Content-Type: application/json
             "unit": {
               "name": "кг",
               "value": {
-                "amount": 8.0,
+                "amount": 40.0,
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               },
               "code": "KGM"
             },
@@ -361,9 +361,9 @@ Content-Type: application/json
             "unit": {
               "name": "кг",
               "value": {
-                "amount": 6.0,
+                "amount": 10.0,
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               },
               "code": "KGM"
             },

@@ -63,7 +63,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "value": {
             "amount": 0.6,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           }
         }
       }
@@ -149,7 +149,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/285d5c5b074a45f1
           "value": {
             "amount": 0.6,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },

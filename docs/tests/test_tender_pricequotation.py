@@ -207,6 +207,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bid_data = deepcopy(bid_draft)
         bid_data["requirementResponses"] = copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1)
         bid_data["items"] = copy_tender_items(tender["items"])
+        # validation sum of item.quantity * item.unit.value not more than 20% of bid.value
+        bid_data["items"][0]["quantity"] = 3  # 3 * 100 < 469 more than 20%
+        with open(TARGET_DIR + 'register-bidder-invalid-unit-value.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=422)
+        bid_data["items"][0]["quantity"] = 4  # 4 * 100 < 469 not more than 20%
         with open(TARGET_DIR + 'register-bidder.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
             bid1_id = response.json['data']['id']
@@ -281,6 +286,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bid_with_docs_data = deepcopy(test_tender_pq_bids_with_docs)
         bid_with_docs_data["requirementResponses"] = copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1)
         bid_with_docs_data["items"] = copy_tender_items(tender["items"])
+        bid_with_docs_data["items"][0]["quantity"] = 4
         for document in bid_with_docs_data['documents']:
             document['url'] = self.generate_docservice_url()
         response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_with_docs_data})
