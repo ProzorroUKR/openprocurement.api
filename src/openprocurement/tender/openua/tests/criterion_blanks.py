@@ -1348,8 +1348,8 @@ def put_rg_requirement_valid(self):
 
 
 @patch(
-    "openprocurement.tender.core.procedure.criteria.NEW_REQUIREMENTS_RULES_FROM",
-    (get_now() + timedelta(days=1)),
+    "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+    Mock(return_value={"id": "test", "status": "active"}),
 )
 def put_rg_requirement_valid_value_change(self):
     post_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}"
@@ -2271,7 +2271,12 @@ def criterion_from_market_profile(self):
         {
             "description": "Діагоніль екрану",
             "requirements": [
-                {"title": "Мова тендерної пропозиції українська", "dataType": "integer", "expectedValue": 15}
+                {
+                    "title": "Діагонaль екрану",
+                    "dataType": "integer",
+                    "expectedValue": 10,
+                    "unit": {"code": "INH", "name": "дюйм"},
+                }
             ],
         }
     ]
@@ -2295,7 +2300,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedValue' for 'Мова тендерної пропозиції українська' should be equal "
+                    "description": "Field 'expectedValue' for 'Діагонaль екрану' should be equal "
                     "in tender and market requirement",
                 },
             ],
@@ -2304,7 +2309,14 @@ def criterion_from_market_profile(self):
     market_tech_feature[0]["requirementGroups"] = [
         {
             "description": "Діагоніль екрану",
-            "requirements": [{"title": "Мова тендерної пропозиції", "dataType": "integer", "expectedValue": 10}],
+            "requirements": [
+                {
+                    "title": "Діагонaль",
+                    "dataType": "integer",
+                    "expectedValue": 15,
+                    "unit": {"code": "INH", "name": "дюйм"},
+                }
+            ],
         }
     ]
 
@@ -2328,13 +2340,13 @@ def criterion_from_market_profile(self):
                     "location": "body",
                     "name": "data",
                     "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES "
-                    "there are requirements that don't exist in profile or archived: {'Мова тендерної пропозиції українська'}",
+                    "there are requirements that don't exist in profile or archived: {'Діагонaль екрану'}",
                 },
             ],
         )
 
         # dataType in profile requirements != dataType in tender requirement
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["title"] = "Мова тендерної пропозиції"
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["title"] = "Діагонaль"
         criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "number"
 
         response = self.app.post_json(
@@ -2348,7 +2360,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'dataType' for 'Мова тендерної пропозиції' should be equal in tender and market requirement",
+                    "description": "Field 'dataType' for 'Діагонaль' should be equal in tender and market requirement",
                 },
             ],
         )
@@ -2369,11 +2381,13 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedValue' for 'Мова тендерної пропозиції' should be equal in tender and market requirement",
+                    "description": "Field 'expectedValue' for 'Діагонaль' should be equal in tender and market requirement",
                 },
             ],
         )
 
+    del criteria_data[0]["requirementGroups"][0]["requirements"][0]["minValue"]
+    criteria_data[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = 15
     market_tech_feature[0]["requirementGroups"][0]["requirements"].append(
         {
             "title": "Req 2",
@@ -2409,13 +2423,11 @@ def criterion_from_market_profile(self):
         )
 
         # no expectedValue in tender requirement
-        del criteria_data[0]["requirementGroups"][0]["requirements"][0]["minValue"]
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = 10
         criteria_data[0]["requirementGroups"][0]["requirements"].append(
             {
                 "title": "Req 2",
                 "dataType": "string",
-                "expectedValues": ["value2", "value1", "value1"],
+                "expectedValues": ["value2", "value1", "value3"],
                 "expectedMinItems": 1,
                 "expectedMaxItems": 2,
             }
@@ -2461,6 +2473,7 @@ def criterion_from_market_profile(self):
                 "title": "Req 3",
                 "dataType": "number",
                 "minValue": 1,
+                "unit": {"code": "INH", "name": "дюйм"},
             }
         )
         response = self.app.post_json(
@@ -2564,8 +2577,15 @@ def criterion_from_market_category(self):
     market_tech_feature = deepcopy(test_tech_feature_criteria)
     market_tech_feature[0]["requirementGroups"] = [
         {
-            "description": "Діагоніль екрану",
-            "requirements": [{"title": "Мова тендерної пропозиції", "dataType": "integer", "expectedValue": 10}],
+            "description": "Діагонaль екрану",
+            "requirements": [
+                {
+                    "title": "Діагонaль",
+                    "dataType": "integer",
+                    "expectedValue": 15,
+                    "unit": {"code": "INH", "name": "дюйм"},
+                }
+            ],
         }
     ]
 
@@ -2589,13 +2609,13 @@ def criterion_from_market_category(self):
                     "location": "body",
                     "name": "data",
                     "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES "
-                    "there are requirements that don't exist in category or archived: {'Мова тендерної пропозиції українська'}",
+                    "there are requirements that don't exist in category or archived: {'Діагонaль екрану'}",
                 },
             ],
         )
 
         # dataType in category requirements != dataType in tender requirement
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["title"] = "Мова тендерної пропозиції"
+        criteria_data[0]["requirementGroups"][0]["requirements"][0]["title"] = "Діагонaль"
         criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "number"
 
         response = self.app.post_json(
@@ -2609,7 +2629,7 @@ def criterion_from_market_category(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'dataType' for 'Мова тендерної пропозиції' should be equal in tender and market requirement",
+                    "description": "Field 'dataType' for 'Діагонaль' should be equal in tender and market requirement",
                 },
             ],
         )
@@ -2684,6 +2704,7 @@ def criterion_from_market_category(self):
                 "title": "Req 3",
                 "dataType": "number",
                 "minValue": 1,
+                "unit": {"code": "INH", "name": "дюйм"},
             }
         )
         response = self.app.post_json(
@@ -2708,6 +2729,7 @@ def criterion_from_market_category(self):
             "title": "Req 3",
             "dataType": "number",
             "minValue": 0,
+            "unit": {"code": "INH", "name": "дюйм"},
         }
     )
 
@@ -2722,7 +2744,7 @@ def criterion_from_market_category(self):
         criteria_data[0]["requirementGroups"][0]["requirements"] = criteria_data[0]["requirementGroups"][0][
             "requirements"
         ][:-1]
-        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMinItems"] = 0
+        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMinItems"] = 1
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
             {"data": criteria_data},
@@ -2735,6 +2757,7 @@ def criterion_from_market_category(self):
             "title": "Req 3",
             "dataType": "integer",
             "minValue": 0,
+            "unit": {"code": "INH", "name": "дюйм"},
         }
 
         response = self.app.patch_json(
