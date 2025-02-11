@@ -709,6 +709,7 @@ def create_tender_bid_31_12(self):
     data = deepcopy(self.test_bids_data[0])
     data["lotValues"][0]["value"]["contractDuration"]["years"] = 1
     data["lotValues"][0]["value"]["contractDuration"]["days"] = 1
+    data["items"][0]["unit"]["value"]["amount"] = 10
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

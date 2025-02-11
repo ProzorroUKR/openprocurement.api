@@ -178,7 +178,3 @@ def validate_item_unit_values(data, items):
                     and item_value["currency"] != base_value["currency"]
                 ):
                     raise ValidationError(f"Value mismatch. Expected: currency {base_value['currency']}")
-                if item_value["valueAddedTaxIncluded"] != base_value["valueAddedTaxIncluded"]:
-                    raise ValidationError(
-                        f"Value mismatch. Expected: valueAddedTaxIncluded {base_value['valueAddedTaxIncluded']}"
-                    )

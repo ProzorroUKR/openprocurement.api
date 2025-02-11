@@ -55,7 +55,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM",
           "value": {
             "amount": 0.2,
-            "currency": "EUR"
+            "currency": "EUR",
+            "valueAddedTaxIncluded": false
           }
         }
       },
@@ -67,7 +68,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM",
           "value": {
             "amount": 0,
-            "currency": "USD"
+            "currency": "USD",
+            "valueAddedTaxIncluded": false
           }
         }
       }
@@ -137,7 +139,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6694d8a81cfc4ddc
           "value": {
             "amount": 0.2,
             "currency": "EUR",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
@@ -150,7 +152,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6694d8a81cfc4ddc
           "value": {
             "amount": 0.0,
             "currency": "USD",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },

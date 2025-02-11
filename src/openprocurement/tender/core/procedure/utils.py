@@ -604,3 +604,7 @@ def get_requirement_obj(requirement_id: str, tender: dict = None):
                         continue
                     return req, group, criteria
     return None, None, None
+
+
+def count_percentage_between_two_values(initial_value, delta_value):
+    return (initial_value - delta_value) * 100 / initial_value

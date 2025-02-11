@@ -4,7 +4,10 @@ from decimal import Decimal
 
 from schematics.types import BaseType
 
-from openprocurement.api.constants import REQ_RESPONSE_VALUES_VALIDATION_FROM
+from openprocurement.api.constants import (
+    ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
+    REQ_RESPONSE_VALUES_VALIDATION_FROM,
+)
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
@@ -21,6 +24,7 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import (
     get_supplier_contract,
     is_bid_items_required,
+    tender_created_after,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
@@ -111,7 +115,12 @@ class BidState(BaseState):
         if data.get("items"):
             for item in data["items"]:
                 if value := item.get("unit", {}).get("value"):
-                    if items_for_lot:
+                    if tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM):
+                        if value.get("valueAddedTaxIncluded"):
+                            self.raise_items_error(
+                                "valueAddedTaxIncluded of bid unit should be False",
+                            )
+                    elif items_for_lot:
                         lot_id = tender_lot_id.get(item["id"])
                         if (lot_value := lot_values_by_id.get(lot_id)) and lot_value.get("value"):
                             if lot_value["value"].get("valueAddedTaxIncluded") is not None and lot_value["value"].get(

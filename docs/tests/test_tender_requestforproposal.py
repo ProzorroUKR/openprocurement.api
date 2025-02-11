@@ -513,14 +513,14 @@ class TenderResourceTest(
                 "id": items[0]['id'],
                 "unit": {
                     "code": "KGM",
-                    "value": {"amount": 1500, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": {"amount": 1500, "currency": "UAH", "valueAddedTaxIncluded": False},
                 },
             }
         ]
         set_bid_lotvalues(bid_data, tender_lots)
         bid_data['tenderers'][0]['identifier']['id'] = '12345678'
         with open(TARGET_DIR + 'tutorial/register-bidder-invalid.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=403)
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=422)
 
         bid_data['items'][0]["unit"]["value"]["amount"] = 0.6
         with open(TARGET_DIR + 'tutorial/register-bidder.http', 'w') as self.app.file_obj:
@@ -607,7 +607,7 @@ class TenderResourceTest(
                 "id": items[0]['id'],
                 "unit": {
                     "code": "KGM",
-                    "value": {"amount": 0.6, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": {"amount": 0.6, "currency": "UAH", "valueAddedTaxIncluded": False},
                 },
             }
         ]
@@ -910,14 +910,17 @@ class TenderResourceTest(
                             "id": items[0]['id'],
                             "unit": {
                                 "code": "KGM",
-                                "value": {"amount": 0.6, "currency": "EUR", "valueAddedTaxIncluded": True},
+                                "value": {"amount": 0.6, "currency": "EUR", "valueAddedTaxIncluded": False},
                             },
                         },
                         {
                             "quantity": 1,
                             "description": "степлер",
                             "id": items[1]['id'],
-                            "unit": {"code": "KGM", "value": {"amount": 0, "currency": "USD"}},
+                            "unit": {
+                                "code": "KGM",
+                                "value": {"amount": 0, "currency": "USD", "valueAddedTaxIncluded": False},
+                            },
                         },
                     ],
                 }
@@ -1051,13 +1054,19 @@ class TenderResourceTest(
                                 "quantity": 5,
                                 "description": "папір",
                                 "id": items[0]['id'],
-                                "unit": {"code": "KGM", "value": {"amount": 0.2, "currency": "EUR"}},
+                                "unit": {
+                                    "code": "KGM",
+                                    "value": {"amount": 0.2, "currency": "EUR", "valueAddedTaxIncluded": False},
+                                },
                             },
                             {
                                 "quantity": 1,
                                 "description": "степлер",
                                 "id": items[1]['id'],
-                                "unit": {"code": "KGM", "value": {"amount": 0, "currency": "USD"}},
+                                "unit": {
+                                    "code": "KGM",
+                                    "value": {"amount": 0, "currency": "USD", "valueAddedTaxIncluded": False},
+                                },
                             },
                         ],
                     }
@@ -1087,7 +1096,7 @@ class TenderResourceTest(
                                 "id": items[0]['id'],
                                 "unit": {
                                     "code": "KGM",
-                                    "value": {"amount": 0.6, "currency": "EUR", "valueAddedTaxIncluded": False},
+                                    "value": {"amount": 0.6, "currency": "EUR", "valueAddedTaxIncluded": True},
                                 },
                             },
                             {

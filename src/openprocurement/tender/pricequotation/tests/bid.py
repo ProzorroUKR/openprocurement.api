@@ -26,6 +26,7 @@ from openprocurement.tender.pricequotation.tests.base import (
 )
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     bid_Administrator_change,
+    bid_items_unit_value_validations,
     create_tender_bid,
     create_tender_bid_invalid,
     delete_tender_bid,
@@ -72,6 +73,7 @@ class TenderBidResourceTest(TenderContentWebTest):
         invalidate_not_agreement_member_bid_via_chronograph
     )
     test_bids_related_product = snitch(bids_related_product)
+    test_bid_items_unit_value_validations = snitch(bid_items_unit_value_validations)
 
 
 @patch(

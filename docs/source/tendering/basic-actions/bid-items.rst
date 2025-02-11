@@ -17,6 +17,10 @@ If you try to pass an item with an id that does not exist in tender.items, you w
 .. http:example:: http/bid-items-localization/unsuccessful-create-bid-with-items.http
    :code:
 
+VAT in `items.unit.value` can be only `False`. If you try to pass `True` you will see an error:
+
+.. http:example:: http/bid-items-localization/unsuccessful-create-bid-with-items-VAT.http
+   :code:
 
 Let's send correct data:
 

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/bids HTTP/1.0
+POST /api/2.5/tenders/13ebe09f71f241dcbda5bef5669bc60c/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -30,27 +30,31 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "status": "draft",
-    "items": [
-      {
-        "quantity": 5,
-        "description": "папір",
-        "id": "ffffffffffffffffffffffffffffffff",
-        "unit": {
-          "code": "KGM",
-          "value": {
-            "amount": 1500,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          }
-        }
-      }
-    ],
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
       {
         "value": {
           "amount": 500
         },
-        "relatedLot": "d6fba8716672449f87efa3a5781c7760"
+        "relatedLot": "043d36ce0feb4d0db21e430faa9019a2"
+      }
+    ],
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
       }
     ]
   }
@@ -66,7 +70,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "Total amount of unit values can't be greater than bid.lotValues.value.amount"
+      "description": "valueAddedTaxIncluded of bid unit should be False"
     }
   ]
 }

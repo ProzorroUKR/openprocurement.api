@@ -148,6 +148,15 @@ If bid `tenderer` is not a member of agreement, than we will see an error during
 .. http:example:: http/register-bidder-not-member.http
    :code:
 
+.. note::
+
+    For PQ bids have strict validation: the amount of bids by item (`item.quantity * item.unit.value.amount`) must be greater than 0, and may differ downwards from bid.value.amount by no more than 20%.
+
+If sum of unit items values are less than `bid.value.amount` more than 20%, the bidder will see the error:
+
+.. http:example:: http/register-bidder-invalid-unit-value.http
+   :code:
+
 Bidder can register a bid with ``draft`` status:
 
 .. http:example:: http/register-bidder.http

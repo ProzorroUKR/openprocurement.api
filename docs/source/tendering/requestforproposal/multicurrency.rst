@@ -50,7 +50,7 @@ The requirements for bid registration:
 
 * If the participant plans to give the customer a so-called discount, he can specify the value 0 for certain items in the Price per unit value
 
-Let's try to change VAT value in `bid.items.unit` to different than value specified by the customer in the tender and we will se the error:
+Let's try to change VAT value in `bid.items.unit` to different than False and we will see the error:
 
 .. http:example:: http/multi-currency/patch-invalid-bid-unit.http
    :code:

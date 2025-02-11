@@ -118,7 +118,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "unit": {
                             "name": "кг",
                             "code": "KGM",
-                            "value": {"amount": 8},
+                            "value": {"amount": 40, "valueAddedTaxIncluded": False},
                         },
                     },
                     {
@@ -128,7 +128,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "unit": {
                             "name": "кг",
                             "code": "KGM",
-                            "value": {"amount": 6},
+                            "value": {"amount": 10, "valueAddedTaxIncluded": False},
                         },
                     },
                 ],
@@ -327,6 +327,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         contract_document = self.mongodb.contracts.get(contract_id)
         contract_document['status'] = 'pending'
+        contract_document["items"][0]["unit"]["value"][
+            "amount"
+        ] = 18  # to correct sum of items not be less than 20% of contract.value
         self.mongodb.contracts.save(contract_document)
 
         # Activating contract
@@ -455,7 +458,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 f'/contracts/{contract_id}?acc_token={owner_token}',
                 {
                     "data": {
-                        "value": {"amount": 438, "amountNet": 430},
+                        "value": {"amount": 240, "amountNet": 238},
                         "period": {'startDate': custom_period_start_date, 'endDate': custom_period_end_date},
                     }
                 },
@@ -463,7 +466,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         # update item
-        contract["items"][0]["quantity"] = 2
+        contract["items"][0]["quantity"] = 20
+        contract["items"][0]["unit"]["value"]["amount"] = 9
         # contract["items"][1] = {}
         with open(TARGET_DIR + 'update-contract-item.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -474,7 +478,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
             item2 = response.json['data']['items'][0]
-            self.assertEqual(item2['quantity'], 2)
+            self.assertEqual(item2['quantity'], 20)
 
         # apply contract change
         with open(TARGET_DIR + 'apply-contract-change.http', 'w') as self.app.file_obj:
@@ -550,7 +554,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {
                     "data": {
                         "status": "terminated",
-                        "amountPaid": {"amount": 430, "amountNet": 420, "valueAddedTaxIncluded": True},
+                        "amountPaid": {"amount": 240, "amountNet": 238, "valueAddedTaxIncluded": True},
                     }
                 },
             )

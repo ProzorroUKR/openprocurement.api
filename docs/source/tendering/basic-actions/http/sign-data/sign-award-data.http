@@ -149,9 +149,9 @@ Content-Type: application/json
               "unit": {
                 "name": "Item",
                 "value": {
-                  "amount": 10.0,
+                  "amount": 50.0,
                   "currency": "UAH",
-                  "valueAddedTaxIncluded": true
+                  "valueAddedTaxIncluded": false
                 },
                 "code": "KGM"
               },
@@ -163,9 +163,9 @@ Content-Type: application/json
               "unit": {
                 "name": "Item",
                 "value": {
-                  "amount": 10.0,
+                  "amount": 50.0,
                   "currency": "UAH",
-                  "valueAddedTaxIncluded": true
+                  "valueAddedTaxIncluded": false
                 },
                 "code": "KGM"
               },

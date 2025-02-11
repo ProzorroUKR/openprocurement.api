@@ -51,7 +51,7 @@ test_contract_data_two_items["items"].append(
         "unit": {
             "code": "KGM",
             "name": "кг",
-            "value": {"currency": "UAH", "amount": 20.8, "valueAddedTaxIncluded": True},
+            "value": {"currency": "UAH", "amount": 40.8, "valueAddedTaxIncluded": True},
         },
         "quantity": 5,
     }

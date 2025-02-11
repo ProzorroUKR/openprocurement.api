@@ -40,7 +40,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "value": {
             "amount": 1500,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           }
         }
       }
@@ -57,7 +57,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 }
 
 
-HTTP/1.0 403 Forbidden
+HTTP/1.0 422 Unprocessable Entity
 Content-Type: application/json
 
 {
@@ -65,7 +65,7 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "data",
+      "name": "items",
       "description": "Total amount of unit values can't be greater than bid.lotValues.value.amount"
     }
   ]

@@ -7,6 +7,7 @@ from typing import Optional
 from schematics.types import BaseType
 
 from openprocurement.api.constants import (
+    ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
     UNIT_PRICE_REQUIRED_FROM,
@@ -321,7 +322,10 @@ class ContractStateMixing:
         for item in contract.get("items", ""):
             if item.get("unit"):
                 if item["unit"].get("value"):
-                    item["unit"]["value"]["valueAddedTaxIncluded"] = valueAddedTaxIncluded
+                    if tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM):
+                        item["unit"]["value"]["valueAddedTaxIncluded"] = False  # CS-18784 must be always False
+                    else:
+                        item["unit"]["value"]["valueAddedTaxIncluded"] = valueAddedTaxIncluded
                     if not is_multi_currency_tender(check_funders=True):
                         item["unit"]["value"]["currency"] = currency
 

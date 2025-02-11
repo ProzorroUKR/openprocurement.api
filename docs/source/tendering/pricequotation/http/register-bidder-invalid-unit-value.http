@@ -10,7 +10,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "name": "Державне управління справами",
         "identifier": {
           "scheme": "UA-IPN",
-          "id": "00037200",
+          "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
         },
         "address": {
@@ -71,14 +71,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
           },
           "code": "KGM"
         },
-        "quantity": 4
+        "quantity": 3
       }
     ]
   }
 }
 
 
-HTTP/1.0 403 Forbidden
+HTTP/1.0 422 Unprocessable Entity
 Content-Type: application/json
 
 {
@@ -86,8 +86,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "data",
-      "description": "Bid is not a member of agreement"
+      "name": "items",
+      "description": "Total amount of unit values must be less than bid.value.amount no more than 20 percent"
     }
   ]
 }
