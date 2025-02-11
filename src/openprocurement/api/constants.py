@@ -207,6 +207,8 @@ JOURNAL_PREFIX = os.environ.get("JOURNAL_PREFIX", "JOURNAL_")
 CONSTANTS_FILE_PATH = os.environ.get("CONSTANTS_FILE_PATH", get_default_constants_file_path())
 CONSTANTS_CONFIG = load_constants(CONSTANTS_FILE_PATH)
 
+VALIDATE_ADDRESS_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_ADDRESS_FROM")
+
 BUDGET_PERIOD_FROM = get_constant(CONSTANTS_CONFIG, "BUDGET_PERIOD_FROM")
 
 # Set mainProcurementCategory required
