@@ -1,14 +1,15 @@
 from schematics.types import EmailType, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import SCALE_CODES
-from openprocurement.api.procedure.models.address import Address
+from openprocurement.api.constants import SCALE_CODES, VALIDATE_ADDRESS_FROM
+from openprocurement.api.procedure.models.address import Address as BaseAddress
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.contact import validate_telephone
 from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.models.organization import PROCURING_ENTITY_KINDS
 from openprocurement.api.procedure.types import ListType
 from openprocurement.contracting.core.procedure.models.contact import ContactPoint
+from openprocurement.tender.core.procedure.utils import tender_created_after
 
 
 class SignerInfo(Model):
@@ -21,6 +22,16 @@ class SignerInfo(Model):
 
     def validate_telephone(self, data, value):
         validate_telephone(value)
+
+
+class Address(BaseAddress):
+    def validate_countryName(self, data, value):
+        if tender_created_after(VALIDATE_ADDRESS_FROM):
+            super().validate_countryName(self, data, value)
+
+    def validate_region(self, data, value):
+        if tender_created_after(VALIDATE_ADDRESS_FROM):
+            super().validate_region(self, data, value)
 
 
 class Organization(Model):
