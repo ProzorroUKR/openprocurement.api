@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-03 15:03+0200\n"
+"POT-Creation-Date: 2025-02-11 12:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,6 +96,24 @@ msgstr ""
 
 msgid "The requirement response must be of type boolean"
 msgstr "Відповідь на вимогу має бути надана у булевуму форматі"
+
+msgid "dataSchema"
+msgstr ""
+
+msgid "Determines the schema of data format in expectedValues. It is allowed only for `\"dataType\": \"string\"`"
+msgstr "Визначає схему формату даних для значень з довідника. Дозволено тільки для `\"dataType\": \"string\"`"
+
+msgid "`ISO 639-3`"
+msgstr ""
+
+msgid "Format for `language codes <https://prozorroukr.github.io/standards/classifiers/languages.json>`_"
+msgstr "Формат для `кодів мови <https://prozorroukr.github.io/standards/classifiers/languages.json>`_"
+
+msgid "`ISO 3166-1 alpha-2`"
+msgstr ""
+
+msgid "Format for `country codes <https://prozorroukr.github.io/standards/classifiers/countries.json>`_"
+msgstr "Формат для `кодів країн <https://prozorroukr.github.io/standards/classifiers/countries.json>`_"
 
 msgid "minValue"
 msgstr ""

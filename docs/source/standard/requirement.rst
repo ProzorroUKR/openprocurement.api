@@ -52,6 +52,18 @@ Schema
      :`boolean`:
        The requirement response must be of type boolean
 
+:dataSchema:
+    string
+
+    Determines the schema of data format in expectedValues.
+    It is allowed only for `"dataType": "string"`
+
+    Possible values are:
+     :`ISO 639-3`:
+       Format for `language codes <https://prozorroukr.github.io/standards/classifiers/languages.json>`_
+     :`ISO 3166-1 alpha-2`:
+       Format for `country codes <https://prozorroukr.github.io/standards/classifiers/countries.json>`_
+
 :minValue:
     int/float
 
