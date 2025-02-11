@@ -3590,7 +3590,7 @@ def activate_bid_guarantee_multilot(self):
                             "requirement": {
                                 "id": criterion["requirementGroups"][0]["requirements"][0]["id"],
                             },
-                            "values": ["Українська"],
+                            "values": ["ukr"],
                         }
                     )
                 else:

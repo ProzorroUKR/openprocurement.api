@@ -1,3 +1,4 @@
+from enum import Enum
 from logging import getLogger
 from uuid import uuid4
 
@@ -7,8 +8,10 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
+    COUNTRIES_MAP,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
+    LANGUAGE_CODES,
     PQ_CRITERIA_ID_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
 )
@@ -135,6 +138,17 @@ class Unit(BaseUnit):
     name = StringType(required=True)
 
 
+class DataSchema(Enum):
+    ISO_639 = "ISO 639-3"
+    ISO_3166 = "ISO 3166-1 alpha-2"
+
+
+ISO_MAPPING = {
+    DataSchema.ISO_639.value: LANGUAGE_CODES,
+    DataSchema.ISO_3166.value: COUNTRIES_MAP.keys(),
+}
+
+
 class BaseRequirement(Model):
     title = StringType(required=True, min_length=1)
     title_en = StringType()
@@ -162,6 +176,12 @@ class BaseRequirement(Model):
         default=ReqStatuses.DEFAULT,
     )
     unit = ModelType(Unit)
+    dataSchema = StringType(
+        choices=[
+            DataSchema.ISO_639.value,
+            DataSchema.ISO_3166.value,
+        ],
+    )
 
     minValue = BaseType()
     maxValue = BaseType()

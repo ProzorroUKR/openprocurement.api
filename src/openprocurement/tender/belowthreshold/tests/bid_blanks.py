@@ -1237,7 +1237,7 @@ def update_tender_bid_pmr_related_doc(self):
             "requirement": {
                 "id": requirement["id"],
             },
-            "values": ["Українська"],
+            "values": ["ukr"],
             "evidences": evidences,
         }
     ]
@@ -1346,7 +1346,7 @@ def update_tender_bid_pmr_related_tenderer(self):
             "requirement": {
                 "id": requirement["id"],
             },
-            "values": ["Українська"],
+            "values": ["ukr"],
             "relatedTenderer": {"id": "abc", "title": ""},
         }
     ]
@@ -1386,7 +1386,7 @@ def update_tender_rr(self):
             "requirement": {
                 "id": requirement["id"],
             },
-            "values": ["Українська"],
+            "values": ["ukr"],
             "evidences": evidences,
         }
     ]
@@ -1434,7 +1434,7 @@ def update_tender_rr_evidence_id(self):
             "requirement": {
                 "id": requirement["id"],
             },
-            "values": ["Українська"],
+            "values": ["ukr"],
             "evidences": evidences,
         }
     ]
