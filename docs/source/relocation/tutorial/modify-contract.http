@@ -98,7 +98,7 @@ Content-Type: application/json
       "amount": 238.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amountNet": 237.0
+      "amountNet": 200.0
     },
     "id": "2b264b733b7546749561d03ffa5e7971"
   },

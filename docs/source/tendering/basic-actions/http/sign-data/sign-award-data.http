@@ -149,7 +149,7 @@ Content-Type: application/json
               "unit": {
                 "name": "Item",
                 "value": {
-                  "amount": 50.0,
+                  "amount": 55.0,
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false
                 },
@@ -163,7 +163,7 @@ Content-Type: application/json
               "unit": {
                 "name": "Item",
                 "value": {
-                  "amount": 50.0,
+                  "amount": 55.0,
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false
                 },

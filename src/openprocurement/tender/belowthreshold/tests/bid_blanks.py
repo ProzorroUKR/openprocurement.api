@@ -339,13 +339,13 @@ def patch_tender_bid(self):
         {
             "data": {
                 "status": "draft",
-                "value": {"amount": 400},
+                "value": {"amount": 440},
             }
         },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["value"]["amount"], 400)
+    self.assertEqual(response.json["data"]["value"]["amount"], 440)
     self.assertEqual(response.json["data"]["date"], bid["date"])
 
     response = self.app.patch_json(
@@ -384,7 +384,7 @@ def patch_tender_bid(self):
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["value"]["amount"], 400)
+    self.assertEqual(response.json["data"]["value"]["amount"], 440)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),

@@ -266,7 +266,7 @@ def set_bid_items(self, bid, items=None, tender_id=None):
                     "name": "Item",
                     "code": "KGM",
                     "value": {
-                        "amount": 100.0 / len(items),
+                        "amount": 110.0 / len(items),
                         "currency": "UAH",
                         "valueAddedTaxIncluded": valueAddedTaxIncluded,
                     },
