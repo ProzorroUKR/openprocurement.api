@@ -1,4 +1,4 @@
-from decimal import ROUND_FLOOR, ROUND_UP, Decimal
+from decimal import ROUND_UP, Decimal
 
 from schematics.types import BaseType
 
@@ -64,29 +64,6 @@ def validate_update_contract_value_amount(request, name="value", **kwargs):
             else:
                 if amount != amount_net:
                     raise_operation_error(request, "Amount and amountNet should be equal", name=name)
-
-
-def validate_contract_items_unit_value_amount(request, contract, **kwargs):
-    items_unit_value_amount = []
-    for item in contract.items:
-        if item.unit and item.quantity is not None:
-            if item.unit.value:
-                if item.quantity == 0 and item.unit.value.amount != 0:
-                    raise_operation_error(
-                        request,
-                        "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
-                        status=422,
-                    )
-                items_unit_value_amount.append(to_decimal(item.quantity) * to_decimal(item.unit.value.amount))
-
-    if items_unit_value_amount and contract.value:
-        calculated_value = sum(items_unit_value_amount)
-
-        if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(contract.value.amount):
-            raise_operation_error(
-                request,
-                "Total amount of unit values can't be greater than contract.value.amount",
-            )
 
 
 def validate_tender_matches_plan(request, **kwargs):
