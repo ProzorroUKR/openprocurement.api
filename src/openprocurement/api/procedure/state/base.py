@@ -39,39 +39,21 @@ class BaseState:
 
 
 class ConfigMixin:
+    default_config_schema = {}
+
     def get_config_schema(self, data):
-        raise NotImplementedError
+        return self.default_config_schema
 
     def validate_config(self, data):
-        # load schema from standards
         config_schema = self.get_config_schema(data)
-        if not config_schema:
-            raise NotImplementedError
-
-        # validate properties
-        properties = config_schema.get("properties", {})
-        for config_name, scheme in properties.items():
-            value = data["config"].get(config_name)
-            if value is not None:
-                try:
-                    validate(value, scheme)
-                except ValidationError as e:
-                    raise_operation_error(
-                        self.request,
-                        e.message,
-                        status=422,
-                        location="body",
-                        name=f"config.{config_name}",
-                    )
-
-        # validate other
         try:
             validate(data["config"], config_schema)
         except ValidationError as e:
+            path = ".".join(["config"] + list(e.path))
             raise_operation_error(
                 self.request,
                 e.message,
                 status=422,
                 location="body",
-                name="config",
+                name=path,
             )

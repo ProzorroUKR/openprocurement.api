@@ -1,4 +1,5 @@
 from collections import defaultdict
+from copy import deepcopy
 from datetime import timedelta
 from decimal import Decimal
 from math import ceil, floor
@@ -75,8 +76,17 @@ class TenderConfigMixin(ConfigMixin):
     def get_config_schema(self, data):
         procurement_method_type = data.get("procurementMethodType")
         config_schema = TENDER_CONFIG_JSONSCHEMAS.get(procurement_method_type)
+
+        if not config_schema:
+            # procurementMethodType not found in TENDER_CONFIG_JSONSCHEMAS
+            raise NotImplementedError
+
+        config_schema = deepcopy(config_schema)
+
         if config_schema:
+            # add optional test field to config schema
             config_schema["properties"]["test"] = {"type": "boolean"}
+
         return config_schema
 
     def validate_config(self, data):
@@ -99,6 +109,7 @@ class TenderConfigMixin(ConfigMixin):
                     name=f"config.{config_name}",
                 )
 
+        # validate config with schema
         super().validate_config(data)
 
         # custom validations

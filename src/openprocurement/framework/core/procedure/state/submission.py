@@ -11,14 +11,13 @@ LOGGER = getLogger(__name__)
 
 
 class SubmissionConfigMixin(ConfigMixin):
-    def get_config_schema(self, data):
-        return {
-            "type": "object",
-            "properties": {
-                "test": {"type": "boolean"},
-                "restricted": {"type": "boolean"},
-            },
-        }
+    default_config_schema = {
+        "type": "object",
+        "properties": {
+            "test": {"type": "boolean"},
+            "restricted": {"type": "boolean"},
+        },
+    }
 
     def validate_config(self, data):
         super().validate_config(data)

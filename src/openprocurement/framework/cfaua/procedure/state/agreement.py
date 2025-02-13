@@ -9,14 +9,13 @@ from openprocurement.framework.cfaua.procedure.validation import validate_relate
 
 
 class AgreementConfigMixin(ConfigMixin):
-    def get_config_schema(self, data):
-        return {
-            "type": "object",
-            "properties": {
-                "test": {"type": "boolean"},
-                "restricted": {"type": "boolean"},
-            },
-        }
+    default_config_schema = {
+        "type": "object",
+        "properties": {
+            "restricted": {"type": "boolean"},
+            "test": {"type": "boolean"},
+        },
+    }
 
 
 class AgreementState(BaseState, AgreementConfigMixin):

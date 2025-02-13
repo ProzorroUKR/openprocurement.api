@@ -1,3 +1,4 @@
+from copy import deepcopy
 from datetime import timedelta
 from logging import getLogger
 
@@ -40,8 +41,17 @@ class FrameworkConfigMixin(ConfigMixin):
     def get_config_schema(self, data):
         framework_type = data.get("frameworkType")
         config_schema = FRAMEWORK_CONFIG_JSONSCHEMAS.get(framework_type)
+
+        if not config_schema:
+            # frameworkType not found in FRAMEWORK_CONFIG_JSONSCHEMAS
+            raise NotImplementedError
+
+        config_schema = deepcopy(config_schema)
+
         if config_schema:
+            # add optional test field to config schema
             config_schema["properties"]["test"] = {"type": "boolean"}
+
         return config_schema
 
     def init_config(self, data):
