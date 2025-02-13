@@ -192,7 +192,6 @@ class TenderDetailsMixing(TenderConfigMixin):
     agreement_allowed_types = [IFI_TYPE]
     agreement_with_items_forbidden = False
     agreement_without_items_forbidden = False
-    items_profile_required = False
 
     calendar = WORKING_DAYS
 
@@ -294,7 +293,6 @@ class TenderDetailsMixing(TenderConfigMixin):
         super().on_patch(before, after)
 
     def always(self, data):
-        self.validate_items_profile(data)
         self.set_mode_test(data)
         super().always(data)
 
@@ -1288,17 +1286,6 @@ class TenderDetailsMixing(TenderConfigMixin):
     @staticmethod
     def set_enquiry_period_invalidation_date(tender):
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-
-    def validate_items_profile(self, tender):
-        if self.items_profile_required:
-            for item in tender["items"]:
-                if not item.get("profile"):
-                    raise_operation_error(
-                        self.request,
-                        [{"profile": ["This field is required."]}],
-                        status=422,
-                        name="items",
-                    )
 
     def validate_contract_template_name(self, after, before):
         def raise_contract_template_name_error(message):
