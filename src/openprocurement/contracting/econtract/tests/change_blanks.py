@@ -140,7 +140,7 @@ def create_change_invalid(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 1}}},
+        {"data": {"value": {**self.contract["value"], "amountNet": self.contract["value"]["amountNet"] - 1}}},
     )
 
     response = self.app.patch_json(
@@ -648,7 +648,7 @@ def change_date_signed(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 1}}},
+        {"data": {"value": {**self.contract["value"], "amountNet": self.contract["value"]["amountNet"] - 1}}},
     )
 
     response = self.app.patch_json(

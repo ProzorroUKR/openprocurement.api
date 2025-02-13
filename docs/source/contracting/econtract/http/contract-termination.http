@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "terminated",
     "amountPaid": {
       "amount": 240,
-      "amountNet": 238,
+      "amountNet": 200,
       "valueAddedTaxIncluded": true
     }
   }
@@ -50,7 +50,7 @@ Content-Type: application/json
     "amountPaid": {
       "amount": 240.0,
       "currency": "UAH",
-      "amountNet": 238.0,
+      "amountNet": 200.0,
       "valueAddedTaxIncluded": true
     },
     "status": "terminated",
@@ -184,7 +184,7 @@ Content-Type: application/json
       "amount": 240.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amountNet": 238.0
+      "amountNet": 200.0
     },
     "documents": [
       {

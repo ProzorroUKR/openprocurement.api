@@ -166,7 +166,7 @@ Content-Type: application/json
       "amount": 240.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amountNet": 238.0
+      "amountNet": 200.0
     },
     "documents": [
       {

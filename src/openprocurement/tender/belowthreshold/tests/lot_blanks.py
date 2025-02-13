@@ -1316,11 +1316,11 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"lotValues": [{**lot, "value": {"amount": 400}, "relatedLot": lot_id}]}},
+        {"data": {"lotValues": [{**lot, "value": {"amount": 450}, "relatedLot": lot_id}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
+    self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 450)
     self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
 
     response = self.activate_bid(self.tender_id, bid["id"], token)

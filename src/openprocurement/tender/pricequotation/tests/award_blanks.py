@@ -493,7 +493,7 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    item["unit"]["value"] = {"amount": 10, "currency": "UAH", "valueAddedTaxIncluded": True}
+    item["unit"]["value"] = {"amount": 10, "currency": "UAH", "valueAddedTaxIncluded": False}
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
@@ -512,13 +512,16 @@ def move_award_contract_to_contracting(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Total amount of unit values must be less than contract.value.amount no more than 20 percent",
+        "Total amount of unit values must be less than contract.value.amount and no more than net contract amount",
     )
+
+    item["unit"]["value"] = {"amount": 46.9, "currency": "UAH", "valueAddedTaxIncluded": False}  # contract.value 469
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {
             "data": {
+                "items": [item],
                 "status": "active",
                 "contractNumber": "123",
                 "period": {

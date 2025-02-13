@@ -31,7 +31,7 @@ test_contract_data = {
             "unit": {
                 "code": "KGM",
                 "name": "кг",
-                "value": {"currency": "UAH", "amount": 40.8, "valueAddedTaxIncluded": True},
+                "value": {"currency": "UAH", "amount": 40.8, "valueAddedTaxIncluded": False},
             },
             "quantity": 5,
         }
@@ -68,7 +68,7 @@ test_contract_data = {
     ],
     "contractNumber": "contract #13111",
     "period": {"startDate": "2016-03-18T18:47:47.155143+02:00", "endDate": "2017-03-18T18:47:47.155143+02:00"},
-    "value": {"currency": "UAH", "amount": 238.0, "amountNet": 237.0, "valueAddedTaxIncluded": True},
+    "value": {"currency": "UAH", "amount": 238.0, "amountNet": 200.0, "valueAddedTaxIncluded": True},
     "dateSigned": get_now().isoformat(),
     "awardID": "8481d7eb01694c25b18658036c236c5d",
     "id": uuid4().hex,

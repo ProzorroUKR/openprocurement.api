@@ -1190,7 +1190,7 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("auction", ""))
     patch_data = {
         "bids": [
-            {"lotValues": [{"value": {"amount": 400 + n}} for n, l in enumerate(b.get("lotValues", []))]}
+            {"lotValues": [{"value": {"amount": 440 + n}} for n, l in enumerate(b.get("lotValues", []))]}
             for b in auction_bids_data
         ]
     }

@@ -318,7 +318,7 @@ def patch_tender_bidder(self):
     self.assertNotEqual(response.json["data"]["date"], bid["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
-    lot_values[0]["value"]["amount"] = 400
+    lot_values[0]["value"]["amount"] = 440
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {
@@ -333,7 +333,7 @@ def patch_tender_bidder(self):
     self.assertEqual(response.content_type, "application/json")
 
     response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
-    self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
+    self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 440)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/some_id?acc_token={}".format(self.tender_id, bid_token),
@@ -365,7 +365,7 @@ def patch_tender_bidder(self):
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
+    self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 440)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
@@ -943,7 +943,7 @@ def bids_invalidation_on_tender_change(self):
     valid_bid_date = bid["date"]
 
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"][0]["value"]["amount"] = 401
+    bid_data["lotValues"][0]["value"]["amount"] = 441
 
     for i in range(1, self.min_bids_number):
         bid_data.update({"tenderers": self.test_bids_data[i]["tenderers"]})

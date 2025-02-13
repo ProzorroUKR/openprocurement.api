@@ -452,8 +452,8 @@ class BaseTenderAwardMilestoneALPMixin:
         more_bids = 4 - len(self.initial_bids)
         if more_bids > 0:
             self.initial_bids = deepcopy(self.initial_bids) + deepcopy(self.initial_bids)[:more_bids]
-        self.initial_bids[0]["value"]["amount"] = 400
-        self.initial_bids[1]["value"]["amount"] = 425
+        self.initial_bids[0]["value"]["amount"] = 440
+        self.initial_bids[1]["value"]["amount"] = 445
         self.initial_bids[2]["value"]["amount"] = 450
         self.initial_bids[3]["value"]["amount"] = 500
         self.assertEqual(len(self.initial_bids), 4)

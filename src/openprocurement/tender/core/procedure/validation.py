@@ -29,7 +29,6 @@ from openprocurement.api.constants import (
     GMDN_CPV_PREFIXES,
     GUARANTEE_ALLOWED_TENDER_TYPES,
     INN_SCHEME,
-    ITEMS_UNIT_VALUE_AMOUNT_PERCENTAGE,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
@@ -56,7 +55,6 @@ from openprocurement.tender.core.constants import (
     FIRST_STAGE_PROCUREMENT_TYPES,
 )
 from openprocurement.tender.core.procedure.utils import (
-    count_percentage_between_two_values,
     find_item_by_id,
     find_lot,
     get_criterion_requirement,
@@ -1564,32 +1562,50 @@ def validate_object_id_uniq(objs, *_, obj_name=None):
 
 def validate_items_unit_amount(items_unit_value_amount, data, obj_name="contract"):
     if items_unit_value_amount and data.get("value") and not is_multi_currency_tender():
-        calculated_value = sum(items_unit_value_amount).quantize(Decimal("1E-2"), rounding=ROUND_FLOOR)
+        sum_items_unit = sum(items_unit_value_amount)
+        calculated_value = sum_items_unit.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR)
         obj_value = to_decimal(data["value"]["amount"])
 
-        if calculated_value > obj_value:
+        # For PQ from particular date it is required that:
+        #  - sum of all items.unit.value.amount should be equal obj value if VAT is not included in obj (without coins)
+        #  - sum of items.unit.value.amount < obj value < (sum of items.unit.value.amount * 1.2 ) if VAT is included in obj
+        if (
+            tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM)
+            and get_tender().get("procurementMethodType") == PQ
+        ):
+            tax_included = data["value"]["valueAddedTaxIncluded"]
+            if tax_included:
+                # get amountNet from obj.value if it is set or count this -20% net amount
+                amount_net = data["value"].get("amountNet")
+                amount_max = (sum_items_unit * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
+                if (
+                    calculated_value <= 0
+                    or int(obj_value) < int(calculated_value)
+                    or (
+                        amount_net and int(calculated_value) < int(amount_net)
+                    )  # sum of items.unit.value * quantity couldn't be greater that amountNet if it is set
+                    or (not amount_net and int(obj_value) > int(amount_max))
+                ):
+                    raise_operation_error(
+                        get_request(),
+                        f"Total amount of unit values must be less than {obj_name}.value.amount and no more than net {obj_name} amount",
+                        name="items",
+                        status=422,
+                    )
+            elif int(obj_value) != int(calculated_value):
+                raise_operation_error(
+                    get_request(),
+                    f"Total amount of unit values should be equal {obj_name}.value.amount if VAT is not included in {obj_name}",
+                    name="items",
+                    status=422,
+                )
+        elif calculated_value > obj_value:
             raise_operation_error(
                 get_request(),
                 f"Total amount of unit values can't be greater than {obj_name}.value.amount",
                 name="items",
                 status=422,
             )
-        # For PQ from particular date it is required that sum of all items.unit.value.amount
-        # should be no more than 20% less than obj value
-        elif (
-            tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM)
-            and get_tender().get("procurementMethodType") == PQ
-        ):
-            if (
-                calculated_value <= 0
-                or count_percentage_between_two_values(obj_value, calculated_value) > ITEMS_UNIT_VALUE_AMOUNT_PERCENTAGE
-            ):
-                raise_operation_error(
-                    get_request(),
-                    f"Total amount of unit values must be less than {obj_name}.value.amount no more than {ITEMS_UNIT_VALUE_AMOUNT_PERCENTAGE} percent",
-                    name="items",
-                    status=422,
-                )
 
 
 def validate_numerated(field_name="sequenceNumber"):

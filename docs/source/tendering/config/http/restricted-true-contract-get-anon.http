@@ -61,7 +61,7 @@ Content-Type: application/json
           "value": {
             "amount": 40.8,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         }
@@ -86,7 +86,7 @@ Content-Type: application/json
       "amount": 238.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amountNet": 237.0
+      "amountNet": 200.0
     },
     "status": "pending",
     "dateCreated": "2023-10-10T01:00:00+03:00",

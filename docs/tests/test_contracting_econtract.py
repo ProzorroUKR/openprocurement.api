@@ -458,7 +458,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 f'/contracts/{contract_id}?acc_token={owner_token}',
                 {
                     "data": {
-                        "value": {"amount": 240, "amountNet": 238},
+                        "value": {"amount": 240, "amountNet": 200},
                         "period": {'startDate': custom_period_start_date, 'endDate': custom_period_end_date},
                     }
                 },
@@ -554,7 +554,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {
                     "data": {
                         "status": "terminated",
-                        "amountPaid": {"amount": 240, "amountNet": 238, "valueAddedTaxIncluded": True},
+                        "amountPaid": {"amount": 240, "amountNet": 200, "valueAddedTaxIncluded": True},
                     }
                 },
             )
