@@ -128,7 +128,7 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "minBidsNumber",
+      "name": "config.minBidsNumber",
       "description": "10 is greater than the maximum of 9"
     }
   ]

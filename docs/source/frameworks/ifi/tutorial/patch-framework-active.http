@@ -117,8 +117,8 @@ Content-Type: application/json
     "id": "89208a5c9d04455eaa4c41e2b5f0d70a"
   },
   "config": {
-    "clarificationUntilDuration": 3,
     "restrictedDerivatives": false,
+    "clarificationUntilDuration": 3,
     "qualificationComplainDuration": 0,
     "hasItems": false
   }
