@@ -711,9 +711,17 @@ def create_tender_invalid(self):
         ],
     )
     data = deepcopy(self.initial_data)
+    config = deepcopy(self.initial_config)
+    config.update(
+        {
+            "hasAuction": True,
+            "hasAwardingOrder": False,
+            "valueCurrencyEquality": False,
+        }
+    )
     response = self.app.post_json(
         request_path,
-        {"data": data, "config": {"hasAuction": True, "hasAwardingOrder": False, "valueCurrencyEquality": False}},
+        {"data": data, "config": config},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -732,9 +740,17 @@ def create_tender_invalid(self):
             }
         ],
     )
+    config = deepcopy(self.initial_config)
+    config.update(
+        {
+            "hasAuction": False,
+            "hasAwardingOrder": True,
+            "valueCurrencyEquality": False,
+        }
+    )
     response = self.app.post_json(
         request_path,
-        {"data": data, "config": {"hasAuction": False, "hasAwardingOrder": True, "valueCurrencyEquality": False}},
+        {"data": data, "config": config},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -752,17 +768,21 @@ def create_tender_invalid(self):
                 "name": "valueCurrencyEquality",
             }
         ],
+    )
+    config = deepcopy(self.initial_config)
+    config.update(
+        {
+            "hasAuction": True,
+            "hasAwardingOrder": True,
+            "hasValueRestriction": False,
+            "valueCurrencyEquality": False,
+        }
     )
     response = self.app.post_json(
         request_path,
         {
             "data": data,
-            "config": {
-                "hasAuction": True,
-                "hasAwardingOrder": True,
-                "hasValueRestriction": False,
-                "valueCurrencyEquality": False,
-            },
+            "config": config,
         },
         status=422,
     )

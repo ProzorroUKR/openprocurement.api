@@ -229,18 +229,3 @@ class TenderConfig(Model):
     clarificationUntilDuration = IntType(min_value=0)
     qualificationDuration = IntType(min_value=0)
     restricted = BooleanType()
-
-    def validate_valueCurrencyEquality(self, data, value):
-        if value is False and any(
-            [
-                data.get("hasAuction"),
-                data.get("hasAwardingOrder"),
-                data.get("hasValueRestriction"),
-            ]
-        ):
-            raise ValidationError(
-                "valueCurrencyEquality can be False only if "
-                "hasAuction=False and "
-                "hasAwardingOrder=False and "
-                "hasValueRestriction=False"
-            )

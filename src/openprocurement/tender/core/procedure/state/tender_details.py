@@ -126,6 +126,32 @@ class TenderConfigMixin:
 
         self.validate_restricted_config(data)
         self.validate_estimated_value_config(data)
+        self.validate_value_currency_equality(data)
+
+    def validate_value_currency_equality(self, data):
+        """Validate valueCurrencyEquality config option"""
+        config = data["config"]
+        value = config.get("valueCurrencyEquality")
+
+        if value is False and any(
+            [
+                config.get("hasAuction"),
+                config.get("hasAwardingOrder"),
+                config.get("hasValueRestriction"),
+            ]
+        ):
+            raise_operation_error(
+                self.request,
+                [
+                    "valueCurrencyEquality can be False only if "
+                    "hasAuction=False and "
+                    "hasAwardingOrder=False and "
+                    "hasValueRestriction=False"
+                ],
+                status=422,
+                location="body",
+                name="valueCurrencyEquality",
+            )
 
     def validate_estimated_value_config(self, data):
         if (
