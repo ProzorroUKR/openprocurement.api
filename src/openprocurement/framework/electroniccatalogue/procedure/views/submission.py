@@ -9,10 +9,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.framework.core.procedure.models.submission import (
-    PatchSubmission,
-    SubmissionConfig,
-)
+from openprocurement.framework.core.procedure.models.submission import PatchSubmission
 from openprocurement.framework.core.procedure.validation import (
     validate_action_in_not_allowed_framework_status,
     validate_activate_submission,
@@ -54,7 +51,7 @@ class ElectronicCatalogueSubmissionResource(SubmissionsResource):
         permission="create_submission",
         validators=(
             validate_input_data(PostSubmission),
-            validate_config_data(SubmissionConfig),
+            validate_config_data(),
             validate_framework,
             validate_operation_submission_in_not_allowed_period,
             validate_action_in_not_allowed_framework_status("submission"),

@@ -11,7 +11,6 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_status_allows_update,
@@ -43,7 +42,7 @@ class AboveThresholdUADefenseTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostTender),
-            validate_config_data(TenderConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),

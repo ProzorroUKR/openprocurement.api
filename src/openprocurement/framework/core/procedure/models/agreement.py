@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from schematics.types import BaseType, BooleanType, MD5Type, StringType
+from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
@@ -73,11 +73,6 @@ class CommonPostAgreement(Model):
     config = BaseType()
 
     mode = StringType(choices=["test"])
-
-
-class AgreementConfig(Model):
-    test = BooleanType()
-    restricted = BooleanType()
 
 
 class AgreementChronographData(Model):

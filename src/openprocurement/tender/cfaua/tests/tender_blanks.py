@@ -412,7 +412,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "False is not one of [True]", "location": "body", "name": "hasValueRestriction"}],
+        [{"description": "False is not one of [True]", "location": "body", "name": "config.hasValueRestriction"}],
     )
     config.update({"hasAwardingOrder": False, "hasValueRestriction": True})
     response = self.app.post_json(
@@ -428,7 +428,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "False is not one of [True]", "location": "body", "name": "hasAwardingOrder"}],
+        [{"description": "False is not one of [True]", "location": "body", "name": "config.hasAwardingOrder"}],
     )
 
     config.update({"hasAwardingOrder": True, "minBidsNumber": 2})
@@ -444,7 +444,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "2 is less than the minimum of 3", "location": "body", "name": "minBidsNumber"}],
+        [{"description": "2 is less than the minimum of 3", "location": "body", "name": "config.minBidsNumber"}],
     )
     config.update({"minBidsNumber": 4})
     response = self.app.post_json(
@@ -459,7 +459,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "4 is greater than the maximum of 3", "location": "body", "name": "minBidsNumber"}],
+        [{"description": "4 is greater than the maximum of 3", "location": "body", "name": "config.minBidsNumber"}],
     )
 
     config.update({"minBidsNumber": 3, "hasTenderComplaints": False})
@@ -476,7 +476,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "False is not one of [True]", "location": "body", "name": "hasTenderComplaints"}],
+        [{"description": "False is not one of [True]", "location": "body", "name": "config.hasTenderComplaints"}],
     )
     config.update({"hasTenderComplaints": True, "hasQualificationComplaints": False})
     response = self.app.post_json(
@@ -492,7 +492,13 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "False is not one of [True]", "location": "body", "name": "hasQualificationComplaints"}],
+        [
+            {
+                "description": "False is not one of [True]",
+                "location": "body",
+                "name": "config.hasQualificationComplaints",
+            }
+        ],
     )
 
 

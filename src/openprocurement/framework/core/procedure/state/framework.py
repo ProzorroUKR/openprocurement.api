@@ -1,12 +1,9 @@
 from datetime import timedelta
 from logging import getLogger
 
-from jsonschema.exceptions import ValidationError
-from jsonschema.validators import validate
-
 from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.context import get_now, get_request
-from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
 from openprocurement.api.procedure.validation import validate_classifications_prefixes
 from openprocurement.api.utils import context_unpack, raise_operation_error
 from openprocurement.framework.core.constants import (
@@ -28,6 +25,8 @@ from openprocurement.framework.core.procedure.utils import (
     save_object,
 )
 from openprocurement.framework.core.utils import calculate_framework_full_date
+from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 AGREEMENT_DEPENDENT_FIELDS = (
@@ -37,31 +36,67 @@ AGREEMENT_DEPENDENT_FIELDS = (
 LOGGER = getLogger(__name__)
 
 
-class FrameworkConfigMixin:
-    configurations = (
-        "restrictedDerivatives",
-        "clarificationUntilDuration",
-        "qualificationComplainDuration",
-        "hasItems",
-    )
+class FrameworkConfigMixin(ConfigMixin):
+    def get_config_schema(self, data):
+        framework_type = data.get("frameworkType")
+        config_schema = FRAMEWORK_CONFIG_JSONSCHEMAS.get(framework_type)
+        if config_schema:
+            config_schema["properties"]["test"] = {"type": "boolean"}
+        return config_schema
+
+    def init_config(self, data):
+        if data["config"].get("test"):
+            data["mode"] = "test"
+        if data.get("procuringEntity", {}).get("kind") == "defense":
+            data["config"]["restrictedDerivatives"] = True
 
     def validate_config(self, data):
-        for config_name in self.configurations:
-            value = data["config"].get(config_name)
-            framework_type = data.get("frameworkType")
-            config_schema = FRAMEWORK_CONFIG_JSONSCHEMAS.get(framework_type)
-            if not config_schema:
-                raise NotImplementedError
-            schema = config_schema["properties"][config_name]
-            try:
-                validate(value, schema)
-            except ValidationError as e:
+        # load schema from standards
+        config_schema = self.get_config_schema(data)
+
+        # do not validate required fields
+        config_schema.pop("required", None)
+
+        super().validate_config(data)
+
+        # custom validations
+        self.validate_restricted_derivatives_config(data)
+
+    def validate_restricted_derivatives_config(self, data):
+        config = data["config"]
+        value = config.get("restrictedDerivatives")
+
+        if data.get("frameworkType") in (DPS_TYPE, IFI_TYPE):
+            if value is None:
                 raise_operation_error(
                     self.request,
-                    e.message,
+                    ["restrictedDerivatives is required for this framework type"],
                     status=422,
-                    location="body",
-                    name=config_name,
+                    name="restrictedDerivatives",
+                )
+            if data.get("procuringEntity", {}).get("kind") == "defense":
+                if value is False:
+                    raise_operation_error(
+                        self.request,
+                        ["restrictedDerivatives must be true for defense procuring entity"],
+                        status=422,
+                        name="restrictedDerivatives",
+                    )
+            else:
+                if value is True:
+                    raise_operation_error(
+                        self.request,
+                        ["restrictedDerivatives must be false for non-defense procuring entity"],
+                        status=422,
+                        name="restrictedDerivatives",
+                    )
+        else:
+            if value is True:
+                raise_operation_error(
+                    self.request,
+                    ["restrictedDerivatives must be false for this framework type"],
+                    status=422,
+                    name="restrictedDerivatives",
                 )
 
 
@@ -85,11 +120,8 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
 
     def on_post(self, data):
         self.validate_config(data)
+        self.init_config(data)
         data["date"] = get_now().isoformat()
-        if data["config"].get("test"):
-            data["mode"] = "test"
-        if data.get("procuringEntity", {}).get("kind") == "defense":
-            data["config"]["restrictedDerivatives"] = True
         self.validate_items_presence(data)
         self.validate_items_classification_prefix(data)
         super().on_post(data)

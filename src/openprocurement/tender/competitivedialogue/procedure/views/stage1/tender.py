@@ -28,7 +28,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_de
 from openprocurement.tender.competitivedialogue.procedure.validation import (
     unless_cd_bridge,
 )
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_change_status_with_cancellation_lot_pending,
@@ -61,7 +60,7 @@ class CDEUTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostEUTender),
-            validate_config_data(TenderConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),
@@ -127,7 +126,7 @@ class CDUATenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostUATender),
-            validate_config_data(TenderConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),

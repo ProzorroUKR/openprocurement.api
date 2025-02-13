@@ -712,6 +712,42 @@ def create_tender_invalid(self):
     )
     data = deepcopy(self.initial_data)
     config = deepcopy(self.initial_config)
+    config.pop("hasAuction", None)
+    response = self.app.post_json(
+        request_path,
+        {"data": data, "config": config},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "config.hasAuction", "description": "This field is required."}],
+    )
+    data = deepcopy(self.initial_data)
+    config = deepcopy(self.initial_config)
+    config["nonExistantConfig"] = True
+    response = self.app.post_json(
+        request_path,
+        {"data": data, "config": config},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "config",
+                "description": "Additional properties are not allowed ('nonExistantConfig' was unexpected)",
+            }
+        ],
+    )
+    data = deepcopy(self.initial_data)
+    config = deepcopy(self.initial_config)
     config.update(
         {
             "hasAuction": True,
@@ -820,7 +856,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "0 is less than the minimum of 1", "location": "body", "name": "minBidsNumber"}],
+        [{"description": "0 is less than the minimum of 1", "location": "body", "name": "config.minBidsNumber"}],
     )
     config.update({"minBidsNumber": 10})
     response = self.app.post_json(
@@ -835,7 +871,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "10 is greater than the maximum of 9", "location": "body", "name": "minBidsNumber"}],
+        [{"description": "10 is greater than the maximum of 9", "location": "body", "name": "config.minBidsNumber"}],
     )
 
 

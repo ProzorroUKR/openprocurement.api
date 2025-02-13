@@ -16,7 +16,6 @@ from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_guarantee,
@@ -72,7 +71,7 @@ class PriceQuotationTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostTender),
-            validate_config_data(TenderConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_1, ACCR_5),
                 kind_central_levels=(ACCR_5,),

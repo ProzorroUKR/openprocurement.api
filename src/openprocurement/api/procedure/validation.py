@@ -258,12 +258,9 @@ def validate_patch_data_simple(model, item_name):
     return validate
 
 
-def validate_config_data(input_model, default=None):
+def validate_config_data(default=None):
     """
-    Simple way to validate config in request.validated["config"] against a provided model
-    the result is put back in request.validated["config"]
-    :param input_model:
-    :param obj_name:
+    Put config in data dict
     :param default:
     :return:
     """
@@ -271,7 +268,6 @@ def validate_config_data(input_model, default=None):
 
     def validate(request, **_):
         config = request.json.get("config") or default
-        config = validate_data(request, input_model, config) or {}
         request.validated["data"]["config"] = config
         return config
 

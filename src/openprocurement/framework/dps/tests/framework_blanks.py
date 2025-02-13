@@ -652,29 +652,6 @@ def create_framework_config_restricted(self):
 
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
         config = deepcopy(self.initial_config)
-        config.pop("restrictedDerivatives")
-        response = self.app.post_json(
-            "/frameworks",
-            {
-                "data": data,
-                "config": config,
-            },
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": ["restrictedDerivatives is required for this framework type"],
-                    "location": "body",
-                    "name": "restrictedDerivatives",
-                }
-            ],
-        )
-
         config["restrictedDerivatives"] = True
         response = self.app.post_json(
             "/frameworks",

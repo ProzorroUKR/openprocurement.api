@@ -11,7 +11,6 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_status_allows_update,
 )
@@ -50,7 +49,7 @@ class ReportingTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostReportingTender),
-            validate_config_data(TenderConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_1, ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),
@@ -94,7 +93,7 @@ class NegotiationTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostNegotiationTender),
-            validate_config_data(TenderConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),
@@ -138,7 +137,7 @@ class NegotiationQuickTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostNegotiationQuickTender),
-            validate_config_data(TenderConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),
