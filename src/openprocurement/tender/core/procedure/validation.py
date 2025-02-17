@@ -1576,23 +1576,18 @@ def validate_items_unit_amount(items_unit_value_amount, data, obj_name="contract
             tax_included = data["value"]["valueAddedTaxIncluded"]
             if tax_included:
                 # get amountNet from obj.value if it is set or count this -20% net amount
-                amount_net = data["value"].get("amountNet")
-                amount_max = (sum_items_unit * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
-                if (
-                    calculated_value <= 0
-                    or int(obj_value) < int(calculated_value)
-                    or (
-                        amount_net and int(calculated_value) < int(amount_net)
-                    )  # sum of items.unit.value * quantity couldn't be greater that amountNet if it is set
-                    or (not amount_net and int(obj_value) > int(amount_max))
-                ):
+                obj_amount_net = data["value"].get("amountNet")
+                if obj_amount_net is None:
+                    obj_amount_net = (obj_value / AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_FLOOR)
+                # we ignore coins for this validation, that's why int() was used
+                if calculated_value <= 0 or not (int(obj_amount_net) <= int(calculated_value) <= int(obj_value)):
                     raise_operation_error(
                         get_request(),
                         f"Total amount of unit values must be less than {obj_name}.value.amount and no more than net {obj_name} amount",
                         name="items",
                         status=422,
                     )
-            elif int(obj_value) != int(calculated_value):
+            elif int(obj_value) != int(calculated_value):  # ignore coins
                 raise_operation_error(
                     get_request(),
                     f"Total amount of unit values should be equal {obj_name}.value.amount if VAT is not included in {obj_name}",
