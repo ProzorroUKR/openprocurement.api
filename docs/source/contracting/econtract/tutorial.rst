@@ -112,8 +112,8 @@ Setting value per item's unit
 
 `200 OK` response was returned with successfully set item.unit.value structure.
 
-Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded must correspond to the values of
-contract.value.
+`Item.unit.value.currency` must correspond to the value of `contract.value.currency`.
+`Item.unit.value.valueAddedTaxIncluded` should be `False`.
 
 
 Setting contract signature date
