@@ -251,7 +251,7 @@ def patch_econtract_dps_multi_currency(self):
         ["Value mismatch. Expected: valueAddedTaxIncluded True"],
     )
 
-    # try to change VAT along with contract value VAT
+    # try to change
     contract["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
     contract["value"]["valueAddedTaxIncluded"] = False
 

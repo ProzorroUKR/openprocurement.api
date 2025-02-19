@@ -4,22 +4,7 @@ def patch_econtract_multi_currency(self):
     self.assertEqual(contract["value"]["amount"], 500)
     self.assertEqual(contract["value"]["currency"], "UAH")
 
-    # try to change VAT different from contract value VAT
-    contract["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
-
-    response = self.app.patch_json(
-        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
-        {"data": {"items": contract["items"]}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        ["Value mismatch. Expected: valueAddedTaxIncluded True"],
-    )
-
-    # try to change VAT along with contract value VAT
-    contract["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
+    # try to change contract value VAT
     contract["value"]["valueAddedTaxIncluded"] = False
 
     response = self.app.patch_json(

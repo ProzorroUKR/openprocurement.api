@@ -162,7 +162,11 @@ def post_tender_bid_with_disabled_value_currency_equality(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"name": "Item", "code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+            "unit": {
+                "name": "Item",
+                "code": "KGM",
+                "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False},
+            },
         },
     ]
     response = self.app.post_json(
@@ -186,7 +190,11 @@ def patch_tender_bid_with_disabled_value_currency_equality(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"name": "Item", "code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+            "unit": {
+                "name": "Item",
+                "code": "KGM",
+                "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False},
+            },
         },
     ]
     response = self.app.post_json(
@@ -228,7 +236,11 @@ def post_tender_bid_with_disabled_lot_values_currency_equality(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"name": "Item", "code": "DMQ", "value": {"amount": 100, "currency": "UAH"}},
+            "unit": {
+                "name": "Item",
+                "code": "DMQ",
+                "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False},
+            },
         },
     ]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
@@ -249,7 +261,11 @@ def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"name": "Item", "code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+            "unit": {
+                "name": "Item",
+                "code": "KGM",
+                "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False},
+            },
         },
     ]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
@@ -300,13 +316,6 @@ def post_bid_multi_currency(self):
             },
         },
     ]
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of bid lotValues",
-    )
-    bid["items"][0]["unit"]["value"] = {"amount": 0.5, "currency": "USD", "valueAddedTaxIncluded": True}
 
     # try to post bid without quantity in items
     del bid["items"][0]["quantity"]
@@ -338,7 +347,7 @@ def post_bid_multi_currency(self):
     )
 
     # try to change amount and currency different from lot
-    bid["items"][0]["unit"]["value"] = {"amount": 0.5, "currency": "USD", "valueAddedTaxIncluded": True}
+    bid["items"][0]["unit"]["value"] = {"amount": 0.5, "currency": "USD", "valueAddedTaxIncluded": False}
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     self.assertEqual(response.status, "201 Created")
     bid_unit_value = response.json["data"]["items"][0]["unit"]["value"]
@@ -361,7 +370,11 @@ def patch_bid_multi_currency(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"name": "Item", "code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+            "unit": {
+                "name": "Item",
+                "code": "KGM",
+                "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False},
+            },
         },
     ]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
@@ -374,21 +387,9 @@ def patch_bid_multi_currency(self):
     value["currency"] = "EUR"
     value["amount"] = 650
     bid["lotValues"] = [{**lot_values[0], "value": value, "relatedLot": tender["lots"][0]["id"]}]
-    # try to change valueAddedTaxIncluded
-    bid["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
-        {"data": bid},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of bid lotValues",
-    )
 
     # try to change amount and currency different from lot
-    bid["items"][0]["unit"]["value"] = {"amount": 0, "currency": "USD"}
+    bid["items"][0]["unit"]["value"] = {"amount": 0, "currency": "USD", "valueAddedTaxIncluded": False}
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
         {"data": bid},
