@@ -321,7 +321,7 @@ class TenderStateAwardingMixing:
                 lot_id=lot_id,
                 exclude_bid_id=bid["id"],
             )
-            if ratio_of_two_values(amount, mean_value) >= Decimal("0.4"):
+            if mean_value and ratio_of_two_values(amount, mean_value) >= Decimal("0.4"):
                 reasons.append(ALP_MILESTONE_REASONS[0])
 
             # 2nd criteria
@@ -337,7 +337,7 @@ class TenderStateAwardingMixing:
             if following_index < len(all_bids):  # selected bid has the following one
                 following_bid = all_bids[following_index]
                 following_amount = following_bid["value"]["amount"]
-                if ratio_of_two_values(amount, following_amount) >= Decimal("0.3"):
+                if following_amount and ratio_of_two_values(amount, following_amount) >= Decimal("0.3"):
                     reasons.append(ALP_MILESTONE_REASONS[1])
             if reasons:
                 milestones.append({"code": "alp", "description": " / ".join(reasons)})
