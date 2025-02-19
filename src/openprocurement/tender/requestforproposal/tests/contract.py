@@ -9,7 +9,6 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # Ten
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_round,
     patch_contract_single_item_unit_value_with_status,
-    patch_econtract_multi_currency,
     patch_multiple_contracts_in_contracting,
     patch_tender_contract,
     patch_tender_contract_rationale_simple,
@@ -28,6 +27,9 @@ from openprocurement.tender.requestforproposal.tests.base import (
     test_tender_rfp_lots,
     test_tender_rfp_multi_buyers_data,
     test_tender_rfp_organization,
+)
+from openprocurement.tender.requestforproposal.tests.contract_blanks import (
+    patch_econtract_multi_currency,
 )
 
 

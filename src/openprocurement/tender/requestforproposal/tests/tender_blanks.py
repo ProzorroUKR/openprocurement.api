@@ -1279,3 +1279,100 @@ def validate_enquiry_period(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(tender["enquiryPeriod"]["endDate"], valid_end_date)
+
+
+def create_tender_without_estimated_value(self):
+    data = deepcopy(self.initial_data)
+    config = deepcopy(self.initial_config)
+
+    # hasValueEstimation and hasValueRestriction mismatch
+    config["hasValueEstimation"] = False
+    config["hasValueRestriction"] = True
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': 'hasValueRestriction should be False', 'location': 'body', 'name': 'value'}],
+    )
+
+    # hasValueEstimation and hasValueRestriction match
+    config["hasValueRestriction"] = False
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': "Rogue field",
+                'location': 'body',
+                'name': 'value.amount',
+            }
+        ],
+    )
+
+    # Tender lots has estimated value
+    data["value"]["amount"] = 0
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': "Value amount should not be passed if tender does not have estimated value",
+                'location': 'body',
+                'name': 'lots.value.amount',
+            }
+        ],
+    )
+
+    data["lots"][0]["value"]["amount"] = 0
+    response = self.app.post_json("/tenders", {"data": data, "config": config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertEqual(tender["value"]["amount"], 0.0)
+    self.assertEqual(tender["lots"][0]["value"]["amount"], 0.0)
+
+    del data["lots"][0]["value"]["amount"]
+    del data["value"]["amount"]
+    response = self.app.post_json("/tenders", {"data": data, "config": config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    assert "amount" not in tender["value"]
+    assert "amount" not in tender["lots"][0]["value"]
+
+
+def create_tender_invalid_config(self):
+    request_path = "/tenders"
+    config = deepcopy(self.initial_config)
+    config.update({"minBidsNumber": 0})
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "0 is less than the minimum of 1", "location": "body", "name": "config.minBidsNumber"}],
+    )
+    config.update({"minBidsNumber": 10})
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "10 is greater than the maximum of 9", "location": "body", "name": "config.minBidsNumber"}],
+    )

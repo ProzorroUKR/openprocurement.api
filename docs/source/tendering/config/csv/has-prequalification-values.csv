@@ -4,7 +4,7 @@ competitiveOrdering,false,false
 aboveThresholdEU,true,true
 aboveThresholdUA.defense,false,false
 aboveThresholdUA,false,false
-belowThreshold,"true,false",false
+belowThreshold,false,false
 closeFrameworkAgreementSelectionUA,false,false
 closeFrameworkAgreementUA,true,true
 competitiveDialogueEU,true,true
