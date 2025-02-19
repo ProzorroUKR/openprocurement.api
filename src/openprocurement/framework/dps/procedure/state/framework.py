@@ -1,9 +1,13 @@
 from openprocurement.api.context import get_request
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.core.procedure.models.framework import (
     FrameworkChronographData,
 )
-from openprocurement.framework.core.procedure.state.framework import FrameworkState
+from openprocurement.framework.core.procedure.state.framework import (
+    FrameworkConfigMixin,
+    FrameworkState,
+)
 from openprocurement.framework.dps.procedure.models.framework import (
     PatchActiveFramework,
     PatchFramework,
@@ -14,7 +18,35 @@ from openprocurement.framework.dps.procedure.state.qualification import (
 from openprocurement.framework.dps.procedure.state.submission import DPSSubmissionState
 
 
-class DPSFrameworkState(FrameworkState):
+class DPSFrameworkConfigMixin(FrameworkConfigMixin):
+    def validate_config(self, data):
+        super().validate_config(data)
+
+        # custom validations
+        self.validate_restricted_derivatives_config(data)
+
+    def validate_restricted_derivatives_config(self, data):
+        config = data["config"]
+        is_defense = data.get("procuringEntity", {}).get("kind") == "defense"
+        restricted_derivatives = config.get("restrictedDerivatives")
+
+        if is_defense and restricted_derivatives is False:
+            raise_operation_error(
+                self.request,
+                ["restrictedDerivatives must be true for defense procuring entity"],
+                status=422,
+                name="restrictedDerivatives",
+            )
+        elif not is_defense and restricted_derivatives is True:
+            raise_operation_error(
+                self.request,
+                ["restrictedDerivatives must be false for non-defense procuring entity"],
+                status=422,
+                name="restrictedDerivatives",
+            )
+
+
+class DPSFrameworkState(DPSFrameworkConfigMixin, FrameworkState):
     qualification_class = DPSQualificationState
     submission_class = DPSSubmissionState
     working_days = True

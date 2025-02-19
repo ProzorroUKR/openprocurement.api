@@ -26,8 +26,6 @@ from openprocurement.framework.core.procedure.utils import (
     save_object,
 )
 from openprocurement.framework.core.utils import calculate_framework_full_date
-from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 AGREEMENT_DEPENDENT_FIELDS = (
@@ -57,8 +55,6 @@ class FrameworkConfigMixin(ConfigMixin):
     def init_config(self, data):
         if data["config"].get("test"):
             data["mode"] = "test"
-        if data.get("procuringEntity", {}).get("kind") == "defense":
-            data["config"]["restrictedDerivatives"] = True
 
     def validate_config(self, data):
         # load schema from standards
@@ -67,47 +63,8 @@ class FrameworkConfigMixin(ConfigMixin):
         # do not validate required fields
         config_schema.pop("required", None)
 
+        # common validation
         super().validate_config(data)
-
-        # custom validations
-        self.validate_restricted_derivatives_config(data)
-
-    def validate_restricted_derivatives_config(self, data):
-        config = data["config"]
-        value = config.get("restrictedDerivatives")
-
-        if data.get("frameworkType") in (DPS_TYPE, IFI_TYPE):
-            if value is None:
-                raise_operation_error(
-                    self.request,
-                    ["restrictedDerivatives is required for this framework type"],
-                    status=422,
-                    name="restrictedDerivatives",
-                )
-            if data.get("procuringEntity", {}).get("kind") == "defense":
-                if value is False:
-                    raise_operation_error(
-                        self.request,
-                        ["restrictedDerivatives must be true for defense procuring entity"],
-                        status=422,
-                        name="restrictedDerivatives",
-                    )
-            else:
-                if value is True:
-                    raise_operation_error(
-                        self.request,
-                        ["restrictedDerivatives must be false for non-defense procuring entity"],
-                        status=422,
-                        name="restrictedDerivatives",
-                    )
-        else:
-            if value is True:
-                raise_operation_error(
-                    self.request,
-                    ["restrictedDerivatives must be false for this framework type"],
-                    status=422,
-                    name="restrictedDerivatives",
-                )
 
 
 class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
