@@ -187,8 +187,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/573e34dc17634
     "transfer": "fc614221ba5b4cf983ace8ce49d78559"
   },
   "config": {
-    "clarificationUntilDuration": 3,
     "restrictedDerivatives": false,
+    "clarificationUntilDuration": 3,
     "qualificationComplainDuration": 0,
     "hasItems": true
   }

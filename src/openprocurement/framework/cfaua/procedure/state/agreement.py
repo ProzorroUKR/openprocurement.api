@@ -1,5 +1,5 @@
 from openprocurement.api.context import get_request
-from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
 from openprocurement.framework.cfaua.procedure.models.agreement import (
     PatchActiveAgreement,
     PatchAgreementByAdministrator,
@@ -8,7 +8,17 @@ from openprocurement.framework.cfaua.procedure.models.agreement import (
 from openprocurement.framework.cfaua.procedure.validation import validate_related_item
 
 
-class AgreementState(BaseState):
+class AgreementConfigMixin(ConfigMixin):
+    default_config_schema = {
+        "type": "object",
+        "properties": {
+            "restricted": {"type": "boolean"},
+            "test": {"type": "boolean"},
+        },
+    }
+
+
+class AgreementState(BaseState, AgreementConfigMixin):
     def get_patch_data_model(self):
         request = get_request()
         validated_agreement = request.validated["agreement"]

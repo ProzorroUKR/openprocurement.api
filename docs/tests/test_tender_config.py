@@ -1842,7 +1842,13 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, "422 Unprocessable Entity")
             self.assertEqual(
                 response.json["errors"],
-                [{"location": "body", "name": "minBidsNumber", "description": "0 is less than the minimum of 1"}],
+                [
+                    {
+                        "location": "body",
+                        "name": "config.minBidsNumber",
+                        "description": "0 is less than the minimum of 1",
+                    }
+                ],
             )
 
         config["minBidsNumber"] = 10
@@ -1855,7 +1861,13 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, "422 Unprocessable Entity")
             self.assertEqual(
                 response.json["errors"],
-                [{"location": "body", "name": "minBidsNumber", "description": "10 is greater than the maximum of 9"}],
+                [
+                    {
+                        "location": "body",
+                        "name": "config.minBidsNumber",
+                        "description": "10 is greater than the maximum of 9",
+                    }
+                ],
             )
 
     def test_docs_min_bids_number_tendering_unsuccessful(self):

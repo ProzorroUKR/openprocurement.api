@@ -25,7 +25,6 @@ from openprocurement.framework.cfaua.procedure.validation import (
     validate_update_agreement_status,
 )
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
-from openprocurement.framework.core.procedure.models.agreement import AgreementConfig
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.procedure.views.agreement import (
     AgreementsResource as BaseFrameworkAgreementResource,
@@ -49,7 +48,7 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
         permission="create_agreement",
         validators=(
             validate_input_data(PostAgreement),
-            validate_config_data(AgreementConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 item="agreement",

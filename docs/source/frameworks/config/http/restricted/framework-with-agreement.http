@@ -67,8 +67,8 @@ Content-Type: application/json
     "id": "08238232b095420687b4e273ae56d878"
   },
   "config": {
-    "clarificationUntilDuration": 3,
     "restrictedDerivatives": true,
+    "clarificationUntilDuration": 3,
     "qualificationComplainDuration": 0,
     "hasItems": false
   }

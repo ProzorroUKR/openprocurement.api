@@ -1,9 +1,8 @@
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, BooleanType, IntType, StringType
+from schematics.types import BaseType, StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
-from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import ListType
@@ -206,41 +205,3 @@ class Tender(BaseTender):
                 raise ValidationError("Tender should contain at least one milestone")
 
         validate_milestones_lot(data, value)
-
-
-class TenderConfig(Model):
-    test = BooleanType()
-    hasAuction = BooleanType()
-    hasAwardingOrder = BooleanType()
-    hasValueRestriction = BooleanType()
-    valueCurrencyEquality = BooleanType()
-    hasPrequalification = BooleanType()
-    minBidsNumber = IntType(min_value=0)
-    hasPreSelectionAgreement = BooleanType()
-    hasTenderComplaints = BooleanType()
-    hasAwardComplaints = BooleanType()
-    hasCancellationComplaints = BooleanType()
-    hasValueEstimation = BooleanType()
-    hasQualificationComplaints = BooleanType()
-    tenderComplainRegulation = IntType(min_value=0)
-    qualificationComplainDuration = IntType(min_value=0)
-    awardComplainDuration = IntType(min_value=0)
-    cancellationComplainDuration = IntType(min_value=0)
-    clarificationUntilDuration = IntType(min_value=0)
-    qualificationDuration = IntType(min_value=0)
-    restricted = BooleanType()
-
-    def validate_valueCurrencyEquality(self, data, value):
-        if value is False and any(
-            [
-                data.get("hasAuction"),
-                data.get("hasAwardingOrder"),
-                data.get("hasValueRestriction"),
-            ]
-        ):
-            raise ValidationError(
-                "valueCurrencyEquality can be False only if "
-                "hasAuction=False and "
-                "hasAwardingOrder=False and "
-                "hasValueRestriction=False"
-            )

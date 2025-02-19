@@ -1,6 +1,10 @@
 import logging
 
+from jsonschema.exceptions import ValidationError
+from jsonschema.validators import validate
+
 from openprocurement.api.context import get_now
+from openprocurement.api.utils import raise_operation_error
 
 logger = logging.getLogger(__name__)
 
@@ -32,3 +36,24 @@ class BaseState:
                 obj["date"] = get_now().isoformat()
         else:
             logger.warning("Obj status already set")
+
+
+class ConfigMixin:
+    default_config_schema = {}
+
+    def get_config_schema(self, data):
+        return self.default_config_schema
+
+    def validate_config(self, data):
+        config_schema = self.get_config_schema(data)
+        try:
+            validate(data["config"], config_schema)
+        except ValidationError as e:
+            path = ".".join(["config"] + list(e.path))
+            raise_operation_error(
+                self.request,
+                e.message,
+                status=422,
+                location="body",
+                name=path,
+            )

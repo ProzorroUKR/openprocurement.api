@@ -22,7 +22,6 @@ from openprocurement.tender.cfaua.procedure.serializers.tender import (
 from openprocurement.tender.cfaua.procedure.state.tender_details import (
     CFAUATenderDetailsState,
 )
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_change_status_with_cancellation_lot_pending,
@@ -49,7 +48,7 @@ class CFAUATenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostTender),
-            validate_config_data(TenderConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),

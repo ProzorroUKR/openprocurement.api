@@ -11,7 +11,6 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.framework.core.procedure.models.framework import FrameworkConfig
 from openprocurement.framework.core.procedure.validation import (
     unless_administrator_or_chronograph,
 )
@@ -40,7 +39,7 @@ class IFIFrameworkResource(FrameworksResource):
         permission="create_framework",
         validators=(
             validate_input_data(PostFramework),
-            validate_config_data(FrameworkConfig),
+            validate_config_data(),
             validate_accreditation_level(
                 levels=(ACCR_1, ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),

@@ -330,7 +330,7 @@ def create_tender_co_invalid_config(self):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{"description": "True is not one of [False]", "location": "body", "name": config_name}],
+            [{"description": "True is not one of [False]", "location": "body", "name": f"config.{config_name}"}],
         )
 
 

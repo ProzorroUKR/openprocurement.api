@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, BooleanType, StringType
+from schematics.types import BaseType, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
@@ -16,7 +16,6 @@ from openprocurement.framework.core.procedure.models.submission_document import 
     PostSubmissionDocument,
     SubmissionDocument,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 
 
 class PostSubmission(Model):
@@ -90,25 +89,3 @@ class Submission(RootModel):
     config = BaseType()
 
     mode = StringType(choices=["test"])
-
-
-class SubmissionConfig(Model):
-    test = BooleanType()
-    restricted = BooleanType()
-
-    def validate_restricted(self, data, value):
-        framework = get_request().validated.get("framework")
-        if not framework:
-            return
-        if framework.get("frameworkType") == DPS_TYPE:
-            if value is None:
-                raise ValidationError("restricted is required for this framework type")
-            if framework.get("procuringEntity", {}).get("kind") == "defense":
-                if value is False:
-                    raise ValidationError("restricted must be true for defense procuring entity")
-            else:
-                if value is True:
-                    raise ValidationError("restricted must be false for non-defense procuring entity")
-        else:
-            if value is True:
-                raise ValidationError("restricted must be false for this framework type")

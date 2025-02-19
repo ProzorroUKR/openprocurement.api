@@ -1,10 +1,9 @@
 from collections import defaultdict
+from copy import deepcopy
 from datetime import timedelta
 from decimal import Decimal
 from math import ceil, floor
 
-from jsonschema.exceptions import ValidationError
-from jsonschema.validators import validate
 from schematics.types import BaseType
 
 from openprocurement.api.constants import (
@@ -27,6 +26,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
+from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.procedure.validation import validate_classifications_prefixes
 from openprocurement.api.utils import (
@@ -72,60 +72,75 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 
 
-class TenderConfigMixin:
-    configurations = (
-        "hasAuction",
-        "hasAwardingOrder",
-        "hasValueRestriction",
-        "valueCurrencyEquality",
-        "hasPrequalification",
-        "minBidsNumber",
-        "hasPreSelectionAgreement",
-        "hasTenderComplaints",
-        "hasAwardComplaints",
-        "hasCancellationComplaints",
-        "hasValueEstimation",
-        "hasQualificationComplaints",
-        "tenderComplainRegulation",
-        "qualificationComplainDuration",
-        "awardComplainDuration",
-        "cancellationComplainDuration",
-        "clarificationUntilDuration",
-        "qualificationDuration",
-        "restricted",
-    )
+class TenderConfigMixin(ConfigMixin):
+    def get_config_schema(self, data):
+        procurement_method_type = data.get("procurementMethodType")
+        config_schema = TENDER_CONFIG_JSONSCHEMAS.get(procurement_method_type)
+
+        if not config_schema:
+            # procurementMethodType not found in TENDER_CONFIG_JSONSCHEMAS
+            raise NotImplementedError
+
+        config_schema = deepcopy(config_schema)
+
+        if config_schema:
+            # add optional test field to config schema
+            config_schema["properties"]["test"] = {"type": "boolean"}
+
+        return config_schema
 
     def validate_config(self, data):
-        for config_name in self.configurations:
-            value = data["config"].get(config_name)
+        # load schema from standards
+        config_schema = self.get_config_schema(data)
 
+        # we will validate required fields manually
+        config_schema.pop("required", None)
+
+        # validate required fields
+        properties = config_schema.get("properties", {})
+        for config_name in properties.keys():
+            value = data["config"].get(config_name)
             if value is None and TENDER_CONFIG_OPTIONALITY.get(config_name, True) is False:
                 raise_operation_error(
                     self.request,
                     "This field is required.",
                     status=422,
                     location="body",
-                    name=config_name,
+                    name=f"config.{config_name}",
                 )
 
-            procurement_method_type = data.get("procurementMethodType")
-            config_schema = TENDER_CONFIG_JSONSCHEMAS.get(procurement_method_type)
-            if not config_schema:
-                raise NotImplementedError
-            schema = config_schema["properties"][config_name]
-            try:
-                validate(value, schema)
-            except ValidationError as e:
-                raise_operation_error(
-                    self.request,
-                    e.message,
-                    status=422,
-                    location="body",
-                    name=config_name,
-                )
+        # validate config with schema
+        super().validate_config(data)
 
+        # custom validations
         self.validate_restricted_config(data)
         self.validate_estimated_value_config(data)
+        self.validate_value_currency_equality(data)
+
+    def validate_value_currency_equality(self, data):
+        """Validate valueCurrencyEquality config option"""
+        config = data["config"]
+        value = config.get("valueCurrencyEquality")
+
+        if value is False and any(
+            [
+                config.get("hasAuction"),
+                config.get("hasAwardingOrder"),
+                config.get("hasValueRestriction"),
+            ]
+        ):
+            raise_operation_error(
+                self.request,
+                [
+                    "valueCurrencyEquality can be False only if "
+                    "hasAuction=False and "
+                    "hasAwardingOrder=False and "
+                    "hasValueRestriction=False"
+                ],
+                status=422,
+                location="body",
+                name="valueCurrencyEquality",
+            )
 
     def validate_estimated_value_config(self, data):
         if (

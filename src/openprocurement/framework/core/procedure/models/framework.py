@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, BooleanType, IntType, MD5Type, StringType
+from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
@@ -32,8 +32,6 @@ from openprocurement.framework.core.procedure.models.document import (
 )
 from openprocurement.framework.core.procedure.models.question import Question
 from openprocurement.framework.core.utils import generate_framework_pretty_id
-from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
 
 
@@ -200,28 +198,3 @@ class PatchActiveFramework(Model):
     documents = ListType(ModelType(PostDocument))
     if SANDBOX_MODE:
         frameworkDetails = StringType()
-
-
-class FrameworkConfig(Model):
-    test = BooleanType()
-    clarificationUntilDuration = IntType(min_value=0)
-    restrictedDerivatives = BooleanType()
-    qualificationComplainDuration = IntType(min_value=0)
-    hasItems = BooleanType()
-
-    def validate_restrictedDerivatives(self, data, value):
-        framework = get_request().validated.get("data")
-        if not framework:
-            return
-        if framework.get("frameworkType") in (DPS_TYPE, IFI_TYPE):
-            if value is None:
-                raise ValidationError("restrictedDerivatives is required for this framework type")
-            if framework.get("procuringEntity", {}).get("kind") == "defense":
-                if value is False:
-                    raise ValidationError("restrictedDerivatives must be true for defense procuring entity")
-            else:
-                if value is True:
-                    raise ValidationError("restrictedDerivatives must be false for non-defense procuring entity")
-        else:
-            if value is True:
-                raise ValidationError("restrictedDerivatives must be false for this framework type")
