@@ -112,10 +112,14 @@ class TenderConfigMixin(ConfigMixin):
         # validate config with schema
         super().validate_config(data)
 
-        # custom validations
+    def on_post(self, data):
+        if data["config"].get("test", False):
+            data["mode"] = "test"
+        self.validate_config(data)
         self.validate_restricted_config(data)
         self.validate_estimated_value_config(data)
         self.validate_value_currency_equality(data)
+        super().on_post(data)
 
     def validate_value_currency_equality(self, data):
         """Validate valueCurrencyEquality config option"""
@@ -179,7 +183,7 @@ class TenderConfigMixin(ConfigMixin):
             )
 
 
-class TenderDetailsMixing(TenderConfigMixin):
+class BaseTenderDetailsMixing:
     """
     describes business logic rules for tender owners
     when they prepare tender for tendering stage
@@ -220,7 +224,6 @@ class TenderDetailsMixing(TenderConfigMixin):
             self.validate_cancellation_blocks(request, before)
 
     def on_post(self, tender):
-        self.validate_config(tender)
         self.validate_procurement_method(tender)
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
@@ -448,8 +451,6 @@ class TenderDetailsMixing(TenderConfigMixin):
                 )
 
     def set_mode_test(self, tender):
-        if tender["config"].get("test"):
-            tender["mode"] = "test"
         if tender.get("mode") == "test":
             set_mode_test_titles(tender)
 
@@ -1386,6 +1387,10 @@ class TenderDetailsMixing(TenderConfigMixin):
                 f"Incorrect template for current classification {classification_id}, "
                 f"use of that templates {expected_template_names}",
             )
+
+
+class TenderDetailsMixing(TenderConfigMixin, BaseTenderDetailsMixing):
+    pass
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

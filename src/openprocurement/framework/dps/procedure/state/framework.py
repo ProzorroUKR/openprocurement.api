@@ -19,11 +19,13 @@ from openprocurement.framework.dps.procedure.state.submission import DPSSubmissi
 
 
 class DPSFrameworkConfigMixin(FrameworkConfigMixin):
-    def validate_config(self, data):
-        super().validate_config(data)
-
-        # custom validations
+    def on_post(self, data):
+        super().on_post(data)
         self.validate_restricted_derivatives_config(data)
+
+    def on_patch(self, before, after):
+        self.validate_restricted_derivatives_config(after)
+        super().on_patch(before, after)
 
     def validate_restricted_derivatives_config(self, data):
         config = data["config"]

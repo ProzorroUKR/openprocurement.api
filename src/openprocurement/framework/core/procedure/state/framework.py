@@ -52,9 +52,11 @@ class FrameworkConfigMixin(ConfigMixin):
 
         return config_schema
 
-    def init_config(self, data):
-        if data["config"].get("test"):
+    def on_post(self, data):
+        if data["config"].get("test", False):
             data["mode"] = "test"
+        self.validate_config(data)
+        super().on_post(data)
 
     def validate_config(self, data):
         # load schema from standards
@@ -67,7 +69,7 @@ class FrameworkConfigMixin(ConfigMixin):
         super().validate_config(data)
 
 
-class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
+class FrameworkState(FrameworkConfigMixin, ChronographEventsMixing, BaseState):
     agreement_class = AgreementState
     qualification_class = QualificationState
     submission_class = SubmissionState
@@ -86,8 +88,6 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         self.update_next_check(data)
 
     def on_post(self, data):
-        self.validate_config(data)
-        self.init_config(data)
         data["date"] = get_now().isoformat()
         self.validate_items_presence(data)
         self.validate_items_classification_prefix(data)
@@ -98,7 +98,6 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         self.validate_items_presence(after)
         self.validate_items_classification_prefix(after)
         self.validate_framework_patch_status(before)
-        self.validate_procuring_entity_kind(before, after)
         super().on_patch(before, after)
 
     def after_patch(self, data):
@@ -274,24 +273,6 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         }
 
         data["qualificationPeriod"]["startDate"] = enquiry_period_start_date.isoformat()
-
-    def validate_procuring_entity_kind(self, before, after):
-        if kind := after.get("procuringEntity", {}).get("kind"):
-            restricted_config = before.get("config", {}).get("restrictedDerivatives")
-            if kind == "defense" and restricted_config is False:
-                raise_operation_error(
-                    get_request(),
-                    "procuring entity kind should be non-defense for restrictedDerivatives false config",
-                    name="procuringEntity.kind",
-                    status=422,
-                )
-            elif kind != "defense" and restricted_config is True:
-                raise_operation_error(
-                    get_request(),
-                    "procuring entity kind should be defense for restrictedDerivatives true config",
-                    name="procuringEntity.kind",
-                    status=422,
-                )
 
     def validate_items_classification_prefix(self, framework):
         classifications = [item["classification"] for item in framework.get("items", "")]

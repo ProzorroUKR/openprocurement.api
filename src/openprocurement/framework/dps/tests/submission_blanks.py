@@ -552,6 +552,29 @@ def create_submission_config_restricted(self):
             ],
         )
 
+    # Create submission with restricted False
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
+
+        expected_config = {"restricted": False}
+
+        config = deepcopy(self.initial_submission_config)
+        config["restricted"] = False
+
+        response = self.create_submission(config=config, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "restricted",
+                    "description": ["restricted must be true for framework with restrictedDerivatives true"],
+                }
+            ],
+        )
+
     # Create submission
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
 

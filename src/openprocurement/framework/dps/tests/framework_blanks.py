@@ -754,8 +754,8 @@ def create_framework_config_restricted(self):
             [
                 {
                     "location": "body",
-                    "name": "procuringEntity.kind",
-                    "description": "procuring entity kind should be defense for restrictedDerivatives true config",
+                    "name": "restrictedDerivatives",
+                    "description": ["restrictedDerivatives must be false for non-defense procuring entity"],
                 }
             ],
         )
