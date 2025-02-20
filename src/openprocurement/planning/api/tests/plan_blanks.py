@@ -2388,7 +2388,7 @@ def plan_additional_classifications_based_on_breakdown(self):
                 {
                     "location": "body",
                     "name": "additionalClassifications",
-                    "description": [f"КПКВ is required for {breakdown_title} budget."],
+                    "description": f"КПКВ is required for {breakdown_title} budget.",
                 }
             ],
         )
@@ -2410,3 +2410,16 @@ def plan_additional_classifications_based_on_breakdown(self):
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    plan = response.json["data"]
+    plan_token = response.json["access"]["token"]
+
+    # try to patch old plans (ignore required KPKV)
+    plan_doc = self.mongodb.plans.get(plan["id"])
+    del plan_doc["additionalClassifications"]
+    self.mongodb.plans.save(plan_doc)
+
+    response = self.app.patch_json(
+        f"/plans/{plan['id']}?acc_token={plan_token}",
+        {"data": {"cancellation": {"reason": "123"}}},
+    )
+    self.assertEqual(response.status, "200 OK")
