@@ -37,29 +37,31 @@ class BaseCriterionStateMixin:
             data = [data]
 
         for criterion in data:
-            if criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:
+            if criterion["classification"]["id"] in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
                 item = next(
                     (item for item in tender["items"] if item["id"] == criterion.get("relatedItem")),
                     None,
                 )
-                if not (item.get("category") or item.get("profile")):
+                if not item:
                     raise_operation_error(
                         self.request,
-                        "For technical feature criteria item should have category or profile",
+                        f'For {criterion["classification"]["id"]} criteria `relatedItem` should be item from tender',
                         status=422,
                     )
-
-            if criterion["classification"]["id"] == CRITERION_LOCALIZATION:
-                item = next(
-                    (item for item in tender["items"] if item["id"] == criterion.get("relatedItem")),
-                    None,
-                )
-                if not item.get("category"):
-                    raise_operation_error(
-                        self.request,
-                        "For localization criteria item should have category",
-                        status=422,
-                    )
+                if criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:
+                    if not (item.get("category") or item.get("profile")):
+                        raise_operation_error(
+                            self.request,
+                            "For technical feature criteria item should have category or profile",
+                            status=422,
+                        )
+                else:  # CRITERION_LOCALIZATION:
+                    if not item.get("category"):
+                        raise_operation_error(
+                            self.request,
+                            "For localization criteria item should have category",
+                            status=422,
+                        )
 
 
 class CriterionStateMixin(BaseCriterionStateMixin):
