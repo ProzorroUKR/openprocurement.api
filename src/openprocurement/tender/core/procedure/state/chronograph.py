@@ -780,28 +780,25 @@ class ChronographEventsMixing:
                 self.set_object_status(lot, "unsuccessful")
                 continue
 
-            elif (awarding_order_enabled and last_award["status"] == "active") or (
-                awarding_order_enabled is False and awards_statuses.intersection({"active"})
+            elif any(
+                [
+                    (awarding_order_enabled and last_award["status"] == "active"),
+                    (awarding_order_enabled is False and awards_statuses.intersection({"active"})),
+                ]
             ):
-                if awarding_order_enabled is False:
-                    active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
-                    active_contracts = (
-                        [agreement["status"] == "active" for agreement in tender.get("agreements")]
-                        if "agreements" in tender
-                        else [
-                            contract["status"] == "active" and contract["awardID"] in active_award_ids
-                            for contract in tender.get("contracts", "")
-                        ]
-                    )
+                if "agreements" in tender and "status" in tender["agreements"][0]:
+                    # tender produces agreements (cfaua)
+                    active_contracts = [agreement["status"] == "active" for agreement in tender["agreements"]]
                 else:
-                    active_contracts = (
-                        [a["status"] == "active" for a in tender.get("agreements")]
-                        if "agreements" in tender
-                        else [
-                            i["status"] == "active" and i["awardID"] == last_award["id"]
-                            for i in tender.get("contracts", "")
-                        ]
-                    )
+                    # tender produces contracts (other)
+                    if awarding_order_enabled is False:
+                        award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
+                    else:
+                        award_ids = {last_award["id"]}
+                    active_contracts = [
+                        contract["status"] == "active" and contract["awardID"] in award_ids
+                        for contract in tender.get("contracts", "")
+                    ]
 
                 if any(active_contracts):
                     LOGGER.info(
