@@ -75,12 +75,6 @@ class ShouldStartAfterMixing:
         if tender["status"] == "active.auction" and number_of_bids < 2:
             return  # there is no sense to run this auction, shouldStartAfter should be deleted
 
-        start_date = period.get("startDate")
-        if start_date:
-            expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
-            if get_now() > expected_value:
-                return normalize_should_start_after(expected_value, tender).isoformat()
-
         return self.get_should_start_after(tender)
 
     def get_auction_should_start_after(self, tender):
