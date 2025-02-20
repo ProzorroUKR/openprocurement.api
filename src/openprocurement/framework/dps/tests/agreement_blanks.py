@@ -26,12 +26,15 @@ def create_agreement(self):
     response = self.app.get(f"/frameworks/{self.framework_id}")
     self.assertEqual(response.status, "200 OK")
     framework_data = response.json["data"]
+    framework_config = response.json["config"]
     self.assertIsNotNone(framework_data["agreementID"])
 
-    # Check agreement was created with correct data
+    # Get agreement
     agreementID = self.agreement_id = framework_data["agreementID"]
     response = self.app.get(f"/agreements/{agreementID}")
     self.assertEqual(response.status, "200 OK")
+
+    # Check agreement was created with correct data
     agreement_data = response.json["data"]
     self.assertEqual(agreement_data["frameworkID"], framework_data["id"])
     self.assertEqual(agreement_data["agreementType"], framework_data["frameworkType"])
@@ -46,6 +49,10 @@ def create_agreement(self):
         parse_datetime(qualification_data["date"]),
         delta=datetime.timedelta(60),
     )
+
+    # Check agreement config
+    agreement_config = response.json["config"]
+    self.assertEqual(agreement_config["restricted"], framework_config["restrictedDerivatives"])
 
     # Check contract was created and created with correct data
     response = self.app.get(f"/submissions/{self.submission_id}")
@@ -63,63 +70,6 @@ def create_agreement(self):
     self.assertIsNotNone(contract_data.get("milestones"))
     self.assertEqual(len(contract_data["milestones"]), 1)
     self.assertEqual(contract_data["milestones"][0]["type"], "activation")
-
-
-def create_agreement_config_test(self):
-    # Create framework
-    config = deepcopy(self.initial_config)
-    config["test"] = True
-    self.create_framework(config=config)
-    response = self.activate_framework()
-
-    framework = response.json["data"]
-    self.assertNotIn("config", framework)
-    self.assertEqual(framework["mode"], "test")
-    self.assertTrue(response.json["config"]["test"])
-
-    # Create and activate submission
-    self.create_submission()
-    response = self.activate_submission()
-
-    qualification_id = response.json["data"]["qualificationID"]
-
-    # Activate qualification
-    response = self.activate_qualification()
-
-    # Check framework was updated
-    response = self.app.get(f"/frameworks/{self.framework_id}")
-    self.assertEqual(response.status, "200 OK")
-    framework_data = response.json["data"]
-    self.assertIsNotNone(framework_data["agreementID"])
-
-    agreement_id = self.agreement_id = framework_data["agreementID"]
-
-    # Check agreement
-    expected_config = {
-        "test": True,
-        "restricted": False,
-    }
-
-    response = self.app.patch_json(
-        "/agreements/{}?acc_token={}".format(agreement_id, self.framework_token),
-        {"data": {"status": "terminated"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    agreement = response.json["data"]
-    self.assertNotIn("config", agreement)
-    self.assertEqual(agreement["mode"], "test")
-    self.assertEqual(response.json["config"], expected_config)
-
-    response = self.app.get("/agreements/{}".format(agreement_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    agreement = response.json["data"]
-    self.assertNotIn("config", agreement)
-    self.assertEqual(agreement["mode"], "test")
-    self.assertEqual(response.json["config"], expected_config)
 
 
 def create_agreement_config_restricted(self):

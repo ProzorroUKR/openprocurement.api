@@ -110,7 +110,6 @@ class QualificationState(ChronographEventsMixing, BaseState):
             "status": "pending",
             "date": get_now().isoformat(),
             "config": {
-                "test": framework["config"].get("test", False),
                 "restricted": framework["config"]["restrictedDerivatives"],
                 "qualificationComplainDuration": framework["config"]["qualificationComplainDuration"],
             },

@@ -30,7 +30,6 @@ from openprocurement.framework.dps.tests.qualification_blanks import (  # Docume
     patch_qualification_unsuccessful,
     patch_submission_pending,
     patch_submission_pending_config_restricted,
-    patch_submission_pending_config_test,
     put_qualification_document,
     qualification_evaluation_reports_documents,
     qualification_fields,
@@ -57,7 +56,6 @@ class QualificationResourceTest(SubmissionContentWebTest):
     test_listing = snitch(listing)
     test_listing_changes = snitch(listing_changes)
     test_patch_submission_pending = snitch(patch_submission_pending)
-    test_patch_submission_pending_config_test = snitch(patch_submission_pending_config_test)
     test_patch_submission_pending_config_restricted = snitch(patch_submission_pending_config_restricted)
     test_patch_qualification_active = snitch(patch_qualification_active)
     test_activate_qualification_for_submission_with_docs = snitch(activate_qualification_for_submission_with_docs)

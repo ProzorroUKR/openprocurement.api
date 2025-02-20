@@ -13,16 +13,11 @@ class SubmissionConfigMixin(ConfigMixin):
     default_config_schema = {
         "type": "object",
         "properties": {
-            "test": {"type": "boolean"},
             "restricted": {"type": "boolean"},
         },
     }
 
     def on_post(self, data):
-        framework = get_object("framework")
-        if framework["config"].get("test", False):
-            data["config"]["test"] = True
-            data["mode"] = "test"
         self.validate_config(data)
         self.validate_restricted_config(data)
         super().on_post(data)

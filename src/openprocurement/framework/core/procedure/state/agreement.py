@@ -95,7 +95,6 @@ class AgreementState(BaseState, ChronographEventsMixing):
                 "transfer_token": transfer_token,
                 "frameworkDetails": framework.get("frameworkDetails"),
                 "config": {
-                    "test": framework["config"].get("test", False),
                     "restricted": framework["config"].get("restrictedDerivatives", False),
                 },
             }

@@ -6,7 +6,6 @@ from openprocurement.api.procedure.serializers.base import (
 )
 from openprocurement.api.procedure.serializers.config import (
     BaseConfigSerializer,
-    false_is_none_serializer,
     none_is_false_serializer,
 )
 from openprocurement.api.utils import request_fetch_framework
@@ -62,7 +61,6 @@ def qualification_config_default_serializer(key):
 
 class QualificationConfigSerializer(BaseConfigSerializer):
     serializers = {
-        "test": false_is_none_serializer,
         "restricted": none_is_false_serializer,
         "qualificationComplainDuration": qualification_config_default_serializer("qualificationComplainDuration"),
     }

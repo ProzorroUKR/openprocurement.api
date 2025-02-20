@@ -6,10 +6,7 @@ from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
 )
-from openprocurement.api.procedure.serializers.config import (
-    BaseConfigSerializer,
-    false_is_none_serializer,
-)
+from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.framework.core.procedure.serializers.question import (
     QuestionSerializer,
 )
@@ -66,7 +63,6 @@ def framework_config_default_serializer(key):
 
 class FrameworkConfigSerializer(BaseConfigSerializer):
     serializers = {
-        "test": false_is_none_serializer,
         "restrictedDerivatives": framework_config_default_serializer("restrictedDerivatives"),
         "clarificationUntilDuration": framework_config_default_serializer("clarificationUntilDuration"),
         "qualificationComplainDuration": framework_config_default_serializer("qualificationComplainDuration"),

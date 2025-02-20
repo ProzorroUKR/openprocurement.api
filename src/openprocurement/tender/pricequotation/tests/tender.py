@@ -6,7 +6,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     contract_template_name_set,
-    create_tender_config_test,
     create_tender_with_required_unit,
     dateModified_tender,
     get_tender,
@@ -78,7 +77,6 @@ class TenderResourceTestMixin:
     test_tender_token_invalid = snitch(tender_token_invalid)
     test_create_tender_in_not_draft_status = snitch(create_tender_in_not_draft_status)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
-    test_create_tender_config_test = snitch(create_tender_config_test)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_contract_template_name_set = snitch(contract_template_name_set)

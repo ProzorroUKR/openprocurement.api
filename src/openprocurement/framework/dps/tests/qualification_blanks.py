@@ -365,48 +365,6 @@ def activate_qualification_for_submission_with_docs(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
 
-def patch_submission_pending_config_test(self):
-    # Create framework
-    config = deepcopy(self.initial_config)
-    config["test"] = True
-    self.create_framework(config=config)
-    response = self.activate_framework()
-
-    framework = response.json["data"]
-    self.assertNotIn("config", framework)
-    self.assertEqual(framework["mode"], "test")
-    self.assertTrue(response.json["config"]["test"])
-
-    # Create and activate submission
-    self.create_submission()
-    response = self.activate_submission()
-
-    qualification_id = response.json["data"]["qualificationID"]
-
-    # Activate qualification
-    expected_config = {
-        "test": True,
-        "restricted": False,
-        'qualificationComplainDuration': 0,
-    }
-
-    response = self.activate_qualification()
-
-    qualification = response.json["data"]
-    self.assertNotIn("config", qualification)
-    self.assertEqual(qualification["mode"], "test")
-    self.assertEqual(response.json["config"], expected_config)
-
-    response = self.app.get("/qualifications/{}".format(qualification_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    qualification = response.json["data"]
-    self.assertNotIn("config", qualification)
-    self.assertEqual(qualification["mode"], "test")
-    self.assertEqual(response.json["config"], expected_config)
-
-
 def patch_submission_pending_config_restricted(self):
     # Create framework
     with change_auth(self.app, ("Basic", ("brokerr", ""))):

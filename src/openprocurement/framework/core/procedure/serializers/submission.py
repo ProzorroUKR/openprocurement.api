@@ -4,7 +4,6 @@ from openprocurement.api.procedure.serializers.base import (
 )
 from openprocurement.api.procedure.serializers.config import (
     BaseConfigSerializer,
-    false_is_none_serializer,
     none_is_false_serializer,
 )
 from openprocurement.framework.core.procedure.serializers.document import (
@@ -40,6 +39,5 @@ class SubmissionSerializer(BaseUIDSerializer):
 
 class SubmissionConfigSerializer(BaseConfigSerializer):
     serializers = {
-        "test": false_is_none_serializer,
         "restricted": none_is_false_serializer,
     }

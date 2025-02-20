@@ -16,7 +16,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender,
     create_tender_central,
     create_tender_central_invalid,
-    create_tender_config_test,
     create_tender_draft,
     create_tender_generated,
     create_tender_invalid,
@@ -93,7 +92,6 @@ class TenderResourceTestMixin:
     test_tender_token_invalid = snitch(tender_token_invalid)
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
-    test_create_tender_config_test = snitch(create_tender_config_test)
     test_tender_financing_milestones = snitch(tender_financing_milestones)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)

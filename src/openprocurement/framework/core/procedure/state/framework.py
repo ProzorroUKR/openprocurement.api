@@ -46,15 +46,9 @@ class FrameworkConfigMixin(ConfigMixin):
 
         config_schema = deepcopy(config_schema)
 
-        if config_schema:
-            # add optional test field to config schema
-            config_schema["properties"]["test"] = {"type": "boolean"}
-
         return config_schema
 
     def on_post(self, data):
-        if data["config"].get("test", False):
-            data["mode"] = "test"
         self.validate_config(data)
         super().on_post(data)
 

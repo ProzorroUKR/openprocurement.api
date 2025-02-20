@@ -6,7 +6,6 @@ from openprocurement.framework.dps.tests.base import test_submission_config
 from openprocurement.framework.dps.tests.submission_blanks import (  # Documents
     confidential_submission_document,
     create_submission_after_period_ends,
-    create_submission_config_test,
     create_submission_document_forbidden,
     create_submission_document_json_bulk,
     create_submission_documents,
@@ -50,7 +49,6 @@ class SubmissionResourceTest(SubmissionContentWebTest):
     test_listing_changes = snitch(listing_changes)
     test_create_submission_draft_invalid = snitch(create_submission_draft_invalid)
     test_create_submission_draft = snitch(create_submission_draft)
-    test_create_submission_config_test = snitch(create_submission_config_test)
     test_create_submission_after_period_ends = snitch(create_submission_after_period_ends)
     test_patch_submission_draft = snitch(patch_submission_draft)
     test_patch_submission_draft_to_active_invalid = snitch(patch_submission_draft_to_active_invalid)
