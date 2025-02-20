@@ -439,7 +439,7 @@ def create_tender_invalid(self):
                     "and hasValueRestriction=False"
                 ],
                 "location": "body",
-                "name": "valueCurrencyEquality",
+                "name": "config.valueCurrencyEquality",
             }
         ],
     )
@@ -468,7 +468,7 @@ def create_tender_invalid(self):
                     "and hasValueRestriction=False"
                 ],
                 "location": "body",
-                "name": "valueCurrencyEquality",
+                "name": "config.valueCurrencyEquality",
             }
         ],
     )
@@ -501,7 +501,7 @@ def create_tender_invalid(self):
                     "and hasValueRestriction=False"
                 ],
                 "location": "body",
-                "name": "valueCurrencyEquality",
+                "name": "config.valueCurrencyEquality",
             }
         ],
     )
@@ -1292,7 +1292,13 @@ def create_tender_without_estimated_value(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'hasValueRestriction should be False', 'location': 'body', 'name': 'value'}],
+        [
+            {
+                'description': 'hasValueRestriction should be False',
+                'location': 'body',
+                'name': 'config.hasValueRestriction',
+            }
+        ],
     )
 
     # hasValueEstimation and hasValueRestriction match

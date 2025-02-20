@@ -617,34 +617,9 @@ def create_framework_draft(self):
     self.assertEqual(framework["status"], "active")
     self.assertTrue(framework["prettyID"].startswith("UA-F"))
 
-
-def create_framework_config_test(self):
-    initial_config = deepcopy(self.initial_config)
-    initial_config["test"] = True
-    response = self.create_framework(config=initial_config)
-
-    token = response.json["access"]["token"]
-
-    framework = response.json["data"]
-    self.assertNotIn("config", framework)
-    self.assertEqual(framework["mode"], "test")
-    self.assertEqual(response.json["config"], initial_config)
-
-    response = self.activate_framework()
-
-    framework = response.json["data"]
-    self.assertNotIn("config", framework)
-    self.assertEqual(framework["mode"], "test")
-    self.assertEqual(response.json["config"], initial_config)
-
-    response = self.app.get("/frameworks/{}".format(framework["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    framework = response.json["data"]
-    self.assertNotIn("config", framework)
-    self.assertEqual(framework["mode"], "test")
-    self.assertEqual(response.json["config"], initial_config)
+    # Check framework config
+    framework_config = response.json["config"]
+    self.assertEqual(framework_config["restrictedDerivatives"], self.initial_config["restrictedDerivatives"])
 
 
 def create_framework_config_restricted(self):
@@ -670,7 +645,7 @@ def create_framework_config_restricted(self):
                 {
                     "description": ["restrictedDerivatives must be false for non-defense procuring entity"],
                     "location": "body",
-                    "name": "restrictedDerivatives",
+                    "name": "config.restrictedDerivatives",
                 }
             ],
         )
@@ -694,7 +669,7 @@ def create_framework_config_restricted(self):
                 {
                     "description": ["restrictedDerivatives must be true for defense procuring entity"],
                     "location": "body",
-                    "name": "restrictedDerivatives",
+                    "name": "config.restrictedDerivatives",
                 }
             ],
         )
@@ -754,8 +729,8 @@ def create_framework_config_restricted(self):
             [
                 {
                     "location": "body",
-                    "name": "procuringEntity.kind",
-                    "description": "procuring entity kind should be defense for restrictedDerivatives true config",
+                    "name": "config.restrictedDerivatives",
+                    "description": ["restrictedDerivatives must be false for non-defense procuring entity"],
                 }
             ],
         )

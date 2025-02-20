@@ -26,8 +26,6 @@ from openprocurement.framework.core.procedure.utils import (
     save_object,
 )
 from openprocurement.framework.core.utils import calculate_framework_full_date
-from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 AGREEMENT_DEPENDENT_FIELDS = (
@@ -48,17 +46,11 @@ class FrameworkConfigMixin(ConfigMixin):
 
         config_schema = deepcopy(config_schema)
 
-        if config_schema:
-            # add optional test field to config schema
-            config_schema["properties"]["test"] = {"type": "boolean"}
-
         return config_schema
 
-    def init_config(self, data):
-        if data["config"].get("test"):
-            data["mode"] = "test"
-        if data.get("procuringEntity", {}).get("kind") == "defense":
-            data["config"]["restrictedDerivatives"] = True
+    def on_post(self, data):
+        self.validate_config(data)
+        super().on_post(data)
 
     def validate_config(self, data):
         # load schema from standards
@@ -67,50 +59,11 @@ class FrameworkConfigMixin(ConfigMixin):
         # do not validate required fields
         config_schema.pop("required", None)
 
+        # common validation
         super().validate_config(data)
 
-        # custom validations
-        self.validate_restricted_derivatives_config(data)
 
-    def validate_restricted_derivatives_config(self, data):
-        config = data["config"]
-        value = config.get("restrictedDerivatives")
-
-        if data.get("frameworkType") in (DPS_TYPE, IFI_TYPE):
-            if value is None:
-                raise_operation_error(
-                    self.request,
-                    ["restrictedDerivatives is required for this framework type"],
-                    status=422,
-                    name="restrictedDerivatives",
-                )
-            if data.get("procuringEntity", {}).get("kind") == "defense":
-                if value is False:
-                    raise_operation_error(
-                        self.request,
-                        ["restrictedDerivatives must be true for defense procuring entity"],
-                        status=422,
-                        name="restrictedDerivatives",
-                    )
-            else:
-                if value is True:
-                    raise_operation_error(
-                        self.request,
-                        ["restrictedDerivatives must be false for non-defense procuring entity"],
-                        status=422,
-                        name="restrictedDerivatives",
-                    )
-        else:
-            if value is True:
-                raise_operation_error(
-                    self.request,
-                    ["restrictedDerivatives must be false for this framework type"],
-                    status=422,
-                    name="restrictedDerivatives",
-                )
-
-
-class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
+class FrameworkState(FrameworkConfigMixin, ChronographEventsMixing, BaseState):
     agreement_class = AgreementState
     qualification_class = QualificationState
     submission_class = SubmissionState
@@ -129,8 +82,6 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         self.update_next_check(data)
 
     def on_post(self, data):
-        self.validate_config(data)
-        self.init_config(data)
         data["date"] = get_now().isoformat()
         self.validate_items_presence(data)
         self.validate_items_classification_prefix(data)
@@ -141,7 +92,6 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         self.validate_items_presence(after)
         self.validate_items_classification_prefix(after)
         self.validate_framework_patch_status(before)
-        self.validate_procuring_entity_kind(before, after)
         super().on_patch(before, after)
 
     def after_patch(self, data):
@@ -317,24 +267,6 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         }
 
         data["qualificationPeriod"]["startDate"] = enquiry_period_start_date.isoformat()
-
-    def validate_procuring_entity_kind(self, before, after):
-        if kind := after.get("procuringEntity", {}).get("kind"):
-            restricted_config = before.get("config", {}).get("restrictedDerivatives")
-            if kind == "defense" and restricted_config is False:
-                raise_operation_error(
-                    get_request(),
-                    "procuring entity kind should be non-defense for restrictedDerivatives false config",
-                    name="procuringEntity.kind",
-                    status=422,
-                )
-            elif kind != "defense" and restricted_config is True:
-                raise_operation_error(
-                    get_request(),
-                    "procuring entity kind should be defense for restrictedDerivatives true config",
-                    name="procuringEntity.kind",
-                    status=422,
-                )
 
     def validate_items_classification_prefix(self, framework):
         classifications = [item["classification"] for item in framework.get("items", "")]

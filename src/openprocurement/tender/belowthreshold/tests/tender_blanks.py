@@ -1774,56 +1774,6 @@ def create_tender(self):
     self.assertEqual(tender["items"][0]["additionalClassifications"], additional_classification)
 
 
-def create_tender_config_test(self):
-    initial_config = deepcopy(self.initial_config)
-    initial_config["test"] = True
-    response = self.app.post_json(
-        "/tenders",
-        {
-            "data": self.initial_data,
-            "config": initial_config,
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-
-    token = response.json["access"]["token"]
-
-    tender = response.json["data"]
-    self.assertNotIn("config", tender)
-    self.assertEqual(tender["mode"], "test")
-    self.assertTrue(tender["title"].startswith("[ТЕСТУВАННЯ]"))
-    self.assertTrue(tender["title_en"].startswith("[TESTING]"))
-    self.assertEqual(response.json["config"], initial_config)
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token),
-        {
-            "data": {"title": "changed"},
-        },
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    tender = response.json["data"]
-    self.assertNotIn("config", tender)
-    self.assertEqual(tender["mode"], "test")
-    self.assertTrue(tender["title"].startswith("[ТЕСТУВАННЯ]"))
-    self.assertTrue(tender["title_en"].startswith("[TESTING]"))
-    self.assertEqual(response.json["config"], initial_config)
-
-    response = self.app.get("/tenders/{}".format(tender["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    tender = response.json["data"]
-    self.assertNotIn("config", tender)
-    self.assertEqual(tender["mode"], "test")
-    self.assertTrue(tender["title"].startswith("[ТЕСТУВАННЯ]"))
-    self.assertTrue(tender["title_en"].startswith("[TESTING]"))
-    self.assertEqual(response.json["config"], initial_config)
-
-
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
     tender_data["funders"] = [deepcopy(test_tender_below_organization)]

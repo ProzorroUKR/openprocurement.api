@@ -5,7 +5,6 @@ from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.framework.dps.constants import DPS_TYPE
 
 LOGGER = getLogger(__name__)
 
@@ -14,50 +13,36 @@ class SubmissionConfigMixin(ConfigMixin):
     default_config_schema = {
         "type": "object",
         "properties": {
-            "test": {"type": "boolean"},
             "restricted": {"type": "boolean"},
         },
     }
 
-    def validate_config(self, data):
-        super().validate_config(data)
-
-        # custom validations
+    def on_post(self, data):
+        self.validate_config(data)
         self.validate_restricted_config(data)
+        super().on_post(data)
 
     def validate_restricted_config(self, data):
-        config = data["config"]
-        value = config.get("restricted")
-
-        if data.get("frameworkType") == DPS_TYPE:
-            if value is None:
-                raise_operation_error(
-                    self.request, ["restricted is required for this framework type"], status=422, name="restricted"
-                )
-            if data.get("procuringEntity", {}).get("kind") == "defense":
-                if value is False:
-                    raise_operation_error(
-                        self.request,
-                        ["restricted must be true for defense procuring entity"],
-                        status=422,
-                        name="restricted",
-                    )
-            else:
-                if value is True:
-                    raise_operation_error(
-                        self.request,
-                        ["restricted must be false for non-defense procuring entity"],
-                        status=422,
-                        name="restricted",
-                    )
-        else:
-            if value is True:
-                raise_operation_error(
-                    self.request, ["restricted must be false for this framework type"], status=422, name="restricted"
-                )
+        framework = get_object("framework")
+        restricted = data["config"].get("restricted")
+        restricted_derivatives = framework["config"]["restrictedDerivatives"]
+        if restricted_derivatives is True and restricted is False:
+            raise_operation_error(
+                self.request,
+                ["restricted must be true for framework with restrictedDerivatives true"],
+                status=422,
+                name="config.restricted",
+            )
+        elif restricted_derivatives is False and restricted is True:
+            raise_operation_error(
+                self.request,
+                ["restricted must be false for framework with restrictedDerivatives false"],
+                status=422,
+                name="config.restricted",
+            )
 
 
-class SubmissionState(BaseState, SubmissionConfigMixin):
+class SubmissionState(SubmissionConfigMixin, BaseState):
     def __init__(self, request, framework=None):
         super().__init__(request)
         self.framework = framework
@@ -96,11 +81,8 @@ class SubmissionState(BaseState, SubmissionConfigMixin):
     def set_submission_data(self, data):
         framework = get_object("framework")
         data["submissionType"] = framework["frameworkType"]
-        data["mode"] = framework.get("mode")
         data["framework_owner"] = framework["owner"]
         data["framework_token"] = framework["owner_token"]
+        data["mode"] = framework.get("mode")
         if get_request().json["data"].get("status") == "draft":
             data["status"] = "draft"
-        if framework["config"].get("test", False):
-            data["config"]["test"] = framework["config"]["test"]
-        data["config"]["restricted"] = framework["config"]["restrictedDerivatives"]

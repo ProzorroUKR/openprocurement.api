@@ -475,46 +475,6 @@ def create_submission_draft(self):
     self.assertEqual(submission["status"], "active")
 
 
-def create_submission_config_test(self):
-    # Create framework
-    config = deepcopy(self.initial_config)
-    config["test"] = True
-    self.create_framework(config=config)
-    response = self.activate_framework()
-
-    framework = response.json["data"]
-    self.assertNotIn("config", framework)
-    self.assertEqual(framework["mode"], "test")
-    self.assertTrue(response.json["config"]["test"])
-
-    # Create submission
-    expected_config = deepcopy(self.initial_submission_config)
-    expected_config["test"] = True
-
-    response = self.create_submission()
-
-    submission = response.json["data"]
-    self.assertNotIn("config", submission)
-    self.assertEqual(submission["mode"], "test")
-    self.assertEqual(response.json["config"], expected_config)
-
-    response = self.activate_submission()
-
-    submission = response.json["data"]
-    self.assertNotIn("config", submission)
-    self.assertEqual(submission["mode"], "test")
-    self.assertEqual(response.json["config"], expected_config)
-
-    response = self.app.get("/submissions/{}".format(submission["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    submission = response.json["data"]
-    self.assertNotIn("config", submission)
-    self.assertEqual(submission["mode"], "test")
-    self.assertEqual(response.json["config"], expected_config)
-
-
 def create_submission_config_restricted(self):
     # Create framework
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
@@ -548,6 +508,29 @@ def create_submission_config_restricted(self):
                     "location": "url",
                     "name": "accreditation",
                     "description": "Broker Accreditation level does not permit framework restricted data access",
+                }
+            ],
+        )
+
+    # Create submission with restricted False
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
+
+        expected_config = {"restricted": False}
+
+        config = deepcopy(self.initial_submission_config)
+        config["restricted"] = False
+
+        response = self.create_submission(config=config, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "config.restricted",
+                    "description": ["restricted must be true for framework with restrictedDerivatives true"],
                 }
             ],
         )

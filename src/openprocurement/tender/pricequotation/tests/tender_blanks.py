@@ -2644,7 +2644,7 @@ def validate_restricted_from_agreement(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "restricted", "description": "Value must be False."}],
+        [{"location": "body", "name": "config.restricted", "description": "Value must be False."}],
     )
 
     # Restricted agreement
@@ -2665,7 +2665,7 @@ def validate_restricted_from_agreement(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "restricted", "description": "Value must be True."}],
+        [{"location": "body", "name": "config.restricted", "description": "Value must be True."}],
     )
 
     # restricted PQ from broker

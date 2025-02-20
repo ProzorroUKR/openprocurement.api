@@ -83,10 +83,6 @@ class TenderConfigMixin(ConfigMixin):
 
         config_schema = deepcopy(config_schema)
 
-        if config_schema:
-            # add optional test field to config schema
-            config_schema["properties"]["test"] = {"type": "boolean"}
-
         return config_schema
 
     def validate_config(self, data):
@@ -112,10 +108,12 @@ class TenderConfigMixin(ConfigMixin):
         # validate config with schema
         super().validate_config(data)
 
-        # custom validations
+    def on_post(self, data):
+        self.validate_config(data)
         self.validate_restricted_config(data)
         self.validate_estimated_value_config(data)
         self.validate_value_currency_equality(data)
+        super().on_post(data)
 
     def validate_value_currency_equality(self, data):
         """Validate valueCurrencyEquality config option"""
@@ -139,7 +137,7 @@ class TenderConfigMixin(ConfigMixin):
                 ],
                 status=422,
                 location="body",
-                name="valueCurrencyEquality",
+                name="config.valueCurrencyEquality",
             )
 
     def validate_estimated_value_config(self, data):
@@ -153,7 +151,7 @@ class TenderConfigMixin(ConfigMixin):
                 "hasValueRestriction should be False",
                 status=422,
                 location="body",
-                name="value",
+                name="config.hasValueRestriction",
             )
 
     def validate_restricted_config(self, data):
@@ -167,7 +165,7 @@ class TenderConfigMixin(ConfigMixin):
                 "Value must be True.",
                 status=422,
                 location="body",
-                name="restricted",
+                name="config.restricted",
             )
         elif has_restricted_preselection_agreement is False and data["config"]["restricted"] is True:
             raise_operation_error(
@@ -175,11 +173,11 @@ class TenderConfigMixin(ConfigMixin):
                 "Value must be False.",
                 status=422,
                 location="body",
-                name="restricted",
+                name="config.restricted",
             )
 
 
-class TenderDetailsMixing(TenderConfigMixin):
+class BaseTenderDetailsMixing:
     """
     describes business logic rules for tender owners
     when they prepare tender for tendering stage
@@ -220,7 +218,6 @@ class TenderDetailsMixing(TenderConfigMixin):
             self.validate_cancellation_blocks(request, before)
 
     def on_post(self, tender):
-        self.validate_config(tender)
         self.validate_procurement_method(tender)
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
@@ -448,8 +445,6 @@ class TenderDetailsMixing(TenderConfigMixin):
                 )
 
     def set_mode_test(self, tender):
-        if tender["config"].get("test"):
-            tender["mode"] = "test"
         if tender.get("mode") == "test":
             set_mode_test_titles(tender)
 
@@ -1386,6 +1381,10 @@ class TenderDetailsMixing(TenderConfigMixin):
                 f"Incorrect template for current classification {classification_id}, "
                 f"use of that templates {expected_template_names}",
             )
+
+
+class TenderDetailsMixing(TenderConfigMixin, BaseTenderDetailsMixing):
+    pass
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

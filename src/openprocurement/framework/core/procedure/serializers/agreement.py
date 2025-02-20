@@ -5,7 +5,6 @@ from openprocurement.api.procedure.serializers.base import (
 )
 from openprocurement.api.procedure.serializers.config import (
     BaseConfigSerializer,
-    false_is_none_serializer,
     none_is_false_serializer,
 )
 from openprocurement.framework.core.procedure.serializers.contract import (
@@ -50,6 +49,5 @@ def has_items_serializer(value):
 
 class AgreementConfigSerializer(BaseConfigSerializer):
     serializers = {
-        "test": false_is_none_serializer,
         "restricted": none_is_false_serializer,
     }

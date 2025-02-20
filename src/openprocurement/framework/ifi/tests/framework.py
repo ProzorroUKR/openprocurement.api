@@ -4,7 +4,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.framework_blanks import (
     accreditation_level,
     complete_status,
-    create_framework_config_test,
     create_framework_draft,
     create_framework_draft_invalid,
     create_framework_draft_invalid_kind,
@@ -47,7 +46,6 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
     test_create_framework_draft = snitch(create_framework_draft)
-    test_create_framework_config_test = snitch(create_framework_config_test)
     test_accreditation_level = snitch(accreditation_level)
     test_create_framework_draft_invalid = snitch(create_framework_draft_invalid)
     test_create_framework_draft_invalid_kind = snitch(create_framework_draft_invalid_kind)

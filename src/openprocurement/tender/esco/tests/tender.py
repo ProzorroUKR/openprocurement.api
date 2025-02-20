@@ -5,7 +5,6 @@ from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTes
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (  # TenderProcessTest; TenderResourceTest
     create_tender_central,
     create_tender_central_invalid,
-    create_tender_config_test,
     guarantee,
     invalid_tender_conditions,
     patch_items_related_buyer_id,
@@ -100,7 +99,6 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
-    test_create_tender_config_test = snitch(create_tender_config_test)
     test_patch_tender_draft = snitch(patch_tender_draft)
 
 
