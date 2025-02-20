@@ -1,3 +1,5 @@
+import re
+
 from pymongo import ASCENDING, IndexModel
 
 from openprocurement.api.database import BaseCollection
@@ -84,10 +86,11 @@ class AgreementCollection(BaseCollection):
         return indexes
 
     def list_by_classification_id(self, classification_id):
+        escaped_classification_id = re.escape(classification_id)
         result = list(
             self.collection.find(
                 filter={
-                    "classification.id": {"$regex": f"^{classification_id}"},
+                    "classification.id": {"$regex": f"^{escaped_classification_id}"},
                     "is_public": True,
                     "status": "active",
                 },

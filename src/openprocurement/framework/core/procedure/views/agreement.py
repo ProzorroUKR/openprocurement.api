@@ -7,6 +7,7 @@ from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
+    raise_operation_error,
     request_init_agreement,
     update_logging_context,
 )
@@ -141,8 +142,17 @@ class AgreementFilterByClassificationResource(FrameworkBaseResource):
         classification_id = self.request.matchdict.get("classification_id")
         if "-" in classification_id:
             classification_id = classification_id[: classification_id.find("-")]
-        additional_classifications = self.request.params.get("additional_classifications", "")
+        classification_id = classification_id.strip()
 
+        min_classification_id_prefix_length = 3
+        if len(classification_id) < min_classification_id_prefix_length:
+            raise raise_operation_error(
+                self.request,
+                f"classification id must be at least {min_classification_id_prefix_length} characters long",
+                status=422,
+            )
+
+        additional_classifications = self.request.params.get("additional_classifications", "")
         if additional_classifications.lower() == "none":
             additional_classifications = set()
         elif additional_classifications:
