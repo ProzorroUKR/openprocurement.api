@@ -645,7 +645,7 @@ def create_framework_config_restricted(self):
                 {
                     "description": ["restrictedDerivatives must be false for non-defense procuring entity"],
                     "location": "body",
-                    "name": "restrictedDerivatives",
+                    "name": "config.restrictedDerivatives",
                 }
             ],
         )
@@ -669,7 +669,7 @@ def create_framework_config_restricted(self):
                 {
                     "description": ["restrictedDerivatives must be true for defense procuring entity"],
                     "location": "body",
-                    "name": "restrictedDerivatives",
+                    "name": "config.restrictedDerivatives",
                 }
             ],
         )
@@ -729,7 +729,7 @@ def create_framework_config_restricted(self):
             [
                 {
                     "location": "body",
-                    "name": "restrictedDerivatives",
+                    "name": "config.restrictedDerivatives",
                     "description": ["restrictedDerivatives must be false for non-defense procuring entity"],
                 }
             ],

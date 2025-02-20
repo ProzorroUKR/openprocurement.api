@@ -31,14 +31,14 @@ class SubmissionConfigMixin(ConfigMixin):
                 self.request,
                 ["restricted must be true for framework with restrictedDerivatives true"],
                 status=422,
-                name="restricted",
+                name="config.restricted",
             )
         elif restricted_derivatives is False and restricted is True:
             raise_operation_error(
                 self.request,
                 ["restricted must be false for framework with restrictedDerivatives false"],
                 status=422,
-                name="restricted",
+                name="config.restricted",
             )
 
 

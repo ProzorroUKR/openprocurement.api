@@ -137,7 +137,7 @@ class TenderConfigMixin(ConfigMixin):
                 ],
                 status=422,
                 location="body",
-                name="valueCurrencyEquality",
+                name="config.valueCurrencyEquality",
             )
 
     def validate_estimated_value_config(self, data):
@@ -151,7 +151,7 @@ class TenderConfigMixin(ConfigMixin):
                 "hasValueRestriction should be False",
                 status=422,
                 location="body",
-                name="value",
+                name="config.hasValueRestriction",
             )
 
     def validate_restricted_config(self, data):
@@ -165,7 +165,7 @@ class TenderConfigMixin(ConfigMixin):
                 "Value must be True.",
                 status=422,
                 location="body",
-                name="restricted",
+                name="config.restricted",
             )
         elif has_restricted_preselection_agreement is False and data["config"]["restricted"] is True:
             raise_operation_error(
@@ -173,7 +173,7 @@ class TenderConfigMixin(ConfigMixin):
                 "Value must be False.",
                 status=422,
                 location="body",
-                name="restricted",
+                name="config.restricted",
             )
 
 

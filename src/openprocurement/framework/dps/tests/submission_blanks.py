@@ -529,7 +529,7 @@ def create_submission_config_restricted(self):
             [
                 {
                     "location": "body",
-                    "name": "restricted",
+                    "name": "config.restricted",
                     "description": ["restricted must be true for framework with restrictedDerivatives true"],
                 }
             ],

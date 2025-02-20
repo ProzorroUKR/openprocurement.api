@@ -37,14 +37,14 @@ class DPSFrameworkConfigMixin(FrameworkConfigMixin):
                 self.request,
                 ["restrictedDerivatives must be true for defense procuring entity"],
                 status=422,
-                name="restrictedDerivatives",
+                name="config.restrictedDerivatives",
             )
         elif not is_defense and restricted_derivatives is True:
             raise_operation_error(
                 self.request,
                 ["restrictedDerivatives must be false for non-defense procuring entity"],
                 status=422,
-                name="restrictedDerivatives",
+                name="config.restrictedDerivatives",
             )
 
 
