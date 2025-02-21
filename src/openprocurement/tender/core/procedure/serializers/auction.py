@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from openprocurement.api.procedure.serializers.base import (
     BaseSerializer,
+    BaseUIDSerializer,
     ListSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.feature import FeatureSerializer
@@ -36,7 +37,7 @@ class AuctionBidSerializer(BaseSerializer):
     def __init__(self, data: dict, tender=None, **kwargs):
         super().__init__(data, tender=tender, **kwargs)
 
-        self.whitelist = {
+        self.whitelist: set[str] = {
             "id",
             "value",
             "weightedValue",
@@ -52,7 +53,7 @@ class AuctionBidSerializer(BaseSerializer):
             self.whitelist.add("tenderers")
 
 
-class AuctionSerializer(BaseSerializer):
+class AuctionSerializer(BaseUIDSerializer):
     serializers = {
         "bids": ListSerializer(AuctionBidSerializer),
         "features": ListSerializer(FeatureSerializer),
@@ -65,34 +66,33 @@ class AuctionSerializer(BaseSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
 
-        self.whitelist = {
-            "tenderID",
-            "dateModified",
-            "bids",
-            "items",
-            "auctionPeriod",
-            "minimalStep",
-            "auctionUrl",
-            "features",
-            "lots",
-            "criteria",
-            # additionally we add more public fields
-            # so auction-bridge won't have to make two requests
-            # "awardCriteria",
-            # "value",
-            # "submissionMethodDetails",
-            # "submissionMethodDetails",
+        self.whitelist: set[str] = {
             "id",
             "status",
-            # "status" actually expected to be returned from auction post in the tests
-            # the reason that test had worked is tender.status role had been used, not "auction_view". It was quite a bug
             "title",
             "title_en",
             "description",
             "description_en",
             "procurementMethodType",
-            # "procuringEntity",
+            "mode",
+            "awardCriteria",
+            "procuringEntity",
+            "tenderID",
+            "dateModified",
+            "bids",
+            "awards",
+            "lots",
+            "items",
+            "features",
+            "criteria",
+            "value",
+            "minimalStep",
+            "minimalStepPercentage",
+            "submissionMethodDetails",
+            "NBUdiscountRate",
+            "noticePublicationDate",
+            "fundingKind",
+            "yearlyPaymentsPercentageRange",
+            "auctionPeriod",
+            "auctionUrl",
         }
-
-        if data["status"] not in ("draft", "active.enquiries", "active.tendering", "active.auction"):
-            self.whitelist.add("awards")

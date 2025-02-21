@@ -1,0 +1,39 @@
+@startuml
+
+
+artifact auctionPeriod {
+    artifact shouldStartAfter
+    artifact startDate
+    artifact endDate
+    shouldStartAfter -r- startDate
+    startDate -r- endDate
+}
+
+
+component Chronograph
+Chronograph -up-> startDate: заповнює
+
+
+
+cloud API {
+    component ShouldStartAfterMixing
+    ShouldStartAfterMixing --> shouldStartAfter: заповнює
+
+
+    component "OpenTenderState.check_auction_time\n( invalidate_bids_data )" as check_auction_time
+    check_auction_time --> startDate: видяляє startDate якщо він \n > shouldStartAfter + 2 роб дні
+
+    component "CancellationComplaintStateMixin\nrecalculate_tender_periods" as recalculate_tender_periods
+    recalculate_tender_periods --> startDate: переносить на N днів
+
+    component "remove_auction_period\n(check_bids_number)" as remove_auction_period
+    remove_auction_period --> startDate: видаляє коли bids < N
+
+}
+
+
+component Auction
+Auction -up-> endDate: заповнює
+
+
+@enduml

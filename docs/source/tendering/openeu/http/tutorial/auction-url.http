@@ -1531,7 +1531,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "auctionPeriod": {
-          "startDate": "2023-10-10T01:03:00+03:00",
+          "startDate": "2023-10-11T12:22:15.236000+03:00",
           "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d919e3a12bf04f32b88a651dc10270d1_886ac2888e9747d7aaae3a2ad51e5e40"
@@ -1731,7 +1731,7 @@ Content-Type: application/json
       "startDate": "2023-09-09T01:03:00+03:00",
       "endDate": "2023-10-06T00:00:00+03:00"
     },
-    "next_check": "2023-10-10T01:39:00+03:00",
+    "next_check": "2023-10-11T12:22:15.236000+03:00",
     "auctionPeriod": {
       "startDate": "2023-10-10T01:03:00+03:00"
     },

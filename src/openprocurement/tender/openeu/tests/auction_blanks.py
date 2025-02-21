@@ -20,7 +20,6 @@ def get_tender_auction(self):
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
     self.assertIn("minimalStep", auction)
-    self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(
         auction["bids"][0]["lotValues"][0]["value"]["amount"],
@@ -173,7 +172,6 @@ def get_tender_auction_feature(self):
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
     self.assertIn("minimalStep", auction)
-    self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(
         auction["bids"][0]["lotValues"][0]["value"]["amount"],

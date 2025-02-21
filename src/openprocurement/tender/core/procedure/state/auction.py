@@ -1,12 +1,25 @@
-from datetime import timedelta
+import random
+from datetime import datetime, timedelta
 from logging import getLogger
 
+from dateorro import calc_nearest_working_datetime
+
+from openprocurement.api.constants import (
+    AUCTION_DAY_START,
+    AUCTION_TIME_SLOTS_NUMBER,
+    HALF_HOUR_SECONDS,
+    SANDBOX_MODE,
+    TZ,
+    WORKING_DAYS,
+)
 from openprocurement.api.context import get_now
+from openprocurement.api.utils import calculate_date
 from openprocurement.tender.core.procedure.utils import (
     calc_auction_end_time,
     dt_from_iso,
     normalize_should_start_after,
 )
+from openprocurement.tender.core.utils import QUICK
 
 LOGGER = getLogger(__name__)
 
@@ -16,13 +29,16 @@ class ShouldStartAfterMixing:
         if tender["config"]["hasAuction"] is False:
             return
 
+        quick = SANDBOX_MODE and QUICK in tender.get("submissionMethodDetails", "")
         lots = tender.get("lots")
         if lots:
-            for lot in lots:
+            for lot_num, lot in enumerate(lots):
                 period = lot.get("auctionPeriod", {})
                 start_after = self.get_lot_auction_should_start_after(tender, lot)
                 if start_after:
                     period["shouldStartAfter"] = start_after
+                    self.period_add_auction_start_date(period, start_after, quick)
+
                     lot["auctionPeriod"] = period
 
                 elif "shouldStartAfter" in period:
@@ -35,6 +51,7 @@ class ShouldStartAfterMixing:
             start_after = self.get_auction_should_start_after(tender)
             if start_after:
                 period["shouldStartAfter"] = start_after
+                self.period_add_auction_start_date(period, start_after, quick)
                 tender["auctionPeriod"] = period
 
             elif "shouldStartAfter" in period:
@@ -57,12 +74,6 @@ class ShouldStartAfterMixing:
         number_of_bids = self.count_lot_bids_number(tender, lot["id"])
         if tender["status"] == "active.auction" and number_of_bids < 2:
             return  # there is no sense to run this auction, shouldStartAfter should be deleted
-
-        start_date = period.get("startDate")
-        if start_date:
-            expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
-            if get_now() > expected_value:
-                return normalize_should_start_after(expected_value, tender).isoformat()
 
         return self.get_should_start_after(tender)
 
@@ -127,3 +138,36 @@ class ShouldStartAfterMixing:
                 date = date.replace(hour=0, minute=0, second=0, microsecond=0)
                 decision_dates.append(date)
         return decision_dates
+
+    def period_add_auction_start_date(self, period: dict[str, str], start_after: str, quick: bool) -> None:
+        start_date = period.get("startDate")
+        if start_date is None or start_date < start_after:  # iso string comparison works good enough
+            period["startDate"] = self.get_auction_start_date(start_after, quick)
+
+    @staticmethod
+    def get_auction_start_date(should_start_after: str, quick: bool) -> str:
+        # get auction start DATE
+        start_dt = max(
+            dt_from_iso(should_start_after),
+            get_now(),
+        )
+        if quick:
+            return (start_dt + timedelta(seconds=60)).isoformat()
+
+        start_dt += timedelta(hours=1)
+        start_dt = calc_nearest_working_datetime(start_dt, calendar=WORKING_DAYS)
+        if start_dt.time() >= AUCTION_DAY_START:
+            start_dt = calculate_date(start_dt, timedelta(days=1), working_days=True)
+        start_date = start_dt.date()
+
+        # get auction start TIME
+        time_slot_number = random.randrange(0, AUCTION_TIME_SLOTS_NUMBER)
+        auction_start = (
+            datetime.combine(start_date, AUCTION_DAY_START)
+            + timedelta(seconds=HALF_HOUR_SECONDS * time_slot_number)  # schedule to the timeslot
+            + timedelta(  # randomize time within the timeslot
+                seconds=random.randrange(0, HALF_HOUR_SECONDS),
+                milliseconds=random.randrange(0, 1000),
+            )
+        )
+        return TZ.localize(auction_start).isoformat()

@@ -54,7 +54,6 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
-    check_auction_period,
     dt_from_iso,
     set_mode_test_titles,
     tender_created_after,
@@ -1279,17 +1278,7 @@ class BaseTenderDetailsMixing:
                         req["status"] = ReqStatuses.CANCELLED
                         req["dateModified"] = now.isoformat()
 
-    @staticmethod
-    def check_auction_time(tender):
-        if check_auction_period(tender.get("auctionPeriod", {}), tender):
-            del tender["auctionPeriod"]["startDate"]
-
-        for lot in tender.get("lots", ""):
-            if check_auction_period(lot.get("auctionPeriod", {}), tender):
-                del lot["auctionPeriod"]["startDate"]
-
     def invalidate_bids_data(self, tender):
-        self.check_auction_time(tender)
         self.set_enquiry_period_invalidation_date(tender)
         for bid in tender.get("bids", ""):
             if bid.get("status") not in ("deleted", "draft"):

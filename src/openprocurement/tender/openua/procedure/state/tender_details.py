@@ -2,7 +2,6 @@ from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
-from openprocurement.tender.core.procedure.utils import check_auction_period
 from openprocurement.tender.openua.constants import (
     ENQUIRY_PERIOD_TIME,
     TENDERING_EXTRA_PERIOD,
@@ -27,12 +26,3 @@ class OpenUATenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
         self.validate_items_classification_prefix_unchanged(before, after)
-
-    @staticmethod
-    def check_auction_time(tender):
-        if check_auction_period(tender.get("auctionPeriod", {}), tender):
-            del tender["auctionPeriod"]["startDate"]
-
-        for lot in tender.get("lots", ""):
-            if check_auction_period(lot.get("auctionPeriod", {}), tender):
-                del lot["auctionPeriod"]["startDate"]

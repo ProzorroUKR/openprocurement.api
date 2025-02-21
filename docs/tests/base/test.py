@@ -1,6 +1,7 @@
 import io
 import json
 import mimetypes
+import random
 import re
 import traceback
 from collections import defaultdict
@@ -244,6 +245,8 @@ class MockWebTestMixin:
 
         self.freezer = freeze_time(self.freezing_datetime)
         self.freezer.start()
+
+        random.seed(13)
 
     def tearDownMock(self):
         self.freezer.stop()
