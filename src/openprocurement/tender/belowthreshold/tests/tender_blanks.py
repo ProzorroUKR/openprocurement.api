@@ -3640,7 +3640,7 @@ def activate_bid_guarantee_multilot(self):
             "requirement": {
                 "id": lot_req["id"],
             },
-            "value": True,
+            "value": 2,
         }
     ]
     self.app.post_json(
