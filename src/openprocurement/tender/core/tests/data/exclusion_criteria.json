@@ -272,7 +272,7 @@
                         "title": "Сума існуючої заборгованості, грн.",
                         "dataType": "number",
                         "minValue": 0.0,
-                        "unit": {"code": "H87", "name": "штук"}
+                        "unit": {"code": "E50", "name": "одиниця"}
                     }
                 ]
             }
