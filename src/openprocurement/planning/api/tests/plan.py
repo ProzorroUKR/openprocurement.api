@@ -45,7 +45,6 @@ from openprocurement.planning.api.tests.plan_blanks import (  # PlanTest; Accred
     patch_plan_to_simpledefense,
     patch_plan_with_breakdown,
     patch_plan_with_token,
-    plan_additional_classifications_based_on_breakdown,
     plan_not_found,
     plan_rationale,
     plan_token_invalid,
