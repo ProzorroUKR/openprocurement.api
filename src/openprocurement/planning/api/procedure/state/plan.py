@@ -63,7 +63,8 @@ class PlanState(BaseState):
         self._validate_plan_availability(data)
         self._validate_tender_procurement_method_type(data)
         self._validate_items_classification_prefix(data)
-        self.validate_required_additional_classifications(data)
+        # TODO: turn on later (CS-18891)
+        # self.validate_required_additional_classifications(data)
 
     def validate_on_patch(self, before, after):
         self._validate_plan_changes_in_terminated(before, after)
@@ -71,8 +72,9 @@ class PlanState(BaseState):
         self._validate_plan_status_update(before, after)
         self._validate_plan_with_tender(before, after)
         self._validate_items_classification_prefix(after)
-        if before.get("additionalClassifications") != after.get("additionalClassifications"):
-            self.validate_required_additional_classifications(after)
+        # TODO: turn on later (CS-18891)
+        # if before.get("additionalClassifications") != after.get("additionalClassifications"):
+        #     self.validate_required_additional_classifications(after)
 
     def plan_tender_validate_on_post(self, plan, tender):
         self._validate_plan_scheduled(plan)
