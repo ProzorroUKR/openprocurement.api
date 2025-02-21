@@ -4,6 +4,7 @@ from logging import getLogger
 from typing import Dict, List
 from uuid import uuid4
 
+from openprocurement.api.constants import REQ_RESPONSE_VALUES_VALIDATION_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_contract_by_id, request_init_contract
@@ -183,11 +184,17 @@ def set_attributes_to_contract_items(tender, bid, contract):
                     "name": req["title"],
                 }
 
-                if "value" in req_responses[req["id"]]:
-                    item_attr["value"] = req_responses[req["id"]]["value"]
+                if get_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
+                    if "value" in req_responses[req["id"]]:
+                        item_attr["value"] = req_responses[req["id"]]["value"]
 
-                if "values" in req_responses[req["id"]]:
-                    item_attr["values"] = req_responses[req["id"]]["values"]
+                    if "values" in req_responses[req["id"]]:
+                        item_attr["values"] = req_responses[req["id"]]["values"]
+                else:  # old logic of conversation any responses into values
+                    if req_responses[req["id"]].get("values"):
+                        item_attr["values"] = req_responses[req["id"]]["values"]
+                    else:
+                        item_attr["values"] = [req_responses[req["id"]]["value"]]
 
                 if "unit" in req:
                     item_attr["unit"] = req["unit"]
