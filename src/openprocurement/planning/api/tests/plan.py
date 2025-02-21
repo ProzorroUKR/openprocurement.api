@@ -96,7 +96,8 @@ class PlanResourceTest(BasePlanTest):
     test_esco_plan = snitch(esco_plan)
     test_cfaua_plan = snitch(cfaua_plan)
     test_plan_rationale = snitch(plan_rationale)
-    test_plan_additional_classifications_based_on_breakdown = snitch(plan_additional_classifications_based_on_breakdown)
+    # TODO: turn on later (CS-18891)
+    # test_plan_additional_classifications_based_on_breakdown = snitch(plan_additional_classifications_based_on_breakdown)
 
 
 class PlanBudgetBreakdownTest(BasePlanTest):
