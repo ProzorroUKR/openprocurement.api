@@ -238,7 +238,7 @@ def validate_patch_data_simple(model, item_name):
             patch_lots = patch_data.pop("lots", None)
             if patch_lots:
                 new_lots = []
-                for patch, lot_data in zip(patch_lots, data["lots"]):
+                for patch, lot_data in zip(patch_lots, data.get("lots", [])):
                     # if patch_lots is shorter, then some lots are going to be deleted
                     # longer, then some lots are going to be added
                     if lot_data is None:
