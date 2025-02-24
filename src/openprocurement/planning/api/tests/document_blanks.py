@@ -279,3 +279,57 @@ def put_plan_document_json(self):
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
+
+
+def delete_plan_document(self):
+    response = self.app.post_json(
+        "/plans/{}/documents?acc_token={}".format(self.plan_id, self.plan_token),
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.delete_json(
+        "/plans/{}/documents/{}?acc_token={}".format(self.plan_id, "test", self.plan_token),
+        status=404,
+    )
+    self.assertEqual(response.status, "404 Not Found")
+
+    plan_doc = self.mongodb.plans.get(self.plan_id)
+    plan_doc["status"] = "scheduled"
+    self.mongodb.plans.save(plan_doc)
+    response = self.app.delete_json(
+        "/plans/{}/documents/{}?acc_token={}".format(self.plan_id, doc_id, self.plan_token),
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Can't delete document when plan in current (scheduled) status",
+                "location": "body",
+                "name": "data",
+            }
+        ],
+    )
+
+    plan_doc = self.mongodb.plans.get(self.plan_id)
+    plan_doc["status"] = "draft"
+    self.mongodb.plans.save(plan_doc)
+    response = self.app.delete_json(
+        "/plans/{}/documents/{}?acc_token={}".format(self.plan_id, doc_id, self.plan_token),
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get(
+        "/plans/{}?acc_token={}".format(self.plan_id, self.plan_token, doc_id),
+    )
+    self.assertNotEqual(response.json["data"]["dateModified"], plan_doc["dateModified"])

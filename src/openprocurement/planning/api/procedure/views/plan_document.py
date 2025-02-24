@@ -49,6 +49,9 @@ class PlanDocumentResource(PlanBaseResource, DocumentResourceMixin):
     def save(self, **kwargs):
         return save_plan(self.request, modified=self.get_modified(), **kwargs)
 
+    def allow_deletion(self):
+        return True
+
     @json_view(permission="view_plan")
     def collection_get(self):
         return super().collection_get()
@@ -91,3 +94,11 @@ class PlanDocumentResource(PlanBaseResource, DocumentResourceMixin):
     )
     def patch(self):
         return super().patch()
+
+    @json_view(
+        content_type="application/json",
+        validators=(validate_item_owner("plan")),
+        permission="upload_plan_documents",
+    )
+    def delete(self):
+        return super().delete()

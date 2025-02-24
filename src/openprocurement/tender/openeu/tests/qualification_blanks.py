@@ -918,6 +918,33 @@ def put_qualification_document(self):
     )
 
 
+def delete_qualification_document(self):
+    self.app.authorization = ("Basic", ("bot", "bot"))
+    response = self.app.post_json(
+        "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[0]["id"]),
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.delete_json(
+        "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id),
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "Forbidden to delete document for qualification", "location": "body", "name": "data"}],
+    )
+
+
 def patch_qualification_document(self):
     self.app.authorization = ("Basic", ("bot", "bot"))
 

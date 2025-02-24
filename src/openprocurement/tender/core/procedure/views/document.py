@@ -15,6 +15,7 @@ from openprocurement.api.utils import (
     context_unpack,
     delete_nones,
     json_view,
+    raise_operation_error,
     update_file_content_type,
 )
 from openprocurement.tender.core.procedure.documents import (
@@ -69,6 +70,9 @@ class DocumentResourceMixin:
 
     def validate(self, document):
         pass
+
+    def allow_deletion(self):
+        return False
 
     def collection_get(self):
         collection_data = self.request.validated["documents"]
@@ -179,6 +183,32 @@ class DocumentResourceMixin:
                     extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_document_patch"}),
                 )
                 return {"data": self.serializer_class(updated_document).data}
+
+    def delete(self):
+        document = self.request.validated["document"]
+
+        if not self.allow_deletion():
+            raise_operation_error(
+                self.request,
+                f"Forbidden to delete document for {self.item_name}",
+            )
+
+        item = self.request.validated[self.item_name]
+        if item.get("status") != "draft":
+            raise_operation_error(
+                self.request,
+                f"Can't delete document when {self.item_name} in current ({item['status']}) status",
+            )
+        item[self.container].remove(document)
+        if not item[self.container]:
+            del item[self.container]
+
+        if self.save():
+            self.LOGGER.info(
+                f"Deleted {self.item_name} document {document['id']}",
+                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_document_delete"}),
+            )
+            return {"data": self.serializer_class(document).data}
 
 
 class BaseDocumentResource(DocumentResourceMixin, TenderBaseResource):

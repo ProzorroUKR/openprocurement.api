@@ -1155,3 +1155,57 @@ def tender_confidential_documents(self):
             "errors": [{"location": "body", "name": "data", "description": "Document download forbidden."}],
         },
     )
+
+
+def delete_tender_document(self):
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.delete_json(
+        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, "test", self.tender_token),
+        status=404,
+    )
+    self.assertEqual(response.status, "404 Not Found")
+
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    tender_doc["status"] = "cancelled"
+    self.mongodb.tenders.save(tender_doc)
+    response = self.app.delete_json(
+        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Can't delete document when tender in current (cancelled) status",
+                "location": "body",
+                "name": "data",
+            }
+        ],
+    )
+
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    tender_doc["status"] = "draft"
+    self.mongodb.tenders.save(tender_doc)
+    response = self.app.delete_json(
+        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+    )
+    self.assertNotEqual(response.json["data"]["dateModified"], tender_doc["dateModified"])
