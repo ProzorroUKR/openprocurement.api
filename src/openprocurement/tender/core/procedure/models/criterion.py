@@ -469,14 +469,20 @@ class PatchCriterion(BaseCriterion):
 
 def validate_criteria_requirement_uniq(criteria, *_) -> None:
     if criteria:
-        req_ids = [req["id"] for c in criteria for rg in c["requirementGroups"] for req in rg["requirements"]]
         if get_first_revision_date(get_tender(), default=get_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:
             req_ids = [
                 req["id"]
                 for c in criteria
-                for rg in c["requirementGroups"]
-                for req in rg["requirements"]
+                for rg in c.get("requirementGroups", [])
+                for req in rg.get("requirements", [])
                 if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
+            ]
+        else:
+            req_ids = [
+                req["id"]
+                for c in criteria
+                for rg in c.get("requirementGroups", [])
+                for req in rg.get("requirements", [])
             ]
         if req_ids and len(set(req_ids)) != len(req_ids):
             raise ValidationError("Requirement id should be uniq for all requirements in tender")
