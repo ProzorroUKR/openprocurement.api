@@ -1072,5 +1072,39 @@ def search_by_classification(self):
     response = self.app.get(f"/agreements_by_classification/{classification_id[:8]}")
     self.assertEqual(len(response.json["data"]), 1)
 
-    response = self.app.get(f"/agreements_by_classification/{classification_id[:2]}")
+    response = self.app.get(f"/agreements_by_classification/{classification_id[:3]}")
     self.assertEqual(len(response.json["data"]), 1)
+
+    response = self.app.get(f"/agreements_by_classification/{classification_id[:2]}", status=422)
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "classification id must be at least 3 characters long",
+    )
+
+    response = self.app.get(f"/agreements_by_classification/{classification_id[:2]} ", status=422)
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "classification id must be at least 3 characters long",
+    )
+
+
+def search_by_classification_injection(self):
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    classification_id = response.json["data"]["classification"]["id"]
+
+    # Try regex injection with .+
+    malicious_rule = ".+"
+    malicious_rule += "."  # Just to pass the length check
+    response = self.app.get(f"/agreements_by_classification/{malicious_rule}")
+    self.assertEqual(len(response.json["data"]), 0)  # Should not match anything
+
+    # Try regex injection with .%2b (URL encoded +)
+    malicious_rule = ".%2b"
+    malicious_rule += "."  # Just to pass the length check
+    response = self.app.get(f"/agreements_by_classification/{malicious_rule}")
+    self.assertEqual(len(response.json["data"]), 0)  # Should not match anything
+
+    # Verify original classification_id still works
+    response = self.app.get(f"/agreements_by_classification/{classification_id}")
+    self.assertEqual(len(response.json["data"]), 1)  # Should match our agreement
+    self.assertEqual(response.json["data"][0]["classification"]["id"], classification_id)

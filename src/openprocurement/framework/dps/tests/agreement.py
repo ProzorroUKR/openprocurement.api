@@ -23,6 +23,7 @@ from openprocurement.framework.dps.tests.agreement_blanks import (
     post_submission_with_active_contract,
     put_milestone_document,
     search_by_classification,
+    search_by_classification_injection,
 )
 from openprocurement.framework.dps.tests.base import (
     AgreementContentWebTest,
@@ -116,7 +117,6 @@ class TestMilestoneCreate(MilestoneContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
 
     test_patch_ban_milestone = snitch(patch_ban_milestone)
-    test_search_by_classification = snitch(search_by_classification)
 
     test_create_milestone_document_forbidden = snitch(create_milestone_document_forbidden)
     test_create_milestone_documents = snitch(create_milestone_documents)
@@ -127,6 +127,15 @@ class TestMilestoneCreate(MilestoneContentWebTest):
         for document in self.initial_milestone_data["documents"]:
             document["url"] = self.generate_docservice_url()
         super().setUp()
+
+
+class TestAgreementSearchByClassification(AgreementContentWebTest):
+    initial_data = test_framework_dps_data
+    initial_submission_data = test_submission_data
+    initial_auth = ('Basic', ('broker', ''))
+
+    test_search_by_classification = snitch(search_by_classification)
+    test_search_by_classification_injection = snitch(search_by_classification_injection)
 
 
 def suite():

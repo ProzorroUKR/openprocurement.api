@@ -7,6 +7,7 @@ from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
+    raise_operation_error,
     request_init_agreement,
     update_logging_context,
 )
@@ -136,24 +137,40 @@ class AgreementsResource(FrameworkBaseResource):
     description="Agreements filter classification",
 )
 class AgreementFilterByClassificationResource(FrameworkBaseResource):
+    MIN_CLASSIFICATION_ID_LENGTH = 3
+
     @json_view(permission="view_framework")
     def get(self):
+        classification_id = self._prepare_classification_id()
+        results = self.request.registry.mongodb.agreements.list_by_classification_id(classification_id)
+        results = self._filter_by_additional_classifications(results)
+        return {"data": results}
+
+    def _prepare_classification_id(self):
         classification_id = self.request.matchdict.get("classification_id")
-        if "-" in classification_id:
-            classification_id = classification_id[: classification_id.find("-")]
+        classification_id = classification_id.split("-")[0]
+        classification_id = classification_id.strip()
+
+        if len(classification_id) < self.MIN_CLASSIFICATION_ID_LENGTH:
+            raise_operation_error(
+                self.request,
+                f"classification id must be at least {self.MIN_CLASSIFICATION_ID_LENGTH} characters long",
+                status=422,
+            )
+        return classification_id
+
+    def _filter_by_additional_classifications(self, results):
         additional_classifications = self.request.params.get("additional_classifications", "")
+        if not additional_classifications:
+            return results
 
         if additional_classifications.lower() == "none":
             additional_classifications = set()
-        elif additional_classifications:
+        else:
             additional_classifications = set(additional_classifications.split(","))
 
-        results = self.request.registry.mongodb.agreements.list_by_classification_id(classification_id)
-        if isinstance(additional_classifications, set):
-            results = [
-                x
-                for x in results
-                if {i["id"] for i in x.get("additionalClassifications", "")} == additional_classifications
-            ]
-
-        return {"data": results}
+        return [
+            result
+            for result in results
+            if {i["id"] for i in result.get("additionalClassifications", [])} == additional_classifications
+        ]
