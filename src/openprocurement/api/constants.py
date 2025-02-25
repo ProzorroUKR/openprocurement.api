@@ -534,3 +534,5 @@ HALF_HOUR_SECONDS = 30 * 60
 # simplified way to get nuber of half-hours fit in period
 # (it does not include minutes)
 AUCTION_TIME_SLOTS_NUMBER = (AUCTION_DAY_END.hour - AUCTION_DAY_START.hour) * 2
+
+PLAN_OF_UKRAINE = standards.load("classifiers/plan_of_ukraine.json")
