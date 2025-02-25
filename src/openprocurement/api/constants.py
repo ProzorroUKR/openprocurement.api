@@ -536,3 +536,5 @@ HALF_HOUR_SECONDS = 30 * 60
 AUCTION_TIME_SLOTS_NUMBER = (AUCTION_DAY_END.hour - AUCTION_DAY_START.hour) * 2
 
 PLAN_OF_UKRAINE = standards.load("classifiers/plan_of_ukraine.json")
+
+LANGUAGE_CODES = standards.load("classifiers/languages.json").keys()

@@ -1093,6 +1093,93 @@ def validate_rg_requirement_strict_rules(self):
         self.app.post_json(request_path, {"data": requirement_data})
 
 
+def validate_rg_requirement_data_schema(self):
+    self.set_status("draft")
+    request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
+        self.tender_id, self.criteria_id, self.rg_id, self.tender_token
+    )
+
+    # BOOLEAN
+    requirement_data = {
+        "title": "Мова",
+        "description": "?",
+        "dataType": "boolean",
+        "expectedValue": True,
+        "dataSchema": "ISO 639-3",
+    }
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": "dataSchema is allowed only for dataType string",
+            }
+        ],
+    )
+
+    requirement_data = {
+        "title": "Мова",
+        "description": "?",
+        "dataType": "string",
+        "expectedMinItems": 1,
+        "expectedValues": ["Українська"],
+        "dataSchema": "",
+    }
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "dataSchema",
+                "description": ["Value must be one of ['ISO 639-3', 'ISO 3166-1 alpha-2']."],
+            }
+        ],
+    )
+
+    requirement_data["dataSchema"] = "ISO 639-3"
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": "expectedValues should have ISO 639-3 format and include codes from standards",
+            }
+        ],
+    )
+
+    requirement_data["expectedValues"] = ["eng", "ukr", "fra"]
+    response = self.app.post_json(request_path, {"data": requirement_data})
+    req_id = response.json["data"]["id"]
+
+    # PATCH
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/criteria/{self.criteria_id}/requirement_groups/{self.rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+        {"data": {"dataSchema": "ISO 3166-1 alpha-2"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": "expectedValues should have ISO 3166-1 alpha-2 format and include codes from standards",
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/criteria/{self.criteria_id}/requirement_groups/{self.rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+        {"data": {"dataSchema": "ISO 3166-1 alpha-2", "expectedValues": ["UA", "CA", "GB"]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+
 def patch_rg_requirement(self):
     self.set_status("draft")
     response = self.app.post_json(

@@ -11,6 +11,7 @@ from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
 )
+from openprocurement.tender.core.procedure.models.criterion import ISO_MAPPING
 from openprocurement.tender.core.procedure.utils import tender_created_after
 
 
@@ -74,16 +75,23 @@ class TenderCriterionMixin:
                 raise_requirement_error("expectedMinItems is required and should be equal to 1 for dataType string")
             if req.get("unit"):
                 raise_requirement_error("unit is forbidden for dataType string")
+            if req.get("dataSchema") is not None and set(req["expectedValues"]) - set(ISO_MAPPING[req["dataSchema"]]):
+                raise_requirement_error(
+                    f"expectedValues should have {req['dataSchema']} format and include codes from standards"
+                )
 
         def validate_boolean(req):
             if req.get("expectedValues") is not None:  # minValue/maxValue check exists in Requirement model
                 raise_requirement_error("only expectedValue is allowed for dataType boolean")
             if req.get("unit"):
                 raise_requirement_error("unit is forbidden for dataType boolean")
+            if req.get("dataSchema") is not None:
+                raise_requirement_error("dataSchema is allowed only for dataType string")
 
         def validate_number_or_integer(req):
-            if req.get("expectedValues") is not None:
-                raise_requirement_error("expectedValues is allowed only for dataType string")
+            for str_field in ("expectedValues", "dataSchema"):
+                if req.get(str_field) is not None:
+                    raise_requirement_error(f"{str_field} is allowed only for dataType string")
             if req.get("expectedValue") is None and req.get("minValue") is None:
                 raise_requirement_error(f"expectedValue or minValue is required for dataType {req['dataType']}")
             if not req.get("unit"):
@@ -161,7 +169,7 @@ class TenderCriterionMixin:
                             )
                         for market_req in list(market_requirements.values()):
                             if tender_req := tender_requirements.get(market_req["title"]):
-                                fields = ["title", "unit", "dataType", "expectedMaxItems"]
+                                fields = ["title", "unit", "dataType", "expectedMaxItems", "dataSchema"]
                                 if requirements_from_profile:
                                     fields.extend(
                                         ["expectedValue", "expectedMinItems", "expectedValues", "minValue", "maxValue"]

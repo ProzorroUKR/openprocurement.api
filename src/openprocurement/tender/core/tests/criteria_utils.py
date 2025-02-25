@@ -101,7 +101,7 @@ def generate_responses(self, tender_id=None):
                         "requirement": {
                             "id": criterion["requirementGroups"][0]["requirements"][0]["id"],
                         },
-                        "values": ["Українська"],
+                        "values": ["ukr"],
                     }
                 )
             else:

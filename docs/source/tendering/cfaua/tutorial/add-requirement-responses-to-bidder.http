@@ -71,7 +71,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "id": "b3eb5e8d7177427780204a9d40aa5749"
         },
         "values": [
-          "Українська"
+          "ukr"
         ]
       }
     ]
@@ -211,7 +211,7 @@ Content-Type: application/json
           "title": "Мова тендерної пропозиції"
         },
         "values": [
-          "Українська"
+          "ukr"
         ],
         "id": "4a3c587b256948d1a7e407828ff79c39",
         "classification": {

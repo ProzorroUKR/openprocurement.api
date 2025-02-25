@@ -24,7 +24,7 @@ def update_tender_bid_pmr_related_doc(self):
             "requirement": {
                 "id": requirement["id"],
             },
-            "values": ["Українська"],
+            "values": ["ukr"],
             "evidences": evidences,
         }
     ]
