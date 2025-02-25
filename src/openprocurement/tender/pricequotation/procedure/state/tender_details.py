@@ -27,7 +27,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         ELECTRONIC_CATALOGUE_TYPE,
     ]
     agreement_without_items_forbidden = False
-    items_profile_required = False
     agreement_min_active_contracts = 3
     should_match_agreement_procuring_entity = True
 
@@ -55,7 +54,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
 
 class CatalogueTenderDetailsState(TenderDetailsState):
-    items_profile_required = True
     agreement_min_active_contracts = 1
     should_match_agreement_procuring_entity = False
     should_validate_profiles_agreement_id = True

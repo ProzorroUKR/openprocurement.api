@@ -516,17 +516,12 @@ def create_tender_invalid(self):
         [{"description": ["This field is required."], "location": "body", "name": "agreement"}],
     )
 
+    # try to post tender with items without profile
     data = deepcopy(test_tender_pq_data)
     data["items"] = [deepcopy(test_tender_pq_item)]
     del data["items"][0]["profile"]
-    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.status, '422 Unprocessable Entity')
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": [{"profile": ["This field is required."]}], "location": "body", "name": "items"}],
-    )
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, '201 Created')
 
 
 def create_tender_with_inn(self):
@@ -2191,7 +2186,7 @@ def draft_activation_validations(self):
         )
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
-            response.json["errors"][0]["description"], f"Profiles {profile['id']}: hidden not in ('active', 'general')"
+            response.json["errors"][0]["description"], f"Profiles {profile['id']}: hidden not in ('active',)"
         )
 
     # agreement in profile not equals agreement in tender

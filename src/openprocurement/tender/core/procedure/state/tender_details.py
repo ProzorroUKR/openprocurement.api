@@ -204,7 +204,6 @@ class BaseTenderDetailsMixing:
     agreement_allowed_types = [IFI_TYPE]
     agreement_with_items_forbidden = False
     agreement_without_items_forbidden = False
-    items_profile_required = False
 
     calendar = WORKING_DAYS
 
@@ -305,7 +304,6 @@ class BaseTenderDetailsMixing:
         super().on_patch(before, after)
 
     def always(self, data):
-        self.validate_items_profile(data)
         self.set_mode_test(data)
         super().always(data)
 
@@ -432,7 +430,7 @@ class BaseTenderDetailsMixing:
                 profile_ids.append(profile_id)
 
         for profile_id in profile_ids:
-            profile = get_tender_profile(self.request, profile_id, validate_status=("active", "general"))
+            profile = get_tender_profile(self.request, profile_id, validate_status=("active",))
 
             profile_agreement_id = profile.get("agreementID")
             tender_agreement_id = tender_agreements[0].get("id")
@@ -1257,7 +1255,7 @@ class BaseTenderDetailsMixing:
                     get_tender_category(request, category_id, ("active",))
 
                 if profile_id := after_values.get("profile"):
-                    profile = get_tender_profile(request, profile_id, ("active", "general"))
+                    profile = get_tender_profile(request, profile_id, ("active",))
 
                     if profile.get("relatedCategory") != category_id:
                         raise_operation_error(request, "Profile should be related to category", status=422)
@@ -1287,17 +1285,6 @@ class BaseTenderDetailsMixing:
     @staticmethod
     def set_enquiry_period_invalidation_date(tender):
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-
-    def validate_items_profile(self, tender):
-        if self.items_profile_required:
-            for item in tender["items"]:
-                if not item.get("profile"):
-                    raise_operation_error(
-                        self.request,
-                        [{"profile": ["This field is required."]}],
-                        status=422,
-                        name="items",
-                    )
 
     def validate_contract_template_name(self, after, before):
         def raise_contract_template_name_error(message):
