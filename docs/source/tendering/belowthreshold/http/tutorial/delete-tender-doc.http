@@ -1,0 +1,26 @@
+DELETE /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents/292d5babf89340e3b3e16e0635048e96?acc_token=312a92a0096444fa9b9761b0af134205 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "confidentiality": "public",
+    "description": "Нова версія документу",
+    "description_en": "new version of the document",
+    "hash": "md5:11111111111111111111111111111111",
+    "title": "TestDoc.pdf",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/60e622bce3a645a3be99a66482061e52?Signature=0uc1L5Hds4PPrsYRM1sNQluvq8QLZco0a1xvfdPZqf%2FJEhY96LTb%2Fj2CKzBVACqO7%2FfslMvzgkEKGAz8pV%2FiCg%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "language": "uk",
+    "id": "292d5babf89340e3b3e16e0635048e96",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "author": "tender_owner"
+  }
+}
+

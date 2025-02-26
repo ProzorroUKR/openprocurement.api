@@ -148,6 +148,27 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         tender_lots = response.json["data"]["lots"]
 
+        response = self.app.post_json(
+            '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
+            {
+                'data': {
+                    'title': 'TestDoc.pdf',
+                    'description': 'Нова версія документу',
+                    'description_en': 'new version of the document',
+                    'url': self.generate_docservice_url(doc_hash="1" * 32),
+                    'hash': 'md5:' + '1' * 32,
+                    'format': 'application/msword',
+                }
+            },
+        )
+        doc_id = response.json["data"]["id"]
+
+        with open(TARGET_DIR + 'tutorial/delete-tender-doc.http', 'w') as self.app.file_obj:
+            response = self.app.delete(
+                '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
+            )
+            self.assertEqual(response.status, '200 OK')
+
         # Tender activating
         with open(TARGET_DIR + 'tutorial/notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
@@ -327,6 +348,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 },
             )
             self.assertEqual(response.status, '200 OK')
+            notice_doc_id = response.json["data"]["id"]
 
         self.tick(delta=timedelta(seconds=60))
 
@@ -401,6 +423,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + 'tutorial/get-answer.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/questions/{}'.format(self.tender_id, question_id))
             self.assertEqual(response.status, '200 OK')
+
+        # try to delete tender doc
+        with open(TARGET_DIR + 'tutorial/delete-tender-doc-invalid.http', 'w') as self.app.file_obj:
+            response = self.app.delete(
+                '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, notice_doc_id, owner_token),
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
 
         # Patch tenderPeriod in active.tendering status
         self.set_status('active.tendering')

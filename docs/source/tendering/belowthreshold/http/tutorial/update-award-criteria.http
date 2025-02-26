@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents/c8d64dfb8acb418297db4b41a849885f?acc_token=312a92a0096444fa9b9761b0af134205 HTTP/1.0
+PUT /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents/219c08f909904568b9a726d99fe509f2?acc_token=312a92a0096444fa9b9761b0af134205 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "AwardCriteria.pdf",
     "description": "Нова версія AwardCriteria документу",
     "description_en": "new version of the AwardCriteria document",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/60e622bce3a645a3be99a66482061e52?Signature=gl60ZSgdj7k%2FWM8b1vpgy2xAJTWBSDRyrXxI5oFqLaIJQVvd%2BtDleZs6kUxJtv1Yplc7cCFq5M8Wt07flNYwDA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7d26fa2a172c4eb0a51c3cf31d2567ca?Signature=oon1wGDmPcGH8GNX4ZsXiSLZUpTVTggLj0x%2Fe9J6HxVFW9%2BKv7ieB%2FdWvS%2BQGc01WM6hc4oWsv42tZZ2n1DFDQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:11111111111111111111111111111111",
     "format": "application/pdf",
     "language": "en"
@@ -24,12 +24,12 @@ Content-Type: application/json
     "confidentiality": "public",
     "description": "Нова версія AwardCriteria документу",
     "description_en": "new version of the AwardCriteria document",
-    "id": "c8d64dfb8acb418297db4b41a849885f",
+    "id": "219c08f909904568b9a726d99fe509f2",
     "datePublished": "2023-10-10T01:10:05+03:00",
     "hash": "md5:11111111111111111111111111111111",
     "title": "AwardCriteria.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/60e622bce3a645a3be99a66482061e52?Signature=0uc1L5Hds4PPrsYRM1sNQluvq8QLZco0a1xvfdPZqf%2FJEhY96LTb%2Fj2CKzBVACqO7%2FfslMvzgkEKGAz8pV%2FiCg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7d26fa2a172c4eb0a51c3cf31d2567ca?Signature=qxtDw%2BFpE%2F9Y29lTg7c0OToOyl682wA1QHb5paiqUIGkgVJKvmzxCRL8loax%2BxAW4SxThqdwMaQXCHGiZHK8DQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "dateModified": "2023-10-10T01:10:05+03:00",
     "author": "tender_owner",
