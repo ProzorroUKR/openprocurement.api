@@ -4,8 +4,6 @@ from datetime import timedelta
 from decimal import Decimal
 from math import ceil, floor
 
-from schematics.types import BaseType
-
 from openprocurement.api.constants import (
     CONTRACT_TEMPLATES_KEYS,
     CPV_GROUP_PREFIX_LENGTH,
@@ -1318,48 +1316,58 @@ class BaseTenderDetailsMixing:
 
         EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES = ("0931",)
 
-        before_ctn = before.get("contractTemplateName")
-        ctn = after.get("contractTemplateName")
+        contract_template_name_before = before.get("contractTemplateName")
+        contract_template_name = after.get("contractTemplateName")
 
-        if ctn != before_ctn and before.get("status", "draft") not in self.contract_template_name_patch_statuses:
+        if (
+            contract_template_name != contract_template_name_before
+            and before.get("status", "draft") not in self.contract_template_name_patch_statuses
+        ):
             raise_contract_template_name_error("Rogue field")
 
         items = after.get("items")
         classification_id = items[0].get("classification", {}).get("id") if items else None
         tender_documents = after.get("documents", "")
 
-        # contractTemplateName forbidden for procedures contract_template_name_available - False
-        # forbid together with contractProforma document
-        # and for some classifications prefixes
-
-        excluded_conditions = (
-            not classification_id
-            or any(i.get("documentType", "") == "contractProforma" for i in tender_documents)
-            or any(
-                classification_id.startswith(excluded_prefix)
-                for excluded_prefix in EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES
-            )
+        has_contract_proforma = any(i.get("documentType", "") == "contractProforma" for i in tender_documents)
+        is_excluded_classification = classification_id and any(
+            classification_id.startswith(excluded_prefix)
+            for excluded_prefix in EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES
         )
 
-        if not ctn:
-            if not excluded_conditions and self.contract_template_name_required:
-                # Now required option work only for PQ
-                # Later for procedure with active.enquiries it will not work,
-                # maybe later we will need another solution
-                # cause from active.enquiries to active.tendering status switches automatically
-                if after["status"] in ("active.tendering",):
-                    raise_contract_template_name_error(BaseType.MESSAGES["required"])
+        # Check if both contractTemplateName and contractProforma are present simultaneously
+        if has_contract_proforma and contract_template_name:
+            raise_contract_template_name_error(
+                "Cannot use both contractTemplateName and contractProforma document simultaneously",
+            )
+
+        # Check if contractTemplateName or contractProforma is required
+        if self.contract_template_name_required and after["status"] not in ("draft",):
+            if not has_contract_proforma and not contract_template_name:
+                raise_contract_template_name_error(
+                    "Either contractTemplateName or contractProforma document is required"
+                )
+
+        # If contractTemplateName is not specified, no further checks needed
+        if not contract_template_name:
             return
 
-        elif excluded_conditions:
+        # Check if contractTemplateName is forbidden for excluded classifications
+        if is_excluded_classification:
+            raise_contract_template_name_error(
+                f"contractTemplateName is not allowed for this classification: {classification_id}"
+            )
+
+        # Check if classification is missing
+        if not classification_id:
             raise_contract_template_name_error("Rogue field")
 
+        # Check if template is correct for the current classification
         expected_template_names = get_expected_template_names(classification_id)
-
-        if ctn not in expected_template_names:
+        if contract_template_name not in expected_template_names:
             raise_contract_template_name_error(
                 f"Incorrect template for current classification {classification_id}, "
-                f"use of that templates {expected_template_names}",
+                f"use one of {tuple(expected_template_names)}",
             )
 
 
