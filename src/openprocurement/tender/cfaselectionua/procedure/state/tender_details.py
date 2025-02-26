@@ -146,12 +146,13 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 if "items" in get_request().validated["json_data"]:
                     calculate_agreement_contracts_value_amount(after)
             else:
+                allowed_fields = ("procurementMethodDetails", "contractTemplateName")
                 for k in get_request().validated["json_data"].keys():
-                    if k not in ("procurementMethodDetails", "contractTemplateName"):
+                    if k not in allowed_fields:
                         if before.get(k) != after.get(k):
                             raise_operation_error(
                                 get_request(),
-                                f"Only procurementMethodDetails can be updated at {after['status']}",
+                                f"Only fields {allowed_fields} can be updated at {after['status']}",
                             )
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
             self._validate_criterion_uniq(after.get("criteria", []))
