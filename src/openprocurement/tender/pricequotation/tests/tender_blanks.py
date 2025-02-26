@@ -1371,7 +1371,13 @@ def tender_owner_can_change_in_draft(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "This field is required.", "location": "body", "name": "contractTemplateName"}],
+        [
+            {
+                "description": "Either contractTemplateName or contractProforma document is required",
+                "location": "body",
+                "name": "contractTemplateName",
+            }
+        ],
     )
     self.assertEqual(response.content_type, "application/json")
 

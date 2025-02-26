@@ -4109,10 +4109,16 @@ def contract_template_name_set(self):
         )
         self.assertEqual(
             response.json["errors"],
-            [{"location": "body", "name": "contractTemplateName", "description": "Rogue field"}],
+            [
+                {
+                    "location": "body",
+                    "name": "contractTemplateName",
+                    "description": "contractTemplateName is not allowed for this classification: 09310000-5",
+                }
+            ],
         )
 
-        update_items_classification_id(self, default_classification_id)
+        update_items_classification_id(self, allowed_classification_id)
 
     def test_delete_contract_template_name(self):
         # Delete contractTemplateName success
@@ -4150,7 +4156,13 @@ def contract_template_name_set(self):
         )
         self.assertEqual(
             response.json["errors"],
-            [{"location": "body", "name": "contractTemplateName", "description": "Rogue field"}],
+            [
+                {
+                    "location": "body",
+                    "name": "contractTemplateName",
+                    "description": "Cannot use both contractTemplateName and contractProforma document simultaneously",
+                }
+            ],
         )
 
         response = self.app.patch_json(
@@ -4170,8 +4182,8 @@ def contract_template_name_set(self):
 
         self.assertEqual(response.json["errors"][0]["name"], "contractTemplateName")
         self.assertEqual(
-            f"Incorrect template for current classification {default_classification_id}, "
-            f"use of that templates {{'00000000-0.0002.01'}}",
+            f"Incorrect template for current classification {allowed_classification_id}, "
+            f"use one of ('00000000-0.0002.01',)",
             response.json["errors"][0]["description"],
         )
 
@@ -4188,7 +4200,7 @@ def contract_template_name_set(self):
         self.assertEqual(response.json["errors"][0]["name"], "contractTemplateName")
         self.assertIn(
             f"Incorrect template for current classification {not_default_classification_id}, "
-            f"use of that templates {{'03220000-9.0001.01'}}",
+            f"use one of ('03220000-9.0001.01',)",
             response.json["errors"][0]["description"],
         )
 
@@ -4214,7 +4226,7 @@ def contract_template_name_set(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "contractProforma is invalid documentType while exist contractTemplateName",
+                    "description": "Cannot use both contractTemplateName and contractProforma document simultaneously",
                 }
             ],
         )
@@ -4228,6 +4240,32 @@ def contract_template_name_set(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["contractTemplateName"], "03220000-9.0001.01")
+
+    def test_not_required_neither_contract_template_name_nor_contract_proforma_document(self):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"contractTemplateName": None}},
+        )
+
+    def test_required_either_contract_template_name_or_contract_proforma_document(self, extra=None):
+        extra = extra or {}
+        data = {"contractTemplateName": None}
+        data.update(extra)
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "contractTemplateName",
+                    "description": "Either contractTemplateName or contractProforma document is required",
+                }
+            ],
+        )
 
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
@@ -4257,12 +4295,38 @@ def contract_template_name_set(self):
             status=201,
         )
 
-    default_classification_id = '44617100-9'
+    excluded_classification_id = '09310000-5'
+    allowed_classification_id = '44617100-9'
+
+    required_for_pmts = ("priceQuotation",)
+
+    # Test activation
+    if pmt in required_for_pmts:
+        update_items_classification_id(self, allowed_classification_id)
+        test_required_either_contract_template_name_or_contract_proforma_document(
+            self,
+            extra={"status": self.primary_tender_status},
+        )
+        update_items_classification_id(self, excluded_classification_id)
+        test_required_either_contract_template_name_or_contract_proforma_document(
+            self,
+            extra={"status": self.primary_tender_status},
+        )
+
     # Test procedure for every allowed statuses
     for status in statuses:
-
-        update_items_classification_id(self, default_classification_id)
+        update_items_classification_id(self, allowed_classification_id)
         self.set_status(status)
+
+        if status == "draft":
+            # In draft it can be not set yet
+            test_not_required_neither_contract_template_name_nor_contract_proforma_document(self)
+        else:
+            # In other statuses it should be set if required for particular procurement method type
+            if pmt in required_for_pmts:
+                test_required_either_contract_template_name_or_contract_proforma_document(self)
+            else:
+                test_not_required_neither_contract_template_name_nor_contract_proforma_document(self)
 
         test_with_forbidden_classification(self)
         test_with_contract_proforma_document(self)
