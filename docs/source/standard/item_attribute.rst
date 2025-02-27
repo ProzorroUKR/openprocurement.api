@@ -18,9 +18,9 @@ Schema
     :ref:`Unit`
 
 :values:
-    string, required
+    List of strings
 
-    List of strings, required
+    The values should be from `requirement.expectedValues` field.
 
 :value:
     boolean/int/decimal

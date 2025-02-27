@@ -48,7 +48,12 @@ Schema
 :evidences:
     List of :ref:`Evidence` objects
 
-:value:
-    string
+:values:
+    List of strings
 
-    The value of this requirement response. The value must be of the type defined in the requirement.dataType field.
+    The values should be from `requirement.expectedValues` field. This field should be set if requirement has `dataType: string`.
+
+:value:
+    boolean/int/decimal
+
+    The value of this requirement response. The value must be of the type defined in the requirement.dataType field. This field should be set if requirement has `dataType` another from `string`.
