@@ -3,7 +3,7 @@ import re
 from schematics.types import EmailType, StringType
 from schematics.validate import ValidationError
 
-from openprocurement.api.constants import VALIDATE_TELEPHONE_FROM
+from openprocurement.api.constants_env import VALIDATE_TELEPHONE_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import URLType

@@ -1,6 +1,6 @@
 from collections import Counter
 
-from openprocurement.api.constants import NEW_REQUIREMENTS_RULES_FROM
+from openprocurement.api.constants_env import NEW_REQUIREMENTS_RULES_FROM
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import (
     get_tender_category,

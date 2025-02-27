@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     app,
     singleton_app,

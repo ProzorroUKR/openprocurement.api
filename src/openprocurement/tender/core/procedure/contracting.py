@@ -4,7 +4,7 @@ from logging import getLogger
 from typing import Dict, List
 from uuid import uuid4
 
-from openprocurement.api.constants import REQ_RESPONSE_VALUES_VALIDATION_FROM
+from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_contract_by_id, request_init_contract

@@ -1,6 +1,6 @@
 from webtest import TestApp
 
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import (
     test_article_16_criteria,

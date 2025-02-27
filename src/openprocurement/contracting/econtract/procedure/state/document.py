@@ -1,4 +1,4 @@
-from openprocurement.api.constants import (
+from openprocurement.api.constants_env import (
     CONFIDENTIAL_EDRPOU_LIST,
     CONTRACT_CONFIDENTIAL_DOCS_FROM,
 )

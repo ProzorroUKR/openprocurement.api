@@ -10,7 +10,8 @@ from nacl.encoding import HexEncoder
 from requests.models import Response
 from webtest import AppError
 
-from openprocurement.api.constants import SESSION, TWO_PHASE_COMMIT_FROM, TZ
+from openprocurement.api.constants import SESSION, TZ
+from openprocurement.api.constants_env import TWO_PHASE_COMMIT_FROM
 from openprocurement.api.context import set_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest

@@ -24,7 +24,6 @@ from schematics.exceptions import (
 from webob.multidict import NestedMultiDict
 
 from openprocurement.api.constants import (
-    DST_AWARE_PERIODS_FROM,
     GMDN_CPV_PREFIXES,
     JOURNAL_PREFIX,
     LOGGER,
@@ -33,6 +32,7 @@ from openprocurement.api.constants import (
     UA_ROAD_CPV_PREFIXES,
     WORKING_DAYS,
 )
+from openprocurement.api.constants_env import DST_AWARE_PERIODS_FROM
 from openprocurement.api.context import get_local_cache
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.events import ErrorDescriptorEvent

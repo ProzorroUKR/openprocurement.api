@@ -1,4 +1,4 @@
-from openprocurement.api.constants import NOTICE_DOC_REQUIRED_FROM
+from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.utils import tender_created_before

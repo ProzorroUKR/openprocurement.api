@@ -5,7 +5,7 @@ from typing import Optional
 
 from barbecue import calculate_coeficient
 
-from openprocurement.api.constants import TENDER_WEIGHTED_VALUE_PRE_CALCULATION
+from openprocurement.api.constants_env import TENDER_WEIGHTED_VALUE_PRE_CALCULATION
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.constants import (

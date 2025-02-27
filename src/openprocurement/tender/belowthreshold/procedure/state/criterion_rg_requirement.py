@@ -1,4 +1,4 @@
-from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
+from openprocurement.api.constants_env import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, get_now
 from openprocurement.tender.belowthreshold.procedure.state.criterion import (

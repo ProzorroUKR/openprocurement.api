@@ -1,7 +1,5 @@
-from openprocurement.api.constants import (
-    TENDER_CONFIG_JSONSCHEMAS,
-    TENDER_CONFIG_OPTIONALITY,
-)
+from openprocurement.api.constants import TENDER_CONFIG_JSONSCHEMAS
+from openprocurement.api.constants_env import TENDER_CONFIG_OPTIONALITY
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 

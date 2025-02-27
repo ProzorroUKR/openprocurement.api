@@ -2,7 +2,7 @@ import logging
 
 from pymongo import ASCENDING, IndexModel, ReadPreference
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.database import BaseCollection
 
 logger = logging.getLogger(__name__)

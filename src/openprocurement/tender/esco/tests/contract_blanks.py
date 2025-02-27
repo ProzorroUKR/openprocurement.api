@@ -3,7 +3,7 @@ from datetime import timedelta
 
 import jmespath
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (

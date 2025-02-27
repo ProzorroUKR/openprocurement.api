@@ -4,7 +4,8 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, FloatType, IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import BUDGET_PERIOD_FROM, PLAN_OF_UKRAINE
+from openprocurement.api.constants import PLAN_OF_UKRAINE
+from openprocurement.api.constants_env import BUDGET_PERIOD_FROM
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import validate_items_uniq
 from openprocurement.api.procedure.models.period import Period

@@ -2,7 +2,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
+from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.competitivedialogue.constants import (

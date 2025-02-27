@@ -6,11 +6,8 @@ from schematics.exceptions import ValidationError
 from schematics.types import FloatType, IntType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.constants import (
-    MILESTONE_CODES,
-    MILESTONE_TITLES,
-    MILESTONES_VALIDATION_FROM,
-)
+from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
+from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model

@@ -1,4 +1,4 @@
-from openprocurement.api.constants import NO_DEFENSE_AWARD_CLAIMS_FROM
+from openprocurement.api.constants_env import NO_DEFENSE_AWARD_CLAIMS_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error

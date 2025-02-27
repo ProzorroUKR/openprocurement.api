@@ -6,7 +6,7 @@ from typing import Optional
 
 from schematics.types import BaseType
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants_env import (
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,

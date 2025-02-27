@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 import pytest
 from mock import Mock, patch
 
-from openprocurement.api.constants import RELEASE_SIMPLE_DEFENSE_FROM
+from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.utils import get_now
 from openprocurement.planning.api.constants import PROCEDURES
 from openprocurement.planning.api.tests.base import (

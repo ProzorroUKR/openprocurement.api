@@ -1,6 +1,6 @@
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.constants import REQ_RESPONSE_VALUES_VALIDATION_FROM
+from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import error_handler

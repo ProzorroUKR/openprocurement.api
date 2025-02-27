@@ -1,4 +1,4 @@
-from openprocurement.api.constants import NEW_ARTICLE_17_CRITERIA_REQUIRED
+from openprocurement.api.constants_env import NEW_ARTICLE_17_CRITERIA_REQUIRED
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
     OpenTenderState,

@@ -3,11 +3,10 @@ from datetime import timedelta
 from unittest import mock
 from uuid import uuid4
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants import ROUTE_PREFIX, TENDER_CAUSE
+from openprocurement.api.constants_env import (
     NEW_NEGOTIATION_CAUSES_FROM,
     RELEASE_2020_04_19,
-    ROUTE_PREFIX,
-    TENDER_CAUSE,
 )
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (

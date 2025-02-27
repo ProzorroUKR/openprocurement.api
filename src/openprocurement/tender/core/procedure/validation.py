@@ -21,21 +21,23 @@ from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import (
     ATC_SCHEME,
     CCCE_UA_SCHEME,
-    CONFIDENTIAL_EDRPOU_LIST,
-    CRITERION_REQUIREMENT_STATUSES_FROM,
     FUNDERS,
     GMDN_2019_SCHEME,
     GMDN_2023_SCHEME,
     GMDN_CPV_PREFIXES,
     GUARANTEE_ALLOWED_TENDER_TYPES,
     INN_SCHEME,
+    UA_ROAD_CPV_PREFIXES,
+    UA_ROAD_SCHEME,
+    WORKING_DAYS,
+)
+from openprocurement.api.constants_env import (
+    CONFIDENTIAL_EDRPOU_LIST,
+    CRITERION_REQUIREMENT_STATUSES_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
-    UA_ROAD_CPV_PREFIXES,
-    UA_ROAD_SCHEME,
-    WORKING_DAYS,
 )
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_tender

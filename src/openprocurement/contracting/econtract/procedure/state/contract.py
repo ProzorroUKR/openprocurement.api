@@ -3,7 +3,7 @@ from decimal import Decimal
 from itertools import zip_longest
 from logging import getLogger
 
-from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
+from openprocurement.api.constants_env import ECONTRACT_SIGNER_INFO_REQUIRED
 from openprocurement.api.procedure.context import get_request, get_tender
 from openprocurement.api.procedure.utils import get_items, parse_date, to_decimal
 from openprocurement.api.utils import (

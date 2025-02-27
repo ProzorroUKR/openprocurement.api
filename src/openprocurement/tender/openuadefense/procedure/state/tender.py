@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants_env import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
 )

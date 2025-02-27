@@ -2,7 +2,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import BooleanType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType

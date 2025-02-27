@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants_env import (
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     NOTICE_DOC_REQUIRED_FROM,
 )

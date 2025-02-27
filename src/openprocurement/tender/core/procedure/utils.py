@@ -15,12 +15,11 @@ from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants import BID_REQUIRED_ITEMS_TENDER_TYPES, TZ
+from openprocurement.api.constants_env import (
     BID_ITEMS_REQUIRED_FROM,
-    BID_REQUIRED_ITEMS_TENDER_TYPES,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_2020_04_19,
-    TZ,
 )
 from openprocurement.api.context import get_json_data, get_now
 from openprocurement.api.mask import mask_object_data

@@ -2,7 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS

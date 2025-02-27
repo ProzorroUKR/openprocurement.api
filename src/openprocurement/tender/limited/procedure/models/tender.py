@@ -1,11 +1,11 @@
 from schematics.types import BaseType, StringType
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants import TENDER_CAUSE
+from openprocurement.api.constants_env import (
     MILESTONES_VALIDATION_FROM,
     NEW_NEGOTIATION_CAUSES_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
-    TENDER_CAUSE,
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
