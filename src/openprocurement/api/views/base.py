@@ -4,7 +4,7 @@ from typing import Any
 
 from bson import Timestamp
 
-from openprocurement.api.constants import CRITICAL_HEADERS_LOG_ENABLED
+from openprocurement.api.constants_env import CRITICAL_HEADERS_LOG_ENABLED
 from openprocurement.api.context import set_now, set_request
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.procedure.utils import parse_date

@@ -4,10 +4,10 @@ from unittest.mock import patch
 
 import dateutil
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants_env import (
     COMPLAINT_IDENTIFIER_REQUIRED_FROM,
     RELEASE_2020_04_19,
-    SANDBOX_MODE,
 )
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now

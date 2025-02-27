@@ -2,7 +2,8 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now

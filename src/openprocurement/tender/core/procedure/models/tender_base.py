@@ -5,7 +5,8 @@ from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.constants import MPC_REQUIRED_FROM, SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants_env import MPC_REQUIRED_FROM
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.tender.core.constants import PROCUREMENT_METHODS

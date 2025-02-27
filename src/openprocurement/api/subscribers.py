@@ -2,7 +2,8 @@ from hashlib import new
 
 from pyramid.events import BeforeRender, ContextFound, NewRequest, subscriber
 
-from openprocurement.api.constants import CRITICAL_HEADERS_LOG_ENABLED, VERSION
+from openprocurement.api.constants import VERSION
+from openprocurement.api.constants_env import CRITICAL_HEADERS_LOG_ENABLED
 from openprocurement.api.utils import fix_url, get_now, update_logging_context
 
 

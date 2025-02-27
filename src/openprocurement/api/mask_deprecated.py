@@ -1,4 +1,4 @@
-from openprocurement.api.constants import MASK_OBJECT_DATA_SINGLE
+from openprocurement.api.constants_env import MASK_OBJECT_DATA_SINGLE
 
 EXCLUDED_FIELDS = {
     "mode",

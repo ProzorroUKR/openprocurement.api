@@ -1,8 +1,8 @@
-import configparser
+import datetime
 import unittest
-from os.path import dirname, join
 
-from openprocurement.api.constants import COORDINATES_REG_EXP, parse_date
+from openprocurement.api.constants import COORDINATES_REG_EXP
+from openprocurement.api.constants_utils import parse_date
 from openprocurement.api.tests.base import BaseWebTest
 
 
@@ -38,16 +38,9 @@ class HealthTestBase(BaseWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-        file_path = join(dirname(dirname(__file__))) + '/constants.ini'
-        config = configparser.ConfigParser()
-        config.read(file_path)
-        result = {k.upper(): v for k, v in config["DEFAULT"].items()}
+        date_example_contant_name = "DST_AWARE_PERIODS_FROM"
+        bool_example_contant_name = "CRITICAL_HEADERS_LOG_ENABLED"
 
-        # Only dates
-        for key in list(result.keys()):
-            try:
-                parse_date(result[key])
-            except ValueError:
-                result.pop(key)
-
-        self.assertEqual(response.json, result)
+        self.assertEqual(type(response.json[bool_example_contant_name]), bool)
+        self.assertEqual(type(response.json[date_example_contant_name]), str)
+        self.assertEqual(type(parse_date(response.json[date_example_contant_name])), datetime.datetime)

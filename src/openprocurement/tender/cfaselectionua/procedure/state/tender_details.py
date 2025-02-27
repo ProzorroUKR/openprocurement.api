@@ -2,7 +2,7 @@ from copy import deepcopy
 from logging import getLogger
 
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
-from openprocurement.api.constants import CRITERIA_CLASSIFICATION_UNIQ_FROM
+from openprocurement.api.constants_env import CRITERIA_CLASSIFICATION_UNIQ_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import (

@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from openprocurement.api.constants import AWARD_NOTICE_DOC_REQUIRED_FROM
+from openprocurement.api.constants_env import AWARD_NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.context import get_award

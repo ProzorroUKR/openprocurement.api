@@ -1,7 +1,8 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import TZ, parse_date
+from openprocurement.api.constants import TZ
+from openprocurement.api.constants_utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.belowthreshold.tests.base import (

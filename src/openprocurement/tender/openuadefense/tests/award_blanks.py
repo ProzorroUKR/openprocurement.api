@@ -5,12 +5,12 @@ from unittest.mock import patch
 from freezegun import freeze_time
 from iso8601 import parse_date
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants_env import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
     NO_DEFENSE_AWARD_CLAIMS_FROM,
     RELEASE_2020_04_19,
-    SANDBOX_MODE,
 )
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (

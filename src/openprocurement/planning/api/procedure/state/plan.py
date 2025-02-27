@@ -3,8 +3,8 @@ from itertools import chain
 
 from dateorro import calc_working_datetime
 
-from openprocurement.api.constants import (
-    KPKV_UK_SCHEME,
+from openprocurement.api.constants import KPKV_UK_SCHEME
+from openprocurement.api.constants_env import (
     PLAN_ADDRESS_KIND_REQUIRED_FROM,
     RELEASE_SIMPLE_DEFENSE_FROM,
 )

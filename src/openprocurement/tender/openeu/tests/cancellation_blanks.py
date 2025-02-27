@@ -4,7 +4,7 @@ from unittest import mock
 
 from freezegun import freeze_time
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants_env import (
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
 )

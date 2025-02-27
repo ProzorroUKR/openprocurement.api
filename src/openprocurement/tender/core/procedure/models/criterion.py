@@ -9,9 +9,11 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
     COUNTRIES_MAP,
-    CRITERION_REQUIREMENT_STATUSES_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
     LANGUAGE_CODES,
+)
+from openprocurement.api.constants_env import (
+    CRITERION_REQUIREMENT_STATUSES_FROM,
     PQ_CRITERIA_ID_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
 )

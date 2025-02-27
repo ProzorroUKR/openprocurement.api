@@ -1,7 +1,8 @@
 from schematics.types import EmailType, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import SCALE_CODES, VALIDATE_ADDRESS_FROM
+from openprocurement.api.constants import SCALE_CODES
+from openprocurement.api.constants_env import VALIDATE_ADDRESS_FROM
 from openprocurement.api.procedure.models.address import Address as BaseAddress
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.contact import validate_telephone

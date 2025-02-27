@@ -3,7 +3,7 @@ from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import BaseType, MD5Type, StringType
 
-from openprocurement.api.constants import PLAN_ADDRESS_KIND_REQUIRED_FROM
+from openprocurement.api.constants_env import PLAN_ADDRESS_KIND_REQUIRED_FROM
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.contact import ContactPoint

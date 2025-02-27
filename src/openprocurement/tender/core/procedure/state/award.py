@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants_env import (
     AWARD_NOTICE_DOC_REQUIRED_FROM,
     QUALIFICATION_AFTER_COMPLAINT_FROM,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,

@@ -4,7 +4,7 @@ from unittest import mock
 
 from esculator import escp, npv
 
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,

@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,

@@ -26,7 +26,7 @@ from tests.base.data import (
 from tests.base.helpers import complaint_create_pending
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest as BelowThresholdBaseTenderWebTest,

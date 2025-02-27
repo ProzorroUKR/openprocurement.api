@@ -2,7 +2,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
+from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import ListType

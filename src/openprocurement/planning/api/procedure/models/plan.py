@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants_env import (
     BUDGET_BREAKDOWN_REQUIRED_FROM,
     PLAN_BUYERS_REQUIRED_FROM,
 )

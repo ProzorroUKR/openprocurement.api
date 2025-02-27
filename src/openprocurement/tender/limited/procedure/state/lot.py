@@ -1,4 +1,4 @@
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.lot import LotStateMixin

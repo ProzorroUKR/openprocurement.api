@@ -3,7 +3,7 @@ from datetime import timedelta
 from schematics.types import StringType
 from schematics.validate import ValidationError
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import PeriodEndRequired

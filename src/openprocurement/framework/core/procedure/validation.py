@@ -1,4 +1,4 @@
-from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
+from openprocurement.api.constants_env import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import (

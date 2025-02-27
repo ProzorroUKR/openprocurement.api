@@ -4,10 +4,10 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants_env import (
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
-    SANDBOX_MODE,
 )
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.utils import get_now

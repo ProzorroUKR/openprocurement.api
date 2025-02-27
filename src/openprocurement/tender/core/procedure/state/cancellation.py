@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error

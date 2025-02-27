@@ -4,7 +4,7 @@ from uuid import uuid4
 
 import pytest
 
-from openprocurement.api.constants import RELEASE_SIMPLE_DEFENSE_FROM
+from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (

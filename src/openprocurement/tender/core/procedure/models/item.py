@@ -3,9 +3,8 @@ from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import BaseType, FloatType, MD5Type, StringType
 
-from openprocurement.api.constants import (
-    CPV_PHARM_PRODUCTS,
-    INN_SCHEME,
+from openprocurement.api.constants import CPV_PHARM_PRODUCTS, INN_SCHEME
+from openprocurement.api.constants_env import (
     MULTI_CONTRACTS_REQUIRED_FROM,
     UNIT_PRICE_REQUIRED_FROM,
 )

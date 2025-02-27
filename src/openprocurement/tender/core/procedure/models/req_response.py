@@ -7,7 +7,7 @@ from schematics.types import BaseType, IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants_env import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
 )

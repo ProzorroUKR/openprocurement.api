@@ -4,7 +4,7 @@ from decimal import Decimal
 
 from schematics.types import BaseType
 
-from openprocurement.api.constants import (
+from openprocurement.api.constants_env import (
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )

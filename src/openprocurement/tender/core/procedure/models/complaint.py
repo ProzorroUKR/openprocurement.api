@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.constants import COMPLAINT_IDENTIFIER_REQUIRED_FROM
+from openprocurement.api.constants_env import COMPLAINT_IDENTIFIER_REQUIRED_FROM
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model

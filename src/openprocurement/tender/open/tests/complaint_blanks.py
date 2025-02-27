@@ -3,7 +3,8 @@ from datetime import timedelta
 from unittest.mock import patch
 from uuid import uuid4
 
-from openprocurement.api.constants import RELEASE_2020_04_19, REQUESTED_REMEDIES_TYPES
+from openprocurement.api.constants import REQUESTED_REMEDIES_TYPES
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
