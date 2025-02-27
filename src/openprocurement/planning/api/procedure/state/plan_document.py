@@ -4,6 +4,8 @@ from openprocurement.tender.core.procedure.state.document import BaseDocumentSta
 
 
 class PlanDocumentState(BaseDocumentStateMixing, PlanState):
+    allow_deletion = True
+
     def validate_document_post(self, data):
         super().validate_document_post(data)
         self._validate_plan_not_terminated(get_plan())

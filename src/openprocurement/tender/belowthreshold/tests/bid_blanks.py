@@ -1561,20 +1561,32 @@ def patch_tender_bid_document(self):
 
 
 def delete_bid_document(self):
+    doc_data = {
+        "title": "name.doc",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/msword",
+    }
     response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
+        {"data": doc_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
+
+    # put new version
+    doc_data["title"] = "name2.doc"
+    response = self.app.put_json(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
+        {"data": doc_data},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents?all=1&acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+    )
+    self.assertEqual(len(response.json["data"]), 2)
 
     response = self.app.delete_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, "test", self.bid_token),
@@ -1607,6 +1619,11 @@ def delete_bid_document(self):
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
     )
     self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents?all=1&acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+    )
+    self.assertEqual(len(response.json["data"]), 0)
 
     response = self.app.get(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),

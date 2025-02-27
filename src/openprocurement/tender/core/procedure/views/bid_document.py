@@ -93,9 +93,6 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
     def get_modified(self):
         return self.request.validated["tender"]["status"] != "active.tendering"
 
-    def allow_deletion(self):
-        return True
-
     def __init__(self, request, context=None):
         super().__init__(request, context)
         if context and request.matchdict:

@@ -15,7 +15,6 @@ from openprocurement.api.utils import (
     context_unpack,
     delete_nones,
     json_view,
-    raise_operation_error,
     update_file_content_type,
 )
 from openprocurement.tender.core.procedure.documents import (
@@ -70,9 +69,6 @@ class DocumentResourceMixin:
 
     def validate(self, document):
         pass
-
-    def allow_deletion(self):
-        return False
 
     def collection_get(self):
         collection_data = self.request.validated["documents"]
@@ -187,19 +183,9 @@ class DocumentResourceMixin:
     def delete(self):
         document = self.request.validated["document"]
 
-        if not self.allow_deletion():
-            raise_operation_error(
-                self.request,
-                f"Forbidden to delete document for {self.item_name}",
-            )
-
         item = self.request.validated[self.item_name]
-        if item.get("status") != "draft":
-            raise_operation_error(
-                self.request,
-                f"Can't delete document when {self.item_name} in current ({item['status']}) status",
-            )
-        item[self.container].remove(document)
+        self.state.validate_document_delete(item, self.item_name)
+        item[self.container] = [doc for doc in item[self.container] if doc["id"] != document["id"]]
         if not item[self.container]:
             del item[self.container]
 
