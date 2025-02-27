@@ -397,7 +397,7 @@ class EContractState(
                 try:
                     if "values" in attr_after:
                         attr_after["values"] = [value_type(i) for i in attr_after["values"]]
-                    else:
+                    elif "value" in attr_after:
                         attr_after["value"] = value_type(attr_after["value"])
                 except TypeError:
                     raise_operation_error(self.request, "items attributes type mismatch.", status=422)
