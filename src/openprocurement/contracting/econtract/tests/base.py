@@ -216,7 +216,7 @@ class BaseEContractWebTest(BaseEContractTest):
             patch = apply_data_patch(self.contract_document, self.contract_document_patch)
             self.contract_document.update(patch)
             self.mongodb.contracts.save(self.contract_document)
-            self.contract_document = self.mongodb.tenders.get(self.contract_id)
+            self.contract_document = self.mongodb.contracts.get(self.contract_id)
             self.contract_document_patch = {}
 
     def set_status(self, status):
