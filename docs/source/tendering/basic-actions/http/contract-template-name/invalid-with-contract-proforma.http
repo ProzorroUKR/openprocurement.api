@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "contractTemplateName",
-      "description": "Rogue field"
+      "description": "Cannot use both contractTemplateName and contractProforma document simultaneously"
     }
   ]
 }

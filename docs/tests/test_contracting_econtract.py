@@ -332,6 +332,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         ] = 18  # to correct sum of items not be less than 20% of contract.value
         self.mongodb.contracts.save(contract_document)
 
+        # Set contractTemplateName
+        contract_document = self.mongodb.contracts.get(contract_id)
+        contract_document['contractTemplateName'] = "00000000-0.0002.01"
+        self.mongodb.contracts.save(contract_document)
+
+        # Getting contract with contractTemplateName
+        with open(TARGET_DIR + 'tender-with-contract-template-name.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/contracts/{contract_id}')
+        self.assertEqual(response.status, '200 OK')
+        contract = response.json['data']
+        self.assertEqual(contract['status'], 'pending')
+
         # Activating contract
         with open(TARGET_DIR + 'contract-activating-error.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

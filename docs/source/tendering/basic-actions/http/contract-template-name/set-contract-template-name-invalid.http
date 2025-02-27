@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "contractTemplateName",
-      "description": "Incorrect template for current classification 44617100-9, use of that templates {'00000000-0.0002.01'}"
+      "description": "Incorrect template for current classification 44617100-9, use one of ('00000000-0.0002.01',)"
     }
   ]
 }
