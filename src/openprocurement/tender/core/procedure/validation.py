@@ -1583,7 +1583,7 @@ def validate_items_unit_amount(items_unit_value_amount, data, obj_name="contract
                 if calculated_value <= 0 or not (int(obj_amount_net) <= int(calculated_value) <= int(obj_value)):
                     raise_operation_error(
                         get_request(),
-                        f"Total amount of unit values must be less than {obj_name}.value.amount and no more than net {obj_name} amount",
+                        f"Total amount of unit values must be no more than {obj_name}.value.amount and no less than net {obj_name} amount",
                         name="items",
                         status=422,
                     )

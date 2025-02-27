@@ -512,7 +512,7 @@ def move_award_contract_to_contracting(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Total amount of unit values must be less than contract.value.amount and no more than net contract amount",
+        "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
     )
 
     item["unit"]["value"] = {"amount": 46.9, "currency": "UAH", "valueAddedTaxIncluded": False}  # contract.value 469

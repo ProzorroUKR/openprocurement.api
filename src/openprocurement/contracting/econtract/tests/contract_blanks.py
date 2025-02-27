@@ -929,7 +929,7 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "items",
-                "description": "Total amount of unit values must be less than contract.value.amount and no more than net contract amount",
+                "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
             }
         ],
     )
@@ -944,7 +944,7 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "items",
-                "description": "Total amount of unit values must be less than contract.value.amount and no more than net contract amount",
+                "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
             }
         ],
     )

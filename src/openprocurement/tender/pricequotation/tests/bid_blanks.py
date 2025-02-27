@@ -1446,7 +1446,7 @@ def bid_items_unit_value_validations(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Total amount of unit values must be less than bid.value.amount and no more than net bid amount",
+        "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount",
     )
 
     # value.amount is 0
@@ -1458,7 +1458,7 @@ def bid_items_unit_value_validations(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Total amount of unit values must be less than bid.value.amount and no more than net bid amount",
+        "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount",
     )
 
     # quantity * value.amount is not less than bid net amount
