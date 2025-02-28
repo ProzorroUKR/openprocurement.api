@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-18 15:51+0200\n"
+"POT-Creation-Date: 2025-02-28 01:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -43,14 +43,17 @@ msgstr "Нехай у нас відбулась закупівля і є пер�
 msgid "*Brokers (eMalls) can't create contracts in the contract system.*"
 msgstr "*Майданчики (брокери) не мають можливості створювати договори в системі договорів.*"
 
-msgid "A PQ contract is created with two additional fields:"
-msgstr "Договір PQ створюється з двома додатковими полями:"
+msgid "A contract is created with additional fields:"
+msgstr "Договір створюється з додатковими полями:"
+
+msgid "`contractTemplateName` - copied from tender if exists (more about it in :ref:`contract-template-name`)"
+msgstr "`contractTemplateName` - копіюється з закупівлі, якщо вона встановлена (більше про це в :ref:`contract-template-name`)"
+
+msgid "A PQ contract is created with additional fields:"
+msgstr "Договір PQ створюється з додатковими полями:"
 
 msgid "`attributes` - formed from requirements and responses in tender"
 msgstr "`attributes` - формується з вимог та відповідей на виомги у закупівлі"
-
-msgid "`contractTemplateName` - copied from tender"
-msgstr "`contractTemplateName` - копіюється з закупівлі"
 
 msgid "Getting contract"
 msgstr "Отримання договору"
@@ -214,8 +217,11 @@ msgstr "Якщо ви спробуєте змінити статус догов�
 msgid "Activating contract"
 msgstr "Реєстрація договору"
 
-msgid "For activating contract, at first buyer and supplier should fill signer information. If you try activate contract without that information you'll get error:"
-msgstr "Перед тим як зареєструвати договір,потрібно замовнику та постачальнику заповнити інформацію підписанта. При спробі активувати договір без даної інформації, буде отримана помилка:"
+msgid "If tender has `contractTemplateName` set (more about it in :ref:`contract-template-name`), it will be used as `contractTemplateName` for contract. If `contractTemplateName` is set for contract, signer information is required for activation. Let's look at tender with contractTemplateName set:"
+msgstr "Якщо у закупівлі встановлено `contractTemplateName` (більше про це в :ref:`contract-template-name`), то це значення буде використано як `contractTemplateName` для договору. Якщо `contractTemplateName` встановлено для договору, то для його активації потрібна інформація про підписантів. Розглянемо закупівлю з встановленим `contractTemplateName`:"
+
+msgid "If you try activate contract without signer information you'll get error:"
+msgstr "При спробі активувати договір без заповненої інформації підписанта, буде отримана помилка:"
 
 msgid "Buyer fill signer information using ``contract_token`` or ``tender_token``:"
 msgstr "Замовник заповнює інформацію підписанта використовуючи ``contract_token`` чи ``tender_token``:"
@@ -420,4 +426,3 @@ msgstr "В цьому випадку повинен бути відмінени�
 
 msgid "Let's check all contracts are cancelled:"
 msgstr "Перевіримо що всі контракти відмінені:"
-

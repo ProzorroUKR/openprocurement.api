@@ -10,32 +10,16 @@ Content-Type: application/json
   "data": {
     "awardID": "c220713cbd024586b6382ef97a852dc7",
     "contractID": "UA-2023-10-10-000001-a-1",
-    "contractNumber": "contract #13111",
     "dateSigned": "2023-10-10T01:00:00+03:00",
-    "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tender_id": "fd45af80ad9f4574994f7f6254012693",
     "owner": "broker",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-09T01:00:00+03:00"
+      "endDate": "2024-10-09T01:00:00+03:00"
     },
-    "changes": [
-      {
-        "rationale": "Друга і третя поставка має бути розфасована",
-        "rationale_en": "Contract change cause",
-        "rationaleTypes": [
-          "volumeCuts",
-          "priceReduction"
-        ],
-        "dateSigned": "2023-10-10T01:00:00+03:00",
-        "id": "d578d3114cb24296894d4d4c604c01da",
-        "status": "active",
-        "date": "2023-10-10T01:00:00+03:00"
-      }
-    ],
-    "status": "active",
+    "status": "pending",
     "buyer": {
       "name": "Державне управління справами",
       "identifier": {
@@ -49,14 +33,6 @@ Content-Type: application/json
         "region": "м. Київ",
         "postalCode": "01220",
         "countryName": "Україна"
-      },
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "234234234234234",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
       },
       "kind": "general"
     },
@@ -75,14 +51,6 @@ Content-Type: application/json
           "postalCode": "01220",
           "countryName": "Україна"
         },
-        "signerInfo": {
-          "name": "Test Testovich",
-          "email": "example@email.com",
-          "telephone": "+380950000000",
-          "iban": "111111111111111",
-          "position": "Генеральний директор",
-          "authorizedBy": "Статут компанії"
-        },
         "scale": "micro"
       }
     ],
@@ -90,7 +58,7 @@ Content-Type: application/json
       {
         "id": "687e8ce64af241ed9a7df097b8ce713a",
         "description": "Комп’ютерне обладнання для біда",
-        "quantity": 20.0,
+        "quantity": 10.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -117,7 +85,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 9.0,
+            "amount": 18,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
@@ -162,49 +130,38 @@ Content-Type: application/json
         }
       }
     ],
-    "contractTemplateName": "00000000-0.0002.01",
     "value": {
-      "amount": 240.0,
+      "amount": 238.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amountNet": 200.0
+      "amountNet": 230.0
     },
     "documents": [
       {
         "confidentiality": "public",
-        "id": "8bab0d7af5a64157a2c15757833cd8b3",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/8bab0d7af5a64157a2c15757833cd8b3?download=d351f09369034d459a5cd87583381c73",
         "documentOf": "contract",
+        "id": "8bab0d7af5a64157a2c15757833cd8b3",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "confidentiality": "public",
-        "id": "08682b48035643a39d924df55eb915e0",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/08682b48035643a39d924df55eb915e0?download=1ea9c5fa82c84b2a8206318bc86360df",
         "documentOf": "contract",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
-      },
-      {
-        "confidentiality": "public",
-        "relatedItem": "d578d3114cb24296894d4d4c604c01da",
-        "id": "4b37284d38a94a2b8d8ca1cc4e4ce542",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_changes.doc",
-        "format": "application/msword",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/4b37284d38a94a2b8d8ca1cc4e4ce542?download=34862599de094db7a8c9c37996ea4847",
-        "documentOf": "change",
+        "id": "08682b48035643a39d924df55eb915e0",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
+    "date": "2023-10-10T01:00:00+03:00",
+    "contractTemplateName": "00000000-0.0002.01",
     "id": "479178eb904d41c5a40be7f83405f22d"
   },
   "config": {

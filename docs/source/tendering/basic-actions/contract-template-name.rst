@@ -36,7 +36,7 @@ The contract template can be set for procedures and their statuses specified bel
    * - esco
      - draft/active.tendering
    * - priceQuatation
-     - draft(*required - without contractProforma document)
+     - draft
    * - closeFrameworkAgreementUA
      - draft/active.tendering
    * - competitiveOrdering
@@ -46,7 +46,7 @@ The contract template can be set for procedures and their statuses specified bel
    * - negotiation.quick
      - draft/active.tendering
    * - reporting
-     - -
+     - 
    * - simple.defence
      - draft/active.tendering
    * - closeFrameworkAgreementSelectionUA
@@ -86,7 +86,7 @@ You can delete contract template:
 .. http:example:: ./http/contract-template-name/delete-contract-template-name.http
    :code:
 
-If you try to set or cnage value in invalid tender status you'll get error:
+If you try to set or change value in invalid tender status you'll get error:
 
 .. http:example:: ./http/contract-template-name/set-contract-template-in-incorrect-statuese.http
    :code:
