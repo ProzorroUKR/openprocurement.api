@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from openprocurement.tender.core.tests.utils import set_bid_items
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from openprocurement.tender.requestforproposal.tests.base import (
     test_tender_rfp_organization,
 )
@@ -395,3 +395,27 @@ def patch_bid_multi_currency(self):
         {"data": bid},
     )
     self.assertEqual(response.status, "200 OK")
+
+
+def patch_tender_with_bids_lots_none(self):
+    bid = self.test_bids_data[0].copy()
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+
+    set_bid_lotvalues(bid, lots)
+
+    self.create_bid(self.tender_id, bid)
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": None}}, status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "milestones", "description": ["relatedLot should be one of the lots."]},
+            {
+                "location": "body",
+                "name": "items",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+            },
+        ],
+    )

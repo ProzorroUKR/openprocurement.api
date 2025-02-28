@@ -410,17 +410,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         tender = response.json["data"]
         self.tick(delta=timedelta(days=6))
         with open(TARGET_DIR + 'tutorial/update-tender-after-enquiry.http', 'w') as self.app.file_obj:
-            tender_period_end_date = dt_from_iso(tender["tenderPeriod"]["endDate"]) + timedelta(days=1)
-            response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"value": {'amount': 501.0}, "tenderPeriod": {"endDate": tender_period_end_date.isoformat()}}},
-                status=403,
-            )
-            self.assertEqual(response.status, '403 Forbidden')
-
-        with open(
-            TARGET_DIR + 'tutorial/update-tender-after-enquiry-with-update-periods.http', 'w'
-        ) as self.app.file_obj:
             tender_period_end_date = dt_from_iso(tender["tenderPeriod"]["endDate"]) + timedelta(days=4)
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
@@ -430,8 +419,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                         "tenderPeriod": {"endDate": tender_period_end_date.isoformat()},
                     }
                 },
+                status=403,
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, '403 Forbidden')
 
         # Registering bid
         bids_access = {}

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-26 14:22+0200\n"
+"POT-Creation-Date: 2025-02-27 17:39+0200\n"
 "PO-Revision-Date: 2017-07-25 15:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -181,7 +181,7 @@ msgstr "Модифікація закупівлі"
 msgid "Let's update tender by supplementing it with all other essential properties:"
 msgstr "Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:"
 
-msgid "We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+msgid "We see the added properties have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
 msgstr "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
 
 msgid "Checking the listing again reflects the new modification date:"
@@ -193,11 +193,8 @@ msgstr "Замовник може встановити забезпечення 
 msgid "Also we can modify tender by adding `funders` field data:"
 msgstr "Також можна оновлювати закупівлю шляхом додавання поля `funders`:"
 
-msgid "Procuring entity can not change `tenderPeriod.endDate` if there are less than 2 days before tenderPeriod ends. Changes will not be accepted by API."
-msgstr "Замовник не може редагувати `tenderPeriod.endDate`, якщо залишилось менше 2 днів до завершення періоду подання пропозицій. API таких змін не прийме."
-
-msgid "That is why tenderPeriod has to be extended by minimum 2 days."
-msgstr "Ось чому потрібно продовжити період подання пропозицій (`tenderPeriod`) на мінімум 2 дні."
+msgid "It is forbidden to patch tender in `active.tendering` status for `belowThreshold` procedure:"
+msgstr "Спрощену закупівлю заборонено редагувати в статусі `active.tendering`:"
 
 msgid "Uploading documentation"
 msgstr "Завантаження документації"

@@ -5,22 +5,12 @@ from schematics.validate import ValidationError
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
-from openprocurement.tender.core.procedure.models.document import PostDocument
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.item import TechFeatureItem as Item
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
-from openprocurement.tender.core.procedure.models.lot import (
-    PatchTenderLot,
-    validate_lots_uniq,
-)
-from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriodEndRequired,
@@ -94,30 +84,6 @@ class PatchTender(BasePatchTender):
         min_size=1,
         validators=[validate_items_uniq, validate_classification_id],
     )
-
-
-class PatchActiveTender(Model):
-    tenderPeriod = ModelType(PeriodEndRequired)
-    guarantee = ModelType(Guarantee)
-    value = ModelType(Value)
-    milestones = ListType(
-        ModelType(Milestone, required=True),
-        validators=[validate_items_uniq],
-    )
-    items = ListType(
-        ModelType(Item, required=True),
-        min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
-    )
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    documents = ListType(ModelType(PostDocument, required=True))
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    mainProcurementCategory = StringType(choices=["goods", "services", "works"])
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
 
 class PatchDraftTender(PatchTender):
