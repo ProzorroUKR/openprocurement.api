@@ -18,6 +18,7 @@ from openprocurement.tender.core.procedure.utils import (
     calc_auction_end_time,
     check_is_tender_waiting_for_inspector_approve,
     dt_from_iso,
+    get_lot_value_status,
     get_supplier_contract,
     tender_created_after_2020_rules,
 )
@@ -698,18 +699,16 @@ class ChronographEventsMixing:
                 self.add_next_award()
 
     def set_lot_values_unsuccessful(self, bids, lot_id):
-        # for procedures where lotValues have "status" field (openeu, competitive_dialogue, cfaua, )
         for bid in bids or "":
             for lot_value in bid.get("lotValues", ""):
-                if "status" in lot_value:
-                    if lot_value["relatedLot"] == lot_id:
-                        self.set_object_status(lot_value, "unsuccessful")
+                if lot_value["relatedLot"] == lot_id:
+                    self.set_object_status(lot_value, "unsuccessful")
 
     @classmethod
     def count_bids_number(cls, tender):
         count = 0
-        for b in tender.get("bids", ""):
-            if b.get("status", "active") in cls.active_bid_statuses:
+        for bid in tender.get("bids", ""):
+            if bid.get("status", "active") in cls.active_bid_statuses:
                 count += 1
         return count
 
@@ -720,7 +719,7 @@ class ChronographEventsMixing:
             if bid.get("status", "active") in cls.active_bid_statuses:
                 for lot_value in bid.get("lotValues", ""):
                     if (
-                        lot_value.get("status", "active") in cls.active_bid_statuses
+                        get_lot_value_status(lot_value, bid) in cls.active_bid_statuses
                         and lot_value["relatedLot"] == lot_id
                     ):
                         count += 1

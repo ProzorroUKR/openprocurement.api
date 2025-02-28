@@ -20,6 +20,7 @@ from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.utils import (
     activate_bids,
     filter_features,
+    get_lot_value_status,
     tender_created_after_2020_rules,
 )
 from openprocurement.tender.core.utils import (
@@ -234,7 +235,7 @@ class TenderStateAwardingMixing:
                     for lot_value in bid["lotValues"]:
                         if (
                             lot_value["relatedLot"] == lot_id
-                            and lot_value.get("status", "active") in self.active_bid_statuses
+                            and get_lot_value_status(lot_value, bid) in self.active_bid_statuses
                         ):
                             active_bid = {
                                 "id": bid["id"],
