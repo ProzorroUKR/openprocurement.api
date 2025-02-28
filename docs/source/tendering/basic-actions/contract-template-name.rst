@@ -36,7 +36,7 @@ The contract template can be set for procedures and their statuses specified bel
    * - esco
      - draft/active.tendering
    * - priceQuatation
-     - draft(*required - without contractProforma document)
+     - draft
    * - closeFrameworkAgreementUA
      - draft/active.tendering
    * - competitiveOrdering
@@ -46,7 +46,7 @@ The contract template can be set for procedures and their statuses specified bel
    * - negotiation.quick
      - draft/active.tendering
    * - reporting
-     - -
+     - 
    * - simple.defence
      - draft/active.tendering
    * - closeFrameworkAgreementSelectionUA

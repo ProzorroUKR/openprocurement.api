@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-26 14:25+0200\n"
+"POT-Creation-Date: 2025-02-28 01:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 msgid "Contract template"
 msgstr "Шаблон контракту"
@@ -76,8 +76,8 @@ msgstr ""
 msgid "priceQuatation"
 msgstr ""
 
-msgid "draft(*required - without contractProforma document)"
-msgstr "draft(*обов’язково - без документа контракту-проформи)."
+msgid "draft"
+msgstr ""
 
 msgid "closeFrameworkAgreementUA"
 msgstr ""
@@ -98,9 +98,6 @@ msgid "simple.defence"
 msgstr ""
 
 msgid "closeFrameworkAgreementSelectionUA"
-msgstr ""
-
-msgid "draft"
 msgstr ""
 
 msgid "Tutorial"
@@ -126,4 +123,3 @@ msgstr "Ви можете видалити шаблон контракту:"
 
 msgid "If you try to set or change value in invalid tender status you'll get error:"
 msgstr "Якщо ви спробуєте встановити або змінити значення у некоректному статусі тендеру, ви отримаєте помилку:"
-
