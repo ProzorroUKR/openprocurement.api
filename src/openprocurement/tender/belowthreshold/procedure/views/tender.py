@@ -68,7 +68,6 @@ class BelowThresholdTenderResource(TendersResource):
                     "active.enquiries",
                     "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
                     "active.pre-qualification.stand-still",
-                    "active.tendering",
                 )
             ),
             validate_input_data_from_resolved_model(none_means_remove=True),

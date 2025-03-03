@@ -549,22 +549,10 @@ def tender_with_main_procurement_category(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": {"mainProcurementCategory": "works"}},
-        status=200 if tender["procurementMethodType"] == "requestForProposal" else 403,
+        status=200,
     )
-    if tender["procurementMethodType"] == "requestForProposal":
-        self.assertIn("mainProcurementCategory", response.json["data"])
-        self.assertEqual(response.json["data"]["mainProcurementCategory"], "works")
-    else:
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "location": "body",
-                    "name": "data",
-                    "description": "Can't update tender in current (active.tendering) status",
-                }
-            ],
-        )
+    self.assertIn("mainProcurementCategory", response.json["data"])
+    self.assertEqual(response.json["data"]["mainProcurementCategory"], "works")
 
 
 @mock.patch(
@@ -1383,3 +1371,68 @@ def create_tender_invalid_config(self):
         response.json["errors"],
         [{"description": "10 is greater than the maximum of 9", "location": "body", "name": "config.minBidsNumber"}],
     )
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
+def tender_finance_milestones(self):
+    data = deepcopy(self.initial_data)
+
+    # test creation
+    data["milestones"] = [
+        {
+            "id": "a" * 32,
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 0,
+            "percentage": 45.55,
+        },
+        {
+            "title": "deliveryOfGoods",
+            "code": "postpayment",
+            "type": "financing",
+            "duration": {"days": 999, "type": "calendar"},
+            "sequenceNumber": 0,
+            "percentage": 54.45,
+        },
+    ]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    self.assertIn("milestones", tender)
+    self.assertEqual(len(tender["milestones"]), 2)
+    for milestone in tender["milestones"]:
+        self.assertEqual(
+            set(milestone.keys()), {"id", "code", "duration", "percentage", "type", "sequenceNumber", "title"}
+        )
+    self.assertEqual(data["milestones"][0]["id"], tender["milestones"][0]["id"])
+    token = response.json["access"]["token"]
+    self.tender_id = tender["id"]
+
+    # test success update tender in active.enquiries status
+    new_title = "endDateOfTheReportingPeriod"
+    patch_milestones = deepcopy(tender["milestones"])
+    patch_milestones[1]["title"] = new_title
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"milestones": patch_milestones}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("milestones", response.json["data"])
+    milestones = response.json["data"]["milestones"]
+    self.assertEqual(len(milestones), 2)
+    self.assertEqual(milestones[0]["title"], tender["milestones"][0]["title"])
+    self.assertEqual(milestones[1]["title"], new_title)
+
+    # test success update milestones in active.tendering status
+    self.set_status("active.tendering")
+    patch_milestones[0]["title"] = new_title
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"milestones": patch_milestones}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["milestones"][0]["title"], new_title)

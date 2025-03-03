@@ -660,16 +660,15 @@ def patch_tender_with_bids_lots_none(self):
     self.create_bid(self.tender_id, bid)
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": None}}, status=422
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": None}}, status=403
     )
     self.assertEqual(
         response.json["errors"],
         [
-            {"location": "body", "name": "milestones", "description": ["relatedLot should be one of the lots."]},
             {
                 "location": "body",
-                "name": "items",
-                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+                "name": "data",
+                "description": "Can't update tender in current (active.tendering) status",
             },
         ],
     )

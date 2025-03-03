@@ -262,6 +262,9 @@ class BaseTenderWebTest(BaseCoreWebTest):
     min_bids_number = MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "active.enquiries"  # status, to which tender should be switched from 'draft'
+    forbidden_document_modification_actions_status = (
+        "active.tendering"  # status, in which operations with tender documents (adding, updating) are forbidden
+    )
     forbidden_question_add_actions_status = "active.tendering"  # status, in which adding tender questions is forbidden
     forbidden_question_update_actions_status = (
         "active.auction"  # status, in which updating tender questions is forbidden

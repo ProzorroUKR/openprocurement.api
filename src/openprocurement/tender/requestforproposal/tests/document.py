@@ -2,7 +2,6 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.document_blanks import (
-    create_document_active_tendering_status,
     create_tender_document,
     create_tender_document_json,
     create_tender_document_json_bulk,
@@ -19,6 +18,9 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
 from openprocurement.tender.requestforproposal.tests.base import (
     TenderContentWebTest,
     test_tender_rfp_lots,
+)
+from openprocurement.tender.requestforproposal.tests.document_blanks import (
+    create_document_active_tendering_status,
 )
 
 

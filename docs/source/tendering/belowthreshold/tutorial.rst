@@ -126,7 +126,7 @@ Let's update tender by supplementing it with all other essential properties:
 
 .. XXX body is empty for some reason (printf fails)
 
-We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+We see the added properties have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
 
 Checking the listing again reflects the new modification date:
 
@@ -141,16 +141,6 @@ Procuring entity can set bid guarantee:
 Also we can modify tender by adding `funders` field data:
 
 .. http:example:: http/tutorial/patch-tender-funders.http
-   :code:
-
-Procuring entity can not change `tenderPeriod.endDate` if there are less than 2 days before tenderPeriod ends. Changes will not be accepted by API.
-
-.. http:example:: http/tutorial/update-tender-after-enquiry.http
-   :code:
-
-That is why tenderPeriod has to be extended by minimum 2 days.
-
-.. http:example:: http/tutorial/update-tender-after-enquiry-with-update-periods.http
    :code:
 
 
@@ -282,6 +272,11 @@ Step-by-step registration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tendering` status that allows registration of bids.
+
+It is forbidden to patch tender in `active.tendering` status for `belowThreshold` procedure:
+
+.. http:example:: http/tutorial/update-tender-after-enquiry.http
+   :code:
 
 Bidder can register a bid for lot №1 in `draft` status:
 
