@@ -315,18 +315,19 @@ def create_tender_lot(self):
         [{"description": "Lot id should be uniq for all lots", "location": "body", "name": "lots"}],
     )
 
-    self.set_status("active.tendering")
+    if self.initial_data["procurementMethodType"] not in ("belowThreshold",):
+        self.set_status("active.tendering")
 
-    response = self.app.post_json(
-        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    lot = response.json["data"]
-    self.assertEqual(lot["title"], "lot title")
-    self.assertEqual(lot["description"], "lot description")
-    self.assertIn("id", lot)
-    self.assertIn(lot["id"], response.headers["Location"])
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        lot = response.json["data"]
+        self.assertEqual(lot["title"], "lot title")
+        self.assertEqual(lot["description"], "lot description")
+        self.assertIn("id", lot)
+        self.assertIn(lot["id"], response.headers["Location"])
 
     self.set_status("{}".format(self.forbidden_lot_actions_status))
 
@@ -425,13 +426,14 @@ def patch_tender_lot(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["title"], "new title")
 
-    self.set_status("active.tendering")
+    if self.initial_data["procurementMethodType"] not in ("belowThreshold",):
+        self.set_status("active.tendering")
 
-    response = self.app.post_json(
-        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
     self.set_status("{}".format(self.forbidden_lot_actions_status))
 
@@ -813,19 +815,22 @@ def delete_tender_lot(self):
         "Can't delete lot in current ({}) tender status".format(self.forbidden_lot_actions_status),
     )
 
-    self.set_status("active.tendering")
+    if self.initial_data["procurementMethodType"] not in ("belowThreshold",):
+        self.set_status("active.tendering")
 
-    response = self.app.post_json(
-        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    lot = response.json["data"]
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        lot = response.json["data"]
 
-    response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"], lot)
+        response = self.app.delete(
+            "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token)
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"], lot)
 
 
 def tender_lot_guarantee(self):
