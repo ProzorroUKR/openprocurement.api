@@ -8,8 +8,6 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
-from openprocurement.tender.core.tests.data import test_contract_template_name_keys
-from openprocurement.tender.core.tests.utils import get_contract_template_name
 from openprocurement.tender.pricequotation.tests.data import *
 
 
@@ -17,10 +15,6 @@ class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.CONTRACT_TEMPLATES_KEYS",
-    Mock(return_value=test_contract_template_name_keys),
-)
 class BaseTenderWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_pq_data
@@ -188,16 +182,11 @@ class BaseTenderWebTest(BaseCoreWebTest):
         "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
         Mock(return_value=test_tender_pq_category),
     )
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.CONTRACT_TEMPLATES_KEYS",
-        test_contract_template_name_keys,
-    )
     def create_tender(self):
         data = deepcopy(self.initial_data)
         config = deepcopy(self.initial_config)
         data["agreement"] = {"id": self.agreement_id}
         data["criteria"] = getattr(self, "test_criteria", test_tender_pq_criteria)
-        data["contractTemplateName"] = get_contract_template_name(self, tender=data)
         response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_id = tender["id"]

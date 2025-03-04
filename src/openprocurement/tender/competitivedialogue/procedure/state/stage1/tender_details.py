@@ -19,7 +19,10 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
+
     should_validate_notice_doc_required = False
+    contract_template_required = False
+    contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     def on_patch(self, before, after):
         if get_request().authenticated_role != "competitive_dialogue":

@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
+from openprocurement.contracting.econtract.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
@@ -146,6 +147,20 @@ def patch_tender_contract(self):
             {"data": {"status": "invalid", "rejectReason": "buyerViolationsCorrected"}},
         )
         self.assertEqual(response.status, "200 OK")
+
+    # set signerInfo for buyer
+    response = self.app.put_json(
+        f"/contracts/{contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # set signerInfo for suppliers
+    response = self.app.put_json(
+        f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",

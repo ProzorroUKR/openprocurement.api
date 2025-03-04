@@ -532,11 +532,13 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33611000-6"
+    self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]["id"] = data
+    self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     self.assertEqual(response.status, "201 Created")
 
     addit_classif = [
@@ -545,11 +547,13 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33652000-5"
+    self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]["id"] = data
+    self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     self.assertEqual(response.status, "201 Created")
 
 
@@ -580,6 +584,7 @@ def create_tender_generated(self):
         "mainProcurementCategory",
         "value",
         "agreement",
+        "contractTemplateName",
     ]
 
     self.assertEqual(
@@ -592,7 +597,7 @@ def create_tender_generated(self):
 
 def create_tender_draft(self):
     data = self.initial_data.copy()
-    data.update({"status": "draft", "contractTemplateName": get_contract_template_name(self, tender=data)})
+    data.update({"status": "draft"})
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1365,26 +1370,6 @@ def tender_owner_can_change_in_draft(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": patch_data},
-        status=422,
-    )
-
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Either contractTemplateName or contractProforma document is required",
-                "location": "body",
-                "name": "contractTemplateName",
-            }
-        ],
-    )
-    self.assertEqual(response.content_type, "application/json")
-
-    patch_data["contractTemplateName"] = get_contract_template_name(self, tender=tender)
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token),
-        {"data": patch_data},
     )
     tender = response.json["data"]
 
@@ -2125,7 +2110,6 @@ def patch_items_related_buyer_id(self):
             "data": {
                 "status": self.primary_tender_status,
                 "criteria": self.test_criteria_1,
-                "contractTemplateName": get_contract_template_name(self, tender_id=tender_id),
             }
         },
     )
@@ -2253,7 +2237,7 @@ def switch_draft_to_tendering_success(self):
     ):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active.tendering", "contractTemplateName": get_contract_template_name(self)}},
+            {"data": {"status": "active.tendering"}},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active.tendering")
@@ -2438,7 +2422,6 @@ def tender_finance_milestones(self):
 def create_tender_pq_from_dps_invalid_agreement(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
-    data["contractTemplateName"] = get_contract_template_name(self, tender=data)
 
     config = deepcopy(self.initial_config)
     config.update({"hasPreSelectionAgreement": True})
@@ -2549,7 +2532,12 @@ def create_tender_pq_from_dps_invalid_items(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"items": items}},
+        {
+            "data": {
+                "items": items,
+                "contractTemplateName": get_contract_template_name({"items": items}),
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -2601,7 +2589,12 @@ def create_tender_pq_from_dps_invalid_items(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"items": items}},
+        {
+            "data": {
+                "items": items,
+                "contractTemplateName": get_contract_template_name({"items": items}),
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")

@@ -28,7 +28,6 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # Ten
 
 
 class TenderEcontractResourceTestMixin:
-    # test_create_econtract = snitch(create_econtract)
     test_cancelling_award_contract_sync = snitch(cancelling_award_contract_sync)
 
     def activate_contract(self, contract_id, status=200):
@@ -166,7 +165,8 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
             },
         )
         self.app.authorization = auth
-        self.award_id = response.json["data"]["id"]
+        award = response.json["data"]
+        self.award_id = award["id"]
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
@@ -174,6 +174,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
         )
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.contracts_ids = [i["id"] for i in response.json["data"].get("contracts", "")]
+        self.bid_token = self.initial_bids_tokens[award["bid_id"]]
 
     def setUp(self):
         super().setUp()
@@ -233,6 +234,7 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active", "qualified": True}},
         )
+        self.bid_token = self.initial_bids_tokens[award["bid_id"]]
 
     test_patch_lot_tender_multi_contracts = snitch(patch_tender_multi_contracts)
 

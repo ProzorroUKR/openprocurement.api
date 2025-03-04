@@ -5,7 +5,6 @@ from decimal import Decimal
 from math import ceil, floor
 
 from openprocurement.api.constants import (
-    CONTRACT_TEMPLATES_KEYS,
     CPV_GROUP_PREFIX_LENGTH,
     CPV_PREFIX_LENGTH_TO_NAME,
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
@@ -58,6 +57,7 @@ from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
+    get_contract_template_names_for_classification_id,
     set_mode_test_titles,
     tender_created_after,
     validate_field,
@@ -207,11 +207,10 @@ class BaseTenderDetailsMixing:
     agreement_allowed_types = [IFI_TYPE]
     agreement_with_items_forbidden = False
     agreement_without_items_forbidden = False
+    contract_template_required = False
+    contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     calendar = WORKING_DAYS
-
-    contract_template_name_required = False
-    contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -1298,22 +1297,6 @@ class BaseTenderDetailsMixing:
                 name="contractTemplateName",
             )
 
-        def get_expected_template_names(classification_id):
-            expected_names = set()
-            for k, v in CONTRACT_TEMPLATES_KEYS.items():
-                if v["active"] and (classif_len := v.get("matchLength")):
-                    if classification_id.startswith(k[:classif_len]):
-                        expected_names.add(k)
-
-            if not expected_names:
-                expected_names.add(
-                    next(
-                        (k for k, v in CONTRACT_TEMPLATES_KEYS.items() if v["active"] and not v.get("matchLength")),
-                        None,
-                    )
-                )
-            return expected_names
-
         EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES = ("0931",)
 
         contract_template_name_before = before.get("contractTemplateName")
@@ -1342,7 +1325,7 @@ class BaseTenderDetailsMixing:
             )
 
         # Check if contractTemplateName or contractProforma is required
-        if self.contract_template_name_required and after["status"] not in ("draft",):
+        if self.contract_template_required and after["status"] not in ("draft",):
             if not has_contract_proforma and not contract_template_name:
                 raise_contract_template_name_error(
                     "Either contractTemplateName or contractProforma document is required"
@@ -1363,11 +1346,11 @@ class BaseTenderDetailsMixing:
             raise_contract_template_name_error("Rogue field")
 
         # Check if template is correct for the current classification
-        expected_template_names = get_expected_template_names(classification_id)
+        expected_template_names = get_contract_template_names_for_classification_id(classification_id)
         if contract_template_name not in expected_template_names:
             raise_contract_template_name_error(
                 f"Incorrect template for current classification {classification_id}, "
-                f"use one of {tuple(expected_template_names)}",
+                f"use one of: {', '.join(sorted(expected_template_names))}",
             )
 
 

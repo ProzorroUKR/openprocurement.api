@@ -77,6 +77,7 @@ test_contract_data = {
     "tender_token": sha512(test_tender_token.encode()).hexdigest(),
     "owner": "broker",
 }
+test_contract_data["contractTemplateName"] = "00000000-0.0002.01"
 
 documents = [
     {

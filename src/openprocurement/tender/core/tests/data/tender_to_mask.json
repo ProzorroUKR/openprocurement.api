@@ -1877,5 +1877,6 @@
    "procurementMethodType": "belowThreshold",
    "numberOfBids": 0,
    "is_public": true,
-   "is_test": false
+   "is_test": false,
+   "contractTemplateName": "33600000-6.0002.01"
 }

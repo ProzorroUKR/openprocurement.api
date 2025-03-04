@@ -111,6 +111,7 @@ class ContractWOItemsResource4BrokersTest(BaseEContractWebTest):
     test_contract_wo_items_status_change = snitch(contract_wo_items_status_change)
     test_contract_validate_signer_info = snitch(contract_validate_signer_info)
 
+
 class ContractWOAmountNetResource4BrokersTest(BaseEContractWebTest):
     initial_status = "active"
     initial_data = test_contract_data_wo_value_amount_net

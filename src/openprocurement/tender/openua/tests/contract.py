@@ -56,6 +56,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
         )
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.contracts_ids = [i["id"] for i in response.json["data"].get("contracts", "")]
+        self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
 
     def setUp(self):
         super().setUp()

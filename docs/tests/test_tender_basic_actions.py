@@ -41,7 +41,6 @@ from openprocurement.tender.core.tests.base import (
     test_language_criteria,
     test_tech_feature_criteria,
 )
-from openprocurement.tender.core.tests.data import test_contract_template_name_keys
 from openprocurement.tender.core.tests.utils import change_auth, set_bid_lotvalues
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
@@ -3769,16 +3768,13 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         tech_criteria = deepcopy(test_tech_feature_criteria)
         tech_criteria[0]["relatesTo"] = "tenderer"
 
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.CONTRACT_TEMPLATES_KEYS",
-        test_contract_template_name_keys,
-    )
     def test_tender_contract_template_name(self):
         self.app.authorization = ('Basic', ('broker', ''))
 
-        response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
-        )
+        data = deepcopy(self.initial_data)
+        del data["contractTemplateName"]
+
+        response = self.app.post_json('/tenders?opt_pretty=1', {'data': data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         self.tender_id = response.json["data"]["id"]

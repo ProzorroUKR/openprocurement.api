@@ -18,7 +18,7 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
     should_validate_notice_doc_required = True
     enquiry_before_tendering = True
-
+    contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.enquiries")
 
     def get_patch_data_model(self):

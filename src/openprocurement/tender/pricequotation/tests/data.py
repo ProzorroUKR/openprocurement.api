@@ -227,6 +227,7 @@ test_tender_pq_data = {
     "procurementMethod": 'selective',
     "items": [test_tender_pq_item],
     "agreement": {"id": "0" * 32},
+    "contractTemplateName": "00000000-0.0002.01",
 }
 
 if SANDBOX_MODE:

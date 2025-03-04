@@ -515,6 +515,7 @@ test_docs_tender_below = {
     "tenderPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=14)).isoformat()},
     "procurementMethodType": "belowThreshold",
     "milestones": test_tender_below_milestones,
+    "contractTemplateName": "00000000-0.0002.01",
 }
 
 test_docs_tender_below_maximum = {
@@ -532,6 +533,7 @@ test_docs_tender_below_maximum = {
     "features": test_docs_features,
     "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
+    "contractTemplateName": "00000000-0.0002.01",
 }
 
 test_docs_tender_cfaselectionua_maximum = {
@@ -640,6 +642,7 @@ test_docs_tender_openeu = {
     "items": test_docs_items_en,
     "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
+    "contractTemplateName": "00000000-0.0002.01",
 }
 
 test_docs_tender_openua = {
@@ -652,6 +655,7 @@ test_docs_tender_openua = {
     "items": test_docs_items_ua,
     "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
+    "contractTemplateName": "00000000-0.0002.01",
 }
 
 test_docs_tender_open = {
@@ -664,6 +668,7 @@ test_docs_tender_open = {
     "items": test_docs_items_open,
     "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
+    "contractTemplateName": "00000000-0.0002.01",
 }
 
 test_docs_tender_co = {
@@ -677,6 +682,7 @@ test_docs_tender_co = {
     "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
     "agreements": [{}],
+    "contractTemplateName": "00000000-0.0002.01",
 }
 
 test_docs_items_esco = deepcopy(test_docs_items_en)
@@ -895,6 +901,7 @@ test_docs_tender_rfp = {
     "tenderPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=14)).isoformat()},
     "procurementMethodType": "requestForProposal",
     "milestones": test_tender_below_milestones,
+    "contractTemplateName": "00000000-0.0002.01",
 }
 
 test_docs_tender_rfp_maximum = {
@@ -912,4 +919,5 @@ test_docs_tender_rfp_maximum = {
     "features": test_docs_features,
     "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
+    "contractTemplateName": "00000000-0.0002.01",
 }

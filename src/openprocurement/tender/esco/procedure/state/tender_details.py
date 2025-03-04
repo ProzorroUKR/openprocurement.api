@@ -10,6 +10,8 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 class ESCOTenderDetailsState(BaseTenderDetailsState):
     enquiry_period_timedelta = -QUESTIONS_STAND_STILL
+    contract_template_required = False
+    contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     def on_post(self, tender):
         super().on_post(tender)

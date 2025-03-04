@@ -14,8 +14,8 @@ from openprocurement.tender.core.procedure.utils import (
     extract_tender_doc,
     extract_tender_id,
     generate_tender_id,
+    get_contract_template_names_for_classification_id,
 )
-from openprocurement.tender.core.tests.data import test_contract_template_name_keys
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
@@ -406,31 +406,11 @@ def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
     return response.json["data"]
 
 
-def get_contract_template_name(self, tender=None, tender_id=None):
-    if not tender:
-        if not tender_id:
-            tender_id = self.tender_id
-        response = self.app.get(f"/tenders/{tender_id}")
-        tender = response.json["data"]
+def get_contract_template_name(tender=None):
+    classification_id = tender["items"][0]["classification"]["id"]
+    contract_template_names = get_contract_template_names_for_classification_id(classification_id)
 
-    items = tender.get("items")
-    classification_id = items[0].get("classification", {}).get("id") if items else None
-    excluded_conditions = (
-        not classification_id
-        or any(i.get("documentType", "") == "contractProforma" for i in tender.get("documents", ""))
-        or classification_id.startswith("0931")
-    )
-    if excluded_conditions:
+    if not contract_template_names:
         return
 
-    contract_template_name = ""
-    for k, v in test_contract_template_name_keys.items():
-        if v["active"] and (classif_len := v.get("matchLength")):
-            if classification_id.startswith(k[:classif_len]):
-                contract_template_name = k
-                break
-
-    if not contract_template_name:
-        contract_template_name = "00000000-0.0002.01"
-
-    return contract_template_name
+    return list(contract_template_names)[0]

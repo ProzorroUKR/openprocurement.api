@@ -35,11 +35,11 @@ from openprocurement.tender.core.tests.criteria_utils import (
     add_criteria,
     generate_guarantee_criterion_responses,
 )
-from openprocurement.tender.core.tests.data import test_contract_template_name_keys
 from openprocurement.tender.core.tests.utils import (
     activate_contract,
     change_auth,
     get_contract_data,
+    get_contract_template_name,
     set_bid_items,
     set_bid_lotvalues,
     set_tender_lots,
@@ -1022,6 +1022,8 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33611000-6"
+    if "contractTemplateName" in self.initial_data:
+        self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"id": "33611000-6", "scheme": "ДК021"}
@@ -1031,6 +1033,8 @@ def create_tender_with_inn(self):
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]["id"] = data
+    if "contractTemplateName" in self.initial_data:
+        self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     self.assertEqual(response.status, "201 Created")
 
     addit_classif = [
@@ -1039,6 +1043,8 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33652000-5"
+    if "contractTemplateName" in self.initial_data:
+        self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"id": "33652000-5", "scheme": "ДК021"}
@@ -1048,6 +1054,8 @@ def create_tender_with_inn(self):
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]["id"] = data
+    if "contractTemplateName" in self.initial_data:
+        self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     self.assertEqual(response.status, "201 Created")
 
 
@@ -1278,6 +1286,7 @@ def create_tender_generated(self):
         "lots",
         "documents",
         "noticePublicationDate",
+        "contractTemplateName",
     ]
     if self.tender_for_funders:
         fields.append("funders")
@@ -1563,6 +1572,8 @@ def create_tender(self):
     data = deepcopy(self.initial_data)
     data["items"] = [data["items"][0]]
     data["items"][0]["classification"]["id"] = "33600000-6"
+    if "contractTemplateName" in self.initial_data:
+        data["contractTemplateName"] = get_contract_template_name(data)
 
     additional_classification_0 = {
         "scheme": "INN",
@@ -4079,16 +4090,38 @@ def check_notice_doc_during_activation(self):
 
 
 @mock.patch(
-    "openprocurement.tender.core.procedure.state.tender_details.CONTRACT_TEMPLATES_KEYS",
-    test_contract_template_name_keys,
+    "openprocurement.tender.core.procedure.utils.CONTRACT_TEMPLATES_KEYS",
+    {
+        "03220000-9.0001.01": {
+            "title": "Зернові культури, картопля, овочі, фрукти та горіхи",
+            "matchLength": 4,
+            "active": True,
+        },
+        "00000000-0.0001.01": {
+            "title": "Загальний шаблон",
+            "active": False,
+        },
+        "00000000-0.0002.01": {
+            "title": "Загальний шаблон",
+            "active": True,
+        },
+        "00000000-0.0003.01": {
+            "title": "Загальний шаблон",
+            "active": True,
+        },
+    },
 )
 def contract_template_name_set(self):
 
-    def update_items_classification_id(self, classification_id):
+    def prepare_tender_state(classification_id, with_template=False, with_proforma=False):
+        """Prepare tender state for testing"""
         tender = self.mongodb.tenders.get(self.tender_id)
-        tender["items"][0]["classification"]["id"] = classification_id
-        self.mongodb.tenders.save(tender)
 
+        # Update classification
+        for item in tender["items"]:
+            item["classification"]["id"] = classification_id
+
+        # Update agreement classification
         if getattr(self, "agreement_id"):
             agreement = self.mongodb.agreements.get(self.agreement_id)
             if agreement:
@@ -4098,10 +4131,22 @@ def contract_template_name_set(self):
                     agreement["classification"]["id"] = classification_id
                 self.mongodb.agreements.save(agreement)
 
-    def test_with_forbidden_classification(self):
-        # Disallowed set contractTemplateName for forbidden classification (0931)
-        update_items_classification_id(self, '09310000-5')
+        # Handle contract template
+        if with_template:
+            tender["contractTemplateName"] = get_contract_template_name(tender)
+        else:
+            tender.pop("contractTemplateName", None)
 
+        # Handle documents
+        if not with_proforma:
+            for doc in tender.get("documents", []):
+                if doc.get("documentType") == "contractProforma":
+                    tender["documents"].remove(doc)
+
+        self.mongodb.tenders.save(tender)
+
+    def test_with_forbidden_classification():
+        # Disallowed set contractTemplateName for forbidden classification (0931)
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"contractTemplateName": "invalid_contract_template_name"}},
@@ -4118,9 +4163,7 @@ def contract_template_name_set(self):
             ],
         )
 
-        update_items_classification_id(self, allowed_classification_id)
-
-    def test_delete_contract_template_name(self):
+    def test_delete_contract_template_name():
         # Delete contractTemplateName success
 
         response = self.app.patch_json(
@@ -4130,11 +4173,12 @@ def contract_template_name_set(self):
 
         self.assertNotIn("contractTemplateName", response.json["data"])
 
-    def test_with_contract_proforma_document(self):
+    def test_with_contract_proforma_document():
         # Disallowed set contractTemplateName if exist document with documentType contractProforma
 
         if pmt == "closeFrameworkAgreementSelectionUA" and status == "active.tendering":
             return
+
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
             {
@@ -4171,7 +4215,7 @@ def contract_template_name_set(self):
         )
         self.assertEqual(response.status, "200 OK")
 
-    def test_set_invalid_value_out_of_standards(self):
+    def test_set_invalid_value_out_of_standards():
         # Set invalid contractTemplateName value out of standards
 
         response = self.app.patch_json(
@@ -4183,28 +4227,25 @@ def contract_template_name_set(self):
         self.assertEqual(response.json["errors"][0]["name"], "contractTemplateName")
         self.assertEqual(
             f"Incorrect template for current classification {allowed_classification_id}, "
-            f"use one of ('00000000-0.0002.01',)",
+            f"use one of: 00000000-0.0002.01, 00000000-0.0003.01",
             response.json["errors"][0]["description"],
         )
 
-    def test_set_invalid_value_from_standards(self):
+    def test_set_invalid_value_from_standards():
         # Set invalid contractTemplateName value from standards and not default classification
-        not_default_classification_id = '03221000-6'
-        update_items_classification_id(self, not_default_classification_id)
-
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-            {"data": {"contractTemplateName": "00000000-0.0002.01"}},
+            {"data": {"contractTemplateName": "00000000-0.0003.01"}},
             status=422,
         )
         self.assertEqual(response.json["errors"][0]["name"], "contractTemplateName")
         self.assertIn(
             f"Incorrect template for current classification {not_default_classification_id}, "
-            f"use one of ('03220000-9.0001.01',)",
+            f"use one of: 03220000-9.0001.01",
             response.json["errors"][0]["description"],
         )
 
-    def test_post_contract_proforma_document_with_contract_template_name(self):
+    def test_post_contract_proforma_document_forbidden():
         if pmt == "closeFrameworkAgreementSelectionUA" and status == "active.tendering":
             return
         response = self.app.post_json(
@@ -4231,7 +4272,7 @@ def contract_template_name_set(self):
             ],
         )
 
-    def test_set_valid_value(self):
+    def test_set_valid_value():
         # Set valid value success
 
         response = self.app.patch_json(
@@ -4241,13 +4282,13 @@ def contract_template_name_set(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["contractTemplateName"], "03220000-9.0001.01")
 
-    def test_not_required_neither_contract_template_name_nor_contract_proforma_document(self):
+    def test_not_required():
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"contractTemplateName": None}},
         )
 
-    def test_required_either_contract_template_name_or_contract_proforma_document(self, extra=None):
+    def test_required(extra=None):
         extra = extra or {}
         data = {"contractTemplateName": None}
         data.update(extra)
@@ -4297,41 +4338,54 @@ def contract_template_name_set(self):
 
     excluded_classification_id = '09310000-5'
     allowed_classification_id = '44617100-9'
+    not_default_classification_id = '03221000-6'
 
-    required_for_pmts = ("priceQuotation",)
+    required_for_pmts = (
+        "priceQuotation",
+        "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "simple.defense",
+        "competitiveOrdering",
+        "requestForProposal",
+    )
 
     # Test activation
     if pmt in required_for_pmts:
-        update_items_classification_id(self, allowed_classification_id)
-        test_required_either_contract_template_name_or_contract_proforma_document(
-            self,
+        prepare_tender_state(allowed_classification_id)
+        test_required(
             extra={"status": self.primary_tender_status},
         )
-        update_items_classification_id(self, excluded_classification_id)
-        test_required_either_contract_template_name_or_contract_proforma_document(
-            self,
+        prepare_tender_state(excluded_classification_id)
+        test_required(
             extra={"status": self.primary_tender_status},
         )
 
     # Test procedure for every allowed statuses
     for status in statuses:
-        update_items_classification_id(self, allowed_classification_id)
         self.set_status(status)
 
+        prepare_tender_state(allowed_classification_id, with_template=True, with_proforma=False)
         if status == "draft":
-            # In draft it can be not set yet
-            test_not_required_neither_contract_template_name_nor_contract_proforma_document(self)
+            test_not_required()
+            test_delete_contract_template_name()
+            test_with_contract_proforma_document()
         else:
-            # In other statuses it should be set if required for particular procurement method type
             if pmt in required_for_pmts:
-                test_required_either_contract_template_name_or_contract_proforma_document(self)
+                test_required()
             else:
-                test_not_required_neither_contract_template_name_nor_contract_proforma_document(self)
+                test_not_required()
+                test_delete_contract_template_name()
+                test_with_contract_proforma_document()
 
-        test_with_forbidden_classification(self)
-        test_with_contract_proforma_document(self)
-        test_set_invalid_value_out_of_standards(self)
-        test_set_invalid_value_from_standards(self)
-        test_set_valid_value(self)
-        test_post_contract_proforma_document_with_contract_template_name(self)
-        test_delete_contract_template_name(self)
+        prepare_tender_state(excluded_classification_id, with_template=True, with_proforma=False)
+        test_with_forbidden_classification()
+
+        prepare_tender_state(allowed_classification_id, with_template=True, with_proforma=False)
+        test_set_invalid_value_out_of_standards()
+
+        prepare_tender_state(not_default_classification_id, with_template=True, with_proforma=False)
+        test_set_invalid_value_from_standards()
+        test_set_valid_value()
+        test_post_contract_proforma_document_forbidden()
