@@ -29,6 +29,7 @@ Content-Type: application/json
     ],
     "owner": "broker",
     "tender_id": "fd45af80ad9f4574994f7f6254012693",
+    "contractTemplateName": "00000000-0.0002.01",
     "items": [
       {
         "id": "687e8ce64af241ed9a7df097b8ce713a",

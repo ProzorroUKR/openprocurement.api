@@ -138,7 +138,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "mainProcurementCategory": "services"
+    "mainProcurementCategory": "services",
+    "contractTemplateName": "00000000-0.0002.01"
   },
   "config": {
     "hasAuction": true,
@@ -173,6 +174,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "mainProcurementCategory": "services",
     "title_en": "[TESTING] Cases with state awards",
     "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам",
+    "contractTemplateName": "00000000-0.0002.01",
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
     "mode": "test",
     "status": "draft",

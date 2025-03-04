@@ -598,6 +598,7 @@
                 ]
             }
         ],
+        "contractTemplateName": "00000000-0.0002.01",
         "criteria": [
             {
                 "classification": {

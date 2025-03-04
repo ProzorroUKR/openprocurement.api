@@ -137,7 +137,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 2,
         "percentage": 54.45
       }
-    ]
+    ],
+    "contractTemplateName": "00000000-0.0002.01"
   },
   "config": {
     "hasAuction": true,
@@ -170,6 +171,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
 {
   "data": {
     "mainProcurementCategory": "goods",
+    "contractTemplateName": "00000000-0.0002.01",
     "title": "футляри до державних нагород",
     "status": "draft",
     "awardCriteria": "lowestCost",

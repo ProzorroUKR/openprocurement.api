@@ -77,6 +77,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
+    "contractTemplateName": "00000000-0.0002.01",
     "criteria": [
       {
         "description": "Форма випуску",
@@ -188,8 +189,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "title": "Форма випуску"
       }
-    ],
-    "contractTemplateName": "00000000-0.0002.01"
+    ]
   },
   "config": {
     "hasAuction": false,

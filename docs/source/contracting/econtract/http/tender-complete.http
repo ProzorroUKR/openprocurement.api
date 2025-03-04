@@ -10,6 +10,7 @@ Content-Type: application/json
   "data": {
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
+    "contractTemplateName": "00000000-0.0002.01",
     "title": "Комп’ютерне обладнання",
     "procurementMethodType": "priceQuotation",
     "awardCriteria": "lowestCost",
