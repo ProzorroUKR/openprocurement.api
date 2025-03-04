@@ -30,7 +30,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     agreement_min_active_contracts = 3
     should_match_agreement_procuring_entity = True
 
-    contract_template_name_required = True
+    contract_template_required = True
     contract_template_name_patch_statuses = ("draft",)
 
     def status_up(self, before, after, data):

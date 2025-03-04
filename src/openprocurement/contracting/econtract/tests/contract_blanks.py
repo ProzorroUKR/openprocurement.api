@@ -1779,15 +1779,22 @@ def contract_wo_items_status_change(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "Can't update contract status"
-            }
-        ]
+        response.json["errors"], [{"location": "body", "name": "data", "description": "Can't update contract status"}]
     )
+
+    # set signerInfo for buyer
+    response = self.app.put_json(
+        f"/contracts/{self.contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # set signerInfo for suppliers
+    response = self.app.put_json(
+        f"/contracts/{self.contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     # pending > active allowed
 

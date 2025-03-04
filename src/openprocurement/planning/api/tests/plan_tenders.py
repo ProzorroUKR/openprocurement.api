@@ -33,6 +33,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdua_data,
     test_tender_cdua_stage2_data,
 )
+from openprocurement.tender.core.tests.utils import get_contract_template_name
 from openprocurement.tender.esco.tests.base import (
     test_tender_esco_config,
     test_tender_esco_data,
@@ -295,6 +296,7 @@ def test_success_classification_id_336(app):
         "description": "Medicinal products for dermatology",
         "id": "33631000-2",
     }
+    request_tender_data["contractTemplateName"] = get_contract_template_name(request_tender_data)
     request_tender_config = deepcopy(test_tender_below_config)
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data, "config": request_tender_config}

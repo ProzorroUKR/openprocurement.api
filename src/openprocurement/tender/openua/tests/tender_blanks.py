@@ -468,8 +468,8 @@ def create_tender_generated(self):
     self.assertEqual(response.content_type, "application/json")
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
-    if "procurementMethodDetails" in tender:
-        tender.pop("procurementMethodDetails")
+    tender.pop("procurementMethodDetails", None)
+    tender.pop("contractTemplateName", None)
     assert_fields = {
         "procurementMethodType",
         "id",
@@ -496,8 +496,16 @@ def create_tender_generated(self):
         "milestones",
         "documents",
     }
-    if tender["procurementMethodType"] not in ("aboveThresholdUA.defense", "simple.defense"):
-        assert_fields.update(["criteria", "noticePublicationDate"])
+    if tender["procurementMethodType"] not in (
+        "aboveThresholdUA.defense",
+        "simple.defense",
+    ):
+        assert_fields.update(
+            [
+                "criteria",
+                "noticePublicationDate",
+            ]
+        )
     self.assertEqual(
         set(tender),
         assert_fields,

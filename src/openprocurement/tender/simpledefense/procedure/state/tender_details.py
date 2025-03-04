@@ -14,6 +14,7 @@ class SimpleDefenseTenderDetailsState(DefenseTenderDetailsState):
     tender_edit_accreditations = (ACCR_4,)
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     tender_complain_regulation_working_days = True
+    contract_template_required = True
+    contract_template_name_patch_statuses = ("draft", "active.tendering")

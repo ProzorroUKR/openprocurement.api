@@ -187,7 +187,6 @@ class Tender(BaseTender):
         validators=[validate_criteria_id_uniq],
     )
 
-    contractTemplateName = StringType()
     next_check = BaseType()
 
     def validate_milestones(self, data, value):

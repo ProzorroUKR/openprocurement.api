@@ -19,6 +19,7 @@ from openprocurement.tender.openua.tests.base import (
 from openprocurement.tender.openuadefense.tests.periods import PERIODS
 
 test_tender_openuadefense_data = test_tender_below_data.copy()
+del test_tender_openuadefense_data["contractTemplateName"]
 test_tender_openuadefense_data["procurementMethodType"] = "aboveThresholdUA.defense"
 test_tender_openuadefense_procuring_entity = test_tender_below_procuring_entity.copy()
 test_tender_openuadefense_procuring_entity["kind"] = "defense"

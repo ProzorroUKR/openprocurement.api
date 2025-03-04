@@ -15,7 +15,11 @@ from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.constants import BID_REQUIRED_ITEMS_TENDER_TYPES, TZ
+from openprocurement.api.constants import (
+    BID_REQUIRED_ITEMS_TENDER_TYPES,
+    CONTRACT_TEMPLATES_KEYS,
+    TZ,
+)
 from openprocurement.api.constants_env import (
     BID_ITEMS_REQUIRED_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
@@ -591,3 +595,18 @@ def get_requirement_obj(requirement_id: str, tender: dict = None):
                         continue
                     return req, group, criteria
     return None, None, None
+
+
+def get_contract_template_names_for_classification_id(classification_id):
+    expected_names = set()
+    for k, v in CONTRACT_TEMPLATES_KEYS.items():
+        if v["active"] and (classif_len := v.get("matchLength")):
+            if classification_id.startswith(k[:classif_len]):
+                expected_names.add(k)
+
+    if not expected_names:
+        for k, v in CONTRACT_TEMPLATES_KEYS.items():
+            if v["active"] and not v.get("matchLength"):
+                expected_names.add(k)
+
+    return expected_names

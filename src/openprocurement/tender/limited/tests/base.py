@@ -15,6 +15,7 @@ from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 
 now = datetime.now()
 test_tender_reporting_data = test_tender_below_data.copy()
+del test_tender_reporting_data["contractTemplateName"]
 del test_tender_reporting_data["enquiryPeriod"]
 del test_tender_reporting_data["tenderPeriod"]
 del test_tender_reporting_data["minimalStep"]

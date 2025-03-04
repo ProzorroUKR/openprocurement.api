@@ -16,15 +16,15 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = True
-
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    calendar = WORKING_DAYS
-
     tender_period_working_day = True
     period_working_day = True
     tender_complain_regulation_working_days = True
-
     should_validate_notice_doc_required = False
+    contract_template_required = False
+    contract_template_name_patch_statuses = ("draft", "active.tendering")
+
+    calendar = WORKING_DAYS
 
     def validate_required_criteria(self, before, after):
         pass
