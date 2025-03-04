@@ -270,7 +270,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         "active.auction"  # status, in which updating tender questions is forbidden
     )
     forbidden_lot_actions_status = (
-        "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+        "active.tendering"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
     )
     forbidden_contract_document_modification_actions_status = (
         "unsuccessful"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
