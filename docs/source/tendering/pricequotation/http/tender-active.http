@@ -15,6 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "contractTemplateName": "00000000-0.0002.01",
     "date": "2023-10-10T01:00:01+03:00",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
@@ -242,7 +243,6 @@ Content-Type: application/json
         ]
       }
     ],
-    "contractTemplateName": "00000000-0.0002.01",
     "noticePublicationDate": "2023-10-10T01:00:01+03:00",
     "next_check": "2023-10-25T01:00:11+03:00",
     "id": "3f38940af1314712ac29867b3e4eced4"
