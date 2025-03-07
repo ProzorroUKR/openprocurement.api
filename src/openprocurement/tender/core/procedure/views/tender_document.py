@@ -1,5 +1,6 @@
 from pyramid.security import Allow, Everyone
 
+from openprocurement.api.procedure.validation import validate_item_owner
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.tender_document import (
     TenderDocumentState,
@@ -7,6 +8,7 @@ from openprocurement.tender.core.procedure.state.tender_document import (
 from openprocurement.tender.core.procedure.validation import (
     get_tender_document_role,
     validate_download_tender_document,
+    validate_tender_document_update_not_by_author_or_tender_owner,
 )
 from openprocurement.tender.core.procedure.views.document import (
     BaseDocumentResource,
@@ -21,6 +23,9 @@ class TenderDocumentResource(BaseDocumentResource):
     def __init__(self, request, context=None):
         super().__init__(request, context)  # resolve tender
         resolve_document(request, self.item_name, self.container)
+
+    def allow_deletion(self):
+        return True
 
     def __acl__(self):
         acl = [
@@ -45,3 +50,14 @@ class TenderDocumentResource(BaseDocumentResource):
     )
     def get(self):
         return super().get()
+
+    @json_view(
+        content_type="application/json",
+        validators=(
+            validate_item_owner("tender"),
+            validate_tender_document_update_not_by_author_or_tender_owner,
+        ),
+        permission="upload_tender_documents",
+    )
+    def delete(self):
+        return super().delete()

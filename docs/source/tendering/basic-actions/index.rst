@@ -10,6 +10,7 @@ Contents:
 
    upload
    confidential-documents
+   documents-deletion
    questions
    tenders
    complaints

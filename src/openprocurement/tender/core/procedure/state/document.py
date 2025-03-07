@@ -8,6 +8,8 @@ from openprocurement.tender.core.procedure.validation import (
 class BaseDocumentStateMixing:
     check_edrpou_confidentiality = True
     all_documents_should_be_public = False
+    allow_deletion = False
+    deletion_allowed_statuses = ("draft",)
 
     def document_on_post(self, data):
         self.validate_document_post(data)
@@ -30,6 +32,18 @@ class BaseDocumentStateMixing:
 
     def validate_document_patch(self, before, after):
         pass
+
+    def validate_document_delete(self, item, item_name):
+        if not self.allow_deletion:
+            raise_operation_error(
+                self.request,
+                f"Forbidden to delete document for {item_name}",
+            )
+        if item.get("status") not in self.deletion_allowed_statuses:
+            raise_operation_error(
+                self.request,
+                f"Can't delete document when {item_name} in current ({item['status']}) status",
+            )
 
 
 class BaseDocumentState(BaseDocumentStateMixing, TenderState):

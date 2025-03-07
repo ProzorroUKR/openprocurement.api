@@ -56,12 +56,35 @@ Updating Bid documents
  
 .. sourcecode:: http
 
-  HTTP/1.1 200 Created
+  HTTP/1.1 200 OK
 
   {
       "data": {
           ...
           "id": "ddd45992f1c545b9b03302205962265b", 
+          ...
+          "url": ".../tenders/64e93250be76435397e8c992ed4214d1/bids/4879d3f8ee2443169b5fbbc9f89fa607/documents/bd2e4c64179445cab93987fff3d58d23?download=7d56370415484488bbb621b8cea6315b"
+      }
+  }
+
+
+Deleting Bid documents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+It is allowed to delete bid document only when bid has `draft` status.
+
+.. sourcecode:: http
+
+  DELETE /tenders/64e93250be76435397e8c992ed4214d1/bids/4879d3f8ee2443169b5fbbc9f89fa607/documents/bd2e4c64179445cab93987fff3d58d23 HTTP/1.1
+
+.. sourcecode:: http
+
+  HTTP/1.1 200 OK
+
+  {
+      "data": {
+          ...
+          "id": "bd2e4c64179445cab93987fff3d58d23",
           ...
           "url": ".../tenders/64e93250be76435397e8c992ed4214d1/bids/4879d3f8ee2443169b5fbbc9f89fa607/documents/bd2e4c64179445cab93987fff3d58d23?download=7d56370415484488bbb621b8cea6315b"
       }

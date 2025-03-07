@@ -12,6 +12,9 @@ from openprocurement.tender.core.procedure.validation import validate_doc_type_q
 
 
 class TenderDocumentState(BaseDocumentState):
+    allow_deletion = True
+    deletion_allowed_statuses = ("draft", "draft.stage2")
+
     def validate_sign_documents_already_exists(self, doc_data):
         tender_docs = deepcopy(get_tender().get("documents", []))
         new_documents = self.request.validated["data"]

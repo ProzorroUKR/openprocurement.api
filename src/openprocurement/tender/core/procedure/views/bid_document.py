@@ -178,6 +178,14 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
     def patch(self):
         return super().patch()
 
+    @json_view(
+        content_type="application/json",
+        validators=(validate_item_owner("bid")),
+        permission="edit_bid",
+    )
+    def delete(self):
+        return super().delete()
+
 
 @resource(
     name="belowThreshold:Tender Bid Eligibility Documents",

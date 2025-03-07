@@ -91,3 +91,11 @@ class PlanDocumentResource(PlanBaseResource, DocumentResourceMixin):
     )
     def patch(self):
         return super().patch()
+
+    @json_view(
+        content_type="application/json",
+        validators=(validate_item_owner("plan")),
+        permission="upload_plan_documents",
+    )
+    def delete(self):
+        return super().delete()

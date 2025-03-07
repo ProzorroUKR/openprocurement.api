@@ -180,6 +180,22 @@ class DocumentResourceMixin:
                 )
                 return {"data": self.serializer_class(updated_document).data}
 
+    def delete(self):
+        document = self.request.validated["document"]
+
+        item = self.request.validated[self.item_name]
+        self.state.validate_document_delete(item, self.item_name)
+        item[self.container] = [doc for doc in item[self.container] if doc["id"] != document["id"]]
+        if not item[self.container]:
+            del item[self.container]
+
+        if self.save():
+            self.LOGGER.info(
+                f"Deleted {self.item_name} document {document['id']}",
+                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_document_delete"}),
+            )
+            return {"data": self.serializer_class(document).data}
+
 
 class BaseDocumentResource(DocumentResourceMixin, TenderBaseResource):
     state_class = BaseDocumentState

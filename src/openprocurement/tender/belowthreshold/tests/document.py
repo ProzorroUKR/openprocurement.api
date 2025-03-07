@@ -11,6 +11,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
     create_tender_document_json,
     create_tender_document_json_bulk,
     create_tender_document_json_invalid,
+    delete_tender_document,
     lot_patch_tender_document_json_items_none,
     lot_patch_tender_document_json_lots_none,
     not_found,
@@ -33,6 +34,7 @@ class TenderDocumentResourceTestMixin:
     test_put_tender_document_json = snitch(put_tender_document_json)
     test_tender_notice_documents = snitch(tender_notice_documents)
     test_tender_confidential_documents = snitch(tender_confidential_documents)
+    test_delete_tender_document = snitch(delete_tender_document)
 
 
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):

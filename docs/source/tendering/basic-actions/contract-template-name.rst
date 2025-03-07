@@ -86,7 +86,7 @@ You can delete contract template:
 .. http:example:: ./http/contract-template-name/delete-contract-template-name.http
    :code:
 
-If you try to set or cnage value in invalid tender status you'll get error:
+If you try to set or change value in invalid tender status you'll get error:
 
 .. http:example:: ./http/contract-template-name/set-contract-template-in-incorrect-statuese.http
    :code:
