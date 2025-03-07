@@ -2703,3 +2703,108 @@ def validate_restricted_from_agreement(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get(f"/tenders/{tender_id}")
     self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"], "Приховано")
+
+
+def validate_procuring_entity_match(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+
+    config = deepcopy(self.initial_config)
+    config.update({"hasPreSelectionAgreement": True})
+
+    # Successful tender creation for equal procuring entities
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": data,
+            "config": config,
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    # Failed tender creation for different procuring entities (both are not defense)
+    data["procuringEntity"]["identifier"]["id"] = "1234567890"
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "agreement",
+                "description": "tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)",
+            }
+        ],
+    )
+
+    # Failed tender creation for different procuring entities (tender one is defense)
+    data["procuringEntity"]["identifier"]["id"] = "1234567890"
+    data["procuringEntity"]["kind"] = "defense"
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "agreement",
+                "description": "tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)",
+            }
+        ],
+    )
+
+    # Failed tender creation for different procuring entities (agreement one is defense)
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["procuringEntity"]["kind"] = "other"
+    self.mongodb.agreements.save(agreement)
+    data["procuringEntity"]["identifier"]["id"] = "1234567890"
+    data["procuringEntity"]["kind"] = "defense"
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "agreement",
+                "description": "tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)",
+            }
+        ],
+    )
+
+    # Failed tender creation for different procuring entities (both are defense)
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["procuringEntity"]["kind"] = "defense"
+    self.mongodb.agreements.save(agreement)
+    data["procuringEntity"]["identifier"]["id"] = "1234567890"
+    data["procuringEntity"]["kind"] = "defense"
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": data,
+            "config": config,
+        },
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.status, "201 Created")
