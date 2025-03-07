@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-07 13:14+0200\n"
+"POT-Creation-Date: 2025-08-07 16:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -58,10 +58,13 @@ msgstr ""
 msgid "`qualificationPeriod.endDate` - кінцеву дату періоду розгляду заявок"
 msgstr ""
 
-msgid "`reason` - підставу (обґрунтування) подовження/зменшення терміну дії відбору"
+msgid "`cause` - підставу (обґрунтування) подовження/зменшення терміну дії відбору"
 msgstr ""
 
-msgid "`documents` - накласти ЕЦП на зміни"
+msgid "`causeDescription` - опис обґрунтування подовження/зменшення терміну дії відбору"
+msgstr ""
+
+msgid "`documents` - накладання ЕЦП на зміни"
 msgstr ""
 
 msgid "Підстави для зміни терміну дії відборів:"
@@ -86,5 +89,95 @@ msgid "Правильний запит на зміну терміну дії в�
 msgstr ""
 
 msgid "Подивимося тепер як виглядає відбір, в нього з'явився новий об'єкт `periodChangeHistory`, який відображає історію всіх змін терміну дії відборів:"
+msgstr ""
+
+msgid "Валідації для закупівель"
+msgstr ""
+
+msgid "Список помилок пов’язаних з угодою, які можуть виникати при створенні тендеру:"
+msgstr ""
+
+msgid "Agreement not found in agreements"
+msgstr ""
+
+msgid "tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"
+msgstr ""
+
+msgid "Agreement with/without items is not allowed"
+msgstr ""
+
+msgid "Список помилок пов’язаних з угодою, які можуть виникати при активації тендеру:"
+msgstr ""
+
+msgid "Agreement status is not active"
+msgstr ""
+
+msgid "Agreement has less than 3 active contracts"
+msgstr ""
+
+msgid "При подачі пропозиції у вже оголошені тендери:"
+msgstr ""
+
+msgid "Bid is not a member of agreement (should be active contract with the same supplier)"
+msgstr ""
+
+msgid "Bid value.amount can't be greater than contact value.amount."
+msgstr ""
+
+msgid "Can't post inconsistent bid (check parameters values in contract and bid)"
+msgstr ""
+
+msgid "Зміна статусу `agreement.contracts`"
+msgstr ""
+
+msgid "Зміна статусів агріменту, контракту та майлстоунів (як працює зараз):"
+msgstr ""
+
+msgid "Хронографом: коли закінчується `agreement.period.endDate`:"
+msgstr ""
+
+msgid "`agreement` переходить в статус `terminated`"
+msgstr ""
+
+msgid "`active` contracts переходять в статус `terminated`"
+msgstr ""
+
+msgid "всі `scheduled` `contract.milestones` змінюють статус на:"
+msgstr ""
+
+msgid "met, якщо є dueDate і dueDate <= now"
+msgstr ""
+
+msgid "notMet, якщо немає dueDate або dueDate > now"
+msgstr ""
+
+msgid "Замовником вручну: при PATCH зміні статусу `contract.milestone` на `met`:"
+msgstr ""
+
+msgid "`contract` переходить в статус `terminated`"
+msgstr ""
+
+msgid "всі інші `scheduled` `contract.milestones` змінюють статус на `notMet`"
+msgstr ""
+
+msgid "Хронографом: коли закінчується `dueDate` у `scheduled` `milestone[\"type\"] == \"ban\"` але ще не закінчується `agreement.period.endDate`:"
+msgstr ""
+
+msgid "`suspended` `contracts` переходять в статус `active`, `milestone → met`"
+msgstr ""
+
+msgid "Замовником вручну: при POST `milestone` з типом `ban`"
+msgstr ""
+
+msgid "`contract` переходить в статус `suspended`"
+msgstr ""
+
+msgid "Буде змінено пункт 1 і 2."
+msgstr ""
+
+msgid "Зміна статусів агріменту та майлстоунів, яка очікується:"
+msgstr ""
+
+msgid "Зміну статусу контракту залишиться тільки при умові пункту 3 і 4 (тобто при додаванні бану і закінченню терміна бану)."
 msgstr ""
 
