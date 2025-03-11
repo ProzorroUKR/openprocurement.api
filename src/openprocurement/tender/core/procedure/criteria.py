@@ -2,6 +2,7 @@ from collections import Counter
 
 from openprocurement.api.constants_env import NEW_REQUIREMENTS_RULES_FROM
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import (
     get_tender_category,
     get_tender_profile,
@@ -183,12 +184,21 @@ class TenderCriterionMixin:
                                                 f"Field '{field}' for '{market_req['title']}' should have the same values in tender and market requirement",
                                                 status=422,
                                             )
-                                    elif market_req.get(field) != tender_req.get(field):
-                                        raise_operation_error(
-                                            self.request,
-                                            f"Field '{field}' for '{market_req['title']}' should be equal in tender and market requirement",
-                                            status=422,
-                                        )
+                                    else:
+                                        market_field = market_req.get(field)
+                                        # there are different types in DB for number in market and CBD (float/decimal)
+                                        if (
+                                            market_req.get("dataType") == "number"
+                                            and field in ("expectedValue", "minValue", "maxValue")
+                                            and market_field is not None
+                                        ):
+                                            market_field = to_decimal(market_req[field])
+                                        if market_field != tender_req.get(field):
+                                            raise_operation_error(
+                                                self.request,
+                                                f"Field '{field}' for '{market_req['title']}' should be equal in tender and market requirement",
+                                                status=422,
+                                            )
                                 if not requirements_from_profile and (
                                     expected_values := market_req.get("expectedValues")
                                 ):
