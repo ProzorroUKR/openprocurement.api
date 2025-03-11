@@ -30,7 +30,9 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.api.procedure.utils import to_decimal
-from openprocurement.api.procedure.validation import validate_classifications_prefixes
+from openprocurement.api.procedure.validation import (
+    validate_items_classifications_prefixes,
+)
 from openprocurement.api.utils import (
     get_first_revision_date,
     get_tender_category,
@@ -1037,7 +1039,7 @@ class BaseTenderDetailsMixing:
         if not classifications:
             return
 
-        validate_classifications_prefixes(classifications)
+        validate_items_classifications_prefixes(classifications)
 
         if not self.should_validate_pre_selection_agreement:
             return
@@ -1052,7 +1054,7 @@ class BaseTenderDetailsMixing:
         if not agreement:
             return
 
-        validate_classifications_prefixes(
+        validate_items_classifications_prefixes(
             classifications,
             root_classification=agreement["classification"],
             root_name="agreement",

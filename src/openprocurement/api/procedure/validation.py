@@ -414,8 +414,8 @@ def validate_restricted_object_action(request, obj_name, obj):
     )
 
 
-def validate_classifications_prefixes(
-    classifications,
+def validate_items_classifications_prefixes(
+    items_classifications,
     root_classification=None,
     root_name="root",
 ):
@@ -429,14 +429,21 @@ def validate_classifications_prefixes(
        - the actual prefixes to compare are 1234, 1234, 1234 (validation error will not be raised)
     """
     if root_classification:
-        classifications.append(root_classification)
-        prefix_length = get_cpv_prefix_length([root_classification])
+        root_classifications = [root_classification]
+        classifications = items_classifications + root_classifications
+        prefix_length = get_cpv_prefix_length(root_classifications)
+        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
+        items_prefixes = get_cpv_uniq_prefixes(items_classifications, prefix_length)
+        items_prefixes_str = ", ".join(sorted(list(items_prefixes)))
+        root_prefix = root_classification["id"][:prefix_length]
+        error_message = f"CPV {prefix_name} of items ({items_prefixes_str}) should be identical to {root_name} CPV {prefix_name} ({root_prefix})"
     else:
+        classifications = items_classifications
         prefix_length = get_cpv_prefix_length(classifications)
-    prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
-    error_message = f"CPV {prefix_name} of items should be identical"
-    if root_classification:
-        error_message += f" to {root_name} CPV {prefix_name}"
+        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
+        items_prefixes = get_cpv_uniq_prefixes(items_classifications, prefix_length)
+        items_prefixes_str = ", ".join(sorted(list(items_prefixes)))
+        error_message = f"CPV {prefix_name} of items ({items_prefixes_str}) should be identical"
     if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
         raise_operation_error(
             get_request(),

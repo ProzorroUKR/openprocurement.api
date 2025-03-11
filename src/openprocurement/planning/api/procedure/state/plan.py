@@ -10,7 +10,9 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.procedure.validation import validate_classifications_prefixes
+from openprocurement.api.procedure.validation import (
+    validate_items_classifications_prefixes,
+)
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.planning.api.constants import (
     BREAKDOWN_OTHER,
@@ -315,7 +317,7 @@ class PlanState(BaseState):
             if item.get("classification")  # item.classification may be empty in pricequotation
         ]
         if classifications:
-            validate_classifications_prefixes(
+            validate_items_classifications_prefixes(
                 classifications,
                 root_classification=plan["classification"],
                 root_name="plan",
@@ -345,8 +347,8 @@ class PlanState(BaseState):
         classifications = [item["classification"] for item in plan.get("items", [])]
         if not classifications:
             return
-        validate_classifications_prefixes(classifications)
-        validate_classifications_prefixes(
+        validate_items_classifications_prefixes(classifications)
+        validate_items_classifications_prefixes(
             classifications,
             root_classification=plan["classification"],
         )

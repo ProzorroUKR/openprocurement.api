@@ -5,7 +5,9 @@ from logging import getLogger
 from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
-from openprocurement.api.procedure.validation import validate_classifications_prefixes
+from openprocurement.api.procedure.validation import (
+    validate_items_classifications_prefixes,
+)
 from openprocurement.api.utils import context_unpack, raise_operation_error
 from openprocurement.framework.core.constants import (
     ENQUIRY_PERIOD_DURATION,
@@ -272,8 +274,8 @@ class FrameworkState(FrameworkConfigMixin, ChronographEventsMixing, BaseState):
         classifications = [item["classification"] for item in framework.get("items", "")]
         if not classifications:
             return
-        validate_classifications_prefixes(classifications)
-        validate_classifications_prefixes(
+        validate_items_classifications_prefixes(classifications)
+        validate_items_classifications_prefixes(
             classifications,
             root_classification=framework["classification"],
             root_name="framework",

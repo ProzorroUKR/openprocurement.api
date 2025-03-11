@@ -587,7 +587,7 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["CPV group of items should be identical"],
+                "description": ["CPV group of items (315, 336) should be identical"],
                 "location": "body",
                 "name": "items",
             }
@@ -610,7 +610,7 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["CPV group of items should be identical to root CPV group"],
+                "description": ["CPV group of items (315) should be identical to root CPV group (336)"],
                 "location": "body",
                 "name": "items",
             }
@@ -633,7 +633,7 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["CPV class of items should be identical"],
+                "description": ["CPV class of items (0322, 3151) should be identical"],
                 "location": "body",
                 "name": "items",
             }
@@ -656,7 +656,7 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["CPV class of items should be identical to root CPV class"],
+                "description": ["CPV class of items (0322) should be identical to root CPV class (3151)"],
                 "location": "body",
                 "name": "items",
             }

@@ -275,7 +275,7 @@ def test_fail_classification_id(app):
             {
                 "location": "body",
                 "name": "items",
-                "description": ["CPV class of items should be identical to plan CPV class"],
+                "description": ["CPV class of items (3371) should be identical to plan CPV class (3370)"],
             }
         ],
     }
@@ -336,7 +336,7 @@ def test_fail_classification_id_336(app):
             {
                 "location": "body",
                 "name": "items",
-                "description": ["CPV group of items should be identical to plan CPV group"],
+                "description": ["CPV group of items (337) should be identical to plan CPV group (336)"],
             }
         ],
     }
