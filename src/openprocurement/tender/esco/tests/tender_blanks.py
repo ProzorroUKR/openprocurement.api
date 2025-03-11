@@ -737,7 +737,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["CPV class of items should be identical"], "location": "body", "name": "items"}],
+        [{"description": ["CPV class of items (1921, 4461) should be identical"], "location": "body", "name": "items"}],
     )
 
     new_item = deepcopy(self.initial_data["items"][0])
@@ -750,7 +750,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["CPV class of items should be identical"], "location": "body", "name": "items"}],
+        [{"description": ["CPV class of items (4461, 4462) should be identical"], "location": "body", "name": "items"}],
     )
     self.initial_data["items"].pop()
 

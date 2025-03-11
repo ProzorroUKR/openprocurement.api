@@ -10,7 +10,9 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.procedure.validation import validate_classifications_prefixes
+from openprocurement.api.procedure.validation import (
+    validate_items_classifications_prefixes,
+)
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.planning.api.constants import (
     BREAKDOWN_OTHER,
@@ -305,22 +307,21 @@ class PlanState(BaseState):
                 ),
             )
 
-        classification_id = plan["classification"]["id"]
-        pattern = classification_id[:3] if classification_id.startswith("336") else classification_id[:4]
-        for i, item in enumerate(tender.get("items", "")):
-            # item.classification may be empty in pricequotaiton
-            if item.get("classification") and item["classification"]["id"][: len(pattern)] != pattern:
-                request.errors.add(
-                    "body",
-                    "items[{}].classification.id".format(i),
-                    "Plan classification.id {} and item's {} should be of the same group {}".format(
-                        classification_id, item["classification"]["id"], pattern
-                    ),
-                )
-
         if request.errors:
             request.errors.status = 422
             raise error_handler(request)
+
+        classifications = [
+            item["classification"]
+            for item in tender.get("items", "")
+            if item.get("classification")  # item.classification may be empty in pricequotation
+        ]
+        if classifications:
+            validate_items_classifications_prefixes(
+                classifications,
+                root_classification=plan["classification"],
+                root_name="plan",
+            )
 
     def _validate_plan_budget_breakdown(self, plan):
         budget = plan.get("budget")
@@ -346,8 +347,8 @@ class PlanState(BaseState):
         classifications = [item["classification"] for item in plan.get("items", [])]
         if not classifications:
             return
-        validate_classifications_prefixes(classifications)
-        validate_classifications_prefixes(
+        validate_items_classifications_prefixes(classifications)
+        validate_items_classifications_prefixes(
             classifications,
             root_classification=plan["classification"],
         )
