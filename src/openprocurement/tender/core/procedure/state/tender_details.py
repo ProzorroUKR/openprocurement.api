@@ -8,6 +8,7 @@ from schematics.types import BaseType
 
 from openprocurement.api.constants import (
     CONTRACT_TEMPLATES_KEYS,
+    CPV_GROUP_PREFIX_LENGTH,
     CPV_PREFIX_LENGTH_TO_NAME,
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
     MINIMAL_STEP_VALIDATION_PRESCISSION,
@@ -1119,13 +1120,12 @@ class BaseTenderDetailsMixing:
     @classmethod
     def validate_items_classification_prefix_unchanged(cls, before, after):
         prefix_list = set()
-        prefix_length = 3  # group
         for item in before.get("items", ""):
-            prefix_list.add(item["classification"]["id"][:prefix_length])
+            prefix_list.add(item["classification"]["id"][:CPV_GROUP_PREFIX_LENGTH])
         for item in after.get("items", ""):
-            prefix_list.add(item["classification"]["id"][:prefix_length])
+            prefix_list.add(item["classification"]["id"][:CPV_GROUP_PREFIX_LENGTH])
         if len(prefix_list) != 1:
-            prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
+            prefix_name = CPV_PREFIX_LENGTH_TO_NAME[CPV_GROUP_PREFIX_LENGTH]
             raise_operation_error(
                 get_request(),
                 [f"Can't change classification {prefix_name} of items"],
