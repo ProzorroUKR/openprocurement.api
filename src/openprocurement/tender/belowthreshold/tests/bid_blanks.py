@@ -9,6 +9,7 @@ from openprocurement.tender.core.tests.utils import (
     generate_req_response,
     set_bid_items,
     set_bid_lotvalues,
+    set_bid_responses,
 )
 
 # TenderBidResourceTest
@@ -2681,19 +2682,13 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
     self.assertEqual(response.content_type, "application/json")
     criteria = response.json["data"]
 
-    rrs = []
+    criteria_ids = []
     for criterion in criteria[:-1]:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] in ("tenderer", "winner"):
-                rrs.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
-                        },
-                        "value": True,
-                    },
-                )
-    rrs = rrs[1:]
+        if criterion["id"] not in criteria_ids:
+            criteria_ids.append(criterion["id"])
+
+    rrs = set_bid_responses(criteria[:-1])
+    rrs = rrs[1:]  # Already added in setUp
 
     if not hasattr(self, "tender_auth"):
         self.tender_auth = self.app.authorization

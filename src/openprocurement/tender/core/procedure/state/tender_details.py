@@ -866,6 +866,10 @@ class BaseTenderDetailsMixing:
         for criterion_id, criterion_rules in rules.items():
             if "required" in criterion_rules["rules"]:
                 required_criteria.add(criterion_id)
+            if "required_services" in criterion_rules["rules"] and mpc == MainProcurementCategory.SERVICES:
+                required_criteria.add(criterion_id)
+            if "required_works" in criterion_rules["rules"] and mpc == MainProcurementCategory.WORKS:
+                required_criteria.add(criterion_id)
             if "required_article_16" in criterion_rules["rules"] and mpc in (
                 MainProcurementCategory.WORKS,
                 MainProcurementCategory.SERVICES,
@@ -895,7 +899,7 @@ class BaseTenderDetailsMixing:
         if required_article_16_criteria and not tender_criteria.intersection(required_article_16_criteria):
             raise_operation_error(
                 get_request(),
-                f"Tender must contain one of ARTICLE_16 criteria: {', '.join(sorted(required_article_16_criteria))}",
+                f"Tender must contain one of article 16 criteria: {', '.join(sorted(required_article_16_criteria))}",
             )
 
         # TODO: Move to criteria rules standard

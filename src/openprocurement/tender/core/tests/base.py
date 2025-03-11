@@ -56,24 +56,28 @@ def get_criteria_by_ids_prefix(criteria, prefix):
 test_criteria_other = standards.load("criteria/other.json")
 test_criteria_article_16 = standards.load("criteria/article_16.json")
 test_criteria_article_17 = standards.load("criteria/article_17.json")
+
 test_criteria_decree_1178 = standards.load("criteria/decree_1178.json")
 test_criteria_lcc = standards.load("criteria/LCC.json")
 
 test_criteria_all = []
 test_criteria_all.extend(test_criteria_other)
-test_criteria_all.extend(test_criteria_article_16)
 test_criteria_all.extend(test_criteria_article_17)
 
 test_other_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERION.OTHER")
 test_exclusion_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERION.EXCLUSION")
+test_selection_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERION.SELECTION")
+
 test_language_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.BID.LANGUAGE")
 test_tender_guarantee_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.BID.GUARANTEE")
 test_contract_guarantee_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.CONTRACT.GUARANTEE")
-test_article_16_criteria = test_criteria_article_16
-test_lcc_criteria = test_criteria_lcc
+
 test_technical_feature_criteria = get_criteria_by_ids_prefix(
     test_criteria_all, "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
 )
+
+test_article_16_criteria = test_criteria_article_16
+test_lcc_criteria = test_criteria_lcc
 
 test_main_criteria = []
 test_main_criteria.extend(
@@ -85,7 +89,8 @@ test_main_criteria.extend(
         and criterion not in test_technical_feature_criteria
     ]
 )
-test_main_criteria.extend(test_criteria_article_17)
+test_main_criteria.extend(test_exclusion_criteria)
+test_main_criteria.extend(test_selection_criteria)
 
 test_default_criteria = []
 test_default_criteria.extend(test_main_criteria)

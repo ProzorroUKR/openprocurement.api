@@ -23,10 +23,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
     test_contract_guarantee_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
+    test_default_criteria,
     test_tender_guarantee_criteria,
 )
 from openprocurement.tender.core.tests.cancellation import (
@@ -2394,12 +2392,8 @@ def guarantee(self):
             test_tender_guarantee_criteria_modified = deepcopy(test_tender_guarantee_criteria)
             # FIXME: hack, should be lot criteria, rewrite for lot
             test_tender_guarantee_criteria_modified[0]["relatesTo"] = "tender"
-            criteria = (
-                test_exclusion_criteria
-                + test_language_criteria
-                + test_tender_guarantee_criteria_modified
-                + test_article_16_criteria[:1]
-            )
+            criteria = []
+            criteria.extend(test_default_criteria)
             set_tender_criteria(criteria, tender["lots"], tender["items"])
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(tender["id"], token),
@@ -3221,7 +3215,7 @@ def patch_item_with_zero_quantity(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["items"][0]["quantity"], 5)
-    criteria = deepcopy(test_exclusion_criteria)
+    criteria = deepcopy(test_default_criteria)
     criteria[0]["relatesTo"] = "item"
     criteria[0]["relatedItem"] = item["id"]
     set_tender_criteria(criteria, tender["lots"], tender["items"])
@@ -3357,20 +3351,20 @@ def tender_with_guarantee_multilot(self):
     set_tender_lots(data, lots)
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    tender = response.json["data"]
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
 
     related_lot_id = response.json["data"]["lots"][0]["id"]
 
     criteria = []
-    criteria.extend(test_exclusion_criteria)
-    criteria.extend(test_language_criteria)
+    criteria.extend(test_default_criteria)
     criteria.extend(test_tender_guarantee_criteria)
-    criteria.extend(test_article_16_criteria[:1])
-    set_tender_criteria(criteria, data["lots"], data["items"])
+    set_tender_criteria(criteria, tender["lots"], tender["items"])
 
     for criterion in criteria:
         if criterion["classification"]["id"] == "CRITERION.OTHER.BID.GUARANTEE":
+            criterion["relatesTo"] = "lot"
             criterion["relatedItem"] = related_lot_id
 
     self.app.post_json(
@@ -3427,25 +3421,27 @@ def activate_bid_guarantee_multilot(self):
     set_tender_lots(data, lots)
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    tender = response.json["data"]
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
     lots = response.json["data"]["lots"]
 
-    tender_lot_guarantee_criteria = deepcopy(test_tender_guarantee_criteria)
-    tender_lot_guarantee_criteria[0]["relatesTo"] = "lot"
-    tender_lot_guarantee_criteria[0]["relatedItem"] = response.json["data"]["lots"][1]["id"]
+    related_lot_id = response.json["data"]["lots"][1]["id"]
 
-    contract_lot_guarantee_criteria = deepcopy(test_contract_guarantee_criteria)
-    contract_lot_guarantee_criteria[0]["relatesTo"] = "lot"
-    contract_lot_guarantee_criteria[0]["relatedItem"] = response.json["data"]["lots"][1]["id"]
-    criteria = (
-        test_exclusion_criteria
-        + test_language_criteria
-        + tender_lot_guarantee_criteria
-        + contract_lot_guarantee_criteria
-        + test_article_16_criteria[:1]
-    )
-    set_tender_criteria(criteria, data["lots"], data["items"])
+    criteria = []
+    criteria.extend(test_default_criteria)
+    criteria.extend(test_tender_guarantee_criteria)
+    criteria.extend(test_contract_guarantee_criteria)
+    set_tender_criteria(criteria, tender["lots"], tender["items"])
+
+    for criterion in criteria:
+        if criterion["classification"]["id"] == "CRITERION.OTHER.BID.GUARANTEE":
+            criterion["relatesTo"] = "lot"
+            criterion["relatedItem"] = related_lot_id
+        if criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
+            criterion["relatesTo"] = "lot"
+            criterion["relatedItem"] = related_lot_id
+
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {
@@ -4171,7 +4167,31 @@ def contract_template_name_set(self):
             if doc.get("documentType") == "contractProforma":
                 tender["documents"].remove(doc)
 
+        # Clean criteria
+        tender.pop("criteria", None)
+
         self.mongodb.tenders.save(tender)
+
+        criteria_status_map = {
+            "closeFrameworkAgreementSelectionUA": ("draft", "active.enquiries"),
+            "requestForProposal": ("draft", "active.enquiries"),
+            "belowThreshold": ("draft", "active.enquiries"),
+            "negotiation": [],
+            "negotiation.quick": [],
+            "aboveThresholdUA.defense": [],
+        }
+        default_criteria_statuses = ("draft", "active.tendering")
+        criteria_statuses = criteria_status_map.get(pmt, default_criteria_statuses)
+
+        if criteria_statuses and tender["status"] in criteria_statuses:
+            criteria = []
+            criteria.extend(test_default_criteria)
+            set_tender_criteria(criteria, tender.get("lots", []), tender.get("items", []))
+            self.app.post_json(
+                f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+                {"data": criteria},
+                status=201,
+            )
 
     def test_no_template(classification_ids):
         # Disallowed set contractTemplateName for classification that has 0 templates
@@ -4330,6 +4350,7 @@ def contract_template_name_set(self):
 
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
+    pmt = data["procurementMethodType"]
 
     status_map = {
         "closeFrameworkAgreementSelectionUA": ("draft", "active.enquiries", "active.tendering"),
@@ -4340,25 +4361,11 @@ def contract_template_name_set(self):
         "priceQuotation": ("draft",),
     }
     default_statuses = ("draft", "active.tendering")
-
-    pmt = data["procurementMethodType"]
     statuses = status_map.get(pmt, default_statuses)
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
-
-    if pmt not in ("negotiation", "negotiation.quick", "aboveThresholdUA.defense"):
-        criteria = []
-        criteria.extend(test_exclusion_criteria)
-        criteria.extend(test_language_criteria)
-        criteria.extend(test_article_16_criteria[:1])
-        set_tender_criteria(criteria, self.tender_id, self.tender_token)
-        self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria},
-            status=201,
-        )
 
     required_for_pmts = (
         "priceQuotation",
