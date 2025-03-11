@@ -269,14 +269,12 @@ def test_fail_classification_id(app):
         "id": "33711120-4",
     }
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=422)
-    error_data = response.json["errors"]
-    assert len(error_data) > 0
-    error = error_data[0]
-    assert error["name"] == "items[0].classification.id"
-    assert (
-        error["description"] == "Plan classification.id 33700000-7 and item's 33711120-4 "
-        "should be of the same group 3370"
-    )
+    assert response.json == {
+        "status": "error",
+        "errors": [
+            {"location": "body", "name": "items", "description": ["CPV class of items should be identical to plan cpv"]}
+        ],
+    }
 
 
 def test_success_classification_id_336(app):
@@ -328,14 +326,12 @@ def test_fail_classification_id_336(app):
         {"data": request_tender_data, "config": request_tender_config},
         status=422,
     )
-    error_data = response.json["errors"]
-    assert len(error_data) > 0
-    error = error_data[0]
-    assert error["name"] == "items[0].classification.id"
-    assert (
-        error["description"] == "Plan classification.id 33600000-6 and item's 33711420-7 "
-        "should be of the same group 336"
-    )
+    assert response.json == {
+        "status": "error",
+        "errors": [
+            {"location": "body", "name": "items", "description": ["CPV group of items should be identical to plan cpv"]}
+        ],
+    }
 
 
 def create_plan_for_tender(app, tender_data, plan_data):

@@ -3,7 +3,11 @@ from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import BaseType, FloatType, MD5Type, StringType
 
-from openprocurement.api.constants import CPV_PHARM_PRODUCTS, INN_SCHEME
+from openprocurement.api.constants import (
+    CPV_PHARM_PREFIX,
+    CPV_PHARM_PRODUCTS,
+    INN_SCHEME,
+)
 from openprocurement.api.constants_env import (
     MULTI_CONTRACTS_REQUIRED_FROM,
     UNIT_PRICE_REQUIRED_FROM,
@@ -91,11 +95,11 @@ def validate_classification_id(items, *args):
                 "Item with classification.id={} have to contain exactly one additionalClassifications "
                 "with scheme={}".format(CPV_PHARM_PRODUCTS, INN_SCHEME)
             )
-        if item.classification.id.startswith(CPV_PHARM_PRODUCTS[:3]) and schemes_inn_count > 1:
+        if item.classification.id.startswith(CPV_PHARM_PREFIX) and schemes_inn_count > 1:
             raise ValidationError(
                 "Item with classification.id that starts with {} and contains additionalClassification "
                 "objects have to contain no more than one additionalClassifications "
-                "with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME)
+                "with scheme={}".format(CPV_PHARM_PREFIX, INN_SCHEME)
             )
 
 

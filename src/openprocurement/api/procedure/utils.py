@@ -9,7 +9,11 @@ from ciso8601 import parse_datetime
 from jsonpatch import apply_patch, make_patch
 
 from openprocurement.api.auth import extract_access_token
-from openprocurement.api.constants import CPV_PHARM_PRODUCTS
+from openprocurement.api.constants import (
+    CPV_DEFAULT_PREFIX_LENGTH,
+    CPV_PHARM_PREFIX,
+    CPV_PHARM_PREFIX_LENGTH,
+)
 from openprocurement.api.context import get_now
 
 LOGGER = getLogger(__name__)
@@ -149,17 +153,16 @@ def set_item(parent, key, uid, value):
         raise AssertionError(f"Item with id {uid} unexpectedly not found")
 
 
-def get_cpv_prefix_length(classifications, default=4):
+def get_cpv_prefix_length(classifications):
     """
     For pharm products we should use 3 digits prefix
     and usually 4 digits prefix for other products
     """
-    DEFAULT_PREFIX_LENGTH = 4
-    CPV_PHARM_PREFIX_LENGTH = 3
-    CPV_PHARM_PREFIX = CPV_PHARM_PRODUCTS[:CPV_PHARM_PREFIX_LENGTH]
-    if any(classification["id"][:CPV_PHARM_PREFIX_LENGTH] == CPV_PHARM_PREFIX for classification in classifications):
-        return CPV_PHARM_PREFIX_LENGTH
-    return DEFAULT_PREFIX_LENGTH
+    for classification in classifications:
+        if classification["id"].startswith(CPV_PHARM_PREFIX):
+            return CPV_PHARM_PREFIX_LENGTH
+
+    return CPV_DEFAULT_PREFIX_LENGTH
 
 
 def get_cpv_uniq_prefixes(classifications, prefix_length):
