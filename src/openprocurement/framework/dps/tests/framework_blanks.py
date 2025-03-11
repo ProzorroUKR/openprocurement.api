@@ -798,7 +798,7 @@ def create_framework_items(self):
             {
                 "location": "body",
                 "name": "items",
-                "description": ["CPV group of items should be identical to framework cpv"],
+                "description": ["CPV class of items should be identical to framework CPV class"],
             }
         ],
     )

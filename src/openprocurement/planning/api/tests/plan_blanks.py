@@ -610,7 +610,7 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["CPV group of items should be identical to root cpv"],
+                "description": ["CPV group of items should be identical to root CPV group"],
                 "location": "body",
                 "name": "items",
             }
@@ -656,7 +656,7 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["CPV class of items should be identical to root cpv"],
+                "description": ["CPV class of items should be identical to root CPV class"],
                 "location": "body",
                 "name": "items",
             }

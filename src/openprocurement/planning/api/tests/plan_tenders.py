@@ -272,7 +272,11 @@ def test_fail_classification_id(app):
     assert response.json == {
         "status": "error",
         "errors": [
-            {"location": "body", "name": "items", "description": ["CPV class of items should be identical to plan cpv"]}
+            {
+                "location": "body",
+                "name": "items",
+                "description": ["CPV class of items should be identical to plan CPV class"],
+            }
         ],
     }
 
@@ -329,7 +333,11 @@ def test_fail_classification_id_336(app):
     assert response.json == {
         "status": "error",
         "errors": [
-            {"location": "body", "name": "items", "description": ["CPV group of items should be identical to plan cpv"]}
+            {
+                "location": "body",
+                "name": "items",
+                "description": ["CPV group of items should be identical to plan CPV group"],
+            }
         ],
     }
 

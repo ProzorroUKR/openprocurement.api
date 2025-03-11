@@ -430,11 +430,13 @@ def validate_classifications_prefixes(
     """
     if root_classification:
         classifications.append(root_classification)
-    prefix_length = get_cpv_prefix_length(classifications)
+        prefix_length = get_cpv_prefix_length([root_classification])
+    else:
+        prefix_length = get_cpv_prefix_length(classifications)
     prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
     error_message = f"CPV {prefix_name} of items should be identical"
     if root_classification:
-        error_message += f" to {root_name} cpv"
+        error_message += f" to {root_name} CPV {prefix_name}"
     if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
         raise_operation_error(
             get_request(),
