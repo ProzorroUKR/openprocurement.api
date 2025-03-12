@@ -57,7 +57,7 @@ from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
-    get_contract_template_names_for_classification_id,
+    get_contract_template_names_for_classification_ids,
     set_mode_test_titles,
     tender_created_after,
     validate_field,
@@ -1297,26 +1297,33 @@ class BaseTenderDetailsMixing:
                 name="contractTemplateName",
             )
 
-        EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES = ("0931",)
+        # Get resulting tender status
+        tender_status = before.get("status", "draft")
 
+        # Find if contractTemplateName is changed
         contract_template_name_before = before.get("contractTemplateName")
         contract_template_name = after.get("contractTemplateName")
+        contract_template_name_changed = contract_template_name != contract_template_name_before
 
-        if (
-            contract_template_name != contract_template_name_before
-            and before.get("status", "draft") not in self.contract_template_name_patch_statuses
-        ):
+        # Check if contractTemplateName is allowed to be changed
+        if contract_template_name_changed and not self.contract_template_name_patch_statuses:
             raise_contract_template_name_error("Rogue field")
 
-        items = after.get("items")
-        classification_id = items[0].get("classification", {}).get("id") if items else None
-        tender_documents = after.get("documents", "")
+        # Check if contractTemplateName is allowed to be changed in current tender status
+        if contract_template_name_changed and tender_status not in self.contract_template_name_patch_statuses:
+            raise_contract_template_name_error(
+                f"Can't change contract template name in current tender '{tender_status}' status"
+            )
 
+        # Get all classification IDs from items
+        classification_ids = set()
+        for item in after.get("items", []):
+            if item.get("classification") and item["classification"].get("id"):
+                classification_ids.add(item["classification"]["id"])
+
+        # Find if contractProforma is present
+        tender_documents = after.get("documents", "")
         has_contract_proforma = any(i.get("documentType", "") == "contractProforma" for i in tender_documents)
-        is_excluded_classification = classification_id and any(
-            classification_id.startswith(excluded_prefix)
-            for excluded_prefix in EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES
-        )
 
         # Check if both contractTemplateName and contractProforma are present simultaneously
         if has_contract_proforma and contract_template_name:
@@ -1335,22 +1342,28 @@ class BaseTenderDetailsMixing:
         if not contract_template_name:
             return
 
+        # Check if classifications is missing
+        if not classification_ids:
+            raise_contract_template_name_error("Can't set contractTemplateName for tender without classification")
+
+        # Get expected template names for the classifications
+        expected_template_names = get_contract_template_names_for_classification_ids(
+            classification_ids,
+            active_only=contract_template_name_changed,  # if unchanged - allow inactive templates
+        )
+
         # Check if contractTemplateName is forbidden for excluded classifications
-        if is_excluded_classification:
+        if not expected_template_names:
             raise_contract_template_name_error(
-                f"contractTemplateName is not allowed for this classification: {classification_id}"
+                f"contractTemplateName is not allowed for current classifications {', '.join(sorted(classification_ids))}"
             )
 
-        # Check if classification is missing
-        if not classification_id:
-            raise_contract_template_name_error("Rogue field")
-
-        # Check if template is correct for the current classification
-        expected_template_names = get_contract_template_names_for_classification_id(classification_id)
+        # Check if contractTemplateName is correct for the current classifications
         if contract_template_name not in expected_template_names:
             raise_contract_template_name_error(
-                f"Incorrect template for current classification {classification_id}, "
-                f"use one of: {', '.join(sorted(expected_template_names))}",
+                f"Incorrect contractTemplateName {contract_template_name} "
+                f"for current classifications {', '.join(sorted(classification_ids))}, "
+                f"use one of {', '.join(sorted(expected_template_names))}",
             )
 
 

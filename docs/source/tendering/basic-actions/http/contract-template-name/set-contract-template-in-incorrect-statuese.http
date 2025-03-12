@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "contractTemplateName",
-      "description": "Rogue field"
+      "description": "Can't change contract template name in current tender 'active.pre-qualification' status"
     }
   ]
 }

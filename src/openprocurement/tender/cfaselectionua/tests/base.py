@@ -148,8 +148,10 @@ class BaseTenderWebTest(BaseCoreWebTest):
             value = deepcopy(contract["unitPrices"][0]["value"])
             value["amount"] = 0
             for unitPrice in contract["unitPrices"]:
-                quantity = [i for i in items if i["id"] == unitPrice["relatedItem"]][0]["quantity"]
-                value["amount"] += float(unitPrice["value"]["amount"]) * float(quantity)
+                related_items = [i for i in items if i["id"] == unitPrice["relatedItem"]]
+                if related_items:
+                    quantity = related_items[0]["quantity"]
+                    value["amount"] += float(unitPrice["value"]["amount"]) * float(quantity)
             contract["value"] = value
 
     def patch_agreements_by_bot(self, status, start_end="start"):

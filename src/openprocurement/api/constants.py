@@ -213,7 +213,8 @@ MINIMAL_STEP_VALIDATION_LOWER_LIMIT = 0.005
 MINIMAL_STEP_VALIDATION_UPPER_LIMIT = 0.03
 
 # Contract templates
-CONTRACT_TEMPLATES_KEYS = standards.load("templates/contract_templates_keys.json")
+CONTRACT_TEMPLATES = standards.load("templates/contract_templates.json")
+DEFAULT_CONTRACT_TEMPLATE_KEY = "general"
 
 # milestone dictionaries
 MILESTONE_CODES = {

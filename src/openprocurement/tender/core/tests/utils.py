@@ -14,7 +14,7 @@ from openprocurement.tender.core.procedure.utils import (
     extract_tender_doc,
     extract_tender_id,
     generate_tender_id,
-    get_contract_template_names_for_classification_id,
+    get_contract_template_names_for_classification_ids,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -407,8 +407,8 @@ def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
 
 
 def get_contract_template_name(tender=None):
-    classification_id = tender["items"][0]["classification"]["id"]
-    contract_template_names = get_contract_template_names_for_classification_id(classification_id)
+    classification_ids = [item["classification"]["id"] for item in tender["items"]]
+    contract_template_names = get_contract_template_names_for_classification_ids(classification_ids)
 
     if not contract_template_names:
         return
