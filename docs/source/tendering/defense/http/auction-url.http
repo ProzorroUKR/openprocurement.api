@@ -81,14 +81,14 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-11T12:29:40.230000+03:00",
+    "next_check": "2023-10-11T12:04:26.072000+03:00",
     "minimalStep": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amount": 5.0
     },
     "auctionPeriod": {
-      "startDate": "2023-10-11T12:29:40.230000+03:00",
+      "startDate": "2023-10-11T12:04:26.072000+03:00",
       "shouldStartAfter": "2023-10-11T00:00:00+03:00"
     },
     "milestones": [
