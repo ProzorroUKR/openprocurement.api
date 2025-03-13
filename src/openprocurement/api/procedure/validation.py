@@ -5,6 +5,7 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.auth import ACCR_RESTRICTED
 from openprocurement.api.constants import CPV_PREFIX_LENGTH_TO_NAME
 from openprocurement.api.context import get_request
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.utils import (
     apply_data_patch,
     get_cpv_prefix_length,
@@ -285,11 +286,9 @@ def validate_accreditation_level(levels, item, operation, source="tender", kind_
 
         # procuringEntity.kind = central
         if kind_central_levels:
-            pe = request.validated[source].get("procuringEntity")
-            if pe:
-                kind = pe.get("kind")
-                if kind == "central":
-                    validate_accreditation_level_base(request, kind_central_levels, item, operation)
+            kind = request.validated[source].get("procuringEntity", {}).get("kind")
+            if kind == ProcuringEntityKind.CENTRAL:
+                validate_accreditation_level_base(request, kind_central_levels, item, operation)
 
     return validate
 

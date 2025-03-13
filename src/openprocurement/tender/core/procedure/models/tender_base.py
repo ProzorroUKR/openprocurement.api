@@ -1,3 +1,4 @@
+from enum import StrEnum
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
@@ -8,6 +9,7 @@ from schematics.types.serializable import serializable
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import MPC_REQUIRED_FROM
 from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.tender.core.constants import PROCUREMENT_METHODS
 from openprocurement.tender.core.procedure.context import get_request
@@ -44,6 +46,19 @@ from openprocurement.tender.core.procedure.validation import (
 )
 
 
+class MainProcurementCategory(StrEnum):
+    GOODS = "goods"
+    SERVICES = "services"
+    WORKS = "works"
+
+
+MAIN_PROCUREMENT_CATEGORY_CHOICES = [
+    MainProcurementCategory.GOODS.value,
+    MainProcurementCategory.SERVICES.value,
+    MainProcurementCategory.WORKS.value,
+]
+
+
 class PlanRelation(Model):
     id = MD5Type(required=True)
 
@@ -52,8 +67,12 @@ def validate_plans(data, value):
     if value:
         if len({i["id"] for i in value}) < len(value):
             raise ValidationError("The list should not contain duplicates")
-        if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != "central":
-            raise ValidationError("Linking more than one plan is allowed only if procuringEntity.kind is 'central'")
+        if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != ProcuringEntityKind.CENTRAL:
+            raise ValidationError(
+                "Linking more than one plan is allowed only if procuringEntity.kind is '{}'".format(
+                    ProcuringEntityKind.CENTRAL
+                )
+            )
 
 
 def validate_inspector(data, value):
@@ -63,7 +82,7 @@ def validate_inspector(data, value):
 
 
 class CommonBaseTender(Model):
-    mainProcurementCategory = StringType(choices=["goods", "services", "works"])
+    mainProcurementCategory = StringType(choices=MAIN_PROCUREMENT_CATEGORY_CHOICES)
     awardCriteriaDetails = StringType()  # Any detailed or further information on the selection criteria.
     awardCriteriaDetails_en = StringType()
     awardCriteriaDetails_ru = StringType()
@@ -136,7 +155,7 @@ class PostBaseTender(CommonBaseTender):
     plans = ListType(ModelType(PlanRelation, required=True))
 
     def validate_buyers(self, data, value):
-        if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
+        if data.get("procuringEntity", {}).get("kind", "") == ProcuringEntityKind.CENTRAL and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_items(self, data, items):
@@ -193,7 +212,7 @@ class BaseTender(PatchBaseTender):
     transfer_token = StringType()
     title = StringType(required=True)
     mode = StringType(choices=["test"])
-    mainProcurementCategory = StringType(choices=["goods", "services", "works"])
+    mainProcurementCategory = StringType(choices=MAIN_PROCUREMENT_CATEGORY_CHOICES)
     buyers = ListType(ModelType(Buyer, required=True))
     agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
     inspector = ModelType(Organization)

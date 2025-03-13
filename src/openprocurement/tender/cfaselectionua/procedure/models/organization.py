@@ -1,7 +1,7 @@
 from schematics.types import StringType
 
-from openprocurement.api.constants import SCALE_CODES
 from openprocurement.api.procedure.models.address import Address
+from openprocurement.api.procedure.models.organization import ORGANIZATION_SCALE_CHOICES
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
@@ -11,7 +11,7 @@ from openprocurement.tender.cfaselectionua.procedure.models.contact import Conta
 
 
 class BusinessOrganization(BaseOrganization):
-    scale = StringType(choices=SCALE_CODES)
+    scale = StringType(choices=ORGANIZATION_SCALE_CHOICES)
     address = ModelType(Address, required=True)
 
 

@@ -42,6 +42,7 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.document import ConfidentialityTypes
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.utils import is_item_owner, to_decimal
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import (
@@ -1412,9 +1413,10 @@ def validate_forbid_contract_action_after_date(obj_name):
 
 # Plans
 def validate_procurement_kind_is_central(request, **kwargs):
-    kind = "central"
-    if request.validated["tender"]["procuringEntity"]["kind"] != kind:
-        raise raise_operation_error(request, "Only allowed for procurementEntity.kind = '{}'".format(kind))
+    if request.validated["tender"]["procuringEntity"]["kind"] != ProcuringEntityKind.CENTRAL:
+        raise raise_operation_error(
+            request, "Only allowed for procurementEntity.kind = '{}'".format(ProcuringEntityKind.CENTRAL)
+        )
 
 
 def validate_tender_in_draft(request, **kwargs):

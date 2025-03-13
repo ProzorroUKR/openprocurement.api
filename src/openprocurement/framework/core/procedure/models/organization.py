@@ -5,12 +5,13 @@ from openprocurement.api.procedure.models.contact import (
     ContactPoint as BaseContactPoint,
 )
 from openprocurement.api.procedure.models.organization import (
-    PROCURING_ENTITY_KINDS,
+    PROCURING_ENTITY_KIND_CHOICES,
     BusinessOrganization,
 )
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.framework.core.procedure.models.address import Address, FullAddress
 from openprocurement.framework.core.procedure.models.contact import (
@@ -33,7 +34,7 @@ class ProcuringEntity(BaseOrganization):
     additionalIdentifiers = ListType(ModelType(Identifier))
     address = ModelType(FullAddress, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
-    kind = StringType(choices=PROCURING_ENTITY_KINDS, default="general", required=True)
+    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, default=ProcuringEntityKind.GENERAL, required=True)
 
     def validate_identifier(self, data, identifier):
         pass
@@ -45,7 +46,7 @@ class PatchProcuringEntity(BaseOrganization):
     additionalIdentifiers = ListType(ModelType(Identifier))
     address = ModelType(FullAddress)
     contactPoint = ModelType(PatchContactPoint)
-    kind = StringType(choices=PROCURING_ENTITY_KINDS)
+    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
 
     def validate_identifier(self, data, identifier):
         pass

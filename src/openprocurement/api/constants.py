@@ -151,15 +151,6 @@ ADDITIONAL_CLASSIFICATIONS_SCHEMES = [
 # Coordinates regex
 COORDINATES_REG_EXP = re.compile(r"-?\d{1,3}\.\d+|-?\d{1,3}")
 
-# Scale codes
-SCALE_CODES = [
-    "micro",
-    "sme",
-    "mid",
-    "large",
-    "not specified",
-]
-
 # Tender config
 TENDER_CONFIG_JSONSCHEMAS = {
     "aboveThreshold": standards.load("data_model/schema/TenderConfig/aboveThreshold.json"),

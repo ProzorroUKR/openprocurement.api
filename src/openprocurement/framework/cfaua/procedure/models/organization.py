@@ -2,7 +2,7 @@ from schematics.types import StringType
 
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.organization import (
-    PROCURING_ENTITY_KINDS,
+    PROCURING_ENTITY_KIND_CHOICES,
     Organization,
 )
 from openprocurement.api.procedure.types import ListType, ModelType
@@ -21,7 +21,7 @@ class ContactPoint(BaseContactPoint):
 class ProcuringEntity(Organization):
     """An organization."""
 
-    kind = StringType(choices=PROCURING_ENTITY_KINDS)
+    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
     address = ModelType(Address, required=True)

@@ -1,4 +1,5 @@
 from openprocurement.api.context import get_request
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.core.procedure.models.framework import (
@@ -29,7 +30,7 @@ class DPSFrameworkConfigMixin(FrameworkConfigMixin):
 
     def validate_restricted_derivatives_config(self, data):
         config = data["config"]
-        is_defense = data.get("procuringEntity", {}).get("kind") == "defense"
+        is_defense = data.get("procuringEntity", {}).get("kind") == ProcuringEntityKind.DEFENSE
         restricted_derivatives = config.get("restrictedDerivatives")
 
         if is_defense and restricted_derivatives is False:

@@ -32,6 +32,9 @@ from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
 )
 from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
+from openprocurement.tender.core.procedure.models.tender_base import (
+    MAIN_PROCUREMENT_CATEGORY_CHOICES,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_duration,
 )
@@ -118,7 +121,7 @@ class PatchActiveTender(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    mainProcurementCategory = StringType(choices=["goods", "services", "works"])
+    mainProcurementCategory = StringType(choices=MAIN_PROCUREMENT_CATEGORY_CHOICES)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     contractTemplateName = StringType()
 

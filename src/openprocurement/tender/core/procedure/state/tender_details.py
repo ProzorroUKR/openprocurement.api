@@ -54,6 +54,9 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
+from openprocurement.tender.core.procedure.models.tender_base import (
+    MainProcurementCategory,
+)
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
@@ -854,6 +857,7 @@ class BaseTenderDetailsMixing:
         rules = get_criteria_rules(after)
 
         criteria = after.get("criteria", "")
+        mpc = after.get("mainProcurementCategory", MainProcurementCategory.SERVICES)
 
         # Load criteria rules
         required_criteria = set()
@@ -862,7 +866,10 @@ class BaseTenderDetailsMixing:
         for criterion_id, criterion_rules in rules.items():
             if "required" in criterion_rules["rules"]:
                 required_criteria.add(criterion_id)
-            if "required_article_16" in criterion_rules["rules"]:
+            if "required_article_16" in criterion_rules["rules"] and mpc in (
+                MainProcurementCategory.WORKS,
+                MainProcurementCategory.SERVICES,
+            ):
                 required_article_16_criteria.add(criterion_id)
 
         # Gather tender criteria and item criteria
@@ -885,11 +892,7 @@ class BaseTenderDetailsMixing:
             )
 
         # Check article 16 criteria if required
-        if (
-            required_article_16_criteria
-            and get_tender().get("mainProcurementCategory", "services") in ("works", "services")
-            and not tender_criteria.intersection(required_article_16_criteria)
-        ):
+        if required_article_16_criteria and not tender_criteria.intersection(required_article_16_criteria):
             raise_operation_error(
                 get_request(),
                 f"Tender must contain one of ARTICLE_16 criteria: {', '.join(sorted(required_article_16_criteria))}",
