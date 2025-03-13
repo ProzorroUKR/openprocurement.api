@@ -1,4 +1,4 @@
-from openprocurement.api.procedure.models.document import ConfidentialityTypes
+from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS, validate_accreditation_level_base
 from openprocurement.contracting.core.procedure.utils import (
@@ -121,7 +121,7 @@ def validate_contract_participant(request, **_):
 def validate_download_contract_document(request, **_):
     if request.params.get("download"):
         document = request.validated["document"]
-        if document.get("confidentiality", "") == ConfidentialityTypes.BUYER_ONLY and not is_contract_owner(
+        if document.get("confidentiality", "") == ConfidentialityType.BUYER_ONLY and not is_contract_owner(
             request, request.validated["contract"]
         ):
             raise_operation_error(request, "Document download forbidden.")

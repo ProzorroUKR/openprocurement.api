@@ -13,7 +13,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
 )
 from openprocurement.tender.core.procedure.models.lot import Lot
-from openprocurement.tender.core.procedure.models.milestone import TenderMilestoneTypes
+from openprocurement.tender.core.procedure.models.milestone import TenderMilestoneType
 from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
 from openprocurement.tender.core.tests.utils import set_tender_lots
 
@@ -117,7 +117,7 @@ class TestTenderMilestones(unittest.TestCase):
 
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-        expected_types = [TenderMilestoneTypes.FINANCING.value, TenderMilestoneTypes.DELIVERY.value]
+        expected_types = [TenderMilestoneType.FINANCING.value, TenderMilestoneType.DELIVERY.value]
         self.maxDiff = None
         self.assertEqual(
             e.exception.messages,

@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.models.award_milestone import (
-    AwardMilestoneCodes,
+    AwardMilestoneCode,
 )
 from openprocurement.tender.core.procedure.state.award_milestone import (
     AwardMilestoneState,
@@ -7,4 +7,4 @@ from openprocurement.tender.core.procedure.state.award_milestone import (
 
 
 class RequestForProposalAwardMilestoneState(AwardMilestoneState):
-    allowed_milestone_codes = (AwardMilestoneCodes.CODE_24_HOURS.value,)
+    allowed_milestone_codes = (AwardMilestoneCode.CODE_24_HOURS.value,)

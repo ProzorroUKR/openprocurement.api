@@ -29,7 +29,7 @@ from openprocurement.tender.core.procedure.models.lot import (
     validate_lots_uniq,
 )
 from openprocurement.tender.core.procedure.models.milestone import (
-    TenderMilestoneTypes,
+    TenderMilestoneType,
     validate_milestones_lot,
 )
 from openprocurement.tender.core.procedure.models.period import (
@@ -120,8 +120,8 @@ class PostTender(BasePostTender):
             if value is None or len(value) < 1:
                 raise ValidationError("Tender should contain at least one milestone")
         for milestone in value:
-            if milestone.type == TenderMilestoneTypes.DELIVERY.value:
-                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+            if milestone.type == TenderMilestoneType.DELIVERY.value:
+                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
         validate_milestones_lot(data, value)
 
 
@@ -215,6 +215,6 @@ class Tender(BaseTender):
             if value is None or len(value) < 1:
                 raise ValidationError("Tender should contain at least one milestone")
         for milestone in value:
-            if milestone.type == TenderMilestoneTypes.DELIVERY.value:
-                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+            if milestone.type == TenderMilestoneType.DELIVERY.value:
+                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
         validate_milestones_lot(data, value)

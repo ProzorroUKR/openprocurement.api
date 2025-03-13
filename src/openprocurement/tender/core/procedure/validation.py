@@ -41,7 +41,7 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.models.document import ConfidentialityTypes
+from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.utils import is_item_owner, to_decimal
 from openprocurement.api.procedure.validation import validate_input_data
@@ -581,7 +581,7 @@ def validate_update_award_with_accepted_complaint(request, **_):
 def validate_update_award_status_before_milestone_due_date(request, **_):
     # pylint: disable-next=import-outside-toplevel, cyclic-import
     from openprocurement.tender.core.procedure.models.qualification_milestone import (
-        QualificationMilestoneCodes,
+        QualificationMilestoneCode,
     )
 
     award = request.validated["award"]
@@ -592,8 +592,8 @@ def validate_update_award_status_before_milestone_due_date(request, **_):
             if (
                 milestone["code"]
                 in (
-                    QualificationMilestoneCodes.CODE_24_HOURS.value,
-                    QualificationMilestoneCodes.CODE_LOW_PRICE.value,
+                    QualificationMilestoneCode.CODE_24_HOURS.value,
+                    QualificationMilestoneCode.CODE_LOW_PRICE.value,
                 )
                 and milestone["date"] <= now <= milestone["dueDate"]
             ):
@@ -847,7 +847,7 @@ def validate_update_qualification_only_for_active_lots(request, **_):
 def validate_update_status_before_milestone_due_date(request, **_):
     # pylint: disable-next=import-outside-toplevel, cyclic-import
     from openprocurement.tender.core.procedure.models.qualification_milestone import (
-        QualificationMilestoneCodes,
+        QualificationMilestoneCode,
     )
 
     qualification = request.validated["qualification"]
@@ -858,8 +858,8 @@ def validate_update_status_before_milestone_due_date(request, **_):
             if (
                 milestone["code"]
                 in (
-                    QualificationMilestoneCodes.CODE_24_HOURS.value,
-                    QualificationMilestoneCodes.CODE_LOW_PRICE.value,
+                    QualificationMilestoneCode.CODE_24_HOURS.value,
+                    QualificationMilestoneCode.CODE_LOW_PRICE.value,
                 )
                 and milestone["date"] <= now <= milestone["dueDate"]
             ):
@@ -1296,7 +1296,7 @@ def validate_download_tender_document(request, **_):
     if request.params.get("download"):
         document = request.validated["document"]
         if (
-            document.get("confidentiality", "") == ConfidentialityTypes.BUYER_ONLY
+            document.get("confidentiality", "") == ConfidentialityType.BUYER_ONLY
             and request.authenticated_role not in ("aboveThresholdReviewers", "sas")
             and not ("bid" in request.validated and is_item_owner(request, request.validated["bid"]))
             and not is_item_owner(request, request.validated["tender"])
@@ -1685,14 +1685,14 @@ def validate_edrpou_confidentiality_doc(doc, should_be_public=False):
         and doc.get("author", "tender_owner") == "tender_owner"
         and tender.get("procuringEntity", {}).get("identifier", {}).get("id") in CONFIDENTIAL_EDRPOU_LIST
     ):
-        if doc.get("confidentiality", ConfidentialityTypes.BUYER_ONLY) != ConfidentialityTypes.BUYER_ONLY:
+        if doc.get("confidentiality", ConfidentialityType.BUYER_ONLY) != ConfidentialityType.BUYER_ONLY:
             raise_operation_error(
                 get_request(),
                 "Document should be confidential",
                 name="confidentiality",
                 status=422,
             )
-    elif doc.get("confidentiality") == ConfidentialityTypes.BUYER_ONLY:
+    elif doc.get("confidentiality") == ConfidentialityType.BUYER_ONLY:
         raise_operation_error(
             get_request(),
             "Document should be public",

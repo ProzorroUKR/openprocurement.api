@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import StrEnum
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
@@ -23,7 +23,7 @@ from openprocurement.tender.core.procedure.models.complaint_objection_requested_
 )
 
 
-class ObjectionRelatesTo(Enum):
+class ObjectionRelatesTo(StrEnum):
     tender = "tender"
     lot = "lot"
     award = "award"

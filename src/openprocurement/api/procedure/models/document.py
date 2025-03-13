@@ -46,7 +46,7 @@ DOCUMENT_TYPES = (
 )
 
 
-class ConfidentialityTypes(StrEnum):
+class ConfidentialityType(StrEnum):
     BUYER_ONLY = "buyerOnly"
     PUBLIC = "public"
 
@@ -106,7 +106,7 @@ class PatchDocument(BaseDocument):
 
 def validate_confidentiality_rationale(data, val):
     confidentiality = data.get("confidentiality")
-    if confidentiality == ConfidentialityTypes.BUYER_ONLY:
+    if confidentiality == ConfidentialityType.BUYER_ONLY:
         if not val:
             raise ValidationError("confidentialityRationale is required")
         elif len(val) < 30:
@@ -116,10 +116,10 @@ def validate_confidentiality_rationale(data, val):
 class ConfidentialDocumentMixin(Model):
     confidentiality = StringType(
         choices=[
-            ConfidentialityTypes.PUBLIC.value,
-            ConfidentialityTypes.BUYER_ONLY.value,
+            ConfidentialityType.PUBLIC.value,
+            ConfidentialityType.BUYER_ONLY.value,
         ],
-        default=ConfidentialityTypes.PUBLIC.value,
+        default=ConfidentialityType.PUBLIC.value,
     )
     confidentialityRationale = StringType()
 

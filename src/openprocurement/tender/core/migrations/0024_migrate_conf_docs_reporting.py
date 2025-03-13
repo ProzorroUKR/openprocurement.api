@@ -16,7 +16,7 @@ from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
 from openprocurement.api.migrations.base import MigrationArgumentParser
-from openprocurement.api.procedure.models.document import ConfidentialityTypes
+from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.utils import get_now
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
@@ -37,8 +37,8 @@ def open_confidential_docs(contract):
 
     for doc in contract.get("documents", []):
         doc = deepcopy(doc)
-        if doc.get("confidentiality") == ConfidentialityTypes.BUYER_ONLY.value:
-            doc["confidentiality"] = ConfidentialityTypes.PUBLIC.value
+        if doc.get("confidentiality") == ConfidentialityType.BUYER_ONLY.value:
+            doc["confidentiality"] = ConfidentialityType.PUBLIC.value
             doc.pop("confidentialityRationale", None)
             updated = True
         updated_docs.append(doc)

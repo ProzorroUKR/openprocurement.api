@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import StrEnum
 from logging import getLogger
 from uuid import uuid4
 
@@ -140,7 +140,7 @@ class Unit(BaseUnit):
     name = StringType(required=True)
 
 
-class DataSchema(Enum):
+class DataSchema(StrEnum):
     ISO_639 = "ISO 639-3"
     ISO_3166 = "ISO 3166-1 alpha-2"
 

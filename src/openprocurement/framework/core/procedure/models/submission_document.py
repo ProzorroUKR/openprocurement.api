@@ -2,7 +2,7 @@ from schematics.types import StringType
 
 from openprocurement.api.procedure.models.document import (
     ConfidentialDocumentMixin,
-    ConfidentialityTypes,
+    ConfidentialityType,
 )
 from openprocurement.api.procedure.models.document import Document as BaseDocument
 from openprocurement.api.procedure.models.document import PatchDocument, PostDocument
@@ -15,8 +15,8 @@ class PostSubmissionDocument(PostDocument, ConfidentialDocumentMixin):
 class PatchSubmissionDocument(PatchDocument):
     confidentiality = StringType(
         choices=[
-            ConfidentialityTypes.PUBLIC.value,
-            ConfidentialityTypes.BUYER_ONLY.value,
+            ConfidentialityType.PUBLIC.value,
+            ConfidentialityType.BUYER_ONLY.value,
         ]
     )
     confidentialityRationale = StringType()
