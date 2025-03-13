@@ -239,6 +239,7 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active", "qualified": True}},
         )
+        self.bid_token = self.initial_bids_tokens[award["bid_id"]]
 
     test_patch_lot_tender_multi_contracts = snitch(patch_tender_multi_contracts)
 

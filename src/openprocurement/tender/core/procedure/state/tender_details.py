@@ -4,10 +4,7 @@ from datetime import timedelta
 from decimal import Decimal
 from math import ceil, floor
 
-from schematics.types import BaseType
-
 from openprocurement.api.constants import (
-    CONTRACT_TEMPLATES_KEYS,
     CPV_GROUP_PREFIX_LENGTH,
     CPV_PREFIX_LENGTH_TO_NAME,
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
@@ -60,6 +57,7 @@ from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
+    get_contract_template_names_for_classification_ids,
     set_mode_test_titles,
     tender_created_after,
     validate_field,
@@ -209,11 +207,10 @@ class BaseTenderDetailsMixing:
     agreement_allowed_types = [IFI_TYPE]
     agreement_with_items_forbidden = False
     agreement_without_items_forbidden = False
+    contract_template_required = False
+    contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     calendar = WORKING_DAYS
-
-    contract_template_name_required = False
-    contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -1300,66 +1297,73 @@ class BaseTenderDetailsMixing:
                 name="contractTemplateName",
             )
 
-        def get_expected_template_names(classification_id):
-            expected_names = set()
-            for k, v in CONTRACT_TEMPLATES_KEYS.items():
-                if v["active"] and (classif_len := v.get("matchLength")):
-                    if classification_id.startswith(k[:classif_len]):
-                        expected_names.add(k)
+        # Get resulting tender status
+        tender_status = before.get("status", "draft")
 
-            if not expected_names:
-                expected_names.add(
-                    next(
-                        (k for k, v in CONTRACT_TEMPLATES_KEYS.items() if v["active"] and not v.get("matchLength")),
-                        None,
-                    )
-                )
-            return expected_names
+        # Find if contractTemplateName is changed
+        contract_template_name_before = before.get("contractTemplateName")
+        contract_template_name = after.get("contractTemplateName")
+        contract_template_name_changed = contract_template_name != contract_template_name_before
 
-        EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES = ("0931",)
-
-        before_ctn = before.get("contractTemplateName")
-        ctn = after.get("contractTemplateName")
-
-        if ctn != before_ctn and before.get("status", "draft") not in self.contract_template_name_patch_statuses:
+        # Check if contractTemplateName is allowed to be changed
+        if contract_template_name_changed and not self.contract_template_name_patch_statuses:
             raise_contract_template_name_error("Rogue field")
 
-        items = after.get("items")
-        classification_id = items[0].get("classification", {}).get("id") if items else None
-        tender_documents = after.get("documents", "")
-
-        # contractTemplateName forbidden for procedures contract_template_name_available - False
-        # forbid together with contractProforma document
-        # and for some classifications prefixes
-
-        excluded_conditions = (
-            not classification_id
-            or any(i.get("documentType", "") == "contractProforma" for i in tender_documents)
-            or any(
-                classification_id.startswith(excluded_prefix)
-                for excluded_prefix in EXCLUDED_TEMPLATE_CLASSIFICATION_PREFIXES
+        # Check if contractTemplateName is allowed to be changed in current tender status
+        if contract_template_name_changed and tender_status not in self.contract_template_name_patch_statuses:
+            raise_contract_template_name_error(
+                f"Can't change contract template name in current tender '{tender_status}' status"
             )
-        )
 
-        if not ctn:
-            if not excluded_conditions and self.contract_template_name_required:
-                # Now required option work only for PQ
-                # Later for procedure with active.enquiries it will not work,
-                # maybe later we will need another solution
-                # cause from active.enquiries to active.tendering status switches automatically
-                if after["status"] in ("active.tendering",):
-                    raise_contract_template_name_error(BaseType.MESSAGES["required"])
+        # Get all classification IDs from items
+        classification_ids = set()
+        for item in after.get("items", []):
+            if item.get("classification") and item["classification"].get("id"):
+                classification_ids.add(item["classification"]["id"])
+
+        # Find if contractProforma is present
+        tender_documents = after.get("documents", "")
+        has_contract_proforma = any(i.get("documentType", "") == "contractProforma" for i in tender_documents)
+
+        # Check if both contractTemplateName and contractProforma are present simultaneously
+        if has_contract_proforma and contract_template_name:
+            raise_contract_template_name_error(
+                "Cannot use both contractTemplateName and contractProforma document simultaneously",
+            )
+
+        # Check if contractTemplateName or contractProforma is required
+        if self.contract_template_required and after["status"] not in ("draft",):
+            if not has_contract_proforma and not contract_template_name:
+                raise_contract_template_name_error(
+                    "Either contractTemplateName or contractProforma document is required"
+                )
+
+        # If contractTemplateName is not specified, no further checks needed
+        if not contract_template_name:
             return
 
-        elif excluded_conditions:
-            raise_contract_template_name_error("Rogue field")
+        # Check if classifications is missing
+        if not classification_ids:
+            raise_contract_template_name_error("Can't set contractTemplateName for tender without classification")
 
-        expected_template_names = get_expected_template_names(classification_id)
+        # Get expected template names for the classifications
+        expected_template_names = get_contract_template_names_for_classification_ids(
+            classification_ids,
+            active_only=contract_template_name_changed,  # if unchanged - allow inactive templates
+        )
 
-        if ctn not in expected_template_names:
+        # Check if contractTemplateName is forbidden for excluded classifications
+        if not expected_template_names:
             raise_contract_template_name_error(
-                f"Incorrect template for current classification {classification_id}, "
-                f"use of that templates {expected_template_names}",
+                f"contractTemplateName is not allowed for current classifications {', '.join(sorted(classification_ids))}"
+            )
+
+        # Check if contractTemplateName is correct for the current classifications
+        if contract_template_name not in expected_template_names:
+            raise_contract_template_name_error(
+                f"Incorrect contractTemplateName {contract_template_name} "
+                f"for current classifications {', '.join(sorted(classification_ids))}, "
+                f"use one of {', '.join(sorted(expected_template_names))}",
             )
 
 

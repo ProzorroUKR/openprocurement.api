@@ -42,6 +42,6 @@ class TenderDocumentState(BaseDocumentState):
         if tender.get("contractTemplateName"):
             raise_operation_error(
                 self.request,
-                "contractProforma is invalid documentType while exist contractTemplateName",
+                "Cannot use both contractTemplateName and contractProforma document simultaneously",
                 status=422,
             )

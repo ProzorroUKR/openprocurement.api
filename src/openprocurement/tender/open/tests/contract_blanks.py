@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
+from openprocurement.contracting.econtract.tests.data import test_signer_info
 
 # TenderContractResourceTest
 
@@ -21,6 +22,20 @@ def patch_tender_contract_datesigned(self):
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # set signerInfo for buyer
+    response = self.app.put_json(
+        f"/contracts/{contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # set signerInfo for suppliers
+    response = self.app.put_json(
+        f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+        {"data": test_signer_info},
     )
     self.assertEqual(response.status, "200 OK")
 

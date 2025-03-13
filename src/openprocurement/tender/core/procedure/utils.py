@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import datetime
 from hashlib import sha512
 from logging import getLogger
-from typing import Optional
+from typing import Iterable, Optional
 from uuid import uuid4
 
 from barbecue import vnmax
@@ -15,7 +15,12 @@ from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.constants import BID_REQUIRED_ITEMS_TENDER_TYPES, TZ
+from openprocurement.api.constants import (
+    BID_REQUIRED_ITEMS_TENDER_TYPES,
+    CONTRACT_TEMPLATES,
+    DEFAULT_CONTRACT_TEMPLATE_KEY,
+    TZ,
+)
 from openprocurement.api.constants_env import (
     BID_ITEMS_REQUIRED_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
@@ -591,3 +596,38 @@ def get_requirement_obj(requirement_id: str, tender: dict = None):
                         continue
                     return req, group, criteria
     return None, None, None
+
+
+def get_contract_template_names_for_prefix(
+    prefix: str,
+    active_only: bool = True,
+) -> set[str]:
+    expected_names = set()
+    for template in CONTRACT_TEMPLATES[prefix]["templates"]:
+        if not active_only or template["active"]:
+            expected_names.add(template["name"])
+    return expected_names
+
+
+def get_contract_template_names_for_classification_ids(
+    classification_ids: Iterable[str],
+    active_only: bool = True,
+) -> set[str]:
+    expected_names = set()
+    matching_prefixes = set()
+
+    # Find all matching prefixes that work for all classification id's
+    for prefix in CONTRACT_TEMPLATES:
+        if all(classification_id.startswith(prefix) for classification_id in classification_ids):
+            matching_prefixes.add(prefix)
+
+    # If we found matching prefixes, use templates for those prefixes
+    if matching_prefixes:
+        for prefix in matching_prefixes:
+            expected_names.update(get_contract_template_names_for_prefix(prefix, active_only))
+
+    # If no matching prefix found, use default templates
+    elif DEFAULT_CONTRACT_TEMPLATE_KEY in CONTRACT_TEMPLATES:
+        expected_names.update(get_contract_template_names_for_prefix(DEFAULT_CONTRACT_TEMPLATE_KEY, active_only))
+
+    return expected_names

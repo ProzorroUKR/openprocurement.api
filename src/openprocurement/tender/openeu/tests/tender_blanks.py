@@ -398,6 +398,7 @@ def create_tender_generated(self):
             "lots",
             "documents",
             "noticePublicationDate",
+            "contractTemplateName",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

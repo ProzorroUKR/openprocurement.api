@@ -26,10 +26,13 @@ Let's say that we have conducted tender with award. When the award is activated,
 
 *Brokers (eMalls) can't create contracts in the contract system.*
 
-A PQ contract is created with two additional fields:
+A contract is created with additional fields:
+
+* `contractTemplateName` - copied from tender if exists (more about it in :ref:`contract-template-name`)
+
+A PQ contract is created with additional fields:
 
 * `attributes` - formed from requirements and responses in tender
-* `contractTemplateName` - copied from tender
 
 
 Getting contract
@@ -203,11 +206,19 @@ If  you try to patch contract in ``pending`` to ``cancelled`` you'll get error:
 Activating contract
 -------------------
 
-For activating contract, at first buyer and supplier should fill signer information.
-If you try activate contract without that information you'll get error:
+If tender has `contractTemplateName` set (more about it in :ref:`contract-template-name`), it will be used as `contractTemplateName` for contract.
+If `contractTemplateName` is set for contract, signer information is required for activation.
+Let's look at tender with contractTemplateName set:
+
+.. http:example:: http/tender-with-contract-template-name.http
+   :code:
+
+
+If you try activate contract without signer information you'll get error:
 
 .. http:example:: http/contract-activating-error.http
    :code:
+
 
 Buyer fill signer information using ``contract_token`` or ``tender_token``:
 

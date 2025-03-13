@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-26 14:25+0200\n"
+"POT-Creation-Date: 2025-02-28 03:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,36 +17,39 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
-msgid "Contract template"
-msgstr "Шаблон контракту"
+msgid "Providing contract template"
+msgstr "Надання проекту договору"
 
-msgid "Supported procedures"
-msgstr "Підтримувані процедури"
+msgid "For further contracting it is possible provide contract template. There are two ways to do this:"
+msgstr "Для подальшого укладання договору можна надати проект договору. Існує два способи зробити це:"
 
-msgid "The contract template can be set for procedures and their statuses specified below in the table:"
-msgstr "Шаблон контракту можна встановити для процедур і їх статусів, зазначених нижче в таблиці:"
+msgid "Upload ``contractProforma`` document."
+msgstr "Завантажити документ `contractProforma`."
 
-msgid "Procedures supported"
-msgstr "Підтримувані процедури"
+msgid "Set ``contractTemplateName`` field."
+msgstr "Встановити поле `contractTemplateName`."
 
-msgid "Procedure type"
-msgstr "Тип процедури"
+msgid "If contract template is required it should be provided in `draft` status (before tender activation)."
+msgstr "Якщо проект договору є обов'язковим, його слід надати у статусі `draft` (до активації тендеру)."
 
-msgid "Statuses"
-msgstr "Статуси"
+msgid "Next table shows which procurementMethodType requires contract template or for which it is optional:"
+msgstr "Наступна таблиця показує, які procurementMethodType вимагають шаблон договору або для яких він є необов'язковим:"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "Support"
+msgstr "Підтримка"
 
 msgid "belowThreshold"
 msgstr ""
 
-msgid "draft/active.enquiries"
-msgstr ""
+msgid "**Required**"
+msgstr "**Обов'язково**"
 
 msgid "aboveThresholdUA"
-msgstr ""
-
-msgid "draft/active.tendering"
 msgstr ""
 
 msgid "aboveThresholdEU"
@@ -58,14 +61,17 @@ msgstr ""
 msgid "competitiveDialogueUA"
 msgstr ""
 
+msgid "Optional"
+msgstr "Необов'язково"
+
 msgid "competitiveDialogueEU"
 msgstr ""
 
 msgid "competitiveDialogueUA.stage2"
 msgstr ""
 
-msgid "Automatically carried over from the first stage."
-msgstr "Автоматично переноситься з першого етапу."
+msgid "Automatically"
+msgstr "Автоматично"
 
 msgid "competitiveDialogueEU.stage2"
 msgstr ""
@@ -75,9 +81,6 @@ msgstr ""
 
 msgid "priceQuatation"
 msgstr ""
-
-msgid "draft(*required - without contractProforma document)"
-msgstr "draft(*обов’язково - без документа контракту-проформи)."
 
 msgid "closeFrameworkAgreementUA"
 msgstr ""
@@ -94,19 +97,43 @@ msgstr ""
 msgid "reporting"
 msgstr ""
 
+msgid "Not available"
+msgstr "Недоступно"
+
 msgid "simple.defence"
 msgstr ""
 
 msgid "closeFrameworkAgreementSelectionUA"
 msgstr ""
 
+msgid "requestForProposal"
+msgstr ""
+
+msgid "Uploading `contractProforma`"
+msgstr "Завантаження `contractProforma`"
+
+msgid "Let's upload `contractProforma` document:"
+msgstr "Давайте завантажимо документ `contractProforma`:"
+
+msgid "Setting `contractTemplateName`"
+msgstr "Встановлення `contractTemplateName`"
+
+msgid "Next table shows which statuses for each procurementMethodType allow to set/update `contractTemplateName`:"
+msgstr "Наступна таблиця показує, які статуси для кожного procurementMethodType дозволяють встановити/оновити `contractTemplateName`:"
+
+msgid "Statuses"
+msgstr "Статуси"
+
+msgid "draft/active.enquiries"
+msgstr ""
+
+msgid "draft/active.tendering"
+msgstr ""
+
 msgid "draft"
 msgstr ""
 
-msgid "Tutorial"
-msgstr "Туторіал"
-
-msgid "The correctness of the template is determined by items classification id."
+msgid "The correctness of the `contractTemplateName` is determined by items classification id."
 msgstr "Правильність шаблону визначається ідентифікатором класифікації предмету закупівлі."
 
 msgid "All available templates and their selection rules can be found in the `standards <https://github.com/ProzorroUKR/standards/blob/master/templates/contract_templates_keys.json>`_."
@@ -115,15 +142,21 @@ msgstr "Усі доступні шаблони та правила їх відб
 msgid "If you try to set value out from standards or invalid for current classification, you'll get error:"
 msgstr "Якщо ви спробуєте встановити значення поза межами стандартів або некоректне для поточної класифікації, ви отримаєте помилку:"
 
-msgid "Also contract template can't be set together with `contractProforma` document:"
+msgid "Let's try to set correct value for `contractTemplateName` field:"
+msgstr "Давайте спробуємо встановити правильне значення для поля `contractTemplateName`:"
+
+msgid "Also `contractTemplateName` can't be set together with uploaded `contractProforma` document:"
 msgstr "Також шаблон контракту не може бути встановлений разом із документом `contractProforma`:"
-
-msgid "Let's try to set correct value:"
-msgstr "Давайте спробуємо встановити правильне значення:"
-
-msgid "You can delete contract template:"
-msgstr "Ви можете видалити шаблон контракту:"
 
 msgid "If you try to set or change value in invalid tender status you'll get error:"
 msgstr "Якщо ви спробуєте встановити або змінити значення у некоректному статусі тендеру, ви отримаєте помилку:"
+
+msgid "You can delete contract template while in `draft` tender status:"
+msgstr "Ви можете видалити шаблон контракту у `draft` статусі тендера:"
+
+#~ msgid "Next table shows which procurementMethodType supports required contract template or for which it is optional:"
+#~ msgstr ""
+
+#~ msgid "Procedure type"
+#~ msgstr ""
 

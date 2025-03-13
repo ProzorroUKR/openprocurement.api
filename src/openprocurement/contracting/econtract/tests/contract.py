@@ -16,6 +16,7 @@ from openprocurement.contracting.econtract.tests.contract_blanks import (
     contract_status_change,
     contract_token_invalid,
     contract_update_add_remove_items,
+    contract_validate_signer_info,
     contract_wo_items_status_change,
     create_contract_transfer_token,
     create_contract_w_documents,
@@ -108,6 +109,7 @@ class ContractWOItemsResource4BrokersTest(BaseEContractWebTest):
     initial_data = test_contract_data_wo_items
 
     test_contract_wo_items_status_change = snitch(contract_wo_items_status_change)
+    test_contract_validate_signer_info = snitch(contract_validate_signer_info)
 
 
 class ContractWOAmountNetResource4BrokersTest(BaseEContractWebTest):

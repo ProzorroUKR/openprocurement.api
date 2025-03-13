@@ -26,7 +26,7 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     tendering_duration = EU_TENDERING_DURATION
     should_validate_notice_doc_required = False
     should_validate_related_lot_in_items = False
-
+    contract_template_required = False
     contract_template_name_patch_statuses = ("draft",)
 
     def get_patch_data_model(self):
@@ -60,9 +60,8 @@ class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
     tender_central_accreditations = (ACCR_COMPETITIVE, ACCR_5)
     tender_edit_accreditations = (ACCR_4,)
     tender_transfer_accreditations = (ACCR_3, ACCR_5)
-
     tendering_duration = UA_TENDERING_DURATION
-
+    contract_template_required = False
     contract_template_name_patch_statuses = ("draft",)
 
     def get_patch_data_model(self):

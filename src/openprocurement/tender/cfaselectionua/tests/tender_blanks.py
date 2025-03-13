@@ -1593,7 +1593,7 @@ def patch_tender(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Only procurementMethodDetails can be updated at active.tendering",
+                "description": "Only fields ('procurementMethodDetails', 'contractTemplateName') can be updated at active.tendering",
             }
         ],
     )

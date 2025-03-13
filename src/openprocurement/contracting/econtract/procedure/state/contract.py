@@ -3,7 +3,6 @@ from decimal import Decimal
 from itertools import zip_longest
 from logging import getLogger
 
-from openprocurement.api.constants_env import ECONTRACT_SIGNER_INFO_REQUIRED
 from openprocurement.api.procedure.context import get_request, get_tender
 from openprocurement.api.procedure.utils import get_items, parse_date, to_decimal
 from openprocurement.api.utils import (
@@ -216,20 +215,16 @@ class EContractState(
                     )
 
     def validate_required_signed_info(self, data: dict) -> None:
-        tender_type = get_tender().get("procurementMethodType", "")
-        required_tenders = ("priceQuotation",)
-
-        if not ECONTRACT_SIGNER_INFO_REQUIRED or tender_type not in required_tenders:
-            return
-
-        supplier_signer_info = all(i.get("signerInfo") for i in data.get("suppliers", ""))
-        if not data.get("buyer", {}).get("signerInfo") or not supplier_signer_info:
-            raise_operation_error(
-                self.request,
-                f"signerInfo field for buyer and suppliers "
-                f"is required for contract in `{data.get('status')}` status",
-                status=422,
-            )
+        if "contractTemplateName" in data:
+            buyer_signer_info = data.get("buyer", {}).get("signerInfo")
+            supplier_signer_info = all(i.get("signerInfo") for i in data.get("suppliers", ""))
+            if not buyer_signer_info or not supplier_signer_info:
+                raise_operation_error(
+                    self.request,
+                    f"signerInfo field for buyer and suppliers "
+                    f"is required for contract in `{data.get('status')}` status",
+                    status=422,
+                )
 
     def validate_required_fields_before_activation(self, data: dict) -> None:
         if not data.get("period", {}).get("startDate") or not data.get("period", {}).get("endDate"):

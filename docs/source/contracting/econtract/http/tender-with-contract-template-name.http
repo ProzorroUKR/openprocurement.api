@@ -1,13 +1,6 @@
-PATCH /api/2.5/contracts/479178eb904d41c5a40be7f83405f22d?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+GET /api/2.5/contracts/479178eb904d41c5a40be7f83405f22d HTTP/1.0
 Authorization: Bearer broker
-Content-Type: application/json
-Host: lb-api-sandbox.prozorro.gov.ua
-
-{
-  "data": {
-    "dateSigned": "2023-10-10T01:00:00+03:00"
-  }
-}
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK
@@ -22,6 +15,10 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tender_id": "fd45af80ad9f4574994f7f6254012693",
     "owner": "broker",
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2024-10-09T01:00:00+03:00"
+    },
     "status": "pending",
     "buyer": {
       "name": "Державне управління справами",
@@ -88,7 +85,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 12.0,
+            "amount": 18,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
@@ -140,6 +137,31 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
     },
+    "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/8bab0d7af5a64157a2c15757833cd8b3?download=d351f09369034d459a5cd87583381c73",
+        "documentOf": "contract",
+        "id": "8bab0d7af5a64157a2c15757833cd8b3",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
+      },
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_second_document.doc",
+        "format": "application/msword",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/08682b48035643a39d924df55eb915e0?download=1ea9c5fa82c84b2a8206318bc86360df",
+        "documentOf": "contract",
+        "id": "08682b48035643a39d924df55eb915e0",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "date": "2023-10-10T01:00:00+03:00",
     "id": "479178eb904d41c5a40be7f83405f22d"
   },
   "config": {

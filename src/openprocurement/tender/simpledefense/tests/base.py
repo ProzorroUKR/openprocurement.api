@@ -8,7 +8,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.core.tests.utils import (
+    get_contract_template_name,
+    set_tender_multi_buyers,
+)
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest as BaseTenderWebTest,
 )
@@ -24,6 +27,7 @@ from openprocurement.tender.simpledefense.tests.periods import PERIODS
 
 test_tender_simpledefense_data = test_tender_openuadefense_data.copy()
 test_tender_simpledefense_data["procurementMethodType"] = "simple.defense"
+test_tender_simpledefense_data["contractTemplateName"] = get_contract_template_name(test_tender_simpledefense_data)
 test_tender_simpledefense_procuring_entity = test_tender_openuadefense_procuring_entity.copy()
 test_tender_simpledefense_data["procuringEntity"] = test_tender_simpledefense_procuring_entity
 

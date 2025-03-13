@@ -3,6 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
+from openprocurement.contracting.econtract.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
 from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
 
@@ -84,6 +85,21 @@ def patch_tender_multi_contracts(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(doc)
 
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contract_1['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contract_1['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
     # in case any contract become active and there are no pending contracts -> tender should have complete status
     response = self.app.patch_json(
         f"/contracts/{contract_1['id']}?acc_token={self.tender_token}",
@@ -103,6 +119,21 @@ def patch_tender_multi_contracts(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertNotEqual(response.json["data"]["status"], "complete")  # because second contract still in pending
+
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contract_2['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contract_2['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
         f"/contracts/{contract_2['id']}?acc_token={self.tender_token}",
@@ -204,6 +235,21 @@ def patch_tender_multi_contracts_cancelled_with_one_activated(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(doc)
 
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contracts[0]['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contracts[0]['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
     # activate 1st contract
     response = self.app.patch_json(
         f"/contracts/{contracts[0]['id']}?acc_token={self.tender_token}",
@@ -283,6 +329,21 @@ def patch_tender_multi_contracts_cancelled_validate_amount(self):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(doc)
+
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contracts[0]['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contracts[0]['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     # activate 1st contract
     response = self.app.patch_json(
@@ -447,6 +508,23 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "resolved")
 
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        contract['suppliers'][0]['signerInfo'] = test_signer_info
+
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {
@@ -495,6 +573,22 @@ def patch_tender_contract_rationale_simple(self):
     self.assertEqual(response.status, "200 OK")
 
     self.app.authorization = ("Basic", ("broker", ""))
+
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {
@@ -722,6 +816,21 @@ def patch_contract_single_item_unit_value(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 15.0)
 
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {
@@ -794,6 +903,21 @@ def patch_contract_single_item_unit_value_with_status(self):
         ],
     )
 
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
     new_items = deepcopy(contract["items"])
     new_items[0]["unit"]["value"]["amount"] = 15
     response = self.app.patch_json(
@@ -821,6 +945,21 @@ def patch_contract_single_item_unit_value_round(self):
     contract_id = contract["id"]
     self.assertEqual(len(contract["items"]), 1)
     quantity = contract["items"][0]["quantity"]
+
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     # prepare contract
     doc = self.mongodb.tenders.get(self.tender_id)
@@ -958,6 +1097,21 @@ def patch_contract_multi_items_unit_value(self):
         ],
     )
 
+    if "contractTemplateName" in self.initial_data:
+        # set signerInfo for buyer
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # set signerInfo for suppliers
+        response = self.app.put_json(
+            f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        self.assertEqual(response.status, "200 OK")
+
     new_items[0]["unit"]["value"]["amount"] = 7.56345
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
@@ -1040,8 +1194,14 @@ def create_tender_contract(self):
     # self.mongodb.tenders.save(tender)
 
     contract_id = self.contracts_ids[0]
-    response = self.app.get(f"/tenders/{self.tender_id}/awards/{self.award_id}")
 
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    tender = response.json["data"]
+
+    response = self.app.get(f"/tenders/{self.tender_id}/awards/{self.award_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
@@ -1065,6 +1225,9 @@ def create_tender_contract(self):
         "suppliers",
         "buyer",
     }
+
+    if "contractTemplateName" in tender:
+        contract_fields.update({"contractTemplateName"})
 
     if "value" in award:
         contract_fields.update({"value"})

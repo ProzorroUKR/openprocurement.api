@@ -18,6 +18,7 @@ Content-Type: application/json
   "context": {
     "tender": {
       "title_en": "Services in school canteens",
+      "contractTemplateName": "00000000-0.0002.01",
       "date": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00",
       "dateCreated": "2023-10-10T01:00:00+03:00",

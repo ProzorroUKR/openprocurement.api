@@ -174,6 +174,7 @@ test_tender_rfp_data = {
     "procurementMethodType": "requestForProposal",
     "milestones": test_tender_rfp_milestones,
     "funders": [funder],
+    "contractTemplateName": "00000000-0.0002.01",
 }
 
 test_tender_rfp_with_inspector_data = deepcopy(test_tender_rfp_data)

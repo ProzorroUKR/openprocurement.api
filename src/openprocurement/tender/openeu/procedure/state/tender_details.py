@@ -16,6 +16,8 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     tender_period_working_day = False
+    contract_template_required = True
+    contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)

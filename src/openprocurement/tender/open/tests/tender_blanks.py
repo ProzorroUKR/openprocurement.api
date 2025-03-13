@@ -535,6 +535,7 @@ def create_tender_generated(self):
         "milestones",
         "documents",
         "noticePublicationDate",
+        "contractTemplateName",
     ]
     if tender["procurementMethodType"] not in ("aboveThresholdUA.defense", "simple.defense"):
         fields.append("criteria")

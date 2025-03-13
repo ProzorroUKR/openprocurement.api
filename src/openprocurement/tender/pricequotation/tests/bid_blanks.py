@@ -6,10 +6,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.utils import (
-    get_contract_template_name,
-    set_bid_items,
-)
+from openprocurement.tender.core.tests.utils import set_bid_items
 from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_organization,
     test_tender_pq_requirement_response,
@@ -612,7 +609,7 @@ def requirement_response_validation_multiple_criterias(self):
 )
 def requirement_response_value_validation_for_expected_values(self):
     data = self.initial_data.copy()
-    data.update({"status": "draft", "contractTemplateName": get_contract_template_name(self, tender=data)})
+    data.update({"status": "draft"})
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

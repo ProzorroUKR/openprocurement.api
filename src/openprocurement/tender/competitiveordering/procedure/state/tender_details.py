@@ -24,10 +24,8 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     should_validate_notice_doc_required = True
     agreement_allowed_types = [DPS_TYPE]
     agreement_with_items_forbidden = True
-
-    @classmethod
-    def get_items_classification_prefix_length(cls, tender):
-        return 3
+    contract_template_required = True
+    contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
