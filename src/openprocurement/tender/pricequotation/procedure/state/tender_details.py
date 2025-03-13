@@ -1,6 +1,7 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
@@ -66,8 +67,8 @@ class DPSTenderDetailsState(TenderDetailsState):
     @property
     def should_match_agreement_procuring_entity(self):
         if (
-            get_object("tender")["procuringEntity"]["kind"] == "defense"
-            and get_object("agreement")["procuringEntity"]["kind"] == "defense"
+            get_object("tender")["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
+            and get_object("agreement")["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
         ):
             # Defense procuring entity can use agreement with other defense procuring entity
             return False

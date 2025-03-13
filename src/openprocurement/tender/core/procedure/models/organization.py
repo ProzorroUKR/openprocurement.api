@@ -2,8 +2,11 @@ from uuid import uuid4
 
 from schematics.types import MD5Type, StringType
 
-from openprocurement.api.constants import SCALE_CODES
 from openprocurement.api.procedure.models.address import Address
+from openprocurement.api.procedure.models.organization import (
+    ORGANIZATION_SCALE_CHOICES,
+    PROCURING_ENTITY_KIND_CHOICES,
+)
 from openprocurement.api.procedure.models.organization import (
     BusinessOrganization as BaseBusinessOrganization,
 )
@@ -13,16 +16,6 @@ from openprocurement.api.procedure.models.organization import (
 )
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.contact import ContactPoint
-
-PROCURING_ENTITY_KINDS = (
-    "authority",
-    "central",
-    "defense",
-    "general",
-    "other",
-    "social",
-    "special",
-)
 
 
 class Organization(BaseOrganization):
@@ -35,7 +28,7 @@ class BusinessOrganization(BaseBusinessOrganization):
     address = ModelType(Address, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
-    scale = StringType(choices=SCALE_CODES, required=True)
+    scale = StringType(choices=ORGANIZATION_SCALE_CHOICES, required=True)
 
 
 class ContactLessBusinessOrganization(BusinessOrganization):
@@ -45,11 +38,11 @@ class ContactLessBusinessOrganization(BusinessOrganization):
 class Buyer(CommonOrganization):
     id = MD5Type(default=lambda: uuid4().hex)
     address = ModelType(Address)
-    kind = StringType(choices=PROCURING_ENTITY_KINDS)
+    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
 
 
 class ProcuringEntity(Organization):
     address = ModelType(Address, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
-    kind = StringType(choices=PROCURING_ENTITY_KINDS, required=True)
+    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)

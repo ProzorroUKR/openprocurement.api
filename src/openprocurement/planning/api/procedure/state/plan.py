@@ -9,6 +9,7 @@ from openprocurement.api.constants_env import (
     RELEASE_SIMPLE_DEFENSE_FROM,
 )
 from openprocurement.api.context import get_now, get_request
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
@@ -141,13 +142,13 @@ class PlanState(BaseState):
             x for x in procurement_method_types if x not in ("aboveThresholdUA.defense", "simple.defense")
         )
         kind_allows_procurement_method_type_mapping = {
-            "defense": procurement_method_types,
-            "general": procurement_method_types_without_above_threshold_ua_defense,
-            "special": procurement_method_types_without_above_threshold_ua_defense,
-            "central": procurement_method_types_without_above_threshold_ua_defense,
-            "authority": procurement_method_types_without_above_threshold_ua_defense,
-            "social": procurement_method_types_without_above_threshold_ua_defense,
-            "other": ["belowThreshold", "reporting", "priceQuotation"],
+            ProcuringEntityKind.DEFENSE: procurement_method_types,
+            ProcuringEntityKind.GENERAL: procurement_method_types_without_above_threshold_ua_defense,
+            ProcuringEntityKind.SPECIAL: procurement_method_types_without_above_threshold_ua_defense,
+            ProcuringEntityKind.CENTRAL: procurement_method_types_without_above_threshold_ua_defense,
+            ProcuringEntityKind.AUTHORITY: procurement_method_types_without_above_threshold_ua_defense,
+            ProcuringEntityKind.SOCIAL: procurement_method_types_without_above_threshold_ua_defense,
+            ProcuringEntityKind.OTHER: ["belowThreshold", "reporting", "priceQuotation"],
         }
 
         kind = data.get("procuringEntity", {}).get("kind", "")
@@ -332,11 +333,10 @@ class PlanState(BaseState):
             raise error_handler(request)
 
     def _validate_procurement_kind_is_central(self, plan, tender):
-        kind = "central"
-        if tender["procuringEntity"]["kind"] != kind:
+        if tender["procuringEntity"]["kind"] != ProcuringEntityKind.CENTRAL:
             raise raise_operation_error(
                 self.request,
-                "Only allowed for procurementEntity.kind = '{}'".format(kind),
+                "Only allowed for procurementEntity.kind = '{}'".format(ProcuringEntityKind.CENTRAL),
             )
 
     def _validate_tender_in_draft(self, plan, tender):

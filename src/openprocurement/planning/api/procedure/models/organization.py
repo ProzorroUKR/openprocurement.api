@@ -8,7 +8,9 @@ from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.contact import ContactPoint
 from openprocurement.api.procedure.models.identifier import Identifier
-from openprocurement.api.procedure.models.organization import PROCURING_ENTITY_KINDS
+from openprocurement.api.procedure.models.organization import (
+    PROCURING_ENTITY_KIND_CHOICES,
+)
 from openprocurement.api.procedure.types import ModelType
 from openprocurement.api.procedure.utils import is_obj_const_active
 from openprocurement.planning.api.procedure.context import get_plan
@@ -21,7 +23,7 @@ class BaseOrganization(Model):
     name_ru = StringType()
     identifier = ModelType(Identifier, required=True)
     address = ModelType(Address)
-    kind = StringType(choices=PROCURING_ENTITY_KINDS)
+    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
 
 
 class PlanOrganization(BaseOrganization):
