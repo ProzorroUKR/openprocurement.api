@@ -1,5 +1,5 @@
 from datetime import timedelta
-from enum import Enum
+from enum import StrEnum
 from uuid import uuid4
 
 from schematics.types import StringType
@@ -14,7 +14,7 @@ from openprocurement.tender.core.utils import (
 )
 
 
-class QualificationMilestoneCodes(Enum):
+class QualificationMilestoneCode(StrEnum):
     CODE_24_HOURS = "24h"
     CODE_LOW_PRICE = "alp"
 
@@ -23,8 +23,8 @@ class PostQualificationMilestone(Model):
     code = StringType(
         required=True,
         choices=[
-            QualificationMilestoneCodes.CODE_24_HOURS.value,
-            # QualificationMilestoneCodes.CODE_LOW_PRICE.value,  # this one cannot be posted
+            QualificationMilestoneCode.CODE_24_HOURS.value,
+            # QualificationMilestoneCode.CODE_LOW_PRICE.value,  # this one cannot be posted
         ],
     )
     description = StringType()
@@ -36,13 +36,13 @@ class PostQualificationMilestone(Model):
     @serializable
     def dueDate(self):
         dt = get_now()
-        if self.code == QualificationMilestoneCodes.CODE_24_HOURS.value:
+        if self.code == QualificationMilestoneCode.CODE_24_HOURS.value:
             dt = calculate_tender_date(
                 get_now(),
                 timedelta(hours=24),
                 tender=get_tender(),
             )
-        elif self.code == QualificationMilestoneCodes.CODE_LOW_PRICE.value:
+        elif self.code == QualificationMilestoneCode.CODE_LOW_PRICE.value:
             dt = calculate_tender_full_date(
                 get_now(),
                 timedelta(days=1),
@@ -60,8 +60,8 @@ class PostQualificationMilestone(Model):
 #     id = MD5Type(required=True)
 #     code = StringType(
 #         required=True,
-#         choices=[QualificationMilestoneCodes.CODE_24_HOURS.value,
-#                  QualificationMilestoneCodes.CODE_LOW_PRICE.value]
+#         choices=[QualificationMilestoneCode.CODE_24_HOURS.value,
+#                  QualificationMilestoneCode.CODE_LOW_PRICE.value]
 #     )
 #     dueDate = IsoDateTimeType(required=True)
 #     date = IsoDateTimeType(required=True)

@@ -20,7 +20,7 @@ from openprocurement.tender.core.procedure.models.item import (
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
-    TenderMilestoneTypes,
+    TenderMilestoneType,
     validate_milestones_lot,
 )
 from openprocurement.tender.core.procedure.models.tender import (
@@ -102,8 +102,8 @@ class PostReportingTender(PostBaseTender):
     def validate_milestones(self, data, value):
         if value:
             for milestone in value:
-                if milestone.type == TenderMilestoneTypes.DELIVERY.value:
-                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+                if milestone.type == TenderMilestoneType.DELIVERY.value:
+                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
 
     def validate_cause(self, data, value):
         if reporting_cause_is_required(data, value):
@@ -164,8 +164,8 @@ class ReportingTender(BaseTender):
     def validate_milestones(self, data, value):
         if value:
             for milestone in value:
-                if milestone.type == TenderMilestoneTypes.DELIVERY.value:
-                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+                if milestone.type == TenderMilestoneType.DELIVERY.value:
+                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
 
     def validate_cause(self, data, value):
         if reporting_cause_is_required(data, value):

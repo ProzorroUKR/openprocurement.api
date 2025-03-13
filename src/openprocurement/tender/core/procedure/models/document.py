@@ -9,7 +9,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.document import (
     ConfidentialDocumentMixin,
-    ConfidentialityTypes,
+    ConfidentialityType,
 )
 from openprocurement.api.procedure.types import HashType
 
@@ -140,8 +140,8 @@ class PatchDocument(BaseDocument):
     language = StringType(choices=["uk", "en", "ru"])
     confidentiality = StringType(
         choices=[
-            ConfidentialityTypes.PUBLIC.value,
-            ConfidentialityTypes.BUYER_ONLY.value,
+            ConfidentialityType.PUBLIC.value,
+            ConfidentialityType.BUYER_ONLY.value,
         ]
     )
     confidentialityRationale = StringType()

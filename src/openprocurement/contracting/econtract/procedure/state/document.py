@@ -3,7 +3,7 @@ from openprocurement.api.constants_env import (
     CONTRACT_CONFIDENTIAL_DOCS_FROM,
 )
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.models.document import ConfidentialityTypes
+from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.utils import is_contract_owner
 from openprocurement.contracting.econtract.procedure.state.contract import (
@@ -48,14 +48,14 @@ class EContractDocumentState(BaseDocumentStateMixing, EContractState):
             and tender.get("procurementMethodType") != CFA_SELECTION  # in cfa all docs should be public
             and tender.get("procuringEntity", {}).get("identifier", {}).get("id") in CONFIDENTIAL_EDRPOU_LIST
         ):
-            if data["confidentiality"] != ConfidentialityTypes.BUYER_ONLY:
+            if data["confidentiality"] != ConfidentialityType.BUYER_ONLY:
                 raise_operation_error(
                     self.request,
                     "Document should be confidential",
                     name="confidentiality",
                     status=422,
                 )
-        elif data["confidentiality"] == ConfidentialityTypes.BUYER_ONLY:
+        elif data["confidentiality"] == ConfidentialityType.BUYER_ONLY:
             raise_operation_error(
                 self.request,
                 "Document should be public",

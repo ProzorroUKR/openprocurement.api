@@ -5,7 +5,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.award_milestone import (
-    AwardMilestoneCodes,
+    AwardMilestoneCode,
 )
 from openprocurement.tender.core.procedure.state.qualification_milestone import (
     QualificationMilestoneState,
@@ -18,8 +18,8 @@ LOGGER = getLogger(__name__)
 
 class AwardMilestoneState(QualificationMilestoneState):
     allowed_milestone_codes = (
-        AwardMilestoneCodes.CODE_24_HOURS.value,
-        AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value,
+        AwardMilestoneCode.CODE_24_HOURS.value,
+        AwardMilestoneCode.CODE_EXTENSION_PERIOD.value,
     )
 
     def validate_post(self, context_name, parent, milestone):
@@ -31,7 +31,7 @@ class AwardMilestoneState(QualificationMilestoneState):
                 status=422,
                 name=f"{context_name}s",
             )
-        if milestone["code"] == AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value:
+        if milestone["code"] == AwardMilestoneCode.CODE_EXTENSION_PERIOD.value:
             if parent.get("period"):
                 parent_period_start_date = dt_from_iso(parent["period"]["startDate"])
                 parent["period"]["endDate"] = milestone["dueDate"] = calculate_tender_full_date(
@@ -55,4 +55,4 @@ class AwardMilestoneState(QualificationMilestoneState):
 
 
 class AwardExtensionMilestoneState(AwardMilestoneState):
-    allowed_milestone_codes = (AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value,)
+    allowed_milestone_codes = (AwardMilestoneCode.CODE_EXTENSION_PERIOD.value,)

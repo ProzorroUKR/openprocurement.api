@@ -4,7 +4,7 @@ from urllib.parse import parse_qs, urlparse
 
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.context import get_request
-from openprocurement.api.procedure.models.document import ConfidentialityTypes
+from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.utils import generate_docservice_url
 
@@ -38,7 +38,7 @@ def url_to_absolute(url):
 
 def confidential_url_serialize(url, document):
     # disabling download_url_serialize. TODO: Can be done for all the documents ?
-    if document.get("confidentiality") == ConfidentialityTypes.BUYER_ONLY:
+    if document.get("confidentiality") == ConfidentialityType.BUYER_ONLY:
         return url_to_absolute(url)
     return download_url_serialize(url, document)
 

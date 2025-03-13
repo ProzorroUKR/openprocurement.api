@@ -18,7 +18,7 @@ from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.procedure.models.qualification_milestone import (
-    QualificationMilestoneCodes,
+    QualificationMilestoneCode,
 )
 from openprocurement.tender.core.tests.utils import (
     change_auth,
@@ -374,7 +374,7 @@ class BaseCoreWebTest(BaseWebTest):
             "milestones": [
                 {
                     "id": "0" * 32,
-                    "code": QualificationMilestoneCodes.CODE_24_HOURS.value,
+                    "code": QualificationMilestoneCode.CODE_24_HOURS.value,
                     "date": now.isoformat(),
                     "dueDate": (now + timedelta(hours=24)).isoformat(),
                 }

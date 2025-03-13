@@ -1,4 +1,4 @@
-from openprocurement.api.procedure.models.document import ConfidentialityTypes
+from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.procedure.serializers.document import (
     DocumentSerializer as BaseDocumentSerializer,
 )
@@ -10,7 +10,7 @@ class DocumentSerializer(BaseDocumentSerializer):
     def __init__(self, data: dict):
         self.private_fields = set()
         super().__init__(data)
-        if data.get("confidentiality", "") == ConfidentialityTypes.BUYER_ONLY:
+        if data.get("confidentiality", "") == ConfidentialityType.BUYER_ONLY:
             request = get_request()
             if (
                 request.authenticated_role not in ("aboveThresholdReviewers", "sas")

@@ -21,7 +21,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.core.procedure.models.award_milestone import (
-    AwardMilestoneCodes,
+    AwardMilestoneCode,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
@@ -4455,7 +4455,7 @@ def prolongation_award(self):
     # try to add milestone for extension without description
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/awards/{award_id}/milestones?acc_token={self.tender_token}",
-        {"data": {"code": AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value}},
+        {"data": {"code": AwardMilestoneCode.CODE_EXTENSION_PERIOD.value}},
         status=422,
     )
     self.assertEqual(
@@ -4465,7 +4465,7 @@ def prolongation_award(self):
 
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/awards/{award_id}/milestones?acc_token={self.tender_token}",
-        {"data": {"code": AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value, "description": "Prolongation"}},
+        {"data": {"code": AwardMilestoneCode.CODE_EXTENSION_PERIOD.value, "description": "Prolongation"}},
     )
 
     # check prolongation
@@ -4486,7 +4486,7 @@ def prolongation_award(self):
     # try to add one more milestone for extension
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/awards/{award_id}/milestones?acc_token={self.tender_token}",
-        {"data": {"code": AwardMilestoneCodes.CODE_EXTENSION_PERIOD.value, "description": "Prolongation"}},
+        {"data": {"code": AwardMilestoneCode.CODE_EXTENSION_PERIOD.value, "description": "Prolongation"}},
         status=422,
     )
     self.assertEqual(
