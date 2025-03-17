@@ -245,7 +245,8 @@ def create_tender_invalid_eu(self):
     classification = data["classification"].copy()
     classification["id"] = "19212310-1"
     data["classification"] = classification
-    self.initial_data["items"] = [self.initial_data["items"][0], data]
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item, data]
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -363,6 +364,7 @@ def patch_tender(self):
     owner_token = response.json["access"]["token"]
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
+    item_id = tender["items"][0]["id"]
     self.tender_id = response.json["data"]["id"]
     dateModified = tender.pop("dateModified")
 
@@ -412,16 +414,20 @@ def patch_tender(self):
         ],
     )
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0], self.initial_data["items"][0]]}},
+        {"data": {"items": [{**item, "id": item_id}, {**item, "id": uuid4().hex}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -431,13 +437,19 @@ def patch_tender(self):
     self.assertEqual(item0, item1)
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": [item0]}}
+        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        {
+            "data": {
+                "items": [{**item0, "id": item_id}],
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]["items"]), 1)
 
     item = deepcopy(item0)
+    item["id"] = item_id
     item["classification"]["id"] = "55523100-3"
     item["classification"]["description"] = "Послуги з харчування у школах"
     response = self.app.patch_json(
@@ -453,6 +465,7 @@ def patch_tender(self):
     )
 
     item = deepcopy(item0)
+    item["id"] = item_id
     item["additionalClassifications"] = [tender["items"][0]["additionalClassifications"][0] for i in range(3)]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -462,6 +475,7 @@ def patch_tender(self):
     self.assertEqual(response.content_type, "application/json")
 
     item = deepcopy(item0)
+    item["id"] = item_id
     item["additionalClassifications"] = tender["items"][0]["additionalClassifications"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -938,7 +952,8 @@ def create_tender_invalid_ua(self):
     classification = data["classification"].copy()
     classification["id"] = "19212310-1"
     data["classification"] = classification
-    self.initial_data["items"] = [self.initial_data["items"][0], data]
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item, data]
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1066,6 +1081,7 @@ def patch_tender_1(self):
     owner_token = response.json["access"]["token"]
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
+    item_id = tender["items"][0]["id"]
     self.tender_id = tender["id"]
     dateModified = tender.pop("dateModified")
 
@@ -1144,16 +1160,20 @@ def patch_tender_1(self):
         response.json["errors"], [{"location": "body", "name": "dateModified", "description": "Rogue field"}]
     )
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0], self.initial_data["items"][0]]}},
+        {"data": {"items": [{**item, "id": item_id}, {**item, "id": uuid4().hex}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1162,15 +1182,18 @@ def patch_tender_1(self):
     self.assertNotEqual(item0.pop("id"), item1.pop("id"))
     self.assertEqual(item0, item1)
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]["items"]), 1)
 
     data = deepcopy(item0)
+    data["id"] = item_id
     data["classification"] = {"scheme": "ДК021", "id": "44620000-2", "description": "Cartons 2"}
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -1196,6 +1219,7 @@ def patch_tender_1(self):
     )
 
     data = deepcopy(item0)
+    data["id"] = item_id
     data["additionalClassifications"] = [tender["items"][0]["additionalClassifications"][0] for i in range(3)]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -1205,6 +1229,7 @@ def patch_tender_1(self):
     self.assertEqual(response.content_type, "application/json")
 
     data = deepcopy(item0)
+    data["id"] = item_id
     data["additionalClassifications"] = tender["items"][0]["additionalClassifications"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),

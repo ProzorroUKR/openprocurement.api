@@ -26,9 +26,6 @@ from tests.base.data import (
     test_docs_tender_stage2_multiple_lots,
     test_docs_tender_stage2EU,
     test_docs_tender_stage2UA,
-    test_docs_tenderer,
-    test_docs_tenderer2,
-    test_docs_tenderer4,
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
@@ -37,17 +34,16 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
     BaseCompetitiveDialogUAStage2WebTest,
-    test_tender_cdeu_config,
+    test_tender_cdeu_criteria,
     test_tender_cdeu_stage2_config,
+    test_tender_cdua_criteria,
     test_tender_cdua_stage2_config,
 )
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
-)
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_criteria,
+)
 
 test_tender_data_stage1 = deepcopy(test_docs_tender_stage1)
 test_tender_data_stage2_multiple_lots = deepcopy(test_docs_tender_stage2_multiple_lots)
@@ -190,11 +186,12 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             )
             self.assertEqual(response.status, '200 OK')
 
-        #### Tender activating
+        # add criteria
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
 
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        test_criteria_data = deepcopy(test_tender_cdeu_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -202,6 +199,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             )
             self.assertEqual(response.status, '201 Created')
 
+        # Tender activating
         with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"status": "active.tendering"}}
@@ -819,16 +817,19 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 },
             )
 
-        # Tender activating
+        # add criteria
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
 
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        test_criteria_data = deepcopy(test_tender_cdeu_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
+
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(tender['id'], owner_token), {'data': test_criteria_data}
         )
         self.assertEqual(response.status, '201 Created')
 
+        # Tender activating
         with open(TARGET_DIR + 'stage2/EU/tender-activate.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token), {'data': {'status': 'active.tendering'}}
@@ -1813,9 +1814,12 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             self.assertEqual(response.json['data']['status'], 'complete')
             self.assertEqual(response.json['data']['stage2TenderID'], new_tender_id)
 
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        # add criteria
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_cdeu_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         with open(TARGET_DIR_MULTIPLE + 'tender_stage2_add_criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -1824,6 +1828,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             )
             self.assertEqual(response.status, '201 Created')
 
+        # Tender activating
         with open(TARGET_DIR_MULTIPLE + 'tender_stage2_modify_status.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(new_tender_id, self.new_tender_token),
@@ -1971,15 +1976,19 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
                 },
             )
 
-        # Tender activating
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        # add criteria
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_cdua_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
+
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(tender['id'], owner_token), {'data': test_criteria_data}
         )
         self.assertEqual(response.status, '201 Created')
 
+        # Tender activating
         with open(TARGET_DIR + 'stage2/UA/tender-activate.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token), {'data': {'status': 'active.tendering'}}

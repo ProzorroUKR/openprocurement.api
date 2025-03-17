@@ -3,13 +3,11 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from tests.base.constants import AUCTIONS_URL, DOCS_URL, MOCK_DATETIME
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2_with_docs,
     test_docs_bid_draft,
     test_docs_funder,
-    test_docs_items_open,
-    test_docs_lots,
     test_docs_question,
     test_docs_tender_below,
     test_docs_tender_below_maximum,

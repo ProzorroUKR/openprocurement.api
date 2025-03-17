@@ -45,18 +45,23 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
-from openprocurement.tender.competitiveordering.tests.base import test_tender_co_config
+from openprocurement.tender.competitiveordering.tests.base import (
+    test_tender_co_config,
+    test_tender_co_criteria,
+)
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_contract_guarantee_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
+from openprocurement.tender.core.tests.base import test_default_criteria
+from openprocurement.tender.core.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_criteria,
+    set_tender_lots,
 )
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.esco.tests.base import test_tender_esco_config
+from openprocurement.tender.esco.tests.base import (
+    test_tender_esco_config,
+    test_tender_esco_criteria,
+)
 from openprocurement.tender.open.tests.base import test_tender_open_config
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.openeu.tests.base import test_tender_openeu_config
@@ -202,14 +207,12 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
 
     def add_criteria(self, tender_id, owner_token):
         # add criteria
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        for i in range(len(test_criteria_data)):
-            classification_id = test_criteria_data[i]['classification']['id']
-            if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
-                del test_criteria_data[i]
-                break
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_default_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
+
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token), {'data': test_criteria_data}
         )
@@ -2350,16 +2353,19 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
         )
         self.assertEqual(response.status, '200 OK')
 
-        #### Tender activating
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        # add criteria
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_esco_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         response = self.app.post_json(
             f'/tenders/{self.tender_id}/criteria?acc_token={owner_token}', {'data': test_criteria_data}
         )
         self.assertEqual(response.status, '201 Created')
 
+        # Tender activating
         self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}?acc_token={owner_token}', {'data': {'status': 'active.tendering'}}
@@ -2538,9 +2544,12 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '200 OK')
 
         #### Tender activating
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_esco_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
+
         response = self.app.post_json(
             f'/tenders/{self.tender_id}/criteria?acc_token={owner_token}', {'data': test_criteria_data}
         )
@@ -2713,17 +2722,6 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
         response = self.get_framework()
         self.agreement_id = response.json["data"]["agreementID"]
 
-        # Generate criteria for tenders
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        for i in range(len(test_criteria_data)):
-            classification_id = test_criteria_data[i]['classification']['id']
-            if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
-                del test_criteria_data[i]
-                break
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
-        test_criteria_data.extend(test_contract_guarantee_criteria)
-
         # Creating tender
 
         data = deepcopy(test_docs_tender_co)
@@ -2769,6 +2767,12 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
         self.assertEqual(response.status, '200 OK')
 
         # add criteria
+        response = self.app.get('/tenders/{}'.format(tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_co_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
+
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token), {'data': test_criteria_data}
         )

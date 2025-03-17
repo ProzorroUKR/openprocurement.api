@@ -17,6 +17,7 @@ from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
 from openprocurement.tender.pricequotation.tests.data import (
     test_agreement_pq_data,
     test_tender_pq_cancellation,
+    test_tender_pq_criteria,
     test_tender_pq_data,
     test_tender_pq_item,
     test_tender_pq_milestones,
@@ -2123,8 +2124,10 @@ def patch_items_related_buyer_id(self):
 
     # adding new unassigned items
     second_item = deepcopy(self.initial_data["items"][0])
+    second_item["id"] = uuid4().hex
     second_item["description"] = "телевізори"
     third_item = deepcopy(self.initial_data["items"][0])
+    third_item["id"] = uuid4().hex
     third_item["description"] = "ноутбуки"
 
     response = self.app.patch_json(
@@ -2440,7 +2443,7 @@ def create_tender_pq_from_dps_invalid_agreement(self):
     owner_token = response.json["access"]["token"]
 
     self.tender_id = tender_id
-    add_criteria(self)
+    add_criteria(self, criteria=test_tender_pq_criteria)
     self.add_sign_doc(tender_id, owner_token)
 
     # Invalid agreement type

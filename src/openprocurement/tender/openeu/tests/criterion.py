@@ -4,6 +4,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_below_l
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_data,
+    test_tender_openeu_required_criteria_ids,
 )
 from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaLccTestMixin,
@@ -20,19 +21,7 @@ class TenderEUCriteriaTest(TenderCriteriaTestMixin, TenderCriteriaLccTestMixin, 
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "draft"
 
-    required_criteria = {
-        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-        "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
-        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-        "CRITERION.EXCLUSION.NATIONAL.OTHER",
-        "CRITERION.OTHER.BID.LANGUAGE",
-    }
+    required_criteria = test_tender_openeu_required_criteria_ids
 
 
 class TenderEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest):

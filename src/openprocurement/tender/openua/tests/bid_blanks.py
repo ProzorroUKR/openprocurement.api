@@ -7,13 +7,13 @@ from openprocurement.tender.belowthreshold.tests.base import (
     now,
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.criteria_utils import (
-    generate_guarantee_criterion_responses,
-)
 from openprocurement.tender.core.tests.utils import (
     change_auth,
+    generate_criterion_responses,
+    generate_req_response,
     set_bid_items,
     set_bid_lotvalues,
+    set_bid_responses,
 )
 
 # TenderBidResourceTest
@@ -1768,23 +1768,8 @@ def patch_bid_requirement_response(self):
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+
     rr_id = response.json["data"][0]["id"]
-    #
-    # tender = self.mongodb.tenders.get(self.tender_id)
-    #
-    # req_resp = tender["bids"][0]["requirementResponses"][0]
-    # req_resp.update({
-    #     "title": "title",
-    #     "description": "description",
-    # })
-    #
-    # self.mongodb.tenders.save(tender)
-    #
-    # response = self.app.get(f"/tenders/{self.tender_id}/bids/{self.bid_id}?acc_token={self.bid_token}")
-    # self.assertEqual(response.status, "200 OK")
-    # self.assertEqual(response.content_type, "application/json")
-    #
-    # bid = response.json["data"]
 
     response = self.app.post_json(request_path, {"data": valid_data_2})
     self.assertEqual(response.status, "201 Created")
@@ -1871,18 +1856,7 @@ def get_bid_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
     criteria = response.json["data"]
 
-    valid_data = []
-    for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] in ("tenderer", "winner"):
-                valid_data.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
-                        },
-                        "value": True,
-                    }
-                )
+    valid_data = set_bid_responses(criteria)
 
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
@@ -1907,7 +1881,7 @@ def get_bid_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
 
     rrs = response.json["data"]
-    self.assertEqual(len(rrs), 10)
+    self.assertEqual(len(rrs), 12)
 
     clean_requirement_responses(rrs)
     for i, rr_data in enumerate(valid_data):
@@ -2082,14 +2056,7 @@ def bid_activate(self):
         if criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
             guarantee_criterion = criterion
         elif criterion["source"] in ("tenderer", "winner"):
-            rrs.append(
-                {
-                    "requirement": {
-                        "id": criterion["requirementGroups"][0]["requirements"][0]["id"],
-                    },
-                    "value": True,
-                }
-            )
+            rrs.append(generate_req_response(criterion["requirementGroups"][0]["requirements"][0]))
             if criterion["id"] not in criteria_ids:
                 criteria_ids.append(criterion["id"])
 
@@ -2120,7 +2087,7 @@ def bid_activate(self):
             ],
         )
 
-        guarantee_rr = generate_guarantee_criterion_responses(guarantee_criterion)
+        guarantee_rr = generate_criterion_responses(guarantee_criterion)
         response = self.app.post_json(
             "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(
                 self.tender_id, self.bid_id, self.bid_token
@@ -2162,6 +2129,12 @@ def bid_activate(self):
         status=422,
     )
 
+    multiple_req_criteria = None
+    for criterion in criteria:
+        if len(criterion["requirementGroups"][0]["requirements"]) > 1:
+            multiple_req_criteria = criterion
+            break
+
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
@@ -2171,7 +2144,7 @@ def bid_activate(self):
             {
                 'description': [
                     "Responses are required for all requirements in a requirement group, "
-                    f"failed for criteria {criteria[2]['id']}"
+                    f"failed for criteria {multiple_req_criteria['id']}"
                 ],
                 'location': 'body',
                 'name': 'requirementResponses',
@@ -2179,19 +2152,10 @@ def bid_activate(self):
         ],
     )
 
-    another_rg_req = criteria[2]["requirementGroups"][1]["requirements"][0]
+    another_rg_req = multiple_req_criteria["requirementGroups"][1]["requirements"][0]
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {
-            "data": [
-                {
-                    "requirement": {
-                        "id": another_rg_req["id"],
-                    },
-                    "value": True,
-                }
-            ]
-        },
+        {"data": [generate_req_response(another_rg_req)]},
     )
     self.assertEqual(response.status, "201 Created")
     remove_rr_id = response.json["data"][0]["id"]
@@ -2211,7 +2175,7 @@ def bid_activate(self):
             {
                 'description': [
                     "Responses are allowed for only one group of requirements per criterion, "
-                    f"failed for criteria {criteria[2]['id']}"
+                    f"failed for criteria {multiple_req_criteria['id']}"
                 ],
                 'location': 'body',
                 'name': 'requirementResponses',
@@ -2271,16 +2235,7 @@ def bid_activate(self):
 
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {
-            "data": [
-                {
-                    "requirement": {
-                        "id": criteria[2]["requirementGroups"][0]["requirements"][1]["id"],
-                    },
-                    "value": True,
-                }
-            ]
-        },
+        {"data": [generate_req_response(multiple_req_criteria["requirementGroups"][0]["requirements"][1])]},
     )
     self.assertEqual(response.status, "201 Created")
 

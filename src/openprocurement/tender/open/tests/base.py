@@ -14,6 +14,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_features_data,
     test_tender_below_organization,
 )
+from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
+    test_article_16_criteria,
+    test_main_criteria,
+)
 from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.tests.periods import PERIODS
@@ -111,6 +116,24 @@ test_tender_open_complaint_objection = {
     "arguments": [{"description": "test argument"}],
     "sequenceNumber": 1,
 }
+
+test_tender_open_required_criteria_ids = {
+    "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+    "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+    "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+    "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+    "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
+    "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+    "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+    "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    "CRITERION.OTHER.BID.LANGUAGE",
+}
+
+test_tender_open_criteria = []
+test_tender_open_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_open_required_criteria_ids))
+test_tender_open_criteria.extend(test_article_16_criteria[:1])
 
 
 class BaseApiWebTest(BaseWebTest):

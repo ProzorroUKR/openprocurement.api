@@ -2,6 +2,7 @@ import unittest
 from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
+from uuid import uuid4
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -17,13 +18,10 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (  # TenderLo
     tender_lot_guarantee,
     tender_lot_milestones,
 )
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-    test_language_criteria,
-)
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openua_bids,
+    test_tender_openua_criteria,
     test_tender_openua_data,
     test_tender_openua_features_data,
 )
@@ -72,7 +70,7 @@ class TenderUALotProcessTestMixin:
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
     initial_data = test_tender_openua_data
     initial_lots = test_lots_data = test_tender_below_lots
-    initial_criteria = test_exclusion_criteria + test_language_criteria
+    initial_criteria = test_tender_openua_criteria
 
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
     test_tender_lot_milestones = snitch(tender_lot_milestones)
@@ -95,7 +93,7 @@ class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureR
     initial_data = test_tender_openua_data
     initial_lots = 2 * test_tender_below_lots
     test_bids_data = test_tender_openua_bids
-    initial_criteria = test_exclusion_criteria + test_language_criteria
+    initial_criteria = test_tender_openua_criteria
     invalid_feature_value = 0.5
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
@@ -105,7 +103,7 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_tender_openua_data
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_openua_bids
-    initial_criteria = test_exclusion_criteria + test_language_criteria
+    initial_criteria = test_tender_openua_criteria
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
@@ -115,13 +113,14 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_tender_openua_data
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_openua_bids
-    initial_criteria = test_exclusion_criteria + test_language_criteria
+    initial_criteria = test_tender_openua_criteria
 
     def setUp(self):
         super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
+        self.item_id = uuid4().hex
         items = [deepcopy(self.initial_data["items"][0])]
-        items[0]["id"] = "1"
+        items[0]["id"] = self.item_id
         items[0]["relatedLot"] = self.lot_id
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -132,7 +131,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
                         {
                             "code": "code_item",
                             "featureOf": "item",
-                            "relatedItem": "1",
+                            "relatedItem": self.item_id,
                             "title": "item feature",
                             "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
                         },
@@ -167,9 +166,11 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 )
 class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
     initial_data = test_tender_openua_data
+
     test_bids_data = test_tender_openua_bids
     test_lots_data = test_tender_below_lots
     test_features_tender_data = test_tender_openua_features_data
+
     setUp = BaseTenderUAContentWebTest.setUp
 
     days_till_auction_starts = 16

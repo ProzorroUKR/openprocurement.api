@@ -20,8 +20,10 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     test_tender_cd_lots,
     test_tender_cd_stage1_bids,
+    test_tender_cdeu_criteria,
     test_tender_cdeu_data,
     test_tender_cdua_config,
+    test_tender_cdua_criteria,
     test_tender_cdua_data,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.lot_blanks import (
@@ -39,11 +41,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.lot_blanks import (
     two_lot_2bid_2com_2win,
     two_lot_2can,
 )
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
-)
 from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 
 
@@ -52,8 +49,9 @@ class CompetitiveDialogueEULotResourceTest(
 ):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cdeu_data
+    initial_criteria = test_tender_cdeu_criteria
+
     initial_lots = test_lots_data = test_tender_cd_lots  # TODO: change attribute identifier
-    initial_criteria = test_exclusion_criteria + test_language_criteria + test_article_16_criteria[:1]
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
@@ -75,13 +73,14 @@ class CompetitiveDialogueEULotEdgeCasesTest(BaseCompetitiveDialogEUContentWebTes
 
 
 class CompetitiveDialogueEULotFeatureResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    initial_lots = 2 * test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
+    initial_lots = 2 * test_tender_cd_lots
     initial_data = test_tender_cdeu_data
+    initial_criteria = test_tender_cdeu_criteria
+
     invalid_feature_value = 1
     max_feature_value = 0.99
     sum_of_max_value_of_all_features = 0.99
-    initial_criteria = test_exclusion_criteria + test_language_criteria + test_article_16_criteria[:1]
 
     test_tender_value = snitch(tender_value)
     test_tender_features_invalid = snitch(tender_features_invalid)
@@ -90,6 +89,7 @@ class CompetitiveDialogueEULotFeatureResourceTest(BaseCompetitiveDialogEUContent
 class CompetitiveDialogueEULotBidderResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
+
     test_bids_data = test_tender_cd_stage1_bids  # TODO: change attribute identifier
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
@@ -98,6 +98,7 @@ class CompetitiveDialogueEULotBidderResourceTest(BaseCompetitiveDialogEUContentW
 
 class CompetitiveDialogueEULotProcessTest(BaseCompetitiveDialogEUContentWebTest):
     initial_data = test_tender_cdeu_data
+
     initial_lots = test_lots_data = test_tender_cd_lots  # TODO: change attribute identifier
     initial_bids = test_bids_data = test_tender_cd_stage1_bids  # TODO: change attribute identifier
 
@@ -118,9 +119,11 @@ class CompetitiveDialogueUALotResourceTest(
 ):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cdua_data
-    initial_lots = test_lots_data = test_tender_cd_lots  # TODO: change attribute identifier
+    initial_criteria = test_tender_cdua_criteria
+
     test_status_that_denies_delete_create_patch_lots = "unsuccessful"
-    initial_criteria = test_exclusion_criteria + test_language_criteria + test_article_16_criteria[:1]
+
+    initial_lots = test_lots_data = test_tender_cd_lots  # TODO: change attribute identifier
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
@@ -135,10 +138,11 @@ class CompetitiveDialogueUALotFeatureResourceTest(BaseCompetitiveDialogUAContent
     initial_lots = 2 * test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cdua_data
+    initial_criteria = test_tender_cdua_criteria
+
     invalid_feature_value = 1
     max_feature_value = 0.99
     sum_of_max_value_of_all_features = 0.99
-    initial_criteria = test_exclusion_criteria + test_language_criteria + test_article_16_criteria[:1]
 
     test_tender_value = snitch(tender_value)
     test_tender_features_invalid = snitch(tender_features_invalid)
@@ -147,8 +151,9 @@ class CompetitiveDialogueUALotFeatureResourceTest(BaseCompetitiveDialogUAContent
 class CompetitiveDialogueUALotBidderResourceTest(BaseCompetitiveDialogUAContentWebTest):
     initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
+    initial_criteria = test_tender_cdua_criteria
+
     test_bids_data = test_tender_cd_stage1_bids  # TODO: change attribute identifier
-    initial_criteria = test_exclusion_criteria + test_language_criteria + test_article_16_criteria[:1]
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
@@ -158,8 +163,9 @@ class CompetitiveDialogueUALotFeatureBidderResourceTest(BaseCompetitiveDialogUAC
     initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cdua_data
+    initial_criteria = test_tender_cdua_criteria
+
     test_bids_data = test_tender_cd_stage1_bids  # TODO: change attribute identifier
-    initial_criteria = test_exclusion_criteria + test_language_criteria + test_article_16_criteria[:1]
 
     def setUp(self):
         super().setUp()

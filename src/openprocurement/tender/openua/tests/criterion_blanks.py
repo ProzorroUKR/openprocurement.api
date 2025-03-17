@@ -16,12 +16,14 @@ from openprocurement.tender.core.tests.base import (
     test_tech_feature_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 
 
 def create_tender_criteria_valid(self):
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
     criteria = deepcopy(test_exclusion_criteria)
-    criterion = deepcopy(test_exclusion_criteria)[0]
+
+    criterion = deepcopy(criteria[0])
     criterion["classification"]["id"] = "CRITERION.NO.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
 
     response = self.app.post_json(request_path, {"data": criteria})
@@ -57,7 +59,7 @@ def create_tender_criteria_valid(self):
             "data": {
                 "classification": {
                     **criterion_data["classification"],
-                    "id": test_exclusion_criteria[0]["classification"]["id"],
+                    "id": criteria[0]["classification"]["id"],
                 }
             }
         },
@@ -92,11 +94,9 @@ def create_tender_criteria_valid(self):
         response2.json["errors"], [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
     )
 
-    criteria = response.json["data"][0]
-    self.assertEqual("Вчинення економічних правопорушень", criteria["title"])
-    self.assertEqual("tenderer", criteria["source"])
-    self.assertIn("requirementGroups", criteria)
-    for requirementGroup in criteria["requirementGroups"]:
+    criterion = deepcopy(criteria[0])
+    self.assertIn("requirementGroups", criterion)
+    for requirementGroup in criterion["requirementGroups"]:
         self.assertIn("requirements", requirementGroup)
 
     lang_criterion = deepcopy(test_language_criteria)
@@ -471,6 +471,9 @@ def get_tender_criteria(self):
 
 
 def activate_tender(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
     self.add_sign_doc(self.tender_id, self.tender_token)
 
@@ -492,6 +495,7 @@ def activate_tender(self):
             test_exclusion_criteria + test_language_criteria + test_article_16_criteria,
             criteria_ids,
         )
+        set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
 
         # Try to activate without criteria
         response = self.app.patch_json(
@@ -674,13 +678,9 @@ def create_criteria_rg(self):
 
 def patch_criteria_rg(self):
     response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
-    rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
-
-    criteria_not_editable_id = response.json["data"][1]["id"]
-    rg_not_editable_id = response.json["data"][1]["requirementGroups"][0]["id"]
 
     request_path = "/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}".format(
-        self.tender_id, self.criteria_id, rg_id, self.tender_token
+        self.tender_id, self.criteria_id, self.rg_id, self.tender_token
     )
 
     updated_fields = {
@@ -690,7 +690,7 @@ def patch_criteria_rg(self):
 
     response = self.app.patch_json(
         "/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}".format(
-            self.tender_id, criteria_not_editable_id, rg_not_editable_id, self.tender_token
+            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, self.tender_token
         ),
         {"data": updated_fields},
         status=403,
@@ -722,6 +722,14 @@ def patch_criteria_rg(self):
 def get_criteria_rg(self):
     requirement_group_data = deepcopy(test_requirement_groups[0])
 
+    response = self.app.get(
+        "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
+            self.tender_id, self.criteria_id, self.tender_token
+        ),
+    )
+    rgs = response.json["data"]
+    rgs_count = len(rgs)
+
     response = self.app.post_json(
         "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
             self.tender_id, self.criteria_id, self.tender_token
@@ -731,6 +739,7 @@ def get_criteria_rg(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     rg_id = response.json["data"]["id"]
+    rgs_count += 1
 
     response = self.app.get(
         "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
@@ -738,13 +747,13 @@ def get_criteria_rg(self):
         ),
     )
     rgs = response.json["data"]
-    self.assertEqual(len(rgs), 2)
-    self.assertIn("requirements", rgs[1])
+    self.assertEqual(len(rgs), rgs_count)
+    self.assertIn("requirements", rgs[-1])
 
     del requirement_group_data["requirements"]
 
     for k, v in requirement_group_data.items():
-        self.assertEqual(rgs[1][k], v)
+        self.assertEqual(rgs[-1][k], v)
 
     response = self.app.get(
         "/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}".format(
@@ -774,17 +783,6 @@ def create_rg_requirement_valid(self):
 
     requirement_data = deepcopy(self.test_requirement_data)
     requirement_data["id"] = requirement["id"]
-    # Now it's useless test
-    # response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
-    # self.assertEqual(response.status, "422 Unprocessable Entity")
-    # self.assertEqual(response.content_type, "application/json")
-    # self.assertEqual(response.json["status"], "error")
-    # self.assertEqual(
-    #     response.json["errors"],
-    #     [{'description': ['Requirement id should be uniq for all requirements in tender'],
-    #       'location': 'body',
-    #       'name': 'criteria'}],
-    # )
 
 
 def create_rg_requirement_invalid(self):

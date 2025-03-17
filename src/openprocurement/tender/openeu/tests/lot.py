@@ -16,14 +16,10 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     create_tender_lot_minimalstep_validation,
     patch_tender_lot_minimalstep_validation,
 )
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
-)
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
+    test_tender_openeu_criteria,
     test_tender_openeu_data,
     test_tender_openeu_lots,
 )
@@ -79,6 +75,7 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMix
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_openeu_lots * 2
     initial_bids = test_tender_openeu_bids
+
     test_author = test_tender_below_author
 
 
@@ -86,6 +83,7 @@ class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureRes
     initial_lots = 2 * test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_openeu_data
+
     invalid_feature_value = 0.4
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
@@ -94,6 +92,7 @@ class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureRes
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
+
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
@@ -104,8 +103,8 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_openeu_data
+    initial_criteria = test_tender_openeu_criteria
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
-    initial_criteria = test_exclusion_criteria + test_language_criteria + test_article_16_criteria[:1]
 
     def setUp(self):
         super().setUp()
@@ -156,8 +155,10 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
 )
 class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
     setUp = BaseTenderContentWebTest.setUp
-    test_lots_data = test_tender_openeu_lots  # TODO: change attribute identifier
+
     initial_data = test_tender_openeu_data
+
+    test_lots_data = test_tender_openeu_lots  # TODO: change attribute identifier
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
 
     days_till_auction_starts = 16

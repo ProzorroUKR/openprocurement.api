@@ -3545,7 +3545,7 @@ def create_qualification_requirement_response(self):
         [
             {
                 'location': 'body',
-                "name": 0,
+                "name": "requirementResponses.0",
                 "description": {"value": "Response required at least one of field [\"value\", \"values\"]"},
             },
         ],

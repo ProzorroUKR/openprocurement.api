@@ -7,6 +7,7 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_mi
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_tender_cfaua_bids,
+    test_tender_cfaua_criteria,
     test_tender_cfaua_data,
     test_tender_cfaua_lots,
 )
@@ -30,10 +31,6 @@ from openprocurement.tender.cfaua.tests.lot_blanks import (
     tender_lot_guarantee,
     tender_value,
 )
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-    test_language_criteria,
-)
 from openprocurement.tender.openeu.tests.lot_blanks import patch_tender_bidder
 
 one_lot_restriction = True
@@ -41,9 +38,10 @@ one_lot_restriction = True
 
 class TenderLotResourceTest(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
-    test_lots_data = test_tender_cfaua_lots  # TODO: change attribute identifier
     initial_data = test_tender_cfaua_data
-    initial_criteria = test_exclusion_criteria + test_language_criteria
+    initial_criteria = test_tender_cfaua_criteria
+
+    test_lots_data = test_tender_cfaua_lots  # TODO: change attribute identifier
 
     # test_create_tender_lot_invalid = None
     # test_delete_tender_lot = None
@@ -83,6 +81,7 @@ class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
+
     test_bids_data = test_tender_cfaua_bids  # TODO: change attribute identifier
 
     # TODO: uncomment when bid activation will be removed
@@ -94,8 +93,9 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cfaua_data
+    initial_criteria = test_tender_cfaua_criteria
+
     test_bids_data = test_tender_cfaua_bids  # TODO: change attribute identifier
-    initial_criteria = test_exclusion_criteria + test_language_criteria
 
     def setUp(self):
         super().setUp()
@@ -151,10 +151,11 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
 
 class TenderLotProcessTest(BaseTenderContentWebTest):
     setUp = BaseTenderContentWebTest.setUp
-    test_lots_data = test_tender_cfaua_lots  # TODO: change attribute identifier
     initial_data = test_tender_cfaua_data
+    initial_criteria = test_tender_cfaua_criteria
+
+    test_lots_data = test_tender_cfaua_lots  # TODO: change attribute identifier
     test_bids_data = test_tender_cfaua_bids  # TODO: change attribute identifier
-    initial_criteria = test_exclusion_criteria + test_language_criteria
 
     days_till_auction_starts = 16
 

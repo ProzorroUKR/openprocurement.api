@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.constants_utils import parse_date
@@ -70,6 +71,7 @@ def patch_tender(self):
 
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
+    item_id = tender["items"][0]["id"]
     dateModified = tender.pop("dateModified")
 
     self.app.patch_json(
@@ -155,16 +157,20 @@ def patch_tender(self):
         response.json["errors"], [{"location": "body", "name": "dateModified", "description": "Rogue field"}]
     )
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0], self.initial_data["items"][0]]}},
+        {"data": {"items": [{**item, "id": item_id}, {**item, "id": uuid4().hex}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -175,13 +181,14 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]["items"]), 1)
 
     item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     item["classification"] = {"scheme": "ДК021", "id": "44620000-2", "description": "Cartons 2"}
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
@@ -215,6 +222,7 @@ def patch_tender(self):
     )
 
     item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     item["additionalClassifications"] = [tender["items"][0]["additionalClassifications"][0] for i in range(3)]
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
@@ -228,6 +236,7 @@ def patch_tender(self):
     self.assertEqual(response.content_type, "application/json")
 
     item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     item["additionalClassifications"] = tender["items"][0]["additionalClassifications"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),

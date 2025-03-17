@@ -6,10 +6,10 @@ from unittest.mock import patch
 import pytest
 
 from openprocurement.api.utils import get_now
+from openprocurement.planning.api.tests.base import app  # noqa
+from openprocurement.planning.api.tests.base import singleton_app  # noqa
 from openprocurement.planning.api.tests.base import (
-    app,
     generate_docservice_url,
-    singleton_app,
     test_plan_data,
 )
 

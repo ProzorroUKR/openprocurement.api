@@ -20,8 +20,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_lots,
 )
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import change_auth, generate_req_response
 from openprocurement.tender.open.tests.award_blanks import (
     another_award_for_one_lot_has_considered_complaint,
     another_award_has_considered_complaint,
@@ -82,6 +81,7 @@ from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_below_organization,
     test_tender_open_bids,
+    test_tender_open_criteria,
     test_tender_open_three_bids,
 )
 
@@ -101,7 +101,7 @@ class TenderUAAwardComplaintResourceTestMixin:
 
 
 class TenderAwardRequirementResponseTestMixin:
-    initial_criteria = test_exclusion_criteria
+    initial_criteria = test_tender_open_criteria
     initial_lots = test_tender_below_lots
 
     test_create_award_requirement_response = snitch(create_award_requirement_response)
@@ -110,7 +110,7 @@ class TenderAwardRequirementResponseTestMixin:
 
 
 class TenderAwardRequirementResponseEvidenceTestMixin:
-    initial_criteria = test_exclusion_criteria
+    initial_criteria = test_tender_open_criteria
     initial_lots = test_tender_below_lots
 
     test_create_award_requirement_response_evidence = snitch(create_award_requirement_response_evidence)
@@ -323,7 +323,14 @@ class TenderAwardRequirementResponseResourceTest(
         super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
-        requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
+
+        boolean_requirement_criteria = []
+        for criterion in criteria:
+            if criterion["source"] in ("procuringEntity",):
+                if criterion["requirementGroups"][0]["requirements"][0]["dataType"] == "boolean":
+                    boolean_requirement_criteria.append(criterion)
+
+        requirement = boolean_requirement_criteria[0]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
         self.requirement_title = requirement["title"]
 
@@ -336,7 +343,14 @@ class TenderAwardRequirementResponseEvidenceResourceTest(
         super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
-        requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
+
+        boolean_requirement_criteria = []
+        for criterion in criteria:
+            if criterion["source"] in ("procuringEntity",):
+                if criterion["requirementGroups"][0]["requirements"][0]["dataType"] == "boolean":
+                    boolean_requirement_criteria.append(criterion)
+
+        requirement = boolean_requirement_criteria[0]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
         self.requirement_title = requirement["title"]
 
@@ -344,14 +358,7 @@ class TenderAwardRequirementResponseEvidenceResourceTest(
             self.tender_id, self.award_id, self.tender_token
         )
 
-        rr_data = [
-            {
-                "requirement": {
-                    "id": self.requirement_id,
-                },
-                "value": True,
-            }
-        ]
+        rr_data = generate_req_response(requirement)
 
         response = self.app.post_json(request_path, {"data": rr_data})
         self.assertEqual(response.status, "201 Created")

@@ -8,6 +8,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_organization,
 )
+from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
+    test_main_criteria,
+)
 from openprocurement.tender.core.tests.utils import (
     get_contract_template_name,
     set_tender_multi_buyers,
@@ -75,6 +79,13 @@ test_tender_simpledefense_config = {
     "qualificationDuration": 0,
     "restricted": False,
 }
+
+test_tender_simpledefense_required_criteria_ids = set()
+
+test_tender_simpledefense_criteria = []
+test_tender_simpledefense_criteria.extend(
+    get_criteria_by_ids(test_main_criteria, test_tender_simpledefense_required_criteria_ids)
+)
 
 
 class BaseApiWebTest(BaseWebTest):

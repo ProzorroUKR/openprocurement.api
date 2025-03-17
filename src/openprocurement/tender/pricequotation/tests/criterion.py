@@ -25,6 +25,7 @@ from openprocurement.tender.pricequotation.tests.criterion_blanks import (
 )
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
+    test_tender_pq_required_criteria_ids,
     test_tender_pq_short_profile,
 )
 
@@ -53,7 +54,8 @@ class TenderPQ1CriteriaTest(TenderCriteriaTestMixin, TenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "draft"
 
-    required_criteria = {}
+    required_criteria = test_tender_pq_required_criteria_ids
+
     test_get_tender_criteria = snitch(get_tender_criteria)
     test_create_tender_criteria_invalid = snitch(create_tender_criteria_invalid)
     test_activate_tender = snitch(activate_tender)

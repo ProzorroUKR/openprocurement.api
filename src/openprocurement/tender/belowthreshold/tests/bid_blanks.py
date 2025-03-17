@@ -5,7 +5,11 @@ from openprocurement.api.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import (
+    generate_req_response,
+    set_bid_items,
+    set_bid_lotvalues,
+)
 
 # TenderBidResourceTest
 
@@ -1231,15 +1235,8 @@ def update_tender_bid_pmr_related_doc(self):
         }
     ]
 
-    rr_data = [
-        {
-            "requirement": {
-                "id": requirement["id"],
-            },
-            "values": ["ukr"],
-            "evidences": evidences,
-        }
-    ]
+    rr_data = [generate_req_response(requirement)]
+    rr_data[0]["evidences"] = evidences
 
     # POST
     bid_data = {
@@ -1340,15 +1337,8 @@ def update_tender_bid_pmr_related_tenderer(self):
     criteria = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"]
     requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
 
-    rr_data = [
-        {
-            "requirement": {
-                "id": requirement["id"],
-            },
-            "values": ["ukr"],
-            "relatedTenderer": {"id": "abc", "title": ""},
-        }
-    ]
+    rr_data = [generate_req_response(requirement)]
+    rr_data[0]["relatedTenderer"] = {"id": "abc", "title": ""}
 
     # POST
     response = self.app.post_json(
@@ -1377,18 +1367,19 @@ def update_tender_rr(self):
     criteria = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"]
     requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
 
-    evidences = [{"description": "2", "id": "a" * 32, "relatedDocument": None, "title": "4", "type": "statement"}]
-
-    rr_data = [
+    evidences = [
         {
-            "id": "f" * 32,
-            "requirement": {
-                "id": requirement["id"],
-            },
-            "values": ["ukr"],
-            "evidences": evidences,
+            "description": "2",
+            "id": "a" * 32,
+            "relatedDocument": None,
+            "title": "4",
+            "type": "statement",
         }
     ]
+
+    rr_data = [generate_req_response(requirement)]
+    rr_data[0]["id"] = "f" * 32
+    rr_data[0]["evidences"] = evidences
 
     # POST with passed ids
     bid_data = {
@@ -1425,18 +1416,19 @@ def update_tender_rr_evidence_id(self):
     criteria = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"]
     requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
 
-    evidences = [{"description": "2", "id": "a" * 32, "relatedDocument": None, "title": "4", "type": "statement"}]
-
-    rr_data = [
+    evidences = [
         {
-            "id": "f" * 32,
-            "requirement": {
-                "id": requirement["id"],
-            },
-            "values": ["ukr"],
-            "evidences": evidences,
+            "description": "2",
+            "id": "a" * 32,
+            "relatedDocument": None,
+            "title": "4",
+            "type": "statement",
         }
     ]
+
+    rr_data = [generate_req_response(requirement)]
+    rr_data[0]["id"] = "f" * 32
+    rr_data[0]["evidences"] = evidences
 
     # POST with passed ids
     bid_data = {

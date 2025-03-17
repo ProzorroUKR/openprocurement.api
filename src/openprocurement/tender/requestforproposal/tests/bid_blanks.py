@@ -1,6 +1,10 @@
 from copy import deepcopy
 
-from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import (
+    generate_req_response,
+    set_bid_items,
+    set_bid_lotvalues,
+)
 from openprocurement.tender.requestforproposal.tests.base import (
     test_tender_rfp_organization,
 )
@@ -19,15 +23,8 @@ def update_tender_bid_pmr_related_doc(self):
         }
     ]
 
-    rr_data = [
-        {
-            "requirement": {
-                "id": requirement["id"],
-            },
-            "values": ["ukr"],
-            "evidences": evidences,
-        }
-    ]
+    rr_data = [generate_req_response(requirement)]
+    rr_data[0]["evidences"] = evidences
 
     # POST
     bid_data = {

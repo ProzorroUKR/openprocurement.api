@@ -1,6 +1,7 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
 from unittest.mock import Mock, patch
+from uuid import uuid4
 
 from freezegun import freeze_time
 
@@ -395,7 +396,8 @@ def create_tender_invalid(self):
     classification = data["classification"].copy()
     classification["id"] = "19212310-1"
     data["classification"] = classification
-    self.initial_data["items"] = [self.initial_data["items"][0], data]
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item, data]
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -620,6 +622,7 @@ def patch_tender(self):
 
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
+    item_id = tender["items"][0]["id"]
     dateModified = tender.pop("dateModified")
 
     self.app.patch_json(
@@ -705,16 +708,20 @@ def patch_tender(self):
         response.json["errors"], [{"location": "body", "name": "dateModified", "description": "Rogue field"}]
     )
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0], self.initial_data["items"][0]]}},
+        {"data": {"items": [{**item, "id": item_id}, {**item, "id": uuid4().hex}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -725,13 +732,14 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]["items"]), 1)
 
     item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     item["classification"] = {"scheme": "ДК021", "id": "44620000-2", "description": "Cartons 2"}
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -757,6 +765,7 @@ def patch_tender(self):
     )
 
     item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     item["additionalClassifications"] = [tender["items"][0]["additionalClassifications"][0] for i in range(3)]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -766,6 +775,7 @@ def patch_tender(self):
     self.assertEqual(response.content_type, "application/json")
 
     item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     item["additionalClassifications"] = tender["items"][0]["additionalClassifications"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),

@@ -20,7 +20,6 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdua_stage2_config,
     test_tender_cdua_stage2_data,
 )
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_full_date
@@ -81,7 +80,6 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
     test_owner = "broker1t"
     invalid_owner = "broker3"
     central_owner = "broker5"
-    initial_criteria = test_exclusion_criteria
 
     def setUp(self):
         super().setUp()

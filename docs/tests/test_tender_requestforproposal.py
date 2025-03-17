@@ -29,14 +29,15 @@ from openprocurement.framework.ifi.tests.base import (
     test_submission_data,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-    test_language_criteria,
+from openprocurement.tender.core.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_criteria,
+    set_tender_lots,
 )
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
 from openprocurement.tender.requestforproposal.tests.base import (
     BaseTenderWebTest,
     test_tender_rfp_bids,
+    test_tender_rfp_criteria,
     test_tender_rfp_lots,
     test_tender_rfp_organization,
 )
@@ -855,13 +856,12 @@ class TenderResourceTest(
         self.assertEqual(response.status, '200 OK')
 
         # add criteria
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        for i in range(len(test_criteria_data)):
-            classification_id = test_criteria_data[i]['classification']['id']
-            if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
-                del test_criteria_data[i]
-                break
-        test_criteria_data.extend(test_language_criteria)
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_rfp_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
+
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token), {'data': test_criteria_data}
         )

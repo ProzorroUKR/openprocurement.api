@@ -17,6 +17,7 @@ from openprocurement.tender.requestforproposal.tests.base import (
     TenderContentWebTest,
     test_tender_rfp_data,
     test_tender_rfp_lots,
+    test_tender_rfp_required_criteria_ids,
 )
 from openprocurement.tender.requestforproposal.tests.criterion_blanks import (
     delete_requirement_evidence,
@@ -29,7 +30,7 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, TenderContentWebTest):
     initial_lots = test_lots_data = test_tender_rfp_lots
     initial_status = "draft"
 
-    required_criteria = ()
+    required_criteria = test_tender_rfp_required_criteria_ids
 
     test_patch_tender_criteria_invalid = snitch(patch_tender_criteria_invalid)
 

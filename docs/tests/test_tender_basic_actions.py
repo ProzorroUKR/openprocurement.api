@@ -41,7 +41,11 @@ from openprocurement.tender.core.tests.base import (
     test_language_criteria,
     test_tech_feature_criteria,
 )
-from openprocurement.tender.core.tests.utils import change_auth, set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import (
+    change_auth,
+    set_bid_lotvalues,
+    set_tender_criteria,
+)
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.openua.tests.base import test_tender_openua_config
@@ -2630,6 +2634,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         test_criteria_data = deepcopy(test_exclusion_criteria)
         test_criteria_data.extend(test_language_criteria)
+        set_tender_criteria(test_criteria_data, tender.get("lots", []), tender.get("items", []))
         with open(TARGET_DIR + 'criteria/bulk-create-exclusion-criteria.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
@@ -2680,7 +2685,14 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.set_status("active.tendering")
 
-        criteria_data = deepcopy(test_exclusion_criteria[:2])
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        criteria_data = []
+        for criterion in test_exclusion_criteria:
+            if criterion["source"] == "tenderer":
+                criteria_data.append(deepcopy(criterion))
+        set_tender_criteria(criteria_data, tender["lots"], tender["items"])
 
         criteria_data[1]["requirementGroups"][0]["requirements"].append(
             {"dataType": "boolean", "expectedValue": True, "title": "Additional requirement"}
@@ -2928,7 +2940,14 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.set_status("active.tendering")
 
-        criteria_data = deepcopy(test_exclusion_criteria[6:8])
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        criteria_data = []
+        for criterion in test_exclusion_criteria:
+            if criterion["source"] == "procuringEntity":
+                criteria_data.append(deepcopy(criterion))
+        set_tender_criteria(criteria_data, tender["lots"], tender["items"])
 
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
@@ -3205,7 +3224,14 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.set_status("active.tendering")
 
-        criteria_data = deepcopy(test_exclusion_criteria[6:8])
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        criteria_data = []
+        for criterion in test_exclusion_criteria:
+            if criterion["source"] == "procuringEntity":
+                criteria_data.append(deepcopy(criterion))
+        set_tender_criteria(criteria_data, tender["lots"], tender["items"])
 
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),

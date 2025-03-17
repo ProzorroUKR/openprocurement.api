@@ -12,7 +12,11 @@ from openprocurement.tender.cfaselectionua.constants import (
     MINIMAL_STEP_PERCENTAGE,
 )
 from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
-from openprocurement.tender.core.tests.base import BaseCoreWebTest
+from openprocurement.tender.core.tests.base import (
+    BaseCoreWebTest,
+    get_criteria_by_ids,
+    test_main_criteria,
+)
 from openprocurement.tender.core.tests.utils import (
     set_tender_criteria,
     set_tender_multi_buyers,
@@ -95,6 +99,13 @@ test_tender_cfaselectionua_config = {
     "qualificationDuration": 0,
     "restricted": False,
 }
+
+test_tender_cfaselectionua_required_criteria_ids = set()
+
+test_tender_cfaselectionua_criteria = []
+test_tender_cfaselectionua_criteria.extend(
+    get_criteria_by_ids(test_main_criteria, test_tender_cfaselectionua_required_criteria_ids)
+)
 
 
 class BaseApiWebTest(BaseWebTest):

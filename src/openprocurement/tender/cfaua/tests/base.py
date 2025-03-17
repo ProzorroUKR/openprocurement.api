@@ -16,6 +16,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, TENDERING_DAYS
 from openprocurement.tender.cfaua.tests.periods import PERIODS
+from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
+    test_main_criteria,
+)
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
@@ -104,6 +108,24 @@ test_tender_cfaua_config = {
     "qualificationDuration": 20,
     "restricted": False,
 }
+
+test_tender_cfaua_required_criteria_ids = {
+    "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+    "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+    "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+    "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+    "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
+    "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
+    "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+    "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+    "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    "CRITERION.OTHER.BID.LANGUAGE",
+}
+
+test_tender_cfaua_criteria = []
+test_tender_cfaua_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_cfaua_required_criteria_ids))
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):

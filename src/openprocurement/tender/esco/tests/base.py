@@ -2,6 +2,11 @@ import os
 from copy import deepcopy
 
 from openprocurement.api.context import get_now
+from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
+    test_article_16_criteria,
+    test_main_criteria,
+)
 from openprocurement.tender.esco.tests.utils import prepare_items
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderWebTest,
@@ -78,6 +83,25 @@ test_tender_esco_config = {
     "qualificationDuration": 20,
     "restricted": False,
 }
+
+test_tender_esco_required_criteria_ids = {
+    "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+    "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+    "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+    "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+    "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
+    "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
+    "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+    "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+    "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    "CRITERION.OTHER.BID.LANGUAGE",
+}
+
+test_tender_esco_criteria = []
+test_tender_esco_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_esco_required_criteria_ids))
+test_tender_esco_criteria.extend(test_article_16_criteria[:1])
 
 
 class BaseESCOWebTest(BaseTenderWebTest):

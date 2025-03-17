@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from urllib.parse import urlencode
 from uuid import uuid4
 
+import standards
 from nacl.encoding import HexEncoder
 from requests.models import Response
 from webtest import AppError
@@ -25,6 +26,7 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_items,
     set_bid_lotvalues,
     set_bid_responses,
+    set_tender_criteria,
 )
 from openprocurement.tender.core.utils import calculate_tender_date
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
@@ -32,20 +34,6 @@ from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 now = datetime.now()
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-
-with open(os.path.join(current_dir, "data", "exclusion_criteria.json")) as json_file:
-    test_exclusion_criteria = json.load(json_file)
-
-test_requirement_groups = test_exclusion_criteria[0]["requirementGroups"]
-
-with open(os.path.join(current_dir, "data", "lang_criteria.json")) as json_file:
-    test_language_criteria = json.load(json_file)
-
-with open(os.path.join(current_dir, "data", "tender_guarantee_criteria.json")) as json_file:
-    test_tender_guarantee_criteria = json.load(json_file)
-
-with open(os.path.join(current_dir, "data", "contract_guarantee_criteria.json")) as json_file:
-    test_contract_guarantee_criteria = json.load(json_file)
 
 with open(os.path.join(current_dir, "data", "lcc_lot_criteria.json")) as json_file:
     test_lcc_lot_criteria = json.load(json_file)
@@ -56,12 +44,55 @@ with open(os.path.join(current_dir, "data", "lcc_tender_criteria.json")) as json
 with open(os.path.join(current_dir, "data", "technical_feature_criteria.json")) as json_file:
     test_tech_feature_criteria = json.load(json_file)
 
-with open(os.path.join(current_dir, "data", "article_16_criteria.json")) as json_file:
-    test_article_16_criteria = json.load(json_file)
-
 
 def get_criteria_by_ids(criteria, ids):
     return [c for c in criteria if c["classification"]["id"] in ids]
+
+
+def get_criteria_by_ids_prefix(criteria, prefix):
+    return [c for c in criteria if c["classification"]["id"].startswith(prefix)]
+
+
+test_criteria_other = standards.load("criteria/other.json")
+test_criteria_article_16 = standards.load("criteria/article_16.json")
+test_criteria_article_17 = standards.load("criteria/article_17.json")
+test_criteria_decree_1178 = standards.load("criteria/decree_1178.json")
+test_criteria_lcc = standards.load("criteria/LCC.json")
+
+test_criteria_all = []
+test_criteria_all.extend(test_criteria_other)
+test_criteria_all.extend(test_criteria_article_16)
+test_criteria_all.extend(test_criteria_article_17)
+
+test_other_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERION.OTHER")
+test_exclusion_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERION.EXCLUSION")
+test_language_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.BID.LANGUAGE")
+test_tender_guarantee_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.BID.GUARANTEE")
+test_contract_guarantee_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.CONTRACT.GUARANTEE")
+test_article_16_criteria = test_criteria_article_16
+test_lcc_criteria = test_criteria_lcc
+test_technical_feature_criteria = get_criteria_by_ids_prefix(
+    test_criteria_all, "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+)
+
+test_main_criteria = []
+test_main_criteria.extend(
+    [
+        criterion
+        for criterion in test_other_criteria
+        if criterion not in test_tender_guarantee_criteria
+        and criterion not in test_contract_guarantee_criteria
+        and criterion not in test_technical_feature_criteria
+    ]
+)
+test_main_criteria.extend(test_criteria_article_17)
+
+test_default_criteria = []
+test_default_criteria.extend(test_main_criteria)
+test_default_criteria.extend(test_article_16_criteria[:1])
+
+
+test_requirement_groups = test_exclusion_criteria[0]["requirementGroups"]
 
 
 srequest = SESSION.request
@@ -410,9 +441,15 @@ class BaseCoreWebTest(BaseWebTest):
             )
             criteria = response.json["data"]
         if self.guarantee_criterion:
+            guarantee_criteria = getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria)
+            set_tender_criteria(
+                guarantee_criteria,
+                tender.get("lots", []),
+                tender.get("items", []),
+            )
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-                {"data": getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria)},
+                {"data": guarantee_criteria},
                 status=201,
             )
 

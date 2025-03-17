@@ -17,13 +17,12 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
-)
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_criteria,
+)
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_criteria
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 
 test_tender_data = deepcopy(test_docs_tender_openeu)
@@ -117,11 +116,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
-        # Tender activating
+        # add criteria
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
 
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        test_criteria_data = deepcopy(test_tender_openeu_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -129,6 +129,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '201 Created')
 
+        # Tender activating
         with open(TARGET_DIR + 'notice-document-required.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
@@ -872,9 +873,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, '200 OK')
 
         # Tender activating
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_openeu_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         with open(TARGET_DIR_MULTI + 'tender-add-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

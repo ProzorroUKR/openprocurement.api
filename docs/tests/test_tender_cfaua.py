@@ -21,13 +21,13 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
-from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_data
-from openprocurement.tender.cfaua.tests.tender import BaseTenderWebTest
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-    test_language_criteria,
+from openprocurement.tender.cfaua.tests.base import (
+    test_tender_cfaua_criteria,
+    test_tender_cfaua_data,
 )
+from openprocurement.tender.cfaua.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 
 bid = deepcopy(test_docs_lot_bid)
 bid2 = deepcopy(test_docs_lot_bid2)
@@ -99,15 +99,20 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
 
-        #### Tender activating
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
+        # add criteria
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_cfaua_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/criteria?acc_token={}'.format(tender['id'], owner_token), {'data': test_criteria_data}
             )
             self.assertEqual(response.status, '201 Created')
+
+        # Tender activating
 
         with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

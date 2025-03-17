@@ -3,11 +3,11 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.base import test_criteria_article_17
 
 
 def patch_tender_criteria_invalid(self):
-    criteria_data = deepcopy(test_exclusion_criteria)
+    criteria_data = deepcopy(test_criteria_article_17)
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
     response = self.app.post_json(
@@ -166,7 +166,7 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't delete object if tender not in " "['draft'] statuses",
+                    'description': "Can't delete object if tender not in ['draft'] statuses",
                     'location': 'body',
                     'name': 'data',
                 }
@@ -190,7 +190,7 @@ def delete_requirement_evidence(self):
                 response.json["errors"],
                 [
                     {
-                        'description': "Can't delete object if tender not in " "['draft', 'active.enquiries'] statuses",
+                        'description': "Can't delete object if tender not in ['draft', 'active.enquiries'] statuses",
                         'location': 'body',
                         'name': 'data',
                     }
@@ -212,7 +212,7 @@ def delete_requirement_evidence(self):
                     response.json["errors"],
                     [
                         {
-                            'description': "Can't delete object if tender not in " "['draft'] statuses",
+                            'description': "Can't delete object if tender not in ['draft'] statuses",
                             'location': 'body',
                             'name': 'data',
                         }
@@ -278,10 +278,14 @@ def put_rg_requirement_invalid(self):
 def put_rg_requirement_valid(self):
     put_fields = {
         "title": "Фізична особа",
+        "dataType": "boolean",
         "expectedValue": False,
-        # "datePublished": "2030-10-22T11:14:18.511585+03:00",
-        # "dateModified": "2030-10-22T11:14:18.511585+03:00",
-        # "id": "11111111111111111111111111111111",
+        "expectedValues": None,
+        "expectedMinItems": None,
+        "expectedMaxItems": None,
+        "minValue": None,
+        "maxValue": None,
+        "unit": None,
     }
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
     get_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements"
@@ -291,6 +295,12 @@ def put_rg_requirement_valid(self):
     response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    req_counter = len(response.json["data"])
+
+    self.assertEqual(len(response.json["data"]), req_counter)
+    self.assertEqual(response.json["data"][0]["status"], "active")
+
     self.requirement_id = response.json["data"][0]["id"]
 
     response = self.app.put_json(
@@ -300,15 +310,17 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    req_counter += 1
+
     response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
-    self.assertEqual(len(response.json["data"]), 2)
-    self.assertEqual(response.json["data"][0]["status"], "cancelled")
-    self.assertIsNotNone(response.json["data"][0]["dateModified"])
-    self.assertEqual(response.json["data"][1]["status"], "active")
-    self.assertEqual(response.json["data"][1]["id"], self.requirement_id)
-    self.assertEqual(response.json["data"][1]["title"], put_fields["title"])
-    self.assertEqual(response.json["data"][1]["expectedValue"], put_fields["expectedValue"])
-    self.assertIsNone(response.json["data"][1].get("dateModified"))
+    self.assertEqual(len(response.json["data"]), req_counter)
+    self.assertEqual(response.json["data"][-2]["status"], "cancelled")
+    self.assertIsNotNone(response.json["data"][-2]["dateModified"])
+    self.assertEqual(response.json["data"][-1]["status"], "active")
+    self.assertEqual(response.json["data"][-1]["id"], self.requirement_id)
+    self.assertEqual(response.json["data"][-1]["title"], put_fields["title"])
+    self.assertEqual(response.json["data"][-1]["expectedValue"], put_fields["expectedValue"])
+    self.assertIsNone(response.json["data"][-1].get("dateModified"))
 
     # Test put exclusion criteria
     response = self.app.get(
@@ -316,6 +328,12 @@ def put_rg_requirement_valid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    req_counter = len(response.json["data"])
+
+    self.assertEqual(len(response.json["data"]), req_counter)
+    self.assertEqual(response.json["data"][-1]["status"], "active")
+
     exc_requirement_id = response.json["data"][0]["id"]
 
     response = self.app.put_json(
@@ -327,11 +345,13 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    req_counter += 1
+
     response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
-    self.assertEqual(len(response.json["data"]), 3)
+    self.assertEqual(len(response.json["data"]), req_counter)
     self.assertEqual(response.json["data"][0]["status"], "cancelled")
-    self.assertEqual(response.json["data"][1]["status"], "active")
-    self.assertIsNone(response.json["data"][1].get("eligibleEvidences"))
+    self.assertEqual(response.json["data"][-1]["status"], "active")
+    self.assertIsNone(response.json["data"][-1].get("eligibleEvidences"))
 
     put_data = {
         "eligibleEvidences": [
@@ -352,16 +372,19 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    req_counter += 1
+
     response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
-    self.assertEqual(len(response.json["data"]), 4)
-    self.assertEqual(response.json["data"][2]["status"], "cancelled")
-    self.assertIsNotNone(response.json["data"][2]["dateModified"])
-    self.assertEqual(response.json["data"][3]["status"], "active")
-    self.assertEqual(response.json["data"][3]["id"], exc_requirement_id)
-    self.assertEqual(response.json["data"][3]["title"], response.json["data"][2]["title"])
-    self.assertEqual(response.json["data"][3]["expectedValue"], response.json["data"][2]["expectedValue"])
-    self.assertIsNone(response.json["data"][3].get("dateModified"))
-    self.assertEqual(response.json["data"][3]["eligibleEvidences"], put_data["eligibleEvidences"])
+    self.assertEqual(len(response.json["data"]), req_counter)
+    self.assertEqual(response.json["data"][0]["status"], "cancelled")
+    self.assertEqual(response.json["data"][-2]["status"], "cancelled")
+    self.assertIsNotNone(response.json["data"][-2]["dateModified"])
+    self.assertEqual(response.json["data"][-1]["status"], "active")
+    self.assertEqual(response.json["data"][-1]["id"], exc_requirement_id)
+    self.assertEqual(response.json["data"][-1]["title"], response.json["data"][-2]["title"])
+    self.assertEqual(response.json["data"][-1]["expectedValue"], response.json["data"][-2]["expectedValue"])
+    self.assertIsNone(response.json["data"][-1].get("dateModified"))
+    self.assertEqual(response.json["data"][-1]["eligibleEvidences"], put_data["eligibleEvidences"])
 
     put_data = {
         "eligibleEvidences": [
@@ -387,6 +410,9 @@ def put_rg_requirement_valid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    req_counter += 1
+
     response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
     self.assertEqual(response.json["data"][-1]["eligibleEvidences"], put_data["eligibleEvidences"])
 
@@ -409,10 +435,13 @@ def put_rg_requirement_valid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    req_counter += 1
+
     response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
-    self.assertEqual(len(response.json["data"]), 6)
-    self.assertEqual(response.json["data"][2]["status"], "cancelled")
-    self.assertEqual(response.json["data"][3]["status"], "cancelled")
+    self.assertEqual(len(response.json["data"]), req_counter)
+    self.assertEqual(response.json["data"][-2]["status"], "cancelled")
+    self.assertEqual(response.json["data"][-1]["status"], "cancelled")
 
 
 def create_patch_delete_evidences_from_requirement(self):
