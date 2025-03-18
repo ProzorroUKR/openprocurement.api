@@ -75,7 +75,7 @@ Content-Type: application/json
       {
         "requirement": {
           "id": "c63023e54fd04a02869e09a265bdacda",
-          "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+          "title": "Учасник процедури закупівлі має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми"
         },
         "evidences": [
           {
@@ -92,7 +92,7 @@ Content-Type: application/json
         "id": "c6da2827e0aa4d6d869048f569b1221b",
         "classification": {
           "scheme": "ESPD211",
-          "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+          "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
         }
       }
     ],

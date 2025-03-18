@@ -20,16 +20,7 @@ Content-Type: application/json
       "location": "body",
       "name": "requirementResponses",
       "description": [
-        {
-          "evidences": [
-            "available only in ['active.awarded', 'active.qualification'] status"
-          ]
-        },
-        {
-          "evidences": [
-            "available only in ['active.awarded', 'active.qualification'] status"
-          ]
-        }
+        "Responses are required for all criteria with source tenderer/winner, failed for criteria 31c644a5806c47589e04957d48e4daa9, 81bdc6bed3134e059f5261fd18ae6250"
       ]
     }
   ]
