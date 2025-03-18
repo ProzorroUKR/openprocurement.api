@@ -1257,7 +1257,17 @@ def one_lot_2bid(self):
 
 def two_lot_2bid_1lot_del(self):
     # create tender 2 lot
-    self.create_tender(initial_lots=self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
     self.app.authorization = ("Basic", ("broker", ""))
 
     self.set_status(
@@ -1600,7 +1610,17 @@ def one_lot_3bid_1un(self):
 
 def two_lot_0bid(self):
     """Create tender with 2 lots and 0 bids"""
-    self.create_tender(initial_lots=self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
 
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
@@ -1613,7 +1633,17 @@ def two_lot_0bid(self):
 
 def two_lot_2can(self):
     """Create tender with 2 lots, later cancel both"""
-    self.create_tender(self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
 
     # cancel every lot
     for lot in self.initial_lots:
@@ -1640,7 +1670,17 @@ def two_lot_2can(self):
 
 def two_lot_1can(self):
     """Create tender with 2 lots, later 1 cancel"""
-    self.create_tender(initial_lots=self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
 
     # cancel first lot
     cancellation = deepcopy(test_tender_below_cancellation)
@@ -1703,7 +1743,17 @@ def two_lot_1can(self):
 
 def two_lot_2bid_0com_1can(self):
     """Create tender with 2 lots and 2 bids"""
-    self.create_tender(self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
 
     tenderers = self.create_tenderers(2)
     # create bid
@@ -1767,7 +1817,18 @@ def two_lot_2bid_0com_1can(self):
 
 def two_lot_2bid_2com_2win(self):
     """Create tender with 2 lots and 2 bids"""
-    self.create_tender(initial_lots=self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
+
     tenderers = self.create_tenderers(2)
     # create bid
     bid_data = deepcopy(self.test_bids_data[0])
@@ -2266,7 +2327,18 @@ def one_lot_1bid_patch_ua(self):
 
 
 def two_lot_0bid_ua(self):
-    self.create_tender(initial_lots=self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
+
     # switch to active.tendering
     response = self.set_status(
         "active.tendering",
@@ -2288,7 +2360,18 @@ def two_lot_0bid_ua(self):
 
 
 def two_lot_1bid_0com_1can_ua(self):
-    self.create_tender(initial_lots=self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
+
     tenderers = self.create_tenderers()
     # switch to active.tendering
     response = self.set_status(
@@ -2402,7 +2485,18 @@ def two_lot_1bid_2com_1win_ua(self):
 
 
 def two_lot_1bid_0com_0win_ua(self):
-    self.create_tender(initial_lots=self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
+
     tenderers = self.create_tenderers()
     # switch to active.tendering
     response = self.set_status(
@@ -2441,7 +2535,18 @@ def two_lot_1bid_0com_0win_ua(self):
 
 
 def two_lot_1bid_1com_1win_ua(self):
-    self.create_tender(initial_lots=self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
+
     tenderers = self.create_tenderers()
     # switch to active.tendering
     self.set_status(
@@ -2479,7 +2584,18 @@ def two_lot_1bid_1com_1win_ua(self):
 
 
 def two_lot_2bid_2com_2win_ua(self):
-    self.create_tender(initial_lots=self.test_lots_data * 2)
+    lots = []
+    for lot in self.test_lots_data * 2:
+        lot = deepcopy(lot)
+        lot.pop("id", None)
+        lots.append(lot)
+
+    self.initial_data = deepcopy(self.initial_data)
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item for i in lots]
+
+    self.create_tender(initial_lots=lots)
+
     tenderers = self.create_tenderers(2)
     # switch to active.tendering
     self.set_status(

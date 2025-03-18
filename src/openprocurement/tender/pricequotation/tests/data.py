@@ -288,6 +288,9 @@ test_tender_pq_config = {
     "restricted": False,
 }
 
+test_tender_pq_required_criteria_ids = set()
+
+
 test_tender_pq_cancellation = {
     "reason": "cancellation reason",
     "reasonType": "noDemand",

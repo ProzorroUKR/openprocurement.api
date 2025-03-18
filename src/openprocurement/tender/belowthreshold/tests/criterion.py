@@ -5,6 +5,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_data,
     test_tender_below_lots,
+    test_tender_below_required_criteria_ids,
 )
 from openprocurement.tender.belowthreshold.tests.criterion_blanks import (
     create_patch_delete_evidences_from_requirement,
@@ -27,7 +28,7 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, TenderContentWebTest):
     initial_lots = test_lots_data = test_tender_below_lots
     initial_status = "draft"
 
-    required_criteria = ()
+    required_criteria = test_tender_below_required_criteria_ids
 
     test_patch_tender_criteria_invalid = snitch(patch_tender_criteria_invalid)
 

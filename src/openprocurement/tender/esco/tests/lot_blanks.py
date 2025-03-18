@@ -442,6 +442,7 @@ def lot_yppr_validation(self):
     data["fundingKind"] = "budget"  # for tender
 
     lot = deepcopy(self.test_lots_data[0])
+    lot.pop("id", None)
 
     data["lots"] = [deepcopy(lot), deepcopy(lot)]
     data["lots"][0]["yearlyPaymentsPercentageRange"] = 0.8  # first lot yearlyPaymentsPercentageRange = 0.8
@@ -463,9 +464,24 @@ def lot_yppr_validation(self):
     tender_id = response.json["data"]["id"]
     lot_id1 = response.json["data"]["lots"][0]["id"]
     lot_id2 = response.json["data"]["lots"][1]["id"]
-    items = data["items"]
-    items[0]["relatedLot"] = lot_id1
-    self.app.patch_json(f"/tenders/{tender_id}?acc_token={owner_token}", {"data": {"items": items}})
+
+    lots = response.json["data"]["lots"]
+
+    # add item
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for _ in lots]
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+        {"data": {"items": items}},
+    )
+    # add relatedLot for item
+    for n, l in enumerate(lots):
+        items[n]["relatedLot"] = l["id"]
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     self.set_initial_status(tender_response)
     bid = deepcopy(self.test_bids[0])

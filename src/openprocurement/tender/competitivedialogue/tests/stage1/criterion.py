@@ -5,7 +5,9 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
     test_tender_cdeu_data,
+    test_tender_cdeu_required_criteria_ids,
     test_tender_cdua_data,
+    test_tender_cdua_required_criteria_ids,
 )
 from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
@@ -20,20 +22,7 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUCon
     initial_lots = test_tender_below_lots
     initial_status = "draft"
 
-    required_criteria = {
-        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-        "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
-        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
-        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-        "CRITERION.EXCLUSION.NATIONAL.OTHER",
-        "CRITERION.OTHER.BID.LANGUAGE",
-    }
+    required_criteria = test_tender_cdeu_required_criteria_ids
 
 
 class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUAContentWebTest):
@@ -41,20 +30,7 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUACon
     initial_lots = test_tender_below_lots
     initial_status = "draft"
 
-    required_criteria = {
-        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-        "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
-        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
-        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-        "CRITERION.EXCLUSION.NATIONAL.OTHER",
-        "CRITERION.OTHER.BID.LANGUAGE",
-    }
+    required_criteria = test_tender_cdua_required_criteria_ids
 
 
 class TenderCDEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogEUContentWebTest):

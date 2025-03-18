@@ -17,11 +17,15 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     patch_tender_bid_with_exceeded_lot_values,
     post_tender_bid_with_exceeded_lot_values,
 )
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import (
+    set_bid_items,
+    set_bid_lotvalues,
+    set_bid_responses,
+)
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openua_bids,
+    test_tender_openua_criteria,
     test_tender_openua_data,
     test_tender_openua_features_data,
 )
@@ -84,16 +88,25 @@ class TenderBidRequirementResponseTestMixin:
     test_get_bid_requirement_response = snitch(get_bid_requirement_response)
     test_patch_bid_with_responses = snitch(patch_bid_with_responses)
 
-    initial_criteria = test_exclusion_criteria
+    initial_criteria = test_tender_openua_criteria
 
     def setUp(self):
         super().setUp()
-        response = self.app.get(f"/tenders/{self.tender_id}/criteria")
+        response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
-        requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+
+        boolean_requirement_criteria = []
+        for criterion in criteria:
+            if criterion["source"] in ("tenderer", "winner"):
+                if criterion["requirementGroups"][0]["requirements"][0]["dataType"] == "boolean":
+                    boolean_requirement_criteria.append(criterion)
+
+        requirement = boolean_requirement_criteria[0]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
-        requirement = criteria[1]["requirementGroups"][0]["requirements"][0]
+        self.requirement_title = requirement["title"]
+        requirement = boolean_requirement_criteria[1]["requirementGroups"][0]["requirements"][0]
         self.requirement_2_id = requirement["id"]
+        self.requirement_2_title = requirement["title"]
 
 
 class TenderBidRequirementResponseEvidenceTestMixin:
@@ -103,7 +116,7 @@ class TenderBidRequirementResponseEvidenceTestMixin:
     test_bid_activate = snitch(bid_activate)
     test_bid_activate_with_cancelled_tenderer_criterion = snitch(bid_activate_with_cancelled_tenderer_criterion)
 
-    initial_criteria = test_exclusion_criteria
+    initial_criteria = test_tender_openua_criteria
 
     def setUp(self):
         super().setUp()
@@ -114,14 +127,8 @@ class TenderBidRequirementResponseEvidenceTestMixin:
 
         request_path = f"/tenders/{self.tender_id}/bids/{self.bid_id}/requirement_responses?acc_token={self.bid_token}"
 
-        rr_data = [
-            {
-                "requirement": {
-                    "id": self.requirement_id,
-                },
-                "value": True,
-            }
-        ]
+        rrs = set_bid_responses(criteria)
+        rr_data = rrs[0]
 
         response = self.app.post_json(request_path, {"data": rr_data})
         self.assertEqual(response.status, "201 Created")

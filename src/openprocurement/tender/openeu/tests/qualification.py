@@ -6,6 +6,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.utils import generate_req_response
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
@@ -77,7 +78,14 @@ class TenderQualificationRequirementResponseTestMixin:
         super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
-        requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
+
+        boolean_requirement_criteria = []
+        for criterion in criteria:
+            if criterion["source"] in ("procuringEntity",):
+                if criterion["requirementGroups"][0]["requirements"][0]["dataType"] == "boolean":
+                    boolean_requirement_criteria.append(criterion)
+
+        requirement = boolean_requirement_criteria[0]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
         self.requirement_title = requirement["title"]
 
@@ -93,7 +101,14 @@ class TenderQualificationRequirementResponseEvidenceTestMixin:
         super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
-        requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
+
+        boolean_requirement_criteria = []
+        for criterion in criteria:
+            if criterion["source"] in ("procuringEntity",):
+                if criterion["requirementGroups"][0]["requirements"][0]["dataType"] == "boolean":
+                    boolean_requirement_criteria.append(criterion)
+
+        requirement = boolean_requirement_criteria[0]["requirementGroups"][0]["requirements"][0]
         self.requirement_id = requirement["id"]
         self.requirement_title = requirement["title"]
 
@@ -101,14 +116,7 @@ class TenderQualificationRequirementResponseEvidenceTestMixin:
             self.tender_id, self.qualification_id, self.tender_token
         )
 
-        rr_data = [
-            {
-                "requirement": {
-                    "id": self.requirement_id,
-                },
-                "value": True,
-            }
-        ]
+        rr_data = generate_req_response(requirement)
 
         response = self.app.post_json(request_path, {"data": rr_data})
         self.assertEqual(response.status, "201 Created")

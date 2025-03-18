@@ -15,13 +15,10 @@ from tests.base.data import (
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
-from openprocurement.api.utils import get_now, raise_operation_error
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
-)
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
+from openprocurement.tender.core.tests.utils import set_tender_criteria
+from openprocurement.tender.open.tests.base import test_tender_open_criteria
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 
 test_tender_data = deepcopy(test_docs_tender_open)
@@ -118,14 +115,11 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
             self.assertEqual(response.status, '200 OK')
 
         # add criteria
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        for i in range(len(test_criteria_data)):
-            classification_id = test_criteria_data[i]['classification']['id']
-            if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
-                del test_criteria_data[i]
-                break
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_open_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

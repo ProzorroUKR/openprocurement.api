@@ -173,9 +173,11 @@ def two_lot_1bid_0com_1can(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for _ in lots]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
     items = deepcopy(response.json["data"]["items"])
@@ -271,9 +273,11 @@ def two_lot_1bid_2com_1win(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for _ in lots]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
     items = deepcopy(response.json["data"]["items"])
@@ -352,12 +356,14 @@ def two_lot_1bid_0com_0win(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
-    respose = self.app.patch_json(
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for _ in lots]
+    response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
-    items = deepcopy(respose.json["data"]["items"])
+    items = deepcopy(response.json["data"]["items"])
     for n, l in enumerate(lots):
         items[n]["relatedLot"] = l
     response = self.app.patch_json(
@@ -435,9 +441,11 @@ def two_lot_1bid_1com_1win(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for _ in lots]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
     items = deepcopy(response.json["data"]["items"])
@@ -542,9 +550,11 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
         lots.append(response.json["data"]["id"])
     self.initial_lots = lots
     # add item
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for _ in lots]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
     items = deepcopy(response.json["data"]["items"])

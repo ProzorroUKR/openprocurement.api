@@ -186,7 +186,8 @@ def create_tender_invalid_eu(self):
     classification = data["classification"].copy()
     classification["id"] = "19212310-1"
     data["classification"] = classification
-    self.initial_data["items"] = [self.initial_data["items"][0], data]
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item, data]
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -479,7 +480,8 @@ def create_tender_invalid_ua(self):
     classification = data["classification"].copy()
     classification["id"] = "19212310-1"
     data["classification"] = classification
-    self.initial_data["items"] = [self.initial_data["items"][0], data]
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item, data]
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")

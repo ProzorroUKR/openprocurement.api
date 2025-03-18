@@ -1,6 +1,7 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
@@ -8,7 +9,11 @@ from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.tests.periods import PERIODS
-from openprocurement.tender.core.tests.base import BaseCoreWebTest
+from openprocurement.tender.core.tests.base import (
+    BaseCoreWebTest,
+    get_criteria_by_ids,
+    test_main_criteria,
+)
 from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
     set_tender_criteria,
@@ -130,13 +135,13 @@ test_tender_below_simple_data["procurementMethodRationale"] = "simple"
 
 test_tender_below_features_data = test_tender_below_data.copy()
 test_tender_below_features_item = test_tender_below_features_data["items"][0].copy()
-test_tender_below_features_item["id"] = "1"
+test_tender_below_features_item["id"] = uuid4().hex
 test_tender_below_features_data["items"] = [test_tender_below_features_item]
 test_tender_below_features_data["features"] = [
     {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "1",
+        "relatedItem": test_tender_below_features_item["id"],
         "title": "Потужність всмоктування",
         "title_en": "Air Intake",
         "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
@@ -244,6 +249,11 @@ test_tender_below_config = {
     "qualificationDuration": 0,
     "restricted": False,
 }
+
+test_tender_below_required_criteria_ids = set()
+
+test_tender_below_criteria = []
+test_tender_below_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_below_required_criteria_ids))
 
 
 class BaseApiWebTest(BaseWebTest):

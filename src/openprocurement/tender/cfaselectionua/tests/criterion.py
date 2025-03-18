@@ -11,6 +11,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_tender_cfaselectionua_data,
     test_tender_cfaselectionua_lots,
+    test_tender_cfaselectionua_required_criteria_ids,
 )
 from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
@@ -26,7 +27,7 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, TenderContentWebTest):
     test_lots_data = test_tender_cfaselectionua_lots
     initial_status = "draft"
 
-    required_criteria = ()
+    required_criteria = test_tender_cfaselectionua_required_criteria_ids
 
     test_patch_tender_criteria_invalid = snitch(patch_tender_criteria_invalid)
 

@@ -1,11 +1,15 @@
+from copy import deepcopy
+
 from webtest import TestApp
 
-from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
+from openprocurement.tender.core.constants import (
+    CRITERION_LOCALIZATION,
+    CRITERION_TECHNICAL_FEATURES,
+)
+from openprocurement.tender.core.tests.base import test_default_criteria
+from openprocurement.tender.core.tests.utils import (
+    set_bid_responses,
+    set_tender_criteria,
 )
 
 TENDERS_WITHOUT_CRITERIA = [
@@ -17,7 +21,7 @@ TENDERS_WITHOUT_CRITERIA = [
 ]
 
 
-def add_criteria(self, tender_id=None, tender_token=None, criteria=test_exclusion_criteria):
+def add_criteria(self, tender_id=None, tender_token=None, criteria=None):
     app = self if isinstance(self, TestApp) else self.app
     if not tender_id:
         tender_id = self.tender_id
@@ -25,58 +29,48 @@ def add_criteria(self, tender_id=None, tender_token=None, criteria=test_exclusio
         tender_token = self.tender_token
 
     response = app.get("/tenders/{}".format(tender_id))
-    if response.json["data"]["procurementMethodType"] in TENDERS_WITHOUT_CRITERIA:
+    tender = response.json["data"]
+
+    if tender["procurementMethodType"] in TENDERS_WITHOUT_CRITERIA:
         return
-    if get_now() > RELEASE_ECRITERIA_ARTICLE_17:
-        response = app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
-            {"data": criteria},
-        )
 
-        assert response.status == "201 Created"
+    if not criteria:
+        criteria = test_default_criteria
 
-        response = app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
-            {"data": test_article_16_criteria[:1]},
-        )
+    criteria = set_tender_criteria(
+        criteria,
+        tender.get("lots", []),
+        tender.get("items", []),
+    )
 
-        assert response.status == "201 Created"
+    criteria = deepcopy(criteria)
 
-        response = app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
-            {"data": test_language_criteria},
-        )
+    def should_keep_criterion(criterion):
+        for item in tender["items"]:
+            if criterion.get("relatesTo") == "item" and item["id"] == criterion.get("relatedItem"):
+                # Skip localization criteria for items without category
+                if criterion["classification"]["id"] == CRITERION_LOCALIZATION and not item.get("category"):
+                    return False
 
-        assert response.status == "201 Created"
+                # Skip technical features criteria for items without profile and category
+                if (
+                    criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES
+                    and not item.get("profile")
+                    and not item.get("category")
+                ):
+                    return False
 
+        return True
 
-def generate_guarantee_criterion_responses(criterion):
-    return [
-        {
-            "requirement": {
-                "id": criterion["requirementGroups"][0]["requirements"][0]["id"],
-            },
-            "value": 4.0,
-        },
-        {
-            "requirement": {
-                "id": criterion["requirementGroups"][0]["requirements"][1]["id"],
-            },
-            "value": 6,
-        },
-        {
-            "requirement": {
-                "id": criterion["requirementGroups"][0]["requirements"][2]["id"],
-            },
-            "value": True,
-        },
-        {
-            "requirement": {
-                "id": criterion["requirementGroups"][0]["requirements"][3]["id"],
-            },
-            "values": ["Гарантія фінансової установи"],
-        },
-    ]
+    # Filter the criteria
+    criteria = list(filter(should_keep_criterion, criteria))
+
+    response = app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
+        {"data": criteria},
+    )
+
+    assert response.status == "201 Created"
 
 
 def generate_responses(self, tender_id=None):
@@ -89,30 +83,4 @@ def generate_responses(self, tender_id=None):
     if tender["procurementMethodType"] in TENDERS_WITHOUT_CRITERIA:
         return
 
-    rrs = []
-    if get_now() > RELEASE_ECRITERIA_ARTICLE_17:
-        for criterion in tender.get("criteria", []):
-            if criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
-                guarantee_responses = generate_guarantee_criterion_responses(criterion)
-                rrs.extend(guarantee_responses)
-            elif criterion["classification"]["id"] == "CRITERION.OTHER.BID.LANGUAGE":
-                rrs.append(
-                    {
-                        "requirement": {
-                            "id": criterion["requirementGroups"][0]["requirements"][0]["id"],
-                        },
-                        "values": ["ukr"],
-                    }
-                )
-            else:
-                for req in criterion["requirementGroups"][0]["requirements"]:
-                    if criterion["source"] in ("tenderer", "winner"):
-                        rrs.append(
-                            {
-                                "requirement": {
-                                    "id": req["id"],
-                                },
-                                "value": True,
-                            },
-                        )
-    return rrs
+    return set_bid_responses(tender.get("criteria", []))

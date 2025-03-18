@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
@@ -17,6 +18,7 @@ from openprocurement.tender.core.tests.utils import (
     activate_contract,
     set_bid_items,
     set_bid_lotvalues,
+    set_tender_lots,
 )
 from openprocurement.tender.openua.tests.base import test_tender_openua_bids
 
@@ -1049,25 +1051,30 @@ def proc_1lot_1bid(self):
 def proc_1lot_1bid_patch(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    tender_data = deepcopy(self.initial_data)
+    set_tender_lots(tender_data, self.test_lots_data)
+    self.test_lots_data = tender_data["lots"]
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
-    tender = response.json
+    tender = response.json["data"]
+    self.set_initial_status(response.json)
     # add lot
-    response = self.app.post_json(
-        "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
-    )
+    lot_data = self.test_lots_data[0].copy()
+    lot_data.pop("id")
+    response = self.app.post_json("/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": lot_data})
     self.assertEqual(response.status, "201 Created")
     lot = response.json["data"]
     lot_id = lot["id"]
     # add relatedLot for item
     items = [deepcopy(self.initial_data["items"][0])]
+    items[0]["id"] = tender["items"][0]["id"]
     items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.set_initial_status(tender)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -1357,7 +1364,8 @@ def proc_2lot_1bid_0com_1can(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
-    items = [deepcopy(self.initial_data["items"][0]) for _ in lots]
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for _ in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": items}},
@@ -1480,7 +1488,8 @@ def proc_2lot_1bid_2com_1win(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
-    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for i in lots]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": items}},
@@ -1572,7 +1581,8 @@ def proc_2lot_1bid_0com_0win(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
-    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for i in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": items}},
@@ -1626,7 +1636,8 @@ def proc_2lot_1bid_1com_1win(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
-    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for i in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": items}},
@@ -1679,7 +1690,8 @@ def proc_2lot_2bid_2com_2win(self):
         lots.append(response.json["data"]["id"])
     self.initial_lots = lots
     # add item
-    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for i in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": items}},
@@ -1835,35 +1847,42 @@ def proc_2lot_2bid_2com_2win(self):
 
 def lots_features_delete(self):
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.test_features_tender_data, "config": self.initial_config})
+    tender_data = deepcopy(self.test_features_tender_data)
+    set_tender_lots(tender_data, self.test_lots_data)
+    self.test_lots_data = tender_data["lots"]
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     tender_response = response.json
-    self.assertEqual(tender["features"], self.test_features_tender_data["features"])
+    self.assertEqual(tender["features"], tender_data["features"])
     # add lot
     lots = []
     for lot in self.test_lots_data * 2:
+        lot = lot.copy()
+        lot.pop("id")
         response = self.app.post_json("/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": lot})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         lots.append(response.json["data"]["id"])
-    item = tender["items"][0]
-    item["relatedLot"] = lots[0]
+    item = deepcopy(self.initial_data["items"][0])
+    tender_items = tender["items"]
+    tender_items.extend([{**item, "id": uuid4().hex, "relatedLot": i} for i in lots])
 
     # add features
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}&opt_pretty=1".format(tender["id"], owner_token),
         {
             "data": {
-                "items": [item],
+                "items": tender_items,
                 "features": [
                     {
                         "code": "code_item",
                         "featureOf": "item",
-                        "relatedItem": "1",
+                        "relatedItem": tender["items"][0]["id"],
                         "title": "item feature",
                         "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
                     },
@@ -1943,7 +1962,8 @@ def proc_2lot_2bid_1claim_1com_1win(self):
         lots.append(response.json["data"]["id"])
     self.initial_lots = lots
     # add item
-    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
+    item = deepcopy(self.initial_data["items"][0])
+    items = [deepcopy(item) for i in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": items}},

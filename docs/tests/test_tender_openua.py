@@ -2,6 +2,7 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
+from uuid import uuid4
 
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
@@ -18,13 +19,12 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now, raise_operation_error
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
-)
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_criteria,
+)
+from openprocurement.tender.openua.tests.base import test_tender_openua_criteria
 from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
 
 test_tender_ua_data = deepcopy(test_docs_tender_openua)
@@ -108,9 +108,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
             self.assertEqual(response.status, '200 OK')
 
         # Tender activating
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_openua_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -811,6 +813,7 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
     def test_complaint_value(self):
         for item in self.initial_data['items']:
+            item["id"] = uuid4().hex
             item['deliveryDate'] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat(),

@@ -1,6 +1,7 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
 from unittest import mock
+from uuid import uuid4
 
 import requests
 from jsonschema import validate
@@ -9,11 +10,7 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-    test_language_criteria,
-    test_lcc_lot_criteria,
-)
+from openprocurement.tender.core.tests.base import test_lcc_lot_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import activate_contract, set_bid_items
 from openprocurement.tender.core.utils import calculate_tender_full_date
@@ -437,6 +434,7 @@ def create_tender_invalid(self):
     classification["id"] = "19212310-1"
     data["classification"] = classification
     self.initial_data["items"] = [self.initial_data["items"][0], data]
+    self.initial_data["items"][0].pop("id", None)  # Remove id to avoid duplicate id
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -637,6 +635,7 @@ def patch_tender(self):
 
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
+    item_id = tender["items"][0]["id"]
     dateModified = tender.pop("dateModified")
 
     self.app.patch_json(
@@ -722,16 +721,20 @@ def patch_tender(self):
         response.json["errors"], [{"location": "body", "name": "dateModified", "description": "Rogue field"}]
     )
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0], self.initial_data["items"][0]]}},
+        {"data": {"items": [{**item, "id": item_id}, {**item, "id": uuid4().hex}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -742,13 +745,14 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]["items"]), 1)
 
     item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     item["classification"] = {"scheme": "ДК021", "id": "44620000-2", "description": "Cartons 2"}
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -774,6 +778,7 @@ def patch_tender(self):
     )
 
     item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     item["additionalClassifications"] = [tender["items"][0]["additionalClassifications"][0] for i in range(3)]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -783,6 +788,7 @@ def patch_tender(self):
     self.assertEqual(response.content_type, "application/json")
 
     item = deepcopy(self.initial_data["items"][0])
+    item["id"] = item_id
     item["additionalClassifications"] = tender["items"][0]["additionalClassifications"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -1573,18 +1579,7 @@ def tender_created_before_related_lot_constant(self):
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
 
-    test_criteria_data = deepcopy(test_exclusion_criteria)
-    for i in range(len(test_criteria_data)):
-        classification_id = test_criteria_data[i]['classification']['id']
-        if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
-            del test_criteria_data[i]
-            break
-    test_criteria_data.extend(test_language_criteria)
-
-    response = self.app.post_json(
-        '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, self.tender_token), {'data': test_criteria_data}
-    )
-    self.assertEqual(response.status, '201 Created')
+    add_criteria(self)
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     # forbid patch tender without lot even before RELATED_LOT_REQUIRED_FROM constant

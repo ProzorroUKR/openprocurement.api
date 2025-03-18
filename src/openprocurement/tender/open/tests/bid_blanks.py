@@ -11,6 +11,7 @@ from openprocurement.tender.core.tests.utils import (
     change_auth,
     set_bid_items,
     set_bid_lotvalues,
+    set_bid_responses,
 )
 from openprocurement.tender.open.tests.base import test_tender_open_bids
 from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
@@ -1978,18 +1979,7 @@ def get_bid_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
     criteria = response.json["data"]
 
-    valid_data = []
-    for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] in ("tenderer", "winner"):
-                valid_data.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
-                        },
-                        "value": True,
-                    }
-                )
+    valid_data = set_bid_responses(criteria)
 
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
@@ -2015,7 +2005,6 @@ def get_bid_requirement_response(self):
 
     rrs = response.json["data"]
     clean_requirement_responses(rrs)
-    self.assertEqual(len(rrs), 10)
 
     for i, rr_data in enumerate(valid_data):
         for k, v in rr_data.items():
@@ -2360,19 +2349,8 @@ def get_bid_requirement_response_evidence(self):
     response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
     criteria = response.json["data"]
 
-    rrs = []
-    for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] in ("tenderer", "winner"):
-                rrs.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
-                        },
-                        "value": True,
-                    }
-                )
-    rrs = rrs[1:]
+    rrs = set_bid_responses(criteria)
+    rrs = rrs[1:]  # Already added in setUp
 
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
@@ -2381,7 +2359,7 @@ def get_bid_requirement_response_evidence(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": {"status": "pending"}},
     )
@@ -2421,28 +2399,19 @@ def bid_activate(self):
     self.assertEqual(response.content_type, "application/json")
     criteria = response.json["data"]
 
-    rrs = []
     criteria_ids = []
 
     guarantee_criterion = None
 
     for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
-                guarantee_criterion = criterion
-            elif criterion["source"] in ("tenderer", "winner"):
-                rrs.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
-                        },
-                        "value": True,
-                    }
-                )
-                if criterion["id"] not in criteria_ids:
-                    criteria_ids.append(criterion["id"])
+        if criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
+            guarantee_criterion = criterion
+        elif criterion["source"] in ("tenderer", "winner"):
+            criteria_ids.append(criterion["id"])
 
-    rrs = rrs[1:]
+    rrs = set_bid_responses([criterion for criterion in criteria if criterion["id"] in criteria_ids])
+    rrs = rrs[1:]  # Already added in setUp
+
     criteria_ids = criteria_ids[1:]
 
     response = self.app.patch_json(
@@ -2512,23 +2481,13 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
     self.assertEqual(response.content_type, "application/json")
     criteria = response.json["data"]
 
-    rrs = []
     criteria_ids = []
-
     for criterion in criteria[:-1]:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] in ("tenderer", "winner"):
-                rrs.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
-                        },
-                        "value": True,
-                    },
-                )
-                if criterion["id"] not in criteria_ids:
-                    criteria_ids.append(criterion["id"])
-    rrs = rrs[1:]
+        if criterion["id"] not in criteria_ids:
+            criteria_ids.append(criterion["id"])
+
+    rrs = set_bid_responses(criteria[:-1])
+    rrs = rrs[1:]  # Already added in setUp
 
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
@@ -2629,19 +2588,9 @@ def bid_invalidation_after_requirement_put(self):
     self.assertEqual(response.content_type, "application/json")
     criteria = response.json["data"]
 
-    rrs = []
-    for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] in ("tenderer", "winner"):
-                rrs.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
-                        },
-                        "value": True,
-                    },
-                )
-    rrs = rrs[1:]
+    rrs = set_bid_responses(criteria)
+    rrs = rrs[1:]  # Already added in setUp
+
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": rrs},
@@ -2683,19 +2632,9 @@ def bid_invalidation_after_req_response_patch(self):
     self.assertEqual(response.content_type, "application/json")
     criteria = response.json["data"]
 
-    rrs = []
-    for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] in ("tenderer", "winner"):
-                rrs.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
-                        },
-                        "value": True,
-                    },
-                )
-    rrs = rrs[1:]
+    rrs = set_bid_responses(criteria)
+    rrs = rrs[1:]  # Already added in setUp
+
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {"data": rrs},

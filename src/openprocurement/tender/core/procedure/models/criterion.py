@@ -447,7 +447,7 @@ class Criterion(ValidateIdMixing, BaseCriterion):
 
         if value and is_criterion_active:
             json_data = get_json_data()
-            tender = get_tender() or json_data
+            tender = get_tender()
 
             if data.get("relatesTo") == "lot":
                 # if lots was changed
@@ -463,6 +463,8 @@ class Criterion(ValidateIdMixing, BaseCriterion):
                 if "items" in json_data:
                     tender = json_data
 
+                # FIXME: id is not required for item,
+                # will be key error if id is not present in item patch data
                 item_ids = [i["id"] for i in tender.get("items") or []]
                 if value not in item_ids:
                     raise ValidationError("relatedItem should be one of items")

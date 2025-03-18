@@ -16,18 +16,18 @@ from tests.base.data import (
     test_docs_tender_esco,
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
-from tests.test_contracting_econtract import TARGET_DIR as ECONTRACT_TARGET_DIR
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
-)
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
-from openprocurement.tender.esco.tests.base import BaseESCOWebTest
+from openprocurement.tender.core.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_criteria,
+)
+from openprocurement.tender.esco.tests.base import (
+    BaseESCOWebTest,
+    test_tender_esco_criteria,
+)
 
 test_tender_data = deepcopy(test_docs_tender_esco)
 test_lots = deepcopy(test_docs_lots)
@@ -155,9 +155,11 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
             self.assertEqual(response.status, '200 OK')
 
         # Tender activating
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
+
+        test_criteria_data = deepcopy(test_tender_esco_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

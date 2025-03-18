@@ -6,7 +6,11 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import BaseCoreWebTest
+from openprocurement.tender.core.tests.base import (
+    BaseCoreWebTest,
+    get_criteria_by_ids,
+    test_main_criteria,
+)
 from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
     set_tender_criteria,
@@ -309,6 +313,29 @@ test_tender_rfp_config = {
     "qualificationDuration": 20,
     "restricted": False,
 }
+
+test_tender_rfp_required_criteria_ids = set()
+
+test_tender_rfp_allowed_criteria_ids = set(
+    {
+        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+        "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
+        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
+        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
+        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+        "CRITERION.EXCLUSION.NATIONAL.OTHER",
+        "CRITERION.OTHER.BID.LANGUAGE",
+    }
+)
+
+test_tender_rfp_criteria = []
+test_tender_rfp_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_rfp_required_criteria_ids))
+test_tender_rfp_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_rfp_allowed_criteria_ids))
 
 
 class BaseApiWebTest(BaseWebTest):

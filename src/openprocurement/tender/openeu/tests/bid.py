@@ -21,11 +21,11 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2L
     patch_tender_lot_values_any_order,
     post_tender_bid_with_exceeded_lot_values,
 )
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
+    test_tender_openeu_criteria,
     test_tender_openeu_features_data,
     test_tender_openeu_lots,
 )
@@ -134,7 +134,7 @@ class Tender2LotBidResourceTest(BaseTenderContentWebTest):
     test_bids_data = test_tender_openeu_bids
     initial_lots = 3 * test_tender_openeu_lots
     initial_status = "active.tendering"
-    initial_criteria = test_exclusion_criteria
+    initial_criteria = test_tender_openeu_criteria
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
     test_patch_tender_lot_values_any_order = snitch(patch_tender_lot_values_any_order)

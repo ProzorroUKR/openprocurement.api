@@ -9,6 +9,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_milestones,
     test_tender_below_organization,
 )
+from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
+    test_article_16_criteria,
+    test_main_criteria,
+)
 from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers
 from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.openeu.tests.periods import PERIODS
@@ -252,6 +257,24 @@ test_tender_openeu_config = {
     "qualificationDuration": 20,
     "restricted": False,
 }
+
+test_tender_openeu_required_criteria_ids = {
+    "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+    "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+    "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+    "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+    "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
+    "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+    "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+    "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    "CRITERION.OTHER.BID.LANGUAGE",
+}
+
+test_tender_openeu_criteria = []
+test_tender_openeu_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_openeu_required_criteria_ids))
+test_tender_openeu_criteria.extend(test_article_16_criteria[:1])
 
 
 class BaseTenderWebTest(BaseTenderUAWebTest):

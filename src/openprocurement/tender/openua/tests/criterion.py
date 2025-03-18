@@ -3,10 +3,12 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.base import test_main_criteria
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openua_data,
+    test_tender_openua_required_criteria_ids,
 )
 from openprocurement.tender.openua.tests.criterion_blanks import (  # RequirementGroup; Requirement; Evidence
     activate_tender,
@@ -42,6 +44,40 @@ from openprocurement.tender.openua.tests.criterion_blanks import (  # Requiremen
 )
 
 
+class TenderCriteriaBaseTestMixin:
+    def setUp(self):
+        super().setUp()
+        tender = self.get_tender().json["data"]
+
+        criteria_data = deepcopy(test_main_criteria)
+        set_tender_criteria(
+            criteria_data,
+            tender.get("lots", []),
+            tender.get("items", []),
+        )
+
+        for criterion in criteria_data:
+            for rg in criterion["requirementGroups"]:
+                for req in rg["requirements"]:
+                    req.pop("eligibleEvidences", None)
+
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": criteria_data},
+        )
+        for criterion in response.json["data"]:
+            if criterion["classification"]["id"].startswith(
+                "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
+            ):
+                self.criteria_id = criterion["id"]
+                self.rg_id = criterion["requirementGroups"][0]["id"]
+                self.requirement_id = criterion["requirementGroups"][0]["requirements"][0]["id"]
+            if criterion["classification"]["id"].startswith("CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"):
+                self.exclusion_criteria_id = criterion["id"]
+                self.exclusion_rg_id = criterion["requirementGroups"][0]["id"]
+                self.exclusion_requirement_id = criterion["requirementGroups"][0]["requirements"][0]["id"]
+
+
 class TenderCriteriaTestMixin:
     test_create_tender_criteria_valid = snitch(create_tender_criteria_valid)
     test_create_tender_criteria_invalid = snitch(create_tender_criteria_invalid)
@@ -51,24 +87,13 @@ class TenderCriteriaTestMixin:
     test_activate_tender = snitch(activate_tender)
 
 
-class TenderCriteriaRGTestMixin:
+class TenderCriteriaRGTestMixin(TenderCriteriaBaseTestMixin):
     test_create_criteria_rg_valid = snitch(create_criteria_rg)
     test_patch_criteria_rg = snitch(patch_criteria_rg)
     test_get_criteria_rg = snitch(get_criteria_rg)
 
-    def setUp(self):
-        super().setUp()
-        criteria_data = deepcopy(test_exclusion_criteria)
-        criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
-        response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": criteria_data},
-        )
-        self.criteria_id = response.json["data"][0]["id"]
-
-
-class TenderCriteriaRGRequirementTestMixin:
+class TenderCriteriaRGRequirementTestMixin(TenderCriteriaBaseTestMixin):
     test_create_rg_requirement_valid = snitch(create_rg_requirement_valid)
     test_create_rg_requirement_invalid = snitch(create_rg_requirement_invalid)
     test_patch_rg_requirement = snitch(patch_rg_requirement)
@@ -87,23 +112,8 @@ class TenderCriteriaRGRequirementTestMixin:
     }
     allowed_put_statuses = ["active.tendering"]
 
-    def setUp(self):
-        super().setUp()
-        criteria_data = deepcopy(test_exclusion_criteria)
-        criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
-        response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": criteria_data},
-        )
-        self.criteria_id = response.json["data"][0]["id"]
-        self.rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
-
-        self.exclusion_criteria_id = response.json["data"][2]["id"]
-        self.exclusion_rg_id = response.json["data"][2]["requirementGroups"][0]["id"]
-
-
-class TenderCriteriaRGRequirementEvidenceTestMixin:
+class TenderCriteriaRGRequirementEvidenceTestMixin(TenderCriteriaBaseTestMixin):
     test_create_requirement_evidence_valid = snitch(create_requirement_evidence_valid)
     test_create_requirement_evidence_invalid = snitch(create_requirement_evidence_invalid)
     test_patch_requirement_evidence = snitch(patch_requirement_evidence)
@@ -117,21 +127,6 @@ class TenderCriteriaRGRequirementEvidenceTestMixin:
         "description": "Довідка в довільній формі",
         "type": "document",
     }
-
-    def setUp(self):
-        super().setUp()
-        criteria_data = deepcopy(test_exclusion_criteria)
-        response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": criteria_data},
-        )
-        self.criteria_id = response.json["data"][0]["id"]
-        self.rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
-        self.requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
-
-        self.exclusion_criteria_id = response.json["data"][0]["id"]
-        self.exclusion_rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
-        self.exclusion_requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
 
 
 class TenderCriteriaLccTestMixin:
@@ -155,20 +150,7 @@ class TenderUACriteriaTest(
     initial_lots = test_tender_below_lots
     initial_status = "draft"
 
-    required_criteria = {
-        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-        "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
-        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
-        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-        "CRITERION.EXCLUSION.NATIONAL.OTHER",
-        "CRITERION.OTHER.BID.LANGUAGE",
-    }
+    required_criteria = test_tender_openua_required_criteria_ids
 
 
 class TenderUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderUAContentWebTest):

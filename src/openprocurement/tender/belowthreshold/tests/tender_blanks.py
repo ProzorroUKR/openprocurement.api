@@ -32,17 +32,16 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.criteria_utils import (
-    add_criteria,
-    generate_guarantee_criterion_responses,
-)
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import (
     activate_contract,
     change_auth,
+    generate_criterion_responses,
     get_contract_data,
     get_contract_template_name,
     set_bid_items,
     set_bid_lotvalues,
+    set_tender_criteria,
     set_tender_lots,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
@@ -654,7 +653,8 @@ def create_tender_invalid(self):
     classification = data["classification"].copy()
     classification["id"] = "19212310-1"
     data["classification"] = classification
-    self.initial_data["items"] = [self.initial_data["items"][0], data]
+    item = deepcopy(self.initial_data["items"][0])
+    self.initial_data["items"] = [item, data]
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -2092,6 +2092,7 @@ def patch_tender(self):
     owner_token = response.json["access"]["token"]
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
+    item_id = tender["items"][0]["id"]
     dateModified = tender.pop("dateModified")
 
     response = self.app.patch_json(
@@ -2181,15 +2182,22 @@ def patch_tender(self):
     self.assertEqual(revisions[-1]["changes"][0]["op"], "remove")
     self.assertEqual(revisions[-1]["changes"][0]["path"], "/procurementMethodRationale")
 
+    item = deepcopy(data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": [data["items"][0]]}}
+        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        {
+            "data": {"items": [item]},
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    item = deepcopy(data["items"][0])
+    item["id"] = item_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [data["items"][0], data["items"][0]]}},
+        {"data": {"items": [{**item, "id": item_id}, {**item, "id": uuid4().hex}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2199,7 +2207,7 @@ def patch_tender(self):
     self.assertEqual(item0, item1)
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": [item0]}}
+        "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": [{**item0, "id": item_id}]}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2383,13 +2391,20 @@ def guarantee(self):
         get_now() - timedelta(days=1),
     ):
         if data["procurementMethodType"] in GUARANTEE_ALLOWED_TENDER_TYPES:
+            test_tender_guarantee_criteria_modified = deepcopy(test_tender_guarantee_criteria)
+            # FIXME: hack, should be lot criteria, rewrite for lot
+            test_tender_guarantee_criteria_modified[0]["relatesTo"] = "tender"
+            criteria = (
+                test_exclusion_criteria
+                + test_language_criteria
+                + test_tender_guarantee_criteria_modified
+                + test_article_16_criteria[:1]
+            )
+            set_tender_criteria(criteria, tender["lots"], tender["items"])
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(tender["id"], token),
                 {
-                    "data": test_exclusion_criteria
-                    + test_language_criteria
-                    + test_tender_guarantee_criteria
-                    + test_article_16_criteria[:1]
+                    "data": criteria,
                 },
                 status=201,
             )
@@ -3189,7 +3204,8 @@ def patch_tender_minimalstep_validation(self):
 def patch_item_with_zero_quantity(self):
     self.create_tender()
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    item = response.json["data"]["items"][0]
+    tender = response.json["data"]
+    item = tender["items"][0]
     item["quantity"] = 0
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item]}}
@@ -3208,6 +3224,7 @@ def patch_item_with_zero_quantity(self):
     criteria = deepcopy(test_exclusion_criteria)
     criteria[0]["relatesTo"] = "item"
     criteria[0]["relatedItem"] = item["id"]
+    set_tender_criteria(criteria, tender["lots"], tender["items"])
     add_criteria(self, criteria=criteria)
     item["quantity"] = 0
     response = self.app.patch_json(
@@ -3290,8 +3307,10 @@ def patch_items_related_buyer_id(self):
 
     # adding new unassigned items
     second_item = deepcopy(self.initial_data["items"][0])
+    second_item["id"] = uuid4().hex
     second_item["description"] = "телевізори"
     third_item = deepcopy(self.initial_data["items"][0])
+    third_item["id"] = uuid4().hex
     third_item["description"] = "ноутбуки"
 
     response = self.app.patch_json(
@@ -3342,16 +3361,22 @@ def tender_with_guarantee_multilot(self):
     self.tender_token = response.json["access"]["token"]
 
     related_lot_id = response.json["data"]["lots"][0]["id"]
-    tender_lot_guarantee_criteria = deepcopy(test_tender_guarantee_criteria)
-    tender_lot_guarantee_criteria[0]["relatesTo"] = "lot"
-    tender_lot_guarantee_criteria[0]["relatedItem"] = related_lot_id
+
+    criteria = []
+    criteria.extend(test_exclusion_criteria)
+    criteria.extend(test_language_criteria)
+    criteria.extend(test_tender_guarantee_criteria)
+    criteria.extend(test_article_16_criteria[:1])
+    set_tender_criteria(criteria, data["lots"], data["items"])
+
+    for criterion in criteria:
+        if criterion["classification"]["id"] == "CRITERION.OTHER.BID.GUARANTEE":
+            criterion["relatedItem"] = related_lot_id
+
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {
-            "data": test_exclusion_criteria
-            + test_language_criteria
-            + tender_lot_guarantee_criteria
-            + test_article_16_criteria[:1]
+            "data": criteria,
         },
         status=201,
     )
@@ -3413,14 +3438,18 @@ def activate_bid_guarantee_multilot(self):
     contract_lot_guarantee_criteria = deepcopy(test_contract_guarantee_criteria)
     contract_lot_guarantee_criteria[0]["relatesTo"] = "lot"
     contract_lot_guarantee_criteria[0]["relatedItem"] = response.json["data"]["lots"][1]["id"]
+    criteria = (
+        test_exclusion_criteria
+        + test_language_criteria
+        + tender_lot_guarantee_criteria
+        + contract_lot_guarantee_criteria
+        + test_article_16_criteria[:1]
+    )
+    set_tender_criteria(criteria, data["lots"], data["items"])
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {
-            "data": test_exclusion_criteria
-            + test_language_criteria
-            + tender_lot_guarantee_criteria
-            + contract_lot_guarantee_criteria
-            + test_article_16_criteria[:1]
+            "data": criteria,
         },
         status=201,
     )
@@ -3450,32 +3479,14 @@ def activate_bid_guarantee_multilot(self):
     winner_req = None
     winner_criteria = None
     for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] in ("tenderer", "winner") and criterion["relatesTo"] != "lot":
-                if criterion["classification"]["id"] == "CRITERION.OTHER.BID.LANGUAGE":
-                    rrs.append(
-                        {
-                            "requirement": {
-                                "id": criterion["requirementGroups"][0]["requirements"][0]["id"],
-                            },
-                            "values": ["ukr"],
-                        }
-                    )
-                else:
-                    rrs.append(
-                        {
-                            "requirement": {
-                                "id": req["id"],
-                            },
-                            "value": True,
-                        },
-                    )
-            elif criterion["source"] == "tenderer" and criterion["relatesTo"] == "lot":
-                lot_req = req
-                lot_criteria = criterion
-            elif criterion["source"] == "winner" and criterion["relatesTo"] == "lot":
-                winner_req = req
-                winner_criteria = criterion
+        if criterion["source"] in ("tenderer", "winner") and criterion["relatesTo"] != "lot":
+            rrs.extend(generate_criterion_responses(criterion))
+        elif criterion["source"] == "tenderer" and criterion["relatesTo"] == "lot":
+            lot_criteria = criterion
+            lot_req = criterion["requirementGroups"][0]["requirements"]
+        elif criterion["source"] == "winner" and criterion["relatesTo"] == "lot":
+            winner_criteria = criterion
+            winner_req = criterion["requirementGroups"][0]["requirements"]
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
         {"data": rrs},
@@ -3503,17 +3514,10 @@ def activate_bid_guarantee_multilot(self):
         ],
     )
 
-    lot_rr = [
-        {
-            "requirement": {
-                "id": lot_req["id"],
-            },
-            "value": 2,
-        }
-    ]
+    lot_rrs = generate_criterion_responses(lot_criteria)
     self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
-        {"data": lot_rr},
+        {"data": lot_rrs},
         status=201,
     )
 
@@ -3537,20 +3541,10 @@ def activate_bid_guarantee_multilot(self):
         ],
     )
 
-    if winner_criteria["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
-        lot_rr = generate_guarantee_criterion_responses(winner_criteria)
-    else:
-        lot_rr = [
-            {
-                "requirement": {
-                    "id": winner_req["id"],
-                },
-                "value": True,
-            }
-        ]
+    lot_rrs = generate_criterion_responses(winner_criteria)
     self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
-        {"data": lot_rr},
+        {"data": lot_rrs},
         status=201,
     )
     self.app.patch_json(
@@ -4355,7 +4349,11 @@ def contract_template_name_set(self):
     self.tender_token = response.json["access"]["token"]
 
     if pmt not in ("negotiation", "negotiation.quick", "aboveThresholdUA.defense"):
-        criteria = test_exclusion_criteria + test_language_criteria + test_article_16_criteria[:1]
+        criteria = []
+        criteria.extend(test_exclusion_criteria)
+        criteria.extend(test_language_criteria)
+        criteria.extend(test_article_16_criteria[:1])
+        set_tender_criteria(criteria, self.tender_id, self.tender_token)
         self.app.post_json(
             f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
             {"data": criteria},

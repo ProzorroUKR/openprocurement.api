@@ -226,6 +226,13 @@ def set_tender_lots(tender, lots):
         lot = deepcopy(lot)
         lot["id"] = uuid4().hex
         tender["lots"].append(lot)
+    # if len(tender["items"]) < len(tender["lots"]):
+    #     # append items to tender to match lots count
+    #     item = deepcopy(tender["items"][0])
+    #     for i in range(len(tender["lots"]) - len(tender["items"])):
+    #         item["id"] = uuid4().hex
+    #         tender["items"].append(item)
+
     for i, item in enumerate(tender["items"]):
         item["relatedLot"] = tender["lots"][i % len(tender["lots"])]["id"]
     for i, milestone in enumerate(tender.get("milestones", [])):
@@ -235,20 +242,55 @@ def set_tender_lots(tender, lots):
 
 def set_tender_criteria(criteria, lots, items):
     for i, criterion in enumerate(criteria):
-        if lots and criterion["relatesTo"] == "lot":
-            criterion["relatedItem"] = lots[i % len(lots)]["id"]
-        elif items and criterion["relatesTo"] == "item":
-            criterion["relatedItem"] = items[i % len(lots)]["id"]
+
+        # set relatedItem for lot
+        if criterion.get("relatesTo") == "lot":
+            if lots:
+                lot = lots[i % len(lots)]
+                if not lot.get("id"):
+                    lot["id"] = uuid4().hex
+                criterion["relatedItem"] = lot["id"]
+            else:
+                # In case on deprecated no-lot tender
+                criterion["relatesTo"] = "tender"
+
+        # set relatedItem for item
+        if criterion.get("relatesTo") == "item":
+            if items:
+                item = items[i % len(items)]
+                if not item.get("id"):
+                    item["id"] = uuid4().hex
+                criterion["relatedItem"] = item["id"]
+            else:
+                raise ValueError("Items are required for item-related criterion")
+
+        # customizable relatesTo
+        if criterion.get("relatesTo") == "":
+            criterion["relatesTo"] = "tender"
+
+        # fill missing data
+        for group in criterion["requirementGroups"]:
+            for req in group["requirements"]:
+                # customizable title
+                if req["title"] == "":
+                    req["title"] = "Текст заповнений користувачем"
+                # customizable dataType
+                if req["dataType"] == "":
+                    req["dataType"] = "string"
+                # customizable eligibleEvidences
+                for ee in req.get("eligibleEvidences", []):
+                    if ee["title"] == "":
+                        ee["title"] = "Документальне підтвердження"
+
     return criteria
 
 
 def set_bid_items(self, bid, items=None, tender_id=None):
-    if not tender_id:
-        tender_id = self.tender_id
-
-    response = self.app.get(f"/tenders/{tender_id}")
-    tender = response.json["data"]
     if not items:
+        if not tender_id:
+            tender_id = self.tender_id
+        response = self.app.get(f"/tenders/{tender_id}")
+        tender = response.json["data"]
         items = tender["items"]
 
     valueAddedTaxIncluded = False
@@ -278,19 +320,49 @@ def set_bid_items(self, bid, items=None, tender_id=None):
     return bid
 
 
+def generate_req_response(req):
+    response = {
+        "requirement": {
+            "id": req["id"],
+        },
+    }
+    if "expectedValue" in req:
+        response["value"] = req["expectedValue"]
+    elif "expectedValues" in req:
+        if "expectedMinItems" in req:
+            response["values"] = req["expectedValues"][: req["expectedMinItems"]]
+        elif "expectedMaxItems" in req:
+            response["values"] = req["expectedValues"][: req["expectedMaxItems"]]
+        else:
+            response["values"] = req["expectedValues"]
+    elif "minValue" in req:
+        response["value"] = req["minValue"]
+    elif "maxValue" in req:
+        response["value"] = req["maxValue"]
+    elif req["dataType"] == "boolean":
+        response["value"] = True
+    elif req["dataType"] == "string":
+        response["value"] = "test"
+    elif req["dataType"] == "number":
+        response["value"] = 1
+    elif req["dataType"] == "integer":
+        response["value"] = 1
+    return response
+
+
+def generate_criterion_responses(criterion):
+    rrs = []
+    for req in criterion["requirementGroups"][0]["requirements"]:
+        response = generate_req_response(req)
+        rrs.append(response)
+    return rrs
+
+
 def set_bid_responses(criteria):
     rrs = []
     for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] in ("tenderer", "winner"):
-                rrs.append(
-                    {
-                        "requirement": {
-                            "id": req["id"],
-                        },
-                        "value": True,
-                    },
-                )
+        if criterion["source"] in ("tenderer", "winner"):
+            rrs.extend(generate_criterion_responses(criterion))
     return rrs
 
 

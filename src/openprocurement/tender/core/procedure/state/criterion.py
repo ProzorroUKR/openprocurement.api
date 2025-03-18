@@ -55,7 +55,7 @@ class BaseCriterionStateMixin:
                             "For technical feature criteria item should have category or profile",
                             status=422,
                         )
-                else:  # CRITERION_LOCALIZATION:
+                elif criterion["classification"]["id"] == CRITERION_LOCALIZATION:
                     if not item.get("category"):
                         raise_operation_error(
                             self.request,

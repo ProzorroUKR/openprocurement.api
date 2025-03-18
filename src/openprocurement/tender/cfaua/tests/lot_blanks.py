@@ -1172,9 +1172,10 @@ def proc_1lot_1can(self):
 
     lot_id = response.json["data"]["lots"][0]["id"]
     # add item
+    item = deepcopy(self.initial_data["items"][0])
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [self.initial_data["items"][0]]}},
+        {"data": {"items": [item]}},
     )
     tender = response.json["data"]
     # add relatedLot for item

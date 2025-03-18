@@ -6,9 +6,10 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_below_l
 from openprocurement.tender.competitiveordering.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_co_data,
+    test_tender_co_required_criteria_ids,
 )
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.open.tests.criterion_blanks import (
+from openprocurement.tender.openua.tests.criterion import TenderCriteriaBaseTestMixin
+from openprocurement.tender.openua.tests.criterion_blanks import (
     activate_tender,
     create_criteria_rg,
     create_patch_delete_evidences_from_requirement,
@@ -45,24 +46,13 @@ class TenderCriteriaTestMixin:
     test_activate_tender = snitch(activate_tender)
 
 
-class TenderCriteriaRGTestMixin:
+class TenderCriteriaRGTestMixin(TenderCriteriaBaseTestMixin):
     test_create_criteria_rg_valid = snitch(create_criteria_rg)
     test_patch_criteria_rg = snitch(patch_criteria_rg)
     test_get_criteria_rg = snitch(get_criteria_rg)
 
-    def setUp(self):
-        super().setUp()
-        criteria_data = deepcopy(test_exclusion_criteria)
-        criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
-        response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": criteria_data},
-        )
-        self.criteria_id = response.json["data"][0]["id"]
-
-
-class TenderCriteriaRGRequirementTestMixin:
+class TenderCriteriaRGRequirementTestMixin(TenderCriteriaBaseTestMixin):
     test_create_rg_requirement_valid = snitch(create_rg_requirement_valid)
     test_create_rg_requirement_invalid = snitch(create_rg_requirement_invalid)
     test_patch_rg_requirement = snitch(patch_rg_requirement)
@@ -78,23 +68,8 @@ class TenderCriteriaRGRequirementTestMixin:
     }
     allowed_put_statuses = ["active.tendering"]
 
-    def setUp(self):
-        super().setUp()
-        criteria_data = deepcopy(test_exclusion_criteria)
-        criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
-        response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": criteria_data},
-        )
-        self.criteria_id = response.json["data"][0]["id"]
-        self.rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
-
-        self.exclusion_criteria_id = response.json["data"][2]["id"]
-        self.exclusion_rg_id = response.json["data"][2]["requirementGroups"][0]["id"]
-
-
-class TenderCriteriaRGRequirementEvidenceTestMixin:
+class TenderCriteriaRGRequirementEvidenceTestMixin(TenderCriteriaBaseTestMixin):
     test_create_requirement_evidence_valid = snitch(create_requirement_evidence_valid)
     test_create_requirement_evidence_invalid = snitch(create_requirement_evidence_invalid)
     test_patch_requirement_evidence = snitch(patch_requirement_evidence)
@@ -109,21 +84,6 @@ class TenderCriteriaRGRequirementEvidenceTestMixin:
         "type": "document",
     }
 
-    def setUp(self):
-        super().setUp()
-        criteria_data = deepcopy(test_exclusion_criteria)
-        response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": criteria_data},
-        )
-        self.criteria_id = response.json["data"][0]["id"]
-        self.rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
-        self.requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
-
-        self.exclusion_criteria_id = response.json["data"][0]["id"]
-        self.exclusion_rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
-        self.exclusion_requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
-
 
 class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
     initial_data = test_tender_co_data
@@ -131,7 +91,7 @@ class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
     initial_status = "draft"
 
     article_16_criteria_required = False
-    required_criteria = ()
+    required_criteria = test_tender_co_required_criteria_ids
 
 
 class TenderUACriteriaLccTest(BaseTenderUAContentWebTest):

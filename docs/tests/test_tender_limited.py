@@ -7,7 +7,6 @@ from tests.base.data import test_docs_award, test_docs_lots, test_docs_tender_li
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
-from openprocurement.api.context import get_now
 from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_quick_config,

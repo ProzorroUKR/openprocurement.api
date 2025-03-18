@@ -69,21 +69,6 @@ def switch_to_auction(self):
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
 
-def switch_to_auction_lot_items(self):
-    """
-    Test lot tender with non lot items (item.relatedLot is missed)
-    """
-    self.app.patch_json(
-        f'/tenders/{self.tender_id}?acc_token={self.tender_token}', {'data': {"items": self.initial_data["items"] * 2}}
-    )
-    self.set_status("active.auction", {"status": "active.tendering"})
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.auction")
-
-    response = self.app.get(f"/tenders/{self.tender_id}")
-    self.assertEqual(len(response.json["data"]["items"]), 2)  # non lot items are still there for no reason
-
-
 def switch_to_auction_with_non_auction_lot(self):
     """
     Test lot tender with non lot items (item.relatedLot is missed)

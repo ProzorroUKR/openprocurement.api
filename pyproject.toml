@@ -18,9 +18,12 @@ skip-string-normalization = true
 profile = "black"
 
 [tool.autoflake]
-quiet = true
-imports = [
-    "requests",
+quiet = false
+remove-all-unused-imports = true
+ignore-init-module-imports = true
+exclude-imports = [
+    "openprocurement.planning.api.tests.base.app",
+    "openprocurement.planning.api.tests.base.singleton_app"
 ]
 
 [tool.pylint]

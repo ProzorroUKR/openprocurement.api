@@ -20,6 +20,11 @@ from openprocurement.tender.competitivedialogue.tests.periods import (
     PERIODS,
     PERIODS_UA_STAGE_2,
 )
+from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
+    test_article_16_criteria,
+    test_main_criteria,
+)
 from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
     set_tender_multi_buyers,
@@ -231,6 +236,44 @@ test_tender_cdua_stage2_config = {
     "qualificationDuration": 0,
     "restricted": False,
 }
+
+test_tender_cdeu_required_criteria_ids = {
+    "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+    "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+    "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+    "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+    "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
+    "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
+    "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+    "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+    "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    "CRITERION.OTHER.BID.LANGUAGE",
+}
+
+test_tender_cdua_required_criteria_ids = {
+    "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+    "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+    "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+    "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+    "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
+    "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
+    "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+    "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+    "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    "CRITERION.OTHER.BID.LANGUAGE",
+}
+
+test_tender_cdeu_criteria = []
+test_tender_cdeu_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_cdeu_required_criteria_ids))
+test_tender_cdeu_criteria.extend(test_article_16_criteria[:1])
+
+test_tender_cdua_criteria = []
+test_tender_cdua_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_cdua_required_criteria_ids))
+test_tender_cdua_criteria.extend(test_article_16_criteria[:1])
 
 
 class BaseCompetitiveDialogApiWebTest(BaseWebTest):

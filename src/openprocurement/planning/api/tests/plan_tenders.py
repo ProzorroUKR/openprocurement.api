@@ -8,12 +8,10 @@ from mock import Mock, patch
 from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.utils import get_now
 from openprocurement.planning.api.constants import PROCEDURES
-from openprocurement.planning.api.tests.base import (
-    app,
-    plan,
-    singleton_app,
-    test_plan_data,
-)
+from openprocurement.planning.api.tests.base import app  # noqa
+from openprocurement.planning.api.tests.base import plan  # noqa
+from openprocurement.planning.api.tests.base import singleton_app  # noqa
+from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
     test_tender_below_data,

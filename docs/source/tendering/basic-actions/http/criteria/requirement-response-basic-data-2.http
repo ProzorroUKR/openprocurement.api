@@ -91,7 +91,7 @@ Content-Type: application/json
       {
         "requirement": {
           "id": "3410306ab5f74bf9abdaf846ad3687ff",
-          "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом, шахрайством та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+          "title": "Учасник процедури закупівлі є нерезидентом"
         },
         "evidences": [
           {
@@ -108,13 +108,13 @@ Content-Type: application/json
         "id": "ad886ba640674565b613793d4d082196",
         "classification": {
           "scheme": "ESPD211",
-          "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+          "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
         }
       },
       {
         "requirement": {
           "id": "c63023e54fd04a02869e09a265bdacda",
-          "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+          "title": "Учасник процедури закупівлі має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми"
         },
         "evidences": [
           {
@@ -131,7 +131,7 @@ Content-Type: application/json
         "id": "72f18380780648d7a5a90c3e4e7279bc",
         "classification": {
           "scheme": "ESPD211",
-          "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+          "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
         }
       }
     ],

@@ -12,10 +12,10 @@ from openprocurement.planning.api.constants import (
     MILESTONE_APPROVAL_TITLE,
 )
 from openprocurement.planning.api.procedure.models.milestone import Milestone
+from openprocurement.planning.api.tests.base import app  # noqa
+from openprocurement.planning.api.tests.base import singleton_app  # noqa
 from openprocurement.planning.api.tests.base import (
-    app,
     generate_docservice_url,
-    singleton_app,
     test_plan_data,
 )
 

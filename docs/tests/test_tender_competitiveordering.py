@@ -23,13 +23,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.competitiveordering.tests.base import (
     BaseTenderUAWebTest,
     test_tender_co_config,
-)
-from openprocurement.tender.core.tests.base import (
-    test_article_16_criteria,
-    test_exclusion_criteria,
-    test_language_criteria,
+    test_tender_co_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/http/')
@@ -145,15 +142,11 @@ class TenderResourceTest(
             self.assertEqual(response.status, '200 OK')
 
         # add criteria
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        tender = response.json["data"]
 
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        for i in range(len(test_criteria_data)):
-            classification_id = test_criteria_data[i]['classification']['id']
-            if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
-                del test_criteria_data[i]
-                break
-        test_criteria_data.extend(test_language_criteria)
-        test_criteria_data.extend(test_article_16_criteria[:1])
+        test_criteria_data = deepcopy(test_tender_co_criteria)
+        set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
