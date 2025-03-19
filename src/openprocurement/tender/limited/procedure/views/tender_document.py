@@ -49,9 +49,9 @@ class ReportingTenderDocumentResource(TenderDocumentResource):
         validators=(
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PostDocument),
+            update_doc_fields_on_put_document,
             validate_document_operation_in_not_allowed_tender_status,
             validate_tender_document_update_not_by_author_or_tender_owner,
-            update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
         ),

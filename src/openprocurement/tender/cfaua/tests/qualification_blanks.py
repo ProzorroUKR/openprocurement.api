@@ -313,6 +313,13 @@ def check_sign_doc_qualifications_before_stand_still(self):
     self.assertEqual(response.status, "201 Created")
     doc_1_id = response.json["data"]["id"]
 
+    # try to patch evaluationReports doc
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/documents/{doc_1_id}?acc_token={self.tender_token}",
+        {"data": {"title": "test_sign.p7s"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
     # move to stand-still successfully
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -323,7 +330,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
     # try to patch doc in active.pre-qualification.stand-still status
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/documents/{doc_1_id}?acc_token={self.tender_token}",
-        {"data": {"title": "test"}},
+        {"data": {"title": "test1.p7s"}},
         status=403,
     )
     self.assertEqual(
