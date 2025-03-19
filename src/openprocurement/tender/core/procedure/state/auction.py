@@ -6,6 +6,7 @@ from dateorro import calc_nearest_working_datetime
 
 from openprocurement.api.constants import (
     AUCTION_DAY_START,
+    AUCTION_PERIOD_SHOULD_START_EARLIER_UPDATE_DAYS,
     AUCTION_TIME_SLOTS_NUMBER,
     HALF_HOUR_SECONDS,
     SANDBOX_MODE,
@@ -36,9 +37,7 @@ class ShouldStartAfterMixing:
                 period = lot.get("auctionPeriod", {})
                 start_after = self.get_lot_auction_should_start_after(tender, lot)
                 if start_after:
-                    period["shouldStartAfter"] = start_after
-                    self.period_add_auction_start_date(period, start_after, quick)
-
+                    self.update_auction_period_start_dates(period=period, should_start_after=start_after, quick=quick)
                     lot["auctionPeriod"] = period
 
                 elif "shouldStartAfter" in period:
@@ -50,8 +49,7 @@ class ShouldStartAfterMixing:
             period = tender.get("auctionPeriod", {})
             start_after = self.get_auction_should_start_after(tender)
             if start_after:
-                period["shouldStartAfter"] = start_after
-                self.period_add_auction_start_date(period, start_after, quick)
+                self.update_auction_period_start_dates(period=period, should_start_after=start_after, quick=quick)
                 tender["auctionPeriod"] = period
 
             elif "shouldStartAfter" in period:
@@ -139,10 +137,22 @@ class ShouldStartAfterMixing:
                 decision_dates.append(date)
         return decision_dates
 
-    def period_add_auction_start_date(self, period: dict[str, str], start_after: str, quick: bool) -> None:
+    def update_auction_period_start_dates(
+        self, *, period: dict[str, str], should_start_after: str, quick: bool
+    ) -> None:
+        # update "shouldStartAfter"
+        start_after_before = period.get("shouldStartAfter")
+        period["shouldStartAfter"] = should_start_after
+
+        # update "startDate"
+        should_start_moved_earlier = (
+            start_after_before is not None
+            and (datetime.fromisoformat(start_after_before) - datetime.fromisoformat(should_start_after)).days
+            > AUCTION_PERIOD_SHOULD_START_EARLIER_UPDATE_DAYS
+        )
         start_date = period.get("startDate")
-        if start_date is None or start_date < start_after:  # iso string comparison works good enough
-            period["startDate"] = self.get_auction_start_date(start_after, quick)
+        if start_date is None or start_date < should_start_after or should_start_moved_earlier:
+            period["startDate"] = self.get_auction_start_date(should_start_after, quick)
 
     @staticmethod
     def get_auction_start_date(should_start_after: str, quick: bool) -> str:
