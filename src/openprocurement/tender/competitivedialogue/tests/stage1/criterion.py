@@ -23,6 +23,7 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUCon
     initial_status = "draft"
 
     required_criteria = test_tender_cdeu_required_criteria_ids
+    article_16_criteria_required = True
 
 
 class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUAContentWebTest):
@@ -31,6 +32,7 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUACon
     initial_status = "draft"
 
     required_criteria = test_tender_cdua_required_criteria_ids
+    article_16_criteria_required = True
 
 
 class TenderCDEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogEUContentWebTest):

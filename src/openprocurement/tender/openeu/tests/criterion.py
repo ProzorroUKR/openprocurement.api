@@ -22,6 +22,7 @@ class TenderEUCriteriaTest(TenderCriteriaTestMixin, TenderCriteriaLccTestMixin, 
     initial_status = "draft"
 
     required_criteria = test_tender_openeu_required_criteria_ids
+    article_16_criteria_required = True
 
 
 class TenderEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest):

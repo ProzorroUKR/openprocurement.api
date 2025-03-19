@@ -151,6 +151,7 @@ class TenderUACriteriaTest(
     initial_status = "draft"
 
     required_criteria = test_tender_openua_required_criteria_ids
+    article_16_criteria_required = True
 
 
 class TenderUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderUAContentWebTest):

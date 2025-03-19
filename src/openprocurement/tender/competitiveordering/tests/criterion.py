@@ -90,7 +90,6 @@ class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
     initial_lots = test_tender_below_lots
     initial_status = "draft"
 
-    article_16_criteria_required = False
     required_criteria = test_tender_co_required_criteria_ids
 
 
