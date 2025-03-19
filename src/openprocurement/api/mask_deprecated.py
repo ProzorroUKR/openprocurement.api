@@ -87,8 +87,8 @@ def mask_process_compound(data):
 
 def mask_object_data_deprecated(request, data):
     is_masked = data.get("is_masked", False)
-    if is_masked is not True or not MASK_OBJECT_DATA_SINGLE:
-        # Do not show is_masked field if it is False or masking is disabled
+    if is_masked is not True:
+        # Do not show is_masked field if it is False
         data.pop("is_masked", None)
 
     if not (MASK_OBJECT_DATA_SINGLE and is_masked is True):
