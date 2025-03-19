@@ -8,7 +8,7 @@ from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
 )
-from openprocurement.api.utils import context_unpack, raise_operation_error
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.framework.core.constants import (
     ENQUIRY_PERIOD_DURATION,
     MAX_QUALIFICATION_DURATION,
