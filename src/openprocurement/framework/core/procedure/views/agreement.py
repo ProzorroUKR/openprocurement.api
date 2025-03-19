@@ -111,7 +111,7 @@ class AgreementsResource(FrameworkBaseResource):
         agreement = self.request.validated["agreement"]
         agreement_src = self.request.validated["agreement_src"]
         if self.request.authenticated_role == "chronograph":
-            self.state.patch_statuses_by_chronograph(agreement)
+            self.state.on_chronograph_patch(agreement)
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
                     "Updated agreement by chronograph",

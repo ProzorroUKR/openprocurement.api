@@ -18,6 +18,9 @@ class IFIFrameworkState(FrameworkState):
     qualification_class = IFIQualificationState
     submission_class = IFISubmissionState
     working_days = True
+    min_submissions_number = 3
+    min_submissions_number_days = 15
+    min_submissions_number_working_days = False
 
     def get_patch_data_model(self):
         request = get_request()

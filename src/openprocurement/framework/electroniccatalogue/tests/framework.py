@@ -39,6 +39,10 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     initial_config = test_framework_electronic_catalogue_config
     initial_auth = ("Basic", ("broker", ""))
 
+    min_submissions_number = 1
+    min_submissions_number_days = 20
+    min_submissions_number_working_days = True
+
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)

@@ -1,4 +1,3 @@
-from datetime import timedelta
 from hashlib import sha512
 from logging import getLogger
 
@@ -16,14 +15,11 @@ from openprocurement.api.utils import (
     error_handler,
     handle_store_exceptions,
 )
-from openprocurement.framework.core.constants import DAYS_TO_UNSUCCESSFUL_STATUS
 from openprocurement.framework.core.procedure.mask import (
     AGREEMENT_MASK_MAPPING,
     QUALIFICATION_MASK_MAPPING,
     SUBMISSION_MASK_MAPPING,
 )
-from openprocurement.framework.core.utils import calculate_framework_full_date
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 LOGGER = getLogger(__name__)
 
@@ -135,17 +131,6 @@ def extract_qualification_doc(request):
 
 def extract_agreement_doc(request):
     return extract_object_doc(request, "agreement", mask_mapping=AGREEMENT_MASK_MAPPING)
-
-
-def get_framework_unsuccessful_status_check_date(framework):
-    if period_start := framework.get("period", {}).get("startDate"):
-        return calculate_framework_full_date(
-            dt_from_iso(period_start),
-            timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
-            framework=framework,
-            working_days=True,
-            ceil=True,
-        )
 
 
 def get_framework_number_of_submissions(request, framework):

@@ -12,12 +12,14 @@ from openprocurement.framework.core.procedure.models.contract import Contract
 from openprocurement.framework.core.procedure.models.framework import (
     AdditionalClassification,
     DKClassification,
+    Item,
 )
 from openprocurement.framework.dps.constants import DPS_TYPE
 
 
 class PatchAgreement(Model):
     status = StringType(choices=["active", "terminated"])
+    terminationDetails = StringType()
 
 
 class CommonAgreement(RootModel):
@@ -27,6 +29,7 @@ class CommonAgreement(RootModel):
     period = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(Organization, required=True)
     contracts = ListType(ModelType(Contract, required=True), default=[])
+    terminationDetails = StringType()
 
     _attachments = DictType(DictType(BaseType), default={})
 
@@ -57,6 +60,7 @@ class CommonPostAgreement(Model):
     period = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(Organization, required=True)
     contracts = ListType(ModelType(Contract, required=True), default=[])
+    terminationDetails = StringType()
 
     _attachments = DictType(DictType(BaseType), default={})
 
@@ -85,18 +89,5 @@ class Agreement(CommonAgreement):
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     frameworkDetails = StringType()
-
-    @serializable(serialize_when_none=False)
-    def next_check(self):
-        checks = []
-        if self.status == "active":
-            milestone_dueDates = [
-                milestone.dueDate
-                for contract in self.contracts
-                for milestone in contract.milestones
-                if milestone.dueDate and milestone.status == "scheduled"
-            ]
-            if milestone_dueDates:
-                checks.append(min(milestone_dueDates))
-            checks.append(self.period.endDate)
-        return min(checks).isoformat() if checks else None
+    items = ListType(ModelType(Item, required=True), default=[])
+    next_check = BaseType()

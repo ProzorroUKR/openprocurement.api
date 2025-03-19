@@ -62,7 +62,7 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-09T00:00:00+02:00"
     },
-    "next_check": "2023-11-08T00:00:00+02:00",
+    "next_check": "2023-10-26T00:00:00+03:00",
     "agreementID": "84e5a3fd2a244df7af98316bcb7e4b5a",
     "id": "08238232b095420687b4e273ae56d878"
   },

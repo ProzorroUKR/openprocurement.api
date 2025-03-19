@@ -17,6 +17,9 @@ class ElectronicDialogueFrameworkState(FrameworkState):
     qualification_class = ElectronicDialogueQualificationState
     submission_class = ElectronicDialogueSubmissionState
     working_days = True
+    min_submissions_number = 1
+    min_submissions_number_days = 20
+    min_submissions_number_working_days = True
 
     def get_patch_data_model(self):
         request = get_request()

@@ -170,11 +170,13 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
                         )
 
             # save submission
-            if save_object(request, "submission", raise_error_handler=True):
-                logger.info(
-                    f"Updated submission {request.validated['submission']['_id']} status",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"}),
-                )
+            if request.validated.get("submission"):
+                if request.validated["submission_src"]:
+                    if save_object(request, "submission", raise_error_handler=True):
+                        logger.info(
+                            f"Updated submission {request.validated['submission']['_id']} status",
+                            extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"}),
+                        )
 
 
 class BaseDocumentResource(FrameworkBaseResource, DocumentResourceMixin):

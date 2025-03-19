@@ -14,29 +14,14 @@ from openprocurement.framework.core.procedure.models.agreement import (
     PatchAgreement,
 )
 from openprocurement.framework.core.procedure.state.chronograph import (
-    ChronographEventsMixing,
+    AgreementChronographEventsMixing,
 )
 from openprocurement.framework.core.utils import generate_agreement_id
 
 LOGGER = getLogger(__name__)
 
 
-def get_agreement_next_check(data):
-    checks = []
-    if data["status"] == "active":
-        milestone_due_dates = [
-            milestone["dueDate"]
-            for contract in data.get("contracts", [])
-            for milestone in contract.get("milestones", [])
-            if milestone.get("dueDate") and milestone["status"] == "scheduled"
-        ]
-        if milestone_due_dates:
-            checks.append(min(milestone_due_dates))
-        checks.append(data["period"]["endDate"])
-    return min(checks) if checks else None
-
-
-class AgreementState(BaseState, ChronographEventsMixing):
+class AgreementState(BaseState, AgreementChronographEventsMixing):
     def __init__(self, request, framework=None):
         super().__init__(request)
         self.framework = framework
@@ -61,9 +46,6 @@ class AgreementState(BaseState, ChronographEventsMixing):
         if request.authenticated_role == "chronograph":
             return AgreementChronographData
         return PatchAgreement
-
-    def get_next_check(self, data):
-        return get_agreement_next_check(data)
 
     def create_agreement_if_not_exist(self):
         request = self.request

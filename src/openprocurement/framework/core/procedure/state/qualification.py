@@ -10,7 +10,7 @@ from openprocurement.api.utils import (
     request_init_qualification,
 )
 from openprocurement.framework.core.procedure.state.chronograph import (
-    ChronographEventsMixing,
+    FrameworkChronographEventsMixing,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
@@ -20,7 +20,7 @@ from openprocurement.tender.core.procedure.validation import (
 LOGGER = getLogger(__name__)
 
 
-class QualificationState(ChronographEventsMixing, BaseState):
+class QualificationState(FrameworkChronographEventsMixing, BaseState):
     working_days = True
 
     def __init__(self, request, framework=None):

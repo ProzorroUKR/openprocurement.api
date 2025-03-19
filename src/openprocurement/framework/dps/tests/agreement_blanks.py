@@ -385,6 +385,25 @@ def patch_agreement_terminated_status(self):
     self.assertIsNone(response.json["data"].get("next_check"))
 
 
+def patch_agreement_manually_to_terminated_status(self):
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}?acc_token={self.framework_token}",
+        {
+            "data": {
+                "status": "terminated",
+                "terminationDetails": "Some termination details",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "terminated")
+    self.assertEqual(response.json["data"]["terminationDetails"], "Some termination details")
+    self.assertIsNone(response.json["data"].get("next_check"))
+
+
 def patch_contract_active_status(self):
     response = self.app.post_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
@@ -634,6 +653,7 @@ def post_ban_milestone(self):
     milestone = response.json["data"]
     self.assertEqual(milestone["type"], milestone_data["type"])
     self.assertIsNotNone(milestone["dateModified"])
+    # TODO: fix this, fails near midnight
     self.assertTrue(parse_datetime(milestone["dueDate"]) - get_now() >= timedelta(days=CONTRACT_BAN_DURATION))
 
     contract = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
@@ -673,6 +693,7 @@ def post_ban_milestone_with_documents(self):
     self.assertIsNotNone(milestone["dateModified"])
     self.assertEqual(milestone["documents"][0]["dateModified"], milestone["documents"][0]["datePublished"])
     self.assertEqual(len(milestone["documents"]), len(milestone_data["documents"]))
+    # TODO: fix this, fails near midnight
     self.assertTrue(parse_datetime(milestone["dueDate"]) - get_now() >= timedelta(days=CONTRACT_BAN_DURATION))
 
     contract = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
