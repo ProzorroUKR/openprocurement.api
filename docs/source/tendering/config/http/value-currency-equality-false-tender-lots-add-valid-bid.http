@@ -1126,6 +1126,116 @@ Content-Type: application/json
       },
       {
         "id": "a541df630b9b4004adb9ebc0d8d136d8",
+        "description": "У тендерній пропозиції зазначається інформація (повне найменування та місцезнаходження) щодо кожного суб’єкта господарювання, якого учасник планує залучати до виконання робіт чи послуг як субпідрядника/співвиконавця в обсязі не менше 20 відсотків від вартості договору про закупівлю",
+        "source": "winner",
+        "relatesTo": "tender",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
+        },
+        "title": "Інформування про субпідрядників/співвиконавців",
+        "legislation": [
+          {
+            "version": "2024-10-23",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "22.2.18"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "id": "ed071a86c003425ab805850990d815bd",
+            "description": "При відсутності залучених спроможностей субпідрядника/співвиконавця підтверджується, що",
+            "requirements": [
+              {
+                "id": "6d601885600943ae965b827693107934",
+                "title": "Учасник закупівлі спроможний виконати обсяг передбачений закупівлею робіт або послуг",
+                "dataType": "boolean",
+                "status": "active",
+                "expectedValue": true,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ]
+          },
+          {
+            "id": "f5d3d67cd23b43cfb8cf2483d37146f1",
+            "description": "При наявності залучених спроможностей субпідрядника/співвиконавця підтверджується, що",
+            "requirements": [
+              {
+                "id": "237668d01da641159d2aea9178bed218",
+                "title": "Обсяг залучення спроможностей інших суб’єктів господарювання як субпідрядників/співвиконавців складає % від вартості договору про закупівлю",
+                "dataType": "integer",
+                "eligibleEvidences": [
+                  {
+                    "title": "Документальне підтвердження",
+                    "type": "document",
+                    "id": "507882389e2549d3bc06a03025da25b8"
+                  }
+                ],
+                "status": "active",
+                "unit": {
+                  "code": "P1",
+                  "name": "відсоток"
+                },
+                "minValue": 1,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "b8a724b4d04f426297031b78767328e1",
+        "description": "Замовник має право вимагати в учасників підтвердження відповідності пропонованих ними товарів, послуг чи робіт екологічним та іншим характеристикам, встановленим у тендерній документації. При встановленні таких характеристик замовник зобов'язаний зазначити в тендерній документації перелік маркувань, протоколів випробувань, декларацій або сертифікатів, які можуть підтвердити відповідність предмета закупівлі встановленим характеристикам. Усі маркування, протоколи випробувань та сертифікати мають бути видані органами з оцінки відповідності, компетентність яких підтверджена шляхом акредитації або іншим визначеним законодавством способом",
+        "source": "tenderer",
+        "relatesTo": "tender",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES"
+        },
+        "title": "Відповідність екологічним нормам",
+        "legislation": [
+          {
+            "version": "2024-10-23",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1433"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "23.5"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "id": "261ec7db50604bd397129e92a8004a6e",
+            "description": "Підтверджується, що",
+            "requirements": [
+              {
+                "id": "6ec3441d01e04d1d99bf06d989dfab60",
+                "title": "Текст заповнений користувачем",
+                "dataType": "boolean",
+                "eligibleEvidences": [
+                  {
+                    "title": "Документальне підтвердження",
+                    "type": "document",
+                    "id": "c2df29308f9146eebb2c3dddfd8c3e6a"
+                  }
+                ],
+                "status": "active",
+                "expectedValue": true,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cc755921cd3f4e88a416de876cb36264",
         "description": "Наявність в учасника процедури закупівлі обладнання, матеріально-технічної бази та технологій. Учасник може для підтвердження своєї відповідності такому критерію залучити спроможності інших суб'єктів господарювання як субпідрядників/співвиконавців",
         "source": "tenderer",
         "relatesTo": "tender",
@@ -1158,18 +1268,18 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "ed071a86c003425ab805850990d815bd",
+            "id": "d84a6e3840f044f7b4486bc38645a2cd",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "6d601885600943ae965b827693107934",
+                "id": "a0bdcf0ea1c64a538b8447bb61457ef8",
                 "title": "Текст заповнений користувачем",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "507882389e2549d3bc06a03025da25b8"
+                    "id": "d42b910649554a9881e5fe6f9fcf92f5"
                   }
                 ],
                 "status": "active",
@@ -1516,6 +1626,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "id": "6d601885600943ae965b827693107934"
         },
         "value": true
+      },
+      {
+        "requirement": {
+          "id": "6ec3441d01e04d1d99bf06d989dfab60"
+        },
+        "value": true
+      },
+      {
+        "requirement": {
+          "id": "a0bdcf0ea1c64a538b8447bb61457ef8"
+        },
+        "value": true
       }
     ]
   }
@@ -1709,10 +1831,34 @@ Content-Type: application/json
       {
         "requirement": {
           "id": "6d601885600943ae965b827693107934",
-          "title": "Текст заповнений користувачем"
+          "title": "Учасник закупівлі спроможний виконати обсяг передбачений закупівлею робіт або послуг"
         },
         "value": true,
         "id": "ad636a1def4044d1908ef38032851e56",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "6ec3441d01e04d1d99bf06d989dfab60",
+          "title": "Текст заповнений користувачем"
+        },
+        "value": true,
+        "id": "a2be8c408042414293991fbad2fe957e",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "a0bdcf0ea1c64a538b8447bb61457ef8",
+          "title": "Текст заповнений користувачем"
+        },
+        "value": true,
+        "id": "798b6d4fa1d945a0a47155192284c432",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
