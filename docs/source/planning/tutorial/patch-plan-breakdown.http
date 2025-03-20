@@ -7,8 +7,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "budget": {
       "project": {
-        "name": "proj_name",
-        "id": "123"
+        "id": "95f87658-ffa5-472e-89ee-6e9417aa8cbd",
+        "name": "1.1. Набрання чинності законодавчими змінами щодо реформи оплати праці в державній службі",
+        "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform"
       },
       "amount": 10000,
       "amountNet": 12222,
@@ -71,8 +72,9 @@ Content-Type: application/json
       "currency": "UAH",
       "amountNet": 12222.0,
       "project": {
-        "id": "123",
-        "name": "proj_name"
+        "id": "95f87658-ffa5-472e-89ee-6e9417aa8cbd",
+        "name": "1.1. Набрання чинності законодавчими змінами щодо реформи оплати праці в державній службі",
+        "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform"
       },
       "period": {
         "startDate": "2023-01-01T00:00:00+02:00",
