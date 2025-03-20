@@ -41,9 +41,6 @@ with open(os.path.join(current_dir, "data", "lcc_lot_criteria.json")) as json_fi
 with open(os.path.join(current_dir, "data", "lcc_tender_criteria.json")) as json_file:
     test_lcc_tender_criteria = json.load(json_file)
 
-with open(os.path.join(current_dir, "data", "technical_feature_criteria.json")) as json_file:
-    test_tech_feature_criteria = json.load(json_file)
-
 
 def get_criteria_by_ids(criteria, ids):
     return [c for c in criteria if c["classification"]["id"] in ids]
@@ -72,7 +69,7 @@ test_language_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER
 test_tender_guarantee_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.BID.GUARANTEE")
 test_contract_guarantee_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.CONTRACT.GUARANTEE")
 
-test_technical_feature_criteria = get_criteria_by_ids_prefix(
+test_tech_feature_criteria = get_criteria_by_ids_prefix(
     test_criteria_all, "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
 )
 
@@ -86,7 +83,7 @@ test_main_criteria.extend(
         for criterion in test_other_criteria
         if criterion not in test_tender_guarantee_criteria
         and criterion not in test_contract_guarantee_criteria
-        and criterion not in test_technical_feature_criteria
+        and criterion not in test_tech_feature_criteria
     ]
 )
 test_main_criteria.extend(test_exclusion_criteria)

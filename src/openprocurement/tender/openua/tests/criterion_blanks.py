@@ -2259,6 +2259,7 @@ def tech_feature_criterion(self):
     items = response.json["data"]["items"]
 
     criteria_data = deepcopy(test_tech_feature_criteria)
+    set_tender_criteria(criteria_data, tender["lots"], items)
     criteria_data[0]["relatedItem"] = items[0]["id"]
 
     response = self.app.post_json(
@@ -2351,7 +2352,14 @@ def criterion_from_market_profile(self):
     items = response.json["data"]["items"]
 
     criteria_data = deepcopy(test_tech_feature_criteria)
+    set_tender_criteria(criteria_data, tender["lots"], items)
     criteria_data[0]["relatedItem"] = items[1]["id"]
+    criteria_data[0]["requirementGroups"][0]["requirements"][0] = {
+        "title": "Діагонaль екрану",
+        "dataType": "integer",
+        "expectedValue": 15,
+        "unit": {"code": "INH", "name": "дюйм"},
+    }
 
     market_tech_feature = deepcopy(test_tech_feature_criteria)
     market_tech_feature[0]["requirementGroups"] = [
@@ -2659,7 +2667,14 @@ def criterion_from_market_category(self):
     items = response.json["data"]["items"]
 
     criteria_data = deepcopy(test_tech_feature_criteria)
+    set_tender_criteria(criteria_data, tender["lots"], items)
     criteria_data[0]["relatedItem"] = items[1]["id"]
+    criteria_data[0]["requirementGroups"][0]["requirements"][0] = {
+        "title": "Діагонaль екрану",
+        "dataType": "integer",
+        "expectedValue": 15,
+        "unit": {"code": "INH", "name": "дюйм"},
+    }
 
     market_tech_feature = deepcopy(test_tech_feature_criteria)
     market_tech_feature[0]["requirementGroups"] = [
