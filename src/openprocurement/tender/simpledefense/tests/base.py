@@ -10,7 +10,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
-    test_main_criteria,
+    test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import (
     get_contract_template_name,
@@ -84,7 +84,7 @@ test_tender_simpledefense_required_criteria_ids = set()
 
 test_tender_simpledefense_criteria = []
 test_tender_simpledefense_criteria.extend(
-    get_criteria_by_ids(test_main_criteria, test_tender_simpledefense_required_criteria_ids)
+    get_criteria_by_ids(test_criteria_all, test_tender_simpledefense_required_criteria_ids)
 )
 
 

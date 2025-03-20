@@ -493,15 +493,7 @@ def get_tender_bid(self):
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
     }
     set_bid_items(self, bid_data)
-
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -521,8 +513,12 @@ def get_tender_bid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     bid_data = response.json["data"]
-    # self.assertIn(u'participationUrl', bid_data)
-    # bid_data.pop(u'participationUrl')
+
+    bid["status"] = "active"
+    for i, lot_value in enumerate(bid.get("lotValues", [])):
+        lot_value["status"] = "active"
+        lot_value["date"] = bid_data["lotValues"][i]["date"]
+
     self.assertEqual(bid_data, bid)
 
     response = self.app.get("/tenders/{}/bids/some_id".format(self.tender_id), status=404)

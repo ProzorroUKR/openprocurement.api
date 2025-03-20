@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
-    test_main_criteria,
+    test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
@@ -134,7 +134,7 @@ test_tender_open_required_criteria_ids = {
 }
 
 test_tender_open_criteria = []
-test_tender_open_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_open_required_criteria_ids))
+test_tender_open_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_open_required_criteria_ids))
 test_tender_open_criteria.extend(test_article_16_criteria[:1])
 
 

@@ -5,7 +5,7 @@ from openprocurement.api.context import get_now
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
-    test_main_criteria,
+    test_criteria_all,
 )
 from openprocurement.tender.esco.tests.utils import prepare_items
 from openprocurement.tender.openeu.tests.base import (
@@ -102,7 +102,7 @@ test_tender_esco_required_criteria_ids = {
 }
 
 test_tender_esco_criteria = []
-test_tender_esco_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_esco_required_criteria_ids))
+test_tender_esco_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_esco_required_criteria_ids))
 test_tender_esco_criteria.extend(test_article_16_criteria[:1])
 
 

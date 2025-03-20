@@ -17,7 +17,7 @@ from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORD
 from openprocurement.tender.competitiveordering.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
-    test_main_criteria,
+    test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 
@@ -122,8 +122,8 @@ test_tender_co_allowed_criteria_ids = {
     "CRITERION.OTHER.BID.LANGUAGE",
 }
 test_tender_co_criteria = []
-test_tender_co_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_co_required_criteria_ids))
-test_tender_co_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_co_allowed_criteria_ids))
+test_tender_co_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_co_required_criteria_ids))
+test_tender_co_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_co_allowed_criteria_ids))
 
 test_tender_co_complaint_objection = {
     "title": "My objection",

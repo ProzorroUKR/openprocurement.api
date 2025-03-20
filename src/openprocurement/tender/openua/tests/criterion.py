@@ -66,9 +66,7 @@ class TenderCriteriaBaseTestMixin:
             {"data": criteria_data},
         )
         for criterion in response.json["data"]:
-            if criterion["classification"]["id"].startswith(
-                "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
-            ):
+            if criterion["classification"]["id"].startswith("CRITERION.OTHER.BID.VALIDITY_PERIOD"):
                 self.criteria_id = criterion["id"]
                 self.rg_id = criterion["requirementGroups"][0]["id"]
                 self.requirement_id = criterion["requirementGroups"][0]["requirements"][0]["id"]

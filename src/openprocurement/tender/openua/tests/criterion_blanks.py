@@ -18,6 +18,10 @@ from openprocurement.tender.core.tests.base import (
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import set_tender_criteria
+from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_category,
+    test_tender_pq_short_profile,
+)
 
 
 def create_tender_criteria_valid(self):
@@ -471,6 +475,22 @@ def get_tender_criteria(self):
             self.assertEqual(test_exclusion_criteria[0][k], v)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+    Mock(return_value=test_tender_pq_category),
+)
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+    Mock(return_value=test_tender_pq_short_profile),
+)
+@patch(
+    "openprocurement.tender.core.procedure.criteria.get_tender_category",
+    Mock(return_value=test_tender_pq_category),
+)
+@patch(
+    "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+    Mock(return_value=test_tender_pq_short_profile),
+)
 def activate_tender(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
@@ -478,8 +498,14 @@ def activate_tender(self):
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
     self.add_sign_doc(self.tender_id, self.tender_token)
 
+    required_tech_features = False
+    required_criteria = deepcopy(self.required_criteria)
+    if CRITERION_TECHNICAL_FEATURES in required_criteria:
+        required_tech_features = True
+        required_criteria.remove(CRITERION_TECHNICAL_FEATURES)
+
     # If there are required criteria
-    if self.required_criteria:
+    if required_criteria:
         doc = self.mongodb.tenders.get(self.tender_id)
         doc["mainProcurementCategory"] = "services"
         self.mongodb.tenders.save(doc)
@@ -490,7 +516,8 @@ def activate_tender(self):
         }
 
         criteria_ids = self.required_criteria
-        test_criteria = get_criteria_by_ids(test_criteria_all, criteria_ids)
+        test_criteria = deepcopy(test_criteria_all)
+        test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
         set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
 
         # Try to activate without criteria
@@ -640,6 +667,38 @@ def activate_tender(self):
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": test_criteria_article_16},
+        )
+
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+
+    if required_tech_features:
+        response = self.app.patch_json(
+            request_path,
+            {"data": {"status": self.primary_tender_status}},
+            status=403,
+        )
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "Tender must contain CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES criteria for items with profile defined",
+                }
+            ],
+        )
+
+        criteria_ids = self.required_criteria
+        test_criteria = deepcopy(test_tech_feature_criteria)
+        test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+        set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+
+        # Add missing required criteria
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_criteria},
         )
 
         self.assertEqual(response.status, "201 Created")
@@ -2354,12 +2413,14 @@ def criterion_from_market_profile(self):
     criteria_data = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(criteria_data, tender["lots"], items)
     criteria_data[0]["relatedItem"] = items[1]["id"]
-    criteria_data[0]["requirementGroups"][0]["requirements"][0] = {
-        "title": "Діагонaль екрану",
-        "dataType": "integer",
-        "expectedValue": 15,
-        "unit": {"code": "INH", "name": "дюйм"},
-    }
+    criteria_data[0]["requirementGroups"][0]["requirements"] = [
+        {
+            "title": "Діагонaль екрану",
+            "dataType": "integer",
+            "expectedValue": 15,
+            "unit": {"code": "INH", "name": "дюйм"},
+        }
+    ]
 
     market_tech_feature = deepcopy(test_tech_feature_criteria)
     market_tech_feature[0]["requirementGroups"] = [
@@ -2669,12 +2730,14 @@ def criterion_from_market_category(self):
     criteria_data = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(criteria_data, tender["lots"], items)
     criteria_data[0]["relatedItem"] = items[1]["id"]
-    criteria_data[0]["requirementGroups"][0]["requirements"][0] = {
-        "title": "Діагонaль екрану",
-        "dataType": "integer",
-        "expectedValue": 15,
-        "unit": {"code": "INH", "name": "дюйм"},
-    }
+    criteria_data[0]["requirementGroups"][0]["requirements"] = [
+        {
+            "title": "Діагонaль екрану",
+            "dataType": "integer",
+            "expectedValue": 15,
+            "unit": {"code": "INH", "name": "дюйм"},
+        }
+    ]
 
     market_tech_feature = deepcopy(test_tech_feature_criteria)
     market_tech_feature[0]["requirementGroups"] = [

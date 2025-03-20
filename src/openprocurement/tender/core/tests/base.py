@@ -27,6 +27,7 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
     set_bid_responses,
     set_tender_criteria,
+    set_tender_lots,
 )
 from openprocurement.tender.core.utils import calculate_tender_date
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
@@ -68,6 +69,9 @@ test_selection_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERI
 test_language_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.BID.LANGUAGE")
 test_tender_guarantee_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.BID.GUARANTEE")
 test_contract_guarantee_criteria = get_criteria_by_ids(test_criteria_all, "CRITERION.OTHER.CONTRACT.GUARANTEE")
+test_localization_criteria = get_criteria_by_ids(
+    test_criteria_all, "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
+)
 
 test_tech_feature_criteria = get_criteria_by_ids_prefix(
     test_criteria_all, "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -84,6 +88,7 @@ test_main_criteria.extend(
         if criterion not in test_tender_guarantee_criteria
         and criterion not in test_contract_guarantee_criteria
         and criterion not in test_tech_feature_criteria
+        and criterion not in test_localization_criteria
     ]
 )
 test_main_criteria.extend(test_exclusion_criteria)
@@ -158,11 +163,14 @@ class BaseWebTest(BaseApiWebTest):
 class BaseCoreWebTest(BaseWebTest):
     initial_data = None
     initial_config = None
+    initial_criteria = None
     initial_status = None
     initial_bids = None
     initial_lots = None
     initial_agreement_data = None
+
     tender_for_funders = None
+    guarantee_criterion = None
 
     agreement_id = None
     tender_id = None
@@ -170,6 +178,27 @@ class BaseCoreWebTest(BaseWebTest):
     periods = None
     now = None
     tender_class = None
+
+    def setUp(self):
+        super().setUp()
+        self.initial_data = deepcopy(self.initial_data)
+        self.initial_config = deepcopy(self.initial_config)
+        if self.initial_lots:
+            self.initial_lots = deepcopy(self.initial_lots)
+            set_tender_lots(self.initial_data, self.initial_lots)
+            self.initial_lots = self.initial_data["lots"]
+        if self.initial_bids:
+            self.initial_bids = deepcopy(self.initial_bids)
+            for bid in self.initial_bids:
+                if self.initial_lots:
+                    set_bid_lotvalues(bid, self.initial_lots)
+        if self.initial_criteria:
+            self.initial_criteria = deepcopy(self.initial_criteria)
+            self.initial_criteria = set_tender_criteria(
+                self.initial_criteria,
+                self.initial_data.get("lots", []),
+                self.initial_data.get("items", []),
+            )
 
     def tearDown(self):
         self.delete_tender()
@@ -245,17 +274,14 @@ class BaseCoreWebTest(BaseWebTest):
         return response
 
     def set_responses(self, tender_id, bid, status=None):
-        # pylint: disable-next=import-outside-toplevel, cyclic-import
-        from openprocurement.tender.core.tests.criteria_utils import generate_responses
-
-        tender = self.mongodb.tenders.get(tender_id)
-
         if not status:
             status = "pending"
 
         patch_data = {"status": status}
         if "requirementResponses" not in bid["data"]:
-            rr = generate_responses(self, tender_id)
+            response = self.app.get("/tenders/{}".format(tender_id))
+            tender = response.json["data"]
+            rr = set_bid_responses(tender.get("criteria", []))
             if rr:
                 patch_data["requirementResponses"] = rr
 
@@ -275,7 +301,7 @@ class BaseCoreWebTest(BaseWebTest):
                     if "lotValues" in bid:
                         for lot_value in bid["lotValues"]:
                             if lot_value["status"] == "pending":
-                                lot_value.update({"status": "active"})
+                                lot_value.update({"status": "active", "date": get_now().isoformat()})
             self.tender_document_patch.update({"bids": bids})
 
     def set_status(self, status, extra=None, startend="start"):

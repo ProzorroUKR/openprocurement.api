@@ -14,8 +14,11 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import activate_contract, set_bid_items
+from openprocurement.tender.core.tests.utils import (
+    activate_contract,
+    set_bid_items,
+    set_bid_responses,
+)
 
 # TenderStage2EU(UA)LotResourceTest
 
@@ -1043,7 +1046,7 @@ def one_lot_1bid(self):
     tenderers[0]["identifier"]["scheme"] = self.initial_data["shortlistedFirms"][0]["identifier"]["scheme"]
     # create bid
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1125,7 +1128,7 @@ def one_lot_2bid(self):
     bid_data["tenderers"] = tenderers_1
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.lots_id[0]}]
     del bid_data["value"]
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
 
     self.app.authorization = ("Basic", ("broker", ""))
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
@@ -1296,7 +1299,7 @@ def two_lot_2bid_1lot_del(self):
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]} for lot in self.initial_lots],
         }
     )
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1334,7 +1337,7 @@ def one_lot_3bid_1del(self):
         tenderer[0]["identifier"]["id"] = self.initial_data["shortlistedFirms"][i]["identifier"]["id"]
         tenderer[0]["identifier"]["scheme"] = self.initial_data["shortlistedFirms"][i]["identifier"]["scheme"]
         tenderers.append(tenderer)
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bids = []
@@ -1477,7 +1480,7 @@ def one_lot_3bid_1un(self):
     bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.initial_lots[0]["id"]}]
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     for i in range(bid_count):
         bid_data["tenderers"] = tenderers[i]
         bid, bid_token = self.create_bid(self.tender_id, bid_data)
@@ -1761,7 +1764,7 @@ def two_lot_2bid_0com_1can(self):
     del bid_data["value"]
     bid_data["tenderers"] = tenderers[0]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot["id"]} for lot in self.initial_lots]
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(self.tender_id, bid_data)
 
@@ -1833,7 +1836,7 @@ def two_lot_2bid_2com_2win(self):
     # create bid
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     bid_data.update(
         {
             "tenderers": tenderers[0],
@@ -2195,9 +2198,13 @@ def one_lot_3bid_1un_ua(self):
     bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.lots_id[0]}]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
     for i in range(3):
         bid_data["tenderers"] = tenderers[i]
-        bid_data["requirementResponses"] = generate_responses(self)
+        bid_data["requirementResponses"] = set_bid_responses(tender.get("criteria", []))
         set_bid_items(self, bid_data)
 
         self.app.authorization = ("Basic", ("broker", ""))
@@ -2214,14 +2221,13 @@ def one_lot_3bid_1un_ua(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update lot for tender stage2")
-    # create second bid
+    # activate bids
     for bid_id, bid_token in list(bids_data.items())[:-1]:
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.patch_json(
             "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
             {"data": {"status": "pending"}},
         )
-        # bids_data[response.json['data']['id']] = response.json['access']['token']
     # switch to active.auction
     self.set_status("active.auction")
     # get auction info
@@ -2309,7 +2315,7 @@ def one_lot_1bid_patch_ua(self):
             "lotValues": [{"value": {"amount": 500}, "relatedLot": self.lots_id[0]}],
         }
     )
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
     bid_id = bid["id"]
 
@@ -2391,7 +2397,7 @@ def two_lot_1bid_0com_1can_ua(self):
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in self.lots_id],
         }
     )
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2431,7 +2437,7 @@ def two_lot_1bid_2com_1win_ua(self):
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in self.lots_id],
         }
     )
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     set_bid_items(self, bid_data)
 
     self.app.post_json(
@@ -2517,7 +2523,7 @@ def two_lot_1bid_0com_0win_ua(self):
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in self.lots_id],
         }
     )
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     set_bid_items(self, bid_data)
 
     self.app.post_json(
@@ -2567,7 +2573,7 @@ def two_lot_1bid_1com_1win_ua(self):
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in self.lots_id],
         }
     )
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     set_bid_items(self, bid_data)
 
     self.app.post_json(
@@ -2610,7 +2616,7 @@ def two_lot_2bid_2com_2win_ua(self):
     self.app.authorization = ("Basic", ("broker", ""))
 
     bid_data = deepcopy(test_tender_openeu_bids[0])
-    bid_data["requirementResponses"] = generate_responses(self)
+    bid_data["requirementResponses"] = set_bid_responses(self.tender.get("criteria", []))
     del bid_data["value"]
     bid_data.update(
         {

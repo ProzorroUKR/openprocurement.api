@@ -12,7 +12,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
-    test_main_criteria,
+    test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers
 from openprocurement.tender.openeu.constants import TENDERING_DAYS
@@ -275,7 +275,7 @@ test_tender_openeu_required_criteria_ids = {
 }
 
 test_tender_openeu_criteria = []
-test_tender_openeu_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_openeu_required_criteria_ids))
+test_tender_openeu_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_openeu_required_criteria_ids))
 test_tender_openeu_criteria.extend(test_article_16_criteria[:1])
 
 

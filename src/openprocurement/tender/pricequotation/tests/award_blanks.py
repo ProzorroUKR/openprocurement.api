@@ -259,7 +259,7 @@ def patch_tender_award(self):
         response.json["errors"], [{"location": "body", "name": "awardStatus", "description": "Rogue field"}]
     )
 
-    token = self.initial_bids_tokens[0]
+    token = list(self.initial_bids_tokens.values())[0]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
@@ -283,7 +283,7 @@ def patch_tender_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     new_award = response.json["data"][-1]
 
-    token = self.initial_bids_tokens[1]
+    token = list(self.initial_bids_tokens.values())[1]
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], token),
         {"data": {"title": "title", "description": "description"}},
@@ -395,7 +395,7 @@ def move_award_contract_to_contracting(self):
 
     award_id = self.award_ids[-1]
 
-    bid_token = self.initial_bids_tokens[0]
+    bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"title": "title", "description": "description"}},
@@ -455,7 +455,7 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(contract_fields, set(response.json["data"].keys()))
     item = response.json["data"]["items"][0]
     self.assertIn("attributes", item)
-    self.assertEqual(len(item["attributes"]), 1)
+    self.assertEqual(len(item["attributes"]), 9)
     self.assertIn("value", item["attributes"][0])
     self.assertEqual(item["description"], "Комп’ютерне обладнання для біда")
     self.assertEqual(item["quantity"], 10)
@@ -545,7 +545,7 @@ def move_award_contract_to_contracting(self):
 def tender_award_transitions(self):
     award_id = self.award_ids[-1]
     tender_token = self.mongodb.tenders.get(self.tender_id)['owner_token']
-    bid_token = self.initial_bids_tokens[0]
+    bid_token = list(self.initial_bids_tokens.values())[0]
     # pending -> cancelled: forbidden
     for token_ in (tender_token, bid_token):
         response = self.app.patch_json(
@@ -738,7 +738,7 @@ def check_tender_award_cancellation(self):
     # get bids
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     bids = response.json["data"]
-    bid_token = self.initial_bids_tokens[0]
+    bid_token = list(self.initial_bids_tokens.values())[0]
     tender_token = self.mongodb.tenders.get(self.tender_id)['owner_token']
     sorted_bids = sorted(bids, key=lambda bid: bid["value"]['amount'])
 

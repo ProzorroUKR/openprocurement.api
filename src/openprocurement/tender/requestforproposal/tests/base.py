@@ -9,7 +9,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
     get_criteria_by_ids,
-    test_main_criteria,
+    test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
@@ -332,8 +332,8 @@ test_tender_rfp_allowed_criteria_ids = {
 }
 
 test_tender_rfp_criteria = []
-test_tender_rfp_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_rfp_required_criteria_ids))
-test_tender_rfp_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_rfp_allowed_criteria_ids))
+test_tender_rfp_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_rfp_required_criteria_ids))
+test_tender_rfp_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_rfp_allowed_criteria_ids))
 
 
 class BaseApiWebTest(BaseWebTest):
