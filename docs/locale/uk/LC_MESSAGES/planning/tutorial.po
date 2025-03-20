@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-31 13:20+0200\n"
+"POT-Creation-Date: 2025-03-20 18:36+0200\n"
 "PO-Revision-Date: 2023-10-26 10:31+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -80,8 +80,8 @@ msgstr "classification.id - відповідність перших 4-х циф�
 msgid "Plan should contain budget breakdown, otherwise it will be an error during tender creation:"
 msgstr "План має містити джерела фінансування, інакше буде отрімано помилку під час створення тендеру:"
 
-msgid "Let's add budget breakdown to plan:"
-msgstr "Додамо джерело фінансування до плану:"
+msgid "Let's add budget breakdown and project to plan:"
+msgstr "Додамо джерело фінансування та проект до плану:"
 
 msgid "A successful example looks like this:"
 msgstr "Успішний приклад виглядає так:"
@@ -133,4 +133,16 @@ msgstr "Існує окремий метод API, який дозволяє пе
 
 msgid "At the moment only ``rationale`` is supported:"
 msgstr "На даний момент підтримується тільки поле ``rationale`` :"
+
+msgid "Plan of Ukraine"
+msgstr "План України"
+
+msgid "If the source of financing is indicated, the Customer may indicate the item of the Plan of Ukraine in `budget.project`."
+msgstr "Якщо зазначено джерело фінансування, Замовник може зазначати пункт Плану України в полі `budget.project`."
+
+msgid "If item is from dictionary `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ than there are additional validations for `name` and `name_en` fields:"
+msgstr "Якщо `project.id` вказано з довідника `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_, то ми побачимо додаткові валідації на поля `name` та `name_en`:"
+
+msgid "Successful adding project from plan of Ukraine:"
+msgstr "Успішне додавання джерела фінансування разом з проектом з Плану України:"
 

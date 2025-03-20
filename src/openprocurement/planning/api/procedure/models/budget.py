@@ -11,11 +11,7 @@ from openprocurement.api.procedure.models.item import validate_items_uniq
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.procedure.utils import is_const_active
-from openprocurement.planning.api.constants import (
-    BREAKDOWN_OTHER,
-    BREAKDOWN_TITLES,
-    UKRAINE_FACILITY_PROJECT,
-)
+from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TITLES
 from openprocurement.planning.api.procedure.models.guarantee import Guarantee
 
 
@@ -26,12 +22,12 @@ class BudgetProject(Model):
     name_ru = StringType()
 
     def validate_name(self, data, value):
-        if data.get("id") == UKRAINE_FACILITY_PROJECT and value not in PLAN_OF_UKRAINE:
-            raise ValidationError(f"Value should be one of plan_of_ukraine dictionary for {data['id']}")
+        if data.get("id") in PLAN_OF_UKRAINE.keys() and value != PLAN_OF_UKRAINE[data["id"]]["name_uk"]:
+            raise ValidationError(f"Value should be from plan_of_ukraine dictionary for {data['id']}")
 
-    def validate_id(self, data, value):
-        if data.get("name") in PLAN_OF_UKRAINE and value != UKRAINE_FACILITY_PROJECT:
-            raise ValidationError(f"Value should be '{UKRAINE_FACILITY_PROJECT}' for name {data['name']}")
+    def validate_name_en(self, data, value):
+        if data.get("id") in PLAN_OF_UKRAINE.keys() and value != PLAN_OF_UKRAINE[data["id"]]["name_en"]:
+            raise ValidationError(f"Value should be from plan_of_ukraine dictionary for {data['id']}")
 
 
 class BudgetPeriod(Period):

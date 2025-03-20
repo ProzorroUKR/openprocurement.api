@@ -1,0 +1,59 @@
+PATCH /api/2.5/plans/647ea8f38f72484ea0245b71b7cd4231?acc_token=499da8e897254fb7a478ae7555785628 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "budget": {
+      "project": {
+        "id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6",
+        "name": "Project name"
+      },
+      "amount": 10000,
+      "amountNet": 12222,
+      "currency": "UAH",
+      "id": "12303111000-2",
+      "description": "budget_description",
+      "period": {
+        "startDate": "2023-01-01T00:00:00",
+        "endDate": "2023-12-31T00:00:00"
+      },
+      "breakdown": [
+        {
+          "title": "other",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500,
+            "currency": "UAH"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "budget",
+      "description": {
+        "project": {
+          "name": [
+            "Value should be from plan_of_ukraine dictionary for 532ba4bc-e1a7-4334-8d8e-59646d5dcee6"
+          ],
+          "name_en": [
+            "Value should be from plan_of_ukraine dictionary for 532ba4bc-e1a7-4334-8d8e-59646d5dcee6"
+          ]
+        }
+      }
+    }
+  ]
+}
+

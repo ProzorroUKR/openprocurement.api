@@ -358,7 +358,11 @@ id
 
 name
 ----
-    string, multilingual, required
+    string, required
+
+name_en
+-------
+    string
 
 -----------
 

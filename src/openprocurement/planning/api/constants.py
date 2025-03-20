@@ -54,5 +54,3 @@ MILESTONE_APPROVAL_DESCRIPTION = (
     "Узагальнення та аналіз отриманної інформації щодо проведення закупівель "
     "товарів, послуг (крім поточного ремонту) в інтересах замовників"
 )
-
-UKRAINE_FACILITY_PROJECT = "ukraineFacility"

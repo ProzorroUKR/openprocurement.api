@@ -10,7 +10,7 @@ from openprocurement.api.context import set_now
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.planning.api.constants import PROCEDURES, UKRAINE_FACILITY_PROJECT
+from openprocurement.planning.api.constants import PROCEDURES
 
 # PlanTest
 from openprocurement.tender.core.tests.utils import change_auth
@@ -664,7 +664,11 @@ def create_plan_invalid(self):
     )
 
     initial_data = deepcopy(self.initial_data)
-    initial_data["budget"]["project"]["name"] = "Відновлення обов'язкової системи МЗВ"
+    initial_data["budget"]["project"] = {
+        "id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6",
+        "name": "Щось тестове",
+        "name_en": "1.3. Reinstating merit-based recruitment in the civil service",
+    }
     response = self.app.post_json("/plans", {"data": initial_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -673,20 +677,28 @@ def create_plan_invalid(self):
         response.json["errors"][0]["description"],
         {
             "project": {
-                "id": [f"Value should be 'ukraineFacility' for name {initial_data['budget']['project']['name']}"]
+                "name": [
+                    f"Value should be from plan_of_ukraine dictionary for {initial_data['budget']['project']['id']}"
+                ]
             }
         },
     )
 
-    initial_data["budget"]["project"]["name"] = "Щось тестове"
-    initial_data["budget"]["project"]["id"] = UKRAINE_FACILITY_PROJECT
+    initial_data["budget"]["project"][
+        "name"
+    ] = "1.3. Відновлення набору на державну службу з урахуванням професійних компетентностей"
+    del initial_data["budget"]["project"]["name_en"]
     response = self.app.post_json("/plans", {"data": initial_data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        {"project": {"name": ["Value should be one of plan_of_ukraine dictionary for ukraineFacility"]}},
+        {
+            "project": {
+                "name_en": [
+                    f"Value should be from plan_of_ukraine dictionary for {initial_data['budget']['project']['id']}"
+                ]
+            }
+        },
     )
 
 
