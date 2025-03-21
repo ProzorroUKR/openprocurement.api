@@ -12,14 +12,9 @@ from openprocurement.tender.belowthreshold.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
     get_criteria_by_ids,
-    test_main_criteria,
+    test_criteria_all,
 )
-from openprocurement.tender.core.tests.utils import (
-    set_bid_lotvalues,
-    set_tender_criteria,
-    set_tender_lots,
-    set_tender_multi_buyers,
-)
+from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 
 now = get_now()
 
@@ -253,7 +248,7 @@ test_tender_below_config = {
 test_tender_below_required_criteria_ids = set()
 
 test_tender_below_criteria = []
-test_tender_below_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_below_required_criteria_ids))
+test_tender_below_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_below_required_criteria_ids))
 
 
 class BaseApiWebTest(BaseWebTest):
@@ -297,27 +292,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", extra={"status": "active.enquires"})
-
-    def setUp(self):
-        super().setUp()
-        self.initial_data = deepcopy(self.initial_data)
-        self.initial_config = deepcopy(self.initial_config)
-        if self.initial_lots:
-            self.initial_lots = deepcopy(self.initial_lots)
-            set_tender_lots(self.initial_data, self.initial_lots)
-            self.initial_lots = self.initial_data["lots"]
-        if self.initial_bids:
-            self.initial_bids = deepcopy(self.initial_bids)
-            for bid in self.initial_bids:
-                if self.initial_lots:
-                    set_bid_lotvalues(bid, self.initial_lots)
-        if self.initial_criteria:
-            self.initial_criteria = deepcopy(self.initial_criteria)
-            self.initial_criteria = set_tender_criteria(
-                self.initial_criteria,
-                self.initial_data.get("lots", []),
-                self.initial_data.get("items", []),
-            )
 
 
 class TenderContentWebTest(BaseTenderWebTest):

@@ -443,9 +443,12 @@ def get_tender_bid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     bid_data = response.json["data"]
-    # self.assertIn(u'participationUrl', bid_data)
-    # bid_data.pop(u'participationUrl')
-    bid.update({"status": "active"})
+
+    bid["status"] = "active"
+    for i, lot_value in enumerate(bid.get("lotValues", [])):
+        lot_value["status"] = "active"
+        lot_value["date"] = bid_data["lotValues"][i]["date"]
+
     self.assertEqual(bid_data, bid)
 
     response = self.app.get("/tenders/{}/bids/some_id".format(self.tender_id), status=404)

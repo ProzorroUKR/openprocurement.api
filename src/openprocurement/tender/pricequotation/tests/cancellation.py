@@ -38,11 +38,6 @@ class TenderCancellationActiveTenderingResourceTest(
     initial_bids = test_tender_pq_bids
     valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
-    @property
-    def tender_token(self):
-        data = self.mongodb.tenders.get(self.tender_id)
-        return data['owner_token']
-
 
 class TenderCancellationActiveQualificationResourceTest(TenderCancellationActiveTenderingResourceTest):
     initial_status = "active.qualification"

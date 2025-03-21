@@ -16,6 +16,7 @@ from openprocurement.contracting.econtract.tests.data import (
     test_signer_info,
 )
 from openprocurement.contracting.econtract.tests.utils import create_contract
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.pricequotation.tests.data import (
     PERIODS,
     test_agreement_pq_data,
@@ -141,13 +142,25 @@ class BaseEContractTest(BaseContractTest):
         "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
         Mock(return_value=test_tender_pq_category),
     )
+    @patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+        Mock(return_value=test_tender_pq_short_profile),
+    )
+    @patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value=test_tender_pq_category),
+    )
     def create_tender(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("broker", ""))
         data = self.initial_tender_data
         config = self.initial_tender_config
         data["agreement"] = {"id": self.agreement_id}
-        data["criteria"] = getattr(self, "test_criteria", test_tender_pq_criteria)
+
+        test_criteria = deepcopy(test_tender_pq_criteria)
+        set_tender_criteria(test_criteria, data.get("lots", []), data.get("items", []))
+
+        data["criteria"] = getattr(self, "test_criteria", test_criteria)
 
         response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]

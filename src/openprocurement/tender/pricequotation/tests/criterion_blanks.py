@@ -1,28 +1,33 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import ANY, Mock, patch
+from unittest.mock import ANY, patch
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.pricequotation.tests.data import (
-    test_tender_pq_category,
     test_tender_pq_criteria,
-    test_tender_pq_data,
     test_tender_pq_item,
     test_tender_pq_short_profile,
 )
 
 
 def create_tender_criteria_multi_profile(self):
-    data = deepcopy(test_tender_pq_data)
-    data["agreement"] = {"id": self.agreement_id}
-    data["items"].append(deepcopy(test_tender_pq_item))
-    data["items"][1]["profile"] = "655361-30230000-889652-40000777"
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    items = tender["items"]
 
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
+    items.append(deepcopy(test_tender_pq_item))
+    items[1]["profile"] = "655361-30230000-889652-40000777"
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {
+            "data": {"items": items},
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
-    token = response.json["access"]["token"]
 
     item_ids = [item["id"] for item in tender["items"]]
     criteria = deepcopy(test_tender_pq_short_profile["criteria"])
@@ -30,7 +35,7 @@ def create_tender_criteria_multi_profile(self):
     criteria[0]["relatesTo"] = "item"
     criteria[0]["relatedItem"] = "invalid"
     response = self.app.patch_json(
-        f"/tenders/{tender['id']}?acc_token={token}", {"data": {"criteria": criteria}}, status=422
+        f"/tenders/{tender['id']}?acc_token={self.tender_token}", {"data": {"criteria": criteria}}, status=422
     )
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, "application/json")
@@ -49,7 +54,7 @@ def create_tender_criteria_multi_profile(self):
     criteria[0]["relatesTo"] = "item"
     criteria[0]["relatedItem"] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     response = self.app.patch_json(
-        f"/tenders/{tender['id']}?acc_token={token}", {"data": {"criteria": criteria}}, status=422
+        f"/tenders/{tender['id']}?acc_token={self.tender_token}", {"data": {"criteria": criteria}}, status=422
     )
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, "application/json")
@@ -69,7 +74,7 @@ def create_tender_criteria_multi_profile(self):
         cr["relatesTo"] = "item"
         cr["relatedItem"] = item_ids[i % 2]
     response = self.app.patch_json(
-        f"/tenders/{tender['id']}?acc_token={token}",
+        f"/tenders/{tender['id']}?acc_token={self.tender_token}",
         {"data": {"criteria": criteria}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -93,7 +98,15 @@ def create_tender_criteria_multi_profile(self):
 
 def create_tender_criteria_invalid(self):
     invalid_criteria = deepcopy(test_tender_pq_criteria)
+    invalid_criteria[0]["classification"]["id"] = "CRITERION.TEST"
     invalid_criteria[0]["relatesTo"] = "lot"
+    invalid_criteria[0]["requirementGroups"][0]["requirements"][0] = {
+        "dataType": "number",
+        "id": "a" * 32,
+        "minValue": 23.8,
+        "title": "Діагональ екрану",
+        "unit": {"code": "INH", "name": "дюйм"},
+    }
 
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
 
@@ -192,54 +205,39 @@ def create_tender_criteria_invalid(self):
 
 
 def get_tender_criteria(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
+    test_criteria = deepcopy(test_tender_pq_criteria)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+
+    response = self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_criteria}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.get(f"/tenders/{self.tender_id}/criteria")
     criteria = response.json["data"]
 
     self.assertIn("requirementGroups", criteria[0])
     self.assertEqual(
-        len(test_tender_pq_criteria[0]["requirementGroups"]),
-        len(test_tender_pq_criteria[0]["requirementGroups"]),
+        len(criteria[0]["requirementGroups"]),
+        len(test_criteria[0]["requirementGroups"]),
     )
     criteria_id = criteria[0]["id"]
 
     for i, criterion in enumerate(criteria):
         for k, v in criterion.items():
             if k not in ["id", "requirementGroups"]:
-                self.assertEqual(test_tender_pq_criteria[i][k], v)
+                self.assertEqual(test_criteria[i][k], v)
 
     response = self.app.get(f"/tenders/{self.tender_id}/criteria/{criteria_id}")
     criterion = response.json["data"]
 
     for k, v in criterion.items():
         if k not in ["id", "requirementGroups"]:
-            self.assertEqual(test_tender_pq_criteria[0][k], v)
-
-
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value=test_tender_pq_short_profile),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value=test_tender_pq_short_profile),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-    Mock(return_value=test_tender_pq_category),
-)
-def activate_tender(self):
-    request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
-    self.add_sign_doc(self.tender_id, self.tender_token)
-
-    response = self.app.patch_json(
-        request_path,
-        {"data": {"status": self.primary_tender_status}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
-    self.assertEqual(len(response.json["data"].get("criteria", [])), 2)
+            self.assertEqual(test_criteria[0][k], v)
 
 
 def put_rg_requirement_valid(self):

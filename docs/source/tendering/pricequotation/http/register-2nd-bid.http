@@ -32,35 +32,74 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "status": "draft",
     "requirementResponses": [
       {
         "requirement": {
           "id": "e00ff388599e42ce842a4d3dec0a110d"
         },
+        "value": 23.8
+      },
+      {
+        "requirement": {
+          "id": "0c38a99c21304364b46d84c7814be3cb"
+        },
         "values": [
-          "Розчин для інфузій"
+          "1920x1080"
+        ]
+      },
+      {
+        "requirement": {
+          "id": "5980efcd986644278cf07c53c39d73db"
+        },
+        "values": [
+          "16:9"
         ]
       },
       {
         "requirement": {
           "id": "021928a6395b4787adbba08acfd9c8d2"
         },
-        "value": 5
+        "value": 0
+      },
+      {
+        "requirement": {
+          "id": "e34b9aea95744d9db7e329a91f3c1657"
+        },
+        "values": [
+          "1000:1"
+        ]
+      },
+      {
+        "requirement": {
+          "id": "56120db470a443c6a1085bf8b4c49e83"
+        },
+        "value": 1
       },
       {
         "requirement": {
           "id": "9ee3c16ec0874793a9ec23376a0a9b11"
         },
+        "value": 1
+      },
+      {
+        "requirement": {
+          "id": "29482dcb8d8f4ce5ad6c6d0135b3b9f5"
+        },
         "values": [
-          "Відповідь1",
-          "Відповідь2"
+          "HDMI"
         ]
+      },
+      {
+        "requirement": {
+          "id": "48ed89346d044abbb5786ee9d768531f"
+        },
+        "value": 36
       }
     ],
-    "status": "draft",
     "items": [
       {
-        "id": "168cfd28fd9643e69495464611debce9",
+        "id": "b9d12bf323eb4d539fc49c3d7d1c6446",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -115,53 +154,144 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       {
         "requirement": {
           "id": "e00ff388599e42ce842a4d3dec0a110d",
-          "title": "Форма випуску"
+          "title": "Діагональ екрану"
+        },
+        "value": 23.8,
+        "id": "ae3c56525ee24792ae59483f7f6ef8cc",
+        "unit": {
+          "code": "INH",
+          "name": "дюйм"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "0c38a99c21304364b46d84c7814be3cb",
+          "title": "Роздільна здатність"
         },
         "values": [
-          "Розчин для інфузій"
+          "1920x1080"
         ],
-        "id": "ae3c56525ee24792ae59483f7f6ef8cc",
+        "id": "b8605f5687bb4b528adbe0931ffbed9c",
         "classification": {
-          "scheme": " espd211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "5980efcd986644278cf07c53c39d73db",
+          "title": "Співвідношення сторін"
+        },
+        "values": [
+          "16:9"
+        ],
+        "id": "1d6f50c280f74205a1fe5db20d2ec8f5",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
       {
         "requirement": {
           "id": "021928a6395b4787adbba08acfd9c8d2",
-          "title": "Доза діючої речовини"
+          "title": "Яскравість дисплея"
         },
-        "value": 5,
-        "id": "b8605f5687bb4b528adbe0931ffbed9c",
+        "value": 0,
+        "id": "7a3465a9289a4fb8ba2eb6bbb3f1dacd",
         "unit": {
-          "code": "KGM",
-          "name": "кілограми"
+          "code": "A24",
+          "name": "кд/м²"
         },
         "classification": {
-          "scheme": " espd211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "e34b9aea95744d9db7e329a91f3c1657",
+          "title": "Контрастність (статична)"
+        },
+        "values": [
+          "1000:1"
+        ],
+        "id": "5289a7087aab430ba354c0f50864b582",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "56120db470a443c6a1085bf8b4c49e83",
+          "title": "Кількість портів HDMI"
+        },
+        "value": 1,
+        "id": "9da50b88645e427abdb4ed23144ce1c1",
+        "unit": {
+          "code": "H87",
+          "name": "штук"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
       {
         "requirement": {
           "id": "9ee3c16ec0874793a9ec23376a0a9b11",
-          "title": "Форма випуску"
+          "title": "Кількість портів D-sub"
+        },
+        "value": 1,
+        "id": "a2b0bff86ce0499882dd41b2e42061b2",
+        "unit": {
+          "code": "H87",
+          "name": "штук"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "29482dcb8d8f4ce5ad6c6d0135b3b9f5",
+          "title": "Кабель для під’єднання"
         },
         "values": [
-          "Відповідь1",
-          "Відповідь2"
+          "HDMI"
         ],
-        "id": "1d6f50c280f74205a1fe5db20d2ec8f5",
+        "id": "564030e3565648dd9f7fc2605374c246",
         "classification": {
-          "scheme": " espd211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "48ed89346d044abbb5786ee9d768531f",
+          "title": "Гарантія"
+        },
+        "value": 36,
+        "id": "c1560006801d491f8b50af128875b91f",
+        "unit": {
+          "code": "MON",
+          "name": "місяців"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       }
     ],
     "status": "draft",
     "items": [
       {
-        "id": "168cfd28fd9643e69495464611debce9",
+        "id": "b9d12bf323eb4d539fc49c3d7d1c6446",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",

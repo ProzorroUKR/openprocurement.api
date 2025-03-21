@@ -15,7 +15,7 @@ from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
     get_criteria_by_ids,
-    test_main_criteria,
+    test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import (
     set_tender_criteria,
@@ -104,7 +104,7 @@ test_tender_cfaselectionua_required_criteria_ids = set()
 
 test_tender_cfaselectionua_criteria = []
 test_tender_cfaselectionua_criteria.extend(
-    get_criteria_by_ids(test_main_criteria, test_tender_cfaselectionua_required_criteria_ids)
+    get_criteria_by_ids(test_criteria_all, test_tender_cfaselectionua_required_criteria_ids)
 )
 
 
@@ -188,7 +188,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 bid = bid.copy()
                 bid_id = uuid4().hex
                 bid_token = uuid4().hex
-                value = bid.pop("value")
                 bid.update(
                     {
                         "id": bid_id,
@@ -199,11 +198,10 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     }
                 )
                 self.initial_bids_tokens[bid_id] = bid_token
-                if self.initial_lots:
-                    bid.update(
-                        {"lotValues": [{"value": value, "relatedLot": l["id"], "date": now} for l in self.initial_lots]}
-                    )
                 self.tender_document_patch["bids"].append(bid)
+                if "lotValues" in bid:
+                    for lot_value in bid["lotValues"]:
+                        lot_value["date"] = now
             self.initial_bids = self.tender_document_patch["bids"]
             bids = self.initial_bids
         if bids:
@@ -312,15 +310,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def create_tender(self):
         data = deepcopy(self.initial_data)
         config = deepcopy(self.initial_config)
-        if self.initial_lots:
-            lots = []
-            for i in self.initial_lots:
-                lot = deepcopy(i)
-                lot["id"] = uuid4().hex
-                lots.append(lot)
-            data["lots"] = self.initial_lots = lots
-            for i, item in enumerate(data["items"]):
-                item["relatedLot"] = lots[i % len(lots)]["id"]
         response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
@@ -345,43 +334,28 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.tender_document = self.mongodb.tenders.get(self.tender_id)
         self.tender_document_patch = {"status": status}
 
-        if status == "active.enquiries":
-            self.update_periods(status, start_end)
-            self.patch_agreements_by_bot(status, start_end)
-            self.generate_tender_lot_value(status)
-        elif status == "active.tendering":
-            self.update_periods(status, start_end)
-            self.patch_agreements_by_bot(status, start_end)
+        self.update_periods(status, start_end)
+        self.patch_agreements_by_bot(status, start_end)
+        self.generate_tender_lot_value(status)
+
+        if status == "active.tendering":
             if start_end == "end":
                 self.generate_bids(status, start_end)
-            self.generate_tender_lot_value(status)
         elif status == "active.auction":
-            self.update_periods(status, start_end)
-            self.activate_bids()
-            self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
-            self.generate_tender_lot_value(status)
+            self.activate_bids()
         elif status == "active.qualification":
-            self.update_periods(status, start_end)
-            self.activate_bids()
-            self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
-            self.generate_tender_lot_value(status)
+            self.activate_bids()
             self.generate_awards(status, start_end)
         elif status == "active.awarded":
-            self.update_periods(status, start_end)
-            self.activate_bids()
-            self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
-            self.generate_tender_lot_value(status)
+            self.activate_bids()
             self.generate_awards(status, start_end)
             self.activate_awards_and_generate_contract(status, start_end)
         elif status == "complete":
-            self.update_periods(status, start_end)
-            self.activate_bids()
-            self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
-            self.generate_tender_lot_value(status)
+            self.activate_bids()
             self.generate_awards(status, start_end)
             self.activate_awards_and_generate_contract(status, start_end)
 

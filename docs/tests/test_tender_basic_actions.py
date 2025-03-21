@@ -3631,6 +3631,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         # Create technical feature criteria
 
         tech_criteria = deepcopy(test_tech_feature_criteria)
+        set_tender_criteria(tech_criteria, [], items)
         tech_criteria[0]["relatesTo"] = "tenderer"
 
         with open(TARGET_DIR + 'techfeatures/create-tech-criteria-without-related-item.http', 'w') as self.app.file_obj:

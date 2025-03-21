@@ -1540,16 +1540,13 @@ def proc_1lot_0bid(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
     lots = []
+    data = deepcopy(self.initial_data)
     for i in self.initial_lots:
         lot = deepcopy(i)
         lot["id"] = uuid4().hex
         lots.append(lot)
-    self.initial_data["lots"] = self.initial_lots = lots
-    data = deepcopy(self.initial_data)
-    # data["agreements"] = [test_agreement]
-    # data["agreements"][0]["id"] = "1" * 32
-    data["agreements"] = [{"id": "1" * 32}]
-    for i, item in enumerate(self.initial_data["items"]):
+    data["lots"] = self.initial_lots = lots
+    for i, item in enumerate(data["items"]):
         item["relatedLot"] = lots[i % len(lots)]["id"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]

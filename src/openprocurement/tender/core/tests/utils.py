@@ -226,13 +226,6 @@ def set_tender_lots(tender, lots):
         lot = deepcopy(lot)
         lot["id"] = uuid4().hex
         tender["lots"].append(lot)
-    # if len(tender["items"]) < len(tender["lots"]):
-    #     # append items to tender to match lots count
-    #     item = deepcopy(tender["items"][0])
-    #     for i in range(len(tender["lots"]) - len(tender["items"])):
-    #         item["id"] = uuid4().hex
-    #         tender["items"].append(item)
-
     for i, item in enumerate(tender["items"]):
         item["relatedLot"] = tender["lots"][i % len(tender["lots"])]["id"]
     for i, milestone in enumerate(tender.get("milestones", [])):
@@ -240,8 +233,41 @@ def set_tender_lots(tender, lots):
     return tender
 
 
+def fill_criterion(criterion):
+    """
+    Fill tender criterion dummies from standards with missing data
+    """
+    # customizable relatesTo
+    if criterion.get("relatesTo") == "":
+        criterion["relatesTo"] = "tender"
+
+    # fill missing data
+    for group in criterion["requirementGroups"]:
+        for req in group["requirements"]:
+            # customizable title
+            if req["title"] == "":
+                req["title"] = "Текст заповнений користувачем"
+            # customizable dataType
+            if req["dataType"] == "":
+                req["dataType"] = "string"
+                if not req.get("expectedValues"):
+                    req["expectedValues"] = ["Очікуване значення"]
+                if not req.get("expectedMinItems"):
+                    req["expectedMinItems"] = 1
+            # customizable eligibleEvidences
+            for ee in req.get("eligibleEvidences", []):
+                if ee["title"] == "":
+                    ee["title"] = "Документальне підтвердження"
+
+
 def set_tender_criteria(criteria, lots, items):
+    """
+    Set tender criteria relatedItem for lot and item
+    """
     for i, criterion in enumerate(criteria):
+
+        # fill missing data
+        fill_criterion(criterion)
 
         # set relatedItem for lot
         if criterion.get("relatesTo") == "lot":
@@ -263,24 +289,6 @@ def set_tender_criteria(criteria, lots, items):
                 criterion["relatedItem"] = item["id"]
             else:
                 raise ValueError("Items are required for item-related criterion")
-
-        # customizable relatesTo
-        if criterion.get("relatesTo") == "":
-            criterion["relatesTo"] = "tender"
-
-        # fill missing data
-        for group in criterion["requirementGroups"]:
-            for req in group["requirements"]:
-                # customizable title
-                if req["title"] == "":
-                    req["title"] = "Текст заповнений користувачем"
-                # customizable dataType
-                if req["dataType"] == "":
-                    req["dataType"] = "string"
-                # customizable eligibleEvidences
-                for ee in req.get("eligibleEvidences", []):
-                    if ee["title"] == "":
-                        ee["title"] = "Документальне підтвердження"
 
     return criteria
 

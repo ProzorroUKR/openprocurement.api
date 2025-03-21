@@ -43,8 +43,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     update_tender_rr_evidence_id,
 )
 from openprocurement.tender.core.tests.base import test_language_criteria
-from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_bid_items
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_responses
 from openprocurement.tender.openeu.tests.bid import (
     CreateBidMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
@@ -128,11 +127,10 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
 
-        requirement = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"][0][
-            "requirementGroups"
-        ][0]["requirements"][0]
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        tender = response.json["data"]
 
-        self.rr_data = generate_responses(self)
+        self.rr_data = set_bid_responses(tender.get("criteria", []))
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(

@@ -23,7 +23,7 @@ from openprocurement.tender.competitivedialogue.tests.periods import (
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
-    test_main_criteria,
+    test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
@@ -268,11 +268,11 @@ test_tender_cdua_required_criteria_ids = {
 }
 
 test_tender_cdeu_criteria = []
-test_tender_cdeu_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_cdeu_required_criteria_ids))
+test_tender_cdeu_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_cdeu_required_criteria_ids))
 test_tender_cdeu_criteria.extend(test_article_16_criteria[:1])
 
 test_tender_cdua_criteria = []
-test_tender_cdua_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_cdua_required_criteria_ids))
+test_tender_cdua_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_cdua_required_criteria_ids))
 test_tender_cdua_criteria.extend(test_article_16_criteria[:1])
 
 

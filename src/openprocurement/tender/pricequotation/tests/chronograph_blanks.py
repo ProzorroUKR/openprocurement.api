@@ -1,7 +1,5 @@
-from openprocurement.tender.pricequotation.tests.data import (
-    test_tender_pq_organization,
-    test_tender_pq_requirement_response,
-)
+from openprocurement.tender.core.tests.utils import set_bid_responses
+from openprocurement.tender.pricequotation.tests.data import test_tender_pq_organization
 from openprocurement.tender.pricequotation.tests.utils import copy_tender_items
 
 
@@ -16,7 +14,7 @@ def switch_to_qualification(self):
             "tenderers": [test_tender_pq_organization],
             "items": copy_tender_items(tender["items"]),
             "value": {"amount": 500},
-            "requirementResponses": test_tender_pq_requirement_response,
+            "requirementResponses": set_bid_responses(tender["criteria"]),
         },
     )
 

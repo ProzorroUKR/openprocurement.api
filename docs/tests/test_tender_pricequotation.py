@@ -10,22 +10,23 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
+from openprocurement.tender.core.tests.utils import (
+    set_bid_responses,
+    set_tender_criteria,
+)
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
+    test_tech_features_requirements,
     test_tender_pq_bids,
     test_tender_pq_bids_with_docs,
     test_tender_pq_category,
-    test_tender_pq_criteria_1,
+    test_tender_pq_criteria,
     test_tender_pq_data,
-    test_tender_pq_response_1,
     test_tender_pq_short_profile,
 )
 from openprocurement.tender.pricequotation.tests.data import test_agreement_pq_data
-from openprocurement.tender.pricequotation.tests.utils import (
-    copy_criteria_req_id,
-    copy_tender_items,
-    criteria_drop_uuids,
-)
+from openprocurement.tender.pricequotation.tests.utils import copy_tender_items
 
 test_tender_data = deepcopy(test_tender_pq_data)
 bid_draft = deepcopy(test_tender_pq_bids[0])
@@ -64,7 +65,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with patch(
             "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
             Mock(status=200, return_value=Mock({"data": profile})),
-        ), open(TARGET_DIR + f'{filename}.http', 'w') as self.app.file_obj:
+        ), patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(status=200, return_value=Mock({"data": profile})),
+        ), open(
+            TARGET_DIR + f'{filename}.http', 'w'
+        ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {"data": {"status": "active.tendering"}},
@@ -80,16 +86,24 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Creating tender
 
+        test_tender_data = deepcopy(self.initial_data)
+
         for item in test_tender_data['items']:
             item['deliveryDate'] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat(),
             }
 
+        test_criteria = deepcopy(test_tender_pq_criteria)
+        set_tender_criteria(test_criteria, [], test_tender_data['items'])
+        for criterion in test_criteria:
+            if criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:
+                criterion["requirementGroups"][0]["requirements"] = test_tech_features_requirements
+
         test_tender_data.update(
             {
                 "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
-                "criteria": criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1)),
+                "criteria": test_criteria,
             }
         )
 
@@ -97,7 +111,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
             Mock(return_value=test_tender_pq_short_profile),
         ), patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(return_value=test_tender_pq_short_profile),
+        ), patch(
             "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+            Mock(return_value=test_tender_pq_category),
+        ), patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_category",
             Mock(return_value=test_tender_pq_category),
         ), open(
             TARGET_DIR + 'tender-post-attempt-json-data.http', 'w'
@@ -181,7 +201,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with patch(
             "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
             Mock(return_value=test_tender_pq_short_profile),
-        ), open(TARGET_DIR + 'tender-active.http', 'w') as self.app.file_obj:
+        ), patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(return_value=test_tender_pq_short_profile),
+        ), open(
+            TARGET_DIR + 'tender-active.http', 'w'
+        ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {"data": {"status": "active.tendering"}},
@@ -198,7 +223,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.app.authorization = ('Basic', ('broker', ''))
         bids_access = {}
         bid_data = deepcopy(bid_draft)
-        bid_data["requirementResponses"] = copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1)
+        bid_data["requirementResponses"] = set_bid_responses(tender["criteria"])
         bid_data["items"] = copy_tender_items(tender["items"])
         # validation sum of item.quantity * item.unit.value not more than 20% of bid.value
         bid_data["items"][0]["quantity"] = 3  # 3 * 100 < 469 more than 20%
@@ -277,7 +302,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Second bid registration with documents
         bid_with_docs_data = deepcopy(test_tender_pq_bids_with_docs)
-        bid_with_docs_data["requirementResponses"] = copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1)
+        bid_with_docs_data["requirementResponses"] = set_bid_responses(tender["criteria"])
         bid_with_docs_data["items"] = copy_tender_items(tender["items"])
         bid_with_docs_data["items"][0]["quantity"] = 4
         for document in bid_with_docs_data['documents']:

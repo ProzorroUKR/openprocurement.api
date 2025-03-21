@@ -18,7 +18,7 @@ from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, TENDERING_DA
 from openprocurement.tender.cfaua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
-    test_main_criteria,
+    test_criteria_all,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
@@ -125,7 +125,7 @@ test_tender_cfaua_required_criteria_ids = {
 }
 
 test_tender_cfaua_criteria = []
-test_tender_cfaua_criteria.extend(get_criteria_by_ids(test_main_criteria, test_tender_cfaua_required_criteria_ids))
+test_tender_cfaua_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_cfaua_required_criteria_ids))
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):

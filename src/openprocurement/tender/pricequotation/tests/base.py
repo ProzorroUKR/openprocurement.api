@@ -1,14 +1,19 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from uuid import uuid4
 
 from mock import Mock, patch
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.pricequotation.tests.data import *
+from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_category,
+    test_tender_pq_short_profile,
+)
 
 
 class BaseApiWebTest(BaseWebTest):
@@ -103,60 +108,21 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.tender_document = self.mongodb.tenders.get(self.tender_id)
         self.tender_document_patch = {"status": status}
 
-    def generate_bids(self, status, startend):
-        tenderPeriod_startDate = self.now + self.periods[status][startend]["tenderPeriod"]["startDate"]
-        bids = self.tender_document.get("bids", [])
-        if self.initial_bids and not bids:
-            self.tender_document_patch["bids"] = []
-            self.initial_bids_tokens = []
-            for position, bid in enumerate(test_tender_pq_bids):
-                bid = deepcopy(bid)
-                token = uuid4().hex
-                bid.update(
-                    {
-                        "id": uuid4().hex,
-                        "date": (tenderPeriod_startDate + timedelta(seconds=(position + 1))).isoformat(),
-                        "owner_token": token,
-                        "status": "draft",
-                        "owner": "broker",
-                    }
-                )
-                self.tender_document_patch["bids"].append(bid)
-                self.initial_bids_tokens.append(token)
-            self.save_changes()
-        response = self.app.get('/tenders/{}/bids'.format(self.tender_id))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.initial_bids = response.json["data"]
-
-    def activate_bids(self):
-        if bids := self.tender_document.get("bids", ""):
-            for bid in bids:
-                if bid["status"] in ("draft", "pending"):
-                    bid.update({"status": "active"})
-            self.tender_document_patch.update({"bids": bids})
-
     def set_status(self, status, startend="start", extra=None):
         self.now = get_now()
         self.tender_document = self.mongodb.tenders.get(self.tender_id)
         self.tender_document_patch = {"status": status}
         self.save_changes()  # apply status
-        if status == "active.tendering":
-            self.update_periods(status, startend)
-        elif status == "active.qualification":
-            self.update_periods(status, startend)
-            self.generate_bids(status, startend)
+        self.update_periods(status, startend)
+
+        if status == "active.qualification":
             self.activate_bids()
             self.generate_awards(status, startend)
         elif status == "active.awarded":
-            self.update_periods(status, startend)
-            self.generate_bids(status, startend)
             self.activate_bids()
             self.generate_awards(status, startend)
             self.activate_awards(status)
         elif status == "complete":
-            self.update_periods(status, startend)
-            self.generate_bids(status, startend)
             self.activate_bids()
             self.generate_awards(status, startend)
             self.activate_awards(status)
@@ -182,25 +148,66 @@ class BaseTenderWebTest(BaseCoreWebTest):
         "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
         Mock(return_value=test_tender_pq_category),
     )
+    @patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value=test_tender_pq_category),
+    )
+    @patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+        Mock(return_value=test_tender_pq_short_profile),
+    )
     def create_tender(self):
-        data = deepcopy(self.initial_data)
-        config = deepcopy(self.initial_config)
-        data["agreement"] = {"id": self.agreement_id}
-        data["criteria"] = getattr(self, "test_criteria", test_tender_pq_criteria)
-        response = self.app.post_json("/tenders", {"data": data, "config": config})
-        tender = response.json["data"]
-        self.tender_id = tender["id"]
-        status = tender["status"]
-        if self.initial_status and self.initial_status != status:
-            self.set_status(self.initial_status)
+        super().create_tender()
 
 
 class TenderContentWebTest(BaseTenderWebTest):
     initial_status = None
     initial_bids = None
-    need_tender = True
+
+    initial_criteria = test_tender_pq_criteria
 
     def setUp(self):
         super().setUp()
-        if self.need_tender:
-            self.create_tender()
+        self.create_tender()
+
+
+class MockCatalogueMixin:
+    def setUp(self):
+        # Group patches by return value
+        profile_patches = [
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+        ]
+
+        category_patches = [
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+            "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        ]
+
+        # Create and apply patches
+        self.patches = []
+
+        # Apply profile patches
+        for path in profile_patches:
+            patch_obj = patch(path, Mock(return_value=test_tender_pq_short_profile))
+            patch_obj.start()
+            self.patches.append(patch_obj)
+            self.addCleanup(patch_obj.stop)
+
+        # Apply category patches
+        for path in category_patches:
+            patch_obj = patch(path, Mock(return_value=test_tender_pq_category))
+            patch_obj.start()
+            self.patches.append(patch_obj)
+            self.addCleanup(patch_obj.stop)
+
+        super().setUp()
+
+
+class MockCriteriaIDMixin:
+    def setUp(self):
+        super().setUp()
+        criteria_id_patch = "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM"
+        criteria_id_patch_obj = patch(criteria_id_patch, get_now() + timedelta(days=1))
+        criteria_id_patch_obj.start()
+        self.addCleanup(criteria_id_patch_obj.stop)

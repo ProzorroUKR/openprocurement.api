@@ -1,23 +1,24 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.utils import set_bid_items
+from openprocurement.tender.core.tests.base import test_tech_feature_criteria
+from openprocurement.tender.core.tests.utils import (
+    set_bid_items,
+    set_bid_responses,
+    set_tender_criteria,
+)
 from openprocurement.tender.pricequotation.tests.base import (
+    test_tender_pq_criteria,
     test_tender_pq_organization,
-    test_tender_pq_requirement_response,
-    test_tender_pq_requirement_response_valid,
     test_tender_pq_response_1,
     test_tender_pq_response_2,
     test_tender_pq_response_3,
     test_tender_pq_response_4,
-)
-from openprocurement.tender.pricequotation.tests.data import (
-    test_tender_pq_short_profile,
 )
 from openprocurement.tender.pricequotation.tests.utils import (
     copy_criteria_req_id,
@@ -26,6 +27,9 @@ from openprocurement.tender.pricequotation.tests.utils import (
 
 
 def create_tender_bid_invalid(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
     response = self.app.post_json(
         "/tenders/some_id/bids",
         {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500}}},
@@ -102,9 +106,16 @@ def create_tender_bid_invalid(self):
         ],
     )
 
+    rrs = set_bid_responses(tender["criteria"])
+
     response = self.app.post_json(
         request_path,
-        {"data": {"tenderers": [{"identifier": {}}], "requirementResponses": test_tender_pq_requirement_response}},
+        {
+            "data": {
+                "tenderers": [{"identifier": {}}],
+                "requirementResponses": rrs,
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -134,7 +145,7 @@ def create_tender_bid_invalid(self):
         {
             "data": {
                 "tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}],
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
         status=422,
@@ -169,7 +180,7 @@ def create_tender_bid_invalid(self):
         {
             "data": {
                 "tenderers": [test_tender_pq_organization],
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
         status=422,
@@ -188,7 +199,7 @@ def create_tender_bid_invalid(self):
             "data": {
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500, "valueAddedTaxIncluded": False},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
         status=422,
@@ -216,7 +227,7 @@ def create_tender_bid_invalid(self):
                 "status": "active",
                 "tenderers": [test_tender_pq_organization],
                 "value": {"amount": 500, "currency": "USD"},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
         status=422,
@@ -248,7 +259,7 @@ def create_tender_bid_invalid(self):
     bid_data = {
         "tenderers": [non_shortlist_org],
         "value": {"amount": 500},
-        "requirementResponses": test_tender_pq_requirement_response,
+        "requirementResponses": rrs,
     }
     set_bid_items(self, bid_data)
     response = self.app.post_json(
@@ -283,7 +294,6 @@ def create_tender_bid(self):
                 "tenderers": [test_tender_pq_organization],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response_valid,
             }
         },
         status=403,
@@ -305,6 +315,9 @@ def create_tender_bid(self):
     data['criteria'] = criteria
     self.mongodb.tenders.save(data)
 
+    rrs = set_bid_responses(tender["criteria"])
+
+    # post first
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
@@ -312,7 +325,7 @@ def create_tender_bid(self):
                 "tenderers": [test_tender_pq_organization],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
                 "documents": None,
             }
         },
@@ -332,7 +345,7 @@ def create_tender_bid(self):
                 "tenderers": [test_tender_pq_organization],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 501},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
     )
@@ -347,7 +360,7 @@ def create_tender_bid(self):
                 "tenderers": [test_tender_pq_organization],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
         status=403,
@@ -603,10 +616,6 @@ def requirement_response_validation_multiple_criterias(self):
     )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value=test_tender_pq_short_profile),
-)
 def requirement_response_value_validation_for_expected_values(self):
     data = self.initial_data.copy()
     data.update({"status": "draft"})
@@ -615,74 +624,28 @@ def requirement_response_value_validation_for_expected_values(self):
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     tender_token = response.json["access"]["token"]
-    criteria_data = [
+
+    test_criteria = deepcopy(test_tender_pq_criteria)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+
+    test_additional_criteria = deepcopy(test_tech_feature_criteria)
+    set_tender_criteria(test_additional_criteria, tender.get("lots", []), tender.get("items", []))
+    test_additional_criteria[0]["classification"]["id"] = "CRITERION.TEST"
+    test_additional_criteria[0]["requirementGroups"][0]["requirements"] = [
         {
-            "description": "Форма випуску",
-            "source": "tenderer",
-            "classification": {
-                "scheme": " espd211",
-                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1",
-            },
-            "legislation": [
-                {
-                    "version": "2020-04-19",
-                    "identifier": {
-                        "id": "922-VIII",
-                        "legalName": "Закон України \"Про публічні закупівлі\"",
-                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
-                    },
-                    "type": "NATIONAL_LEGISLATION",
-                }
-            ],
-            "requirementGroups": [
-                {
-                    "description": "Форма випуску",
-                    "requirements": [
-                        {
-                            "dataType": "string",
-                            "expectedValues": ["Розчин для інфузій"],
-                            "title": "Форма випуску",
-                            "expectedMinItems": 1,
-                        },
-                    ],
-                }
-            ],
+            "dataType": "string",
+            "expectedValues": ["Розчин для інфузій"],
             "title": "Форма випуску",
+            "expectedMinItems": 1,
         },
         {
-            "description": "Доза діючої речовини",
-            "source": "tenderer",
-            "classification": {
-                "scheme": " espd211",
-                "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2",
-            },
-            "legislation": [
-                {
-                    "version": "2020-04-19",
-                    "identifier": {
-                        "id": "922-VIII",
-                        "legalName": "Закон України \"Про публічні закупівлі\"",
-                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
-                    },
-                    "type": "NATIONAL_LEGISLATION",
-                }
-            ],
-            "requirementGroups": [
-                {
-                    "description": "Доза діючої речовини",
-                    "requirements": [
-                        {
-                            "dataType": "integer",
-                            "minValue": 5,
-                            "title": "Доза діючої речовини",
-                            "unit": {"code": "KGM", "name": "кілограми"},
-                        }
-                    ],
-                }
-            ],
+            "dataType": "integer",
+            "minValue": 5,
             "title": "Доза діючої речовини",
+            "unit": {"code": "KGM", "name": "кілограми"},
         },
     ]
+
     # switch to tendering and add criteria with expectedValues array
     self.add_sign_doc(tender['id'], tender_token)
     response = self.app.patch_json(
@@ -690,7 +653,7 @@ def requirement_response_value_validation_for_expected_values(self):
         {
             "data": {
                 "status": "active.tendering",
-                "criteria": criteria_data,
+                "criteria": test_criteria + test_additional_criteria,
             }
         },
     )
@@ -698,16 +661,15 @@ def requirement_response_value_validation_for_expected_values(self):
     tender = response.json["data"]
 
     # try to response value on expectedValues
-    rr = [
-        {
-            "requirement": {"id": tender['criteria'][0]['requirementGroups'][0]['requirements'][0]['id']},
-            "value": "Розчин для інфузій",
-        },
-        {
-            "requirement": {"id": tender['criteria'][1]['requirementGroups'][0]['requirements'][0]['id']},
-            "values": [5, 7, 6],
-        },
-    ]
+    rr = set_bid_responses(tender["criteria"])
+    rr[-2] = {
+        "requirement": {"id": tender['criteria'][-1]['requirementGroups'][0]['requirements'][0]['id']},
+        "value": "Розчин для інфузій",
+    }
+    rr[-1] = {
+        "requirement": {"id": tender['criteria'][-1]['requirementGroups'][0]['requirements'][1]['id']},
+        "values": [5, 7, 6],
+    }
     copy_criteria_req_id(tender["criteria"], rr)
 
     response = self.app.post_json(
@@ -729,15 +691,15 @@ def requirement_response_value_validation_for_expected_values(self):
         data['errors'],
         [
             {
-                'description': f"only 'values' allowed in response for requirement {tender['criteria'][0]['requirementGroups'][0]['requirements'][0]['id']}",
+                'description': f"only 'values' allowed in response for requirement {tender['criteria'][-1]['requirementGroups'][0]['requirements'][0]['id']}",
                 'location': 'body',
                 'name': 'requirementResponses',
             }
         ],
     )
 
-    rr[0] = {
-        "requirement": {"id": tender['criteria'][0]['requirementGroups'][0]['requirements'][0]['id']},
+    rr[-2] = {
+        "requirement": {"id": tender['criteria'][-1]['requirementGroups'][0]['requirements'][0]['id']},
         "values": ["Розчин для інфузій"],
     }
 
@@ -760,14 +722,17 @@ def requirement_response_value_validation_for_expected_values(self):
         data['errors'],
         [
             {
-                'description': f"only 'value' allowed in response for requirement {tender['criteria'][1]['requirementGroups'][0]['requirements'][0]['id']}",
+                'description': f"only 'value' allowed in response for requirement {tender['criteria'][-1]['requirementGroups'][0]['requirements'][1]['id']}",
                 'location': 'body',
                 'name': 'requirementResponses',
             }
         ],
     )
 
-    rr[1] = {"requirement": {"id": tender['criteria'][1]['requirementGroups'][0]['requirements'][0]['id']}, "value": 5}
+    rr[-1] = {
+        "requirement": {"id": tender['criteria'][-1]['requirementGroups'][0]['requirements'][1]['id']},
+        "value": 5,
+    }
 
     response = self.app.post_json(
         f"/tenders/{tender['id']}/bids",
@@ -786,7 +751,7 @@ def requirement_response_value_validation_for_expected_values(self):
     # invalid value in response
     test_response = deepcopy(rr)
     copy_criteria_req_id(tender["criteria"], test_response)
-    test_response[0]['values'] = ['ivalid']
+    test_response[-2]['values'] = ['ivalid']
     response = self.app.post_json(
         f"/tenders/{tender['id']}/bids",
         {
@@ -807,7 +772,7 @@ def requirement_response_value_validation_for_expected_values(self):
         data['errors'],
         [
             {
-                'description': [f'Values are not in requirement {test_response[0]["requirement"]["id"]}'],
+                'description': [f'Values are not in requirement {test_response[-2]["requirement"]["id"]}'],
                 'location': 'body',
                 'name': 'requirementResponses',
             }
@@ -944,6 +909,8 @@ def patch_tender_bid(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
+    rrs = set_bid_responses(tender["criteria"])
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
@@ -952,7 +919,7 @@ def patch_tender_bid(self):
                 "items": copy_tender_items(tender["items"]),
                 "status": "draft",
                 "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
     )
@@ -1063,6 +1030,8 @@ def get_tender_bid(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
+    rrs = set_bid_responses(tender["criteria"])
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
@@ -1070,7 +1039,8 @@ def get_tender_bid(self):
                 "tenderers": [test_tender_pq_organization],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
+                "status": "pending",
             }
         },
     )
@@ -1097,7 +1067,12 @@ def get_tender_bid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     bid_data = response.json["data"]
+
     bid["status"] = "active"
+    for i, lot_value in enumerate(bid.get("lotValues", [])):
+        lot_value["status"] = "active"
+        lot_value["date"] = bid_data["lotValues"][i]["date"]
+
     self.assertEqual(bid_data, bid)
 
     response = self.app.get("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
@@ -1126,6 +1101,8 @@ def delete_tender_bid(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
+    rrs = set_bid_responses(tender["criteria"])
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
@@ -1133,7 +1110,7 @@ def delete_tender_bid(self):
                 "tenderers": [test_tender_pq_organization],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
     )
@@ -1177,6 +1154,8 @@ def get_tender_tenderers(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
+    rrs = set_bid_responses(tender["criteria"])
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
@@ -1184,7 +1163,8 @@ def get_tender_tenderers(self):
                 "tenderers": [test_tender_pq_organization],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
+                "status": "pending",
             }
         },
     )
@@ -1218,6 +1198,8 @@ def bid_Administrator_change(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
+    rrs = set_bid_responses(tender["criteria"])
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
@@ -1225,7 +1207,7 @@ def bid_Administrator_change(self):
                 "tenderers": [test_tender_pq_organization],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
     )
@@ -1290,87 +1272,11 @@ def patch_tender_bid_document(self):
     self.assertEqual("document description", response.json["data"]["description"])
 
 
-def create_tender_bid_document_invalid_award_status(self):
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response_valid,
-            }
-        },
-    )
-
-    bid = response.json['data']
-    token = response.json['access']['token']
-    bid_id = bid['id']
-
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
-        {"data": {"status": "pending"}},
-    )
-
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    doc_id = response.json["data"]["id"]
-    self.assertIn(doc_id, response.headers["Location"])
-
-    self.set_status("active.tendering", 'end')
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
-
-    response = self.app.put_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, token),
-        {
-            "data": {
-                "title": "name_3.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document because award of bid is not in pending state"
-    )
-
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document because award of bid is not in pending state"
-    )
-
-
 def invalidate_not_agreement_member_bid_via_chronograph(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
+
+    rrs = set_bid_responses(tender["criteria"])
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -1380,7 +1286,7 @@ def invalidate_not_agreement_member_bid_via_chronograph(self):
                 "tenderers": [test_tender_pq_organization],
                 "status": "draft",
                 "value": {"amount": 500},
-                "requirementResponses": test_tender_pq_requirement_response,
+                "requirementResponses": rrs,
             }
         },
     )
@@ -1409,10 +1315,13 @@ def invalidate_not_agreement_member_bid_via_chronograph(self):
 def bid_items_unit_value_validations(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
+
+    rrs = set_bid_responses(tender["criteria"])
+
     bid_data = {
         "tenderers": [test_tender_pq_organization],
         "value": {"amount": 500},
-        "requirementResponses": test_tender_pq_requirement_response,
+        "requirementResponses": rrs,
     }
     set_bid_items(self, bid_data)
     self.assertEqual(tender["value"]["valueAddedTaxIncluded"], True)

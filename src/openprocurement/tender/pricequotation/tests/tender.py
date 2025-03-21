@@ -1,9 +1,6 @@
 import unittest
-from datetime import timedelta
-from unittest.mock import Mock, patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     contract_template_name_set,
     create_tender_with_required_unit,
@@ -21,13 +18,13 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
+    MockCatalogueMixin,
+    MockCriteriaIDMixin,
     TenderContentWebTest,
     test_agreement_dps_data,
     test_tender_pq_data,
 )
 from openprocurement.tender.pricequotation.tests.data import (
-    test_tender_pq_category,
-    test_tender_pq_criteria_1,
     test_tender_pq_short_profile,
 )
 from openprocurement.tender.pricequotation.tests.tender_blanks import (
@@ -83,39 +80,9 @@ class TenderResourceTestMixin:
     test_contract_template_name_set = snitch(contract_template_name_set)
 
 
-class MockCatalogueMixin:
-    def setUp(self):
-        super().setUp()
-        tender_profile_patch = patch(
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-            Mock(return_value=test_tender_pq_short_profile),
-        )
-        tender_profile_patch.start()
-        self.addCleanup(tender_profile_patch.stop)
-        tender_category_patch = patch(
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-            Mock(return_value=test_tender_pq_category),
-        )
-        tender_category_patch.start()
-        self.addCleanup(tender_category_patch.stop)
-
-
-class MockCriteriaIDMixin:
-    def setUp(self):
-        super().setUp()
-        criteria_id_patch = patch(
-            "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM",
-            get_now() + timedelta(days=1),
-        )
-        criteria_id_patch.start()
-        self.addCleanup(criteria_id_patch.stop)
-
-
 class TenderResourceTest(MockCatalogueMixin, MockCriteriaIDMixin, BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_pq_data
     initial_auth = ("Basic", ("broker", ""))
-    test_criteria = test_tender_pq_short_profile['criteria']
-    test_criteria_1 = test_tender_pq_criteria_1
 
     test_create_tender_draft = snitch(create_tender_draft)
     test_create_tender_draft_with_criteria = snitch(create_tender_draft_with_criteria)
@@ -142,7 +109,6 @@ class TenderDPSPQResourceTest(MockCatalogueMixin, MockCriteriaIDMixin, BaseTende
     initial_data = test_tender_pq_data
     initial_auth = ("Basic", ("broker", ""))
     test_criteria = test_tender_pq_short_profile['criteria']
-    test_criteria_1 = test_tender_pq_criteria_1
 
     initial_agreement_data = test_agreement_dps_data
 
