@@ -51,7 +51,7 @@ Content-Type: application/json
       {
         "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
-        "id": "168cfd28fd9643e69495464611debce9",
+        "id": "b9d12bf323eb4d539fc49c3d7d1c6446",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -91,123 +91,155 @@ Content-Type: application/json
     "criteria": [
       {
         "id": "dc2946c9a6cc47b9bd3b196fe2b0369c",
-        "description": "Форма випуску",
+        "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
         "source": "tenderer",
+        "relatesTo": "item",
+        "relatedItem": "b9d12bf323eb4d539fc49c3d7d1c6446",
         "classification": {
-          "scheme": " espd211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         },
-        "title": "Форма випуску",
+        "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
         "legislation": [
           {
-            "version": "2020-04-19",
+            "version": "2024-04-19",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
             },
-            "type": "NATIONAL_LEGISLATION"
+            "type": "NATIONAL_LEGISLATION",
+            "article": "22.2.3"
+          },
+          {
+            "version": "2024-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1426"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "23"
+          },
+          {
+            "version": "2023-10-31",
+            "identifier": {
+              "id": "1135-2023-п",
+              "legalName": "Про внесення змін до постанов Кабінету Міністрів України від 14 вересня 2020 р. № 822 і від 12 жовтня 2022 р. № 1178",
+              "uri": "https://zakon.rada.gov.ua/laws/show/1135-2023-%D0%BF#n24"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "2.1"
           }
         ],
         "requirementGroups": [
           {
             "id": "239147c997ff42ccb3a96dcff2716421",
-            "description": "Форма випуску",
+            "description": "Підтверджується, що",
             "requirements": [
               {
                 "id": "e00ff388599e42ce842a4d3dec0a110d",
-                "title": "Форма випуску",
+                "title": "Діагональ екрану",
+                "dataType": "number",
+                "status": "active",
+                "unit": {
+                  "code": "INH",
+                  "name": "дюйм"
+                },
+                "minValue": 23.8,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "id": "0c38a99c21304364b46d84c7814be3cb",
+                "title": "Роздільна здатність",
                 "dataType": "string",
                 "status": "active",
                 "expectedValues": [
-                  "Розчин для інфузій"
+                  "1920x1080"
                 ],
                 "expectedMinItems": 1,
                 "datePublished": "2023-10-10T01:00:00+03:00"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "0c38a99c21304364b46d84c7814be3cb",
-        "description": "Доза діючої речовини",
-        "source": "tenderer",
-        "classification": {
-          "scheme": " espd211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
-        },
-        "title": "Доза діючої речовини",
-        "legislation": [
-          {
-            "version": "2020-04-19",
-            "identifier": {
-              "id": "922-VIII",
-              "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
-            },
-            "type": "NATIONAL_LEGISLATION"
-          }
-        ],
-        "requirementGroups": [
-          {
-            "id": "5980efcd986644278cf07c53c39d73db",
-            "description": "Доза діючої речовини",
-            "requirements": [
+              },
+              {
+                "id": "5980efcd986644278cf07c53c39d73db",
+                "title": "Співвідношення сторін",
+                "dataType": "string",
+                "status": "active",
+                "expectedValues": [
+                  "16:9"
+                ],
+                "expectedMinItems": 1,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
               {
                 "id": "021928a6395b4787adbba08acfd9c8d2",
-                "title": "Доза діючої речовини",
+                "title": "Яскравість дисплея",
                 "dataType": "integer",
                 "status": "active",
                 "unit": {
-                  "code": "KGM",
-                  "name": "кілограми"
+                  "code": "A24",
+                  "name": "кд/м²"
                 },
-                "minValue": 5,
+                "minValue": 0,
+                "maxValue": 250,
                 "datePublished": "2023-10-10T01:00:00+03:00"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "e34b9aea95744d9db7e329a91f3c1657",
-        "description": "Форма випуску",
-        "source": "tenderer",
-        "classification": {
-          "scheme": " espd211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
-        },
-        "title": "Форма випуску",
-        "legislation": [
-          {
-            "version": "2020-04-19",
-            "identifier": {
-              "id": "922-VIII",
-              "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
-            },
-            "type": "NATIONAL_LEGISLATION"
-          }
-        ],
-        "requirementGroups": [
-          {
-            "id": "56120db470a443c6a1085bf8b4c49e83",
-            "description": "Форма випуску",
-            "requirements": [
+              },
               {
-                "id": "9ee3c16ec0874793a9ec23376a0a9b11",
-                "title": "Форма випуску",
+                "id": "e34b9aea95744d9db7e329a91f3c1657",
+                "title": "Контрастність (статична)",
                 "dataType": "string",
                 "status": "active",
                 "expectedValues": [
-                  "Відповідь1",
-                  "Відповідь2",
-                  "Відповідь3",
-                  "Відповідь4"
+                  "1000:1"
                 ],
                 "expectedMinItems": 1,
-                "expectedMaxItems": 3,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "id": "56120db470a443c6a1085bf8b4c49e83",
+                "title": "Кількість портів HDMI",
+                "dataType": "integer",
+                "status": "active",
+                "unit": {
+                  "code": "H87",
+                  "name": "штук"
+                },
+                "minValue": 1,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "id": "9ee3c16ec0874793a9ec23376a0a9b11",
+                "title": "Кількість портів D-sub",
+                "dataType": "integer",
+                "status": "active",
+                "unit": {
+                  "code": "H87",
+                  "name": "штук"
+                },
+                "minValue": 1,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "id": "29482dcb8d8f4ce5ad6c6d0135b3b9f5",
+                "title": "Кабель для під’єднання",
+                "dataType": "string",
+                "status": "active",
+                "expectedValues": [
+                  "HDMI"
+                ],
+                "expectedMinItems": 1,
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "id": "48ed89346d044abbb5786ee9d768531f",
+                "title": "Гарантія",
+                "dataType": "integer",
+                "status": "active",
+                "unit": {
+                  "code": "MON",
+                  "name": "місяців"
+                },
+                "minValue": 36,
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]

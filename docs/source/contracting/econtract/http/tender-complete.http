@@ -133,7 +133,7 @@ Content-Type: application/json
         "description": "Форма випуску",
         "source": "tenderer",
         "classification": {
-          "scheme": " espd211",
+          "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
         },
         "title": "Форма випуску",
@@ -173,7 +173,7 @@ Content-Type: application/json
         "description": "Доза діючої речовини",
         "source": "tenderer",
         "classification": {
-          "scheme": " espd211",
+          "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
         },
         "title": "Доза діючої речовини",
@@ -214,7 +214,7 @@ Content-Type: application/json
         "description": "Форма випуску",
         "source": "tenderer",
         "classification": {
-          "scheme": " espd211",
+          "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
         },
         "title": "Форма випуску",
@@ -304,7 +304,7 @@ Content-Type: application/json
             ],
             "id": "b8992b957a55498e85864b62927f4c51",
             "classification": {
-              "scheme": " espd211",
+              "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
             }
           },
@@ -320,7 +320,7 @@ Content-Type: application/json
               "name": "кілограми"
             },
             "classification": {
-              "scheme": " espd211",
+              "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
             }
           },
@@ -335,7 +335,7 @@ Content-Type: application/json
             ],
             "id": "ecb183a4818540a09fd9537017c8a6fa",
             "classification": {
-              "scheme": " espd211",
+              "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
             }
           }

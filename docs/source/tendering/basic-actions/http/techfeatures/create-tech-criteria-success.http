@@ -6,35 +6,126 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": [
     {
-      "title": "Характеристики ноутбуку",
+      "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
+      "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
       "source": "tenderer",
       "classification": {
-        "scheme": " ESPD211",
+        "scheme": "ESPD211",
         "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
       },
       "relatesTo": "item",
       "legislation": [
         {
-          "version": "2020-04-19",
+          "version": "2024-04-19",
           "identifier": {
             "id": "922-VIII",
             "legalName": "Закон України \"Про публічні закупівлі\"",
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
           },
-          "type": "NATIONAL_LEGISLATION"
+          "type": "NATIONAL_LEGISLATION",
+          "article": "22.2.3"
+        },
+        {
+          "version": "2024-04-19",
+          "identifier": {
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1426"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "23"
+        },
+        {
+          "version": "2023-10-31",
+          "identifier": {
+            "id": "1135-2023-п",
+            "legalName": "Про внесення змін до постанов Кабінету Міністрів України від 14 вересня 2020 р. № 822 і від 12 жовтня 2022 р. № 1178",
+            "uri": "https://zakon.rada.gov.ua/laws/show/1135-2023-%D0%BF#n24"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "2.1"
         }
       ],
       "requirementGroups": [
         {
-          "description": "Діагонaль екрану",
+          "description": "Підтверджується, що",
           "requirements": [
             {
-              "title": "Діагонaль екрану",
-              "dataType": "integer",
-              "expectedValue": 15,
+              "title": "Діагональ екрану",
+              "dataType": "number",
+              "minValue": 23.8,
               "unit": {
                 "code": "INH",
                 "name": "дюйм"
+              }
+            },
+            {
+              "title": "Роздільна здатність",
+              "dataType": "string",
+              "expectedValues": [
+                "1920x1080"
+              ],
+              "expectedMinItems": 1
+            },
+            {
+              "title": "Співвідношення сторін",
+              "dataType": "string",
+              "expectedValues": [
+                "16:9"
+              ],
+              "expectedMinItems": 1
+            },
+            {
+              "title": "Яскравість дисплея",
+              "dataType": "integer",
+              "minValue": 0,
+              "maxValue": 250,
+              "unit": {
+                "code": "A24",
+                "name": "кд/м²"
+              }
+            },
+            {
+              "title": "Контрастність (статична)",
+              "dataType": "string",
+              "expectedValues": [
+                "1000:1"
+              ],
+              "expectedMinItems": 1
+            },
+            {
+              "title": "Кількість портів HDMI",
+              "dataType": "integer",
+              "minValue": 1,
+              "unit": {
+                "code": "H87",
+                "name": "штук"
+              }
+            },
+            {
+              "title": "Кількість портів D-sub",
+              "dataType": "integer",
+              "minValue": 1,
+              "unit": {
+                "code": "H87",
+                "name": "штук"
+              }
+            },
+            {
+              "title": "Кабель для під’єднання",
+              "dataType": "string",
+              "expectedValues": [
+                "HDMI"
+              ],
+              "expectedMinItems": 1
+            },
+            {
+              "title": "Гарантія",
+              "dataType": "integer",
+              "minValue": 36,
+              "unit": {
+                "code": "MON",
+                "name": "місяців"
               }
             }
           ]
@@ -52,41 +143,156 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "e5f5a1e205064c3eb2d07b29ee975625",
+      "id": "31eca062a25c44e0931a3d730dedd55b",
+      "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
       "source": "tenderer",
       "relatesTo": "item",
       "relatedItem": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
       "classification": {
-        "scheme": " ESPD211",
+        "scheme": "ESPD211",
         "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
       },
-      "title": "Характеристики ноутбуку",
+      "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
       "legislation": [
         {
-          "version": "2020-04-19",
+          "version": "2024-04-19",
           "identifier": {
             "id": "922-VIII",
             "legalName": "Закон України \"Про публічні закупівлі\"",
-            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
           },
-          "type": "NATIONAL_LEGISLATION"
+          "type": "NATIONAL_LEGISLATION",
+          "article": "22.2.3"
+        },
+        {
+          "version": "2024-04-19",
+          "identifier": {
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1426"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "23"
+        },
+        {
+          "version": "2023-10-31",
+          "identifier": {
+            "id": "1135-2023-п",
+            "legalName": "Про внесення змін до постанов Кабінету Міністрів України від 14 вересня 2020 р. № 822 і від 12 жовтня 2022 р. № 1178",
+            "uri": "https://zakon.rada.gov.ua/laws/show/1135-2023-%D0%BF#n24"
+          },
+          "type": "NATIONAL_LEGISLATION",
+          "article": "2.1"
         }
       ],
       "requirementGroups": [
         {
-          "id": "dbbda9b552e045c4aa78940893d0cbb7",
-          "description": "Діагонaль екрану",
+          "id": "8439d93cd0e84bebb4020a9f04b343b8",
+          "description": "Підтверджується, що",
           "requirements": [
             {
-              "id": "268e8be02d2a4dadb458d9f36c3dcc4a",
-              "title": "Діагонaль екрану",
-              "dataType": "integer",
+              "id": "5bdfb913deee4a019090987e15f6b72a",
+              "title": "Діагональ екрану",
+              "dataType": "number",
               "status": "active",
               "unit": {
                 "code": "INH",
                 "name": "дюйм"
               },
-              "expectedValue": 15,
+              "minValue": 23.8,
+              "datePublished": "2023-10-10T01:00:00+03:00"
+            },
+            {
+              "id": "15bcde2f69034678acc018f814ece957",
+              "title": "Роздільна здатність",
+              "dataType": "string",
+              "status": "active",
+              "expectedValues": [
+                "1920x1080"
+              ],
+              "expectedMinItems": 1,
+              "datePublished": "2023-10-10T01:00:00+03:00"
+            },
+            {
+              "id": "94c86b88f9404d92b410f47fae697c4c",
+              "title": "Співвідношення сторін",
+              "dataType": "string",
+              "status": "active",
+              "expectedValues": [
+                "16:9"
+              ],
+              "expectedMinItems": 1,
+              "datePublished": "2023-10-10T01:00:00+03:00"
+            },
+            {
+              "id": "91b97dd4da38442fbacc4fc3f0c6d971",
+              "title": "Яскравість дисплея",
+              "dataType": "integer",
+              "status": "active",
+              "unit": {
+                "code": "A24",
+                "name": "кд/м²"
+              },
+              "minValue": 0,
+              "maxValue": 250,
+              "datePublished": "2023-10-10T01:00:00+03:00"
+            },
+            {
+              "id": "a481ace108de4d9f898eee0ca2bc3475",
+              "title": "Контрастність (статична)",
+              "dataType": "string",
+              "status": "active",
+              "expectedValues": [
+                "1000:1"
+              ],
+              "expectedMinItems": 1,
+              "datePublished": "2023-10-10T01:00:00+03:00"
+            },
+            {
+              "id": "a9581c4da2404ce9a629993fdff3b9b2",
+              "title": "Кількість портів HDMI",
+              "dataType": "integer",
+              "status": "active",
+              "unit": {
+                "code": "H87",
+                "name": "штук"
+              },
+              "minValue": 1,
+              "datePublished": "2023-10-10T01:00:00+03:00"
+            },
+            {
+              "id": "45267fabcb6448df87096950f685835d",
+              "title": "Кількість портів D-sub",
+              "dataType": "integer",
+              "status": "active",
+              "unit": {
+                "code": "H87",
+                "name": "штук"
+              },
+              "minValue": 1,
+              "datePublished": "2023-10-10T01:00:00+03:00"
+            },
+            {
+              "id": "0d625eed4dfc4615abbc78cb47375c5f",
+              "title": "Кабель для під’єднання",
+              "dataType": "string",
+              "status": "active",
+              "expectedValues": [
+                "HDMI"
+              ],
+              "expectedMinItems": 1,
+              "datePublished": "2023-10-10T01:00:00+03:00"
+            },
+            {
+              "id": "41807fcff377437284ad821c19f9e44a",
+              "title": "Гарантія",
+              "dataType": "integer",
+              "status": "active",
+              "unit": {
+                "code": "MON",
+                "name": "місяців"
+              },
+              "minValue": 36,
               "datePublished": "2023-10-10T01:00:00+03:00"
             }
           ]

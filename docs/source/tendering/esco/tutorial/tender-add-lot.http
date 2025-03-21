@@ -8,20 +8,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Лот №1",
     "description": "Опис Лот №1",
     "minimalStepPercentage": 0.006,
-    "id": "9027f283c1e74dafad1cd0ff659ca922"
+    "id": "16dcfa2a699842d3a0f9b9553db58532"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/lots/9027f283c1e74dafad1cd0ff659ca922
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/lots/16dcfa2a699842d3a0f9b9553db58532
 
 {
   "data": {
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "id": "9027f283c1e74dafad1cd0ff659ca922",
+    "id": "16dcfa2a699842d3a0f9b9553db58532",
     "status": "active",
     "minimalStepPercentage": 0.006,
     "yearlyPaymentsPercentageRange": 0.8,
