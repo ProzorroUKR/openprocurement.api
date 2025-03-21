@@ -64,10 +64,7 @@ class PostBid(BidResponsesMixin, PatchBid):
     )
     value = ModelType(Value)
     documents = ListType(ModelType(PostDocument, required=True))
-    requirementResponses = ListType(
-        ModelType(RequirementResponse),
-        min_size=1,
-    )
+    requirementResponses = ListType(ModelType(RequirementResponse))
     status = StringType(
         choices=[
             "draft",
@@ -104,10 +101,7 @@ class Bid(BidResponsesMixin, MetaBid):
         max_size=1,
     )
     value = ModelType(Value)
-    requirementResponses = ListType(
-        ModelType(RequirementResponse),
-        min_size=1,
-    )
+    requirementResponses = ListType(ModelType(RequirementResponse))
     status = StringType(
         choices=[
             "draft",
