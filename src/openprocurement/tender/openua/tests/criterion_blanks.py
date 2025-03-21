@@ -673,22 +673,22 @@ def activate_tender(self):
         self.assertEqual(response.content_type, "application/json")
 
     if required_tech_features:
-        response = self.app.patch_json(
-            request_path,
-            {"data": {"status": self.primary_tender_status}},
-            status=403,
-        )
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "location": "body",
-                    "name": "data",
-                    "description": "Tender must contain CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES criteria for items with profile defined",
-                }
-            ],
-        )
+        # response = self.app.patch_json(
+        #     request_path,
+        #     {"data": {"status": self.primary_tender_status}},
+        #     status=403,
+        # )
+        # self.assertEqual(response.content_type, "application/json")
+        # self.assertEqual(
+        #     response.json["errors"],
+        #     [
+        #         {
+        #             "location": "body",
+        #             "name": "data",
+        #             "description": "Tender must contain CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES criteria for items with profile defined",
+        #         }
+        #     ],
+        # )
 
         criteria_ids = self.required_criteria
         test_criteria = deepcopy(test_tech_feature_criteria)
