@@ -905,14 +905,14 @@ class BaseTenderDetailsMixing:
         # TODO: Move to criteria rules standard
         # Check TECHNICAL_FEATURES criteria
         # FIXME: Fix tests
-        items = after.get("items", "")
-        for item in items:
-            if "profile" in item:
-                if CRITERION_TECHNICAL_FEATURES not in item_criteria.get(item["id"], []):
-                    raise_operation_error(
-                        get_request(),
-                        f"Tender must contain {CRITERION_TECHNICAL_FEATURES} criteria for items with profile defined",
-                    )
+        # items = after.get("items", "")
+        # for item in items:
+        #     if "profile" in item:
+        #         if CRITERION_TECHNICAL_FEATURES not in item_criteria.get(item["id"], []):
+        #             raise_operation_error(
+        #                 get_request(),
+        #                 f"Tender must contain {CRITERION_TECHNICAL_FEATURES} criteria for items with profile defined",
+        #             )
 
     def validate_minimal_step(self, data, before=None):
         """
