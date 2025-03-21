@@ -127,6 +127,7 @@ class TenderCriterionMixin:
         for tender_criterion in data:
             # check only localization and tech criteria, because only these are in market
             if tender_criterion["classification"]["id"] in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
+                market_obj = {}
                 requirements_from_profile = False
                 profile_id, category_id = tender_items_market_objects[tender_criterion["relatedItem"]]
                 if profile_id:
