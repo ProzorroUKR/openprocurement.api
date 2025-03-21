@@ -62,26 +62,26 @@ class BaseContractState(BaseState, ContractStateMixing):
             else:
                 for k in item_before.keys() | item_after.keys():
                     before, after = item_before.get(k), item_after.get(k)
-                    if not before or not after:  # [] or None check
-                        continue
-
-                    if k == "unit" and "unit.value.amount" in item_patch_fields:
-                        before = {k: v for k, v in (before or {}).items() if k != "value"}
-                        after = {k: v for k, v in (after or {}).items() if k != "value"}
-
                     if k not in item_patch_fields and before != after:
                         raise_operation_error(
                             get_request(),
                             f"Updated could be only {item_patch_fields} in item, {k} change forbidden",
                         )
+                    # check deletion of allowed item_patch_fields
+                    if set(item_before.keys()) - set(item_after.keys()):
+                        raise_operation_error(
+                            get_request(),
+                            f"Forbidden to delete fields {set(item_before.keys()) - set(item_after.keys())}",
+                        )
+                    # check fields deletion in dict objects such as deliveryAddress, deliveryLocation, etc.
+                    if isinstance(before, dict) and isinstance(after, dict) and set(before.keys()) - set(after.keys()):
+                        raise_operation_error(
+                            get_request(),
+                            f"Forbidden to delete fields in {k}: {set(before.keys()) - set(after.keys())}",
+                        )
 
                     if k == "unit" and before.get("value"):
-                        if not after.get("value"):
-                            raise_operation_error(
-                                get_request(),
-                                "Forbidden to delete value in contract items unit",
-                            )
-                        elif before["value"]["currency"] != after["value"]["currency"]:
+                        if before["value"]["currency"] != after["value"]["currency"]:
                             raise_operation_error(
                                 get_request(),
                                 "Forbidden to change currency in contract items unit",
