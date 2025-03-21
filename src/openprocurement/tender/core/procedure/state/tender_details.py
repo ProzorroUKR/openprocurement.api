@@ -1259,10 +1259,10 @@ class BaseTenderDetailsMixing:
             if (before_values.get("profile") != after_values.get("profile")) or (
                 before_values.get("category") != after_values.get("category")
             ):
-                if category_id := after_values.get("category"):
+                if (category_id := after_values.get("category")) is not None:
                     get_tender_category(request, category_id, ("active",))
 
-                if profile_id := after_values.get("profile"):
+                if (profile_id := after_values.get("profile")) is not None:
                     profile = get_tender_profile(request, profile_id, ("active",))
 
                     if profile.get("relatedCategory") != category_id:
