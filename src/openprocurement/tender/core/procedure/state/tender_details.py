@@ -299,12 +299,19 @@ class BaseTenderDetailsMixing:
             self.validate_criteria_requirement_from_market(after.get("criteria", []))
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
-        self.validate_change_item_profile_or_category(after, before)
         if after["status"] in ("draft", "draft.stage2", "active.enquiries", "active.tendering"):
             self.initialize_enquiry_period(after)
 
         if self.should_validate_related_lot_in_items:
             self.validate_related_lot_in_items(after)
+
+        if after["status"] != "draft" and before["status"] == "draft":
+            self.validate_pre_selection_agreement_on_activation(after)
+            self.validate_profiles_agreement_id(after)
+            self.validate_change_item_profile_or_category(after, before, force_validate=True)
+            self.validate_notice_doc_required(after)
+        else:
+            self.validate_change_item_profile_or_category(after, before)
 
         super().on_patch(before, after)
 
@@ -321,11 +328,7 @@ class BaseTenderDetailsMixing:
                 location="body",
                 name="status",
             )
-        if after != "draft" and before == "draft":
-            self.validate_pre_selection_agreement_on_activation(data)
-            self.validate_profiles_agreement_id(data)
-            self.validate_notice_doc_required(data)
-        elif after == "active.tendering" and before != "active.tendering":
+        if after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
             if dt_from_iso(tendering_start) <= get_now() - timedelta(minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES):
                 raise_operation_error(
@@ -1265,21 +1268,29 @@ class BaseTenderDetailsMixing:
                 status=422,
             )
 
-    def validate_change_item_profile_or_category(self, after: dict, before: dict) -> None:
-        after_cp = {
-            i["id"]: {"profile": i.get("profile"), "category": i.get("category")} for i in after.get("items", "")
-        }
-        before_cp = {
-            i["id"]: {"profile": i.get("profile"), "category": i.get("category")} for i in before.get("items", "")
-        }
+    def validate_change_item_profile_or_category(self, after: dict, before: dict, force_validate: bool = False) -> None:
+        after_cp = {}
+        for item in after.get("items", []):
+            after_cp[item["id"]] = {
+                "profile": item.get("profile"),
+                "category": item.get("category"),
+            }
+
+        before_cp = {}
+        for item in before.get("items", []):
+            before_cp[item["id"]] = {
+                "profile": item.get("profile"),
+                "category": item.get("category"),
+            }
 
         request = get_request()
 
         for k, after_values in after_cp.items():
             before_values = before_cp.get(k, {})
-            if (before_values.get("profile") != after_values.get("profile")) or (
-                before_values.get("category") != after_values.get("category")
-            ):
+            is_profile_changed = before_values.get("profile") != after_values.get("profile")
+            is_category_changed = before_values.get("category") != after_values.get("category")
+
+            if is_profile_changed or is_category_changed or force_validate:
                 if (category_id := after_values.get("category")) is not None:
                     get_tender_category(request, category_id, ("active",))
 
@@ -1289,8 +1300,8 @@ class BaseTenderDetailsMixing:
                     if profile.get("relatedCategory") != category_id:
                         raise_operation_error(request, "Profile should be related to category", status=422)
 
-                if before:
-                    self.cancel_all_technical_criteria(after, k)
+            if (is_profile_changed or is_category_changed) and before:
+                self.cancel_all_technical_criteria(after, k)
 
     def cancel_all_technical_criteria(self, tender: dict, item_id: str) -> None:
         criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
