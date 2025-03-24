@@ -3,7 +3,6 @@ from copy import deepcopy
 from unittest.mock import MagicMock
 
 import pytest
-from mock import Mock, patch
 
 from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.utils import get_now
@@ -31,6 +30,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdua_data,
     test_tender_cdua_stage2_data,
 )
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import get_contract_template_name
 from openprocurement.tender.esco.tests.base import (
     test_tender_esco_config,
@@ -408,14 +408,7 @@ else:
 
 
 @pytest.mark.parametrize("request_tender_data, request_tender_config", test_tenders)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value=test_tender_pq_short_profile),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-    Mock(return_value=test_tender_pq_category),
-)
+@patch_market(test_tender_pq_short_profile, test_tender_pq_category)
 def test_success_plan_tenders_creation(app, request_tender_data, request_tender_config):
     app.authorization = ("Basic", ("broker", "broker"))
     request_plan_data = deepcopy(test_plan_data)
@@ -630,14 +623,7 @@ def test_tender_creation_modified_date(app):
 
 
 @pytest.mark.parametrize("request_tender_data, request_tender_config", test_tenders)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value=test_tender_pq_short_profile),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-    Mock(return_value=test_tender_pq_category),
-)
+@patch_market(test_tender_pq_short_profile, test_tender_pq_category)
 def test_fail_pass_plans(app, plan, request_tender_data, request_tender_config):
     """
     "plans" field cannot be set via 'data'

@@ -12,6 +12,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_below_l
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_lcc_tender_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import activate_contract, set_bid_items
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -1561,12 +1562,9 @@ def tender_items_category_profile(self):
             response.json["errors"][0]["description"], f"Categories {items[0]['profile']} not found in catalouges."
         )
 
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-        Mock(return_value={"id": "1" * 32, "criteria": []}),
-    ), patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value={"id": "1" * 32, "relatedCategory": "2" * 32, "criteria": []}),
+    with patch_market(
+        profile={"id": "1" * 32, "relatedCategory": "2" * 32, "criteria": []},
+        category={"id": "1" * 32, "criteria": []},
     ):
         response = self.app.post_json(
             "/tenders",
@@ -1580,12 +1578,9 @@ def tender_items_category_profile(self):
             [{"location": "body", "name": "data", "description": "Profile should be related to category"}],
         )
 
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-        Mock(return_value={"id": "1" * 32, "criteria": []}),
-    ), patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []}),
+    with patch_market(
+        profile={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []},
+        category={"id": "1" * 32, "criteria": []},
     ):
         response = self.app.post_json(
             "/tenders",

@@ -41,6 +41,7 @@ from openprocurement.tender.core.tests.base import (
     test_language_criteria,
     test_tech_feature_criteria,
 )
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import (
     change_auth,
     set_bid_lotvalues,
@@ -3597,28 +3598,27 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         tech_item["profile"] = profile["id"]
         tech_item["category"] = category["id"]
 
-        with patch("openprocurement.api.utils.requests.get", Mock(return_value=Mock(status_code=404))), open(
+        response_mock = Mock(status_code=404)
+        requests_get_mock = Mock(return_value=response_mock)
+
+        with patch("openprocurement.api.utils.requests.get", requests_get_mock), open(
             TARGET_DIR + 'techfeatures/item-profile-not-found.http', 'w'
         ) as self.app.file_obj:
             response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config}, status=404)
             self.assertEqual(response.status, "404 Not Found")
 
-        with patch(
-            "openprocurement.api.utils.requests.get",
-            Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": profile}))),
-        ), open(TARGET_DIR + 'techfeatures/item-profile-not-active.http', 'w') as self.app.file_obj:
+        response_mock = Mock(status_code=200, json=Mock(return_value={"data": profile}))
+        requests_get_mock = Mock(return_value=response_mock)
+
+        with patch("openprocurement.api.utils.requests.get", requests_get_mock), open(
+            TARGET_DIR + 'techfeatures/item-profile-not-active.http', 'w'
+        ) as self.app.file_obj:
             response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
         profile["status"] = "active"
 
-        with patch(
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-            Mock(return_value=category),
-        ), patch(
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-            Mock(return_value=profile),
-        ), open(
+        with patch_market(profile, category), open(
             TARGET_DIR + 'techfeatures/tender-with-item-profile-created.http', 'w'
         ) as self.app.file_obj:
 

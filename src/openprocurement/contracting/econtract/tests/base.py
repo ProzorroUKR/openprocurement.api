@@ -3,8 +3,6 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from mock import Mock, patch
-
 from openprocurement.api.context import set_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest
@@ -16,6 +14,7 @@ from openprocurement.contracting.econtract.tests.data import (
     test_signer_info,
 )
 from openprocurement.contracting.econtract.tests.utils import create_contract
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.pricequotation.tests.data import (
     PERIODS,
@@ -134,22 +133,7 @@ class BaseEContractTest(BaseContractTest):
             self.tender_document = self.mongodb.tenders.get(self.tender_id)
             self.tender_document_patch = {}
 
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    )
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-        Mock(return_value=test_tender_pq_category),
-    )
-    @patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    )
-    @patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        Mock(return_value=test_tender_pq_category),
-    )
+    @patch_market(test_tender_pq_short_profile, test_tender_pq_category)
     def create_tender(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("broker", ""))

@@ -17,6 +17,7 @@ from openprocurement.tender.core.tests.base import (
     test_tech_feature_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
@@ -475,22 +476,7 @@ def get_tender_criteria(self):
             self.assertEqual(test_exclusion_criteria[0][k], v)
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-    Mock(return_value=test_tender_pq_category),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value=test_tender_pq_short_profile),
-)
-@patch(
-    "openprocurement.tender.core.procedure.criteria.get_tender_category",
-    Mock(return_value=test_tender_pq_category),
-)
-@patch(
-    "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-    Mock(return_value=test_tender_pq_short_profile),
-)
+@patch_market(test_tender_pq_short_profile, test_tender_pq_category)
 def activate_tender(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
@@ -2282,21 +2268,9 @@ def lcc_criterion_invalid(self):
         )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-    Mock(return_value={"id": "1" * 32, "criteria": []}),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []}),
-)
-@patch(
-    "openprocurement.tender.core.procedure.criteria.get_tender_category",
-    Mock(return_value={"id": "1" * 32, "criteria": []}),
-)
-@patch(
-    "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-    Mock(return_value={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []}),
+@patch_market(
+    profile={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []},
+    category={"id": "1" * 32, "criteria": []},
 )
 def tech_feature_criterion(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
@@ -2383,13 +2357,9 @@ def tech_feature_criterion(self):
     self.assertEqual(criterion_req["status"], "cancelled")
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-    Mock(return_value={"id": "0" * 32, "criteria": []}),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": []}),
+@patch_market(
+    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": []},
+    category={"id": "0" * 32, "criteria": []},
 )
 def criterion_from_market_profile(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
@@ -2700,13 +2670,9 @@ def criterion_from_market_profile(self):
         )
 
 
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-    Mock(return_value={"id": "0" * 32, "criteria": []}),
-)
-@patch(
-    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-    Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": []}),
+@patch_market(
+    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": []},
+    category={"id": "0" * 32, "criteria": []},
 )
 def criterion_from_market_category(self):
     response = self.app.get(f"/tenders/{self.tender_id}")

@@ -13,6 +13,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import (
     get_contract_template_name,
     set_bid_responses,
@@ -22,6 +23,7 @@ from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
 from openprocurement.tender.pricequotation.tests.data import (
     test_agreement_pq_data,
     test_tender_pq_cancellation,
+    test_tender_pq_category,
     test_tender_pq_criteria,
     test_tender_pq_data,
     test_tender_pq_item,
@@ -2243,10 +2245,7 @@ def draft_activation_validations(self):
     profile["status"] = "active"
     profile["agreementID"] = uuid4().hex
 
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=profile),
-    ):
+    with patch_market(profile, test_tender_pq_category):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.tendering"}},
@@ -2259,10 +2258,7 @@ def draft_activation_validations(self):
     agreement = deepcopy(test_agreement_pq_data)
     agreement["agreementType"] = "internationalFinancialInstitutions"
     self.mongodb.agreements.save(agreement)
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    ):
+    with patch_market(test_tender_pq_short_profile, test_tender_pq_category):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.tendering"}},
@@ -2275,10 +2271,7 @@ def draft_activation_validations(self):
     agreement["agreementType"] = "electronicCatalogue"
     agreement["status"] = "pending"
     self.mongodb.agreements.save(agreement)
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    ):
+    with patch_market(test_tender_pq_short_profile, test_tender_pq_category):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.tendering"}},
@@ -2291,10 +2284,7 @@ def draft_activation_validations(self):
 def switch_draft_to_tendering_success(self):
     tender_prev = self.app.get(f"/tenders/{self.tender_id}?acc_token={self.tender_token}").json["data"]
     self.add_sign_doc(self.tender_id, self.tender_token)
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    ):
+    with patch_market(test_tender_pq_short_profile, test_tender_pq_category):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.tendering"}},

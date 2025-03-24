@@ -11,11 +11,10 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     not_found,
     put_tender_bid_document_json,
 )
+from openprocurement.tender.core.tests.mock import MockCriteriaIDMixin, MockMarketMixin
 from openprocurement.tender.core.tests.utils import set_bid_responses
 from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 from openprocurement.tender.pricequotation.tests.base import (
-    MockCatalogueMixin,
-    MockCriteriaIDMixin,
     TenderContentWebTest,
     test_tender_pq_bids,
     test_tender_pq_criteria,
@@ -69,7 +68,7 @@ class TenderBidResourceTest(MockCriteriaIDMixin, TenderContentWebTest):
     test_bid_items_unit_value_validations = snitch(bid_items_unit_value_validations)
 
 
-class TenderBidCriteriaTest(MockCatalogueMixin, TenderContentWebTest):
+class TenderBidCriteriaTest(MockMarketMixin, TenderContentWebTest):
     initial_status = "active.tendering"
     initial_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
 
