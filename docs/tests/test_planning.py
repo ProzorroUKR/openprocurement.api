@@ -123,6 +123,19 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         budget = deepcopy(test_docs_plan_data['budget'])
         budget['breakdown'] = test_breakdown
+        budget["project"] = {"id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6", "name": "Project name"}
+        with open(TARGET_DIR + 'patch-plan-budget-project-name-invalid.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
+                {'data': {"budget": budget}},
+                status=422,
+            )
+
+        budget["project"] = {
+            "id": "95f87658-ffa5-472e-89ee-6e9417aa8cbd",
+            "name": "1.1. Набрання чинності законодавчими змінами щодо реформи оплати праці в державній службі",
+            "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform",
+        }
         with open(TARGET_DIR + 'patch-plan-breakdown.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"budget": budget}}

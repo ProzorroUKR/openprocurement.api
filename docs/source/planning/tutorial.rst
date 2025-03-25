@@ -75,7 +75,7 @@ Plan should contain budget breakdown, otherwise it will be an error during tende
 .. http:example:: tutorial/tender-from-plan-breakdown.http
    :code:
 
-Let's add budget breakdown to plan:
+Let's add budget breakdown and project to plan:
 
 .. http:example:: tutorial/patch-plan-breakdown.http
    :code:
@@ -148,3 +148,18 @@ At the moment only ``rationale`` is supported:
 .. http:example:: tutorial/plan-rationale-history.http
    :code:
 
+
+Plan of Ukraine
+---------------
+
+If the source of financing is indicated, the Customer may indicate the item of the Plan of Ukraine in `budget.project`.
+
+If item is from dictionary `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ than there are additional validations for `name` and `name_en` fields:
+
+.. http:example:: tutorial/patch-plan-budget-project-name-invalid.http
+   :code:
+
+Successful adding project from plan of Ukraine:
+
+.. http:example:: tutorial/patch-plan-breakdown.http
+   :code:
