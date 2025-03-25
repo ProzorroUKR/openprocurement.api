@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/479178eb904d41c5a40be7f83405f22d?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+PATCH /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1?acc_token=2250dde943e44c1f9a528b1fcae9929b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "687e8ce64af241ed9a7df097b8ce713a",
+        "id": "a24769ec2ba948c2a782cde9f5c951d9",
         "description": "Комп’ютерне обладнання для біда",
         "quantity": 20,
         "classification": {
@@ -44,7 +44,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         }
       },
       {
-        "id": "170e83a4fe9e4594aff8fb4aefb8a303",
+        "id": "a071e8665c8844ccaf383f73c9a7b5b8",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -90,14 +90,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "c220713cbd024586b6382ef97a852dc7",
+    "awardID": "283d9284a6054a25a129e848808b75a1",
     "contractID": "UA-2023-10-10-000001-a-1",
     "contractNumber": "contract #13111",
     "dateSigned": "2023-10-10T01:00:00+03:00",
     "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tender_id": "fd45af80ad9f4574994f7f6254012693",
+    "tender_id": "20cc535fb2754274beeeb221674aa637",
     "owner": "broker",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
@@ -111,7 +111,7 @@ Content-Type: application/json
           "volumeCuts",
           "priceReduction"
         ],
-        "id": "d578d3114cb24296894d4d4c604c01da",
+        "id": "674a442892a549ce8f8fec966242f8fb",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
@@ -169,7 +169,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "687e8ce64af241ed9a7df097b8ce713a",
+        "id": "a24769ec2ba948c2a782cde9f5c951d9",
         "description": "Комп’ютерне обладнання для біда",
         "quantity": 20.0,
         "classification": {
@@ -206,7 +206,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "170e83a4fe9e4594aff8fb4aefb8a303",
+        "id": "a071e8665c8844ccaf383f73c9a7b5b8",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -253,40 +253,40 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "8bab0d7af5a64157a2c15757833cd8b3",
+        "id": "8e9a0dd828594b84a952bd293bf939a4",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/8bab0d7af5a64157a2c15757833cd8b3?download=d351f09369034d459a5cd87583381c73",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/documents/8e9a0dd828594b84a952bd293bf939a4?download=acdee3c5fbb14da0b63000963dea8a81",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "confidentiality": "public",
-        "id": "08682b48035643a39d924df55eb915e0",
+        "id": "7f7d3898f20743798bf86ef67bf260d6",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/08682b48035643a39d924df55eb915e0?download=1ea9c5fa82c84b2a8206318bc86360df",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/documents/7f7d3898f20743798bf86ef67bf260d6?download=9dc6bfe4683b4e63a799bbe366ba9376",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "confidentiality": "public",
-        "relatedItem": "d578d3114cb24296894d4d4c604c01da",
-        "id": "4b37284d38a94a2b8d8ca1cc4e4ce542",
+        "relatedItem": "674a442892a549ce8f8fec966242f8fb",
+        "id": "22ad6fee7d0042aaa9a1d88e22bf9d67",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/4b37284d38a94a2b8d8ca1cc4e4ce542?download=34862599de094db7a8c9c37996ea4847",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/documents/22ad6fee7d0042aaa9a1d88e22bf9d67?download=33830e473a1348d6a5a7e4eb3379672d",
         "documentOf": "change",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "479178eb904d41c5a40be7f83405f22d"
+    "id": "37d2cea7a3564774858ad5c8681f57b1"
   },
   "config": {
     "restricted": false

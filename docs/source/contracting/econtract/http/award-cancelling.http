@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/fd45af80ad9f4574994f7f6254012693/awards/c220713cbd024586b6382ef97a852dc7?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+PATCH /api/2.5/tenders/20cc535fb2754274beeeb221674aa637/awards/283d9284a6054a25a129e848808b75a1?acc_token=2250dde943e44c1f9a528b1fcae9929b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -12,11 +12,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fd45af80ad9f4574994f7f6254012693/awards/bd5424320e624bad831a616d0a701243
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/20cc535fb2754274beeeb221674aa637/awards/785d7dc37dba464393f346dfca457b30
 
 {
   "data": {
-    "id": "c220713cbd024586b6382ef97a852dc7",
+    "id": "283d9284a6054a25a129e848808b75a1",
     "status": "cancelled",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
@@ -46,17 +46,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fd45af80ad9f4574
         "scale": "micro"
       }
     ],
-    "bid_id": "6d919725d085458490f52e3e8d5606e3",
+    "bid_id": "18e3ce304a8c4320937ae5eac777768a",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "44cdb75275a440608f43ec27e838fdfa",
+        "id": "ef5bb62e6d2744a2b280b673d231daa1",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cd0e14c77fb448a0abd62eebf74ed286?Signature=1p3HCDXD%2F5nYxk%2FUvh0uKNZR9tC%2F1KdJpoL5Hd1ryuxOsLwbksy3yqModdkuLUBMSD01M1ctgw0U5gh2T1yhAg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/52daf0847ca94851ac1cb575d1fc97f5?Signature=WeCTB2D1AftCN5v4HQaMbV%2FuUYpUf94xXeschGwUp6Ln1vWT87%2F4Cn69vCbwag2y3Ju%2FMzzs85YCXitJkOdBAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
