@@ -9,6 +9,7 @@ from openprocurement.api.constants import (
     ROUTE_PREFIX,
     SANDBOX_MODE,
 )
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
@@ -525,6 +526,17 @@ def create_tender_invalid(self):
     data = deepcopy(self.initial_data)
     data["items"] = [deepcopy(test_tender_pq_item)]
     del data["items"][0]["profile"]
+    data["value"] = {'amount': 500001, 'currency': 'UAH'}
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": [{"profile": ["This field is required."]}], "location": "body", "name": "items"}],
+    )
+
+    data["procuringEntity"]["kind"] = ProcuringEntityKind.SPECIAL
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, '201 Created')
 

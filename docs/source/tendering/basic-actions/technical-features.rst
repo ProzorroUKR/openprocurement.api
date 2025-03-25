@@ -38,6 +38,16 @@ Also catalogue item should be in `active` status:
 .. http:example:: http/techfeatures/item-profile-not-active.http
    :code:
 
+.. note::
+
+    For :ref:`pricequotation` `profile` is required if:
+
+        * framework electronic catalogue
+
+        * tender.value.amount > 500000 UAH
+
+        * tender.procuringEntity.kind = defense/general
+
 
 So if you set `id` of correct profile/category, you can create tender:
 

@@ -1,0 +1,90 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-07 13:14+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Історичність внесення змін терміну дії відборів"
+msgstr ""
+
+msgid "Під час активації відборів система перевіряє максимально та мінімально допустимий термін тривалості відборів."
+msgstr ""
+
+msgid "Мінімально допустимий термін тривалості - 365 днів."
+msgstr ""
+
+msgid "Максимально допустимий термін тривалості - 1461 день."
+msgstr ""
+
+msgid "Якщо активувати відбор з терміном тривалості менше 365 днів, то побачимо помилку:"
+msgstr ""
+
+msgid "Якщо активувати відбор з терміном тривалості більше 1461 день, то побачимо помилку:"
+msgstr ""
+
+msgid "Зміна терміну дії відборів"
+msgstr ""
+
+msgid "Під час зменшення/подовження терміну дії відборів система перевіряє максимально допустиме значення, на яке можна збільшувати відбір, та що нова дата не менша поточної дати внесення змін"
+msgstr ""
+
+msgid "Якщо відбір вже активований, то змінювати qualificaionPeriod напряму вже заборонено:"
+msgstr ""
+
+msgid "Для активних відборів для зміни терміну дії буде окремий ендпоінт:"
+msgstr ""
+
+msgid "Цей ендпоінт буде приймати наступну структуру:"
+msgstr ""
+
+msgid "Замовник обов'язково вказує:"
+msgstr ""
+
+msgid "`qualificationPeriod.endDate` - кінцеву дату періоду розгляду заявок"
+msgstr ""
+
+msgid "`reason` - підставу (обґрунтування) подовження/зменшення терміну дії відбору"
+msgstr ""
+
+msgid "`documents` - накласти ЕЦП на зміни"
+msgstr ""
+
+msgid "Підстави для зміни терміну дії відборів:"
+msgstr ""
+
+msgid "відсутності подальшої потреби в закупівлі з використанням рамкової угоди"
+msgstr ""
+
+msgid "якщо здійснення кваліфікаційного відбору кандидатів до рамкової угоди стало неможливим внаслідок дії непереборної сили"
+msgstr ""
+
+msgid "інше"
+msgstr ""
+
+msgid "Система перевіряє, що термін дії подовжено не більше ніж на максимально допустиме значення за один раз від дати внесення змін та що  нова дата qualificationPeriod:endDate не повинна бути менша ніж= поточна дата + 30 кд:"
+msgstr ""
+
+msgid "Обов'язково має бути доданий хоча б один документ з форматом p7s:"
+msgstr ""
+
+msgid "Правильний запит на зміну терміну дії відбору:"
+msgstr ""
+
+msgid "Подивимося тепер як виглядає відбір, в нього з'явився новий об'єкт `periodChangeHistory`, який відображає історію всіх змін терміну дії відборів:"
+msgstr ""
+
