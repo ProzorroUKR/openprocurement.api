@@ -4,7 +4,7 @@ from logging import getLogger
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.utils import context_unpack
 from openprocurement.framework.core.constants import (
-    AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGHT_SUBMISSIONS,
+    AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGH_SUBMISSIONS,
 )
 from openprocurement.framework.core.procedure.utils import (
     get_framework_number_of_submissions,
@@ -79,7 +79,7 @@ class FrameworkChronographEventsMixing(BaseChronographEventsMixing):
         agreement = self.request.validated.get("agreement")
         if agreement:
             agreement["status"] = "terminated"
-            agreement["terminationDetails"] = AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGHT_SUBMISSIONS
+            agreement["terminationDetails"] = AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGH_SUBMISSIONS
 
 
 class AgreementChronographEventsMixing(BaseChronographEventsMixing):

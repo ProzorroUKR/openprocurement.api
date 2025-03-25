@@ -10,7 +10,7 @@ from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.constants import (
-    AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGHT_SUBMISSIONS,
+    AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGH_SUBMISSIONS,
 )
 from openprocurement.framework.core.tests.base import (
     get_framework_unsuccessful_status_check_date,
@@ -1621,7 +1621,7 @@ def unsuccessful_status(self):
         self.assertEqual(response.json["data"]["status"], "terminated")
         self.assertEqual(
             response.json["data"]["terminationDetails"],
-            AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGHT_SUBMISSIONS,
+            AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGH_SUBMISSIONS,
         )
     # With submissions
     response = self.app.post_json(

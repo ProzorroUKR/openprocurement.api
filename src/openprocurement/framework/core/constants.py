@@ -7,6 +7,6 @@ MILESTONE_CONTRACT_STATUSES = {
     "terminated": "terminated",
 }
 
-AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGHT_SUBMISSIONS = (
-    "Відмінено електронною системою через не достатню кількість заявок"
+AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGH_SUBMISSIONS = (
+    "Відмінено електронною системою через недостатню кількість заявок"
 )
