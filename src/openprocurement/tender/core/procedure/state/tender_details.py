@@ -921,7 +921,7 @@ class BaseTenderDetailsMixing:
 
             # Skip validation if no market object is found
             if not market_obj:
-                return
+                continue
 
             # get all criteria ids from market object
             market_criteria_ids = set()
