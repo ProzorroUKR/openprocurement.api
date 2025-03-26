@@ -15,11 +15,10 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_token_invalid,
     tender_with_main_procurement_category,
 )
+from openprocurement.tender.core.tests.mock import MockCriteriaIDMixin, MockMarketMixin
 from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
-    MockCatalogueMixin,
-    MockCriteriaIDMixin,
     TenderContentWebTest,
     test_agreement_dps_data,
     test_tender_pq_data,
@@ -80,7 +79,7 @@ class TenderResourceTestMixin:
     test_contract_template_name_set = snitch(contract_template_name_set)
 
 
-class TenderResourceTest(MockCatalogueMixin, MockCriteriaIDMixin, BaseTenderWebTest, TenderResourceTestMixin):
+class TenderResourceTest(MockMarketMixin, MockCriteriaIDMixin, BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_pq_data
     initial_auth = ("Basic", ("broker", ""))
 
@@ -105,7 +104,7 @@ class TenderResourceTest(MockCatalogueMixin, MockCriteriaIDMixin, BaseTenderWebT
     test_tender_criteria_values_type = snitch(tender_criteria_values_type)
 
 
-class TenderDPSPQResourceTest(MockCatalogueMixin, MockCriteriaIDMixin, BaseTenderWebTest, TenderResourceTestMixin):
+class TenderDPSPQResourceTest(MockMarketMixin, MockCriteriaIDMixin, BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_pq_data
     initial_auth = ("Basic", ("broker", ""))
     test_criteria = test_tender_pq_short_profile['criteria']

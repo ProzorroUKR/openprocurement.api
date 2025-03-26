@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/fd45af80ad9f4574994f7f6254012693 HTTP/1.0
+GET /api/2.5/tenders/20cc535fb2754274beeeb221674aa637 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -51,7 +51,7 @@ Content-Type: application/json
       {
         "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
-        "id": "687e8ce64af241ed9a7df097b8ce713a",
+        "id": "a24769ec2ba948c2a782cde9f5c951d9",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -90,7 +90,7 @@ Content-Type: application/json
       {
         "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
-        "id": "170e83a4fe9e4594aff8fb4aefb8a303",
+        "id": "a071e8665c8844ccaf383f73c9a7b5b8",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -129,7 +129,7 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "8591306226b0478aa8e3344ded0b38ed",
+        "id": "3e8d1b7028224fac9ea95bedd7e24476",
         "description": "Форма випуску",
         "source": "tenderer",
         "classification": {
@@ -150,11 +150,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "dea65c53427d451b8f44a8130af05176",
+            "id": "d58c6ad449b24fb09bb8a6ec04601456",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "dcb542ea21d649bf9cfbe6a0c8a965d6",
+                "id": "93547064045341279dc686f8856efad1",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -169,7 +169,7 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "bc6eb4a016974b0e8946f006c0cdd209",
+        "id": "8be1ee231fcf4841a52724d7c372b811",
         "description": "Доза діючої речовини",
         "source": "tenderer",
         "classification": {
@@ -190,11 +190,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "96a8a23a412941f4ba6dc8e97fc6f11a",
+            "id": "a649e63b7e83407488734b02e4b16457",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "0f1a8d4a9518477688ceb44e14457e1f",
+                "id": "2d61fb8762f641409b1a544e66127659",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -210,7 +210,7 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "bf027ea2bb9340218fcaae853b811e47",
+        "id": "5c7376e8d0ac4c1683f84f421c095101",
         "description": "Форма випуску",
         "source": "tenderer",
         "classification": {
@@ -231,11 +231,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "ca1ca8888ffb4a9fbae383146d5175e9",
+            "id": "ab41abfa290647bcbca764ff1cf757d0",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "f1278d8afa134275bcb6f6a4c62fc05d",
+                "id": "77319aad7fb74983a3e0977b597eeed2",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -264,7 +264,7 @@ Content-Type: application/json
     },
     "bids": [
       {
-        "id": "6d919725d085458490f52e3e8d5606e3",
+        "id": "18e3ce304a8c4320937ae5eac777768a",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -296,13 +296,13 @@ Content-Type: application/json
         "requirementResponses": [
           {
             "requirement": {
-              "id": "dcb542ea21d649bf9cfbe6a0c8a965d6",
+              "id": "93547064045341279dc686f8856efad1",
               "title": "Форма випуску"
             },
             "values": [
               "Розчин для інфузій"
             ],
-            "id": "b8992b957a55498e85864b62927f4c51",
+            "id": "ffe5372807e14d11871c1d213893ef54",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
@@ -310,11 +310,11 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "0f1a8d4a9518477688ceb44e14457e1f",
+              "id": "2d61fb8762f641409b1a544e66127659",
               "title": "Доза діючої речовини"
             },
             "value": 5,
-            "id": "2902331d756f440face59a5e207a53af",
+            "id": "e389f6b1706f4ea0bde481b7be67bdcb",
             "unit": {
               "code": "KGM",
               "name": "кілограми"
@@ -326,14 +326,14 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "f1278d8afa134275bcb6f6a4c62fc05d",
+              "id": "77319aad7fb74983a3e0977b597eeed2",
               "title": "Форма випуску"
             },
             "values": [
               "Відповідь1",
               "Відповідь2"
             ],
-            "id": "ecb183a4818540a09fd9537017c8a6fa",
+            "id": "368dac10a7a84b3e9d7e5a43d7a69904",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
@@ -343,7 +343,7 @@ Content-Type: application/json
         "status": "active",
         "items": [
           {
-            "id": "687e8ce64af241ed9a7df097b8ce713a",
+            "id": "a24769ec2ba948c2a782cde9f5c951d9",
             "description": "Комп’ютерне обладнання для біда",
             "unit": {
               "name": "кг",
@@ -357,7 +357,7 @@ Content-Type: application/json
             "quantity": 10.0
           },
           {
-            "id": "170e83a4fe9e4594aff8fb4aefb8a303",
+            "id": "a071e8665c8844ccaf383f73c9a7b5b8",
             "description": "Комп’ютерне обладнання",
             "unit": {
               "name": "кг",
@@ -379,7 +379,7 @@ Content-Type: application/json
     },
     "awards": [
       {
-        "id": "c220713cbd024586b6382ef97a852dc7",
+        "id": "283d9284a6054a25a129e848808b75a1",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
@@ -409,17 +409,17 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "6d919725d085458490f52e3e8d5606e3",
+        "bid_id": "18e3ce304a8c4320937ae5eac777768a",
         "documents": [
           {
             "confidentiality": "public",
             "documentType": "notice",
-            "id": "44cdb75275a440608f43ec27e838fdfa",
+            "id": "ef5bb62e6d2744a2b280b673d231daa1",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cd0e14c77fb448a0abd62eebf74ed286?Signature=1p3HCDXD%2F5nYxk%2FUvh0uKNZR9tC%2F1KdJpoL5Hd1ryuxOsLwbksy3yqModdkuLUBMSD01M1ctgw0U5gh2T1yhAg%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/52daf0847ca94851ac1cb575d1fc97f5?Signature=WeCTB2D1AftCN5v4HQaMbV%2FuUYpUf94xXeschGwUp6Ln1vWT87%2F4Cn69vCbwag2y3Ju%2FMzzs85YCXitJkOdBAg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "author": "tender_owner",
@@ -429,7 +429,7 @@ Content-Type: application/json
         "qualified": true
       },
       {
-        "id": "bd5424320e624bad831a616d0a701243",
+        "id": "785d7dc37dba464393f346dfca457b30",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
@@ -459,7 +459,7 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "6d919725d085458490f52e3e8d5606e3",
+        "bid_id": "18e3ce304a8c4320937ae5eac777768a",
         "period": {
           "startDate": "2023-10-10T01:00:00+03:00",
           "endDate": "2023-10-18T00:00:00+03:00"
@@ -468,9 +468,9 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "479178eb904d41c5a40be7f83405f22d",
+        "id": "37d2cea7a3564774858ad5c8681f57b1",
         "status": "active",
-        "awardID": "c220713cbd024586b6382ef97a852dc7",
+        "awardID": "283d9284a6054a25a129e848808b75a1",
         "date": "2023-10-10T01:00:00+03:00",
         "contractID": "UA-2023-10-10-000001-a-1",
         "value": {
@@ -481,7 +481,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "fd45af80ad9f4574994f7f6254012693"
+    "id": "20cc535fb2754274beeeb221674aa637"
   },
   "config": {
     "hasAuction": false,

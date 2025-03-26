@@ -11,6 +11,7 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
     set_tender_criteria,
@@ -62,15 +63,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         )
 
     def activate_tender(self, profile, filename):
-        with patch(
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-            Mock(status=200, return_value=Mock({"data": profile})),
-        ), patch(
-            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-            Mock(status=200, return_value=Mock({"data": profile})),
-        ), open(
-            TARGET_DIR + f'{filename}.http', 'w'
-        ) as self.app.file_obj:
+        with patch_market(profile, {}), open(TARGET_DIR + f'{filename}.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {"data": {"status": "active.tendering"}},
@@ -107,19 +100,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             }
         )
 
-        with patch(
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-            Mock(return_value=test_tender_pq_short_profile),
-        ), patch(
-            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-            Mock(return_value=test_tender_pq_short_profile),
-        ), patch(
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-            Mock(return_value=test_tender_pq_category),
-        ), patch(
-            "openprocurement.tender.core.procedure.criteria.get_tender_category",
-            Mock(return_value=test_tender_pq_category),
-        ), open(
+        with patch_market(test_tender_pq_short_profile, test_tender_pq_category), open(
             TARGET_DIR + 'tender-post-attempt-json-data.http', 'w'
         ) as self.app.file_obj:
             response = self.app.post_json(
@@ -182,7 +163,21 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # tender item has not active profile
         profile["status"] = "hidden"
-        self.activate_tender(profile, filename="tender-with-non-active-profile")
+
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"data": profile}
+
+        with patch(
+            "openprocurement.api.utils.requests.get",
+            Mock(return_value=mock_response),
+        ), open(TARGET_DIR + 'tender-with-non-active-profile.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+                {"data": {"status": "active.tendering"}},
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
 
         # agreement in profile not equals agreement in tender
         profile["status"] = "active"
@@ -198,13 +193,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # successful activation
         agreement["status"] = "active"
         self.mongodb.agreements.save(agreement)
-        with patch(
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-            Mock(return_value=test_tender_pq_short_profile),
-        ), patch(
-            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-            Mock(return_value=test_tender_pq_short_profile),
-        ), open(
+        with patch_market(test_tender_pq_short_profile, test_tender_pq_category), open(
             TARGET_DIR + 'tender-active.http', 'w'
         ) as self.app.file_obj:
             response = self.app.patch_json(
@@ -219,6 +208,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, '200 OK')
 
         # Registering bid
+
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        tender = response.json["data"]
 
         self.app.authorization = ('Basic', ('broker', ''))
         bids_access = {}

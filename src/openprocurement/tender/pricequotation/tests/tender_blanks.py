@@ -13,6 +13,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import (
     get_contract_template_name,
     set_bid_responses,
@@ -22,6 +23,7 @@ from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
 from openprocurement.tender.pricequotation.tests.data import (
     test_agreement_pq_data,
     test_tender_pq_cancellation,
+    test_tender_pq_category,
     test_tender_pq_criteria,
     test_tender_pq_data,
     test_tender_pq_item,
@@ -2217,6 +2219,8 @@ def patch_items_related_buyer_id(self):
 
 
 def draft_activation_validations(self):
+    self.add_sign_doc(self.tender_id, self.tender_token)
+
     # tender item has not active profile
     profile = deepcopy(test_tender_pq_short_profile)
     profile["status"] = "hidden"
@@ -2225,10 +2229,7 @@ def draft_activation_validations(self):
     response_200.status_code = 200
     response_200.json = Mock(return_value={"data": profile})
 
-    with patch(
-        "openprocurement.api.utils.requests.get",
-        Mock(return_value=response_200),
-    ):
+    with patch("openprocurement.api.utils.requests.get", Mock(return_value=response_200)):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.tendering"}},
@@ -2243,10 +2244,7 @@ def draft_activation_validations(self):
     profile["status"] = "active"
     profile["agreementID"] = uuid4().hex
 
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=profile),
-    ):
+    with patch_market(profile, test_tender_pq_category):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.tendering"}},
@@ -2259,10 +2257,7 @@ def draft_activation_validations(self):
     agreement = deepcopy(test_agreement_pq_data)
     agreement["agreementType"] = "internationalFinancialInstitutions"
     self.mongodb.agreements.save(agreement)
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    ):
+    with patch_market(test_tender_pq_short_profile, test_tender_pq_category):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.tendering"}},
@@ -2275,10 +2270,7 @@ def draft_activation_validations(self):
     agreement["agreementType"] = "electronicCatalogue"
     agreement["status"] = "pending"
     self.mongodb.agreements.save(agreement)
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    ):
+    with patch_market(test_tender_pq_short_profile, test_tender_pq_category):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.tendering"}},
@@ -2290,11 +2282,33 @@ def draft_activation_validations(self):
 
 def switch_draft_to_tendering_success(self):
     tender_prev = self.app.get(f"/tenders/{self.tender_id}?acc_token={self.tender_token}").json["data"]
+
     self.add_sign_doc(self.tender_id, self.tender_token)
-    with patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    ):
+
+    profile = deepcopy(test_tender_pq_short_profile)
+    category = deepcopy(test_tender_pq_category)
+
+    response_200_profile = Mock()
+    response_200_profile.status_code = 200
+    response_200_profile.json = Mock(return_value={"data": profile})
+
+    response_200_category = Mock()
+    response_200_category.status_code = 200
+    response_200_category.json = Mock(return_value={"data": category})
+
+    expected_profile_url = f"/api/profiles/{profile['id']}"
+    expected_category_url = f"/api/categories/{category['id']}"
+
+    def mock_get_side_effect(url, *args, **kwargs):
+        if expected_profile_url in url:
+            return response_200_profile
+        elif expected_category_url in url:
+            return response_200_category
+        raise ValueError(f"Unexpected URL: {url}")
+
+    mock_get = Mock(side_effect=mock_get_side_effect)
+
+    with patch("openprocurement.api.utils.requests.get", mock_get):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.tendering"}},
@@ -2308,6 +2322,11 @@ def switch_draft_to_tendering_success(self):
             tender_prev["tenderPeriod"]["startDate"],
         )
         self.assertIn("contractTemplateName", response.json["data"])
+
+        # check there are no extra market calls
+        self.assertEqual(mock_get.call_count, 2)
+        self.assertIn(expected_profile_url, mock_get.call_args_list[0][0][0])
+        self.assertIn(expected_category_url, mock_get.call_args_list[1][0][0])
 
 
 def tender_delivery_milestones(self):

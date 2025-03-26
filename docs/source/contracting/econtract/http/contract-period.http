@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/479178eb904d41c5a40be7f83405f22d?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+PATCH /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1?acc_token=2250dde943e44c1f9a528b1fcae9929b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,12 +18,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "c220713cbd024586b6382ef97a852dc7",
+    "awardID": "283d9284a6054a25a129e848808b75a1",
     "contractID": "UA-2023-10-10-000001-a-1",
     "dateSigned": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tender_id": "fd45af80ad9f4574994f7f6254012693",
+    "tender_id": "20cc535fb2754274beeeb221674aa637",
     "owner": "broker",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
@@ -66,7 +66,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "687e8ce64af241ed9a7df097b8ce713a",
+        "id": "a24769ec2ba948c2a782cde9f5c951d9",
         "description": "Комп’ютерне обладнання для біда",
         "quantity": 10.0,
         "classification": {
@@ -103,7 +103,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "170e83a4fe9e4594aff8fb4aefb8a303",
+        "id": "a071e8665c8844ccaf383f73c9a7b5b8",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -147,7 +147,7 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
     },
-    "id": "479178eb904d41c5a40be7f83405f22d"
+    "id": "37d2cea7a3564774858ad5c8681f57b1"
   },
   "config": {
     "restricted": false

@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/changes?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+POST /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/changes?acc_token=2250dde943e44c1f9a528b1fcae9929b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -26,7 +26,7 @@ Content-Type: application/json
       "volumeCuts",
       "priceReduction"
     ],
-    "id": "d578d3114cb24296894d4d4c604c01da",
+    "id": "674a442892a549ce8f8fec966242f8fb",
     "status": "pending",
     "date": "2023-10-10T01:00:00+03:00"
   }

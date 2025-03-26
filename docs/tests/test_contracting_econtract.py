@@ -3,7 +3,6 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 
 from dateutil.parser import parse
-from mock import Mock, patch
 from tests.base.constants import DOCS_URL, MOCK_DATETIME
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
@@ -19,6 +18,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_multi_buyers_data,
     test_tender_below_organization,
 )
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     test_tender_pq_category,
@@ -55,14 +55,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tearDownMock()
         super().tearDown()
 
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    )
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-        Mock(return_value=test_tender_pq_category),
-    )
+    @patch_market(test_tender_pq_short_profile, test_tender_pq_category)
     def test_docs(self):
         with open(TARGET_DIR + 'contracts-listing-0.http', 'w') as self.app.file_obj:
             self.app.authorization = None

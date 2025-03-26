@@ -1,4 +1,5 @@
 from collections import Counter
+from typing import Union
 
 from openprocurement.api.constants_env import NEW_REQUIREMENTS_RULES_FROM
 from openprocurement.api.procedure.context import get_tender
@@ -112,7 +113,7 @@ class TenderCriterionMixin:
                     if data_type in validation_rules:
                         validation_rules[data_type](req)
 
-    def validate_criteria_requirement_from_market(self, data: dict) -> None:
+    def validate_criteria_requirement_from_market(self, data: Union[dict, list]) -> None:
         if not tender_created_after(NEW_REQUIREMENTS_RULES_FROM):
             return
         tender = get_tender()

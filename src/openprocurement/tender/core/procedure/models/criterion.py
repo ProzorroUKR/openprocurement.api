@@ -31,6 +31,7 @@ from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LIFE_CYCLE_COST,
     CRITERION_LIFE_CYCLE_COST_IDS,
+    CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
 )
 from openprocurement.tender.core.procedure.models.identifier import (
@@ -431,7 +432,7 @@ class Criterion(ValidateIdMixing, BaseCriterion):
             if tender.get("lots") and value != "lot":
                 raise ValidationError(f"{classification['id']} criteria relatesTo should be `lot` if tender has lots")
 
-        elif classification and classification["id"] == CRITERION_TECHNICAL_FEATURES:
+        elif classification and classification["id"] in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
             if value != "item":
                 raise ValidationError(f"{classification['id']} criteria relatesTo should be `item`")
 

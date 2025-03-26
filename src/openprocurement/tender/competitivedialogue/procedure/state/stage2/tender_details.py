@@ -50,9 +50,9 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
 
         super().on_post(tender)
 
-    def validate_change_item_profile_or_category(self, after, before):
+    def validate_change_item_profile_or_category(self, after, before, force_validate: bool = False):
         if self.request.method != "POST":
-            super().validate_change_item_profile_or_category(after, before)
+            super().validate_change_item_profile_or_category(after, before, force_validate)
 
 
 class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):

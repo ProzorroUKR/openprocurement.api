@@ -1,14 +1,13 @@
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from uuid import uuid4
-
-from mock import Mock, patch
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
+from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.pricequotation.tests.data import *
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
@@ -140,22 +139,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def tender_token(self, value):
         pass
 
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    )
-    @patch(
-        "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-        Mock(return_value=test_tender_pq_category),
-    )
-    @patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        Mock(return_value=test_tender_pq_category),
-    )
-    @patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    )
+    @patch_market(test_tender_pq_short_profile, test_tender_pq_category)
     def create_tender(self):
         super().create_tender()
 
@@ -169,45 +153,3 @@ class TenderContentWebTest(BaseTenderWebTest):
     def setUp(self):
         super().setUp()
         self.create_tender()
-
-
-class MockCatalogueMixin:
-    def setUp(self):
-        # Group patches by return value
-        profile_patches = [
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-        ]
-
-        category_patches = [
-            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-            "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        ]
-
-        # Create and apply patches
-        self.patches = []
-
-        # Apply profile patches
-        for path in profile_patches:
-            patch_obj = patch(path, Mock(return_value=test_tender_pq_short_profile))
-            patch_obj.start()
-            self.patches.append(patch_obj)
-            self.addCleanup(patch_obj.stop)
-
-        # Apply category patches
-        for path in category_patches:
-            patch_obj = patch(path, Mock(return_value=test_tender_pq_category))
-            patch_obj.start()
-            self.patches.append(patch_obj)
-            self.addCleanup(patch_obj.stop)
-
-        super().setUp()
-
-
-class MockCriteriaIDMixin:
-    def setUp(self):
-        super().setUp()
-        criteria_id_patch = "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM"
-        criteria_id_patch_obj = patch(criteria_id_patch, get_now() + timedelta(days=1))
-        criteria_id_patch_obj.start()
-        self.addCleanup(criteria_id_patch_obj.stop)

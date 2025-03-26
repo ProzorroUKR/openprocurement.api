@@ -1,17 +1,14 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.core.tests.mock import MockCriteriaIDMixin, MockMarketMixin
 from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
     TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGTestMixin,
     TenderCriteriaTestMixin,
 )
-from openprocurement.tender.pricequotation.tests.base import (
-    MockCatalogueMixin,
-    MockCriteriaIDMixin,
-    TenderContentWebTest,
-)
+from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.criterion_blanks import (
     create_tender_criteria_invalid,
     create_tender_criteria_multi_profile,
@@ -25,7 +22,7 @@ from openprocurement.tender.pricequotation.tests.data import (
 )
 
 
-class TenderPQCriteriaTest(MockCatalogueMixin, MockCriteriaIDMixin, TenderCriteriaTestMixin, TenderContentWebTest):
+class TenderPQCriteriaTest(MockMarketMixin, MockCriteriaIDMixin, TenderCriteriaTestMixin, TenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "draft"
     initial_criteria = None
@@ -37,13 +34,13 @@ class TenderPQCriteriaTest(MockCatalogueMixin, MockCriteriaIDMixin, TenderCriter
     test_create_tender_criteria_multi_profile = snitch(create_tender_criteria_multi_profile)
 
 
-class TenderPQCriteriaRGTest(MockCatalogueMixin, TenderCriteriaRGTestMixin, TenderContentWebTest):
+class TenderPQCriteriaRGTest(MockMarketMixin, TenderCriteriaRGTestMixin, TenderContentWebTest):
     initial_criteria = None
 
     test_patch_criteria_rg = snitch(patch_criteria_rg)
 
 
-class TenderPQCriteriaRGRequirementTest(MockCatalogueMixin, TenderCriteriaRGRequirementTestMixin, TenderContentWebTest):
+class TenderPQCriteriaRGRequirementTest(MockMarketMixin, TenderCriteriaRGRequirementTestMixin, TenderContentWebTest):
     initial_criteria = None
 
     test_put_rg_requirement_valid = snitch(put_rg_requirement_valid)
@@ -51,7 +48,7 @@ class TenderPQCriteriaRGRequirementTest(MockCatalogueMixin, TenderCriteriaRGRequ
 
 
 class TenderPQCriteriaRGRequirementEvidenceTest(
-    MockCatalogueMixin,
+    MockMarketMixin,
     TenderCriteriaRGRequirementEvidenceTestMixin,
     TenderContentWebTest,
 ):

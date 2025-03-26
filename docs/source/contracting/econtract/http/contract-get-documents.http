@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+GET /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/documents?acc_token=2250dde943e44c1f9a528b1fcae9929b HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -13,9 +13,9 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_first_document.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d351f09369034d459a5cd87583381c73?Signature=8p9mN2f1Dk06z3oLNH%2B1MUf0ZjBtPhTeaYQfDngeDioPs8%2FVYtElp3rMQf3U294OjDnOC1E1VOuG5dbqcydmAA%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/acdee3c5fbb14da0b63000963dea8a81?Signature=SOTnP29yDReK3ASdxAlc17sOQOCCLLh4%2BWYuAXnlRmjAX0WBx7GLFrfz0dTBtKZSX9w48W7v8Y%2FUOHXkILiqDg%3D%3D&KeyID=a8968c46",
       "documentOf": "contract",
-      "id": "8bab0d7af5a64157a2c15757833cd8b3",
+      "id": "8e9a0dd828594b84a952bd293bf939a4",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"
     }

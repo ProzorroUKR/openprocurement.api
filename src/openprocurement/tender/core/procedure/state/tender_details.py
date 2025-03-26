@@ -299,12 +299,19 @@ class BaseTenderDetailsMixing:
             self.validate_criteria_requirement_from_market(after.get("criteria", []))
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
-        self.validate_change_item_profile_or_category(after, before)
         if after["status"] in ("draft", "draft.stage2", "active.enquiries", "active.tendering"):
             self.initialize_enquiry_period(after)
 
         if self.should_validate_related_lot_in_items:
             self.validate_related_lot_in_items(after)
+
+        if after["status"] != "draft" and before["status"] == "draft":
+            self.validate_pre_selection_agreement_on_activation(after)
+            self.validate_profiles_agreement_id(after)
+            self.validate_change_item_profile_or_category(after, before, force_validate=True)
+            self.validate_notice_doc_required(after)
+        else:
+            self.validate_change_item_profile_or_category(after, before)
 
         super().on_patch(before, after)
 
@@ -321,11 +328,7 @@ class BaseTenderDetailsMixing:
                 location="body",
                 name="status",
             )
-        if after != "draft" and before == "draft":
-            self.validate_pre_selection_agreement_on_activation(data)
-            self.validate_profiles_agreement_id(data)
-            self.validate_notice_doc_required(data)
-        elif after == "active.tendering" and before != "active.tendering":
+        if after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
             if dt_from_iso(tendering_start) <= get_now() - timedelta(minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES):
                 raise_operation_error(
@@ -856,63 +859,84 @@ class BaseTenderDetailsMixing:
 
         rules = get_criteria_rules(after)
 
-        criteria = after.get("criteria", "")
         mpc = after.get("mainProcurementCategory", MainProcurementCategory.SERVICES)
 
         # Load criteria rules
-        required_criteria = set()
-        required_article_16_criteria = set()
+        required_criteria_ids = set()
+        required_article_16_criteria_ids = set()
 
         for criterion_id, criterion_rules in rules.items():
             if "required" in criterion_rules["rules"]:
-                required_criteria.add(criterion_id)
+                required_criteria_ids.add(criterion_id)
             if "required_services" in criterion_rules["rules"] and mpc == MainProcurementCategory.SERVICES:
-                required_criteria.add(criterion_id)
+                required_criteria_ids.add(criterion_id)
             if "required_works" in criterion_rules["rules"] and mpc == MainProcurementCategory.WORKS:
-                required_criteria.add(criterion_id)
+                required_criteria_ids.add(criterion_id)
             if "required_article_16" in criterion_rules["rules"] and mpc in (
                 MainProcurementCategory.WORKS,
                 MainProcurementCategory.SERVICES,
             ):
-                required_article_16_criteria.add(criterion_id)
+                required_article_16_criteria_ids.add(criterion_id)
 
         # Gather tender criteria and item criteria
-        tender_criteria = []
-        item_criteria = defaultdict(list)
-        for criterion in criteria:
+        tender_criteria_ids = set()
+        item_criteria_ids = defaultdict(set)
+        for criterion in after.get("criteria", ""):
             if criterion.get("classification"):
-                tender_criteria.append(criterion["classification"]["id"])
+                tender_criteria_ids.add(criterion["classification"]["id"])
                 if criterion.get("relatesTo") == "item":
                     related_item = criterion.get("relatedItem")
                     if related_item:
-                        item_criteria[related_item].append(criterion["classification"]["id"])
-        tender_criteria = set(tender_criteria)
+                        item_criteria_ids[related_item].add(criterion["classification"]["id"])
 
         # Check required criteria
-        if required_criteria - tender_criteria:
+        required_criteria_ids_diff = required_criteria_ids - tender_criteria_ids
+        if required_criteria_ids_diff:
             raise_operation_error(
                 get_request(),
-                f"Tender must contain all required criteria: {', '.join(sorted(required_criteria - tender_criteria))}",
+                f"Tender must contain all required criteria: {', '.join(sorted(required_criteria_ids_diff))}",
             )
 
         # Check article 16 criteria if required
-        if required_article_16_criteria and not tender_criteria.intersection(required_article_16_criteria):
+        if required_article_16_criteria_ids and not tender_criteria_ids.intersection(required_article_16_criteria_ids):
             raise_operation_error(
                 get_request(),
-                f"Tender must contain one of article 16 criteria: {', '.join(sorted(required_article_16_criteria))}",
+                f"Tender must contain one of article 16 criteria: {', '.join(sorted(required_article_16_criteria_ids))}",
             )
 
-        # TODO: Move to criteria rules standard
-        # Check TECHNICAL_FEATURES criteria
-        # FIXME: Fix tests
-        # items = after.get("items", "")
-        # for item in items:
-        #     if "profile" in item:
-        #         if CRITERION_TECHNICAL_FEATURES not in item_criteria.get(item["id"], []):
-        #             raise_operation_error(
-        #                 get_request(),
-        #                 f"Tender must contain {CRITERION_TECHNICAL_FEATURES} criteria for items with profile defined",
-        #             )
+        for item in after.get("items", []):
+            market_obj = None
+            # get profile and category for each tender criterion
+            profile_is_active = False
+            profile_id = item.get("profile")
+            if profile_id:
+                profile = get_tender_profile(self.request, profile_id)
+                profile_is_active = profile.get("status", "active") == "active"
+                if profile_is_active:
+                    market_obj = profile
+            # check requirements from category only if there is no profile in item or profile is general
+            category_id = item.get("category")
+            if not profile_is_active and category_id:
+                market_obj = get_tender_category(self.request, category_id)
+
+            # Skip validation if no market object is found
+            if not market_obj:
+                continue
+
+            # get all criteria ids from market object
+            market_criteria_ids = set()
+            for market_criterion in market_obj.get("criteria", []):
+                classification_id = market_criterion.get("classification", {}).get("id")
+                if classification_id:
+                    market_criteria_ids.add(classification_id)
+
+            # check if all profile or category criteria are present for item
+            market_criteria_ids_diff = market_criteria_ids - item_criteria_ids[item["id"]]
+            if market_criteria_ids_diff:
+                raise_operation_error(
+                    get_request(),
+                    f"Tender must contain all profile or category criteria: {', '.join(sorted(market_criteria_ids_diff))}",
+                )
 
     def validate_minimal_step(self, data, before=None):
         """
@@ -1244,21 +1268,29 @@ class BaseTenderDetailsMixing:
                 status=422,
             )
 
-    def validate_change_item_profile_or_category(self, after: dict, before: dict) -> None:
-        after_cp = {
-            i["id"]: {"profile": i.get("profile"), "category": i.get("category")} for i in after.get("items", "")
-        }
-        before_cp = {
-            i["id"]: {"profile": i.get("profile"), "category": i.get("category")} for i in before.get("items", "")
-        }
+    def validate_change_item_profile_or_category(self, after: dict, before: dict, force_validate: bool = False) -> None:
+        after_cp = {}
+        for item in after.get("items", []):
+            after_cp[item["id"]] = {
+                "profile": item.get("profile"),
+                "category": item.get("category"),
+            }
+
+        before_cp = {}
+        for item in before.get("items", []):
+            before_cp[item["id"]] = {
+                "profile": item.get("profile"),
+                "category": item.get("category"),
+            }
 
         request = get_request()
 
         for k, after_values in after_cp.items():
             before_values = before_cp.get(k, {})
-            if (before_values.get("profile") != after_values.get("profile")) or (
-                before_values.get("category") != after_values.get("category")
-            ):
+            is_profile_changed = before_values.get("profile") != after_values.get("profile")
+            is_category_changed = before_values.get("category") != after_values.get("category")
+
+            if is_profile_changed or is_category_changed or force_validate:
                 if (category_id := after_values.get("category")) is not None:
                     get_tender_category(request, category_id, ("active",))
 
@@ -1268,8 +1300,8 @@ class BaseTenderDetailsMixing:
                     if profile.get("relatedCategory") != category_id:
                         raise_operation_error(request, "Profile should be related to category", status=422)
 
-                if before:
-                    self.cancel_all_technical_criteria(after, k)
+            if (is_profile_changed or is_category_changed) and before:
+                self.cancel_all_technical_criteria(after, k)
 
     def cancel_all_technical_criteria(self, tender: dict, item_id: str) -> None:
         criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
