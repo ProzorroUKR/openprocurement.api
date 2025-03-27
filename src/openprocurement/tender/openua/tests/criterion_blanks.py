@@ -659,6 +659,7 @@ def activate_tender(self):
         self.assertEqual(response.content_type, "application/json")
 
     if required_tech_features:
+        item_id = tender.get("items", [])[0]["id"]
         response = self.app.patch_json(
             request_path,
             {"data": {"status": self.primary_tender_status}},
@@ -671,7 +672,7 @@ def activate_tender(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Tender must contain all profile or category criteria: CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES",
+                    "description": f"Tender must contain all profile criteria for item {item_id}: CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES",
                 }
             ],
         )
