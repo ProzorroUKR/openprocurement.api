@@ -5,13 +5,11 @@ from typing import Optional
 
 from barbecue import calculate_coeficient
 
+from openprocurement.api.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.api.constants_env import TENDER_WEIGHTED_VALUE_PRE_CALCULATION
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.constants import (
-    ALP_MILESTONE_REASONS,
-    CRITERION_LIFE_CYCLE_COST_IDS,
-)
+from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from openprocurement.tender.core.procedure.context import (
     get_bids_before_auction_results_context,
     get_request,

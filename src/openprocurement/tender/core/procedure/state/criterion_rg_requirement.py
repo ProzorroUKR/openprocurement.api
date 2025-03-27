@@ -1,3 +1,4 @@
+from openprocurement.api.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.api.constants_env import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import (
@@ -6,10 +7,7 @@ from openprocurement.api.utils import (
     raise_operation_error,
 )
 from openprocurement.api.validation import validate_tender_first_revision_date
-from openprocurement.tender.core.constants import (
-    CRITERION_LIFE_CYCLE_COST_IDS,
-    CRITERION_TECHNICAL_FEATURES,
-)
+from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
 from openprocurement.tender.core.procedure.models.criterion import (
     PatchExclusionLccRequirement,
     PatchRequirement,
@@ -33,11 +31,7 @@ class RequirementValidationsMixin:
         valid_statuses = ["draft", "draft.pending", "draft.stage2"]
         tender = get_tender()
         tender_creation_date = get_first_revision_date(tender, default=get_now())
-        criterion = self.request.validated["criterion"]
-        if (
-            tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM
-            or criterion["classification"]["id"] in CRITERION_LIFE_CYCLE_COST_IDS
-        ):
+        if tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM:
             valid_statuses.append("active.tendering")
         base_validate_operation_ecriteria_objects(self.request, valid_statuses)
 
@@ -81,9 +75,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
         self.invalidate_review_requests()
 
     def validate_on_post(self, data: dict) -> None:
-        criterion = self.request.validated["criterion"]
         self._validate_operation_criterion_in_tender_status()
-        self._validate_patch_exclusion_ecriteria_objects(criterion)
         self._validate_ids_uniq()
 
     def validate_on_patch(self, before: dict, after: dict) -> None:

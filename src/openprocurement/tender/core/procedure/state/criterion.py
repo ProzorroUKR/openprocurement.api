@@ -78,6 +78,7 @@ class CriterionStateMixin(BaseCriterionStateMixin):
         self.invalidate_bids()
         self.invalidate_review_requests()
         self.validate_tech_feature_localization_criteria(data)
+        self.validate_criteria_classification(data)
         self.validate_criteria_requirements_rules(data)
 
     def validate_on_post(self, data: dict) -> None:
