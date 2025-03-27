@@ -48,6 +48,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
     )
     periods = PERIODS
     meta_initial_bids = test_tender_pq_bids
+    initial_profile = test_tender_pq_short_profile
+    initial_category = test_tender_pq_category
 
     def setUp(self):
         super().setUp()
@@ -139,9 +141,9 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def tender_token(self, value):
         pass
 
-    @patch_market(test_tender_pq_short_profile, test_tender_pq_category)
     def create_tender(self):
-        super().create_tender()
+        with patch_market(self.initial_profile, self.initial_category):
+            super().create_tender()
 
 
 class TenderContentWebTest(BaseTenderWebTest):

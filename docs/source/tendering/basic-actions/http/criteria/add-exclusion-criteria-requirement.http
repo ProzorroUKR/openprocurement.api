@@ -19,17 +19,26 @@ Host: lb-api-sandbox.prozorro.gov.ua
 }
 
 
-HTTP/1.0 403 Forbidden
+HTTP/1.0 201 Created
 Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/16d7f233a6cb4503b6baf8273871732c/requirement_groups/7b99ea9d6992420bba8b27c320d2b781/requirements/93682c6c80b441779279532499837d93
 
 {
-  "status": "error",
-  "errors": [
-    {
-      "location": "body",
-      "name": "data",
-      "description": "Can't update exclusion ecriteria objects"
-    }
-  ]
+  "data": {
+    "id": "93682c6c80b441779279532499837d93",
+    "title": "Another characteristic",
+    "dataType": "boolean",
+    "eligibleEvidences": [
+      {
+        "title": "Документальне підтвердження",
+        "description": "Довідка в довільній формі",
+        "type": "document",
+        "id": "67c266e6c4f14f5e964710b48e6a8b5a"
+      }
+    ],
+    "status": "active",
+    "expectedValue": true,
+    "datePublished": "2023-10-10T01:00:00+03:00"
+  }
 }
 

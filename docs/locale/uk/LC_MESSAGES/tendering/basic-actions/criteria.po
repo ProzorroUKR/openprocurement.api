@@ -161,6 +161,9 @@ msgstr "Для закупівель aboveThreshold, competitiveOrdering, aboveTh
 msgid "EXCLUSION criteria and all criteria objects are unchangeable:"
 msgstr "Вийняткові критерії та всі дочірні об'єкти є незмінними:"
 
+msgid "For tenders іn draft statuses you can post exclusion requirement:"
+msgstr "Для тендерів в статусі чернетки є можливість додавати вимоги вийняткових критеріїв:"
+
 msgid "For tenders in draft statuses you can patch exclusion requirement, but you can send only `eligibleEvidences`"
 msgstr "Для тендерів в статусі чернетки вимоги вийняткових критеріїв можливо редагувати, але тільки передаючи поле `eligibleEvidences:`"
 

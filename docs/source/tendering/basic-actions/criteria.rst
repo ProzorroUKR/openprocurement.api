@@ -231,6 +231,8 @@ EXCLUSION criteria and all criteria objects are unchangeable:
 .. http:example:: http/criteria/patch-exclusion-criteria-requirement-group.http
    :code:
 
+For tenders іn draft statuses you can post exclusion requirement:
+
 .. http:example:: http/criteria/add-exclusion-criteria-requirement.http
    :code:
 

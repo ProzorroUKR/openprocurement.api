@@ -98,7 +98,9 @@ def create_tender_criteria_multi_profile(self):
 
 def create_tender_criteria_invalid(self):
     invalid_criteria = deepcopy(test_tender_pq_criteria)
-    invalid_criteria[0]["classification"]["id"] = "CRITERION.TEST"
+    invalid_criteria[0]["classification"][
+        "id"
+    ] = "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
     invalid_criteria[0]["relatesTo"] = "lot"
     invalid_criteria[0]["requirementGroups"][0]["requirements"][0] = {
         "dataType": "number",

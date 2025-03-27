@@ -28,7 +28,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "description": "Cуб’єкт господарювання (учасник) протягом останніх трьох років притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів",
       "classification": {
         "scheme": "ESPD211",
-        "id": "CRITERION.OTHER"
+        "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES"
       },
       "title": "Вчинення економічних правопорушень",
       "relatesTo": "tender",
@@ -82,7 +82,7 @@ Content-Type: application/json
       "relatesTo": "tender",
       "classification": {
         "scheme": "ESPD211",
-        "id": "CRITERION.OTHER"
+        "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES"
       },
       "title": "Вчинення економічних правопорушень",
       "legislation": [
