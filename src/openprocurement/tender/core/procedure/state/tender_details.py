@@ -906,7 +906,7 @@ class BaseTenderDetailsMixing:
 
         for item in after.get("items", []):
             market_obj = None
-            # get profile and category for each tender criterion
+            # get profile for each tender criterion
             profile_is_active = False
             profile_id = item.get("profile")
             if profile_id:
@@ -914,10 +914,6 @@ class BaseTenderDetailsMixing:
                 profile_is_active = profile.get("status", "active") == "active"
                 if profile_is_active:
                     market_obj = profile
-            # check requirements from category only if there is no profile in item or profile is general
-            category_id = item.get("category")
-            if not profile_is_active and category_id:
-                market_obj = get_tender_category(self.request, category_id)
 
             # Skip validation if no market object is found
             if not market_obj:
@@ -930,12 +926,12 @@ class BaseTenderDetailsMixing:
                 if classification_id:
                     market_criteria_ids.add(classification_id)
 
-            # check if all profile or category criteria are present for item
+            # check if all profile criteria are present for item
             market_criteria_ids_diff = market_criteria_ids - item_criteria_ids[item["id"]]
             if market_criteria_ids_diff:
                 raise_operation_error(
                     get_request(),
-                    f"Tender must contain all profile or category criteria: {', '.join(sorted(market_criteria_ids_diff))}",
+                    f"Tender must contain all profile criteria for item {item['id']}: {', '.join(sorted(market_criteria_ids_diff))}",
                 )
 
     def validate_minimal_step(self, data, before=None):
