@@ -1332,8 +1332,9 @@ class BaseTenderDetailsMixing:
                 name="contractTemplateName",
             )
 
-        # Get resulting tender status
-        tender_status = before.get("status", "draft")
+        # Get tender status
+        tender_before_status = before.get("status", "draft")
+        tender_after_status = after.get("status", "draft")
 
         # Find if contractTemplateName is changed
         contract_template_name_before = before.get("contractTemplateName")
@@ -1345,9 +1346,9 @@ class BaseTenderDetailsMixing:
             raise_contract_template_name_error("Rogue field")
 
         # Check if contractTemplateName is allowed to be changed in current tender status
-        if contract_template_name_changed and tender_status not in self.contract_template_name_patch_statuses:
+        if contract_template_name_changed and tender_before_status not in self.contract_template_name_patch_statuses:
             raise_contract_template_name_error(
-                f"Can't change contract template name in current tender '{tender_status}' status"
+                f"Can't change contract template name in current tender '{tender_before_status}' status"
             )
 
         # Get all classification IDs from items
@@ -1367,11 +1368,15 @@ class BaseTenderDetailsMixing:
             )
 
         # Check if contractTemplateName or contractProforma is required
-        if self.contract_template_required and after["status"] not in ("draft",):
-            if not has_contract_proforma and not contract_template_name:
-                raise_contract_template_name_error(
-                    "Either contractTemplateName or contractProforma document is required"
-                )
+        if tender_after_status not in ("draft",) and self.contract_template_required:
+            # FIXME: next if statement is temporary fix for already active tenders without contract template
+            # TODO: remove this if later
+            if tender_before_status in ("draft",) or contract_template_name_changed:
+                # Check if either contractTemplateName or contractProforma is present
+                if not has_contract_proforma and not contract_template_name:
+                    raise_contract_template_name_error(
+                        "Either contractTemplateName or contractProforma document is required"
+                    )
 
         # If contractTemplateName is not specified, no further checks needed
         if not contract_template_name:
