@@ -1023,7 +1023,20 @@ def validate_rg_requirement_strict_rules(self):
             {
                 "location": "body",
                 "name": "requirements",
-                "description": "expectedMinItems is required and should be equal to 1 for dataType string",
+                "description": "expectedMinItems is required for dataType string",
+            }
+        ],
+    )
+
+    requirement_data["expectedMinItems"] = 2
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirements",
+                "description": "expectedMinItems should be equal to 1 for dataType string",
             }
         ],
     )
