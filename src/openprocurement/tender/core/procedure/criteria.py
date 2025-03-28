@@ -71,13 +71,15 @@ class TenderCriterionMixin:
                 name="requirements",
             )
 
-        def validate_string(req):
+        def validate_string(req, criteria_id):
             if req.get("expectedValues") is None:
                 raise_requirement_error("expectedValues is required when dataType is string")
             if len(req["expectedValues"]) != len(set(req["expectedValues"])):
                 raise_requirement_error("expectedValues should be unique")
-            if req.get("expectedMinItems") != 1:
-                raise_requirement_error("expectedMinItems is required and should be equal to 1 for dataType string")
+            if req.get("expectedMinItems") is None:
+                raise_requirement_error("expectedMinItems is required for dataType string")
+            if criteria_id != CRITERION_TECHNICAL_FEATURES and req.get("expectedMinItems") != 1:
+                raise_requirement_error("expectedMinItems should be equal to 1 for dataType string")
             if req.get("unit"):
                 raise_requirement_error("unit is forbidden for dataType string")
             if req.get("dataSchema") is not None and set(req["expectedValues"]) - set(ISO_MAPPING[req["dataSchema"]]):
@@ -85,7 +87,7 @@ class TenderCriterionMixin:
                     f"expectedValues should have {req['dataSchema']} format and include codes from standards"
                 )
 
-        def validate_boolean(req):
+        def validate_boolean(req, criteria_id):
             if req.get("expectedValues") is not None:  # minValue/maxValue check exists in Requirement model
                 raise_requirement_error("only expectedValue is allowed for dataType boolean")
             if req.get("unit"):
@@ -93,7 +95,7 @@ class TenderCriterionMixin:
             if req.get("dataSchema") is not None:
                 raise_requirement_error("dataSchema is allowed only for dataType string")
 
-        def validate_number_or_integer(req):
+        def validate_number_or_integer(req, criteria_id):
             for str_field in ("expectedValues", "dataSchema"):
                 if req.get(str_field) is not None:
                     raise_requirement_error(f"{str_field} is allowed only for dataType string")
@@ -114,7 +116,7 @@ class TenderCriterionMixin:
                 for req in rg.get("requirements", []):
                     data_type = req.get("dataType")
                     if data_type in validation_rules:
-                        validation_rules[data_type](req)
+                        validation_rules[data_type](req, tender_criterion.get("classification", {}).get("id"))
 
     def validate_criteria_requirement_from_market(self, data: Union[dict, list]) -> None:
         if not tender_created_after(NEW_REQUIREMENTS_RULES_FROM):
@@ -176,11 +178,16 @@ class TenderCriterionMixin:
                             )
                         for market_req in list(market_requirements.values()):
                             if tender_req := tender_requirements.get(market_req["title"]):
-                                fields = ["title", "unit", "dataType", "expectedMaxItems", "dataSchema"]
+                                fields = [
+                                    "title",
+                                    "unit",
+                                    "dataType",
+                                    "expectedMinItems",
+                                    "expectedMaxItems",
+                                    "dataSchema",
+                                ]
                                 if requirements_from_profile:
-                                    fields.extend(
-                                        ["expectedValue", "expectedMinItems", "expectedValues", "minValue", "maxValue"]
-                                    )
+                                    fields.extend(["expectedValue", "expectedValues", "minValue", "maxValue"])
                                 for field in fields:
                                     if field == "expectedValues" and market_req.get(field):
                                         # Counter works like set but check the length of lists too
