@@ -101,7 +101,8 @@ class TenderCriterionMixin:
                     raise_requirement_error(f"{str_field} is allowed only for dataType string")
             if req.get("expectedValue") is None and req.get("minValue") is None:
                 raise_requirement_error(f"expectedValue or minValue is required for dataType {req['dataType']}")
-            if not req.get("unit"):
+            # for technical features unit should be from profile/category (may exist/ may be empty)
+            if criteria_id != CRITERION_TECHNICAL_FEATURES and not req.get("unit"):
                 raise_requirement_error(f"unit is required for dataType {req['dataType']}")
 
         validation_rules = {
