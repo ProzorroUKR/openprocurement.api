@@ -13,7 +13,10 @@ from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
 )
-from openprocurement.tender.core.procedure.models.criterion import ISO_MAPPING
+from openprocurement.tender.core.procedure.models.criterion import (
+    ISO_MAPPING,
+    ReqStatuses,
+)
 from openprocurement.tender.core.procedure.utils import tender_created_after
 
 
@@ -152,6 +155,7 @@ class TenderCriterionMixin:
                             req["title"]: req
                             for rg in tender_criterion.get("requirementGroups", "")
                             for req in rg.get("requirements", "")
+                            if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
                         }
                         if set(tender_requirements.keys()) - set(market_requirements.keys()):
                             raise_operation_error(
