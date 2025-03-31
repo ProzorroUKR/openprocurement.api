@@ -20,10 +20,12 @@ from openprocurement.tender.belowthreshold.procedure.models.tender import (
 from openprocurement.tender.belowthreshold.procedure.state.tender_details import (
     BelowThresholdTenderDetailsState,
 )
+from openprocurement.tender.belowthreshold.procedure.validation import (
+    validate_tender_status_allows_update_operation,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_guarantee,
-    validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 
@@ -62,14 +64,7 @@ class BelowThresholdTenderResource(TendersResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("tender")),
-            unless_administrator(
-                validate_tender_status_allows_update(
-                    "draft",
-                    "active.enquiries",
-                    "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
-                    "active.pre-qualification.stand-still",
-                )
-            ),
+            unless_administrator(validate_tender_status_allows_update_operation),
             validate_input_data_from_resolved_model(none_means_remove=True),
             validate_patch_data_simple(Tender, item_name="tender"),
             validate_item_quantity,

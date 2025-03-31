@@ -9,6 +9,9 @@ from openprocurement.api.procedure.validation import (
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.belowthreshold.procedure.state.tender_document import (
+    BelowThresholdTenderDocumentState,
+)
 from openprocurement.tender.belowthreshold.procedure.validation import (
     validate_tender_document_operation_in_allowed_tender_statuses,
 )
@@ -34,6 +37,8 @@ from openprocurement.tender.core.procedure.views.tender_document import (
     description="Tender related binary files (PDFs, etc.)",
 )
 class BelowThresholdTenderDocumentResource(TenderDocumentResource):
+    state_class = BelowThresholdTenderDocumentState
+
     @json_view(
         validators=(
             unless_bots_or_auction(validate_item_owner("tender")),

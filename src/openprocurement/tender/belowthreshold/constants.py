@@ -10,3 +10,4 @@ STATUS4ROLE = {
     "reviewers": ["pending"],
     "tender_owner": ["claim"],
 }
+TENDERING_EXTRA_PERIOD = timedelta(days=2)
