@@ -885,6 +885,24 @@ def contract_items_change(self):
     )
 
     item = self.contract["items"][0]
+    # try to delete field which is forbidden to patch
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [{**item, "quantity": 12, "deliveryAddress": None}]}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Forbidden to delete fields {'deliveryAddress'}",
+            }
+        ],
+    )
+    # try to modify field which is forbidden to patch
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {"data": {"items": [{**item, "quantity": 12, "description": "тапочки для тараканів"}]}},
@@ -897,7 +915,7 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('unit', 'quantity') in item, " "description change forbidden",
+                "description": "Updated could be only ('unit', 'quantity') in item, description change forbidden",
             }
         ],
     )
@@ -917,6 +935,39 @@ def contract_items_change(self):
     self.assertEqual(response.json["data"]["items"][0]["quantity"], 10)
 
     self.set_status("active")
+
+    # try to delete field in nested object during patch
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "items": [
+                    {
+                        **item,
+                        "deliveryAddress": {
+                            "countryName": "Україна",
+                            "streetAddress": "вул. Банкова 1",
+                            "region": "м. Київ",
+                            "locality": "м. Київ",
+                            "countryName_en": "Ukraine",
+                        },
+                    }
+                ]
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Forbidden to delete fields in deliveryAddress: {'postalCode'}",
+            }
+        ],
+    )
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",

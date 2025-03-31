@@ -77,7 +77,7 @@ def patch_econtract_multi_currency(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Forbidden to delete value in contract items unit",
+        "Forbidden to delete fields in unit: {'value'}",
     )
 
     # try to activate contract with amount of unit values greater than contract.value.amount
