@@ -75,6 +75,7 @@ class PlanState(BaseState):
         self._validate_plan_procurement_method_type_update(before, after)
         self._validate_plan_status_update(before, after)
         self._validate_plan_with_tender(before, after)
+        self._validate_tender_procurement_method_type(after)
         self._validate_items_classification_prefix(after)
         # TODO: turn on later (CS-18891)
         # if before.get("additionalClassifications") != after.get("additionalClassifications"):
