@@ -956,7 +956,7 @@ def create_plan_invalid_procuring_entity(self):
             {
                 'description': 'procuringEntity with other kind cannot publish this type of procedure. '
                 'Procurement method types allowed for this kind: '
-                'belowThreshold, reporting, priceQuotation.',
+                'belowThreshold, reporting, priceQuotation, requestForProposal.',
                 'location': 'body',
                 'name': 'kind',
             }
@@ -1549,7 +1549,8 @@ def patch_plan(self):
     "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", get_now() - timedelta(days=1)
 )
 def patch_plan_to_simpledefense(self):
-    data = self.initial_data
+    data = deepcopy(self.initial_data)
+    data["procuringEntity"]["kind"] = "defense"
     response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
     plan = response.json["data"]
@@ -1591,7 +1592,8 @@ def patch_plan_to_simpledefense(self):
     "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)
 )
 def patch_plan_to_openuadefense(self):
-    data = self.initial_data
+    data = deepcopy(self.initial_data)
+    data["procuringEntity"]["kind"] = "defense"
     response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
     plan = response.json["data"]
