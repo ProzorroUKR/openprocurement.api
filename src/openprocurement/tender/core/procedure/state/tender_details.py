@@ -1304,7 +1304,7 @@ class BaseTenderDetailsMixing:
             and tender.get("value", {}).get("amount", 0) > PROFILE_REQUIRED_MIN_VALUE_AMOUNT
             and tender.get("value", {}).get("currency") == "UAH"
             and tender.get("procuringEntity", {}).get("kind")
-            in (ProcuringEntityKind.GENERAL, ProcuringEntityKind.DEFENSE)
+            not in (ProcuringEntityKind.SPECIAL, ProcuringEntityKind.DEFENSE, ProcuringEntityKind.OTHER)
         ):
             for item in tender["items"]:
                 if not item.get("profile"):

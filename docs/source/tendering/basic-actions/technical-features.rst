@@ -46,7 +46,7 @@ Also catalogue item should be in `active` status:
 
         * tender.value.amount > 500000 UAH
 
-        * tender.procuringEntity.kind = defense/general
+        * tender.procuringEntity.kind != special/defense/other
 
 
 So if you set `id` of correct profile/category, you can create tender:
