@@ -80,7 +80,11 @@ class BaseContractState(BaseState, ContractStateMixing):
                             f"Forbidden to delete fields in {k}: {set(before.keys()) - set(after.keys())}",
                         )
 
-                    if k == "unit" and before.get("value"):
+                    if (
+                        k == "unit"
+                        and before is not None  # for ESCO there could be no unit for contract, but it can be added
+                        and before.get("value")
+                    ):
                         if before["value"]["currency"] != after["value"]["currency"]:
                             raise_operation_error(
                                 get_request(),
