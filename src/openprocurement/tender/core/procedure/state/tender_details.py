@@ -10,6 +10,7 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
+    PROFILE_REQUIRED_MIN_VALUE_AMOUNT,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     WORKING_DAYS,
@@ -26,6 +27,7 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.procedure.validation import (
@@ -212,6 +214,7 @@ class BaseTenderDetailsMixing:
     agreement_without_items_forbidden = False
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
+    items_profile_required = False
 
     calendar = WORKING_DAYS
 
@@ -316,6 +319,7 @@ class BaseTenderDetailsMixing:
         super().on_patch(before, after)
 
     def always(self, data):
+        self.validate_items_profile(data)
         self.set_mode_test(data)
         super().always(data)
 
@@ -1321,6 +1325,23 @@ class BaseTenderDetailsMixing:
     @staticmethod
     def set_enquiry_period_invalidation_date(tender):
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+
+    def validate_items_profile(self, tender):
+        if (
+            self.items_profile_required
+            and tender.get("value", {}).get("amount", 0) > PROFILE_REQUIRED_MIN_VALUE_AMOUNT
+            and tender.get("value", {}).get("currency") == "UAH"
+            and tender.get("procuringEntity", {}).get("kind")
+            not in (ProcuringEntityKind.SPECIAL, ProcuringEntityKind.DEFENSE, ProcuringEntityKind.OTHER)
+        ):
+            for item in tender["items"]:
+                if not item.get("profile"):
+                    raise_operation_error(
+                        self.request,
+                        [{"profile": ["This field is required."]}],
+                        status=422,
+                        name="items",
+                    )
 
     def validate_contract_template_name(self, after, before):
         def raise_contract_template_name_error(message):

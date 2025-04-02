@@ -271,3 +271,6 @@ PLAN_OF_UKRAINE = standards.load("classifiers/plan_of_ukraine.json")
 
 # Language codes
 LANGUAGE_CODES = standards.load("classifiers/languages.json").keys()
+
+# CS-19019
+PROFILE_REQUIRED_MIN_VALUE_AMOUNT = 500000
