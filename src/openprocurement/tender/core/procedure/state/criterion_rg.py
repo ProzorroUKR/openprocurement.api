@@ -19,7 +19,6 @@ class RequirementGroupStateMixin(BaseCriterionStateMixin):
         self.validate_on_post(data)
         self.requirement_group_always(data)
         self.validate_criteria_requirements_rules(self.request.validated["criterion"])
-        self.validate_criteria_requirement_from_market(self.request.validated["criterion"])
 
     def requirement_group_on_patch(self, before: dict, after: dict) -> None:
         self.validate_on_patch(before, after)

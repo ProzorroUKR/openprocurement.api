@@ -2386,6 +2386,21 @@ def tech_feature_criterion(self):
     category={"id": "0" * 32, "criteria": []},
 )
 def criterion_from_market_profile(self):
+
+    def activate_tender(status=200):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active.tendering"}},
+            status=status,
+        )
+        return response
+
+    def cancel_requirement(tech_rg_id, tech_req_id):
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{tech_rg_id}/requirements/{tech_req_id}?acc_token={self.tender_token}",
+            {"data": {"status": "cancelled"}},
+        )
+
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
     items = tender["items"]
@@ -2395,6 +2410,17 @@ def criterion_from_market_profile(self):
 
     del tech_item["id"]
     items.append(tech_item)
+
+    # add all other required criteria
+    criteria_ids = self.required_criteria
+    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+    self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_criteria},
+    )
+    self.add_sign_doc(self.tender_id, self.tender_token)
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -2442,8 +2468,12 @@ def criterion_from_market_profile(self):
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
             {"data": criteria_data},
-            status=422,
         )
+        tech_criteria_id = response.json["data"][0]["id"]
+        rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
+        req = response.json["data"][0]["requirementGroups"][0]["requirements"][0]
+        req_id = req["id"]
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2478,11 +2508,7 @@ def criterion_from_market_profile(self):
         Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
     ):
         # title in profile requirements != title in tender requirement
-        response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
-        )
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2496,14 +2522,19 @@ def criterion_from_market_profile(self):
         )
 
         # dataType in profile requirements != dataType in tender requirement
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["title"] = "Діагонaль"
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "number"
-
+        cancel_requirement(rg_id, req_id)
+        new_req = {
+            "title": "Діагонaль",
+            "dataType": "number",
+            "expectedValue": 15,
+            "unit": {"code": "INH", "name": "дюйм"},
+        }
         response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements?acc_token={self.tender_token}",
+            {"data": new_req},
         )
+        req_id = response.json["data"]["id"]
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2516,15 +2547,16 @@ def criterion_from_market_profile(self):
         )
 
         # no expectedValue in tender requirement
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "integer"
-        del criteria_data[0]["requirementGroups"][0]["requirements"][0]["expectedValue"]
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["minValue"] = 0
-
+        cancel_requirement(rg_id, req_id)
+        new_req["dataType"] = "integer"
+        del new_req["expectedValue"]
+        new_req["minValue"] = 0
         response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements?acc_token={self.tender_token}",
+            {"data": new_req},
         )
+        req_id = response.json["data"]["id"]
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2536,8 +2568,8 @@ def criterion_from_market_profile(self):
             ],
         )
 
-    del criteria_data[0]["requirementGroups"][0]["requirements"][0]["minValue"]
-    criteria_data[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = 15
+    del new_req["minValue"]
+    new_req["expectedValue"] = 15
     market_tech_feature[0]["requirementGroups"][0]["requirements"].append(
         {
             "title": "Req 2",
@@ -2556,11 +2588,13 @@ def criterion_from_market_profile(self):
         Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
     ):
         # title in profile requirements != title in tender requirement
+        cancel_requirement(rg_id, req_id)
         response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements?acc_token={self.tender_token}",
+            {"data": new_req},
         )
+        req_id = response.json["data"]["id"]
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2573,21 +2607,20 @@ def criterion_from_market_profile(self):
         )
 
         # no expectedValue in tender requirement
-        criteria_data[0]["requirementGroups"][0]["requirements"].append(
-            {
-                "title": "Req 2",
-                "dataType": "string",
-                "expectedValues": ["value2", "value1", "value3"],
-                "expectedMinItems": 1,
-                "expectedMaxItems": 2,
-            }
-        )
+        new_req = {
+            "title": "Req 2",
+            "dataType": "string",
+            "expectedValues": ["value2", "value1", "value3"],
+            "expectedMinItems": 1,
+            "expectedMaxItems": 2,
+        }
 
         response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements?acc_token={self.tender_token}",
+            {"data": new_req},
         )
+        req_id = response.json["data"]["id"]
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2599,13 +2632,12 @@ def criterion_from_market_profile(self):
             ],
         )
 
-        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedValues"] = ["value1", "value2"]
-        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMaxItems"] = 1
-        response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedValues": ["value1", "value2"], "expectedMaxItems": 1}},
         )
+        response = activate_tender(status=422)
+
         self.assertEqual(
             response.json["errors"],
             [
@@ -2616,21 +2648,23 @@ def criterion_from_market_profile(self):
                 },
             ],
         )
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedMaxItems": 2}},
+        )
 
-        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMaxItems"] = 2
-        criteria_data[0]["requirementGroups"][0]["requirements"].append(
-            {
-                "title": "Req 3",
-                "dataType": "number",
-                "minValue": 1,
-                "unit": {"code": "INH", "name": "дюйм"},
-            }
-        )
+        new_req = {
+            "title": "Req 3",
+            "dataType": "number",
+            "minValue": 1,
+            "unit": {"code": "INH", "name": "дюйм"},
+        }
         response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements?acc_token={self.tender_token}",
+            {"data": new_req},
         )
+        req_id_3 = response.json["data"]["id"]
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2642,23 +2676,14 @@ def criterion_from_market_profile(self):
                 },
             ],
         )
-        criteria_data[0]["requirementGroups"][0]["requirements"] = criteria_data[0]["requirementGroups"][0][
-            "requirements"
-        ][:-1]
-        response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-        )
-        criterion_id = response.json["data"][0]["id"]
-        req_group_id = response.json["data"][0]["requirementGroups"][0]["id"]
-        req_id = response.json["data"][0]["requirementGroups"][0]["requirements"][-1]["id"]
+        cancel_requirement(rg_id, req_id_3)
 
         # try to patch requirement via requirements endpoint
-        response = self.app.patch_json(
-            f"/tenders/{self.tender_id}/criteria/{criterion_id}/requirement_groups/{req_group_id}/requirements/{req_id}?acc_token={self.tender_token}",
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
             {"data": {"expectedMaxItems": 1}},
-            status=422,
         )
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2669,6 +2694,10 @@ def criterion_from_market_profile(self):
                 },
             ],
         )
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedMaxItems": 2}},
+        )
 
         # try to patch criteria via tender endpoint
         response = self.app.get(
@@ -2676,12 +2705,12 @@ def criterion_from_market_profile(self):
         )
 
         tender_criteria = response.json["data"]
-        tender_criteria[0]["requirementGroups"][0]["requirements"][-1]["expectedValues"] = ["value 4", "value 5"]
-        response = self.app.patch_json(
+        tender_criteria[-1]["requirementGroups"][0]["requirements"][-2]["expectedValues"] = ["value 4", "value 5"]
+        self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"criteria": tender_criteria}},
-            status=422,
         )
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2699,6 +2728,21 @@ def criterion_from_market_profile(self):
     category={"id": "0" * 32, "criteria": []},
 )
 def criterion_from_market_category(self):
+
+    def activate_tender(status=200):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active.tendering"}},
+            status=status,
+        )
+        return response
+
+    def cancel_requirement(tech_rg_id, tech_req_id):
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{tech_rg_id}/requirements/{tech_req_id}?acc_token={self.tender_token}",
+            {"data": {"status": "cancelled"}},
+        )
+
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
     items = tender["items"]
@@ -2716,6 +2760,17 @@ def criterion_from_market_category(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     items = response.json["data"]["items"]
+
+    # add all other required criteria
+    criteria_ids = self.required_criteria
+    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+    self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_criteria},
+    )
+    self.add_sign_doc(self.tender_id, self.tender_token)
 
     criteria_data = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(criteria_data, tender["lots"], items)
@@ -2755,8 +2810,12 @@ def criterion_from_market_category(self):
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
             {"data": criteria_data[0]},
-            status=422,
         )
+        tech_criteria_id = response.json["data"][0]["id"]
+        rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
+        req = response.json["data"][0]["requirementGroups"][0]["requirements"][0]
+        req_id = req["id"]
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2770,14 +2829,19 @@ def criterion_from_market_category(self):
         )
 
         # dataType in category requirements != dataType in tender requirement
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["title"] = "Діагонaль"
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "number"
-
+        cancel_requirement(rg_id, req_id)
+        new_req = {
+            "title": "Діагонaль",
+            "dataType": "number",
+            "expectedValue": 15,
+            "unit": {"code": "INH", "name": "дюйм"},
+        }
         response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements?acc_token={self.tender_token}",
+            {"data": new_req},
         )
+        req_id = response.json["data"]["id"]
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2788,7 +2852,12 @@ def criterion_from_market_category(self):
                 },
             ],
         )
-        criteria_data[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "integer"
+        cancel_requirement(rg_id, req_id)
+        new_req["dataType"] = "integer"
+        self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements?acc_token={self.tender_token}",
+            {"data": new_req},
+        )
 
     market_tech_feature[0]["requirementGroups"][0]["requirements"].append(
         {
@@ -2809,21 +2878,20 @@ def criterion_from_market_category(self):
     ):
 
         # no expectedValue in tender requirement
-        criteria_data[0]["requirementGroups"][0]["requirements"].append(
-            {
-                "title": "Req 2",
-                "dataType": "string",
-                "expectedValues": ["value1", "value3"],
-                "expectedMinItems": 1,
-                "expectedMaxItems": 2,
-            }
-        )
+        new_req = {
+            "title": "Req 2",
+            "dataType": "string",
+            "expectedValues": ["value1", "value3"],
+            "expectedMinItems": 1,
+            "expectedMaxItems": 2,
+        }
 
         response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements?acc_token={self.tender_token}",
+            {"data": new_req},
         )
+        req_id = response.json["data"]["id"]
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2835,13 +2903,11 @@ def criterion_from_market_category(self):
             ],
         )
 
-        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedValues"] = ["value1", "value2"]
-        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMaxItems"] = 1
-        response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedValues": ["value1", "value2"], "expectedMaxItems": 1}},
         )
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2852,21 +2918,22 @@ def criterion_from_market_category(self):
                 },
             ],
         )
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedValues": ["value1", "value2"], "expectedMaxItems": 2}},
+        )
 
-        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMaxItems"] = 2
-        criteria_data[0]["requirementGroups"][0]["requirements"].append(
-            {
-                "title": "Req 3",
-                "dataType": "number",
-                "minValue": 1,
-                "unit": {"code": "INH", "name": "дюйм"},
-            }
+        new_req = {
+            "title": "Req 3",
+            "dataType": "number",
+            "minValue": 1,
+            "unit": {"code": "INH", "name": "дюйм"},
+        }
+        self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements?acc_token={self.tender_token}",
+            {"data": new_req},
         )
-        response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
-            status=422,
-        )
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2896,18 +2963,12 @@ def criterion_from_market_category(self):
         Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
     ):
         # not all requirements from category should be in tender
-        criteria_data[0]["requirementGroups"][0]["requirements"] = criteria_data[0]["requirementGroups"][0][
-            "requirements"
-        ][:-1]
-        criteria_data[0]["requirementGroups"][0]["requirements"][1]["expectedMinItems"] = 1
-        response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
-            {"data": criteria_data},
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedMinItems": 1}},
         )
 
         # try to patch requirement via requirementGroups endpoint
-        criterion_id = response.json["data"][0]["id"]
-        req_group_id = response.json["data"][0]["requirementGroups"][0]["id"]
         req_data = {
             "title": "Req 3",
             "dataType": "integer",
@@ -2915,28 +2976,11 @@ def criterion_from_market_category(self):
             "unit": {"code": "INH", "name": "дюйм"},
         }
 
-        response = self.app.patch_json(
-            f"/tenders/{self.tender_id}/criteria/{criterion_id}/requirement_groups/{req_group_id}?acc_token={self.tender_token}",
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}?acc_token={self.tender_token}",
             {"data": {"requirements": [req_data]}},
-            status=422,
         )
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "location": "body",
-                    "name": "data",
-                    "description": "Field 'dataType' for 'Req 3' should be equal in tender and market requirement",
-                },
-            ],
-        )
-
-        # try to post new requirement via requirements endpoint
-        response = self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria/{criterion_id}/requirement_groups/{req_group_id}/requirements?acc_token={self.tender_token}",
-            {"data": req_data},
-            status=422,
-        )
+        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2949,7 +2993,9 @@ def criterion_from_market_category(self):
         )
 
         req_data["dataType"] = "number"
-        self.app.post_json(
-            f"/tenders/{self.tender_id}/criteria/{criterion_id}/requirement_groups/{req_group_id}/requirements?acc_token={self.tender_token}",
-            {"data": req_data},
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}?acc_token={self.tender_token}",
+            {"data": {"requirements": [req_data]}},
         )
+        response = activate_tender()
+        self.assertEqual(response.json["data"]["status"], "active.tendering")
