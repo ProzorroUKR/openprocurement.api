@@ -273,6 +273,16 @@ def create_tender_criteria_invalid(self):
         ],
     )
 
+    requirement_1["minValue"] = 150
+    del requirement_1["expectedValue"]
+    response = self.app.post_json(request_path, {"data": invalid_criteria}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "requirements", "description": "maxValue should be greater than minValue"}],
+    )
+
     lang_criterion = deepcopy(test_language_criteria)
     lang_criterion[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"] = [
         {"description": "Довідка в довільній формі", "type": "document", "title": "Документальне підтвердження"}
