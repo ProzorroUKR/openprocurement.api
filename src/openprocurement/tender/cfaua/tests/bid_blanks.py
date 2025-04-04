@@ -484,7 +484,7 @@ def create_tender_bidder_document(self):
 
     # switch to active.awarded
     self.set_status("active.awarded")
-    for doc_resource in ["documents", "eligibility_documents", "qualification_documents"]:
+    for doc_resource in ["documents", "qualification_documents"]:
         response = self.app.post_json(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid2_id, doc_resource, self.bid2_token),
             {
@@ -511,21 +511,22 @@ def create_tender_bidder_document(self):
             ],
         )
 
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/financial_documents?acc_token={}".format(self.tender_id, self.bid2_id, self.bid2_token),
-        {
-            "data": {
-                "title": "name_{}.doc".format(doc_resource[:-1]),
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=201,
-    )
+    for doc_resource in ["eligibility_documents", "financial_documents"]:
+        response = self.app.post_json(
+            "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid2_id, doc_resource, self.bid2_token),
+            {
+                "data": {
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
+            status=201,
+        )
 
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
     self.set_status("complete")
 
@@ -769,7 +770,7 @@ def put_tender_bidder_document(self):
     # switch to active.awarded
     self.set_status("active.awarded")
 
-    for doc_resource in ["documents", "eligibility_documents", "qualification_documents"]:
+    for doc_resource in ["documents", "qualification_documents"]:
         response = self.app.put_json(
             "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
                 self.tender_id, self.bid2_id, doc_resource, doc_id_by_type2[doc_resource]["id"], self.bid2_token
@@ -790,21 +791,22 @@ def put_tender_bidder_document(self):
             response.json["errors"][0]["description"], "Can't update document in current (active.awarded) tender status"
         )
 
-    response = self.app.put_json(
-        "/tenders/{}/bids/{}/financial_documents/{}?acc_token={}".format(
-            self.tender_id, self.bid2_id, doc_id_by_type2["financial_documents"]["id"], self.bid2_token
-        ),
-        {
-            "data": {
-                "title": "name_financial_document.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
+    for doc_resource in ["eligibility_documents", "financial_documents"]:
+        response = self.app.put_json(
+            "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
+                self.tender_id, self.bid2_id, doc_resource, doc_id_by_type2[doc_resource]["id"], self.bid2_token
+            ),
+            {
+                "data": {
+                    "title": "name_financial_document.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
 
     self.set_status("complete")
 

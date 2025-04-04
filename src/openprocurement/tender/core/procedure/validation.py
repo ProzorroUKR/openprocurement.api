@@ -1278,7 +1278,7 @@ def validate_bid_document_in_tender_status(request, **_):
     validate_bid_document_in_tender_status_base(request, allowed_statuses)
 
 
-def validate_bid_financial_document_in_tender_status(request, **_):
+def validate_bid_financial_eligible_document_in_tender_status(request, **_):
     tender = request.validated["tender"]
     allowed_statuses = (
         "active.tendering",
