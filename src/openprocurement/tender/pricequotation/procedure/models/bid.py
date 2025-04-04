@@ -64,6 +64,9 @@ class PostBid(BidResponsesMixin, PatchBid):
     )
     value = ModelType(Value)
     documents = ListType(ModelType(PostDocument, required=True))
+    financialDocuments = ListType(ModelType(PostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
     requirementResponses = ListType(ModelType(RequirementResponse))
     status = StringType(
         choices=[

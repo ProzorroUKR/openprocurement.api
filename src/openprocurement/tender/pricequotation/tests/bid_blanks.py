@@ -327,6 +327,14 @@ def create_tender_bid(self):
                 "value": {"amount": 500},
                 "requirementResponses": rrs,
                 "documents": None,
+                "eligibilityDocuments": [
+                    {
+                        "title": "name.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                ],
             }
         },
     )
