@@ -714,6 +714,106 @@ def activate_tender(self):
     )
 
 
+@patch_market(
+    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": test_tech_feature_criteria, "status": "active"},
+    category={"id": "0" * 32, "criteria": test_tech_feature_criteria},
+)
+def activate_tender_with_tech_item(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    items = response.json["data"]["items"]
+    items[0]["profile"] = "1" * 32
+    items[0]["category"] = "0" * 32
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    tender = response.json["data"]
+
+    request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
+
+    criteria_ids = self.required_criteria
+    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+
+    # Add missing required criteria
+    response = self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_criteria},
+    )
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tech_item_id = tender.get("items", [])[0]["id"]
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": {"status": self.primary_tender_status}},
+        status=403,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": f"Tender must contain all profile criteria for item {tech_item_id}: CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES",
+            }
+        ],
+    )
+
+    with patch_market(
+        profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"},
+        category={"id": "0" * 32, "criteria": test_tech_feature_criteria},
+    ):
+        response = self.app.patch_json(
+            request_path,
+            {"data": {"status": self.primary_tender_status}},
+            status=403,
+        )
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": f"Tender must contain at least one category criteria for item {tech_item_id}",
+                }
+            ],
+        )
+
+    criteria_ids = deepcopy(self.required_criteria)
+    criteria_ids.add(CRITERION_TECHNICAL_FEATURES)
+    test_criteria = deepcopy(test_tech_feature_criteria)
+    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+
+    # Add missing required criteria
+    response = self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_criteria},
+    )
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": {"status": self.primary_tender_status}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
+    self.assertEqual(
+        len(response.json["data"].get("criteria", [])),
+        len(criteria_ids),
+    )
+
+
 def create_criteria_rg(self):
     request_path = "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
         self.tender_id, self.criteria_id, self.tender_token

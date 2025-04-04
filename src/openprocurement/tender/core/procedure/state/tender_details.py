@@ -909,14 +909,17 @@ class BaseTenderDetailsMixing:
 
         for item in after.get("items", []):
             market_obj = None
-            # get profile for each tender criterion
-            profile_is_active = False
+            # get profile/category for each tender criterion
+            requirements_from_profile = False
             profile_id = item.get("profile")
             if profile_id:
                 profile = get_tender_profile(self.request, profile_id)
-                profile_is_active = profile.get("status", "active") == "active"
-                if profile_is_active:
+                if profile.get("status", "active") == "active":
+                    requirements_from_profile = True
                     market_obj = profile
+            # check requirements from category only if there is no profile in item or profile is general
+            if not requirements_from_profile and (category_id := item.get("category")):
+                market_obj = get_tender_category(self.request, category_id)
 
             # Skip validation if no market object is found
             if not market_obj:
@@ -929,12 +932,19 @@ class BaseTenderDetailsMixing:
                 if classification_id:
                     market_criteria_ids.add(classification_id)
 
-            # check if all profile criteria are present for item
-            market_criteria_ids_diff = market_criteria_ids - item_criteria_ids[item["id"]]
-            if market_criteria_ids_diff:
+            if requirements_from_profile:
+                # check if all profile criteria are present for item
+                market_criteria_ids_diff = market_criteria_ids - item_criteria_ids[item["id"]]
+                if market_criteria_ids_diff:
+                    raise_operation_error(
+                        get_request(),
+                        f"Tender must contain all profile criteria for item {item['id']}: "
+                        f"{', '.join(sorted(market_criteria_ids_diff))}",
+                    )
+            elif not item_criteria_ids[item["id"]].intersection(market_criteria_ids):
                 raise_operation_error(
                     get_request(),
-                    f"Tender must contain all profile criteria for item {item['id']}: {', '.join(sorted(market_criteria_ids_diff))}",
+                    f"Tender must contain at least one category criteria for item {item['id']}",
                 )
 
     def validate_minimal_step(self, data, before=None):
