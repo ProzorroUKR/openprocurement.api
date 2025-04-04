@@ -70,10 +70,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "requirements": [
             {
               "title": "Мова тендерної пропозиції",
+              "dataSchema": "ISO 639-3",
               "dataType": "string",
               "expectedMinItems": 1,
               "expectedValues": [
-                "Українська"
+                "ukr",
+                "eng",
+                "fra",
+                "spa"
               ]
             }
           ]
@@ -786,8 +790,12 @@ Content-Type: application/json
               "title": "Мова тендерної пропозиції",
               "dataType": "string",
               "status": "active",
+              "dataSchema": "ISO 639-3",
               "expectedValues": [
-                "Українська"
+                "ukr",
+                "eng",
+                "fra",
+                "spa"
               ],
               "expectedMinItems": 1,
               "datePublished": "2023-10-10T01:00:00+03:00"

@@ -15,7 +15,7 @@ Content-Type: application/json
           "title": "Мова тендерної пропозиції"
         },
         "values": [
-          "Українська"
+          "ukr"
         ],
         "id": "aea94d6a07ae4c6383b233650ec43ac9",
         "classification": {

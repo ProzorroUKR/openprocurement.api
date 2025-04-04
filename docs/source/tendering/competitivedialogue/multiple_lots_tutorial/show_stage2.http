@@ -42,8 +42,12 @@ Content-Type: application/json
                 "title": "Мова тендерної пропозиції",
                 "dataType": "string",
                 "status": "active",
+                "dataSchema": "ISO 639-3",
                 "expectedValues": [
-                  "Українська"
+                  "ukr",
+                  "eng",
+                  "fra",
+                  "spa"
                 ],
                 "expectedMinItems": 1,
                 "datePublished": "2023-10-10T01:01:00+03:00"

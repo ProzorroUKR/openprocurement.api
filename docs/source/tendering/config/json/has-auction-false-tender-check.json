@@ -178,7 +178,7 @@
                             "title": "\u041c\u043e\u0432\u0430 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457"
                         },
                         "values": [
-                            "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430"
+                            "ukr"
                         ]
                     },
                     {
@@ -448,7 +448,7 @@
                             "title": "\u041c\u043e\u0432\u0430 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457"
                         },
                         "values": [
-                            "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430"
+                            "ukr"
                         ]
                     },
                     {
@@ -724,11 +724,15 @@
                         "id": "6f6857af14494fc48ef92bdfcd578912",
                         "requirements": [
                             {
+                                "dataSchema": "ISO 639-3",
                                 "dataType": "string",
                                 "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedMinItems": 1,
                                 "expectedValues": [
-                                    "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430"
+                                    "ukr",
+                                    "eng",
+                                    "fra",
+                                    "spa"
                                 ],
                                 "id": "03d61981028f4de3bafa7946a08b0da4",
                                 "status": "active",

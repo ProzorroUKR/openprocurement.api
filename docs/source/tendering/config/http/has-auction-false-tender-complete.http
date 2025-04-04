@@ -85,8 +85,12 @@ Content-Type: application/json
                 "title": "Мова тендерної пропозиції",
                 "dataType": "string",
                 "status": "active",
+                "dataSchema": "ISO 639-3",
                 "expectedValues": [
-                  "Українська"
+                  "ukr",
+                  "eng",
+                  "fra",
+                  "spa"
                 ],
                 "expectedMinItems": 1,
                 "datePublished": "2023-10-10T01:00:00+03:00"
@@ -1236,7 +1240,7 @@ Content-Type: application/json
               "title": "Мова тендерної пропозиції"
             },
             "values": [
-              "Українська"
+              "ukr"
             ],
             "id": "c58fbd6a237c4b68a57eb44414ebfa9e",
             "classification": {
@@ -1506,7 +1510,7 @@ Content-Type: application/json
               "title": "Мова тендерної пропозиції"
             },
             "values": [
-              "Українська"
+              "ukr"
             ],
             "id": "d5441e294eac4d4c8b007553d74355e7",
             "classification": {

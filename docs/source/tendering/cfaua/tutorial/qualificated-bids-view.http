@@ -16,7 +16,7 @@ Content-Type: application/json
             "title": "Мова тендерної пропозиції"
           },
           "values": [
-            "Українська"
+            "ukr"
           ],
           "id": "1877095f59a944fab9bdb852e5962794",
           "classification": {
@@ -254,7 +254,7 @@ Content-Type: application/json
             "title": "Мова тендерної пропозиції"
           },
           "values": [
-            "Українська"
+            "ukr"
           ],
           "id": "ae021c724d0d485d8be68c5dab3e5f20",
           "classification": {
@@ -439,7 +439,7 @@ Content-Type: application/json
             "title": "Мова тендерної пропозиції"
           },
           "values": [
-            "Українська"
+            "ukr"
           ],
           "id": "aea94d6a07ae4c6383b233650ec43ac9",
           "classification": {
@@ -663,7 +663,7 @@ Content-Type: application/json
             "title": "Мова тендерної пропозиції"
           },
           "values": [
-            "Українська"
+            "ukr"
           ],
           "id": "5f7e75ee1f89452bb924863c1154d5ee",
           "classification": {
