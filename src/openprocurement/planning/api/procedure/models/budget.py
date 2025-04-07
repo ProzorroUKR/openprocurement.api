@@ -4,10 +4,20 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, FloatType, IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import PLAN_OF_UKRAINE
+from openprocurement.api.constants import (
+    KATOTTG,
+    KATOTTG_SCHEME,
+    KPK,
+    PLAN_OF_UKRAINE,
+    TKPKMB,
+    TKPKMB_SCHEME,
+)
 from openprocurement.api.constants_env import BUDGET_PERIOD_FROM
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import validate_items_uniq
+from openprocurement.api.procedure.models.item import (
+    AdditionalClassification,
+    validate_items_uniq,
+)
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.procedure.utils import is_const_active
@@ -35,6 +45,18 @@ class BudgetPeriod(Period):
     endDate = IsoDateTimeType(required=True)
 
 
+class BudgetAdditionalClassification(AdditionalClassification):
+    def validate_id(self, data, value):
+        super().validate_id(self, data, value)
+        for kpk_scheme, kpk_dict in KPK.items():
+            if data["scheme"] == kpk_scheme and value not in kpk_dict:
+                raise ValidationError(f"{kpk_scheme} id not found in standards")
+        if data["scheme"] == TKPKMB_SCHEME and value not in TKPKMB:
+            raise ValidationError(f"{TKPKMB_SCHEME} id not found in standards")
+        if data["scheme"] == KATOTTG_SCHEME and value not in KATOTTG:
+            raise ValidationError(f"{KATOTTG_SCHEME} id not found in standards")
+
+
 class BudgetBreakdownItem(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True, choices=BREAKDOWN_TITLES)
@@ -42,6 +64,7 @@ class BudgetBreakdownItem(Model):
     description_en = StringType(max_length=500)
     description_ru = StringType(max_length=500)
     value = ModelType(Guarantee, required=True)
+    additionalClassifications = ListType(ModelType(BudgetAdditionalClassification, required=True))
 
     def validate_description(self, data, value):
         if data.get("title", None) == BREAKDOWN_OTHER and not value:

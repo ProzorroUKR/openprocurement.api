@@ -3,20 +3,26 @@ from itertools import chain
 
 from dateorro import calc_working_datetime
 
-from openprocurement.api.constants import KPKV_UK_SCHEME
+from openprocurement.api.constants import (
+    KATOTTG_SCHEME,
+    KPK_SCHEME,
+    KPK_SCHEMES,
+    TKPKMB_SCHEME,
+)
 from openprocurement.api.constants_env import (
     PLAN_ADDRESS_KIND_REQUIRED_FROM,
     RELEASE_SIMPLE_DEFENSE_FROM,
+    UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.utils import is_obj_const_active
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
 )
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.planning.api.constants import (
-    BREAKDOWN_OTHER,
     PROCEDURES,
     PROCURING_ENTITY_STANDSTILL,
 )
@@ -67,8 +73,7 @@ class PlanState(BaseState):
         self._validate_plan_availability(data)
         self._validate_tender_procurement_method_type(data)
         self._validate_items_classification_prefix(data)
-        # TODO: turn on later (CS-18891)
-        # self.validate_required_additional_classifications(data)
+        self.validate_required_additional_classifications(data)
 
     def validate_on_patch(self, before, after):
         self._validate_plan_changes_in_terminated(before, after)
@@ -77,9 +82,7 @@ class PlanState(BaseState):
         self._validate_plan_with_tender(before, after)
         self._validate_tender_procurement_method_type(after)
         self._validate_items_classification_prefix(after)
-        # TODO: turn on later (CS-18891)
-        # if before.get("additionalClassifications") != after.get("additionalClassifications"):
-        #     self.validate_required_additional_classifications(after)
+        self.validate_required_additional_classifications(after)
 
     def plan_tender_validate_on_post(self, plan, tender):
         self._validate_plan_scheduled(plan)
@@ -356,16 +359,30 @@ class PlanState(BaseState):
         )
 
     def validate_required_additional_classifications(self, plan):
+        if not is_obj_const_active(plan, UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM):
+            return
         if plan.get("budget") and plan["budget"].get("breakdown"):
-            classifications = plan.get("additionalClassifications")
             for breakdown in plan["budget"]["breakdown"]:
-                if breakdown.get("title") not in ("own", "loan", BREAKDOWN_OTHER) and (
-                    classifications is None
-                    or not any(classification["scheme"] == KPKV_UK_SCHEME for classification in classifications)
+                classifications = breakdown.get("additionalClassifications", [])
+                classifications_schemes = {classification["scheme"] for classification in classifications}
+                if breakdown.get("title") == "state" and (
+                    not classifications
+                    or not any(kpk_scheme in classifications_schemes for kpk_scheme in KPK_SCHEMES)
                 ):
                     raise_operation_error(
                         self.request,
-                        f"{KPKV_UK_SCHEME} is required for {breakdown['title']} budget.",
+                        f"{KPK_SCHEME} is required for {breakdown['title']} budget.",
                         status=422,
-                        name="additionalClassifications",
+                        name="budget.breakdown.additionalClassifications",
+                    )
+                elif breakdown.get("title") in ("local", "crimea") and (
+                    not classifications
+                    or KATOTTG_SCHEME not in classifications_schemes
+                    or TKPKMB_SCHEME not in classifications_schemes
+                ):
+                    raise_operation_error(
+                        self.request,
+                        f"{KATOTTG_SCHEME} and {TKPKMB_SCHEME} are required for {breakdown['title']} budget.",
+                        status=422,
+                        name="budget.breakdown.additionalClassifications",
                     )
