@@ -1958,7 +1958,7 @@ def create_plan_with_two_buyers(self):
 
 def create_plan_with_breakdown(self):
     data = deepcopy(self.initial_data)
-    breakdown_item = {"id": "f" * 32, "title": "state", "value": {"amount": 1500, "currency": "UAH"}}
+    breakdown_item = {"id": "f" * 32, "title": "own", "value": {"amount": 1500, "currency": "UAH"}}
     data["budget"]["breakdown"] = [breakdown_item]
 
     response = self.app.post_json("/plans", {"data": data})
@@ -2017,7 +2017,7 @@ def patch_plan_with_breakdown(self):
 
     breakdown_item = {
         "id": "f" * 32,
-        "title": "state",
+        "title": "own",
         "description": "Breakdown state description.",
         "value": {"amount": 1500, "currency": "UAH"},
     }
@@ -2101,8 +2101,8 @@ def fail_create_plan_with_breakdown_other_title(self):
 def fail_create_plan_with_diff_breakdown_currencies(self):
     data = deepcopy(self.initial_data)
     del data["budget"]["currency"]
-    breakdown_item_1 = {"id": "f" * 32, "title": "state", "value": {"amount": 1500, "currency": "UAH"}}
-    breakdown_item_2 = {"id": "0" * 32, "title": "state", "value": {"amount": 1500, "currency": "USD"}}
+    breakdown_item_1 = {"id": "f" * 32, "title": "own", "value": {"amount": 1500, "currency": "UAH"}}
+    breakdown_item_2 = {"id": "0" * 32, "title": "own", "value": {"amount": 1500, "currency": "USD"}}
     data["budget"]["breakdown"] = [breakdown_item_1, breakdown_item_2]
 
     response = self.app.post_json("/plans", {"data": data}, status=422)
@@ -2144,7 +2144,7 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
 def fail_create_plan_with_amounts_sum_greater(self):
     data = deepcopy(self.initial_data)
     data["budget"]["breakdown"] = [
-        {"id": "0" * 31 + str(i), "title": "state", "value": {"amount": 1500, "currency": "UAH"}} for i in range(10)
+        {"id": "0" * 31 + str(i), "title": "own", "value": {"amount": 1500, "currency": "UAH"}} for i in range(10)
     ]
 
     response = self.app.post_json("/plans", {"data": data}, status=422)
@@ -2403,7 +2403,7 @@ def plan_rationale(self):
 def plan_additional_classifications_based_on_breakdown(self):
     data = deepcopy(self.initial_data)
     del data["additionalClassifications"]
-    for breakdown_title in ("own", "other", "loan"):
+    for breakdown_title in ("own", "other", "loan", "fund"):
         breakdown_item = {
             "id": "f" * 32,
             "title": breakdown_title,
@@ -2417,8 +2417,9 @@ def plan_additional_classifications_based_on_breakdown(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
-    for breakdown_title in ("state", "crimea", "local", "fund"):
+    for breakdown_title in ("crimea", "local"):
         data["budget"]["breakdown"][0]["title"] = breakdown_title
+        data["budget"]["breakdown"][0].pop("additionalClassifications", None)
         response = self.app.post_json("/plans", {"data": data}, status=422)
 
         self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -2427,25 +2428,67 @@ def plan_additional_classifications_based_on_breakdown(self):
             [
                 {
                     "location": "body",
-                    "name": "additionalClassifications",
-                    "description": f"КПКВ is required for {breakdown_title} budget.",
+                    "name": "budget.breakdown.additionalClassifications",
+                    "description": f"КАТОТТГ and ТКПКМБ are required for {breakdown_title} budget.",
                 }
             ],
         )
+        data["budget"]["breakdown"][0]["additionalClassifications"] = [
+            {
+                "scheme": "КАТОТТГ",
+                "id": "UA01020030010043419",
+                "description": "Ароматне",
+            }
+        ]
+        response = self.app.post_json("/plans", {"data": data}, status=422)
 
-    data["additionalClassifications"] = [
-        {
-            "scheme": "КПКВ",
-            "id": "1001010",
-            "description": "Керівництво та управління діяльністю Міністерства внутрішніх справ України",
-        }
-    ]
-    own_breakdown_item = {
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "budget.breakdown.additionalClassifications",
+                    "description": f"КАТОТТГ and ТКПКМБ are required for {breakdown_title} budget.",
+                }
+            ],
+        )
+        data["budget"]["breakdown"][0]["additionalClassifications"].append(
+            {
+                "scheme": "ТКПКМБ",
+                "id": "2170",
+                "description": "Будівництво закладів охорони здоров’я",
+            }
+        )
+        response = self.app.post_json("/plans", {"data": data})
+        self.assertEqual(response.status, "201 Created")
+
+    state_breakdown_item = {
         "id": "b" * 32,
-        "title": "own",
+        "title": "state",
         "value": {"amount": 1500, "currency": "UAH"},
     }
-    data["budget"]["breakdown"].append(own_breakdown_item)
+    data["budget"]["breakdown"].append(state_breakdown_item)
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "budget.breakdown.additionalClassifications",
+                "description": f"КПК is required for state budget.",
+            }
+        ],
+    )
+    data["budget"]["breakdown"][1]["additionalClassifications"] = [
+        {
+            "scheme": "КПК-2023",
+            "id": "3505000",
+            "description": "Державна аудиторська служба України",
+        }
+    ]
     response = self.app.post_json("/plans", {"data": data})
 
     self.assertEqual(response.status, "201 Created")
@@ -2455,7 +2498,8 @@ def plan_additional_classifications_based_on_breakdown(self):
 
     # try to patch old plans (ignore required KPKV)
     plan_doc = self.mongodb.plans.get(plan["id"])
-    del plan_doc["additionalClassifications"]
+    del plan_doc["budget"]["breakdown"][0]["additionalClassifications"]
+    plan_doc["dateCreated"] = "2020-01-01"
     self.mongodb.plans.save(plan_doc)
 
     response = self.app.patch_json(

@@ -45,6 +45,7 @@ from openprocurement.planning.api.tests.plan_blanks import (  # PlanTest; Accred
     patch_plan_to_simpledefense,
     patch_plan_with_breakdown,
     patch_plan_with_token,
+    plan_additional_classifications_based_on_breakdown,
     plan_not_found,
     plan_rationale,
     plan_token_invalid,
@@ -95,8 +96,7 @@ class PlanResourceTest(BasePlanTest):
     test_esco_plan = snitch(esco_plan)
     test_cfaua_plan = snitch(cfaua_plan)
     test_plan_rationale = snitch(plan_rationale)
-    # TODO: turn on later (CS-18891)
-    # test_plan_additional_classifications_based_on_breakdown = snitch(plan_additional_classifications_based_on_breakdown)
+    test_plan_additional_classifications_based_on_breakdown = snitch(plan_additional_classifications_based_on_breakdown)
 
 
 class PlanBudgetBreakdownTest(BasePlanTest):

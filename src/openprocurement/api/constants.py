@@ -118,6 +118,17 @@ UA_ROAD_CPV_PREFIXES = standards.load("classifiers/ua_road_cpv_prefixes.json")
 CCCE_UA = standards.load("classifiers/ccce_ua.json")
 KPKV_UK = standards.load("classifiers/kpkv_uk_2025.json")
 KEKV_UK = standards.load("classifiers/kekv_uk.json")
+KPK = {
+    "КПК-2019": standards.load("classifiers/kpk_2019.json"),
+    "КПК-2020": standards.load("classifiers/kpk_2020.json"),
+    "КПК-2021": standards.load("classifiers/kpk_2021.json"),
+    "КПК-2022": standards.load("classifiers/kpk_2022.json"),
+    "КПК-2023": standards.load("classifiers/kpk_2023.json"),
+    "КПК-2024": standards.load("classifiers/kpk_2024.json"),
+    "КПК-2025": standards.load("classifiers/kpk_2025.json"),
+}
+KATOTTG = standards.load("classifiers/katottg.json")
+TKPKMB = standards.load("classifiers/tkpkmb.json")
 
 # Complaint objections classifications
 ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_16.json")}
@@ -145,6 +156,10 @@ UA_ROAD_SCHEME = "UA-ROAD"
 CCCE_UA_SCHEME = "CCCE-UA"
 KPKV_UK_SCHEME = "КПКВ"
 KEKV_UK_SCHEME = "КЕКВ"
+KPK_SCHEME = "КПК"
+KPK_SCHEMES = KPK.keys()
+KATOTTG_SCHEME = "КАТОТТГ"
+TKPKMB_SCHEME = "ТКПКМБ"
 
 # Additional schemes
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = [
