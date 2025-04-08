@@ -5,8 +5,38 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "rationale": {
-      "description": "Змістовне пояснення необхідності закупівлі"
+    "budget": {
+      "project": {
+        "id": "95f87658-ffa5-472e-89ee-6e9417aa8cbd",
+        "name": "1.1. Набрання чинності законодавчими змінами щодо реформи оплати праці в державній службі",
+        "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform"
+      },
+      "amount": 10000,
+      "amountNet": 12222,
+      "currency": "UAH",
+      "id": "12303111000-2",
+      "description": "budget_description",
+      "period": {
+        "startDate": "2023-01-01T00:00:00",
+        "endDate": "2023-12-31T00:00:00"
+      },
+      "breakdown": [
+        {
+          "title": "state",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500,
+            "currency": "UAH"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "КПК-2023",
+              "id": "3505000",
+              "description": "Державна аудиторська служба України"
+            }
+          ]
+        }
+      ]
     }
   }
 }
@@ -17,7 +47,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "status": "complete",
+    "status": "scheduled",
     "procuringEntity": {
       "id": "3dd578dcb6d34f1fa29434f9f012065d",
       "name": "ДУС",
@@ -59,8 +89,8 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "e9e70220901c440abf04d21cc5305abf",
-          "title": "local",
+          "id": "beb2103eea8e414183390eef3a6eafac",
+          "title": "state",
           "description": "Breakdown other description.",
           "value": {
             "amount": 1500.0,
@@ -68,14 +98,9 @@ Content-Type: application/json
           },
           "additionalClassifications": [
             {
-              "scheme": "ТКПКМБ",
-              "id": "2170",
-              "description": "Будівництво закладів охорони здоров’я"
-            },
-            {
-              "scheme": "КАТОТТГ",
-              "id": "UA01020030010043419",
-              "description": "Ароматне"
+              "scheme": "КПК-2023",
+              "id": "3505000",
+              "description": "Державна аудиторська служба України"
             }
           ]
         }
@@ -93,7 +118,6 @@ Content-Type: application/json
         "description": "Поточні видатки"
       }
     ],
-    "tender_id": "7f5e6c2aa6f54cc3a2f6589002f0d6ce",
     "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
@@ -141,8 +165,8 @@ Content-Type: application/json
       }
     ],
     "rationale": {
-      "description": "Змістовне пояснення необхідності закупівлі",
-      "date": "2023-10-11T02:00:33+03:00"
+      "description": "Недостатньо змістовне обгрунтування",
+      "date": "2023-10-10T01:00:00+03:00"
     },
     "project": {
       "title": "DREAMs come true",
@@ -150,7 +174,7 @@ Content-Type: application/json
     },
     "owner": "broker",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-11T02:00:33+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "id": "647ea8f38f72484ea0245b71b7cd4231"
   }
