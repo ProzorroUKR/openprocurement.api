@@ -1,0 +1,51 @@
+PATCH /api/2.5/plans/647ea8f38f72484ea0245b71b7cd4231?acc_token=499da8e897254fb7a478ae7555785628 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "budget": {
+      "project": {
+        "id": "95f87658-ffa5-472e-89ee-6e9417aa8cbd",
+        "name": "1.1. Набрання чинності законодавчими змінами щодо реформи оплати праці в державній службі",
+        "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform"
+      },
+      "amount": 10000,
+      "amountNet": 12222,
+      "currency": "UAH",
+      "id": "12303111000-2",
+      "description": "budget_description",
+      "period": {
+        "startDate": "2023-01-01T00:00:00",
+        "endDate": "2023-12-31T00:00:00"
+      },
+      "breakdown": [
+        {
+          "title": "state",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500,
+            "currency": "UAH"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "budget.breakdown.additionalClassifications",
+      "description": "КПК is required for state budget."
+    }
+  ]
+}
+

@@ -366,8 +366,7 @@ class PlanState(BaseState):
                 classifications = breakdown.get("additionalClassifications", [])
                 classifications_schemes = {classification["scheme"] for classification in classifications}
                 if breakdown.get("title") == "state" and (
-                    not classifications
-                    or not any(kpk_scheme in classifications_schemes for kpk_scheme in KPK_SCHEMES)
+                    not classifications or not any(kpk_scheme in classifications_schemes for kpk_scheme in KPK_SCHEMES)
                 ):
                     raise_operation_error(
                         self.request,
