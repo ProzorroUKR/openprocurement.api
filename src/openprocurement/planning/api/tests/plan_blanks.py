@@ -2478,7 +2478,7 @@ def plan_additional_classifications_based_on_breakdown(self):
             {
                 "location": "body",
                 "name": "budget.breakdown.additionalClassifications",
-                "description": f"КПК is required for state budget.",
+                "description": "КПК is required for state budget.",
             }
         ],
     )
@@ -2499,11 +2499,14 @@ def plan_additional_classifications_based_on_breakdown(self):
     # try to patch old plans (ignore required KPKV)
     plan_doc = self.mongodb.plans.get(plan["id"])
     del plan_doc["budget"]["breakdown"][0]["additionalClassifications"]
-    plan_doc["dateCreated"] = "2020-01-01"
     self.mongodb.plans.save(plan_doc)
 
-    response = self.app.patch_json(
-        f"/plans/{plan['id']}?acc_token={plan_token}",
-        {"data": {"cancellation": {"reason": "123"}}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    with mock.patch(
+        'openprocurement.planning.api.procedure.state.plan.UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM',
+        get_now() + timedelta(seconds=1000),
+    ):
+        response = self.app.patch_json(
+            f"/plans/{plan['id']}?acc_token={plan_token}",
+            {"data": {"cancellation": {"reason": "123"}}},
+        )
+        self.assertEqual(response.status, "200 OK")
