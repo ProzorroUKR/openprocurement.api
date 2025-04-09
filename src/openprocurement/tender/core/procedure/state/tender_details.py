@@ -857,7 +857,7 @@ class BaseTenderDetailsMixing:
                 )
 
     def validate_required_criteria(self, before, after):
-        if after.get("status") not in ("active", "active.enquiries", "active.tendering"):
+        if after.get("status") not in ("draft.pending", "active", "active.enquiries", "active.tendering"):
             return
 
         rules = get_criteria_rules(after)

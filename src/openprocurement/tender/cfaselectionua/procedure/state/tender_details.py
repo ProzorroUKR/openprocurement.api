@@ -112,6 +112,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                     )
                 self.validate_exist_guarantee_criteria(after)
                 self.validate_criteria_requirement_from_market(after.get("criteria", []))
+                self.validate_required_criteria(before, after)
             elif before["status"] != after["status"]:
                 raise_operation_error(
                     get_request(),
