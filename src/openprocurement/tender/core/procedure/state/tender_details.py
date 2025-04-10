@@ -241,7 +241,6 @@ class BaseTenderDetailsMixing:
         self.validate_change_item_profile_or_category(tender, {})
         self.validate_contract_template_name(tender, {})
         self.validate_criteria_requirements_rules(tender.get("criteria", []))
-        self.validate_criteria_requirement_from_market(tender.get("criteria", []))
         super().on_post(tender)
 
         # set author for documents passed with tender data
@@ -299,7 +298,6 @@ class BaseTenderDetailsMixing:
             self._validate_criterion_uniq(after.get("criteria", []))
         if before.get("criteria") != after.get("criteria"):
             self.validate_criteria_requirements_rules(after.get("criteria", []))
-            self.validate_criteria_requirement_from_market(after.get("criteria", []))
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
         if after["status"] in ("draft", "draft.stage2", "active.enquiries", "active.tendering"):
@@ -313,6 +311,7 @@ class BaseTenderDetailsMixing:
             self.validate_profiles_agreement_id(after)
             self.validate_change_item_profile_or_category(after, before, force_validate=True)
             self.validate_notice_doc_required(after)
+            self.validate_criteria_requirement_from_market(after.get("criteria", []))
         else:
             self.validate_change_item_profile_or_category(after, before)
 
@@ -858,7 +857,7 @@ class BaseTenderDetailsMixing:
                 )
 
     def validate_required_criteria(self, before, after):
-        if after.get("status") not in ("active", "active.tendering"):
+        if after.get("status") not in ("draft.pending", "active", "active.enquiries", "active.tendering"):
             return
 
         rules = get_criteria_rules(after)

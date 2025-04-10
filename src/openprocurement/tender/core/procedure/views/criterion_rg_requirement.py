@@ -139,7 +139,6 @@ class BaseRequirementResource(TenderBaseResource):
 
         set_item(requirement_group, "requirements", requirement["id"], updated_requirement)
         self.state.validate_criteria_requirements_rules(self.request.validated["criterion"])
-        self.state.validate_criteria_requirement_from_market(self.request.validated["criterion"])
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
@@ -185,7 +184,6 @@ class BaseRequirementResource(TenderBaseResource):
             requirement["dateModified"] = now
 
         self.state.validate_criteria_requirements_rules(self.request.validated["criterion"])
-        self.state.validate_criteria_requirement_from_market(self.request.validated["criterion"])
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
