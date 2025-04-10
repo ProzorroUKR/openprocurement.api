@@ -25,6 +25,7 @@ class BidSerializer(BaseBidSerializer):
         "financialDocuments": ListSerializer(DocumentSerializer),
         "parameters": ListSerializer(ParameterSerializer),
         "value": ValueSerializer,
+        "initialValue": ValueSerializer,
         "lotValues": ListSerializer(LotValueSerializer),
         "requirementResponses": ListSerializer(RequirementResponseSerializer),
     }
