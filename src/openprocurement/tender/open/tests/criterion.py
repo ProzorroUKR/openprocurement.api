@@ -20,6 +20,7 @@ from openprocurement.tender.openua.tests.criterion_blanks import (
     create_tender_criteria_invalid,
     create_tender_criteria_valid,
     delete_requirement_evidence,
+    delete_tender_criteria,
     get_criteria_rg,
     get_requirement_evidence,
     get_rg_requirement,
@@ -44,6 +45,7 @@ class TenderCriteriaTestMixin:
     test_patch_tender_criteria_invalid = snitch(patch_tender_criteria_invalid)
     test_get_tender_criteria = snitch(get_tender_criteria)
     test_activate_tender = snitch(activate_tender)
+    test_delete_tender_criteria = snitch(delete_tender_criteria)
 
 
 class TenderCriteriaRGTestMixin(TenderCriteriaBaseTestMixin):
