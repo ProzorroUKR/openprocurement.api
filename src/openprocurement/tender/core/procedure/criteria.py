@@ -171,13 +171,24 @@ class TenderCriterionMixin:
                                 f"or archived: {set(tender_requirements.keys()) - set(market_requirements.keys())}",
                                 status=422,
                             )
-                        if requirements_from_profile and set(market_requirements.keys()) - set(
-                            tender_requirements.keys()
+                        market_requirements_ids = set(market_requirements.keys())
+                        tender_requirements_ids = set(tender_requirements.keys())
+                        if (
+                            requirements_from_profile
+                            or tender_criterion["classification"]["id"] == CRITERION_LOCALIZATION
                         ):
+                            if market_requirements_ids - tender_requirements_ids:
+                                raise_operation_error(
+                                    self.request,
+                                    f"Criterion {tender_criterion['classification']['id']} lacks requirements from "
+                                    f"profile {market_requirements_ids - tender_requirements_ids}",
+                                    status=422,
+                                )
+                        elif not tender_requirements_ids.intersection(market_requirements_ids):
                             raise_operation_error(
                                 self.request,
-                                f"Criterion {tender_criterion['classification']['id']} lacks requirements from "
-                                f"profile {set(market_requirements.keys()) - set(tender_requirements.keys())}",
+                                f"Criterion {tender_criterion['classification']['id']} should have at least "
+                                f"one requirement from category",
                                 status=422,
                             )
                         for market_req in list(market_requirements.values()):

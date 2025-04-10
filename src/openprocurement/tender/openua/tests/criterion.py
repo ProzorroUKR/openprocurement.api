@@ -12,6 +12,7 @@ from openprocurement.tender.openua.tests.base import (
 )
 from openprocurement.tender.openua.tests.criterion_blanks import (  # RequirementGroup; Requirement; Evidence
     activate_tender,
+    activate_tender_with_tech_item,
     create_criteria_rg,
     create_patch_delete_evidences_from_requirement,
     create_requirement_evidence_invalid,
@@ -150,6 +151,8 @@ class TenderUACriteriaTest(
 
     required_criteria = test_tender_openua_required_criteria_ids
     article_16_criteria_required = True
+
+    test_activate_tender_with_tech_item = snitch(activate_tender_with_tech_item)
 
 
 class TenderUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderUAContentWebTest):
