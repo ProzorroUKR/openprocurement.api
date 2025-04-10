@@ -73,7 +73,7 @@ class PlanState(BaseState):
         self._validate_plan_availability(data)
         self._validate_tender_procurement_method_type(data)
         self._validate_items_classification_prefix(data)
-        self.validate_required_additional_classifications(data)
+        self.validate_required_breakdown_classifications(data)
 
     def validate_on_patch(self, before, after):
         self._validate_plan_changes_in_terminated(before, after)
@@ -82,7 +82,7 @@ class PlanState(BaseState):
         self._validate_plan_with_tender(before, after)
         self._validate_tender_procurement_method_type(after)
         self._validate_items_classification_prefix(after)
-        self.validate_required_additional_classifications(after)
+        self.validate_required_breakdown_classifications(after)
 
     def plan_tender_validate_on_post(self, plan, tender):
         self._validate_plan_scheduled(plan)
@@ -358,30 +358,33 @@ class PlanState(BaseState):
             root_classification=plan["classification"],
         )
 
-    def validate_required_additional_classifications(self, plan):
+    def validate_required_breakdown_classifications(self, plan):
         if not is_obj_const_active(plan, UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM):
             return
         if plan.get("budget") and plan["budget"].get("breakdown"):
             for breakdown in plan["budget"]["breakdown"]:
-                classifications = breakdown.get("additionalClassifications", [])
-                classifications_schemes = {classification["scheme"] for classification in classifications}
-                if breakdown.get("title") == "state" and (
-                    not classifications or not any(kpk_scheme in classifications_schemes for kpk_scheme in KPK_SCHEMES)
+                classification = breakdown.get("classification", {})
+                if breakdown.get("title") == "state" and not any(
+                    classification.get("scheme") == kpk_scheme for kpk_scheme in KPK_SCHEMES
                 ):
                     raise_operation_error(
                         self.request,
                         f"{KPK_SCHEME} is required for {breakdown['title']} budget.",
                         status=422,
-                        name="budget.breakdown.additionalClassifications",
+                        name="budget.breakdown.classification",
                     )
-                elif breakdown.get("title") in ("local", "crimea") and (
-                    not classifications
-                    or KATOTTG_SCHEME not in classifications_schemes
-                    or TKPKMB_SCHEME not in classifications_schemes
-                ):
-                    raise_operation_error(
-                        self.request,
-                        f"{KATOTTG_SCHEME} and {TKPKMB_SCHEME} are required for {breakdown['title']} budget.",
-                        status=422,
-                        name="budget.breakdown.additionalClassifications",
-                    )
+                elif breakdown.get("title") in ("local", "crimea"):
+                    if classification.get("scheme") != TKPKMB_SCHEME:
+                        raise_operation_error(
+                            self.request,
+                            f"{TKPKMB_SCHEME} is required for {breakdown['title']} budget.",
+                            status=422,
+                            name="budget.breakdown.classification",
+                        )
+                    elif breakdown.get("addressDetails", {}).get("code", {}).get("scheme") != KATOTTG_SCHEME:
+                        raise_operation_error(
+                            self.request,
+                            f"{KATOTTG_SCHEME} is required for {breakdown['title']} budget.",
+                            status=422,
+                            name="budget.breakdown.addressDetails.code",
+                        )
