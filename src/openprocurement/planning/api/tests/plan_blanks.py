@@ -2419,7 +2419,7 @@ def plan_additional_classifications_based_on_breakdown(self):
 
     for breakdown_title in ("crimea", "local"):
         data["budget"]["breakdown"][0]["title"] = breakdown_title
-        data["budget"]["breakdown"][0].pop("additionalClassifications", None)
+        data["budget"]["breakdown"][0].pop("classification", None)
         response = self.app.post_json("/plans", {"data": data}, status=422)
 
         self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -2428,38 +2428,60 @@ def plan_additional_classifications_based_on_breakdown(self):
             [
                 {
                     "location": "body",
-                    "name": "budget.breakdown.additionalClassifications",
-                    "description": f"КАТОТТГ and ТКПКМБ are required for {breakdown_title} budget.",
+                    "name": "budget.breakdown.classification",
+                    "description": f"ТКПКМБ is required for {breakdown_title} budget.",
                 }
             ],
         )
-        data["budget"]["breakdown"][0]["additionalClassifications"] = [
-            {
+        data["budget"]["breakdown"][0]["classification"] = {
+            "scheme": "ТКПКМБ",
+            "id": "2170",
+            "description": "Будівництво закладів охорони здоров’я",
+        }
+        data["budget"]["breakdown"][0].pop("addressDetails", None)
+        response = self.app.post_json("/plans", {"data": data}, status=422)
+
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "budget.breakdown.addressDetails.code",
+                    "description": f"КАТОТТГ is required for {breakdown_title} budget.",
+                }
+            ],
+        )
+        data["budget"]["breakdown"][0]["addressDetails"] = {
+            "countryName": "Республіка Польща",
+            "code": {
                 "scheme": "КАТОТТГ",
                 "id": "UA01020030010043419",
                 "description": "Ароматне",
-            }
-        ]
+            },
+        }
         response = self.app.post_json("/plans", {"data": data}, status=422)
-
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
             response.json["errors"],
             [
                 {
                     "location": "body",
-                    "name": "budget.breakdown.additionalClassifications",
-                    "description": f"КАТОТТГ and ТКПКМБ are required for {breakdown_title} budget.",
+                    "name": "budget",
+                    "description": {
+                        "breakdown": [
+                            {
+                                "addressDetails": {
+                                    "region": ["field address:code is allowed only for countryName 'Україна'"]
+                                }
+                            }
+                        ]
+                    },
                 }
             ],
         )
-        data["budget"]["breakdown"][0]["additionalClassifications"].append(
-            {
-                "scheme": "ТКПКМБ",
-                "id": "2170",
-                "description": "Будівництво закладів охорони здоров’я",
-            }
-        )
+
+        data["budget"]["breakdown"][0]["addressDetails"]["countryName"] = "Україна"
         response = self.app.post_json("/plans", {"data": data})
         self.assertEqual(response.status, "201 Created")
 
@@ -2477,18 +2499,16 @@ def plan_additional_classifications_based_on_breakdown(self):
         [
             {
                 "location": "body",
-                "name": "budget.breakdown.additionalClassifications",
+                "name": "budget.breakdown.classification",
                 "description": "КПК is required for state budget.",
             }
         ],
     )
-    data["budget"]["breakdown"][1]["additionalClassifications"] = [
-        {
-            "scheme": "КПК-2023",
-            "id": "3505000",
-            "description": "Державна аудиторська служба України",
-        }
-    ]
+    data["budget"]["breakdown"][1]["classification"] = {
+        "scheme": "КПК-2023",
+        "id": "3505000",
+        "description": "Державна аудиторська служба України",
+    }
     response = self.app.post_json("/plans", {"data": data})
 
     self.assertEqual(response.status, "201 Created")
@@ -2498,7 +2518,7 @@ def plan_additional_classifications_based_on_breakdown(self):
 
     # try to patch old plans (ignore required KPKV)
     plan_doc = self.mongodb.plans.get(plan["id"])
-    del plan_doc["budget"]["breakdown"][0]["additionalClassifications"]
+    del plan_doc["budget"]["breakdown"][0]["classification"]
     self.mongodb.plans.save(plan_doc)
 
     with mock.patch(
