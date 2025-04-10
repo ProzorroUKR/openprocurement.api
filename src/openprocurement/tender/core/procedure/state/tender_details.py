@@ -1328,7 +1328,7 @@ class BaseTenderDetailsMixing:
     def validate_items_profile(self, tender):
         if (
             self.items_profile_required
-            and tender.get("value", {}).get("amount", 0) > PROFILE_REQUIRED_MIN_VALUE_AMOUNT
+            and tender.get("value", {}).get("amount", 0) >= PROFILE_REQUIRED_MIN_VALUE_AMOUNT
             and tender.get("value", {}).get("currency") == "UAH"
             and tender.get("procuringEntity", {}).get("kind")
             not in (ProcuringEntityKind.SPECIAL, ProcuringEntityKind.DEFENSE, ProcuringEntityKind.OTHER)

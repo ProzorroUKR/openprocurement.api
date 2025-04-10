@@ -44,7 +44,7 @@ Also catalogue item should be in `active` status:
 
         * framework electronic catalogue
 
-        * tender.value.amount > 500000 UAH
+        * tender.value.amount >= 500000 UAH
 
         * tender.procuringEntity.kind != special/defense/other
 

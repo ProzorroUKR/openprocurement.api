@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-31 11:05+0300\n"
+"POT-Creation-Date: 2025-04-09 17:36+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,7 +77,7 @@ msgstr "Для :ref:`pricequotation` поле `profile` обов'язкове, �
 msgid "framework electronic catalogue"
 msgstr "відбір з каталогу"
 
-msgid "tender.value.amount > 500000 UAH"
+msgid "tender.value.amount >= 500000 UAH"
 msgstr ""
 
 msgid "tender.procuringEntity.kind != special/defense/other"
