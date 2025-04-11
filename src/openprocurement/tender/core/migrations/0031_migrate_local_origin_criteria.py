@@ -6,6 +6,7 @@ if __name__ == "__main__":
 
 import logging
 import os
+from bson import Timestamp
 
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
@@ -72,7 +73,7 @@ def run(env, args):
                             "$set": {
                                 "criteria": tender["criteria"],
                                 "public_modified": get_now().timestamp(),
-                                "public_ts": get_public_ts(),
+                                "public_ts": Timestamp(int(get_now().timestamp())),
                             }
                         },
                     )
