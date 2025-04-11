@@ -403,6 +403,8 @@ def validate_operation_ecriteria_objects_evidences(request, **_):
 
     if criterion and criterion["source"] == "winner":
         awarded_status = ["active.awarded", "active.qualification"]
+        if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
+            awarded_status.append("active.qualification.stand-still")
         valid_statuses.extend(awarded_status)
         if tender["status"] not in awarded_status:
             raise_operation_error(request, f"available only in {awarded_status} statuses")
