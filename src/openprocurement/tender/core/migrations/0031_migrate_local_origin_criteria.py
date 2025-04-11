@@ -6,14 +6,13 @@ if __name__ == "__main__":
 
 import logging
 import os
-from bson import Timestamp
 
+from bson import Timestamp
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import COUNTRIES_MAP
-from openprocurement.api.database import get_public_ts
 from openprocurement.api.migrations.base import MigrationArgumentParser
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import CRITERION_LOCALIZATION
