@@ -66,18 +66,19 @@ Content-Type: application/json
             "amount": 1500.0,
             "currency": "UAH"
           },
-          "additionalClassifications": [
-            {
-              "scheme": "ТКПКМБ",
-              "id": "2170",
-              "description": "Будівництво закладів охорони здоров’я"
-            },
-            {
-              "scheme": "КАТОТТГ",
+          "addressDetails": {
+            "countryName": "Україна",
+            "code": {
               "id": "UA01020030010043419",
-              "description": "Ароматне"
+              "description": "Ароматне",
+              "scheme": "КАТОТТГ"
             }
-          ]
+          },
+          "classification": {
+            "id": "2170",
+            "description": "Будівництво закладів охорони здоров’я",
+            "scheme": "ТКПКМБ"
+          }
         }
       ]
     },
