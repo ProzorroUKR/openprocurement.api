@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-05 17:49+0200\n"
+"POT-Creation-Date: 2025-04-11 10:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,8 +32,8 @@ msgstr "Створення критеріїв закупівлі"
 msgid "Criteria exist in procedures: belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
 msgstr "Критерії існують в наступних процедурах:  belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA."
 
-msgid "Criteria can be related to tenderer, lot, item and tender. You cannot cancel lot or item if there is at least one related criterion with requirement in `active` status. To cancel lot or set item quantity to 0 you should set `cancelled` status to all active requirements in related criterion."
-msgstr "Критерії можуть бути пов'язані з tenderer, lot, item та tender. Ви не можете відмінити item, якщо існує хоча б один пов'язаний критерій з вимогою в статусі `active`. Щоб вказати кількість item рівною 0, необхідно перевести у статус `cancelled` всі активні вимоги пов'язаного критерію."
+msgid "Criteria can be related to tenderer, lot, item and tender. You cannot cancel lot or item if there is at least one related criterion with requirement in `active` status. To cancel lot or set item quantity to 0 you should set `cancelled` status to all active requirements in related criterion or delete criterion (only in `draft` tender)."
+msgstr "Критерії можуть бути пов'язані з tenderer, lot, item та tender. Ви не можете відмінити item, якщо існує хоча б один пов'язаний критерій з вимогою в статусі `active`. Щоб вказати кількість item рівною 0, необхідно перевести у статус `cancelled` всі активні вимоги пов'язаного критерію або видалити критерій (дозволено тільки для закупівель в статусі чернетка)."
 
 msgid "You can create few criteria in one request with complete set of data."
 msgstr "Можна створити одразу декілька критеріїв за один запит з повним набором даних."
@@ -43,6 +43,15 @@ msgstr "Оновлення критерію закупівлі"
 
 msgid "Get Tender Criteria"
 msgstr "Отримання інформації по критерію закупівлі"
+
+msgid "Delete Tender Criteria"
+msgstr "Видалення критеріїв закупівлі"
+
+msgid "When tender is in `draft` status it is allowed to delete criterion by id using DELETE endpoint:"
+msgstr "Поки закупівля в статусі чернетка дозволено видаляти критерій по `id`, використовуючи DELETE ендпоінт:"
+
+msgid "Let's try to delete criterion when tender doesn't have `draft` status:"
+msgstr "Спробуємо видалити критерій, коли закупівля не в статусі `draft`, і отримаємо помилку:"
 
 msgid "Requirement Group basic operation"
 msgstr "Базові операції над групами вимог"

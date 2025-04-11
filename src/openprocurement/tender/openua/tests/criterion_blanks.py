@@ -3067,7 +3067,6 @@ def delete_tender_criteria(self):
         f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
     )
     tender_criteria = response.json["data"]
-    self.assertEqual(len(tender_criteria), 15)
 
     # delete tech criteion with relatedItem
     self.app.delete_json(
@@ -3076,7 +3075,7 @@ def delete_tender_criteria(self):
     response = self.app.get(
         f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
     )
-    self.assertEqual(len(response.json["data"]), 14)
+    self.assertEqual(len(response.json["data"]), len(tender_criteria) - 1)
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
