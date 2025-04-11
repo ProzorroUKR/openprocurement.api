@@ -65,14 +65,15 @@ def run(env, args):
                                 req["dataSchema"] = DataSchema.ISO_3166.value
                                 is_updated = True
             if is_updated:
+                modified = get_now().timestamp()
                 bulk.append(
                     UpdateOne(
                         {"_id": tender["_id"]},
                         {
                             "$set": {
                                 "criteria": tender["criteria"],
-                                "public_modified": get_now().timestamp(),
-                                "public_ts": Timestamp(int(get_now().timestamp()), 0),
+                                "public_modified": modified,
+                                "public_ts": Timestamp(int(modified), 0),
                             }
                         },
                     )
