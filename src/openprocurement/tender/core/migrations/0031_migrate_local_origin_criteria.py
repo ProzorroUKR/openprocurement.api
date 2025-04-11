@@ -73,7 +73,7 @@ def run(env, args):
                             "$set": {
                                 "criteria": tender["criteria"],
                                 "public_modified": get_now().timestamp(),
-                                "public_ts": Timestamp(int(get_now().timestamp())),
+                                "public_ts": Timestamp(int(get_now().timestamp()), 0),
                             }
                         },
                     )
