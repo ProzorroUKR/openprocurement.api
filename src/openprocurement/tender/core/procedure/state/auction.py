@@ -97,14 +97,14 @@ class ShouldStartAfterMixing:
         if tender["config"]["hasPrequalification"]:
             qualification_period = tender.get("qualificationPeriod")
             if qualification_period and qualification_period.get("endDate"):
-                decision_dates = self.get_tender_qualification_complaints_decision_dates(tender)
-                decision_dates.append(dt_from_iso(qualification_period["endDate"]))
-                start_after = max(decision_dates)
+                complaints_unblock_dates = self.get_tender_qualification_complaints_unblock_dates(tender)
+                complaints_unblock_dates.append(dt_from_iso(qualification_period["endDate"]))
+                start_after = max(complaints_unblock_dates)
                 return normalize_should_start_after(start_after, tender).isoformat()
         else:
-            decision_dates = self.get_tender_complaints_decision_dates(tender)
-            decision_dates.append(dt_from_iso(tender["tenderPeriod"]["endDate"]))
-            start_after = max(decision_dates)
+            complaints_unblock_dates = self.get_tender_complaints_unblock_dates(tender)
+            complaints_unblock_dates.append(dt_from_iso(tender["tenderPeriod"]["endDate"]))
+            start_after = max(complaints_unblock_dates)
             return normalize_should_start_after(start_after, tender).isoformat()
 
     @staticmethod
@@ -115,27 +115,34 @@ class ShouldStartAfterMixing:
             return ("active.tendering", "active.auction")
 
     @classmethod
-    def get_tender_complaints_decision_dates(cls, tender):
+    def get_tender_complaints_unblock_dates(cls, tender):
         complaints = tender.get("complaints", "")
-        return cls.get_complaints_decision_dates(complaints)
+        return cls.get_complaints_unblock_dates(complaints)
 
     @classmethod
-    def get_tender_qualification_complaints_decision_dates(cls, tender):
-        decision_dates = []
+    def get_tender_qualification_complaints_unblock_dates(cls, tender):
+        unblock_dates = []
         for qualification in tender.get("qualifications", ""):
             complaints = qualification.get("complaints", "")
-            decision_dates.extend(cls.get_complaints_decision_dates(complaints))
-        return decision_dates
+            unblock_dates.extend(cls.get_complaints_unblock_dates(complaints))
+        return unblock_dates
 
-    @staticmethod
-    def get_complaints_decision_dates(complaints):
-        decision_dates = []
+    @classmethod
+    def get_complaints_unblock_dates(cls, complaints):
+        unblock_dates = []
         for complaint in complaints:
-            if complaint.get("dateDecision"):
-                date = dt_from_iso(complaint["dateDecision"]) + timedelta(days=3)
-                date = date.replace(hour=0, minute=0, second=0, microsecond=0)
-                decision_dates.append(date)
-        return decision_dates
+            if complaint.get("status") in cls.block_complaint_status:
+                # if there is any blocking complaint, auction should not be replanned yet
+                return []
+            if complaint.get("tendererActionDate"):
+                # satisfied complaints unblock on tendererActionDate
+                date = dt_from_iso(complaint["tendererActionDate"])
+                unblock_dates.append(date)
+            elif complaint.get("dateDecision"):
+                # other blocking complaints unblock on dateDecision
+                date = dt_from_iso(complaint["dateDecision"])
+                unblock_dates.append(date)
+        return unblock_dates
 
     def update_auction_period_start_dates(
         self, *, period: dict[str, str], should_start_after: str, quick: bool
