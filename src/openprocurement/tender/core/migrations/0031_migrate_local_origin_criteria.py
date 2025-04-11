@@ -12,7 +12,9 @@ from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import COUNTRIES_MAP
+from openprocurement.api.database import get_public_ts
 from openprocurement.api.migrations.base import MigrationArgumentParser
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import CRITERION_LOCALIZATION
 from openprocurement.tender.core.procedure.models.criterion import DataSchema
 
@@ -63,7 +65,18 @@ def run(env, args):
                                 req["dataSchema"] = DataSchema.ISO_3166.value
                                 is_updated = True
             if is_updated:
-                bulk.append(UpdateOne({"_id": tender["_id"]}, {"$set": {"criteria": tender["criteria"]}}))
+                bulk.append(
+                    UpdateOne(
+                        {"_id": tender["_id"]},
+                        {
+                            "$set": {
+                                "criteria": tender["criteria"],
+                                "public_modified": get_now().timestamp(),
+                                "public_ts": get_public_ts(),
+                            }
+                        },
+                    )
+                )
 
                 if bulk and len(bulk) % bulk_max_size == 0:
                     count += bulk_update(bulk, collection)
