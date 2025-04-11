@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-07 17:55+0300\n"
+"POT-Creation-Date: 2025-04-11 09:29+0300\n"
 "PO-Revision-Date: 2019-12-02 11:48+0200\n"
 "Last-Translator: \n"
 "Language: uk\n"
@@ -442,12 +442,27 @@ msgstr "Валюта для всіх breakdown value та budget повинна 
 msgid "Sum of the breakdown values amounts can't be greater than budget amount  (except `tender.procurementMethodType` is `\"esco\"`)"
 msgstr "Загальна вартість всіх breakdown value amount не може бути більшим за budget amount (за вийнятком `tender.procurementMethodType` має значення `\"esco\"`)"
 
-msgid "An array of additional classifications for the `budget.breakdown`."
-msgstr "Масив додаткових класифікацій для бюджету в залежності від джерела фінансуванння `budget.breakdown`."
+msgid "addressDetails"
+msgstr ""
 
-msgid "If plan has `budget.breakdown.title` some of `local`, `crimea` it is required to have KPK additional classificator."
+msgid ":ref:`Address`"
+msgstr ""
+
+msgid "Object of address details for `budget.breakdown`."
+msgstr "Об'єкт з деталями адреси джерела фінансуванння `budget.breakdown`."
+
+msgid "If plan has `budget.breakdown.title` is `state` it is required to have KATOTTG classificator in `addressDetails.classification`."
+msgstr "Якщо джерело фінансування `budget.breakdown.title` вказано `state`, класифікатор КАТОТТГ має зазначатись обовʼязково."
+
+msgid ":ref:`Classification`, object"
+msgstr "Список об’єктів :ref:`Classification`"
+
+msgid "Classification for the `budget.breakdown`."
+msgstr "Класифікатор для бюджету в залежності від джерела фінансуванння `budget.breakdown`."
+
+msgid "If plan has `budget.breakdown.title` some of `local`, `crimea` it is required to have KPK classificator."
 msgstr "Якщо джерело фінансування `budget.breakdown.title` вказано одне зі значень `local`, `crimea`, класифікатор КПК має зазначатись обовʼязково."
 
-msgid "If plan has `budget.breakdown.title` is `state` it is required to have KATOTTG and TKPKMB additional classificators."
-msgstr "Якщо джерело фінансування `budget.breakdown.title` вказано `state`, класифікатори КАТОТТГ та ТКПКМБ мають зазначатись обовʼязково."
+msgid "If plan has `budget.breakdown.title` is `state` it is required to have TKPKMB classificator."
+msgstr "Якщо джерело фінансування `budget.breakdown.title` вказано `state`, класифікатор ТКПКМБ має зазначатись обовʼязково."
 

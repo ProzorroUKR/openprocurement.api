@@ -43,8 +43,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "budget.breakdown.additionalClassifications",
-      "description": "КАТОТТГ and ТКПКМБ are required for local budget."
+      "name": "budget.breakdown.classification",
+      "description": "ТКПКМБ is required for local budget."
     }
   ]
 }

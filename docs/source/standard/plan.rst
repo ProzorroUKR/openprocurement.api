@@ -419,14 +419,21 @@ BudgetBreakdown
 
     Sum of the breakdown values amounts can't be greater than budget amount  (except `tender.procurementMethodType` is `"esco"`)
 
-:additionalClassifications:
+:addressDetails:
+    :ref:`Address`
 
-    List of :ref:`Classification` objects
+    Object of address details for `budget.breakdown`.
 
-    An array of additional classifications for the `budget.breakdown`.
+    If plan has `budget.breakdown.title` is `state` it is required to have KATOTTG classificator
+    in `addressDetails.classification`.
 
-    If plan has `budget.breakdown.title` some of `local`, `crimea`
-    it is required to have KPK additional classificator.
 
-    If plan has `budget.breakdown.title` is `state`
-    it is required to have KATOTTG and TKPKMB additional classificators.
+:classification:
+
+    :ref:`Classification`, object
+
+    Classification for the `budget.breakdown`.
+
+    If plan has `budget.breakdown.title` some of `local`, `crimea` it is required to have KPK classificator.
+
+    If plan has `budget.breakdown.title` is `state` it is required to have TKPKMB classificator.

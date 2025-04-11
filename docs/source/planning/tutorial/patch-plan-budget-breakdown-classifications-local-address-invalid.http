@@ -22,11 +22,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       "breakdown": [
         {
-          "title": "state",
+          "title": "local",
           "description": "Breakdown other description.",
           "value": {
             "amount": 1500,
             "currency": "UAH"
+          },
+          "classification": {
+            "scheme": "ТКПКМБ",
+            "id": "2170",
+            "description": "Будівництво закладів охорони здоров’я"
           }
         }
       ]
@@ -43,8 +48,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "budget.breakdown.classification",
-      "description": "КПК is required for state budget."
+      "name": "budget.breakdown.addressDetails.code",
+      "description": "КАТОТТГ is required for local budget."
     }
   ]
 }

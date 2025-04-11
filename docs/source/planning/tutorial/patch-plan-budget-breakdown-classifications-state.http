@@ -28,13 +28,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "amount": 1500,
             "currency": "UAH"
           },
-          "additionalClassifications": [
-            {
-              "scheme": "КПК-2023",
-              "id": "3505000",
-              "description": "Державна аудиторська служба України"
-            }
-          ]
+          "classification": {
+            "scheme": "КПК-2023",
+            "id": "3505000",
+            "description": "Державна аудиторська служба України"
+          }
         }
       ]
     }
@@ -96,13 +94,11 @@ Content-Type: application/json
             "amount": 1500.0,
             "currency": "UAH"
           },
-          "additionalClassifications": [
-            {
-              "scheme": "КПК-2023",
-              "id": "3505000",
-              "description": "Державна аудиторська служба України"
-            }
-          ]
+          "classification": {
+            "id": "3505000",
+            "description": "Державна аудиторська служба України",
+            "scheme": "КПК-2023"
+          }
         }
       ]
     },
