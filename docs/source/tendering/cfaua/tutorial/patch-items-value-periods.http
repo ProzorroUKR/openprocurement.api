@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2023-09-15T01:00:00+03:00",
+      "startDate": "2023-10-10T00:35:00+03:00",
       "endDate": "2023-11-09T01:00:10+03:00"
     }
   }
@@ -769,6 +769,7 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "open",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
@@ -797,8 +798,8 @@ Content-Type: application/json
       }
     ],
     "complaintPeriod": {
-      "startDate": "2023-09-15T01:00:00+03:00",
-      "endDate": "2023-11-05T00:00:00+02:00"
+      "startDate": "2023-10-10T00:35:00+03:00",
+      "endDate": "2023-11-08T23:56:10+02:00"
     },
     "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
@@ -918,13 +919,13 @@ Content-Type: application/json
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2023-09-15T01:00:00+03:00",
-      "endDate": "2023-10-30T00:00:00+02:00",
-      "clarificationsUntil": "2023-11-02T00:00:00+02:00",
+      "startDate": "2023-10-10T00:35:00+03:00",
+      "endDate": "2023-11-08T23:50:10+02:00",
+      "clarificationsUntil": "2023-11-08T23:53:10+02:00",
       "invalidationDate": "2023-10-10T01:00:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-09-15T01:00:00+03:00",
+      "startDate": "2023-10-10T00:35:00+03:00",
       "endDate": "2023-11-09T01:00:10+03:00"
     },
     "status": "active.tendering",

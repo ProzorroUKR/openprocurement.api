@@ -27,6 +27,7 @@ Content-Type: application/json
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "priceQuotation",
     "awardCriteria": "lowestCost",
     "status": "draft",

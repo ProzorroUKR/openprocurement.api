@@ -167,7 +167,7 @@ Successful adding project from plan of Ukraine:
 Ukraine facility
 -----------------
 
-For `state`, `local` and `crimea` budgets, the Customer should indicate the code of Ukraine facility's classificators in `budget.breakdown.additionalClassifications`.
+For `state`, `local` and `crimea` budgets, the Customer should indicate the code of Ukraine facility's classifiers in `budget.breakdown.classification` and `budget.breakdown.addressDetails`.
 
 *  For `state` budgets KPK dictionaries are used. They are divided by year, e.g. `KPK-2025 <https://github.com/ProzorroUKR/standards/blob/actions/classifiers/kpk_2025.json>`_.
 *  For `local` and `crimea` budgets `KATOTTG <https://github.com/ProzorroUKR/standards/blob/actions/classifiers/katottg.json>`_ and  `TKPKMB <https://github.com/ProzorroUKR/standards/blob/actions/classifiers/tkpkmb.json>`_ dictionaries are used.
@@ -177,7 +177,7 @@ There are additional validations for these kinds of budget's breakdown:
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-state-invalid.http
    :code:
 
-Successful adding `additionalClassifications` for `state` budget breakdown:
+Successful adding `classification` for `state` budget breakdown:
 
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-state.http
    :code:
@@ -187,7 +187,12 @@ Let's look what we have for `local` budget breakdown:
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-local-invalid.http
    :code:
 
-Successful adding `additionalClassifications` for `local` budget breakdown:
+Let's add `classification` for `local` budget breakdown and see what happened:
+
+.. http:example:: tutorial/patch-plan-budget-breakdown-classifications-local-address-invalid.http
+   :code:
+
+Successful adding `classification` and `addressDetails` for `local` budget breakdown:
 
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-local.http
    :code:

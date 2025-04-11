@@ -79,6 +79,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42"
       }
     ],
+    "procurementMethodDetails": "quick, accelerator=1440",
     "lots": [
       {
         "title": "Лот №1",
@@ -118,6 +119,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ba4365d4238e408a
 {
   "data": {
     "title": "футляри до державних нагород",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "awardCriteria": "lowestCost",
     "procuringEntity": {

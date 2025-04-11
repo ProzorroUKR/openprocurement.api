@@ -1697,6 +1697,7 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "open",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
@@ -1728,13 +1729,13 @@ Content-Type: application/json
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2023-10-05T01:02:01+03:00",
+      "startDate": "2023-10-10T00:57:01+03:00",
       "endDate": "2023-10-10T01:02:01+03:00",
-      "reportingDatePublication": "2023-10-05T01:02:01+03:00"
+      "reportingDatePublication": "2023-10-10T00:57:01+03:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-09-09T01:02:01+03:00",
-      "endDate": "2023-10-06T00:00:00+03:00"
+      "startDate": "2023-10-10T00:31:01+03:00",
+      "endDate": "2023-10-10T00:58:01+03:00"
     },
     "qualifications": [
       {
@@ -1917,14 +1918,14 @@ Content-Type: application/json
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2023-09-04T01:02:01+03:00",
-      "endDate": "2023-09-15T01:02:01+03:00",
-      "clarificationsUntil": "2023-10-12T00:00:00+03:00",
+      "startDate": "2023-10-10T00:26:01+03:00",
+      "endDate": "2023-10-10T00:37:01+03:00",
+      "clarificationsUntil": "2023-10-18T00:53:00+03:00",
       "invalidationDate": "2023-10-10T01:01:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-09-04T01:02:01+03:00",
-      "endDate": "2023-10-05T01:02:01+03:00"
+      "startDate": "2023-10-10T00:26:01+03:00",
+      "endDate": "2023-10-10T00:57:01+03:00"
     },
     "status": "active.auction",
     "next_check": "2023-10-11T12:22:15.236000+03:00",

@@ -1707,6 +1707,7 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "open",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
@@ -1739,12 +1740,12 @@ Content-Type: application/json
     ],
     "qualificationPeriod": {
       "startDate": "2023-10-10T01:02:01+03:00",
-      "endDate": "2023-10-16T00:00:00+03:00",
+      "endDate": "2023-10-10T01:07:01+03:00",
       "reportingDatePublication": "2023-10-10T01:02:01+03:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-09-09T01:02:01+03:00",
-      "endDate": "2023-10-06T00:00:00+03:00"
+      "startDate": "2023-10-10T00:31:01+03:00",
+      "endDate": "2023-10-10T00:58:01+03:00"
     },
     "qualifications": [
       {
@@ -1757,7 +1758,7 @@ Content-Type: application/json
         "eligible": true,
         "complaintPeriod": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-16T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         }
       },
       {
@@ -1770,7 +1771,7 @@ Content-Type: application/json
         "eligible": true,
         "complaintPeriod": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-16T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         }
       },
       {
@@ -1783,7 +1784,7 @@ Content-Type: application/json
         "eligible": false,
         "complaintPeriod": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-16T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         }
       },
       {
@@ -1796,7 +1797,7 @@ Content-Type: application/json
         "eligible": true,
         "complaintPeriod": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-16T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         }
       }
     ],
@@ -1920,23 +1921,23 @@ Content-Type: application/json
           "currency": "USD"
         },
         "auctionPeriod": {
-          "shouldStartAfter": "2023-10-16T00:00:00+03:00",
-          "startDate": "2023-10-16T13:09:55.701000+03:00"
+          "shouldStartAfter": "2023-10-11T00:00:00+03:00",
+          "startDate": "2023-10-11T13:09:55.701000+03:00"
         }
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2023-09-09T01:02:01+03:00",
-      "endDate": "2023-09-30T01:02:01+03:00",
-      "clarificationsUntil": "2023-10-12T00:00:00+03:00",
+      "startDate": "2023-10-10T00:31:01+03:00",
+      "endDate": "2023-10-10T00:52:01+03:00",
+      "clarificationsUntil": "2023-10-18T00:53:00+03:00",
       "invalidationDate": "2023-10-10T01:01:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-09-09T01:02:01+03:00",
+      "startDate": "2023-10-10T00:31:01+03:00",
       "endDate": "2023-10-10T01:02:01+03:00"
     },
     "status": "active.pre-qualification.stand-still",
-    "next_check": "2023-10-16T00:00:00+03:00",
+    "next_check": "2023-10-10T01:07:01+03:00",
     "id": "30730028a07b4aee97ed094ebd250c58"
   },
   "config": {

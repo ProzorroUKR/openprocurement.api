@@ -176,6 +176,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "contractTemplateName": "00000000-0.0002.01",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "buyers": [
       {
         "id": "11111111111111111111111111111111",
@@ -254,6 +255,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
     ],
     "contractTemplateName": "00000000-0.0002.01",
     "title": "футляри до державних нагород",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "status": "draft",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -321,7 +323,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
     "enquiryPeriod": {
       "endDate": "2023-10-17T01:00:00+03:00",
       "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-19T00:00:00+03:00"
+      "clarificationsUntil": "2023-10-17T01:01:00+03:00"
     },
     "items": [
       {

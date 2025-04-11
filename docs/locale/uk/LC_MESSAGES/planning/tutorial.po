@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-07 18:35+0300\n"
+"POT-Creation-Date: 2025-04-11 09:29+0300\n"
 "PO-Revision-Date: 2023-10-26 10:31+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -149,8 +149,8 @@ msgstr "Успішне додавання джерела фінансуванн�
 msgid "Ukraine facility"
 msgstr ""
 
-msgid "For `state`, `local` and `crimea` budgets, the Customer should indicate the code of Ukraine facility's classificators in `budget.breakdown.additionalClassifications`."
-msgstr "Для державних, місцевих бюджетів та бюджетів Автономної Республіки Крим, Замовинк має вказати код з класифікаторів Ukraine facility в полі `budget.breakdown.additionalClassifications`."
+msgid "For `state`, `local` and `crimea` budgets, the Customer should indicate the code of Ukraine facility's classifiers in `budget.breakdown.classification` and `budget.breakdown.addressDetails`."
+msgstr "Для державних, місцевих бюджетів та бюджетів Автономної Республіки Крим, Замовинк має вказати код з класифікаторів Ukraine facility в полі `budget.breakdown.classification` та `budget.breakdown.addressDetails`."
 
 msgid "For `state` budgets KPK dictionaries are used. They are divided by year, e.g. `KPK-2025 <https://github.com/ProzorroUKR/standards/blob/actions/classifiers/kpk_2025.json>`_."
 msgstr "Для державних бюджетів використовується класифікатор КПК. Він поділений на декілька довідників в залежності від року, наприклад `КПК-2025 <https://github.com/ProzorroUKR/standards/blob/actions/classifiers/kpk_2025.json>`_."
@@ -161,12 +161,15 @@ msgstr "Для місцевих бюджетів та бюджетів Авто�
 msgid "There are additional validations for these kinds of budget's breakdown:"
 msgstr "Існують додаткові валідації для планів з цими джерелами фінансування:"
 
-msgid "Successful adding `additionalClassifications` for `state` budget breakdown:"
-msgstr "Додамо `additionalClassifications` для державного бюджету:"
+msgid "Successful adding `classification` for `state` budget breakdown:"
+msgstr "Додамо `classification` для державного бюджету:"
 
 msgid "Let's look what we have for `local` budget breakdown:"
 msgstr "Подивимося, що буде, якщо ми змінимо бюджет на місцевий:"
 
-msgid "Successful adding `additionalClassifications` for `local` budget breakdown:"
-msgstr "Додамо `additionalClassifications` для місцевого бюджету:"
+msgid "Let's add `classification` for `local` budget breakdown and see what happened:"
+msgstr "Додамо `classification` для місцевого бюджету і зробимо запит ще раз:"
+
+msgid "Successful adding `classification` and `addressDetails` for `local` budget breakdown:"
+msgstr "Тепер додамо `classification` разом з `addressDetails` для місцевого бюджету:"
 

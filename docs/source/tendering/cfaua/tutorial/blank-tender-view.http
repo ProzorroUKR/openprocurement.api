@@ -758,6 +758,7 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "open",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
@@ -786,7 +787,7 @@ Content-Type: application/json
     ],
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-06T00:00:00+02:00"
+      "endDate": "2023-11-09T23:56:00+02:00"
     },
     "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
@@ -906,14 +907,14 @@ Content-Type: application/json
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2023-09-15T01:00:00+03:00",
-      "endDate": "2023-10-09T01:00:00+03:00",
-      "clarificationsUntil": "2023-11-03T00:00:00+02:00",
+      "startDate": "2023-10-10T00:35:00+03:00",
+      "endDate": "2023-10-10T00:59:00+03:00",
+      "clarificationsUntil": "2023-11-09T23:53:00+02:00",
       "invalidationDate": "2023-10-10T01:00:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-09-15T01:00:00+03:00",
-      "endDate": "2023-10-16T01:00:00+03:00"
+      "startDate": "2023-10-10T00:35:00+03:00",
+      "endDate": "2023-10-10T01:06:00+03:00"
     },
     "status": "active.tendering",
     "next_check": "2023-11-10T01:00:00+03:00",

@@ -828,6 +828,7 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "open",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
@@ -859,13 +860,13 @@ Content-Type: application/json
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2023-09-24T01:02:01+03:00",
-      "endDate": "2023-09-29T01:02:01+03:00",
-      "reportingDatePublication": "2023-09-24T01:02:01+03:00"
+      "startDate": "2023-10-10T00:46:01+03:00",
+      "endDate": "2023-10-10T00:51:01+03:00",
+      "reportingDatePublication": "2023-10-10T00:46:01+03:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-09-09T01:02:01+03:00",
-      "endDate": "2023-10-06T00:00:00+03:00"
+      "startDate": "2023-10-10T00:31:01+03:00",
+      "endDate": "2023-10-10T00:58:01+03:00"
     },
     "qualifications": [
       {
@@ -1041,29 +1042,29 @@ Content-Type: application/json
           "currency": "USD"
         },
         "auctionPeriod": {
-          "startDate": "2023-09-29T01:02:01+03:00",
-          "endDate": "2023-09-30T01:02:01+03:00"
+          "startDate": "2023-10-10T00:51:01+03:00",
+          "endDate": "2023-10-10T00:52:01+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/30730028a07b4aee97ed094ebd250c58_9dea7e57fca24c0fa6c43f752611342d"
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2023-08-24T01:02:01+03:00",
-      "endDate": "2023-09-14T01:02:01+03:00",
-      "clarificationsUntil": "2023-10-12T00:00:00+03:00",
+      "startDate": "2023-10-10T00:15:01+03:00",
+      "endDate": "2023-10-10T00:36:01+03:00",
+      "clarificationsUntil": "2023-10-18T00:53:00+03:00",
       "invalidationDate": "2023-10-10T01:01:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-08-24T01:02:01+03:00",
-      "endDate": "2023-09-24T01:02:01+03:00"
+      "startDate": "2023-10-10T00:15:01+03:00",
+      "endDate": "2023-10-10T00:46:01+03:00"
     },
     "status": "unsuccessful",
     "auctionPeriod": {
-      "startDate": "2023-09-29T01:02:01+03:00",
-      "endDate": "2023-09-30T01:02:01+03:00"
+      "startDate": "2023-10-10T00:51:01+03:00",
+      "endDate": "2023-10-10T00:52:01+03:00"
     },
     "awardPeriod": {
-      "startDate": "2023-09-30T01:02:01+03:00",
+      "startDate": "2023-10-10T00:52:01+03:00",
       "endDate": "2023-10-10T01:02:01+03:00"
     },
     "awards": [
@@ -1119,7 +1120,7 @@ Content-Type: application/json
         ],
         "period": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-18T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         },
         "qualified": true,
         "eligible": true
@@ -1177,7 +1178,7 @@ Content-Type: application/json
         ],
         "period": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-18T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         },
         "qualified": true,
         "eligible": true
@@ -1235,7 +1236,7 @@ Content-Type: application/json
         ],
         "period": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-18T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         },
         "qualified": true,
         "eligible": true
@@ -1292,7 +1293,7 @@ Content-Type: application/json
         ],
         "period": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-18T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         },
         "qualified": false,
         "eligible": false
@@ -1349,12 +1350,12 @@ Content-Type: application/json
         ],
         "period": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-18T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         },
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
-          "startDate": "2023-09-30T01:02:01+03:00",
+          "startDate": "2023-10-10T00:52:01+03:00",
           "endDate": "2023-10-10T01:02:01+03:00"
         }
       },
@@ -1411,12 +1412,12 @@ Content-Type: application/json
         ],
         "period": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-18T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         },
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
-          "startDate": "2023-09-30T01:02:01+03:00",
+          "startDate": "2023-10-10T00:52:01+03:00",
           "endDate": "2023-10-10T01:02:01+03:00"
         }
       },
@@ -1473,12 +1474,12 @@ Content-Type: application/json
         ],
         "period": {
           "startDate": "2023-10-10T01:02:01+03:00",
-          "endDate": "2023-10-18T00:00:00+03:00"
+          "endDate": "2023-10-10T01:07:01+03:00"
         },
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
-          "startDate": "2023-09-30T01:02:01+03:00",
+          "startDate": "2023-10-10T00:52:01+03:00",
           "endDate": "2023-10-10T01:02:01+03:00"
         }
       }
