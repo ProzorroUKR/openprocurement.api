@@ -38,5 +38,7 @@ class Address(Model):
         if address["countryName"] == "Україна":
             if region and region not in UA_REGIONS:
                 raise ValidationError("field address:region not exist in ua_regions catalog")
-        elif address["code"]:
-            raise ValidationError("field address:code is allowed only for countryName 'Україна'")
+
+    def validate_code(self, address, code):
+        if code and code["scheme"] == KATOTTG_SCHEME and address["countryName"] != "Україна":
+            raise ValidationError(f"{KATOTTG_SCHEME} is allowed only for countryName 'Україна'")

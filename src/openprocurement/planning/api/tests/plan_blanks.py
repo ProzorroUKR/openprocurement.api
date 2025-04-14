@@ -2470,11 +2470,7 @@ def plan_additional_classifications_based_on_breakdown(self):
                     "name": "budget",
                     "description": {
                         "breakdown": [
-                            {
-                                "addressDetails": {
-                                    "region": ["field address:code is allowed only for countryName 'Україна'"]
-                                }
-                            }
+                            {"addressDetails": {"code": ["КАТОТТГ is allowed only for countryName 'Україна'"]}}
                         ]
                     },
                 }
