@@ -1422,7 +1422,7 @@ def validate_procurement_kind_is_central(request, **kwargs):
 
 
 def validate_tender_in_draft(request, **kwargs):
-    if request.validated["tender"]["status"] != "draft":
+    if request.validated["tender"]["status"] not in ("draft", "draft.stage2"):
         raise raise_operation_error(request, "Only allowed in draft tender status")
 
 

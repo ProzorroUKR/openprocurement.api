@@ -1,0 +1,19 @@
+DELETE /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/bbff38f98f1c45deb2a2d3c28ed1224f?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Only allowed in draft tender status"
+    }
+  ]
+}
+

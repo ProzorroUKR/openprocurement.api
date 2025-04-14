@@ -17,7 +17,7 @@ competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgr
 
 Criteria can be related to tenderer, lot, item and tender.
 You cannot cancel lot or item if there is at least one related criterion with requirement in `active` status.
-To cancel lot or set item quantity to 0 you should set `cancelled` status to all active requirements in related criterion.
+To cancel lot or set item quantity to 0 you should set `cancelled` status to all active requirements in related criterion or delete criterion (only in `draft` tender).
 
 You can create few criteria in one request with complete set of data.
 
@@ -40,6 +40,20 @@ Get Tender Criteria
    :code:
 
 .. http:example:: http/criteria/criteria.http
+   :code:
+
+
+Delete Tender Criteria
+"""""""""""""""""""""""
+
+When tender is in `draft` status it is allowed to delete criterion by id using DELETE endpoint:
+
+.. http:example:: http/criteria/delete-criteria.http
+   :code:
+
+Let's try to delete criterion when tender doesn't have `draft` status:
+
+.. http:example:: http/criteria/delete-criteria-invalid.http
    :code:
 
 

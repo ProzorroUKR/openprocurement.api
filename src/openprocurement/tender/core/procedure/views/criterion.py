@@ -21,6 +21,7 @@ from openprocurement.tender.core.procedure.serializers.criterion import (
 )
 from openprocurement.tender.core.procedure.state.criterion import CriterionState
 from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.validation import validate_tender_in_draft
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 LOGGER = getLogger(__name__)
@@ -122,3 +123,27 @@ class BaseCriterionResource(TenderBaseResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_criterion_patch"}),
             )
             return {"data": self.serializer_class(updated_criterion).data}
+
+    @json_view(
+        content_type="application/json",
+        validators=(
+            unless_administrator(validate_item_owner("tender")),
+            validate_tender_in_draft,
+        ),
+        permission="edit_criterion",
+    )
+    def delete(self):
+        deleted_criterion = self.request.validated["criterion"]
+        tender = self.request.validated["tender"]
+        tender["criteria"] = [
+            criterion for criterion in tender["criteria"] if criterion["id"] != deleted_criterion["id"]
+        ]
+        if not tender["criteria"]:
+            del tender["criteria"]
+
+        if save_tender(self.request):
+            self.LOGGER.info(
+                f"Deleted tender criterion {deleted_criterion['id']}",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_document_delete"}),
+            )
+            return {"data": self.serializer_class(deleted_criterion).data}

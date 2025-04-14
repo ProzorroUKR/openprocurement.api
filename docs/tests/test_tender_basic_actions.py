@@ -2621,6 +2621,23 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'criteria/delete-criteria-invalid.http', 'wb') as self.app.file_obj:
+            response = self.app.delete(
+                '/tenders/{}/criteria/{}?acc_token={}'.format(self.tender_id, criteria_id_1, owner_token),
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        tender = self.mongodb.tenders.get(self.tender_id)
+        tender["status"] = "draft"
+        self.mongodb.tenders.save(tender)
+
+        with open(TARGET_DIR + 'criteria/delete-criteria.http', 'wb') as self.app.file_obj:
+            response = self.app.delete(
+                '/tenders/{}/criteria/{}?acc_token={}'.format(self.tender_id, criteria_id_1, owner_token),
+            )
+            self.assertEqual(response.status, '200 OK')
+
     def test_tender_criteria_article_16(self):
         self.app.authorization = ('Basic', ('broker', ''))
         tender_data = deepcopy(test_tender_data)

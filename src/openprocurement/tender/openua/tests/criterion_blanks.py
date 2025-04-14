@@ -3099,3 +3099,101 @@ def criterion_from_market_category(self):
         )
         response = activate_tender()
         self.assertEqual(response.json["data"]["status"], "active.tendering")
+
+
+@patch_market(
+    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": []},
+    category={"id": "0" * 32, "criteria": []},
+)
+def delete_tender_criteria(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    items = tender["items"]
+    tech_item = items[0].copy()
+    tech_item["profile"] = "1" * 32
+    tech_item["category"] = "0" * 32
+
+    del tech_item["id"]
+    items.append(tech_item)
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    items = response.json["data"]["items"]
+
+    # add all other required criteria
+    criteria_ids = self.required_criteria
+    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+    self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_criteria},
+    )
+    self.add_sign_doc(self.tender_id, self.tender_token)
+
+    market_tech_feature = deepcopy(test_tech_feature_criteria)
+    market_tech_feature[0]["requirementGroups"][0]["requirements"].append(
+        {
+            "title": "Req 3",
+            "dataType": "number",
+            "minValue": 0,
+            "unit": {"code": "INH", "name": "дюйм"},
+        }
+    )
+
+    criteria_data = deepcopy(test_tech_feature_criteria)
+    set_tender_criteria(criteria_data, tender["lots"], items)
+    criteria_data[0]["relatedItem"] = items[1]["id"]
+    criteria_data[0]["requirementGroups"][0]["requirements"] = [
+        {
+            "title": "Діагонaль",
+            "dataType": "integer",
+            "expectedValue": 15,
+            "unit": {"code": "INH", "name": "дюйм"},
+        }
+    ]
+
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+        {"data": criteria_data[0]},
+    )
+    tech_criteria_id = response.json["data"][0]["id"]
+
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+    )
+    tender_criteria = response.json["data"]
+
+    # delete tech criteion with relatedItem
+    self.app.delete_json(
+        f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}?acc_token={self.tender_token}",
+    )
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+    )
+    self.assertEqual(len(response.json["data"]), len(tender_criteria) - 1)
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"status": "active.tendering"}},
+    )
+
+    # try to delete criterion in active.tendering
+    response = self.app.delete_json(
+        f"/tenders/{self.tender_id}/criteria/{tender_criteria[0]['id']}?acc_token={self.tender_token}",
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Only allowed in draft tender status",
+            },
+        ],
+    )
