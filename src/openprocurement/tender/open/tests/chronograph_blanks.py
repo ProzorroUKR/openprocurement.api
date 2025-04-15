@@ -1,4 +1,14 @@
+from copy import deepcopy
+from datetime import timedelta
+
+from freezegun import freeze_time
+
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_complaint,
+)
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.tests.utils import change_auth
 
@@ -102,3 +112,219 @@ def set_auction_period_lot(self):
     item = response.json["data"]["lots"][0]
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(item["auctionPeriod"]["startDate"], start_date)
+
+
+def set_auction_period_for_satisfied_complaint(self):
+    freezer = freeze_time()
+    frozen_datetime = freezer.start()
+
+    self.app.authorization = ("Basic", ("broker", ""))
+
+    # create complaint
+    complaint_data = deepcopy(test_tender_below_complaint)
+    complaint_data["author"] = deepcopy(test_tender_below_author)
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    complaint = response.json["data"]
+
+    self.app.authorization = ("Basic", ("bot", ""))
+
+    # set complaint to pending
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    self.app.authorization = ("Basic", ("reviewer", ""))
+
+    # set complaint to accepted
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+        {
+            "data": {
+                "status": "accepted",
+                "decision": "complaint decision",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "some",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "accepted")
+
+    # get tender
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
+    # wait until tender period ends, so that we have stale auction period
+    frozen_datetime.move_to(tender["tenderPeriod"]["endDate"])
+    frozen_datetime.tick(delta=timedelta(days=10))
+
+    # check auction period is stale
+    should_start_after = parse_date(tender["lots"][0]["auctionPeriod"]["shouldStartAfter"])
+    self.assertTrue(should_start_after < get_now())
+    start_date = parse_date(tender["lots"][0]["auctionPeriod"]["startDate"])
+    self.assertTrue(start_date < get_now())
+
+    # set complaint to satisfied
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+        {
+            "data": {
+                "status": "satisfied",
+                "decision": "refined complaint decision",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "satisfied")
+    self.assertEqual(response.json["data"]["dateDecision"], get_now().isoformat())
+
+    # get tender
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
+    # check auction period is stale
+    should_start_after = parse_date(tender["lots"][0]["auctionPeriod"]["shouldStartAfter"])
+    self.assertTrue(should_start_after < get_now())
+    start_date = parse_date(tender["lots"][0]["auctionPeriod"]["startDate"])
+    self.assertTrue(start_date < get_now())
+
+    # wait more
+    frozen_datetime.tick(delta=timedelta(days=10))
+
+    self.app.authorization = ("Basic", ("broker", ""))
+
+    # set complaint to resolved
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
+        {
+            "data": {
+                "status": "resolved",
+                "tendererAction": "Tenderer action",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "resolved")
+    self.assertEqual(response.json["data"]["tendererActionDate"], get_now().isoformat())
+
+    self.check_chronograph()
+
+    # get tender
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "active.auction")
+
+    # check that auction period was updated
+    should_start_after = parse_date(tender["lots"][0]["auctionPeriod"]["shouldStartAfter"])
+    self.assertTrue(should_start_after > get_now())
+    start_date = parse_date(tender["lots"][0]["auctionPeriod"]["startDate"])
+    self.assertTrue(start_date > get_now())
+
+    freezer.stop()
+
+
+def set_auction_period_for_not_satisfied_complaint(self):
+    freezer = freeze_time()
+    frozen_datetime = freezer.start()
+
+    self.app.authorization = ("Basic", ("broker", ""))
+
+    # create complaint
+    complaint_data = deepcopy(test_tender_below_complaint)
+    complaint_data["author"] = deepcopy(test_tender_below_author)
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    complaint = response.json["data"]
+
+    self.app.authorization = ("Basic", ("bot", ""))
+
+    # set complaint to pending
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    self.app.authorization = ("Basic", ("reviewer", ""))
+
+    # set complaint to accepted
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+        {
+            "data": {
+                "status": "accepted",
+                "decision": "complaint decision",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "some",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "accepted")
+
+    # get tender
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
+    # wait until tender period ends, so that we have stale auction period
+    frozen_datetime.move_to(tender["tenderPeriod"]["endDate"])
+    frozen_datetime.tick(delta=timedelta(days=10))
+
+    # check auction period is stale
+    should_start_after = parse_date(tender["lots"][0]["auctionPeriod"]["shouldStartAfter"])
+    self.assertTrue(should_start_after < get_now())
+    start_date = parse_date(tender["lots"][0]["auctionPeriod"]["startDate"])
+    self.assertTrue(start_date < get_now())
+
+    # set complaint to satisfied
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+        {
+            "data": {
+                "status": "declined",
+                "decision": "declined complaint decision",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "declined")
+    self.assertEqual(response.json["data"]["dateDecision"], get_now().isoformat())
+
+    self.check_chronograph()
+
+    # get tender
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "active.auction")
+
+    # check that auction period was updated
+    should_start_after = parse_date(tender["lots"][0]["auctionPeriod"]["shouldStartAfter"])
+    self.assertTrue(should_start_after > get_now())
+    start_date = parse_date(tender["lots"][0]["auctionPeriod"]["startDate"])
+    self.assertTrue(start_date > get_now())
+
+    freezer.stop()

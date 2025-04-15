@@ -9,6 +9,8 @@ from openprocurement.tender.open.tests.base import (
 from openprocurement.tender.open.tests.chronograph_blanks import (
     not_switch_to_unsuccessful_2lot_1bid,
     not_switch_to_unsuccessful_lot_1bid,
+    set_auction_period_for_not_satisfied_complaint,
+    set_auction_period_for_satisfied_complaint,
     set_auction_period_lot,
     set_auction_period_lot_0bid,
     switch_to_auction_lot,
@@ -21,6 +23,8 @@ class TenderLotSwitchAuctionResourceTestMixin:
     test_switch_to_auction_lot = snitch(switch_to_auction_lot)
     test_switch_to_unsuccessful_lot = snitch(switch_to_unsuccessful_lot)
     test_set_auction_period_lot = snitch(set_auction_period_lot)
+    test_set_auction_period_for_satisfied_complaint = snitch(set_auction_period_for_satisfied_complaint)
+    test_set_auction_period_for_not_satisfied_complaint = snitch(set_auction_period_for_not_satisfied_complaint)
 
 
 class TenderLotSwitch0BidResourceTest(BaseTenderUAContentWebTest):
