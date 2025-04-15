@@ -2474,11 +2474,50 @@ def tech_feature_criterion(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    tender_criteria = response.json["data"]["criteria"]
 
     self.assertNotIn("category", response.json["data"]["items"][1])
     self.assertNotIn("profile", response.json["data"]["items"][1])
     criterion_req = response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
     self.assertEqual(criterion_req["status"], "cancelled")
+
+    new_tech_item_new = deepcopy(tech_item)
+    new_tech_item_new["id"] = uuid4().hex
+    items.append(new_tech_item_new)
+
+    new_criterion = deepcopy(criteria_data[0])
+    new_criterion["relatedItem"] = new_tech_item_new["id"]
+    tender_criteria.append(new_criterion)
+
+    # try to add new item and new criteria for this item at once to check that new requirements will not be cancelled
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items, "criteria": tender_criteria}},
+    )
+    for rg in response.json["data"]["criteria"][-1]["requirementGroups"]:
+        for req in rg["requirements"]:
+            self.assertEqual(req["status"], "active")
+
+    # try to delete profile but add new requirement (all previous requirements should be cancelled accept new one)
+    del items[-1]["profile"]
+    tender_criteria = response.json["data"]["criteria"]
+    tender_criteria[-1]["requirementGroups"][0]["requirements"].append(
+        {
+            "title": "New one",
+            "expectedValue": True,
+            "dataType": "boolean",
+        }
+    )
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items, "criteria": tender_criteria}},
+    )
+    for rg in response.json["data"]["criteria"][-1]["requirementGroups"]:
+        for req in rg["requirements"]:
+            if req["title"] != "New one":
+                self.assertEqual(req["status"], "cancelled")
+            else:
+                self.assertEqual(req["status"], "active")
 
 
 @patch_market(

@@ -1310,20 +1310,29 @@ class BaseTenderDetailsMixing:
                         raise_operation_error(request, "Profile should be related to category", status=422)
 
             if (is_profile_changed or is_category_changed) and before:
-                self.cancel_all_technical_criteria(after, k)
+                self.cancel_all_technical_criteria(before, after, k)
 
-    def cancel_all_technical_criteria(self, tender: dict, item_id: str) -> None:
+    def cancel_all_technical_criteria(self, before_tender: dict, after_tender: dict, item_id: str) -> None:
         criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
         now = get_now()
-        for criterion in tender.get("criteria", ""):
+        for criterion in after_tender.get("criteria", []):
             if (
                 criterion.get("classification", {}).get("id") in criteria_ids
                 and criterion.get("relatedItem") == item_id
             ):
+                # get requirement ids from criterion before patch just to cancel only existed ones
+                before_requirements_ids = [
+                    req["id"]
+                    for before_criterion in before_tender.get("criteria", [])
+                    if before_criterion["id"] == criterion["id"]
+                    for rg in before_criterion.get("requirementGroups", [])
+                    for req in rg.get("requirements", [])
+                ]
                 for rg in criterion.get("requirementGroups", ""):
                     for req in rg.get("requirements", ""):
-                        req["status"] = ReqStatuses.CANCELLED
-                        req["dateModified"] = now.isoformat()
+                        if req.get("id") in before_requirements_ids:
+                            req["status"] = ReqStatuses.CANCELLED
+                            req["dateModified"] = now.isoformat()
 
     def invalidate_bids_data(self, tender):
         self.set_enquiry_period_invalidation_date(tender)
