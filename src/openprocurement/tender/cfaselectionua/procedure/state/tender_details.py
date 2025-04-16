@@ -111,8 +111,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                         "Can't switch tender to (draft.pending) status without agreements or items.",
                     )
                 self.validate_exist_guarantee_criteria(after)
-                self.validate_criteria_requirement_from_market(after.get("criteria", []))
                 self.validate_required_criteria(before, after)
+                self.validate_criteria_requirement_from_market(after.get("criteria", []))
             elif before["status"] != after["status"]:
                 raise_operation_error(
                     get_request(),

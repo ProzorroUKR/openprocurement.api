@@ -293,7 +293,6 @@ class BaseTenderDetailsMixing:
         self.validate_docs(after, before)
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
-        self.validate_required_criteria(before, after)
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
             self._validate_criterion_uniq(after.get("criteria", []))
         if before.get("criteria") != after.get("criteria"):
@@ -311,6 +310,7 @@ class BaseTenderDetailsMixing:
             self.validate_profiles_agreement_id(after)
             self.validate_change_item_profile_or_category(after, before, force_validate=True)
             self.validate_notice_doc_required(after)
+            self.validate_required_criteria(before, after)
             self.validate_criteria_requirement_from_market(after.get("criteria", []))
         else:
             self.validate_change_item_profile_or_category(after, before)
@@ -857,9 +857,6 @@ class BaseTenderDetailsMixing:
                 )
 
     def validate_required_criteria(self, before, after):
-        if after.get("status") not in ("draft.pending", "active", "active.enquiries", "active.tendering"):
-            return
-
         rules = get_criteria_rules(after)
 
         mpc = after.get("mainProcurementCategory", MainProcurementCategory.SERVICES)

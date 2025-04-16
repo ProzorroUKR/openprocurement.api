@@ -2312,6 +2312,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.status, '201 Created')
         tender_ua_id = response.json["data"]["id"]
         tender_ua_owner_token = response.json["access"]["token"]
+        self.add_sign_doc(tender_ua_id, tender_ua_owner_token)
         with open(
             TARGET_DIR + 'criteria/update-tender-status-without-exclusion-criteria-general.http', 'wb'
         ) as self.app.file_obj:
@@ -2322,6 +2323,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '403 Forbidden')
 
+        self.add_sign_doc(self.tender_id, owner_token)
         # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdEU
         with open(
             TARGET_DIR + 'criteria/update-tender-status-without-exclusion-criteria-open.http', 'wb'
@@ -2662,6 +2664,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         criteria_2 = response.json['data'][0]
         criteria_id_2 = criteria_2['id']
+
+        self.add_sign_doc(self.tender_id, owner_token)
 
         # Try to update tender from `draft` to `active.tendering` without ARTICLE_16 criteria
         with open(
