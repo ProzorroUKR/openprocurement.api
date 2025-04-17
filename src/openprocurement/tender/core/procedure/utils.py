@@ -631,3 +631,18 @@ def get_contract_template_names_for_classification_ids(
         expected_names.update(get_contract_template_names_for_prefix(DEFAULT_CONTRACT_TEMPLATE_KEY, active_only))
 
     return expected_names
+
+
+def get_lot_value_status(lot_value, bid):
+    """
+    Get lot value status from lot value.
+    In the past procedures without pre-qualification lotValues didn't have status field, and we still have that data in DB.
+    Fallback for lot values without status for backward compatibility:
+    - if bid is pending we assume that lot value is pending
+    - otherwise we assume that lot value is active
+    """
+    if lot_value.get("status"):
+        return lot_value["status"]
+    if bid.get("status") == "pending":
+        return "pending"
+    return "active"

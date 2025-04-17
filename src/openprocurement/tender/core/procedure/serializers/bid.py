@@ -18,6 +18,7 @@ from openprocurement.tender.core.procedure.serializers.lot_value import (
 from openprocurement.tender.core.procedure.serializers.req_response import (
     RequirementResponseSerializer,
 )
+from openprocurement.tender.core.procedure.utils import get_lot_value_status
 
 
 class BidSerializer(BaseSerializer):
@@ -149,7 +150,7 @@ class BidSerializer(BaseSerializer):
         lot_values_statuses = set()
         for lot_value in bid["lotValues"]:
             if lot_value["relatedLot"] in active_lots_ids:
-                lot_values_statuses.add(lot_value["status"])
+                lot_values_statuses.add(get_lot_value_status(lot_value, bid))
 
         if "pending" in lot_values_statuses:
             return "pending"
