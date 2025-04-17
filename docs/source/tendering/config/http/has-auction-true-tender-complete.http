@@ -1496,7 +1496,12 @@ Content-Type: application/json
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "subcontractingDetails": "ДКП «Орфей», Україна",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
+            "date": "2023-10-10T01:00:00+03:00",
+            "initialValue": {
+              "amount": 500.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            }
           },
           {
             "value": {
@@ -1507,7 +1512,12 @@ Content-Type: application/json
             "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
             "subcontractingDetails": "ДКП «Орфей», Україна",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
+            "date": "2023-10-10T01:00:00+03:00",
+            "initialValue": {
+              "amount": 500.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            }
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"
@@ -1766,7 +1776,12 @@ Content-Type: application/json
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "subcontractingDetails": "ДКП «Укр Прінт», Україна",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
+            "date": "2023-10-10T01:00:00+03:00",
+            "initialValue": {
+              "amount": 500.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            }
           },
           {
             "value": {
@@ -1777,7 +1792,12 @@ Content-Type: application/json
             "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
             "subcontractingDetails": "ДКП «Укр Прінт», Україна",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
+            "date": "2023-10-10T01:00:00+03:00",
+            "initialValue": {
+              "amount": 500.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            }
           }
         ],
         "submissionDate": "2023-10-10T01:00:00+03:00"

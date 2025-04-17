@@ -71,6 +71,11 @@ Content-Type: application/json
     "selfEligible": true,
     "selfQualified": true,
     "submissionDate": "2023-10-10T01:00:01+03:00",
+    "initialValue": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/5fd17b367a75453582bffe24ae83b896?key_for_bid=ca0b06136e7e4e7d89a15fbafaaacc72"
   }
 }

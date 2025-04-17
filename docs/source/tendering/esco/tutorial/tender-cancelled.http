@@ -1272,6 +1272,40 @@ Content-Type: application/json
                 "years": 10,
                 "days": 74
               }
+            },
+            "initialValue": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 9430.27,
+              "amountPerformance": 864.98,
+              "yearlyPaymentsPercentage": 0.9,
+              "annualCostsReduction": [
+                500,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000
+              ],
+              "contractDuration": {
+                "years": 10,
+                "days": 74
+              }
             }
           }
         ],
@@ -1502,6 +1536,40 @@ Content-Type: application/json
             "status": "active",
             "date": "2023-10-10T01:02:01+03:00",
             "value": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 9767.32,
+              "amountPerformance": 801.83,
+              "yearlyPaymentsPercentage": 0.85,
+              "annualCostsReduction": [
+                400,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900
+              ],
+              "contractDuration": {
+                "years": 12,
+                "days": 200
+              }
+            },
+            "initialValue": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
               "amount": 9767.32,
