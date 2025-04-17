@@ -63,7 +63,7 @@ class BudgetBreakdownItem(Model):
     description_en = StringType(max_length=500)
     description_ru = StringType(max_length=500)
     value = ModelType(Guarantee, required=True)
-    addressDetails = ModelType(Address)
+    address = ModelType(Address)
     classification = ModelType(BudgetClassification)
 
     def validate_description(self, data, value):

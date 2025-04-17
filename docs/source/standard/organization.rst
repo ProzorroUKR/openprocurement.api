@@ -223,11 +223,11 @@ Schema
     |ocdsDescription|
     The country name. For example, United States.
 
-:code:
+:addressDetails:
 
-    :ref:`Classification`, object
+    List of :ref:`Classification` objects
 
-    Classification of address, e.g. code for territorial community (KATOTTG).
+    Classifications of address, e.g. code for territorial community (KATOTTG).
 
 
 Since 01-01-2020 fields **countryName** and **region** in all new entities will validate. Country name in field **countryName** must be present in `countries catalog <https://prozorroukr.github.io/standards/classifiers/countries.json>`_.

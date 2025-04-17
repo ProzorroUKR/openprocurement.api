@@ -8,7 +8,11 @@ from pytz import timezone
 from requests import Session
 
 from openprocurement.api import constants_env
-from openprocurement.api.constants_utils import load_criteria_rules, parse_str_list
+from openprocurement.api.constants_utils import (
+    load_criteria_rules,
+    parse_str_list,
+    split_classifier_by_year,
+)
 
 # Logging
 LOGGER = getLogger("openprocurement.api")
@@ -118,15 +122,7 @@ UA_ROAD_CPV_PREFIXES = standards.load("classifiers/ua_road_cpv_prefixes.json")
 CCCE_UA = standards.load("classifiers/ccce_ua.json")
 KPKV_UK = standards.load("classifiers/kpkv_uk_2025.json")
 KEKV_UK = standards.load("classifiers/kekv_uk.json")
-KPK = {
-    "КПК-2019": standards.load("classifiers/kpk_2019.json"),
-    "КПК-2020": standards.load("classifiers/kpk_2020.json"),
-    "КПК-2021": standards.load("classifiers/kpk_2021.json"),
-    "КПК-2022": standards.load("classifiers/kpk_2022.json"),
-    "КПК-2023": standards.load("classifiers/kpk_2023.json"),
-    "КПК-2024": standards.load("classifiers/kpk_2024.json"),
-    "КПК-2025": standards.load("classifiers/kpk_2025.json"),
-}
+KPK = split_classifier_by_year(standards.load("classifiers/kpk.json"), "КПК")
 KATOTTG = standards.load("classifiers/katottg.json")
 TKPKMB = standards.load("classifiers/tkpkmb.json")
 

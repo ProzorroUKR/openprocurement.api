@@ -381,7 +381,10 @@ class PlanState(BaseState):
                             status=422,
                             name="budget.breakdown.classification",
                         )
-                    elif breakdown.get("addressDetails", {}).get("code", {}).get("scheme") != KATOTTG_SCHEME:
+                    elif not any(
+                        detail.get("scheme") == KATOTTG_SCHEME
+                        for detail in breakdown.get("address", {}).get("addressDetails", [])
+                    ):
                         raise_operation_error(
                             self.request,
                             f"{KATOTTG_SCHEME} is required for {breakdown['title']} budget.",

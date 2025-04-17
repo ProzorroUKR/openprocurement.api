@@ -419,13 +419,13 @@ BudgetBreakdown
 
     Sum of the breakdown values amounts can't be greater than budget amount  (except `tender.procurementMethodType` is `"esco"`)
 
-:addressDetails:
+:address:
     :ref:`Address`
 
     Object of address details for `budget.breakdown`.
 
-    If plan has `budget.breakdown.title` is `state` it is required to have KATOTTG classificator
-    in `addressDetails.classification`.
+    If plan has `budget.breakdown.title` is `state` it is required to have at least one KATOTTG classificator
+    in `address.addressDetails`.
 
 
 :classification:

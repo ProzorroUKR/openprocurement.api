@@ -2438,7 +2438,7 @@ def plan_additional_classifications_based_on_breakdown(self):
             "id": "2170",
             "description": "Будівництво закладів охорони здоров’я",
         }
-        data["budget"]["breakdown"][0].pop("addressDetails", None)
+        data["budget"]["breakdown"][0].pop("address", None)
         response = self.app.post_json("/plans", {"data": data}, status=422)
 
         self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -2452,13 +2452,44 @@ def plan_additional_classifications_based_on_breakdown(self):
                 }
             ],
         )
-        data["budget"]["breakdown"][0]["addressDetails"] = {
+        data["budget"]["breakdown"][0]["address"] = {
             "countryName": "Республіка Польща",
-            "code": {
-                "scheme": "КАТОТТГ",
-                "id": "UA01020030010043419",
-                "description": "Ароматне",
-            },
+            "addressDetails": [
+                {
+                    "scheme": "КАТОТТГ",
+                    "id": "UA01020030010043419",
+                    "description": "Ароматне",
+                },
+                {
+                    "scheme": "КАТОТТГ",
+                    "id": "UA01040170010099030",
+                    "description": "Зеленогірське",
+                },
+            ],
+        }
+        response = self.app.post_json("/plans", {"data": data}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "budget",
+                    "description": {
+                        "breakdown": [{"address": {"addressDetails": ["Please provide no more than 1 item."]}}]
+                    },
+                }
+            ],
+        )
+        data["budget"]["breakdown"][0]["address"] = {
+            "countryName": "Республіка Польща",
+            "addressDetails": [
+                {
+                    "scheme": "КАТОТТГ",
+                    "id": "UA01040170010099030",
+                    "description": "Зеленогірське",
+                }
+            ],
         }
         response = self.app.post_json("/plans", {"data": data}, status=422)
         self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -2470,14 +2501,14 @@ def plan_additional_classifications_based_on_breakdown(self):
                     "name": "budget",
                     "description": {
                         "breakdown": [
-                            {"addressDetails": {"code": ["КАТОТТГ is allowed only for countryName 'Україна'"]}}
+                            {"address": {"addressDetails": ["КАТОТТГ is allowed only for countryName 'Україна'"]}}
                         ]
                     },
                 }
             ],
         )
 
-        data["budget"]["breakdown"][0]["addressDetails"]["countryName"] = "Україна"
+        data["budget"]["breakdown"][0]["address"]["countryName"] = "Україна"
         response = self.app.post_json("/plans", {"data": data})
         self.assertEqual(response.status, "201 Created")
 

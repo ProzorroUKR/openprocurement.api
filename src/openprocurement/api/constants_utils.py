@@ -91,3 +91,12 @@ def parse_str_list(value):
 
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date):
     return parse_func(os.environ.get("{}_{}".format(section, constant)) or config.get(section, constant))
+
+
+# classifiers
+def split_classifier_by_year(data, scheme_name):
+    result = {}
+    for item in data:
+        for year in item.get("years", []):
+            result.setdefault(f"{scheme_name}-{year}", {})[item["code"]] = item
+    return result
