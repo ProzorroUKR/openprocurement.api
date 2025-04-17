@@ -33,13 +33,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "id": "2170",
             "description": "Будівництво закладів охорони здоров’я"
           },
-          "addressDetails": {
+          "address": {
             "countryName": "Україна",
-            "code": {
-              "scheme": "КАТОТТГ",
-              "id": "UA01020030010043419",
-              "description": "Ароматне"
-            }
+            "addressDetails": [
+              {
+                "scheme": "КАТОТТГ",
+                "id": "UA01020030010043419",
+                "description": "Ароматне"
+              }
+            ]
           }
         }
       ]
@@ -102,13 +104,15 @@ Content-Type: application/json
             "amount": 1500.0,
             "currency": "UAH"
           },
-          "addressDetails": {
+          "address": {
             "countryName": "Україна",
-            "code": {
-              "id": "UA01020030010043419",
-              "description": "Ароматне",
-              "scheme": "КАТОТТГ"
-            }
+            "addressDetails": [
+              {
+                "id": "UA01020030010043419",
+                "description": "Ароматне",
+                "scheme": "КАТОТТГ"
+              }
+            ]
           },
           "classification": {
             "id": "2170",

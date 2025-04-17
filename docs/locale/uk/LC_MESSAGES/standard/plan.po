@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-11 09:29+0300\n"
+"POT-Creation-Date: 2025-04-20 11:10+0300\n"
 "PO-Revision-Date: 2019-12-02 11:48+0200\n"
 "Last-Translator: \n"
 "Language: uk\n"
@@ -442,7 +442,7 @@ msgstr "Валюта для всіх breakdown value та budget повинна 
 msgid "Sum of the breakdown values amounts can't be greater than budget amount  (except `tender.procurementMethodType` is `\"esco\"`)"
 msgstr "Загальна вартість всіх breakdown value amount не може бути більшим за budget amount (за вийнятком `tender.procurementMethodType` має значення `\"esco\"`)"
 
-msgid "addressDetails"
+msgid "address"
 msgstr ""
 
 msgid ":ref:`Address`"
@@ -451,7 +451,7 @@ msgstr ""
 msgid "Object of address details for `budget.breakdown`."
 msgstr "Об'єкт з деталями адреси джерела фінансуванння `budget.breakdown`."
 
-msgid "If plan has `budget.breakdown.title` is `state` it is required to have KATOTTG classificator in `addressDetails.classification`."
+msgid "If plan has `budget.breakdown.title` is `state` it is required to have at least one KATOTTG classificator in `address.addressDetails`."
 msgstr "Якщо джерело фінансування `budget.breakdown.title` вказано `state`, класифікатор КАТОТТГ має зазначатись обовʼязково."
 
 msgid ":ref:`Classification`, object"

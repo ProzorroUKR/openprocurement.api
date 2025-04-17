@@ -185,13 +185,15 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        budget["breakdown"][0]["addressDetails"] = {
+        budget["breakdown"][0]["address"] = {
             "countryName": "Україна",
-            "code": {
-                "scheme": "КАТОТТГ",
-                "id": "UA01020030010043419",
-                "description": "Ароматне",
-            },
+            "addressDetails": [
+                {
+                    "scheme": "КАТОТТГ",
+                    "id": "UA01020030010043419",
+                    "description": "Ароматне",
+                }
+            ],
         }
         with open(TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local.http', 'w') as self.app.file_obj:
             self.app.patch_json('/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"budget": budget}})

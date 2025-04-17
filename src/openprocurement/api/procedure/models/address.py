@@ -1,5 +1,5 @@
 from schematics.types import StringType
-from schematics.types.compound import ModelType
+from schematics.types.compound import ListType, ModelType
 from schematics.validate import ValidationError
 
 from openprocurement.api.constants import COUNTRIES, KATOTTG, KATOTTG_SCHEME, UA_REGIONS
@@ -28,7 +28,7 @@ class Address(Model):
     countryName = StringType(required=True)
     countryName_en = StringType()
     countryName_ru = StringType()
-    code = ModelType(AddressClassification)
+    addressDetails = ListType(ModelType(AddressClassification, required=True), max_size=1)
 
     def validate_countryName(self, address, country_name):
         if country_name not in COUNTRIES:
@@ -39,6 +39,8 @@ class Address(Model):
             if region and region not in UA_REGIONS:
                 raise ValidationError("field address:region not exist in ua_regions catalog")
 
-    def validate_code(self, address, code):
-        if code and code["scheme"] == KATOTTG_SCHEME and address["countryName"] != "Україна":
-            raise ValidationError(f"{KATOTTG_SCHEME} is allowed only for countryName 'Україна'")
+    def validate_addressDetails(self, address, address_details):
+        if address_details is not None:
+            for detail in address_details:
+                if detail["scheme"] == KATOTTG_SCHEME and address["countryName"] != "Україна":
+                    raise ValidationError(f"{KATOTTG_SCHEME} is allowed only for countryName 'Україна'")
