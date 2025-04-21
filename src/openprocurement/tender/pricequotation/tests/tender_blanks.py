@@ -819,7 +819,6 @@ def create_tender_draft_with_criteria(self):
 
     # fix requirement ids
     for i, c in enumerate(patch_criteria):
-        c["classification"]["id"] += str(i)
         for g in c["requirementGroups"]:
             for r in g["requirements"]:
                 r["id"] = uuid4().hex
@@ -847,13 +846,13 @@ def create_tender_draft_with_criteria(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={token}",
-        {"data": {"criteria": patch_criteria}},
+        {"data": {"criteria": patch_criteria[:-1]}},
     )
     patch_result = response.json["data"]
 
     # old object ids hasn't been changed
-    self.assertEqual(len(patch_result["criteria"]), 2)
-    self.assertEqual([e["id"] for e in patch_result["criteria"]], [e["id"] for e in patch_criteria])
+    self.assertEqual(len(patch_result["criteria"]), 1)
+    self.assertEqual([e["id"] for e in patch_result["criteria"]], [e["id"] for e in patch_criteria[:-1]])
 
     # check unique criteria classification ids
     criterion_1 = deepcopy(test_criteria[0])
@@ -873,6 +872,21 @@ def create_tender_draft_with_criteria(self):
         ],
     )
 
+    criterion_1["classification"]["id"] = "CRITERION.TEST"
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}", {"data": {"criteria": [criterion_1, criterion_2]}}, status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "criteria",
+                "description": "Criteria classification CRITERION.TEST not from standards",
+            }
+        ],
+    )
+
 
 def create_tender_draft_with_criteria_expected_values(self):
     data = self.initial_data.copy()
@@ -882,7 +896,9 @@ def create_tender_draft_with_criteria_expected_values(self):
 
     test_additional_criteria = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(test_additional_criteria, data.get("lots", []), data.get("items", []))
-    test_additional_criteria[0]["classification"]["id"] = "CRITERION.TEST"
+    test_additional_criteria[0]["classification"][
+        "id"
+    ] = "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
     test_additional_criteria[0]["requirementGroups"][0]["requirements"] = [
         {
             "dataType": "string",
@@ -1132,7 +1148,9 @@ def tender_criteria_values_type(self):
 
     test_additional_criteria = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(test_additional_criteria, tender.get("lots", []), tender.get("items", []))
-    test_additional_criteria[0]["classification"]["id"] = "CRITERION.TEST"
+    test_additional_criteria[0]["classification"][
+        "id"
+    ] = "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
     test_additional_criteria[0]["requirementGroups"][0]["requirements"] = [
         {
             "title": "Test",

@@ -56,7 +56,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "a24769ec2ba948c2a782cde9f5c951d9",
+        "id": "29cbde01600848de837efe5448e726fb",
         "description": "Комп’ютерне обладнання для біда",
         "quantity": 10.0,
         "classification": {
@@ -82,6 +82,29 @@ Content-Type: application/json
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
         },
+        "attributes": [
+          {
+            "name": "Форма випуску",
+            "values": [
+              "Розчин для інфузій"
+            ]
+          },
+          {
+            "name": "Доза діючої речовини",
+            "unit": {
+              "name": "кілограми",
+              "code": "KGM"
+            },
+            "value": 5
+          },
+          {
+            "name": "Форма випуску 1",
+            "values": [
+              "Відповідь1",
+              "Відповідь2"
+            ]
+          }
+        ],
         "unit": {
           "name": "кг",
           "value": {
@@ -93,7 +116,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "a071e8665c8844ccaf383f73c9a7b5b8",
+        "id": "24726f3002834ed287ec1c07b91606cf",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {

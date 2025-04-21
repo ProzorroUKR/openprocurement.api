@@ -31,9 +31,9 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
     invalidate_not_agreement_member_bid_via_chronograph,
     patch_tender_bid,
     patch_tender_bid_document,
-    requirement_response_validation_multiple_criterias,
     requirement_response_validation_multiple_groups,
     requirement_response_validation_multiple_groups_multiple_requirements,
+    requirement_response_validation_multiple_requirements,
     requirement_response_validation_one_group_multiple_requirements,
     requirement_response_value_validation_for_expected_values,
 )
@@ -71,14 +71,16 @@ class TenderBidResourceTest(MockCriteriaIDMixin, TenderContentWebTest):
 class TenderBidCriteriaTest(MockMarketMixin, TenderContentWebTest):
     initial_status = "active.tendering"
     initial_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
+    initial_profile = {"id": "1" * 32, "relatedCategory": "655360-30230000-889652", "criteria": initial_criteria}
 
-    test_multiple_criterias = snitch(requirement_response_validation_multiple_criterias)
+    test_multiple_requirements = snitch(requirement_response_validation_multiple_requirements)
     test_expected_values_format = snitch(requirement_response_value_validation_for_expected_values)
 
 
 class TenderBidCriteriaGroupTest(TenderContentWebTest):
     initial_status = "active.tendering"
     initial_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_2))
+    initial_profile = {"id": "1" * 32, "relatedCategory": "655360-30230000-889652", "criteria": initial_criteria}
 
     test_multiple_groups = snitch(requirement_response_validation_multiple_groups)
 
@@ -86,6 +88,7 @@ class TenderBidCriteriaGroupTest(TenderContentWebTest):
 class TenderBidCriteriaMultipleGroupTest(TenderContentWebTest):
     initial_status = "active.tendering"
     initial_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_3))
+    initial_profile = {"id": "1" * 32, "relatedCategory": "655360-30230000-889652", "criteria": initial_criteria}
 
     test_multiple_groups_multiple_requirements = snitch(
         requirement_response_validation_multiple_groups_multiple_requirements
@@ -95,6 +98,7 @@ class TenderBidCriteriaMultipleGroupTest(TenderContentWebTest):
 class TenderBidCriteriaOneGroupMultipleRequirementsTest(TenderContentWebTest):
     initial_status = "active.tendering"
     initial_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_4))
+    initial_profile = {"id": "1" * 32, "relatedCategory": "655360-30230000-889652", "criteria": initial_criteria}
 
     test_multiple_groups_multiple_requirements = snitch(requirement_response_validation_one_group_multiple_requirements)
 

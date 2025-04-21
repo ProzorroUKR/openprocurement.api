@@ -9,6 +9,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
     COUNTRIES_MAP,
+    CRITERION_LIFE_CYCLE_COST_IDS,
     GUARANTEE_ALLOWED_TENDER_TYPES,
     LANGUAGE_CODES,
 )
@@ -30,7 +31,6 @@ from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LIFE_CYCLE_COST,
-    CRITERION_LIFE_CYCLE_COST_IDS,
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
 )

@@ -51,7 +51,7 @@ Content-Type: application/json
       {
         "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
-        "id": "a24769ec2ba948c2a782cde9f5c951d9",
+        "id": "29cbde01600848de837efe5448e726fb",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -90,7 +90,7 @@ Content-Type: application/json
       {
         "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
-        "id": "a071e8665c8844ccaf383f73c9a7b5b8",
+        "id": "24726f3002834ed287ec1c07b91606cf",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -132,9 +132,11 @@ Content-Type: application/json
         "id": "3e8d1b7028224fac9ea95bedd7e24476",
         "description": "Форма випуску",
         "source": "tenderer",
+        "relatesTo": "item",
+        "relatedItem": "29cbde01600848de837efe5448e726fb",
         "classification": {
           "scheme": "ESPD211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         },
         "title": "Форма випуску",
         "legislation": [
@@ -163,38 +165,9 @@ Content-Type: application/json
                 ],
                 "expectedMinItems": 1,
                 "datePublished": "2023-10-10T01:00:00+03:00"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "8be1ee231fcf4841a52724d7c372b811",
-        "description": "Доза діючої речовини",
-        "source": "tenderer",
-        "classification": {
-          "scheme": "ESPD211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
-        },
-        "title": "Доза діючої речовини",
-        "legislation": [
-          {
-            "version": "2020-04-19",
-            "identifier": {
-              "id": "922-VIII",
-              "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
-            },
-            "type": "NATIONAL_LEGISLATION"
-          }
-        ],
-        "requirementGroups": [
-          {
-            "id": "a649e63b7e83407488734b02e4b16457",
-            "description": "Доза діючої речовини",
-            "requirements": [
+              },
               {
-                "id": "2d61fb8762f641409b1a544e66127659",
+                "id": "8be1ee231fcf4841a52724d7c372b811",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -204,39 +177,10 @@ Content-Type: application/json
                 },
                 "minValue": 5,
                 "datePublished": "2023-10-10T01:00:00+03:00"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "5c7376e8d0ac4c1683f84f421c095101",
-        "description": "Форма випуску",
-        "source": "tenderer",
-        "classification": {
-          "scheme": "ESPD211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
-        },
-        "title": "Форма випуску",
-        "legislation": [
-          {
-            "version": "2020-04-19",
-            "identifier": {
-              "id": "922-VIII",
-              "legalName": "Закон України \"Про публічні закупівлі\"",
-              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
-            },
-            "type": "NATIONAL_LEGISLATION"
-          }
-        ],
-        "requirementGroups": [
-          {
-            "id": "ab41abfa290647bcbca764ff1cf757d0",
-            "description": "Форма випуску",
-            "requirements": [
+              },
               {
-                "id": "77319aad7fb74983a3e0977b597eeed2",
-                "title": "Форма випуску",
+                "id": "a649e63b7e83407488734b02e4b16457",
+                "title": "Форма випуску 1",
                 "dataType": "string",
                 "status": "active",
                 "expectedValues": [
@@ -305,12 +249,12 @@ Content-Type: application/json
             "id": "ffe5372807e14d11871c1d213893ef54",
             "classification": {
               "scheme": "ESPD211",
-              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"
+              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
             }
           },
           {
             "requirement": {
-              "id": "2d61fb8762f641409b1a544e66127659",
+              "id": "8be1ee231fcf4841a52724d7c372b811",
               "title": "Доза діючої речовини"
             },
             "value": 5,
@@ -321,13 +265,13 @@ Content-Type: application/json
             },
             "classification": {
               "scheme": "ESPD211",
-              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"
+              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
             }
           },
           {
             "requirement": {
-              "id": "77319aad7fb74983a3e0977b597eeed2",
-              "title": "Форма випуску"
+              "id": "a649e63b7e83407488734b02e4b16457",
+              "title": "Форма випуску 1"
             },
             "values": [
               "Відповідь1",
@@ -336,14 +280,14 @@ Content-Type: application/json
             "id": "368dac10a7a84b3e9d7e5a43d7a69904",
             "classification": {
               "scheme": "ESPD211",
-              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"
+              "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
             }
           }
         ],
         "status": "active",
         "items": [
           {
-            "id": "a24769ec2ba948c2a782cde9f5c951d9",
+            "id": "29cbde01600848de837efe5448e726fb",
             "description": "Комп’ютерне обладнання для біда",
             "unit": {
               "name": "кг",
@@ -357,7 +301,7 @@ Content-Type: application/json
             "quantity": 10.0
           },
           {
-            "id": "a071e8665c8844ccaf383f73c9a7b5b8",
+            "id": "24726f3002834ed287ec1c07b91606cf",
             "description": "Комп’ютерне обладнання",
             "unit": {
               "name": "кг",

@@ -8,7 +8,7 @@ from openprocurement.tender.core.tests.base import test_criteria_article_17
 
 def patch_tender_criteria_invalid(self):
     criteria_data = deepcopy(test_criteria_article_17)
-    criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
+    criteria_data[0]["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
 
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token), {"data": criteria_data}

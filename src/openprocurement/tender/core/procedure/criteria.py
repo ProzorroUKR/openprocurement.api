@@ -1,7 +1,11 @@
 from collections import Counter
 from typing import Union
 
-from openprocurement.api.constants_env import NEW_REQUIREMENTS_RULES_FROM
+from openprocurement.api.constants import CRITERIA_LIST
+from openprocurement.api.constants_env import (
+    CRITERIA_CLASSIFICATION_VALIDATION_FROM,
+    NEW_REQUIREMENTS_RULES_FROM,
+)
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import (
@@ -239,3 +243,19 @@ class TenderCriterionMixin:
                                             f"from category requirement",
                                             status=422,
                                         )
+
+    def validate_criteria_classification(self, data: Union[dict, list]) -> None:
+        if not tender_created_after(CRITERIA_CLASSIFICATION_VALIDATION_FROM):
+            return
+
+        if not isinstance(data, list):
+            data = [data]
+
+        for tender_criterion in data:
+            if tender_criterion["classification"]["id"] not in CRITERIA_LIST:
+                raise_operation_error(
+                    self.request,
+                    f'Criteria classification {tender_criterion["classification"]["id"]} not from standards',
+                    status=422,
+                    name="criteria",
+                )

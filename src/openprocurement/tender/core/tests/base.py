@@ -463,6 +463,11 @@ class BaseCoreWebTest(BaseWebTest):
         self.tender_id = tender["id"]
         criteria = []
         if self.initial_criteria:
+            set_tender_criteria(
+                self.initial_criteria,
+                tender.get("lots", []),
+                tender.get("items", []),
+            )
             response = self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
                 {"data": self.initial_criteria},

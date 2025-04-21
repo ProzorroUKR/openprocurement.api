@@ -378,7 +378,7 @@ def create_tender_bid(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
 
 
-def requirement_response_validation_multiple_criterias(self):
+def requirement_response_validation_multiple_requirements(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
     rr = deepcopy(test_tender_pq_response_1)
@@ -491,7 +491,7 @@ def requirement_response_validation_multiple_criterias(self):
         [
             {
                 'description': [
-                    "Responses are required for all criteria with source tenderer/winner, "
+                    "Responses are required for all requirements in a requirement group, "
                     f"failed for criteria {missed_criterion['id']}"
                 ],
                 'location': 'body',
@@ -638,7 +638,9 @@ def requirement_response_value_validation_for_expected_values(self):
 
     test_additional_criteria = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(test_additional_criteria, tender.get("lots", []), tender.get("items", []))
-    test_additional_criteria[0]["classification"]["id"] = "CRITERION.TEST"
+    test_additional_criteria[0]["classification"][
+        "id"
+    ] = "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
     test_additional_criteria[0]["requirementGroups"][0]["requirements"] = [
         {
             "dataType": "string",

@@ -355,7 +355,8 @@ test_tender_pq_criteria_1 = [
         "description": "Форма випуску",
         "id": "400496-0001",
         "source": "tenderer",
-        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES1"},
+        "relatesTo": "item",
+        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"},
         "legislation": [
             {
                 "version": "2020-04-19",
@@ -378,76 +379,24 @@ test_tender_pq_criteria_1 = [
                         "id": "400496-0001-001-01",
                         "title": "Форма випуску",
                         "expectedMinItems": 1,
-                    }
-                ],
-            }
-        ],
-        "title": "Форма випуску",
-    },
-    {
-        "description": "Доза діючої речовини",
-        "id": "400496-0002",
-        "source": "tenderer",
-        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES2"},
-        "legislation": [
-            {
-                "version": "2020-04-19",
-                "identifier": {
-                    "id": "922-VIII",
-                    "legalName": "Закон України \"Про публічні закупівлі\"",
-                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
-                },
-                "type": "NATIONAL_LEGISLATION",
-            }
-        ],
-        "requirementGroups": [
-            {
-                "description": "Доза діючої речовини",
-                "id": "400496-0002-001",
-                "requirements": [
+                    },
                     {
                         "dataType": "integer",
                         "minValue": 5,
-                        "id": "400496-0002-001-01",
+                        "id": "400496-0002-001-02",
                         "title": "Доза діючої речовини",
                         "unit": {"code": "KGM", "name": "кілограми"},
-                    }
-                ],
-            }
-        ],
-        "title": "Доза діючої речовини",
-    },
-    {
-        "description": "Форма випуску",
-        "id": "400496-0003",
-        "source": "tenderer",
-        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES3"},
-        "legislation": [
-            {
-                "version": "2020-04-19",
-                "identifier": {
-                    "id": "922-VIII",
-                    "legalName": "Закон України \"Про публічні закупівлі\"",
-                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
-                },
-                "type": "NATIONAL_LEGISLATION",
-            }
-        ],
-        "requirementGroups": [
-            {
-                "description": "Форма випуску",
-                "id": "400496-0003-001",
-                "requirements": [
+                    },
                     {
                         "dataType": "string",
                         "expectedValues": ["Відповідь1", "Відповідь2", "Відповідь3", "Відповідь4"],
                         "expectedMinItems": 1,
                         "expectedMaxItems": 3,
-                        "id": "400496-0003-001-01",
-                        "title": "Форма випуску",
-                    }
+                        "id": "400496-0003-001-03",
+                        "title": "Форма випуску 1",
+                    },
                 ],
-            }
+            },
         ],
         "title": "Форма випуску",
     },
@@ -458,7 +407,8 @@ test_tender_pq_criteria_2 = [
         "description": "Форма випуску",
         "id": "400496-0001",
         "source": "tenderer",
-        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER"},
+        "relatesTo": "item",
+        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"},
         "legislation": [
             {
                 "version": "2020-04-19",
@@ -508,7 +458,8 @@ test_tender_pq_criteria_3 = [
         "description": "Форма випуску",
         "id": "400496-0001",
         "source": "tenderer",
-        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER"},
+        "relatesTo": "item",
+        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"},
         "legislation": [
             {
                 "version": "2020-04-19",
@@ -566,7 +517,8 @@ test_tender_pq_criteria_4 = [
         "title": "Форма випуску",
         "id": "400496-0001",
         "source": "tenderer",
-        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER"},
+        "relatesTo": "item",
+        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"},
         "legislation": [
             {
                 "version": "2020-04-19",
@@ -612,8 +564,8 @@ test_tender_pq_criteria_4 = [
 
 test_tender_pq_response_1 = [
     {"requirement": {"id": "400496-0001-001-01"}, "values": ["Розчин для інфузій"]},
-    {"requirement": {"id": "400496-0002-001-01"}, "value": 5},
-    {"requirement": {"id": "400496-0003-001-01"}, "values": ["Відповідь1", "Відповідь2"]},
+    {"requirement": {"id": "400496-0002-001-02"}, "value": 5},
+    {"requirement": {"id": "400496-0003-001-03"}, "values": ["Відповідь1", "Відповідь2"]},
 ]
 
 

@@ -1,6 +1,7 @@
 import os
 from copy import deepcopy
 from datetime import datetime, timedelta
+from uuid import uuid4
 
 from dateutil.parser import parse
 from tests.base.constants import DOCS_URL, MOCK_DATETIME
@@ -19,6 +20,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.core.tests.mock import patch_market
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     test_tender_pq_category,
@@ -26,7 +28,6 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_data,
     test_tender_pq_organization,
     test_tender_pq_response_1,
-    test_tender_pq_short_profile,
 )
 from openprocurement.tender.pricequotation.tests.utils import (
     copy_criteria_req_id,
@@ -55,7 +56,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tearDownMock()
         super().tearDown()
 
-    @patch_market(test_tender_pq_short_profile, test_tender_pq_category)
+    @patch_market(
+        {
+            "id": "1" * 32,
+            "relatedCategory": "655360-30230000-889652",
+            "criteria": deepcopy(test_tender_pq_criteria_1),
+        },
+        test_tender_pq_category,
+    )
     def test_docs(self):
         with open(TARGET_DIR + 'contracts-listing-0.http', 'w') as self.app.file_obj:
             self.app.authorization = None
@@ -71,14 +79,21 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # create tender
         test_tender_data['items'].append(deepcopy(test_tender_data['items'][0]))
         for item in test_tender_data['items']:
+            item["id"] = uuid4().hex
             item['deliveryDate'] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat(),
             }
+        tender_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
+        set_tender_criteria(
+            tender_criteria,
+            test_tender_data.get("lots", []),
+            test_tender_data.get("items", []),
+        )
         test_tender_data.update(
             {
                 "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
-                "criteria": criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1)),
+                "criteria": tender_criteria,
             }
         )
 

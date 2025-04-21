@@ -21,7 +21,7 @@ Content-Type: application/json
     "relatesTo": "tender",
     "classification": {
       "scheme": "ESPD211",
-      "id": "CRITERION.OTHER"
+      "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES"
     },
     "title": "Updated title",
     "legislation": [

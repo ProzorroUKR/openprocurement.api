@@ -124,6 +124,12 @@ ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load(
 ARTICLE_17 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json")}
 OTHER_CRITERIA = {criterion["classification"]["id"] for criterion in standards.load("criteria/other.json")}
 
+# additional criteria
+CRITERION_LIFE_CYCLE_COST_IDS = {criterion["classification"]["id"] for criterion in standards.load("criteria/LCC.json")}
+DECREE_1178 = {criterion["classification"]["id"] for criterion in standards.load("criteria/decree_1178.json")}
+
+CRITERIA_LIST = ARTICLE_16 | ARTICLE_17 | OTHER_CRITERIA | CRITERION_LIFE_CYCLE_COST_IDS | DECREE_1178
+
 # AMCU
 VIOLATION_AMCU = set(standards.load("AMCU/violation_amcu.json"))
 AMCU = set(standards.load("AMCU/amcu.json"))
