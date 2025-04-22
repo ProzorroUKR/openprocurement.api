@@ -79,13 +79,18 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
             changes.append(x)
 
 
-def append_revision(request, obj, patch):
-    revision_data = {
-        "author": request.authenticated_userid,
+def generate_revision(obj, patch, author, date=None):
+    return {
+        "author": author,
         "changes": patch,
         "rev": obj.get("_rev"),
-        "date": get_now().isoformat(),
+        "date": (date or get_now()).isoformat(),
     }
+
+
+def append_revision(request, obj, patch, date=None):
+    author = request.authenticated_userid
+    revision_data = generate_revision(obj, patch, author, date)
     if "revisions" not in obj:
         obj["revisions"] = []
     obj["revisions"].append(revision_data)

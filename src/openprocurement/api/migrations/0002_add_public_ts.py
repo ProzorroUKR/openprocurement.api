@@ -1,11 +1,3 @@
-# pylint: disable=wrong-import-position
-
-if __name__ == "__main__":
-    from gevent import monkey
-
-    monkey.patch_all(thread=False, select=False)
-
-
 import logging
 from decimal import Decimal
 
@@ -13,7 +5,7 @@ from bson import Timestamp
 from pymongo import ASCENDING, IndexModel
 from pyramid.paster import bootstrap
 
-from openprocurement.api.migrations.base import MigrationArgumentParser
+from openprocurement.api.migrations.base import BaseMigrationArgumentParser
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -148,7 +140,7 @@ def check(*_, database, item_types):
 
 
 if __name__ == "__main__":
-    parser = MigrationArgumentParser()
+    parser = BaseMigrationArgumentParser()
 
     commands = ["all", "migrate", "index", "check"]
     default_cmd = commands[0]

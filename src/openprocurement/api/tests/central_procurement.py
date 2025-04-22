@@ -1,11 +1,13 @@
-import os
 from copy import deepcopy
 from uuid import uuid4
 
 import pytest
 
 from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
-from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
+from openprocurement.api.tests.base import (  # pylint: disable=unused-import
+    app,
+    singleton_app,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
@@ -75,19 +77,6 @@ if get_now() > RELEASE_SIMPLE_DEFENSE_FROM:
     test_tenders.append((test_tender_simpledefense_data, test_tender_simpledefense_config))
 else:
     test_tenders.append((test_tender_openuadefense_data, test_tender_openuadefense_config))
-
-
-@pytest.fixture(scope="session")
-def singleton_app():
-    app = BaseTestApp(loadwsgiapp("config:tests.ini", relative_to=os.path.dirname(__file__)))
-    app.app.registry.docservice_url = "http://localhost"
-    return app
-
-
-@pytest.fixture(scope="function")
-def app(singleton_app):
-    singleton_app.authorization = None
-    yield singleton_app
 
 
 @pytest.mark.parametrize("request_tender_data, request_tender_config", test_tenders)

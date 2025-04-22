@@ -1,17 +1,9 @@
-# pylint: disable=wrong-import-position
-
-if __name__ == "__main__":
-    from gevent import monkey
-
-    monkey.patch_all(thread=False, select=False)
-
 import logging
 import os
 
 from pymongo.errors import OperationFailure
-from pyramid.paster import bootstrap
 
-from openprocurement.api.migrations.base import MigrationArgumentParser
+from openprocurement.api.migrations.base import BaseMigration, migrate
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -75,8 +67,10 @@ def run(env, args):
     logger.info(f"Successful migration: {migration_name}, results: {count}  contracts")
 
 
+class Migration(BaseMigration):
+    def run(self):
+        run(self.env, self.args)
+
+
 if __name__ == "__main__":
-    parser = MigrationArgumentParser()
-    args = parser.parse_args()
-    with bootstrap(args.p) as env:
-        run(env, args)
+    migrate(Migration)

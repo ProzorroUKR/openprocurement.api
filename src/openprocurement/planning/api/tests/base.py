@@ -8,7 +8,10 @@ from uuid import uuid4
 import pytest
 from nacl.encoding import HexEncoder
 
-from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
+from openprocurement.api.tests.base import (  # pylint: disable=unused-import
+    app,
+    singleton_app,
+)
 from openprocurement.tender.core.tests.base import BaseWebTest as BaseCoreWebTest
 
 now = datetime.now()
@@ -126,21 +129,6 @@ class BasePlanWebTest(BaseCoreWebTest):
         plan = response.json["data"]
         self.plan_token = response.json["access"]["token"]
         self.plan_id = plan["id"]
-
-
-@pytest.fixture(scope="session")
-def singleton_app():
-    app = BaseTestApp(loadwsgiapp("config:tests.ini", relative_to=os.path.dirname(__file__)))
-    app.app.registry.docservice_url = "http://localhost"
-    return app
-
-
-@pytest.fixture(scope="function")
-def app(singleton_app):
-    singleton_app.authorization = None
-    singleton_app.app.registry.mongodb.plans.flush()
-    yield singleton_app
-    singleton_app.app.registry.mongodb.plans.flush()
 
 
 @pytest.fixture(scope="function")

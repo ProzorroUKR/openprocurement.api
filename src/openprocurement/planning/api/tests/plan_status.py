@@ -1,13 +1,14 @@
-# pylint: disable=unused-import
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
 import pytest
 
+from openprocurement.api.tests.base import (  # pylint: disable=unused-import
+    app,
+    singleton_app,
+)
 from openprocurement.api.utils import get_now
-from openprocurement.planning.api.tests.base import app  # noqa
-from openprocurement.planning.api.tests.base import singleton_app  # noqa
 from openprocurement.planning.api.tests.base import (
     generate_docservice_url,
     test_plan_data,

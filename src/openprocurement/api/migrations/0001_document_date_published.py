@@ -1,10 +1,3 @@
-# pylint: disable=wrong-import-position
-
-if __name__ == "__main__":
-    from gevent import monkey
-
-    monkey.patch_all(thread=False, select=False)
-
 import logging
 import os
 import re
@@ -13,9 +6,12 @@ from time import sleep
 from jsonpath_ng import parse
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
-from pyramid.paster import bootstrap
 
-from openprocurement.api.migrations.base import MigrationArgumentParser
+from openprocurement.api.migrations.base import (
+    BaseMigration,
+    BaseMigrationArgumentParser,
+    migrate,
+)
 from openprocurement.api.utils import get_now
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -139,7 +135,7 @@ def bulk_update(bulk, collection, collection_name):
         return 0
 
 
-def run(env):
+def run(env, args):
     collection_name = args.c
 
     document_paths_expr = DOCUMENTS_PATHS_MAP.get(collection_name)
@@ -223,10 +219,16 @@ def run(env):
     logger.info(f"Successful migration: {migration_name}")
 
 
-if __name__ == "__main__":
-    parser = MigrationArgumentParser()
-    parser.add_argument("-c", type=str, default="tenders", help="Collection name.")
-    args = parser.parse_args()
+class Migration(BaseMigration):
+    def run(self):
+        run(self.env, self.args)
 
-    with bootstrap(args.p) as env:
-        run(env)
+
+class MigrationArgumentParser(BaseMigrationArgumentParser):
+    def __init__(self):
+        super().__init__()
+        self.add_argument("-c", type=str, default="tenders", help="Collection name.")
+
+
+if __name__ == "__main__":
+    migrate(Migration, parser=MigrationArgumentParser)

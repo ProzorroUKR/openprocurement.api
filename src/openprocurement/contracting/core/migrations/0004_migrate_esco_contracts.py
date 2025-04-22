@@ -1,22 +1,18 @@
 # pylint: disable=wrong-import-position,wrong-import-order
 
-from collections import defaultdict
-
-from openprocurement.api.context import set_now
-from openprocurement.api.migrations.base import MigrationArgumentParser
-from openprocurement.api.procedure.utils import append_revision, get_revision_changes
-
-if __name__ == "__main__":
-    from gevent import monkey
-
-    monkey.patch_all(thread=False, select=False)
-
 import logging
 import os
+from collections import defaultdict
 
 from pymongo.errors import OperationFailure
-from pyramid.paster import bootstrap
 
+from openprocurement.api.context import set_now
+from openprocurement.api.migrations.base import (
+    BaseMigration,
+    BaseMigrationArgumentParser,
+    migrate,
+)
+from openprocurement.api.procedure.utils import append_revision, get_revision_changes
 from openprocurement.contracting.econtract.procedure.models.contract import (
     Buyer,
     Supplier,
@@ -198,16 +194,23 @@ def run(env, args):
     logger.info(f"Successful migration: {migration_name}, results: {counter}")
 
 
+class Migration(BaseMigration):
+    def run(self):
+        run(self.env, self.args)
+
+
+class MigrationArgumentParser(BaseMigrationArgumentParser):
+    def __init__(self):
+        super().__init__()
+        self.add_argument(
+            "-s",
+            default="pending",
+            help=(
+                "Contract statuses in which contract should be migrated. "
+                "For few statuses separate it with ','. F.E: pending,active"
+            ),
+        )
+
+
 if __name__ == "__main__":
-    parser = MigrationArgumentParser()
-    parser.add_argument(
-        "-s",
-        default="pending",
-        help=(
-            "Contract statuses in which contract should be migrated. "
-            "For few statuses separate it with ','. F.E: pending,active"
-        ),
-    )
-    args = parser.parse_args()
-    with bootstrap(args.p) as env:
-        run(env, args)
+    migrate(Migration, parser=MigrationArgumentParser)

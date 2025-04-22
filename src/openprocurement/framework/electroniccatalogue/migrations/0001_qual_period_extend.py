@@ -1,21 +1,16 @@
-# pylint: disable=wrong-import-position
-
-if __name__ == "__main__":
-    from gevent import monkey
-
-    monkey.patch_all(thread=False, select=False)
-
 import datetime
 import logging
 import os
 from time import sleep
 
-from pyramid.paster import bootstrap
-
 from openprocurement.api.constants import TZ
 from openprocurement.api.context import get_request
 from openprocurement.api.database import get_public_modified, get_public_ts
-from openprocurement.api.migrations.base import MigrationArgumentParser
+from openprocurement.api.migrations.base import (
+    BaseMigration,
+    BaseMigrationArgumentParser,
+    migrate,
+)
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
@@ -37,7 +32,7 @@ def load_ids(file_path):
     return ids
 
 
-def run(env):
+def run(env, args):
     base_path = os.path.dirname(os.path.abspath(__file__))
 
     migration_name = os.path.basename(__file__).split(".")[0]
@@ -146,10 +141,17 @@ def run(env):
     logger.info(f"Successful migration: {migration_name}")
 
 
+class Migration(BaseMigration):
+    def run(self):
+        run(self.env, self.args)
+
+
+class MigrationArgumentParser(BaseMigrationArgumentParser):
+    def __init__(self):
+        super().__init__()
+        self.add_argument("-f", type=str, required=True, help=("File csv with the list of framework ids."))
+        self.add_argument("-d", type=str, required=True, help=("New qualificationPeriod.endDate."))
+
+
 if __name__ == "__main__":
-    parser = MigrationArgumentParser()
-    parser.add_argument("-f", type=str, required=True, help=("File csv with the list of framework ids."))
-    parser.add_argument("-d", type=str, required=True, help=("New qualificationPeriod.endDate."))
-    args = parser.parse_args()
-    with bootstrap(args.p) as env:
-        run(env)
+    migrate(Migration, parser=MigrationArgumentParser)

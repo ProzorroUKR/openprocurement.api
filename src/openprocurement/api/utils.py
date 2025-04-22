@@ -9,6 +9,8 @@ from urllib.parse import urlencode, urlparse, urlunsplit
 from uuid import uuid4
 
 import requests
+import simplejson
+from bson import Timestamp
 from ciso8601 import parse_datetime
 from cornice.resource import view
 from cornice.util import json_error
@@ -16,6 +18,7 @@ from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datet
 from jsonpointer import JsonPointerException
 from nacl.encoding import HexEncoder
 from pymongo.errors import DuplicateKeyError, OperationFailure
+from pytz import utc
 from schematics.exceptions import (
     ModelConversionError,
     ModelValidationError,
@@ -38,6 +41,23 @@ from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.events import ErrorDescriptorEvent
 
 json_view = partial(view, renderer="simplejson")
+
+
+class CustomJSONEncoder(simplejson.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Timestamp):
+            return f"{obj.time}.{obj.inc:010}"
+        if isinstance(obj, datetime):
+            if not obj.tzinfo:
+                obj = utc.localize(obj).astimezone(TZ)
+            return obj.isoformat()
+        return super().default(obj)
+
+
+def json_dumps(data, **kw):
+    kw["cls"] = CustomJSONEncoder
+    del kw["default"]  # ignore pyramids default function provided, to use CustomJSONEncoder.default
+    return simplejson.dumps(data, **kw)
 
 
 def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool = True):

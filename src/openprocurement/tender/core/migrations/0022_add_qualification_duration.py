@@ -1,16 +1,7 @@
-# pylint: disable=wrong-import-position
-
-if __name__ == "__main__":
-    from gevent import monkey
-
-    monkey.patch_all(thread=False, select=False)
-
 import logging
 import os
 
-from pyramid.paster import bootstrap
-
-from openprocurement.api.migrations.base import MigrationArgumentParser
+from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import (
@@ -71,8 +62,10 @@ def run(env, args):
     logger.info(f"Successful migration: {migration_name}")
 
 
+class Migration(BaseMigration):
+    def run(self):
+        run(self.env, self.args)
+
+
 if __name__ == "__main__":
-    parser = MigrationArgumentParser()
-    args = parser.parse_args()
-    with bootstrap(args.p) as env:
-        run(env, args)
+    migrate(Migration)
