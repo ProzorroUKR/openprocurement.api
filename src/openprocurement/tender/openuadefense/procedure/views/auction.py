@@ -1,6 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
+from openprocurement.tender.core.procedure.views.auction import (
+    TenderAuctionResource as BaseTenderAuctionResource,
+)
 from openprocurement.tender.simpledefense.procedure.state.tender import (
     SimpleDefenseTenderState,
 )
@@ -13,5 +15,5 @@ from openprocurement.tender.simpledefense.procedure.state.tender import (
     procurementMethodType="aboveThresholdUA.defense",
     description="Tender UA.defense auction data",
 )
-class TenderAuctionResource(TenderAuctionResource):
+class TenderAuctionResource(BaseTenderAuctionResource):
     state_class = SimpleDefenseTenderState

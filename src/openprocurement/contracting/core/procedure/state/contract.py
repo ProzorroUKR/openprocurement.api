@@ -42,7 +42,7 @@ class BaseContractState(BaseState, ContractStateMixing):
 
         after_status = after["status"]
         if after_status == "active":
-            item_patch_fields = (
+            item_patch_fields = [
                 "description",
                 "description_en",
                 "description_ru",
@@ -51,9 +51,12 @@ class BaseContractState(BaseState, ContractStateMixing):
                 "deliveryAddress",
                 "deliveryLocation",
                 "quantity",
-            )
+            ]
         else:
-            item_patch_fields = ("unit", "quantity")
+            item_patch_fields = [
+                "unit",
+                "quantity",
+            ]
         items_before = before.get("items", [])
         items_after = after.get("items", [])
         for item_before, item_after in zip_longest(items_before, items_after):
@@ -72,7 +75,7 @@ class BaseContractState(BaseState, ContractStateMixing):
                     if k not in item_patch_fields and before != after:
                         raise_operation_error(
                             get_request(),
-                            f"Updated could be only {item_patch_fields} in item, {k} change forbidden",
+                            f"Updated could be only {tuple(item_patch_fields)} in item, {k} change forbidden",
                         )
                     # check fields deletion in dict objects such as deliveryAddress, deliveryLocation, etc.
                     if isinstance(before, dict) and isinstance(after, dict) and set(before.keys()) - set(after.keys()):

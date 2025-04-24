@@ -257,7 +257,7 @@ def patch_submission_pending(self):
     self.assertListEqual(sorted(error_fields), list(qualification_invalid_patch_data.keys()))
 
     self.activate_qualification(qualification_id)
-    qualification = self.app.get("/qualifications/{}".format(qualification_id, self.framework_token)).json["data"]
+    qualification = self.app.get("/qualifications/{}".format(qualification_id)).json["data"]
     self.assertEqual(qualification["status"], "active")
 
     submission = self.app.get("/submissions/{}".format(self.submission_id)).json["data"]
@@ -301,7 +301,7 @@ def patch_submission_pending(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    qualification = self.app.get("/qualifications/{}".format(qualification_id, self.framework_token)).json["data"]
+    qualification = self.app.get("/qualifications/{}".format(qualification_id)).json["data"]
     self.assertEqual(qualification["status"], "unsuccessful")
 
     submission = self.app.get("/submissions/{}".format(submission_id)).json["data"]
@@ -1459,11 +1459,11 @@ def put_qualification_document(self):
     qualification = self.mongodb.qualifications.get(self.qualification_id)
     self.assertIn(key, qualification["documents"][-1]["url"])
 
-    response = self.app.get("/qualifications/{}/documents/{}".format(self.qualification_id, doc_id, key))
+    response = self.app.get("/qualifications/{}/documents/{}".format(self.qualification_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.get("/qualifications/{}/documents".format(self.qualification_id, self.framework_token))
+    response = self.app.get("/qualifications/{}/documents".format(self.qualification_id))
     self.assertEqual(response.status, "200 OK")
     doc_id = response.json["data"][0]["id"]
     response = self.app.patch_json(

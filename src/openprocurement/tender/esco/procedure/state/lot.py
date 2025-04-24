@@ -23,7 +23,7 @@ class TenderLotState(LotInvalidationBidStateMixin, ESCOTenderDetailsState):
                 status=422,
                 name="yearlyPaymentsPercentageRange",
             )
-        if tender["fundingKind"] == "budget" and (value > Decimal("0.8") or value < Decimal("0")):
+        if tender["fundingKind"] == "budget" and (value is None or value > Decimal("0.8") or value < Decimal("0")):
             raise_operation_error(
                 self.request,
                 "when tender fundingKind is budget, yearlyPaymentsPercentageRange "

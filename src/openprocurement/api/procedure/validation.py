@@ -1,4 +1,5 @@
 from copy import deepcopy
+from typing import Any
 
 from schematics.exceptions import ValidationError
 
@@ -101,8 +102,8 @@ def filter_whitelist(data: dict, filter_data: dict) -> None:
         data[field] = new_data[field]
 
 
-def filter_dict(data: dict, filter_data: dict):
-    new_data = {}
+def filter_dict(data: dict, filter_data: dict) -> dict:
+    new_data: dict[str, Any] = {}
     for field in filter_data:
         if field not in data:
             continue

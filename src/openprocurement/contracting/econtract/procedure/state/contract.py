@@ -173,7 +173,7 @@ class EContractState(
             award = request.validated["award"]
             contracts_ids = [
                 i["id"]
-                for i in tender.get("contracts")
+                for i in tender.get("contracts", [])
                 if i.get("status", "") != "cancelled" and i["awardID"] == after["awardID"] and i["id"] != after["id"]
             ]
 
@@ -367,7 +367,7 @@ class EContractState(
         tender = get_tender()
         return tender.get("config", {}).get("hasAwardComplaints") is False
 
-    def convert_items_attributes_types(self, before: dict, after: dict) -> dict:
+    def convert_items_attributes_types(self, before: dict, after: dict):
         if "items" not in before:
             return
 

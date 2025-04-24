@@ -219,11 +219,11 @@ def put_contract_document(self):
     self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
 
-    response = self.app.get("/frameworks/{}/documents/{}".format(self.framework_id, doc_id, key))
+    response = self.app.get("/frameworks/{}/documents/{}".format(self.framework_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.get("/frameworks/{}/documents".format(self.framework_id, self.framework_token))
+    response = self.app.get("/frameworks/{}/documents".format(self.framework_id))
     self.assertEqual(response.status, "200 OK")
     doc_id = response.json["data"][0]["id"]
     response = self.app.patch_json(

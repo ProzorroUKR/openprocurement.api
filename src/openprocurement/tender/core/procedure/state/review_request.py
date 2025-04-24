@@ -1,11 +1,15 @@
 from uuid import uuid4
 
+from pyramid.request import Request
+
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class ReviewRequestStateMixin:
+    request: Request
+
     review_request_tender_statuses = (
         "active.enquiries",
         "active.qualification",
@@ -100,10 +104,10 @@ class ReviewRequestStateMixin:
 
     @staticmethod
     def validate_exist_unanswered_review_request(data: dict, tender: dict) -> None:
-        if not tender.get("reviewRequests"):
+        review_requests = tender.get("reviewRequests", [])
+        if not review_requests:
             return
 
-        review_requests = tender.get("reviewRequests")
         lot_id = data.get("lotID", "")
         review_requests = [i for i in review_requests if lot_id == i.get("lotID", "")]
 

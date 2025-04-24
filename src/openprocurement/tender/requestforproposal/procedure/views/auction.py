@@ -1,6 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
+from openprocurement.tender.core.procedure.views.auction import (
+    TenderAuctionResource as BaseTenderAuctionResource,
+)
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
     RequestForProposalTenderState,
 )
@@ -13,5 +15,5 @@ from openprocurement.tender.requestforproposal.procedure.state.tender import (
     procurementMethodType="requestForProposal",
     description="Tender auction data",
 )
-class TenderAuctionResource(TenderAuctionResource):
+class TenderAuctionResource(BaseTenderAuctionResource):
     state_class = RequestForProposalTenderState

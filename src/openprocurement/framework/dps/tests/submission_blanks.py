@@ -845,7 +845,7 @@ def patch_submission_draft(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    submission = self.app.get("/submissions/{}".format(submission["id"], token)).json["data"]
+    submission = self.app.get("/submissions/{}".format(submission["id"])).json["data"]
     contact = submission["tenderers"][0]["contactPoint"]
     self.assertEqual(contact["telephone"], submission_patch_data["tenderers"][0]["contactPoint"]["telephone"])
     self.assertEqual(contact["name"], submission_patch_data["tenderers"][0]["contactPoint"]["name"])
@@ -1740,11 +1740,11 @@ def put_submission_document(self):
     framework = self.mongodb.submissions.get(self.submission_id)
     self.assertIn(key, framework["documents"][-1]["url"])
 
-    response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc_id, key))
+    response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.get("/submissions/{}/documents".format(self.submission_id, self.submission_token))
+    response = self.app.get("/submissions/{}/documents".format(self.submission_id))
     self.assertEqual(response.status, "200 OK")
     doc_id = response.json["data"][0]["id"]
     response = self.app.patch_json(
@@ -1847,7 +1847,6 @@ def put_submission_document_fast(self):
     response = self.app.get(
         "/submissions/{}/documents".format(
             self.submission_id,
-            self.submission_token,
         )
     )
     self.assertEqual(response.status, "200 OK")

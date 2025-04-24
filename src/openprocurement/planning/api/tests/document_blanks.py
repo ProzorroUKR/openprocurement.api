@@ -330,6 +330,6 @@ def delete_plan_document(self):
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.get(
-        "/plans/{}?acc_token={}".format(self.plan_id, self.plan_token, doc_id),
+        "/plans/{}?acc_token={}".format(self.plan_id, self.plan_token),
     )
     self.assertNotEqual(response.json["data"]["dateModified"], plan_doc["dateModified"])

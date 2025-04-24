@@ -4,6 +4,8 @@ from datetime import timedelta
 from decimal import Decimal
 from math import ceil, floor
 
+from pyramid.request import Request
+
 from openprocurement.api.constants import (
     CPV_GROUP_PREFIX_LENGTH,
     CPV_PREFIX_LENGTH_TO_NAME,
@@ -189,6 +191,8 @@ class BaseTenderDetailsMixing:
     describes business logic rules for tender owners
     when they prepare tender for tendering stage
     """
+
+    request: Request
 
     tender_create_accreditations = None
     tender_central_accreditations = None

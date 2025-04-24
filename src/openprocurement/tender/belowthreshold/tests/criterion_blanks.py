@@ -120,7 +120,7 @@ def delete_requirement_evidence(self):
     evidence_id = response.json["data"]["id"]
 
     base_request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences".format(
-        self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, evidence_id, self.tender_token
+        self.tender_id, self.criteria_id, self.rg_id, self.requirement_id
     )
 
     response = self.app.delete("{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token))
@@ -130,7 +130,7 @@ def delete_requirement_evidence(self):
 
     response = self.app.get(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences".format(
-            self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token
+            self.tender_id, self.criteria_id, self.rg_id, self.requirement_id
         ),
     )
     self.assertEqual(response.status, "200 OK")
@@ -442,62 +442,6 @@ def put_rg_requirement_valid(self):
     self.assertEqual(len(response.json["data"]), req_counter)
     self.assertEqual(response.json["data"][-2]["status"], "cancelled")
     self.assertEqual(response.json["data"][-1]["status"], "cancelled")
-
-
-def create_patch_delete_evidences_from_requirement(self):
-    self.set_status("draft")
-    request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
-        self.tender_id,
-        self.exclusion_criteria_id,
-        self.exclusion_rg_id,
-        self.exclusion_requirement_id,
-        self.tender_token,
-    )
-
-    # add
-    response = self.app.patch_json(
-        request_path, {"data": {"eligibleEvidences": [self.test_evidence_data, self.test_evidence_data]}}
-    )
-
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotEqual(response.json["data"]["title"], "Changed title")
-    self.assertNotEqual("expectedValue", "100")
-    evidences = response.json["data"]["eligibleEvidences"]
-    self.assertEqual(len(evidences), 2)
-
-    # add third
-    response = self.app.patch_json(
-        request_path, {"data": {"eligibleEvidences": [evidences[0], evidences[1], self.test_evidence_data]}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    evidences = response.json["data"]["eligibleEvidences"]
-    self.assertEqual(len(evidences), 3)
-
-    # patch first and third
-
-    evidences[0]["title"] = "Evidence 1"
-    evidences[2]["title"] = "Evidence 3"
-
-    response = self.app.patch_json(request_path, {"data": {"eligibleEvidences": evidences}})
-
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    evidences = response.json["data"]["eligibleEvidences"]
-    self.assertEqual(evidences[0]["title"], "Evidence 1")
-    self.assertEqual(evidences[1]["title"], "Документальне підтвердження")
-    self.assertEqual(evidences[2]["title"], "Evidence 3")
-
-    # delete second
-
-    response = self.app.patch_json(request_path, {"data": {"eligibleEvidences": [evidences[0], evidences[2]]}})
-
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    evidences = response.json["data"]["eligibleEvidences"]
-    self.assertEqual(evidences[0]["title"], "Evidence 1")
-    self.assertEqual(evidences[1]["title"], "Evidence 3")
 
 
 def create_patch_delete_evidences_from_requirement(self):

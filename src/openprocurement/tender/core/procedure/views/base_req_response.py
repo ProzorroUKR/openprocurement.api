@@ -86,7 +86,7 @@ class BaseReqResponseResource(TenderBaseResource):
     def patch(self) -> Optional[dict]:
         updated_req_response = self.request.validated["data"]
         if not updated_req_response:
-            return
+            return None
         req_response = self.request.validated["requirement_response"]
         parent = self.get_parent()
         set_item(parent, "requirementResponses", req_response["id"], updated_req_response)

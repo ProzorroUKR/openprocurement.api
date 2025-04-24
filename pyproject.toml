@@ -241,3 +241,59 @@ docstring-code-format = false
 # This only has an effect when the `docstring-code-format` setting is
 # enabled.
 docstring-code-line-length = "dynamic"
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = false
+warn_unused_configs = true
+explicit_package_bases = true
+disable_error_code = [
+    "var-annotated",
+    "assignment",
+    "index",
+    "return",
+]
+
+exclude = '/(site-packages|__pycache__|\..*)/$'
+
+[[tool.mypy.overrides]]
+module = [
+    "openprocurement.*",
+    "setuptools.*",
+    "freezegun.*",
+    "jmespath.*",
+    "pythonjsonlogger.*",
+    "pymongo.*",
+    "motor.*",
+    "bson.*",
+    "pytz.*",
+    "pyramid.*",
+    "schematics.*",
+    "paste.*",
+    "cornice.*",
+    "webob.*",
+    "requests.*",
+    "dateorro.*",
+    "jsonpointer.*",
+    "isodate.*",
+    "gevent.*",
+    "jsonschema.*",
+    "standards.*",
+    "jsonpatch.*",
+    "webtest.*",
+    "jsonpath_ng.*",
+    "simplejson.*",
+    "pkg_resources.*",
+    "mock.*",
+    "zope.*",
+    "barbecue.*",
+    "esculator.*",
+    "parameterized.*",
+    "jinja2.*",
+    "nacl.*",
+    "ciso8601.*",
+    "iso8601.*",
+    "dateutil.*",
+    "sentry_sdk.*",
+]
+ignore_missing_imports = true

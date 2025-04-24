@@ -1,5 +1,8 @@
 from datetime import datetime
 from logging import getLogger
+from typing import Callable
+
+from pyramid.request import Request
 
 from openprocurement.api.utils import context_unpack, get_now
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
@@ -12,6 +15,9 @@ LOGGER = getLogger(__name__)
 
 
 class CFASelectionContractStateMixing:
+    request: Request
+    set_object_status: Callable
+
     def check_cfaseslectionua_agreements(self, tender: dict) -> bool:
         return False
 

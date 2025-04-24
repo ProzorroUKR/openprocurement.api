@@ -1,4 +1,4 @@
-from openprocurement.tender.pricequotation.tests.base import test_tender_pq_cancellation
+from openprocurement.tender.pricequotation.tests.data import test_tender_pq_cancellation
 
 
 def create_tender_cancellation_invalid(self):

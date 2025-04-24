@@ -1,3 +1,5 @@
+from typing import Callable
+
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
@@ -7,7 +9,20 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 
 
 class LotStateMixin:
-    request = None
+    request: Callable
+
+    get_lot_auction_should_start_after: Callable
+    set_lot_minimal_step: Callable
+    set_lot_value: Callable
+    set_lot_guarantee: Callable
+    calc_tender_values: Callable
+    invalidate_review_requests: Callable
+    validate_action_with_exist_inspector_review_request: Callable
+    validate_cancellation_blocks: Callable
+    validate_tender_period_extension: Callable
+    validate_lot_value: Callable
+    validate_minimal_step: Callable
+
     should_validate_lot_minimal_step = True
 
     def validate_lot_post(self, lot) -> None:

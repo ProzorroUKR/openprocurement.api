@@ -1,3 +1,7 @@
+from typing import Callable
+
+from pyramid.request import Request
+
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.constants import (
@@ -17,6 +21,8 @@ from openprocurement.tender.core.procedure.validation import (
 
 
 class BaseCriterionStateMixin:
+    request: Request
+
     tender_valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
 
     def _validate_operation_criterion_in_tender_status(self) -> None:
@@ -48,23 +54,32 @@ class BaseCriterionStateMixin:
                         f'For {criterion["classification"]["id"]} criteria `relatedItem` should be item from tender',
                         status=422,
                     )
-                if criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:
-                    if not (item.get("category") or item.get("profile")):
-                        raise_operation_error(
-                            self.request,
-                            "For technical feature criteria item should have category or profile",
-                            status=422,
-                        )
-                elif criterion["classification"]["id"] == CRITERION_LOCALIZATION:
-                    if not item.get("category"):
-                        raise_operation_error(
-                            self.request,
-                            "For localization criteria item should have category",
-                            status=422,
-                        )
+                else:
+                    if criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:
+                        if not (item.get("category") or item.get("profile")):
+                            raise_operation_error(
+                                self.request,
+                                "For technical feature criteria item should have category or profile",
+                                status=422,
+                            )
+                    elif criterion["classification"]["id"] == CRITERION_LOCALIZATION:
+                        if not item.get("category"):
+                            raise_operation_error(
+                                self.request,
+                                "For localization criteria item should have category",
+                                status=422,
+                            )
 
 
 class CriterionStateMixin(BaseCriterionStateMixin):
+    request: Request
+
+    _validate_criterion_uniq: Callable
+    validate_criteria_requirements_rules: Callable
+    validate_criteria_classification: Callable
+    validate_action_with_exist_inspector_review_request: Callable
+    invalidate_review_requests: Callable
+
     def criterion_on_post(self, data: dict) -> None:
         self.criterion_always(data)
         self._validate_ids_uniq(data)

@@ -115,7 +115,7 @@ class BaseRequirementGroupResource(TenderBaseResource):
     def patch(self) -> Optional[dict]:
         updated_requirement_group = self.request.validated["data"]
         if not updated_requirement_group:
-            return
+            return None
         requirement_group = self.request.validated["requirement_group"]
         criterion = self.request.validated["criterion"]
         self.state.requirement_group_on_patch(requirement_group, updated_requirement_group)

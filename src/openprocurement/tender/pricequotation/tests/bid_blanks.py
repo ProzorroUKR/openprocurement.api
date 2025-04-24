@@ -12,7 +12,7 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
     set_tender_criteria,
 )
-from openprocurement.tender.pricequotation.tests.base import (
+from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_criteria,
     test_tender_pq_organization,
     test_tender_pq_response_1,

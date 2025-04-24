@@ -41,7 +41,7 @@ def lot_create_tender_question(self):
             activate_cancellation_after_2020_04_19(self, cancellation_id)
 
         response = self.app.post_json(
-            "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+            "/tenders/{}/questions".format(self.tender_id),
             {
                 "data": {
                     "title": "question title",
@@ -61,7 +61,7 @@ def lot_create_tender_question(self):
         )
 
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -80,7 +80,7 @@ def lot_create_tender_question(self):
 
     self.set_enquiry_period_end()
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -98,7 +98,7 @@ def lot_create_tender_question(self):
 
     self.set_status(self.forbidden_question_add_actions_status)
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -120,7 +120,7 @@ def lot_patch_tender_question(self):
     tender = response.json["data"]
 
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -171,7 +171,7 @@ def lot_patch_tender_question(self):
         )
 
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -205,7 +205,7 @@ def lot_patch_tender_question(self):
 
     if self.forbidden_question_add_actions_status != self.forbidden_question_update_actions_status:
         response = self.app.post_json(
-            "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+            "/tenders/{}/questions".format(self.tender_id),
             {
                 "data": {
                     "title": "question title",

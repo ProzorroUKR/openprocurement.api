@@ -132,7 +132,7 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
     def patch(self) -> Optional[dict]:
         updated_evidence = self.request.validated["data"]
         if not updated_evidence:
-            return
+            return None
         evidence = self.request.validated["evidence"]
         requirement = self.request.validated["requirement"]
 

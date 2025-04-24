@@ -12,7 +12,7 @@ from openprocurement.tender.core.tests.cancellation import (
 
 def lot_create_tender_question(self):
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -52,7 +52,7 @@ def lot_create_tender_cancellations_and_questions(self):
         activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -74,7 +74,7 @@ def lot_create_tender_cancellations_and_questions(self):
 
 def lot_patch_tender_question(self):
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -133,7 +133,7 @@ def lot_patch_tender_question(self):
     self.assertEqual(response.content_type, "application/json")
 
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",

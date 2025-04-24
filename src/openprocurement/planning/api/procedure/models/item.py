@@ -7,7 +7,9 @@ from openprocurement.api.constants import CCCE_UA, CCCE_UA_SCHEME
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import (
-    Classification,
+    Classification as BaseClassification,
+)
+from openprocurement.api.procedure.models.item import (
     CPVClassification,
     validate_additional_classifications,
 )
@@ -21,7 +23,7 @@ from openprocurement.tender.pricequotation.procedure.validation import (
 )
 
 
-class AdditionalClassification(Classification):
+class AdditionalClassification(BaseClassification):
     def validate_id(self, data, value):
         if data["scheme"] == CCCE_UA_SCHEME and value not in CCCE_UA:
             raise ValidationError(f"{CCCE_UA_SCHEME} id not found in standards")

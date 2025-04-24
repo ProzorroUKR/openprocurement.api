@@ -110,7 +110,7 @@ class BaseCriterionResource(TenderBaseResource):
     def patch(self) -> Optional[dict]:
         updated_criterion = self.request.validated["data"]
         if not updated_criterion:
-            return
+            return None
         criterion = self.request.validated["criterion"]
         tender = self.request.validated["tender"]
         self.state.criterion_on_patch(criterion, updated_criterion)

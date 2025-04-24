@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.cancellation_document import (
-    CancellationDocumentResource,
+    CancellationDocumentResource as BaseCancellationDocumentResource,
 )
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 
@@ -13,5 +13,5 @@ from openprocurement.tender.open.constants import ABOVE_THRESHOLD
     procurementMethodType=ABOVE_THRESHOLD,
     description="Tender cancellation documents",
 )
-class CancellationDocumentResource(CancellationDocumentResource):
+class CancellationDocumentResource(BaseCancellationDocumentResource):
     pass

@@ -8,9 +8,14 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.core.tests.mock import patch_market
-from openprocurement.tender.pricequotation.tests.data import *
 from openprocurement.tender.pricequotation.tests.data import (
+    PERIODS,
+    test_agreement_pq_data,
+    test_tender_pq_bids,
     test_tender_pq_category,
+    test_tender_pq_config,
+    test_tender_pq_criteria,
+    test_tender_pq_data,
     test_tender_pq_short_profile,
 )
 

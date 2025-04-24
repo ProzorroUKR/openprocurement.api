@@ -329,7 +329,7 @@ class TenderNegotiationEContractMultiBuyersResourceTest(TenderReportingEContract
     initial_config = test_tender_negotiation_config
 
 
-class TenderNegotiationEContractMultiBuyersResourceTest(TenderReportingEContractMultiBuyersResourceTest):
+class TenderNegotiationQuickEContractMultiBuyersResourceTest(TenderReportingEContractMultiBuyersResourceTest):
     initial_data = test_tender_negotiation_quick_data_multi_buyers
     initial_config = test_tender_negotiation_quick_config
 

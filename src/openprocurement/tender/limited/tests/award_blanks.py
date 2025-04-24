@@ -2320,7 +2320,7 @@ def cancelled_award_with_complaint(self):
         self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"], self.tender_token),
+        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
         {"data": {"status": "satisfied"}},
     )
 
@@ -2544,7 +2544,7 @@ def cancelled_lot_award_with_complaint(self):
         self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"], self.tender_token),
+        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
         {"data": {"status": "satisfied"}},
     )
 
@@ -2703,7 +2703,7 @@ def cancelled_2lot_award_with_complaint(self):
         self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"], self.tender_token),
+        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
         {"data": {"status": "satisfied"}},
     )
 
@@ -2834,7 +2834,7 @@ def cancelled_active_award_with_complaint(self):
         self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"], self.tender_token),
+        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
         {"data": {"status": "satisfied"}},
     )
 
@@ -2984,7 +2984,7 @@ def cancelled_unsuccessful_award_with_complaint(self):
         self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"], self.tender_token),
+        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
         {"data": {"status": "satisfied"}},
     )
 

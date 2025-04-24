@@ -4,7 +4,7 @@ from openprocurement.api.procedure.utils import is_item_owner
 
 
 class LotValueSerializer(BaseSerializer):
-    private_fields: list[str] | None = set()
+    private_fields: set[str] = set()
 
     def __init__(self, data: dict, bid=None, tender=None, **kwargs):
         super().__init__(data, **kwargs)

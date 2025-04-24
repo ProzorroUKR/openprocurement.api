@@ -988,82 +988,6 @@ def patch_tender_bidder_document_json(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't add document because award of bid is not in one of statuses ('active',)",
-            "Can't add document because award of bid is not in one of statuses ('active',)",
-        ),
-    )
-
-
-def patch_tender_bidder_document_json(self):
-    document = {
-        "title": "name.doc",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/msword",
-    }
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {"data": document},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    doc_id = response.json["data"]["id"]
-    self.assertIn(doc_id, response.headers["Location"])
-
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        {"data": {"documentOf": "lot"}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "relatedItem"}],
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        {"data": {"documentOf": "lot", "relatedItem": "0" * 32}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["relatedItem should be one of lots"], "location": "body", "name": "relatedItem"}],
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        {"data": {"description": "document description"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"]["id"])
-
-    response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token)
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("document description", response.json["data"]["description"])
-
-    self.set_status("active.awarded")
-
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        {"data": {"description": "document description"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn(
-        response.json["errors"][0]["description"],
-        (
             "Can't update document because award of bid is not in one of statuses ('active',)",
             "Can't update document because award of bid is not in one of statuses ('active',)",
         ),
@@ -1408,9 +1332,7 @@ def put_tender_bidder_document_json(self):
         ),
     )
 
-    response = self.app.get(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token)
-    )
+    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token))
     dos_service_ids = []
     for b in response.json["data"]["documents"]:
         self.assertIn("http://localhost/get/", b["url"])

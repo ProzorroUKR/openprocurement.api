@@ -16,8 +16,9 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
     set_tender_criteria,
 )
-from openprocurement.tender.pricequotation.tests.base import (
-    BaseTenderWebTest,
+from openprocurement.tender.pricequotation.tests.base import BaseTenderWebTest
+from openprocurement.tender.pricequotation.tests.data import (
+    test_agreement_pq_data,
     test_tech_features_requirements,
     test_tender_pq_bids,
     test_tender_pq_bids_with_docs,
@@ -26,7 +27,6 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_data,
     test_tender_pq_short_profile,
 )
-from openprocurement.tender.pricequotation.tests.data import test_agreement_pq_data
 from openprocurement.tender.pricequotation.tests.utils import copy_tender_items
 
 test_tender_data = deepcopy(test_tender_pq_data)

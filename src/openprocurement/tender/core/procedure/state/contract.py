@@ -2,8 +2,9 @@ from datetime import datetime
 from decimal import ROUND_UP, Decimal
 from itertools import zip_longest
 from logging import getLogger
-from typing import Optional
+from typing import Callable, Optional
 
+from pyramid.request import Request
 from schematics.types import BaseType
 
 from openprocurement.api.constants_env import (
@@ -36,6 +37,12 @@ LOGGER = getLogger(__name__)
 
 
 class ContractStateMixing:
+    request: Request
+    block_complaint_status: tuple
+
+    set_object_status: Callable
+    check_skip_award_complaint_period: Callable
+
     allowed_statuses_from = ("pending", "pending.winner-signing")
     allowed_statuses_to = ("active", "pending", "pending.winner-signing")
 

@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import inspect
 from decimal import Decimal
-from typing import Any, Callable, Union
+from typing import Any, Callable, Generic, TypeVar, Union
 
 from openprocurement.api.procedure.utils import to_decimal
+
+T = TypeVar("T")
 
 
 def evaluate_serializer(serializer: Callable, value: Any, **kwargs) -> Any:
@@ -17,16 +19,16 @@ def evaluate_serializer(serializer: Callable, value: Any, **kwargs) -> Any:
     return instance
 
 
-class AbstractSerializer:
-    _data: dict[str, Any]
+class AbstractSerializer(Generic[T]):
+    _data: Any
     _kwargs: dict[str, Any]
 
     @property
-    def raw(self) -> dict[str, Any]:
+    def raw(self) -> Any:
         return self._data
 
     @property
-    def data(self) -> dict[str, Any]:
+    def data(self) -> T:
         return self._data
 
     @property
@@ -34,7 +36,7 @@ class AbstractSerializer:
         return self._kwargs
 
 
-class BaseSerializer(AbstractSerializer):
+class BaseSerializer(AbstractSerializer[dict[str, Any]]):
     serializers: dict[str, Callable] = {}
     private_fields: list[str] | None = None
     whitelist: list[str] | None = None
@@ -49,11 +51,11 @@ class BaseSerializer(AbstractSerializer):
 
     def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
         # pre-serialize
-        items = data.items()
+        items = list(data.items())
         if self.private_fields:
-            items = ((k, v) for k, v in items if k not in self.private_fields)
+            items = [(k, v) for k, v in items if k not in self.private_fields]
         if self.whitelist:
-            items = ((k, v) for k, v in items if k in self.whitelist)
+            items = [(k, v) for k, v in items if k in self.whitelist]
 
         # serialize
         serialized_data = {}
@@ -77,7 +79,7 @@ class BaseSerializer(AbstractSerializer):
         return value
 
 
-class ListSerializer(AbstractSerializer):
+class ListSerializer(AbstractSerializer[list[Any]]):
     def __init__(self, serializer: Callable):
         self.serializer = serializer
 

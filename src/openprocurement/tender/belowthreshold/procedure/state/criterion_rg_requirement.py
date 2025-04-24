@@ -1,3 +1,5 @@
+from pyramid.request import Request
+
 from openprocurement.api.constants_env import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, get_now
@@ -17,6 +19,8 @@ from openprocurement.tender.core.procedure.validation import (
 
 
 class BelowThresholdRequirementValidationsMixin:
+    request: Request
+
     def _validate_change_requirement_objects(self) -> None:
         valid_statuses = ["draft"]
         tender = get_tender()

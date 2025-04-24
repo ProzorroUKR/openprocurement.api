@@ -3,7 +3,9 @@ from cornice.resource import resource
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     BelowThresholdTenderState,
 )
-from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
+from openprocurement.tender.core.procedure.views.auction import (
+    TenderAuctionResource as BaseTenderAuctionResource,
+)
 
 
 @resource(
@@ -13,5 +15,5 @@ from openprocurement.tender.core.procedure.views.auction import TenderAuctionRes
     procurementMethodType="belowThreshold",
     description="Tender auction data",
 )
-class TenderAuctionResource(TenderAuctionResource):
+class TenderAuctionResource(BaseTenderAuctionResource):
     state_class = BelowThresholdTenderState

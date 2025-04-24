@@ -8,15 +8,15 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     get_tender_cancellation,
     get_tender_cancellations,
 )
-from openprocurement.tender.pricequotation.tests.base import (
-    TenderContentWebTest,
-    test_tender_pq_bids,
-    test_tender_pq_cancellation,
-)
+from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
     create_tender_cancellation,
     create_tender_cancellation_invalid,
     patch_tender_cancellation,
+)
+from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_bids,
+    test_tender_pq_cancellation,
 )
 
 

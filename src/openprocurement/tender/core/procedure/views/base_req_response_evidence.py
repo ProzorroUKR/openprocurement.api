@@ -76,7 +76,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
     def patch(self) -> Optional[dict]:
         updated_evidence = self.request.validated["data"]
         if not updated_evidence:
-            return
+            return None
         evidence = self.request.validated["evidence"]
         req_response = self.request.validated["requirement_response"]
         set_item(req_response, "evidences", evidence["id"], updated_evidence)

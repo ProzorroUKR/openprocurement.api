@@ -1,3 +1,5 @@
+from typing import Callable
+
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.validation import validate_accreditation_level
@@ -8,7 +10,8 @@ from openprocurement.tender.core.procedure.utils import get_supplier_contract
 
 
 class TenderQuestionStateMixin:
-    always: callable  # method from TenderState
+    always: Callable  # method from TenderState
+
     question_create_accreditations: set = None  # formerly tender.edit_accreditations
 
     def question_on_post(self, question):

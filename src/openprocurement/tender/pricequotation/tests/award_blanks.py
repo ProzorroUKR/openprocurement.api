@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.pricequotation.tests.base import test_tender_pq_organization
+from openprocurement.tender.pricequotation.tests.data import test_tender_pq_organization
 
 
 def create_tender_award_invalid(self):

@@ -20,10 +20,10 @@ from openprocurement.tender.open.tests.tender_blanks import create_tender_invali
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
-    test_agreement_dps_data,
-    test_tender_pq_data,
 )
 from openprocurement.tender.pricequotation.tests.data import (
+    test_agreement_dps_data,
+    test_tender_pq_data,
     test_tender_pq_short_profile,
 )
 from openprocurement.tender.pricequotation.tests.tender_blanks import (

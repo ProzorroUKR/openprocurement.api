@@ -4,7 +4,9 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
-from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
+from openprocurement.tender.core.procedure.views.auction import (
+    TenderAuctionResource as BaseTenderAuctionResource,
+)
 
 
 @resource(
@@ -14,7 +16,7 @@ from openprocurement.tender.core.procedure.views.auction import TenderAuctionRes
     procurementMethodType="closeFrameworkAgreementSelectionUA",
     description="Tender auction data",
 )
-class TenderAuctionResource(TenderAuctionResource):
+class TenderAuctionResource(BaseTenderAuctionResource):
     state_class = CFASelectionTenderState
 
     def collection_patch(self):

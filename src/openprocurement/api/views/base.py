@@ -1,6 +1,6 @@
 from hashlib import md5
 from logging import getLogger
-from typing import Any
+from typing import Any, Callable
 
 from bson import Timestamp
 
@@ -31,12 +31,12 @@ def parse_offset(offset: str) -> tuple[Timestamp | float, int, str]:
 
     parts = offset.split(".")
     if len(parts) == 4:
-        skip_len, skip_hash = parts[2:]
-        skip_len = int(skip_len)
+        skip_len = int(parts[2])
+        skip_hash = parts[3]
 
     if len(parts) > 1 and len(parts[1]) == 10:  # timestamp offset format (for public_ts field)
         seconds, ordinal = parts[:2]
-        offset_value = Timestamp(int(seconds), int(ordinal))
+        offset_value: Timestamp | float = Timestamp(int(seconds), int(ordinal))
         return offset_value, skip_len, skip_hash
 
     try:  # timestamp offset format (for "public_modified" field)
@@ -68,8 +68,8 @@ class MongodbResourceListing(BaseResource):
     default_limit = 100
     max_limit = 1000
 
-    db_listing_method: callable
-    filter_key = None
+    db_listing_method: Callable
+    filter_key: str | None = None
 
     @json_view(permission="view_listing")
     def get(self):

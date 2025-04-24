@@ -131,7 +131,7 @@ class BaseRequirementResource(TenderBaseResource):
     def patch(self) -> Optional[dict]:
         updated_requirement = self.request.validated["data"]
         if not updated_requirement:
-            return
+            return None
         requirement = self.request.validated["requirement"]
         requirement_group = self.request.validated["requirement_group"]
 
