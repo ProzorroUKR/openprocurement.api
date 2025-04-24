@@ -61,10 +61,11 @@ class BaseContractState(BaseState, ContractStateMixing):
                 raise_operation_error(get_request(), "Can't change items list length")
             else:
                 # check deletion of fields
-                if set(item_before.keys()) - set(item_after.keys()):
+                keys_difference = set(item_before.keys()) - set(item_after.keys())
+                if keys_difference:
                     raise_operation_error(
                         get_request(),
-                        f"Forbidden to delete fields {set(item_before.keys()) - set(item_after.keys())}",
+                        f"Forbidden to delete fields {keys_difference}",
                     )
                 for k in item_before.keys() | item_after.keys():
                     before, after = item_before.get(k), item_after.get(k)
