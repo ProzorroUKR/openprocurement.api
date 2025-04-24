@@ -76,7 +76,7 @@ test_tender_cdua_stage2_data["tenderID"] = "bla bla bla this iis stage 2 ua"
 test_tender_cdua_stage2_data["procurementMethodType"] = STAGE_2_UA_TYPE
 test_tender_cdua_stage2_data["procurementMethod"] = "selective"
 
-test_tender_cd_shortlisted_firms = [
+test_tender_cd_shortlisted_firms: list[dict] = [
     {
         "identifier": {
             "scheme": test_tender_below_organization["identifier"]["scheme"],

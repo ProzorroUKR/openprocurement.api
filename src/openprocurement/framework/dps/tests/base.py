@@ -150,8 +150,8 @@ class BaseFrameworkWebTest(BaseFrameworkCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_dps_data
     initial_config = test_framework_dps_config
-    initial_submission_data = None
-    initial_submission_config = None
+    initial_submission_data: dict | None = None
+    initial_submission_config: dict | None = None
     framework_class = Framework
     framework_type = DPS_TYPE
     periods = PERIODS

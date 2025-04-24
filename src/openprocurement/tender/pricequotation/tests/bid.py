@@ -14,12 +14,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 from openprocurement.tender.core.tests.mock import MockCriteriaIDMixin, MockMarketMixin
 from openprocurement.tender.core.tests.utils import set_bid_responses
 from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
-from openprocurement.tender.pricequotation.tests.base import (
-    TenderContentWebTest,
-    test_tender_pq_bids,
-    test_tender_pq_criteria,
-    test_tender_pq_organization,
-)
+from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     bid_Administrator_change,
     bid_items_unit_value_validations,
@@ -38,10 +33,13 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
     requirement_response_value_validation_for_expected_values,
 )
 from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_bids,
+    test_tender_pq_criteria,
     test_tender_pq_criteria_1,
     test_tender_pq_criteria_2,
     test_tender_pq_criteria_3,
     test_tender_pq_criteria_4,
+    test_tender_pq_organization,
 )
 from openprocurement.tender.pricequotation.tests.utils import (
     copy_tender_items,

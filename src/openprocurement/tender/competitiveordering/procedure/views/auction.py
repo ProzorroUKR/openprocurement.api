@@ -4,7 +4,9 @@ from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORD
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
     OpenTenderState,
 )
-from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
+from openprocurement.tender.core.procedure.views.auction import (
+    TenderAuctionResource as BaseTenderAuctionResource,
+)
 
 
 @resource(
@@ -14,5 +16,5 @@ from openprocurement.tender.core.procedure.views.auction import TenderAuctionRes
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender auction data",
 )
-class TenderAuctionResource(TenderAuctionResource):
+class TenderAuctionResource(BaseTenderAuctionResource):
     state_class = OpenTenderState

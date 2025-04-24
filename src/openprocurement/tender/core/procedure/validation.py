@@ -4,6 +4,7 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from decimal import ROUND_FLOOR, ROUND_UP, Decimal
 from hashlib import sha512
+from typing import Callable
 
 from pyramid.httpexceptions import HTTPError
 from pyramid.request import Request
@@ -1128,7 +1129,7 @@ validate_lot_operation_in_disallowed_tender_statuses = validate_item_operation_i
 )
 
 
-def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> callable:
+def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> Callable:
     def validation(request: Request, **_) -> None:
         if not tender_created_after_2020_rules():
             return
@@ -1144,6 +1145,9 @@ def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> calla
         tender = request.validated["tender"]
 
         field = fields_names.get(type_name)
+        if not field:
+            return
+
         o = request.validated.get(type_name)
         lot_id = getattr(o, field, None)
 
@@ -1703,7 +1707,7 @@ def validate_edrpou_confidentiality_doc(doc, should_be_public=False):
         )
 
 
-def validate_required_fields(request, data: dict, required_fields: dict, name="data") -> dict:
+def validate_required_fields(request, data: dict, required_fields: dict, name="data"):
     """
     Validates that all required fields are present in the given data, including nested fields.
 

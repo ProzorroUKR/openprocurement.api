@@ -1,3 +1,5 @@
+from pyramid.request import Request
+
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     BelowThresholdTenderState,
 )
@@ -8,6 +10,8 @@ from openprocurement.tender.core.procedure.validation import (
 
 
 class BaseBelowThresholdCriterionStateMixin:
+    request: Request
+
     def _validate_operation_criterion_in_tender_status(self) -> None:
         valid_statuses = ["draft", "active.enquiries"]
         base_validate_operation_ecriteria_objects(self.request, valid_statuses)

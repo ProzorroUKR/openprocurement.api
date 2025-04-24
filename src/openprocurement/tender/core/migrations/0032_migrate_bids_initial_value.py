@@ -64,7 +64,7 @@ class Migration(CollectionMigration):
 
         return doc
 
-    def generate_base_pipeline_stages(self, doc: dict) -> dict:
+    def generate_base_pipeline_stages(self, doc: dict) -> list:
         return [
             {
                 "$set": {

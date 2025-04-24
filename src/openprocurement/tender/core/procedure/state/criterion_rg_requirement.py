@@ -1,3 +1,5 @@
+from pyramid.request import Request
+
 from openprocurement.api.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.api.constants_env import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.api.procedure.context import get_tender
@@ -27,6 +29,8 @@ from openprocurement.tender.core.procedure.validation import (
 
 
 class RequirementValidationsMixin:
+    request: Request
+
     def _validate_change_requirement_objects(self) -> None:
         valid_statuses = ["draft", "draft.pending", "draft.stage2"]
         tender = get_tender()

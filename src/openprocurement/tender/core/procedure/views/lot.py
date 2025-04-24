@@ -144,7 +144,7 @@ class TenderLotResource(TenderBaseResource):
 
         updated = self.request.validated["data"]
         if not updated:
-            return
+            return None
 
         lot = self.request.validated["lot"]
         self.state.validate_lot_patch(lot, updated)

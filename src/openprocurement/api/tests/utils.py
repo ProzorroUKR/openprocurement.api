@@ -67,7 +67,7 @@ class GetCurrencyRatesTestCase(unittest.TestCase):
     @patch("openprocurement.api.utils.raise_operation_error")
     @patch("openprocurement.api.utils.get_now")
     @patch("openprocurement.api.utils.requests.get")
-    def test_fail_connection(self, requests_get_mock, get_now_mock, raise_operation_error_mock):
+    def test_fail_value(self, requests_get_mock, get_now_mock, raise_operation_error_mock):
         class MyExc(Exception):
             pass
 

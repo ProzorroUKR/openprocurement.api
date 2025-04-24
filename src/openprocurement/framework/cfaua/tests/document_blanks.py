@@ -207,11 +207,11 @@ def put_contract_document(self):
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
-    response = self.app.get("/agreements/{}/documents/{}".format(self.agreement_id, doc_id, key))
+    response = self.app.get("/agreements/{}/documents/{}".format(self.agreement_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.get("/agreements/{}/documents".format(self.agreement_id, self.agreement_token))
+    response = self.app.get("/agreements/{}/documents".format(self.agreement_id))
     self.assertEqual(response.status, "200 OK")
     doc_id = response.json["data"][0]["id"]
     response = self.app.patch_json(

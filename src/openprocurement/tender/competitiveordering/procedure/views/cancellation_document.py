@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.procedure.views.cancellation_document import (
-    CancellationDocumentResource,
+    CancellationDocumentResource as BaseCancellationDocumentResource,
 )
 
 
@@ -13,5 +13,5 @@ from openprocurement.tender.core.procedure.views.cancellation_document import (
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender cancellation documents",
 )
-class CancellationDocumentResource(CancellationDocumentResource):
+class CancellationDocumentResource(BaseCancellationDocumentResource):
     pass

@@ -1625,7 +1625,7 @@ def delete_bid_document(self):
     self.assertEqual(len(response.json["data"]), 0)
 
     response = self.app.get(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.bid_token),
     )
     self.assertEqual(response.json["data"]["dateModified"], tender_doc["dateModified"])
 

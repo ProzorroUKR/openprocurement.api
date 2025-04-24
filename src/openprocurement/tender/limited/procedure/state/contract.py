@@ -1,3 +1,7 @@
+from typing import Callable
+
+from pyramid.request import Request
+
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
@@ -10,6 +14,12 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 
 
 class LimitedContractStateMixing:
+    request: Request
+
+    set_object_status: Callable
+
+    block_complaint_status: tuple
+
     def check_contracts_statuses(self, tender):
         active_contracts = False
         pending_contracts = False
@@ -51,7 +61,7 @@ class LimitedContractStateMixing:
             elif last_award["status"] == "active" and any(
                 [
                     contract["status"] == "active" and contract.get("awardID") == last_award["id"]
-                    for contract in tender.get("contracts")
+                    for contract in tender.get("contracts", [])
                 ]
             ):
                 self.set_object_status(lot, "complete")

@@ -296,7 +296,7 @@ def delete_requirement_evidence(self):
     evidence_id = response.json["data"]["id"]
 
     base_request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences".format(
-        self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, evidence_id, self.tender_token
+        self.tender_id, self.criteria_id, self.rg_id, self.requirement_id
     )
 
     response = self.app.delete("{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token))
@@ -306,7 +306,7 @@ def delete_requirement_evidence(self):
 
     response = self.app.get(
         "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences".format(
-            self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token
+            self.tender_id, self.criteria_id, self.rg_id, self.requirement_id
         ),
     )
     self.assertEqual(response.status, "200 OK")

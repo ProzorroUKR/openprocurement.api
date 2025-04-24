@@ -2,8 +2,6 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
-import dateutil
-
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import (
     COMPLAINT_IDENTIFIER_REQUIRED_FROM,
@@ -410,25 +408,6 @@ def patch_tender_award(self):
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update award in current (complete) tender status"
     )
-
-
-def check_tender_award_complaint_period_dates(self):
-    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Location", response.headers)
-
-    updated_award = response.json["data"]
-    self.assertIn("endDate", updated_award["complaintPeriod"])
-    new_complaint_period_start_date = dateutil.parser.parse(updated_award["complaintPeriod"]["startDate"])
-    new_complaint_period_end_date = dateutil.parser.parse(updated_award["complaintPeriod"]["endDate"])
-
-    self.assertGreater(new_complaint_period_start_date, self.old_complaint_period_start_date)
-    self.assertGreater(new_complaint_period_end_date, new_complaint_period_start_date)
 
 
 def patch_tender_award_active(self):
@@ -864,7 +843,7 @@ def another_award_has_considered_complaint(self):
         {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
     )
     response = self.app.get(
-        '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+        '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
     )
     award_2_id = response.json["data"][-1]["id"]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_2_id}/documents")
@@ -3117,7 +3096,7 @@ def lot_award_has_satisfied_complaint(self):
 
         # activate second award to have complaintPeriod in unsuccessful award
         response = self.app.get(
-            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
         )
         self.assertEqual(response.json["data"][1]["lotID"], response.json["data"][0]["lotID"])
         award_2_id = response.json["data"][1]["id"]
@@ -3199,7 +3178,7 @@ def lot_award_has_resolved_complaint(self):
 
         # activate second award to have complaintPeriod in unsuccessful award
         response = self.app.get(
-            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
         )
         self.assertEqual(response.json["data"][1]["lotID"], response.json["data"][0]["lotID"])
         award_2_id = response.json["data"][1]["id"]
@@ -3273,7 +3252,7 @@ def any_lot_award_has_not_considered_complaint(self):
 
         # activate second award to have complaintPeriod in unsuccessful award
         response = self.app.get(
-            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+            '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
         )
         self.assertEqual(response.json["data"][1]["lotID"], response.json["data"][0]["lotID"])
         award_2_id = response.json["data"][1]["id"]
@@ -3336,7 +3315,7 @@ def another_award_for_one_lot_has_considered_complaint(self):
         {"data": patch_data},
     )
     response = self.app.get(
-        '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+        '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
     )
     self.assertEqual(response.json["data"][1]["lotID"], response.json["data"][0]["lotID"])
     award_2_id = response.json["data"][1]["id"]
@@ -3405,7 +3384,7 @@ def award_for_another_lot_has_considered_complaint(self):
         {"data": patch_data},
     )
     response = self.app.get(
-        '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),
+        '/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.tender_token),
     )
     self.assertNotEqual(response.json["data"][-1]["lotID"], response.json["data"][0]["lotID"])
     award_3_id = response.json["data"][-1]["id"]

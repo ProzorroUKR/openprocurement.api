@@ -221,7 +221,7 @@ def get_criterion_requirement(tender, requirement_id) -> Optional[dict]:
 def bid_in_invalid_status() -> Optional[bool]:
     request = get_request()
     if "/bids" not in request.url:
-        return
+        return None
     json_data = get_json_data()
     status = json_data.get("status") if isinstance(json_data, dict) else None
     if not status:

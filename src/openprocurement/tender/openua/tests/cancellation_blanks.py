@@ -1837,7 +1837,7 @@ def get_tender_cancellation_complaints(self):
     self.assertIn(complaint["id"], response.headers["Location"])
 
     response = self.app.get(
-        "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, self.cancellation_id, self.tender_token),
+        "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, self.cancellation_id),
     )
 
     self.assertEqual(response.status, "200 OK")

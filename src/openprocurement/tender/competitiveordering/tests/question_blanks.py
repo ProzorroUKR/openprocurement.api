@@ -5,7 +5,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_below_a
 
 def create_tender_question_valid_author_co(self):
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -24,7 +24,7 @@ def create_tender_question_check_author_co(self):
     author_data = deepcopy(test_tender_below_author)
     author_data["identifier"]["id"] = "111111"
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -42,7 +42,7 @@ def create_tender_question_check_author_co(self):
     # suspended contract supplier
     author_data["identifier"]["id"] = "87654321"
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",
@@ -60,7 +60,7 @@ def create_tender_question_check_author_co(self):
     # active contract supplier
     author_data["identifier"]["id"] = "00037256"
     response = self.app.post_json(
-        "/tenders/{}/questions".format(self.tender_id, self.tender_token),
+        "/tenders/{}/questions".format(self.tender_id),
         {
             "data": {
                 "title": "question title",

@@ -57,6 +57,14 @@ class MigrationResult:
         )
 
 
+class CollectionWrapper:
+    def __init__(self, collection):
+        self._collection = collection
+
+    def __getattr__(self, name):
+        return getattr(self._collection, name)
+
+
 class BaseMigration:
     """Base class for database migrations"""
 
@@ -72,6 +80,9 @@ class BaseMigration:
     def run(self) -> None:
         raise NotImplementedError("Subclasses must implement run")
 
+    def run_test(self) -> None:
+        pass
+
 
 class CollectionMigration(BaseMigration):
     """Base class for database migrations with configurable collection, filter and update logic.
@@ -84,7 +95,7 @@ class CollectionMigration(BaseMigration):
 
     description: str = "Base migration"
 
-    collection_name: str = None
+    collection_name: str
 
     append_revision: bool = True
 
@@ -126,8 +137,8 @@ class CollectionMigration(BaseMigration):
         return getattr(self.env["registry"].mongodb, self.collection_name).collection
 
     @property
-    def _collection(self) -> Collection:
-        collection = self.get_collection()
+    def _collection(self) -> Collection | CollectionWrapper:
+        collection: Collection | CollectionWrapper = self.get_collection()
         if self.args.readonly:
             collection = ReadonlyCollectionWrapper(collection)
         if self.args.log:
@@ -166,7 +177,7 @@ class CollectionMigration(BaseMigration):
                 projection.update({"revisions": 1})
         return projection
 
-    def update_document(self, doc: dict) -> Optional[UpdateOne]:
+    def update_document(self, doc: dict) -> Optional[dict]:
         """Process a single document.
 
         :param doc: Document to process
@@ -175,7 +186,7 @@ class CollectionMigration(BaseMigration):
         """
         raise NotImplementedError("Subclasses must implement process_document")
 
-    def process_operation(self, doc: dict) -> UpdateOne:
+    def process_operation(self, doc: dict) -> Optional[UpdateOne]:
         """Generate update operation for a single document.
 
         :param pipeline: Pipeline of update operations
@@ -192,15 +203,14 @@ class CollectionMigration(BaseMigration):
             pipeline,
         )
 
-    def process_pipeline(self, doc: dict) -> dict:
+    def process_pipeline(self, doc: dict) -> Optional[list[dict]]:
         """Generate update pipeline for a single document.
 
         :param doc: Original document
         :return: UpdateOne operation
         """
 
-        updated_doc = deepcopy(doc)
-        updated_doc = self.update_document(updated_doc)
+        updated_doc = self.update_document(deepcopy(doc))
 
         if not updated_doc or doc == updated_doc:
             # Skip document processing
@@ -225,22 +235,22 @@ class CollectionMigration(BaseMigration):
 
         return pipeline
 
-    def generate_base_pipeline_stages(self, doc: dict) -> dict:
+    def generate_base_pipeline_stages(self, doc: dict) -> list[dict]:
         return [
             {"$set": doc},
         ]
 
-    def generate_revision_number_pipeline_stages(self, doc: dict) -> dict:
+    def generate_revision_number_pipeline_stages(self, doc: dict) -> list[dict]:
         return [
             {"$set": {"_rev": MongodbStore.get_next_rev(doc["_rev"])}},
         ]
 
-    def generate_date_modified_pipeline_stages(self, doc: dict) -> dict:
+    def generate_date_modified_pipeline_stages(self, doc: dict) -> list[dict]:
         return [
             {"$set": {"dateModified": get_now().isoformat()}},
         ]
 
-    def generate_feed_position_pipeline_stages(self, doc: dict) -> dict:
+    def generate_feed_position_pipeline_stages(self, doc: dict) -> list[dict]:
         return [
             {
                 "$set": {
@@ -417,11 +427,11 @@ class LoggingCollectionJSONEncoder(CustomJSONEncoder):
         return super().default(obj)
 
 
-class LoggingCollectionWrapper:
+class LoggingCollectionWrapper(CollectionWrapper):
     json_encoder = LoggingCollectionJSONEncoder
 
     def __init__(self, collection):
-        self._collection = collection
+        super().__init__(collection)
         self._logger = logger
 
     def __getattr__(self, name):
@@ -450,7 +460,7 @@ class LoggingCollectionWrapper:
         return json.dumps(obj, indent=2, ensure_ascii=False, cls=self.json_encoder)
 
 
-class ReadonlyCollectionWrapper:
+class ReadonlyCollectionWrapper(CollectionWrapper):
     """Wrapper that simulates database writes in readonly mode."""
 
     write_methods = (
@@ -464,7 +474,7 @@ class ReadonlyCollectionWrapper:
     )
 
     def __init__(self, collection):
-        self._collection = collection
+        super().__init__(collection)
         self._logger = logger
 
     def __getattr__(self, name):

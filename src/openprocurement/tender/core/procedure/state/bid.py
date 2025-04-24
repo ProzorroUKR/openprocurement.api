@@ -344,7 +344,7 @@ class BidState(BaseState):
                 },
             }
 
-        for item in bid_items:
+        for item in bid_items or []:
             validate_required_fields(self.request, item, item_required_fields, name="items")
 
     def validate_items_related_product(self, after: dict, before: dict) -> None:

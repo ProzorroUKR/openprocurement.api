@@ -137,26 +137,6 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_prolongation_award = snitch(prolongation_award)
 
 
-class TenderAwardQualificationAfterComplaintMixin:
-    test_award_has_satisfied_complaint = snitch(award_has_satisfied_complaint)
-    test_award_has_resolved_complaint = snitch(award_has_resolved_complaint)
-    test_any_award_has_non_considered_complaint = snitch(any_award_has_not_considered_complaint)
-    test_another_award_has_considered_complaint = snitch(another_award_has_considered_complaint)
-
-
-@mock.patch(
-    "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
-    get_now() - timedelta(days=1),
-)
-class TenderAwardQualificationAfterComplaint(TenderAwardQualificationAfterComplaintMixin, BaseTenderUAContentWebTest):
-    initial_status = "active.qualification"
-    initial_lots = test_tender_below_lots
-    initial_bids = test_tender_open_three_bids
-
-    test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
-    test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
-
-
 class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
@@ -201,11 +181,20 @@ class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
         self.award_id = award["id"]
 
 
+class TenderAwardQualificationAfterComplaintMixin:
+    test_award_has_satisfied_complaint = snitch(award_has_satisfied_complaint)
+    test_award_has_resolved_complaint = snitch(award_has_resolved_complaint)
+    test_any_award_has_non_considered_complaint = snitch(any_award_has_not_considered_complaint)
+    test_another_award_has_considered_complaint = snitch(another_award_has_considered_complaint)
+
+
 @mock.patch(
     "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
     get_now() - timedelta(days=1),
 )
-class TenderAwardQualificationAfterComplaint(TenderAwardPendingResourceTestCase):
+class TenderAwardQualificationAfterComplaint(
+    TenderAwardQualificationAfterComplaintMixin, TenderAwardPendingResourceTestCase
+):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
     initial_bids = test_tender_open_three_bids

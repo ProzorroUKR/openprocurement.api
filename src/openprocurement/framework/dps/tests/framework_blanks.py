@@ -903,7 +903,7 @@ def patch_framework_draft(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    framework = self.app.get("/frameworks/{}".format(framework["id"], token)).json["data"]
+    framework = self.app.get("/frameworks/{}".format(framework["id"])).json["data"]
     contact = framework["procuringEntity"]["contactPoint"]
     self.assertEqual(contact["telephone"], framework_patch_data["procuringEntity"]["contactPoint"]["telephone"])
     self.assertEqual(contact["name"], framework_patch_data["procuringEntity"]["contactPoint"]["name"])

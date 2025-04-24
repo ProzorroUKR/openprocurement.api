@@ -1,6 +1,6 @@
 from datetime import timedelta
 from logging import getLogger
-from typing import Optional
+from typing import Callable, Optional
 
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object, get_tender
@@ -31,6 +31,8 @@ LOGGER = getLogger(__name__)
 class ChronographEventsMixing:
     # CHRONOGRAPH
     # events that happen in tenders on a schedule basis
+
+    calc_weighted_value: Callable
 
     # Pre-calculate weighted values for bids in the end of tendering period
     tender_weighted_value_pre_calculation: bool = True

@@ -339,7 +339,7 @@ class ObjResponseMixin(PatchObjResponsesMixin):
                 parent_obj_name = name
                 break
 
-        self._validate_requirement_responses_data(self, data, requirement_responses, parent_obj_name)
+        self._validate_requirement_responses_data(self, data, requirement_responses, parent_obj_name)  # type: ignore[arg-type,call-arg]
 
     def _validate_requirement_responses_data(
         self, data: dict, requirement_responses: List[dict], parent_obj_name: str
@@ -366,7 +366,7 @@ class BidResponsesMixin(ObjResponseMixin):
     def _validate_requirement_responses_data(
         self, data: dict, requirement_responses: List[dict], parent_obj_name: str
     ) -> None:
-        super()._validate_requirement_responses_data(self, data, requirement_responses, parent_obj_name)
+        super()._validate_requirement_responses_data(self, data, requirement_responses, parent_obj_name)  # type: ignore[arg-type,call-arg]
 
         tender = get_tender()
 

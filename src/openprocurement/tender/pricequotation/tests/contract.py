@@ -12,8 +12,8 @@ from copy import deepcopy
 #     patch_tender_multi_contracts_cancelled_validate_amount,
 #     patch_tender_multi_contracts_cancelled_with_one_activated,
 # )
-from openprocurement.tender.pricequotation.tests.base import (
-    TenderContentWebTest,
+from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
+from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_bids,
     test_tender_pq_data,
     test_tender_pq_multi_buyers_data,

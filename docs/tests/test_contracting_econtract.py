@@ -21,8 +21,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import set_tender_criteria
-from openprocurement.tender.pricequotation.tests.base import (
-    BaseTenderWebTest,
+from openprocurement.tender.pricequotation.tests.base import BaseTenderWebTest
+from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
     test_tender_pq_criteria_1,
     test_tender_pq_data,

@@ -1,5 +1,7 @@
 from collections import Counter
-from typing import Union
+from typing import Any, Union
+
+from pyramid.request import Request
 
 from openprocurement.api.constants import CRITERIA_LIST
 from openprocurement.api.constants_env import (
@@ -25,8 +27,10 @@ from openprocurement.tender.core.procedure.utils import tender_created_after
 
 
 class TenderCriterionMixin:
+    request: Request
+
     def _validate_criterion_uniq(self, data, previous_criteria=[]) -> None:
-        new_criteria = {}
+        new_criteria: dict[str, Any] = {}
 
         def check(new_criterion: dict) -> None:
             if class_id := new_criterion.get("classification", {}).get("id"):

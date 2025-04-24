@@ -541,7 +541,7 @@ def delete_nones(data: dict):
             del data[k]
 
 
-def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple = None) -> dict:
+def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple | None = None) -> dict:
     catalog_api_host = request.registry.catalog_api_host
     obj_name = uri.split("/")[-1]
 
@@ -585,15 +585,15 @@ def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple =
     return data
 
 
-def get_tender_profile(request, profile_id: str, validate_status: tuple = None) -> dict:
+def get_tender_profile(request, profile_id: str, validate_status: tuple | None = None) -> dict:
     return get_catalogue_object(request, "profiles", profile_id, validate_status)
 
 
-def get_tender_category(request, category_id: str, validate_status: tuple = None) -> dict:
+def get_tender_category(request, category_id: str, validate_status: tuple | None = None) -> dict:
     return get_catalogue_object(request, "categories", category_id, validate_status)
 
 
-def get_tender_product(request, product_id: str, validate_status: tuple = None) -> dict:
+def get_tender_product(request, product_id: str, validate_status: tuple | None = None) -> dict:
     return get_catalogue_object(request, "products", product_id, validate_status)
 
 

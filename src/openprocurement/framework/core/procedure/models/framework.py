@@ -14,7 +14,9 @@ from openprocurement.api.constants import (
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model, RootModel
-from openprocurement.api.procedure.models.item import AdditionalClassification
+from openprocurement.api.procedure.models.item import (
+    AdditionalClassification as BaseAdditionalClassification,
+)
 from openprocurement.api.procedure.models.item import (
     Classification as BaseClassification,
 )
@@ -37,7 +39,7 @@ from openprocurement.tender.core.procedure.validation import validate_ccce_ua
 
 class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
+    additionalClassifications = ListType(ModelType(BaseAdditionalClassification, required=True), default=[])
     deliveryDate = ModelType(PeriodEndRequired, required=True)
     deliveryAddress = ModelType(Address, required=True)
     unit = ModelType(Unit, required=True)
