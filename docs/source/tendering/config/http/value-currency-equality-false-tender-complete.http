@@ -1434,7 +1434,12 @@ Content-Type: application/json
             },
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
+            "date": "2023-10-10T01:00:00+03:00",
+            "initialValue": {
+              "amount": 600.0,
+              "currency": "USD",
+              "valueAddedTaxIncluded": true
+            }
           },
           {
             "value": {
@@ -1444,7 +1449,12 @@ Content-Type: application/json
             },
             "relatedLot": "6670a4933d854a00afa53a2979728a6d",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
+            "date": "2023-10-10T01:00:00+03:00",
+            "initialValue": {
+              "amount": 700.0,
+              "currency": "EUR",
+              "valueAddedTaxIncluded": true
+            }
           }
         ],
         "tenderers": [

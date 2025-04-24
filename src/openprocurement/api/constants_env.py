@@ -193,13 +193,6 @@ TENDER_CONFIG_OPTIONALITY = {
     ),
 }
 
-# Tender weightedValue pre-calculation on switch to active.auction
-TENDER_WEIGHTED_VALUE_PRE_CALCULATION = get_constant(
-    CONSTANTS_CONFIG,
-    "TENDER_WEIGHTED_VALUE_PRE_CALCULATION",
-    parse_func=parse_bool,
-)
-
 # Related lot is required
 RELATED_LOT_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "RELATED_LOT_REQUIRED_FROM")
 

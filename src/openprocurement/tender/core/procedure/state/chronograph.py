@@ -1,5 +1,6 @@
 from datetime import timedelta
 from logging import getLogger
+from typing import Optional
 
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object, get_tender
@@ -30,7 +31,10 @@ LOGGER = getLogger(__name__)
 class ChronographEventsMixing:
     # CHRONOGRAPH
     # events that happen in tenders on a schedule basis
-    # (only tenders are updated by chronograph at the moment)
+
+    # Pre-calculate weighted values for bids in the end of tendering period
+    tender_weighted_value_pre_calculation: bool = True
+
     def update_next_check(self, data):
         # next_check is field that shows tender's expectation to be triggered at a certain time
         next_check = self.get_next_check(data)
@@ -349,13 +353,13 @@ class ChronographEventsMixing:
             self.remove_draft_bids(tender)
             self.check_bids_number(tender)
             self.prepare_qualifications(tender)
-            self.calc_bids_weighted_values(tender)
+            self.calc_bids_values(tender)
         else:
             self.remove_draft_bids(tender)
             self.invalidate_not_agreement_members_bids(tender)
             self.activate_bids(tender)
             self.check_bids_number(tender)
-            self.calc_bids_weighted_values(tender)
+            self.calc_bids_values(tender)
             self.switch_to_auction_or_qualification(tender)
 
     @staticmethod
@@ -965,3 +969,24 @@ class ChronographEventsMixing:
         if not tender.get("lots"):
             return
         tender["yearlyPaymentsPercentageRange"] = min(i["yearlyPaymentsPercentageRange"] for i in tender["lots"])
+
+    def calc_bids_values(self, tender):
+        bids = tender.get("bids", "")
+
+        for bid in bids:
+            if bid.get("lotValues", ""):
+                for lot_value in bid["lotValues"]:
+                    lot_id = lot_value["relatedLot"]
+                    self.calc_bid_values(tender, bid, lot_value, lot_id)
+            else:
+                self.calc_bid_values(tender, bid, bid)
+
+    def calc_bid_values(self, tender: dict, bid: dict, value_container: dict, lot_id: str = None) -> Optional[dict]:
+        initial_value = value_container.get("value", {})
+        if initial_value:
+            value_container["initialValue"] = initial_value
+
+        if self.tender_weighted_value_pre_calculation:
+            weighted_value = self.calc_weighted_value(tender, bid, value_container, lot_id)
+            if weighted_value:
+                value_container["weightedValue"] = weighted_value

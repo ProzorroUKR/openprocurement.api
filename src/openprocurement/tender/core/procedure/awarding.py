@@ -6,7 +6,6 @@ from typing import Optional
 from barbecue import calculate_coeficient
 
 from openprocurement.api.constants import CRITERION_LIFE_CYCLE_COST_IDS
-from openprocurement.api.constants_env import TENDER_WEIGHTED_VALUE_PRE_CALCULATION
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
@@ -43,9 +42,6 @@ class TenderStateAwardingMixing:
     # When True, awards are generated from higher to lower by awarding_criteria_key
     # esco procedure uses True
     reverse_awarding_criteria: bool = False
-
-    # Pre-calculate weighted values for bids in the end of tendering period
-    tender_weighted_value_pre_calculation: bool = TENDER_WEIGHTED_VALUE_PRE_CALCULATION
 
     # Generate award milestones
     generate_award_milestones: bool = True
@@ -382,24 +378,6 @@ class TenderStateAwardingMixing:
 
         award = self.award_class(award_data)
         tender["awards"].append(award.serialize())
-
-    def calc_bids_weighted_values(self, tender):
-        if not self.tender_weighted_value_pre_calculation:
-            return
-
-        bids = tender.get("bids", "")
-
-        for bid in bids:
-            if bid.get("lotValues", ""):
-                for lot_value in bid["lotValues"]:
-                    lot_id = lot_value["relatedLot"]
-                    weighted_value = self.calc_weighted_value(tender, bid, lot_value, lot_id)
-                    if weighted_value:
-                        lot_value["weightedValue"] = weighted_value
-            else:
-                weighted_value = self.calc_weighted_value(tender, bid, bid)
-                if weighted_value:
-                    bid["weightedValue"] = weighted_value
 
     @classmethod
     def calc_weighted_value(cls, tender: dict, bid: dict, value_container: dict, lot_id: str = None) -> Optional[dict]:

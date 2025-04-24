@@ -298,10 +298,13 @@ class BaseCoreWebTest(BaseWebTest):
             for bid in bids:
                 if bid["status"] == "pending":
                     bid.update({"status": "active"})
+                    if "value" in bid:
+                        bid["initialValue"] = bid["value"]
                     if "lotValues" in bid:
                         for lot_value in bid["lotValues"]:
                             if lot_value["status"] == "pending":
                                 lot_value.update({"status": "active", "date": get_now().isoformat()})
+                                lot_value["initialValue"] = lot_value["value"]
             self.tender_document_patch.update({"bids": bids})
 
     def set_status(self, status, extra=None, startend="start"):

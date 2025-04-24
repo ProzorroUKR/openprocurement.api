@@ -1079,9 +1079,12 @@ def get_tender_bid(self):
     bid_data = response.json["data"]
 
     bid["status"] = "active"
+    if "value" in bid:
+        bid["initialValue"] = bid["value"]
     for i, lot_value in enumerate(bid.get("lotValues", [])):
         lot_value["status"] = "active"
         lot_value["date"] = bid_data["lotValues"][i]["date"]
+        lot_value["initialValue"] = bid_data["lotValues"][i]["value"]
 
     self.assertEqual(bid_data, bid)
 
@@ -1194,7 +1197,15 @@ def get_tender_tenderers(self):
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    bid_data = response.json["data"]
+
     bid["status"] = "active"
+    if "value" in bid:
+        bid["initialValue"] = bid["value"]
+    for i, lot_value in enumerate(bid.get("lotValues", [])):
+        lot_value["status"] = "active"
+        lot_value["date"] = bid_data["lotValues"][i]["date"]
+        lot_value["initialValue"] = bid_data["lotValues"][i]["value"]
     self.assertEqual(response.json["data"][0], bid)
 
     response = self.app.get("/tenders/some_id/bids", status=404)

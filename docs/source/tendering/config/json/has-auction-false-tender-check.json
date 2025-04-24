@@ -129,6 +129,11 @@
                 "lotValues": [
                     {
                         "date": "2023-10-10T01:00:00+03:00",
+                        "initialValue": {
+                            "amount": 500.0,
+                            "currency": "UAH",
+                            "valueAddedTaxIncluded": true
+                        },
                         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u041e\u0440\u0444\u0435\u0439\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -140,6 +145,11 @@
                     },
                     {
                         "date": "2023-10-10T01:00:00+03:00",
+                        "initialValue": {
+                            "amount": 500.0,
+                            "currency": "UAH",
+                            "valueAddedTaxIncluded": true
+                        },
                         "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u041e\u0440\u0444\u0435\u0439\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -399,6 +409,11 @@
                 "lotValues": [
                     {
                         "date": "2023-10-10T01:00:00+03:00",
+                        "initialValue": {
+                            "amount": 500.0,
+                            "currency": "UAH",
+                            "valueAddedTaxIncluded": true
+                        },
                         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u0423\u043a\u0440 \u041f\u0440\u0456\u043d\u0442\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -410,6 +425,11 @@
                     },
                     {
                         "date": "2023-10-10T01:00:00+03:00",
+                        "initialValue": {
+                            "amount": 500.0,
+                            "currency": "UAH",
+                            "valueAddedTaxIncluded": true
+                        },
                         "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u0423\u043a\u0440 \u041f\u0440\u0456\u043d\u0442\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",

@@ -7,4 +7,5 @@ from openprocurement.tender.esco.procedure.serializers.value import ValueSeriali
 class LotValueSerializer(BaseLotValueSerializer):
     serializers = {
         "value": ValueSerializer,
+        "initialValue": ValueSerializer,
     }

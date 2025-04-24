@@ -1383,7 +1383,12 @@ Content-Type: application/json
             },
             "relatedLot": "13e393636d614660a90f07fa8b4feea6",
             "status": "active",
-            "date": "2023-10-10T01:00:00+03:00"
+            "date": "2023-10-10T01:00:00+03:00",
+            "initialValue": {
+              "amount": 300.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            }
           }
         ],
         "tenderers": [

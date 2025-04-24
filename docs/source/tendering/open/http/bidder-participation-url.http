@@ -253,6 +253,11 @@ Content-Type: application/json
         "subcontractingDetails": "ДКП «Орфей»",
         "status": "active",
         "date": "2023-10-10T01:06:00+03:00",
+        "initialValue": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/de38bea4a6534e13939a382dfeef92f2_65ec39b1da684a848ca8f365333e857f?key_for_bid=0a2a8fa3f5c84516bc1e79ed64e8b5e5"
       }
     ]

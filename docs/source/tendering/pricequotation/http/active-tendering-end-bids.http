@@ -208,7 +208,12 @@ Content-Type: application/json
           },
           "quantity": 4.0
         }
-      ]
+      ],
+      "initialValue": {
+        "amount": 459.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      }
     },
     {
       "id": "70bec639abd44364ae412469587562fc",
@@ -421,7 +426,12 @@ Content-Type: application/json
           "quantity": 4.0
         }
       ],
-      "submissionDate": "2023-10-10T01:00:01+03:00"
+      "submissionDate": "2023-10-10T01:00:01+03:00",
+      "initialValue": {
+        "amount": 479.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      }
     },
     {
       "id": "959df55b73cd4bb09dd7fb17be8d0c51",

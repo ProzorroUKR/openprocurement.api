@@ -194,6 +194,11 @@ Content-Type: application/json
         "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
+        "initialValue": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1ee782bb9bb14b8e92d250a14317d067_48bd8a7458e346f1beeb61941fa097f0?key_for_bid=526b7a685a8b4427b01d99ca0954cec5"
       }
     ],

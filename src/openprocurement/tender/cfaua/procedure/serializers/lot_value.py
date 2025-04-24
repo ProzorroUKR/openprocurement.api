@@ -7,4 +7,5 @@ from openprocurement.tender.core.procedure.serializers.lot_value import (
 class LotValueSerializer(BaseLotValueSerializer):
     serializers = {
         "value": ValueSerializer,
+        "initialValue": ValueSerializer,
     }

@@ -24,6 +24,7 @@ def decimal_serializer(value):
 class AuctionLotValueSerializer(BaseSerializer):
     serializers = {
         "value": ValueSerializer,
+        "initialValue": ValueSerializer,
         "weightedValue": ValueSerializer,
     }
 
@@ -32,6 +33,7 @@ class AuctionBidSerializer(BidSerializer):
     serializers = {
         "parameters": ListSerializer(ParameterSerializer),
         "value": ValueSerializer,
+        "initialValue": ValueSerializer,
         "weightedValue": ValueSerializer,
         "lotValues": ListSerializer(AuctionLotValueSerializer),
     }
