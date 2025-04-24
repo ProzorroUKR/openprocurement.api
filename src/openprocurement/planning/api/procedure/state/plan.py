@@ -7,6 +7,7 @@ from openprocurement.api.constants import (
     KATOTTG_SCHEME,
     KPK_SCHEME,
     KPK_SCHEMES,
+    KPKV_UK_SCHEME,
     TKPKMB_SCHEME,
 )
 from openprocurement.api.constants_env import (
@@ -391,3 +392,12 @@ class PlanState(BaseState):
                             status=422,
                             name="budget.breakdown.addressDetails.code",
                         )
+        if any(
+            classification["scheme"] == KPKV_UK_SCHEME for classification in plan.get("additionalClassifications", [])
+        ):
+            raise_operation_error(
+                self.request,
+                f"Forbidden to add {KPKV_UK_SCHEME}. Should be added in budget.breakdown.classification.",
+                status=422,
+                name="additionalClassifications",
+            )

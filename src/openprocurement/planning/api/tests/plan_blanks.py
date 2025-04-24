@@ -2557,3 +2557,25 @@ def plan_additional_classifications_based_on_breakdown(self):
             {"data": {"cancellation": {"reason": "123"}}},
         )
         self.assertEqual(response.status, "200 OK")
+
+    # try to add KPKV in additionalClassifications for plan
+    data["additionalClassifications"] = [
+        {
+            "scheme": "КПКВ",
+            "id": "1511040",
+            "description": "Субвенція з державного бюджету місцевим бюджетам на виплату грошової компенсації",
+        }
+    ]
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "additionalClassifications",
+                "description": "Forbidden to add КПКВ. Should be added in budget.breakdown.classification.",
+            }
+        ],
+    )
