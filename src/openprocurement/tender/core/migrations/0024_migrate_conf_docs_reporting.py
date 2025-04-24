@@ -1,21 +1,13 @@
-# pylint: disable=wrong-import-position
+import logging
+import os
 from copy import deepcopy
 from datetime import datetime
 from time import sleep
 
-if __name__ == "__main__":
-    from gevent import monkey
-
-    monkey.patch_all(thread=False, select=False)
-
-import logging
-import os
-
 from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
-from pyramid.paster import bootstrap
 
-from openprocurement.api.migrations.base import MigrationArgumentParser
+from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.utils import get_now
 from openprocurement.tender.limited.constants import (
@@ -125,8 +117,10 @@ def run(env, args):
     logger.info(f"Successful migration: {migration_name}")
 
 
+class Migration(BaseMigration):
+    def run(self):
+        run(self.env, self.args)
+
+
 if __name__ == "__main__":
-    parser = MigrationArgumentParser()
-    args = parser.parse_args()
-    with bootstrap(args.p) as env:
-        run(env, args)
+    migrate(Migration)

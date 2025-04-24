@@ -1,17 +1,8 @@
-# pylint: disable=wrong-import-position
-
-if __name__ == "__main__":
-    from gevent import monkey
-
-    monkey.patch_all(thread=False, select=False)
-
 import logging
 import os
 from datetime import datetime
 
-from pyramid.paster import bootstrap
-
-from openprocurement.api.migrations.base import MigrationArgumentParser
+from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.tender.core.procedure.utils import contracts_allow_to_complete
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -150,8 +141,10 @@ def run(env, args):
     logger.info(f"Successful migration: {migration_name}")
 
 
+class Migration(BaseMigration):
+    def run(self):
+        run(self.env, self.args)
+
+
 if __name__ == "__main__":
-    parser = MigrationArgumentParser()
-    args = parser.parse_args()
-    with bootstrap(args.p) as env:
-        run(env, args)
+    migrate(Migration)

@@ -1,18 +1,14 @@
-# pylint: disable=wrong-import-position
-
-if __name__ == "__main__":
-    from gevent import monkey
-
-    monkey.patch_all(thread=False, select=False)
-
 import logging
 import os
 from datetime import datetime
 
 import pymongo
-from pyramid.paster import bootstrap
 
-from openprocurement.api.migrations.base import MigrationArgumentParser
+from openprocurement.api.migrations.base import (
+    BaseMigration,
+    BaseMigrationArgumentParser,
+    migrate,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -105,41 +101,48 @@ def run(env, args):
     logger.info(f"Successful migration: {migration_name}")
 
 
+class Migration(BaseMigration):
+    def run(self):
+        run(self.env, self.args)
+
+
+class MigrationArgumentParser(BaseMigrationArgumentParser):
+    def __init__(self):
+        super().__init__()
+        self.add_argument(
+            "--backup-uri",
+            required=True,
+            help="MongoDB connection string for the backup database",
+        )
+        self.add_argument(
+            "--backup-db",
+            required=True,
+            help="Name of the backup database to process",
+        )
+        self.add_argument(
+            "--backup-collection",
+            required=True,
+            help="Name of the backup collection to process",
+        )
+        self.add_argument(
+            "--readonly",
+            action="store_true",
+            default=False,
+            help="Run in readonly mode, only announcing changes without modifying the database",
+        )
+        self.add_argument(
+            "--limit",
+            type=int,
+            default=None,
+            help="Limit the number of records to process",
+        )
+        self.add_argument(
+            "--start-from",
+            type=datetime.fromisoformat,
+            default=None,
+            help="Start processing from this date (ISO format)",
+        )
+
+
 if __name__ == "__main__":
-    parser = MigrationArgumentParser()
-    parser.add_argument(
-        "--backup-uri",
-        required=True,
-        help="MongoDB connection string for the backup database",
-    )
-    parser.add_argument(
-        "--backup-db",
-        required=True,
-        help="Name of the backup database to process",
-    )
-    parser.add_argument(
-        "--backup-collection",
-        required=True,
-        help="Name of the backup collection to process",
-    )
-    parser.add_argument(
-        "--readonly",
-        action="store_true",
-        default=False,
-        help="Run in readonly mode, only announcing changes without modifying the database",
-    )
-    parser.add_argument(
-        "--limit",
-        type=int,
-        default=None,
-        help="Limit the number of records to process",
-    )
-    parser.add_argument(
-        "--start-from",
-        type=datetime.fromisoformat,
-        default=None,
-        help="Start processing from this date (ISO format)",
-    )
-    args = parser.parse_args()
-    with bootstrap(args.p) as env:
-        run(env, args)
+    migrate(Migration, parser=MigrationArgumentParser)

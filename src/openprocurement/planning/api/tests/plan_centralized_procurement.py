@@ -1,4 +1,3 @@
-# pylint: disable=unused-import
 from copy import deepcopy
 from datetime import datetime, timedelta
 from uuid import uuid4
@@ -6,14 +5,16 @@ from uuid import uuid4
 import pytest
 
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.tests.base import (  # pylint: disable=unused-import
+    app,
+    singleton_app,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.planning.api.constants import (
     MILESTONE_APPROVAL_DESCRIPTION,
     MILESTONE_APPROVAL_TITLE,
 )
 from openprocurement.planning.api.procedure.models.milestone import Milestone
-from openprocurement.planning.api.tests.base import app  # noqa
-from openprocurement.planning.api.tests.base import singleton_app  # noqa
 from openprocurement.planning.api.tests.base import (
     generate_docservice_url,
     test_plan_data,

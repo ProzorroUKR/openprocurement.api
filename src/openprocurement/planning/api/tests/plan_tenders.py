@@ -1,16 +1,19 @@
-# pylint: disable=unused-import
 from copy import deepcopy
 from unittest.mock import MagicMock
 
 import pytest
 
 from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
+from openprocurement.api.tests.base import (  # pylint: disable=unused-import
+    app,
+    singleton_app,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.planning.api.constants import PROCEDURES
-from openprocurement.planning.api.tests.base import app  # noqa
-from openprocurement.planning.api.tests.base import plan  # noqa
-from openprocurement.planning.api.tests.base import singleton_app  # noqa
-from openprocurement.planning.api.tests.base import test_plan_data
+from openprocurement.planning.api.tests.base import (  # pylint: disable=unused-import
+    plan,
+    test_plan_data,
+)
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
     test_tender_below_data,

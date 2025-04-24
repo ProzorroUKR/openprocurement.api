@@ -7,18 +7,16 @@ if not any(
         "test" in sys.argv[0],
         "setup.py" in sys.argv[0],
         "PYTEST_XDIST_WORKER" in os.environ,
+        "NO_GEVENT_MONKEY_PATCH" in os.environ,
     ]
 ):
     import gevent.monkey
 
     gevent.monkey.patch_all()
 
-from datetime import datetime
 from logging import getLogger
 
 import sentry_sdk
-import simplejson
-from bson import Timestamp
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
 from pkg_resources import iter_entry_points
@@ -27,7 +25,6 @@ from pyramid.config import Configurator
 from pyramid.httpexceptions import HTTPPreconditionFailed
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
-from pytz import utc
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.pyramid import PyramidIntegration
 
@@ -36,33 +33,17 @@ from openprocurement.api.auth import (
     authenticated_role,
     check_accreditations,
 )
-from openprocurement.api.constants import ROUTE_PREFIX, TZ
+from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.database import MongodbStore
 from openprocurement.api.utils import (
     forbidden,
     get_currency_rates,
+    json_dumps,
     precondition,
     request_params,
 )
 
 LOGGER = getLogger("{}.init".format(__name__))
-
-
-class CustomJSONEncoder(simplejson.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Timestamp):
-            return f"{obj.time}.{obj.inc:010}"
-        if isinstance(obj, datetime):
-            if not obj.tzinfo:
-                obj = utc.localize(obj).astimezone(TZ)
-            return obj.isoformat()
-        return super().default(obj)
-
-
-def json_dumps(data, **kw):
-    kw["cls"] = CustomJSONEncoder
-    del kw["default"]  # ignore pyramids default function provided, to use CustomJSONEncoder.default
-    return simplejson.dumps(data, **kw)
 
 
 def main(global_config, **settings):
