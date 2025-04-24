@@ -888,7 +888,7 @@ def contract_items_change(self):
     # try to delete field which is forbidden to patch
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
-        {"data": {"items": [{**item, "quantity": 12, "deliveryAddress": None}]}},
+        {"data": {"items": [{**item, "quantity": 12, "unit": None}]}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -898,7 +898,7 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Forbidden to delete fields {'deliveryAddress'}",
+                "description": "Forbidden to delete fields {'unit'}",
             }
         ],
     )
