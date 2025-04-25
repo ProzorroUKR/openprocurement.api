@@ -128,7 +128,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         tender = response.json["data"]
 
         tenderPeriod_endDate = get_now() + timedelta(days=15, seconds=10)
-        with open(TARGET_DIR + 'patch-tender-data.http', 'w') as self.app.file_obj:
+        with patch_market(test_tender_pq_short_profile, test_tender_pq_category), open(
+            TARGET_DIR + 'patch-tender-data.http', 'w'
+        ) as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
                 {

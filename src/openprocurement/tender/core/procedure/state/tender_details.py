@@ -8,6 +8,7 @@ from pyramid.request import Request
 
 from openprocurement.api.constants import (
     CPV_GROUP_PREFIX_LENGTH,
+    CPV_PHARM_PREFIX,
     CPV_PREFIX_LENGTH_TO_NAME,
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
     MINIMAL_STEP_VALIDATION_PRESCISSION,
@@ -1348,21 +1349,26 @@ class BaseTenderDetailsMixing:
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
 
     def validate_items_profile(self, tender):
-        if (
-            self.items_profile_required
-            and tender.get("value", {}).get("amount", 0) >= PROFILE_REQUIRED_MIN_VALUE_AMOUNT
+        if not self.items_profile_required:
+            return None
+        required_profile_for_tender = (
+            tender.get("value", {}).get("amount", 0) >= PROFILE_REQUIRED_MIN_VALUE_AMOUNT
             and tender.get("value", {}).get("currency") == "UAH"
             and tender.get("procuringEntity", {}).get("kind")
             not in (ProcuringEntityKind.SPECIAL, ProcuringEntityKind.DEFENSE, ProcuringEntityKind.OTHER)
-        ):
-            for item in tender["items"]:
-                if not item.get("profile"):
-                    raise_operation_error(
-                        self.request,
-                        [{"profile": ["This field is required."]}],
-                        status=422,
-                        name="items",
-                    )
+        )
+        for item in tender["items"]:
+            med_category_used = False
+            if category_id := item.get("category"):
+                category = get_tender_category(self.request, category_id)
+                med_category_used = category.get("classification", {}).get("id", "").startswith(CPV_PHARM_PREFIX)
+            if (required_profile_for_tender or med_category_used) and not item.get("profile"):
+                raise_operation_error(
+                    self.request,
+                    [{"profile": ["This field is required."]}],
+                    status=422,
+                    name="items",
+                )
 
     def validate_contract_template_name(self, after, before):
         def raise_contract_template_name_error(message):
