@@ -434,6 +434,6 @@ BudgetBreakdown
 
     Classification for the `budget.breakdown`.
 
-    If plan has `budget.breakdown.title` some of `local`, `crimea` it is required to have KPK classificator.
+    If plan has `budget.breakdown.title` some of `local`, `crimea` it is required to have TKPKMB classificator.
 
-    If plan has `budget.breakdown.title` is `state` it is required to have TKPKMB classificator.
+    If plan has `budget.breakdown.title` is `state` it is required to have KPK classificator.

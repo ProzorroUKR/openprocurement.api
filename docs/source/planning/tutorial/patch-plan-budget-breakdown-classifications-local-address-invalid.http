@@ -48,8 +48,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "budget.breakdown.addressDetails.code",
-      "description": "КАТОТТГ is required for local budget."
+      "name": "budget.breakdown.address",
+      "description": "Address is required for local budget."
     }
   ]
 }

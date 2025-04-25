@@ -382,7 +382,14 @@ class PlanState(BaseState):
                             status=422,
                             name="budget.breakdown.classification",
                         )
-                    elif not any(
+                    elif not breakdown.get("address", {}):
+                        raise_operation_error(
+                            self.request,
+                            f"Address is required for {breakdown['title']} budget.",
+                            status=422,
+                            name="budget.breakdown.address",
+                        )
+                    elif breakdown.get("address", {}).get("countryName") == "Україна" and not any(
                         detail.get("scheme") == KATOTTG_SCHEME
                         for detail in breakdown.get("address", {}).get("addressDetails", [])
                     ):
@@ -390,7 +397,7 @@ class PlanState(BaseState):
                             self.request,
                             f"{KATOTTG_SCHEME} is required for {breakdown['title']} budget.",
                             status=422,
-                            name="budget.breakdown.addressDetails.code",
+                            name="budget.breakdown.address.addressDetails.code",
                         )
         if any(
             classification["scheme"] == KPKV_UK_SCHEME for classification in plan.get("additionalClassifications", [])

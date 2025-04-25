@@ -2447,11 +2447,28 @@ def plan_additional_classifications_based_on_breakdown(self):
             [
                 {
                     "location": "body",
-                    "name": "budget.breakdown.addressDetails.code",
+                    "name": "budget.breakdown.address",
+                    "description": f"Address is required for {breakdown_title} budget.",
+                }
+            ],
+        )
+        data["budget"]["breakdown"][0]["address"] = {
+            "countryName": "Україна",
+        }
+        response = self.app.post_json("/plans", {"data": data}, status=422)
+
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "budget.breakdown.address.addressDetails.code",
                     "description": f"КАТОТТГ is required for {breakdown_title} budget.",
                 }
             ],
         )
+
         data["budget"]["breakdown"][0]["address"] = {
             "countryName": "Республіка Польща",
             "addressDetails": [
