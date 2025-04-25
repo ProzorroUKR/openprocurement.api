@@ -1768,3 +1768,18 @@ def validate_req_response_values(response):
                 name="requirementResponses",
                 status=422,
             )
+
+
+def validate_field_change(field_name, before_obj, after_obj, validator, args):
+    """
+    Call validator if field change during PATCH
+
+    Args:
+        field_name (str): Name of field.
+        before_obj (dict): Object before PATCH
+        after_obj (dict): Object after PATCH
+        validator (callable): Validation method if field has been changed
+        args (tuple): Tuple of arguments for validator function
+    """
+    if before_obj.get(field_name) != after_obj.get(field_name):
+        validator(*args)
