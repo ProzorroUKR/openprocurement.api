@@ -26,7 +26,10 @@ class Migration(CollectionMigration):
     bulk_max_size: int = 500
 
     def get_filter(self):
-        return {"bids": {"$exists": True}}
+        return {
+            "bids": {"$exists": True},
+            "status": {"$ne": "active.tendering"},
+        }
 
     def update_document(self, doc):
         def get_item(items, field, value):
@@ -39,7 +42,14 @@ class Migration(CollectionMigration):
 
         revisions = rewinded_doc.pop("revisions", [])
         for version, revision in reversed(list(enumerate(revisions))):
-            apply_patch(rewinded_doc, revision["changes"], in_place=True)
+
+            changes = []
+            for change in revision["changes"]:
+                if change["path"].startswith("/bids"):
+                    changes.append(change)
+
+            if changes:
+                apply_patch(rewinded_doc, changes, in_place=True)
 
             leave_auction_cnange = {"op": "replace", "path": "/status", "value": "active.tendering"}
 
