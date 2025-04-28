@@ -4,6 +4,7 @@ from unittest.mock import Mock, patch
 from uuid import uuid4
 
 from openprocurement.api.constants import (
+    CPV_PHARM_PRODUCTS,
     MILESTONE_CODES,
     MILESTONE_TITLES,
     ROUTE_PREFIX,
@@ -538,9 +539,21 @@ def create_tender_invalid(self):
         [{"description": [{"profile": ["This field is required."]}], "location": "body", "name": "items"}],
     )
 
+    # try post tender with items included med category without profile
     data["procuringEntity"]["kind"] = ProcuringEntityKind.SPECIAL
-    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, '201 Created')
+    med_category = deepcopy(test_tender_pq_category)
+    med_category["classification"]["id"] = CPV_PHARM_PRODUCTS
+    with patch_market(test_tender_pq_short_profile, med_category):
+        response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{"description": [{"profile": ["This field is required."]}], "location": "body", "name": "items"}],
+        )
+
+    with patch_market(test_tender_pq_short_profile, test_tender_pq_category):
+        response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
+        self.assertEqual(response.status, '201 Created')
 
 
 def create_tender_with_inn(self):
