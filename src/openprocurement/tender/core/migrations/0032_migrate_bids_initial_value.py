@@ -6,7 +6,6 @@ from copy import deepcopy
 from jsonpatch import apply_patch
 
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
-from openprocurement.tender.core.procedure.utils import get_lot_value_status
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -32,7 +31,9 @@ class Migration(CollectionMigration):
                 "$size": {"$gt": 0},
             },
             "status": {"$ne": "active.tendering"},
-            "procurementMethodType": {"$nin": ["competitiveDialogueEU", "competitiveDialogueUA"]},  # do not have value in first stages
+            "procurementMethodType": {
+                "$nin": ["competitiveDialogueEU", "competitiveDialogueUA"]
+            },  # do not have value in first stages
         }
 
     def update_document(self, doc):
