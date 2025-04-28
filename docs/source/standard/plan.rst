@@ -157,9 +157,6 @@ additionalClassifications
 
     It is mandatory to have at least one item with `ДКПП` as `scheme`.
 
-    If plan has `budget.breakdown.title` some of `local`, `state`, `crimea`, `fund`
-    it is required to have KPKV additional classificator.
-
 documents
 ---------
    List of :ref:`document` objects
@@ -421,3 +418,22 @@ BudgetBreakdown
     Currency should be identical for all budget breakdown values and budget
 
     Sum of the breakdown values amounts can't be greater than budget amount  (except `tender.procurementMethodType` is `"esco"`)
+
+:address:
+    :ref:`Address`
+
+    Object of address details for `budget.breakdown`.
+
+    If plan has `budget.breakdown.title` is `state` it is required to have at least one KATOTTG classificator
+    in `address.addressDetails`.
+
+
+:classification:
+
+    :ref:`Classification`, object
+
+    Classification for the `budget.breakdown`.
+
+    If plan has `budget.breakdown.title` some of `local`, `crimea` it is required to have TKPKMB classificator.
+
+    If plan has `budget.breakdown.title` is `state` it is required to have KPK classificator.

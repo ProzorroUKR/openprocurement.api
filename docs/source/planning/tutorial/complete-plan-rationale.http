@@ -59,12 +59,27 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "fa4d47b81c0b4b41ad462bdcc146e44b",
-          "title": "other",
+          "id": "e9e70220901c440abf04d21cc5305abf",
+          "title": "local",
           "description": "Breakdown other description.",
           "value": {
             "amount": 1500.0,
             "currency": "UAH"
+          },
+          "address": {
+            "countryName": "Україна",
+            "addressDetails": [
+              {
+                "id": "UA01020030010043419",
+                "description": "Ароматне",
+                "scheme": "КАТОТТГ"
+              }
+            ]
+          },
+          "classification": {
+            "id": "2170",
+            "description": "Будівництво закладів охорони здоров’я",
+            "scheme": "ТКПКМБ"
           }
         }
       ]

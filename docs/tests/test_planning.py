@@ -141,6 +141,74 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 '/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"budget": budget}}
             )
 
+        budget["breakdown"][0]["title"] = "state"
+        with open(
+            TARGET_DIR + 'patch-plan-budget-breakdown-classifications-state-invalid.http', 'w'
+        ) as self.app.file_obj:
+            self.app.patch_json(
+                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
+                {'data': {"budget": budget}},
+                status=422,
+            )
+
+        budget["breakdown"][0]["classification"] = {
+            "scheme": "КПК-2023",
+            "id": "3505000",
+            "description": "Державна аудиторська служба України",
+        }
+        with open(TARGET_DIR + 'patch-plan-budget-breakdown-classifications-state.http', 'w') as self.app.file_obj:
+            self.app.patch_json('/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"budget": budget}})
+
+        budget["breakdown"][0]["title"] = "local"
+        del budget["breakdown"][0]["classification"]
+        with open(
+            TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local-invalid.http', 'w'
+        ) as self.app.file_obj:
+            self.app.patch_json(
+                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
+                {'data': {"budget": budget}},
+                status=422,
+            )
+
+        budget["breakdown"][0]["classification"] = {
+            "scheme": "ТКПКМБ",
+            "id": "2170",
+            "description": "Будівництво закладів охорони здоров’я",
+        }
+
+        with open(
+            TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local-address-required.http', 'w'
+        ) as self.app.file_obj:
+            self.app.patch_json(
+                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
+                {'data': {"budget": budget}},
+                status=422,
+            )
+
+        budget["breakdown"][0]["address"] = {"countryName": "Україна"}
+
+        with open(
+            TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local-address-invalid.http', 'w'
+        ) as self.app.file_obj:
+            self.app.patch_json(
+                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
+                {'data': {"budget": budget}},
+                status=422,
+            )
+
+        budget["breakdown"][0]["address"] = {
+            "countryName": "Україна",
+            "addressDetails": [
+                {
+                    "scheme": "КАТОТТГ",
+                    "id": "UA01020030010043419",
+                    "description": "Ароматне",
+                }
+            ],
+        }
+        with open(TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local.http', 'w') as self.app.file_obj:
+            self.app.patch_json('/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"budget": budget}})
+
         with open(TARGET_DIR + 'tender-from-plan.http', 'w') as self.app.file_obj:
             self.app.post_json(
                 '/plans/{}/tenders'.format(plan['id']),

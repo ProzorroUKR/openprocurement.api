@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-29 14:57+0300\n"
+"POT-Creation-Date: 2025-04-20 11:10+0300\n"
 "PO-Revision-Date: 2019-10-02 21:20+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Organization"
 msgstr "Organization"
@@ -150,6 +150,9 @@ msgstr "uri"
 msgid "|ocdsDescription| A URI to identify the organization, such as those provided by Open Corporates or some other relevant URI provider.  This is not for listing the website of the organization: that can be done through the url field of the Organization contact point."
 msgstr "|ocdsDescription| URI для ідентифікації організації, наприклад, ті, які надають Open Corporates або інші постачальники URI. Це не для вебсайту організації, його можна надати в полі url в ContactPoint організації."
 
+msgid "Regular expression for this field: ``^https?://\\S+$``"
+msgstr "Регулярний вираз для цього поля: ``^https?://\\S+$``"
+
 msgid "Address"
 msgstr ""
 
@@ -189,6 +192,15 @@ msgstr "рядок, багатомовний, обов’язковий"
 msgid "|ocdsDescription| The country name. For example, United States."
 msgstr "|ocdsDescription| Назва країни. Наприклад, Україна."
 
+msgid "addressDetails"
+msgstr ""
+
+msgid "List of :ref:`Classification` objects"
+msgstr "Список об’єктів :ref:`Classification`"
+
+msgid "Classifications of address, e.g. code for territorial community (KATOTTG)."
+msgstr "Класифікатори адреси, наприклад код територальної громади (КАТОТТГ)"
+
 msgid "Since 01-01-2020 fields **countryName** and **region** in all new entities will validate. Country name in field **countryName** must be present in `countries catalog <https://prozorroukr.github.io/standards/classifiers/countries.json>`_. If field **countryName** filled as *Україна*, and **region** filled, region must be present in `ukrainian regions catalog <https://prozorroukr.github.io/standards/classifiers/ua_regions.json>`_. For existed objects validation will not apply."
 msgstr "З 01-01-2020 поля countryName та region почнуть перевірятися в усіх нових обʼєктах. Назва країни в полі **countryName** має бути присутня в `довіднику країн <https://prozorroukr.github.io/standards/classifiers/countries.json>`_. Якщо поле countryName заповнене як *Україна* і поле **region** заповнене, його вміст має бути присутнім в `каталозі регіонів України <https://prozorroukr.github.io/standards/classifiers/ua_regions.json>`_. Для існуючих обʼєктів валідація застосовуватися не буде."
 
@@ -224,9 +236,6 @@ msgstr "url"
 
 msgid "|ocdsDescription| A web address for the contact point/person."
 msgstr "|ocdsDescription| Веб адреса контактної особи/пункту."
-
-msgid "Regular expression for this field: ``^https?://\\S+$``"
-msgstr "Регулярний вираз для цього поля: ``^https?://\\S+$``"
 
 msgid "Additionally in :ref:`contracting`, :ref:`openeu` and :ref:`competitivedialogue`:"
 msgstr "Додаткові поля для :ref:`contracting`, :ref:`openeu` and :ref:`competitivedialogue`:"

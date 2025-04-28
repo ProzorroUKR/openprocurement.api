@@ -1,6 +1,53 @@
-GET /api/2.5/plans/647ea8f38f72484ea0245b71b7cd4231 HTTP/1.0
+PATCH /api/2.5/plans/647ea8f38f72484ea0245b71b7cd4231?acc_token=499da8e897254fb7a478ae7555785628 HTTP/1.0
 Authorization: Bearer broker
-Host: public-api-sandbox.prozorro.gov.ua
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "budget": {
+      "project": {
+        "id": "95f87658-ffa5-472e-89ee-6e9417aa8cbd",
+        "name": "1.1. Набрання чинності законодавчими змінами щодо реформи оплати праці в державній службі",
+        "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform"
+      },
+      "amount": 10000,
+      "amountNet": 12222,
+      "currency": "UAH",
+      "id": "12303111000-2",
+      "description": "budget_description",
+      "period": {
+        "startDate": "2023-01-01T00:00:00",
+        "endDate": "2023-12-31T00:00:00"
+      },
+      "breakdown": [
+        {
+          "title": "local",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500,
+            "currency": "UAH"
+          },
+          "classification": {
+            "scheme": "ТКПКМБ",
+            "id": "2170",
+            "description": "Будівництво закладів охорони здоров’я"
+          },
+          "address": {
+            "countryName": "Україна",
+            "addressDetails": [
+              {
+                "scheme": "КАТОТТГ",
+                "id": "UA01020030010043419",
+                "description": "Ароматне"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
 
 
 HTTP/1.0 200 OK
@@ -8,7 +55,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "status": "complete",
+    "status": "scheduled",
     "procuringEntity": {
       "id": "3dd578dcb6d34f1fa29434f9f012065d",
       "name": "ДУС",
@@ -145,7 +192,6 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "tender_id": "7f5e6c2aa6f54cc3a2f6589002f0d6ce",
     "id": "647ea8f38f72484ea0245b71b7cd4231"
   }
 }
