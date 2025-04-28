@@ -27,8 +27,12 @@ class Migration(CollectionMigration):
 
     def get_filter(self):
         return {
-            "bids": {"$exists": True},
+            "bids": {
+                "$exists": True,
+                "$size": {"$gt": 0},
+            },
             "status": {"$ne": "active.tendering"},
+            "procurementMethodType": {"$nin": ["competitiveDialogueEU", "competitiveDialogueUA"]},  # do not have value in first stages
         }
 
     def update_document(self, doc):
@@ -58,8 +62,7 @@ class Migration(CollectionMigration):
 
         for bid in doc["bids"]:
             rewinded_bid = get_item(rewinded_doc["bids"], "id", bid["id"])
-            rewinded_bid_status = rewinded_bid.get("status", "active")
-            if rewinded_bid and rewinded_bid_status in ["active", "pending"]:
+            if rewinded_bid:
                 if "value" in bid:
                     bid["initialValue"] = rewinded_bid["value"]
                 if "lotValues" in bid:
@@ -68,8 +71,7 @@ class Migration(CollectionMigration):
                             rewinded_lot_value = get_item(
                                 rewinded_bid["lotValues"], "relatedLot", lot_value["relatedLot"]
                             )
-                            rewinded_lot_value_status = get_lot_value_status(lot_value, rewinded_bid)
-                            if rewinded_lot_value and rewinded_lot_value_status in ["active", "pending"]:
+                            if rewinded_lot_value:
                                 lot_value["initialValue"] = rewinded_lot_value["value"]
 
         return doc
