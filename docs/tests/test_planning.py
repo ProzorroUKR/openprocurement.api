@@ -177,6 +177,17 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         }
 
         with open(
+            TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local-address-required.http', 'w'
+        ) as self.app.file_obj:
+            self.app.patch_json(
+                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
+                {'data': {"budget": budget}},
+                status=422,
+            )
+
+        budget["breakdown"][0]["address"] = {"countryName": "Україна"}
+
+        with open(
             TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local-address-invalid.http', 'w'
         ) as self.app.file_obj:
             self.app.patch_json(

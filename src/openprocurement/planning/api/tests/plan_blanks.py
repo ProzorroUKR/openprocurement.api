@@ -2463,7 +2463,7 @@ def plan_additional_classifications_based_on_breakdown(self):
             [
                 {
                     "location": "body",
-                    "name": "budget.breakdown.address.addressDetails.code",
+                    "name": "budget.breakdown.address.addressDetails",
                     "description": f"КАТОТТГ is required for {breakdown_title} budget.",
                 }
             ],

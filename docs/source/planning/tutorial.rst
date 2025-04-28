@@ -189,6 +189,11 @@ Let's look what we have for `local` budget breakdown:
 
 Let's add `classification` for `local` budget breakdown and see what happened:
 
+.. http:example:: tutorial/patch-plan-budget-breakdown-classifications-local-address-required.http
+   :code:
+
+Let's add address, KATOTTG is required for `local` budget:
+
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-local-address-invalid.http
    :code:
 

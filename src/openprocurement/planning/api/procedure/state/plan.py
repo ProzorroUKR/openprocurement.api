@@ -397,7 +397,7 @@ class PlanState(BaseState):
                             self.request,
                             f"{KATOTTG_SCHEME} is required for {breakdown['title']} budget.",
                             status=422,
-                            name="budget.breakdown.address.addressDetails.code",
+                            name="budget.breakdown.address.addressDetails",
                         )
         if any(
             classification["scheme"] == KPKV_UK_SCHEME for classification in plan.get("additionalClassifications", [])

@@ -32,9 +32,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "scheme": "ТКПКМБ",
             "id": "2170",
             "description": "Будівництво закладів охорони здоров’я"
-          },
-          "address": {
-            "countryName": "Україна"
           }
         }
       ]
@@ -51,8 +48,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "budget.breakdown.address.addressDetails",
-      "description": "КАТОТТГ is required for local budget."
+      "name": "budget.breakdown.address",
+      "description": "Address is required for local budget."
     }
   ]
 }
