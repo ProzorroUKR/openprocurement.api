@@ -484,34 +484,8 @@ def create_tender_bidder_document(self):
 
     # switch to active.awarded
     self.set_status("active.awarded")
-    for doc_resource in ["documents", "qualification_documents"]:
-        response = self.app.post_json(
-            "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid2_id, doc_resource, self.bid2_token),
-            {
-                "data": {
-                    "title": "name_{}.doc".format(doc_resource[:-1]),
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }
-            },
-            status=403,
-        )
 
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "location": "body",
-                    "name": "data",
-                    "description": "Can't add document in current (active.awarded) tender status",
-                }
-            ],
-        )
-
-    for doc_resource in ["eligibility_documents", "financial_documents"]:
+    for doc_resource in ["documents", "qualification_documents", "eligibility_documents", "financial_documents"]:
         response = self.app.post_json(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid2_id, doc_resource, self.bid2_token),
             {
@@ -770,28 +744,7 @@ def put_tender_bidder_document(self):
     # switch to active.awarded
     self.set_status("active.awarded")
 
-    for doc_resource in ["documents", "qualification_documents"]:
-        response = self.app.put_json(
-            "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
-                self.tender_id, self.bid2_id, doc_resource, doc_id_by_type2[doc_resource]["id"], self.bid2_token
-            ),
-            {
-                "data": {
-                    "title": "name_{}.doc".format(doc_resource[:-1]),
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }
-            },
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"][0]["description"], "Can't update document in current (active.awarded) tender status"
-        )
-
-    for doc_resource in ["eligibility_documents", "financial_documents"]:
+    for doc_resource in ["documents", "qualification_documents", "eligibility_documents", "financial_documents"]:
         response = self.app.put_json(
             "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
                 self.tender_id, self.bid2_id, doc_resource, doc_id_by_type2[doc_resource]["id"], self.bid2_token

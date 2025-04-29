@@ -1274,21 +1274,6 @@ def validate_bid_document_in_tender_status(request, **_):
     allowed_statuses = (
         "active.tendering",
         "active.qualification",
-    )
-
-    if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
-        allowed_statuses += ("active.qualification.stand-still",)
-    else:
-        allowed_statuses += ("active.awarded",)
-
-    validate_bid_document_in_tender_status_base(request, allowed_statuses)
-
-
-def validate_bid_financial_eligible_document_in_tender_status(request, **_):
-    tender = request.validated["tender"]
-    allowed_statuses = (
-        "active.tendering",
-        "active.qualification",
         "active.awarded",
     )
 

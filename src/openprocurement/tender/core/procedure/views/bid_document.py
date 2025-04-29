@@ -22,7 +22,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_bid_document_operation_in_award_status,
     validate_bid_document_operation_in_bid_status,
     validate_bid_document_operation_period,
-    validate_bid_financial_eligible_document_in_tender_status,
     validate_download_tender_document,
     validate_update_bid_document_confidentiality,
     validate_view_bid_document,
@@ -204,7 +203,7 @@ class BaseTenderBidEligibilityDocumentResource(BaseTenderBidDocumentResource):
             validate_item_owner("bid"),
             validate_post_create_model(allow_bulk=True),
             unless_allowed_by_qualification_milestone(
-                validate_bid_financial_eligible_document_in_tender_status,
+                validate_bid_document_in_tender_status,
                 validate_bid_document_operation_in_award_status,
             ),
             validate_bid_document_operation_period,
@@ -220,7 +219,7 @@ class BaseTenderBidEligibilityDocumentResource(BaseTenderBidDocumentResource):
             validate_item_owner("bid"),
             validate_put_update_model(),
             unless_allowed_by_qualification_milestone(
-                validate_bid_financial_eligible_document_in_tender_status,
+                validate_bid_document_in_tender_status,
                 validate_bid_document_operation_in_award_status,
             ),
             validate_bid_document_operation_period,
@@ -242,7 +241,7 @@ class BaseTenderBidEligibilityDocumentResource(BaseTenderBidDocumentResource):
             validate_patch_update_model(none_means_remove=True),
             validate_patch_model(item_name="document"),
             unless_allowed_by_qualification_milestone(
-                validate_bid_financial_eligible_document_in_tender_status,
+                validate_bid_document_in_tender_status,
                 validate_bid_document_operation_in_award_status,
             ),
             validate_bid_document_operation_period,
@@ -293,7 +292,7 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
             validate_item_owner("bid"),
             validate_input_data(PostDocument, allow_bulk=True),
             unless_allowed_by_qualification_milestone(
-                validate_bid_financial_eligible_document_in_tender_status,
+                validate_bid_document_in_tender_status,
                 validate_bid_document_operation_in_award_status,
             ),
             validate_bid_document_operation_period,
@@ -309,7 +308,7 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
             validate_item_owner("bid"),
             validate_input_data(PostDocument),
             unless_allowed_by_qualification_milestone(
-                validate_bid_financial_eligible_document_in_tender_status,
+                validate_bid_document_in_tender_status,
                 validate_bid_document_operation_in_award_status,
             ),
             validate_bid_document_operation_period,
@@ -331,7 +330,7 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
             validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
             unless_allowed_by_qualification_milestone(
-                validate_bid_financial_eligible_document_in_tender_status,
+                validate_bid_document_in_tender_status,
                 validate_bid_document_operation_in_award_status,
             ),
             validate_bid_document_operation_period,
