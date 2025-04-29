@@ -13,10 +13,10 @@ from openprocurement.api.constants import (
     TZ,
     WORKING_DAYS,
 )
-from openprocurement.api.context import get_now
-from openprocurement.api.utils import calculate_date
+from openprocurement.api.context import get_now, get_request
+from openprocurement.api.utils import calculate_date, context_unpack
 from openprocurement.tender.core.procedure.utils import (
-    calc_auction_end_time,
+    calc_auction_replan_time,
     dt_from_iso,
     normalize_should_start_after,
 )
@@ -30,6 +30,10 @@ class ShouldStartAfterMixing:
         if tender["config"]["hasAuction"] is False:
             return
 
+        for complaint in tender.get("complaints", ""):
+            if complaint.get("status") in self.block_complaint_status:
+                return
+
         quick = SANDBOX_MODE and QUICK in tender.get("submissionMethodDetails", "")
         lots = tender.get("lots")
         if lots:
@@ -37,7 +41,14 @@ class ShouldStartAfterMixing:
                 period = lot.get("auctionPeriod", {})
                 start_after = self.get_lot_auction_should_start_after(tender, lot)
                 if start_after:
-                    self.update_auction_period_start_dates(period=period, should_start_after=start_after, quick=quick)
+                    number_of_bids = self.count_lot_bids_number(tender, lot["id"])
+                    self.update_auction_period_start_dates(
+                        period=period,
+                        should_start_after=start_after,
+                        number_of_bids=number_of_bids,
+                        quick=quick,
+                        lot_id=lot["id"],
+                    )
                     lot["auctionPeriod"] = period
 
                 elif "shouldStartAfter" in period:
@@ -49,7 +60,13 @@ class ShouldStartAfterMixing:
             period = tender.get("auctionPeriod", {})
             start_after = self.get_auction_should_start_after(tender)
             if start_after:
-                self.update_auction_period_start_dates(period=period, should_start_after=start_after, quick=quick)
+                number_of_bids = self.count_bids_number(tender)
+                self.update_auction_period_start_dates(
+                    period=period,
+                    should_start_after=start_after,
+                    number_of_bids=number_of_bids,
+                    quick=quick,
+                )
                 tender["auctionPeriod"] = period
 
             elif "shouldStartAfter" in period:
@@ -83,13 +100,6 @@ class ShouldStartAfterMixing:
         period = tender.get("auctionPeriod") or {}
         if period.get("endDate"):
             return
-
-        start_date = period.get("startDate")
-        if start_date:
-            number_of_bids = self.count_bids_number(tender)
-            expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
-            if get_now() > expected_value:
-                return normalize_should_start_after(expected_value, tender).isoformat()
 
         return self.get_should_start_after(tender)
 
@@ -145,21 +155,77 @@ class ShouldStartAfterMixing:
         return unblock_dates
 
     def update_auction_period_start_dates(
-        self, *, period: dict[str, str], should_start_after: str, quick: bool
+        self, *, period: dict[str, str], should_start_after: str, number_of_bids: int, quick: bool, lot_id: str = None
     ) -> None:
-        # update "shouldStartAfter"
-        start_after_before = period.get("shouldStartAfter")
+        should_start_after_before = period.get("shouldStartAfter")
         period["shouldStartAfter"] = should_start_after
 
-        # update "startDate"
-        should_start_moved_earlier = (
-            start_after_before is not None
-            and (datetime.fromisoformat(start_after_before) - datetime.fromisoformat(should_start_after)).days
-            > AUCTION_PERIOD_SHOULD_START_EARLIER_UPDATE_DAYS
-        )
         start_date = period.get("startDate")
-        if start_date is None or start_date < should_start_after or should_start_moved_earlier:
+        end_date = period.get("endDate")
+
+        # Not planned yet
+        if start_date is None:
             period["startDate"] = self.get_auction_start_date(should_start_after, quick)
+            LOGGER.info(
+                "Planned auction at %s",
+                period["startDate"],
+                extra=context_unpack(
+                    get_request(),
+                    {"MESSAGE_ID": "auction_planned"},
+                    {"LOT_ID": lot_id},
+                ),
+            )
+            return
+
+        # ShouldStartAfter was moved forward when tenderPeriod was extended
+        if start_date < should_start_after:
+            period["startDate"] = self.get_auction_start_date(should_start_after, quick)
+            LOGGER.info(
+                "Replanned auction at %s because shouldStartAfter was moved forward",
+                period["startDate"],
+                extra=context_unpack(
+                    get_request(),
+                    {"MESSAGE_ID": "auction_replanned"},
+                    {"LOT_ID": lot_id},
+                ),
+            )
+            return
+
+        # shouldStartAfter was moved earlier when tenderPeriod was shortened
+        # do not replan if delta is small
+        if should_start_after_before is not None:
+            date_before = datetime.fromisoformat(should_start_after_before)
+            date_after = datetime.fromisoformat(should_start_after)
+            should_start_days_delta = (date_before - date_after).days
+            if should_start_days_delta > AUCTION_PERIOD_SHOULD_START_EARLIER_UPDATE_DAYS:
+                period["startDate"] = self.get_auction_start_date(should_start_after, quick)
+                LOGGER.info(
+                    "Replanned auction at %s because shouldStartAfter was moved earlier",
+                    period["startDate"],
+                    extra=context_unpack(
+                        get_request(),
+                        {"MESSAGE_ID": "auction_replanned"},
+                        {"LOT_ID": lot_id},
+                    ),
+                )
+                return
+
+        # auction is not finished in time
+        # endDate is not set when it is seems it should be (+ buffer time)
+        # chronograph will be scheduled at this time
+        replan_time = calc_auction_replan_time(number_of_bids, dt_from_iso(start_date))
+        if end_date is None and replan_time < get_now():
+            period["startDate"] = self.get_auction_start_date(should_start_after, quick)
+            LOGGER.warning(
+                "Replanned auction at %s because it was not finished in time",
+                period["startDate"],
+                extra=context_unpack(
+                    get_request(),
+                    {"MESSAGE_ID": "auction_replanned"},
+                    {"LOT_ID": lot_id},
+                ),
+            )
+            return
 
     @staticmethod
     def get_auction_start_date(should_start_after: str, quick: bool) -> str:

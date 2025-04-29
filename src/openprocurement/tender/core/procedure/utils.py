@@ -1,6 +1,6 @@
 import math
 from copy import deepcopy
-from datetime import datetime
+from datetime import datetime, timedelta
 from hashlib import sha512
 from logging import getLogger
 from typing import Iterable, Optional
@@ -16,6 +16,7 @@ from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.constants import (
+    AUCTION_REPLAN_BUFFER_MINUTES,
     BID_REQUIRED_ITEMS_TENDER_TYPES,
     CONTRACT_TEMPLATES,
     DEFAULT_CONTRACT_TEMPLATE_KEY,
@@ -384,6 +385,11 @@ def restrict_value_to_bounds(value, min_value, max_value):
 
 def calc_auction_end_time(bids, start):
     return start + bids * BIDDER_TIME + SERVICE_TIME + AUCTION_STAND_STILL_TIME
+
+
+def calc_auction_replan_time(bids, start):
+    auction_end_time = calc_auction_end_time(bids, start)
+    return auction_end_time + timedelta(minutes=AUCTION_REPLAN_BUFFER_MINUTES)
 
 
 def generate_tender_id(request):

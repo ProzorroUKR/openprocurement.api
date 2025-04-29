@@ -4,7 +4,7 @@ from unittest.mock import Mock
 import pytest
 
 from openprocurement.api.constants import AUCTION_DAY_END, AUCTION_DAY_START
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_now, set_request
 from openprocurement.tender.core.procedure.state.auction import ShouldStartAfterMixing
 
 
@@ -31,6 +31,7 @@ def test_validation_before_release(
     expected_should_start_after: str,
     expected_auction_date: str,
 ):
+    set_request(Mock())
     set_now(datetime.fromisoformat(now))
 
     auction_period = {}
@@ -62,21 +63,39 @@ def test_validation_before_release(
     "should_start_after,start_date,new_should_start_after,expected_start_date",
     (
         (
-            "2025-03-16T09:00:00+02:00",
-            "2025-03-17T10:33:00.000+02:00",
+            "2025-03-16T00:00:00+02:00",
+            "2025-03-17T10:33:00+02:00",
             "2025-03-17T00:00:00+02:00",  # move later than previous but still earlier startDate
-            "2025-03-17T10:33:00.000+02:00",
+            "2025-03-17T10:33:00+02:00",
         ),
         (
-            "2025-03-16T09:00:00+02:00",
-            "2025-03-17T10:33:00.000+02:00",
+            "2025-03-16T00:00:00+02:00",
+            "2025-03-17T10:33:00+02:00",
             "2025-03-18T00:00:00+02:00",  # move later than startDate, so startDate is updated
             "2025-03-18",
         ),
         (
-            "2025-03-16T09:00:00+02:00",
-            "2025-03-17T10:33:00.000+02:00",
+            "2025-03-16T00:00:00+02:00",
+            "2025-03-17T10:33:00+02:00",
+            "2025-03-15T00:00:00+02:00",  # move a little earlier, so startDate is not updated
+            "2025-03-17T10:33:00+02:00",
+        ),
+        (
+            "2025-03-16T00:00:00+02:00",
+            "2025-03-17T10:33:00+02:00",
             "2025-03-13T00:00:00+02:00",  # move much earlier, so startDate is updated
+            "2025-03-13",
+        ),
+        (
+            "2025-03-11T00:00:00+02:00",
+            "2025-03-12T21:00:00+02:00",  # startDate is a little bit in the past, waiting for auction results, so startDate is not updated yet
+            "2025-03-11T00:00:00+02:00",  # not changed
+            "2025-03-12T21:00:00+02:00",
+        ),
+        (
+            "2025-03-10T00:00:00+02:00",
+            "2025-03-10T10:33:00+02:00",  # startDate is in the past, so startDate is updated and set in future
+            "2025-03-11T00:00:00+02:00",  # not changed
             "2025-03-13",
         ),
     ),
@@ -95,7 +114,7 @@ def test_update_auction_period_start_dates(
 
     state_instance = ShouldStartAfterMixing()
     state_instance.update_auction_period_start_dates(
-        period=period, should_start_after=new_should_start_after, quick=False
+        period=period, should_start_after=new_should_start_after, number_of_bids=3, quick=False
     )
 
     assert period["shouldStartAfter"] == new_should_start_after

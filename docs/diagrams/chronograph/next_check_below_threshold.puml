@@ -45,15 +45,15 @@ group Tender
         alt not lots and auctionPeriod.startDate and not auctionPeriod.endDate
             alt now < auctionPeriod.startDate
                 Tender -> Chronograph: next(auctionPeriod.startDate)
-            else now < calc_auction_end_time
-                Tender -> Chronograph: next(calc_auction_end_time)
+            else
+                Tender -> Chronograph: next(calc_auction_replan_time)
             end
         else lots
             loop for lot in lots if lot.status == active
                 alt now < auctionPeriod.startDate
                     Tender -> Chronograph: next(auctionPeriod.startDate)
-                else now < calc_auction_end_time
-                    Tender -> Chronograph: next(calc_auction_end_time)
+                else
+                    Tender -> Chronograph: next(calc_auction_replan_time)
                 end
                 note left: same as for non lot above
             end
