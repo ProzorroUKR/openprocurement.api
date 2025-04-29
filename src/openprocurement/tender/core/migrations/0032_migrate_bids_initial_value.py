@@ -6,6 +6,7 @@ from copy import deepcopy
 from jsonpatch import apply_patch
 
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
+from openprocurement.tender.core.procedure.utils import get_lot_value_status
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -30,20 +31,24 @@ class Migration(CollectionMigration):
                 "$exists": True,
                 "$size": {"$gt": 0},
             },
-            "status": {"$ne": "active.tendering"},
+            "status": {
+                # too early to have initial value
+                "$ne": "active.tendering",
+            },
             "procurementMethodType": {
-                "$nin": ["competitiveDialogueEU", "competitiveDialogueUA"]
-            },  # do not have value in first stages
+                "$nin": [
+                    # do not have value in first stages at all
+                    "competitiveDialogueEU",
+                    "competitiveDialogueUA",
+                ]
+            },
         }
 
     def update_document(self, doc, context=None):
-        def get_item(items, field, value):
-            for item in items:
-                if item[field] == value:
-                    return item
-            return None
-
         rewinded_doc = deepcopy(doc)
+
+        def find_by_key(items, key, value):
+            return next((item for item in items if item[key] == value), None)
 
         revisions = rewinded_doc.pop("revisions", [])
         for version, revision in reversed(list(enumerate(revisions))):
@@ -62,18 +67,31 @@ class Migration(CollectionMigration):
                 break
 
         for bid in doc["bids"]:
-            rewinded_bid = get_item(rewinded_doc["bids"], "id", bid["id"])
-            if rewinded_bid:
-                if "value" in bid:
-                    bid["initialValue"] = rewinded_bid["value"]
-                if "lotValues" in bid:
-                    for lot_value in bid["lotValues"]:
-                        if "value" in lot_value:
-                            rewinded_lot_value = get_item(
-                                rewinded_bid["lotValues"], "relatedLot", lot_value["relatedLot"]
-                            )
-                            if rewinded_lot_value:
-                                lot_value["initialValue"] = rewinded_lot_value["value"]
+
+            rewinded_bid = find_by_key(rewinded_doc["bids"], "id", bid["id"])
+            if not rewinded_bid:
+                continue
+
+            rewinded_bid_status = rewinded_bid.get("status", "active")
+            if rewinded_bid_status not in ["active", "pending"]:
+                continue
+
+            if "value" in rewinded_bid:
+                bid["initialValue"] = rewinded_bid["value"]
+
+            if "lotValues" in bid:
+                for lot_value in bid["lotValues"]:
+
+                    rewinded_lot_value = find_by_key(rewinded_bid["lotValues"], "relatedLot", lot_value["relatedLot"])
+                    if not rewinded_lot_value:
+                        continue
+
+                    rewinded_lot_value_status = get_lot_value_status(rewinded_lot_value, rewinded_bid)
+                    if rewinded_lot_value_status not in ["active", "pending"]:
+                        continue
+
+                    if "value" in rewinded_lot_value:
+                        lot_value["initialValue"] = rewinded_lot_value["value"]
 
         return doc
 

@@ -227,12 +227,7 @@ Content-Type: application/json
         },
         "relatedLot": "0e04ecea261746bc8fbcced833cde77c",
         "status": "active",
-        "date": "2023-10-10T01:00:00+03:00",
-        "initialValue": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        }
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "submissionDate": "2023-10-10T01:00:00+03:00"

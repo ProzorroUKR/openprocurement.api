@@ -976,8 +976,18 @@ class ChronographEventsMixing:
         bids = tender.get("bids", "")
 
         for bid in bids:
+            bid_status = bid.get("status", "active")
+            if bid_status not in ["active", "pending"]:
+                # do not fill values for bid that has never passed active.tendering
+                # we use the fact of missing initialValue as marker for bid that should not be billed in billing
+                continue
             if bid.get("lotValues", ""):
                 for lot_value in bid["lotValues"]:
+                    lot_value_status = get_lot_value_status(lot_value, bid)
+                    if lot_value_status not in ["active", "pending"]:
+                        # do not fill values for lot value that has never passed active.tendering
+                        # we use the fact of missing initialValue as marker for bid that should not be billed in billing
+                        continue
                     lot_id = lot_value["relatedLot"]
                     self.calc_bid_values(tender, bid, lot_value, lot_id)
             else:
