@@ -108,7 +108,7 @@ default_test_args = Namespace(
 class TestMigration(CollectionMigration):
     collection_name = "tenders"
 
-    def update_document(self, doc: dict) -> dict:
+    def update_document(self, doc: dict, context: dict = None) -> dict:
         doc["title"] = "test"
         return doc
 
