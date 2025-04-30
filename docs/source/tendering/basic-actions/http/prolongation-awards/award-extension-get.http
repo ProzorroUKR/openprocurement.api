@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/46b5dff235cc48fb952fae6c72243c12?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+GET /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/8850d78aa8a94c148d6d245907f40d3e?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "46b5dff235cc48fb952fae6c72243c12",
+    "id": "8850d78aa8a94c148d6d245907f40d3e",
     "status": "pending",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {

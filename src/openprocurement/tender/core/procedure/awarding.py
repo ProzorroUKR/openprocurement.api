@@ -46,6 +46,34 @@ class TenderStateAwardingMixing:
     # Generate award milestones
     generate_award_milestones: bool = True
 
+    def on_auction_results(self, tender, lot_id=None):
+        if lot_id:
+            for lot in tender["lots"]:
+                if lot["id"] == lot_id:
+                    self.finalize_auction_period(lot)
+                    break
+
+            if all(
+                i.get("auctionPeriod") and i["auctionPeriod"].get("endDate")
+                for i in tender["lots"]
+                if i["status"] == "active"
+                # I believe, bids number check only required for belowThreshold procedure
+                # openua, for example, changes its lot.status to "unsuccessful"
+                and self.count_lot_bids_number(tender, i["id"]) > 1
+            ):
+                self.add_next_award()
+        else:
+            self.finalize_auction_period(tender)
+            self.add_next_award()
+
+    def finalize_auction_period(self, obj):
+        now = get_now().isoformat()
+
+        if obj["auctionPeriod"].get("startDate", now) > now:
+            obj["auctionPeriod"]["startDate"] = now
+
+        obj["auctionPeriod"]["endDate"] = now
+
     def add_next_award(self):
         tender = get_tender()
 
