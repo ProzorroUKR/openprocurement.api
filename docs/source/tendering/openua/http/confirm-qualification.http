@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/a450405f3c6840318420a210894cccb1/awards/5977f4eaca854ed58ba60a58e8befa0a?acc_token=b67eb5061d5445afa4ea2a1bffb1ee5a HTTP/1.0
+PATCH /api/2.5/tenders/a450405f3c6840318420a210894cccb1/awards/1dd5e04991ed40a59339830475a8250d?acc_token=b67eb5061d5445afa4ea2a1bffb1ee5a HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -19,14 +19,14 @@ Content-Type: application/json
   "data": {
     "milestones": [
       {
-        "id": "c6be2175767546bcba9c35aff1cc21a8",
+        "id": "92c3d5e71bea487998d9948037597ece",
         "dueDate": "2023-10-09T01:02:01+03:00",
         "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
         "date": "2023-10-10T01:02:01+03:00",
         "code": "alp"
       }
     ],
-    "id": "5977f4eaca854ed58ba60a58e8befa0a",
+    "id": "1dd5e04991ed40a59339830475a8250d",
     "status": "active",
     "date": "2023-10-10T01:02:01+03:00",
     "value": {

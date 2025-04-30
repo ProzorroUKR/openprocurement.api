@@ -1,4 +1,3 @@
-from openprocurement.api.context import get_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import context_unpack, json_view
@@ -104,10 +103,7 @@ class TenderAuctionResource(TenderBaseResource):
         updated = apply_data_patch(tender, data)
         if updated:
             tender = self.request.validated["tender"] = updated
-
-        self.state.add_next_award()
-        self.update_auction_period(tender)
-
+        self.state.on_auction_results(tender)
         self.state.on_patch(tender_src, tender)
         if save_tender(self.request):
             self.LOGGER.info(
@@ -136,20 +132,7 @@ class TenderAuctionResource(TenderBaseResource):
         updated = apply_data_patch(tender, data)
         if updated:
             tender = self.request.validated["tender"] = updated
-
-        for lot in tender["lots"]:
-            if lot["id"] == lot_id:
-                self.update_auction_period(lot)
-                break
-        if all(
-            i.get("auctionPeriod") and i["auctionPeriod"].get("endDate")
-            # I believe, bids number check only required for belowThreshold procedure
-            # openua, for example, changes its lot.status to "unsuccessful"
-            for i in tender["lots"]
-            if i["status"] == "active" and self.state.count_lot_bids_number(tender, i["id"]) > 1
-        ):
-            self.state.add_next_award()
-
+        self.state.on_auction_results(tender, lot_id)
         self.state.on_patch(tender_src, tender)
         if save_tender(self.request):
             self.LOGGER.info(
@@ -160,11 +143,3 @@ class TenderAuctionResource(TenderBaseResource):
                 "data": self.serializer_class(tender).data,
                 "config": tender["config"],
             }
-
-    def update_auction_period(self, obj):
-        now = get_now().isoformat()
-
-        if obj["auctionPeriod"].get("startDate", now) > now:
-            obj["auctionPeriod"]["startDate"] = now
-
-        obj["auctionPeriod"]["endDate"] = now
