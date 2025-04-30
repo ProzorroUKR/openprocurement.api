@@ -177,22 +177,24 @@ class CollectionMigration(BaseMigration):
                 projection.update({"revisions": 1})
         return projection
 
-    def update_document(self, doc: dict) -> Optional[dict]:
+    def update_document(self, doc: dict, context: dict = None) -> Optional[dict]:
         """Process a single document.
 
-        :param doc: Document to process
-        :return: UpdateOne operation if document needs to be updated, None otherwise
+        :param doc: dict of document to process
+        :param context: dict of context
+        :return: dict of modified document needs to be updated, None otherwise
         :raises NotImplementedError: If not implemented in subclass
         """
         raise NotImplementedError("Subclasses must implement process_document")
 
-    def process_operation(self, doc: dict) -> Optional[UpdateOne]:
+    def process_operation(self, doc: dict, context: dict = None) -> Optional[UpdateOne]:
         """Generate update operation for a single document.
 
         :param pipeline: Pipeline of update operations
+        :param context: dict of context
         :return: UpdateOne operation
         """
-        pipeline = self.process_pipeline(doc)
+        pipeline = self.process_pipeline(doc, context=context)
 
         if not pipeline:
             # Skip document processing
@@ -203,14 +205,15 @@ class CollectionMigration(BaseMigration):
             pipeline,
         )
 
-    def process_pipeline(self, doc: dict) -> Optional[list[dict]]:
+    def process_pipeline(self, doc: dict, context: dict = None) -> Optional[list[dict]]:
         """Generate update pipeline for a single document.
 
         :param doc: Original document
-        :return: UpdateOne operation
+        :param context: dict of context
+        :return: list of dict of update pipeline
         """
 
-        updated_doc = self.update_document(deepcopy(doc))
+        updated_doc = self.update_document(deepcopy(doc), context=context)
 
         if not updated_doc or doc == updated_doc:
             # Skip document processing
@@ -279,22 +282,7 @@ class CollectionMigration(BaseMigration):
         for doc in cursor:
             result.processed += 1
 
-            update_operation = None
-            try:
-                update_operation = self.process_operation(doc)
-            except Exception as e:
-                result.failed += 1
-                logger.exception(
-                    f"Failed to process document {doc.get('_id')}. {type(e).__name__}: {str(e)}",
-                    exc_info=e,
-                )
-                continue
-
-            if not update_operation:
-                # Skip document processing
-                continue
-
-            bulk.append(update_operation)
+            bulk.append(doc)
 
             if bulk and len(bulk) % self.bulk_max_size == 0:
                 bulk_result = self.process_bulk(bulk)
@@ -313,45 +301,64 @@ class CollectionMigration(BaseMigration):
         return result
 
     def _log_result(self, result: MigrationResult) -> None:
-        """Log migration results.
-
-        :param result: Migration result to log
-        """
         logger.info(
             f"Finished migration {self.get_name()}: {self.description} - "
             f"updated {result.updated} documents, failed {result.failed} documents, "
             f"total processed {result.processed}"
         )
 
-    def process_bulk(self, bulk: list[UpdateOne]) -> MigrationResult:
+    def process_bulk(self, bulk: list[dict], context: dict = None) -> MigrationResult:
         """Process a batch of updates, falling back to one-by-one processing if bulk fails.
 
-        :param bulk: List of UpdateOne operations
-        :return: Tuple of (successfully updated count, failed count)
+        :param bulk: List of dict of documents to process
+        :param context: dict of context
+        :return: MigrationResult of successfully updated count, failed count
         """
+        result = MigrationResult()
+
+        update_operations = []
         try:
-            self._collection.bulk_write(bulk)
-            return MigrationResult(updated=len(bulk))
+            for doc in bulk:
+                update_operation = None
+                try:
+                    update_operation = self.process_operation(doc, context=context)
+                except Exception as e:
+                    result.failed += 1
+                    logger.exception(
+                        f"Failed to process document {doc.get('_id')}. {type(e).__name__}: {str(e)}",
+                        exc_info=e,
+                    )
+                    continue
+
+                if not update_operation:
+                    # Skip document processing
+                    continue
+
+                update_operations.append(update_operation)
+
+            self._collection.bulk_write(update_operations)
+            result.updated = len(update_operations)
         except (OperationFailure, BulkWriteError) as e:
             logger.exception(
                 f"Bulk operation failed, switching to one-by-one processing. {type(e).__name__}: {str(e)}",
                 exc_info=e,
             )
-            return self.process_alternately(bulk)
+            return self.process_one_by_one(bulk)
+        return result
 
-    def process_alternately(self, bulk: list[UpdateOne]) -> MigrationResult:
+    def process_one_by_one(self, bulk: list[dict]) -> MigrationResult:
         """Process each update operation individually with retries.
 
-        :param bulk: List of UpdateOne operations
-        :return: Tuple of (successfully updated count, failed count)
+        :param bulk: List of dict of documents to process
+        :return: MigrationResult of successfully updated count, failed count
         """
         result = MigrationResult()
 
         max_retries = 3
         retry_delay = 1  # seconds
 
-        for operation in bulk:
-            doc_id = operation._filter["_id"]
+        for doc in bulk:
+            doc_id = doc["_id"]
             success = False
 
             for attempt in range(max_retries):
