@@ -28,7 +28,7 @@ class Migration(CollectionMigration):
     def get_projection(self):
         return {"criteria": 1}
 
-    def update_document(self, doc):
+    def update_document(self, doc, context=None):
         is_updated = False
         for criterion in doc["criteria"]:
             if criterion.get("classification", {}).get("id") == CRITERION_LOCALIZATION:

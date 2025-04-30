@@ -36,7 +36,7 @@ class Migration(CollectionMigration):
             },  # do not have value in first stages
         }
 
-    def update_document(self, doc):
+    def update_document(self, doc, context=None):
         def get_item(items, field, value):
             for item in items:
                 if item[field] == value:
