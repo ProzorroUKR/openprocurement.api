@@ -177,21 +177,22 @@ Content-Type: application/json
     "items": [
       {
         "id": "b9d12bf323eb4d539fc49c3d7d1c6446",
-        "description": "Комп’ютерне обладнання",
+        "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 100.0,
+            "amount": 110.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 4.0
+        "quantity": 4.0,
+        "product": "bee4548f9f344b8db47807229189394f"
       }
     ],
     "id": "55faa050ef4746c29fc00870518cecad",
-    "date": "2023-10-10T01:00:01+03:00"
+    "date": "2024-01-01T00:00:01+02:00"
   }
 }
 

@@ -12,7 +12,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     put_tender_bid_document_json,
 )
 from openprocurement.tender.core.tests.mock import MockCriteriaIDMixin, MockMarketMixin
-from openprocurement.tender.core.tests.utils import set_bid_responses
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_responses
 from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
@@ -41,13 +41,10 @@ from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_criteria_4,
     test_tender_pq_organization,
 )
-from openprocurement.tender.pricequotation.tests.utils import (
-    copy_tender_items,
-    criteria_drop_uuids,
-)
+from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
 
 
-class TenderBidResourceTest(MockCriteriaIDMixin, TenderContentWebTest):
+class TenderBidResourceTest(MockMarketMixin, MockCriteriaIDMixin, TenderContentWebTest):
     initial_status = "active.tendering"
     test_criteria = test_tender_pq_criteria
     test_bids_data = test_tender_pq_bids
@@ -62,8 +59,15 @@ class TenderBidResourceTest(MockCriteriaIDMixin, TenderContentWebTest):
     test_invalidate_not_agreement_member_bid_via_chronograph = snitch(
         invalidate_not_agreement_member_bid_via_chronograph
     )
-    test_bids_related_product = snitch(bids_related_product)
     test_bid_items_unit_value_validations = snitch(bid_items_unit_value_validations)
+
+
+class TenderBidRelatedProductResourceTest(TenderContentWebTest):
+    initial_status = "active.tendering"
+    test_criteria = test_tender_pq_criteria
+    test_bids_data = test_tender_pq_bids
+
+    test_bids_related_product = snitch(bids_related_product)
 
 
 class TenderBidCriteriaTest(MockMarketMixin, TenderContentWebTest):
@@ -93,7 +97,7 @@ class TenderBidCriteriaMultipleGroupTest(TenderContentWebTest):
     )
 
 
-class TenderBidCriteriaOneGroupMultipleRequirementsTest(TenderContentWebTest):
+class TenderBidCriteriaOneGroupMultipleRequirementsTest(MockMarketMixin, TenderContentWebTest):
     initial_status = "active.tendering"
     initial_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_4))
     initial_profile = {"id": "1" * 32, "relatedCategory": "655360-30230000-889652", "criteria": initial_criteria}
@@ -101,7 +105,7 @@ class TenderBidCriteriaOneGroupMultipleRequirementsTest(TenderContentWebTest):
     test_multiple_groups_multiple_requirements = snitch(requirement_response_validation_one_group_multiple_requirements)
 
 
-class TenderBidDocumentResourceTest(TenderContentWebTest):
+class TenderBidDocumentResourceTest(MockMarketMixin, TenderContentWebTest):
     initial_status = "active.tendering"
     initial_criteria = test_tender_pq_criteria
 
@@ -111,17 +115,15 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         tender = response.json["data"]
 
         # Create bid
-        bid_items = copy_tender_items(tender["items"])
+        bid_data = {
+            "tenderers": [test_tender_pq_organization],
+            "value": {"amount": 500},
+            "requirementResponses": set_bid_responses(tender["criteria"]),
+        }
+        set_bid_items(self, bid_data, items=tender["items"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "tenderers": [test_tender_pq_organization],
-                    "value": {"amount": 500},
-                    "items": bid_items,
-                    "requirementResponses": set_bid_responses(tender["criteria"]),
-                }
-            },
+            {"data": bid_data},
         )
         bid = response.json["data"]
         self.bid = bid
@@ -136,7 +138,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
 
 
-class TenderBidBatchDocumentResourceTest(TenderContentWebTest):
+class TenderBidBatchDocumentResourceTest(MockMarketMixin, TenderContentWebTest):
     initial_status = "active.tendering"
     initial_criteria = test_tender_pq_criteria
 

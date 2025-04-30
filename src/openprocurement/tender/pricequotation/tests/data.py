@@ -350,6 +350,10 @@ test_tender_pq_category = {
     "criteria": deepcopy(test_tender_pq_short_profile["criteria"]),
 }
 
+test_bid_pq_product = {
+    "status": "active",
+}
+
 test_tender_pq_criteria_1 = [
     {
         "description": "Форма випуску",

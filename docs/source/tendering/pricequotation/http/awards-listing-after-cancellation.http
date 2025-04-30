@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "b1c41ec4a4d84cdb82270c0795928bfd",
       "status": "cancelled",
-      "date": "2023-10-10T01:00:01+03:00",
+      "date": "2024-01-01T00:00:01+02:00",
       "value": {
         "amount": 459.0,
         "currency": "UAH",
@@ -41,15 +41,15 @@ Content-Type: application/json
       ],
       "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc",
       "period": {
-        "startDate": "2023-10-10T01:00:01+03:00",
-        "endDate": "2023-10-18T00:00:00+03:00"
+        "startDate": "2024-01-01T00:00:01+02:00",
+        "endDate": "2024-01-09T00:00:00+02:00"
       },
       "qualified": true
     },
     {
       "id": "a6c7b280a49c4f7788e5768c3ce3464b",
       "status": "pending",
-      "date": "2023-10-10T01:00:01+03:00",
+      "date": "2024-01-01T00:00:01+02:00",
       "value": {
         "amount": 459.0,
         "currency": "UAH",
@@ -79,8 +79,8 @@ Content-Type: application/json
       ],
       "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc",
       "period": {
-        "startDate": "2023-10-10T01:00:01+03:00",
-        "endDate": "2023-10-18T00:00:00+03:00"
+        "startDate": "2024-01-01T00:00:01+02:00",
+        "endDate": "2024-01-09T00:00:00+02:00"
       }
     }
   ]

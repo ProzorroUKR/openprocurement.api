@@ -12,8 +12,8 @@ Content-Type: application/json
       "id": "e1156acfa5044df08dcc8ae57fc7eaa4",
       "status": "cancelled",
       "awardID": "b1c41ec4a4d84cdb82270c0795928bfd",
-      "date": "2023-10-10T01:00:01+03:00",
-      "contractID": "UA-2023-10-10-000001-a-1",
+      "date": "2024-01-01T00:00:01+02:00",
+      "contractID": "UA-2024-01-01-000001-a-1",
       "value": {
         "amount": 459.0,
         "currency": "UAH",
@@ -25,8 +25,8 @@ Content-Type: application/json
       "id": "7830a7914f9d4134adf311648ab96196",
       "status": "pending",
       "awardID": "d2ac59c439604dd29f5e5d6c0be61dbd",
-      "date": "2023-10-10T01:00:01+03:00",
-      "contractID": "UA-2023-10-10-000001-a-2",
+      "date": "2024-01-01T00:00:01+02:00",
+      "contractID": "UA-2024-01-01-000001-a-2",
       "value": {
         "amount": 479.0,
         "currency": "UAH",

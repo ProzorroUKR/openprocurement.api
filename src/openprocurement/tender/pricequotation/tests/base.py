@@ -7,10 +7,11 @@ from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
-from openprocurement.tender.core.tests.mock import patch_market
+from openprocurement.tender.core.tests.mock import patch_market, patch_market_product
 from openprocurement.tender.pricequotation.tests.data import (
     PERIODS,
     test_agreement_pq_data,
+    test_bid_pq_product,
     test_tender_pq_bids,
     test_tender_pq_category,
     test_tender_pq_config,
@@ -55,6 +56,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     meta_initial_bids = test_tender_pq_bids
     initial_profile = test_tender_pq_short_profile
     initial_category = test_tender_pq_category
+    bid_item_product_required = True
 
     def setUp(self):
         super().setUp()
@@ -149,6 +151,10 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def create_tender(self):
         with patch_market(self.initial_profile, self.initial_category):
             super().create_tender()
+
+    def create_bid(self, tender_id, bid_data, status=None):
+        with patch_market_product(test_bid_pq_product):
+            return super().create_bid(tender_id, bid_data, status)
 
 
 class TenderContentWebTest(BaseTenderWebTest):

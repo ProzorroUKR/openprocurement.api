@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 17:03+0200\n"
+"POT-Creation-Date: 2025-04-29 16:09+0300\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -216,6 +216,9 @@ msgstr "Для типу закупівлі priceQuotation існує валід�
 
 msgid "If sum of unit items values are less than net value `bid.value.amount` (`bid.value.amount * 1.2`), the bidder will see the error:"
 msgstr "Якщо сума добутків цін за одиницю менше ніж нетто значення`bid.value.amount` (`bid.value.amount * 1.2`), учасник побачить помилку:"
+
+msgid "If item in tender has category or profile relation, then bidder must set product in this item. If there is no product we will see the error:"
+msgstr "Якщо позиція (`item`) в закупівлі посилається на категорію чи профіль, учасник має обов'язково вказувати продукт для цієї позиції. Якщо продукт не вказаний, ми побачимо помилку:"
 
 msgid "Bidder can register a bid with ``draft`` status:"
 msgstr "Учасник може зареєструвати пропозицію зі статусом ``draft`` (чернетка):"

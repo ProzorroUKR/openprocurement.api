@@ -157,6 +157,12 @@ If sum of unit items values are less than net value `bid.value.amount` (`bid.val
 .. http:example:: http/register-bidder-invalid-unit-value.http
    :code:
 
+If item in tender has category or profile relation, then bidder must set product in this item.
+If there is no product we will see the error:
+
+.. http:example:: http/register-bidder-without-item-product.http
+   :code:
+
 Bidder can register a bid with ``draft`` status:
 
 .. http:example:: http/register-bidder.http
