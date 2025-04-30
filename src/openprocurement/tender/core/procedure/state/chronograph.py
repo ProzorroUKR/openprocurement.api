@@ -16,7 +16,7 @@ from openprocurement.tender.core.procedure.models.qualification import Qualifica
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.utils import (
     activate_bids,
-    calc_auction_end_time,
+    calc_auction_replan_time,
     check_is_tender_waiting_for_inspector_approve,
     dt_from_iso,
     get_lot_value_status,
@@ -220,11 +220,9 @@ class ChronographEventsMixing:
             if now < start_date:
                 yield start_date, self.auction_handler
             else:
-                auction_end_time = calc_auction_end_time(
-                    len(tender.get("bids", "")), dt_from_iso(start_date)
-                ).isoformat()
-                if now < auction_end_time:
-                    yield auction_end_time, self.auction_handler
+                number_of_bids = self.count_bids_number(tender)
+                auction_end_time = calc_auction_replan_time(number_of_bids, dt_from_iso(start_date)).isoformat()
+                yield auction_end_time, self.auction_handler
 
     def awarded_events(self, tender):  # TODO: move to complaint events ?
         awards = tender.get("awards", [])
@@ -256,12 +254,9 @@ class ChronographEventsMixing:
                     if now < start_date:
                         yield start_date, self.auction_handler
                     else:
-                        auction_end_time = calc_auction_end_time(
-                            self.count_lot_bids_number(tender, lot["id"]),
-                            dt_from_iso(start_date),
-                        ).isoformat()
-                        if now < auction_end_time:
-                            yield auction_end_time, self.auction_handler
+                        number_of_bids = self.count_lot_bids_number(tender, lot["id"])
+                        auction_end_time = calc_auction_replan_time(number_of_bids, dt_from_iso(start_date)).isoformat()
+                        yield auction_end_time, self.auction_handler
 
     def lots_qualification_events(self, tender):
         lots = tender.get("lots")

@@ -389,11 +389,6 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
             },
         )
 
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
-        self.assertEqual(response.status, '200 OK')
-        with open(TARGET_JSON_DIR + 'has-auction-false-tender-check.json', 'w') as file_json:
-            file_json.write(json.dumps(response.json, indent=4, sort_keys=True))
-
         self.complete_tender(tender_id, owner_token, bid1_token)
 
         with open(TARGET_DIR + 'has-auction-true-tender-complete.http', 'w') as self.app.file_obj:

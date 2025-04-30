@@ -10,21 +10,13 @@ from openprocurement.tender.core.procedure.models.auction import (
 )
 from openprocurement.tender.core.procedure.serializers.auction import AuctionSerializer
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-    submission_method_details_includes,
-)
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_active_lot,
     validate_auction_tender_non_lot,
     validate_auction_tender_status,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.utils import (
-    QUICK_FAST_AUCTION,
-    QUICK_FAST_FORWARD,
-    QUICK_NO_AUCTION,
-)
 
 
 class TenderAuctionResource(TenderBaseResource):
@@ -170,10 +162,9 @@ class TenderAuctionResource(TenderBaseResource):
             }
 
     def update_auction_period(self, obj):
-        tender = self.request.validated["tender"]
         now = get_now().isoformat()
-        quick_modes = (QUICK_NO_AUCTION, QUICK_FAST_FORWARD, QUICK_FAST_AUCTION)
-        if not submission_method_details_includes(quick_modes, tender):
-            obj["auctionPeriod"].update({"endDate": now})
-        else:
-            obj["auctionPeriod"].update({"startDate": now, "endDate": now})
+
+        if obj["auctionPeriod"].get("startDate", now) > now:
+            obj["auctionPeriod"]["startDate"] = now
+
+        obj["auctionPeriod"]["endDate"] = now

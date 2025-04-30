@@ -910,7 +910,7 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-10T01:30:00+03:00",
+    "next_check": "2023-10-10T02:30:00+03:00",
     "minimalStep": {
       "amount": 5.0,
       "currency": "UAH",

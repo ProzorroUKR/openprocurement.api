@@ -279,6 +279,8 @@ AUCTION_PERIOD_SHOULD_START_EARLIER_UPDATE_DAYS = int(
     os.environ.get("AUCTION_PERIOD_SHOULD_START_EARLIER_UPDATE_DAYS", 2)
 )
 
+AUCTION_REPLAN_BUFFER_MINUTES = int(os.environ.get("AUCTION_REPLAN_BUFFER_MINUTES", 60))
+
 # simplified way to get nuber of half-hours fit in period
 # (it does not include minutes)
 AUCTION_TIME_SLOTS_NUMBER = (AUCTION_DAY_END.hour - AUCTION_DAY_START.hour) * 2

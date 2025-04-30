@@ -135,7 +135,7 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-16T01:45:06+03:00",
+    "next_check": "2023-10-16T02:45:06+03:00",
     "minimalStep": {
       "amount": 15.0,
       "currency": "UAH",
