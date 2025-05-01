@@ -2,8 +2,10 @@ import json
 import logging
 import os
 from copy import deepcopy
+from unittest.mock import ANY
 
 from jsonpatch import apply_patch
+from pymongo import UpdateOne
 
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
 from openprocurement.tender.core.procedure.utils import get_lot_value_status
@@ -113,32 +115,66 @@ class Migration(CollectionMigration):
 
         mock_collection = self.run_test_data([doc])
 
-        call = mock_collection.bulk_write.mock_calls[0]
-        operation = call.args[0][0]
+        mock_collection.bulk_write.assert_called_once_with(
+            [
+                UpdateOne(
+                    {
+                        "_id": "0981b8f1884444988d2a54156ad69215",
+                        "_rev": "36-2abf39e35d9e4587bb38b2ce6b4a19f9",
+                    },
+                    [
+                        {
+                            "$set": {
+                                "bids": ANY,
+                                "revisions": ANY,
+                            }
+                        },
+                        {
+                            "$set": {
+                                "_rev": ANY,
+                            }
+                        },
+                    ],
+                ),
+            ]
+        )
+
+        mock_calls = mock_collection.bulk_write.mock_calls
+        operation = mock_calls[0].args[0][0]
         pipeline = operation._doc
         updated_doc = pipeline[0]["$set"]
 
-        minimized_bids = []
-        for bid in updated_doc["bids"]:
-            minimized_bid = {}
-            if "value" in bid:
-                minimized_bid["value"] = bid["value"]
-                minimized_bid["initialValue"] = bid["initialValue"]
-            if "lotValues" in bid:
-                minimized_bid["lotValues"] = []
-                for lot_value in bid["lotValues"]:
-                    if "value" in lot_value:
-                        minimized_bid["lotValues"].append(
-                            {
-                                "value": lot_value["value"],
-                                "initialValue": lot_value["initialValue"],
-                                "relatedLot": lot_value["relatedLot"],
-                            }
-                        )
-            minimized_bids.append(minimized_bid)
+        assert len(updated_doc["bids"]) == 2
+        assert len(updated_doc["bids"][0]["lotValues"]) == 2
+        assert len(updated_doc["bids"][1]["lotValues"]) == 2
 
-        logger.info(json.dumps(minimized_bids, indent=4))
-        logger.info(json.dumps(updated_doc["revisions"][-1], indent=4))
+        initial_value_0_0 = updated_doc["bids"][0]["lotValues"][0]["initialValue"]
+        expected_initial_value_0_0 = {'amount': 500, 'currency': 'UAH', 'valueAddedTaxIncluded': True}
+        assert initial_value_0_0 == expected_initial_value_0_0, initial_value_0_0
+
+        initial_value_0_1 = updated_doc["bids"][0]["lotValues"][1]["initialValue"]
+        expected_initial_value_0_1 = {'amount': 500, 'currency': 'UAH', 'valueAddedTaxIncluded': True}
+        assert initial_value_0_1 == expected_initial_value_0_1, initial_value_0_1
+
+        initial_value_1_0 = updated_doc["bids"][1]["lotValues"][0]["initialValue"]
+        expected_initial_value_1_0 = {'amount': 500, 'currency': 'UAH', 'valueAddedTaxIncluded': True}
+        assert initial_value_1_0 == expected_initial_value_1_0, initial_value_1_0
+
+        initial_value_1_1 = updated_doc["bids"][1]["lotValues"][1]["initialValue"]
+        expected_initial_value_1_1 = {'amount': 500, 'currency': 'UAH', 'valueAddedTaxIncluded': True}
+        assert initial_value_1_1 == expected_initial_value_1_1, initial_value_1_1
+
+        assert updated_doc["revisions"][-1] == {
+            "author": "migration",
+            "changes": [
+                {"op": "remove", "path": "/bids/0/lotValues/0/initialValue"},
+                {"op": "remove", "path": "/bids/0/lotValues/1/initialValue"},
+                {"op": "remove", "path": "/bids/1/lotValues/0/initialValue"},
+                {"op": "remove", "path": "/bids/1/lotValues/1/initialValue"},
+            ],
+            "rev": ANY,
+            "date": ANY,
+        }
 
 
 if __name__ == "__main__":
