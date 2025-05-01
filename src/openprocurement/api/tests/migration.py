@@ -1,6 +1,7 @@
 import math
 from argparse import Namespace
 from copy import deepcopy
+from importlib import import_module
 
 import pytest
 from pymongo.errors import BulkWriteError
@@ -102,6 +103,7 @@ default_test_args = Namespace(
     test=False,
     readonly=False,
     filter=None,
+    failafter=None,
 )
 
 
@@ -111,6 +113,21 @@ class TestMigration(CollectionMigration):
     def update_document(self, doc: dict, context: dict = None) -> dict:
         doc["title"] = "test"
         return doc
+
+
+def create_collection_migration_test(path: str):
+    module_path, class_name = path.rsplit('.', 1)
+    module = import_module(module_path)
+    migration_class = getattr(module, class_name)
+
+    def test_migration_wrapper(app):
+        test_args = deepcopy(default_test_args)
+        test_args.test = True
+        test_args.failafter = 1
+        migration = migration_class(app_env(app), test_args)
+        migration.run_test()
+
+    return test_migration_wrapper
 
 
 def test_migration(migration_app):

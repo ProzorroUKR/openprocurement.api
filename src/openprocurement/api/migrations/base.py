@@ -65,6 +65,10 @@ class CollectionWrapper:
         return getattr(self._collection, name)
 
 
+class MigrationFailed(Exception):
+    pass
+
+
 class BaseMigration:
     """Base class for database migrations"""
 
@@ -115,8 +119,11 @@ class CollectionMigration(BaseMigration):
                 cursor.batch_size(self.args.b)
                 self.process_data(cursor)
 
+        except MigrationFailed:
+            if self.args.test:
+                raise
         except Exception as e:
-            logger.exception(f"Migration failed with error: {type(e).__name__}: {str(e)}", exc_info=e)
+            logger.exception(f"Migration failed with unexpected error: {type(e).__name__}: {str(e)}", exc_info=e)
             raise
         finally:
             if "cursor" in locals():
@@ -291,18 +298,19 @@ class CollectionMigration(BaseMigration):
                 bulk = []
 
                 if result.processed % self.log_every == 0:
-                    logger.info(f"Updated documents: {result.processed}")
+                    self.log_result(result)
 
         if bulk:
             bulk_result = self.process_bulk(bulk)
             result += bulk_result
 
-        self._log_result(result)
+        self.log_result(result, action="Finished")
+
         return result
 
-    def _log_result(self, result: MigrationResult) -> None:
+    def log_result(self, result: MigrationResult, action: str = "Processing") -> None:
         logger.info(
-            f"Finished migration {self.get_name()}: {self.description} - "
+            f"{action} migration {self.get_name()}: {self.description} - "
             f"updated {result.updated} documents, failed {result.failed} documents, "
             f"total processed {result.processed}"
         )
@@ -323,11 +331,12 @@ class CollectionMigration(BaseMigration):
                 try:
                     update_operation = self.process_operation(doc, context=context)
                 except Exception as e:
-                    result.failed += 1
                     logger.exception(
                         f"Failed to process document {doc.get('_id')}. {type(e).__name__}: {str(e)}",
                         exc_info=e,
                     )
+                    result.failed += 1
+                    self.check_fail(result)
                     continue
 
                 if not update_operation:
@@ -362,29 +371,31 @@ class CollectionMigration(BaseMigration):
             success = False
 
             for attempt in range(max_retries):
+                # Refetch the document to get latest version
+                doc = self._collection.find_one({"_id": doc_id}, self._projection)
+                if not doc:
+                    logger.error(f"Document {doc_id} not found")
+                    result.failed += 1
+                    self.check_fail(result)
+                    break
+
+                # Reapply update logic
                 try:
-                    # Refetch the document to get latest version
-                    doc = self._collection.find_one({"_id": doc_id}, self._projection)
-                    if not doc:
-                        logger.error(f"Document {doc_id} not found")
-                        result.failed += 1
-                        break
+                    pipeline = self.process_pipeline(doc)
+                except Exception as e:
+                    logger.exception(
+                        f"Failed to process document {doc_id}. {type(e).__name__}: {str(e)}",
+                        exc_info=e,
+                    )
+                    result.failed += 1
+                    self.check_fail(result)
+                    break
 
-                    # Reapply update logic
-                    try:
-                        pipeline = self.process_pipeline(doc)
-                    except Exception as e:
-                        logger.exception(
-                            f"Failed to process document {doc_id}. {type(e).__name__}: {str(e)}",
-                            exc_info=e,
-                        )
-                        result.failed += 1
-                        break
+                if not pipeline:
+                    # Skip document processing
+                    break
 
-                    if not pipeline:
-                        # Skip document processing
-                        break
-
+                try:
                     # Update document with latest changes
                     self._collection.update_one({"_id": doc_id, "_rev": doc["_rev"]}, pipeline)
                     result.updated += 1
@@ -397,6 +408,7 @@ class CollectionMigration(BaseMigration):
                             exc_info=e,
                         )
                         result.failed += 1
+                        self.check_fail(result)
                     else:
                         logger.warning(
                             f"Attempt {attempt + 1}/{max_retries} failed for document {doc_id}. "
@@ -409,6 +421,11 @@ class CollectionMigration(BaseMigration):
                 retry_delay = 1  # Reset retry delay for next document
 
         return result
+
+    def check_fail(self, result: MigrationResult) -> None:
+        if self.args.failafter and result.failed >= self.args.failafter:
+            self.log_result(result, action="Failed")
+            raise MigrationFailed()
 
     def run_test_mock(self, mock_collection):
         with patch.object(self, 'get_collection', return_value=mock_collection):
@@ -538,6 +555,11 @@ class CollectionMigrationArgumentParser(BaseMigrationArgumentParser):
         self.add_argument(
             "--filter",
             help=("Filter for documents to process."),
+        )
+        self.add_argument(
+            "--failafter",
+            type=int,
+            help=("Fail after N failed documents."),
         )
 
 
