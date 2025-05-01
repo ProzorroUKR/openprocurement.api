@@ -29,7 +29,7 @@ class Migration(CollectionMigration):
         return {
             "bids": {
                 "$exists": True,
-                "$size": {"$gt": 0},
+                "$not": {"$size": 0},
             },
             "status": {
                 # too early to have initial value
