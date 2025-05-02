@@ -44,7 +44,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "budget.breakdown.classification",
-      "description": "ТКПКМБ is required for local budget."
+      "description": "ТПКВКМБ is required for local budget."
     }
   ]
 }

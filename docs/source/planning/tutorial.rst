@@ -170,7 +170,7 @@ Ukraine facility
 For `state`, `local` and `crimea` budgets, the Customer should indicate the code of Ukraine facility's classifiers in `budget.breakdown.classification` and `budget.breakdown.address.addressDetails`.
 
 *  For `state` budgets KPK dictionaries are used. They are divided by year, e.g. `KPK-2025 <https://github.com/ProzorroUKR/standards/blob/master/classifiers/kpk_2025.json>`_.
-*  For `local` and `crimea` budgets `KATOTTG <https://github.com/ProzorroUKR/standards/blob/master/classifiers/katottg.json>`_ and  `TKPKMB <https://github.com/ProzorroUKR/standards/blob/master/classifiers/tkpkmb.json>`_ dictionaries are used.
+*  For `local` and `crimea` budgets `KATOTTG <https://github.com/ProzorroUKR/standards/blob/master/classifiers/katottg.json>`_ and  `TPKVKMB <https://github.com/ProzorroUKR/standards/blob/master/classifiers/tkpkmb.json>`_ dictionaries are used.
 
 There are additional validations for these kinds of budget's breakdown:
 
