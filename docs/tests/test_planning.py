@@ -171,7 +171,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
             )
 
         budget["breakdown"][0]["classification"] = {
-            "scheme": "ТКПКМБ",
+            "scheme": "ТПКВКМБ",
             "id": "2170",
             "description": "Будівництво закладів охорони здоров’я",
         }

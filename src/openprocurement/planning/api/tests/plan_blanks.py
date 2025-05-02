@@ -2429,12 +2429,12 @@ def plan_additional_classifications_based_on_breakdown(self):
                 {
                     "location": "body",
                     "name": "budget.breakdown.classification",
-                    "description": f"ТКПКМБ is required for {breakdown_title} budget.",
+                    "description": f"ТПКВКМБ is required for {breakdown_title} budget.",
                 }
             ],
         )
         data["budget"]["breakdown"][0]["classification"] = {
-            "scheme": "ТКПКМБ",
+            "scheme": "ТПКВКМБ",
             "id": "2170",
             "description": "Будівництво закладів охорони здоров’я",
         }

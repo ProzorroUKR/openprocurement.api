@@ -70,7 +70,7 @@ Content-Type: application/json
           "classification": {
             "id": "2170",
             "description": "Будівництво закладів охорони здоров’я",
-            "scheme": "ТКПКМБ"
+            "scheme": "ТПКВКМБ"
           }
         }
       ]

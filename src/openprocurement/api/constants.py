@@ -155,7 +155,7 @@ KEKV_UK_SCHEME = "КЕКВ"
 KPK_SCHEME = "КПК"
 KPK_SCHEMES = KPK.keys()
 KATOTTG_SCHEME = "КАТОТТГ"
-TKPKMB_SCHEME = "ТКПКМБ"
+TKPKMB_SCHEME = "ТПКВКМБ"
 
 # Additional schemes
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = [

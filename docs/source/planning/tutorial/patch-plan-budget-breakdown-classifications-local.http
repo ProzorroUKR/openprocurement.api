@@ -29,7 +29,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "currency": "UAH"
           },
           "classification": {
-            "scheme": "ТКПКМБ",
+            "scheme": "ТПКВКМБ",
             "id": "2170",
             "description": "Будівництво закладів охорони здоров’я"
           },
@@ -117,7 +117,7 @@ Content-Type: application/json
           "classification": {
             "id": "2170",
             "description": "Будівництво закладів охорони здоров’я",
-            "scheme": "ТКПКМБ"
+            "scheme": "ТПКВКМБ"
           }
         }
       ]
