@@ -6,6 +6,8 @@ from dateorro import calc_datetime
 from openprocurement.api.constants import WORKING_DAYS
 from openprocurement.api.utils import calculate_full_date, get_now
 from openprocurement.api.validation import validate_json_data
+from openprocurement.framework.cfaua.constants import CFA_UA
+from openprocurement.framework.cfaua.procedure.utils import convert_agreement_type
 from openprocurement.tender.core.utils import ACCELERATOR_RE
 
 LOGGER = getLogger("openprocurement.framework.core")
@@ -97,11 +99,15 @@ class AgreementTypePredicate:
 
     def __call__(self, context, request):
         if request.agreement_doc is not None:
-            return request.agreement_doc.get("agreementType", None) == self.val
+            agreement_type = request.agreement_doc.get("agreementType", None)
+            agreement_type = convert_agreement_type(agreement_type)
+            return agreement_type == self.val
 
         if request.method == "POST" and request.path.endswith("/agreements"):
             data = validate_json_data(request)
-            return data.get("agreementType", "cfaua") == self.val
+            agreement_type = data.get("agreementType", CFA_UA)
+            agreement_type = convert_agreement_type(agreement_type)
+            return agreement_type == self.val
 
         return False
 

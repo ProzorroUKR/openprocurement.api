@@ -3,6 +3,7 @@ from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
 )
+from openprocurement.framework.cfaua.procedure.utils import convert_agreement_type
 from openprocurement.framework.core.procedure.serializers.contract import (
     ContractSerializer,
 )
@@ -27,10 +28,10 @@ class AgreementSerializer(BaseUIDSerializer):
         "attachments",
         "date",
         "dateCreated",
-        "agreementType",
     }
 
     serializers = {
+        "agreementType": convert_agreement_type,
         "documents": ListSerializer(DocumentSerializer),
         "contracts": ListSerializer(ContractSerializer),
         "changes": ListSerializer(BaseSerializer),

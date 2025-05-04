@@ -1,2 +1,2 @@
 MIN_BIDS_NUMBER = 3
-CFA_UA = "cfaua"
+CFA_UA = "closeFrameworkAgreementUA"
