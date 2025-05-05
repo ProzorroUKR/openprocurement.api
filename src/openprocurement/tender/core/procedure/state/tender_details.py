@@ -952,6 +952,15 @@ class BaseTenderDetailsMixing:
                     get_request(),
                     f"Tender must contain at least one category criteria for item {item['id']}",
                 )
+            item_criteria_from_market = item_criteria_ids[item["id"]].intersection(
+                {CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION}
+            )
+            if criteria_diff := item_criteria_from_market.difference(market_criteria_ids):
+                raise_operation_error(
+                    get_request(),
+                    f"Tender contains criteria that don't exist in market object for item {item['id']}: "
+                    f"{', '.join(sorted(criteria_diff))}",
+                )
 
     def validate_minimal_step(self, data, before=None):
         """

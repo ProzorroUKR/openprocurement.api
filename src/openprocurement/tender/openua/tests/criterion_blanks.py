@@ -5,7 +5,10 @@ from uuid import uuid4
 
 from openprocurement.api.constants import ARTICLE_16
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
+from openprocurement.tender.core.constants import (
+    CRITERION_LOCALIZATION,
+    CRITERION_TECHNICAL_FEATURES,
+)
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
@@ -13,6 +16,7 @@ from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
     test_lcc_tender_criteria,
+    test_localization_criteria,
     test_requirement_groups,
     test_tech_feature_criteria,
 )
@@ -790,22 +794,51 @@ def activate_tender_with_tech_item(self):
 
     criteria_ids = deepcopy(self.required_criteria)
     criteria_ids.add(CRITERION_TECHNICAL_FEATURES)
-    test_criteria = deepcopy(test_tech_feature_criteria)
-    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
-    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+    test_tech_criteria = deepcopy(test_tech_feature_criteria)
+    test_tech_criteria = get_criteria_by_ids(test_tech_criteria, criteria_ids)
+    set_tender_criteria(test_tech_criteria, tender.get("lots", []), tender.get("items", []))
 
     # Add missing required criteria
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria},
+        {"data": test_tech_criteria},
     )
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
+    # try to add localization criteria for item when it doesn't exist in profile
+    criteria_ids.add(CRITERION_LOCALIZATION)
+    localization_criteria = deepcopy(test_localization_criteria)
+    localization_criteria = get_criteria_by_ids(localization_criteria, criteria_ids)
+    set_tender_criteria(localization_criteria, tender.get("lots", []), tender.get("items", []))
+    response = self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": localization_criteria},
+    )
+    self.assertEqual(response.status, "201 Created")
+
     response = self.app.patch_json(
         request_path,
         {"data": {"status": self.primary_tender_status}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": f"Tender contains criteria that don't exist in market object for item {tech_item_id}: {CRITERION_LOCALIZATION}",
+            }
+        ],
+    )
+
+    criteria_ids.remove(CRITERION_LOCALIZATION)
+    test_criteria.extend(test_tech_criteria)
+    response = self.app.patch_json(
+        request_path,
+        {"data": {"criteria": test_criteria, "status": self.primary_tender_status}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2493,8 +2526,8 @@ def tech_feature_criterion(self):
 
 
 @patch_market(
-    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": []},
-    category={"id": "0" * 32, "criteria": []},
+    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": test_tech_feature_criteria},
+    category={"id": "0" * 32, "criteria": test_tech_feature_criteria},
 )
 def criterion_from_market_profile(self):
 
@@ -2835,8 +2868,8 @@ def criterion_from_market_profile(self):
 
 
 @patch_market(
-    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": []},
-    category={"id": "0" * 32, "criteria": []},
+    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": test_tech_feature_criteria},
+    category={"id": "0" * 32, "criteria": test_tech_feature_criteria},
 )
 def criterion_from_market_category(self):
 
