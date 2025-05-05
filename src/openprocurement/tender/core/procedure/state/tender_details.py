@@ -212,6 +212,7 @@ class BaseTenderDetailsMixing:
     agreement_field = "agreements"
     should_validate_lot_minimal_step = True
     tender_complain_regulation_working_days = False
+    qualification_complain_duration_working_days = False
     enquiry_before_tendering = False
     should_validate_related_lot_in_items = True
     agreement_allowed_types = [IFI_TYPE]
@@ -698,6 +699,7 @@ class BaseTenderDetailsMixing:
                     end_date = calculate_tender_full_date(
                         get_now(),
                         timedelta(days=qualif_complain_duration),
+                        working_days=self.qualification_complain_duration_working_days,
                         tender=after,
                     ).isoformat()
 
