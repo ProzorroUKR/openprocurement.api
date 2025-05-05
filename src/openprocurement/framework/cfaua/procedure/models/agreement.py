@@ -7,6 +7,7 @@ from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.utils import get_change_class
+from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.models.change import (
     ChangeItemPriceVariation,
     ChangePartyWithdrawal,
@@ -40,7 +41,7 @@ from openprocurement.framework.core.procedure.models.agreement import (
 
 class Agreement(BaseAgreement):
     agreementNumber = StringType()
-    agreementType = StringType(default="cfaua")
+    agreementType = StringType(default=CFA_UA)
     period = ModelType(Period)
     dateSigned = IsoDateTimeType()
     title = StringType()
@@ -76,7 +77,7 @@ class Agreement(BaseAgreement):
 
 class PostAgreement(BasePostAgreement):
     agreementNumber = StringType()
-    agreementType = StringType(default="cfaua")
+    agreementType = StringType(default=CFA_UA)
     period = ModelType(Period)
     dateSigned = IsoDateTimeType()
     title = StringType()
@@ -104,6 +105,13 @@ class PostAgreement(BasePostAgreement):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
+
+    @serializable(serialized_name="agreementType")
+    def _agreementType(self):
+        # Override value sent by bridge
+        # TODO: remove this after bridge is updated
+        # TODO: or remove that bridge for the god's sake
+        return CFA_UA
 
     @serializable
     def numberOfContracts(self):

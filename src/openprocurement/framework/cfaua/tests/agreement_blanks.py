@@ -21,7 +21,7 @@ def create_agreement(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["id"], agreement_id)
-    self.assertNotIn("agreementType", response.json["data"])
+    self.assertEqual(response.json["data"]["agreementType"], "closeFrameworkAgreementUA")
 
 
 def create_agreement_with_documents(self):

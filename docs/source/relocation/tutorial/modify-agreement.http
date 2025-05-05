@@ -20,6 +20,7 @@ Content-Type: application/json
     "terminationDetails": "broker3 now can change the contract",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "owner": "broker3",
+    "agreementType": "closeFrameworkAgreementUA",
     "dateSigned": "2023-10-10T01:00:00+03:00",
     "contracts": [
       {

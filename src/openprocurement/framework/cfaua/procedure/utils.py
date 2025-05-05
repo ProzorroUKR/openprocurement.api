@@ -1,5 +1,5 @@
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.framework.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.framework.cfaua.constants import CFA_UA, MIN_BIDS_NUMBER
 
 
 def get_active_contracts_count(agreement):
@@ -35,3 +35,9 @@ def apply_modifications(request, agreement):
     if get_active_contracts_count(agreement) < MIN_BIDS_NUMBER:
         warnings.append(f"Min active contracts in FrameworkAgreement less than {MIN_BIDS_NUMBER}.")
     return warnings
+
+
+def convert_agreement_type(agreement_type):
+    if agreement_type == "cfaua":
+        return CFA_UA
+    return agreement_type
