@@ -5,7 +5,7 @@ from openprocurement.api.constants_env import (
     QUALIFICATION_AFTER_COMPLAINT_FROM,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
@@ -30,7 +30,7 @@ class AwardStateMixing:
         tender = get_tender()
         self.validate_cancellation_blocks(self.request, tender, lot_id=before.get("lotID"))
         self.validate_action_with_exist_inspector_review_request(lot_id=before.get("lotID"))
-        if get_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
+        if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
             for resp in after.get("requirementResponses", []):
                 validate_req_response_values(resp)
 
@@ -60,9 +60,9 @@ class AwardStateMixing:
     def award_on_post(self, award):
         if self.award_has_period:
             award["period"] = {
-                "startDate": get_now().isoformat(),
+                "startDate": get_request_now().isoformat(),
                 "endDate": calculate_tender_full_date(
-                    get_now(),
+                    get_request_now(),
                     timedelta(days=5),
                     tender=get_tender(),
                     working_days=True,
@@ -72,7 +72,7 @@ class AwardStateMixing:
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
         tender = get_tender()
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
 
         if before == "pending" and after == "active":
             if self.sign_award_required and tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
@@ -175,7 +175,7 @@ class AwardStateMixing:
 
     def cancel_award(self, award, end_complaint_period=True):
         if end_complaint_period:
-            now = get_now().isoformat()
+            now = get_request_now().isoformat()
             period = award.get("complaintPeriod")
             if period and (not period.get("endDate") or period["endDate"] > now):
                 period["endDate"] = now
@@ -202,7 +202,7 @@ class AwardStateMixing:
             if complaint["status"] not in ("invalid", "resolved", "declined"):
                 cls.set_object_status(complaint, "cancelled")
                 complaint["cancellationReason"] = "cancelled"
-                complaint["dateCanceled"] = get_now().isoformat()
+                complaint["dateCanceled"] = get_request_now().isoformat()
 
     @staticmethod
     def has_considered_award_complaints(current_award, tender):
@@ -215,9 +215,9 @@ class AwardStateMixing:
         award_complain_duration = tender["config"]["awardComplainDuration"]
         if award_complain_duration > 0:
             award["complaintPeriod"] = {
-                "startDate": get_now().isoformat(),
+                "startDate": get_request_now().isoformat(),
                 "endDate": calculate_tender_full_date(
-                    get_now(),
+                    get_request_now(),
                     timedelta(days=award_complain_duration),
                     tender=tender,
                     working_days=self.award_stand_still_working_days,

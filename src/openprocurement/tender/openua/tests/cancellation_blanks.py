@@ -1437,7 +1437,10 @@ def activate_cancellation(self):
     self.assertEqual(complaint["status"], "mistaken")
     self.assertEqual(complaint["rejectReason"], "cancelledByComplainant")
 
-    with patch("openprocurement.tender.core.procedure.utils.get_now", return_value=get_now() + timedelta(days=11)):
+    with patch(
+        "openprocurement.tender.core.procedure.utils.get_request_now",
+        return_value=get_now() + timedelta(days=11),
+    ):
         response = self.check_chronograph()
 
     response = self.app.get("/tenders/{}/cancellations/{}".format(self.tender_id, cancellation_id))
@@ -1601,7 +1604,7 @@ def create_tender_cancellation_complaint(self):
     self.app.authorization = auth
 
     with patch(
-        "openprocurement.tender.core.procedure.state.cancellation_complaint.get_now",
+        "openprocurement.tender.core.procedure.state.cancellation_complaint.get_request_now",
         return_value=get_now() + timedelta(days=11),
     ):
         response = self.app.post_json(

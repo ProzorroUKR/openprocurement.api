@@ -28,7 +28,7 @@ from openprocurement.api.constants_env import (
     RELATED_LOT_REQUIRED_FROM,
     TENDER_CONFIG_OPTIONALITY,
 )
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import ConfigMixin
@@ -341,7 +341,9 @@ class BaseTenderDetailsMixing:
             )
         if after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
-            if dt_from_iso(tendering_start) <= get_now() - timedelta(minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES):
+            if dt_from_iso(tendering_start) <= get_request_now() - timedelta(
+                minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES
+            ):
                 raise_operation_error(
                     get_request(),
                     "tenderPeriod.startDate should be in greater than current date",
@@ -355,7 +357,7 @@ class BaseTenderDetailsMixing:
         if self.should_validate_notice_doc_required is False or not tender_created_after(NOTICE_DOC_REQUIRED_FROM):
             return
         validate_doc_type_required(tender.get("documents", []), document_of="tender")
-        tender["noticePublicationDate"] = get_now().isoformat()
+        tender["noticePublicationDate"] = get_request_now().isoformat()
 
     def get_tender_agreements(self, tender):
         tender_agreements = tender.get(self.agreement_field)
@@ -474,7 +476,7 @@ class BaseTenderDetailsMixing:
         for milestone in tender.get("milestones", []):
             if milestone.get("type") == "financing":
                 if (
-                    get_first_revision_date(tender, default=get_now()) > MILESTONES_VALIDATION_FROM
+                    get_first_revision_date(tender, default=get_request_now()) > MILESTONES_VALIDATION_FROM
                     and milestone.get("duration", {}).get("days", 0) > 1000
                 ):
                     raise_operation_error(
@@ -637,7 +639,7 @@ class BaseTenderDetailsMixing:
         :param minimal_step_amount: Minimal step amount
         :return: None
         """
-        tender_created = get_first_revision_date(tender, default=get_now())
+        tender_created = get_first_revision_date(tender, default=get_request_now())
         if tender_created > MINIMAL_STEP_VALIDATION_FROM:
             precision_multiplier = 10**MINIMAL_STEP_VALIDATION_PRESCISSION
 
@@ -697,7 +699,7 @@ class BaseTenderDetailsMixing:
                     )
                 if self.all_bids_are_reviewed(after):
                     end_date = calculate_tender_full_date(
-                        get_now(),
+                        get_request_now(),
                         timedelta(days=qualif_complain_duration),
                         working_days=self.qualification_complain_duration_working_days,
                         tender=after,
@@ -710,12 +712,12 @@ class BaseTenderDetailsMixing:
                                 "active",
                             ]:
                                 qualification["complaintPeriod"] = {
-                                    "startDate": get_now().isoformat(),
+                                    "startDate": get_request_now().isoformat(),
                                     "endDate": end_date,
                                 }
 
                     after["qualificationPeriod"]["endDate"] = end_date
-                    after["qualificationPeriod"]["reportingDatePublication"] = get_now().isoformat()
+                    after["qualificationPeriod"]["reportingDatePublication"] = get_request_now().isoformat()
                 else:
                     raise_operation_error(
                         get_request(),
@@ -779,7 +781,7 @@ class BaseTenderDetailsMixing:
 
     @staticmethod
     def update_date(tender):
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         tender["date"] = now
 
         for lot in tender.get("lots", ""):
@@ -1181,7 +1183,7 @@ class BaseTenderDetailsMixing:
             tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
             if (
                 calculate_tender_full_date(
-                    get_now(),
+                    get_request_now(),
                     self.tendering_period_extra,
                     tender=tender,
                     working_days=self.tendering_period_extra_working_days,
@@ -1320,7 +1322,7 @@ class BaseTenderDetailsMixing:
 
     def cancel_all_technical_criteria(self, before_tender: dict, after_tender: dict, item_id: str) -> None:
         criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
-        now = get_now()
+        now = get_request_now()
         for criterion in after_tender.get("criteria", []):
             if (
                 criterion.get("classification", {}).get("id") in criteria_ids
@@ -1348,7 +1350,7 @@ class BaseTenderDetailsMixing:
 
     @staticmethod
     def set_enquiry_period_invalidation_date(tender):
-        tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+        tender["enquiryPeriod"]["invalidationDate"] = get_request_now().isoformat()
 
     def validate_items_profile(self, tender):
         if not self.items_profile_required:

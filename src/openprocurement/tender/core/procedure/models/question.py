@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ModelType
@@ -18,7 +18,7 @@ class PostQuestion(Model):
 
     @serializable
     def date(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
     author = ModelType(Organization, required=True)
     title = StringType(required=True)

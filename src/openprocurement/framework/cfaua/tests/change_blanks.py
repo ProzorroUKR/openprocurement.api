@@ -1141,7 +1141,7 @@ def multi_change(self):
     )
 
 
-@patch("openprocurement.framework.cfaua.procedure.models.change.get_now")
+@patch("openprocurement.framework.cfaua.procedure.models.change.get_request_now")
 def activate_change_after_1_cancelled(self, mocked_model_get_now):
     # first change
     data = deepcopy(self.initial_change)

@@ -3,7 +3,7 @@ import logging
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
 
 logger = logging.getLogger(__name__)
@@ -33,7 +33,7 @@ class BaseState:
         if obj.get("status") != status:
             obj["status"] = status
             if update_date:
-                obj["date"] = get_now().isoformat()
+                obj["date"] = get_request_now().isoformat()
         else:
             logger.warning("Obj status already set")
 

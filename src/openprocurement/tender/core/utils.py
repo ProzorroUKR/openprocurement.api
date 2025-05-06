@@ -6,7 +6,7 @@ from logging import getLogger
 from dateorro import calc_datetime
 
 from openprocurement.api.constants import TENDER_CRITERIA_RULES, WORKING_DAYS
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.utils import (
     calculate_date,
@@ -134,7 +134,7 @@ def context_view(objs):
 def get_criteria_rules(tender):
     periods = TENDER_CRITERIA_RULES.get(tender.get("procurementMethodType", ""), [])
 
-    tender_created = get_first_revision_date(tender, default=get_now())
+    tender_created = get_first_revision_date(tender, default=get_request_now())
 
     for period in periods:
         start_date = period["period"].get("start_date")

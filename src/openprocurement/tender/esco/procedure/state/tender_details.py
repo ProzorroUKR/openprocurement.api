@@ -1,5 +1,5 @@
 from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.utils import tender_created_before
 from openprocurement.tender.esco.constants import QUESTIONS_STAND_STILL
@@ -33,7 +33,7 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
             and tender["status"] == "active.tendering"
             and not tender.get("noticePublicationDate")
         ):
-            tender["noticePublicationDate"] = get_now().isoformat()
+            tender["noticePublicationDate"] = get_request_now().isoformat()
 
     def validate_tender_value(self, tender):
         """Validate tender minValue.

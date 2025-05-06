@@ -8,7 +8,7 @@ from uuid import uuid4
 from pyramid.exceptions import URLDecodeError
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_request_now
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.core.procedure.utils import (
     extract_tender_doc,
@@ -69,7 +69,7 @@ class TestUtils(TestUtilsBase):
         self.items = [{"description": "Some item", "relatedLot": "11111111111111111111111111111111"}]
 
     def test_generate_tender_id(self):
-        set_now()
+        set_request_now()
         ctime = datetime.now(TZ)
         request = MagicMock()
         request.registry.mongodb.get_next_sequence_value.return_value = 99

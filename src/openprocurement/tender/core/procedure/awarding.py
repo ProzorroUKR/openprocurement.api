@@ -6,7 +6,7 @@ from typing import Optional
 from barbecue import calculate_coeficient
 
 from openprocurement.api.constants import CRITERION_LIFE_CYCLE_COST_IDS
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from openprocurement.tender.core.procedure.context import (
@@ -67,7 +67,7 @@ class TenderStateAwardingMixing:
             self.add_next_award()
 
     def finalize_auction_period(self, obj):
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
 
         if obj["auctionPeriod"].get("startDate", now) > now:
             obj["auctionPeriod"]["startDate"] = now
@@ -79,7 +79,7 @@ class TenderStateAwardingMixing:
 
         tender["awardPeriod"] = award_period = tender.get("awardPeriod", {})
         if "startDate" not in award_period:
-            award_period["startDate"] = get_now().isoformat()
+            award_period["startDate"] = get_request_now().isoformat()
 
         if tender["config"]["hasAwardingOrder"] is False:
             self.generate_awards_without_awarding_order(tender)
@@ -210,7 +210,7 @@ class TenderStateAwardingMixing:
                 self.get_change_tender_status_handler("active.qualification")(tender)
         else:
             if tender["status"] != "active.awarded":
-                tender["awardPeriod"]["endDate"] = get_now().isoformat()
+                tender["awardPeriod"]["endDate"] = get_request_now().isoformat()
                 self.get_change_tender_status_handler("active.awarded")(tender)
 
     @staticmethod
@@ -379,13 +379,13 @@ class TenderStateAwardingMixing:
             "bid_id": bid["id"],
             "lotID": lot_id,
             "status": "pending",
-            "date": get_now(),
+            "date": get_request_now(),
             "value": bid["value"],
             "suppliers": bid["tenderers"],
             "period": {
-                "startDate": get_now().isoformat(),
+                "startDate": get_request_now().isoformat(),
                 "endDate": calculate_tender_full_date(
-                    get_now(),
+                    get_request_now(),
                     timedelta(days=5),
                     tender=tender,
                     working_days=True,

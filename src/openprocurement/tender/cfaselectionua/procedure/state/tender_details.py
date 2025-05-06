@@ -3,7 +3,7 @@ from logging import getLogger
 
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.constants_env import CRITERIA_CLASSIFICATION_UNIQ_FROM
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import (
     get_agreement_by_id,
@@ -162,9 +162,9 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         self.always(after)
 
     def update_periods(self, tender):
-        enquiry_end = calculate_tender_full_date(get_now(), self.enquiry_period_timedelta, tender=tender)
+        enquiry_end = calculate_tender_full_date(get_request_now(), self.enquiry_period_timedelta, tender=tender)
         tender["enquiryPeriod"] = {
-            "startDate": get_now().isoformat(),
+            "startDate": get_request_now().isoformat(),
             "endDate": enquiry_end.isoformat(),
         }
         tender["tenderPeriod"] = {
@@ -219,7 +219,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             -cls.agreement_min_period_until_end,
             tender=tender,
         )
-        return get_now() > agreement_expire_date
+        return get_request_now() > agreement_expire_date
 
     @classmethod
     def is_agreement_start_date_later(cls, tender, agreement):

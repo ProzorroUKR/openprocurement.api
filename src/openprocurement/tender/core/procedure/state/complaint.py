@@ -1,7 +1,7 @@
 from logging import getLogger
 
 from openprocurement.api.constants_env import OBJECTIONS_ADDITIONAL_VALIDATION_FROM
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_uah_amount_from_value, raise_operation_error
 from openprocurement.api.validation import validate_json_data
@@ -149,7 +149,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                 elif new_status == "pending":
 
                     def handler(complaint):
-                        complaint["dateSubmitted"] = get_now().isoformat()
+                        complaint["dateSubmitted"] = get_request_now().isoformat()
 
                     return BotPatchComplaint, handler
             else:
@@ -161,7 +161,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
             if new_status == "cancelled" and status == "draft" and not new_rules:
 
                 def handler(complaint):
-                    complaint["dateCanceled"] = get_now().isoformat()
+                    complaint["dateCanceled"] = get_request_now().isoformat()
 
                 return CancellationPatchComplaint, handler
             elif new_rules and status == "draft" and new_status == "mistaken":
@@ -173,7 +173,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
             elif status in ["pending", "accepted"] and new_status == "stopping" and not new_rules:
 
                 def handler(complaint):
-                    complaint["dateCanceled"] = get_now().isoformat()
+                    complaint["dateCanceled"] = get_request_now().isoformat()
 
                 return CancellationPatchComplaint, handler
             elif status == "draft" and new_status == status:
@@ -187,7 +187,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
                 def handler(complaint):
                     self.validate_tender_in_complaint_period(tender)
-                    complaint["dateSubmitted"] = get_now().isoformat()
+                    complaint["dateSubmitted"] = get_request_now().isoformat()
 
                 return self.draft_patch_model, handler
             else:
@@ -207,7 +207,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
                 def handler(complaint):
                     complaint["status"] = "resolved"
-                    complaint["tendererActionDate"] = get_now().isoformat()
+                    complaint["tendererActionDate"] = get_request_now().isoformat()
 
                 return TendererResolvePatchComplaint, handler
             elif status in ["pending", "accepted"]:
@@ -223,14 +223,14 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
             ):
 
                 def handler(complaint):
-                    complaint["dateDecision"] = get_now().isoformat()
+                    complaint["dateDecision"] = get_request_now().isoformat()
                     complaint["acceptance"] = False
 
                 return ReviewPatchComplaint, handler
             elif status == "pending" and new_status == "accepted":
 
                 def handler(complaint):
-                    complaint["dateAccepted"] = get_now().isoformat()
+                    complaint["dateAccepted"] = get_request_now().isoformat()
                     complaint["acceptance"] = True
 
                 return ReviewPatchComplaint, handler
@@ -245,8 +245,8 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
             ):
 
                 def handler(complaint):
-                    complaint["dateDecision"] = get_now().isoformat()
-                    complaint["dateCanceled"] = complaint.get("dateCanceled") or get_now().isoformat()
+                    complaint["dateDecision"] = get_request_now().isoformat()
+                    complaint["dateCanceled"] = complaint.get("dateCanceled") or get_request_now().isoformat()
 
                 return ReviewPatchComplaint, handler
             else:
@@ -260,10 +260,10 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
             raise_operation_error(request, f"Cannot perform any action on complaint as {auth_role}")
 
     def reviewers_satisfied_handler(self, complaint):
-        complaint["dateDecision"] = get_now().isoformat()
+        complaint["dateDecision"] = get_request_now().isoformat()
 
     def reviewers_declined_handler(self, complaint):
-        complaint["dateDecision"] = get_now().isoformat()
+        complaint["dateDecision"] = get_request_now().isoformat()
 
     def complaint_on_patch(self, before, complaint):
         if before["status"] != complaint["status"]:
@@ -272,12 +272,12 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         self.always(get_tender())
 
     def complaint_status_up(self, before, after, complaint):
-        complaint["date"] = get_now().isoformat()
+        complaint["date"] = get_request_now().isoformat()
         # if before != "pending" and after != "cancelled":
         #     raise_operation_error(self.request, "Can't update qualification status")
 
     def validate_tender_in_complaint_period(self, tender):
-        if tender.get("complaintPeriod") and get_now() > dt_from_iso(tender["complaintPeriod"]["endDate"]):
+        if tender.get("complaintPeriod") and get_request_now() > dt_from_iso(tender["complaintPeriod"]["endDate"]):
             raise_operation_error(
                 self.request,
                 "Can submit complaint not later than complaintPeriod end date",

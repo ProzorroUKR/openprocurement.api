@@ -4,7 +4,7 @@ from schematics.types import StringType
 from schematics.validate import ValidationError
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_items_uniq
@@ -31,7 +31,7 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 def validate_enquiry_period(data, period):
     if (
-        get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
+        get_first_revision_date(data, default=get_request_now()) > RELEASE_2020_04_19
         and period
         and period.startDate
         and period.endDate
@@ -54,7 +54,7 @@ def validate_tender_period(data, period):
         else:
             period.startDate = data.get("enquiryPeriod").endDate  # default tenderPeriod.startDate
 
-    active_validation = get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
+    active_validation = get_first_revision_date(data, default=get_request_now()) > RELEASE_2020_04_19
     if active_validation and period and period.startDate and period.endDate:
         validate_tender_period_duration(data, period, timedelta(days=2), working_days=True)
 

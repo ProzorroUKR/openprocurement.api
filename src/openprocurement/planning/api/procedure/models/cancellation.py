@@ -3,7 +3,7 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType
 
@@ -21,7 +21,7 @@ class PostCancellation(BaseCancellation):
 
     @serializable
     def date(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
 
 class PatchCancellation(BaseCancellation):
@@ -30,4 +30,4 @@ class PatchCancellation(BaseCancellation):
 
 class Cancellation(BaseCancellation):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    date = IsoDateTimeType(default=get_now)
+    date = IsoDateTimeType(default=get_request_now)

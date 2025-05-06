@@ -40,7 +40,7 @@ from openprocurement.api.constants_env import (
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
 )
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
@@ -192,8 +192,8 @@ def validate_bid_operation_period(request, **_):
     tender_period = tender.get("tenderPeriod", {})
     if (
         tender_period.get("startDate")
-        and get_now().isoformat() < tender_period.get("startDate")
-        or get_now().isoformat() > tender_period.get("endDate", "")  # TODO: may "endDate" be missed ?
+        and get_request_now().isoformat() < tender_period.get("startDate")
+        or get_request_now().isoformat() > tender_period.get("endDate", "")  # TODO: may "endDate" be missed ?
     ):
         operation = "added" if request.method == "POST" else "deleted"
         if request.authenticated_role != "Administrator" and request.method in (
@@ -327,7 +327,7 @@ def validate_update_deleted_bid(request, **_):
 
 def validate_bid_document_operation_period(request, **_):
     tender = request.validated["tender"]
-    now = get_now().isoformat()
+    now = get_request_now().isoformat()
     if tender["status"] == "active.tendering":
         tender_period = tender["tenderPeriod"]
         if tender_period.get("startDate") and now < tender_period["startDate"] or now > tender_period["endDate"]:
@@ -440,7 +440,7 @@ def unless_allowed_by_qualification_milestone(*validations):
     """
 
     def decorated_validation(request, **_):
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         tender = request.validated["tender"]
         bid_id = request.validated["bid"]["id"]
         awards = [q for q in tender.get("awards", "") if q["status"] == "pending" and q["bid_id"] == bid_id]
@@ -590,7 +590,7 @@ def validate_update_award_status_before_milestone_due_date(request, **_):
     award = request.validated["award"]
     sent_status = request.json.get("data", {}).get("status")
     if award.get("status") == "pending" and sent_status != "pending":
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         for milestone in award.get("milestones", ""):
             if (
                 milestone["code"]
@@ -856,7 +856,7 @@ def validate_update_status_before_milestone_due_date(request, **_):
     qualification = request.validated["qualification"]
     sent_status = request.validated["data"].get("status")
     if qualification.get("status") == "pending" and qualification.get("status") != sent_status:
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         for milestone in qualification.get("milestones", []):
             if (
                 milestone["code"]
@@ -1366,7 +1366,7 @@ def validate_auction_period_start_date(request, **kwargs):
     data = request.validated["data"]
     start_date = data.get("startDate", {})
     if start_date:
-        if (get_now() + timedelta(seconds=3600)).isoformat() > start_date:
+        if (get_request_now() + timedelta(seconds=3600)).isoformat() > start_date:
             raise_operation_error(
                 request,
                 "startDate should be no earlier than an hour later",
@@ -1506,7 +1506,7 @@ def validate_ccce_ua(additional_classifications):
 
 def validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
     min_allowed_date = calculate_tender_date(
-        get_now(),
+        get_request_now(),
         -timedelta(minutes=10),
         tender=None,
         working_days=working_days,

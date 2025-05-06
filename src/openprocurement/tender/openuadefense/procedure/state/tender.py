@@ -4,7 +4,7 @@ from openprocurement.api.constants_env import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
 )
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
@@ -89,7 +89,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
             elif not statuses.difference({"complete", "unsuccessful", "cancelled"}):
                 self.get_change_tender_status_handler("complete")(tender)
         else:
-            now = get_now().isoformat()
+            now = get_request_now().isoformat()
             pending_complaints = any(i["status"] in self.block_complaint_status for i in tender.get("complaints", ""))
             pending_awards_complaints = any(
                 i["status"] in self.block_complaint_status
@@ -136,7 +136,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
         ):
             return
 
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         for lot in tender["lots"]:
             if lot["status"] != "active":
                 continue

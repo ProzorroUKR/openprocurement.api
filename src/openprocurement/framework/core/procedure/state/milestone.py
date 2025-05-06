@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.framework.core.constants import MILESTONE_CONTRACT_STATUSES
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
 
@@ -9,7 +9,7 @@ LOGGER = getLogger(__name__)
 
 class MilestoneState(AgreementState):
     def on_post(self, data):
-        get_request().validated["contract"]["date"] = data["dateModified"] = get_now().isoformat()
+        get_request().validated["contract"]["date"] = data["dateModified"] = get_request_now().isoformat()
         self.set_contract_status_on_post(data)
         super().on_post(data)
 

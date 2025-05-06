@@ -6,7 +6,7 @@ from unittest import mock
 from freezegun import freeze_time
 
 from openprocurement.api.constants import ROUTE_PREFIX, TZ
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_request_now
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
@@ -21,7 +21,7 @@ def concurrent_plan_update(self):
     Checking that only valid _id and _rev can update the document
     otherwise the whole request should be repeated to pass all validations again in case anything's been changed
     """
-    set_now()
+    set_request_now()
 
     u = deepcopy(self.initial_data)
     u["dateModified"] = get_now().isoformat()

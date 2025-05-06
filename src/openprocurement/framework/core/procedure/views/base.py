@@ -2,7 +2,6 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.utils import (
-    context_unpack,
     request_fetch_agreement,
     request_fetch_framework,
     request_init_agreement,
@@ -17,6 +16,7 @@ from openprocurement.framework.core.procedure.state.document import (
 )
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.procedure.utils import save_object
+from openprocurement.framework.core.utils import request_create_or_update_object
 from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
@@ -74,30 +74,7 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
             # getting framework, submission, qualification, agreement
             match_dict = request.matchdict
             if match_dict:
-                self.fetch_object(
-                    request,
-                    match_dict,
-                    "framework",
-                    request_init_framework,
-                )
-                self.fetch_object(
-                    request,
-                    match_dict,
-                    "submission",
-                    request_init_submission,
-                )
-                self.fetch_object(
-                    request,
-                    match_dict,
-                    "qualification",
-                    request_init_qualification,
-                )
-                self.fetch_object(
-                    request,
-                    match_dict,
-                    "agreement",
-                    request_init_agreement,
-                )
+                self.fetch_all_objects()
 
     @staticmethod
     def fetch_object(request, match_dict, obj_name, obj_init_func):
@@ -111,72 +88,18 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
                     agreement_id = request.validated[obj_name].get("agreementID")
                     request_fetch_agreement(request, agreement_id)
 
+    def fetch_all_objects(self):
+        self.fetch_object(self.request, self.request.matchdict, "framework", request_init_framework)
+        self.fetch_object(self.request, self.request.matchdict, "qualification", request_init_qualification)
+        self.fetch_object(self.request, self.request.matchdict, "submission", request_init_submission)
+        self.fetch_object(self.request, self.request.matchdict, "agreement", request_init_agreement)
+
     def save_all_objects(self):
-        logger = self.LOGGER
-        request = self.request
-
         with atomic_transaction():
-            # create or update agreement
-            if request.validated.get("agreement"):  # may not be created yet
-                if request.validated["agreement_src"]:  # update
-                    if save_object(request, "agreement", raise_error_handler=True):
-                        logger.info(
-                            f"Updated agreement {request.validated['agreement']['_id']} contracts",
-                            extra=context_unpack(
-                                request,
-                                {"MESSAGE_ID": "agreement_patch"},
-                            ),
-                        )
-                else:  # create
-                    if save_object(request, "agreement", insert=True, raise_error_handler=True):
-                        agreement_id = request.validated["framework"].get("agreementID")
-                        logger.info(
-                            f"Created agreement {agreement_id}",
-                            extra=context_unpack(
-                                request,
-                                {"MESSAGE_ID": "agreement_create"},
-                                {
-                                    "agreement_id": agreement_id,
-                                    "agreement_mode": request.validated["agreement"].get("mode"),
-                                },
-                            ),
-                        )
-
-            # update framework
-            if save_object(request, "framework", raise_error_handler=True):
-                logger.info(
-                    f"Updated framework {request.validated['framework']['_id']} with agreementID",
-                    extra=context_unpack(request, {"MESSAGE_ID": "framework_patch"}),
-                )
-
-            # create or update framework
-            if request.validated.get("qualification"):  # may not be created yet
-                if request.validated["qualification_src"]:
-                    if save_object(request, "qualification", raise_error_handler=True):
-                        logger.info(
-                            f"Updated qualification {request.validated['qualification']['_id']}",
-                            extra=context_unpack(request, {"MESSAGE_ID": "qualification_patch"}),
-                        )
-                else:
-                    qualification_id = request.validated["qualification"]["_id"]
-                    if save_object(request, "qualification", insert=True, raise_error_handler=True):
-                        logger.info(
-                            f"Created qualification {qualification_id}",
-                            extra=context_unpack(
-                                request,
-                                {"MESSAGE_ID": "qualification_create"},
-                                {"qualification_id": qualification_id},
-                            ),
-                        )
-
-            # save submission
-            if request.validated.get("submission"):
-                if request.validated["submission_src"]:
-                    if save_object(request, "submission", raise_error_handler=True):
-                        logger.info(
-                            f"Updated submission {request.validated['submission']['_id']} status",
-                            extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"}),
-                        )
+            request_create_or_update_object(self.request, "framework")
+            request_create_or_update_object(self.request, "qualification")
+            request_create_or_update_object(self.request, "submission")
+            request_create_or_update_object(self.request, "agreement")
 
 
 class BaseDocumentResource(FrameworkBaseResource, DocumentResourceMixin):

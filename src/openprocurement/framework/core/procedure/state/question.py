@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
@@ -17,7 +17,7 @@ class QuestionState(BaseState):
     def on_patch(self, before, after):
         self.validate_question_clarifications_until()
         self.validate_framework_question_operation_not_in_allowed_status()
-        after["dateAnswered"] = get_now().isoformat()
+        after["dateAnswered"] = get_request_now().isoformat()
         super().on_patch(before, after)
 
     def validate_framework_question_operation_not_in_allowed_status(self):
@@ -31,7 +31,7 @@ class QuestionState(BaseState):
     def validate_framework_question_operation_not_in_enquiry_period(self):
         framework = get_request().validated["framework"]
         enquiry_period = framework.get("enquiryPeriod")
-        now = get_now()
+        now = get_request_now()
 
         if (
             not enquiry_period
@@ -47,7 +47,7 @@ class QuestionState(BaseState):
             )
 
     def validate_question_clarifications_until(self):
-        now = get_now()
+        now = get_request_now()
         framework = get_request().validated["framework"]
         if clarifications_until := framework.get("enquiryPeriod", {}).get("clarificationsUntil"):
             if now > dt_from_iso(clarifications_until):

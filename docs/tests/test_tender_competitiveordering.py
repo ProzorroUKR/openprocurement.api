@@ -8,7 +8,7 @@ from tests.base.data import test_docs_lots, test_docs_question, test_docs_tender
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
-from openprocurement.api.context import get_now, set_now
+from openprocurement.api.context import get_request_now, set_request_now
 from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
@@ -49,7 +49,7 @@ class TenderResourceTest(
     def setUp(self):
         super().setUp()
         self.setUpMock()
-        set_now()
+        set_request_now()
 
     def tearDown(self):
         self.tearDownMock()
@@ -69,7 +69,9 @@ class TenderResourceTest(
         self.tick(datetime.timedelta(days=-15))
 
         framework_data = deepcopy(test_framework_dps_data)
-        framework_data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
+        framework_data["qualificationPeriod"] = {
+            "endDate": (get_request_now() + datetime.timedelta(days=120)).isoformat()
+        }
         framework_config = deepcopy(test_framework_dps_config)
         self.create_framework(data=framework_data, config=framework_config)
         self.activate_framework()
@@ -116,8 +118,8 @@ class TenderResourceTest(
         for item in data['items']:
             item['relatedLot'] = lot['id']
             item['deliveryDate'] = {
-                "startDate": (get_now() + datetime.timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + datetime.timedelta(days=5)).isoformat(),
+                "startDate": (get_request_now() + datetime.timedelta(days=2)).isoformat(),
+                "endDate": (get_request_now() + datetime.timedelta(days=5)).isoformat(),
             }
             item['classification']['id'] = test_framework_dps_data['classification']['id']
         for milestone in data["milestones"]:
@@ -464,7 +466,7 @@ class TenderResourceTest(
         award_id = award["id"]
         self.assertEqual(len(award.get("milestones", "")), 1)
         tender = self.mongodb.tenders.get(self.tender_id)
-        tender["awards"][0]["milestones"][0]["dueDate"] = (get_now() - datetime.timedelta(days=1)).isoformat()
+        tender["awards"][0]["milestones"][0]["dueDate"] = (get_request_now() - datetime.timedelta(days=1)).isoformat()
         self.mongodb.tenders.save(tender)
 
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")

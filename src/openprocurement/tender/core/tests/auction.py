@@ -4,7 +4,7 @@ from unittest.mock import Mock
 import pytest
 
 from openprocurement.api.constants import AUCTION_DAY_END, AUCTION_DAY_START
-from openprocurement.api.context import set_now, set_request
+from openprocurement.api.context import set_request, set_request_now
 from openprocurement.tender.core.procedure.state.auction import ShouldStartAfterMixing
 
 
@@ -32,7 +32,7 @@ def test_validation_before_release(
     expected_auction_date: str,
 ):
     set_request(Mock())
-    set_now(datetime.fromisoformat(now))
+    set_request_now(datetime.fromisoformat(now))
 
     auction_period = {}
     tender = {
@@ -106,7 +106,7 @@ def test_update_auction_period_start_dates(
     new_should_start_after: str,
     expected_start_date: str,
 ):
-    set_now(datetime.fromisoformat("2025-03-12T21:57:00+02:00"))
+    set_request_now(datetime.fromisoformat("2025-03-12T21:57:00+02:00"))
     period = {
         "shouldStartAfter": should_start_after,
         "startDate": start_date,

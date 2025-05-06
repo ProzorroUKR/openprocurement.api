@@ -34,7 +34,7 @@ def get_local_cache() -> dict:
     return thread_context.request.cache
 
 
-def set_now(now=None):
+def set_request_now(now=None):
     """
     request time
     we set it once at the request begging and use everywhere
@@ -42,7 +42,7 @@ def set_now(now=None):
     thread_context.now = now or datetime.now(TZ)
 
 
-def get_now() -> datetime:
+def get_request_now() -> datetime:
     return thread_context.now
 
 

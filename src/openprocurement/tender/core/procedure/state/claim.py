@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from logging import getLogger
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import validate_json_data
@@ -35,7 +35,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
 
     def claim_on_post(self, complaint):
         if complaint.get("status") == "claim":
-            complaint["dateSubmitted"] = get_now().isoformat()
+            complaint["dateSubmitted"] = get_request_now().isoformat()
 
         for doc in complaint.get("documents", ""):
             doc["author"] = "complaint_owner"
@@ -48,7 +48,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
             self.claim_status_up(before["status"], claim["status"], claim)
 
     def claim_status_up(self, before, after, complaint):
-        complaint["date"] = get_now().isoformat()
+        complaint["date"] = get_request_now().isoformat()
         if after == "answered":
             if not complaint.get("resolutionType"):
                 raise_operation_error(
@@ -118,7 +118,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
             if new_status == "cancelled" and status in ["draft", "claim", "answered"]:
 
                 def handler(claim):
-                    claim["dateCanceled"] = get_now().isoformat()
+                    claim["dateCanceled"] = get_request_now().isoformat()
 
                 return ClaimOwnerClaimCancellation, handler
             elif (
@@ -135,7 +135,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
 
                 def handler(claim):
                     self.validate_submit_claim(claim)
-                    claim["dateSubmitted"] = get_now().isoformat()
+                    claim["dateSubmitted"] = get_request_now().isoformat()
 
                 return ClaimOwnerClaimDraft, handler
 
@@ -173,7 +173,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
                         )
                     if len(claim.get("resolution", "")) < 20:
                         raise_operation_error(self.request, "Can't update complaint: resolution too short")
-                    claim["dateAnswered"] = get_now().isoformat()
+                    claim["dateAnswered"] = get_request_now().isoformat()
 
                 return TenderOwnerClaimAnswer, handler
             else:
@@ -190,7 +190,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         claim_submit_time = self.tender_claim_submit_time
         tender_end = tender.get("tenderPeriod", {}).get("endDate")
         claim_end_date = calculate_tender_full_date(dt_from_iso(tender_end), -claim_submit_time, tender=tender)
-        if get_now() > claim_end_date:
+        if get_request_now() > claim_end_date:
             raise_operation_error(
                 request,
                 f"Can submit claim not later than {claim_submit_time.days} full calendar days before tenderPeriod ends",
@@ -200,7 +200,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         request = self.request
         tender = request.validated["tender"]
         clarifications_until = tender.get("enquiryPeriod", {}).get("clarificationsUntil")
-        if clarifications_until and get_now() > datetime.fromisoformat(clarifications_until):
+        if clarifications_until and get_request_now() > datetime.fromisoformat(clarifications_until):
             raise_operation_error(
                 self.request,
                 "Can update complaint only before enquiryPeriod.clarificationsUntil",

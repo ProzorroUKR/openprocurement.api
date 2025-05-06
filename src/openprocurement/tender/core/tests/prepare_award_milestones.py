@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from openprocurement.api.context import set_now, set_request
+from openprocurement.api.context import set_request, set_request_now
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
@@ -47,7 +47,7 @@ def test_milestone_data_cases(test_data, tender_status):
     tendering_amounts, auction_amounts, expected_reason_indexes = test_data
     request = Mock(validated={})
     set_request(request)
-    set_now()
+    set_request_now()
     bids = [
         {"id": str(n) * 32, "value": {"amount": amount}, "status": "active"} for n, amount in enumerate(auction_amounts)
     ]

@@ -27,23 +27,22 @@ from openprocurement.api.constants_env import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_2020_04_19,
 )
-from openprocurement.api.context import get_json_data, get_now
+from openprocurement.api.context import get_json_data, get_request_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import (
     append_revision,
-    apply_data_patch,
     get_revision_changes,
     is_obj_const_active,
     parse_date,
+    save_object,
 )
 from openprocurement.api.utils import (
     context_unpack,
     error_handler,
     get_child_items,
     get_first_revision_date,
-    handle_store_exceptions,
     raise_operation_error,
 )
 from openprocurement.api.validation import validate_json_data
@@ -93,36 +92,21 @@ def save_tender(
     request,
     modified: bool = True,
     insert: bool = False,
-    tender: dict = None,
-    tender_src: dict = None,
 ) -> bool:
-    if tender is None:
-        tender = request.validated["tender"]
-    if tender_src is None:
-        tender_src = request.validated["tender_src"]
+    obj = request.validated["tender"]
+    obj_src = request.validated["tender_src"]
 
-    patch = get_revision_changes(tender, tender_src)
-    if patch:
-        now = get_now()
-        append_tender_revision(request, tender, patch, now)
-        old_date_modified = tender.get("dateModified", now.isoformat())
-        with handle_store_exceptions(request):
-            request.registry.mongodb.tenders.save(
-                tender,
-                insert=insert,
-                modified=modified,
-            )
-            LOGGER.info(
-                "Saved tender {}: dateModified {} -> {}".format(
-                    tender["_id"], old_date_modified, tender["dateModified"]
-                ),
-                extra=context_unpack(request, {"MESSAGE_ID": "save_tender"}, {"RESULT": tender["_rev"]}),
-            )
-            return True
-    return False
+    patch = get_revision_changes(obj, obj_src)
+    if not patch:
+        return False
+
+    update_tender_status_change_revision(obj, patch, get_request_now())
+    append_revision(request, obj, patch)
+
+    return save_object(request, "tender", modified, insert)
 
 
-def append_tender_revision(request, tender, patch, date):
+def update_tender_status_change_revision(tender, patch, date):
     status_changes = [
         p
         for p in patch
@@ -139,11 +123,22 @@ def append_tender_revision(request, tender, patch, date):
         if obj and hasattr(obj, "date"):
             date_path = change["path"].replace("/status", "/date")
             if obj.date and not any(p for p in patch if date_path == p["path"]):
-                patch.append({"op": "replace", "path": date_path, "value": obj.date.isoformat()})
+                patch.append(
+                    {
+                        "op": "replace",
+                        "path": date_path,
+                        "value": obj.date.isoformat(),
+                    }
+                )
             elif not obj.date:
-                patch.append({"op": "remove", "path": date_path})
+                patch.append(
+                    {
+                        "op": "remove",
+                        "path": date_path,
+                    }
+                )
             obj.date = date
-    return append_revision(request, tender, patch)
+    return tender
 
 
 def set_mode_test_titles(item):
@@ -154,18 +149,6 @@ def set_mode_test_titles(item):
     ):
         if not item.get(key) or not item[key].startswith(f"[{prefix}]"):
             item[key] = f"[{prefix}] {item.get(key) or ''}"
-
-
-# PATCHING ---
-def apply_tender_patch(request, data, src, save=True, modified=True):
-    patch = apply_data_patch(src, data)
-    # src now contains changes,
-    # it should link to request.validated["tender"]
-    if patch and save:
-        return save_tender(request, modified=modified)
-
-
-# --- PATCHING
 
 
 def submission_method_details_includes(substr, tender):
@@ -295,12 +278,12 @@ def get_bids_before_auction_results(tender):
 
 
 def tender_created_after(dt):
-    tender_created = get_first_revision_date(get_tender(), default=get_now())
+    tender_created = get_first_revision_date(get_tender(), default=get_request_now())
     return tender_created > dt
 
 
 def tender_created_before(dt):
-    tender_created = get_first_revision_date(get_tender(), default=get_now())
+    tender_created = get_first_revision_date(get_tender(), default=get_request_now())
     return tender_created < dt
 
 
@@ -393,7 +376,7 @@ def calc_auction_replan_time(bids, start):
 
 
 def generate_tender_id(request):
-    now = get_now()
+    now = get_request_now()
     uid = f"tender_{now.date().isoformat()}"
     index = request.registry.mongodb.get_next_sequence_value(uid)
     return "UA-{:04}-{:02}-{:02}-{:06}-a".format(now.year, now.month, now.day, index)
@@ -530,7 +513,7 @@ def was_changed_after_approve_review_request(tender: dict, review_request_date: 
     tender_src = request.validated["tender_src"]
 
     changes = get_revision_changes(tender, tender_src)
-    revisions = [{"date": get_now().isoformat(), "changes": changes}]
+    revisions = [{"date": get_request_now().isoformat(), "changes": changes}]
     revisions.extend(tender.get("revisions", [])[::-1])
 
     for rev in revisions:

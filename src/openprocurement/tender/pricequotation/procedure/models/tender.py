@@ -3,7 +3,7 @@ from schematics.types.compound import ListType
 from schematics.validate import ValidationError
 
 from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.item import Classification
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
@@ -43,7 +43,7 @@ from openprocurement.tender.pricequotation.procedure.validation import (
 
 def validate_tender_period_duration(data, period):
     tender_period_end_date = calculate_tender_full_date(
-        get_now(),
+        get_request_now(),
         TENDERING_DURATION,
         tender=data,
         working_days=True,

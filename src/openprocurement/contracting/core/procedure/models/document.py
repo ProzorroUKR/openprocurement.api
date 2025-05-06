@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_contract
 from openprocurement.api.procedure.types import HashType
 from openprocurement.tender.core.procedure.models.document import BaseDocument
@@ -42,11 +42,11 @@ class PostDocument(BaseContractDocument):
 
     @serializable
     def datePublished(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
     @serializable
     def dateModified(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
     hash = HashType()
     title = StringType(required=True)
@@ -64,7 +64,7 @@ class PatchDocument(BaseContractDocument):
 
     @serializable
     def dateModified(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
 
 class Document(BaseContractDocument):

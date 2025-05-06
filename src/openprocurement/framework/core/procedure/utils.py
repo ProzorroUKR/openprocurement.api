@@ -6,15 +6,12 @@ from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
 from openprocurement.api.auth import extract_access_token
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.procedure.utils import append_revision, get_revision_changes
-from openprocurement.api.utils import (
-    context_unpack,
-    error_handler,
-    handle_store_exceptions,
-)
+from openprocurement.api.procedure.utils import save_object as base_save_object
+from openprocurement.api.utils import error_handler
 from openprocurement.framework.core.procedure.mask import (
     AGREEMENT_MASK_MAPPING,
     QUALIFICATION_MASK_MAPPING,
@@ -22,59 +19,6 @@ from openprocurement.framework.core.procedure.mask import (
 )
 
 LOGGER = getLogger(__name__)
-
-
-def append_obj_revision(request, obj, patch, date):
-    status_changes = [p for p in patch if all([p["path"].endswith("/status"), p["op"] == "replace"])]
-    changed_obj = obj
-    for change in status_changes:
-        changed_obj = resolve_pointer(obj, change["path"].replace("/status", ""))
-        if changed_obj and hasattr(changed_obj, "date") and hasattr(changed_obj, "revisions"):
-            date_path = change["path"].replace("/status", "/date")
-            if changed_obj.date and not any(p for p in patch if date_path == p["path"]):
-                patch.append(
-                    {
-                        "op": "replace",
-                        "path": date_path,
-                        "value": changed_obj.date.isoformat(),
-                    }
-                )
-            elif not changed_obj.date:
-                patch.append({"op": "remove", "path": date_path})
-            changed_obj.date = date
-        else:
-            changed_obj = obj
-    return append_revision(request, changed_obj, patch)
-
-
-def save_object(
-    request,
-    obj_name,
-    modified: bool = True,
-    insert: bool = False,
-    additional_obj_names="",
-    raise_error_handler=False,
-) -> bool:
-    obj = request.validated[obj_name]
-    patch = get_revision_changes(obj, request.validated[f"{obj_name}_src"])
-    if patch:
-        now = get_now()
-        append_obj_revision(request, obj, patch, now)
-        old_date_modified = obj.get("dateModified", now.isoformat())
-
-        for i in additional_obj_names:
-            if i in request.validated:
-                request.validated[i]["dateModified"] = now
-
-        with handle_store_exceptions(request, raise_error_handler=raise_error_handler):
-            collection = getattr(request.registry.mongodb, f"{obj_name}s")
-            collection.save(obj, insert=insert, modified=modified)
-            LOGGER.info(
-                f"Saved {obj_name} {obj['_id']}: dateModified {old_date_modified} -> {obj['dateModified']}",
-                extra=context_unpack(request, {"MESSAGE_ID": f"save_{obj_name}"}, {"RESULT": obj["_rev"]}),
-            )
-            return True
-    return False
 
 
 def extract_path(request):
@@ -153,3 +97,71 @@ def is_tender_owner(request, item):
 
 
 # --- ACL
+
+
+def save_object(
+    request,
+    obj_name,
+    modified: bool = True,
+    insert: bool = False,
+    additional_obj_names="",
+    raise_error_handler=False,
+) -> bool:
+    obj = request.validated[obj_name]
+    obj_src = request.validated[f"{obj_name}_src"]
+
+    patch = get_revision_changes(obj, obj_src)
+    if not patch:
+        return False
+
+    update_status_change_revision(obj, patch, get_request_now())
+    append_revision(request, obj, patch)
+
+    for i in additional_obj_names:
+        if i in request.validated:
+            request.validated[i]["dateModified"] = get_request_now()
+
+    return base_save_object(
+        request,
+        obj_name,
+        modified,
+        insert,
+        raise_error_handler,
+    )
+
+
+def update_status_change_revision(obj, patch, date):
+    status_changes = [
+        p
+        for p in patch
+        if all(
+            [
+                p["path"].endswith("/status"),
+                p["op"] == "replace",
+            ]
+        )
+    ]
+    changed_obj = obj
+    for change in status_changes:
+        changed_obj = resolve_pointer(obj, change["path"].replace("/status", ""))
+        if changed_obj and hasattr(changed_obj, "date") and hasattr(changed_obj, "revisions"):
+            date_path = change["path"].replace("/status", "/date")
+            if changed_obj.date and not any(p for p in patch if date_path == p["path"]):
+                patch.append(
+                    {
+                        "op": "replace",
+                        "path": date_path,
+                        "value": changed_obj.date.isoformat(),
+                    }
+                )
+            elif not changed_obj.date:
+                patch.append(
+                    {
+                        "op": "remove",
+                        "path": date_path,
+                    }
+                )
+            changed_obj.date = date
+        else:
+            changed_obj = obj
+    return changed_obj

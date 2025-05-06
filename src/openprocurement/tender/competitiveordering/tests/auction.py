@@ -1,7 +1,7 @@
 import unittest
 from copy import deepcopy
 
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_request_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderMultipleLotAuctionResourceTestMixin,
@@ -42,7 +42,7 @@ class TenderFeaturesMultilotAuctionResourceTest(
     test_post_tender_auction = snitch(post_tender_lots_auction_features)
 
     def setUp(self):
-        set_now()
+        set_request_now()
 
         self.initial_bids = deepcopy(test_tender_co_bids[:2])
         self.initial_bids[1]["tenderers"][0]["identifier"]["id"] = "00037257"

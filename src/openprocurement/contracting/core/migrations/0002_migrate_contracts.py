@@ -5,7 +5,7 @@ from collections import defaultdict
 from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_request_now
 from openprocurement.api.migrations.base import (
     BaseMigration,
     BaseMigrationArgumentParser,
@@ -165,7 +165,7 @@ def run(env, args):
                     continue
 
                 contracting_contract = contracting_contracts.get(contract["id"])
-                set_now()
+                set_request_now()
                 if not contracting_contract:
                     if create_contract(env, tender, contract):
                         counter["created_contracts"] += 1

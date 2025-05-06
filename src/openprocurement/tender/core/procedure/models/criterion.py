@@ -18,7 +18,7 @@ from openprocurement.api.constants_env import (
     PQ_CRITERIA_ID_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
 )
-from openprocurement.api.context import get_json_data, get_now, get_request
+from openprocurement.api.context import get_json_data, get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import (
@@ -54,7 +54,7 @@ class ValidateIdMixing(Model):
         tender = get_tender() or get_json_data()
         if (
             tender.get("procurementMethodType") in (PQ,)
-            and get_first_revision_date(tender, default=get_now()) <= PQ_CRITERIA_ID_FROM
+            and get_first_revision_date(tender, default=get_request_now()) <= PQ_CRITERIA_ID_FROM
         ):
             return
         field = MD5Type()
@@ -72,7 +72,7 @@ class CriterionClassification(BaseClassification):
 
     @staticmethod
     def _validate_guarantee_id(code, tender):
-        tender_created = get_first_revision_date(tender, default=get_now())
+        tender_created = get_first_revision_date(tender, default=get_request_now())
         criteria_to_check = (
             "CRITERION.OTHER.CONTRACT.GUARANTEE",
             "CRITERION.OTHER.BID.GUARANTEE",
@@ -271,7 +271,7 @@ class PostRequirement(ValidateIdMixing, BaseRequirement):
     @serializable(serialized_name="status", serialize_when_none=False)
     def set_status(self):
         tender = get_tender() or get_json_data()
-        if get_first_revision_date(tender, default=get_now()) < CRITERION_REQUIREMENT_STATUSES_FROM:
+        if get_first_revision_date(tender, default=get_request_now()) < CRITERION_REQUIREMENT_STATUSES_FROM:
             return
         return self.status or ReqStatuses.DEFAULT
 
@@ -280,13 +280,13 @@ class PostRequirement(ValidateIdMixing, BaseRequirement):
         tender = get_tender() or get_json_data()
         request = get_request()
 
-        if get_first_revision_date(tender, default=get_now()) < CRITERION_REQUIREMENT_STATUSES_FROM:
+        if get_first_revision_date(tender, default=get_request_now()) < CRITERION_REQUIREMENT_STATUSES_FROM:
             return
 
         if request.method == "POST":
-            return get_now().isoformat()
+            return get_request_now().isoformat()
 
-        return self.datePublished.isoformat() if self.datePublished else get_now().isoformat()
+        return self.datePublished.isoformat() if self.datePublished else get_request_now().isoformat()
 
 
 class PatchRequirement(BaseRequirement):
@@ -419,7 +419,7 @@ class Criterion(ValidateIdMixing, BaseCriterion):
         classification = data.get("classification")
 
         if tender.get("procurementMethodType") not in (PQ,):
-            if get_first_revision_date(tender, default=get_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
+            if get_first_revision_date(tender, default=get_request_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
                 if not value:
                     raise ValidationError("This field is required.")
 
@@ -494,7 +494,7 @@ class PatchCriterion(BaseCriterion):
 
 def validate_criteria_requirement_uniq(criteria, *_) -> None:
     if criteria:
-        if get_first_revision_date(get_tender(), default=get_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:
+        if get_first_revision_date(get_tender(), default=get_request_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:
             req_ids = [
                 req["id"]
                 for c in criteria

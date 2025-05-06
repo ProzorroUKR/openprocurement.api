@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
@@ -37,7 +37,7 @@ class QualificationComplaintStateMixin(ComplaintStateMixin):
             period = tender.get("qualificationPeriod")
             period_start = period.get("reportingDatePublication")
             period_end = period.get("endDate")
-        now = get_now()
+        now = get_request_now()
         if not period_start or not period_end or now < dt_from_iso(period_start) or now > dt_from_iso(period_end):
             raise_operation_error(self.request, "Can add complaint only in complaintPeriod")
 

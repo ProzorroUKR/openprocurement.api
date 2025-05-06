@@ -3,7 +3,7 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.types import HashType
 from openprocurement.tender.core.procedure.models.document import BaseDocument
 
@@ -15,11 +15,11 @@ class ContractPostDocument(BaseDocument):
 
     @serializable
     def datePublished(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
     @serializable
     def dateModified(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
     hash = HashType()
     title = StringType(required=True)  # A title of the document.
@@ -41,4 +41,4 @@ class ContractDocument(BaseDocument):
 class ContractPatchDocument(BaseDocument):
     @serializable
     def dateModified(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()

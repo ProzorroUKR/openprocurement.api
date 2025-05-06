@@ -4,7 +4,7 @@ from schematics.types import EmailType, StringType
 from schematics.validate import ValidationError
 
 from openprocurement.api.constants_env import VALIDATE_TELEPHONE_FROM
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import URLType
 
@@ -20,7 +20,7 @@ class ContactPoint(Model):
 
 
 def validate_telephone(telephone):
-    if VALIDATE_TELEPHONE_FROM <= get_now():
+    if VALIDATE_TELEPHONE_FROM <= get_request_now():
         if telephone and re.match(r"^(\+)?[0-9]{2,}(,( )?(\+)?[0-9]{2,})*$", telephone) is None:
             raise ValidationError("wrong telephone format (could be missed +)")
 

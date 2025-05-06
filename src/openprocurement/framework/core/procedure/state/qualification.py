@@ -1,7 +1,7 @@
 from datetime import timedelta
 from logging import getLogger
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import (
@@ -32,7 +32,7 @@ class QualificationState(FrameworkChronographEventsMixing, BaseState):
 
     def on_patch(self, before, after):
         if self.status_changed(before, after):
-            after["date"] = get_now().isoformat()
+            after["date"] = get_request_now().isoformat()
         super().on_patch(before, after)
 
         if len(before.get("documents", [])) != len(after.get("documents", [])):
@@ -71,7 +71,7 @@ class QualificationState(FrameworkChronographEventsMixing, BaseState):
         qualification_complain_duration = qualification["config"]["qualificationComplainDuration"]
 
         if qualification_complain_duration > 0:
-            start_date = get_now()
+            start_date = get_request_now()
             end_date = calculate_full_date(
                 start_date,
                 timedelta(days=qualification_complain_duration),
@@ -108,7 +108,7 @@ class QualificationState(FrameworkChronographEventsMixing, BaseState):
             "qualificationType": framework["frameworkType"],
             "mode": framework.get("mode"),
             "status": "pending",
-            "date": get_now().isoformat(),
+            "date": get_request_now().isoformat(),
             "config": {
                 "restricted": framework["config"]["restrictedDerivatives"],
                 "qualificationComplainDuration": framework["config"]["qualificationComplainDuration"],

@@ -1,4 +1,4 @@
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.planning.api.procedure.context import get_plan
 from openprocurement.planning.api.procedure.models.milestone import Milestone
@@ -7,7 +7,7 @@ from openprocurement.planning.api.procedure.state.plan import PlanState
 
 class MilestoneState(PlanState):
     def milestone_always(self, data):
-        data["dateModified"] = get_now().isoformat()
+        data["dateModified"] = get_request_now().isoformat()
 
     def milestone_on_post(self, data):
         self.milestone_always(data)
@@ -28,7 +28,7 @@ class MilestoneState(PlanState):
             Milestone.STATUS_NOT_MET,
         ):
             if after == Milestone.STATUS_MET:
-                data["dateMet"] = get_now().isoformat()
+                data["dateMet"] = get_request_now().isoformat()
         else:
             raise_operation_error(
                 self.request,

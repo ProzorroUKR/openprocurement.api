@@ -17,7 +17,7 @@ from pymongo import (
 from pymongo.read_concern import ReadConcern
 from pymongo.write_concern import WriteConcern
 
-from openprocurement.api.context import get_db_session, get_now, get_request
+from openprocurement.api.context import get_db_session, get_request, get_request_now
 
 LOGGER = getLogger("{}.init".format(__name__))
 
@@ -212,9 +212,9 @@ class MongodbStore:
             {"$replaceWith": {"$literal": data}},
         ]
         if insert:
-            data["dateCreated"] = get_now().isoformat()
+            data["dateCreated"] = get_request_now().isoformat()
         if modified:
-            data["dateModified"] = get_now().isoformat()
+            data["dateModified"] = get_request_now().isoformat()
             pipeline.append(
                 {
                     "$set": {

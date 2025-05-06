@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from pyramid.request import Request
 
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.tender import TenderState
 
@@ -28,7 +28,7 @@ class ReviewRequestStateMixin:
         data.update(
             {
                 "id": uuid4().hex,
-                "dateCreated": get_now().isoformat(),
+                "dateCreated": get_request_now().isoformat(),
                 "tenderStatus": tender["status"],
             }
         )
@@ -37,7 +37,7 @@ class ReviewRequestStateMixin:
         self.validate_patch_review_request_once(before)
         self.validate_operation_in_allowed_tender_status()
 
-        after["date"] = get_now().isoformat()
+        after["date"] = get_request_now().isoformat()
         if after["approved"]:
             after["is_valid"] = True
 

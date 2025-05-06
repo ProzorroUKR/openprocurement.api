@@ -8,7 +8,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
 from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
@@ -34,7 +34,7 @@ class QualificationMilestone(Model):
     )
     dueDate = IsoDateTimeType()
     description = StringType()
-    date = IsoDateTimeType(default=get_now)
+    date = IsoDateTimeType(default=get_request_now)
 
     @serializable(serialized_name="dueDate")
     def set_due_date(self):
@@ -100,7 +100,7 @@ class Milestone(Model):
         if data.get("title", "") == "anotherEvent" and not value:
             raise ValidationError("This field is required.")
 
-        should_validate = get_first_revision_date(get_tender(), default=get_now()) > MILESTONES_VALIDATION_FROM
+        should_validate = get_first_revision_date(get_tender(), default=get_request_now()) > MILESTONES_VALIDATION_FROM
         if should_validate and value and len(value) > 2000:
             raise ValidationError("description should contain at most 2000 characters")
 

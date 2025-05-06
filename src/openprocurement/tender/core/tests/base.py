@@ -13,7 +13,7 @@ from webtest import AppError
 
 from openprocurement.api.constants import SESSION, TZ
 from openprocurement.api.constants_env import TWO_PHASE_COMMIT_FROM
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_request_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import get_now
@@ -518,7 +518,7 @@ class BaseCoreWebTest(BaseWebTest):
             self.delete_agreement()
         agreement = self.initial_agreement_data
         agreement["dateModified"] = get_now().isoformat()
-        set_now()
+        set_request_now()
         self.mongodb.agreements.save(agreement, insert=True)
 
     def delete_agreement(self):

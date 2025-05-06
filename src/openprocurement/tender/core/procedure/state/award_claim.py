@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
@@ -30,7 +30,7 @@ class AwardClaimStateMixin(ClaimStateMixin):
         award = get_award()
         period = award.get("complaintPeriod")
         if award.get("status") in ("active", "unsuccessful") and period:
-            if dt_from_iso(period.get("startDate")) <= get_now() < dt_from_iso(period.get("endDate")):
+            if dt_from_iso(period.get("startDate")) <= get_request_now() < dt_from_iso(period.get("endDate")):
                 return
         operation = OPERATIONS.get(self.request.method)
         raise_operation_error(self.request, f"Can {operation} complaint only in complaintPeriod")

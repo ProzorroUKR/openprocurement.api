@@ -13,7 +13,7 @@ from openprocurement.api.constants_env import (
     NEW_DEFENSE_COMPLAINTS_TO,
     UNIT_PRICE_REQUIRED_FROM,
 )
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import context_unpack, raise_operation_error
@@ -201,7 +201,7 @@ class ContractStateMixing:
 
     def check_tender_status_method(self) -> None:
         tender = get_tender()
-        now = get_now()
+        now = get_request_now()
         if tender.get("lots"):
             for complaint in tender.get("complaints", []):
                 if complaint.get("status", "") in self.block_complaint_status and complaint.get("relatedLot") is None:
@@ -273,14 +273,14 @@ class ContractStateMixing:
 
         if not skip_complaint_period:
             stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("endDate"))
-            if stand_still_end > get_now():
+            if stand_still_end > get_request_now():
                 raise_operation_error(
                     get_request(),
                     "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat()),
                 )
         else:
             stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("startDate"))
-            if stand_still_end > get_now():
+            if stand_still_end > get_request_now():
                 raise_operation_error(
                     get_request(),
                     f"Can't sign contract before award activation date ({stand_still_end.isoformat()})",
@@ -314,14 +314,14 @@ class ContractStateMixing:
                 self.request.validated["award"].get("lotID"),
             )
         if after["status"] == "active" and after.get("dateSigned", None) is None:
-            after["dateSigned"] = get_now().isoformat()
+            after["dateSigned"] = get_request_now().isoformat()
         if after.get("value", {}) != before.get("value", {}):
             self.synchronize_items_unit_value(after)
         self.check_tender_status_method()
 
     def contract_status_up(self, before, after, data):
         assert before != after, "Statuses must be different"
-        data["date"] = get_now().isoformat()
+        data["date"] = get_request_now().isoformat()
 
     def synchronize_items_unit_value(self, contract):
         valueAddedTaxIncluded = contract["value"]["valueAddedTaxIncluded"]

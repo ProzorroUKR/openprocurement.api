@@ -3,7 +3,7 @@ from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
@@ -80,7 +80,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEvents
         self.update_next_check(data)
 
     def on_post(self, data):
-        data["date"] = get_now().isoformat()
+        data["date"] = get_request_now().isoformat()
         self.validate_items_presence(data)
         self.validate_items_classification_prefix(data)
         super().on_post(data)
@@ -208,7 +208,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEvents
 
     def calculate_framework_periods(self, data):
         clarification_until_duration = data["config"]["clarificationUntilDuration"]
-        now = get_now()
+        now = get_request_now()
         if enquiry_start := data.get("enquiryPeriod", {}).get("startDate"):
             enquiry_period_start_date = dt_from_iso(enquiry_start)
         else:

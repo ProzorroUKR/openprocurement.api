@@ -1,7 +1,7 @@
 from logging import getLogger
 
 from openprocurement.api.constants_env import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
 from openprocurement.api.utils import raise_operation_error
@@ -48,7 +48,7 @@ class SubmissionState(SubmissionConfigMixin, BaseState):
         self.framework = framework
 
     def on_post(self, data):
-        data["date"] = get_now().isoformat()
+        data["date"] = get_request_now().isoformat()
         self.set_submission_data(data)
         super().on_post(data)
 
@@ -56,11 +56,11 @@ class SubmissionState(SubmissionConfigMixin, BaseState):
         super().on_patch(before, after)
 
         if self.status_changed(before, after):
-            after["date"] = get_now().isoformat()
+            after["date"] = get_request_now().isoformat()
         if self.submission_activated(before, after):
             qualification = self.framework.qualification.create_from_submission(after)
             after["qualificationID"] = qualification["_id"]
-            after["datePublished"] = get_now().isoformat()
+            after["datePublished"] = get_request_now().isoformat()
 
             if before["frameworkID"] in FAST_CATALOGUE_FLOW_FRAMEWORK_IDS:
                 self.framework.qualification.set_active_status()

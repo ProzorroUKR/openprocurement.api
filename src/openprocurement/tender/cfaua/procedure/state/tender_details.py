@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
@@ -89,7 +89,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
 
                 if self.all_awards_are_reviewed(after):
                     after["awardPeriod"]["endDate"] = calculate_tender_full_date(
-                        get_now(),
+                        get_request_now(),
                         timedelta(days=award_complain_duration),
                         tender=after,
                         working_days=False,
@@ -98,7 +98,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
                     for award in after["awards"]:
                         if award["status"] != "cancelled" and award_complain_duration > 0:
                             award["complaintPeriod"] = {
-                                "startDate": get_now().isoformat(),
+                                "startDate": get_request_now().isoformat(),
                                 "endDate": after["awardPeriod"]["endDate"],
                             }
                 else:
