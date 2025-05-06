@@ -24,8 +24,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2023-10-24T01:00:00+03:00",
-      "startDate": "2023-10-10T01:00:00+03:00"
+      "endDate": "2024-01-15T00:00:00+02:00",
+      "startDate": "2024-01-01T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -60,8 +60,8 @@ Content-Type: application/json
           "id": "44617100-9"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2024-01-03T00:00:00+02:00",
+          "endDate": "2024-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -147,7 +147,7 @@ Content-Type: application/json
                   "name": "дюйм"
                 },
                 "minValue": 23.8,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
                 "id": "0c38a99c21304364b46d84c7814be3cb",
@@ -158,7 +158,7 @@ Content-Type: application/json
                   "1920x1080"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
                 "id": "5980efcd986644278cf07c53c39d73db",
@@ -169,7 +169,7 @@ Content-Type: application/json
                   "16:9"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
                 "id": "021928a6395b4787adbba08acfd9c8d2",
@@ -182,7 +182,7 @@ Content-Type: application/json
                 },
                 "minValue": 0,
                 "maxValue": 250,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
                 "id": "e34b9aea95744d9db7e329a91f3c1657",
@@ -193,7 +193,7 @@ Content-Type: application/json
                   "1000:1"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
                 "id": "56120db470a443c6a1085bf8b4c49e83",
@@ -205,7 +205,7 @@ Content-Type: application/json
                   "name": "штук"
                 },
                 "minValue": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
                 "id": "9ee3c16ec0874793a9ec23376a0a9b11",
@@ -217,7 +217,7 @@ Content-Type: application/json
                   "name": "штук"
                 },
                 "minValue": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
                 "id": "29482dcb8d8f4ce5ad6c6d0135b3b9f5",
@@ -228,7 +228,7 @@ Content-Type: application/json
                   "HDMI"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
                 "id": "48ed89346d044abbb5786ee9d768531f",
@@ -240,18 +240,18 @@ Content-Type: application/json
                   "name": "місяців"
                 },
                 "minValue": 36,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2024-01-01T00:00:00+02:00"
               }
             ]
           }
         ]
       }
     ],
-    "tenderID": "UA-2023-10-10-000001-a",
+    "tenderID": "UA-2024-01-01-000001-a",
     "owner": "broker",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2024-01-01T00:00:00+02:00",
+    "dateCreated": "2024-01-01T00:00:00+02:00",
+    "dateModified": "2024-01-01T00:00:00+02:00",
     "id": "3f38940af1314712ac29867b3e4eced4"
   },
   "config": {

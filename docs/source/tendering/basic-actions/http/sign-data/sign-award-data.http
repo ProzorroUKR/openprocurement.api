@@ -153,7 +153,7 @@ Content-Type: application/json
               "id": "8840f90710624691b182d38026bbbe44",
               "description": "футляри до державних нагород",
               "unit": {
-                "name": "Item",
+                "name": "кг",
                 "value": {
                   "amount": 55.0,
                   "currency": "UAH",
@@ -167,7 +167,7 @@ Content-Type: application/json
               "id": "ff7b47fdbdf04d5692cdb738f54c20bb",
               "description": "футляри до державних нагород",
               "unit": {
-                "name": "Item",
+                "name": "кг",
                 "value": {
                   "amount": 55.0,
                   "currency": "UAH",

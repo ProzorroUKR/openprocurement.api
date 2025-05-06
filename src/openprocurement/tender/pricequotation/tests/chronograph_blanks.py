@@ -1,6 +1,5 @@
-from openprocurement.tender.core.tests.utils import set_bid_responses
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_responses
 from openprocurement.tender.pricequotation.tests.data import test_tender_pq_organization
-from openprocurement.tender.pricequotation.tests.utils import copy_tender_items
 
 
 # TenderSwitchQualificationResourceTest
@@ -8,14 +7,15 @@ def switch_to_qualification(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": set_bid_responses(tender["criteria"]),
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     bid, token = self.create_bid(
         self.tender_id,
-        {
-            "tenderers": [test_tender_pq_organization],
-            "items": copy_tender_items(tender["items"]),
-            "value": {"amount": 500},
-            "requirementResponses": set_bid_responses(tender["criteria"]),
-        },
+        bid_data,
     )
 
     bid_id = bid["id"]

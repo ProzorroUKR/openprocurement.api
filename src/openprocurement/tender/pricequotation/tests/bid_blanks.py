@@ -275,6 +275,22 @@ def create_tender_bid_invalid(self):
         },
     )
 
+    # post bid items without product for tender item from category for catalogue PQ
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "items": copy_tender_items(tender["items"]),  # add item without product
+    }
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "items", "description": {"product": "This field is required."}},
+    )
+
 
 def create_tender_bid(self):
     data = self.mongodb.tenders.get(self.tender_id)
@@ -287,15 +303,14 @@ def create_tender_bid(self):
     data['status'] = 'draft'
     self.mongodb.tenders.save(data)
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-            }
-        },
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -318,25 +333,24 @@ def create_tender_bid(self):
     rrs = set_bid_responses(tender["criteria"])
 
     # post first
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rrs,
-                "documents": None,
-                "eligibilityDocuments": [
-                    {
-                        "title": "name.doc",
-                        "url": self.generate_docservice_url(),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/msword",
-                    }
-                ],
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rrs,
+        "documents": None,
+        "eligibilityDocuments": [
+            {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
             }
-        },
+        ],
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -346,16 +360,15 @@ def create_tender_bid(self):
     self.assertIn(bid["id"], response.headers["Location"])
 
     # post second
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
+    bid_data.update(
         {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 501},
-                "requirementResponses": rrs,
-            }
-        },
+            "value": {"amount": 501},
+            "requirementResponses": rrs,
+        }
+    )
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -384,16 +397,15 @@ def requirement_response_validation_multiple_requirements(self):
     rr = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], rr)
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rr,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rr,
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -682,16 +694,15 @@ def requirement_response_value_validation_for_expected_values(self):
     }
     copy_criteria_req_id(tender["criteria"], rr)
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rr,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
         f"/tenders/{tender['id']}/bids",
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rr,
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.content_type, "application/json")
@@ -713,16 +724,15 @@ def requirement_response_value_validation_for_expected_values(self):
         "values": ["Розчин для інфузій"],
     }
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rr,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
         f"/tenders/{tender['id']}/bids",
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rr,
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.content_type, "application/json")
@@ -744,16 +754,10 @@ def requirement_response_value_validation_for_expected_values(self):
         "value": 5,
     }
 
+    bid_data["requirementResponses"] = rr
     response = self.app.post_json(
         f"/tenders/{tender['id']}/bids",
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rr,
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -762,17 +766,12 @@ def requirement_response_value_validation_for_expected_values(self):
     test_response = deepcopy(rr)
     copy_criteria_req_id(tender["criteria"], test_response)
     test_response[-2]['values'] = ['ivalid']
+
+    bid_data["status"] = "active"
+    bid_data["requirementResponses"] = test_response
     response = self.app.post_json(
         f"/tenders/{tender['id']}/bids",
-        {
-            "data": {
-                "status": "active",
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": test_response,
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.content_type, "application/json")
@@ -870,16 +869,16 @@ def requirement_response_validation_one_group_multiple_requirements(self):
     rr = deepcopy(test_tender_pq_response_4)
     copy_criteria_req_id(tender["criteria"], rr)
 
+    bid_data = {
+        "status": "active",
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rr,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {
-            "data": {
-                "status": "active",
-                "tenderers": [test_tender_pq_organization],
-                "value": {"amount": 500},
-                "requirementResponses": rr,
-            }
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -900,16 +899,11 @@ def requirement_response_validation_one_group_multiple_requirements(self):
     rr = deepcopy(test_tender_pq_response_4)
     copy_criteria_req_id(tender["criteria"], rr)
     rr[0]['values'] = ['Розчин']
+    bid_data["requirementResponses"] = rr
+    bid_data["status"] = "draft"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rr,
-            }
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -921,17 +915,15 @@ def patch_tender_bid(self):
 
     rrs = set_bid_responses(tender["criteria"])
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rrs,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "status": "draft",
-                "value": {"amount": 500},
-                "requirementResponses": rrs,
-            }
-        },
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -978,6 +970,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     bid["items"][0]["quantity"] = 4  # items values 4 * 100
+    bid["items"][0]["unit"]["value"]["amount"] = 100
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {"data": {"value": {"amount": 400}, "items": bid["items"]}},
@@ -1042,17 +1035,16 @@ def get_tender_bid(self):
 
     rrs = set_bid_responses(tender["criteria"])
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rrs,
+        "status": "pending",
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rrs,
-                "status": "pending",
-            }
-        },
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1116,16 +1108,15 @@ def delete_tender_bid(self):
 
     rrs = set_bid_responses(tender["criteria"])
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rrs,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rrs,
-            }
-        },
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1169,17 +1160,16 @@ def get_tender_tenderers(self):
 
     rrs = set_bid_responses(tender["criteria"])
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rrs,
+        "status": "pending",
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rrs,
-                "status": "pending",
-            }
-        },
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1221,16 +1211,15 @@ def bid_Administrator_change(self):
 
     rrs = set_bid_responses(tender["criteria"])
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rrs,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_tender_pq_organization],
-                "items": copy_tender_items(tender["items"]),
-                "value": {"amount": 500},
-                "requirementResponses": rrs,
-            }
-        },
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1299,17 +1288,15 @@ def invalidate_not_agreement_member_bid_via_chronograph(self):
 
     rrs = set_bid_responses(tender["criteria"])
 
+    bid_data = {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 500},
+        "requirementResponses": rrs,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "items": copy_tender_items(tender["items"]),
-                "tenderers": [test_tender_pq_organization],
-                "status": "draft",
-                "value": {"amount": 500},
-                "requirementResponses": rrs,
-            }
-        },
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

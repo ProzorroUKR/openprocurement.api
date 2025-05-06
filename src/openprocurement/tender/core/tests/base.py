@@ -171,6 +171,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     tender_for_funders = None
     guarantee_criterion = None
+    bid_item_product_required = False
 
     agreement_id = None
     tender_id = None

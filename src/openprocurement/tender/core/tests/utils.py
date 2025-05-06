@@ -307,22 +307,23 @@ def set_bid_items(self, bid, items=None, tender_id=None):
     for item in items:
         if "relatedLot" in item and item["relatedLot"] not in related_lot_ids:
             continue
-        bid_items.append(
-            {
-                "quantity": 4.0,
-                "description": "футляри до державних нагород",
-                "id": item['id'],
-                "unit": {
-                    "name": "Item",
-                    "code": "KGM",
-                    "value": {
-                        "amount": 110.0 / len(items),
-                        "currency": "UAH",
-                        "valueAddedTaxIncluded": valueAddedTaxIncluded,
-                    },
+        bid_data = {
+            "quantity": 4.0,
+            "description": "футляри до державних нагород",
+            "id": item['id'],
+            "unit": {
+                "name": "кг",
+                "code": "KGM",
+                "value": {
+                    "amount": 110.0 / len(items),
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": valueAddedTaxIncluded,
                 },
-            }
-        )
+            },
+        }
+        if self.bid_item_product_required and item.get("category"):
+            bid_data["product"] = uuid4().hex
+        bid_items.append(bid_data)
     if bid_items:
         bid["items"] = bid_items
     return bid

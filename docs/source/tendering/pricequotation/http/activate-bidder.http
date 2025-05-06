@@ -16,7 +16,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "b8994ac5b9f340da9a0620b8a7b2d8fc",
-    "date": "2023-10-10T01:00:01+03:00",
+    "date": "2024-01-01T00:00:01+02:00",
     "tenderers": [
       {
         "name": "Державне управління справами",
@@ -186,20 +186,21 @@ Content-Type: application/json
     "items": [
       {
         "id": "b9d12bf323eb4d539fc49c3d7d1c6446",
-        "description": "Комп’ютерне обладнання",
+        "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 100.0,
+            "amount": 110.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 4.0
+        "quantity": 4.0,
+        "product": "bee4548f9f344b8db47807229189394f"
       }
     ],
-    "submissionDate": "2023-10-10T01:00:01+03:00"
+    "submissionDate": "2024-01-01T00:00:01+02:00"
   }
 }
 

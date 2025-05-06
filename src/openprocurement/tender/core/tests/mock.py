@@ -5,6 +5,7 @@ from mock import Mock, patch
 from openprocurement.api.tests.mock import ContextDecorator, patch_multiple
 from openprocurement.api.utils import get_now
 from openprocurement.tender.pricequotation.tests.data import (
+    test_bid_pq_product,
     test_tender_pq_category,
     test_tender_pq_short_profile,
 )
@@ -17,6 +18,10 @@ get_tender_profile_targets = [
 get_tender_category_targets = [
     "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
     "openprocurement.tender.core.procedure.criteria.get_tender_category",
+]
+
+get_bid_product_targets = [
+    "openprocurement.tender.core.procedure.state.bid.get_tender_product",
 ]
 
 
@@ -38,6 +43,18 @@ class patch_market_category(ContextDecorator):
 
     def __enter__(self):
         self.patch = patch_multiple(get_tender_category_targets, Mock(return_value=self.category))
+        return self.patch.__enter__()
+
+    def __exit__(self, *exc_info):
+        self.patch.__exit__(*exc_info)
+
+
+class patch_market_product(ContextDecorator):
+    def __init__(self, product):
+        self.product = product
+
+    def __enter__(self):
+        self.patch = patch_multiple(get_bid_product_targets, Mock(return_value=self.product))
         return self.patch.__enter__()
 
     def __exit__(self, *exc_info):
@@ -71,6 +88,11 @@ class MockMarketMixin:
 
         # category
         patch_obj = patch_multiple(get_tender_category_targets, Mock(return_value=test_tender_pq_category))
+        patch_obj.start()
+        self.addCleanup(patch_obj.stop)
+
+        # product
+        patch_obj = patch_multiple(get_bid_product_targets, Mock(return_value=test_bid_pq_product))
         patch_obj.start()
         self.addCleanup(patch_obj.stop)
 

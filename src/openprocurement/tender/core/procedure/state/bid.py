@@ -5,6 +5,7 @@ from decimal import Decimal
 from schematics.types import BaseType
 
 from openprocurement.api.constants_env import (
+    BID_ITEMS_PRODUCT_REQUIRED_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
@@ -39,6 +40,7 @@ logger = logging.getLogger(__name__)
 
 class BidState(BaseState):
     items_unit_value_required_for_funders = False
+    items_product_required = False
 
     @property
     def check_all_exist_tender_items(self):
@@ -317,8 +319,8 @@ class BidState(BaseState):
 
     def validate_items_required_field(self, after: dict):
         tender = self.request.validated["tender"]
-        tender_items = tender.get("items")
-        bid_items = after.get("items")
+        tender_items = {item["id"]: item for item in tender.get("items", [])}
+        bid_items = {item["id"]: item for item in after.get("items", [])}
 
         if not is_bid_items_required() or not tender_items:
             return
@@ -344,7 +346,14 @@ class BidState(BaseState):
                 },
             }
 
-        for item in bid_items or []:
+        for item_id, item in bid_items.items():
+            # product is required for tender item with category
+            if (
+                tender_created_after(BID_ITEMS_PRODUCT_REQUIRED_FROM)
+                and self.items_product_required
+                and (tender_item := tender_items.get(item_id))
+            ):
+                item_required_fields["product"] = bool(tender_item.get("category"))
             validate_required_fields(self.request, item, item_required_fields, name="items")
 
     def validate_items_related_product(self, after: dict, before: dict) -> None:

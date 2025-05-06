@@ -11,14 +11,16 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
-from openprocurement.tender.core.tests.mock import patch_market
+from openprocurement.tender.core.tests.mock import patch_market, patch_market_product
 from openprocurement.tender.core.tests.utils import (
+    set_bid_items,
     set_bid_responses,
     set_tender_criteria,
 )
 from openprocurement.tender.pricequotation.tests.base import BaseTenderWebTest
 from openprocurement.tender.pricequotation.tests.data import (
     test_agreement_pq_data,
+    test_bid_pq_product,
     test_tech_features_requirements,
     test_tender_pq_bids,
     test_tender_pq_bids_with_docs,
@@ -43,7 +45,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_bids = test_tender_pq_bids
-    freezing_datetime = '2023-10-10T00:00:00+02:00'
+    freezing_datetime = '2024-01-01T00:00:00+02:00'
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
     tender_token = None
@@ -219,116 +221,120 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bid_data = deepcopy(bid_draft)
         bid_data["requirementResponses"] = set_bid_responses(tender["criteria"])
         bid_data["items"] = copy_tender_items(tender["items"])
-        # validation sum of item.quantity * item.unit.value not more than 20% of bid.value
-        bid_data["items"][0]["quantity"] = 3  # 3 * 100 < 469 more than 20%
-        with open(TARGET_DIR + 'register-bidder-invalid-unit-value.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=422)
-        bid_data["items"][0]["quantity"] = 4  # 4 * 100 < 469 not more than 20%
-        with open(TARGET_DIR + 'register-bidder.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
-            bid1_id = response.json['data']['id']
-            bids_access[bid1_id] = response.json['access']['token']
-            self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + 'register-bidder-without-item-product.http', 'w') as self.app.file_obj:
+            self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=422)
+        set_bid_items(self, bid_data, items=tender["items"])
+        with patch_market_product(test_bid_pq_product):
+            # validation sum of item.quantity * item.unit.value not more than 20% of bid.value
+            bid_data["items"][0]["quantity"] = 3  # 3 * 100 < 469 more than 20%
+            with open(TARGET_DIR + 'register-bidder-invalid-unit-value.http', 'w') as self.app.file_obj:
+                self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=422)
+            bid_data["items"][0]["quantity"] = 4  # 4 * 100 < 469 not more than 20%
+            with open(TARGET_DIR + 'register-bidder.http', 'w') as self.app.file_obj:
+                response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
+                bid1_id = response.json['data']['id']
+                bids_access[bid1_id] = response.json['access']['token']
+                self.assertEqual(response.status, '201 Created')
 
-        with open(TARGET_DIR + 'patch-bidder.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
-                {'data': {"value": {"amount": 459}}},
-            )
-            self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR + 'patch-bidder.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                    {'data': {"value": {"amount": 459}}},
+                )
+                self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'activate-bidder.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + 'activate-bidder.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                    {'data': {"status": "pending"}},
+                )
+                self.assertEqual(response.status, '200 OK')
+
+            # Bid deletion
+            with open(TARGET_DIR + 'register-2nd-bid.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data})
+                bid2_id = response.json['data']['id']
+                bids_access[bid2_id] = response.json['access']['token']
+                self.assertEqual(response.status, '201 Created')
+
+            with open(TARGET_DIR + 'delete-2nd-bid.http', 'w') as self.app.file_obj:
+                response = self.app.delete(f'/tenders/{self.tender_id}/bids/{bid2_id}?acc_token={bids_access[bid2_id]}')
+                self.assertEqual(response.status, '200 OK')
+
+            # try to restore deleted bid
+            with open(TARGET_DIR + 'get-deleted-bid.http', 'w') as self.app.file_obj:
+                response = self.app.get(
+                    f'/tenders/{self.tender_id}/bids/{bid2_id}?acc_token={bids_access[bid2_id]}',
+                    status=404,
+                )
+                self.assertEqual(response.status, "404 Not Found")
+                self.assertEqual(response.content_type, "application/json")
+
+            # Proposal Uploading
+
+            with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(
+                    '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+                    {
+                        'data': {
+                            'title': 'Proposal.p7s',
+                            'url': self.generate_docservice_url(),
+                            'hash': 'md5:' + '0' * 32,
+                            'documentType': 'proposal',
+                            'format': 'sign/p7s',
+                        }
+                    },
+                )
+                self.assertEqual(response.status, '201 Created')
+
+            with open(TARGET_DIR + 'bidder-documents.http', 'w') as self.app.file_obj:
+                response = self.app.get(
+                    '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id])
+                )
+                self.assertEqual(response.status, '200 OK')
+
+            # activate one more time bid 1 after uploading document
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
                 {'data': {"status": "pending"}},
             )
             self.assertEqual(response.status, '200 OK')
 
-        # Bid deletion
-        with open(TARGET_DIR + 'register-2nd-bid.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data})
+            # Second bid registration with documents
+            bid_with_docs_data = deepcopy(test_tender_pq_bids_with_docs)
+            bid_with_docs_data["requirementResponses"] = set_bid_responses(tender["criteria"])
+            set_bid_items(self, bid_with_docs_data, items=tender["items"])
+            bid_with_docs_data["items"][0]["quantity"] = 4
+            for document in bid_with_docs_data['documents']:
+                document['url'] = self.generate_docservice_url()
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_with_docs_data})
             bid2_id = response.json['data']['id']
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
-
-        with open(TARGET_DIR + 'delete-2nd-bid.http', 'w') as self.app.file_obj:
-            response = self.app.delete(f'/tenders/{self.tender_id}/bids/{bid2_id}?acc_token={bids_access[bid2_id]}')
-            self.assertEqual(response.status, '200 OK')
-
-        # try to restore deleted bid
-        with open(TARGET_DIR + 'get-deleted-bid.http', 'w') as self.app.file_obj:
-            response = self.app.get(
-                f'/tenders/{self.tender_id}/bids/{bid2_id}?acc_token={bids_access[bid2_id]}',
-                status=404,
+            self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid2_id, bids_access[bid2_id]),
+                {'data': {"status": "pending"}},
             )
-            self.assertEqual(response.status, "404 Not Found")
-            self.assertEqual(response.content_type, "application/json")
 
-        # Proposal Uploading
-
-        with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
-                {
-                    'data': {
-                        'title': 'Proposal.p7s',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'documentType': 'proposal',
-                        'format': 'sign/p7s',
-                    }
-                },
-            )
+            # third bid registration
+            bid_with_docs_data["tenderers"][0]["identifier"]["id"] = test_agreement_pq_data["contracts"][1][
+                "suppliers"
+            ][0]["identifier"]["id"]
+            for document in bid_with_docs_data['documents']:
+                document['url'] = self.generate_docservice_url()
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_with_docs_data})
+            bid3_id = response.json['data']['id']
+            bids_access[bid3_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
-
-        with open(TARGET_DIR + 'bidder-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get(
-                '/tenders/{}/bids/{}/documents?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id])
+            self.app.patch_json(
+                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid3_id, bids_access[bid3_id]),
+                {'data': {"status": "pending"}},
             )
-            self.assertEqual(response.status, '200 OK')
 
-        # activate one more time bid 1 after uploading document
-        response = self.app.patch_json(
-            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
-            {'data': {"status": "pending"}},
-        )
-        self.assertEqual(response.status, '200 OK')
-
-        # Second bid registration with documents
-        bid_with_docs_data = deepcopy(test_tender_pq_bids_with_docs)
-        bid_with_docs_data["requirementResponses"] = set_bid_responses(tender["criteria"])
-        bid_with_docs_data["items"] = copy_tender_items(tender["items"])
-        bid_with_docs_data["items"][0]["quantity"] = 4
-        for document in bid_with_docs_data['documents']:
-            document['url'] = self.generate_docservice_url()
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_with_docs_data})
-        bid2_id = response.json['data']['id']
-        bids_access[bid2_id] = response.json['access']['token']
-        self.assertEqual(response.status, '201 Created')
-        self.app.patch_json(
-            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid2_id, bids_access[bid2_id]),
-            {'data': {"status": "pending"}},
-        )
-
-        # third bid registration
-        bid_with_docs_data["tenderers"][0]["identifier"]["id"] = test_agreement_pq_data["contracts"][1]["suppliers"][0][
-            "identifier"
-        ]["id"]
-        for document in bid_with_docs_data['documents']:
-            document['url'] = self.generate_docservice_url()
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_with_docs_data})
-        bid3_id = response.json['data']['id']
-        bids_access[bid3_id] = response.json['access']['token']
-        self.assertEqual(response.status, '201 Created')
-        self.app.patch_json(
-            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid3_id, bids_access[bid3_id]),
-            {'data': {"status": "pending"}},
-        )
-
-        # agreement contract validation
-        bid_data["tenderers"][0]["identifier"]["id"] = "00037200"
-        with open(TARGET_DIR + 'register-bidder-not-member.http', 'w') as self.app.file_obj:
-            self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=403)
+            # agreement contract validation
+            bid_data["tenderers"][0]["identifier"]["id"] = "00037200"
+            with open(TARGET_DIR + 'register-bidder-not-member.http', 'w') as self.app.file_obj:
+                self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=403)
 
         # disqualify second supplier from agreement during active.tendering
         agreement["contracts"][1]["status"] = "terminated"

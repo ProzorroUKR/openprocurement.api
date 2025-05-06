@@ -208,7 +208,7 @@ Content-Type: application/json
     },
     "bids": [
       {
-        "id": "18e3ce304a8c4320937ae5eac777768a",
+        "id": "6eb4106605214f398c4336aee7072c4c",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -246,7 +246,7 @@ Content-Type: application/json
             "values": [
               "Розчин для інфузій"
             ],
-            "id": "ffe5372807e14d11871c1d213893ef54",
+            "id": "fa588b35720b4a00a1180d4d3d16b462",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -258,7 +258,7 @@ Content-Type: application/json
               "title": "Доза діючої речовини"
             },
             "value": 5,
-            "id": "e389f6b1706f4ea0bde481b7be67bdcb",
+            "id": "73bbe3beb21e41088d5db33988c9c9fb",
             "unit": {
               "code": "KGM",
               "name": "кілограми"
@@ -277,7 +277,7 @@ Content-Type: application/json
               "Відповідь1",
               "Відповідь2"
             ],
-            "id": "368dac10a7a84b3e9d7e5a43d7a69904",
+            "id": "b3bbf0ca4969452fa8d89f05c76e118a",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -358,7 +358,7 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "18e3ce304a8c4320937ae5eac777768a",
+        "bid_id": "6eb4106605214f398c4336aee7072c4c",
         "documents": [
           {
             "confidentiality": "public",
@@ -408,7 +408,7 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "18e3ce304a8c4320937ae5eac777768a",
+        "bid_id": "6eb4106605214f398c4336aee7072c4c",
         "period": {
           "startDate": "2023-10-10T01:00:00+03:00",
           "endDate": "2023-10-18T00:00:00+03:00"
