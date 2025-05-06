@@ -28,6 +28,10 @@ def get_post() -> dict:
     return get_object("post")
 
 
+def get_appeal() -> dict:
+    return get_object("appeal")
+
+
 def get_bids_before_auction_results_context():
     """
     get_bids_before_auction_results
