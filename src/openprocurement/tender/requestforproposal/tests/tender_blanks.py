@@ -1099,7 +1099,7 @@ def patch_tender_active_tendering(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"],
-            [{"location": "body", "name": "data", "description": "tenderPeriod should be extended by 4 working days"}],
+            [{"location": "body", "name": "data", "description": "tenderPeriod should be extended by 4 days"}],
         )
 
     # patch forbidden fields

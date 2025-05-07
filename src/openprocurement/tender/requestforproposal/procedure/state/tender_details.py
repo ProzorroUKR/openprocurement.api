@@ -19,7 +19,7 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
 
-    tendering_period_extra_working_days = True
+    tendering_period_extra_working_days = False
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     should_validate_notice_doc_required = True
     enquiry_before_tendering = True
