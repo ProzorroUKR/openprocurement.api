@@ -149,12 +149,12 @@ Also we can modify tender by adding `funders` field data:
 .. http:example:: http/tutorial/patch-tender-funders.http
    :code:
 
-Procuring entity can not change `tenderPeriod.endDate` if there are less than 2 days before tenderPeriod ends. Changes will not be accepted by API.
+Procuring entity can not change `tenderPeriod.endDate` if there are less than 4 days before tenderPeriod ends. Changes will not be accepted by API.
 
 .. http:example:: http/tutorial/update-tender-after-enquiry.http
    :code:
 
-That is why tenderPeriod has to be extended by minimum 2 days.
+That is why tenderPeriod has to be extended by minimum 4 days.
 
 .. http:example:: http/tutorial/update-tender-after-enquiry-with-update-periods.http
    :code:
