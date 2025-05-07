@@ -99,7 +99,8 @@ def app_env(app):
 
 default_test_args = Namespace(
     b=1000,
-    log=False,
+    log_db=False,
+    log_diff=False,
     test=False,
     readonly=False,
     filter=None,
