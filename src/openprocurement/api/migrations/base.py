@@ -148,7 +148,7 @@ class CollectionMigration(BaseMigration):
         collection: Collection | CollectionWrapper = self.get_collection()
         if self.args.readonly:
             collection = ReadonlyCollectionWrapper(collection)
-        if self.args.log:
+        if self.args.log_db:
             collection = LoggingCollectionWrapper(collection)
         return collection
 
@@ -225,6 +225,18 @@ class CollectionMigration(BaseMigration):
         if not updated_doc or doc == updated_doc:
             # Skip document processing
             return None
+
+        if self.args.log_diff:
+            import difflib
+
+            doc_str = json.dumps(doc, indent=2, ensure_ascii=False, sort_keys=True, cls=CustomJSONEncoder)
+            updated_doc_str = json.dumps(
+                updated_doc, indent=2, ensure_ascii=False, sort_keys=True, cls=CustomJSONEncoder
+            )
+            diff = difflib.unified_diff(
+                doc_str.splitlines(), updated_doc_str.splitlines(), fromfile='doc', tofile='updated_doc', lineterm=''
+            )
+            logger.info("\n".join(diff))
 
         if self.append_revision:
             self.validate_revisions_update(doc, updated_doc)
@@ -344,6 +356,9 @@ class CollectionMigration(BaseMigration):
                     continue
 
                 update_operations.append(update_operation)
+
+            if not update_operations:
+                return result
 
             self._collection.bulk_write(update_operations)
             result.updated = len(update_operations)
@@ -543,9 +558,14 @@ class CollectionMigrationArgumentParser(BaseMigrationArgumentParser):
             help=("Run the migration in test mode."),
         )
         self.add_argument(
-            "--log",
+            "--log-db",
             action="store_true",
-            help=("Log all operations."),
+            help=("Log all database operations."),
+        )
+        self.add_argument(
+            "--log-diff",
+            action="store_true",
+            help=("Log all diffs."),
         )
         self.add_argument(
             "--readonly",
