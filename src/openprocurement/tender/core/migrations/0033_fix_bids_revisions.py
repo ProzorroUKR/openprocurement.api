@@ -58,6 +58,7 @@ class Migration(CollectionMigration):
                         if str(e) in [
                             "can't remove non-existent object 'parameters'",
                             "can't remove non-existent object 'documents'",
+                            "can't remove non-existent object 'additionalIdentifiers'",
                         ]:
                             changes_to_remove.append(change)
                             continue
