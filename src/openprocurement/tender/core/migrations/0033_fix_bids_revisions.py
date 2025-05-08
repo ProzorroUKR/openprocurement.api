@@ -2,6 +2,7 @@ import logging
 from copy import deepcopy
 
 from jsonpatch import JsonPatchConflict, apply_patch
+from jsonpointer import JsonPointerException
 
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
 
@@ -52,9 +53,22 @@ class Migration(CollectionMigration):
                         # apply the change to the rewinded document
                         apply_patch(rewinded_doc, [change_copy], in_place=True)
 
+                    except JsonPointerException as e:
+
+                        # empty lists was handled wrong for some period
+                        if change["op"] == "add" and str(e).startswith("member 'lotValues' not found in"):
+                            new_path = change["path"].rsplit("/", 1)[0]
+                            if new_path.endswith("/lotValues"):
+                                change["path"] = new_path
+                                change["value"] = [change["value"]]
+                                continue
+
+                        logger.error(f"JsonPointerException: {e}, for change: {change}")
+                        raise
+
                     except JsonPatchConflict as e:
 
-                        # some problems with empty lists
+                        # empty lists was handled wrong for some period
                         if str(e) in [
                             "can't remove non-existent object 'parameters'",
                             "can't remove non-existent object 'documents'",
