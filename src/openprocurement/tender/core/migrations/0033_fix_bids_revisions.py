@@ -47,11 +47,7 @@ class Migration(CollectionMigration):
             for change in list(revision["changes"]):
                 if change["path"].startswith("/bids"):
                     try:
-                        # to avoid mutating the original change
-                        # after new changes are applied on top of it
-                        change_copy = deepcopy(change)
-                        # apply the change to the rewinded document
-                        apply_patch(rewinded_doc, [change_copy], in_place=True)
+                        apply_patch(rewinded_doc, [deepcopy(change)], in_place=True)
 
                     except JsonPointerException as e:
 
@@ -61,6 +57,7 @@ class Migration(CollectionMigration):
                             if new_path.endswith("/lotValues"):
                                 change["path"] = new_path
                                 change["value"] = [change["value"]]
+                                apply_patch(rewinded_doc, [deepcopy(change)], in_place=True)
                                 continue
 
                         logger.error(f"JsonPointerException: {e}, for change: {change}")
