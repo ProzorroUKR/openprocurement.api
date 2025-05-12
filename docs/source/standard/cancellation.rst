@@ -63,7 +63,7 @@ Schema
 
     There are four possible types for `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`,
     `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`,
-    `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `priceQuotation`, `competitiveOrdering` procedures set by procuring entity:
+    `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `competitiveOrdering` procedures set by procuring entity:
 
      :`noDemand`:
        No need in procurement of goods, works and services.
@@ -110,6 +110,19 @@ Schema
 
      :`expensesCut`:
        Cut down the expenses of procurement of goods, works and services.
+
+    Possible types for `priceQuotation`:
+
+     :`noDemand`:
+       No need in procurement of goods, works and services.
+
+     :`forceMajeure`:
+       Can not do a procurement due to force majeure conditions.
+
+     :`expensesCut`:
+       Cut down the expenses of procurement of goods, works and services.
+
+    .. note:: `unFixable`: Deprecated from PQ_UNFIXABLE_REASON_TYPE_TO date.
 
 :complaintPeriod:
     :ref:`period`

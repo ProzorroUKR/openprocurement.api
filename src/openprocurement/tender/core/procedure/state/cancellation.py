@@ -10,6 +10,7 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.procedure.validation import (
     validate_edrpou_confidentiality_doc,
+    validate_field_change,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -58,7 +59,13 @@ class CancellationStateMixing:
             # CS-12838
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, after)
 
-        self.validate_possible_reason_types(request, tender, after)
+        validate_field_change(
+            field_name="reasonType",
+            before_obj=before,
+            after_obj=after,
+            validator=self.validate_possible_reason_types,
+            args=(request, tender, after),
+        )
         self.validate_cancellation_possible_statuses(request, tender, after)
         self.validate_docs(after)
 

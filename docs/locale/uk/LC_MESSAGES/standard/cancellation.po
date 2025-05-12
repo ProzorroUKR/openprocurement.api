@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-11 17:12+0300\n"
+"POT-Creation-Date: 2025-04-25 10:46+0300\n"
 "PO-Revision-Date: 2018-08-17 15:05+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -108,8 +108,8 @@ msgstr "ID пов’язаного :ref:`lot`."
 msgid "reasonType"
 msgstr ""
 
-msgid "There are four possible types for `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `priceQuotation`, `competitiveOrdering` procedures set by procuring entity:"
-msgstr "Існує чотири можливi причини скасування для процедур `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `priceQuotation`, `competitiveOrdering`:"
+msgid "There are four possible types for `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `competitiveOrdering` procedures set by procuring entity:"
+msgstr "Існує чотири можливi причини скасування для процедур `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `competitiveOrdering`:"
 
 msgid "`noDemand`"
 msgstr ""
@@ -155,6 +155,12 @@ msgstr ""
 
 msgid "Possible types for `belowThreshold` and `aboveThresholdUA.defense`:"
 msgstr "Моживі причини скасування для `aboveThresholdUA.defense` та `aboveThresholdUA.defense`:"
+
+msgid "Possible types for `priceQuotation`:"
+msgstr "Можливі причини скасування для `priceQuotation`:"
+
+msgid "`unFixable`: Deprecated from PQ_UNFIXABLE_REASON_TYPE_TO date."
+msgstr "`unFixable`: Не використовується після дати PQ_UNFIXABLE_REASON_TYPE_TO."
 
 msgid "complaintPeriod"
 msgstr ""
