@@ -132,13 +132,11 @@ class TenderAwardResource(TenderBaseResource):
             self.state.always(self.request.validated["tender"])
             with atomic_transaction():
                 if save_tender(self.request):
-                    if self.request.validated.get("contracts_added"):
-                        save_contracts_to_contracting(self.request.validated["contracts_added"], award)
-                    elif self.request.validated.get("cancelled_contract_ids"):
-                        update_econtracts_statuses(
-                            self.request.validated["cancelled_contract_ids"],
-                            "cancelled",
-                        )
+                    if contracts_added := self.request.validated.get("contracts_added"):
+                        save_contracts_to_contracting(contracts_added, award)
+
+                    if contracts_cancelled := self.request.validated.get("contracts_cancelled"):
+                        update_econtracts_statuses(contracts_cancelled, "cancelled")
 
                     self.LOGGER.info(
                         "Updated tender award {}".format(award["id"]),

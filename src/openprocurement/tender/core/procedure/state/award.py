@@ -180,21 +180,21 @@ class AwardStateMixing:
             if period and (not period.get("endDate") or period["endDate"] > now):
                 period["endDate"] = now
         self.set_object_status(award, "cancelled")
-        self.request.validated["cancelled_contract_ids"] = self.set_award_contracts_cancelled(award)
+        self.request.validated["contracts_cancelled"] = self.set_award_contracts_cancelled(award)
 
     # helpers
     @classmethod
     def set_award_contracts_cancelled(cls, award):
         tender = get_tender()
-        cancelled_contracts_ids = []
+        contracts_cancelled = []
         for contract in tender.get("contracts", tuple()):
             if contract["awardID"] == award["id"]:
                 if contract["status"] != "active":
                     cls.set_object_status(contract, "cancelled")
-                    cancelled_contracts_ids.append(contract["id"])
+                    contracts_cancelled.append(contract)
                 else:
                     raise_operation_error(get_request(), "Can't cancel award contract in active status")
-        return cancelled_contracts_ids
+        return contracts_cancelled
 
     @classmethod
     def set_award_complaints_cancelled(cls, award):
