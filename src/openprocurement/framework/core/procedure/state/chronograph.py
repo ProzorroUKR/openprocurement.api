@@ -1,7 +1,7 @@
 from datetime import timedelta
 from logging import getLogger
 
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.utils import context_unpack
 from openprocurement.framework.core.constants import (
     AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGH_SUBMISSIONS,
@@ -41,7 +41,7 @@ class FrameworkChronographEventsMixing(BaseChronographEventsMixing):
         if framework.get("status") == "active":
             if not framework.get("successful"):
                 unsuccessful_status_check = self.get_unsuccessful_status_check_date(framework)
-                if unsuccessful_status_check and unsuccessful_status_check < get_now():
+                if unsuccessful_status_check and unsuccessful_status_check < get_request_now():
                     number_of_submissions = get_framework_number_of_submissions(get_request(), framework)
                     if number_of_submissions < self.min_submissions_number:
                         LOGGER.info(
@@ -57,7 +57,7 @@ class FrameworkChronographEventsMixing(BaseChronographEventsMixing):
                     else:
                         framework["successful"] = True
 
-            if dt_from_iso(framework.get("qualificationPeriod", {}).get("endDate")) < get_now():
+            if dt_from_iso(framework.get("qualificationPeriod", {}).get("endDate")) < get_request_now():
                 LOGGER.info(
                     f"Switched framework {framework['_id']} to complete",
                     extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_framework_complete"}),
@@ -108,7 +108,7 @@ class AgreementChronographEventsMixing(BaseChronographEventsMixing):
 
     @staticmethod
     def check_agreement_status(data):
-        now = get_now()
+        now = get_request_now()
         if dt_from_iso(data["period"]["endDate"]) < now:
             data["status"] = "terminated"
             for contract in data["contracts"]:
@@ -125,7 +125,7 @@ class AgreementChronographEventsMixing(BaseChronographEventsMixing):
 
     @staticmethod
     def check_contract_statuses(data):
-        now = get_now()
+        now = get_request_now()
         for contract in data["contracts"]:
             if contract["status"] == "suspended":
                 for milestone in contract["milestones"][::-1]:

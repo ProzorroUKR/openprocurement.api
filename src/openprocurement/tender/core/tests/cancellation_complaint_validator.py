@@ -4,7 +4,7 @@ from unittest import mock
 
 import pytest
 
-from openprocurement.api.context import get_now, set_now
+from openprocurement.api.context import get_request_now, set_request_now
 from openprocurement.tender.core.procedure.state.cancellation import (
     CancellationStateMixing,
 )
@@ -13,12 +13,12 @@ affected_complaint_statuses = ("pending", "accepted", "satisfied")
 other_complaint_statuses = ("draft", "claim", "answered", "invalid", "resolved", "declined", "cancelled")
 all_statuses = affected_complaint_statuses + other_complaint_statuses
 
-set_now()
+set_request_now()
 
 
 @contextmanager
 def mock_release_date(date=None):
-    date = date or get_now() - timedelta(1)
+    date = date or get_request_now() - timedelta(1)
     with mock.patch("openprocurement.tender.core.procedure.state.cancellation.RELEASE_2020_04_19", date) as m:
         yield m
 
@@ -37,7 +37,7 @@ def test_validation_before_release(complaint_status):
             "cancellation": {},
         }
     )
-    with mock_release_date(get_now() + timedelta(1)):
+    with mock_release_date(get_request_now() + timedelta(1)):
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
             CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,

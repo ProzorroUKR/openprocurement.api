@@ -7,7 +7,7 @@ from openprocurement.api.constants_env import (
     NEW_NEGOTIATION_CAUSES_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
 )
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.item import validate_items_uniq
 from openprocurement.api.procedure.models.value import Value
@@ -200,7 +200,7 @@ cause_choices_new = [
 
 
 def validate_cause(value):
-    is_new = get_first_revision_date(get_tender(), default=get_now()) > NEW_NEGOTIATION_CAUSES_FROM
+    is_new = get_first_revision_date(get_tender(), default=get_request_now()) > NEW_NEGOTIATION_CAUSES_FROM
     choices = cause_choices_new if is_new else cause_choices
     if value not in choices:
         raise ValidationError("Value must be one of ['{}'].".format("', '".join(choices)))
@@ -233,7 +233,7 @@ class PostNegotiationTender(PostBaseTender):
         validate_cause(value)
 
     def validate_milestones(self, data, value):
-        required = get_first_revision_date(get_tender(), default=get_now()) > MILESTONES_VALIDATION_FROM
+        required = get_first_revision_date(get_tender(), default=get_request_now()) > MILESTONES_VALIDATION_FROM
         if required and (value is None or len(value) < 1):
             raise ValidationError("Tender should contain at least one milestone")
 
@@ -287,7 +287,7 @@ class NegotiationTender(BaseTender):
         validate_cause(value)
 
     def validate_milestones(self, data, value):
-        required = get_first_revision_date(get_tender(), default=get_now()) > MILESTONES_VALIDATION_FROM
+        required = get_first_revision_date(get_tender(), default=get_request_now()) > MILESTONES_VALIDATION_FROM
         if required and (value is None or len(value) < 1):
             raise ValidationError("Tender should contain at least one milestone")
         validate_milestones_lot(data, value)
@@ -304,12 +304,12 @@ cause_choices_quick_new = cause_choices_new + [
 
 
 def validate_cause_quick(value):
-    required = get_first_revision_date(get_tender(), default=get_now()) >= QUICK_CAUSE_REQUIRED_FROM
+    required = get_first_revision_date(get_tender(), default=get_request_now()) >= QUICK_CAUSE_REQUIRED_FROM
     if required and not value:
         raise ValidationError(BaseType.MESSAGES["required"])
 
     if value:
-        is_new = get_first_revision_date(get_tender(), default=get_now()) > NEW_NEGOTIATION_CAUSES_FROM
+        is_new = get_first_revision_date(get_tender(), default=get_request_now()) > NEW_NEGOTIATION_CAUSES_FROM
         choices = cause_choices_quick_new if is_new else cause_choices_quick
         if value not in choices:
             raise ValidationError("Value must be one of ['{}'].".format("', '".join(choices)))

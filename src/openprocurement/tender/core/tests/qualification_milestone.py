@@ -193,7 +193,10 @@ class BaseTenderMilestone24HMixin:
         self.assert_upload_docs_status(bid_id, winner_token)
 
         # wait until milestone dueDate ends
-        with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
+        with patch(
+            "openprocurement.tender.core.procedure.validation.get_request_now",
+            lambda: get_now() + timedelta(hours=24),
+        ):
             # self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
 
             response = self.app.patch_json(
@@ -292,7 +295,10 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
         created_milestone = response.json["data"]
 
         # wait until milestone dueDate ends
-        with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
+        with patch(
+            "openprocurement.tender.core.procedure.validation.get_request_now",
+            lambda: get_now() + timedelta(hours=24),
+        ):
             if procurement_method_type in ("belowThreshold", "simple.defense", "requestForProposal"):
                 unsuccessful_data = {"status": "unsuccessful", "qualified": False}
             else:
@@ -361,7 +367,10 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
             activation_data = {"status": "active", "qualified": True, "eligible": True}
 
         # wait until milestone dueDate ends
-        with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
+        with patch(
+            "openprocurement.tender.core.procedure.validation.get_request_now",
+            lambda: get_now() + timedelta(hours=24),
+        ):
             response = self.app.patch_json(
                 "/tenders/{}/{}s/{}?acc_token={}".format(
                     self.tender_id, self.context_name, self.context_id, self.tender_token
@@ -700,7 +709,10 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         if procurement_method == "closeFrameworkAgreementUA":
             return
 
-        with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: due_date + timedelta(seconds=1)):
+        with patch(
+            "openprocurement.tender.core.procedure.validation.get_request_now",
+            lambda: due_date + timedelta(seconds=1),
+        ):
             self.app.post_json(
                 "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
                 {

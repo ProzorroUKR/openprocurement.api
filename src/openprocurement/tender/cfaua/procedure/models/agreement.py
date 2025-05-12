@@ -5,7 +5,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
@@ -75,7 +75,7 @@ class Agreement(Model):
                     "Agreement signature date should be after "
                     f"award complaint period end date ({complaint_period['endDate']})"
                 )
-            if value > get_now():
+            if value > get_request_now():
                 raise ValidationError("Agreement signature date can't be in the future")
 
     def validate_period(self, data, value):

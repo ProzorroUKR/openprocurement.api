@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 from schematics.exceptions import ModelValidationError
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.context import set_now, set_request
+from openprocurement.api.context import set_request, set_request_now
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,
@@ -33,7 +33,7 @@ def create_tender_instance(model, data):
     request = MagicMock()
     request.registry.mongodb.get_next_sequence_value.return_value = 1
     set_request(request)
-    set_now(get_now())
+    set_request_now(get_now())
     tender_data = PostTender(data).serialize()
     tender = model(tender_data)
     request.validated = {"tender": tender_data}

@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import FloatType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_contract, get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
@@ -81,7 +81,7 @@ class CommonContract(Model):
                         award.get("complaintPeriod", {}).get("startDate")
                     )
                 )
-        if value > get_now():
+        if value > get_request_now():
             raise ValidationError("Contract signature date can't be in the future")
 
 

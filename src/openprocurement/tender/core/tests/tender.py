@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 from bson import Timestamp
 
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_request_now
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 
@@ -170,7 +170,7 @@ class TenderResourceListingTest(BaseWebTest):
 
     def test_duplicates_limit_six(self):
         now = datetime.now(tz=timezone.utc)
-        set_now(now)
+        set_request_now(now)
         timestamp_seconds = self.create_items_with_offset_duplicates()
 
         # check there are 6 elements, the last offset is 4
@@ -183,7 +183,7 @@ class TenderResourceListingTest(BaseWebTest):
 
     def test_duplicates_limit_3(self):
         now = datetime.now(tz=timezone.utc)
-        set_now(now)
+        set_request_now(now)
         timestamp_seconds = self.create_items_with_offset_duplicates()
 
         limit = 3
@@ -215,7 +215,7 @@ class TenderResourceListingTest(BaseWebTest):
     def test_duplicates_limit_2(self):
         limit = 2
         now = datetime.now(tz=timezone.utc)
-        set_now(now)
+        set_request_now(now)
         timestamp_seconds = self.create_items_with_offset_duplicates()
 
         response = self.app.get(f"/tenders?limit={limit}")
@@ -257,7 +257,7 @@ class TenderResourceListingTest(BaseWebTest):
         descending = 1
         limit = 2
         now = datetime.now(tz=timezone.utc)
-        set_now(now)
+        set_request_now(now)
 
         self.create_items_with_offset_duplicates()
 
@@ -303,7 +303,7 @@ class TenderResourceListingTest(BaseWebTest):
 
     def test_duplicates_limit_4_items_offset_items_disappear(self):
         now = datetime.now(tz=timezone.utc)
-        set_now(now)
+        set_request_now(now)
         timestamp_seconds = self.create_items_with_offset_duplicates()
 
         limit = 4
@@ -341,7 +341,7 @@ class TenderResourceListingTest(BaseWebTest):
 
     def test_duplicates_start_with_timestamp_offset_limit_3(self):
         now = datetime.now(tz=timezone.utc)
-        set_now(now)
+        set_request_now(now)
 
         timestamp_seconds = self.create_items_with_offset_duplicates()
 
@@ -376,7 +376,7 @@ class TenderResourceListingTest(BaseWebTest):
 
     def test_without_duplicates_forward(self):
         now = datetime.now(tz=timezone.utc)
-        set_now(now)
+        set_request_now(now)
 
         self.create_items_without_duplicates()
 
@@ -419,7 +419,7 @@ class TenderResourceListingTest(BaseWebTest):
 
     def test_without_duplicates_backward(self):
         now = datetime.now(tz=timezone.utc)
-        set_now(now)
+        set_request_now(now)
 
         self.create_items_without_duplicates()
 

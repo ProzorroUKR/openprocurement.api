@@ -1,5 +1,5 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.framework.dps.constants import DPS_TYPE
@@ -40,7 +40,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         super().status_up(before, after, data)
 
         if before == "draft" and after == "active.tendering":
-            data["tenderPeriod"]["startDate"] = get_now().isoformat()
+            data["tenderPeriod"]["startDate"] = get_request_now().isoformat()
 
         if after in self.unsuccessful_statuses:
             self.set_contracts_cancelled(after)

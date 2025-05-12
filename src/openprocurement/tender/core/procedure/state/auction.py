@@ -13,7 +13,7 @@ from openprocurement.api.constants import (
     TZ,
     WORKING_DAYS,
 )
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.utils import calculate_date, context_unpack
 from openprocurement.tender.core.procedure.utils import (
     calc_auction_replan_time,
@@ -214,7 +214,7 @@ class ShouldStartAfterMixing:
         # endDate is not set when it is seems it should be (+ buffer time)
         # chronograph will be scheduled at this time
         replan_time = calc_auction_replan_time(number_of_bids, dt_from_iso(start_date))
-        if end_date is None and replan_time < get_now():
+        if end_date is None and replan_time < get_request_now():
             period["startDate"] = self.get_auction_start_date(should_start_after, quick)
             LOGGER.warning(
                 "Replanned auction at %s because it was not finished in time",
@@ -232,7 +232,7 @@ class ShouldStartAfterMixing:
         # get auction start DATE
         start_dt = max(
             dt_from_iso(should_start_after),
-            get_now(),
+            get_request_now(),
         )
         if quick:
             return (start_dt + timedelta(seconds=60)).isoformat()

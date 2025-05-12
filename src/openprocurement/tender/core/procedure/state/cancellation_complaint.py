@@ -1,7 +1,7 @@
 from datetime import timedelta
 from logging import getLogger
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import raise_operation_error
@@ -96,7 +96,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
 
         complaint_period = cancellation.get("complaintPeriod")
         is_complaint_period = (
-            dt_from_iso(complaint_period["startDate"]) <= get_now() <= dt_from_iso(complaint_period["endDate"])
+            dt_from_iso(complaint_period["startDate"]) <= get_request_now() <= dt_from_iso(complaint_period["endDate"])
             if complaint_period
             else False
         )
@@ -137,7 +137,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                 elif new_status == "pending":
 
                     def handler(complaint):
-                        complaint["dateSubmitted"] = get_now().isoformat()
+                        complaint["dateSubmitted"] = get_request_now().isoformat()
 
                     return BotPatchComplaint, handler
             else:
@@ -149,7 +149,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
             if status in ["pending", "accepted"] and new_status == "stopping":
 
                 def handler(complaint):
-                    complaint["dateCanceled"] = get_now().isoformat()
+                    complaint["dateCanceled"] = get_request_now().isoformat()
 
                 return CancellationPatchComplaint, handler
             elif status == "draft" and new_status == status:
@@ -164,7 +164,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
             elif status == "draft" and new_status == "pending" and not new_rules:
 
                 def handler(complaint):
-                    complaint["dateSubmitted"] = get_now().isoformat()
+                    complaint["dateSubmitted"] = get_request_now().isoformat()
 
                 return DraftPatchCancellationComplaint, handler
 
@@ -184,7 +184,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
 
                 def handler(complaint):
                     complaint["status"] = "resolved"
-                    complaint["tendererActionDate"] = get_now().isoformat()
+                    complaint["tendererActionDate"] = get_request_now().isoformat()
                     self.recalculate_tender_periods(complaint)
 
                 return TendererResolvePatchComplaint, handler
@@ -206,14 +206,14 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
             elif status in ["pending", "stopping"] and new_status == "invalid":
 
                 def handler(complaint):
-                    complaint["dateDecision"] = get_now().isoformat()
+                    complaint["dateDecision"] = get_request_now().isoformat()
                     complaint["acceptance"] = False
 
                 return ReviewPatchComplaint, handler
             elif status == "pending" and new_status == "accepted":
 
                 def handler(complaint):
-                    complaint["dateAccepted"] = get_now().isoformat()
+                    complaint["dateAccepted"] = get_request_now().isoformat()
                     complaint["acceptance"] = True
 
                 return ReviewPatchComplaint, handler
@@ -223,7 +223,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
             ]:
 
                 def handler(complaint):
-                    complaint["dateDecision"] = get_now().isoformat()
+                    complaint["dateDecision"] = get_request_now().isoformat()
                     if new_status == "satisfied":
                         self.on_satisfy_complaint_by_reviewer()
 
@@ -231,8 +231,8 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
             elif status == "accepted" and new_status == "stopped":
 
                 def handler(complaint):
-                    complaint["dateDecision"] = get_now().isoformat()
-                    complaint["dateCanceled"] = complaint.get("dateCanceled") or get_now().isoformat()
+                    complaint["dateDecision"] = get_request_now().isoformat()
+                    complaint["dateCanceled"] = complaint.get("dateCanceled") or get_request_now().isoformat()
 
                 return ReviewPatchComplaint, handler
             else:

@@ -778,7 +778,8 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(cancellation["status"], "pending")
 
     with patch(
-        "openprocurement.tender.core.procedure.validation.get_now", return_value=get_now() + timedelta(days=20)
+        "openprocurement.tender.core.procedure.validation.get_request_now",
+        return_value=get_now() + timedelta(days=20),
     ) as mock_date:
         response = self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),

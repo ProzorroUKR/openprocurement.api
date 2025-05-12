@@ -1,6 +1,6 @@
 from typing import Callable
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.validation import validate_accreditation_level
 from openprocurement.api.utils import raise_operation_error
@@ -22,7 +22,7 @@ class TenderQuestionStateMixin:
 
     def question_on_patch(self, before, question):
         self.validate_question_on_patch(before, question)
-        question["dateAnswered"] = get_now().isoformat()
+        question["dateAnswered"] = get_request_now().isoformat()
 
         self.always(get_tender())
 
@@ -62,7 +62,7 @@ class TenderQuestionStateMixin:
             )
 
     def validate_question_add(self, tender):
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         enquiry_period = tender["enquiryPeriod"]
 
         if not enquiry_period["startDate"] <= now <= enquiry_period["endDate"]:
@@ -72,7 +72,7 @@ class TenderQuestionStateMixin:
             )
 
     def validate_question_update(self, tender):
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         enquiry_period = tender["enquiryPeriod"]
 
         if tender["status"] not in ("active.enquiries", "active.tendering"):

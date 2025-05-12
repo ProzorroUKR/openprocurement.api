@@ -3,7 +3,7 @@ from typing import Callable
 from pyramid.request import Request
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
@@ -34,7 +34,7 @@ class LimitedContractStateMixing:
             self.set_object_status(tender, "complete")
 
     def check_contracts_lot_statuses(self, tender: dict) -> None:
-        now = get_now()
+        now = get_request_now()
         for lot in tender["lots"]:
             if lot["status"] != "active":
                 continue
@@ -76,14 +76,14 @@ class LimitedContractStateMixing:
 
     def validate_contract_with_cancellations_and_contract_signing(self, before: dict, after: dict) -> None:
         tender = get_tender()
-        new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
+        new_rules = get_first_revision_date(tender, default=get_request_now()) > RELEASE_2020_04_19
 
         if before.get("status") != "active" and after.get("status") == "active":
             award_id = self.request.validated["contract"].get("awardID")
             award = [a for a in tender.get("awards") if a["id"] == award_id][0]
             lot_id = award.get("lotID")
             stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("endDate"))
-            if stand_still_end > get_now():
+            if stand_still_end > get_request_now():
                 raise_operation_error(
                     self.request,
                     f"Can't sign contract before stand-still period end ({stand_still_end.isoformat()})",

@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_request_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
@@ -159,7 +159,7 @@ class BaseEContractTest(BaseContractTest):
 
         agreement = deepcopy(self.initial_agreement_data)
         agreement["dateModified"] = get_now().isoformat()
-        set_now()
+        set_request_now()
         self.mongodb.agreements.save(agreement, insert=True)
 
     def generate_contracts(self):

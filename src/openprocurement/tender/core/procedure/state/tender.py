@@ -1,7 +1,7 @@
 from logging import getLogger
 
 from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
@@ -48,7 +48,7 @@ class TenderState(
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
-        data["date"] = get_now().isoformat()
+        data["date"] = get_request_now().isoformat()
 
         # TODO: redesign auction planning
         if after in self.unsuccessful_statuses:

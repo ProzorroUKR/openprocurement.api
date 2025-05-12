@@ -1,7 +1,7 @@
 import os
 from copy import deepcopy
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
@@ -122,7 +122,7 @@ class BaseESCOWebTest(BaseTenderWebTest):
 
     def set_status(self, status, extra=None, startend="start"):
         extra = extra or {}
-        extra["noticePublicationDate"] = get_now().isoformat()
+        extra["noticePublicationDate"] = get_request_now().isoformat()
         return super().set_status(status, extra, startend)
 
 

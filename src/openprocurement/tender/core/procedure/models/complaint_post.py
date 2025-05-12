@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.context import get_complaint
@@ -18,7 +18,7 @@ class CreateComplaintPost(Model):
 
     @serializable
     def datePublished(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
     @serializable
     def author(self):

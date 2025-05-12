@@ -1,4 +1,4 @@
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.types import IsoDateTimeType
 
@@ -8,8 +8,8 @@ class QualificationPeriod(Period):
 
 
 class PostPeriodStartEndRequired(Period):
-    startDate = IsoDateTimeType(required=True, default=get_now)  # The state date for the period.
-    endDate = IsoDateTimeType(required=True, default=get_now)  # The end date for the period.
+    startDate = IsoDateTimeType(required=True, default=get_request_now)  # The state date for the period.
+    endDate = IsoDateTimeType(required=True, default=get_request_now)  # The end date for the period.
 
 
 class PeriodStartEndRequired(Period):
@@ -18,7 +18,7 @@ class PeriodStartEndRequired(Period):
 
 
 class StartedPeriodEndRequired(PeriodEndRequired):
-    startDate = IsoDateTimeType(default=lambda: get_now().isoformat())
+    startDate = IsoDateTimeType(default=lambda: get_request_now().isoformat())
 
 
 class EnquiryPeriod(Period):
@@ -31,7 +31,7 @@ class EnquiryPeriodEndRequired(EnquiryPeriod):
 
 
 class StartedEnquiryPeriodEndRequired(EnquiryPeriodEndRequired):
-    startDate = IsoDateTimeType(default=lambda: get_now().isoformat())
+    startDate = IsoDateTimeType(default=lambda: get_request_now().isoformat())
 
 
 class LotAuctionPeriod(Period):

@@ -14,7 +14,8 @@ from openprocurement.api.constants import (
     CPV_PHARM_PREFIX,
     CPV_PHARM_PREFIX_LENGTH,
 )
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
+from openprocurement.api.utils import context_unpack, handle_store_exceptions
 
 LOGGER = getLogger(__name__)
 
@@ -79,12 +80,39 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
             changes.append(x)
 
 
+def save_object(
+    request,
+    obj_name,
+    modified: bool = True,
+    insert: bool = False,
+    raise_error_handler=False,
+) -> bool:
+    obj = request.validated[obj_name]
+    old_date_modified = obj.get("dateModified", get_request_now().isoformat())
+    with handle_store_exceptions(request, raise_error_handler=raise_error_handler):
+        collection = getattr(request.registry.mongodb, f"{obj_name}s")
+        collection.save(obj, insert=insert, modified=modified)
+        LOGGER.info(
+            f"Saved {obj_name} {obj['_id']}: dateModified {old_date_modified} -> {obj['dateModified']}",
+            extra=context_unpack(
+                request,
+                {"MESSAGE_ID": f"save_{obj_name}"},
+                {
+                    f"{obj_name}_REV": obj["_rev"],
+                    "RESULT": obj["_rev"],  # keep for backward compatibility for now
+                },
+            ),
+        )
+
+        return True
+
+
 def generate_revision(obj, patch, author, date=None):
     return {
         "author": author,
         "changes": patch,
         "rev": obj.get("_rev"),
-        "date": (date or get_now()).isoformat(),
+        "date": (date or get_request_now()).isoformat(),
     }
 
 
@@ -115,7 +143,7 @@ def set_ownership(item, request, with_transfer=True):
 
 
 def is_const_active(constant):
-    return get_now() > constant
+    return get_request_now() > constant
 
 
 def get_first_revision_date(document, default=None):
@@ -124,7 +152,7 @@ def get_first_revision_date(document, default=None):
 
 
 def is_obj_const_active(obj, constant):
-    return get_first_revision_date(obj, default=get_now()) > constant
+    return get_first_revision_date(obj, default=get_request_now()) > constant
 
 
 def is_item_owner(request, item, token_field_name="owner_token"):

@@ -1,4 +1,4 @@
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.tender.cfaua.procedure.models.award import Award
 from openprocurement.tender.core.procedure.context import get_request
 
@@ -14,7 +14,7 @@ class CFAUATenderStateAwardingMixing:
         if not tender.get("awardPeriod"):
             tender["awardPeriod"] = {}
         if not tender["awardPeriod"].get("startDate"):
-            tender["awardPeriod"]["startDate"] = get_now().isoformat()
+            tender["awardPeriod"]["startDate"] = get_request_now().isoformat()
 
         statuses = set()
         for lot in tender.get("lots", ""):

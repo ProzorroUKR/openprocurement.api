@@ -2,7 +2,7 @@ from datetime import timedelta
 from logging import getLogger
 from typing import Callable, Optional
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
@@ -46,7 +46,7 @@ class ChronographEventsMixing:
             del data["next_check"]
 
     def run_time_events(self, data):
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         for date, handler in self.get_events(data):
             # print([date <= now, date, now, handler])
             if date <= now:
@@ -216,7 +216,7 @@ class ChronographEventsMixing:
         auction_period = tender.get("auctionPeriod")
         if auction_period and auction_period.get("startDate") and not auction_period.get("endDate"):
             start_date = auction_period.get("startDate")
-            now = get_now().isoformat()
+            now = get_request_now().isoformat()
             if now < start_date:
                 yield start_date, self.auction_handler
             else:
@@ -245,7 +245,7 @@ class ChronographEventsMixing:
     # lots
     def lots_auction_events(self, tender):
         lots = tender["lots"]
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         for lot in lots:
             if lot["status"] == "active":
                 auction_period = lot.get("auctionPeriod", {})
@@ -335,7 +335,7 @@ class ChronographEventsMixing:
             handler(tender)
 
             if qualification_duration > 0:
-                start_date = get_now()
+                start_date = get_request_now()
                 end_date = calculate_tender_full_date(
                     start_date,
                     timedelta(days=qualification_duration),
@@ -381,7 +381,7 @@ class ChronographEventsMixing:
                                     "bidID": bid["id"],
                                     "status": "pending",
                                     "lotID": lotValue["relatedLot"],
-                                    "date": get_now().isoformat(),
+                                    "date": get_request_now().isoformat(),
                                 }
                             ).serialize()
                             tender["qualifications"].append(qualification)
@@ -393,7 +393,7 @@ class ChronographEventsMixing:
                         {
                             "bidID": bid["id"],
                             "status": "pending",
-                            "date": get_now().isoformat(),
+                            "date": get_request_now().isoformat(),
                         }
                     ).serialize()
                     tender["qualifications"].append(qualification)
@@ -431,7 +431,7 @@ class ChronographEventsMixing:
                 handler = self.get_change_tender_status_handler("complete")
                 handler(tender)
         else:
-            now = get_now().isoformat()
+            now = get_request_now().isoformat()
             pending_complaints = any(i["status"] in self.block_complaint_status for i in tender.get("complaints", ""))
             pending_awards_complaints = any(
                 i["status"] in self.block_complaint_status
@@ -741,7 +741,7 @@ class ChronographEventsMixing:
             return
 
         awarding_order_enabled = tender["config"]["hasAwardingOrder"]
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         for lot in tender["lots"]:
             if lot["status"] != "active":
                 continue

@@ -1,4 +1,4 @@
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import validate_json_data
@@ -69,7 +69,7 @@ class ChangeState(BaseState):
     def pre_patch(self, before, after):
         if "status" in after and after["status"] != before["status"]:  # status change
             self.validate_update_agreement_change_status(after)
-            after["date"] = get_now().isoformat()
+            after["date"] = get_request_now().isoformat()
 
     def on_patch(self, before, after):
         self.validate_change_date_signed(after)

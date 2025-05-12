@@ -8,6 +8,7 @@ from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
+from openprocurement.tender.core.procedure.utils import set_mode_test_titles
 from openprocurement.tender.core.procedure.validation import validate_items_unit_amount
 
 LOGGER = getLogger(__name__)
@@ -17,6 +18,7 @@ class BaseContractState(BaseState, ContractStateMixing):
     terminated_statuses = ("terminated",)
 
     def always(self, data) -> None:
+        self.set_mode_test(data)
         super().always(data)
 
     def on_patch(self, before, after) -> None:
@@ -24,6 +26,10 @@ class BaseContractState(BaseState, ContractStateMixing):
         if after.get("value"):
             self.synchronize_items_unit_value(after)
         super().on_patch(before, after)
+
+    def set_mode_test(self, contract):
+        if contract.get("mode") == "test":
+            set_mode_test_titles(contract)
 
     def validate_contract_patch(self, request, before: dict, after: dict):
         self.validate_patch_contract_items(request, before, after)

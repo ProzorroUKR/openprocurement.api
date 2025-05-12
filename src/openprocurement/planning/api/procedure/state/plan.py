@@ -15,7 +15,7 @@ from openprocurement.api.constants_env import (
     RELEASE_SIMPLE_DEFENSE_FROM,
     UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM,
 )
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import is_obj_const_active
@@ -44,7 +44,7 @@ class PlanState(BaseState):
         self.validate_on_post(data)
         self._switch_status({}, data)
         self._update_rationale_date(data)
-        data["datePublished"] = get_now().isoformat()
+        data["datePublished"] = get_request_now().isoformat()
         super().on_post(data)
 
     def on_patch(self, before, after):
@@ -58,9 +58,9 @@ class PlanState(BaseState):
         before = before or {}
         if "rationale" in after:
             if after["rationale"].get("description") != before.get("rationale", {}).get("description"):
-                after["rationale"]["date"] = get_now().isoformat()
+                after["rationale"]["date"] = get_request_now().isoformat()
             else:
-                after["rationale"]["date"] = before.get("rationale", {}).get("date", get_now().isoformat())
+                after["rationale"]["date"] = before.get("rationale", {}).get("date", get_request_now().isoformat())
 
     def plan_tender_on_post(self, plan, tender):
         self.plan_tender_validate_on_post(plan, tender)
@@ -107,7 +107,7 @@ class PlanState(BaseState):
         identifier = after["procuringEntity"]["identifier"]
         if src_identifier["scheme"] != identifier["scheme"] or src_identifier["id"] != identifier["id"]:
             if any(m["status"] in Milestone.ACTIVE_STATUSES for m in before.get("milestones", "")):
-                standstill_end = calc_working_datetime(get_now(), PROCURING_ENTITY_STANDSTILL)
+                standstill_end = calc_working_datetime(get_request_now(), PROCURING_ENTITY_STANDSTILL)
                 if standstill_end.isoformat() > after["tender"]["tenderPeriod"]["startDate"]:
                     raise_operation_error(
                         self.request,
@@ -118,7 +118,7 @@ class PlanState(BaseState):
                 for m in after["milestones"]:
                     if m["status"] in Milestone.ACTIVE_STATUSES:
                         m["status"] = Milestone.STATUS_INVALID
-                        m["dateModified"] = get_now().isoformat()
+                        m["dateModified"] = get_request_now().isoformat()
 
     def _switch_status(self, before, after):
         if after.get("cancellation") and after["cancellation"]["status"] == "active":
@@ -128,7 +128,7 @@ class PlanState(BaseState):
 
     def _validate_plan_availability(self, data):
         procurement_method_type = data.get("tender", {}).get("procurementMethodType", "")
-        now = get_now()
+        now = get_request_now()
         if (now >= RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "aboveThresholdUA.defense") or (
             now < RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "simple.defense"
         ):
@@ -141,7 +141,7 @@ class PlanState(BaseState):
 
     def _validate_tender_procurement_method_type(self, data):
         procedures = deepcopy(PROCEDURES)
-        if get_now() >= PLAN_ADDRESS_KIND_REQUIRED_FROM:
+        if get_request_now() >= PLAN_ADDRESS_KIND_REQUIRED_FROM:
             procedures[""] = ("centralizedProcurement",)
         procurement_method_types = list(chain(*procedures.values()))
         procurement_method_types_without_above_threshold_ua_defense = list(
@@ -160,7 +160,7 @@ class PlanState(BaseState):
         kind = data.get("procuringEntity", {}).get("kind", "")
         tender_procurement_method_type = data.get("tender", {}).get("procurementMethodType", "")
         allowed_procurement_method_types = kind_allows_procurement_method_type_mapping.get(kind)
-        if allowed_procurement_method_types and get_now() >= PLAN_ADDRESS_KIND_REQUIRED_FROM:
+        if allowed_procurement_method_types and get_request_now() >= PLAN_ADDRESS_KIND_REQUIRED_FROM:
             if tender_procurement_method_type not in allowed_procurement_method_types:
                 request = get_request()
                 request.errors.add(
@@ -198,7 +198,7 @@ class PlanState(BaseState):
     def _validate_plan_procurement_method_type_update(self, before, after):
         new_pmt = after.get("tender", {}).get("procurementMethodType", "")
         current_pmt = before["tender"]["procurementMethodType"]
-        now = get_now()
+        now = get_request_now()
 
         if current_pmt != new_pmt and (
             now < RELEASE_SIMPLE_DEFENSE_FROM

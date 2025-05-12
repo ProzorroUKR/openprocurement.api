@@ -1,6 +1,6 @@
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.contract import (
     Contract as BaseContract,
@@ -21,7 +21,7 @@ class ReportingContract(BaseContract):
     )
 
     def validate_dateSigned(self, data, value):
-        if value and value > get_now():
+        if value and value > get_request_now():
             raise ValidationError("Contract signature date can't be in the future")
 
 

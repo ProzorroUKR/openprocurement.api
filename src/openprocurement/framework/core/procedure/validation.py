@@ -1,5 +1,5 @@
 from openprocurement.api.constants_env import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import (
     get_agreement_by_id,
@@ -117,7 +117,7 @@ def validate_operation_submission_in_not_allowed_period(request, **kwargs):
         )
     period_startDate = dt_from_iso(period["startDate"])
     period_endDate = dt_from_iso(period["endDate"])
-    now = get_now()
+    now = get_request_now()
 
     if now < period_startDate or now > period_endDate:
         raise_operation_error(

@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import Value
@@ -31,7 +31,7 @@ class PostAward(BaseAward):
 
     @serializable
     def date(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
     status = StringType(required=True, choices=["pending"], default="pending")
     value = ModelType(Value)

@@ -6,7 +6,7 @@ from uuid import uuid4
 from freezegun import freeze_time
 
 from openprocurement.api.constants import ROUTE_PREFIX
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_request_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.constants import (
@@ -20,7 +20,7 @@ from openprocurement.framework.dps.procedure.models.framework import Framework
 
 
 def simple_add_framework(self):
-    set_now()
+    set_request_now()
 
     u = deepcopy(self.initial_data)
     u["prettyID"] = "UA-F"

@@ -5,7 +5,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import (
     DecimalType,
@@ -25,7 +25,7 @@ from openprocurement.framework.cfaua.procedure.validation import (
 class Change(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     status = StringType(choices=["pending", "active", "cancelled"], default="pending")
-    date = IsoDateTimeType(default=get_now)
+    date = IsoDateTimeType(default=get_request_now)
     rationale = StringType(required=True, min_length=1)
     rationale_en = StringType()
     rationale_ru = StringType()
@@ -33,7 +33,7 @@ class Change(Model):
     agreementNumber = StringType()
 
     def validate_dateSigned(self, data, value):
-        if value and value > get_now():
+        if value and value > get_request_now():
             raise ValidationError("Agreement signature date can't be in the future")
 
 
@@ -46,7 +46,7 @@ class PatchChange(Model):
     agreementNumber = StringType()
 
     def validate_dateSigned(self, data, value):
-        if value and value > get_now():
+        if value and value > get_request_now():
             raise ValidationError("Agreement signature date can't be in the future")
 
 
@@ -61,10 +61,10 @@ class PostChange(Model):
     rationale_ru = StringType()
     dateSigned = IsoDateTimeType()
     agreementNumber = StringType()
-    date = IsoDateTimeType(default=get_now)
+    date = IsoDateTimeType(default=get_request_now)
 
     def validate_dateSigned(self, data, value):
-        if value and value > get_now():
+        if value and value > get_request_now():
             raise ValidationError("Agreement signature date can't be in the future")
 
 

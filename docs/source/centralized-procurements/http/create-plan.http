@@ -259,8 +259,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d93
     "planID": "UA-P-2023-10-10-000001-a",
     "owner": "broker",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "1be4169566db4d9d931b6056c5814240"
   },
   "access": {

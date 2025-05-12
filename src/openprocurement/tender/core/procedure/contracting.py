@@ -5,7 +5,7 @@ from typing import Dict, List
 from uuid import uuid4
 
 from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FROM
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_contract_by_id, request_init_contract
 from openprocurement.contracting.core.procedure.utils import save_contract
@@ -110,7 +110,7 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         "id": uuid4().hex,
         "status": "pending",
         "awardID": award["id"],
-        "date": get_now().isoformat(),
+        "date": get_request_now().isoformat(),
         "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
     }
     if contract_value:
@@ -184,7 +184,7 @@ def set_attributes_to_contract_items(tender, bid, contract):
                     "name": req["title"],
                 }
 
-                if get_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
+                if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
                     if "value" in req_responses[req["id"]]:
                         item_attr["value"] = req_responses[req["id"]]["value"]
 
@@ -267,5 +267,5 @@ def update_econtracts_statuses(contracts_ids, status):
         if econtract:
             request_init_contract(request, econtract, contract_src={})
             econtract["status"] = status
-            econtract["date"] = get_now().isoformat()
+            econtract["date"] = get_request_now().isoformat()
             save_contract(request)

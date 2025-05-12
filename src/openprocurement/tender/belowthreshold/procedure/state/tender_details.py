@@ -1,5 +1,5 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.tender.belowthreshold.constants import TENDERING_EXTRA_PERIOD
 from openprocurement.tender.belowthreshold.procedure.models.tender import (
     PatchDraftTender,
@@ -44,7 +44,7 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
     @staticmethod
     def set_enquiry_period_invalidation_date(tender):
         if tender_for_funder(tender):
-            tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+            tender["enquiryPeriod"]["invalidationDate"] = get_request_now().isoformat()
 
     def invalidate_bids_data(self, tender):
         if tender_for_funder(tender):

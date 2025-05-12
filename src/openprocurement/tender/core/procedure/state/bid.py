@@ -9,7 +9,7 @@ from openprocurement.api.constants_env import (
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
@@ -52,7 +52,7 @@ class BidState(BaseState):
         super().status_up(before, after, data)
 
     def on_post(self, data):
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         data["date"] = now
         self.validate_items_required_field(data)
         self.validate_bid_unit_value(data)
@@ -184,7 +184,7 @@ class BidState(BaseState):
                 document_of="tender",
                 after_date=bid.get("submissionDate"),
             )
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         bid["submissionDate"] = bid["date"] = now
         for lot_value in bid.get("lotValues", []):
             lot_value["date"] = now
@@ -207,19 +207,19 @@ class BidState(BaseState):
             after["status"] = "invalid"
 
     def validate_req_responses(self, data):
-        if get_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
+        if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
             for resp in data.get("requirementResponses", []):
                 validate_req_response_values(resp)
 
     def update_date_for_new_lot_values(self, after, before):
-        now = get_now().isoformat()
+        now = get_request_now().isoformat()
         for after_lot in after.get("lotValues") or []:
             for before_lot in before.get("lotValues") or []:
                 if before_lot["relatedLot"] == after_lot["relatedLot"]:
                     after_lot["date"] = before_lot.get("date", now)
                     break
             else:  # lotValue has been just added
-                after_lot["date"] = get_now().isoformat()
+                after_lot["date"] = get_request_now().isoformat()
 
     def validate_status_change(self, before, after):
         if self.request.authenticated_role == "Administrator":

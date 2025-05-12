@@ -28,7 +28,7 @@ from tests.base.data import (
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-from openprocurement.api.context import get_now, set_now
+from openprocurement.api.context import get_request_now, set_request_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
@@ -2191,10 +2191,12 @@ class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest, F
         )
 
     def test_docs_has_pre_selection_agreement(self):
-        set_now()
+        set_request_now()
 
         framework_data = deepcopy(test_framework_dps_data)
-        framework_data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
+        framework_data["qualificationPeriod"] = {
+            "endDate": (get_request_now() + datetime.timedelta(days=120)).isoformat()
+        }
         self.create_framework(data=test_framework_dps_data, config=test_framework_dps_config)
         self.activate_framework()
 
@@ -2680,7 +2682,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
         )
 
     def test_docs_restricted(self):
-        set_now()
+        set_request_now()
         request_path = '/tenders?opt_pretty=1'
 
         # Create agreement
@@ -2688,7 +2690,9 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
         self.tick(datetime.timedelta(days=-15))
 
         framework_data = deepcopy(test_framework_dps_data)
-        framework_data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
+        framework_data["qualificationPeriod"] = {
+            "endDate": (get_request_now() + datetime.timedelta(days=120)).isoformat()
+        }
 
         self.create_framework(data=framework_data, config=test_framework_dps_config)
         self.activate_framework()
@@ -2737,8 +2741,8 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
         for item in data['items']:
             item['relatedLot'] = lot['id']
             item['deliveryDate'] = {
-                "startDate": (get_now() + datetime.timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + datetime.timedelta(days=5)).isoformat(),
+                "startDate": (get_request_now() + datetime.timedelta(days=2)).isoformat(),
+                "endDate": (get_request_now() + datetime.timedelta(days=5)).isoformat(),
             }
             item['classification']['id'] = test_framework_dps_data['classification']['id']
         for milestone in data["milestones"]:

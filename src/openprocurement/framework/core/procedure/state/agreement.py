@@ -1,7 +1,7 @@
 from hashlib import sha512
 from logging import getLogger
 
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import (
@@ -52,7 +52,7 @@ class AgreementState(BaseState, AgreementChronographEventsMixing):
         framework = get_framework()
 
         if "agreement" not in request.validated:
-            now = get_now().isoformat()
+            now = get_request_now().isoformat()
             transfer = generate_id()
             transfer_token = sha512(transfer.encode("utf-8")).hexdigest()
             agreement = {
@@ -111,7 +111,7 @@ class AgreementState(BaseState, AgreementChronographEventsMixing):
             "status": "scheduled",
             "type": "activation",
             "dueDate": framework.get("qualificationPeriod").get("endDate"),
-            "dateModified": get_now().isoformat(),
+            "dateModified": get_request_now().isoformat(),
         }
         contract = {
             "id": contract_id,
@@ -120,7 +120,7 @@ class AgreementState(BaseState, AgreementChronographEventsMixing):
             "status": "active",
             "suppliers": submission["tenderers"],
             "milestones": [first_milestone],
-            "date": get_now().isoformat(),
+            "date": get_request_now().isoformat(),
         }
 
         if "contracts" not in agreement:

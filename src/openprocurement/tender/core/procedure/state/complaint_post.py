@@ -2,7 +2,7 @@ from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.constants import POST_SUBMIT_TIME
@@ -43,7 +43,7 @@ class ComplaintPostValidationsMixin:
                 working_days=True,
                 calendar=WORKING_DAYS,
             )
-            if get_now() > post_end_date:
+            if get_request_now() > post_end_date:
                 raise_operation_error(
                     self.request,
                     f"Can submit or edit post not later than {self.post_submit_time.days} "

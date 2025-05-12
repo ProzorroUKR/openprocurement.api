@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
@@ -152,12 +152,12 @@ class CancellationStateMixing:
             if related_lot is None or related_lot == award.get("lotID"):
                 complaint_period = award.get("complaintPeriod", {})
                 complaint_end = complaint_period.get("endDate")
-                if complaint_end and complaint_period.get("startDate") < get_now().isoformat() < complaint_end:
+                if complaint_end and complaint_period.get("startDate") < get_request_now().isoformat() < complaint_end:
                     raise_operation_error(request, msg)
 
     @staticmethod
     def validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation):
-        tender_creation_date = get_first_revision_date(tender, default=get_now())
+        tender_creation_date = get_first_revision_date(tender, default=get_request_now())
         if tender_creation_date < RELEASE_2020_04_19:
             return
 
@@ -223,7 +223,7 @@ class CancellationStateMixing:
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
             cancellation_complain_duration = tender["config"]["cancellationComplainDuration"]
             if tender["config"]["hasCancellationComplaints"] is True and cancellation_complain_duration > 0:
-                now = get_now()
+                now = get_request_now()
                 cancellation["complaintPeriod"] = {
                     "startDate": now.isoformat(),
                     "endDate": calculate_tender_full_date(

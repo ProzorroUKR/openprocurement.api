@@ -5,7 +5,7 @@ from typing import Any, Callable
 from bson import Timestamp
 
 from openprocurement.api.constants_env import CRITICAL_HEADERS_LOG_ENABLED
-from openprocurement.api.context import set_now, set_request
+from openprocurement.api.context import set_request, set_request_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import context_unpack, json_view, raise_operation_error
@@ -19,7 +19,7 @@ class BaseResource:
         self.LOGGER = getLogger(type(self).__module__)
 
         set_request(request)
-        set_now()
+        set_request_now()
 
         if CRITICAL_HEADERS_LOG_ENABLED:  # for additional investigation if needed
             self.LOGGER.info("Log request", extra=context_unpack(self.request, {}))

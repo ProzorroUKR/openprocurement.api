@@ -1,7 +1,7 @@
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.constants_env import PQ_CRITERIA_ID_FROM
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
@@ -47,7 +47,7 @@ def validate_criteria_id_uniq(objs, *args):
     if not objs:
         return
     tender = get_tender()
-    if get_first_revision_date(tender, default=get_now()) > PQ_CRITERIA_ID_FROM:
+    if get_first_revision_date(tender, default=get_request_now()) > PQ_CRITERIA_ID_FROM:
         ids = [i.id for i in objs]
         if len(set(ids)) != len(ids):
             raise ValidationError("Criteria id should be uniq")

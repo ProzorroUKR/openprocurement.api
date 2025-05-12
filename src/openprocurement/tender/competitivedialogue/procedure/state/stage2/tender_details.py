@@ -1,5 +1,5 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5, ACCR_COMPETITIVE
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
     BotPatchTender,
     PatchEUTender,
@@ -40,9 +40,9 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
 
     def on_post(self, tender):
         tender["tenderPeriod"] = {
-            "startDate": get_now().isoformat(),
+            "startDate": get_request_now().isoformat(),
             "endDate": calculate_tender_full_date(
-                get_now(),
+                get_request_now(),
                 self.tendering_duration,
                 tender=tender,
             ).isoformat(),

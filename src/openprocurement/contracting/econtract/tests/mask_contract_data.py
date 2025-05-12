@@ -2,7 +2,7 @@ import json
 from copy import deepcopy
 from unittest.mock import MagicMock, patch
 
-from openprocurement.api.context import set_now
+from openprocurement.api.context import set_request_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.tests.base import (  # pylint: disable=unused-import
@@ -31,7 +31,7 @@ def test_mask_function():
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_contract_by_is_masked(app):
-    set_now()
+    set_request_now()
 
     with open("src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:
         initial_data = json.load(f)
@@ -102,7 +102,7 @@ def test_mask_contract_by_is_masked(app):
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_contract_skipped(app):
-    set_now()
+    set_request_now()
     with open("src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:
         initial_data = json.load(f)
     app.app.registry.mongodb.contracts.store.save_data(
@@ -120,7 +120,7 @@ def test_mask_contract_skipped(app):
 
 
 def test_mask_contract_by_config_restricted(app):
-    set_now()
+    set_request_now()
 
     # Load initial db data
     with open("src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:

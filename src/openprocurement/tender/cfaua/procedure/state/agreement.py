@@ -1,4 +1,4 @@
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
@@ -61,7 +61,7 @@ class AgreementStateMixing:
                 )
 
             if not agreement.get("dateSigned"):
-                agreement["dateSigned"] = get_now().isoformat()
+                agreement["dateSigned"] = get_request_now().isoformat()
 
             # success
             clarifications_until = tender["contractPeriod"]["clarificationsUntil"]
@@ -123,4 +123,4 @@ class AgreementState(AgreementStateMixing, CFAUATenderState):
 
         elif not statuses.difference({"active", "unsuccessful", "cancelled"}):
             self.get_change_tender_status_handler("complete")(tender)
-            tender["contractPeriod"]["endDate"] = get_now().isoformat()
+            tender["contractPeriod"]["endDate"] = get_request_now().isoformat()
