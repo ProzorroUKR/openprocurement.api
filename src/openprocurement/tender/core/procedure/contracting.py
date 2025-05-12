@@ -259,11 +259,11 @@ def save_contracts_to_contracting(contracts, award=None):
         save_contract(request, insert=True)
 
 
-def update_econtracts_statuses(contracts_ids, status):
+def update_econtracts_statuses(contracts, status):
     request = get_request()
 
-    for i in contracts_ids:
-        econtract = get_contract_by_id(request, i, raise_error=False)
+    for contract in contracts:
+        econtract = get_contract_by_id(request, contract["id"], raise_error=False)
         if econtract:
             request_init_contract(request, econtract, contract_src={})
             econtract["status"] = status
