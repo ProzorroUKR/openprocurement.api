@@ -1,0 +1,29 @@
+PATCH /api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/24bebd2e26154fae9ca0a8589220ceac/appeals/06c6c47ff4804917a50d5b1af1c3298b?acc_token=dc8f8eb900fb4f23825d7e0bd0e40e96 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "proceeding": {
+      "dateProceedings": "2025-06-10T10:00:00+03:00",
+      "proceedingNumber": "12345"
+    }
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "proceeding",
+      "description": "Forbidden to patch proceeding"
+    }
+  ]
+}
+

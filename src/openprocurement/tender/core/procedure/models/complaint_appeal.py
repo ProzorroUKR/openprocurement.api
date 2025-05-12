@@ -3,7 +3,7 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.tender.core.procedure.models.criterion import LegislationItem
@@ -25,11 +25,11 @@ class PostAppeal(Model):
 
     @serializable
     def dateCreated(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
     @serializable
     def datePublished(self):
-        return get_now().isoformat()
+        return get_request_now().isoformat()
 
     @serializable
     def legislation(self):

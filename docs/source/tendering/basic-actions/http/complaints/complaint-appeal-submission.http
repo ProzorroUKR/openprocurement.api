@@ -1,0 +1,59 @@
+POST /api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/24bebd2e26154fae9ca0a8589220ceac/appeals?acc_token=dc8f8eb900fb4f23825d7e0bd0e40e96 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "description": "test",
+    "documents": [
+      {
+        "title": "name.doc",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/20514262a4564559910de135ff1f0d3e?Signature=DQSE7fsvpm1yQfIN0Bii835BjDzLl6LQP06Z7zZvdiRStMQ%2BJxiXvrnLLaEsUhOAm1%2FwwXpDqqmsRT6CiE55CA%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/msword"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/24bebd2e26154fae9ca0a8589220ceac/appeals/06c6c47ff4804917a50d5b1af1c3298b
+
+{
+  "data": {
+    "description": "test",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "name.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/20514262a4564559910de135ff1f0d3e?Signature=PKiu5y12CIoOKw6b2loFUvBodaAAMT1mRNn8%2BzWhSU14eazJY7eOZ1iZXPXOmKKTmKq2qofpTWILjk4o64IVDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "41b419c0707e4a21b0a655bf41e34894",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "complaint_owner"
+      }
+    ],
+    "id": "06c6c47ff4804917a50d5b1af1c3298b",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "legislation": {
+      "version": "2020-04-19",
+      "type": "NATIONAL_LEGISLATION",
+      "article": "20.23",
+      "identifier": {
+        "id": "922-VIII",
+        "legalName": "Закон України \"Про публічні закупівлі\"",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+      }
+    },
+    "author": "complaint_owner"
+  }
+}
+

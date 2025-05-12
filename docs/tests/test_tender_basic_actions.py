@@ -47,7 +47,11 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
     set_tender_criteria,
 )
-from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
+from openprocurement.tender.open.tests.base import (
+    test_tender_open_complaint_appeal,
+    test_tender_open_complaint_appeal_proceeding,
+    test_tender_open_complaint_objection,
+)
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.openua.tests.base import test_tender_openua_config
 from openprocurement.tender.pricequotation.tests.base import (
@@ -656,6 +660,135 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': complaint_data},
             )
             self.assertEqual(response.status, '201 Created')
+
+    def test_complaints_appeals(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+        self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.set_status("active.tendering")
+
+        complaint["objections"][0]["relatesTo"] = "tender"
+        complaint["objections"][0]["relatedItem"] = self.tender_id
+
+        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': complaint})
+        self.assertEqual(response.status, '201 Created')
+
+        complaint_token = response.json['access']['token']
+        complaint_id = response.json['data']['id']
+
+        with change_auth(self.app, ("Basic", ("bot", ""))):
+            response = self.app.patch_json(
+                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint_id),
+                {"data": {"status": "pending"}},
+            )
+        self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'complaints/complaint-appeal-invalid-status.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}',
+                {'data': test_tender_open_complaint_appeal},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        self.app.authorization = ('Basic', ('reviewer', ''))
+        response = self.app.patch_json(
+            f'/tenders/{self.tender_id}/complaints/{complaint_id}',
+            {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json(
+            '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint_id, complaint_token),
+            {"data": {"status": "satisfied"}},
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        with open(TARGET_DIR + 'complaints/complaint-appeal-submission.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}',
+                {
+                    'data': {
+                        "description": "test",
+                        "documents": [
+                            {
+                                "title": "name.doc",
+                                "url": self.generate_docservice_url(),
+                                "hash": "md5:" + "0" * 32,
+                                "format": "application/msword",
+                            },
+                        ],
+                    },
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
+            appeal_1 = response.json["data"]["id"]
+
+        with open(TARGET_DIR + 'complaints/complaint-appeal-proceeding-submission.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_1}?acc_token={complaint_token}',
+                {'data': {"proceeding": test_tender_open_complaint_appeal_proceeding}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'complaints/complaint-appeal-proceeding-duplicate.http', 'w') as self.app.file_obj:
+            proceeding = deepcopy(test_tender_open_complaint_appeal_proceeding)
+            proceeding["proceedingNumber"] = "12345"
+            self.app.patch_json(
+                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_1}?acc_token={complaint_token}',
+                {'data': {"proceeding": proceeding}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'complaints/complaint-appeal-submission-by-customer.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={owner_token}',
+                {'data': test_tender_open_complaint_appeal},
+            )
+            self.assertEqual(response.status, '201 Created')
+            appeal_2 = response.json["data"]["id"]
+
+        with open(TARGET_DIR + 'complaints/complaint-appeal-documents-submission.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_2}/documents?acc_token={owner_token}',
+                {
+                    'data': {
+                        "title": "sign.p7s",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pkcs7-signature",
+                    }
+                },
+            )
+
+        with open(TARGET_DIR + 'complaints/complaint-appeal-get.http', 'w') as self.app.file_obj:
+            self.app.get(f'/tenders/{self.tender_id}/complaints/{complaint_id}?acc_token={complaint_token}')
 
     def test_qualification_complaints(self):
         self.app.authorization = ('Basic', ('broker', ''))

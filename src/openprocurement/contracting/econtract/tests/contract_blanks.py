@@ -1380,7 +1380,6 @@ def patch_tender_contract_value_vat_change(self):
     contract_items[0]["quantity"] = 11  # 11 * 21.64 = 238.04
 
     # change contract.value.valueAddedTaxIncluded from True to False
-    print("HERE")
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}",
         {"data": {"value": {"valueAddedTaxIncluded": False, "amount": 238, "amountNet": 238}, "items": contract_items}},

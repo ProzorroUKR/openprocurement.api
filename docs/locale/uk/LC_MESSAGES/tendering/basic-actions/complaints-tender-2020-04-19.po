@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-09 13:56+0300\n"
+"POT-Creation-Date: 2025-05-12 17:15+0300\n"
 "PO-Revision-Date: 2020-05-20 22:51+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -70,6 +70,48 @@ msgstr "Також є можливість подати скаргу одним 
 
 msgid "For each Objection, the Complainant must specify one or more requestedRemedies. In other case there error will be raised:"
 msgstr "Для кожного Заперечення Скаржник обов'язково вказує одну або декілька Вимог (requestedRemedies). В іншому випадку буде помилка:"
+
+msgid "Complaint Appeals"
+msgstr "Iнформація про оскарження скарги в суді"
+
+msgid "After the appeal body (AMCU) makes a decision on the complaint, the customer or participant may appeal such decision in court and publish information about it in the system:"
+msgstr "Після винесення рішення органом оскарження (АМКУ) по скарзі, замовник або учасник може оскаржити таке рішення в суді та опублікувати інформацію про це в системі:"
+
+msgid "Appeal can be added or edited while complaint is in the status:"
+msgstr "Iнформація про оскарження скарги в суді може бути додана або відредагована, коли скарга знаходиться в одному зі статусів:"
+
+msgid "`invalid`"
+msgstr ""
+
+msgid "`satisfied`"
+msgstr ""
+
+msgid "`declined`"
+msgstr ""
+
+msgid "`resolved`"
+msgstr ""
+
+msgid "If appeal is added for complaint in another status, error will be raised:"
+msgstr "Якщо інформація про оскарження скарги в суді буде додана на якомусь іншому статусі скарги, ми побачимо помилку:"
+
+msgid "More than 1 appeal object can be published for one complaint by both participants and the customer. Let's add one more appeal by customer:"
+msgstr "До однієї скарги може бути опубліковано більше одного об’єкту `appeal` як учасниками так і замовником. Додамо ще одну апеляцію до скарги замовником:"
+
+msgid "After `appeal` adding, the `proceeding` object can be added to the `appeal` object."
+msgstr "Після публікації інформації про оскарження скарги в суді (`appeal`) можна додати інформацію про відкриття провадження (`proceeding`)."
+
+msgid "Information about the appeal and information about the proceeding are separate actions that are performed by the user gradually and can be performed with a gap in time:"
+msgstr "Інформація про оскарження скарги в суді та інформація про впровадження - це окремі дії, які виконуються користувачем поступово та може бути здійснено з проміжком у часі:"
+
+msgid "Only one `proceeding` object can be published to each appeal object:"
+msgstr "До кожного об’єкту `appeal` може бути опубліковано лише один об’єкт `proceeding`:"
+
+msgid "After adding information about the appeal and information about the proceeding, appeal should be signed. Document can be added through next endpoints:"
+msgstr "Після додавання інформації про оскарження скарги в суді та інформації про впровадження, необхідно накласти підпис. Документ можна додати через окремий ендпоінт:"
+
+msgid "Let's look at complaint with appeals:"
+msgstr "Подивимося на скаргу з опублікованою інформацією про оскарження скарги в суді:"
 
 msgid "Complaint Posts"
 msgstr "Запит до скарги"

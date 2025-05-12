@@ -1,0 +1,36 @@
+POST /api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/24bebd2e26154fae9ca0a8589220ceac/appeals?acc_token=497e99d66c6746e19aebd840df46277e HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "description": "Test appeal"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/24bebd2e26154fae9ca0a8589220ceac/appeals/cde77012867c4931a13697c3abb88ad0
+
+{
+  "data": {
+    "description": "Test appeal",
+    "id": "cde77012867c4931a13697c3abb88ad0",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "legislation": {
+      "version": "2020-04-19",
+      "type": "NATIONAL_LEGISLATION",
+      "article": "20.23",
+      "identifier": {
+        "id": "922-VIII",
+        "legalName": "Закон України \"Про публічні закупівлі\"",
+        "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+      }
+    },
+    "author": "tender_owner"
+  }
+}
+
