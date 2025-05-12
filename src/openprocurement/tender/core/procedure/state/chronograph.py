@@ -856,12 +856,12 @@ class ChronographEventsMixing:
             awards_ids = [i["id"] for i in tender.get("awards", "") if i["lotID"] == lot_id]
             contracts = [i for i in contracts if i["awardID"] in awards_ids]
 
-        cancelled_contracts_ids = []
+        contracts_cancelled = []
         for contract in contracts:
             if contract["status"] not in ("active", "cancelled"):
-                cancelled_contracts_ids.append(contract["id"])
+                contracts_cancelled.append(contract)
                 self.set_object_status(contract, "cancelled")
-        update_econtracts_statuses(cancelled_contracts_ids, "cancelled")
+        update_econtracts_statuses(contracts_cancelled, "cancelled")
 
     @staticmethod
     def remove_auction_period(obj):
