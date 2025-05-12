@@ -63,7 +63,6 @@ class AgreementStateMixing:
             if not agreement.get("dateSigned"):
                 agreement["dateSigned"] = get_request_now().isoformat()
 
-            # success
             clarifications_until = tender["contractPeriod"]["clarificationsUntil"]
             if dt_from_iso(agreement["dateSigned"]) < dt_from_iso(clarifications_until):
                 raise_operation_error(
@@ -72,6 +71,9 @@ class AgreementStateMixing:
                     f"contractPeriod.clarificationsUntil ({clarifications_until})",
                     status=422,
                 )
+
+            # create agreement in agreements collection
+            request.validated["agreement_activated"] = agreement
 
     # Validators
     def validate_agreement_on_patch(self, before, _):

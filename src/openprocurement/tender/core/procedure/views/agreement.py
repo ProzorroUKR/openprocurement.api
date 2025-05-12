@@ -1,7 +1,9 @@
 from logging import getLogger
 
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.cfaua.procedure.contracting import save_agreements_agreement
 from openprocurement.tender.core.procedure.serializers.agreement import (
     AgreementSerializer,
 )
@@ -56,9 +58,13 @@ class TenderAgreementResource(TenderBaseResource):
             self.state.agreement_on_patch(agreement, updated)
             self.state.always(self.request.validated["tender"])
 
-            if save_tender(self.request):
-                self.LOGGER.info(
-                    "Updated tender agreement {}".format(agreement["id"]),
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_agreement_patch"}),
-                )
-                return {"data": self.serializer_class(updated).data}
+            with atomic_transaction():
+                if save_tender(self.request):
+                    if agreement_activated := self.request.validated.get("agreement_activated"):
+                        save_agreements_agreement(agreement_activated)
+
+                    self.LOGGER.info(
+                        "Updated tender agreement {}".format(agreement["id"]),
+                        extra=context_unpack(self.request, {"MESSAGE_ID": "tender_agreement_patch"}),
+                    )
+                    return {"data": self.serializer_class(updated).data}
