@@ -83,7 +83,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         tender = self.mongodb.tenders.get(self.tender_id)
-        agreement = test_tender_cfaselectionua_agreement_features
+        agreement = deepcopy(test_tender_cfaselectionua_agreement_features)
         agreement["contracts"][0]["parameters"] = [
             {"code": "OCDS-123454-AIR-INTAKE", "value": 0.1},
             {"code": "OCDS-123454-YEARS", "value": 0.1},

@@ -77,7 +77,6 @@ class TenderResourceTestMixin:
     test_create_tender_from_agreement_with_features = snitch(create_tender_from_agreement_with_features)
     test_create_tender_from_agreement_with_features_0_3 = snitch(create_tender_from_agreement_with_features_0_3)
     test_create_tender_with_value = snitch(create_tender_with_value)
-    # test_tender_features = snitch(tender_features)
     test_get_tender = snitch(get_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_dateModified_tender = snitch(dateModified_tender)
@@ -96,8 +95,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_agreement_with_features = test_tender_cfaselectionua_agreement_features
     test_lots_data = test_tender_cfaselectionua_lots
     initial_criteria = test_exclusion_criteria + test_language_criteria
-
-    agreement_id = "11111111111111111111111111111111"
 
     # test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)

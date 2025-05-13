@@ -354,7 +354,7 @@ Content-Type: application/json
         "title_en": "[TESTING] ",
         "title_ru": "[ТЕСТИРОВАНИЕ] ",
         "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32",
-        "dateModified": "2018-09-17T16:26:31.372995+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "mode": "test",
         "numberOfContracts": 3,
         "owner": "broker",

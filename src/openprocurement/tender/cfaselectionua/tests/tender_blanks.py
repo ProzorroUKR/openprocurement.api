@@ -17,7 +17,6 @@ from openprocurement.tender.cfaselectionua.constants import (
     ENQUIRY_PERIOD,
     MIN_ACTIVE_CONTRACTS,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
-    TENDERING_DURATION,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_features,
@@ -27,7 +26,7 @@ from openprocurement.tender.core.constants import AGREEMENT_IDENTIFIER_MESSAGE
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_without_complaints_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.utils import activate_contract, change_auth
+from openprocurement.tender.core.tests.utils import activate_contract
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
@@ -261,7 +260,7 @@ def listing_draft(self):
     self.assertEqual(len(response.json["data"]), 0)
 
     tenders = []
-    data = self.initial_data.copy()
+    data = deepcopy(self.initial_data)
     data.update({"status": "draft", "agreements": [{"id": uuid4().hex}]})
 
     for i in range(3):
@@ -339,31 +338,26 @@ def create_tender_invalid(self):
         response.json["errors"],
     )
 
-    data = self.initial_data["items"][0].pop("additionalClassifications")
-    cpv_code = self.initial_data["items"][0]["classification"]["id"]
-    self.initial_data["items"][0]["classification"]["id"] = "99999999-9"
+    data = deepcopy(self.initial_data)
+    data["items"][0].pop("additionalClassifications")
+    data["items"][0]["classification"]["id"] = "99999999-9"
 
     response = self.app.post_json(
         request_path,
         {
-            "data": self.initial_data,
+            "data": data,
             "config": self.initial_config,
         },
         status=201,
     )
-    self.initial_data["items"][0]["additionalClassifications"] = data
-    self.initial_data["items"][0]["classification"]["id"] = cpv_code
 
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.status, "201 Created")
 
-    data = self.initial_data["items"][0]["additionalClassifications"][0]["scheme"]
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = "Не ДКПП"
-    cpv_code = self.initial_data["items"][0]["classification"]["id"]
-    self.initial_data["items"][0]["classification"]["id"] = "99999999-9"
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = data
-    self.initial_data["items"][0]["classification"]["id"] = cpv_code
+    data = deepcopy(self.initial_data)
+    data["items"][0]["additionalClassifications"][0]["scheme"] = "Не ДКПП"
+    data["items"][0]["classification"]["id"] = "99999999-9"
+    response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -384,19 +378,12 @@ def create_tender_invalid(self):
         ],
     )
 
-    data = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
-    del self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
-    # response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = data
-
-    data = self.initial_data["items"][0].copy()
-    data["id"] = uuid4().hex
-    classification = data["classification"].copy()
-    classification["id"] = "19212310-1"
-    data["classification"] = classification
-    self.initial_data["items"] = [self.initial_data["items"][0], data]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["items"] = self.initial_data["items"][:1]
+    data = deepcopy(self.initial_data)
+    item = deepcopy(data["items"][0])
+    item["id"] = uuid4().hex
+    item["classification"]["id"] = "19212310-1"
+    data["items"] = [data["items"][0], item]
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -405,10 +392,9 @@ def create_tender_invalid(self):
         [{"description": ["CPV class of items (1921, 4461) should be identical"], "location": "body", "name": "items"}],
     )
 
-    cpv = self.initial_data["items"][0]["classification"]["id"]
-    self.initial_data["items"][0]["classification"]["id"] = "160173000-1"
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["items"][0]["classification"]["id"] = cpv
+    data = deepcopy(self.initial_data)
+    data["items"][0]["classification"]["id"] = "160173000-1"
+    response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -416,20 +402,15 @@ def create_tender_invalid(self):
     self.assertIn("id", response.json["errors"][0]["description"][0]["classification"])
     self.assertIn("Value must be one of ", response.json["errors"][0]["description"][0]["classification"]["id"][0])
 
-    cpv = self.initial_data["items"][0]["classification"]["id"]
-    self.initial_data["items"][0]["classification"]["id"] = "00000000-0"
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["items"][0]["classification"]["id"] = cpv
+    data = deepcopy(self.initial_data)
+    data["items"][0]["classification"]["id"] = "00000000-0"
+    response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertIn("classification", response.json["errors"][0]["description"][0])
     self.assertIn("id", response.json["errors"][0]["description"][0]["classification"])
     self.assertIn("Value must be one of ", response.json["errors"][0]["description"][0]["classification"]["id"][0])
-    data = deepcopy(self.initial_data)
-    data["items"] = [data["items"][0]]
-    data["items"][0]["classification"]["id"] = "33600000-6"
-    del data["items"][0]["additionalClassifications"]
 
     data = deepcopy(self.initial_data)
     data["procuringEntity"]["kind"] = "bla"
@@ -487,6 +468,7 @@ def create_tender_generated(self):
 
 def create_tender_draft(self):
     data = deepcopy(self.initial_data)
+    data["agreements"] = [{"id": self.agreement_id}]
     data.update({"status": "draft"})
     data["documents"] = [
         {
@@ -550,7 +532,6 @@ def create_tender_with_value(self):
 
 def create_tender_draft_pending(self):
     create_tender_draft(self)
-
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "draft.pending"}}
     )
@@ -599,15 +580,10 @@ def switch_tender_to_draft_pending(self):
 
     cfaua_tender_test_data = {"id": "1" * 32, "criteria": [guarantee_criterion]}
     cfaua_tender_without_criteria_test_data = {"id": "1" * 32}
-    agreement_test_data = {"tender_id": "1" * 32}
 
     create_tender_draft(self)
 
     with (
-        mock.patch(
-            "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_agreement_by_id",
-            mock.Mock(return_value=agreement_test_data),
-        ),
         mock.patch(
             "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_tender_by_id",
             mock.Mock(return_value=cfaua_tender_without_criteria_test_data),
@@ -636,10 +612,6 @@ def switch_tender_to_draft_pending(self):
 
     with (
         mock.patch(
-            "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_agreement_by_id",
-            mock.Mock(return_value=agreement_test_data),
-        ),
-        mock.patch(
             "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_tender_by_id",
             mock.Mock(return_value=cfaua_tender_test_data),
         ),
@@ -664,10 +636,6 @@ def switch_tender_to_draft_pending(self):
 
     with (
         mock.patch(
-            "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_agreement_by_id",
-            mock.Mock(return_value=agreement_test_data),
-        ),
-        mock.patch(
             "openprocurement.tender.cfaselectionua.procedure.state.tender_details.get_tender_by_id",
             mock.Mock(return_value=cfaua_tender_test_data),
         ),
@@ -685,9 +653,10 @@ def switch_tender_to_draft_pending(self):
 
 
 def create_tender_draft_pending_without_features(self):
+    features = deepcopy(self.initial_agreement_with_features["features"])
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
-    data["features"] = self.initial_agreement_with_features["features"]
+    data["features"] = features
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=403)
     self.assertEqual(
@@ -696,7 +665,7 @@ def create_tender_draft_pending_without_features(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"status": "draft.pending", "features": self.initial_agreement_with_features["features"]}},
+        {"data": {"status": "draft.pending", "features": features}},
         status=403,
     )
     self.assertEqual(
@@ -708,7 +677,8 @@ def create_tender_from_terminated_agreement(self):
     agreement = deepcopy(self.initial_agreement)
     agreement["status"] = "terminated"
     agreement["terminationDetails"] = "Do not need this service anymore"
-    agreement["id"] = self.agreement_id
+
+    self.create_agreement(agreement)
 
     create_tender_draft_pending(self)
 
@@ -734,30 +704,14 @@ def create_tender_from_terminated_agreement(self):
         response.json["errors"],
         [
             {
-                "description": "Can't add bid in current (draft.pending) tender status",
+                "description": "Can't add bid in current (draft.unsuccessful) tender status",
                 "location": "body",
                 "name": "data",
             }
         ],
     )
 
-    with change_auth(self.app, ("Basic", (BOT_NAME, ""))):
-        response = self.app.patch_json(
-            "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-        )
-    self.assertEqual(response.status, "200 OK")
-
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    tender = response.json["data"]
-    self.assertEqual(tender["agreements"][0]["status"], "terminated")
-    self.assertEqual(tender["agreements"][0]["terminationDetails"], "Do not need this service anymore")
-    self.assertEqual(tender["status"], "draft.pending")
-
-    with change_auth(self.app, ("Basic", (BOT_NAME, ""))):
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"status": "active.enquiries"}},
-        )
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
@@ -771,38 +725,32 @@ def create_tender_from_terminated_agreement(self):
 
 
 def create_tender_from_agreement_with_features(self):
-    self.agreement = deepcopy(self.initial_agreement_with_features)
+    agreement = deepcopy(self.initial_agreement_with_features)
+    self.create_agreement(agreement)
     create_tender_draft_pending(self)
     create_tender_draft_pending_without_features(self)
-    create_tender_from_agreement_with_features_successful(self)
+    create_tender_from_agreement_with_features_successful(self, agreement)
 
 
 def create_tender_from_agreement_with_features_0_3(self):
-    self.agreement = deepcopy(self.initial_agreement_with_features)
-    self.agreement["features"] = [self.agreement["features"][0]]
-    self.agreement["features"][0]["enum"] = [
+    agreement = deepcopy(self.initial_agreement_with_features)
+    agreement["features"] = [agreement["features"][0]]
+    agreement["features"][0]["enum"] = [
         {"value": 0.0, "title": "До 1000 Вт"},
         {"value": 0.3, "title": "Більше 1000 Вт"},
     ]
-    for contract in self.agreement["contracts"]:
+    for contract in agreement["contracts"]:
         contract["parameters"] = [{"code": "OCDS-123454-AIR-INTAKE", "value": 0.3}]
+    self.create_agreement(agreement)
     create_tender_draft_pending(self)
-    create_tender_from_agreement_with_features_successful(self)
+    create_tender_from_agreement_with_features_successful(self, agreement)
 
 
-def create_tender_from_agreement_with_features_successful(self):
-    with change_auth(self.app, ("Basic", (BOT_NAME, ""))):
-        response = self.app.patch_json(
-            "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id),
-            {"data": self.agreement},
-        )
-        response = self.app.patch_json(
-            "/tenders/{}".format(self.tender_id),
-            {"data": {"status": "active.enquiries"}},
-        )
-        self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-        self.assertEqual(response.json["data"]["features"], self.agreement["features"])
-        self.assertEqual(response.json["data"]["status"], "active.enquiries")
+def create_tender_from_agreement_with_features_successful(self, agreement):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
+    self.assertEqual(response.json["data"]["features"], agreement["features"])
+    self.assertEqual(response.json["data"]["status"], "active.enquiries")
 
 
 def create_tender_from_agreement_with_features_0_3_successful(self):
@@ -825,7 +773,7 @@ def create_tender_from_agreement_with_features_0_3_successful(self):
 
 
 def create_tender_from_agreement_with_changes(self):
-    self.agreement = agreement = deepcopy(self.initial_agreement)
+    agreement = deepcopy(self.initial_agreement)
     now = get_now().isoformat()
     agreement["changes"] = [
         {
@@ -837,16 +785,21 @@ def create_tender_from_agreement_with_changes(self):
             "id": uuid4().hex,
         }
     ]
-    agreement["id"] = self.agreement_id
+    agreement["_id"] = self.agreement_id
 
+    agreement["changes"][0]["status"] = "active"
+    self.create_agreement(agreement)
     create_tender_draft_pending(self)
     create_tender_from_agreement_with_active_changes(self)
+
+    agreement["changes"][0]["status"] = "pending"
+    self.create_agreement(agreement)
     create_tender_draft_pending(self)
     create_tender_from_agreement_with_pending_changes(self)
 
 
 def create_tender_from_agreement_with_invalid_changes(self):
-    self.agreement = agreement = deepcopy(self.initial_agreement)
+    agreement = deepcopy(self.initial_agreement)
     now = get_now().isoformat()
     agreement["changes"] = [
         {
@@ -858,15 +811,18 @@ def create_tender_from_agreement_with_invalid_changes(self):
             "id": uuid4().hex,
         }
     ]
-    agreement["id"] = self.agreement_id
-    create_tender_draft_pending(self)
+    agreement["_id"] = self.agreement_id
+    agreement["changes"][0]["status"] = "active"
 
-    self.agreement["changes"][0]["status"] = "active"
+    self.create_agreement(agreement)
 
-    with change_auth(self.app, ("Basic", (BOT_NAME, ""))):
-        response = self.app.patch_json(
-            "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": self.agreement}, status=422
-        )
+    create_tender_draft(self)
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "draft.pending"}},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
@@ -876,16 +832,7 @@ def create_tender_from_agreement_with_invalid_changes(self):
 
 
 def create_tender_from_agreement_with_active_changes(self):
-    self.agreement["changes"][0]["status"] = "active"
-    with change_auth(self.app, ("Basic", (BOT_NAME, ""))):
-        response = self.app.patch_json(
-            "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement["id"]),
-            {"data": self.agreement},
-        )
-        response = self.app.patch_json(
-            "/tenders/{}".format(self.tender_id),
-            {"data": {"status": "active.enquiries"}},
-        )
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("changes", response.json["data"]["agreements"][0])
@@ -893,16 +840,7 @@ def create_tender_from_agreement_with_active_changes(self):
 
 
 def create_tender_from_agreement_with_pending_changes(self):
-    self.agreement["changes"][0]["status"] = "pending"
-    with change_auth(self.app, ("Basic", (BOT_NAME, ""))):
-        response = self.app.patch_json(
-            "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement["id"]),
-            {"data": self.agreement},
-        )
-        response = self.app.patch_json(
-            "/tenders/{}".format(self.tender_id),
-            {"data": {"status": "active.enquiries"}},
-        )
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("changes", response.json["data"]["agreements"][0])
@@ -911,12 +849,16 @@ def create_tender_from_agreement_with_pending_changes(self):
 
 
 def create_tender(self):
+    agreement = deepcopy(self.initial_agreement)
+    self.create_agreement(agreement)
+
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
 
-    self.initial_data["agreements"] = [{"id": self.agreement_id}]
-    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    data = deepcopy(self.initial_data)
+    data["agreements"] = [{"id": self.agreement_id}]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
     self.assertEqual(response.json["data"]["agreements"][0]["id"], self.agreement_id)
     tender = response.json["data"]
@@ -929,8 +871,8 @@ def create_tender(self):
     response = self.app.post_json(
         "/tenders?opt_jsonp=callback",
         {
-            "data": self.initial_data,
-            '' "config": self.initial_config,
+            "data": data,
+            "config": self.initial_config,
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -940,7 +882,7 @@ def create_tender(self):
     response = self.app.post_json(
         "/tenders?opt_pretty=1",
         {
-            "data": self.initial_data,
+            "data": data,
             "config": self.initial_config,
         },
     )
@@ -951,7 +893,7 @@ def create_tender(self):
     response = self.app.post_json(
         "/tenders",
         {
-            "data": self.initial_data,
+            "data": data,
             "config": self.initial_config,
             "options": {"pretty": True},
         },
@@ -978,6 +920,9 @@ def create_tender(self):
     self.assertNotIn("locality", response.json["data"]["items"][0]["deliveryAddress"])
     self.assertNotIn("streetAddress", response.json["data"]["items"][0]["deliveryAddress"])
     self.assertNotIn("region", response.json["data"]["items"][0]["deliveryAddress"])
+
+    agreement["items"][0]["classification"]["id"] = "33600000-6"
+    self.create_agreement(agreement)
 
     data = deepcopy(self.initial_data)
     data["lots"][0]["minimalStep"] = {"amount": 35, "currency": "UAH"}
@@ -1018,6 +963,9 @@ def create_tender(self):
         response.json["data"]["items"][0]["additionalClassifications"],
         [additional_classification_0, additional_classification_1],
     )
+
+    agreement = deepcopy(self.initial_agreement)
+    self.create_agreement(agreement)
 
     tender_data = deepcopy(self.initial_data)
     tender_data["guarantee"] = {"amount": 100500, "currency": "USD"}
@@ -1144,7 +1092,7 @@ def get_tender(self):
 
 
 def tender_features_invalid(self):
-    data = self.initial_data.copy()
+    data = deepcopy(self.initial_data)
     item = data["items"][0].copy()
     item["id"] = "1"
     data["items"] = [item, item.copy()]
@@ -1275,7 +1223,7 @@ def tender_features_invalid(self):
 
 
 def tender_features(self):
-    data = self.initial_data.copy()
+    data = deepcopy(self.initial_data)
     data["procuringEntity"]["contactPoint"]["faxNumber"] = "+0440000000"
     item = data["items"][0].copy()
     data["items"] = [item]
@@ -1609,34 +1557,16 @@ def patch_tender(self):
 
 
 def patch_tender_bot(self):
-    # only bot can change tender in draft.pending
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
+    self.delete_agreement()
 
-    # tender items are not subset of agreement items
-    # TODO: adjust data ti shrink errors only to supposed one
-    self.app.authorization = ("Basic", (BOT_NAME, ""))
-    response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
-    reasons = set(response.json["data"]["unsuccessfulReason"])
-    self.assertFalse(
-        reasons.difference(
-            {
-                "Agreement status is not active",
-                "Agreement items is not subset of tender items",
-                "Agreement has less than 3 active contracts",
-            }
-        )
-    )
-
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
-    response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "draft.unsuccessful"}})
+    # agreement is not found
+    create_tender_draft_pending(self)
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     reasons = set(response.json["data"]["unsuccessfulReason"])
     self.assertFalse(reasons.difference({"Agreement not found"}))
 
     # patch tender with different changes by bot
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
     now = get_now().isoformat()
@@ -1660,29 +1590,22 @@ def patch_tender_bot(self):
             "id": uuid4().hex,
         },
     ]
-
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["agreementID"], self.initial_agreement["agreementID"])
+    self.create_agreement(agreement)
+    create_tender_draft_pending(self)
 
     response = self.app.get("/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["changes"], agreement["changes"])
 
     # patch tender items with correct items by bot
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
 
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["agreementID"], self.initial_agreement["agreementID"])
+    self.create_agreement(agreement)
+    create_tender_draft_pending(self)
 
-    response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
     self.assertIn("minimalStep", response.json["data"])
@@ -1700,7 +1623,6 @@ def patch_tender_bot(self):
         parse_date(response.json["data"]["enquiryPeriod"]["endDate"]),
     )
 
-    self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
@@ -1710,17 +1632,17 @@ def patch_tender_bot(self):
     self.assertEqual(response.json["data"]["lots"][0]["value"], max_value)
     # чому цей ассерт не працює не можу роздебажити
     # self.assertNotEqual(response.json['data']['lots'][0]['value'], agreement_contracts[0]['value'])
-    self.app.authorization = ("Basic", (BOT_NAME, ""))
 
     # patch tender by bot in wrong status
+    self.app.authorization = ("Basic", (BOT_NAME, ""))
     response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "draft"}}, status=403)
     self.assertEqual((response.status, response.content_type), ("403 Forbidden", "application/json"))
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't switch tender from (active.enquiries) to (draft) status."
     )
+    self.app.authorization = ("Basic", ("broker", ""))
 
     # patch tender agreement more items than tender items, more features then tender features
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     second_item = deepcopy(agreement["items"][0])
     second_item["id"] = uuid4().hex
@@ -1735,12 +1657,10 @@ def patch_tender_bot(self):
 
     agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
 
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
+    self.create_agreement(agreement)
+    create_tender_draft_pending(self)
 
-    response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
 
@@ -1752,20 +1672,16 @@ def patch_tender_bot(self):
     self.assertIn(second_item["id"], (i["id"] for i in tender_data["agreements"][0]["items"]))
 
     # patch tender with less than 7 days to end
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     six_days = timedelta(days=6)
     if SANDBOX_MODE:
         six_days = six_days / 1440
     agreement["period"]["endDate"] = (get_now() + six_days).isoformat()
 
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["agreementID"], self.initial_agreement["agreementID"])
+    self.create_agreement(agreement)
+    create_tender_draft_pending(self)
 
-    response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     self.assertEqual(
@@ -1774,37 +1690,29 @@ def patch_tender_bot(self):
     )
 
     # patch tender argeement.period.startDate > tender.date
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     day = timedelta(days=1)
     if SANDBOX_MODE:
         day = day / 1440
     agreement["period"]["startDate"] = (get_now() + day).isoformat()
 
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["agreementID"], self.initial_agreement["agreementID"])
+    self.create_agreement(agreement)
+    create_tender_draft_pending(self)
 
-    response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     self.assertEqual(response.json["data"]["unsuccessfulReason"], ["agreements[0].period.startDate is > tender.date"])
 
     # patch tender with less than 3 active contracts
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
     agreement["contracts"] = agreement["contracts"][:2]  # only first and second contract
 
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["agreementID"], self.initial_agreement["agreementID"])
+    self.create_agreement(agreement)
+    create_tender_draft_pending(self)
 
-    response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     self.assertEqual(
@@ -1813,23 +1721,18 @@ def patch_tender_bot(self):
     )
 
     # patch tender with wrong identifier
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement["procuringEntity"]["identifier"]["id"] = "21725150"  # tender procuringEntity identifier is 00037256
 
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["agreementID"], self.initial_agreement["agreementID"])
+    self.create_agreement(agreement)
+    create_tender_draft_pending(self)
 
-    response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     self.assertEqual(response.json["data"]["unsuccessfulReason"], [AGREEMENT_IDENTIFIER_MESSAGE])
 
     # patch tender with agreement -> with documents
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement["documents"] = [
         {
@@ -1843,35 +1746,14 @@ def patch_tender_bot(self):
             "id": "4894210d5a3e4dc29bfd11ec3e2db913",
         }
     ]
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}, status=422
-    )
-    self.assertEqual(response.json["errors"], [{"location": "body", "name": "documents", "description": "Rogue field"}])
 
-    # test tenderPeriod.endDate
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
-    agreement = deepcopy(self.initial_agreement)
-
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-
-    tender_period_start_date = calculate_tender_full_date(get_now(), -TENDERING_DURATION)
-    tender_doc = self.mongodb.tenders.get(self.tender_id)
-    tender_doc["enquiryPeriod"]["startDate"] = tender_period_start_date.isoformat()
-    tender_doc["enquiryPeriod"]["endDate"] = tender_period_start_date.isoformat()
-    tender_doc["tenderPeriod"]["startDate"] = tender_period_start_date.isoformat()
-    tender_doc["tenderPeriod"]["endDate"] = get_now().isoformat()
-    self.mongodb.tenders.save(tender_doc)
-
-    self.app.authorization = ("Basic", (BOT_NAME, ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"status": "active.enquiries"}})
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
+    self.create_agreement(agreement)
+    create_tender_draft_pending(self)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
+    self.assertNotIn("documents", response.json["data"]["agreements"][0])
 
 
 def dateModified_tender(self):
@@ -1978,7 +1860,13 @@ def guarantee(self):
 
 
 def patch_not_author(self):
-    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    agreement = deepcopy(self.initial_agreement)
+    self.create_agreement(agreement)
+
+    data = deepcopy(self.initial_data)
+    data["agreements"] = [{"id": self.agreement_id}]
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     owner_token = response.json["access"]["token"]
@@ -2374,7 +2262,7 @@ def lost_contract_for_active_award(self):
 
 
 def patch_tender_to_draft_pending(self):
-    data = self.initial_data.copy()
+    data = deepcopy(self.initial_data)
     data["agreements"] = []
     # data.update({"status": "active.tendering"})
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
@@ -2383,18 +2271,17 @@ def patch_tender_to_draft_pending(self):
 
 
 def edit_tender_in_active_enquiries(self):
-    tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
     agreement = deepcopy(self.initial_agreement)
     agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
 
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["agreementID"], self.initial_agreement["agreementID"])
+    self.create_agreement(agreement)
 
-    response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
+    create_tender_draft_pending(self)
+    owner_token = self.tender_token
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
     self.assertIn("minimalStep", response.json["data"])
     self.assertEqual(

@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from cornice.resource import resource
 from pyramid.security import Allow
 
@@ -11,7 +13,7 @@ from openprocurement.api.procedure.validation import (
     validate_item_owner,
     validate_patch_data_simple,
 )
-from openprocurement.api.utils import json_view
+from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.cfaselectionua.procedure.models.tender import (
     PatchTender,
     PostTender,
@@ -23,6 +25,7 @@ from openprocurement.tender.cfaselectionua.procedure.state.tender_details import
 from openprocurement.tender.cfaselectionua.procedure.validation import (
     unless_selection_bot,
 )
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_change_status_with_cancellation_lot_pending,
@@ -95,4 +98,25 @@ class CFASelectionTenderResource(TendersResource):
         permission="edit_tender",
     )
     def patch(self):
-        return super().patch()
+        result = deepcopy(super().patch())
+
+        # imitate bridge behavior
+        # TODO: remove this with draft.pending removal
+        tender = self.request.validated["tender"]
+        if tender["status"] == "draft.pending":
+            self.request.authenticated_role = "agreement_selection"
+            tender_src = self.request.validated["tender_src"] = deepcopy(tender)
+            agreement = self.state.copy_agreement_data(tender)
+            if agreement:
+                tender["status"] = "active.enquiries"
+            else:
+                tender["status"] = "draft.unsuccessful"
+            self.state.validate_tender_patch(tender_src, tender)
+            self.state.on_patch(tender_src, tender)
+            if save_tender(self.request):
+                self.LOGGER.info(
+                    f"Updated tender {tender['_id']}",
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"}),
+                )
+
+        return result
