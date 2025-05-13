@@ -57,6 +57,7 @@ test_criteria_article_17 = standards.load("criteria/article_17.json")
 
 test_criteria_decree_1178 = standards.load("criteria/decree_1178.json")
 test_criteria_lcc = standards.load("criteria/LCC.json")
+test_criteria_ukraine_facility = standards.load("criteria/ukraine_facility.json")
 
 test_criteria_all = []
 test_criteria_all.extend(test_criteria_other)
