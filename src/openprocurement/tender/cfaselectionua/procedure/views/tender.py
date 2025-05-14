@@ -4,6 +4,7 @@ from cornice.resource import resource
 from pyramid.security import Allow
 
 from openprocurement.api.auth import ACCR_1, ACCR_5
+from openprocurement.api.context import set_request_now
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_accreditation_level,
@@ -104,6 +105,7 @@ class CFASelectionTenderResource(TendersResource):
         # TODO: remove this with draft.pending removal
         tender = self.request.validated["tender"]
         if tender["status"] == "draft.pending":
+            set_request_now()
             self.request.authenticated_role = "agreement_selection"
             tender_src = self.request.validated["tender_src"] = deepcopy(tender)
             agreement = self.state.copy_agreement_data(tender)
