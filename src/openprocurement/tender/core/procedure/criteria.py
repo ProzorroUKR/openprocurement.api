@@ -176,7 +176,7 @@ class TenderCriterionMixin:
                                 self.request,
                                 f"For criterion {tender_criterion['classification']['id']} there are "
                                 f"requirements that don't exist in {'profile' if requirements_from_profile else 'category'} "
-                                f"or archived: {set(tender_requirements.keys()) - set(market_requirements.keys())}",
+                                f"{market_obj['id']} or archived: {set(tender_requirements.keys()) - set(market_requirements.keys())}",
                                 status=422,
                             )
                         market_requirements_ids = set(market_requirements.keys())
@@ -196,7 +196,7 @@ class TenderCriterionMixin:
                             raise_operation_error(
                                 self.request,
                                 f"Criterion {tender_criterion['classification']['id']} should have at least "
-                                f"one requirement from category",
+                                f"one requirement from category {market_obj['id']}",
                                 status=422,
                             )
                         for market_req in list(market_requirements.values()):
@@ -217,7 +217,8 @@ class TenderCriterionMixin:
                                         if Counter(tender_req.get(field)) != Counter(market_req[field]):
                                             raise_operation_error(
                                                 self.request,
-                                                f"Field '{field}' for '{market_req['title']}' should have the same values in tender and market requirement",
+                                                f"Field '{field}' for '{market_req['title']}' should have the same values in tender and market requirement for "
+                                                f"{'profile' if requirements_from_profile else 'category'} {market_obj['id']}",
                                                 status=422,
                                             )
                                     else:
@@ -232,7 +233,8 @@ class TenderCriterionMixin:
                                         if market_field != tender_req.get(field):
                                             raise_operation_error(
                                                 self.request,
-                                                f"Field '{field}' for '{market_req['title']}' should be equal in tender and market requirement",
+                                                f"Field '{field}' for '{market_req['title']}' should be equal in tender and market requirement for "
+                                                f"{'profile' if requirements_from_profile else 'category'} {market_obj['id']}",
                                                 status=422,
                                             )
                                 if not requirements_from_profile and (
@@ -244,7 +246,7 @@ class TenderCriterionMixin:
                                         raise_operation_error(
                                             self.request,
                                             f"Requirement '{tender_req['title']}' expectedValues should have values "
-                                            f"from category requirement",
+                                            f"from category {market_obj['id']} requirement",
                                             status=422,
                                         )
 

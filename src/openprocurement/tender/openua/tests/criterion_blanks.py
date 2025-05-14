@@ -2625,7 +2625,7 @@ def criterion_from_market_profile(self):
                     "location": "body",
                     "name": "data",
                     "description": "Field 'expectedValue' for 'Діагонaль екрану' should be equal "
-                    "in tender and market requirement",
+                    "in tender and market requirement for profile 11111111111111111111111111111111",
                 },
             ],
         )
@@ -2660,7 +2660,7 @@ def criterion_from_market_profile(self):
                     "location": "body",
                     "name": "data",
                     "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES "
-                    "there are requirements that don't exist in profile or archived: {'Діагонaль екрану'}",
+                    "there are requirements that don't exist in profile 11111111111111111111111111111111 or archived: {'Діагонaль екрану'}",
                 },
             ],
         )
@@ -2685,7 +2685,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'dataType' for 'Діагонaль' should be equal in tender and market requirement",
+                    "description": "Field 'dataType' for 'Діагонaль' should be equal in tender and market requirement for profile 11111111111111111111111111111111",
                 },
             ],
         )
@@ -2707,7 +2707,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedValue' for 'Діагонaль' should be equal in tender and market requirement",
+                    "description": "Field 'expectedValue' for 'Діагонaль' should be equal in tender and market requirement for profile 11111111111111111111111111111111",
                 },
             ],
         )
@@ -2771,7 +2771,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedValues' for 'Req 2' should have the same values in tender and market requirement",
+                    "description": "Field 'expectedValues' for 'Req 2' should have the same values in tender and market requirement for profile 11111111111111111111111111111111",
                 },
             ],
         )
@@ -2788,7 +2788,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement",
+                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement for profile 11111111111111111111111111111111",
                 },
             ],
         )
@@ -2816,7 +2816,7 @@ def criterion_from_market_profile(self):
                     "location": "body",
                     "name": "data",
                     "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES there are "
-                    "requirements that don't exist in profile or archived: {'Req 3'}",
+                    "requirements that don't exist in profile 11111111111111111111111111111111 or archived: {'Req 3'}",
                 },
             ],
         )
@@ -2834,7 +2834,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement",
+                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement for profile 11111111111111111111111111111111",
                 },
             ],
         )
@@ -2861,7 +2861,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedValues' for 'Req 2' should have the same values in tender and market requirement",
+                    "description": "Field 'expectedValues' for 'Req 2' should have the same values in tender and market requirement for profile 11111111111111111111111111111111",
                 },
             ],
         )
@@ -2967,7 +2967,7 @@ def criterion_from_market_category(self):
                     "location": "body",
                     "name": "data",
                     "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES "
-                    "there are requirements that don't exist in category or archived: {'Діагонaль екрану'}",
+                    "there are requirements that don't exist in category 00000000000000000000000000000000 or archived: {'Діагонaль екрану'}",
                 },
             ],
         )
@@ -2992,7 +2992,7 @@ def criterion_from_market_category(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'dataType' for 'Діагонaль' should be equal in tender and market requirement",
+                    "description": "Field 'dataType' for 'Діагонaль' should be equal in tender and market requirement for category 00000000000000000000000000000000",
                 },
             ],
         )
@@ -3042,7 +3042,7 @@ def criterion_from_market_category(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Requirement 'Req 2' expectedValues should have values from category requirement",
+                    "description": "Requirement 'Req 2' expectedValues should have values from category 00000000000000000000000000000000 requirement",
                 },
             ],
         )
@@ -3058,7 +3058,7 @@ def criterion_from_market_category(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement",
+                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement for category 00000000000000000000000000000000",
                 },
             ],
         )
@@ -3085,7 +3085,7 @@ def criterion_from_market_category(self):
                     "location": "body",
                     "name": "data",
                     "description": "For criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES there are "
-                    "requirements that don't exist in category or archived: {'Req 3'}",
+                    "requirements that don't exist in category 00000000000000000000000000000000 or archived: {'Req 3'}",
                 },
             ],
         )
@@ -3131,7 +3131,7 @@ def criterion_from_market_category(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Field 'dataType' for 'Req 3' should be equal in tender and market requirement",
+                    "description": "Field 'dataType' for 'Req 3' should be equal in tender and market requirement for category 00000000000000000000000000000000",
                 },
             ],
         )
