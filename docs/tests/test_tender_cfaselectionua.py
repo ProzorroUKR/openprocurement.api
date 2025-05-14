@@ -1,7 +1,6 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
-from time import sleep
 from uuid import uuid4
 
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
@@ -17,7 +16,6 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,
     test_tender_cfaselectionua_agreement,
@@ -119,7 +117,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         )
         self.assertEqual(response.status, '201 Created')
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        agreement = deepcopy(test_agreement)
+        agreement["_id"] = agreement_id
+        agreement['features'] = test_features
+
+        self.create_agreement(agreement)
 
         with open(TARGET_DIR + 'tender-switch-draft-pending.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -129,17 +131,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'draft.pending')
 
-        self.app.authorization = ('Basic', (BOT_NAME, ''))
-
-        agreement = deepcopy(test_agreement)
-        agreement['features'] = test_features
-
-        response = self.app.patch_json(
-            '/tenders/{}/agreements/{}'.format(tender['id'], agreement_id), {'data': agreement}
-        )
-        self.assertEqual(response.status, '200 OK')
-
-        response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.enquiries'}})
+        response = self.app.get('/tenders/{}'.format(tender['id']))
         self.assertEqual(response.json['data']['status'], 'active.enquiries')
 
         self.app.authorization = ('Basic', ('broker', ''))
@@ -148,12 +140,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             response = self.app.get('/tenders/{}'.format(tender['id']))
             self.assertEqual(response.json['data']['status'], 'active.enquiries')
             tender = response.json['data']
-
-        # start couchdb index views
-        response = self.app.get('/tenders')
-
-        # wait until couchdb index views complete
-        sleep(8)
 
         with open(TARGET_DIR + 'initial-tender-listing.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders')
@@ -166,12 +152,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.tender_id = response.json['data']['id']
         self.tender_token = owner_token = response.json['access']['token']
 
-        # response = self.app.patch_json(
-        #     '/tenders/{}?acc_token={}'.format(
-        #         self.tender_id, self.tender_token),
-        #     {'data': {'agreements': [test_agreement]}})
-        # self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {'data': {'status': 'draft.pending'}}
         )
@@ -179,14 +159,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
         self.assertEqual(response.json['data']['status'], 'draft.pending')
 
-        self.app.authorization = ('Basic', (BOT_NAME, ''))
-        response = self.app.patch_json(f'/tenders/{self.tender_id}/agreements/{agreement_id}', {'data': test_agreement})
-        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
-
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token),
-            {'data': {'status': 'active.enquiries'}},
-        )
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
         tender = response.json['data']
         self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
         self.assertEqual(response.json['data']['status'], 'active.enquiries')

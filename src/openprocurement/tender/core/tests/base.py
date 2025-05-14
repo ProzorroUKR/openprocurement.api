@@ -514,10 +514,11 @@ class BaseCoreWebTest(BaseWebTest):
         if self.initial_status and self.initial_status != status:
             self.set_status(self.initial_status)
 
-    def create_agreement(self):
+    def create_agreement(self, agreement=None):
         if self.mongodb.agreements.get(self.agreement_id):
             self.delete_agreement()
-        agreement = self.initial_agreement_data
+        agreement = agreement or self.initial_agreement_data
+        agreement.setdefault("_id", self.agreement_id)
         agreement["dateModified"] = get_now().isoformat()
         set_request_now()
         self.mongodb.agreements.save(agreement, insert=True)

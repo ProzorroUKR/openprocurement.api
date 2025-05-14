@@ -7,10 +7,7 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.cfaselectionua.constants import (
-    BOT_NAME,
-    MINIMAL_STEP_PERCENTAGE,
-)
+from openprocurement.tender.cfaselectionua.constants import MINIMAL_STEP_PERCENTAGE
 from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
@@ -147,6 +144,12 @@ class BaseTenderWebTest(BaseCoreWebTest):
     meta_initial_lots = test_tender_cfaselectionua_lots
 
     periods = PERIODS
+
+    def setUp(self):
+        super().setUp()
+        self.agreement_id = uuid4().hex
+        agreement = deepcopy(self.initial_agreement)
+        self.create_agreement(agreement)
 
     def get_timedelta(self, **kw):
         delta = timedelta(**kw)
@@ -364,26 +367,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
         self.save_changes()
         return self.get_tender("chronograph")
-
-    def create_tender_and_prepare_for_bot_patch(self):
-        self.app.authorization = ("Basic", ("broker", ""))
-        data = deepcopy(self.initial_data)
-        data["status"] = "draft"
-        data["agreements"] = [{"id": self.agreement_id}]
-
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-        self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
-        tender = response.json["data"]
-        self.tender_id = tender["id"]
-        owner_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "draft.pending"}}
-        )
-        self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-        self.assertEqual(response.json["data"]["status"], "draft.pending")
-
-        self.app.authorization = ("Basic", (BOT_NAME, ""))
-        return tender, owner_token
 
 
 class TenderContentWebTest(BaseTenderWebTest):

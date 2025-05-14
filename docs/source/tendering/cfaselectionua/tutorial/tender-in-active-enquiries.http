@@ -49,6 +49,7 @@ Content-Type: application/json
     "status": "active.enquiries",
     "agreements": [
       {
+        "id": "53e68cfa78da42188f99f9e054e0e168",
         "agreementID": "UA-2018-09-11-000002-1",
         "dateSigned": "2018-09-11T11:23:23.220310+03:00",
         "features": [
@@ -354,7 +355,7 @@ Content-Type: application/json
         "title_en": "[TESTING] ",
         "title_ru": "[ТЕСТИРОВАНИЕ] ",
         "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32",
-        "dateModified": "2018-09-17T16:26:31.372995+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "mode": "test",
         "numberOfContracts": 3,
         "owner": "broker",
@@ -384,8 +385,7 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "kind": "general"
-        },
-        "id": "53e68cfa78da42188f99f9e054e0e168"
+        }
       }
     ],
     "items": [
@@ -448,14 +448,6 @@ Content-Type: application/json
         }
       }
     ],
-    "tenderPeriod": {
-      "startDate": "2023-10-12T00:00:00+03:00",
-      "endDate": "2023-10-15T00:00:00+03:00"
-    },
-    "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-12T00:00:00+03:00"
-    },
     "minimalStep": {
       "amount": 2.5,
       "currency": "UAH",
@@ -465,6 +457,14 @@ Content-Type: application/json
       "amount": 500.56,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
+    },
+    "enquiryPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-12T00:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2023-10-12T00:00:00+03:00",
+      "endDate": "2023-10-15T00:00:00+03:00"
     },
     "features": [
       {

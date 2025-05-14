@@ -4,11 +4,15 @@ from logging import getLogger
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.constants_env import CRITERIA_CLASSIFICATION_UNIQ_FROM
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_agreement, get_tender
 from openprocurement.api.utils import (
     get_agreement_by_id,
     get_tender_by_id,
+    handle_data_exceptions,
     raise_operation_error,
+)
+from openprocurement.framework.cfaua.procedure.serializers.agreement import (
+    AgreementSerializer,
 )
 from openprocurement.tender.cfaselectionua.constants import (
     ENQUIRY_PERIOD,
@@ -16,6 +20,9 @@ from openprocurement.tender.cfaselectionua.constants import (
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MINIMAL_STEP_PERCENTAGE,
     TENDERING_DURATION,
+)
+from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
+    PatchAgreement,
 )
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
@@ -113,6 +120,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 self.validate_exist_guarantee_criteria(after)
                 self.validate_required_criteria(before, after)
                 self.validate_criteria_requirement_from_market(after.get("criteria", []))
+
             elif before["status"] != after["status"]:
                 raise_operation_error(
                     get_request(),
@@ -160,6 +168,19 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             self._validate_criterion_uniq(after.get("criteria", []))
         self.validate_docs(after, before)
         self.always(after)
+
+    def copy_agreement_data(self, tender):
+        # TODO: rewrite with direct agreement dict creation
+        agreement = get_agreement()
+        if agreement:
+            agreement_data = AgreementSerializer(agreement).data
+            agreement_data.pop("id")
+            agreement_data.pop("documents", None)
+            agreement_data.pop("agreementType", None)
+            with handle_data_exceptions(get_request()):
+                tender_agreement = PatchAgreement(agreement_data).serialize()
+            tender["agreements"][0].update(tender_agreement)
+            return tender["agreements"][0]
 
     def update_periods(self, tender):
         enquiry_end = calculate_tender_full_date(get_request_now(), self.enquiry_period_timedelta, tender=tender)
