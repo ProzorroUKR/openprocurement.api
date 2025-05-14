@@ -2745,7 +2745,7 @@ def criterion_from_market_profile(self):
                 {
                     "location": "body",
                     "name": "data",
-                    "description": "Criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES lacks requirements from profile {'Req 2'}",
+                    "description": "Criterion CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES lacks requirements from profile 11111111111111111111111111111111 {'Req 2'}",
                 },
             ],
         )

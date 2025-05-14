@@ -189,7 +189,7 @@ class TenderCriterionMixin:
                                 raise_operation_error(
                                     self.request,
                                     f"Criterion {tender_criterion['classification']['id']} lacks requirements from "
-                                    f"{'profile' if requirements_from_profile else 'category'} {market_requirements_ids - tender_requirements_ids}",
+                                    f"{'profile' if requirements_from_profile else 'category'} {market_obj['id']} {market_requirements_ids - tender_requirements_ids}",
                                     status=422,
                                 )
                         elif not tender_requirements_ids.intersection(market_requirements_ids):
