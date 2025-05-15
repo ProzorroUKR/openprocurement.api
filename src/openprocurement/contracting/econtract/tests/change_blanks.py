@@ -376,8 +376,8 @@ def no_items_contract_change(self):
     contract = create_contract(self, data)
     self.assertEqual(contract["status"], "pending")
     self.assertNotIn("items", contract)
-    token = data["tender_token"]
-    supplier_token = data["bid_token"]
+    token = self.set_contract_token(contract['id'], contract["buyer"]["identifier"])
+    supplier_token = self.set_contract_token(contract['id'], contract["suppliers"][0]["identifier"])
 
     # activate contract
 

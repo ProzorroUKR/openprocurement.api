@@ -2,6 +2,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.econtract.tests.base import (
+    BaseEContractContentWebTest,
     BaseEContractTest,
     BaseEContractWebTest,
     BaseEContractWebTestTwoItems,
@@ -21,10 +22,9 @@ from openprocurement.contracting.econtract.tests.contract_blanks import (
     create_contract_transfer_token,
     create_contract_w_documents,
     empty_listing,
-    generate_credentials,
-    generate_credentials_invalid,
+    generate_access,
+    get_access,
     get_contract,
-    get_credentials,
     listing,
     listing_changes,
     not_found,
@@ -67,7 +67,7 @@ class ContractResourceTest(BaseEContractTest):
     test_create_contract_w_documents = snitch(create_contract_w_documents)
 
 
-class ContractResource4BrokersTest(BaseEContractWebTest):
+class ContractResource4BrokersTest(BaseEContractContentWebTest):
     test_contract_token_invalid = snitch(contract_token_invalid)
     test_contract_date_signed = snitch(contract_date_signed)
     test_contract_status_change = snitch(contract_status_change)
@@ -77,15 +77,13 @@ class ContractResource4BrokersTest(BaseEContractWebTest):
     test_contract_activate = snitch(contract_activate)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_readonly = snitch(patch_tender_contract_readonly)
-    test_get_credentials = snitch(get_credentials)
-    test_generate_credentials_invalid = snitch(generate_credentials_invalid)
+    test_get_access = snitch(get_access)
     test_put_transaction_to_contract = snitch(put_transaction_to_contract)
 
 
-class ContractActiveResource4BrokersTest(BaseEContractWebTest):
+class ContractActiveResource4BrokersTest(BaseEContractContentWebTest):
     initial_status = "active"
 
-    test_generate_credentials = snitch(generate_credentials)
     test_patch_tender_contract_identical = snitch(patch_tender_contract_identical)
     test_patch_tender_contract_value_vat_change = snitch(patch_tender_contract_value_vat_change)
     test_patch_tender_contract_single_request = snitch(patch_tender_contract_single_request)
@@ -95,24 +93,28 @@ class ContractActiveResource4BrokersTest(BaseEContractWebTest):
     test_patch_tender_contract_period = snitch(patch_tender_contract_period)
 
 
+class ContractAccessResourceTest(BaseEContractWebTest):
+    test_generate_access = snitch(generate_access)
+
+
 class ContractResource4BrokersTestMultipleItems(BaseEContractWebTestTwoItems):
     test_contract_update_add_remove_items = snitch(contract_update_add_remove_items)
 
 
-class ContractResource4AdministratorTest(BaseEContractWebTest):
+class ContractResource4AdministratorTest(BaseEContractContentWebTest):
     initial_auth = ("Basic", ("administrator", ""))
 
     test_contract_administrator_change = snitch(contract_administrator_change)
 
 
-class ContractWOItemsResource4BrokersTest(BaseEContractWebTest):
+class ContractWOItemsResource4BrokersTest(BaseEContractContentWebTest):
     initial_data = test_contract_data_wo_items
 
     test_contract_wo_items_status_change = snitch(contract_wo_items_status_change)
     test_contract_validate_signer_info = snitch(contract_validate_signer_info)
 
 
-class ContractWOAmountNetResource4BrokersTest(BaseEContractWebTest):
+class ContractWOAmountNetResource4BrokersTest(BaseEContractContentWebTest):
     initial_status = "active"
     initial_data = test_contract_data_wo_value_amount_net
 

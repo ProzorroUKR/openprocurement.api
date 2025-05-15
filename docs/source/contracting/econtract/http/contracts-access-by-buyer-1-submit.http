@@ -1,0 +1,31 @@
+PATCH /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/access?acc_token=50fb7af94c574b008edcb6e918e63556 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "identifier": {
+      "scheme": "UA-IPN",
+      "id": "00037257",
+      "uri": "http://www.dus.gov.ua/"
+    },
+    "active": true
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Token mismatch"
+    }
+  ]
+}
+

@@ -1,11 +1,15 @@
-PATCH /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1?acc_token=31cb6b454a3f451fb64c52d405dda98a HTTP/1.0
+POST /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/access HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "status": "cancelled"
+    "identifier": {
+      "scheme": "UA-IPN",
+      "id": "00037257",
+      "uri": "http://www.dus.gov.ua/"
+    }
   }
 }
 
@@ -19,7 +23,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Can't update contract status"
+      "description": "Access already claimed"
     }
   ]
 }

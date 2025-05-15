@@ -189,6 +189,29 @@ class BaseEContractTest(BaseContractTest):
     def delete_tender(self):
         self.mongodb.tenders.delete(self.tender_id)
 
+    def set_contract_token(self, contract_id, identifier_data):
+        response = self.app.post_json(
+            f"/contracts/{contract_id}/access",
+            {
+                "data": {
+                    "identifier": identifier_data,
+                }
+            },
+        )
+        contract_token = response.json["access"]["token"]
+
+        response = self.app.patch_json(
+            f"/contracts/{contract_id}/access?acc_token={contract_token}",
+            {
+                "data": {
+                    "identifier": identifier_data,
+                    "active": True,
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+        return contract_token
+
 
 class BaseEContractWebTest(BaseEContractTest):
     relative_to = os.path.dirname(__file__)
@@ -250,17 +273,12 @@ class BaseEContractWebTest(BaseEContractTest):
                 {
                     "tender_id": self.tender_id,
                     # "suppliers": suppliers,
-                    "owner": self.tender_document["owner"],
-                    "tender_token": self.tender_document["owner_token"],
-                    "bid_owner": "broker",
-                    "bid_token": self.initial_bids_tokens[0],
                 }
             )
             # if "items" in self.initial_data:
             #     contract["items"] = prepared_items
             self.contract_id = contract["id"]
             self.contract = create_contract(self, contract)
-            self.set_status(self.initial_status)
 
     def delete_contract(self):
         if self.contract_id:
@@ -270,12 +288,10 @@ class BaseEContractWebTest(BaseEContractTest):
 class BaseEContractContentWebTest(BaseEContractWebTest):
     def setUp(self):
         super().setUp()
-        response = self.app.patch_json(
-            "/contracts/{}/credentials?acc_token={}".format(self.contract_id, self.initial_data["tender_token"]),
-            {"data": {}},
-        )
-        self.contract_token = response.json["access"]["token"]
+        self.contract_token = self.set_contract_token(self.contract_id, self.contract["buyer"]["identifier"])
+        self.bid_token = self.set_contract_token(self.contract_id, self.contract["suppliers"][0]["identifier"])
+        self.set_status(self.initial_status)
 
 
-class BaseEContractWebTestTwoItems(BaseEContractWebTest):
+class BaseEContractWebTestTwoItems(BaseEContractContentWebTest):
     initial_data = test_contract_data_two_items

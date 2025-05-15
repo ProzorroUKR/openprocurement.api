@@ -31,7 +31,7 @@ def is_owner_by_fields(request, item, token_field="token", owner_field="owner"):
 
 
 def is_tender_owner(request, contract):
-    return is_owner_by_fields(request, contract, token_field="tender_token")
+    return is_owner_by_fields(request, contract, "tender_token")
 
 
 def is_contract_owner(request, contract):
@@ -43,6 +43,6 @@ def is_contract_owner(request, contract):
 
 
 def is_bid_owner(request, contract):
-    return is_owner_by_fields(
-        request, contract, token_field="bid_token", owner_field="bid_owner"
-    ) or is_owner_by_fields(request, contract.get("access", {}).get("supplier", {}))
+    return is_owner_by_fields(request, contract, "bid_token", "bid_owner") or is_owner_by_fields(
+        request, contract.get("access", {}).get("supplier", {})
+    )

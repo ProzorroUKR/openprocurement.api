@@ -36,6 +36,7 @@ from openprocurement.tender.pricequotation.tests.utils import (
 
 test_contract_data = deepcopy(test_contract_data)
 test_tender_data = deepcopy(test_tender_pq_data)
+test_tender_data["procuringEntity"]["identifier"]["id"] = "00037257"
 test_tender_data_multi_buyers = deepcopy(test_tender_below_multi_buyers_data)
 
 TARGET_DIR = 'docs/source/contracting/econtract/http/'
@@ -102,7 +103,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json('/tenders', {'data': test_tender_data, 'config': self.initial_config})
         tender_id = self.tender_id = response.json['data']['id']
-        owner_token = response.json['access']['token']
+        tender_token = response.json['access']['token']
         tender_items = response.json['data']['items']
         # switch to active.tendering
         response = self.set_status(
@@ -146,13 +147,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.set_status('active.qualification')
         # get awards
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.get(f'/tenders/{tender_id}/awards?acc_token={owner_token}')
+        response = self.app.get(f'/tenders/{tender_id}/awards?acc_token={tender_token}')
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
         # set award as active
-        self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+        self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
-            f'/tenders/{tender_id}/awards/{award_id}?acc_token={owner_token}',
+            f'/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}',
             {"data": {"status": "active", "qualified": True}},
         )
         # get contract id
@@ -184,16 +185,126 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         contract = response.json['data']
         self.assertEqual(contract['status'], 'pending')
 
-        test_contract_data = response.json['data']
+        # Getting access
+        # Deprecated method
+        self.app.authorization = ('Basic', ('broker', ''))
+        with open(TARGET_DIR + 'deprecated-contract-credentials.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(f'/contracts/{contract_id}/credentials?acc_token={tender_token}')
+        self.assertEqual(response.status, '200 OK')
+        self.app.get(request_path)
+
+        with open(TARGET_DIR + 'contracts-listing-1.http', 'w') as self.app.file_obj:
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(len(response.json['data']), 1)
+
+        # Getting access for contract
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        with open(TARGET_DIR + 'contracts-access-invalid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{contract_id}/access",
+                {
+                    "data": {
+                        "identifier": {"scheme": "UA-EDR", "id": "123456780"},
+                    }
+                },
+                status=403,
+            )
+
+        with open(TARGET_DIR + 'contracts-access-by-buyer-1.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{contract_id}/access",
+                {
+                    "data": {
+                        "identifier": contract["buyer"]["identifier"],
+                    }
+                },
+            )
+            buyer_token_1 = response.json["access"]["token"]
+
+        with open(TARGET_DIR + 'contracts-access-by-buyer-2.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{contract_id}/access",
+                {
+                    "data": {
+                        "identifier": contract["buyer"]["identifier"],
+                    }
+                },
+            )
+            buyer_token_2 = owner_token = response.json["access"]["token"]
+
+        with open(TARGET_DIR + 'contracts-access-by-buyer-2-submit.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/contracts/{contract_id}/access?acc_token={buyer_token_2}",
+                {
+                    "data": {
+                        "identifier": contract["buyer"]["identifier"],
+                        "active": True,
+                    }
+                },
+            )
+            self.assertEqual(response.status, "200 OK")
+
+        with open(TARGET_DIR + 'contracts-access-by-buyer-3.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts/{contract_id}/access",
+                {
+                    "data": {
+                        "identifier": contract["buyer"]["identifier"],
+                    }
+                },
+                status=403,
+            )
+
+        with open(TARGET_DIR + 'contracts-access-by-buyer-1-submit.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f"/contracts/{contract_id}/access?acc_token={buyer_token_1}",
+                {
+                    "data": {
+                        "identifier": contract["buyer"]["identifier"],
+                        "active": True,
+                    }
+                },
+                status=403,
+            )
+
+        with open(TARGET_DIR + 'contracts-access-by-supplier.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{contract_id}/access",
+                {
+                    "data": {
+                        "identifier": contract["suppliers"][0]["identifier"],
+                    }
+                },
+            )
+            supplier_token = bid_token = response.json["access"]["token"]
+
+        with open(TARGET_DIR + 'contracts-access-by-supplier-submit.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/contracts/{contract_id}/access?acc_token={supplier_token}",
+                {
+                    "data": {
+                        "identifier": contract["suppliers"][0]["identifier"],
+                        "active": True,
+                    }
+                },
+            )
+            self.assertEqual(response.status, "200 OK")
 
         # Modifying pending contract
+
+        with open(TARGET_DIR + 'contract-modify-forbidden-with-old-token.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f"/contracts/{contract_id}?acc_token={tender_token}",
+                {"data": {"title": "Updated contract"}},
+                status=403,
+            )
 
         contract["value"]["amount"] = 238
         contract["value"]["amountNet"] = 230
 
         ####  Set contract value
-
-        self.app.authorization = ('Basic', ('broker', ''))
 
         with open(TARGET_DIR + 'contract-set-contract-value.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -274,21 +385,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get(f'/contracts/{contract_id}/documents?acc_token={owner_token}')
         self.assertEqual(response.status, '200 OK')
 
-        # Getting access
-        # Deprecated method
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'deprecated-contract-credentials.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(f'/contracts/{contract_id}/credentials?acc_token={owner_token}')
-        self.assertEqual(response.status, '200 OK')
-        self.app.get(request_path)
-        contract_token = response.json['access']['token']
-        contract = deepcopy(test_contract_data)
-
-        with open(TARGET_DIR + 'contracts-listing-1.http', 'w') as self.app.file_obj:
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(len(response.json['data']), 1)
-
         # Cancelling contract
 
         with open(TARGET_DIR + 'contract-cancelling-error.http', 'w') as self.app.file_obj:
@@ -311,7 +407,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'award-cancelling.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                f'/tenders/{tender_id}/awards/{award_id}?acc_token={owner_token}',
+                f'/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}',
                 {"data": {"status": "cancelled"}},
             )
 
