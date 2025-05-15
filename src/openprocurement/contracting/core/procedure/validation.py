@@ -77,12 +77,12 @@ def validate_add_document_to_active_change(request, **_):
 # Signer info
 
 
-def validate_signer_info_update_in_not_allowed_status(request, **_):
+def validate_contract_in_pending_status(request, **_):
     contract = request.validated["contract"]
     if contract["status"] != "pending":
         raise_operation_error(
             request,
-            f"Can't update contract signerInfo in current ({contract['status']}) status",
+            f"Operation forbidden in current ({contract['status']}) status",
         )
 
 
