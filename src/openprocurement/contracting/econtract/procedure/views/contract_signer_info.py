@@ -9,9 +9,9 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
+    validate_contract_in_pending_status,
     validate_contract_owner,
     validate_contract_supplier,
-    validate_signer_info_update_in_not_allowed_status,
 )
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.contracting.econtract.procedure.models.organization import (
@@ -65,7 +65,7 @@ class EContractBuyerSignerInfoResource(BaseSignerInfoResource):
         validators=(
             unless_admins(unless_administrator(validate_contract_owner)),
             validate_input_data(SignerInfo),
-            unless_admins(unless_administrator(validate_signer_info_update_in_not_allowed_status)),
+            unless_admins(unless_administrator(validate_contract_in_pending_status)),
         ),
     )
     def put(self):
@@ -87,7 +87,7 @@ class EContractSuppliersSignerInfoResource(BaseSignerInfoResource):
         validators=(
             unless_admins(unless_administrator(validate_contract_supplier)),
             validate_input_data(SignerInfo),
-            unless_admins(unless_administrator(validate_signer_info_update_in_not_allowed_status)),
+            unless_admins(unless_administrator(validate_contract_in_pending_status)),
         ),
     )
     def put(self):

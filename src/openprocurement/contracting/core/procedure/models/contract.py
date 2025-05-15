@@ -9,6 +9,7 @@ from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import ContractValue
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_items_uniq
+from openprocurement.contracting.core.procedure.models.access import AccessRoles
 from openprocurement.contracting.core.procedure.models.change import Change
 from openprocurement.contracting.core.procedure.models.document import Document
 from openprocurement.contracting.core.procedure.models.implementation import (
@@ -52,7 +53,7 @@ class BasePostContract(Model):
     suppliers = ListType(ModelType(BusinessOrganization), min_size=1, max_size=1)
 
     owner = StringType()
-    tender_token = StringType(required=True)
+    tender_token = StringType()
     tender_id = StringType(required=True)
     mode = StringType(choices=["test"])
 
@@ -101,7 +102,7 @@ class BaseContract(Model):
         min_size=1,
         validators=[validate_items_uniq],
     )
-    tender_token = StringType(required=True)
+    tender_token = StringType()
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)
     transfer_token = StringType(default=lambda: uuid4().hex)
@@ -121,6 +122,8 @@ class BaseContract(Model):
 
     bid_owner = StringType()
     bid_token = StringType()
+
+    access = ModelType(AccessRoles)
 
     revisions = BaseType()
 
