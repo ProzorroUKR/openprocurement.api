@@ -6,7 +6,6 @@ from openprocurement.api.utils import raise_operation_error
 
 
 class ContractAccessState(BaseState):
-
     def get_role(self, data, contract):
         def get_identifier(entity):
             try:

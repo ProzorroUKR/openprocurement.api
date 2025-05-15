@@ -27,13 +27,3 @@ class BaseContractWebTest(BaseCoreWebTest):
         self.contract = response.json["data"]
         self.contract_id = self.contract["id"]
         self.app.authorization = orig_auth
-
-
-class BaseContractContentWebTest(BaseContractWebTest):
-    def setUp(self):
-        super().setUp()
-        response = self.app.patch_json(
-            "/contracts/{}/credentials?acc_token={}".format(self.contract_id, self.initial_data["tender_token"]),
-            {"data": {}},
-        )
-        self.contract_token = response.json["access"]["token"]

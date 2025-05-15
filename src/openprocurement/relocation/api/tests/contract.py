@@ -28,24 +28,56 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
     def create_contract(self):
         data = deepcopy(self.initial_data)
         data['id'] = uuid4().hex
-        data['owner'] = self.first_owner
-        data['bid_owner'] = self.first_owner
-        self.bid_token = uuid4().hex
-        data['bid_token'] = self.bid_token
         self.contract = create_contract(self, data)
         self.contract_id = self.contract["id"]
-        response = self.app.patch_json(
-            f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}", {"data": ""}
+        response = self.app.post_json(
+            f"/contracts/{self.contract_id}/access",
+            {
+                "data": {
+                    "identifier": self.contract["buyer"]["identifier"],
+                }
+            },
         )
-        self.assertEqual(response.status, "200 OK")
         self.contract_token = response.json["access"]["token"]
         self.contract_transfer = response.json["access"]["transfer"]
+
+        response = self.app.patch_json(
+            f"/contracts/{self.contract_id}/access?acc_token={self.contract_token}",
+            {
+                "data": {
+                    "identifier": self.contract["buyer"]["identifier"],
+                    "active": True,
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        response = self.app.post_json(
+            f"/contracts/{self.contract_id}/access",
+            {
+                "data": {
+                    "identifier": self.contract["suppliers"][0]["identifier"],
+                }
+            },
+        )
+        self.bid_token = response.json["access"]["token"]
+
+        response = self.app.patch_json(
+            f"/contracts/{self.contract_id}/access?acc_token={self.bid_token}",
+            {
+                "data": {
+                    "identifier": self.contract["suppliers"][0]["identifier"],
+                    "active": True,
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
 
         # TODO: Test pending contract
 
         # set signerInfo for buyer
         response = self.app.put_json(
-            f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.tender_token}",
+            f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.contract_token}",
             {"data": test_signer_info},
         )
         self.assertEqual(response.status, "200 OK")
@@ -124,15 +156,28 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
 
         # try to use already applied transfer
         data = deepcopy(self.initial_data)
-        data["owner"] = self.first_owner
         data["id"] = uuid4().hex
-        data["tender_token"] = self.tender_token
         contract = create_contract(self, data)
+        response = self.app.post_json(
+            f"/contracts/{contract['id']}/access",
+            {
+                "data": {
+                    "identifier": contract["buyer"]["identifier"],
+                }
+            },
+        )
+        access = response.json["access"]
+
         response = self.app.patch_json(
-            "/contracts/{}/credentials?acc_token={}".format(contract["id"], self.tender_token), {"data": ""}
+            f"/contracts/{contract['id']}/access?acc_token={access['token']}",
+            {
+                "data": {
+                    "identifier": contract["buyer"]["identifier"],
+                    "active": True,
+                }
+            },
         )
         self.assertEqual(response.status, "200 OK")
-        access = response.json["access"]
 
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(
