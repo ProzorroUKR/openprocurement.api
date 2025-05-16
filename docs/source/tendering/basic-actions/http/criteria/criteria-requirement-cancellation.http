@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/16d7f233a6cb4503b6baf8273871732c/requirement_groups/7b99ea9d6992420bba8b27c320d2b781/requirements/f5bced3f32bc4684a376bb1dcdf7c452?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
+PUT /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/2c882107c3df4accb409505309fc598d/requirement_groups/c3bd4e33d8f548db973c4a48df01a298/requirements/bb11c06fbd5545ccb0284ff39aa2d6cc?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,7 +16,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "f5bced3f32bc4684a376bb1dcdf7c452",
+      "id": "bb11c06fbd5545ccb0284ff39aa2d6cc",
       "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
       "dataType": "boolean",
       "expectedValue": true,
@@ -25,7 +25,7 @@ Content-Type: application/json
       "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "f5bced3f32bc4684a376bb1dcdf7c452",
+      "id": "bb11c06fbd5545ccb0284ff39aa2d6cc",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "status": "cancelled",
       "dateModified": "2023-10-10T01:00:00+03:00"

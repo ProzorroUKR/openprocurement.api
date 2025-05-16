@@ -171,7 +171,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fc330bfd80e44365
     },
     "milestones": [
       {
-        "id": "fb8d3e7fee1f4dff8fc0e4c90b60333c",
+        "id": "39aa1d1c9c8f48e8a0fcc405fb1aeb81",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -183,7 +183,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fc330bfd80e44365
         "sequenceNumber": 0
       },
       {
-        "id": "54e5d486cab44da8bcb491b2529045a4",
+        "id": "c864d56996a0466c96e92283150cc506",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",

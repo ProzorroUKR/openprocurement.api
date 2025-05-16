@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "requirement": {
-      "id": "059441eb12d94b8f8ef7c28893c64458",
+      "id": "86e05c198d1c41c588f7ca7373fdd95f",
       "title": "Учасник процедури закупівлі є пов'язаною особою з іншими учасниками та/або з уповноваженою особою (особами), та/або з керівником замовника"
     },
     "evidences": [
@@ -20,7 +20,7 @@ Content-Type: application/json
           "id": "8e181d86dd0a49bb86ba68aecc97b2e5",
           "title": "name.doc"
         },
-        "id": "1b08a274c42444269e92adb28220aab1"
+        "id": "5a34b76b1edd474a864692e051f32498"
       }
     ],
     "value": false,

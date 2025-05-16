@@ -20,7 +20,7 @@ Content-Type: application/json
       "location": "body",
       "name": "requirementResponses",
       "description": [
-        "Responses are required for all criteria with source tenderer/winner, failed for criteria cfe1d463c9064042a654b7c98e0e2d60, 31c644a5806c47589e04957d48e4daa9, 81bdc6bed3134e059f5261fd18ae6250"
+        "Responses are required for all criteria with source tenderer/winner, failed for criteria 7d70d08fdb88434499c5ec8befc0f914, c7f3ee55b3274686bf3122450b0096e8, 35682801e12040e5aab5f9253c3d1268"
       ]
     }
   ]

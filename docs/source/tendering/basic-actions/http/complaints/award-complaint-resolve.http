@@ -35,7 +35,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "9b91b7d75ce2407f8014e694aa811bbb",
+        "id": "434ef81656d04109b501cfa21842d9f0",
         "datePublished": "2023-10-10T01:00:03+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",
@@ -76,7 +76,7 @@ Content-Type: application/json
     "dateSubmitted": "2023-10-10T01:00:03+03:00",
     "objections": [
       {
-        "id": "d2655b362ffe473ab4a214915da867c4",
+        "id": "733ec45edbe44a2b84bb34af97965ed5",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "award",
@@ -88,14 +88,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "7e1fc95dcab744609f07130f17ebb65c",
+            "id": "4835dc0ba9ef477797e0f712ce425ce8",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "be3f89d2bd3447bf9d1c50879468a42e",
+            "id": "21149ff38cc34d799125149a9df9a2f2",
             "description": "test argument"
           }
         ],

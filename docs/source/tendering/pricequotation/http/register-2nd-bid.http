@@ -36,13 +36,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "e00ff388599e42ce842a4d3dec0a110d"
+          "id": "8cac9e406b954b80b22aec9a77e63593"
         },
         "value": 23.8
       },
       {
         "requirement": {
-          "id": "0c38a99c21304364b46d84c7814be3cb"
+          "id": "17d57e334aed49d19de4fd5b27b3b314"
         },
         "values": [
           "1920x1080"
@@ -50,7 +50,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "5980efcd986644278cf07c53c39d73db"
+          "id": "08ac3b62c1114ed1918bbde211047916"
         },
         "values": [
           "16:9"
@@ -58,13 +58,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "021928a6395b4787adbba08acfd9c8d2"
+          "id": "0cbbfa2735324fe8bd172bfe98510c39"
         },
         "value": 0
       },
       {
         "requirement": {
-          "id": "e34b9aea95744d9db7e329a91f3c1657"
+          "id": "6b78fd178786471ebff1faf01277c285"
         },
         "values": [
           "1000:1"
@@ -72,19 +72,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "56120db470a443c6a1085bf8b4c49e83"
+          "id": "6d027700fb9646968fed97d3291e487a"
         },
         "value": 1
       },
       {
         "requirement": {
-          "id": "9ee3c16ec0874793a9ec23376a0a9b11"
+          "id": "ce5247fff13a4a5bb8cc27b5c9edc972"
         },
         "value": 1
       },
       {
         "requirement": {
-          "id": "29482dcb8d8f4ce5ad6c6d0135b3b9f5"
+          "id": "3a028e0e6ea34ccebfcd214944fb439a"
         },
         "values": [
           "HDMI"
@@ -92,7 +92,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "48ed89346d044abbb5786ee9d768531f"
+          "id": "68f8023f5da1456789a9b355f67022f9"
         },
         "value": 36
       }
@@ -154,11 +154,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
     "requirementResponses": [
       {
         "requirement": {
-          "id": "e00ff388599e42ce842a4d3dec0a110d",
+          "id": "8cac9e406b954b80b22aec9a77e63593",
           "title": "Діагональ екрану"
         },
         "value": 23.8,
-        "id": "ae3c56525ee24792ae59483f7f6ef8cc",
+        "id": "d322358cebbd4e9a9f65e1425f4934e1",
         "unit": {
           "code": "INH",
           "name": "дюйм"
@@ -170,13 +170,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       },
       {
         "requirement": {
-          "id": "0c38a99c21304364b46d84c7814be3cb",
+          "id": "17d57e334aed49d19de4fd5b27b3b314",
           "title": "Роздільна здатність"
         },
         "values": [
           "1920x1080"
         ],
-        "id": "b8605f5687bb4b528adbe0931ffbed9c",
+        "id": "30ab504260c643ab8e603a6545b2f5a8",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -184,13 +184,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       },
       {
         "requirement": {
-          "id": "5980efcd986644278cf07c53c39d73db",
+          "id": "08ac3b62c1114ed1918bbde211047916",
           "title": "Співвідношення сторін"
         },
         "values": [
           "16:9"
         ],
-        "id": "1d6f50c280f74205a1fe5db20d2ec8f5",
+        "id": "7ec98001370f4de7a7973ebec7471ee3",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -198,11 +198,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       },
       {
         "requirement": {
-          "id": "021928a6395b4787adbba08acfd9c8d2",
+          "id": "0cbbfa2735324fe8bd172bfe98510c39",
           "title": "Яскравість дисплея"
         },
         "value": 0,
-        "id": "7a3465a9289a4fb8ba2eb6bbb3f1dacd",
+        "id": "9aa3163bcc85432eae1ef76d95c69317",
         "unit": {
           "code": "A24",
           "name": "кд/м²"
@@ -214,13 +214,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       },
       {
         "requirement": {
-          "id": "e34b9aea95744d9db7e329a91f3c1657",
+          "id": "6b78fd178786471ebff1faf01277c285",
           "title": "Контрастність (статична)"
         },
         "values": [
           "1000:1"
         ],
-        "id": "5289a7087aab430ba354c0f50864b582",
+        "id": "dfad8e79057a4cd0803f1a0d6adb3bec",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -228,11 +228,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       },
       {
         "requirement": {
-          "id": "56120db470a443c6a1085bf8b4c49e83",
+          "id": "6d027700fb9646968fed97d3291e487a",
           "title": "Кількість портів HDMI"
         },
         "value": 1,
-        "id": "9da50b88645e427abdb4ed23144ce1c1",
+        "id": "ada3bc7bb9624da998cfd33cd2e306d6",
         "unit": {
           "code": "H87",
           "name": "штук"
@@ -244,11 +244,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       },
       {
         "requirement": {
-          "id": "9ee3c16ec0874793a9ec23376a0a9b11",
+          "id": "ce5247fff13a4a5bb8cc27b5c9edc972",
           "title": "Кількість портів D-sub"
         },
         "value": 1,
-        "id": "a2b0bff86ce0499882dd41b2e42061b2",
+        "id": "2186546dcbbe4423a6f276f1c97601f9",
         "unit": {
           "code": "H87",
           "name": "штук"
@@ -260,13 +260,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       },
       {
         "requirement": {
-          "id": "29482dcb8d8f4ce5ad6c6d0135b3b9f5",
+          "id": "3a028e0e6ea34ccebfcd214944fb439a",
           "title": "Кабель для під’єднання"
         },
         "values": [
           "HDMI"
         ],
-        "id": "564030e3565648dd9f7fc2605374c246",
+        "id": "0715b554d0fe4dddab2e85f594d826cb",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -274,11 +274,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       },
       {
         "requirement": {
-          "id": "48ed89346d044abbb5786ee9d768531f",
+          "id": "68f8023f5da1456789a9b355f67022f9",
           "title": "Гарантія"
         },
         "value": 36,
-        "id": "c1560006801d491f8b50af128875b91f",
+        "id": "b428ba5403cd4ebab61bbc860de74eed",
         "unit": {
           "code": "MON",
           "name": "місяців"

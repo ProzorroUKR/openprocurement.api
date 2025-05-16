@@ -1,4 +1,4 @@
-DELETE /api/2.5/tenders/1f57390f567248e78a17e2dbd55d6a10/awards/c5f5974e82d343a39e9c728b7a10610e/requirement_responses/4ffed579430b463a996cd50c698dc7db/evidences/73904e7d54e4405ca0054e0957891fb9?acc_token=01a0e598f3b04f3080aa4ba86237db40 HTTP/1.0
+DELETE /api/2.5/tenders/1f57390f567248e78a17e2dbd55d6a10/awards/c5f5974e82d343a39e9c728b7a10610e/requirement_responses/4ffed579430b463a996cd50c698dc7db/evidences/ffb63f3a74214f7fba46336cf2fefdc2?acc_token=01a0e598f3b04f3080aa4ba86237db40 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -14,7 +14,7 @@ Content-Type: application/json
       "id": "7db6373a0527432e8ead9806bf100c4d",
       "title": "name.doc"
     },
-    "id": "73904e7d54e4405ca0054e0957891fb9"
+    "id": "ffb63f3a74214f7fba46336cf2fefdc2"
   }
 }
 

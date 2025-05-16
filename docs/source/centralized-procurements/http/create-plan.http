@@ -174,7 +174,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d93
       },
       "breakdown": [
         {
-          "id": "a5c554f31f6a484f9ea6aaaf0240ec34",
+          "id": "ff730ec22d7f4416bcd769da53cd2b17",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -198,7 +198,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d93
     ],
     "items": [
       {
-        "id": "1fa353458f8842c7b7af644567101a20",
+        "id": "fb0fc1bddc8d4d16a02007d3d9f8340b",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -231,7 +231,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d93
     ],
     "buyers": [
       {
-        "id": "aca25f71a3ce4fdb8d22f87508f58375",
+        "id": "7d8d2ff3381142cfabb6c34c91de5687",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

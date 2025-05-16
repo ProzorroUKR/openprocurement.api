@@ -291,7 +291,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/420fdea4c7d74816
         "sequenceNumber": 1
       },
       {
-        "id": "bb46992e44154543b6ef9666fe25107b",
+        "id": "bc034fa8e67c4bc58b9ec7469fe0752d",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",

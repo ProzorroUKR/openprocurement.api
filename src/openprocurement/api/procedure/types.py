@@ -17,8 +17,30 @@ from openprocurement.api.procedure.utils import parse_date
 
 
 class ListType(BaseListType):
-    # TODO: RM
-    pass
+    def _custom_force_list(self, value):
+        """
+        Custom force list implementation to handle non-list values
+        > "v" -> ["v"]
+        > {"k": "v"} -> [{"k": "v"}]
+        > {"1": {"k2": "v2"}, "0": {"k1": "v1"}} -> [{"k1": "v1"}, {"k2": "v2"}]
+        """
+        if value is None:
+            return []
+
+        try:
+            if isinstance(value, str):
+                raise TypeError()
+
+            if isinstance(value, dict):
+                return [value[str(k)] for k in sorted(map(int, value.keys()))]
+
+            return list(value)
+        except (TypeError, ValueError):
+            return [value]
+
+    def to_native(self, value, context=None):
+        value = self._custom_force_list(value)
+        return super().to_native(value, context)
 
 
 class ModelType(BaseModelType):

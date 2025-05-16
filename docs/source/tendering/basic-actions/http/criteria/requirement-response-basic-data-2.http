@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "454dc5b524874c2891fcc5424aa8293c"
+          "id": "563124eafd7a483da4fa9dc6c4eca0b8"
         },
         "evidences": [
           {
@@ -24,7 +24,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "3410306ab5f74bf9abdaf846ad3687ff"
+          "id": "ffe317de413e48ae97db78b9e602da60"
         },
         "evidences": [
           {
@@ -40,7 +40,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "c63023e54fd04a02869e09a265bdacda"
+          "id": "65672e4864a645a78981f701191ff6e2"
         },
         "evidences": [
           {
@@ -67,7 +67,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "454dc5b524874c2891fcc5424aa8293c",
+          "id": "563124eafd7a483da4fa9dc6c4eca0b8",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
         },
         "evidences": [
@@ -78,11 +78,11 @@ Content-Type: application/json
               "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "0eab0000742249dcbae49973cc6ac7e6"
+            "id": "1e4d20dd0147430aaf00c645188383e1"
           }
         ],
         "value": true,
-        "id": "219fd0f62d934e4a83f8424e767aa862",
+        "id": "6b7aa560fcb64186b1a872ad46e59142",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
@@ -90,7 +90,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "3410306ab5f74bf9abdaf846ad3687ff",
+          "id": "ffe317de413e48ae97db78b9e602da60",
           "title": "Учасник процедури закупівлі є нерезидентом"
         },
         "evidences": [
@@ -101,11 +101,11 @@ Content-Type: application/json
               "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "bf87eeaab157466185b89553591609c4"
+            "id": "0445c11016454dc0853507ae7824566d"
           }
         ],
         "value": true,
-        "id": "ad886ba640674565b613793d4d082196",
+        "id": "715f94e262cb4a7b9617df062233cc14",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
@@ -113,7 +113,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "c63023e54fd04a02869e09a265bdacda",
+          "id": "65672e4864a645a78981f701191ff6e2",
           "title": "Учасник процедури закупівлі має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми"
         },
         "evidences": [
@@ -124,11 +124,11 @@ Content-Type: application/json
               "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "4c898f0a3d3b4ccb8ad15a1886901b4e"
+            "id": "6f404764880449a6b9dc9a562866f3b2"
           }
         ],
         "value": true,
-        "id": "72f18380780648d7a5a90c3e4e7279bc",
+        "id": "033fdbdef8254fe9a3d5da7ea7617885",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"

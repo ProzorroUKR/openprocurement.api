@@ -305,7 +305,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
         "sequenceNumber": 1
       },
       {
-        "id": "b185ff9675fa422591a276c045617ff6",
+        "id": "a3e0e4b47241405cbc68354b5f5e1f91",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -325,7 +325,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
     },
     "items": [
       {
-        "id": "9726ad9d9cae4a40b5e4407ee284031f",
+        "id": "af40242eda7242e39ed5832f624b4389",
         "description": "телевізори",
         "unit": {
           "name": "кг",
@@ -363,7 +363,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
         "relatedBuyer": "11111111111111111111111111111111"
       },
       {
-        "id": "23f2aa0f053c4f80afa2fc7b320ed801",
+        "id": "3828159b4e9e4e8487cb058ce9056fb2",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -401,7 +401,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "3f1c3043cbe64328b4924146f119594f",
+        "id": "a84fd0ce74b24a7791584a8aa27e1f53",
         "description": "портфелі",
         "unit": {
           "name": "кг",

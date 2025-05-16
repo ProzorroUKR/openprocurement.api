@@ -70,7 +70,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
-        "id": "5d8f4d521f7f4ba3a95eb3a2fb963185",
+        "id": "1788c0b73dc34f7b899e3c504d3d11e6",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -101,7 +101,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "7f17f2512dd443bfa3712e1769932462",
+        "id": "2575c0050ed24fbd9673f9f7fa5b1b7d",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -132,7 +132,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "f51476be3de34b909a8da1ddd85ccc48",
+        "id": "40096854498f4ada92637bdc4e02e95a",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -165,7 +165,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "9fd8252016044c9b8175f44b4e4b88fa",
+        "id": "bdec69d290d548aca291dd58d4a1854d",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

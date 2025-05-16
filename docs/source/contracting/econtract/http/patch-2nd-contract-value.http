@@ -56,7 +56,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "fa935473378a4ca39aebfb1fabaa4a9e",
+        "id": "7523e1ce134b4d2cbb2a1733fed3ba63",
         "description": "портфелі",
         "quantity": 5.0,
         "classification": {
@@ -94,7 +94,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "70bf866714a34e608b07cc77c3aa14fb",
+        "id": "74cb434606594a09b2f2f9d6d29c6916",
         "description": "портфелі",
         "quantity": 5.0,
         "classification": {

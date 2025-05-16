@@ -82,7 +82,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "fa4d47b81c0b4b41ad462bdcc146e44b",
+          "id": "fe685ef07eb149389d0906122d242d57",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -107,7 +107,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
-        "id": "6fd310eb627c4375a8e7f2336ef91f29",
+        "id": "6357797639c344369e5948778ade25b6",
         "classification": {
           "description": "Vegetable seeds",
           "scheme": "ДК021",
@@ -133,7 +133,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "9fd8252016044c9b8175f44b4e4b88fa",
+        "id": "bdec69d290d548aca291dd58d4a1854d",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

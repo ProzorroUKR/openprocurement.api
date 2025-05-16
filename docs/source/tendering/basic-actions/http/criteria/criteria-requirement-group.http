@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/bbff38f98f1c45deb2a2d3c28ed1224f/requirement_groups/434e2574301a467e8328a7d6a8ce6916 HTTP/1.0
+GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/bbff38f98f1c45deb2a2d3c28ed1224f/requirement_groups/bad719a980bf4d5c939a4aa0106784ed HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,11 +8,11 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "434e2574301a467e8328a7d6a8ce6916",
+    "id": "bad719a980bf4d5c939a4aa0106784ed",
     "description": "Updated description",
     "requirements": [
       {
-        "id": "081dceb6c124494cbdf71784175644c6",
+        "id": "d394af35f58042b6a57575e1f1ed2767",
         "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
         "dataType": "boolean",
         "eligibleEvidences": [
@@ -20,7 +20,7 @@ Content-Type: application/json
             "title": "Документальне підтвердження",
             "description": "Довідка в довільній формі",
             "type": "document",
-            "id": "9c3165639f7a4a70abe5dec4167ec3cc"
+            "id": "8c8f9af9e5244464bbe7f9c7ac648d30"
           }
         ],
         "status": "active",
