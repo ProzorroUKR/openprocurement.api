@@ -1,0 +1,26 @@
+POST /api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/24bebd2e26154fae9ca0a8589220ceac/appeals?acc_token=dc8f8eb900fb4f23825d7e0bd0e40e96 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "description": "Test appeal"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Can't submit or edit appeal in current (pending) complaint status"
+    }
+  ]
+}
+

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-09 13:56+0300\n"
+"POT-Creation-Date: 2025-05-12 17:15+0300\n"
 "PO-Revision-Date: 2020-05-20 23:07+0300\n"
 "Last-Translator: \n"
 "Language: uk\n"
@@ -75,6 +75,15 @@ msgstr "Орган оскарження може надати запит до з
 msgid "Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:"
 msgstr "Замовник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`: "
 
+msgid "Complaint Appeals"
+msgstr "Iнформація про оскарження скарги в суді"
+
+msgid "Once complaint is in `invalid`, `satisfied`, `declined` or `resolved` status tender owner or complaint author can submit an appeal for complaint."
+msgstr "Для скарги у статусах `invalid`, `satisfied`, `declined` та `resolved` власник тендеру або автор скарги мають можливість додати інформацію про оскарження скарги в суді."
+
+msgid "For more details, see :ref:`tender complaint appeals <complaint-appeals>`."
+msgstr "Детальніше дивитися: :ref:`Iнформація про оскарження скарги в суді <complaint-appeals>`"
+
 msgid "Complaint Explanations"
 msgstr "Пояснення до скарги"
 
@@ -131,7 +140,4 @@ msgstr "Відміна чернетки скарги скаржником"
 
 msgid "Cancelling accepted complaint by Reviewer"
 msgstr "Відміна прийнятої скарги рецензентом"
-
-#~ msgid "Cancelling accepted complaint by Complainant"
-#~ msgstr "Відміна прийнятої скарги скаржником"
 

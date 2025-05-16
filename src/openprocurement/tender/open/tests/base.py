@@ -117,6 +117,15 @@ test_tender_open_complaint_objection = {
     "sequenceNumber": 1,
 }
 
+test_tender_open_complaint_appeal = {
+    "description": "Test appeal",
+}
+
+test_tender_open_complaint_appeal_proceeding = {
+    "dateProceedings": "2025-06-10T10:00:00+03:00",
+    "proceedingNumber": "1234567890",
+}
+
 test_tender_open_required_criteria_ids = {
     "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
     "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",

@@ -111,6 +111,10 @@ Schema
 :objections:
     List of :ref:`complaint-objection` objects
 
+
+:appeals:
+    List of :ref:`complaint-appeal` objects
+
 :value:
     :ref:`Guarantee`, auto-generated
 

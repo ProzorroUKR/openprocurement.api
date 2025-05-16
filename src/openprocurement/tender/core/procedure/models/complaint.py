@@ -327,6 +327,7 @@ class Complaint(Model):
 
     # child structures
     posts = BaseType()
+    appeals = BaseType()
 
     def validate_reviewDate(self, data, value):
         if (

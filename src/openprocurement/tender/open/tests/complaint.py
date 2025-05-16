@@ -22,6 +22,7 @@ from openprocurement.tender.open.tests.complaint_blanks import (
     bot_patch_tender_complaint,
     bot_patch_tender_complaint_forbidden,
     bot_patch_tender_complaint_mistaken,
+    complaint_appeal_validation,
     create_complaint_objection_validation,
     create_tender_complaint,
     mistaken_status_tender_complaint,
@@ -109,6 +110,14 @@ class TenderComplaintObjectionMixin:
         url = f"/tenders/{self.tender_id}/complaints/{complaint_id}?acc_token={complaint_token}"
         return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
+    def add_appeal(self, complaint_id, appeal_data, complaint_token, status=201):
+        url = f"/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}"
+        return self.app.post_json(url, {"data": appeal_data}, status=status)
+
+    def patch_appeal(self, complaint_id, appeal_id, appeal_data, complaint_token, status=200):
+        url = f"/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_id}?acc_token={complaint_token}"
+        return self.app.patch_json(url, {"data": appeal_data}, status=status)
+
 
 class TenderCancellationComplaintObjectionMixin:
     app = None
@@ -161,6 +170,14 @@ class TenderCancellationComplaintObjectionMixin:
             f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}?acc_token={self.tender_token}",
             {"data": {"status": "pending"}},
         )
+
+    def add_appeal(self, complaint_id, appeal_data, complaint_token, status=201):
+        url = f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}"
+        return self.app.post_json(url, {"data": appeal_data}, status=status)
+
+    def patch_appeal(self, complaint_id, appeal_id, appeal_data, complaint_token, status=200):
+        url = f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}/complaints/{complaint_id}/appeals/{appeal_id}?acc_token={complaint_token}"
+        return self.app.patch_json(url, {"data": appeal_data}, status=status)
 
 
 class TenderQualificationComplaintObjectionMixin:
@@ -228,6 +245,14 @@ class TenderQualificationComplaintObjectionMixin:
         )
         return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
+    def add_appeal(self, complaint_id, appeal_data, complaint_token, status=201):
+        url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}"
+        return self.app.post_json(url, {"data": appeal_data}, status=status)
+
+    def patch_appeal(self, complaint_id, appeal_id, appeal_data, complaint_token, status=200):
+        url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/complaints/{complaint_id}/appeals/{appeal_id}?acc_token={complaint_token}"
+        return self.app.patch_json(url, {"data": appeal_data}, status=status)
+
 
 class TenderAwardComplaintObjectionMixin:
     app = None
@@ -291,11 +316,24 @@ class TenderAwardComplaintObjectionMixin:
         )
         return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
+    def add_appeal(self, complaint_id, appeal_data, complaint_token, status=201):
+        url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}"
+        return self.app.post_json(url, {"data": appeal_data}, status=status)
+
+    def patch_appeal(self, complaint_id, appeal_id, appeal_data, complaint_token, status=200):
+        url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/{complaint_id}/appeals/{appeal_id}?acc_token={complaint_token}"
+        return self.app.patch_json(url, {"data": appeal_data}, status=status)
+
+
+class ComplaintAppealMixin:
+    test_complaint_appeal_validation = snitch(complaint_appeal_validation)
+
 
 class TenderComplaintObjectionTest(
     BaseTenderUAContentWebTest,
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
+    ComplaintAppealMixin,
 ):
     initial_lots = test_tender_below_lots * 2
 
@@ -307,6 +345,7 @@ class TenderCancellationComplaintObjectionTest(
     BaseTenderUAContentWebTest,
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
+    ComplaintAppealMixin,
 ):
     initial_lots = test_tender_below_lots * 2
 
@@ -322,6 +361,7 @@ class TenderAwardComplaintObjectionTest(
     BaseTenderUAContentWebTest,
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
+    ComplaintAppealMixin,
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_open_bids

@@ -75,6 +75,13 @@ Tender owner can submit a reply post to reviewer by setting reviewer's post `id`
 .. http:example:: http/complaints/qualification-complaint-post-tender-owner.http
    :code:
 
+Complaint Appeals
+==================
+
+Once complaint is in `invalid`, `satisfied`, `declined` or `resolved` status tender owner or complaint author can submit an appeal for complaint.
+
+For more details, see :ref:`tender complaint appeals <complaint-appeals>`.
+
 Complaint Explanations
 ======================
 

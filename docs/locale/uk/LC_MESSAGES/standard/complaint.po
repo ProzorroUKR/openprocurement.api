@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-11 17:12+0300\n"
+"POT-Creation-Date: 2025-05-12 17:15+0300\n"
 "PO-Revision-Date: 2021-03-03 22:32+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -182,6 +182,12 @@ msgstr ""
 msgid "List of :ref:`complaint-objection` objects"
 msgstr "Список об’єктів :ref:`complaint-objection`"
 
+msgid "appeals"
+msgstr ""
+
+msgid "List of :ref:`complaint-appeal` objects"
+msgstr "Список об’єктів :ref:`complaint-appeal`"
+
 msgid "value"
 msgstr ""
 
@@ -244,25 +250,4 @@ msgstr ""
 
 msgid "Place of review."
 msgstr "Місце розгляду."
-
-#~ msgid "Date when Procuring entity answered the claim."
-#~ msgstr "Дата, коли замовник відповів на вимогу."
-
-#~ msgid "`claim`"
-#~ msgstr "`claim` - вимога"
-
-#~ msgid "`answered`"
-#~ msgstr "`answered` - дано відповідь"
-
-#~ msgid "Possible values in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu` are:"
-#~ msgstr "Можливі значення у :ref:`defense`, :ref:`esco`, :ref:`openua` та :ref:`openeu`:"
-
-#~ msgid "Resolution of Procuring entity."
-#~ msgstr "Рішення замовника."
-
-#~ msgid "Possible values of resolution type are:"
-#~ msgstr "Можливі значення типу вирішення:"
-
-#~ msgid "Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:"
-#~ msgstr "Можливі значення у :ref:`defense`, :ref:`esco`, :ref:`openua` та :ref:`openeu`:"
 

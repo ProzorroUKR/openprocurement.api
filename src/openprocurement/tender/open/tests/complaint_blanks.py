@@ -12,7 +12,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
+from openprocurement.tender.open.tests.base import (
+    test_tender_open_complaint_appeal,
+    test_tender_open_complaint_appeal_proceeding,
+    test_tender_open_complaint_objection,
+)
 
 
 def create_tender_complaint(self):
@@ -1211,4 +1215,236 @@ def objection_related_award_statuses(self):
     self.assertEqual(
         response.json["errors"][0]["description"],
         "Relate objection to award in pending is forbidden",
+    )
+
+
+def complaint_appeal_validation(self):
+    now = get_now()
+    for status in ["invalid", "stopped", "declined", "satisfied"]:
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        complaint_data = deepcopy(test_tender_below_complaint)
+        complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
+        complaint_data["objections"] = [test_tender_open_complaint_objection]
+        response = self.create_complaint(complaint_data, with_valid_relates_to=True)
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        complaint = response.json["data"]
+        complaint_id = complaint["id"]
+        complaint_token = response.json["access"]["token"]
+
+        if RELEASE_2020_04_19 < now:
+            self.assertEqual(response.json["data"]["status"], "draft")
+
+            with change_auth(self.app, ("Basic", ("bot", ""))):
+                response = self.patch_complaint(complaint_id, {"status": "pending"}, complaint_token)
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["data"]["status"], "pending")
+
+        # try to add appeal at pending status
+        response = self.add_appeal(complaint_id, test_tender_open_complaint_appeal, complaint_token, status=403)
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't submit or edit appeal in current (pending) complaint status",
+        )
+
+        self.app.authorization = ("Basic", ("reviewer", ""))
+        response = self.patch_complaint(
+            complaint_id,
+            {"decision": f"{status} complaint", "rejectReasonDescription": "reject reason"},
+            complaint_token,
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["decision"], f"{status} complaint")
+        self.assertEqual(response.json["data"]["rejectReasonDescription"], "reject reason")
+
+        if status in ["satisfied", "declined", "stopped"]:
+            data = {"status": "accepted"}
+            if RELEASE_2020_04_19 < now:
+                data.update(
+                    {
+                        "reviewDate": now.isoformat(),
+                        "reviewPlace": "some",
+                    }
+                )
+            response = self.patch_complaint(
+                complaint_id,
+                data,
+                complaint_token,
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["data"]["status"], "accepted")
+
+            if RELEASE_2020_04_19 < now:
+                self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
+
+            now = get_now()
+            data = {"decision": f"accepted:{status} complaint"}
+
+            if RELEASE_2020_04_19 > now:
+                data.update(
+                    {
+                        "reviewDate": now.isoformat(),
+                        "reviewPlace": "some",
+                    }
+                )
+
+            response = self.patch_complaint(
+                complaint_id,
+                data,
+                complaint_token,
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["data"]["decision"], f"accepted:{status} complaint")
+
+            if RELEASE_2020_04_19 > now:
+                self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
+
+        now = get_now()
+        data = {"status": status}
+
+        if RELEASE_2020_04_19 < now:
+            if status in ["invalid", "stopped"]:
+                data.update({"rejectReason": "tenderCancelled", "rejectReasonDescription": "reject reason description"})
+
+        response = self.patch_complaint(
+            complaint_id,
+            data,
+            complaint_token,
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["status"], status)
+
+        # try to add appeal by reviewer
+        response = self.add_appeal(complaint_id, test_tender_open_complaint_appeal, complaint_token, status=403)
+        self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
+
+        # try to add appeal by broker for stopped complaint
+        self.app.authorization = ("Basic", ("broker", ""))
+        if status == "stopped":
+            response = self.add_appeal(complaint_id, test_tender_open_complaint_appeal, complaint_token, status=403)
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "Can't submit or edit appeal in current (stopped) complaint status",
+            )
+
+    # try to add appeal by broker for declined complaint
+    response = self.add_appeal(complaint_id, {}, complaint_token, status=422)
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "description", "description": ["This field is required."]},
+    )
+    response = self.add_appeal(complaint_id, {"description": "test", "proceeding": {}}, complaint_token, status=422)
+    self.assertEqual(
+        response.json["errors"][0], {"location": "body", "name": "proceeding", "description": "Rogue field"}
+    )
+
+    # successful POST appeal
+    response = self.add_appeal(
+        complaint_id,
+        {
+            "description": "test",
+            "documents": [
+                {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                },
+            ],
+        },
+        complaint_token,
+    )
+    appeal_1 = response.json["data"]
+    self.assertEqual(
+        appeal_1["author"],
+        "complaint_owner",
+    )
+
+    # try to patch invalid fields
+    response = self.patch_appeal(
+        complaint_id,
+        appeal_1["id"],
+        {
+            "description": "test1",
+        },
+        complaint_token,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0], {"location": "body", "name": "description", "description": "Rogue field"}
+    )
+
+    # try to patch appeal not by author
+    response = self.patch_appeal(
+        complaint_id,
+        appeal_1["id"],
+        {"proceeding": test_tender_open_complaint_appeal_proceeding},
+        self.tender_token,
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "url", "name": "role", "description": "Appeal can be updated only by author"},
+    )
+
+    # add proceeding
+    response = self.patch_appeal(
+        complaint_id,
+        appeal_1["id"],
+        {"proceeding": test_tender_open_complaint_appeal_proceeding},
+        complaint_token,
+    )
+    self.assertEqual(response.json["data"]["proceeding"], test_tender_open_complaint_appeal_proceeding)
+
+    # try to patch proceeding one more time
+    response = self.patch_appeal(
+        complaint_id,
+        appeal_1["id"],
+        {"proceeding": {"dateProceedings": get_now().isoformat(), "proceedingNumber": "12345"}},
+        complaint_token,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Forbidden to patch proceeding",
+    )
+
+    # successful POST appeal by tender owner
+    response = self.add_appeal(
+        complaint_id,
+        {
+            "description": "test",
+            "documents": [
+                {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                },
+            ],
+        },
+        self.tender_token,
+    )
+    appeal_2 = response.json["data"]
+    self.assertEqual(
+        appeal_2["author"],
+        "tender_owner",
+    )
+
+    # complete tender
+    tender = self.mongodb.tenders.get(self.tender_id)
+    tender["status"] = "complete"
+    self.mongodb.tenders.save(tender)
+
+    response = self.add_appeal(complaint_id, test_tender_open_complaint_appeal, complaint_token, status=403)
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't submit or edit appeal in current (complete) tender status"
     )

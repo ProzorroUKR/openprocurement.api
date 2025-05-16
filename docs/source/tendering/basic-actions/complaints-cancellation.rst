@@ -54,6 +54,13 @@ You can submit complaint that does not need additional documents:
 .. http:example:: http-outdated/complaints/cancellation-complaint-submission-complaint.http
    :code:
 
+Complaint Appeals
+==================
+
+Once complaint is in `invalid`, `satisfied`, `declined` or `resolved` status tender owner or complaint author can submit an appeal for complaint.
+
+For more details, see :ref:`tender complaint appeals <complaint-appeals>`.
+
 Complaint Explanations
 ======================
 

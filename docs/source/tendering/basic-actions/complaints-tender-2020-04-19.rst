@@ -86,6 +86,56 @@ For each Objection, the Complainant must specify one or more requestedRemedies. 
    :code:
 
 
+.. _complaint-appeals:
+
+Complaint Appeals
+===================
+
+After the appeal body (AMCU) makes a decision on the complaint, the customer or participant may appeal such decision in court and publish information about it in the system:
+
+.. http:example:: http/complaints/complaint-appeal-submission.http
+   :code:
+
+Appeal can be added or edited while complaint is in the status:
+
+    * `invalid`
+    * `satisfied`
+    * `declined`
+    * `resolved`
+
+If appeal is added for complaint in another status, error will be raised:
+
+.. http:example:: http/complaints/complaint-appeal-invalid-status.http
+   :code:
+
+More than 1 appeal object can be published for one complaint by both participants and the customer. Let's add one more appeal by customer:
+
+.. http:example:: http/complaints/complaint-appeal-submission-by-customer.http
+   :code:
+
+After `appeal` adding, the `proceeding` object can be added to the `appeal` object.
+
+Information about the appeal and information about the proceeding are separate actions that are performed by the user gradually and can be performed with a gap in time:
+
+.. http:example:: http/complaints/complaint-appeal-proceeding-submission.http
+   :code:
+
+Only one `proceeding` object can be published to each appeal object:
+
+.. http:example:: http/complaints/complaint-appeal-proceeding-duplicate.http
+   :code:
+
+After adding information about the appeal and information about the proceeding, appeal should be signed. Document can be added through next endpoints:
+
+.. http:example:: http/complaints/complaint-appeal-documents-submission.http
+   :code:
+
+Let's look at complaint with appeals:
+
+.. http:example:: http/complaints/complaint-appeal-get.http
+   :code:
+
+
 Complaint Posts
 ===============
 

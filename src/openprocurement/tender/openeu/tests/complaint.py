@@ -10,6 +10,7 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     not_found,
 )
 from openprocurement.tender.open.tests.complaint import (
+    ComplaintAppealMixin,
     ComplaintObjectionMixin,
     TenderAwardComplaintObjectionMixin,
     TenderCancellationComplaintObjectionMixin,
@@ -74,6 +75,7 @@ class TenderQualificationComplaintObjectionResourceTest(
     BaseTenderContentWebTest,
     TenderQualificationComplaintObjectionMixin,
     ComplaintObjectionMixin,
+    ComplaintAppealMixin,
 ):
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_openeu_bids
@@ -93,6 +95,7 @@ class TenderAwardComplaintObjectionResourceTest(
     CreateAwardComplaintMixin,
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
+    ComplaintAppealMixin,
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_openeu_bids
@@ -108,6 +111,7 @@ class TenderCancellationComplaintObjectionResourceTest(
     BaseTenderContentWebTest,
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
+    ComplaintAppealMixin,
 ):
     initial_auth = ("Basic", ("broker", ""))
 
