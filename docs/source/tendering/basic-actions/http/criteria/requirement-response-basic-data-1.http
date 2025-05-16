@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "454dc5b524874c2891fcc5424aa8293c"
+          "id": "563124eafd7a483da4fa9dc6c4eca0b8"
         },
         "evidences": [
           {
@@ -35,7 +35,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "454dc5b524874c2891fcc5424aa8293c",
+          "id": "563124eafd7a483da4fa9dc6c4eca0b8",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
         },
         "evidences": [
@@ -46,11 +46,11 @@ Content-Type: application/json
               "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "3701457a1e024d019cfaa956f3e44d14"
+            "id": "7c49b81e9fe64bb49243a406da4d56bc"
           }
         ],
         "value": true,
-        "id": "20334020e0654cf9bebbb1d05bb45601",
+        "id": "96bbc1d235984d13b120798795c43d72",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"

@@ -1,4 +1,4 @@
-DELETE /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/bbff38f98f1c45deb2a2d3c28ed1224f/requirement_groups/434e2574301a467e8328a7d6a8ce6916/requirements/081dceb6c124494cbdf71784175644c6/evidences/3c6fb5c311844f3b9a907b6c7c62baa5?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
+DELETE /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/bbff38f98f1c45deb2a2d3c28ed1224f/requirement_groups/bad719a980bf4d5c939a4aa0106784ed/requirements/d394af35f58042b6a57575e1f1ed2767/evidences/e79b57e7321c4d7f93879c86c4bdbc63?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -12,7 +12,7 @@ Content-Type: application/json
     "title_en": "Documented approve",
     "description": "Довідка в довільній формі",
     "type": "document",
-    "id": "3c6fb5c311844f3b9a907b6c7c62baa5"
+    "id": "e79b57e7321c4d7f93879c86c4bdbc63"
   }
 }
 

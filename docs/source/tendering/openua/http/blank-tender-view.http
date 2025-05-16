@@ -35,7 +35,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "441829141ef24ae6848cc7ed2901283e",
+        "id": "81658423750e4ed1b3739c17f5d4f305",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",

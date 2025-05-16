@@ -50,7 +50,7 @@ Content-Type: application/json
     "dateSubmitted": "2023-10-10T01:00:03+03:00",
     "objections": [
       {
-        "id": "036eb82d4399412795be618a78a23a54",
+        "id": "6c7b422068294741aa4851758099d92a",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "award",
@@ -62,14 +62,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "0ff7e41f09474aa5a04474cb43e64c65",
+            "id": "c3dd3dafe19c478bb07ab83992cf3de4",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "3bb3a91c2484482c9e77be70bf6d68a3",
+            "id": "c3c25925e46446eebe3fb457c9d11970",
             "description": "test argument"
           }
         ],

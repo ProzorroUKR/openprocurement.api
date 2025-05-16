@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "milestones": [
       {
-        "id": "fb8d3e7fee1f4dff8fc0e4c90b60333c",
+        "id": "39aa1d1c9c8f48e8a0fcc405fb1aeb81",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -20,7 +20,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "c6ee20adc9dd4d8ca172d4b91db92240"
       },
       {
-        "id": "54e5d486cab44da8bcb491b2529045a4",
+        "id": "c864d56996a0466c96e92283150cc506",
         "title": "anotherEvent",
         "type": "financing",
         "code": "postpayment",
@@ -110,7 +110,7 @@ Content-Type: application/json
     ],
     "milestones": [
       {
-        "id": "fb8d3e7fee1f4dff8fc0e4c90b60333c",
+        "id": "39aa1d1c9c8f48e8a0fcc405fb1aeb81",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -123,7 +123,7 @@ Content-Type: application/json
         "relatedLot": "c6ee20adc9dd4d8ca172d4b91db92240"
       },
       {
-        "id": "54e5d486cab44da8bcb491b2529045a4",
+        "id": "c864d56996a0466c96e92283150cc506",
         "title": "anotherEvent",
         "description": "Підозрілий опис",
         "type": "financing",

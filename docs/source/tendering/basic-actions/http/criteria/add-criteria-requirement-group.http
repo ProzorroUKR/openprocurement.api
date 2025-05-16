@@ -29,11 +29,11 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "30300c3f7fce42b68fa3695c1eda534b",
+    "id": "434e2574301a467e8328a7d6a8ce6916",
     "description": "Підтверджується, що",
     "requirements": [
       {
-        "id": "f9f5ae3751ee4340aad63f7038e818df",
+        "id": "a2b9d85ba13d4d49a04c89f71f1f8c33",
         "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
         "dataType": "boolean",
         "eligibleEvidences": [
@@ -41,7 +41,7 @@ Content-Type: application/json
             "title": "Документальне підтвердження",
             "description": "Довідка в довільній формі",
             "type": "document",
-            "id": "8d3509854db342c9b8eeb1a7cbca6fd2"
+            "id": "2b4fc422cc294678bc01063173bb8535"
           }
         ],
         "status": "active",

@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Відсутній документ",
     "recipient": "tender_owner",
-    "relatedObjection": "6422d924c59b440c8ae4b5b11227e0ed"
+    "relatedObjection": "daf2269e82814a92aed6234ca2c03298"
   }
 }
 
@@ -22,7 +22,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43
     "title": "Уточнення по вимозі",
     "description": "Відсутній документ",
     "recipient": "tender_owner",
-    "relatedObjection": "6422d924c59b440c8ae4b5b11227e0ed",
+    "relatedObjection": "daf2269e82814a92aed6234ca2c03298",
     "id": "97d2f492ca5a44838affa1aeaab1076a",
     "datePublished": "2023-10-10T01:00:03+03:00",
     "author": "aboveThresholdReviewers"

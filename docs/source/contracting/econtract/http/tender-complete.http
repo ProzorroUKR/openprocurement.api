@@ -152,11 +152,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "d58c6ad449b24fb09bb8a6ec04601456",
+            "id": "95a6e824cd6f49f4b0e4fc6f22528f3a",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "93547064045341279dc686f8856efad1",
+                "id": "5715a420a81f477da8777cf0185f56e2",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -167,7 +167,7 @@ Content-Type: application/json
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
-                "id": "8be1ee231fcf4841a52724d7c372b811",
+                "id": "dadf939032774a959f0d79557326603c",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -179,7 +179,7 @@ Content-Type: application/json
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
-                "id": "a649e63b7e83407488734b02e4b16457",
+                "id": "129763a6dbad4cfcb5f4df9796fc2903",
                 "title": "Форма випуску 1",
                 "dataType": "string",
                 "status": "active",
@@ -240,13 +240,13 @@ Content-Type: application/json
         "requirementResponses": [
           {
             "requirement": {
-              "id": "93547064045341279dc686f8856efad1",
+              "id": "5715a420a81f477da8777cf0185f56e2",
               "title": "Форма випуску"
             },
             "values": [
               "Розчин для інфузій"
             ],
-            "id": "fa588b35720b4a00a1180d4d3d16b462",
+            "id": "8fdf76d96e1343edb25e36a00f7f8a77",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -254,11 +254,11 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "8be1ee231fcf4841a52724d7c372b811",
+              "id": "dadf939032774a959f0d79557326603c",
               "title": "Доза діючої речовини"
             },
             "value": 5,
-            "id": "73bbe3beb21e41088d5db33988c9c9fb",
+            "id": "cc5f60db5c874a83ac3e02081b1abeb9",
             "unit": {
               "code": "KGM",
               "name": "кілограми"
@@ -270,14 +270,14 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "a649e63b7e83407488734b02e4b16457",
+              "id": "129763a6dbad4cfcb5f4df9796fc2903",
               "title": "Форма випуску 1"
             },
             "values": [
               "Відповідь1",
               "Відповідь2"
             ],
-            "id": "b3bbf0ca4969452fa8d89f05c76e118a",
+            "id": "3c14d0aff57746b5b102d37694354cf4",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"

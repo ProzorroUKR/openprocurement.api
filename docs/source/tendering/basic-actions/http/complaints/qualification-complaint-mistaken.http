@@ -47,7 +47,7 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "a53f093b801740939918950a2e416a72",
+        "id": "f5dd8627099549ab928407acec4c8a55",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "qualification",
@@ -59,14 +59,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "a824972b894247b5aa6f67f257529c7a",
+            "id": "b9b891d603ab42d99c50be98ab96c760",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "e056d48030d14d35ae53f6c0d3ec5961",
+            "id": "4705768b7e2b496bbd2326b1e4c0772c",
             "description": "test argument"
           }
         ],

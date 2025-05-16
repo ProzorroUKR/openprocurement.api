@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/bbff38f98f1c45deb2a2d3c28ed1224f/requirement_groups/434e2574301a467e8328a7d6a8ce6916/requirements/081dceb6c124494cbdf71784175644c6?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
+PATCH /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/bbff38f98f1c45deb2a2d3c28ed1224f/requirement_groups/bad719a980bf4d5c939a4aa0106784ed/requirements/d394af35f58042b6a57575e1f1ed2767?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -10,7 +10,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Документальне підтвердження",
         "description": "Довідка в довільній формі",
         "type": "statement",
-        "id": "4bf73708925643b18b3d3041a0a42917"
+        "id": "803904d3b27c4220b62d2b9e62ebe919"
       }
     ]
   }
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "081dceb6c124494cbdf71784175644c6",
+    "id": "d394af35f58042b6a57575e1f1ed2767",
     "title": "Updated title",
     "dataType": "boolean",
     "eligibleEvidences": [
@@ -30,7 +30,7 @@ Content-Type: application/json
         "title": "Документальне підтвердження",
         "description": "Довідка в довільній формі",
         "type": "statement",
-        "id": "4bf73708925643b18b3d3041a0a42917"
+        "id": "803904d3b27c4220b62d2b9e62ebe919"
       }
     ],
     "expectedValue": true,

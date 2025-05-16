@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "f88fc7d2951a4a3abfb3b5c59874d439"
+          "id": "01ff0316fef0476ebb717b7ac57e8d5b"
         },
         "evidences": [
           {
@@ -35,7 +35,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "f88fc7d2951a4a3abfb3b5c59874d439",
+          "id": "01ff0316fef0476ebb717b7ac57e8d5b",
           "title": "Учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         },
         "evidences": [
@@ -46,11 +46,11 @@ Content-Type: application/json
               "id": "8e181d86dd0a49bb86ba68aecc97b2e5",
               "title": "name.doc"
             },
-            "id": "cefb5f80b27a458487c8f81aca43dfe3"
+            "id": "a5ea8fb64ea34a709b1004ecbe3dac0a"
           }
         ],
         "value": true,
-        "id": "4ebd6a38309840eeb65b0837a705dcf3",
+        "id": "c85c917c4cda4186a2e2dd88a347b9a9",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"

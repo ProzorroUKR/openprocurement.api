@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "b9f9c2090e2d4b218f2dacb35b33a3bd"
+          "id": "35faf17d45ae447f939589830686444f"
         },
         "evidences": [
           {
@@ -24,7 +24,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "c23f5caa223442e7ba21d20a348dd3de"
+          "id": "a85fc595cf784cf29ceb4b6a39a030d0"
         },
         "evidences": [
           {
@@ -51,7 +51,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "b9f9c2090e2d4b218f2dacb35b33a3bd",
+          "id": "35faf17d45ae447f939589830686444f",
           "title": "Учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         },
         "evidences": [
@@ -62,11 +62,11 @@ Content-Type: application/json
               "id": "7db6373a0527432e8ead9806bf100c4d",
               "title": "name.doc"
             },
-            "id": "a9271052534f4973a64aa6f1d5ae628c"
+            "id": "06ba7f9a058447fb9d6d2163338d76d9"
           }
         ],
         "value": true,
-        "id": "9bca6e9b3bf84300887b4ec34775df3e",
+        "id": "700dfa50176f4170abdb2399fb9b67ab",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
@@ -74,7 +74,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "c23f5caa223442e7ba21d20a348dd3de",
+          "id": "a85fc595cf784cf29ceb4b6a39a030d0",
           "title": "Учасник процедури закупівлі є пов'язаною особою з іншими учасниками та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
@@ -85,11 +85,11 @@ Content-Type: application/json
               "id": "7db6373a0527432e8ead9806bf100c4d",
               "title": "name.doc"
             },
-            "id": "b62699abb78e47aeb00827d497704253"
+            "id": "97a28cc002604d3089f6491d9b46db6c"
           }
         ],
         "value": true,
-        "id": "51dbd2ff67f34da49f46207f6cf5263c",
+        "id": "50a8d2bd71c34a4cacf1f99968747580",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"

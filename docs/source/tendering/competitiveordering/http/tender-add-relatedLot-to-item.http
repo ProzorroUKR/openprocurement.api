@@ -106,7 +106,7 @@ Content-Type: application/json
         "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
       },
       {
-        "id": "aede98af4b7147d7a7192ee112cd0ade",
+        "id": "bd322cd551154bbe8ebd4319bdd63d0e",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",

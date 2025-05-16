@@ -21,7 +21,7 @@ Content-Type: application/json
     "status": "active",
     "items": [
       {
-        "id": "f384f984e8804b49bb2185e3facf5a9a",
+        "id": "4610db24a3d84e08be1e500c631b05be",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "classification": {

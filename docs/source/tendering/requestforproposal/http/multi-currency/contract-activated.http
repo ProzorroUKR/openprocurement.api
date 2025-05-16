@@ -73,7 +73,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "651c07757e6f4d5c9e742a24f6d45726",
+        "id": "be03754657d546b28f05d0164e668b57",
         "description": "папір",
         "quantity": 5.0,
         "classification": {

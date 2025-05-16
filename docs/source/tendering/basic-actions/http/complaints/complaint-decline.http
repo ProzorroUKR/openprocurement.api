@@ -61,7 +61,7 @@ Content-Type: application/json
     "dateSubmitted": "2023-10-10T01:00:00+03:00",
     "objections": [
       {
-        "id": "22f2a8f7a71449acada0440712d4bc5b",
+        "id": "9d6ee38b73fa410d932513ba5d51fa6d",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
@@ -73,14 +73,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "2a70ba78c7e14475b361c569e8d5a472",
+            "id": "b47e088de1c34d5887123f0a9333c75e",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "eefe7218181345a3aaa262340111a79c",
+            "id": "ccd5fda81e8e4406bee8e5e0d4f88436",
             "description": "test argument"
           }
         ],

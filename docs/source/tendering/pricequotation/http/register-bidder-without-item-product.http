@@ -36,13 +36,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "e00ff388599e42ce842a4d3dec0a110d"
+          "id": "8cac9e406b954b80b22aec9a77e63593"
         },
         "value": 23.8
       },
       {
         "requirement": {
-          "id": "0c38a99c21304364b46d84c7814be3cb"
+          "id": "17d57e334aed49d19de4fd5b27b3b314"
         },
         "values": [
           "1920x1080"
@@ -50,7 +50,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "5980efcd986644278cf07c53c39d73db"
+          "id": "08ac3b62c1114ed1918bbde211047916"
         },
         "values": [
           "16:9"
@@ -58,13 +58,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "021928a6395b4787adbba08acfd9c8d2"
+          "id": "0cbbfa2735324fe8bd172bfe98510c39"
         },
         "value": 0
       },
       {
         "requirement": {
-          "id": "e34b9aea95744d9db7e329a91f3c1657"
+          "id": "6b78fd178786471ebff1faf01277c285"
         },
         "values": [
           "1000:1"
@@ -72,19 +72,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "56120db470a443c6a1085bf8b4c49e83"
+          "id": "6d027700fb9646968fed97d3291e487a"
         },
         "value": 1
       },
       {
         "requirement": {
-          "id": "9ee3c16ec0874793a9ec23376a0a9b11"
+          "id": "ce5247fff13a4a5bb8cc27b5c9edc972"
         },
         "value": 1
       },
       {
         "requirement": {
-          "id": "29482dcb8d8f4ce5ad6c6d0135b3b9f5"
+          "id": "3a028e0e6ea34ccebfcd214944fb439a"
         },
         "values": [
           "HDMI"
@@ -92,7 +92,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "48ed89346d044abbb5786ee9d768531f"
+          "id": "68f8023f5da1456789a9b355f67022f9"
         },
         "value": 36
       }

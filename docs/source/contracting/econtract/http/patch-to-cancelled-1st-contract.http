@@ -53,7 +53,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "9726ad9d9cae4a40b5e4407ee284031f",
+        "id": "af40242eda7242e39ed5832f624b4389",
         "description": "телевізори",
         "quantity": 5.0,
         "classification": {

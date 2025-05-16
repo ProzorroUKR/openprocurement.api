@@ -50,7 +50,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "quantity": 5,
         "description": "папір",
-        "id": "651c07757e6f4d5c9e742a24f6d45726",
+        "id": "be03754657d546b28f05d0164e668b57",
         "unit": {
           "code": "KGM",
           "value": {
@@ -63,7 +63,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "quantity": 1,
         "description": "степлер",
-        "id": "0e3435a1eb8143219ee9a9638a4c9563",
+        "id": "528c4b1ae2f94ab483cc213e6f81e38e",
         "unit": {
           "code": "KGM",
           "value": {
@@ -133,7 +133,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6694d8a81cfc4ddc
     "status": "draft",
     "items": [
       {
-        "id": "651c07757e6f4d5c9e742a24f6d45726",
+        "id": "be03754657d546b28f05d0164e668b57",
         "description": "папір",
         "unit": {
           "value": {
@@ -146,7 +146,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6694d8a81cfc4ddc
         "quantity": 5.0
       },
       {
-        "id": "0e3435a1eb8143219ee9a9638a4c9563",
+        "id": "528c4b1ae2f94ab483cc213e6f81e38e",
         "description": "степлер",
         "unit": {
           "value": {

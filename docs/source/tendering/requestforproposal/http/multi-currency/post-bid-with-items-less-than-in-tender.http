@@ -50,7 +50,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "quantity": 5,
         "description": "папір",
-        "id": "651c07757e6f4d5c9e742a24f6d45726",
+        "id": "be03754657d546b28f05d0164e668b57",
         "unit": {
           "code": "KGM",
           "value": {

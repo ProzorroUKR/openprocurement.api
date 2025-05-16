@@ -52,11 +52,11 @@ Content-Type: application/json
       ],
       "requirementGroups": [
         {
-          "id": "434e2574301a467e8328a7d6a8ce6916",
+          "id": "bad719a980bf4d5c939a4aa0106784ed",
           "description": "Updated description",
           "requirements": [
             {
-              "id": "081dceb6c124494cbdf71784175644c6",
+              "id": "d394af35f58042b6a57575e1f1ed2767",
               "title": "Updated title",
               "dataType": "boolean",
               "eligibleEvidences": [
@@ -64,13 +64,13 @@ Content-Type: application/json
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "document",
-                  "id": "9c689afd40fe4f9a9576c7f02c59b776"
+                  "id": "b6d489e6b1a44bcbbdb511ce307d773b"
                 },
                 {
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "statement",
-                  "id": "7c437ffea0b344aa8eef1e47ee6f8988"
+                  "id": "04f5c92847364679ad700e5fef2065c9"
                 }
               ],
               "expectedValue": true,
@@ -78,7 +78,7 @@ Content-Type: application/json
               "status": "active"
             },
             {
-              "id": "2c959e21386041a48d7b6a250c8ed896",
+              "id": "081dceb6c124494cbdf71784175644c6",
               "title": "Another characteristic",
               "dataType": "boolean",
               "eligibleEvidences": [
@@ -86,7 +86,7 @@ Content-Type: application/json
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "document",
-                  "id": "1b8ebf63f53b41c69226efae4d00d419"
+                  "id": "468c0f9fbb884f65ab2b562ede73b234"
                 }
               ],
               "status": "active",
@@ -96,11 +96,11 @@ Content-Type: application/json
           ]
         },
         {
-          "id": "30300c3f7fce42b68fa3695c1eda534b",
+          "id": "434e2574301a467e8328a7d6a8ce6916",
           "description": "Підтверджується, що",
           "requirements": [
             {
-              "id": "f9f5ae3751ee4340aad63f7038e818df",
+              "id": "a2b9d85ba13d4d49a04c89f71f1f8c33",
               "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
               "dataType": "boolean",
               "eligibleEvidences": [
@@ -108,7 +108,7 @@ Content-Type: application/json
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "document",
-                  "id": "8d3509854db342c9b8eeb1a7cbca6fd2"
+                  "id": "2b4fc422cc294678bc01063173bb8535"
                 }
               ],
               "status": "active",
@@ -120,7 +120,7 @@ Content-Type: application/json
       ]
     },
     {
-      "id": "16d7f233a6cb4503b6baf8273871732c",
+      "id": "2c882107c3df4accb409505309fc598d",
       "description": "Cуб’єкт господарювання (учасник) протягом останніх трьох років притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів",
       "source": "tenderer",
       "relatesTo": "tender",
@@ -163,11 +163,11 @@ Content-Type: application/json
       ],
       "requirementGroups": [
         {
-          "id": "7b99ea9d6992420bba8b27c320d2b781",
+          "id": "c3bd4e33d8f548db973c4a48df01a298",
           "description": "Підтверджується, що",
           "requirements": [
             {
-              "id": "f5bced3f32bc4684a376bb1dcdf7c452",
+              "id": "bb11c06fbd5545ccb0284ff39aa2d6cc",
               "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
               "dataType": "boolean",
               "eligibleEvidences": [
@@ -175,7 +175,7 @@ Content-Type: application/json
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "document",
-                  "id": "bda4762251cb4d778893f32513cdae0c"
+                  "id": "04cd6b2f592e423fb3e8ebca48d236e7"
                 }
               ],
               "expectedValue": true,
@@ -183,7 +183,7 @@ Content-Type: application/json
               "status": "active"
             },
             {
-              "id": "93682c6c80b441779279532499837d93",
+              "id": "16d7f233a6cb4503b6baf8273871732c",
               "title": "Another characteristic",
               "dataType": "boolean",
               "eligibleEvidences": [
@@ -191,7 +191,7 @@ Content-Type: application/json
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "document",
-                  "id": "67c266e6c4f14f5e964710b48e6a8b5a"
+                  "id": "cd1adfae4f234af7b62dc0992ce4028d"
                 }
               ],
               "status": "active",

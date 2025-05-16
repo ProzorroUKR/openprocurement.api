@@ -149,11 +149,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "239147c997ff42ccb3a96dcff2716421",
+            "id": "e87c44abe0ee40ffbc5e96da1cb2c7ad",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "e00ff388599e42ce842a4d3dec0a110d",
+                "id": "8cac9e406b954b80b22aec9a77e63593",
                 "title": "Діагональ екрану",
                 "dataType": "number",
                 "status": "active",
@@ -165,7 +165,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "0c38a99c21304364b46d84c7814be3cb",
+                "id": "17d57e334aed49d19de4fd5b27b3b314",
                 "title": "Роздільна здатність",
                 "dataType": "string",
                 "status": "active",
@@ -176,7 +176,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "5980efcd986644278cf07c53c39d73db",
+                "id": "08ac3b62c1114ed1918bbde211047916",
                 "title": "Співвідношення сторін",
                 "dataType": "string",
                 "status": "active",
@@ -187,7 +187,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "021928a6395b4787adbba08acfd9c8d2",
+                "id": "0cbbfa2735324fe8bd172bfe98510c39",
                 "title": "Яскравість дисплея",
                 "dataType": "integer",
                 "status": "active",
@@ -200,7 +200,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "e34b9aea95744d9db7e329a91f3c1657",
+                "id": "6b78fd178786471ebff1faf01277c285",
                 "title": "Контрастність (статична)",
                 "dataType": "string",
                 "status": "active",
@@ -211,7 +211,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "56120db470a443c6a1085bf8b4c49e83",
+                "id": "6d027700fb9646968fed97d3291e487a",
                 "title": "Кількість портів HDMI",
                 "dataType": "integer",
                 "status": "active",
@@ -223,7 +223,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "9ee3c16ec0874793a9ec23376a0a9b11",
+                "id": "ce5247fff13a4a5bb8cc27b5c9edc972",
                 "title": "Кількість портів D-sub",
                 "dataType": "integer",
                 "status": "active",
@@ -235,7 +235,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "29482dcb8d8f4ce5ad6c6d0135b3b9f5",
+                "id": "3a028e0e6ea34ccebfcd214944fb439a",
                 "title": "Кабель для під’єднання",
                 "dataType": "string",
                 "status": "active",
@@ -246,7 +246,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "48ed89346d044abbb5786ee9d768531f",
+                "id": "68f8023f5da1456789a9b355f67022f9",
                 "title": "Гарантія",
                 "dataType": "integer",
                 "status": "active",

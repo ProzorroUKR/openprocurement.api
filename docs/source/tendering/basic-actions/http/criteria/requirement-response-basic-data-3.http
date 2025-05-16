@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "454dc5b524874c2891fcc5424aa8293c"
+          "id": "563124eafd7a483da4fa9dc6c4eca0b8"
         },
         "evidences": [
           {
@@ -24,7 +24,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "c63023e54fd04a02869e09a265bdacda"
+          "id": "65672e4864a645a78981f701191ff6e2"
         },
         "evidences": [
           {
@@ -51,7 +51,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "454dc5b524874c2891fcc5424aa8293c",
+          "id": "563124eafd7a483da4fa9dc6c4eca0b8",
           "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
         },
         "evidences": [
@@ -62,11 +62,11 @@ Content-Type: application/json
               "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "a6fea19a11de430db7714664d4f7937d"
+            "id": "c4192d5b130f4ecb9676c792c9f013b2"
           }
         ],
         "value": true,
-        "id": "4622c8b37eeb483797884cacdd817d36",
+        "id": "2563469214244e298ec86d1a642c97df",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
@@ -74,7 +74,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "c63023e54fd04a02869e09a265bdacda",
+          "id": "65672e4864a645a78981f701191ff6e2",
           "title": "Учасник процедури закупівлі має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми"
         },
         "evidences": [
@@ -85,11 +85,11 @@ Content-Type: application/json
               "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "ccdf36e60e6146808c9f59a8f562a081"
+            "id": "9702f4bb2f674d38a1d81a88a3679e7d"
           }
         ],
         "value": true,
-        "id": "c6da2827e0aa4d6d869048f569b1221b",
+        "id": "c7cac5e706e1408f8987bbe3de32e842",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"

@@ -92,7 +92,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b
     "type": "complaint",
     "objections": [
       {
-        "id": "4db61dce46cc44b29743443a5eb2c8c1",
+        "id": "0ecbc3fded764624961b58385ff272f9",
         "title": "My objection",
         "description": "Test objection",
         "relatedItem": "b1b9e2275509420b8a3759c55a76d2cc",
@@ -103,14 +103,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b
         },
         "requestedRemedies": [
           {
-            "id": "1046f887699843ff97081f5a7f68a94b",
+            "id": "0b8a44af91fa4e378979fd136cfcc5ee",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "6f702a06af224960b07b6299fb5ee499",
+            "id": "22924e8a608f467c8c4cc13e5867d044",
             "description": "test argument"
           }
         ],
