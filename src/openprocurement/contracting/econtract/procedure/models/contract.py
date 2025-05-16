@@ -37,8 +37,6 @@ class PostContract(BasePostContract):
     items = ListType(ModelType(Item, required=True))
     buyer = ModelType(Buyer, required=True)
     value = ModelType(ContractValue)
-    bid_owner = StringType()
-    bid_token = StringType()
 
 
 class PatchContract(BasePatchContract):

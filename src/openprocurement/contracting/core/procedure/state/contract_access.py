@@ -3,6 +3,8 @@ from hashlib import sha512
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.contracting.core.procedure.models.access import AccessRole
+from openprocurement.contracting.core.procedure.utils import get_access_fields_by_role
 
 
 class ContractAccessState(BaseState):
@@ -15,12 +17,12 @@ class ContractAccessState(BaseState):
 
         author = get_identifier(data)
         buyer = get_identifier(contract.get("buyer"))
-        supplier = get_identifier(contract.get("suppliers", [{}])[0] if contract.get("suppliers") else {})
+        supplier = get_identifier(contract.get("suppliers", [{}])[0])
 
         if author == buyer:
-            return "buyer"
+            return AccessRole.BUYER
         elif author == supplier:
-            return "supplier"
+            return AccessRole.SUPPLIER
 
     def validate_on_post(self, contract, role):
         if not role:
@@ -31,35 +33,57 @@ class ContractAccessState(BaseState):
         self.validate_access_claimed(contract, role)
 
     def set_token(self, contract, role, token):
-        contract.setdefault("access", {}).setdefault(role, {})["token"] = token
+        if role_access := get_access_fields_by_role(contract, role):
+            role_access["token"] = token
+        else:
+            contract.setdefault("access", []).append(
+                {
+                    "token": token,
+                    "role": role,
+                }
+            )
 
     def set_owner(self, contract, role):
-        contract.setdefault("access", {}).setdefault(role, {})["owner"] = self.request.authenticated_userid
-        if role == "buyer":
+        # set new owner
+        role_access = get_access_fields_by_role(contract, role)
+        role_access["owner"] = self.request.authenticated_userid
+        new_access = []
+        # delete previous tokens
+        if role == AccessRole.BUYER:
             contract["owner"] = self.request.authenticated_userid
+            overwritten_roles = (AccessRole.TENDER, AccessRole.CONTRACT)
+            # deprecated logic fields
             contract.pop("tender_token", None)
             contract.pop("owner_token", None)
         else:
+            overwritten_roles = (AccessRole.BID,)
+            # deprecated logic fields
             contract.pop("bid_token", None)
             contract.pop("bid_owner", None)
+        for access in contract.get("access", []):
+            if access["role"] not in overwritten_roles:
+                new_access.append(access)
+        contract["access"] = new_access
 
     def validate_access_claimed(self, contract, role):
-        if contract.get("access", {}).get(role, {}).get("owner"):
-            raise_operation_error(
-                self.request,
-                "Access already claimed",
-            )
+        if role_access := get_access_fields_by_role(contract, role):
+            if role_access.get("owner"):
+                raise_operation_error(
+                    self.request,
+                    "Access already claimed",
+                )
 
     def validate_token(self, contract, role):
         acc_token = extract_access_token(self.request)
-        obj_token = contract.get("access", {}).get(role, {}).get("token")
-        if acc_token and obj_token and len(obj_token) != len(acc_token):
-            acc_token = sha512(acc_token.encode("utf-8")).hexdigest()
-        if acc_token != obj_token:
-            raise_operation_error(
-                self.request,
-                "Token mismatch",
-            )
+        if role_access := get_access_fields_by_role(contract, role):
+            obj_token = role_access.get("token")
+            if acc_token and obj_token and len(obj_token) != len(acc_token):
+                acc_token = sha512(acc_token.encode("utf-8")).hexdigest()
+            if acc_token != obj_token:
+                raise_operation_error(
+                    self.request,
+                    "Token mismatch",
+                )
 
     def validate_on_patch(self, contract, role):
         self.validate_token(contract, role)

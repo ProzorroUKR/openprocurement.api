@@ -202,7 +202,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
 
         with open(TARGET_DIR + 'contracts-access-invalid.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
+            self.app.post_json(
                 f"/contracts/{contract_id}/access",
                 {
                     "data": {

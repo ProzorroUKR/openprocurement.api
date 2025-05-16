@@ -74,8 +74,8 @@ test_contract_data = {
     "id": uuid4().hex,
     "contractID": "UA-2016-03-18-000001-1",
     "tender_id": uuid4().hex,
-    "tender_token": sha512(test_tender_token.encode()).hexdigest(),
     "owner": "broker",
+    "access": [{"role": "tender", "token": sha512(test_tender_token.encode()).hexdigest(), "owner": "broker"}],
 }
 test_contract_data["contractTemplateName"] = "00000000-0.0002.01"
 

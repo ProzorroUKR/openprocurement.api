@@ -75,11 +75,17 @@ def dt_from_iso(string):
     return dt
 
 
-def set_ownership(item, request, with_transfer=True):
+def set_ownership(item, request, with_transfer=True, access_role=None):
     if not item.get("owner"):  # ???
-        item["owner"] = request.authenticated_userid
+        if not access_role:
+            item["owner"] = request.authenticated_userid
     token = uuid4().hex
-    item["owner_token"] = token
+    if access_role:
+        item.setdefault("access", []).append(
+            {"token": token, "role": access_role, "owner": request.authenticated_userid}
+        )
+    else:
+        item["owner_token"] = token
     access = {"token": token}
     if with_transfer:
         transfer = uuid4().hex

@@ -9,7 +9,7 @@ from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import ContractValue
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.contracting.core.procedure.models.access import AccessRoles
+from openprocurement.contracting.core.procedure.models.access import AccessDetails
 from openprocurement.contracting.core.procedure.models.change import Change
 from openprocurement.contracting.core.procedure.models.document import Document
 from openprocurement.contracting.core.procedure.models.implementation import (
@@ -23,10 +23,6 @@ from openprocurement.contracting.core.procedure.models.value import AmountPaid
 
 
 class BasePostContract(Model):
-    @serializable
-    def owner_token(self):
-        return uuid4().hex
-
     @serializable
     def transfer_token(self):
         return uuid4().hex
@@ -53,7 +49,7 @@ class BasePostContract(Model):
     suppliers = ListType(ModelType(BusinessOrganization), min_size=1, max_size=1)
 
     owner = StringType()
-    tender_token = StringType()
+    access = ListType(ModelType(AccessDetails, required=True))
     tender_id = StringType(required=True)
     mode = StringType(choices=["test"])
 
@@ -102,9 +98,9 @@ class BaseContract(Model):
         min_size=1,
         validators=[validate_items_uniq],
     )
-    tender_token = StringType()
+    tender_token = StringType()  # deprecated
     tender_id = StringType(required=True)
-    owner_token = StringType(default=lambda: uuid4().hex)
+    owner_token = StringType(default=lambda: uuid4().hex)  # deprecated
     transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=["test"])
@@ -120,10 +116,10 @@ class BaseContract(Model):
     amountPaid = ModelType(AmountPaid)
     value = ModelType(ContractValue)
 
-    bid_owner = StringType()
-    bid_token = StringType()
+    bid_owner = StringType()  # deprecated
+    bid_token = StringType()  # deprecated
 
-    access = ModelType(AccessRoles)
+    access = ListType(ModelType(AccessDetails, required=True))
 
     revisions = BaseType()
 

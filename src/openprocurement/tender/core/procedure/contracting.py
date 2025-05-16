@@ -8,6 +8,7 @@ from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FRO
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_contract_by_id, request_init_contract
+from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.econtract.procedure.models.contract import (
     Buyer,
@@ -235,9 +236,18 @@ def get_additional_contract_data(request, contract, tender, award):
         "buyer": buyer,
         "tender_id": tender["_id"],
         "owner": tender["owner"],
-        "tender_token": tender["owner_token"],
-        "bid_owner": bid["owner"],
-        "bid_token": bid["owner_token"],
+        "access": [
+            {
+                "token": tender["owner_token"],
+                "owner": tender["owner"],
+                "role": AccessRole.TENDER,
+            },
+            {
+                "token": bid["owner_token"],
+                "owner": bid["owner"],
+                "role": AccessRole.BID,
+            },
+        ],
     }
 
 

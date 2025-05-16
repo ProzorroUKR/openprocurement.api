@@ -1,3 +1,5 @@
+from enum import StrEnum
+
 from schematics.types import BooleanType, StringType
 from schematics.types.serializable import serializable
 
@@ -19,11 +21,25 @@ class PatchAccess(Model):
     active = BooleanType(choices=[True], required=True)
 
 
+class AccessRole(StrEnum):
+    BUYER = "buyer"
+    SUPPLIER = "supplier"
+    # deprecated
+    TENDER = "tender"
+    BID = "bid"
+    CONTRACT = "contract"
+
+
+ACCESS_ROLE_CHOICES = [
+    AccessRole.BUYER.value,
+    AccessRole.SUPPLIER.value,
+    AccessRole.TENDER.value,
+    AccessRole.BID.value,
+    AccessRole.CONTRACT.value,
+]
+
+
 class AccessDetails(Model):
     owner = StringType()
     token = StringType()
-
-
-class AccessRoles(Model):
-    supplier = ModelType(AccessDetails)
-    buyer = ModelType(AccessDetails)
+    role = StringType(choices=ACCESS_ROLE_CHOICES)

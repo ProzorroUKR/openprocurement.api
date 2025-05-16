@@ -1663,19 +1663,16 @@ def get_access(self):
 def generate_access(self):
     # credentials used for contract_token setting
     response = self.app.patch_json(
-        "/contracts/{}/credentials?acc_token={}".format(self.contract_id, self.initial_data["tender_token"]),
+        "/contracts/{}/credentials?acc_token={}".format(self.contract_id, self.initial_data["access"][0]["token"]),
         {"data": {}},
     )
     contract_token = response.json["access"]["token"]
 
     contract = self.mongodb.contracts.get(self.contract_id)
-    self.assertNotIn("access", contract)
-    for role in ("buyer", "supplier"):
-        for field_name in ("owner", "token"):
-            self.assertNotIn(field_name, contract.get("access", {}).get(role, {}))
-    for field_name in ("bid_owner", "bid_token", "tender_token", "owner", "owner_token"):
-        self.assertIn(field_name, contract)
-    bid_token = contract["bid_token"]
+    for access in contract.get("access", []):
+        for role in ("buyer", "supplier"):
+            self.assertNotEqual(access["role"], role)
+    bid_token = contract["access"][1]["token"]
 
     response = self.app.post_json(f"/contracts/{self.contract_id}/access", {"data": {}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1760,12 +1757,14 @@ def generate_access(self):
     self.assertEqual(response.status, "200 OK")
 
     contract = self.mongodb.contracts.get(self.contract_id)
-    self.assertIn("buyer", contract["access"])
-    for field_name in ("owner", "token"):
-        self.assertIn(field_name, contract["access"]["buyer"])
-    for field_name in ("tender_token", "owner_token"):
-        self.assertNotIn(field_name, contract)
-    self.assertEqual(contract["owner"], contract["access"]["buyer"]["owner"])
+    buyer_access = None
+    for access in contract.get("access", []):
+        for role in ("tender", "contract"):
+            self.assertNotEqual(access["role"], role)
+        if access["role"] == "buyer":
+            buyer_access = access
+    self.assertNotEqual(buyer_access, None)
+    self.assertEqual(contract["owner"], buyer_access["owner"])
 
     # try to patch contract with contract_token (not permitted already)
     response = self.app.patch_json(
@@ -1819,11 +1818,13 @@ def generate_access(self):
 
     contract = self.mongodb.contracts.get(self.contract_id)
 
-    self.assertIn("supplier", contract["access"])
-    for field_name in ("owner", "token"):
-        self.assertIn(field_name, contract["access"]["supplier"])
-    for field_name in ("bid_token", "bid_owner"):
-        self.assertNotIn(field_name, contract)
+    supplier_access = None
+    for access in contract.get("access", []):
+        for role in ("bid",):
+            self.assertNotEqual(access["role"], role)
+        if access["role"] == "supplier":
+            supplier_access = access
+    self.assertNotEqual(supplier_access, None)
 
     # try to patch contract with bid_token (not permitted already)
     response = self.app.put_json(

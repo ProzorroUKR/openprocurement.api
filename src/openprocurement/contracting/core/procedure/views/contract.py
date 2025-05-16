@@ -14,6 +14,7 @@ from openprocurement.api.views.base import (
 )
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
 from openprocurement.contracting.core.procedure.models.access import (
+    AccessRole,
     PatchAccess,
     PostAccess,
 )
@@ -116,7 +117,7 @@ class ContractCredentialsResource(ContractBaseResource):
     )
     def patch(self):
         contract = self.request.validated["contract"]
-        access = set_ownership(contract, self.request)
+        access = set_ownership(contract, self.request, access_role=AccessRole.CONTRACT)
         if save_contract(self.request):
             self.LOGGER.info(
                 f"Generate Contract credentials {contract['_id']}",
@@ -151,8 +152,7 @@ class ContractAccessResource(ContractBaseResource):
 
         access = {"token": token}
 
-        # TODO: ASK
-        if role == "buyer":
+        if role == AccessRole.BUYER:
             transfer_token = uuid4().hex
             contract["transfer_token"] = sha512(transfer_token.encode("utf-8")).hexdigest()
             access["transfer"] = transfer_token

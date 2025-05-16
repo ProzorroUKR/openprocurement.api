@@ -14,7 +14,8 @@ del test_buyer["contactPoint"]
 for i in test_contract_data.get("suppliers", ""):
     del i["contactPoint"]
 
-test_contract_data.update({"bid_owner": "broker", "bid_token": uuid4().hex, "buyer": test_buyer, "id": uuid4().hex})
+test_contract_data.update({"buyer": test_buyer, "id": uuid4().hex})
+test_contract_data["access"].append({"owner": "broker", "token": uuid4().hex, "role": "bid"})
 
 del test_contract_data["period"]
 del test_contract_data["contractNumber"]

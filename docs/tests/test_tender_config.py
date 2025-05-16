@@ -3,7 +3,6 @@ import datetime
 import json
 import os
 from copy import deepcopy
-from hashlib import sha512
 from uuid import uuid4
 
 import standards
@@ -2888,7 +2887,6 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
             {
                 "id": uuid4().hex,
                 "tender_id": tender_id,
-                "tender_token": sha512(uuid4().hex.encode()).hexdigest(),
             }
         )
         contract_config = {
