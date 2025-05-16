@@ -6,8 +6,7 @@ from isodate import duration_isoformat
 from isodate.duration import Duration
 from pytz import timezone
 from schematics.exceptions import ConversionError, ModelConversionError
-from schematics.types import BooleanType, StringType
-from schematics.types.serializable import serializable
+from schematics.types import StringType
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.models.base import Model
@@ -15,18 +14,46 @@ from openprocurement.api.procedure.types import (
     DecimalType,
     IsoDateTimeType,
     IsoDurationType,
+    ListType,
+    ModelType,
 )
 from openprocurement.api.tests.base import BaseWebTest
 
 
-class TestModel(Model):
-    test_field0 = BooleanType()
-    test_field1 = StringType()
-    test_field2 = StringType()
+class ListTypeTest(BaseWebTest):
+    def test_list_type(self):
+        class ChildObjModel(Model):
+            test_field = StringType()
 
-    @serializable(serialized_name="status")
-    def serialize_status(self):
-        return "test_status"
+        class ObjModel(Model):
+            test_list = ListType(ModelType(ChildObjModel))
+
+        obj = ObjModel({"test_list": [{"test_field": "test1"}, {"test_field": "test2"}]})
+        obj.validate()
+        self.assertEqual(obj.serialize(), {"test_list": [{"test_field": "test1"}, {"test_field": "test2"}]})
+
+    def test_list_type_from_dict(self):
+        class ChildObjModel(Model):
+            test_field = StringType()
+
+        class ObjModel(Model):
+            test_list = ListType(ModelType(ChildObjModel))
+
+        obj = ObjModel({"test_list": {"0": {"test_field": "test1"}, "1": {"test_field": "test2"}}})
+        obj.validate()
+        self.assertEqual(obj.serialize(), {"test_list": [{"test_field": "test1"}, {"test_field": "test2"}]})
+
+    def test_list_type_not_list(self):
+        class ChildObjModel(Model):
+            test_field = StringType()
+
+        class ObjModel(Model):
+            test_list = ListType(ModelType(ChildObjModel))
+
+        obj = ObjModel({"test_list": {"test_field": "test1"}})
+        obj.validate()
+
+        self.assertEqual(obj.serialize(), {"test_list": [{"test_field": "test1"}]})
 
 
 class IsoDurationTypeTest(BaseWebTest):

@@ -656,19 +656,6 @@ def create_tender_bidder_invalid(self):
         [{"description": ["value should be posted for each lot of bid"], "location": "body", "name": "value"}],
     )
 
-    bid_data["tenderers"] = test_tender_below_organization
-    bid_data["tenderers"] = test_tender_below_organization
-    del bid_data["value"]
-    response = self.app.post_json(
-        request_path,
-        {"data": bid_data},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
-
 
 def patch_tender_bidder(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
@@ -869,18 +856,6 @@ def create_tender_bidder_feature_invalid(self):
             }
         ],
     )
-
-    bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.lot_id}]
-    bid_data["tenderers"] = test_tender_below_organization
-    response = self.app.post_json(
-        request_path,
-        {"data": bid_data},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
     bid_data["tenderers"] = [test_tender_below_organization]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.lot_id}]

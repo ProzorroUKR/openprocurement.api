@@ -1240,21 +1240,6 @@ def create_tender_bid_invalid(self):
         request_path,
         {
             "data": {
-                "tenderers": test_tender_below_organization,
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
-
-    response = self.app.post_json(
-        request_path,
-        {
-            "data": {
                 "tenderers": [test_tender_below_organization],
                 "lotValues": [
                     {"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]},
@@ -1469,21 +1454,6 @@ def create_tender_bid_invalid_feature(self):
             }
         ],
     )
-
-    response = self.app.post_json(
-        request_path,
-        {
-            "data": {
-                "tenderers": test_tender_below_organization,
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.lot_id}],
-            }
-        },
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
     response = self.app.post_json(
         request_path,

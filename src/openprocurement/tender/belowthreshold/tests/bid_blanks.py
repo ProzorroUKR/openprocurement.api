@@ -197,14 +197,6 @@ def create_tender_bid_invalid(self):
         ],
     )
 
-    response = self.app.post_json(
-        request_path, {"data": {"tenderers": test_tender_below_organization, "value": {"amount": 500}}}, status=422
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
-
 
 def create_tender_bid(self):
     dateModified = self.mongodb.tenders.get(self.tender_id).get("dateModified")
@@ -249,6 +241,16 @@ def create_tender_bid(self):
     self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
+
+    bid_data["tenderers"] = test_tender_below_organization  # not a list, will be converted to list
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": bid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    bid = response.json["data"]
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
 
     self.assertEqual(self.mongodb.tenders.get(self.tender_id).get("dateModified"), dateModified)
 

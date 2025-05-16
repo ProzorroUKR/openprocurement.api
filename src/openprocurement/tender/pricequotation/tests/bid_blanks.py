@@ -246,14 +246,6 @@ def create_tender_bid_invalid(self):
         ],
     )
 
-    response = self.app.post_json(
-        request_path, {"data": {"tenderers": test_tender_pq_organization, "value": {"amount": 500}}}, status=422
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
-
     non_shortlist_org = deepcopy(test_tender_pq_organization)
     non_shortlist_org["identifier"]["id"] = "69"
     bid_data = {
