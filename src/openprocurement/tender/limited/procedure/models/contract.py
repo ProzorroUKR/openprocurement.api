@@ -9,13 +9,13 @@ from openprocurement.tender.core.procedure.models.contract import (
     PatchContract as BasePatchContract,
 )
 from openprocurement.tender.core.procedure.models.organization import (
-    ContactLessBusinessOrganization,
+    ContactLessSupplier,
 )
 
 
 class ReportingContract(BaseContract):
     suppliers = ListType(
-        ModelType(ContactLessBusinessOrganization, required=True),
+        ModelType(ContactLessSupplier, required=True),
         min_size=1,
         max_size=1,
     )
@@ -31,7 +31,7 @@ class ReportingPostContract(ReportingContract):
 
 class ReportingPatchContract(BasePatchContract):
     suppliers = ListType(
-        ModelType(ContactLessBusinessOrganization, required=True),
+        ModelType(ContactLessSupplier, required=True),
         min_size=1,
         max_size=1,
     )

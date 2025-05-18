@@ -39,6 +39,7 @@ from openprocurement.api.constants_env import (
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
+    TENDER_SIGNER_INFO_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
@@ -1783,3 +1784,24 @@ def validate_field_change(field_name, before_obj, after_obj, validator, args):
     """
     if before_obj.get(field_name) != after_obj.get(field_name):
         validator(*args)
+
+
+def validate_signer_info_container(request, tender, container, container_name):
+    if isinstance(container, list):
+        for index, item in enumerate(container):
+            validate_signer_info(request, tender, item, container_name, index)
+    else:
+        validate_signer_info(request, tender, container, container_name)
+
+
+def validate_signer_info(request, tender, organization, field_name, field_index=None) -> None:
+    signer_info = organization.get("signerInfo")
+    contract_template_name = tender.get("contractTemplateName")
+    if tender_created_after(TENDER_SIGNER_INFO_REQUIRED_FROM) and contract_template_name and not signer_info:
+        field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
+        raise_operation_error(
+            request,
+            {"signerInfo": BaseType.MESSAGES["required"]},
+            name=field_path,
+            status=422,
+        )

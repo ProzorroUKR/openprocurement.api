@@ -7,7 +7,7 @@ from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -74,7 +74,7 @@ def patch_tender_contract(self):
         f"/tenders/{tender_id}/awards?acc_token={tender_token}",
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
@@ -553,7 +553,7 @@ def patch_tender_negotiation_econtract(self):
         f"/tenders/{tender_id}/awards?acc_token={tender_token}",
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "lotID": lot_id,
                 "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},

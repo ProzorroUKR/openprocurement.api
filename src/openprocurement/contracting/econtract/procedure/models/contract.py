@@ -36,6 +36,7 @@ class PostContract(BasePostContract):
     contractTemplateName = StringType()
     items = ListType(ModelType(Item, required=True))
     buyer = ModelType(Buyer, required=True)
+    suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     value = ModelType(ContractValue)
 
 

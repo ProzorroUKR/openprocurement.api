@@ -1,8 +1,6 @@
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
 
 
@@ -1245,7 +1243,7 @@ def patch_tender_bid(self):
     self.assertEqual(bid["lotValues"][0]["value"]["amount"], self.expected_bid_amount)
     self.assertEqual(bid["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance)
 
-    tenderer = deepcopy(test_tender_below_organization)
+    tenderer = deepcopy(test_tender_below_supplier)
     tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),

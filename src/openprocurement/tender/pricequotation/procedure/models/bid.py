@@ -12,9 +12,7 @@ from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.procedure.models.bid import MetaBid
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument
 from openprocurement.tender.core.procedure.models.item import LocalizationItem
-from openprocurement.tender.core.procedure.models.organization import (
-    BusinessOrganization,
-)
+from openprocurement.tender.core.procedure.models.organization import Supplier
 from openprocurement.tender.core.procedure.models.req_response import (
     BidResponsesMixin,
     PatchObjResponsesMixin,
@@ -28,7 +26,7 @@ from openprocurement.tender.pricequotation.procedure.validation import (
 class PatchBid(PatchObjResponsesMixin, Model):
     value = ModelType(Value)
     tenderers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         min_size=1,
         max_size=1,
     )
@@ -57,7 +55,7 @@ class PostBid(BidResponsesMixin, PatchBid):
         return uuid4().hex
 
     tenderers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,
@@ -98,7 +96,7 @@ class Bid(BidResponsesMixin, MetaBid):
     qualificationDocuments = ListType(ModelType(Document, required=True))
 
     tenderers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,

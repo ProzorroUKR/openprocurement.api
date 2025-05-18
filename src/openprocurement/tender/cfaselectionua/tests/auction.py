@@ -27,7 +27,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_bids,
     test_tender_cfaselectionua_data,
     test_tender_cfaselectionua_lots,
-    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_supplier,
 )
 
 skip_multi_lots = True
@@ -87,14 +87,14 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
             "parameters": [
                 {"code": i["code"], "value": 0.1} for i in test_tender_cfaselectionua_agreement_features["features"]
             ],
-            "tenderers": [test_tender_cfaselectionua_organization],
+            "tenderers": [test_tender_cfaselectionua_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
         {
             "parameters": [
                 {"code": i["code"], "value": 0.15} for i in test_tender_cfaselectionua_agreement_features["features"]
             ],
-            "tenderers": [test_tender_cfaselectionua_organization],
+            "tenderers": [test_tender_cfaselectionua_supplier],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
     ]

@@ -9,7 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_complaint,
     test_tender_below_draft_complaint,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -562,7 +562,7 @@ def create_cancellation_with_award_complaint(self):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": self.initial_lots[0]["id"] if self.initial_lots else None,
@@ -1154,7 +1154,7 @@ def access_create_tender_cancellation_complaint(self):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": self.initial_lots[0]["id"] if self.initial_lots else None,
@@ -2039,7 +2039,7 @@ def create_cancellation_in_award_complaint_period(self):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": self.initial_lots[0]["id"] if self.initial_lots else None,

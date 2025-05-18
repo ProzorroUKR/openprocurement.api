@@ -20,9 +20,7 @@ from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue,
     PostLotValue,
 )
-from openprocurement.tender.core.procedure.models.organization import (
-    BusinessOrganization,
-)
+from openprocurement.tender.core.procedure.models.organization import Supplier
 from openprocurement.tender.core.procedure.models.parameter import (
     Parameter,
     PatchParameter,
@@ -37,7 +35,7 @@ class PatchBid(BaseBid):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
     lotValues = ListType(ModelType(LotValue, required=True))
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
+    tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     status = StringType(
         choices=[
             "draft",
@@ -75,7 +73,7 @@ class CommonBid(BaseBid):
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
     lotValues = ListType(ModelType(LotValue, required=True))
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
+    tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     status = StringType(
         choices=[
             "draft",
@@ -133,7 +131,7 @@ class PostBid(CommonBid):
 
     items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
     tenderers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,

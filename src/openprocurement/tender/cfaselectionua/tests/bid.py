@@ -10,7 +10,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_agreement_features,
     test_tender_cfaselectionua_bids,
     test_tender_cfaselectionua_lots,
-    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_supplier,
 )
 from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     bid_Administrator_change,
@@ -48,7 +48,7 @@ class CreateBidMixin:
         # Create bid
         bid_data = {
             "status": self.base_bid_status,
-            "tenderers": [test_tender_cfaselectionua_organization],
+            "tenderers": [test_tender_cfaselectionua_supplier],
             "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
         }
         bid, bid_token = self.create_bid(self.tender_id, bid_data)
@@ -104,7 +104,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         bid_data = {
-            "tenderers": [test_tender_cfaselectionua_organization],
+            "tenderers": [test_tender_cfaselectionua_supplier],
             "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
         }
         set_bid_items(self, bid_data)
@@ -130,7 +130,7 @@ class TenderBidBatchDocumentResourceTest(TenderContentWebTest):
     initial_lots = deepcopy(test_tender_cfaselectionua_lots)
     initial_status = "active.tendering"
     bid_data_wo_docs = {
-        "tenderers": [test_tender_cfaselectionua_organization],
+        "tenderers": [test_tender_cfaselectionua_supplier],
         "value": {"amount": 500},
         "documents": [],
     }

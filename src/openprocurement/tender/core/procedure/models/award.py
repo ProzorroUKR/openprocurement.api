@@ -15,9 +15,7 @@ from openprocurement.tender.core.procedure.models.award_milestone import (
 from openprocurement.tender.core.procedure.models.base import BaseAward
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
-from openprocurement.tender.core.procedure.models.organization import (
-    BusinessOrganization,
-)
+from openprocurement.tender.core.procedure.models.organization import Supplier
 from openprocurement.tender.core.procedure.models.req_response import (
     ObjResponseMixin,
     PatchObjResponsesMixin,
@@ -37,7 +35,7 @@ class PostAward(BaseAward):
     value = ModelType(Value)
     weightedValue = ModelType(Value)
     suppliers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,
@@ -74,7 +72,7 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
     value = ModelType(Value)
     weightedValue = ModelType(Value)
     suppliers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,

@@ -1,13 +1,11 @@
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.utils import set_bid_items
 
 
 def create_document_active_tendering_status(self):
     self.set_status("active.tendering")
     bid_data = {
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
         "lotValues": None,
         "parameters": None,

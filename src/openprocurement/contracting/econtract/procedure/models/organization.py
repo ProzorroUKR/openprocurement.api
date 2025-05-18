@@ -1,30 +1,18 @@
-from schematics.types import EmailType, StringType
+from schematics.types import StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.constants_env import VALIDATE_ADDRESS_FROM
 from openprocurement.api.procedure.models.address import Address as BaseAddress
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.contact import validate_telephone
 from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.models.organization import (
     ORGANIZATION_SCALE_CHOICES,
     PROCURING_ENTITY_KIND_CHOICES,
 )
+from openprocurement.api.procedure.models.signer_info import SignerInfo
 from openprocurement.api.procedure.types import ListType
 from openprocurement.contracting.core.procedure.models.contact import ContactPoint
 from openprocurement.tender.core.procedure.utils import tender_created_after
-
-
-class SignerInfo(Model):
-    name = StringType(min_length=1, required=True)
-    email = EmailType(min_length=1, required=True)
-    telephone = StringType(min_length=1, required=True)
-    iban = StringType(min_length=15, max_length=33, required=True)
-    position = StringType(min_length=1, required=True)
-    authorizedBy = StringType(min_length=1, required=True)
-
-    def validate_telephone(self, data, value):
-        validate_telephone(value)
 
 
 class Address(BaseAddress):
@@ -48,12 +36,13 @@ class Organization(Model):
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
     address = ModelType(Address)
     contactPoint = ModelType(ContactPoint)
-    signerInfo = ModelType(SignerInfo)
 
 
 class Supplier(Organization):
     scale = StringType(choices=ORGANIZATION_SCALE_CHOICES)
+    signerInfo = ModelType(SignerInfo)
 
 
 class Buyer(Organization):
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
+    signerInfo = ModelType(SignerInfo)

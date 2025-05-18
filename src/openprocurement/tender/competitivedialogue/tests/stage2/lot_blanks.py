@@ -6,7 +6,7 @@ from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_openeu_bids,
@@ -567,7 +567,7 @@ def patch_tender_bidder(self):
     bidder, bid_token = self.create_bid(self.tender_id, bid_data)
     lot = bidder["lotValues"][0]
 
-    tenderer = deepcopy(test_tender_below_organization)
+    tenderer = deepcopy(test_tender_below_supplier)
     tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
@@ -2012,7 +2012,7 @@ def patch_tender_bidder_ua(self):
 
     lot_values = bidder["lotValues"]
 
-    tenderer = deepcopy(test_tender_below_organization)
+    tenderer = deepcopy(test_tender_below_supplier)
     tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
@@ -2028,7 +2028,7 @@ def patch_tender_bidder_ua(self):
         {
             "data": {
                 "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id}],
-                "tenderers": [test_tender_below_organization],
+                "tenderers": [test_tender_below_supplier],
             }
         },
     )

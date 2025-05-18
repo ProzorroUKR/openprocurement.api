@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.limited.tests.award_blanks import (  # TenderAwardDocumentResourceTest; TenderNegotiationAwardComplaintDocumentResourceTest; Tender2LotNegotiationAwardComplaintResourceTest; TenderLotNegotiationAwardComplaintResourceTest; TenderNegotiationAwardComplaintResourceTest; TenderNegotiationLotAwardResourceTest; TenderNegotiationAwardResourceTest; TenderAwardComplaintResourceTest; TenderAwardResourceTest
     activate_contract_with_cancelled_award,
@@ -154,7 +154,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
             request_path,
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "status": "pending",
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -217,7 +217,7 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
             request_path,
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.lot["id"],
@@ -285,7 +285,7 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
             request_path,
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.first_lot["id"],
@@ -304,7 +304,7 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
             request_path,
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.second_lot["id"],
@@ -379,7 +379,7 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
             request_path,
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.first_lot["id"],
@@ -398,7 +398,7 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
             request_path,
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.second_lot["id"],
@@ -446,7 +446,7 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(
             request_path,
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "status": "pending",
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -533,7 +533,7 @@ class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocume
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "status": "pending",
                     "lotID": lot["id"],

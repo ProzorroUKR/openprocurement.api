@@ -8,7 +8,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     bid_proposal_doc,
@@ -230,7 +230,7 @@ class TenderBidBatchDocumentsResourceTest(BaseESCOContentWebTest):
 
     def setUp(self):
         bid_data = deepcopy(test_tender_esco_bids[0])
-        bid_data.update({"tenderers": [test_tender_below_organization], "documents": []})
+        bid_data.update({"tenderers": [test_tender_below_supplier], "documents": []})
 
         self.bid_data_wo_docs = bid_data
 

@@ -6,7 +6,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_document_json_bulk,
@@ -175,7 +175,7 @@ class TenderBidBatchDocumentsResourceTest(BaseTenderLotsContentWebTest):
 
     def setUp(self):
         self.bid_data_wo_docs = {
-            "tenderers": [test_tender_below_organization],
+            "tenderers": [test_tender_below_supplier],
             "value": {"amount": 500},
             "selfQualified": True,
             "documents": [],

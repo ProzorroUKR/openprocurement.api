@@ -6,7 +6,7 @@ from datetime import timedelta
 
 import standards
 from tests.base.constants import DOCS_URL
-from tests.base.data import test_docs_items_dps, test_docs_tenderer
+from tests.base.data import test_docs_items_dps, test_docs_organization
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.tests.base import change_auth
@@ -175,7 +175,7 @@ class FrameworkRestrictedResourceTest(FrameworkConfigBaseResouceTest):
                     '/submissions',
                     {
                         'data': {
-                            "tenderers": [test_docs_tenderer],
+                            "tenderers": [test_docs_organization],
                             "frameworkID": self.framework_id,
                         },
                         'config': {

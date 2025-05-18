@@ -4,9 +4,7 @@ from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.econtract.tests.data import test_signer_info
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_config,
     test_tender_reporting_data,
@@ -973,7 +971,7 @@ def limited_contract_confidential_document(self):
         f"/tenders/{tender_id}/awards?acc_token={tender_token}",
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},

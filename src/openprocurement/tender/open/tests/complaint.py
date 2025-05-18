@@ -7,7 +7,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_draft_complaint,
     test_tender_below_lots,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     create_tender_complaint_document,
@@ -268,7 +268,7 @@ class TenderAwardComplaintObjectionMixin:
                 f"/tenders/{self.tender_id}/awards",
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                         "lotID": self.initial_lots[0]["id"],

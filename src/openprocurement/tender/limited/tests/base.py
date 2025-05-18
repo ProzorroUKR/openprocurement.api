@@ -8,8 +8,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest as BaseBaseTenderWebTest,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_buyer,
     test_tender_below_data,
-    test_tender_below_organization,
 )
 from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 
@@ -57,15 +57,21 @@ test_lots = [
 ]
 
 test_tender_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_reporting_data, test_tender_reporting_data["items"][0], test_tender_below_organization
+    test_tender_reporting_data,
+    test_tender_reporting_data["items"][0],
+    test_tender_below_buyer,
 )
 
 test_tender_negotiation_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_negotiation_data, test_tender_negotiation_data["items"][0], test_tender_below_organization
+    test_tender_negotiation_data,
+    test_tender_negotiation_data["items"][0],
+    test_tender_below_buyer,
 )
 
 test_tender_negotiation_quick_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_negotiation_quick_data, test_tender_negotiation_quick_data["items"][0], test_tender_below_organization
+    test_tender_negotiation_quick_data,
+    test_tender_negotiation_quick_data["items"][0],
+    test_tender_below_buyer,
 )
 
 test_tender_reporting_config = {

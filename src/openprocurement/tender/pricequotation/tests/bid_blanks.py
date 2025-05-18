@@ -3,9 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
 from openprocurement.tender.core.tests.utils import (
     set_bid_items,
@@ -14,11 +12,11 @@ from openprocurement.tender.core.tests.utils import (
 )
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_criteria,
-    test_tender_pq_organization,
     test_tender_pq_response_1,
     test_tender_pq_response_2,
     test_tender_pq_response_3,
     test_tender_pq_response_4,
+    test_tender_pq_supplier,
 )
 from openprocurement.tender.pricequotation.tests.utils import (
     copy_criteria_req_id,
@@ -32,7 +30,7 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(
         "/tenders/some_id/bids",
-        {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_tender_pq_supplier], "value": {"amount": 500}}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -179,7 +177,7 @@ def create_tender_bid_invalid(self):
         request_path,
         {
             "data": {
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "requirementResponses": rrs,
             }
         },
@@ -197,7 +195,7 @@ def create_tender_bid_invalid(self):
         request_path,
         {
             "data": {
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500, "valueAddedTaxIncluded": False},
                 "requirementResponses": rrs,
             }
@@ -225,7 +223,7 @@ def create_tender_bid_invalid(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500, "currency": "USD"},
                 "requirementResponses": rrs,
             }
@@ -246,7 +244,7 @@ def create_tender_bid_invalid(self):
         ],
     )
 
-    non_shortlist_org = deepcopy(test_tender_pq_organization)
+    non_shortlist_org = deepcopy(test_tender_pq_supplier)
     non_shortlist_org["identifier"]["id"] = "69"
     bid_data = {
         "tenderers": [non_shortlist_org],
@@ -269,7 +267,7 @@ def create_tender_bid_invalid(self):
 
     # post bid items without product for tender item from category for catalogue PQ
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "items": copy_tender_items(tender["items"]),  # add item without product
     }
@@ -296,7 +294,7 @@ def create_tender_bid(self):
     self.mongodb.tenders.save(data)
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
     }
     set_bid_items(self, bid_data, items=tender["items"])
@@ -326,7 +324,7 @@ def create_tender_bid(self):
 
     # post first
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rrs,
         "documents": None,
@@ -347,7 +345,7 @@ def create_tender_bid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_tender_pq_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_pq_supplier["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
@@ -370,7 +368,7 @@ def create_tender_bid(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "items": copy_tender_items(tender["items"]),
                 "value": {"amount": 500},
                 "requirementResponses": rrs,
@@ -390,7 +388,7 @@ def requirement_response_validation_multiple_requirements(self):
     copy_criteria_req_id(tender["criteria"], rr)
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rr,
     }
@@ -409,7 +407,7 @@ def requirement_response_validation_multiple_requirements(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
             }
@@ -439,7 +437,7 @@ def requirement_response_validation_multiple_requirements(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
             }
@@ -472,7 +470,7 @@ def requirement_response_validation_multiple_requirements(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
             }
@@ -512,7 +510,7 @@ def requirement_response_validation_multiple_requirements(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
             }
@@ -542,7 +540,7 @@ def requirement_response_validation_multiple_requirements(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
             }
@@ -572,7 +570,7 @@ def requirement_response_validation_multiple_requirements(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
             }
@@ -605,7 +603,7 @@ def requirement_response_validation_multiple_requirements(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": test_response,
             }
@@ -687,7 +685,7 @@ def requirement_response_value_validation_for_expected_values(self):
     copy_criteria_req_id(tender["criteria"], rr)
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rr,
     }
@@ -717,7 +715,7 @@ def requirement_response_value_validation_for_expected_values(self):
     }
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rr,
     }
@@ -792,7 +790,7 @@ def requirement_response_validation_multiple_groups(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": rr,
             }
@@ -829,7 +827,7 @@ def requirement_response_validation_multiple_groups_multiple_requirements(self):
         {
             "data": {
                 "status": "active",
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": rr,
             }
@@ -863,7 +861,7 @@ def requirement_response_validation_one_group_multiple_requirements(self):
 
     bid_data = {
         "status": "active",
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rr,
     }
@@ -908,7 +906,7 @@ def patch_tender_bid(self):
     rrs = set_bid_responses(tender["criteria"])
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rrs,
     }
@@ -941,7 +939,7 @@ def patch_tender_bid(self):
         ],
     )
 
-    tenderer = deepcopy(test_tender_below_organization)
+    tenderer = deepcopy(test_tender_below_supplier)
     tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
@@ -954,7 +952,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"value": {"amount": 500}, "tenderers": [test_tender_pq_organization]}},
+        {"data": {"value": {"amount": 500}, "tenderers": [test_tender_pq_supplier]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1028,7 +1026,7 @@ def get_tender_bid(self):
     rrs = set_bid_responses(tender["criteria"])
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rrs,
         "status": "pending",
@@ -1101,7 +1099,7 @@ def delete_tender_bid(self):
     rrs = set_bid_responses(tender["criteria"])
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rrs,
     }
@@ -1153,7 +1151,7 @@ def get_tender_tenderers(self):
     rrs = set_bid_responses(tender["criteria"])
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rrs,
         "status": "pending",
@@ -1204,7 +1202,7 @@ def bid_Administrator_change(self):
     rrs = set_bid_responses(tender["criteria"])
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rrs,
     }
@@ -1218,7 +1216,7 @@ def bid_Administrator_change(self):
     bid = response.json["data"]
 
     self.app.authorization = ("Basic", ("administrator", ""))
-    tenderer = deepcopy(test_tender_pq_organization)
+    tenderer = deepcopy(test_tender_pq_supplier)
     tenderer["identifier"]["legalName"] = "ТМ Валєра"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
@@ -1281,7 +1279,7 @@ def invalidate_not_agreement_member_bid_via_chronograph(self):
     rrs = set_bid_responses(tender["criteria"])
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rrs,
     }
@@ -1319,7 +1317,7 @@ def bid_items_unit_value_validations(self):
     rrs = set_bid_responses(tender["criteria"])
 
     bid_data = {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 500},
         "requirementResponses": rrs,
     }

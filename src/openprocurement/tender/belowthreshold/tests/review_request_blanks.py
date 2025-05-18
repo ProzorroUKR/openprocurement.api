@@ -7,7 +7,7 @@ from openprocurement.api.utils import get_now, parse_datetime
 from openprocurement.contracting.econtract.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 
 
@@ -23,7 +23,7 @@ def create_review_request(self):
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": {"amount": 500},
@@ -355,7 +355,7 @@ def activate_contract_with_without_approve(self):
         f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -680,7 +680,7 @@ def review_request_for_multilot(self):
         f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": lots[0]["id"],
@@ -730,7 +730,7 @@ def review_request_for_multilot(self):
         f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[1]["id"],
                 "lotID": lots[1]["id"],
@@ -848,7 +848,7 @@ def review_request_multilot_unsuccessful(self):
         f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": lots[0]["id"],
@@ -862,7 +862,7 @@ def review_request_multilot_unsuccessful(self):
         f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[1]["id"],
                 "lotID": lots[1]["id"],

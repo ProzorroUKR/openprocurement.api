@@ -11,7 +11,10 @@ from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     singleton_app,
 )
 from openprocurement.planning.api.tests.base import test_plan_data
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_buyer,
+    test_tender_below_lots,
+)
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import set_tender_lots
 from openprocurement.tender.openua.tests.base import (
@@ -28,18 +31,13 @@ test_plan_central_data["procuringEntity"]["identifier"] = test_tender_openua_cen
 
 test_tender_openua_central_data["status"] = "draft"
 test_tender_openua_central_data["procuringEntity"]["kind"] = "central"
+del test_tender_openua_central_data["procuringEntity"]["signerInfo"]
 test_tender_openua_central_data["items"] = test_tender_openua_central_data["items"][:1]
 test_tender_openua_central_data["items"][0]["classification"]["id"] = test_plan_central_data["items"][0][
     "classification"
 ]["id"]
-test_tender_openua_central_data["buyers"] = [
-    {
-        "id": uuid4().hex,
-        "name": "name",
-        "name_en": "name_en",
-        "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
-    }
-]
+test_tender_openua_central_data["buyers"] = [deepcopy(test_tender_below_buyer)]
+test_tender_openua_central_data["buyers"][0]["id"] = uuid4().hex
 test_tender_openua_central_data["items"][0]["relatedBuyer"] = test_tender_openua_central_data["buyers"][0]["id"]
 
 

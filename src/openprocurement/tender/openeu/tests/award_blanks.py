@@ -6,7 +6,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_complaint,
     test_tender_below_draft_claim,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
@@ -142,7 +142,7 @@ def create_tender_award_invalid(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": "0" * 32,
@@ -160,7 +160,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/some_id/awards",
-        {"data": {"suppliers": [test_tender_below_organization], "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_below_supplier], "bid_id": self.initial_bids[0]["id"]}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -179,7 +179,7 @@ def create_tender_award_invalid(self):
     bid = self.initial_bids[0]
     data = {
         "data": {
-            "suppliers": [test_tender_below_organization],
+            "suppliers": [test_tender_below_supplier],
             "status": "pending",
             "bid_id": self.initial_bids[0]["id"],
         }
@@ -342,7 +342,7 @@ def create_tender_lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
             }
@@ -359,7 +359,7 @@ def create_tender_lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -369,7 +369,7 @@ def create_tender_lot_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertEqual(award["lotID"], self.initial_lots[0]["id"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
@@ -648,7 +648,7 @@ def create_tender_2lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -664,7 +664,7 @@ def create_tender_2lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[1]["id"],
@@ -674,7 +674,7 @@ def create_tender_2lot_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertEqual(award["lotID"], self.initial_lots[1]["id"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])

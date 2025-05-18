@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     now,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.utils import (
     change_auth,
@@ -32,7 +32,7 @@ def clean_requirement_responses(rrs: list):
 def create_tender_biddder_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -247,7 +247,7 @@ def create_tender_bidder(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 

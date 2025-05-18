@@ -2,6 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
@@ -68,7 +69,7 @@ PERIODS = {
     },
 }
 
-test_tender_pq_organization = {
+test_tender_pq_base_organization = {
     "name": "Державне управління справами",
     "identifier": {"scheme": "UA-IPN", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
     "address": {
@@ -79,9 +80,22 @@ test_tender_pq_organization = {
         "streetAddress": "вул. Банкова, 11, корпус 1",
     },
     "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
-    "scale": "micro",
 }
 
+test_tender_pq_organization = test_tender_pq_base_organization.copy()
+test_tender_pq_organization["scale"] = "micro"
+
+test_tender_pq_supplier = test_tender_pq_organization.copy()
+test_tender_pq_supplier["signerInfo"] = test_signer_info
+
+test_tender_pq_author = test_tender_pq_base_organization.copy()
+
+test_tender_pq_procuring_entity = test_tender_pq_base_organization.copy()
+test_tender_pq_procuring_entity["kind"] = "general"
+test_tender_pq_procuring_entity["signerInfo"] = test_signer_info
+
+test_tender_pq_buyer = test_tender_pq_procuring_entity.copy()
+test_tender_pq_buyer.pop("contactPoint")
 
 test_tender_pq_milestones = [
     {
@@ -102,12 +116,6 @@ test_tender_pq_milestones = [
         "percentage": 54.45,
     },
 ]
-
-test_tender_pq_author = test_tender_pq_organization.copy()
-del test_tender_pq_author["scale"]
-
-test_tender_pq_procuring_entity = test_tender_pq_author.copy()
-test_tender_pq_procuring_entity["kind"] = "general"
 
 test_tender_pq_item = {
     "description": "Комп’ютерне обладнання",
@@ -157,16 +165,18 @@ if SANDBOX_MODE:
     test_tender_pq_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
 test_tender_pq_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_pq_data, test_tender_pq_data["items"][0], test_tender_pq_organization
+    test_tender_pq_data,
+    test_tender_pq_data["items"][0],
+    test_tender_pq_buyer,
 )
 
 test_tender_pq_bids = [
     {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
     },
     {
-        "tenderers": [test_tender_pq_organization],
+        "tenderers": [test_tender_pq_supplier],
         "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
     },
 ]

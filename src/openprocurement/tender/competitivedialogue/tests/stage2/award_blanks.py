@@ -4,7 +4,7 @@ from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_tenderer,
@@ -448,7 +448,7 @@ def create_tender_award_invalid(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": "0" * 32,
@@ -466,7 +466,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/some_id/awards",
-        {"data": {"suppliers": [test_tender_below_organization], "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_below_supplier], "bid_id": self.initial_bids[0]["id"]}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -486,7 +486,7 @@ def create_tender_award_invalid(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],

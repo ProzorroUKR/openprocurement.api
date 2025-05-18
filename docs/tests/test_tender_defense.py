@@ -15,9 +15,7 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openua.tests.base import test_tender_openua_bids
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
@@ -524,7 +522,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                         "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,

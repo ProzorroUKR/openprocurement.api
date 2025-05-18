@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.api.tests.base import BaseWebTest, test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.tests.periods import PERIODS
@@ -25,7 +25,7 @@ test_tender_below_identifier = {
     "legalName": "Державне управління справами",
 }
 
-test_tender_below_organization = {
+test_tender_below_base_organization = {
     "name": "Державне управління справами",
     "identifier": test_tender_below_identifier,
     "address": {
@@ -39,14 +39,22 @@ test_tender_below_organization = {
         "name": "Державне управління справами",
         "telephone": "+0440000000",
     },
-    "scale": "micro",
 }
 
-test_tender_below_author = test_tender_below_organization.copy()
-del test_tender_below_author["scale"]
+test_tender_below_organization = test_tender_below_base_organization.copy()
+test_tender_below_organization["scale"] = "micro"
 
-test_tender_below_procuring_entity = test_tender_below_author.copy()
+test_tender_below_supplier = test_tender_below_organization.copy()
+test_tender_below_supplier["signerInfo"] = test_signer_info
+
+test_tender_below_author = test_tender_below_base_organization.copy()
+
+test_tender_below_procuring_entity = test_tender_below_base_organization.copy()
 test_tender_below_procuring_entity["kind"] = "general"
+test_tender_below_procuring_entity["signerInfo"] = test_signer_info
+
+test_tender_below_buyer = test_tender_below_procuring_entity.copy()
+test_tender_below_buyer.pop("contactPoint")
 
 test_tender_below_milestones = [
     {
@@ -107,8 +115,7 @@ test_tender_below_data = {
     "contractTemplateName": "00000000-0.0002.01",
 }
 
-funder = deepcopy(test_tender_below_organization)
-del funder["scale"]
+funder = deepcopy(test_tender_below_base_organization)
 funder["identifier"]["id"] = "44000"
 funder["identifier"]["scheme"] = "XM-DAC"
 
@@ -120,10 +127,9 @@ if SANDBOX_MODE:
 
 test_tender_below_data_no_auction = deepcopy(test_tender_below_data)
 del test_tender_below_data_no_auction["minimalStep"]
-test_tender_below_data_no_auction["funders"] = [deepcopy(test_tender_below_organization)]
+test_tender_below_data_no_auction["funders"] = [deepcopy(test_tender_below_base_organization)]
 test_tender_below_data_no_auction["funders"][0]["identifier"]["id"] = "44000"
 test_tender_below_data_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
-del test_tender_below_data_no_auction["funders"][0]["scale"]
 
 test_tender_below_simple_data = deepcopy(test_tender_below_data)
 test_tender_below_simple_data["procurementMethodRationale"] = "simple"
@@ -157,11 +163,11 @@ test_tender_below_features_data["features"] = [
 ]
 test_tender_below_bids = [
     {
-        "tenderers": [deepcopy(test_tender_below_organization)],
+        "tenderers": [deepcopy(test_tender_below_supplier)],
         "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": True},
     },
     {
-        "tenderers": [deepcopy(test_tender_below_organization)],
+        "tenderers": [deepcopy(test_tender_below_supplier)],
         "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": True},
     },
 ]
@@ -220,7 +226,7 @@ test_tender_below_draft_complaint = {
 test_tender_below_multi_buyers_data = set_tender_multi_buyers(
     test_tender_below_data,
     test_tender_below_item,
-    test_tender_below_organization,
+    test_tender_below_buyer,
 )
 
 test_tender_below_config = {

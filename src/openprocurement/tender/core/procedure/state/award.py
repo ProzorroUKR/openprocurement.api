@@ -16,6 +16,7 @@ from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_required,
     validate_req_response_values,
+    validate_signer_info_container,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -35,6 +36,7 @@ class AwardStateMixing:
                 validate_req_response_values(resp)
 
     def award_on_patch(self, before, award):
+        self.validate_suppliers_signer_info(award)
         if before["status"] != award["status"]:
             self.invalidate_review_requests(lot_id=award.get("lotID", ""))
             self.check_qualified_eligible_change(before, award)
@@ -58,6 +60,7 @@ class AwardStateMixing:
             )
 
     def award_on_post(self, award):
+        self.validate_suppliers_signer_info(award)
         if self.award_has_period:
             award["period"] = {
                 "startDate": get_request_now().isoformat(),
@@ -224,6 +227,10 @@ class AwardStateMixing:
                     calendar=self.calendar,
                 ).isoformat(),
             }
+
+    def validate_suppliers_signer_info(self, award):
+        tender = self.request.validated["tender"]
+        validate_signer_info_container(self.request, tender, award.get("suppliers"), "suppliers")
 
 
 # example use

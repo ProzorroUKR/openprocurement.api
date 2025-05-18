@@ -38,7 +38,7 @@ from openprocurement.planning.api.procedure.models.milestone import (
 )
 from openprocurement.planning.api.procedure.models.organization import (
     BuyerOrganization,
-    PlanOrganization,
+    ProcuringEntity,
 )
 from openprocurement.planning.api.procedure.models.project import Project
 from openprocurement.planning.api.procedure.models.rationale import RationaleObject
@@ -61,7 +61,7 @@ class PostPlan(Model):
         return "Plan"
 
     status = StringType(choices=["draft", "scheduled", "cancelled", "complete"], default="scheduled")
-    procuringEntity = ModelType(PlanOrganization, required=True)
+    procuringEntity = ModelType(ProcuringEntity, required=True)
     tender = ModelType(Tender, required=True)
     budget = ModelType(Budget)
     classification = ModelType(CPVClassification, required=True)
@@ -91,7 +91,7 @@ class PostPlan(Model):
 
 class PatchPlan(Model):
     status = StringType(choices=["draft", "scheduled", "cancelled", "complete"])
-    procuringEntity = ModelType(PlanOrganization)
+    procuringEntity = ModelType(ProcuringEntity)
     tender = ModelType(Tender)
     budget = ModelType(Budget)
     classification = ModelType(CPVClassification)
@@ -114,7 +114,7 @@ class Plan(Model):
     public_ts = BaseType()
 
     status = StringType(choices=["draft", "scheduled", "cancelled", "complete"])
-    procuringEntity = ModelType(PlanOrganization, required=True)
+    procuringEntity = ModelType(ProcuringEntity, required=True)
     tender = ModelType(Tender, required=True)
     budget = ModelType(Budget)
     classification = ModelType(CPVClassification, required=True)

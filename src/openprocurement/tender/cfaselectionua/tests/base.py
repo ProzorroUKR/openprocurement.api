@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE, TZ
-from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.api.tests.base import BaseWebTest, test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaselectionua.constants import MINIMAL_STEP_PERCENTAGE
 from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
@@ -28,8 +28,13 @@ with open(os.path.join(here, "data/agreement.json")) as _in:
 with open(os.path.join(here, "data/organization.json")) as _in:
     test_tender_cfaselectionua_organization = json.load(_in)
 
-test_tender_cfaselectionua_author = deepcopy(test_tender_cfaselectionua_organization)
-del test_tender_cfaselectionua_author["scale"]
+test_tender_cfaselectionua_base_organization = deepcopy(test_tender_cfaselectionua_organization)
+test_tender_cfaselectionua_base_organization.pop("scale")
+
+test_tender_cfaselectionua_supplier = deepcopy(test_tender_cfaselectionua_organization)
+test_tender_cfaselectionua_supplier["signerInfo"] = test_signer_info
+
+test_tender_cfaselectionua_author = deepcopy(test_tender_cfaselectionua_base_organization)
 
 with open(os.path.join(here, "data/features.json")) as _in:
     test_tender_cfaselectionua_features = json.load(_in)
@@ -42,11 +47,15 @@ with open(os.path.join(here, "data/items.json")) as _in:
 with open(os.path.join(here, "data/bids.json")) as _in:
     test_tender_cfaselectionua_bids = json.load(_in)
 for bid in test_tender_cfaselectionua_bids:
-    bid["tenderers"] = [test_tender_cfaselectionua_organization]
-
+    bid["tenderers"] = [test_tender_cfaselectionua_supplier]
 
 with open(os.path.join(here, "data/procuringEntity.json")) as _in:
     test_tender_cfaselectionua_procuring_entity = json.load(_in)
+test_tender_cfaselectionua_procuring_entity["signerInfo"] = test_signer_info
+
+test_tender_cfaselectionua_buyer = deepcopy(test_tender_cfaselectionua_procuring_entity)
+test_tender_cfaselectionua_buyer.pop("contactPoint")
+test_tender_cfaselectionua_buyer.pop("additionalContactPoints")
 
 test_tender_cfaselectionua_items[0]["id"] = test_tender_cfaselectionua_agreement["items"][0]["id"]
 test_tender_cfaselectionua_items[0]["deliveryDate"] = {
@@ -72,7 +81,7 @@ test_tender_cfaselectionua_agreement_features["features"] = test_tender_cfaselec
 test_tender_cfaselectionua_multi_buyers_data = set_tender_multi_buyers(
     test_tender_cfaselectionua_data,
     test_tender_cfaselectionua_data["items"][0],
-    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_buyer,
 )
 
 test_tender_cfaselectionua_config = {

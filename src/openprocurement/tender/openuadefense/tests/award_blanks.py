@@ -19,7 +19,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_complaint,
     test_tender_below_draft_claim,
     test_tender_below_draft_complaint,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -74,7 +74,7 @@ def tender_award_complaint_period(self, date, expected_date, expected_sb_date):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                 }
@@ -138,7 +138,7 @@ def check_tender_award_complaint_period_dates_before_new(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -231,7 +231,7 @@ def check_tender_award_complaint_period_dates_new(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -294,7 +294,7 @@ def patch_tender_award_active(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -512,7 +512,7 @@ def patch_tender_award_unsuccessful(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -746,7 +746,7 @@ def patch_tender_lot_award_unsuccessful(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],

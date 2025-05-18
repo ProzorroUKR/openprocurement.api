@@ -36,7 +36,7 @@ from openprocurement.tender.requestforproposal.tests.base import (
     test_tender_rfp_data,
     test_tender_rfp_features_data,
     test_tender_rfp_lots,
-    test_tender_rfp_organization,
+    test_tender_rfp_supplier,
 )
 
 auction_test_tender_data = test_tender_rfp_data.copy()
@@ -118,7 +118,7 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
     initial_status = "active.auction"
     initial_bids = [
         {
-            "tenderers": [test_tender_rfp_organization],
+            "tenderers": [test_tender_rfp_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         }
         for i in range(3)
@@ -154,12 +154,12 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
     initial_bids = [
         {
             "parameters": [{"code": i["code"], "value": 0.1} for i in test_tender_rfp_features_data["features"]],
-            "tenderers": [test_tender_rfp_organization],
+            "tenderers": [test_tender_rfp_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in test_tender_rfp_features_data["features"]],
-            "tenderers": [test_tender_rfp_organization],
+            "tenderers": [test_tender_rfp_supplier],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
     ]

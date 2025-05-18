@@ -6,7 +6,7 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
-    test_tender_below_organization,
+    test_tender_below_buyer,
 )
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
@@ -55,7 +55,9 @@ for bid in test_tender_simpledefense_bids:
     bid["selfEligible"] = True
 
 test_tender_simpledefense_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_simpledefense_data, test_tender_simpledefense_data["items"][0], test_tender_below_organization
+    test_tender_simpledefense_data,
+    test_tender_simpledefense_data["items"][0],
+    test_tender_below_buyer,
 )
 
 test_tender_simpledefense_config = {

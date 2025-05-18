@@ -5,13 +5,14 @@ from hashlib import sha512
 from dateutil.parser import parse
 from tests.base.constants import MOCK_DATETIME
 
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_milestones,
 )
 
 test_docs_parameters = [{'code': 'OCDS-123454-AIR-INTAKE', 'value': 0.1}, {'code': 'OCDS-123454-YEARS', 'value': 0.1}]
 
-test_docs_tenderer = {
+test_docs_organization = {
     "address": {
         "countryName": "Україна",
         "locality": "м. Вінниця",
@@ -30,8 +31,29 @@ test_docs_tenderer = {
     "scale": "micro",
 }
 
+test_docs_tenderer = {
+    "address": {
+        "countryName": "Україна",
+        "locality": "м. Вінниця",
+        "postalCode": "21100",
+        "region": "Вінницька область",
+        "streetAddress": "вул. Островського, 33",
+    },
+    "contactPoint": {"email": "soleksuk@gmail.com", "name": "Сергій Олексюк", "telephone": "+380432216930"},
+    "identifier": {
+        "scheme": "UA-EDR",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+        "id": "00137256",
+        "uri": "http://www.sc.gov.ua/",
+    },
+    "name": "ДКП «Школяр»",
+    "scale": "micro",
+    "signerInfo": test_signer_info,
+}
+
 test_docs_author = deepcopy(test_docs_tenderer)
 del test_docs_author['scale']
+del test_docs_author['signerInfo']
 
 test_docs_complaint_author = deepcopy(test_docs_author)
 test_docs_complaint_author["identifier"]["legalName"] = "ДКП «Школяр»"
@@ -53,11 +75,12 @@ test_docs_tenderer2 = {
     },
     "name": "ДКП «Книга»",
     "scale": "sme",
+    "signerInfo": test_signer_info,
 }
 
 test_docs_author2 = deepcopy(test_docs_tenderer2)
 del test_docs_author2['scale']
-
+del test_docs_author2['signerInfo']
 test_docs_tenderer3 = {
     "address": {
         "countryName": "Україна",
@@ -70,6 +93,7 @@ test_docs_tenderer3 = {
     "identifier": {"scheme": "UA-EDR", "id": "00137227", "uri": "http://www.sc.gov.ua/"},
     "name": "«Снігур»",
     "scale": "mid",
+    "signerInfo": test_signer_info,
 }
 
 test_docs_tenderer4 = {
@@ -84,6 +108,7 @@ test_docs_tenderer4 = {
     "identifier": {"scheme": "UA-EDR", "id": "00137228", "uri": "http://www.sc.gov.ua/"},
     "name": "«Кенгуру»",
     "scale": "large",
+    "signerInfo": test_signer_info,
 }
 
 test_docs_bad_participant = {
@@ -98,10 +123,12 @@ test_docs_bad_participant = {
     "identifier": {"id": "00137230", "legalName": "ТОВ Бур", "scheme": "UA-EDR", "uri": "http://pole.edu.vn.ua/"},
     "name": "ТОВ \"Бур\"",
     "scale": "mid",
+    "signerInfo": test_signer_info,
 }
 
 test_docs_bad_author = deepcopy(test_docs_bad_participant)
 del test_docs_bad_author['scale']
+del test_docs_bad_author['signerInfo']
 
 test_docs_bid_document = {
     'title': 'Proposal_part1.pdf',
@@ -439,6 +466,7 @@ test_docs_procuring_entity = {
     },
     "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
     'kind': 'general',
+    "signerInfo": test_signer_info,
 }
 
 test_docs_procuring_entity_en = {
@@ -465,6 +493,7 @@ test_docs_procuring_entity_en = {
     },
     "name": "ЗОСШ #10 м.Вінниці",
     "name_en": "School #10 of Vinnytsia",
+    "signerInfo": test_signer_info,
 }
 
 test_docs_procuring_entity_ua = {
@@ -487,6 +516,7 @@ test_docs_procuring_entity_ua = {
         "scheme": "UA-EDR",
     },
     "name": "ЗОСШ #10 м.Вінниці",
+    "signerInfo": test_signer_info,
 }
 
 test_docs_shortlisted_firms = [
@@ -785,6 +815,7 @@ test_docs_plan_data = {
             "streetAddress": "вул. Банкова, 11, корпус 1",
         },
         "kind": "general",
+        "signerInfo": test_signer_info,
     },
     "buyers": [
         {
@@ -798,6 +829,7 @@ test_docs_plan_data = {
                 "streetAddress": "вул. Банкова, 11, корпус 1",
             },
             "kind": "general",
+            "signerInfo": test_signer_info,
         }
     ],
     "budget": {

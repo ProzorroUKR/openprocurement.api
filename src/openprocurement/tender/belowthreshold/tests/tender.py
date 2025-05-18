@@ -44,6 +44,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     patch_tender_minimalstep_validation,
     required_field_deletion,
+    set_buyers_signer_info,
+    set_procuring_entity_signer_info,
     tender_created_after_related_lot_is_required,
     tender_created_before_related_lot_is_required,
     tender_delivery_milestones,
@@ -96,6 +98,8 @@ class TenderResourceTestMixin:
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
     test_tender_notice_documents = snitch(tender_notice_documents)
     test_contract_template_name_set = snitch(contract_template_name_set)
+    test_set_procuring_entity_signer_info = snitch(set_procuring_entity_signer_info)
+    test_set_buyers_signer_info = snitch(set_buyers_signer_info)
 
 
 class TenderTest(BaseApiWebTest):

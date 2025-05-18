@@ -11,6 +11,7 @@ from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.models.organization import (
     PROCURING_ENTITY_KIND_CHOICES,
 )
+from openprocurement.api.procedure.models.signer_info import SignerInfo
 from openprocurement.api.procedure.types import ModelType
 from openprocurement.api.procedure.utils import is_obj_const_active
 from openprocurement.planning.api.procedure.context import get_plan
@@ -26,7 +27,9 @@ class BaseOrganization(Model):
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
 
 
-class PlanOrganization(BaseOrganization):
+class ProcuringEntity(BaseOrganization):
+    signerInfo = ModelType(SignerInfo)
+
     def validate_address(self, organization, address):
         validate_address_kind_required(address)
 
@@ -34,7 +37,7 @@ class PlanOrganization(BaseOrganization):
         validate_address_kind_required(kind)
 
 
-class BuyerOrganization(PlanOrganization):
+class BuyerOrganization(ProcuringEntity):
     contactPoint = ModelType(ContactPoint)
 
 

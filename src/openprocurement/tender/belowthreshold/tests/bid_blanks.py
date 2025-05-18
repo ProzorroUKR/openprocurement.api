@@ -2,9 +2,7 @@ from copy import deepcopy
 
 from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
 from openprocurement.api.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.utils import (
     generate_req_response,
     set_bid_items,
@@ -18,7 +16,7 @@ from openprocurement.tender.core.tests.utils import (
 def create_tender_bid_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -143,7 +141,7 @@ def create_tender_bid_invalid(self):
         ],
     )
 
-    response = self.app.post_json(request_path, {"data": {"tenderers": [test_tender_below_organization]}}, status=422)
+    response = self.app.post_json(request_path, {"data": {"tenderers": [test_tender_below_supplier]}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -156,7 +154,7 @@ def create_tender_bid_invalid(self):
         request_path,
         {
             "data": {
-                "tenderers": [test_tender_below_organization],
+                "tenderers": [test_tender_below_supplier],
                 "value": {"amount": 500, "valueAddedTaxIncluded": False},
             }
         },
@@ -180,7 +178,7 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500, "currency": "USD"}}},
+        {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 500, "currency": "USD"}}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -203,7 +201,7 @@ def create_tender_bid(self):
 
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 700}}},
+        {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 700}}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -212,7 +210,7 @@ def create_tender_bid(self):
 
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 300, "currency": "EUR"}}},
+        {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 300, "currency": "EUR"}}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -222,7 +220,7 @@ def create_tender_bid(self):
     )
 
     bid_data = {
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
         "lotValues": None,
         "parameters": None,
@@ -238,11 +236,11 @@ def create_tender_bid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
-    bid_data["tenderers"] = test_tender_below_organization  # not a list, will be converted to list
+    bid_data["tenderers"] = test_tender_below_supplier  # not a list, will be converted to list
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -250,7 +248,7 @@ def create_tender_bid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_supplier["name"])
 
     self.assertEqual(self.mongodb.tenders.get(self.tender_id).get("dateModified"), dateModified)
 
@@ -258,7 +256,7 @@ def create_tender_bid(self):
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -268,7 +266,7 @@ def create_tender_bid(self):
 
 def patch_tender_bid(self):
     bid_data = {
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "status": "draft",
         "value": {"amount": 500},
         "lotValues": None,
@@ -304,7 +302,7 @@ def patch_tender_bid(self):
         ],
     )
 
-    tenderer = deepcopy(test_tender_below_organization)
+    tenderer = deepcopy(test_tender_below_supplier)
     tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
@@ -317,7 +315,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"value": {"amount": 500}, "tenderers": [test_tender_below_organization]}},
+        {"data": {"value": {"amount": 500}, "tenderers": [test_tender_below_supplier]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -404,7 +402,7 @@ def patch_tender_bid(self):
 
 
 def get_tender_bid(self):
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(
@@ -478,7 +476,7 @@ def get_tender_bid(self):
 
 
 def get_tender_bid_data_for_sign(self):
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(
@@ -529,7 +527,7 @@ def get_tender_bid_data_for_sign(self):
 
 
 def delete_tender_bid(self):
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(
@@ -573,7 +571,7 @@ def delete_tender_bid(self):
 
 
 def get_tender_tenderers(self):
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(
@@ -619,7 +617,7 @@ def get_tender_tenderers(self):
 
 
 def bid_Administrator_change(self):
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(
@@ -630,7 +628,7 @@ def bid_Administrator_change(self):
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
 
-    tenderer = deepcopy(test_tender_below_organization)
+    tenderer = deepcopy(test_tender_below_supplier)
     tenderer["identifier"]["id"] = "00000000"
     self.app.authorization = ("Basic", ("administrator", ""))
     response = self.app.patch_json(
@@ -648,7 +646,7 @@ def create_tender_bid_no_scale_invalid(self):
     bid_data = {
         "data": {
             "value": {"amount": 500},
-            "tenderers": [{key: value for key, value in test_tender_below_organization.items() if key != "scale"}],
+            "tenderers": [{key: value for key, value in test_tender_below_supplier.items() if key != "scale"}],
         }
     }
     response = self.app.post_json(request_path, bid_data, status=422)
@@ -1050,12 +1048,12 @@ def features_bid(self):
         {
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
             "status": "pending",
-            "tenderers": [test_tender_below_organization],
+            "tenderers": [test_tender_below_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
-            "tenderers": [test_tender_below_organization],
+            "tenderers": [test_tender_below_supplier],
             "status": "draft",
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
@@ -1074,7 +1072,7 @@ def features_bid(self):
 
 def features_bid_invalid(self):
     data = {
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
     }
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
@@ -1250,7 +1248,7 @@ def update_tender_bid_pmr_related_doc(self):
     # POST
     bid_data = {
         "requirementResponses": rr_data,
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
     }
     set_bid_items(self, bid_data)
@@ -1278,7 +1276,7 @@ def update_tender_bid_pmr_related_doc(self):
     # you cannot set document.id, so you cannot post requirementResponses with relatedDocument.id
     bid_data = {
         "requirementResponses": rr_data,
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
         "documents": [
             {
@@ -1356,7 +1354,7 @@ def update_tender_bid_pmr_related_tenderer(self):
             "data": {
                 "status": "active",
                 "requirementResponses": rr_data,
-                "tenderers": [test_tender_below_organization],
+                "tenderers": [test_tender_below_supplier],
                 "value": {"amount": 500},
             }
         },
@@ -1393,7 +1391,7 @@ def update_tender_rr(self):
     # POST with passed ids
     bid_data = {
         "requirementResponses": rr_data,
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
     }
     set_bid_items(self, bid_data)
@@ -1412,7 +1410,7 @@ def update_tender_rr(self):
         {
             "data": {
                 "requirementResponses": rr_data,
-                "tenderers": [test_tender_below_organization],
+                "tenderers": [test_tender_below_supplier],
                 "value": {"amount": 500},
             }
         },
@@ -1442,7 +1440,7 @@ def update_tender_rr_evidence_id(self):
     # POST with passed ids
     bid_data = {
         "requirementResponses": rr_data,
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
     }
     set_bid_items(self, bid_data)
@@ -1466,7 +1464,7 @@ def update_tender_rr_evidence_id(self):
         {
             "data": {
                 "requirementResponses": rr_data,
-                "tenderers": [test_tender_below_organization],
+                "tenderers": [test_tender_below_supplier],
                 "value": {"amount": 500},
             }
         },
@@ -1635,7 +1633,7 @@ def delete_bid_document(self):
 def create_tender_bid_document_invalid_award_status(self):
     bid_data = {
         "requirementResponses": self.rr_data,
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
     }
     set_bid_items(self, bid_data)
@@ -2018,7 +2016,7 @@ def create_tender_bid_document_with_award_json(self):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.bid_id,
                 }
@@ -2070,7 +2068,7 @@ def create_tender_bid_document_active_qualification(self):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.bid_id,
                 }
@@ -2149,7 +2147,7 @@ def create_tender_bid_document_with_award_json_bulk(self):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.bid_id,
                 }
@@ -2458,7 +2456,7 @@ def create_tender_bid_with_document(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", bid)
     self.bid_id = bid["id"]
     self.bid_token = response.json["access"]["token"]
@@ -2586,7 +2584,7 @@ def create_tender_bid_with_documents(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", bid)
     self.bid_id = bid["id"]
     self.bid_token = response.json["access"]["token"]
@@ -2775,7 +2773,7 @@ def patch_tender_bid_with_disabled_lot_values_restriction(self):
 
 
 def post_tender_bid_with_disabled_value_restriction(self):
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 700}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 700}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(
@@ -2786,7 +2784,7 @@ def post_tender_bid_with_disabled_value_restriction(self):
 
 
 def patch_tender_bid_with_disabled_value_restriction(self):
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 450}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 450}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(
@@ -2799,6 +2797,6 @@ def patch_tender_bid_with_disabled_value_restriction(self):
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 750}}},
+        {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 750}}},
     )
     self.assertEqual(response.status, "200 OK")

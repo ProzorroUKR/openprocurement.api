@@ -385,7 +385,7 @@ def set_bid_lotvalues(bid, lots):
     return bid
 
 
-def set_tender_multi_buyers(_test_tender_data, _test_item, _test_organization):
+def set_tender_multi_buyers(_test_tender_data, _test_item, _test_buyer):
     _tender_data = deepcopy(_test_tender_data)
 
     # create 3 items
@@ -406,13 +406,16 @@ def set_tender_multi_buyers(_test_tender_data, _test_item, _test_organization):
     buyer1_id = uuid4().hex
     buyer2_id = uuid4().hex
 
-    _test_organization_1 = deepcopy(_test_organization)
-    _test_organization_2 = deepcopy(_test_organization)
-    _test_organization_2["identifier"]["id"] = "00037254"
+    _test_buyer_1 = deepcopy(_test_buyer)
+    _test_buyer_1["id"] = buyer1_id
+
+    _test_buyer_2 = deepcopy(_test_buyer)
+    _test_buyer_2["id"] = buyer2_id
+    _test_buyer_2["identifier"]["id"] = "00037254"
 
     _tender_data["buyers"] = [
-        {"id": buyer1_id, "name": _test_organization_1["name"], "identifier": _test_organization_1["identifier"]},
-        {"id": buyer2_id, "name": _test_organization_2["name"], "identifier": _test_organization_2["identifier"]},
+        _test_buyer_1,
+        _test_buyer_2,
     ]
     # assign items to buyers
     _tender_data["items"][0]["relatedBuyer"] = buyer1_id

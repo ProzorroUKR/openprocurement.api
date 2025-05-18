@@ -41,7 +41,7 @@ with open(os.path.join(BASE_DIR, "data/test_bids.json")) as fd:
             del test_bid["selfEligible"]
         test_bid["value"]["amount"] = test_bid["value"]["amount"] + num * 1
 
-# Prepare test_features_tender_data
+# Prepare test_tender_cfaua_data
 with open(os.path.join(BASE_DIR, "data/test_tender.json")) as fd:
     test_tender_cfaua_data = json.load(fd)
     test_tender_cfaua_data["tenderPeriod"]["endDate"] = (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()
@@ -411,10 +411,13 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 continue
             if award["status"] != "active":
                 continue
+            suppliers = deepcopy(award["suppliers"])
+            for supplier in suppliers:
+                supplier.pop("signerInfo", None)
             data["contracts"].append(
                 {
                     "id": uuid4().hex,
-                    "suppliers": award["suppliers"],
+                    "suppliers": suppliers,
                     "awardID": award["id"],
                     "bidID": award["bid_id"],
                     "date": get_now().isoformat(),

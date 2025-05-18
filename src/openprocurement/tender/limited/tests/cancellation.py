@@ -7,7 +7,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
@@ -88,7 +88,7 @@ class TenderNegotiationCancellationResourceTest(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }
@@ -124,7 +124,7 @@ class TenderNegotiationQuickCancellationResourceTest(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }
@@ -179,7 +179,7 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }
@@ -221,7 +221,7 @@ class TenderNegotiationCancellationComplaintResourceTest(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }

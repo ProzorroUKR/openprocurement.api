@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.pricequotation.tests.data import test_tender_pq_organization
+from openprocurement.tender.pricequotation.tests.data import test_tender_pq_supplier
 
 
 def create_tender_award_invalid(self):
@@ -127,7 +127,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/some_id/awards",
-        {"data": {"suppliers": [test_tender_pq_organization], "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_pq_supplier], "bid_id": self.initial_bids[0]["id"]}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -147,7 +147,7 @@ def create_tender_award_invalid(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_tender_pq_organization],
+                "suppliers": [test_tender_pq_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
             }
@@ -168,7 +168,7 @@ def create_tender_award(self):
             request_path,
             {
                 "data": {
-                    "suppliers": [test_tender_pq_organization],
+                    "suppliers": [test_tender_pq_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                 }
@@ -177,7 +177,7 @@ def create_tender_award(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         award = response.json["data"]
-        self.assertEqual(award["suppliers"][0]["name"], test_tender_pq_organization["name"])
+        self.assertEqual(award["suppliers"][0]["name"], test_tender_pq_supplier["name"])
         self.assertIn("id", award)
         self.assertIn(award["id"], response.headers["Location"])
 

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from openprocurement.api.constants import TZ
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 
 TENDERING_DAYS = 15
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
@@ -24,4 +25,12 @@ STATUS4ROLE = {
 }
 POST_SUBMIT_TIME = timedelta(days=3)
 ABOVE_THRESHOLD_UA = "aboveThresholdUA"
-UA_KINDS = ("authority", "central", "defense", "general", "social", "special")
+
+UA_PROCURING_ENTITY_KIND_CHOICES = (
+    ProcuringEntityKind.AUTHORITY.value,
+    ProcuringEntityKind.CENTRAL.value,
+    ProcuringEntityKind.DEFENSE.value,
+    ProcuringEntityKind.GENERAL.value,
+    ProcuringEntityKind.SOCIAL.value,
+    ProcuringEntityKind.SPECIAL.value,
+)

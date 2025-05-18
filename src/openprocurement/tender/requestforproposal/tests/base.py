@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.api.tests.base import BaseWebTest, test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
@@ -29,7 +29,7 @@ test_tender_rfp_identifier = {
     "legalName": "Державне управління справами",
 }
 
-test_tender_rfp_organization = {
+test_tender_rfp_base_organization = {
     "name": "Державне управління справами",
     "identifier": test_tender_rfp_identifier,
     "address": {
@@ -43,14 +43,22 @@ test_tender_rfp_organization = {
         "name": "Державне управління справами",
         "telephone": "+0440000000",
     },
-    "scale": "micro",
 }
 
-test_tender_rfp_author = test_tender_rfp_organization.copy()
-del test_tender_rfp_author["scale"]
+test_tender_rfp_organization = test_tender_rfp_base_organization.copy()
+test_tender_rfp_organization["scale"] = "micro"
 
-test_tender_rfp_procuring_entity = test_tender_rfp_author.copy()
+test_tender_rfp_supplier = test_tender_rfp_organization.copy()
+test_tender_rfp_supplier["signerInfo"] = test_signer_info
+
+test_tender_rfp_author = test_tender_rfp_base_organization.copy()
+
+test_tender_rfp_procuring_entity = test_tender_rfp_base_organization.copy()
 test_tender_rfp_procuring_entity["kind"] = "general"
+test_tender_rfp_procuring_entity["signerInfo"] = test_signer_info
+
+test_tender_rfp_buyer = test_tender_rfp_procuring_entity.copy()
+test_tender_rfp_buyer.pop("contactPoint")
 
 test_agreement_rfp_data = {
     "_id": "2e14a78a2074952d5a2d256c3c004dda",
@@ -161,8 +169,7 @@ test_tender_rfp_item = {
     },
 }
 
-funder = deepcopy(test_tender_rfp_organization)
-del funder["scale"]
+funder = deepcopy(test_tender_rfp_base_organization)
 funder["identifier"]["id"] = "44000"
 funder["identifier"]["scheme"] = "XM-DAC"
 
@@ -189,10 +196,9 @@ if SANDBOX_MODE:
 
 test_tender_rfp_data_no_auction = deepcopy(test_tender_rfp_data)
 del test_tender_rfp_data_no_auction["minimalStep"]
-test_tender_rfp_data_no_auction["funders"] = [deepcopy(test_tender_rfp_organization)]
+test_tender_rfp_data_no_auction["funders"] = [deepcopy(test_tender_rfp_base_organization)]
 test_tender_rfp_data_no_auction["funders"][0]["identifier"]["id"] = "44000"
 test_tender_rfp_data_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
-del test_tender_rfp_data_no_auction["funders"][0]["scale"]
 
 test_tender_rfp_simple_data = deepcopy(test_tender_rfp_data)
 test_tender_rfp_simple_data["procurementMethodRationale"] = "simple"
@@ -226,11 +232,11 @@ test_tender_rfp_features_data["features"] = [
 ]
 test_tender_rfp_bids = [
     {
-        "tenderers": [test_tender_rfp_organization],
+        "tenderers": [test_tender_rfp_supplier],
         "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": True},
     },
     {
-        "tenderers": [test_tender_rfp_organization],
+        "tenderers": [test_tender_rfp_supplier],
         "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": True},
     },
 ]
@@ -289,7 +295,7 @@ test_tender_rfp_draft_complaint = {
 test_tender_rfp_multi_buyers_data = set_tender_multi_buyers(
     test_tender_rfp_data,
     test_tender_rfp_item,
-    test_tender_rfp_organization,
+    test_tender_rfp_buyer,
 )
 
 test_tender_rfp_config = {

@@ -9,7 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_claim,
     test_tender_below_draft_complaint,
     test_tender_below_lots,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.base import (
@@ -408,7 +408,7 @@ class TenderAwardComplaintPostResourceTest(
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                         "lotID": self.initial_lots[0]["id"],

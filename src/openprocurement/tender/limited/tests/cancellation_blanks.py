@@ -6,7 +6,7 @@ from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -427,7 +427,7 @@ def create_cancellation_on_tender_with_one_complete_lot(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
                 "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},

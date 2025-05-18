@@ -2,9 +2,7 @@ from copy import deepcopy
 
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 
 # CompetitiveDialogEUBidResourceTest
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
@@ -396,7 +394,7 @@ def patch_tender_bidder(self):
     bid_token = response.json["access"]["token"]
 
     # Update tenders[0].name, and check response fields
-    tenderer = deepcopy(test_tender_below_organization)
+    tenderer = deepcopy(test_tender_below_supplier)
     tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),

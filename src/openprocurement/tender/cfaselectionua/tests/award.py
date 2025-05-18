@@ -27,7 +27,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_tender_cfaselectionua_bids,
     test_tender_cfaselectionua_lots,
-    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_supplier,
 )
 
 skip_multi_lots = True
@@ -136,7 +136,7 @@ class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardD
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_cfaselectionua_organization],
+                    "suppliers": [test_tender_cfaselectionua_supplier],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": bid["lotValues"][0]["relatedLot"],

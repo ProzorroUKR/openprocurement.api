@@ -19,8 +19,9 @@ from openprocurement.tender.cfaselectionua.constants import (
     MIN_PERIOD_UNTIL_AGREEMENT_END,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
+    test_tender_cfaselectionua_base_organization,
     test_tender_cfaselectionua_features,
-    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_supplier,
 )
 from openprocurement.tender.core.constants import AGREEMENT_IDENTIFIER_MESSAGE
 from openprocurement.tender.core.tests.cancellation import (
@@ -693,7 +694,7 @@ def create_tender_from_terminated_agreement(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_tender_cfaselectionua_organization],
+                "tenderers": [test_tender_cfaselectionua_supplier],
                 "subcontractingDetails": "test_details",
                 "lotValues": [
                     {
@@ -991,10 +992,9 @@ def create_tender(self):
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["funders"] = [deepcopy(test_tender_cfaselectionua_organization)]
+    tender_data["funders"] = [deepcopy(test_tender_cfaselectionua_base_organization)]
     tender_data["funders"][0]["identifier"]["id"] = "44000"
     tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
-    del tender_data["funders"][0]["scale"]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1005,10 +1005,9 @@ def tender_funders(self):
     self.tender_id = tender["id"]
     token = response.json["access"]["token"]
 
-    tender_data["funders"].append(deepcopy(test_tender_cfaselectionua_organization))
+    tender_data["funders"].append(deepcopy(test_tender_cfaselectionua_base_organization))
     tender_data["funders"][1]["identifier"]["id"] = "44000"
     tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
-    del tender_data["funders"][1]["scale"]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1967,7 +1966,7 @@ def one_valid_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {
-        "tenderers": [test_tender_cfaselectionua_organization],
+        "tenderers": [test_tender_cfaselectionua_supplier],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
     }
     _, bid_token = self.create_bid(tender_id, bid_data)
@@ -2021,7 +2020,7 @@ def one_invalid_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {
-        "tenderers": [test_tender_cfaselectionua_organization],
+        "tenderers": [test_tender_cfaselectionua_supplier],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
     }
     self.create_bid(tender_id, bid_data)
@@ -2089,7 +2088,7 @@ def first_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {
-        "tenderers": [test_tender_cfaselectionua_organization],
+        "tenderers": [test_tender_cfaselectionua_supplier],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
     }
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
@@ -2225,7 +2224,7 @@ def lost_contract_for_active_award(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {
-        "tenderers": [test_tender_cfaselectionua_organization],
+        "tenderers": [test_tender_cfaselectionua_supplier],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
     }
     bid, bid_token = self.create_bid(tender_id, bid_data)

@@ -6,7 +6,7 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
 )
 from openprocurement.tender.requestforproposal.tests.base import (
-    test_tender_rfp_organization,
+    test_tender_rfp_supplier,
 )
 
 
@@ -29,7 +29,7 @@ def update_tender_bid_pmr_related_doc(self):
     # POST
     bid_data = {
         "requirementResponses": rr_data,
-        "tenderers": [test_tender_rfp_organization],
+        "tenderers": [test_tender_rfp_supplier],
         "value": {"amount": 500},
     }
     set_bid_items(self, bid_data)
@@ -57,7 +57,7 @@ def update_tender_bid_pmr_related_doc(self):
     # you cannot set document.id, so you cannot post requirementResponses with relatedDocument.id
     bid_data = {
         "requirementResponses": rr_data,
-        "tenderers": [test_tender_rfp_organization],
+        "tenderers": [test_tender_rfp_supplier],
         "value": {"amount": 500},
         "documents": [
             {
@@ -126,12 +126,12 @@ def features_bid(self):
         {
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
             "status": "pending",
-            "tenderers": [test_tender_rfp_organization],
+            "tenderers": [test_tender_rfp_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
-            "tenderers": [test_tender_rfp_organization],
+            "tenderers": [test_tender_rfp_supplier],
             "status": "draft",
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
@@ -170,7 +170,7 @@ def post_tender_bid_with_disabled_value_currency_equality(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
-                "tenderers": [test_tender_rfp_organization],
+                "tenderers": [test_tender_rfp_supplier],
                 "value": {"amount": 200, "currency": "UAH"},
                 "items": items,
             }
@@ -198,7 +198,7 @@ def patch_tender_bid_with_disabled_value_currency_equality(self):
         f"/tenders/{self.tender_id}/bids",
         {
             "data": {
-                "tenderers": [test_tender_rfp_organization],
+                "tenderers": [test_tender_rfp_supplier],
                 "value": {"amount": 400, "currency": "UAH"},
                 "items": items,
             }
@@ -210,7 +210,7 @@ def patch_tender_bid_with_disabled_value_currency_equality(self):
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
-        {"data": {"tenderers": [test_tender_rfp_organization], "value": {"amount": 600, "currency": "EUR"}}},
+        {"data": {"tenderers": [test_tender_rfp_supplier], "value": {"amount": 600, "currency": "EUR"}}},
     )
     self.assertEqual(response.status, "200 OK")
 

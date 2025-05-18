@@ -14,13 +14,16 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_base_organization,
+    test_tender_below_buyer,
     test_tender_below_cancellation,
     test_tender_below_claim,
     test_tender_below_data,
     test_tender_below_draft_claim,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.base import (
     test_contract_guarantee_criteria,
@@ -1452,14 +1455,11 @@ def tender_notice_documents(self):
 def create_tender_central(self):
     data = deepcopy(self.initial_data)
 
+    buyer = deepcopy(test_tender_below_buyer)
+    buyer["id"] = uuid4().hex
+
     data["procuringEntity"]["kind"] = "central"
-    data["buyers"] = [
-        {
-            "id": uuid4().hex,
-            "name": test_tender_below_organization["name"],
-            "identifier": test_tender_below_organization["identifier"],
-        }
-    ]
+    data["buyers"] = [buyer]
 
     for item in data["items"]:
         item["relatedBuyer"] = data["buyers"][0]["id"]
@@ -1477,14 +1477,14 @@ def create_tender_central_invalid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
+    buyer = deepcopy(test_tender_below_buyer)
+    buyer["id"] = uuid4().hex
+
     data["procuringEntity"]["kind"] = "central"
-    data["buyers"] = [
-        {  # accreditation check gous after model validation now, since "mode" field from data required
-            "id": uuid4().hex,
-            "name": test_tender_below_organization["name"],
-            "identifier": test_tender_below_organization["identifier"],
-        }
-    ]
+    data["buyers"] = [buyer]
+
+    for item in data["items"]:
+        item["relatedBuyer"] = data["buyers"][0]["id"]
 
     with change_auth(self.app, ("Basic", ("broker13", ""))):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=403)
@@ -1637,10 +1637,9 @@ def create_tender(self):
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["funders"] = [deepcopy(test_tender_below_organization)]
+    tender_data["funders"] = [deepcopy(test_tender_below_base_organization)]
     tender_data["funders"][0]["identifier"]["id"] = "44000"
     tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
-    del tender_data["funders"][0]["scale"]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1650,10 +1649,9 @@ def tender_funders(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
 
-    tender_data["funders"].append(deepcopy(test_tender_below_organization))
+    tender_data["funders"].append(deepcopy(test_tender_below_base_organization))
     tender_data["funders"][1]["identifier"]["id"] = "44000"
     tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
-    del tender_data["funders"][1]["scale"]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1730,8 +1728,7 @@ def tender_fields(self):
 
 def tender_inspector(self):
     tender_data = deepcopy(self.initial_data)
-    organization = deepcopy(test_tender_below_organization)
-    del organization["scale"]
+    organization = deepcopy(test_tender_below_base_organization)
     funder_organization = deepcopy(organization)
     funder_organization["identifier"]["id"] = "44000"
     funder_organization["identifier"]["scheme"] = "XM-DAC"
@@ -2580,7 +2577,7 @@ def one_valid_bid_tender(self):
     self.assertIn("auctionPeriod", response.json["data"])
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
     _, bid_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"status": "active.tendering"})
@@ -2634,7 +2631,7 @@ def one_invalid_bid_tender(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
     self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
@@ -2675,12 +2672,12 @@ def first_bid_tender(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 450}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 450}}
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
     bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 475}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 475}}
     _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
@@ -2795,7 +2792,7 @@ def lost_contract_for_active_award(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
     _, bid_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
@@ -3241,15 +3238,15 @@ def patch_item_with_zero_quantity(self):
 def patch_items_related_buyer_id(self):
     # create tender with two buyers
     data = deepcopy(self.initial_data)
-    test_organization1 = deepcopy(test_tender_below_organization)
-    test_organization2 = deepcopy(test_tender_below_organization)
-    test_organization2["name"] = "Управління міжнародних справ"
-    test_organization2["identifier"]["id"] = "00055555"
+    test_buyer1 = deepcopy(test_tender_below_buyer)
+    test_buyer2 = deepcopy(test_tender_below_buyer)
+    test_buyer2["name"] = "Управління міжнародних справ"
+    test_buyer2["identifier"]["id"] = "00055555"
 
     data["status"] = "draft"
     data["buyers"] = [
-        {"name": test_organization1["name"], "identifier": test_organization1["identifier"]},
-        {"name": test_organization2["name"], "identifier": test_organization2["identifier"]},
+        test_buyer1,
+        test_buyer2,
     ]
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -4349,6 +4346,7 @@ def contract_template_name_set(self):
         )
 
     data = deepcopy(self.initial_data)
+    data["procuringEntity"]["signerInfo"] = test_signer_info
     data["status"] = "draft"
     pmt = data["procurementMethodType"]
 
@@ -4550,3 +4548,130 @@ def contract_template_name_set(self):
         test_set_valid_value(
             template_name="03222000-3.0001.01",
         )
+
+
+def set_procuring_entity_signer_info(self):
+    tender_data = deepcopy(self.initial_data)
+    tender_data["contractTemplateName"] = "00000000-0.0002.01"
+    tender_data["procuringEntity"].pop("signerInfo", None)
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "procuringEntity",
+                "description": {"signerInfo": "This field is required."},
+            }
+        ],
+    )
+
+    tender_data.pop("contractTemplateName", None)
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertNotIn("signerInfo", response.json["data"]["procuringEntity"])
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {
+            "data": {
+                "contractTemplateName": "00000000-0.0002.01",
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "procuringEntity",
+                "description": {"signerInfo": "This field is required."},
+            }
+        ],
+    )
+
+    tender_data["procuringEntity"]["signerInfo"] = test_signer_info
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {
+            "data": {
+                "contractTemplateName": "00000000-0.0002.01",
+                "procuringEntity": tender_data["procuringEntity"],
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["procuringEntity"]["signerInfo"], test_signer_info)
+
+
+def set_buyers_signer_info(self):
+    tender_data = deepcopy(self.initial_data)
+    tender_data["contractTemplateName"] = "00000000-0.0002.01"
+    tender_data["procuringEntity"].pop("signerInfo", None)
+
+    buyer = deepcopy(test_tender_below_buyer)
+    buyer["id"] = uuid4().hex
+    buyer.pop("signerInfo", None)
+
+    tender_data["buyers"] = [buyer]
+    tender_data["items"][0]["relatedBuyer"] = buyer["id"]
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "buyers.0",
+                "description": {"signerInfo": "This field is required."},
+            }
+        ],
+    )
+
+    tender_data.pop("contractTemplateName", None)
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertNotIn("signerInfo", response.json["data"]["procuringEntity"])
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {
+            "data": {
+                "contractTemplateName": "00000000-0.0002.01",
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "buyers.0",
+                "description": {"signerInfo": "This field is required."},
+            }
+        ],
+    )
+
+    tender_data["buyers"][0]["signerInfo"] = test_signer_info
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {
+            "data": {
+                "contractTemplateName": "00000000-0.0002.01",
+                "buyers": tender_data["buyers"],
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["buyers"][0]["signerInfo"], test_signer_info)

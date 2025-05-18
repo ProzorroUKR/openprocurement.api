@@ -8,9 +8,7 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
@@ -267,7 +265,7 @@ def create_tender_invalid(self):
         ],
     )
 
-    data = test_tender_below_organization["contactPoint"]["telephone"]
+    data = test_tender_below_supplier["contactPoint"]["telephone"]
     del initial_data["procuringEntity"]["contactPoint"]["telephone"]
     response = self.app.post_json(request_path, {"data": initial_data, "config": self.initial_config}, status=422)
     initial_data["procuringEntity"]["contactPoint"]["telephone"] = data

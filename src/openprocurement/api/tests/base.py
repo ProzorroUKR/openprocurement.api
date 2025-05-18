@@ -47,6 +47,16 @@ class BaseTestApp(webtest.TestApp):
 app_cache = {}
 
 
+test_signer_info = {
+    "name": "Test Testovich",
+    "telephone": "+380950000000",
+    "email": "example@email.com",
+    "iban": "1" * 15,
+    "authorizedBy": "Статут компанії",
+    "position": "Генеральний директор",
+}
+
+
 class BaseWebTest(unittest.TestCase):
     """
     Base Web Test to test openprocurement.api.

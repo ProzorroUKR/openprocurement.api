@@ -15,8 +15,8 @@ from openprocurement.tender.core.procedure.models.award_milestone import (
 )
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.organization import (
-    BusinessOrganization,
-    ContactLessBusinessOrganization,
+    ContactLessSupplier,
+    Supplier,
 )
 
 
@@ -45,7 +45,7 @@ class PostBaseAward(Model):
     value = ModelType(AwardValue, required=True)
     weightedValue = ModelType(AwardValue)
     suppliers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,
@@ -62,7 +62,7 @@ class PatchBaseAward(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    suppliers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
+    suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     subcontractingDetails = StringType()
     value = ModelType(AwardValue)
 
@@ -75,7 +75,7 @@ class BaseAward(AwardMilestoneListMixin, Model):
     value = ModelType(AwardValue, required=True)
     weightedValue = ModelType(AwardValue)
     suppliers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,
@@ -138,7 +138,7 @@ class NegotiationAward(BaseAward):
 # reporting
 class PostReportingAward(PostBaseAward):
     suppliers = ListType(
-        ModelType(ContactLessBusinessOrganization, required=True),
+        ModelType(ContactLessSupplier, required=True),
         required=True,
         min_size=1,
         max_size=1,
@@ -148,7 +148,7 @@ class PostReportingAward(PostBaseAward):
 
 class PatchReportingAward(PatchBaseAward):
     suppliers = ListType(
-        ModelType(ContactLessBusinessOrganization, required=True),
+        ModelType(ContactLessSupplier, required=True),
         min_size=1,
         max_size=1,
     )
@@ -157,7 +157,7 @@ class PatchReportingAward(PatchBaseAward):
 
 class ReportingAward(BaseAward):
     suppliers = ListType(
-        ModelType(ContactLessBusinessOrganization, required=True),
+        ModelType(ContactLessSupplier, required=True),
         required=True,
         min_size=1,
         max_size=1,

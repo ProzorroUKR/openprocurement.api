@@ -2223,6 +2223,7 @@ class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest, F
         # Creating tender
 
         procuring_entity = deepcopy(test_framework_dps_data['procuringEntity'])
+        procuring_entity['signerInfo'] = test_signer_info
         item = deepcopy(test_docs_tender_co["items"][0])
         item['classification']['id'] = test_framework_dps_data['classification']['id']
         items = [item]
