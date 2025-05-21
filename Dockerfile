@@ -8,7 +8,6 @@ RUN addgroup -g 10000 user && \
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-RUN pip list
 
 # TODO: Remove for production build
 COPY requirements-test.txt .
