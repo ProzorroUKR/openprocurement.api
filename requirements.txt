@@ -22,7 +22,7 @@ cornice==4.0.1
 WebOb==1.8.6
 jsonschema==4.17.3
 jsonpath-ng==1.6.0
-oslo.middleware==6.3.1
+setuptools==78.1.0
 
 git+https://github.com/ProzorroUKR/schematics.git@1.1.3-prozorro.1#egg=schematics
 git+https://github.com/ProzorroUKR/request_id_middleware.git@0.1.2#egg=request_id_middleware
