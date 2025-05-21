@@ -214,11 +214,11 @@ msgstr "Замовник може встановити забезпечення 
 msgid "Also we can modify tender by adding `funders` field data:"
 msgstr "Також можна оновлювати закупівлю шляхом додавання поля `funders`:"
 
-msgid "Procuring entity can not change `tenderPeriod.endDate` if there are less than 2 days before tenderPeriod ends. Changes will not be accepted by API."
-msgstr "Замовник не може редагувати `tenderPeriod.endDate`, якщо залишилось менше 2 днів до завершення періоду подання пропозицій. API таких змін не прийме."
+msgid "Procuring entity can not change `tenderPeriod.endDate` if there are less than 4 days before tenderPeriod ends. Changes will not be accepted by API."
+msgstr "Замовник не може редагувати `tenderPeriod.endDate`, якщо залишилось менше 4 днів до завершення періоду подання пропозицій. API таких змін не прийме."
 
-msgid "That is why tenderPeriod has to be extended by minimum 2 days."
-msgstr "Ось чому потрібно продовжити період подання пропозицій (`tenderPeriod`) на мінімум 2 дні."
+msgid "That is why tenderPeriod has to be extended by minimum 4 days."
+msgstr "Ось чому потрібно продовжити період подання пропозицій (`tenderPeriod`) на мінімум 4 дні."
 
 msgid "Uploading documentation"
 msgstr "Завантаження документації"
