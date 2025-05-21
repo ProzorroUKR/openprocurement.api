@@ -1719,6 +1719,18 @@ def generate_access(self):
         [{"location": "body", "name": "active", "description": ["This field is required."]}],
     )
 
+    # another identifier
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/access",
+        {"data": {"identifier": {"id": "12345678", "scheme": "UA-EDR"}, "active": True}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Invalid identifier"}],
+    )
+
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}/access",
         {"data": {"identifier": self.contract["buyer"]["identifier"], "active": False}},

@@ -24,12 +24,15 @@ class ContractAccessState(BaseState):
         elif author == supplier:
             return AccessRole.SUPPLIER
 
-    def validate_on_post(self, contract, role):
+    def validate_role(self, role):
         if not role:
             raise_operation_error(
                 self.request,
                 "Invalid identifier",
             )
+
+    def validate_on_post(self, contract, role):
+        self.validate_role(role)
         self.validate_access_claimed(contract, role)
 
     def set_token(self, contract, role, token):
@@ -86,5 +89,6 @@ class ContractAccessState(BaseState):
                 )
 
     def validate_on_patch(self, contract, role):
+        self.validate_role(role)
         self.validate_token(contract, role)
         self.validate_access_claimed(contract, role)
