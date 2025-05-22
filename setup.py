@@ -111,7 +111,6 @@ setup(
     zip_safe=False,
     install_requires=requires,
     setup_requires=["pytest-runner"],
-    tests_require=requires_tests,
     extras_require={
         "test": requires_tests,
         "dev": requires_dev,

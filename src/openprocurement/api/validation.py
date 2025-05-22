@@ -1,6 +1,5 @@
-from json import JSONDecodeError
-
 from schematics.exceptions import ValidationError
+from simplejson import JSONDecodeError
 
 from openprocurement.api.auth import ACCR_EXIT, ACCR_TEST, check_user_accreditations
 from openprocurement.api.utils import (

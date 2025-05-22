@@ -1,8 +1,8 @@
+import urllib.parse
 from hashlib import sha512
 from logging import getLogger
 
 from jsonpointer import resolve_pointer
-from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
 from openprocurement.api.auth import extract_access_token
@@ -24,7 +24,7 @@ LOGGER = getLogger(__name__)
 def extract_path(request):
     try:
         # empty if mounted under a path in mod_wsgi, for example
-        path = decode_path_info(request.environ["PATH_INFO"] or "/")
+        path = urllib.parse.unquote(request.environ["PATH_INFO"] or "/")
     except KeyError:
         path = "/"
     except UnicodeDecodeError as e:

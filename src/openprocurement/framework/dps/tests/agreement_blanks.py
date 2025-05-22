@@ -951,7 +951,7 @@ def put_milestone_document(self):
         f"/documents/{doc_id}?download={key}"
     )
     self.assertEqual(response.status, "302 Moved Temporarily")
-    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.content_type, "application/msword")
 
     response = self.app.get(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}/documents"

@@ -78,11 +78,11 @@ class TestUtils(TestUtilsBase):
         tid = "UA-{:04}-{:02}-{:02}-{:06}-a".format(ctime.year, ctime.month, ctime.day, 99)
         self.assertEqual(tid, tender_id)
 
-    @patch("openprocurement.tender.core.procedure.utils.decode_path_info")
+    @patch("openprocurement.tender.core.procedure.utils.urllib.parse.unquote")
     @patch("openprocurement.tender.core.procedure.utils.error_handler")
-    def test_extract_tender_id(self, mocked_error_handler, mocked_decode_path):
+    def test_extract_tender_id(self, mocked_error_handler, mocked_unquote):
         mocked_error_handler.return_value = Exception("Oops.")
-        mocked_decode_path.side_effect = [
+        mocked_unquote.side_effect = [
             KeyError("Missing 'PATH_INFO'"),
             UnicodeDecodeError("UTF-8", b"obj", 1, 10, "Hm..."),
             "/",
