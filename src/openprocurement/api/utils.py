@@ -10,7 +10,7 @@ from uuid import uuid4
 
 import requests
 import simplejson
-from bson import Timestamp
+from bson import ObjectId, Timestamp
 from ciso8601 import parse_datetime
 from cornice.renderer import JSONError
 from cornice.resource import view
@@ -45,6 +45,8 @@ json_view = partial(view, renderer="json")
 
 class CustomJSONEncoder(simplejson.JSONEncoder):
     def default(self, obj):
+        if isinstance(obj, ObjectId):
+            return str(obj)
         if isinstance(obj, Timestamp):
             return f"{obj.time}.{obj.inc:010}"
         if isinstance(obj, datetime):
