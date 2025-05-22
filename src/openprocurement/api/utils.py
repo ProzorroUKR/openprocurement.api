@@ -12,8 +12,8 @@ import requests
 import simplejson
 from bson import Timestamp
 from ciso8601 import parse_datetime
+from cornice.renderer import JSONError
 from cornice.resource import view
-from cornice.util import json_error
 from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datetime
 from jsonpointer import JsonPointerException
 from nacl.encoding import HexEncoder
@@ -40,7 +40,7 @@ from openprocurement.api.context import get_local_cache
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.events import ErrorDescriptorEvent
 
-json_view = partial(view, renderer="simplejson")
+json_view = partial(view, renderer="json")
 
 
 class CustomJSONEncoder(simplejson.JSONEncoder):
@@ -56,8 +56,12 @@ class CustomJSONEncoder(simplejson.JSONEncoder):
 
 def json_dumps(data, **kw):
     kw["cls"] = CustomJSONEncoder
-    del kw["default"]  # ignore pyramids default function provided, to use CustomJSONEncoder.default
+    kw.pop("default", None)  # ignore pyramids default function provided, to use CustomJSONEncoder.default
     return simplejson.dumps(data, **kw)
+
+
+def json_error(request, **kw):
+    return JSONError(json_dumps, kw, request.errors, request.errors.status)
 
 
 def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool = True):

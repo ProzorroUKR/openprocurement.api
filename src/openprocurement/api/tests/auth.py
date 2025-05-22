@@ -4,9 +4,14 @@ import unittest
 from hashlib import sha512
 
 from pyramid import testing
-from pyramid.compat import bytes_
 
 from openprocurement.api.auth import AuthenticationPolicy
+
+
+def bytes_(s, encoding="latin-1"):
+    if isinstance(s, str):
+        return s.encode(encoding)
+    return s
 
 
 class AuthTest(unittest.TestCase):

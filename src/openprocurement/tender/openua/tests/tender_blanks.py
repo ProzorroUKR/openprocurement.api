@@ -605,7 +605,7 @@ def patch_draft_invalid_json(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Extra data: line 1 column 3 (char 2)",
+                "description": "Extra data: line 1 column 3 - line 1 column 4 (char 2 - 3)",
             }
         ],
     )

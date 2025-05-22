@@ -1,4 +1,5 @@
 import math
+import urllib.parse
 from copy import deepcopy
 from datetime import datetime, timedelta
 from hashlib import sha512
@@ -11,7 +12,6 @@ from dateorro import calc_normalized_datetime
 from jsonpatch import JsonPatchException
 from jsonpatch import apply_patch as apply_json_patch
 from jsonpointer import JsonPointerException, resolve_pointer
-from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
@@ -422,7 +422,7 @@ def extract_complaint_type(request):
 def extract_path(request):
     try:
         # empty if mounted under a path in mod_wsgi, for example
-        path = decode_path_info(request.environ["PATH_INFO"] or "/")
+        path = urllib.parse.unquote(request.environ["PATH_INFO"] or "/")
     except KeyError:
         path = "/"
     except UnicodeDecodeError as e:

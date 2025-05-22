@@ -1,7 +1,6 @@
 from logging import getLogger
 
 from cornice.resource import resource
-from cornice.util import json_error
 from pyramid.request import Request
 from pyramid.security import Allow, Everyone
 
@@ -17,6 +16,7 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import (
     context_unpack,
+    json_error,
     json_view,
     request_init_plan,
     update_logging_context,

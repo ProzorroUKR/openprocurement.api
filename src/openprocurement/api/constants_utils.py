@@ -44,7 +44,7 @@ def load_constants(file_path):
     config = ConfigParser()
     try:
         with open(file_path) as fp:
-            config.readfp(fp)
+            config.read_file(fp)
     except Exception as e:
         raise type(e)(
             "Can't read file '{}': use current path or override using CONSTANTS_FILE_PATH env variable".format(
