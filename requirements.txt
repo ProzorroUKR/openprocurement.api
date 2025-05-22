@@ -17,7 +17,7 @@ beautifulsoup4==4.9.3
 isodate==0.6.1
 jmespath==0.10.0
 configparser==5.0.1
-sentry-sdk==1.14.0
+sentry-sdk==2.29.1
 cornice==6.1.0
 WebOb==1.8.6
 jsonschema==4.17.3
