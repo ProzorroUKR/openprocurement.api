@@ -134,11 +134,16 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             {
                 "id": uuid4().hex,
                 "tender_id": uuid4().hex,
-                "tender_token": sha512(test_tender_token.encode()).hexdigest(),
                 "owner": "brokerx",
             }
         )
-        tender_token = data['tender_token']
+        tender_token = sha512(test_tender_token.encode()).hexdigest()
+        data["access"][0].update(
+            {
+                "token": tender_token,
+                "owner": "brokerx",
+            }
+        )
 
         contract = create_contract(self, data)
         contract_id = contract['id']

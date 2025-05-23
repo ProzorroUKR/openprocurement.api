@@ -133,7 +133,7 @@ Content-Type: application/json
       "name": "Державне управління справами",
       "identifier": {
         "scheme": "UA-IPN",
-        "id": "00037256",
+        "id": "00037257",
         "uri": "http://www.dus.gov.ua/"
       },
       "address": {

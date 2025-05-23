@@ -1223,7 +1223,7 @@
 
 Зміни до контрактів вносяться через :ref:`додаткові угоди<econtract_change_updated_flow>`
 
-
+.. _authorization-from-different-platforms:
 
 Авторизація користувачів з різних майданчиків
 ----------------------------------------------
@@ -1286,7 +1286,7 @@
 
 .. sourcecode:: http
 
-    PUT /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/access?acc_token=d449625b66ae44b0a591b8551cfd1bfe HTTP/1.0
+    PATCH /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/access?acc_token=d449625b66ae44b0a591b8551cfd1bfe HTTP/1.0
     Host: public-api-sandbox.prozorro.gov.ua
 
     {

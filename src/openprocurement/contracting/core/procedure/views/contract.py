@@ -1,19 +1,32 @@
+from hashlib import sha512
+from uuid import uuid4
+
 from cornice.resource import resource
 
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.context import get_contract
-from openprocurement.api.procedure.validation import unless_admins
+from openprocurement.api.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.validation import unless_admins, validate_input_data
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.api.views.base import (
     MongodbResourceListing,
     RestrictedResourceListingMixin,
 )
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
+from openprocurement.contracting.core.procedure.models.access import (
+    AccessRole,
+    PatchAccess,
+    PostAccess,
+)
 from openprocurement.contracting.core.procedure.serializers.contract import (
     ContractBaseSerializer,
 )
+from openprocurement.contracting.core.procedure.state.contract_access import (
+    ContractAccessState,
+)
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
+    validate_contract_in_pending_status,
     validate_credentials_generate,
     validate_tender_owner,
 )
@@ -104,7 +117,7 @@ class ContractCredentialsResource(ContractBaseResource):
     )
     def patch(self):
         contract = self.request.validated["contract"]
-        access = set_ownership(contract, self.request)
+        access = set_ownership(contract, self.request, access_role=AccessRole.CONTRACT)
         if save_contract(self.request):
             self.LOGGER.info(
                 f"Generate Contract credentials {contract['_id']}",
@@ -115,3 +128,58 @@ class ContractCredentialsResource(ContractBaseResource):
                 "config": contract["config"],
                 "access": access,
             }
+
+
+@resource(
+    name="Contract access",
+    path="/contracts/{contract_id}/access",
+    description="Contract access",
+)
+class ContractAccessResource(ContractBaseResource):
+    state_class = ContractAccessState
+    serializer_class = BaseSerializer
+
+    @json_view(
+        permission="edit_contract", validators=(validate_input_data(PostAccess), validate_contract_in_pending_status)
+    )
+    def post(self):
+        contract = self.request.validated["contract"]
+        data = self.request.validated["data"]
+        role = self.state.get_role(data, contract)
+        self.state.validate_on_post(contract, role)
+        token = uuid4().hex
+        self.state.set_token(contract, role, token)
+
+        access = {"token": token}
+
+        if role == AccessRole.BUYER:
+            transfer_token = uuid4().hex
+            contract["transfer_token"] = sha512(transfer_token.encode("utf-8")).hexdigest()
+            access["transfer"] = transfer_token
+
+        if save_contract(self.request):
+            self.LOGGER.info(
+                f"Generate Contract access {contract['_id']}",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
+            )
+            self.request.response.status = 201
+            return {
+                "data": self.serializer_class(data).data,
+                "access": access,
+            }
+
+    @json_view(
+        permission="edit_contract", validators=(validate_input_data(PatchAccess), validate_contract_in_pending_status)
+    )
+    def patch(self):
+        contract = self.request.validated["contract"]
+        data = self.request.validated["data"]
+        role = self.state.get_role(data, contract)
+        self.state.validate_on_patch(contract, role)
+        self.state.set_owner(contract, role)
+        if save_contract(self.request):
+            self.LOGGER.info(
+                f"Submit Contract access {contract['_id']}",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
+            )
+            return {"data": self.serializer_class(data).data}

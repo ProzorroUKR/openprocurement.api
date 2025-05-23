@@ -331,7 +331,7 @@ def put_contract_document(self):
 
 def patch_contract_document(self):
     response = self.app.put_json(
-        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.initial_data['bid_token']}",
+        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
         {"data": test_signer_info},
     )
     self.assertEqual(response.status, "200 OK")
@@ -431,7 +431,7 @@ def patch_contract_document(self):
 
 def contract_change_document(self):
     response = self.app.put_json(
-        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.initial_data['bid_token']}",
+        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
         {"data": test_signer_info},
     )
     self.assertEqual(response.status, "200 OK")
@@ -989,11 +989,10 @@ def limited_contract_confidential_document(self):
     response = self.app.get(f"/tenders/{tender_id}/contracts")
     contract_id = response.json["data"][0]["id"]
 
-    response = self.app.patch_json(
-        f"/contracts/{contract_id}/credentials?acc_token={tender_token}",
-        {"data": {}},
-    )
-    contract_token = response.json["access"]["token"]
+    response = self.app.get(f"/contracts/{contract_id}")
+    contract_data = response.json["data"]
+
+    contract_token = self.set_contract_token(contract_id, contract_data["buyer"]["identifier"])
 
     request_data = {
         "title": "name.doc",
@@ -1005,7 +1004,7 @@ def limited_contract_confidential_document(self):
 
     # rogue value
     response = self.app.post_json(
-        f"/contracts/{contract_id}/documents?acc_token={tender_token}",
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
         {"data": request_data},
         status=422,
     )
@@ -1027,7 +1026,7 @@ def limited_contract_confidential_document(self):
     request_data["confidentiality"] = "buyerOnly"
     request_data["confidentialityRationale"] = f"{'a' * 30}"
     response = self.app.post_json(
-        f"/contracts/{contract_id}/documents?acc_token={tender_token}",
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
         {"data": request_data},
         status=422,
     )
@@ -1041,7 +1040,7 @@ def limited_contract_confidential_document(self):
     request_data["confidentiality"] = "public"
     del request_data["confidentialityRationale"]
     response = self.app.post_json(
-        f"/contracts/{contract_id}/documents?acc_token={tender_token}",
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
         {"data": request_data},
         status=201,
     )
@@ -1051,7 +1050,7 @@ def limited_contract_confidential_document(self):
     # add doc with confidential documentType
     request_data["documentType"] = "contractAnnexe"
     response = self.app.post_json(
-        f"/contracts/{contract_id}/documents?acc_token={tender_token}",
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
         {"data": request_data},
         status=422,
     )
@@ -1067,7 +1066,7 @@ def limited_contract_confidential_document(self):
     # post confidential doc without rationale
     request_data["confidentiality"] = "buyerOnly"
     response = self.app.post_json(
-        f"/contracts/{contract_id}/documents?acc_token={tender_token}",
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
         {"data": request_data},
         status=422,
     )
@@ -1086,7 +1085,7 @@ def limited_contract_confidential_document(self):
     )
     request_data["confidentialityRationale"] = "coz it is hidden"
     response = self.app.post_json(
-        f"/contracts/{contract_id}/documents?acc_token={tender_token}",
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
         {"data": request_data},
         status=422,
     )
@@ -1105,7 +1104,7 @@ def limited_contract_confidential_document(self):
     )
     request_data["confidentialityRationale"] = "coz it is hidden because of the law"
     response = self.app.post_json(
-        f"/contracts/{contract_id}/documents?acc_token={tender_token}",
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
         {"data": request_data},
         status=201,
     )
@@ -1113,12 +1112,6 @@ def limited_contract_confidential_document(self):
     self.assertEqual(response.json["data"]["confidentiality"], "buyerOnly")
 
     # get list as tender owner
-    response = self.app.get(f"/contracts/{contract_id}/documents?acc_token={tender_token}")
-    self.assertEqual(len(response.json["data"]), 2)
-    for doc in response.json["data"]:
-        self.assertIn("url", doc)
-
-    # get list as contract owner
     response = self.app.get(f"/contracts/{contract_id}/documents?acc_token={contract_token}")
     self.assertEqual(len(response.json["data"]), 2)
     for doc in response.json["data"]:
@@ -1134,7 +1127,7 @@ def limited_contract_confidential_document(self):
             self.assertIn("url", doc)
 
     # get directly as tender owner
-    response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={tender_token}")
+    response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={contract_token}")
     self.assertIn("url", response.json["data"])
 
     # get directly as public
@@ -1143,7 +1136,7 @@ def limited_contract_confidential_document(self):
 
     # download as tender owner
     response = self.app.get(
-        f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={tender_token}&download=1",
+        f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={contract_token}&download=1",
     )
     self.assertEqual(response.status_code, 302)
     self.assertIn("http://localhost/get/", response.location)
@@ -1166,7 +1159,7 @@ def limited_contract_confidential_document(self):
 
     # patch first doc documentType to confidential
     self.app.patch_json(
-        f"/contracts/{contract_id}/documents/{doc_id_1}?acc_token={tender_token}",
+        f"/contracts/{contract_id}/documents/{doc_id_1}?acc_token={contract_token}",
         {
             "data": {
                 "documentType": "contractSigned",
@@ -1176,7 +1169,7 @@ def limited_contract_confidential_document(self):
         },
     )
     # get directly as tender owner
-    response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_1}?acc_token={tender_token}")
+    response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_1}?acc_token={contract_token}")
     self.assertIn("url", response.json["data"])
 
     # get directly as public
@@ -1192,11 +1185,11 @@ def limited_contract_confidential_document(self):
     )
 
     self.app.put_json(
-        f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={tender_token}",
+        f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={contract_token}",
         {"data": request_data},
     )
     # get directly as tender owner
-    response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={tender_token}")
+    response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={contract_token}")
     self.assertIn("url", response.json["data"])
 
     # get directly as public
