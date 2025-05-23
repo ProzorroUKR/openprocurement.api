@@ -226,7 +226,19 @@ class MockWebTestMixin:
     blacklist = (r'/tests/base/test\.py',)
 
     def setUpMock(self):
-        self.uuid_patch = mock.patch('uuid.UUID', side_effect=self.uuid)
+        import uuid
+
+        original_uuid = uuid.UUID
+
+        def uuid_side_effect(*args, **kwargs):
+            # Check if pymongo is in the call stack
+            # Pymongo uses uuid.UUID to generate session ids that should not be mocked
+            for frame in traceback.extract_stack():
+                if "pymongo" in frame.filename:
+                    return original_uuid(*args, **kwargs)
+            return self.uuid(*args, **kwargs)
+
+        self.uuid_patch = mock.patch('uuid.UUID', side_effect=uuid_side_effect)
         self.uuid_patch.start()
         self.db_now_path = mock.patch('openprocurement.api.database.get_public_modified', lambda: get_now().timestamp())
         self.db_now_path.start()

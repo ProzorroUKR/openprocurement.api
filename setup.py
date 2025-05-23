@@ -14,12 +14,14 @@ def load_requirements(filename):
     requirements = []
     with open(filename) as f:
         for resource in f.readlines():
+            resource = resource.strip()
+            if not resource or resource.startswith("#"):
+                continue
             if not resource.startswith("git+"):
-                requirements.append(resource.strip())
+                requirements.append(resource)
             else:
-                res = resource.strip()
-                egg = res.split("#egg=")[1]
-                requirements.append("@".join([egg, res]))
+                egg = resource.split("#egg=")[1]
+                requirements.append("@".join([egg, resource]))
     return requirements
 
 
