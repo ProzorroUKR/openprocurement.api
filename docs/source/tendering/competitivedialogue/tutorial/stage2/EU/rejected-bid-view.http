@@ -176,7 +176,15 @@ Content-Type: application/json
           "email": "fake@mail.com",
           "telephone": "+380322123456"
         },
-        "scale": "large"
+        "scale": "large",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
       }
     ],
     "status": "unsuccessful",

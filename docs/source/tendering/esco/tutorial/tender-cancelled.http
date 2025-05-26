@@ -1118,7 +1118,15 @@ Content-Type: application/json
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
             },
-            "scale": "micro"
+            "scale": "micro",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            }
           }
         ],
         "status": "active",
@@ -1509,7 +1517,15 @@ Content-Type: application/json
               "email": "aagt@gmail.com",
               "telephone": "+380322916930"
             },
-            "scale": "sme"
+            "scale": "sme",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            }
           }
         ],
         "status": "active",
@@ -1806,7 +1822,15 @@ Content-Type: application/json
               "email": "aagt@gmail.com",
               "telephone": "+380322916930"
             },
-            "scale": "sme"
+            "scale": "sme",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            }
           }
         ],
         "status": "unsuccessful",
@@ -2001,7 +2025,15 @@ Content-Type: application/json
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
-      "kind": "general"
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
     },
     "lots": [
       {
@@ -2192,7 +2224,15 @@ Content-Type: application/json
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
             },
-            "scale": "micro"
+            "scale": "micro",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            }
           }
         ],
         "bid_id": "cd1a12fedb634aa88390b3156568df61",

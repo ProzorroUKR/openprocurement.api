@@ -65,6 +65,14 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        },
         "contactPoint": {
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",

@@ -136,7 +136,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "locality": "м. Київ",
         "streetAddress": "вул. Банкова, 11, корпус 1"
       },
-      "kind": "general"
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "111111111111111",
+        "authorizedBy": "Статут компанії",
+        "position": "Генеральний директор"
+      }
     },
     "buyers": [
       {
@@ -153,7 +161,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова, 11, корпус 1"
         },
-        "kind": "general"
+        "kind": "general",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "telephone": "+380950000000",
+          "email": "example@email.com",
+          "iban": "111111111111111",
+          "authorizedBy": "Статут компанії",
+          "position": "Генеральний директор"
+        }
       }
     ],
     "budget": {
@@ -211,7 +227,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
         "postalCode": "01220",
         "countryName": "Україна"
       },
-      "kind": "general"
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
     },
     "tender": {
       "procurementMethod": "open",
@@ -372,7 +396,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
           "postalCode": "01220",
           "countryName": "Україна"
         },
-        "kind": "general"
+        "kind": "general",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
       }
     ],
     "rationale": {

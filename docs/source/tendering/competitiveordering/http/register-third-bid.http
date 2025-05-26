@@ -31,7 +31,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "telephone": "+0440000000",
           "email": "aa@aa.com"
         },
-        "scale": "micro"
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "telephone": "+380950000000",
+          "email": "example@email.com",
+          "iban": "111111111111111",
+          "authorizedBy": "Статут компанії",
+          "position": "Генеральний директор"
+        }
       }
     ],
     "lotValues": [
@@ -76,7 +84,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
           "email": "aa@aa.com",
           "telephone": "+0440000000"
         },
-        "scale": "micro"
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
       }
     ],
     "status": "draft",

@@ -26,7 +26,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "locality": "м. Київ",
         "streetAddress": "вул. Банкова, 11, корпус 1"
       },
-      "name": "Державне управління справами"
+      "name": "Державне управління справами",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "111111111111111",
+        "authorizedBy": "Статут компанії",
+        "position": "Генеральний директор"
+      }
     },
     "value": {
       "amount": 500,

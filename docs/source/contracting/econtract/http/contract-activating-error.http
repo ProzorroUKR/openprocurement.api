@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "signerInfo field for buyer and suppliers is required for contract in `active` status"
+      "description": "contractNumber is required for contract in `active` status"
     }
   ]
 }

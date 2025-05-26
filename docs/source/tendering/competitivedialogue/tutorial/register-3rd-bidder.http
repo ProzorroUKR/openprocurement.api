@@ -25,7 +25,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "«Снігур»",
-        "scale": "mid"
+        "scale": "mid",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "telephone": "+380950000000",
+          "email": "example@email.com",
+          "iban": "111111111111111",
+          "authorizedBy": "Статут компанії",
+          "position": "Генеральний директор"
+        }
       }
     ],
     "selfQualified": true,
@@ -65,7 +73,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
           "email": "fake@mail.com",
           "telephone": "+380322123456"
         },
-        "scale": "mid"
+        "scale": "mid",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
       }
     ],
     "lotValues": [

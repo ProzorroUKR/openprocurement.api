@@ -63,7 +63,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
         "scheme": "UA-EDR"
       },
-      "name": "ЗОСШ #10 м.Вінниці"
+      "name": "ЗОСШ #10 м.Вінниці",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "111111111111111",
+        "authorizedBy": "Статут компанії",
+        "position": "Генеральний директор"
+      }
     },
     "value": {
       "amount": 500000,

@@ -29,6 +29,14 @@ Content-Type: application/json
           "telephone": "+380432465302",
           "url": "http://sch10.edu.vn.ua/"
         },
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        },
         "kind": "special"
       },
       "id": "38bca89f7ba4477d97f553d576fd6994"
@@ -53,6 +61,14 @@ Content-Type: application/json
           "name": "Куца Світлана Валентинівна",
           "telephone": "+380432465302",
           "url": "http://sch10.edu.vn.ua/"
+        },
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
         },
         "kind": "special"
       },
