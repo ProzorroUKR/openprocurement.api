@@ -1,13 +1,11 @@
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.contracting import add_contracts
-from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
 class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
-    contract_model = Contract
     sign_award_required = False
     generate_award_milestones = False
     award_has_period = False
@@ -26,7 +24,6 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
 
 
 class NegotiationAwardState(ReportingAwardState):
-    contract_model = Contract
     award_stand_still_working_days: bool = False
     sign_award_required = True
 

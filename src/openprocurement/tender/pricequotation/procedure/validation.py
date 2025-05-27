@@ -3,7 +3,7 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.constants_env import PQ_CRITERIA_ID_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import get_first_revision_date, raise_operation_error
+from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 
@@ -21,20 +21,6 @@ def validate_bid_value(tender, value):
         raise ValidationError(
             "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
         )
-
-
-def validate_contract_document_status(operation):
-    def validate(request, **_):
-        tender_status = request.validated["tender"]["status"]
-        if tender_status not in ["active.qualification", "active.awarded"]:
-            raise_operation_error(
-                request,
-                f"Can't {operation} document in current ({tender_status}) tender status",
-            )
-        if request.validated["contract"]["status"] not in ["pending", "active"]:
-            raise_operation_error(request, f"Can't {operation} document in current contract status")
-
-    return validate
 
 
 def validate_profile_pattern(profile):

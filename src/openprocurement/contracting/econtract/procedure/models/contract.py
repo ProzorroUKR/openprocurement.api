@@ -1,7 +1,9 @@
+from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
+from openprocurement.api.procedure.context import get_contract, get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import ContractValue
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
@@ -17,9 +19,6 @@ from openprocurement.contracting.econtract.procedure.models.item import Item
 from openprocurement.contracting.econtract.procedure.models.organization import (
     Buyer,
     Supplier,
-)
-from openprocurement.tender.core.procedure.models.contract import (
-    validate_item_unit_values,
 )
 
 
@@ -99,3 +98,18 @@ class Contract(BaseContract):
     contractTemplateName = StringType()
     value = ModelType(ContractValue)
     documents = ListType(ModelType(Document, required=True))
+
+
+def validate_item_unit_values(data, items):
+    base_value = data.get("value")
+    if base_value is None:
+        base_value = (get_contract() or {}).get("value")
+    if base_value and items:
+        for item in items:
+            item_value = (item.get("unit") or {}).get("value")
+            if item_value:
+                if (
+                    get_tender()["config"]["valueCurrencyEquality"] is True
+                    and item_value["currency"] != base_value["currency"]
+                ):
+                    raise ValidationError(f"Value mismatch. Expected: currency {base_value['currency']}")

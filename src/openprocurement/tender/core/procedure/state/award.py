@@ -10,7 +10,6 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import add_contracts
-from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.validation import (
@@ -22,7 +21,6 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class AwardStateMixing:
-    contract_model = Contract
     award_stand_still_working_days: bool = True
     sign_award_required: bool = True
     award_has_period: bool = True

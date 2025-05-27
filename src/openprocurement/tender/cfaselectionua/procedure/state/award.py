@@ -6,14 +6,12 @@ from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
 from openprocurement.tender.core.procedure.contracting import add_contracts
-from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 
 LOGGER = logging.getLogger(__name__)
 
 
 class AwardState(AwardStateMixing, CFASelectionTenderState):
-    contract_model = Contract
     generate_award_milestones = False
 
     def award_status_up(self, before, after, award):
