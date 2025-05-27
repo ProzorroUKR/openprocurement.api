@@ -1,6 +1,4 @@
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_tender_negotiation_config,
@@ -37,7 +35,7 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -75,7 +73,7 @@ class TenderNegotiationCancellationComplaintObjectionResourceTest(
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }

@@ -53,7 +53,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_draft_claim,
     test_tender_below_lots,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 
 
@@ -173,7 +173,7 @@ class TenderAwardPendingResourceTestCase(TenderContentWebTest):
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                         "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,

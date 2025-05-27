@@ -90,7 +90,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова, 11, корпус 1"
         },
-        "kind": "general"
+        "kind": "general",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "telephone": "+380950000000",
+          "email": "example@email.com",
+          "iban": "111111111111111",
+          "authorizedBy": "Статут компанії",
+          "position": "Генеральний директор"
+        }
       }
     ],
     "budget": {
@@ -245,7 +253,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d93
           "postalCode": "01220",
           "countryName": "Україна"
         },
-        "kind": "general"
+        "kind": "general",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
       }
     ],
     "rationale": {

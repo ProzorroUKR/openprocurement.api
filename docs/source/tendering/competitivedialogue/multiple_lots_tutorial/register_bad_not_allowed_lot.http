@@ -28,7 +28,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Школяр»",
-        "scale": "micro"
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "telephone": "+380950000000",
+          "email": "example@email.com",
+          "iban": "111111111111111",
+          "authorizedBy": "Статут компанії",
+          "position": "Генеральний директор"
+        }
       }
     ],
     "lotValues": [

@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.open.tests.award import (
     Tender2LotAwardQualificationAfterComplaintMixin,
@@ -194,7 +194,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest, TenderLotAwa
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": bid["id"],
                         "lotID": bid["lotValues"][0]["relatedLot"],
@@ -238,7 +238,7 @@ class Tender2LotAwardQualificationAfterComplaintResourceTest(
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                         "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],
@@ -262,7 +262,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderA
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                     }
@@ -302,7 +302,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": bid["id"],
                         "lotID": bid["lotValues"][0]["relatedLot"],
@@ -343,7 +343,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                     }
@@ -368,7 +368,7 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAw
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": bid["id"],
                         "lotID": bid["lotValues"][0]["relatedLot"],

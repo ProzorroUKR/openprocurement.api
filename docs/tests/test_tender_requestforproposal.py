@@ -36,10 +36,10 @@ from openprocurement.tender.core.tests.utils import (
 )
 from openprocurement.tender.requestforproposal.tests.base import (
     BaseTenderWebTest,
+    test_tender_rfp_base_organization,
     test_tender_rfp_bids,
     test_tender_rfp_criteria,
     test_tender_rfp_lots,
-    test_tender_rfp_organization,
 )
 
 test_tender_data = deepcopy(test_docs_tender_rfp)
@@ -813,10 +813,9 @@ class TenderResourceTest(
         test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = test_docs_items_open
         del test_tender_data["minimalStep"]
-        test_tender_data["funders"] = [deepcopy(test_tender_rfp_organization)]
+        test_tender_data["funders"] = [deepcopy(test_tender_rfp_base_organization)]
         test_tender_data["funders"][0]["identifier"]["id"] = "44000"
         test_tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
-        del test_tender_data["funders"][0]["scale"]
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[1]['value'] = test_tender_data['value']

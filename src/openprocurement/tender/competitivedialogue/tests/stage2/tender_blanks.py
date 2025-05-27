@@ -6,8 +6,8 @@ from openprocurement.api.constants import ROUTE_PREFIX, TZ
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_base_organization,
     test_tender_below_cancellation,
-    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central as create_tender_central_base,
@@ -1032,10 +1032,9 @@ def create_tender(self):
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["funders"] = [deepcopy(test_tender_below_organization)]
+    tender_data["funders"] = [deepcopy(test_tender_below_base_organization)]
     tender_data["funders"][0]["identifier"]["id"] = "44000"
     tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
-    del tender_data["funders"][0]["scale"]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1045,10 +1044,9 @@ def tender_funders(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
 
-    tender_data["funders"].append(deepcopy(test_tender_below_organization))
+    tender_data["funders"].append(deepcopy(test_tender_below_base_organization))
     tender_data["funders"][1]["identifier"]["id"] = "44000"
     tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
-    del tender_data["funders"][1]["scale"]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")

@@ -24,14 +24,15 @@ from openprocurement.tender.core.tests.utils import (
 from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
 from openprocurement.tender.pricequotation.tests.data import (
     test_agreement_pq_data,
+    test_tender_pq_buyer,
     test_tender_pq_cancellation,
     test_tender_pq_category,
     test_tender_pq_criteria,
     test_tender_pq_data,
     test_tender_pq_item,
     test_tender_pq_milestones,
-    test_tender_pq_organization,
     test_tender_pq_short_profile,
+    test_tender_pq_supplier,
 )
 from openprocurement.tender.pricequotation.tests.utils import activate_econtract
 
@@ -1329,11 +1330,19 @@ def tender_owner_can_change_in_draft(self):
         "awardCriteriaDetails_ru": "Test criteria 6",
     }
     buyer_id = uuid4().hex
-
+    buyer_signer_info = deepcopy(test_tender_pq_buyer["signerInfo"])
+    buyer_signer_info["name"] = "John Doe"
     items = deepcopy(tender["items"])
     items[0]["description"] = "New description"
     lists = {
-        "buyers": [{"id": buyer_id, "name": "John Doe", "identifier": {"scheme": "AE-DCCI", "id": "AE1"}}],
+        "buyers": [
+            {
+                "id": buyer_id,
+                "name": "John Doe",
+                "identifier": {"scheme": "AE-DCCI", "id": "AE1"},
+                "signerInfo": buyer_signer_info,
+            }
+        ],
         "funders": [
             {
                 "name": "First funder",
@@ -1909,7 +1918,7 @@ def one_valid_bid_tender(self):
         "/tenders/{}/bids".format(tender_id),
         {
             "data": {
-                "tenderers": [test_tender_pq_organization],
+                "tenderers": [test_tender_pq_supplier],
                 "value": {"amount": 500},
                 "requirementResponses": rrs,
             }
@@ -1995,7 +2004,7 @@ def one_invalid_bid_tender(self):
     bid, token = self.create_bid(
         self.tender_id,
         {
-            "tenderers": [test_tender_pq_organization],
+            "tenderers": [test_tender_pq_supplier],
             "value": {"amount": 500},
             "requirementResponses": rrs,
         },
@@ -2033,7 +2042,7 @@ def first_bid_tender(self):
     bid, bid_token1 = self.create_bid(
         self.tender_id,
         {
-            "tenderers": [test_tender_pq_organization],
+            "tenderers": [test_tender_pq_supplier],
             "value": {"amount": 450},
             "requirementResponses": rrs,
         },
@@ -2044,7 +2053,7 @@ def first_bid_tender(self):
     bid, bid_token2 = self.create_bid(
         self.tender_id,
         {
-            "tenderers": [test_tender_pq_organization],
+            "tenderers": [test_tender_pq_supplier],
             "value": {"amount": 300},
             "requirementResponses": rrs,
         },
@@ -2112,7 +2121,7 @@ def lost_contract_for_active_award(self):
     bid, bid_token = self.create_bid(
         self.tender_id,
         {
-            "tenderers": [test_tender_pq_organization],
+            "tenderers": [test_tender_pq_supplier],
             "value": {"amount": 500},
             "requirementResponses": rrs,
         },
@@ -2156,15 +2165,15 @@ def lost_contract_for_active_award(self):
 def patch_items_related_buyer_id(self):
     # create tender with two buyers
     data = deepcopy(self.initial_data)
-    test_organization1 = deepcopy(test_tender_pq_organization)
-    test_organization2 = deepcopy(test_tender_pq_organization)
-    test_organization2["name"] = "Управління міжнародних справ"
-    test_organization2["identifier"]["id"] = "00055555"
+    test_buyer1 = deepcopy(test_tender_pq_buyer)
+    test_buyer2 = deepcopy(test_tender_pq_buyer)
+    test_buyer2["name"] = "Управління міжнародних справ"
+    test_buyer2["identifier"]["id"] = "00055555"
 
     data["status"] = "draft"
     data["buyers"] = [
-        {"name": test_organization1["name"], "identifier": test_organization1["identifier"]},
-        {"name": test_organization2["name"], "identifier": test_organization2["identifier"]},
+        test_buyer1,
+        test_buyer2,
     ]
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})

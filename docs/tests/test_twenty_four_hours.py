@@ -7,9 +7,7 @@ from tests.base.data import test_docs_tender_openua
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openua.tests.base import test_tender_openua_bids
 from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
@@ -38,7 +36,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                         "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,

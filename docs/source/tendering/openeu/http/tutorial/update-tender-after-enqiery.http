@@ -971,7 +971,15 @@ Content-Type: application/json
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
-      "kind": "general"
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
     },
     "status": "active.tendering",
     "awardCriteria": "lowestCost",

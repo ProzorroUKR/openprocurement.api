@@ -11,7 +11,7 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -163,7 +163,7 @@ def tender_award_create(self):
     award_id = "1234" * 8
     data["awards"] = [
         {
-            "suppliers": [test_tender_below_organization],
+            "suppliers": [test_tender_below_supplier],
             "subcontractingDetails": "Details",
             "status": "pending",
             "qualified": True,
@@ -810,7 +810,7 @@ def patch_tender(self):
     # The following operations are performed for a proper transition to the "Complete" tender status
 
     award_data = {
-        "suppliers": [test_tender_below_organization],
+        "suppliers": [test_tender_below_supplier],
         "status": "pending",
         "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
     }
@@ -903,7 +903,7 @@ def changing_tender_after_award(self):
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 "status": "pending",
                 "lotID": first_lot["id"],
@@ -1039,11 +1039,11 @@ def single_award_tender(self):
         award_data["lotID"] = tender_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/awards".format(tender_id),
-        {"data": {"suppliers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_supplier], "value": {"amount": 500}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    award_data.update({"suppliers": [test_tender_below_organization], "value": {"amount": 500}})
+    award_data.update({"suppliers": [test_tender_below_supplier], "value": {"amount": 500}})
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
         {"data": award_data},
@@ -1088,7 +1088,7 @@ def single_award_tender(self):
     self.set_initial_status(response.json)
 
     # create award
-    award_data.update({"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}})
+    award_data.update({"suppliers": [test_tender_below_supplier], "qualified": True, "value": {"amount": 500}})
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
         {"data": award_data},
@@ -1154,12 +1154,12 @@ def multiple_awards_tender(self):
         award_data["lotID"] = tender_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/awards".format(tender_id),
-        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_supplier], "qualified": True, "value": {"amount": 500}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
 
-    award_data.update({"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}})
+    award_data.update({"suppliers": [test_tender_below_supplier], "qualified": True, "value": {"amount": 500}})
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
         {"data": award_data},
@@ -1174,7 +1174,7 @@ def multiple_awards_tender(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-    award_data.update({"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 501}})
+    award_data.update({"suppliers": [test_tender_below_supplier], "qualified": True, "value": {"amount": 501}})
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
         {"data": award_data},
@@ -1191,7 +1191,7 @@ def multiple_awards_tender(self):
         {"data": {"status": "cancelled"}},
     )
 
-    award_data.update({"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 505}})
+    award_data.update({"suppliers": [test_tender_below_supplier], "qualified": True, "value": {"amount": 505}})
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
         {"data": award_data},
@@ -1268,7 +1268,7 @@ def tender_cancellation(self):
     award_data = {}
     if tender.get("lots"):
         award_data["lotID"] = tender["lots"][0]["id"]
-    award_data.update({"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}})
+    award_data.update({"suppliers": [test_tender_below_supplier], "qualified": True, "value": {"amount": 500}})
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
         {"data": award_data},
@@ -1298,7 +1298,7 @@ def tender_cancellation(self):
     self.set_initial_status(response.json)
 
     # create award
-    award_data.update({"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}})
+    award_data.update({"suppliers": [test_tender_below_supplier], "qualified": True, "value": {"amount": 500}})
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
         {"data": award_data},
@@ -1348,7 +1348,7 @@ def tender_cancellation(self):
     response = self.set_initial_status(response.json)
 
     # create award
-    award_data.update({"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}})
+    award_data.update({"suppliers": [test_tender_below_supplier], "qualified": True, "value": {"amount": 500}})
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
         {"data": award_data},

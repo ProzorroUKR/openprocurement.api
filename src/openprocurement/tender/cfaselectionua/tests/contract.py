@@ -23,7 +23,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_bids,
     test_tender_cfaselectionua_lots,
     test_tender_cfaselectionua_multi_buyers_data,
-    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_supplier,
 )
 from openprocurement.tender.cfaselectionua.tests.contract_blanks import (  # TenderContractResourceTest; Tender2LotContractResourceTest; TenderContractDocumentResourceTest; Tender2LotContractDocumentResourceTest
     lot2_patch_tender_contract,
@@ -40,7 +40,7 @@ class CreateActiveAwardMixin:
             f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
-                    "suppliers": [test_tender_cfaselectionua_organization],
+                    "suppliers": [test_tender_cfaselectionua_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],
@@ -138,7 +138,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_cfaselectionua_organization],
+                    "suppliers": [test_tender_cfaselectionua_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],

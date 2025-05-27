@@ -6,9 +6,7 @@ from uuid import uuid4
 from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
@@ -561,7 +559,7 @@ def multiple_bidders_tender_eu(self):
     tender_owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
     # create bids
-    bidder_data = deepcopy(test_tender_below_organization)
+    bidder_data = deepcopy(test_tender_below_supplier)
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(test_tender_cd_stage1_bids[0])
     bid_data["tenderers"] = [bidder_data]
@@ -661,7 +659,7 @@ def try_go_to_ready_stage_eu(self):
     self.set_initial_status(response.json)
     # create bids
     bid_data = deepcopy(test_tender_cd_stage1_bids[0])
-    bidder_data = deepcopy(test_tender_below_organization)
+    bidder_data = deepcopy(test_tender_below_supplier)
     bid_data["tenderers"] = [bidder_data]
     self.app.authorization = ("Basic", ("broker", ""))
     set_bid_lotvalues(bid_data, self.initial_lots)

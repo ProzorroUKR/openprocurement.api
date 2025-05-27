@@ -3,7 +3,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_unsuccessful,
@@ -151,7 +151,7 @@ class TenderAwardComplaintSwitchResourceTest(BaseTenderContentWebTest):
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                     }

@@ -5,7 +5,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_lots,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     bid_proposal_doc,
@@ -261,7 +261,7 @@ class TenderBidderBatchDocumentResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
     bid_data_wo_docs = {
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
         "selfEligible": True,
         "selfQualified": True,

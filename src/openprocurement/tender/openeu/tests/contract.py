@@ -4,7 +4,7 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_contract_single_item_unit_value,
@@ -33,7 +33,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
     author_data = test_tender_below_author
 
     def create_award(self):
-        self.supplier_info = deepcopy(test_tender_below_organization)
+        self.supplier_info = deepcopy(test_tender_below_supplier)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),

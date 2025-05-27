@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.esco.tests.auction_blanks import patch_tender_auction
 from openprocurement.tender.openeu.tests.auction_blanks import (
@@ -71,7 +71,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
 
 class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
     initial_status = "active.auction"
-    tenderer_info = deepcopy(test_tender_below_organization)
+    tenderer_info = deepcopy(test_tender_below_supplier)
     initial_bids = test_bids_data = [test_tender_openeu_bids[0] for i in range(3)]
     initial_lots = test_tender_below_lots
 
@@ -118,7 +118,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
 
 class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
     initial_data = test_tender_openeu_features_data
-    tenderer_info = deepcopy(test_tender_below_organization)
+    tenderer_info = deepcopy(test_tender_below_supplier)
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)

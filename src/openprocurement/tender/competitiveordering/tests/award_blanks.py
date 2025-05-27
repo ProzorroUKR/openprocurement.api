@@ -2,9 +2,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 
 
 def qualified_eligible_awards(self):
@@ -13,7 +11,7 @@ def qualified_eligible_awards(self):
         f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[1]["id"],

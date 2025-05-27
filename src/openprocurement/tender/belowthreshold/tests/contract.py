@@ -6,7 +6,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_lots,
     test_tender_below_multi_buyers_data,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # TenderContractResourceTest; Tender2LotContractResourceTest; TenderContractDocumentResourceTest; Tender2LotContractDocumentResourceTest; Econtract
     cancelling_award_contract_sync,
@@ -99,7 +99,7 @@ class CreateActiveAwardMixin:
             f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": self.initial_data["value"],
@@ -152,7 +152,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
             f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "items": self.initial_data["items"],
@@ -218,7 +218,7 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
             f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],

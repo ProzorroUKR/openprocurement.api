@@ -1,3 +1,4 @@
+from copy import deepcopy
 from logging import getLogger
 
 from openprocurement.api.context import get_request_now
@@ -97,9 +98,12 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                 contracts = []
                 for award in tender.get("awards", ""):
                     if award["lotID"] == lot["id"] and award["status"] == "active":
+                        suppliers = deepcopy(award["suppliers"])
+                        for supplier in suppliers:
+                            supplier.pop("signerInfo", None)
                         contracts.append(
                             {
-                                "suppliers": award["suppliers"],
+                                "suppliers": suppliers,
                                 "awardID": award["id"],
                                 "bidID": award["bid_id"],
                                 "date": get_request_now().isoformat(),

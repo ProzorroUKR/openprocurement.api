@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # Tend
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_features_data,
     test_tender_below_lots,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
@@ -40,7 +40,7 @@ class TenderSameValueAuctionResourceTest(BaseSimpleDefContentWebTest):
     initial_lots = test_tender_below_lots
     initial_bids = [
         {
-            "tenderers": [test_tender_below_organization],
+            "tenderers": [test_tender_below_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
             "selfQualified": True,
         }
@@ -67,13 +67,13 @@ class TenderFeaturesAuctionResourceTest(BaseSimpleDefContentWebTest):
     initial_bids = [
         {
             "parameters": [{"code": i["code"], "value": 0.1} for i in test_tender_below_features_data["features"]],
-            "tenderers": [test_tender_below_organization],
+            "tenderers": [test_tender_below_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
             "selfQualified": True,
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]],
-            "tenderers": [test_tender_below_organization],
+            "tenderers": [test_tender_below_supplier],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
             "selfQualified": True,
         },

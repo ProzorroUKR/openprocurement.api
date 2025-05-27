@@ -46,7 +46,15 @@ Content-Type: application/json
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
         },
-        "scale": "micro"
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
       }
     ],
     "bid_id": "526b7a685a8b4427b01d99ca0954cec5",

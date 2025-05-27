@@ -5,7 +5,7 @@ from openprocurement.api.procedure.validation import (
     unless_admins,
     validate_input_data,
     validate_item_owner,
-    validate_patch_data,
+    validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
@@ -77,8 +77,11 @@ class ReportingAwardResource(TenderAwardResource):
         permission="edit_award",  # brokers
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(PatchReportingAward),
-            validate_patch_data(ReportingAward, item_name="award"),
+            validate_input_data(
+                PatchReportingAward,
+                none_means_remove=True,
+            ),
+            validate_patch_data_simple(ReportingAward, item_name="award"),
             validate_award_operation_not_in_active_status,
         ),
     )
@@ -116,7 +119,10 @@ class NegotiationAwardResource(TenderAwardResource):
         permission="create_award",
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(PostNegotiationAward),
+            validate_input_data(
+                PostNegotiationAward,
+                none_means_remove=True,
+            ),
             validate_award_operation_not_in_active_status,
             validate_award_with_lot_cancellation_in_pending,
             validate_lot_cancellation,
@@ -131,8 +137,11 @@ class NegotiationAwardResource(TenderAwardResource):
         permission="edit_award",
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(PatchNegotiationAward),
-            validate_patch_data(NegotiationAward, item_name="award"),
+            validate_input_data(
+                PatchNegotiationAward,
+                none_means_remove=True,
+            ),
+            validate_patch_data_simple(NegotiationAward, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
             validate_award_operation_not_in_active_status,
             validate_lot_cancellation,

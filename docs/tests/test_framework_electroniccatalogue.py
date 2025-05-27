@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from tests.base.constants import DOCS_URL
-from tests.base.data import test_docs_tenderer
+from tests.base.data import test_docs_organization
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.procedure.utils import parse_date
@@ -124,7 +124,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 '/submissions',
                 {
                     'data': {
-                        "tenderers": [test_docs_tenderer],
+                        "tenderers": [test_docs_organization],
                         "frameworkID": self.framework_id,
                     }
                 },
@@ -209,7 +209,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             response = self.app.get('/submissions/{}'.format(self.submission_id))
             self.assertEqual(response.status, '200 OK')
 
-        tenderer = deepcopy(test_docs_tenderer)
+        tenderer = deepcopy(test_docs_organization)
         tenderer["name"] = "НАЗВА"
         with open(TARGET_DIR + 'updating-submission.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -229,7 +229,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             '/submissions'.format(self.submission_id, self.submission_token),
             {
                 'data': {
-                    "tenderers": [test_docs_tenderer],
+                    "tenderers": [test_docs_organization],
                     "frameworkID": self.framework_id,
                 }
             },
@@ -314,7 +314,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             '/submissions'.format(self.submission_id, self.submission_token),
             {
                 'data': {
-                    "tenderers": [test_docs_tenderer],
+                    "tenderers": [test_docs_organization],
                     "frameworkID": self.framework_id,
                 }
             },

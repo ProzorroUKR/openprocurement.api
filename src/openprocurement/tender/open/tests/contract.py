@@ -3,7 +3,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderEContractMultiBuyersResourceTestMixin,
@@ -39,7 +39,7 @@ class CreateActiveAwardMixin:
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],
@@ -94,7 +94,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest):
             f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],

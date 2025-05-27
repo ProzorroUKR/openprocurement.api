@@ -56,8 +56,8 @@ from openprocurement.tender.requestforproposal.tests.base import (
     test_tender_rfp_features_data,
     test_tender_rfp_lots,
     test_tender_rfp_lots_no_min_step,
-    test_tender_rfp_organization,
     test_tender_rfp_simple_data,
+    test_tender_rfp_supplier,
 )
 from openprocurement.tender.requestforproposal.tests.bid_blanks import (
     features_bid,
@@ -116,7 +116,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         # Create bid
-        bid_data = {"status": "draft", "tenderers": [test_tender_rfp_organization], "value": {"amount": 500}}
+        bid_data = {"status": "draft", "tenderers": [test_tender_rfp_supplier], "value": {"amount": 500}}
         set_bid_items(self, bid_data)
 
         response = self.app.post_json(
@@ -176,7 +176,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         # Create bid
-        bid_data = {"status": "draft", "tenderers": [test_tender_rfp_organization], "value": {"amount": 500}}
+        bid_data = {"status": "draft", "tenderers": [test_tender_rfp_supplier], "value": {"amount": 500}}
         bid, token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
         self.bid_token = token
@@ -188,7 +188,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
 
 class TenderBidBatchDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
-    bid_data_wo_docs = {"tenderers": [test_tender_rfp_organization], "value": {"amount": 500}, "documents": []}
+    bid_data_wo_docs = {"tenderers": [test_tender_rfp_supplier], "value": {"amount": 500}, "documents": []}
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)

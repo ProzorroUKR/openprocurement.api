@@ -38,7 +38,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "telephone": "+0440000000",
           "availableLanguage": "uk"
         }
-      ]
+      ],
+      "signerInfo": {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "111111111111111",
+        "authorizedBy": "Статут компанії",
+        "position": "Генеральний директор"
+      }
     },
     "items": [
       {
@@ -146,7 +154,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ba4365d4238e408a
         "postalCode": "01220",
         "countryName": "Україна"
       },
-      "kind": "general"
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
     },
     "status": "draft",
     "agreements": [

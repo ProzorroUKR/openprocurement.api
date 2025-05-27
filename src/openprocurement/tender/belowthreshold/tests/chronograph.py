@@ -5,7 +5,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
     test_tender_below_lots,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     award_switch_from_pending,
@@ -145,7 +145,7 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                     }
@@ -180,7 +180,7 @@ class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResour
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_below_organization],
+                        "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                         "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],

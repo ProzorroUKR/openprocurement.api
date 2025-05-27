@@ -3,9 +3,7 @@ from unittest import mock
 
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document,
     create_tender_bid_with_document_invalid,
@@ -292,7 +290,7 @@ def patch_tender_bidder(self):
         ],
     )
 
-    tenderer = deepcopy(test_tender_below_organization)
+    tenderer = deepcopy(test_tender_below_supplier)
     tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),

@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
     test_tender_below_data,
     test_tender_below_lots,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.utils import set_bid_items
 
@@ -242,7 +242,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(tendering_historical, tendering)
         bid_data = {
             "lotValues": [{"value": {"amount": 499}, "relatedLot": self.initial_lots[0]["id"]}],
-            "tenderers": [test_tender_below_organization],
+            "tenderers": [test_tender_below_supplier],
         }
         set_bid_items(self, bid_data, tender_id=tender["id"])
         response = self.app.post_json(

@@ -39,7 +39,7 @@ from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_criteria_2,
     test_tender_pq_criteria_3,
     test_tender_pq_criteria_4,
-    test_tender_pq_organization,
+    test_tender_pq_supplier,
 )
 from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
 
@@ -116,7 +116,7 @@ class TenderBidDocumentResourceTest(MockMarketMixin, TenderContentWebTest):
 
         # Create bid
         bid_data = {
-            "tenderers": [test_tender_pq_organization],
+            "tenderers": [test_tender_pq_supplier],
             "value": {"amount": 500},
             "requirementResponses": set_bid_responses(tender["criteria"]),
         }
@@ -150,7 +150,7 @@ class TenderBidBatchDocumentResourceTest(MockMarketMixin, TenderContentWebTest):
         rrs = set_bid_responses(tender["criteria"])
 
         self.bid_data_wo_docs = {
-            "tenderers": [test_tender_pq_organization],
+            "tenderers": [test_tender_pq_supplier],
             "value": {"amount": 500},
             "documents": [],
             "requirementResponses": rrs,

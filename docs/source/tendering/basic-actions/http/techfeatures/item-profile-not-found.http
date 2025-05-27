@@ -25,7 +25,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "name": "Державне управління справами",
         "telephone": "+0440000000"
       },
-      "kind": "general"
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "111111111111111",
+        "authorizedBy": "Статут компанії",
+        "position": "Генеральний директор"
+      }
     },
     "value": {
       "amount": 500,

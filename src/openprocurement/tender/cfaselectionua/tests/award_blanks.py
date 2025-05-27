@@ -2,7 +2,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
-    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_supplier,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 
@@ -134,7 +134,7 @@ def create_tender_award_invalid(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": "0" * 32,
@@ -152,7 +152,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/some_id/awards",
-        {"data": {"suppliers": [test_tender_cfaselectionua_organization], "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_cfaselectionua_supplier], "bid_id": self.initial_bids[0]["id"]}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -172,7 +172,7 @@ def create_tender_award_invalid(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
             }
@@ -193,7 +193,7 @@ def create_tender_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
             }
@@ -202,7 +202,7 @@ def create_tender_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_cfaselectionua_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_cfaselectionua_supplier["name"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
 
@@ -240,7 +240,7 @@ def patch_tender_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -369,7 +369,7 @@ def patch_tender_award_unsuccessful(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -412,7 +412,7 @@ def get_tender_award(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
             }
@@ -448,7 +448,7 @@ def patch_tender_award_Administrator_change(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
             }
@@ -470,7 +470,7 @@ def create_tender_lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
             }
@@ -487,7 +487,7 @@ def create_tender_lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -497,7 +497,7 @@ def create_tender_lot_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_cfaselectionua_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_cfaselectionua_supplier["name"])
     self.assertEqual(award["lotID"], self.initial_lots[0]["id"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
@@ -751,7 +751,7 @@ def create_tender_lots_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -767,7 +767,7 @@ def create_tender_lots_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[1]["id"],
@@ -777,7 +777,7 @@ def create_tender_lots_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_cfaselectionua_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_cfaselectionua_supplier["name"])
     self.assertEqual(award["lotID"], self.initial_lots[1]["id"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
@@ -819,7 +819,7 @@ def patch_tender_lots_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_cfaselectionua_organization],
+                "suppliers": [test_tender_cfaselectionua_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -1666,7 +1666,7 @@ def check_tender_award(self):
 def patch_tender_lot_award_lots_none(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
     bid = {
-        "suppliers": [test_tender_cfaselectionua_organization],
+        "suppliers": [test_tender_cfaselectionua_supplier],
         "status": "pending",
         "lotID": self.initial_lots[0]["id"],
     }

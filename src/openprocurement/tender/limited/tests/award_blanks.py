@@ -9,7 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_claim,
     test_tender_below_complaint,
     test_tender_below_draft_complaint,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.procedure.models.award_milestone import (
     AwardMilestoneCode,
@@ -87,7 +87,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/some_id/awards",
-        {"data": {"suppliers": [test_tender_below_organization], "bid_id": "some_id"}},
+        {"data": {"suppliers": [test_tender_below_supplier], "bid_id": "some_id"}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -121,7 +121,7 @@ def create_tender_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", award)
     # self.assertNotIn("items", award)  # WTF use case: we expect that items just silently ignored
     self.assertIn(award["id"], response.headers["Location"])
@@ -179,7 +179,7 @@ def canceling_created_award_and_create_new_one(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
 
@@ -232,7 +232,7 @@ def canceling_created_award_and_create_new_one(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     new_award = response.json["data"]
-    self.assertEqual(new_award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(new_award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", new_award)
     self.assertIn(new_award["id"], response.headers["Location"])
 
@@ -374,7 +374,7 @@ def patch_tender_award(self):
 
     # create new award and test other states
     award_data = {
-        "suppliers": [test_tender_below_organization],
+        "suppliers": [test_tender_below_supplier],
         "status": "pending",
         "value": {"amount": 500},
     }
@@ -405,7 +405,7 @@ def patch_tender_award(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't update award in current (unsuccessful) status")
 
     award_data = {
-        "suppliers": [test_tender_below_organization],
+        "suppliers": [test_tender_below_supplier],
         "status": "pending",
         "value": {"amount": 500},
     }
@@ -483,7 +483,7 @@ def check_tender_award_complaint_period_dates(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "value": {"amount": 500},
@@ -665,7 +665,7 @@ def patch_active_not_qualified(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -676,7 +676,7 @@ def patch_active_not_qualified(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
     self.assertEqual(response.json["data"]["subcontractingDetails"], "Details")
@@ -703,7 +703,7 @@ def create_two_awards_on_one_lot(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
@@ -719,7 +719,7 @@ def create_two_awards_on_one_lot(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
@@ -745,7 +745,7 @@ def create_award_with_lot(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "qualified": True,
@@ -765,7 +765,7 @@ def create_award_with_lot(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "qualified": True,
@@ -778,7 +778,7 @@ def create_award_with_lot(self):
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
     # check fields
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
     self.assertEqual(response.json["data"]["subcontractingDetails"], "Details")
@@ -800,7 +800,7 @@ def create_tender_award_with_lot(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "qualified": True,
@@ -812,7 +812,7 @@ def create_tender_award_with_lot(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
     self.assertIn(award["lotID"], self.initial_lots[0]["id"])
@@ -873,7 +873,7 @@ def canceling_created_lot_award_and_create_new_one(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
@@ -884,7 +884,7 @@ def canceling_created_lot_award_and_create_new_one(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
 
@@ -897,7 +897,7 @@ def canceling_created_lot_award_and_create_new_one(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
                 "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -923,7 +923,7 @@ def canceling_created_lot_award_and_create_new_one(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
                 "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -951,7 +951,7 @@ def canceling_created_lot_award_and_create_new_one(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
@@ -963,7 +963,7 @@ def canceling_created_lot_award_and_create_new_one(self):
     self.assertEqual(response.content_type, "application/json")
 
     new_award = response.json["data"]
-    self.assertEqual(new_award["suppliers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(new_award["suppliers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", new_award)
     self.assertIn(new_award["id"], response.headers["Location"])
 
@@ -1007,7 +1007,7 @@ def patch_tender_lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "value": {"amount": 500},
@@ -1117,7 +1117,7 @@ def patch_tender_lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "value": {"amount": 500},
                 "lotID": self.initial_lots[0]["id"],
@@ -1149,7 +1149,7 @@ def patch_tender_lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "value": {"amount": 500},
                 "lotID": self.initial_lots[0]["id"],
@@ -1220,7 +1220,7 @@ def patch_tender_lot_award_unsuccessful(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "value": {"amount": 500},
@@ -1286,7 +1286,7 @@ def get_tender_lot_award(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
@@ -1332,7 +1332,7 @@ def two_lot_two_awards(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "qualified": True,
@@ -1348,7 +1348,7 @@ def two_lot_two_awards(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "qualified": True,
@@ -1365,7 +1365,7 @@ def two_lot_two_awards(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "qualified": True,
@@ -1385,7 +1385,7 @@ def two_lot_two_awards(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "qualified": True,
@@ -1426,7 +1426,7 @@ def cancel_award(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
@@ -1509,7 +1509,7 @@ def create_award_on_cancel_lot(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
@@ -1539,7 +1539,7 @@ def patch_award_on_cancel_lot(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "lotID": self.initial_lots[0]["id"],
@@ -1732,7 +1732,7 @@ def create_tender_negotiation_award_complaints(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
-    self.assertEqual(complaint["author"]["name"], test_tender_below_organization["name"])
+    self.assertEqual(complaint["author"]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
     self.assertEqual(complaint["type"], "complaint")
@@ -2377,7 +2377,7 @@ def create_tender_lot_award_complaints(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.lot_id,
@@ -2404,7 +2404,7 @@ def create_tender_lot_award_complaints(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
-    self.assertEqual(complaint["author"]["name"], test_tender_below_organization["name"])
+    self.assertEqual(complaint["author"]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
 
@@ -2461,7 +2461,7 @@ def cancelled_lot_award_with_complaint(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.lot["id"],
@@ -2609,7 +2609,7 @@ def cancelled_2lot_award_with_complaint(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.first_lot["id"],
@@ -2890,7 +2890,7 @@ def cancelled_unsuccessful_award_with_complaint(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.first_lot["id"],

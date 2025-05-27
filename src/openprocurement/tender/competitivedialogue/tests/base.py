@@ -8,7 +8,8 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
+    test_tender_below_buyer,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
@@ -79,25 +80,25 @@ test_tender_cdua_stage2_data["procurementMethod"] = "selective"
 test_tender_cd_shortlisted_firms: list[dict] = [
     {
         "identifier": {
-            "scheme": test_tender_below_organization["identifier"]["scheme"],
+            "scheme": test_tender_below_supplier["identifier"]["scheme"],
             "id": "00037257",
-            "uri": test_tender_below_organization["identifier"]["uri"],
+            "uri": test_tender_below_supplier["identifier"]["uri"],
         },
         "name": "Test org name 1",
     },
     {
         "identifier": {
-            "scheme": test_tender_below_organization["identifier"]["scheme"],
+            "scheme": test_tender_below_supplier["identifier"]["scheme"],
             "id": "00037257",
-            "uri": test_tender_below_organization["identifier"]["uri"],
+            "uri": test_tender_below_supplier["identifier"]["uri"],
         },
         "name": "Test org name 2",
     },
     {
         "identifier": {
-            "scheme": test_tender_below_organization["identifier"]["scheme"],
+            "scheme": test_tender_below_supplier["identifier"]["scheme"],
             "id": "00037257",
-            "uri": test_tender_below_organization["identifier"]["uri"],
+            "uri": test_tender_below_supplier["identifier"]["uri"],
         },
         "name": "Test org name 3",
     },
@@ -134,6 +135,7 @@ test_tender_cd_tenderer["identifier"]["scheme"] = test_tender_cd_shortlisted_fir
 
 test_tender_cd_author = deepcopy(test_tender_cd_tenderer)
 del test_tender_cd_author["scale"]
+del test_tender_cd_author["signerInfo"]
 
 
 if SANDBOX_MODE:
@@ -142,11 +144,15 @@ if SANDBOX_MODE:
 
 
 test_tender_cdeu_stage2_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_cdeu_stage2_data, test_tender_cdeu_stage2_data["items"][0], test_tender_below_organization
+    test_tender_cdeu_stage2_data,
+    test_tender_cdeu_stage2_data["items"][0],
+    test_tender_below_buyer,
 )
 
 test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_cdua_stage2_data, test_tender_cdua_stage2_data["items"][0], test_tender_below_organization
+    test_tender_cdua_stage2_data,
+    test_tender_cdua_stage2_data["items"][0],
+    test_tender_below_buyer,
 )
 
 test_tender_cdeu_config = {

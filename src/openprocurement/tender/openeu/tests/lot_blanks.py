@@ -8,7 +8,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
     test_tender_below_claim,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -351,7 +351,7 @@ def patch_tender_bidder(self):
     lot = bidder["lotValues"][0]
     lot_values = bidder["lotValues"]
 
-    tenderer = deepcopy(test_tender_below_organization)
+    tenderer = deepcopy(test_tender_below_supplier)
     tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),

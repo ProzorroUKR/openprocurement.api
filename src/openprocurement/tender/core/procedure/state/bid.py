@@ -33,6 +33,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_items_unit_amount,
     validate_req_response_values,
     validate_required_fields,
+    validate_signer_info_container,
 )
 
 logger = logging.getLogger(__name__)
@@ -55,6 +56,7 @@ class BidState(BaseState):
         now = get_request_now().isoformat()
         data["date"] = now
         self.validate_items_required_field(data)
+        self.validate_tenderers_signer_info(data)
         self.validate_bid_unit_value(data)
         self.validate_status(data)
         self.validate_bid_vs_agreement(data)
@@ -72,6 +74,7 @@ class BidState(BaseState):
 
     def on_patch(self, before, after):
         self.validate_items_required_field(after)
+        self.validate_tenderers_signer_info(after)
         self.lot_values_patch_keep_unchange(after, before)
         self.validate_bid_unit_value(after)
         self.validate_status_change(before, after)
@@ -378,3 +381,7 @@ class BidState(BaseState):
                         lot_values[0].pop(field, None)
                     else:
                         lot_values[0][field] = lot_values[1][field]
+
+    def validate_tenderers_signer_info(self, bid):
+        tender = self.request.validated["tender"]
+        validate_signer_info_container(self.request, tender, bid.get("tenderers"), "tenderers")

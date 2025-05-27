@@ -9,6 +9,7 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.context import get_request_now, set_request_now
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
@@ -185,7 +186,10 @@ class TenderResourceTest(
         self.activate_submission()
         self.activate_qualification()
 
-        self.tenderer = submission_data["tenderers"][0]
+        submission_tenderer = submission_data["tenderers"][0]
+
+        bid_tenderer = deepcopy(submission_tenderer)
+        bid_tenderer["signerInfo"] = test_signer_info
 
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["items"] = [{"id": "12345678"}]
@@ -287,7 +291,7 @@ class TenderResourceTest(
                 'data': {
                     'selfQualified': True,
                     'status': 'draft',
-                    'tenderers': [self.tenderer],
+                    'tenderers': [bid_tenderer],
                     'lotValues': [
                         {
                             "subcontractingDetails": "ДКП «Орфей», Україна",
@@ -327,7 +331,7 @@ class TenderResourceTest(
                 'data': {
                     'selfQualified': True,
                     'status': 'draft',
-                    'tenderers': [self.tenderer],
+                    'tenderers': [bid_tenderer],
                     'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot["id"]}],
                 }
             },
@@ -359,7 +363,7 @@ class TenderResourceTest(
 
         # Registering bid 3
         agreement = self.mongodb.agreements.get(self.agreement_id)
-        tenderer = deepcopy(self.tenderer)
+        tenderer = deepcopy(bid_tenderer)
         tenderer["identifier"]["id"] = agreement["contracts"][1]["suppliers"][0]["identifier"]["id"]
         with open(TARGET_DIR + 'register-third-bid.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

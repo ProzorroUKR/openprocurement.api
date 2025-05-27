@@ -5,7 +5,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_complaint,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -635,7 +635,7 @@ def cancel_lot_after_sing_contract(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
                 "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -717,7 +717,7 @@ def cancel_lot_with_complaint(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
                 "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -866,7 +866,7 @@ def last_lot_complete(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
                 "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -885,7 +885,7 @@ def last_lot_complete(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
                 "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -1024,7 +1024,7 @@ def cancel_lots_check_awards(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "lotID": first_lot["id"],
                 "qualified": True,
@@ -1041,7 +1041,7 @@ def cancel_lots_check_awards(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "lotID": second_lot["id"],
                 "qualified": True,
@@ -1098,7 +1098,7 @@ def delete_lot_after_first_award(self):
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
-                "suppliers": [test_tender_below_organization],
+                "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "lotID": lot["id"],
                 "qualified": True,
@@ -1158,7 +1158,7 @@ def patch_lot_with_cancellation(self):
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "qualified": True,
                     "lotID": lot["id"],
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},

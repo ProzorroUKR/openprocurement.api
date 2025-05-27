@@ -5,7 +5,7 @@ from unittest import mock
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     now,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 
@@ -15,7 +15,7 @@ def create_tender_bidder_firm(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
     set_bid_lotvalues(bid_data, self.initial_lots)
-    bid_data["tenderers"] = [test_tender_below_organization]
+    bid_data["tenderers"] = [test_tender_below_supplier]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -732,7 +732,7 @@ def create_tender_biddder_invalid_ua(self):
     )
 
     bid_data["lotValues"][0]["value"] = {"amount": 500}
-    bid_data["tenderers"] = [test_tender_below_organization]
+    bid_data["tenderers"] = [test_tender_below_supplier]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},

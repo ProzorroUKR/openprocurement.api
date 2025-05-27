@@ -21,9 +21,7 @@ from openprocurement.tender.core.procedure.models.bid import (
     MetaBid,
     validate_lot_values,
 )
-from openprocurement.tender.core.procedure.models.organization import (
-    BusinessOrganization,
-)
+from openprocurement.tender.core.procedure.models.organization import Supplier
 from openprocurement.tender.core.procedure.models.req_response import (
     BidResponsesMixin,
     PatchObjResponsesMixin,
@@ -33,7 +31,7 @@ from openprocurement.tender.core.procedure.validation import validate_bid_value
 
 class PatchBid(PatchObjResponsesMixin, BaseBid):
     items = ListType(ModelType(BidItem, required=True))
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
+    tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     lotValues = ListType(ModelType(LotValue, required=True))
     subcontractingDetails = StringType()
     selfQualified = BooleanType(choices=[True])
@@ -58,7 +56,7 @@ class PostBid(BidResponsesMixin, BaseBid):
 
     items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_items_uniq])
     tenderers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,
@@ -96,7 +94,7 @@ class PostBid(BidResponsesMixin, BaseBid):
 class Bid(MetaBid, BidResponsesMixin, BaseBid):
     items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_items_uniq])
     tenderers = ListType(
-        ModelType(BusinessOrganization, required=True),
+        ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,

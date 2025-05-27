@@ -53,7 +53,7 @@ from openprocurement.tender.requestforproposal.tests.base import (
     test_tender_rfp_bids,
     test_tender_rfp_draft_claim,
     test_tender_rfp_lots,
-    test_tender_rfp_organization,
+    test_tender_rfp_supplier,
 )
 
 
@@ -173,7 +173,7 @@ class TenderAwardPendingResourceTestCase(TenderContentWebTest):
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_rfp_organization],
+                        "suppliers": [test_tender_rfp_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                         "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,

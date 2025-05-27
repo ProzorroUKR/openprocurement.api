@@ -8,7 +8,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.esco.procedure.utils import to_decimal
 from openprocurement.tender.esco.tests.base import (
@@ -68,7 +68,7 @@ class TenderContractDocumentResourceTestMixin:
 
 class CreateAwardMixin:
     def create_award(self):
-        self.supplier_info = deepcopy(test_tender_below_organization)
+        self.supplier_info = deepcopy(test_tender_below_supplier)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
@@ -122,7 +122,7 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
     def setUp(self):
         super().setUp()
         # Create award
-        supplier_info = deepcopy(test_tender_below_organization)
+        supplier_info = deepcopy(test_tender_below_supplier)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),

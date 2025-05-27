@@ -10,9 +10,10 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     test_tender_below_bids,
+    test_tender_below_buyer,
     test_tender_below_data,
     test_tender_below_features_data,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
@@ -67,7 +68,7 @@ for bid in test_tender_open_bids:
 test_tender_open_three_bids = deepcopy(test_tender_open_bids)
 test_tender_open_three_bids.append(
     {
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 489.0, "currency": "UAH", "valueAddedTaxIncluded": True},
         "selfQualified": True,
     }
@@ -81,7 +82,9 @@ test_tender_open_features_data["items"][0]["deliveryDate"] = test_tender_open_da
 test_tender_open_features_data["items"][0]["deliveryAddress"] = test_tender_open_data["items"][0]["deliveryAddress"]
 
 test_tender_open_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_open_data, test_tender_open_data["items"][0], test_tender_below_organization
+    test_tender_open_data,
+    test_tender_open_data["items"][0],
+    test_tender_below_buyer,
 )
 
 test_tender_open_config = {

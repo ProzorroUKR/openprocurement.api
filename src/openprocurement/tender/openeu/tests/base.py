@@ -4,10 +4,11 @@ from datetime import datetime, timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_buyer,
     test_tender_below_milestones,
-    test_tender_below_organization,
 )
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
@@ -21,64 +22,40 @@ from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
 
 test_tender_openeu_milestones = copy.deepcopy(test_tender_below_milestones)
 
+test_tender_openeu_supplier = {
+    "name": "Державне управління справами",
+    "name_en": "State administration",
+    "identifier": {
+        "legalName_en": "dus.gov.ua",
+        "legalName": "Державне управління справами",
+        "scheme": "UA-IPN",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/",
+    },
+    "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+    },
+    "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "+0440000000",
+    },
+    "scale": "micro",
+    "signerInfo": test_signer_info,
+}
+
 test_tender_openeu_bids = [
     {
-        "tenderers": [
-            {
-                "name": "Державне управління справами",
-                "name_en": "State administration",
-                "identifier": {
-                    "legalName_en": "dus.gov.ua",
-                    "legalName": "Державне управління справами",
-                    "scheme": "UA-IPN",
-                    "id": "00037256",
-                    "uri": "http://www.dus.gov.ua/",
-                },
-                "address": {
-                    "countryName": "Україна",
-                    "postalCode": "01220",
-                    "region": "м. Київ",
-                    "locality": "м. Київ",
-                    "streetAddress": "вул. Банкова, 11, корпус 1",
-                },
-                "contactPoint": {
-                    "name": "Державне управління справами",
-                    "name_en": "State administration",
-                    "telephone": "+0440000000",
-                },
-                "scale": "micro",
-            }
-        ],
+        "tenderers": [test_tender_openeu_supplier.copy()],
         "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         "selfQualified": True,
     },
     {
-        "tenderers": [
-            {
-                "name": "Державне управління справами",
-                "name_en": "State administration",
-                "identifier": {
-                    "legalName_en": "dus.gov.ua",
-                    "legalName": "Державне управління справами",
-                    "scheme": "UA-IPN",
-                    "id": "00037256",
-                    "uri": "http://www.dus.gov.ua/",
-                },
-                "address": {
-                    "countryName": "Україна",
-                    "postalCode": "01220",
-                    "region": "м. Київ",
-                    "locality": "м. Київ",
-                    "streetAddress": "вул. Банкова, 11, корпус 1",
-                },
-                "contactPoint": {
-                    "name": "Державне управління справами",
-                    "name_en": "State administration",
-                    "telephone": "+0440000000",
-                },
-                "scale": "micro",
-            }
-        ],
+        "tenderers": [test_tender_openeu_supplier.copy()],
         "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         "selfQualified": True,
     },
@@ -91,32 +68,7 @@ for bid in test_tender_openeu_bids:
 test_tender_openeu_three_bids = copy.deepcopy(test_tender_openeu_bids)
 test_tender_openeu_three_bids.append(
     {
-        "tenderers": [
-            {
-                "name": "Державне управління справами",
-                "name_en": "State administration",
-                "identifier": {
-                    "legalName_en": "dus.gov.ua",
-                    "legalName": "Державне управління справами",
-                    "scheme": "UA-IPN",
-                    "id": "00037256",
-                    "uri": "http://www.dus.gov.ua/",
-                },
-                "address": {
-                    "countryName": "Україна",
-                    "postalCode": "01220",
-                    "region": "м. Київ",
-                    "locality": "м. Київ",
-                    "streetAddress": "вул. Банкова, 11, корпус 1",
-                },
-                "contactPoint": {
-                    "name": "Державне управління справами",
-                    "name_en": "State administration",
-                    "telephone": "+0440000000",
-                },
-                "scale": "micro",
-            }
-        ],
+        "tenderers": [test_tender_openeu_supplier.copy()],
         "value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": True},
         "selfQualified": True,
     }
@@ -127,33 +79,36 @@ for bid in test_tender_openeu_three_bids:
 
 now = datetime.now()
 
+test_tender_openeu_procuring_entity = {
+    "kind": "general",
+    "name": "Державне управління справами",
+    "name_en": "State administration",
+    "identifier": {
+        "legalName_en": "dus.gov.ua",
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/",
+    },
+    "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+    },
+    "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "+0440000000",
+    },
+    "signerInfo": test_signer_info,
+}
+
 test_tender_openeu_data = {
     "title": "футляри до державних нагород",
     "title_en": "Cases for state awards",
     "mainProcurementCategory": "services",
-    "procuringEntity": {
-        "kind": "general",
-        "name": "Державне управління справами",
-        "name_en": "State administration",
-        "identifier": {
-            "legalName_en": "dus.gov.ua",
-            "scheme": "UA-EDR",
-            "id": "00037256",
-            "uri": "http://www.dus.gov.ua/",
-        },
-        "address": {
-            "countryName": "Україна",
-            "postalCode": "01220",
-            "region": "м. Київ",
-            "locality": "м. Київ",
-            "streetAddress": "вул. Банкова, 11, корпус 1",
-        },
-        "contactPoint": {
-            "name": "Державне управління справами",
-            "name_en": "State administration",
-            "telephone": "+0440000000",
-        },
-    },
+    "procuringEntity": test_tender_openeu_procuring_entity.copy(),
     "value": {"amount": 500, "currency": "UAH"},
     "minimalStep": {"amount": 15, "currency": "UAH"},
     "items": [
@@ -229,7 +184,9 @@ test_tender_openeu_lots = [
 ]
 
 test_tender_openeu_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_openeu_data, test_tender_openeu_data["items"][0], test_tender_below_organization
+    test_tender_openeu_data,
+    test_tender_openeu_data["items"][0],
+    test_tender_below_buyer,
 )
 
 test_tender_openeu_restricted_data = test_tender_openeu_features_data.copy()

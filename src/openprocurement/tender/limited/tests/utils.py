@@ -1,11 +1,9 @@
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 
 
 def get_award_data(self, **kwargs):
     data = {
-        "suppliers": [test_tender_below_organization],
+        "suppliers": [test_tender_below_supplier],
         "subcontractingDetails": "Details",
         "status": "pending",
         "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},

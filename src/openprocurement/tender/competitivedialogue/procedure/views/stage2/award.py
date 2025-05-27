@@ -4,7 +4,7 @@ from openprocurement.api.procedure.validation import (
     unless_admins,
     validate_input_data,
     validate_item_owner,
-    validate_patch_data,
+    validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import (
@@ -57,8 +57,11 @@ class CDStage2EUTenderAwardResource(EUTenderAwardResource):
         permission="edit_award",  # brokers
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(EUPatchAward),
-            validate_patch_data(EUAward, item_name="award"),
+            validate_input_data(
+                EUPatchAward,
+                none_means_remove=True,
+            ),
+            validate_patch_data_simple(EUAward, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
             validate_update_award_in_not_allowed_status,
             validate_update_award_only_for_active_lots,
@@ -95,8 +98,11 @@ class CDStage2UATenderAwardResource(UATenderAwardResource):
         permission="edit_award",  # brokers
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(UAPatchAward),
-            validate_patch_data(UAAward, item_name="award"),
+            validate_input_data(
+                UAPatchAward,
+                none_means_remove=True,
+            ),
+            validate_patch_data_simple(UAAward, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
             validate_update_award_in_not_allowed_status,
             validate_update_award_only_for_active_lots,

@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_multi_buyers_data,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import set_tender_criteria
@@ -26,8 +26,8 @@ from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
     test_tender_pq_criteria_1,
     test_tender_pq_data,
-    test_tender_pq_organization,
     test_tender_pq_response_1,
+    test_tender_pq_supplier,
 )
 from openprocurement.tender.pricequotation.tests.utils import (
     copy_criteria_req_id,
@@ -116,7 +116,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid, bid_token = self.create_bid(
             self.tender_id,
             {
-                'tenderers': [test_tender_pq_organization],
+                'tenderers': [test_tender_pq_supplier],
                 'value': {'amount': 500},
                 'requirementResponses': copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1),
                 'items': [
@@ -911,7 +911,7 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
-            {'data': {'tenderers': [test_tender_below_organization], "value": {"amount": 500}}},
+            {'data': {'tenderers': [test_tender_below_supplier], "value": {"amount": 500}}},
         )
         self.bid_id = response.json['data']['id']
         self.bid_token = response.json['access']['token']

@@ -8,10 +8,12 @@ from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
+    test_tender_below_base_organization,
     test_tender_below_bids,
+    test_tender_below_buyer,
     test_tender_below_data,
     test_tender_below_features_data,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.tests.periods import PERIODS
@@ -63,7 +65,7 @@ for bid in test_tender_co_bids:
 test_tender_co_three_bids = deepcopy(test_tender_co_bids)
 test_tender_co_three_bids.append(
     {
-        "tenderers": [test_tender_below_organization],
+        "tenderers": [test_tender_below_supplier],
         "value": {"amount": 489.0, "currency": "UAH", "valueAddedTaxIncluded": True},
         "selfQualified": True,
     }
@@ -77,7 +79,9 @@ test_tender_co_features_data["items"][0]["deliveryDate"] = test_tender_co_data["
 test_tender_co_features_data["items"][0]["deliveryAddress"] = test_tender_co_data["items"][0]["deliveryAddress"]
 
 test_tender_co_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_co_data, test_tender_co_data["items"][0], test_tender_below_organization
+    test_tender_co_data,
+    test_tender_co_data["items"][0],
+    test_tender_below_buyer,
 )
 
 test_tender_co_config = {
@@ -183,10 +187,9 @@ test_agreement_dps_data = {
 
 test_tender_co_no_auction = deepcopy(test_tender_co_data)
 del test_tender_co_no_auction["minimalStep"]
-test_tender_co_no_auction["funders"] = [deepcopy(test_tender_below_organization)]
+test_tender_co_no_auction["funders"] = [deepcopy(test_tender_below_base_organization)]
 test_tender_co_no_auction["funders"][0]["identifier"]["id"] = "44000"
 test_tender_co_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
-del test_tender_co_no_auction["funders"][0]["scale"]
 
 
 class BaseApiWebTest(BaseWebTest):

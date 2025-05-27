@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from tests.base.constants import DOCS_URL
-from tests.base.data import test_docs_tenderer
+from tests.base.data import test_docs_organization
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.tests.base import change_auth
@@ -50,7 +50,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             '/submissions',
             {
                 'data': {
-                    "tenderers": [test_docs_tenderer],
+                    "tenderers": [test_docs_organization],
                     "frameworkID": self.framework_id,
                 }
             },
@@ -58,7 +58,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
         self.submission_1_id = response.json["data"]["id"]
         self.submission_1_token = response.json["access"]["token"]
 
-        local_tenderer = deepcopy(test_docs_tenderer)
+        local_tenderer = deepcopy(test_docs_organization)
         local_tenderer["identifier"]["id"] = "00137257"
 
         response = self.app.post_json(

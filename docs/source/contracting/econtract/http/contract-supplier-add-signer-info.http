@@ -18,14 +18,5 @@ Host: lb-api-sandbox.prozorro.gov.ua
 HTTP/1.0 200 OK
 Content-Type: application/json
 
-{
-  "data": {
-    "name": "Test Testovich",
-    "email": "example@email.com",
-    "telephone": "+380950000000",
-    "iban": "111111111111111",
-    "position": "Генеральний директор",
-    "authorizedBy": "Статут компанії"
-  }
-}
+null
 

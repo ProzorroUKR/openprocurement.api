@@ -7,8 +7,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_features_data,
     test_tender_below_lots,
-    test_tender_below_organization,
     test_tender_below_simple_data,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     bid_activate_with_cancelled_tenderer_criterion,
@@ -107,7 +107,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         # Create bid
-        bid_data = {"status": "draft", "tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+        bid_data = {"status": "draft", "tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
         set_bid_items(self, bid_data)
 
         response = self.app.post_json(
@@ -168,7 +168,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
         super().setUp()
         # Create bid
-        bid_data = {"status": "draft", "tenderers": [test_tender_below_organization], "value": {"amount": 500}}
+        bid_data = {"status": "draft", "tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
         set_bid_items(self, bid_data)
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -185,7 +185,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
 
 class TenderBidBatchDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
-    bid_data_wo_docs = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}, "documents": []}
+    bid_data_wo_docs = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}, "documents": []}
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)

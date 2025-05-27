@@ -21,7 +21,7 @@ from openprocurement.tender.requestforproposal.tests.base import (
     TenderContentWebTest,
     test_tender_rfp_bids,
     test_tender_rfp_lots,
-    test_tender_rfp_organization,
+    test_tender_rfp_supplier,
 )
 
 
@@ -145,7 +145,7 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_rfp_organization],
+                        "suppliers": [test_tender_rfp_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                     }
@@ -180,7 +180,7 @@ class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResour
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_tender_rfp_organization],
+                        "suppliers": [test_tender_rfp_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
                         "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],

@@ -15,8 +15,9 @@ from openprocurement.tender.core.tests.utils import (
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.requestforproposal.tests.base import (
+    test_tender_rfp_base_organization,
     test_tender_rfp_data,
-    test_tender_rfp_organization,
+    test_tender_rfp_supplier,
 )
 
 
@@ -968,9 +969,7 @@ def disallow_agreements_with_preselection_false(self):
 
 def tender_inspector(self):
     tender_data = deepcopy(self.initial_data)
-    organization = deepcopy(test_tender_rfp_organization)
-    del organization["scale"]
-
+    organization = deepcopy(test_tender_rfp_base_organization)
     tender_data["inspector"] = organization
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
@@ -981,10 +980,9 @@ def tender_inspector(self):
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["funders"] = [deepcopy(test_tender_rfp_organization)]
+    tender_data["funders"] = [deepcopy(test_tender_rfp_base_organization)]
     tender_data["funders"][0]["identifier"]["id"] = "44000"
     tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
-    del tender_data["funders"][0]["scale"]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -994,10 +992,9 @@ def tender_funders(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
 
-    tender_data["funders"].append(deepcopy(test_tender_rfp_organization))
+    tender_data["funders"].append(deepcopy(test_tender_rfp_base_organization))
     tender_data["funders"][1]["identifier"]["id"] = "44000"
     tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
-    del tender_data["funders"][1]["scale"]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1136,7 +1133,7 @@ def patch_tender_active_tendering(self):
 
     # check bid invalidation
     bid_data = {
-        "tenderers": [test_tender_rfp_organization],
+        "tenderers": [test_tender_rfp_supplier],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
         "subcontractingDetails": "test",
     }

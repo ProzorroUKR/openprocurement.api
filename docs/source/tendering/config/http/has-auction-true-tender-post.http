@@ -37,7 +37,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
         "scheme": "UA-EDR"
       },
-      "name": "ЗОСШ #10 м.Вінниці"
+      "name": "ЗОСШ #10 м.Вінниці",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "111111111111111",
+        "authorizedBy": "Статут компанії",
+        "position": "Генеральний директор"
+      }
     },
     "items": [
       {
@@ -263,6 +271,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
+      },
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
       },
       "kind": "special"
     },

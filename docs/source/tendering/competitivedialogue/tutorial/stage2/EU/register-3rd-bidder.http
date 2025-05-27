@@ -25,7 +25,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "«Кенгуру»",
-        "scale": "large"
+        "scale": "large",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "telephone": "+380950000000",
+          "email": "example@email.com",
+          "iban": "111111111111111",
+          "authorizedBy": "Статут компанії",
+          "position": "Генеральний директор"
+        }
       }
     ],
     "selfQualified": true,
@@ -107,7 +115,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
           "email": "fake@mail.com",
           "telephone": "+380322123456"
         },
-        "scale": "large"
+        "scale": "large",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
       }
     ],
     "status": "draft",

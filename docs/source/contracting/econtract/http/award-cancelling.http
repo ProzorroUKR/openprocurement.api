@@ -43,7 +43,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/20cc535fb2754274
           "name": "Державне управління справами",
           "telephone": "+0440000000"
         },
-        "scale": "micro"
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
       }
     ],
     "bid_id": "6eb4106605214f398c4336aee7072c4c",

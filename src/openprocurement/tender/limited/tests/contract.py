@@ -1,9 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderEContractMultiBuyersResourceTestMixin,
     TenderEcontractResourceTestMixin,
@@ -47,7 +45,7 @@ class CreateActiveAwardMixin:
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
                 }
@@ -96,7 +94,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest):
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -146,7 +144,7 @@ class TenderNegotiationLotMixin:
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -196,7 +194,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -218,7 +216,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},

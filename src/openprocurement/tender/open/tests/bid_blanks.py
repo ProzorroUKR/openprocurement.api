@@ -5,7 +5,7 @@ from unittest import mock
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     now,
-    test_tender_below_organization,
+    test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.utils import (
     change_auth,
@@ -20,7 +20,7 @@ from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_res
 def create_tender_biddder_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -236,7 +236,7 @@ def create_tender_bidder(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
@@ -290,7 +290,7 @@ def create_tender_bidder_value_greater_then_lot(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_supplier["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
@@ -2639,7 +2639,7 @@ def patch_tender_with_bids_lots_none(self):
 
 
 def post_tender_bid_with_disabled_value_restriction(self):
-    bid_data = {"selfQualified": True, "tenderers": [test_tender_below_organization], "value": {"amount": 700}}
+    bid_data = {"selfQualified": True, "tenderers": [test_tender_below_supplier], "value": {"amount": 700}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(
@@ -2650,7 +2650,7 @@ def post_tender_bid_with_disabled_value_restriction(self):
 
 
 def patch_tender_bid_with_disabled_value_restriction(self):
-    bid_data = {"selfQualified": True, "tenderers": [test_tender_below_organization], "value": {"amount": 450}}
+    bid_data = {"selfQualified": True, "tenderers": [test_tender_below_supplier], "value": {"amount": 450}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(

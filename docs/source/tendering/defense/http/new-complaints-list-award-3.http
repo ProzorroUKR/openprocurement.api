@@ -32,7 +32,15 @@ Content-Type: application/json
             "name": "Державне управління справами",
             "telephone": "+0440000000"
           },
-          "scale": "micro"
+          "scale": "micro",
+          "signerInfo": {
+            "name": "Test Testovich",
+            "email": "example@email.com",
+            "telephone": "+380950000000",
+            "iban": "111111111111111",
+            "position": "Генеральний директор",
+            "authorizedBy": "Статут компанії"
+          }
         }
       ],
       "bid_id": "a086c586cccb4575bc2e907cc4e623b0",
@@ -92,7 +100,15 @@ Content-Type: application/json
             "name": "Державне управління справами",
             "telephone": "+0440000000"
           },
-          "scale": "micro"
+          "scale": "micro",
+          "signerInfo": {
+            "name": "Test Testovich",
+            "email": "example@email.com",
+            "telephone": "+380950000000",
+            "iban": "111111111111111",
+            "position": "Генеральний директор",
+            "authorizedBy": "Статут компанії"
+          }
         }
       ],
       "bid_id": "79137b88e86744e0b478637e857c42d2",
@@ -152,7 +168,15 @@ Content-Type: application/json
             "name": "Державне управління справами",
             "telephone": "+0440000000"
           },
-          "scale": "micro"
+          "scale": "micro",
+          "signerInfo": {
+            "name": "Test Testovich",
+            "email": "example@email.com",
+            "telephone": "+380950000000",
+            "iban": "111111111111111",
+            "position": "Генеральний директор",
+            "authorizedBy": "Статут компанії"
+          }
         }
       ],
       "bid_id": "79137b88e86744e0b478637e857c42d2",
@@ -212,7 +236,15 @@ Content-Type: application/json
             "name": "Державне управління справами",
             "telephone": "+0440000000"
           },
-          "scale": "micro"
+          "scale": "micro",
+          "signerInfo": {
+            "name": "Test Testovich",
+            "email": "example@email.com",
+            "telephone": "+380950000000",
+            "iban": "111111111111111",
+            "position": "Генеральний директор",
+            "authorizedBy": "Статут компанії"
+          }
         }
       ],
       "bid_id": "887607fe6db64ee58e3f215334c7c216",

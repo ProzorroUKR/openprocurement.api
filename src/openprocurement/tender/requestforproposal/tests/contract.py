@@ -26,7 +26,7 @@ from openprocurement.tender.requestforproposal.tests.base import (
     test_tender_rfp_data_no_auction,
     test_tender_rfp_lots,
     test_tender_rfp_multi_buyers_data,
-    test_tender_rfp_organization,
+    test_tender_rfp_supplier,
 )
 from openprocurement.tender.requestforproposal.tests.contract_blanks import (
     patch_econtract_multi_currency,
@@ -106,7 +106,7 @@ class CreateActiveAwardMixin:
             f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
-                    "suppliers": [test_tender_rfp_organization],
+                    "suppliers": [test_tender_rfp_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": self.initial_data["value"],
@@ -159,7 +159,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
             f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
-                    "suppliers": [test_tender_rfp_organization],
+                    "suppliers": [test_tender_rfp_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "items": self.initial_data["items"],
@@ -223,7 +223,7 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
             f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
-                    "suppliers": [test_tender_rfp_organization],
+                    "suppliers": [test_tender_rfp_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],

@@ -14,6 +14,7 @@ from openprocurement.api.procedure.models.organization import CommonOrganization
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
+from openprocurement.api.procedure.models.signer_info import SignerInfo
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.contact import ContactPoint
 
@@ -31,14 +32,19 @@ class BusinessOrganization(BaseBusinessOrganization):
     scale = StringType(choices=ORGANIZATION_SCALE_CHOICES, required=True)
 
 
-class ContactLessBusinessOrganization(BusinessOrganization):
-    contactPoint = ModelType(ContactPoint)
-
-
 class Buyer(CommonOrganization):
     id = MD5Type(default=lambda: uuid4().hex)
     address = ModelType(Address)
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
+    signerInfo = ModelType(SignerInfo)
+
+
+class Supplier(BusinessOrganization):
+    signerInfo = ModelType(SignerInfo)
+
+
+class ContactLessSupplier(Supplier):
+    contactPoint = ModelType(ContactPoint)
 
 
 class ProcuringEntity(Organization):
@@ -46,3 +52,4 @@ class ProcuringEntity(Organization):
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)
+    signerInfo = ModelType(SignerInfo)

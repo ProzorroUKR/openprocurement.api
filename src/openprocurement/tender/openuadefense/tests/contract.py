@@ -1,9 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_contract_multi_items_unit_value,
     patch_contract_single_item_unit_value,
@@ -31,7 +29,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
             f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": self.initial_bids[0]["value"],
@@ -69,7 +67,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tender_below_organization],
+                    "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": {

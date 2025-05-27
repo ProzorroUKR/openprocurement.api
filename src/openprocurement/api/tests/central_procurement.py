@@ -7,6 +7,7 @@ from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     app,
     singleton_app,
+    test_signer_info,
 )
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -97,6 +98,7 @@ def test_set_buyers(app, request_tender_data, request_tender_config):
             "id": uuid4().hex,
             "name": "Державне управління справами",
             "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
+            "signerInfo": test_signer_info,
         }
     ]
     for item in test_data["items"]:

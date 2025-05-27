@@ -2,9 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 
 
 def create_tender_invalid(self):
@@ -242,7 +240,7 @@ def create_tender_invalid(self):
         ],
     )
 
-    data = test_tender_below_organization["contactPoint"]["telephone"]
+    data = test_tender_below_supplier["contactPoint"]["telephone"]
     del self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = data
