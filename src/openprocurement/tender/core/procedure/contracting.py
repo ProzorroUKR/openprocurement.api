@@ -53,7 +53,8 @@ def add_contracts(request, award):
     # split items by relatedBuyer
     items_by_buyer = defaultdict(list)
     for item in items:
-        if item.get("relatedLot") == award.get("lotID"):  # None == None in case of non-lots
+        # None == None in case of non-lots (as no relatedLot nor lotID)
+        if item.get("relatedLot") == award.get("lotID") and ("quantity" not in item or item.get("quantity") != 0):
             buyer_id = item.get("relatedBuyer")  # can be None
             prepared_item = prepare_tender_item_for_contract(item)
             items_by_buyer[buyer_id].append(prepared_item)
