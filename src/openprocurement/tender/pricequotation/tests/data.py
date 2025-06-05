@@ -670,20 +670,3 @@ test_agreement_pq_data = {
     "contracts": test_agreement_contracts_data,
     "procuringEntity": test_tender_pq_procuring_entity,
 }
-
-test_agreement_dps_data = {
-    "_id": "2e14a78a2074952d5a2d256c3c004dda",
-    "doc_type": "Agreement",
-    "agreementID": "UA-2021-11-12-000001",
-    "agreementType": "dynamicPurchasingSystem",
-    "frameworkID": "985a2e3eab47427283a5c51e84d0986d",
-    "period": {"startDate": "2021-11-12T00:00:00.318051+02:00", "endDate": "2022-02-24T20:14:24.577158+03:00"},
-    "status": "active",
-    "items": [test_tender_pq_item],
-    "contracts": [
-        test_agreement_contracts_data[0],
-        test_agreement_contracts_data[1],
-        test_agreement_contracts_data[1],
-    ],
-    "procuringEntity": test_tender_pq_procuring_entity,
-}

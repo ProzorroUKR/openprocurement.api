@@ -35,7 +35,6 @@ package "procurementMethodType" as procurementMethodType {
 
 agreementType_closeFrameworkAgreement <-- procurementMethodType_closeFrameworkAgreementSelectionUA
 agreementType_dynamicPurchasingSystem <-- procurementMethodType_competitiveOrdering
-agreementType_dynamicPurchasingSystem <-- procurementMethodType_priceQuotation
 agreementType_electronicCatalogue <-- procurementMethodType_priceQuotation
 agreementType_internationalFinancialInstitutions <-- procurementMethodType_requestForProposal
 
