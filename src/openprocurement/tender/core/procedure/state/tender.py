@@ -6,7 +6,6 @@ from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.core.procedure.criteria import TenderCriterionMixin
-from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.reviewing_request import (
     ReviewRequestBlockMixin,
 )
@@ -27,7 +26,6 @@ class TenderState(
     TenderCriterionMixin,
     BaseState,
 ):
-    contract_model = Contract
     active_bid_statuses = ("active", "pending")
     block_complaint_status = ("answered", "pending")
     block_tender_complaint_status = (

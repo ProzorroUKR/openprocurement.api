@@ -4,7 +4,6 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.contracting import add_contracts
-from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.utils import tender_created_in
 from openprocurement.tender.openuadefense.procedure.state.tender import (
@@ -13,7 +12,6 @@ from openprocurement.tender.openuadefense.procedure.state.tender import (
 
 
 class AwardState(AwardStateMixing, OpenUADefenseTenderState):
-    contract_model = Contract
     award_stand_still_working_days: bool = True
 
     def award_status_up_from_pending_to_active(self, award, tender):

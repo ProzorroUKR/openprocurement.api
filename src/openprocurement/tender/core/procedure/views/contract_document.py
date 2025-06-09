@@ -1,9 +1,7 @@
+from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.state.contract_document import (
-    ContractDocumentState,
-)
+from openprocurement.api.utils import json_view, raise_operation_error
 from openprocurement.tender.core.procedure.validation import (
     validate_download_tender_document,
 )
@@ -14,17 +12,18 @@ from openprocurement.tender.core.procedure.views.document import (
 )
 
 
+@resource(
+    name="Tender Contract Documents",
+    collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
+    path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
+    description="Tender contract documents",
+)
 class TenderContractDocumentResource(BaseDocumentResource):
     item_name = "contract"
-    state_class = ContractDocumentState
 
     def __acl__(self):
         acl = [
             (Allow, Everyone, "view_tender"),
-            (Allow, "g:brokers", "edit_contract"),
-            (Allow, "g:brokers", "upload_contract_documents"),
-            (Allow, "g:brokers", "edit_contract_documents"),
-            (Allow, "g:bots", "upload_contract_documents"),
         ]
         return acl
 
@@ -44,3 +43,12 @@ class TenderContractDocumentResource(BaseDocumentResource):
     )
     def get(self):
         return super().get()
+
+    def collection_post(self):
+        raise_operation_error(self.request, "Method Not Allowed", status=405)
+
+    def put(self):
+        raise_operation_error(self.request, "Method Not Allowed", status=405)
+
+    def patch(self):
+        raise_operation_error(self.request, "Method Not Allowed", status=405)

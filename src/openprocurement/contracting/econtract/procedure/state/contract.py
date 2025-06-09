@@ -2,12 +2,18 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from itertools import zip_longest
 from logging import getLogger
+from typing import Callable
 
+from pyramid.request import Request
+
+from openprocurement.api.constants_env import RELEASE_2020_04_19
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_request, get_tender
 from openprocurement.api.procedure.utils import get_items, parse_date, to_decimal
 from openprocurement.api.utils import (
     calculate_full_date,
     context_unpack,
+    get_first_revision_date,
     get_now,
     raise_operation_error,
 )
@@ -16,21 +22,186 @@ from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     IgnoredClaimMixing,
 )
-from openprocurement.tender.cfaselectionua.procedure.state.contract import (
-    CFASelectionContractStateMixing,
-)
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.core.procedure.utils import (
+    contracts_allow_to_complete,
     dt_from_iso,
     is_multi_currency_tender,
-)
-from openprocurement.tender.esco.procedure.state.contract import ESCOContractStateMixing
-from openprocurement.tender.limited.procedure.state.contract import (
-    LimitedContractStateMixing,
 )
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
 LOGGER = getLogger(__name__)
+
+
+class ESCOContractStateMixing:
+    value_attrs = (
+        "amount",
+        "amount_escp",
+        "amountPerformance",
+        "amountPerformance_npv",
+        "yearlyPaymentsPercentage",
+        "annualCostsReduction",
+        "contractDuration",
+        "currency",
+    )
+
+    @classmethod
+    def validate_update_contract_value_esco(cls, request, before, after, convert_annual_costs=True):
+        value = after.get("value")
+        if value:
+            for ro_attr in cls.value_attrs:
+                field = before.get("value")
+                if convert_annual_costs and ro_attr == "annualCostsReduction" and field.get(ro_attr):
+                    # This made because of not everywhere DecimalType is new
+                    # and when old model validate whole tender, value here become
+                    # form 1E+2, but in request.validated['data'] we get '100'
+                    field[ro_attr] = ["{:f}".format(to_decimal(i)) for i in field[ro_attr]]
+                if field:
+                    passed = value.get(ro_attr)
+                    actual = field.get(ro_attr)
+                    if isinstance(passed, Decimal):
+                        actual = to_decimal(actual)
+                    if ro_attr == "annualCostsReduction":
+                        # if compare strings equality ['9.0', '1.0',...] and ['9.00', '1.00', ...] and ['9', '1', ...]
+                        # these cases aren't equal
+                        # that's why we should convert them to decimal
+                        passed = [to_decimal(i) for i in passed]
+                        actual = [to_decimal(i) for i in actual]
+                    if passed != actual:
+                        raise_operation_error(
+                            request,
+                            f"Can't update {ro_attr} for contract value",
+                            name="value",
+                        )
+
+
+class CFASelectionContractStateMixing:
+    request: Request
+    set_object_status: Callable
+
+    def check_cfaseslectionua_agreements(self, tender: dict) -> bool:
+        return False
+
+    def check_cfaseslectionua_award_lot_complaints(
+        self, tender: dict, lot_id: str, lot_awards: list, now: datetime
+    ) -> bool:
+        return True
+
+    def check_cfaseslectionua_award_complaints(self, tender: dict, now: datetime) -> None:
+        last_award_status = tender.get("awards", [])[-1].get("status") if tender.get("awards", []) else ""
+        if last_award_status == "unsuccessful":
+            LOGGER.info(
+                f"Switched tender {tender['id']} to unsuccessful",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
+            )
+            self.set_object_status(tender, "unsuccessful")
+
+        contracts = tender.get("contracts", [])
+        allow_complete_tender = contracts_allow_to_complete(contracts)
+        if allow_complete_tender:
+            self.set_object_status(tender, "complete")
+
+
+class LimitedContractStateMixing:
+    request: Request
+
+    set_object_status: Callable
+
+    block_complaint_status: tuple
+
+    def check_contracts_statuses(self, tender):
+        active_contracts = False
+        pending_contracts = False
+
+        for contract in tender.get("contracts", []):
+            if contract["status"] == "active":
+                active_contracts = True
+            elif contract["status"] == "pending":
+                pending_contracts = True
+
+        if tender.get("contracts", []) and active_contracts and not pending_contracts:
+            self.set_object_status(tender, "complete")
+
+    def check_contracts_lot_statuses(self, tender: dict) -> None:
+        now = get_request_now()
+        for lot in tender["lots"]:
+            if lot["status"] != "active":
+                continue
+            lot_awards = [i for i in tender.get("awards", []) if i.get("lotID") == lot["id"]]
+            if not lot_awards:
+                continue
+            last_award = lot_awards[-1]
+            pending_awards_complaints = any(
+                [i["status"] in ["claim", "answered", "pending"] for a in lot_awards for i in a.get("complaints", [])]
+            )
+            stand_still_end = max(
+                (
+                    dt_from_iso(award["complaintPeriod"]["endDate"])
+                    if award.get("complaintPeriod", {}) and award["complaintPeriod"].get("endDate")
+                    else now
+                )
+                for award in lot_awards
+            )
+            if pending_awards_complaints or not stand_still_end <= now:
+                continue
+            elif last_award["status"] == "unsuccessful":
+                self.set_object_status(lot, "unsuccessful")
+                continue
+            elif last_award["status"] == "active" and any(
+                [
+                    contract["status"] == "active" and contract.get("awardID") == last_award["id"]
+                    for contract in tender.get("contracts", [])
+                ]
+            ):
+                self.set_object_status(lot, "complete")
+        statuses = {lot["status"] for lot in tender.get("lots", [])}
+
+        if statuses == {"cancelled"}:
+            self.set_object_status(tender, "cancelled")
+        elif not statuses - {"unsuccessful", "cancelled"}:
+            self.set_object_status(tender, "unsuccessful")
+        elif not statuses - {"complete", "unsuccessful", "cancelled"}:
+            self.set_object_status(tender, "complete")
+
+    def validate_contract_with_cancellations_and_contract_signing(self, before: dict, after: dict) -> None:
+        tender = get_tender()
+        new_rules = get_first_revision_date(tender, default=get_request_now()) > RELEASE_2020_04_19
+
+        if before.get("status") != "active" and after.get("status") == "active":
+            award_id = self.request.validated["contract"].get("awardID")
+            award = [a for a in tender.get("awards") if a["id"] == award_id][0]
+            lot_id = award.get("lotID")
+            stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("endDate"))
+            if stand_still_end > get_request_now():
+                raise_operation_error(
+                    self.request,
+                    f"Can't sign contract before stand-still period end ({stand_still_end.isoformat()})",
+                )
+
+            blocked_complaints = any(
+                c["status"] in self.block_complaint_status and a.get("lotID") == lot_id
+                for a in tender["awards"]
+                for c in award.get("complaints", "")
+            )
+
+            new_rules_block_complaints = any(
+                complaint["status"] in self.block_complaint_status and cancellation.get("relatedLot") == lot_id
+                for cancellation in tender.get("cancellations", "")
+                for complaint in cancellation.get("complaints", "")
+            )
+
+            if blocked_complaints or (new_rules and new_rules_block_complaints):
+                raise_operation_error(self.request, "Can't sign contract before reviewing all complaints")
+
+    def check_reporting_tender_status_method(self) -> None:
+        self.check_contracts_statuses(self.request.validated["tender"])
+
+    def check_negotiation_tender_status_method(self) -> None:
+        tender = self.request.validated["tender"]
+        if tender.get("lots"):
+            self.check_contracts_lot_statuses(tender)
+        else:
+            self.check_contracts_statuses(tender)
 
 
 class EContractState(

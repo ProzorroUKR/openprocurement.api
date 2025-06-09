@@ -5,11 +5,9 @@ from openprocurement.tender.core.procedure.contracting import (
 )
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.pricequotation.procedure.models.contract import Contract
 
 
 class PriceQuotationTenderState(TenderState):
-    contract_model = Contract
     award_class = Award
     generate_award_milestones = False
 
