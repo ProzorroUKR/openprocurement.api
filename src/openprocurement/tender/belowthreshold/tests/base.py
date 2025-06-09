@@ -112,7 +112,7 @@ test_tender_below_data = {
     "tenderPeriod": {"endDate": (now + timedelta(days=18)).isoformat()},
     "procurementMethodType": "belowThreshold",
     "milestones": test_tender_below_milestones,
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
 }
 
 funder = deepcopy(test_tender_below_base_organization)

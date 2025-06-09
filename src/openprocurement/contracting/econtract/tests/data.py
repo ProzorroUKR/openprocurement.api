@@ -57,7 +57,7 @@ test_contract_data_two_items["items"].append(
         "quantity": 5,
     }
 )
-test_contract_data_two_items["contractTemplateName"] = "00000000-0.0002.01"
+test_contract_data_two_items["contractTemplateName"] = "00000000.0002.01"
 
 test_signer_info = {
     "name": "Test Testovich",

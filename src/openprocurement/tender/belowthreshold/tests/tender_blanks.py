@@ -4084,7 +4084,7 @@ def check_notice_doc_during_activation(self):
             "templates": [
                 {
                     "title": "Зернові культури, картопля, овочі, фрукти та горіхи",
-                    "name": "03220000-9.0001.01",
+                    "name": "03220000.0001.01",
                     "active": True,
                 },
             ],
@@ -4093,7 +4093,7 @@ def check_notice_doc_during_activation(self):
             "templates": [
                 {
                     "title": "Фрукти і горіхи",
-                    "name": "03222000-3.0001.01",
+                    "name": "03222000.0001.01",
                     "active": True,
                 },
             ],
@@ -4105,17 +4105,17 @@ def check_notice_doc_during_activation(self):
             "templates": [
                 {
                     "title": "Загальний шаблон",
-                    "name": "00000000-0.0001.01",
+                    "name": "00000000.0001.01",
                     "active": False,
                 },
                 {
                     "title": "Загальний шаблон",
-                    "name": "00000000-0.0002.01",
+                    "name": "00000000.0002.01",
                     "active": True,
                 },
                 {
                     "title": "Загальний шаблон",
-                    "name": "00000000-0.0003.01",
+                    "name": "00000000.0003.01",
                     "active": True,
                 },
             ],
@@ -4402,7 +4402,7 @@ def contract_template_name_set(self):
 
         if status == "draft":
             prepare_tender_state(
-                template_name="00000000-0.0002.01",
+                template_name="00000000.0002.01",
                 classification_ids=["44617100-9"],
             )
             test_not_required()
@@ -4415,13 +4415,13 @@ def contract_template_name_set(self):
         else:
             if pmt in required_for_pmts:
                 prepare_tender_state(
-                    template_name="00000000-0.0002.01",
+                    template_name="00000000.0002.01",
                     classification_ids=["44617100-9"],
                 )
                 test_required()
             else:
                 prepare_tender_state(
-                    template_name="00000000-0.0002.01",
+                    template_name="00000000.0002.01",
                     classification_ids=["44617100-9"],
                 )
                 test_not_required()
@@ -4439,7 +4439,7 @@ def contract_template_name_set(self):
         )
         test_set_invalid_value(
             template_name="invalid_contract_template_name",
-            allowed_template_names=["00000000-0.0002.01", "00000000-0.0003.01"],
+            allowed_template_names=["00000000.0002.01", "00000000.0003.01"],
             classification_ids=["44617100-9"],
         )
 
@@ -4449,17 +4449,17 @@ def contract_template_name_set(self):
             classification_ids=["44617100-9"],
         )
         test_set_invalid_value(
-            template_name="00000000-0.0001.01",  # inactive
-            allowed_template_names=["00000000-0.0002.01", "00000000-0.0003.01"],
+            template_name="00000000.0001.01",  # inactive
+            allowed_template_names=["00000000.0002.01", "00000000.0003.01"],
             classification_ids=["44617100-9"],
         )
         # If it's already set, it's allowed to keep it
         prepare_tender_state(
-            template_name="00000000-0.0001.01",  # inactive
+            template_name="00000000.0001.01",  # inactive
             classification_ids=["44617100-9"],
         )
         test_set_valid_value(
-            template_name="00000000-0.0001.01",  # inactive
+            template_name="00000000.0001.01",  # inactive
             extra={"title": uuid4().hex},  # we need to change something to trigger update
         )
 
@@ -4470,21 +4470,21 @@ def contract_template_name_set(self):
         )
         test_set_invalid_value(
             template_name="invalid_contract_template_name",
-            allowed_template_names=["03220000-9.0001.01"],
+            allowed_template_names=["03220000.0001.01"],
             classification_ids=["03221000-6"],
         )
         test_set_invalid_value(
-            template_name="00000000-0.0003.01",
-            allowed_template_names=["03220000-9.0001.01"],
+            template_name="00000000.0003.01",
+            allowed_template_names=["03220000.0001.01"],
             classification_ids=["03221000-6"],
         )
         test_set_valid_value(
-            template_name="03220000-9.0001.01",
+            template_name="03220000.0001.01",
         )
 
         # Test post contract proforma document forbidden
         prepare_tender_state(
-            template_name="03220000-9.0001.01",
+            template_name="03220000.0001.01",
             classification_ids=["03221000-6"],
         )
         test_contract_proforma()
@@ -4504,55 +4504,55 @@ def contract_template_name_set(self):
         # 03222111-4 (03222)
         # 03222111-4 (03222)
         # Allowed template names:
-        # 03220000-9.0001.01
+        # 03220000.0001.01
         prepare_tender_state(
             template_name=None,
             classification_ids=["03221113-1", "03222111-4", "03222111-4"],
         )
         test_set_valid_value(
-            template_name="03220000-9.0001.01",
+            template_name="03220000.0001.01",
         )
         test_set_invalid_value(
-            template_name="03222000-3.0001.01",
-            allowed_template_names=["03220000-9.0001.01"],
+            template_name="03222000.0001.01",
+            allowed_template_names=["03220000.0001.01"],
             classification_ids=["03221113-1", "03222111-4"],
         )
         # Example:
         # 03221113-1 (0322)
         # Allowed template names:
-        # 03220000-9.0001.01
+        # 03220000.0001.01
         prepare_tender_state(
             template_name=None,
             classification_ids=["03221113-1"],
         )
         test_set_valid_value(
-            template_name="03220000-9.0001.01",
+            template_name="03220000.0001.01",
         )
         test_set_invalid_value(
-            template_name="03222000-3.0001.01",
-            allowed_template_names=["03220000-9.0001.01"],
+            template_name="03222000.0001.01",
+            allowed_template_names=["03220000.0001.01"],
             classification_ids=["03221113-1"],
         )
         # Example:
         # 03222111-4 (03222)
         # Allowed template names:
-        # 03220000-9.0001.01
-        # 03222000-3.0001.01
+        # 03220000.0001.01
+        # 03222000.0001.01
         prepare_tender_state(
             template_name=None,
             classification_ids=["03222111-4"],
         )
         test_set_valid_value(
-            template_name="03220000-9.0001.01",
+            template_name="03220000.0001.01",
         )
         test_set_valid_value(
-            template_name="03222000-3.0001.01",
+            template_name="03222000.0001.01",
         )
 
 
 def set_procuring_entity_signer_info(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["contractTemplateName"] = "00000000-0.0002.01"
+    tender_data["contractTemplateName"] = "00000000.0002.01"
     tender_data["procuringEntity"].pop("signerInfo", None)
 
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
@@ -4579,7 +4579,7 @@ def set_procuring_entity_signer_info(self):
         f"/tenders/{tender_id}?acc_token={tender_token}",
         {
             "data": {
-                "contractTemplateName": "00000000-0.0002.01",
+                "contractTemplateName": "00000000.0002.01",
             }
         },
         status=422,
@@ -4601,7 +4601,7 @@ def set_procuring_entity_signer_info(self):
         f"/tenders/{tender_id}?acc_token={tender_token}",
         {
             "data": {
-                "contractTemplateName": "00000000-0.0002.01",
+                "contractTemplateName": "00000000.0002.01",
                 "procuringEntity": tender_data["procuringEntity"],
             }
         },
@@ -4612,7 +4612,7 @@ def set_procuring_entity_signer_info(self):
 
 def set_buyers_signer_info(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["contractTemplateName"] = "00000000-0.0002.01"
+    tender_data["contractTemplateName"] = "00000000.0002.01"
     tender_data["procuringEntity"].pop("signerInfo", None)
 
     buyer = deepcopy(test_tender_below_buyer)
@@ -4646,7 +4646,7 @@ def set_buyers_signer_info(self):
         f"/tenders/{tender_id}?acc_token={tender_token}",
         {
             "data": {
-                "contractTemplateName": "00000000-0.0002.01",
+                "contractTemplateName": "00000000.0002.01",
             }
         },
         status=422,
@@ -4668,7 +4668,7 @@ def set_buyers_signer_info(self):
         f"/tenders/{tender_id}?acc_token={tender_token}",
         {
             "data": {
-                "contractTemplateName": "00000000-0.0002.01",
+                "contractTemplateName": "00000000.0002.01",
                 "buyers": tender_data["buyers"],
             }
         },

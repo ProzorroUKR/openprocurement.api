@@ -86,7 +86,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "criteria": [
       {
         "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
@@ -250,7 +250,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
   "data": {
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "title": "Комп’ютерне обладнання",
     "procurementMethodType": "priceQuotation",
     "awardCriteria": "lowestCost",

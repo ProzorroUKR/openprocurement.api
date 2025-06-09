@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "criteria": [
       {
         "id": "e74dbd80cffe416896f38b7bbd37e87d",

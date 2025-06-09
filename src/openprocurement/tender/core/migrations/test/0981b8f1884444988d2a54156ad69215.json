@@ -2,7 +2,7 @@
     "_id": "0981b8f1884444988d2a54156ad69215",
     "title_en": "[TESTING] Procurement item test description in procedure title (created with procedure_tools)",
     "title_ru": "[ТЕСТИРОВАНИЕ] ",
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "criteria": [
       {
         "id": "656c511a2d344f249382be85bb267a2d",
