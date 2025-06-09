@@ -57,18 +57,6 @@ For tender that is linked to an agreement, the following validations are applied
 
 :ref:`competitiveordering` → :ref:`competitiveordering_tutorial`
 
-dynamicPurchasingSystem -> priceQuotation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For tender that is linked to an agreement, the following validations are applied on tender creation:
-
-* agreement should have items
-* procuringEntity.identifier.id and procuringEntity.identifier.scheme should match in agreement and tender
-
-For tender that is linked to an agreement, the following validations are applied on tender activation:
-
-* agreement should have at least 3 active contracts
-
 electronicCatalogue -> priceQuotation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 For tender that is linked to an agreement, the following validations are applied on tender activation:
