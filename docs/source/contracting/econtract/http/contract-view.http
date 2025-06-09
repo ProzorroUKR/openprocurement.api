@@ -11,7 +11,7 @@ Content-Type: application/json
     "contractID": "UA-2023-10-10-000001-a-1",
     "owner": "broker",
     "tender_id": "20cc535fb2754274beeeb221674aa637",
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "items": [
       {
         "id": "29cbde01600848de837efe5448e726fb",

@@ -5,7 +5,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "contractTemplateName": "09130000-9.0001.01"
+    "contractTemplateName": "09130000.0001.01"
   }
 }
 
@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "contractTemplateName",
-      "description": "Incorrect contractTemplateName 09130000-9.0001.01 for current classifications 44617100-9, use one of 00000000-0.0002.01"
+      "description": "Incorrect contractTemplateName 09130000.0001.01 for current classifications 44617100-9, use one of 00000000.0002.01"
     }
   ]
 }

@@ -117,7 +117,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "5fc0128d227246bb93babd98a94f0ba0"
       }
     ],
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "lots": [
       {
         "title": "Лот №1",
@@ -165,7 +165,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
 {
   "data": {
     "mainProcurementCategory": "services",
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "title": "футляри до державних нагород",
     "agreements": [
       {

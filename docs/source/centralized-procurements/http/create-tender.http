@@ -159,7 +159,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services",
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "buyers": [
       {
         "identifier": {
@@ -297,7 +297,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/420fdea4c7d74816
         }
       }
     ],
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "title": "футляри до державних нагород",
     "value": {
       "currency": "UAH",

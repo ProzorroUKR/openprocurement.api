@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "data": {
     "title_en": "Services in school canteens",
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "criteria": [
       {
         "id": "6b10515ef31a4e049752a0c2ad014491",

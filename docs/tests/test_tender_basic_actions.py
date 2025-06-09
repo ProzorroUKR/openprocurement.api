@@ -3968,7 +3968,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"contractTemplateName": "09130000-9.0001.01"}},
+                {"data": {"contractTemplateName": "09130000.0001.01"}},
                 status=422,
             )
 
@@ -3990,7 +3990,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         with open(TARGET_DIR + 'contract-template-name/invalid-with-contract-proforma.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"contractTemplateName": "00000000-0.0002.01"}},
+                {"data": {"contractTemplateName": "00000000.0002.01"}},
                 status=422,
             )
 
@@ -4005,7 +4005,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"contractTemplateName": "00000000-0.0002.01"}},
+                {"data": {"contractTemplateName": "00000000.0002.01"}},
             )
 
         with open(TARGET_DIR + 'contract-template-name/delete-contract-template-name.http', 'w') as self.app.file_obj:
@@ -4020,6 +4020,6 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"contractTemplateName": "00000000-0.0002.01"}},
+                {"data": {"contractTemplateName": "00000000.0002.01"}},
                 status=422,
             )

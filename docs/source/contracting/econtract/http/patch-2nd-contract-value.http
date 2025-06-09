@@ -156,7 +156,7 @@ Content-Type: application/json
         }
       }
     ],
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "value": {
       "amount": 200.0,
       "currency": "UAH",

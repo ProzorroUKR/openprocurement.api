@@ -141,7 +141,7 @@ test_tender_openeu_data = {
     "tenderPeriod": {"endDate": (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()},
     "procurementMethodType": "aboveThresholdEU",
     "milestones": test_tender_openeu_milestones,
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
 }
 if SANDBOX_MODE:
     test_tender_openeu_data["procurementMethodDetails"] = "quick, accelerator=1440"

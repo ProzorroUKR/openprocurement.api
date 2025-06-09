@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "contractTemplateName": "00000000-0.0002.01",
+    "contractTemplateName": "00000000.0002.01",
     "date": "2024-01-01T00:00:00+02:00",
     "dateModified": "2024-01-01T00:00:01+02:00",
     "dateCreated": "2024-01-01T00:00:00+02:00",
