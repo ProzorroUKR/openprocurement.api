@@ -1,4 +1,6 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
+from openprocurement.api.procedure.context import get_object
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.competitiveordering.constants import (
     ENQUIRY_PERIOD_TIME,
@@ -31,3 +33,14 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
         self.validate_items_classification_prefix_unchanged(before, after)
+
+    @property
+    def should_match_agreement_procuring_entity(self):
+        if (
+            get_object("tender")["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
+            and get_object("agreement")["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
+        ):
+            # Defense procuring entity can use agreement with other defense procuring entity
+            return False
+
+        return True
