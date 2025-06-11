@@ -4,13 +4,13 @@ from uuid import uuid4
 
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.contracting.core.tests.data import (
-    test_tender_token as test_contract_tender_token,
-)
-from openprocurement.contracting.econtract.tests.data import (
     test_contract_data,
     test_signer_info,
 )
-from openprocurement.contracting.econtract.tests.utils import create_contract
+from openprocurement.contracting.core.tests.data import (
+    test_tender_token as test_contract_tender_token,
+)
+from openprocurement.contracting.core.tests.utils import create_contract
 from openprocurement.tender.core.tests.utils import change_auth
 
 
@@ -28,50 +28,28 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
     def create_contract(self):
         data = deepcopy(self.initial_data)
         data['id'] = uuid4().hex
+        self.bid_token = uuid4().hex
+        data["owner"] = self.first_owner
+        data['access'] = [
+            {
+                "role": "bid",
+                "token": self.bid_token,
+                "owner": self.first_owner,
+            },
+            {
+                "role": "tender",
+                "token": self.tender_token,
+                "owner": self.first_owner,
+            },
+        ]
         self.contract = create_contract(self, data)
         self.contract_id = self.contract["id"]
-        response = self.app.post_json(
-            f"/contracts/{self.contract_id}/access",
-            {
-                "data": {
-                    "identifier": self.contract["buyer"]["identifier"],
-                }
-            },
+        response = self.app.patch_json(
+            f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}", {"data": ""}
         )
+        self.assertEqual(response.status, "200 OK")
         self.contract_token = response.json["access"]["token"]
         self.contract_transfer = response.json["access"]["transfer"]
-
-        response = self.app.patch_json(
-            f"/contracts/{self.contract_id}/access?acc_token={self.contract_token}",
-            {
-                "data": {
-                    "identifier": self.contract["buyer"]["identifier"],
-                    "active": True,
-                }
-            },
-        )
-        self.assertEqual(response.status, "200 OK")
-
-        response = self.app.post_json(
-            f"/contracts/{self.contract_id}/access",
-            {
-                "data": {
-                    "identifier": self.contract["suppliers"][0]["identifier"],
-                }
-            },
-        )
-        self.bid_token = response.json["access"]["token"]
-
-        response = self.app.patch_json(
-            f"/contracts/{self.contract_id}/access?acc_token={self.bid_token}",
-            {
-                "data": {
-                    "identifier": self.contract["suppliers"][0]["identifier"],
-                    "active": True,
-                }
-            },
-        )
-        self.assertEqual(response.status, "200 OK")
 
         # TODO: Test pending contract
 
@@ -157,27 +135,22 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         # try to use already applied transfer
         data = deepcopy(self.initial_data)
         data["id"] = uuid4().hex
-        contract = create_contract(self, data)
-        response = self.app.post_json(
-            f"/contracts/{contract['id']}/access",
+        data["owner"] = self.first_owner
+        data['access'] = [
             {
-                "data": {
-                    "identifier": contract["buyer"]["identifier"],
-                }
+                "role": "tender",
+                "token": self.tender_token,
+                "owner": self.first_owner,
             },
-        )
-        access = response.json["access"]
+        ]
+        contract = create_contract(self, data)
 
         response = self.app.patch_json(
-            f"/contracts/{contract['id']}/access?acc_token={access['token']}",
-            {
-                "data": {
-                    "identifier": contract["buyer"]["identifier"],
-                    "active": True,
-                }
-            },
+            "/contracts/{}/credentials?acc_token={}".format(contract["id"], self.tender_token),
+            {"data": ""},
         )
         self.assertEqual(response.status, "200 OK")
+        access = response.json["access"]
 
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(

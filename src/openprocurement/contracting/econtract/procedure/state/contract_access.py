@@ -1,6 +1,3 @@
-from hashlib import sha512
-
-from openprocurement.api.auth import extract_access_token
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.models.access import AccessRole
@@ -33,9 +30,12 @@ class ContractAccessState(BaseState):
 
     def validate_on_post(self, contract, role):
         self.validate_role(role)
+        self.validate_access_generation_forbidden(contract, role)
         self.validate_access_claimed(contract, role)
+        self.validate_owner(contract, role)
 
-    def set_token(self, contract, role, token):
+    @staticmethod
+    def set_token(contract, role, token):
         if role_access := get_access_fields_by_role(contract, role):
             role_access["token"] = token
         else:
@@ -46,49 +46,25 @@ class ContractAccessState(BaseState):
                 }
             )
 
-    def set_owner(self, contract, role):
-        # set new owner
+    def validate_access_generation_forbidden(self, contract, role):
+        if not get_access_fields_by_role(contract, role):
+            raise_operation_error(
+                self.request,
+                "Forbidden to generate access as contract doesn't have owner for this role",
+            )
+
+    def validate_owner(self, contract, role):
         role_access = get_access_fields_by_role(contract, role)
-        role_access["owner"] = self.request.authenticated_userid
-        new_access = []
-        # delete previous tokens
-        if role == AccessRole.BUYER:
-            contract["owner"] = self.request.authenticated_userid
-            overwritten_roles = (AccessRole.TENDER, AccessRole.CONTRACT)
-            # deprecated logic fields
-            contract.pop("tender_token", None)
-            contract.pop("owner_token", None)
-        else:
-            overwritten_roles = (AccessRole.BID,)
-            # deprecated logic fields
-            contract.pop("bid_token", None)
-            contract.pop("bid_owner", None)
-        for access in contract.get("access", []):
-            if access["role"] not in overwritten_roles:
-                new_access.append(access)
-        contract["access"] = new_access
+        if role_access["owner"] != self.request.authenticated_userid:
+            raise_operation_error(
+                self.request,
+                "Owner mismatch",
+            )
 
     def validate_access_claimed(self, contract, role):
         if role_access := get_access_fields_by_role(contract, role):
-            if role_access.get("owner"):
+            if role_access.get("token"):
                 raise_operation_error(
                     self.request,
                     "Access already claimed",
                 )
-
-    def validate_token(self, contract, role):
-        acc_token = extract_access_token(self.request)
-        if role_access := get_access_fields_by_role(contract, role):
-            obj_token = role_access.get("token")
-            if acc_token and obj_token and len(obj_token) != len(acc_token):
-                acc_token = sha512(acc_token.encode("utf-8")).hexdigest()
-            if acc_token != obj_token:
-                raise_operation_error(
-                    self.request,
-                    "Token mismatch",
-                )
-
-    def validate_on_patch(self, contract, role):
-        self.validate_role(role)
-        self.validate_token(contract, role)
-        self.validate_access_claimed(contract, role)

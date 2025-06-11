@@ -1,37 +1,49 @@
-from hashlib import sha512
-from uuid import uuid4
-
 from cornice.resource import resource
 
+from openprocurement.api.context import get_request
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.context import get_contract
-from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.api.procedure.validation import unless_admins, validate_input_data
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    unless_admins,
+    validate_input_data,
+    validate_patch_data_simple,
+)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.api.views.base import (
     MongodbResourceListing,
     RestrictedResourceListingMixin,
 )
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
-from openprocurement.contracting.core.procedure.models.access import (
-    AccessRole,
-    PatchAccess,
-    PostAccess,
+from openprocurement.contracting.core.procedure.models.contract import (
+    AdministratorPatchContract,
+    Contract,
+    PatchContract,
+    PatchContractPending,
 )
 from openprocurement.contracting.core.procedure.serializers.contract import (
     ContractBaseSerializer,
 )
-from openprocurement.contracting.core.procedure.state.contract_access import (
-    ContractAccessState,
-)
+from openprocurement.contracting.core.procedure.state.contract import ContractState
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_in_pending_status,
-    validate_credentials_generate,
-    validate_tender_owner,
+    validate_contract_owner,
+    validate_contract_update_not_in_allowed_status,
 )
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
+from openprocurement.tender.core.procedure.utils import save_tender
+
+
+def conditional_contract_model(data):
+    request = get_request()
+    contract_status = request.validated["contract"]["status"]
+    if request.authenticated_role == "Administrator":
+        model = AdministratorPatchContract
+    elif contract_status == "pending":
+        model = PatchContractPending
+    else:
+        model = PatchContract
+    return model(data)
 
 
 @resource(
@@ -60,7 +72,14 @@ class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, 
         self.db_listing_method = request.registry.mongodb.contracts.list
 
 
+@resource(
+    name="Contract",
+    path="/contracts/{contract_id}",
+    description="Contracts operations",
+    accept="application/json",
+)
 class ContractResource(ContractBaseResource):
+    state_class = ContractState
     serializer_class = ContractBaseSerializer
 
     @json_view(permission="view_contract")
@@ -71,6 +90,16 @@ class ContractResource(ContractBaseResource):
             "config": contract["config"],
         }
 
+    @json_view(
+        content_type="application/json",
+        permission="edit_contract",
+        validators=(
+            unless_admins(unless_administrator(validate_contract_owner)),
+            validate_input_data(conditional_contract_model),
+            validate_patch_data_simple(Contract, item_name="contract"),
+            unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),
+        ),
+    )
     def patch(self):
         """Contract Edit (partial)"""
         updated = self.request.validated["data"]
@@ -98,88 +127,3 @@ class ContractResource(ContractBaseResource):
                         "data": self.serializer_class(contract).data,
                         "config": contract["config"],
                     }
-
-
-@resource(
-    name="Contract credentials",
-    path="/contracts/{contract_id}/credentials",
-    description="Contract credentials",
-)
-class ContractCredentialsResource(ContractBaseResource):
-    serializer_class = ContractBaseSerializer
-
-    @json_view(
-        permission="edit_contract",
-        validators=(
-            unless_admins(validate_tender_owner),
-            validate_credentials_generate,
-        ),
-    )
-    def patch(self):
-        contract = self.request.validated["contract"]
-        access = set_ownership(contract, self.request, access_role=AccessRole.CONTRACT)
-        if save_contract(self.request):
-            self.LOGGER.info(
-                f"Generate Contract credentials {contract['_id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
-            )
-            return {
-                "data": self.serializer_class(contract).data,
-                "config": contract["config"],
-                "access": access,
-            }
-
-
-@resource(
-    name="Contract access",
-    path="/contracts/{contract_id}/access",
-    description="Contract access",
-)
-class ContractAccessResource(ContractBaseResource):
-    state_class = ContractAccessState
-    serializer_class = BaseSerializer
-
-    @json_view(
-        permission="edit_contract", validators=(validate_input_data(PostAccess), validate_contract_in_pending_status)
-    )
-    def post(self):
-        contract = self.request.validated["contract"]
-        data = self.request.validated["data"]
-        role = self.state.get_role(data, contract)
-        self.state.validate_on_post(contract, role)
-        token = uuid4().hex
-        self.state.set_token(contract, role, token)
-
-        access = {"token": token}
-
-        if role == AccessRole.BUYER:
-            transfer_token = uuid4().hex
-            contract["transfer_token"] = sha512(transfer_token.encode("utf-8")).hexdigest()
-            access["transfer"] = transfer_token
-
-        if save_contract(self.request):
-            self.LOGGER.info(
-                f"Generate Contract access {contract['_id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
-            )
-            self.request.response.status = 201
-            return {
-                "data": self.serializer_class(data).data,
-                "access": access,
-            }
-
-    @json_view(
-        permission="edit_contract", validators=(validate_input_data(PatchAccess), validate_contract_in_pending_status)
-    )
-    def patch(self):
-        contract = self.request.validated["contract"]
-        data = self.request.validated["data"]
-        role = self.state.get_role(data, contract)
-        self.state.validate_on_patch(contract, role)
-        self.state.set_owner(contract, role)
-        if save_contract(self.request):
-            self.LOGGER.info(
-                f"Submit Contract access {contract['_id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
-            )
-            return {"data": self.serializer_class(data).data}

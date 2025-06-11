@@ -1,3 +1,4 @@
+from copy import deepcopy
 from hashlib import sha512
 from uuid import uuid4
 
@@ -99,3 +100,66 @@ documents = [
         "dateModified": "2016-03-18T18:48:06.477829+02:00",
     },
 ]
+
+test_buyer = test_contract_data.pop("procuringEntity")
+del test_buyer["contactPoint"]
+
+for i in test_contract_data.get("suppliers", ""):
+    del i["contactPoint"]
+
+test_contract_data.update({"buyer": test_buyer, "id": uuid4().hex})
+test_contract_data["access"].append({"owner": "broker", "token": uuid4().hex, "role": "bid"})
+
+del test_contract_data["period"]
+del test_contract_data["contractNumber"]
+del test_contract_data["dateSigned"]
+
+
+test_contract_data_wo_items = deepcopy(test_contract_data)
+del test_contract_data_wo_items["items"]
+
+test_contract_data_two_items = deepcopy(test_contract_data)
+test_contract_data_two_items["items"].append(
+    {
+        "description": "футляри до державних нагород",
+        "classification": {"scheme": "CPV", "description": "Cartons", "id": "44617100-9"},
+        "additionalClassifications": [
+            {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "папір і картон гофровані, паперова й картонна тара",
+            }
+        ],
+        "deliveryAddress": {
+            "postalCode": "79000",
+            "countryName": "Україна",
+            "streetAddress": "вул. Банкова 1",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+        },
+        "deliveryDate": {
+            "startDate": "2016-03-20T18:47:47.136678+02:00",
+            "endDate": "2016-03-23T18:47:47.136678+02:00",
+        },
+        "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab12",
+        "unit": {
+            "code": "KGM",
+            "name": "кг",
+            "value": {"currency": "UAH", "amount": 40.8, "valueAddedTaxIncluded": True},
+        },
+        "quantity": 5,
+    }
+)
+test_contract_data_two_items["contractTemplateName"] = "00000000.0002.01"
+
+test_signer_info = {
+    "name": "Test Testovich",
+    "telephone": "+380950000000",
+    "email": "example@email.com",
+    "iban": "1" * 15,
+    "authorizedBy": "Статут компанії",
+    "position": "Генеральний директор",
+}
+
+test_contract_data_wo_value_amount_net = deepcopy(test_contract_data)
+del test_contract_data_wo_value_amount_net["value"]["amountNet"]

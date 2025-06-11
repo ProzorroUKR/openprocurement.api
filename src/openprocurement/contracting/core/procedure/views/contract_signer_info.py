@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.procedure.models.signer_info import SignerInfo
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.validation import (
     unless_administrator,
@@ -7,6 +8,9 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.contracting.core.procedure.state.signer_info import (
+    ContractSignerInfoState,
+)
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_in_pending_status,
@@ -14,16 +18,10 @@ from openprocurement.contracting.core.procedure.validation import (
     validate_contract_supplier,
 )
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.contracting.econtract.procedure.models.organization import (
-    SignerInfo,
-)
-from openprocurement.contracting.econtract.procedure.state.signer_info import (
-    EContractSignerInfoState,
-)
 
 
 class BaseSignerInfoResource(ContractBaseResource):
-    state_class = EContractSignerInfoState
+    state_class = ContractSignerInfoState
     serializer_class = BaseSerializer
     parent_obj_name: str
 
@@ -51,12 +49,12 @@ class BaseSignerInfoResource(ContractBaseResource):
 
 
 @resource(
-    name="EContract buyer signerInfo",
+    name="Contract buyer signerInfo",
     path="/contracts/{contract_id}/buyer/signer_info",
-    description="Econtracts buyer signer info operations",
+    description="Contracts buyer signer info operations",
     accept="application/json",
 )
-class EContractBuyerSignerInfoResource(BaseSignerInfoResource):
+class ContractBuyerSignerInfoResource(BaseSignerInfoResource):
     parent_obj_name = "buyer"
 
     @json_view(
@@ -73,12 +71,12 @@ class EContractBuyerSignerInfoResource(BaseSignerInfoResource):
 
 
 @resource(
-    name="EContract suppliers signerInfo",
+    name="Contract suppliers signerInfo",
     path="/contracts/{contract_id}/suppliers/signer_info",
-    description="Econtracts suppliers signer info operations",
+    description="Contracts suppliers signer info operations",
     accept="application/json",
 )
-class EContractSuppliersSignerInfoResource(BaseSignerInfoResource):
+class ContractSuppliersSignerInfoResource(BaseSignerInfoResource):
     parent_obj_name = "suppliers"
 
     @json_view(

@@ -9,18 +9,18 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_contract_by_id, request_init_contract
 from openprocurement.contracting.core.procedure.models.access import AccessRole
-from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.econtract.procedure.models.contract import (
+from openprocurement.contracting.core.procedure.models.contract import (
     Buyer,
     ContractValue,
 )
-from openprocurement.contracting.econtract.procedure.models.contract import (
+from openprocurement.contracting.core.procedure.models.contract import (
     Item as ContractItem,
 )
-from openprocurement.contracting.econtract.procedure.models.contract import (
+from openprocurement.contracting.core.procedure.models.contract import (
     PostContract,
     Supplier,
 )
+from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.tender.core.procedure.context import get_award, get_request
 from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
 

@@ -4,7 +4,7 @@ from uuid import uuid4
 from freezegun import freeze_time
 
 from openprocurement.api.utils import get_now, parse_datetime
-from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_supplier,

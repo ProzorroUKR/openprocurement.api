@@ -1,3 +1,5 @@
+from cornice.resource import resource
+
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
@@ -32,6 +34,12 @@ def resolve_change(request):
         request.validated["change"] = change[0]
 
 
+@resource(
+    name="Contract changes",
+    collection_path="/contracts/{contract_id}/changes",
+    path="/contracts/{contract_id}/changes/{change_id}",
+    description="Contracts Changes",
+)
 class ContractsChangesResource(ContractBaseResource):
     """Contract changes resource"""
 

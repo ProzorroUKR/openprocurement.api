@@ -10,14 +10,14 @@ from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     change_auth,
     singleton_app,
 )
-from openprocurement.contracting.econtract.tests.utils import (
+from openprocurement.contracting.core.tests.utils import (
     create_minimal_tender_for_contract,
 )
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_function():
-    with open("src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:
+    with open("src/openprocurement/contracting/core/tests/data/contract_to_mask.json") as f:
         data = json.load(f)
     initial_data = deepcopy(data)
 
@@ -33,7 +33,7 @@ def test_mask_function():
 def test_mask_contract_by_is_masked(app):
     set_request_now()
 
-    with open("src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:
+    with open("src/openprocurement/contracting/core/tests/data/contract_to_mask.json") as f:
         initial_data = json.load(f)
     app.app.registry.mongodb.contracts.store.save_data(
         app.app.registry.mongodb.contracts.collection,
@@ -103,7 +103,7 @@ def test_mask_contract_by_is_masked(app):
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_contract_skipped(app):
     set_request_now()
-    with open("src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:
+    with open("src/openprocurement/contracting/core/tests/data/contract_to_mask.json") as f:
         initial_data = json.load(f)
     app.app.registry.mongodb.contracts.store.save_data(
         app.app.registry.mongodb.contracts.collection,
@@ -123,7 +123,7 @@ def test_mask_contract_by_config_restricted(app):
     set_request_now()
 
     # Load initial db data
-    with open("src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:
+    with open("src/openprocurement/contracting/core/tests/data/contract_to_mask.json") as f:
         initial_db_data = json.load(f)
     id = initial_db_data['_id']
 
@@ -148,11 +148,11 @@ def test_mask_contract_by_config_restricted(app):
     masked_data = response.json["data"]
 
     # Dump expected data (uncomment to update)
-    # with open(f"src/openprocurement/contracting/econtract/tests/data/contract_masked.json", mode="w") as f:
+    # with open(f"src/openprocurement/contracting/core/tests/data/contract_masked.json", mode="w") as f:
     #     json.dump(masked_data, f, indent=4, ensure_ascii=False)
 
     # Load expected masked data
-    with open("src/openprocurement/contracting/econtract/tests/data/contract_masked.json") as f:
+    with open("src/openprocurement/contracting/core/tests/data/contract_masked.json") as f:
         expected_masked_data = json.load(f)
 
     # Ensure dumped data is masked

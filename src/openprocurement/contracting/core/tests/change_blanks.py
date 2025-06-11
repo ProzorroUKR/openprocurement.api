@@ -3,8 +3,8 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
-from openprocurement.contracting.econtract.tests.data import test_signer_info
-from openprocurement.contracting.econtract.tests.utils import create_contract
+from openprocurement.contracting.core.tests.data import test_signer_info
+from openprocurement.contracting.core.tests.utils import create_contract
 
 
 def not_found(self):
@@ -376,8 +376,8 @@ def no_items_contract_change(self):
     contract = create_contract(self, data)
     self.assertEqual(contract["status"], "pending")
     self.assertNotIn("items", contract)
-    token = self.set_contract_token(contract['id'], contract["buyer"]["identifier"])
-    supplier_token = self.set_contract_token(contract['id'], contract["suppliers"][0]["identifier"])
+    token = data["access"][-1]["token"]
+    supplier_token = data["access"][0]["token"]
 
     # activate contract
 

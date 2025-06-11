@@ -4,6 +4,7 @@ from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.utils import error_handler
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
+from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.tender.core.procedure.utils import extract_path
 
 LOGGER = getLogger("openprocurement.contracting.core")
@@ -36,3 +37,26 @@ def extract_contract_doc(request):
         mask_object_data(request, doc, CONTRACT_MASK_MAPPING)
 
         return doc
+
+
+class ContractTypePredicate:
+    """Contract Route predicate."""
+
+    def __init__(self, val, config):
+        self.val = val
+
+    def text(self):
+        return "contractType = {}".format(self.val)
+
+    phash = text
+
+    def __call__(self, context, request):
+        if request.contract_doc is not None:
+            for access_details in request.contract_doc.get("access", []):
+                if access_details["role"] in (AccessRole.SUPPLIER, AccessRole.BUYER):
+                    contract_type = "eContract"
+                    break
+            else:
+                contract_type = "contract"
+            return contract_type == self.val
+        return False

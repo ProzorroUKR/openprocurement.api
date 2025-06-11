@@ -74,6 +74,7 @@ entry_points = {
         "framework.ifi = openprocurement.framework.ifi.includeme:includeme",
     ],
     "openprocurement.contracting.core.plugins": [
+        "contracting.contract = openprocurement.contracting.contract.includeme:includeme",
         "contracting.econtract = openprocurement.contracting.econtract.includeme:includeme",
     ],
     "openprocurement.api.migrations": [
