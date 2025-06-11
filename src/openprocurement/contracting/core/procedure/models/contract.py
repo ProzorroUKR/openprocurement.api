@@ -1,9 +1,11 @@
 from uuid import uuid4
 
+from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
+from openprocurement.api.procedure.context import get_contract, get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import ContractValue
@@ -17,15 +19,24 @@ from openprocurement.contracting.core.procedure.models.implementation import (
 )
 from openprocurement.contracting.core.procedure.models.item import Item
 from openprocurement.contracting.core.procedure.models.organization import (
-    BusinessOrganization,
+    Buyer,
+    Supplier,
 )
 from openprocurement.contracting.core.procedure.models.value import AmountPaid
 
 
-class BasePostContract(Model):
+class PostContract(Model):
+    """
+    Model only for auto-creating contract
+    """
+
     @serializable
     def transfer_token(self):
         return uuid4().hex
+
+    @serializable
+    def status(self):
+        return "pending"
 
     id = StringType()
     _id = StringType(deserialize_from=["id", "doc_id"])
@@ -46,12 +57,16 @@ class BasePostContract(Model):
 
     items = ListType(ModelType(Item, required=True))
     documents = ListType(ModelType(Document, required=True))
-    suppliers = ListType(ModelType(BusinessOrganization), min_size=1, max_size=1)
+    buyer = ModelType(Buyer, required=True)
+    suppliers = ListType(ModelType(Supplier), min_size=1, max_size=1)
 
     owner = StringType()
     access = ListType(ModelType(AccessDetails, required=True))
     tender_id = StringType(required=True)
     mode = StringType(choices=["test"])
+
+    amountPaid = ModelType(AmountPaid)
+    contractTemplateName = StringType()
 
 
 class BasePatchContract(Model):
@@ -68,7 +83,7 @@ class BasePatchContract(Model):
     items = ListType(ModelType(Item, required=True), min_size=1)
 
 
-class BaseContract(Model):
+class Contract(Model):
     """Contract"""
 
     _id = StringType(deserialize_from=["id", "doc_id"])
@@ -104,9 +119,19 @@ class BaseContract(Model):
     transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=["test"])
-    status = StringType(choices=["terminated", "active"], default="active")
+    status = StringType(
+        choices=[
+            "pending",
+            "pending.winner-signing",
+            "terminated",
+            "active",
+            "cancelled",
+        ]
+    )
     period = ModelType(Period)
-    suppliers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
+    buyer = ModelType(Buyer, required=True)
+    suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
+    contractTemplateName = StringType()
     changes = ListType(ModelType(Change, required=True))
     terminationDetails = StringType()
     implementation = ModelType(Implementation)
@@ -138,3 +163,56 @@ class BaseContract(Model):
             if self.amountPaid.valueAddedTaxIncluded is None:
                 self.amountPaid.valueAddedTaxIncluded = self.value.valueAddedTaxIncluded
             return self.amountPaid
+
+
+class PatchContract(BasePatchContract):
+    status = StringType(choices=["pending", "terminated", "active", "cancelled"])
+    items = ListType(ModelType(Item, required=True), min_size=1)
+    terminationDetails = StringType()
+    amountPaid = ModelType(AmountPaid)
+    value = ModelType(ContractValue)
+
+    def validate_items(self, data, items):
+        validate_item_unit_values(data, items)
+
+
+class PatchContractPending(BasePatchContract):
+    status = StringType(choices=["pending", "terminated", "active", "cancelled"])
+    items = ListType(ModelType(Item, required=True), min_size=1)
+    dateSigned = IsoDateTimeType()
+    contractNumber = StringType()
+    value = ModelType(ContractValue)
+
+    def validate_items(self, data, items):
+        validate_item_unit_values(data, items)
+
+
+class AdministratorPatchContract(Model):
+    contractNumber = StringType()
+    status = StringType(
+        choices=[
+            "pending",
+            "pending.winner-signing",
+            "terminated",
+            "active",
+            "cancelled",
+        ]
+    )
+    suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
+    buyer = ModelType(Buyer)
+    mode = StringType(choices=["test"])
+
+
+def validate_item_unit_values(data, items):
+    base_value = data.get("value")
+    if base_value is None:
+        base_value = (get_contract() or {}).get("value")
+    if base_value and items:
+        for item in items:
+            item_value = (item.get("unit") or {}).get("value")
+            if item_value:
+                if (
+                    get_tender()["config"]["valueCurrencyEquality"] is True
+                    and item_value["currency"] != base_value["currency"]
+                ):
+                    raise ValidationError(f"Value mismatch. Expected: currency {base_value['currency']}")

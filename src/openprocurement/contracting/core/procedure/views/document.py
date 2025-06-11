@@ -8,14 +8,16 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.contracting.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
+    BaseDocument,
+    BasePatchDocument,
+    BasePostDocument,
 )
 from openprocurement.contracting.core.procedure.serializers.document import (
     DocumentSerializer,
 )
-from openprocurement.contracting.core.procedure.state.document import BaseDocumentState
+from openprocurement.contracting.core.procedure.state.document import (
+    ContractDocumentState,
+)
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_add_document_to_active_change,
@@ -28,7 +30,7 @@ from openprocurement.tender.core.procedure.views.document import DocumentResourc
 
 
 class BaseDocumentResource(DocumentResourceMixin, ContractBaseResource):
-    state_class = BaseDocumentState
+    state_class = ContractDocumentState
     serializer_class = DocumentSerializer
     container = "documents"
     item_name = "contract"
@@ -46,7 +48,7 @@ class BaseDocumentResource(DocumentResourceMixin, ContractBaseResource):
     @json_view(
         validators=(
             unless_admins(validate_contract_owner),
-            validate_input_data(PostDocument, allow_bulk=True),
+            validate_input_data(BasePostDocument, allow_bulk=True),
             validate_contract_document_operation_not_in_allowed_contract_status,
         ),
         permission="upload_contract_documents",
@@ -61,10 +63,10 @@ class BaseDocumentResource(DocumentResourceMixin, ContractBaseResource):
     @json_view(
         validators=(
             unless_admins(validate_contract_owner),
-            validate_input_data(PostDocument),
+            validate_input_data(BasePostDocument),
             update_doc_fields_on_put_document,
             validate_upload_document,
-            validate_data_model(Document),
+            validate_data_model(BaseDocument),
             validate_contract_document_operation_not_in_allowed_contract_status,
         ),
         permission="edit_contract_documents",
@@ -76,8 +78,8 @@ class BaseDocumentResource(DocumentResourceMixin, ContractBaseResource):
         content_type="application/json",
         validators=(
             unless_admins(validate_contract_owner),
-            validate_input_data(PatchDocument, none_means_remove=True),
-            validate_patch_data(Document, item_name="document"),
+            validate_input_data(BasePatchDocument, none_means_remove=True),
+            validate_patch_data(BaseDocument, item_name="document"),
             validate_contract_document_operation_not_in_allowed_contract_status,
             validate_add_document_to_active_change,
         ),

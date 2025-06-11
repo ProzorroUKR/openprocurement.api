@@ -8,7 +8,7 @@ from tests.base.constants import DOCS_URL, MOCK_DATETIME
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.econtract.tests.data import (
+from openprocurement.contracting.core.tests.data import (
     test_contract_data,
     test_signer_info,
 )

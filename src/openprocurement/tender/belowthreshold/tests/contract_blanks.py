@@ -2,7 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
 from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
 

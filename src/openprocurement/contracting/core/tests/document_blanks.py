@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_config,
@@ -987,10 +987,11 @@ def limited_contract_confidential_document(self):
     response = self.app.get(f"/tenders/{tender_id}/contracts")
     contract_id = response.json["data"][0]["id"]
 
-    response = self.app.get(f"/contracts/{contract_id}")
-    contract_data = response.json["data"]
-
-    contract_token = self.set_contract_token(contract_id, contract_data["buyer"]["identifier"])
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}/credentials?acc_token={tender_token}",
+        {"data": {}},
+    )
+    contract_token = response.json["access"]["token"]
 
     request_data = {
         "title": "name.doc",

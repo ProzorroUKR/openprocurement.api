@@ -1,9 +1,7 @@
-from openprocurement.contracting.econtract.procedure.state.contract import (
-    EContractState,
-)
+from openprocurement.contracting.core.procedure.state.contract import ContractState
 
 
-class EContractSignerInfoState(EContractState):
+class ContractSignerInfoState(ContractState):
     def signer_info_on_put(self, data: dict) -> None:
         tender = self.request.validated["tender"]
         award = self.request.validated["award"]

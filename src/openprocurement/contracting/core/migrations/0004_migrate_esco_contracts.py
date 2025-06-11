@@ -13,10 +13,7 @@ from openprocurement.api.migrations.base import (
     migrate,
 )
 from openprocurement.api.procedure.utils import append_revision, get_revision_changes
-from openprocurement.contracting.econtract.procedure.models.contract import (
-    Buyer,
-    Supplier,
-)
+from openprocurement.contracting.core.procedure.models.contract import Buyer, Supplier
 from openprocurement.tender.core.procedure.contracting import (
     clean_contract_value,
     clean_objs,

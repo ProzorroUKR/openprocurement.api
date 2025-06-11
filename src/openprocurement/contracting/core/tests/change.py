@@ -1,11 +1,11 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.contracting.econtract.tests.base import (
-    BaseEContractContentWebTest,
-    BaseEContractTest,
+from openprocurement.contracting.core.tests.base import (
+    BaseContractContentWebTest,
+    BaseContractTest,
 )
-from openprocurement.contracting.econtract.tests.change_blanks import (
+from openprocurement.contracting.core.tests.change_blanks import (
     change_date_signed,
     change_date_signed_very_old_contracts_data,
     create_change,
@@ -18,15 +18,15 @@ from openprocurement.contracting.econtract.tests.change_blanks import (
     patch_change,
     patch_change_after_contract_is_already_terminated,
 )
-from openprocurement.contracting.econtract.tests.data import test_contract_data
+from openprocurement.contracting.core.tests.data import test_contract_data
 
 
-class ContractNoItemsChangeTest(BaseEContractTest):
+class ContractNoItemsChangeTest(BaseContractTest):
     initial_data = test_contract_data
     test_no_items_contract_change = snitch(no_items_contract_change)
 
 
-class ContractChangesResourceTest(BaseEContractContentWebTest):
+class ContractChangesResourceTest(BaseContractContentWebTest):
     initial_status = "active"
 
     test_not_found = snitch(not_found)

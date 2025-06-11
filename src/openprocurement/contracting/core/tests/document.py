@@ -1,8 +1,8 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
-from openprocurement.contracting.econtract.tests.document_blanks import (
+from openprocurement.contracting.core.tests.base import BaseContractContentWebTest
+from openprocurement.contracting.core.tests.document_blanks import (
     contract_change_document,
     create_contract_document,
     create_contract_document_json,
@@ -16,7 +16,7 @@ from openprocurement.contracting.econtract.tests.document_blanks import (
 )
 
 
-class ContractDocumentResourceTest(BaseEContractContentWebTest):
+class ContractDocumentResourceTest(BaseContractContentWebTest):
     test_not_found = snitch(not_found)
     test_create_contract_documnet = snitch(create_contract_document)
     test_put_contract_document = snitch(put_contract_document)

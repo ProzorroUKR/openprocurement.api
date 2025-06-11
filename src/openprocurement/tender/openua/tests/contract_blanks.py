@@ -1,4 +1,4 @@
-from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.core.tests.data import test_signer_info
 
 # TenderContractResourceTest
 

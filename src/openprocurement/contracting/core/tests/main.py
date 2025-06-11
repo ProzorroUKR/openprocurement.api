@@ -1,6 +1,6 @@
 import unittest
 
-from openprocurement.contracting.econtract.tests import contract, document
+from openprocurement.contracting.core.tests import contract, document
 
 
 def suite():
