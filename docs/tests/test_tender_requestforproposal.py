@@ -19,7 +19,7 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.contract.tests.data import test_signer_info
+from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
 from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.framework.ifi.tests.base import (

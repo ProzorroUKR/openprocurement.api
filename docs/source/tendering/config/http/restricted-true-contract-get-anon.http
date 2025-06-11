@@ -9,9 +9,12 @@ Content-Type: application/json
   "data": {
     "awardID": "8481d7eb01694c25b18658036c236c5d",
     "contractID": "UA-2016-03-18-000001-1",
-    "owner": "broker",
-    "tender_id": "2b5eb9efd396490d8e3e662b7153c1ff",
-    "contractTemplateName": "00000000-0.0002.01",
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 200.0
+    },
     "items": [
       {
         "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
@@ -29,6 +32,15 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 40.8,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
         "deliveryAddress": {
           "streetAddress": "Приховано",
           "locality": "Приховано",
@@ -39,15 +51,6 @@ Content-Type: application/json
         "deliveryDate": {
           "startDate": "1970-01-01T03:00:00+03:00",
           "endDate": "1970-01-01T03:00:00+03:00"
-        },
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 40.8,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
         }
       }
     ],
@@ -83,12 +86,9 @@ Content-Type: application/json
         }
       }
     ],
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 200.0
-    },
+    "owner": "broker",
+    "tender_id": "2b5eb9efd396490d8e3e662b7153c1ff",
+    "contractTemplateName": "00000000-0.0002.01",
     "status": "pending",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",

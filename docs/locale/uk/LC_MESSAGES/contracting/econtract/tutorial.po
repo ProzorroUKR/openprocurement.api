@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-15 13:22+0300\n"
+"POT-Creation-Date: 2025-06-11 18:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -109,26 +109,20 @@ msgstr "Алгоритм отримання доступу:"
 msgid "POST `/access` with identifier of client - returns token for client"
 msgstr "POST `/access` з індентифікатором клієнта - повертає токен для клієнта"
 
-msgid "PATCH `/access?acc_token=...` - finally submit ownership for buyer or supplier"
-msgstr "PATCH `/access?acc_token=...` - остаточно підтерджує зміну доступу для постачальника або замовника"
+msgid "Main action is POST `/access` - a query with a client identifier determines whether it is a buyer or supplier. If the identifier does not match any of the entities, an error is issued:"
+msgstr "Треба зробити POST `/access` - запит з індентифікатором клієнта, по якому визначається чи це buyer чи supplier. Якщо ідентифікатор не відповідає жодній із сутностей, то видається помилка:"
 
-msgid "First action is POST `/access` - a query with a client identifier determines whether it is a buyer or supplier. If the identifier does not match any of the entities, an error is issued:"
-msgstr "Перший крок це POST `/access` - запит з індентифікатором клієнта, по якому визначається чи це buyer чи supplier. Якщо ідентифікатор не відповідає жодній із сутностей, то видається помилка:"
+msgid "If identifier is found, then we validate whether authenticated user is an owner for this role:"
+msgstr "Якщо індентифікатор знайшло, після цього відбувається валідація чи підходить майданчик, з якого робиться запит для цієї ролі:"
 
-msgid "If identifier is found, then the token is set according to the entity for supplier or buyer:"
-msgstr "Якщо індентифікатор знайшло, то сетапиться токен відповідно до сутності для постачальника або замовника:"
+msgid "If identifier is found and owner matches, then the token is set according to the entity for supplier or buyer:"
+msgstr "Якщо індентифікатор знайшло і `owner` підходить, то сетапиться токен відповідно до сутності для постачальника або замовника:"
 
 msgid "If buyer get access, we will see in response new `transfer` token too."
 msgstr "Якщо замовник запитує доступ, то у відповіді також буде згенерований новий `transfer` токен. "
 
-msgid "Before confirmation, you can make POST requests and set up new tokens. Let's generate token from another platform:"
-msgstr "До підтвердження можна робити POST запити і сетапити нові токени. Згенеруємо токен для замовника з іншого майданчику:"
-
-msgid "After that a PATCH request is made with the issued token and client ID to activate and confirm the token. Then the owner field is being set according to the identifier: `owner` or `supplier_owner`:"
-msgstr "Після цього робиться PATCH запит з виданим токеном та ідентифікатором клієнта для активації та підтвердження токену. Після чого встановлюється поле `owner` відповідно до ідентифікатора: `owner` or `supplier_owner`:"
-
-msgid "After activation, you cannot make new POST and PATCH requests with this identifier:"
-msgstr "Після активації доступу не можна робити нові POST та PATCH запити з цим ідентифікатором:"
+msgid "After token generation, you cannot make new POST request with this identifier:"
+msgstr "Після генерації токену не можна робити нові POST запити з цим ідентифікатором:"
 
 msgid "**NOTE:** Then user can modify contract as buyer only using generated token."
 msgstr "**NOTE:** Тепер користувачу дозволено редагувати контракт як замовник тільки використовуючи згенерований токен."
@@ -138,9 +132,6 @@ msgstr "Такий самий алгоритм і для отримання до
 
 msgid "Let's require access for supplier:"
 msgstr "Запросимо доступ для постачальника:"
-
-msgid "And submit the access:"
-msgstr "Підтвердимо запит:"
 
 msgid "**WARNING:** It is allowed to get access only during contract is `pending`."
 msgstr "**WARNING:** Отримання доступів дозволено тільки під час `pending` контракту."
@@ -177,9 +168,6 @@ msgstr ""
 
 msgid "`implementation`"
 msgstr ""
-
-msgid "**WARNING:** After access was generated for buyer, you can not modify contract with `tender_token`:"
-msgstr "**WARNING:** Після того, як був отриманий окремий доступ для замовника, не дозволено редагувати контракт, використовуючи `tender_token`:"
 
 msgid "Setting contract value"
 msgstr "Встановлення вартості договору"
