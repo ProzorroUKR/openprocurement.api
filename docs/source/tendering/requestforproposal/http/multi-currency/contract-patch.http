@@ -27,6 +27,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "unit": {
+          "value": {
+            "amount": 5000,
+            "currency": "EUR"
+          },
+          "code": "KGM"
+        },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",
@@ -38,14 +45,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
         },
-        "relatedLot": "a1b71828e35f4f83b5bc1754af3856c1",
-        "unit": {
-          "value": {
-            "amount": 5000,
-            "currency": "EUR"
-          },
-          "code": "KGM"
-        }
+        "relatedLot": "a1b71828e35f4f83b5bc1754af3856c1"
       }
     ]
   }
@@ -61,6 +61,45 @@ Content-Type: application/json
     "contractID": "UA-2023-10-10-000001-a-1",
     "dateModified": "2023-11-09T00:00:00+02:00",
     "dateCreated": "2023-11-09T00:00:00+02:00",
+    "items": [
+      {
+        "id": "be03754657d546b28f05d0164e668b57",
+        "description": "папір",
+        "quantity": 5.0,
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "unit": {
+          "value": {
+            "amount": 5000.0,
+            "currency": "EUR",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
+        },
+        "relatedLot": "a1b71828e35f4f83b5bc1754af3856c1"
+      }
+    ],
     "tender_id": "6694d8a81cfc4ddc8d56a87558eaf7e7",
     "owner": "broker",
     "status": "pending",
@@ -112,45 +151,6 @@ Content-Type: application/json
           "iban": "111111111111111",
           "position": "Генеральний директор",
           "authorizedBy": "Статут компанії"
-        }
-      }
-    ],
-    "items": [
-      {
-        "id": "be03754657d546b28f05d0164e668b57",
-        "description": "папір",
-        "quantity": 5.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
-        },
-        "relatedLot": "a1b71828e35f4f83b5bc1754af3856c1",
-        "unit": {
-          "value": {
-            "amount": 5000.0,
-            "currency": "EUR",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
         }
       }
     ],
