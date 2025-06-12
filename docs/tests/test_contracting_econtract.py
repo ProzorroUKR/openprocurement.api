@@ -881,6 +881,16 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
             )
 
         with open(TARGET_DIR + 'contracts-access-by-buyer.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{self.contract_id}/access",
+                {
+                    "data": {
+                        "identifier": self.contract["buyer"]["identifier"],
+                    }
+                },
+            )
+            buyer_token_1 = response.json["access"]["token"]
+        with open(TARGET_DIR + 'contracts-access-by-buyer-2.http', 'w') as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/access",
                 {
@@ -890,12 +900,12 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
                 },
             )
 
-        with open(TARGET_DIR + 'contracts-access-by-buyer-2.http', 'w') as self.app.file_obj:
-            self.app.post_json(
-                f"/contracts/{self.contract_id}/access",
+        with open(TARGET_DIR + 'contracts-patch-by-buyer-1-forbidden.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f"/contracts/{self.contract_id}?acc_token={buyer_token_1}",
                 {
                     "data": {
-                        "identifier": self.contract["buyer"]["identifier"],
+                        "title": "test title",
                     }
                 },
                 status=403,

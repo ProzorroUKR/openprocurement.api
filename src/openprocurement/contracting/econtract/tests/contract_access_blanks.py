@@ -78,7 +78,7 @@ def generate_access(self):
     self.assertEqual(contract["owner"], buyer_access["owner"])
     self.assertIn("token", buyer_access)
 
-    # try to patch contract with buyer_token
+    # try to patch contract with buyer_token_1
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={buyer_token_1}",
         {"data": {"title": "test 1"}},
@@ -89,13 +89,26 @@ def generate_access(self):
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/access",
         {"data": {"identifier": self.contract["buyer"]["identifier"]}},
+    )
+    buyer_token_2 = response.json["access"]["token"]
+
+    # try to patch contract with buyer_token
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={buyer_token_1}",
+        {"data": {"title": "test 1"}},
         status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Access already claimed"}],
+        [{'location': 'url', 'name': 'permission', 'description': 'Forbidden'}],
     )
+
+    # try to patch contract with buyer_token_2
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={buyer_token_2}",
+        {"data": {"title": "test 2"}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     # set bid owner
     response = self.app.post_json(

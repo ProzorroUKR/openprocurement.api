@@ -14,17 +14,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
 }
 
 
-HTTP/1.0 403 Forbidden
+HTTP/1.0 201 Created
 Content-Type: application/json
 
 {
-  "status": "error",
-  "errors": [
-    {
-      "location": "body",
-      "name": "data",
-      "description": "Access already claimed"
+  "data": {
+    "identifier": {
+      "scheme": "UA-EDR",
+      "id": "00037256",
+      "uri": "http://www.dus.gov.ua/"
     }
-  ]
+  },
+  "access": {
+    "token": "d262774971d04d568282204989986e87",
+    "transfer": "d5570043fd8c45c8bcf0d5a996e85d4a"
+  }
 }
 

@@ -82,7 +82,7 @@ We do see the internal `id` of a contract (that can be used to construct full UR
 Getting access for users from different platforms (new flow)
 -------------------------------------------------------------
 
-Read more :ref:`authorization-from-different-platforms`
+Read more :ref:`authorization-from-different-platforms-new`
 
 For getting access for buyer or supplier endpoint `contracts/{contract_id}/access` is used after contract was created.
 
@@ -108,13 +108,18 @@ If identifier is found and owner matches, then the token is set according to the
 
 If buyer get access, we will see in response new `transfer` token too.
 
-After token generation, you cannot make new POST request with this identifier:
+After token generation, it is allowed to regenerate token, make new POST request with this identifier:
 
 .. http:example:: http/contracts-access-by-buyer-2.http
    :code:
 
 **NOTE:**
-Then user can modify contract as buyer only using generated token.
+Then user can modify contract as buyer only using the last generated token.
+
+After token was regenerated, previous token can not be used for updating contract:
+
+.. http:example:: http/contracts-patch-by-buyer-1-forbidden.http
+   :code:
 
 The same algorithm will be for supplier access.
 
