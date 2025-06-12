@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-11 18:10+0300\n"
+"POT-Creation-Date: 2025-06-12 14:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -97,8 +97,8 @@ msgstr "Ми бачимо внутрішнє `id` договору (що мож�
 msgid "Getting access for users from different platforms (new flow)"
 msgstr "Отримання доступу для користувачів з різних майданчиків (новий флоу)"
 
-msgid "Read more :ref:`authorization-from-different-platforms`"
-msgstr "Більше інформації :ref:`authorization-from-different-platforms`"
+msgid "Read more :ref:`authorization-from-different-platforms-new`"
+msgstr "Більше інформації :ref:`authorization-from-different-platforms-new`"
 
 msgid "For getting access for buyer or supplier endpoint `contracts/{contract_id}/access` is used after contract was created."
 msgstr "Для отримання доступу для замовника або постачальника використовується ендпоінт `contracts/{contract_id}/access` після ствворення контракту."
@@ -121,11 +121,14 @@ msgstr "Якщо індентифікатор знайшло і `owner` підх
 msgid "If buyer get access, we will see in response new `transfer` token too."
 msgstr "Якщо замовник запитує доступ, то у відповіді також буде згенерований новий `transfer` токен. "
 
-msgid "After token generation, you cannot make new POST request with this identifier:"
-msgstr "Після генерації токену не можна робити нові POST запити з цим ідентифікатором:"
+msgid "After token generation, it is allowed to regenerate token, make new POST request with this identifier:"
+msgstr "Після генерації токену все ще дозволено перегенерувати токен, тому можна робити нові POST запити з цим ідентифікатором:"
 
-msgid "**NOTE:** Then user can modify contract as buyer only using generated token."
-msgstr "**NOTE:** Тепер користувачу дозволено редагувати контракт як замовник тільки використовуючи згенерований токен."
+msgid "**NOTE:** Then user can modify contract as buyer only using the last generated token."
+msgstr "**NOTE:** Тепер користувачу дозволено редагувати контракт як замовник тільки використовуючи останній згенерований токен."
+
+msgid "After token was regenerated, previous token can not be used for updating contract:"
+msgstr "Після того, як токен був перегенерований, попередній токен при редагуванні контракту вже не можна буде використати:"
 
 msgid "The same algorithm will be for supplier access."
 msgstr "Такий самий алгоритм і для отримання доступу постачальником."

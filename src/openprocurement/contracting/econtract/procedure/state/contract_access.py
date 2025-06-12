@@ -31,7 +31,6 @@ class ContractAccessState(BaseState):
     def validate_on_post(self, contract, role):
         self.validate_role(role)
         self.validate_access_generation_forbidden(contract, role)
-        self.validate_access_claimed(contract, role)
         self.validate_owner(contract, role)
 
     @staticmethod
@@ -60,11 +59,3 @@ class ContractAccessState(BaseState):
                 self.request,
                 "Owner mismatch",
             )
-
-    def validate_access_claimed(self, contract, role):
-        if role_access := get_access_fields_by_role(contract, role):
-            if role_access.get("token"):
-                raise_operation_error(
-                    self.request,
-                    "Access already claimed",
-                )
