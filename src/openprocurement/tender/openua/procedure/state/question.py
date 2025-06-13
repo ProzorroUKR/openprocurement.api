@@ -1,4 +1,4 @@
-from openprocurement.api.auth import ACCR_4
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.question import (
@@ -18,4 +18,4 @@ class UATenderQuestionStateMixin(TenderQuestionStateMixin):
 
 
 class UATenderQuestionState(UATenderQuestionStateMixin, OpenUATenderState):
-    question_create_accreditations = (ACCR_4,)
+    question_create_accreditations = (AccreditationLevel.ACCR_4,)

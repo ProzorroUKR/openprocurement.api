@@ -53,3 +53,4 @@ class ProcuringEntity(Organization):
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)
     signerInfo = ModelType(SignerInfo)
+    contract_owner = StringType()

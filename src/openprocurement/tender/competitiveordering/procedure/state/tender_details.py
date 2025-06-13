@@ -1,4 +1,4 @@
-from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.framework.dps.constants import DPS_TYPE
@@ -14,10 +14,10 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 )
 
 
-class COTenderDetailsState(TenderDetailsMixing, COTenderState):
-    tender_create_accreditations = (ACCR_3, ACCR_5)
-    tender_central_accreditations = (ACCR_5,)
-    tender_edit_accreditations = (ACCR_4,)
+class OpenTenderDetailsState(TenderDetailsMixing, COTenderState):
+    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     tender_period_working_day = False
     clarification_period_working_day = False
     tendering_period_extra = TENDERING_EXTRA_PERIOD

@@ -3,7 +3,7 @@ from typing import Any
 
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.auth import ACCR_RESTRICTED
+from openprocurement.api.auth import AccreditationPermission
 from openprocurement.api.constants import CPV_PREFIX_LENGTH_TO_NAME
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
@@ -408,7 +408,7 @@ def validate_restricted_object_action(request, obj_name, obj):
 
     validate_accreditation_level_base(
         request,
-        (ACCR_RESTRICTED,),
+        (AccreditationPermission.ACCR_RESTRICTED,),
         obj_name,
         "restricted data access",
     )

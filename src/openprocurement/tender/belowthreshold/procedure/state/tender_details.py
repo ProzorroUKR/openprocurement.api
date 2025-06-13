@@ -1,4 +1,4 @@
-from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.context import get_request_now
 from openprocurement.tender.belowthreshold.constants import TENDERING_EXTRA_PERIOD
 from openprocurement.tender.belowthreshold.procedure.models.tender import (
@@ -18,9 +18,9 @@ from openprocurement.tender.requestforproposal.procedure.models.tender import (
 
 
 class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
-    tender_create_accreditations = (ACCR_1, ACCR_5)
-    tender_central_accreditations = (ACCR_5,)
-    tender_edit_accreditations = (ACCR_2,)
+    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
 
     tendering_period_extra_working_days = True
     tendering_period_extra = TENDERING_EXTRA_PERIOD

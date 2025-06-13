@@ -1,4 +1,4 @@
-from openprocurement.api.auth import ACCR_4
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 from openprocurement.tender.openua.procedure.state.question import (
     UATenderQuestionStateMixin,
@@ -6,4 +6,4 @@ from openprocurement.tender.openua.procedure.state.question import (
 
 
 class ESCOTenderQuestionState(UATenderQuestionStateMixin, ESCOTenderState):
-    question_create_accreditations = (ACCR_4,)
+    question_create_accreditations = (AccreditationLevel.ACCR_4,)
