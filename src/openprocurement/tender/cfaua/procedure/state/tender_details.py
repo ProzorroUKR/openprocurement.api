@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
@@ -20,9 +20,9 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 
 
 class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
-    tender_create_accreditations = (ACCR_3, ACCR_5)
-    tender_central_accreditations = (ACCR_5,)
-    tender_edit_accreditations = (ACCR_4,)
+    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME

@@ -1,4 +1,4 @@
-from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
@@ -8,9 +8,9 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 
 
 class ReportingTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
-    tender_create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
-    tender_central_accreditations = (ACCR_5,)
-    tender_edit_accreditations = (ACCR_2,)
+    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
     should_initialize_enquiry_period = False
     should_validate_related_lot_in_items = False
 
@@ -18,9 +18,9 @@ class ReportingTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
 
 
 class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
-    tender_create_accreditations = (ACCR_3, ACCR_5)
-    tender_central_accreditations = (ACCR_5,)
-    tender_edit_accreditations = (ACCR_4,)
+    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     should_initialize_enquiry_period = False
     should_validate_related_lot_in_items = True
 

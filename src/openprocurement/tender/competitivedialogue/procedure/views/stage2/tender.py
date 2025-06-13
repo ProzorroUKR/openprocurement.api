@@ -1,7 +1,7 @@
 from cornice.resource import resource
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
-from openprocurement.api.auth import ACCR_5, ACCR_COMPETITIVE
+from openprocurement.api.auth import AccreditationLevel, AccreditationPermission
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     unless_admins,
@@ -78,8 +78,8 @@ class TenderStage2UEResource(TendersResource):
             validate_input_data(PostEUTender),
             validate_config_data(default=STAGE_2_EU_DEFAULT_CONFIG),
             validate_accreditation_level(
-                levels=(ACCR_COMPETITIVE,),
-                kind_central_levels=(ACCR_COMPETITIVE, ACCR_5),
+                levels=(AccreditationPermission.ACCR_COMPETITIVE,),
+                kind_central_levels=(AccreditationPermission.ACCR_COMPETITIVE, AccreditationLevel.ACCR_5),
                 item="tender",
                 operation="creation",
                 source="data",
@@ -141,8 +141,8 @@ class TenderStage2UAResource(TendersResource):
             validate_input_data(PostUATender),
             validate_config_data(default=STAGE_2_UA_DEFAULT_CONFIG),
             validate_accreditation_level(
-                levels=(ACCR_COMPETITIVE,),
-                kind_central_levels=(ACCR_COMPETITIVE, ACCR_5),
+                levels=(AccreditationPermission.ACCR_COMPETITIVE,),
+                kind_central_levels=(AccreditationPermission.ACCR_COMPETITIVE, AccreditationLevel.ACCR_5),
                 item="tender",
                 operation="creation",
                 source="data",

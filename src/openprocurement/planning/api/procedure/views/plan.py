@@ -4,7 +4,7 @@ from cornice.resource import resource
 from pyramid.request import Request
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import VERSION
 from openprocurement.api.procedure.validation import (
     unless_administrator,
@@ -85,7 +85,7 @@ class PlansResource(PlanBaseResource):
         validators=(
             validate_input_data(PostPlan),
             validate_accreditation_level(
-                levels=(ACCR_1, ACCR_3, ACCR_5),
+                levels=(AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
                 item="plan",
                 operation="creation",
                 source="data",

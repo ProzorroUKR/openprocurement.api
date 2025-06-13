@@ -1,22 +1,39 @@
 import binascii
 from configparser import ConfigParser
+from enum import StrEnum
 from hashlib import sha512
 
 from pyramid.authentication import BasicAuthAuthenticationPolicy, b64decode
 from pyramid.interfaces import IAuthenticationPolicy
 from pyramid.location import lineage
 
-ACCR_1 = "1"
-ACCR_2 = "2"
-ACCR_3 = "3"
-ACCR_4 = "4"
-ACCR_5 = "5"
-ACCR_COMPETITIVE = "c"
-ACCR_EXIT = "x"
-ACCR_TEST = "t"
-ACCR_RESTRICTED = "r"
 
-DEFAULT_ACCRS = "".join([ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5])
+class AccreditationLevel(StrEnum):
+    ACCR_1 = "1"
+    ACCR_2 = "2"
+    ACCR_3 = "3"
+    ACCR_4 = "4"
+    ACCR_5 = "5"
+    ACCR_6 = "6"
+
+
+class AccreditationPermission(StrEnum):
+    ACCR_COMPETITIVE = "c"
+    ACCR_EXIT = "x"
+    ACCR_TEST = "t"
+    ACCR_RESTRICTED = "r"
+
+
+DEFAULT_ACCRS = "".join(
+    [
+        AccreditationLevel.ACCR_1,
+        AccreditationLevel.ACCR_2,
+        AccreditationLevel.ACCR_3,
+        AccreditationLevel.ACCR_4,
+        AccreditationLevel.ACCR_5,
+        AccreditationLevel.ACCR_6,
+    ]
+)
 
 
 class AuthenticationPolicy(BasicAuthAuthenticationPolicy):

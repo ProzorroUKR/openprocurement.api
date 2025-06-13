@@ -1,4 +1,4 @@
-from openprocurement.api.auth import ACCR_2
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.tender.core.procedure.state.question import (
     TenderQuestionStateMixin,
 )
@@ -8,4 +8,4 @@ from openprocurement.tender.requestforproposal.procedure.state.tender import (
 
 
 class RequestForProposalTenderQuestionState(TenderQuestionStateMixin, RequestForProposalTenderState):
-    question_create_accreditations = (ACCR_2,)
+    question_create_accreditations = (AccreditationLevel.ACCR_2,)
