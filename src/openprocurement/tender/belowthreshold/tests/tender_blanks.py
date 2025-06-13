@@ -4697,3 +4697,51 @@ def set_buyers_signer_info(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["buyers"][0]["signerInfo"], test_signer_info)
+
+
+def set_procuring_entity_contract_owner(self):
+    tender_data = deepcopy(self.initial_data)
+    tender_data.pop("contractTemplateName")
+    tender_data["procuringEntity"]["contract_owner"] = "test"
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "procuringEntity",
+                "description": {"contract_owner": "could be set only along with signerInfo and contractTemplateName"},
+            }
+        ],
+    )
+
+    tender_data["contractTemplateName"] = "00000000.0002.01"
+    tender_data["procuringEntity"]["signerInfo"] = test_signer_info
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "procuringEntity",
+                "description": {"contract_owner": "should be one of brokers with level 6"},
+            }
+        ],
+    )
+
+    tender_data["procuringEntity"]["contract_owner"] = "broker"
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["procuringEntity"]["contract_owner"], "broker")
+
+    buyer = deepcopy(test_tender_below_buyer)
+    buyer["id"] = uuid4().hex
+    buyer["contract_owner"] = "broker"
+
+    tender_data["buyers"] = [buyer]
+    tender_data["items"][0]["relatedBuyer"] = buyer["id"]
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["buyers"][0]["contract_owner"], "broker")

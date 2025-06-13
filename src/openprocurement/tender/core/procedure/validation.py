@@ -19,10 +19,7 @@ from schematics.types import (
     StringType,
 )
 
-from openprocurement.api.auth import (
-    AccreditationLevel,
-    extract_access_token,
-)
+from openprocurement.api.auth import AccreditationLevel, extract_access_token
 from openprocurement.api.constants import (
     ATC_SCHEME,
     CCCE_UA_SCHEME,

@@ -45,3 +45,14 @@ Schema
         - ``other`` -  State or utility company that is not regarded as procuring entity
         - ``social`` - Social insurance authority
         - ``special`` - A legal entity that operates in one or more specific business areas
+
+
+Additional in :ref:`tender`:
+
+:signerInfo:
+    :ref:`SignerInfo`
+
+:contract_owner:
+    string
+
+    Could be one of the brokers which has the 6th level of accreditation
