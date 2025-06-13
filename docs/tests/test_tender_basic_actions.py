@@ -55,7 +55,21 @@ from openprocurement.tender.open.tests.base import (
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.openua.tests.base import test_tender_openua_config
 from openprocurement.tender.pricequotation.tests.base import (
+    BaseTenderWebTest as BasePQWebTest,
+)
+from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_short_profile,
+)
+from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_category,
+    test_tender_pq_criteria_1,
+    test_tender_pq_data,
+    test_tender_pq_response_1,
+    test_tender_pq_supplier,
+)
+from openprocurement.tender.pricequotation.tests.utils import (
+    copy_criteria_req_id,
+    criteria_drop_uuids,
 )
 
 test_tender_below_data = deepcopy(test_docs_tender_below)
@@ -4023,3 +4037,136 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 {"data": {"contractTemplateName": "00000000.0002.01"}},
                 status=422,
             )
+
+
+class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
+    AppClass = DumpsWebTestApp
+
+    relative_to = os.path.dirname(__file__)
+    docservice_url = DOCS_URL
+
+    @patch_market(
+        {
+            "id": "1" * 32,
+            "relatedCategory": "655360-30230000-889652",
+            "criteria": deepcopy(test_tender_pq_criteria_1),
+        },
+        test_tender_pq_category,
+    )
+    def test_tender_contract_owner(self):
+        tender_data = deepcopy(test_tender_pq_data)
+        tender_data["procuringEntity"]["identifier"]["id"] = "00037257"
+        self.app.authorization = ('Basic', ('broker', ''))
+        # empty tenders listing
+        response = self.app.get('/tenders')
+        self.assertEqual(response.json['data'], [])
+
+        # create tender
+        tender_data['items'].append(deepcopy(tender_data['items'][0]))
+        for item in tender_data['items']:
+            item["id"] = uuid4().hex
+            item['deliveryDate'] = {
+                "startDate": (get_now() + timedelta(days=2)).isoformat(),
+                "endDate": (get_now() + timedelta(days=5)).isoformat(),
+            }
+        tender_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
+        set_tender_criteria(
+            tender_criteria,
+            tender_data.get("lots", []),
+            tender_data.get("items", []),
+        )
+        tender_data.update(
+            {
+                "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+                "criteria": tender_criteria,
+            }
+        )
+
+        agreement = {"id": self.agreement_id}
+        tender_data["agreement"] = agreement
+
+        contract_template = tender_data.pop("contractTemplateName")
+        tender_data["procuringEntity"]["contract_owner"] = "brokerx"
+
+        with open(TARGET_DIR + 'contract-owner/add-contract-owner-no-template.http', 'w') as self.app.file_obj:
+            self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config}, status=422)
+
+        tender_data["contractTemplateName"] = contract_template
+        with open(TARGET_DIR + 'contract-owner/add-contract-owner-invalid-broker.http', 'w') as self.app.file_obj:
+            self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config}, status=422)
+
+        tender_data["procuringEntity"]["contract_owner"] = "broker"
+        with open(TARGET_DIR + 'contract-owner/add-contract-owner-buyer.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config})
+        tender_id = self.tender_id = response.json['data']['id']
+        tender_token = response.json['access']['token']
+        tender_items = response.json['data']['items']
+        # switch to active.tendering
+        response = self.set_status(
+            'active.tendering', extra={'auctionPeriod': {'startDate': (get_now() + timedelta(days=10)).isoformat()}}
+        )
+        tender = response.json["data"]
+        self.assertIn("auctionPeriod", response.json['data'])
+        # create bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        supplier = deepcopy(test_tender_pq_supplier)
+        supplier["contract_owner"] = "broker6"
+        product = {"id": "1" * 32, "status": "active"}
+        with patch(
+            "openprocurement.api.utils.requests.get",
+            Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
+        ), open(TARGET_DIR + 'contract-owner/add-contract-owner-supplier.http', 'w') as self.app.file_obj:
+            bid, bid_token = self.create_bid(
+                self.tender_id,
+                {
+                    'tenderers': [supplier],
+                    'value': {'amount': 500},
+                    'requirementResponses': copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1),
+                    'items': [
+                        {
+                            "id": tender_items[0]["id"],
+                            "description": "Комп’ютерне обладнання для біда",
+                            "quantity": 10,
+                            "unit": {
+                                "name": "кг",
+                                "code": "KGM",
+                                "value": {"amount": 40, "valueAddedTaxIncluded": False},
+                            },
+                            "product": product['id'],
+                        },
+                        {
+                            "id": tender_items[1]["id"],
+                            "description": "Комп’ютерне обладнання",
+                            "quantity": 5,
+                            "unit": {
+                                "name": "кг",
+                                "code": "KGM",
+                                "value": {"amount": 10, "valueAddedTaxIncluded": False},
+                            },
+                            "product": product['id'],
+                        },
+                    ],
+                },
+            )
+        # switch to active.qualification
+        self.set_status('active.qualification')
+        # get awards
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get(f'/tenders/{tender_id}/awards?acc_token={tender_token}')
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        # set award as active
+        self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{award_id}/documents")
+        self.app.patch_json(
+            f'/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}',
+            {"data": {"status": "active", "qualified": True}},
+        )
+        # get contract id
+        response = self.app.get(f'/tenders/{tender_id}')
+        contract = response.json['data']['contracts'][-1]
+        contract_id = contract['id']
+
+        with open(TARGET_DIR + 'contract-owner/get-contract-owners.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/contracts/{contract_id}')
+            self.assertEqual(response.json["data"]["buyer"]["contract_owner"], "broker")
+            self.assertEqual(response.json["data"]["suppliers"][0]["contract_owner"], "broker6")

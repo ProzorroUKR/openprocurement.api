@@ -437,7 +437,7 @@ Schema
   The funder is an entity providing money or finance for contracting process.
 
 :buyers:
-   List of :ref:`PlanOrganization` objects, required at least 1 object in case of the central procurement kind
+   List of :ref:`Buyer` objects, required at least 1 object in case of the central procurement kind
 
    Identifications of the subjects in whose interests the purchase is made
 

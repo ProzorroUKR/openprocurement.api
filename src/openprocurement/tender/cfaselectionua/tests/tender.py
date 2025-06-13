@@ -8,6 +8,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central_invalid,
     patch_tender_lots_none,
     set_buyers_signer_info,
+    set_procuring_entity_contract_owner,
     set_procuring_entity_signer_info,
     tender_milestones_not_required,
 )
@@ -112,6 +113,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_contract_template_name_set = snitch(contract_template_name_set)
     test_set_procuring_entity_signer_info = snitch(set_procuring_entity_signer_info)
     test_set_buyers_signer_info = snitch(set_buyers_signer_info)
+    test_set_procuring_entity_contract_owner = snitch(set_procuring_entity_contract_owner)
 
 
 class TenderProcessTest(BaseTenderWebTest):

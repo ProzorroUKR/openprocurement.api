@@ -11,7 +11,7 @@ Schema
 ------
 
 :tenderers:
-    List of :ref:`BusinessOrganization` objects
+    List of :ref:`Tenderer` objects
 
 :date:
     string, :ref:`date`, auto-generated
