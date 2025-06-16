@@ -12,7 +12,9 @@ from openprocurement.tender.competitiveordering.procedure.models.award import (
     Award,
     PatchAward,
 )
-from openprocurement.tender.competitiveordering.procedure.state.award import COAwardState
+from openprocurement.tender.competitiveordering.procedure.state.award import (
+    COAwardState,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_update_award_in_not_allowed_status,

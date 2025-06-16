@@ -22,7 +22,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 from openprocurement.tender.competitiveordering.tests.base import (
     BaseTenderCOWebTest,
     test_tender_co_bids,
-    test_tender_co_config,
     test_tender_co_data,
 )
 from openprocurement.tender.competitiveordering.tests.tender_blanks import (
@@ -92,6 +91,9 @@ class TenderCOResourceTest(BaseTenderCOWebTest, TenderResourceTestMixin, TenderC
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_get_ocds_schema = snitch(get_ocds_schema)
+    test_create_tender_co = snitch(create_tender_co)
+    test_create_tender_co_invalid_config = snitch(create_tender_co_invalid_config)
+    test_create_tender_co_invalid_agreement = snitch(create_tender_co_invalid_agreement)
 
 
 @patch(
@@ -111,16 +113,6 @@ class TenderCOProcessTest(BaseTenderCOWebTest, TenderCOProcessTestMixin):
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)
     test_invalid1_and_1draft_bids_tender = snitch(invalid1_and_1draft_bids_tender)
     test_activate_bid_after_adding_lot = snitch(activate_bid_after_adding_lot)
-
-
-class TenderCOResourceTest(BaseTenderCOWebTest):
-    initial_lots = test_tender_below_lots
-    initial_config = test_tender_co_config
-    initial_data = test_tender_co_data
-
-    test_create_tender = snitch(create_tender_co)
-    test_create_tender_invalid_config = snitch(create_tender_co_invalid_config)
-    test_create_tender_invalid_agreement = snitch(create_tender_co_invalid_agreement)
 
 
 def suite():
