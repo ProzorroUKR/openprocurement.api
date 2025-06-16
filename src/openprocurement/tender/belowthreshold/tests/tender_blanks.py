@@ -4701,7 +4701,7 @@ def set_buyers_signer_info(self):
 
 def set_procuring_entity_contract_owner(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data.pop("contractTemplateName")
+    tender_data.pop("contractTemplateName", None)
     tender_data["procuringEntity"]["contract_owner"] = "test"
 
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)

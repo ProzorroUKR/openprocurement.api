@@ -2,6 +2,7 @@ from cornice.service import Service
 from pyramid.interfaces import IAuthenticationPolicy
 from pyramid.response import Response
 
+from openprocurement.api.auth import AccreditationLevel, AccreditationPermission
 from openprocurement.api.constants import BROKERS
 
 constants_service = Service(name="brokers", path="/brokers", renderer="json")
@@ -21,9 +22,9 @@ def get_brokers(request):
             levels = []
             permissions = []
             for symb in list(user_data["level"]):
-                if symb.isdigit():
+                if symb in AccreditationLevel:
                     levels.append(int(symb))
-                else:
+                elif symb in AccreditationPermission:
                     permissions.append(symb)
             users.append(
                 {
@@ -33,4 +34,4 @@ def get_brokers(request):
                     "permissions": permissions,
                 }
             )
-    return Response(json_body=users)
+    return Response(json_body={"data": users})

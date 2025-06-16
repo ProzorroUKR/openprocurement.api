@@ -41,7 +41,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH"
     },
     "tenderPeriod": {
-      "endDate": "2025-06-27T17:52:35.226816+03:00"
+      "endDate": "2023-10-24T01:00:00+03:00"
     },
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
@@ -52,8 +52,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "profile": "655360-30230000-889652-40000777",
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2025-06-15T17:52:35.226543+03:00",
-          "endDate": "2025-06-18T17:52:35.226602+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "кг",
@@ -81,7 +81,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "id": "af97fc4b849046d7963f961e8849d8bc"
+        "id": "b7fa8976d57c48e9842ede4ef92ccbf3"
       },
       {
         "description": "Комп’ютерне обладнання",
@@ -89,8 +89,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "profile": "655360-30230000-889652-40000777",
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2025-06-15T17:52:35.226649+03:00",
-          "endDate": "2025-06-18T17:52:35.226679+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "кг",
@@ -118,7 +118,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "id": "05db985df9a749e2ac8ca5746e30fe9f"
+        "id": "4a394e96ce404b50b469bc48dd41fbd9"
       }
     ],
     "agreement": {
@@ -181,7 +181,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         ],
         "title": "Форма випуску",
-        "relatedItem": "af97fc4b849046d7963f961e8849d8bc"
+        "relatedItem": "b7fa8976d57c48e9842ede4ef92ccbf3"
       }
     ],
     "contractTemplateName": "00000000.0002.01"
@@ -212,7 +212,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444fbbec1c1b57823cb0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2e09b62732bf4c3d8fbdd73a762d660a
 
 {
   "data": {
@@ -232,8 +232,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2025-06-27T17:52:35.226816+03:00",
-      "startDate": "2025-06-13T17:52:35.323149+03:00"
+      "endDate": "2023-10-24T01:00:00+03:00",
+      "startDate": "2023-10-10T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -268,7 +268,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
       {
         "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
-        "id": "af97fc4b849046d7963f961e8849d8bc",
+        "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -277,8 +277,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
           "id": "44617100-9"
         },
         "deliveryDate": {
-          "startDate": "2025-06-15T17:52:35.226543+03:00",
-          "endDate": "2025-06-18T17:52:35.226602+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -307,7 +307,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
       {
         "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
-        "id": "05db985df9a749e2ac8ca5746e30fe9f",
+        "id": "4a394e96ce404b50b469bc48dd41fbd9",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -316,8 +316,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
           "id": "44617100-9"
         },
         "deliveryDate": {
-          "startDate": "2025-06-15T17:52:35.226649+03:00",
-          "endDate": "2025-06-18T17:52:35.226679+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -346,11 +346,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
     ],
     "criteria": [
       {
-        "id": "fd5cf5c4adaf4029ac4f8ed1ee8d3a91",
+        "id": "f2619a36180a443a8f15a5c1b085f0bb",
         "description": "Форма випуску",
         "source": "tenderer",
         "relatesTo": "item",
-        "relatedItem": "af97fc4b849046d7963f961e8849d8bc",
+        "relatedItem": "b7fa8976d57c48e9842ede4ef92ccbf3",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -369,11 +369,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
         ],
         "requirementGroups": [
           {
-            "id": "27a4d6e04e5a4642b7b947c4a16100d7",
+            "id": "f2ccf492fb11463db9fe796b073c2a80",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "f1d112543e944ec4921aed16eeee4d1c",
+                "id": "0d62551a96c543fb9aef54a9b2fa2363",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -381,10 +381,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
                   "Розчин для інфузій"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2025-06-13T17:52:35.323149+03:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
-                "id": "2654efa2a4c24d97bc8654b1a8e1bd8e",
+                "id": "2379ed6264454c3cba0f7f1f56f46046",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -393,10 +393,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
                   "name": "кілограми"
                 },
                 "minValue": 5,
-                "datePublished": "2025-06-13T17:52:35.323149+03:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
-                "id": "86f6ad38311e4745ae61ef627a742053",
+                "id": "7ae4d722145b4ce0abb9dcd5a570d473",
                 "title": "Форма випуску 1",
                 "dataType": "string",
                 "status": "active",
@@ -408,19 +408,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
                 ],
                 "expectedMinItems": 1,
                 "expectedMaxItems": 3,
-                "datePublished": "2025-06-13T17:52:35.323149+03:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
           }
         ]
       }
     ],
-    "tenderID": "UA-2025-06-13-000003-a",
+    "tenderID": "UA-2023-10-10-000003-a",
     "owner": "broker",
-    "date": "2025-06-13T17:52:35.323149+03:00",
-    "dateCreated": "2025-06-13T17:52:35.323149+03:00",
-    "dateModified": "2025-06-13T17:52:35.323149+03:00",
-    "id": "b2c76aea070a444fbbec1c1b57823cb0"
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "id": "2e09b62732bf4c3d8fbdd73a762d660a"
   },
   "config": {
     "hasAuction": false,
@@ -444,8 +444,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
     "restricted": false
   },
   "access": {
-    "token": "83a4ab12148b48349e9e732f236b297c",
-    "transfer": "34a75a697b8345c6847bbcd93bd4820e"
+    "token": "6913625b88c24dd29fd64d4657ef196b",
+    "transfer": "58a5e258e90d4fcbbe3c02ada735978b"
   }
 }
 

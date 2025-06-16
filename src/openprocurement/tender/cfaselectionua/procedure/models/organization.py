@@ -25,3 +25,4 @@ class Organization(BaseOrganization):
 class ProcuringEntity(Organization):
     kind = StringType(choices=CFA_SELECTION_KINDS, required=True)
     signerInfo = ModelType(SignerInfo)
+    contract_owner = StringType()

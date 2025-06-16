@@ -41,7 +41,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH"
     },
     "tenderPeriod": {
-      "endDate": "2025-06-27T17:52:35.226816+03:00"
+      "endDate": "2023-10-24T01:00:00+03:00"
     },
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
@@ -52,8 +52,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "profile": "655360-30230000-889652-40000777",
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2025-06-15T17:52:35.226543+03:00",
-          "endDate": "2025-06-18T17:52:35.226602+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "кг",
@@ -81,7 +81,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "id": "af97fc4b849046d7963f961e8849d8bc"
+        "id": "b7fa8976d57c48e9842ede4ef92ccbf3"
       },
       {
         "description": "Комп’ютерне обладнання",
@@ -89,8 +89,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "profile": "655360-30230000-889652-40000777",
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2025-06-15T17:52:35.226649+03:00",
-          "endDate": "2025-06-18T17:52:35.226679+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "кг",
@@ -118,7 +118,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "id": "05db985df9a749e2ac8ca5746e30fe9f"
+        "id": "4a394e96ce404b50b469bc48dd41fbd9"
       }
     ],
     "agreement": {
@@ -181,7 +181,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         ],
         "title": "Форма випуску",
-        "relatedItem": "af97fc4b849046d7963f961e8849d8bc"
+        "relatedItem": "b7fa8976d57c48e9842ede4ef92ccbf3"
       }
     ],
     "contractTemplateName": "00000000.0002.01"
