@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/b2c76aea070a444fbbec1c1b57823cb0/bids HTTP/1.0
+POST /api/2.5/tenders/2e09b62732bf4c3d8fbdd73a762d660a/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -42,7 +42,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "f1d112543e944ec4921aed16eeee4d1c"
+          "id": "0d62551a96c543fb9aef54a9b2fa2363"
         },
         "values": [
           "Розчин для інфузій"
@@ -50,13 +50,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "2654efa2a4c24d97bc8654b1a8e1bd8e"
+          "id": "2379ed6264454c3cba0f7f1f56f46046"
         },
         "value": 5
       },
       {
         "requirement": {
-          "id": "86f6ad38311e4745ae61ef627a742053"
+          "id": "7ae4d722145b4ce0abb9dcd5a570d473"
         },
         "values": [
           "Відповідь1",
@@ -66,7 +66,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "af97fc4b849046d7963f961e8849d8bc",
+        "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
         "description": "Комп’ютерне обладнання для біда",
         "quantity": 10,
         "unit": {
@@ -80,7 +80,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "product": "11111111111111111111111111111111"
       },
       {
-        "id": "05db985df9a749e2ac8ca5746e30fe9f",
+        "id": "4a394e96ce404b50b469bc48dd41fbd9",
         "description": "Комп’ютерне обладнання",
         "quantity": 5,
         "unit": {
@@ -100,7 +100,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444fbbec1c1b57823cb0/bids/3ff1c1aa74244f70a632393fd15c5ab6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2e09b62732bf4c3d8fbdd73a762d660a/bids/87a857e2ceb8455e9bf83fcc6abd38a7
 
 {
   "data": {
@@ -143,13 +143,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
     "requirementResponses": [
       {
         "requirement": {
-          "id": "f1d112543e944ec4921aed16eeee4d1c",
+          "id": "0d62551a96c543fb9aef54a9b2fa2363",
           "title": "Форма випуску"
         },
         "values": [
           "Розчин для інфузій"
         ],
-        "id": "cd1dbc7490e540798a2bd745fd7b958b",
+        "id": "05f7f97d9c9e4d03aee04a2f7ff2da9e",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -157,11 +157,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
       },
       {
         "requirement": {
-          "id": "2654efa2a4c24d97bc8654b1a8e1bd8e",
+          "id": "2379ed6264454c3cba0f7f1f56f46046",
           "title": "Доза діючої речовини"
         },
         "value": 5,
-        "id": "3a32bf7e8cf74523b3b7c9d6448df161",
+        "id": "533e7f5f79f64ba9b630edb0dbdbefe0",
         "unit": {
           "code": "KGM",
           "name": "кілограми"
@@ -173,14 +173,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
       },
       {
         "requirement": {
-          "id": "86f6ad38311e4745ae61ef627a742053",
+          "id": "7ae4d722145b4ce0abb9dcd5a570d473",
           "title": "Форма випуску 1"
         },
         "values": [
           "Відповідь1",
           "Відповідь2"
         ],
-        "id": "360662ec6c524e009943fe6dd5503702",
+        "id": "082aa4e993bf44d3854e4745c0e901bf",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -190,7 +190,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
     "status": "draft",
     "items": [
       {
-        "id": "af97fc4b849046d7963f961e8849d8bc",
+        "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
         "description": "Комп’ютерне обладнання для біда",
         "unit": {
           "name": "кг",
@@ -205,7 +205,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
         "product": "11111111111111111111111111111111"
       },
       {
-        "id": "05db985df9a749e2ac8ca5746e30fe9f",
+        "id": "4a394e96ce404b50b469bc48dd41fbd9",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -220,16 +220,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2c76aea070a444f
         "product": "11111111111111111111111111111111"
       }
     ],
-    "id": "3ff1c1aa74244f70a632393fd15c5ab6",
-    "date": "2025-06-13T17:52:35.403247+03:00"
+    "id": "87a857e2ceb8455e9bf83fcc6abd38a7",
+    "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "00307e51bcfc44e797d5b11819d10395",
-    "transfer": "ec8e35a015b0470e97fcc8a646a49abe"
+    "token": "6c3c2e421e1a466e8ab8fa377afd0b96",
+    "transfer": "957bc767a13f4f3ba983c4110c30bcf5"
   }
 }
 
-PATCH /api/2.5/tenders/b2c76aea070a444fbbec1c1b57823cb0/bids/3ff1c1aa74244f70a632393fd15c5ab6?acc_token=00307e51bcfc44e797d5b11819d10395 HTTP/1.0
+PATCH /api/2.5/tenders/2e09b62732bf4c3d8fbdd73a762d660a/bids/87a857e2ceb8455e9bf83fcc6abd38a7?acc_token=6c3c2e421e1a466e8ab8fa377afd0b96 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -246,8 +246,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "3ff1c1aa74244f70a632393fd15c5ab6",
-    "date": "2025-06-13T17:52:35.426673+03:00",
+    "id": "87a857e2ceb8455e9bf83fcc6abd38a7",
+    "date": "2023-10-10T01:00:00+03:00",
     "tenderers": [
       {
         "name": "Державне управління справами",
@@ -287,13 +287,13 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "f1d112543e944ec4921aed16eeee4d1c",
+          "id": "0d62551a96c543fb9aef54a9b2fa2363",
           "title": "Форма випуску"
         },
         "values": [
           "Розчин для інфузій"
         ],
-        "id": "cd1dbc7490e540798a2bd745fd7b958b",
+        "id": "05f7f97d9c9e4d03aee04a2f7ff2da9e",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -301,11 +301,11 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "2654efa2a4c24d97bc8654b1a8e1bd8e",
+          "id": "2379ed6264454c3cba0f7f1f56f46046",
           "title": "Доза діючої речовини"
         },
         "value": 5,
-        "id": "3a32bf7e8cf74523b3b7c9d6448df161",
+        "id": "533e7f5f79f64ba9b630edb0dbdbefe0",
         "unit": {
           "code": "KGM",
           "name": "кілограми"
@@ -317,14 +317,14 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "86f6ad38311e4745ae61ef627a742053",
+          "id": "7ae4d722145b4ce0abb9dcd5a570d473",
           "title": "Форма випуску 1"
         },
         "values": [
           "Відповідь1",
           "Відповідь2"
         ],
-        "id": "360662ec6c524e009943fe6dd5503702",
+        "id": "082aa4e993bf44d3854e4745c0e901bf",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -334,7 +334,7 @@ Content-Type: application/json
     "status": "pending",
     "items": [
       {
-        "id": "af97fc4b849046d7963f961e8849d8bc",
+        "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
         "description": "Комп’ютерне обладнання для біда",
         "unit": {
           "name": "кг",
@@ -349,7 +349,7 @@ Content-Type: application/json
         "product": "11111111111111111111111111111111"
       },
       {
-        "id": "05db985df9a749e2ac8ca5746e30fe9f",
+        "id": "4a394e96ce404b50b469bc48dd41fbd9",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -364,7 +364,7 @@ Content-Type: application/json
         "product": "11111111111111111111111111111111"
       }
     ],
-    "submissionDate": "2025-06-13T17:52:35.426673+03:00"
+    "submissionDate": "2023-10-10T01:00:00+03:00"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/9432140a177b4871b54d1ab017a5c909 HTTP/1.0
+GET /api/2.5/contracts/75e93e639c2f4601a8fa27571fa6ca6c HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,8 +8,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "de2c27e7a9d0498e9e443a4278945173",
-    "contractID": "UA-2025-06-13-000003-a-1",
+    "awardID": "0f3b6ae77a0b416abb4068794100d1ee",
+    "contractID": "UA-2023-10-10-000003-a-1",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -18,7 +18,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "af97fc4b849046d7963f961e8849d8bc",
+        "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
         "description": "Комп’ютерне обладнання для біда",
         "quantity": 10.0,
         "classification": {
@@ -50,8 +50,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2025-06-15T17:52:35.226543+03:00",
-          "endDate": "2025-06-18T17:52:35.226602+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "attributes": [
           {
@@ -78,7 +78,7 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "05db985df9a749e2ac8ca5746e30fe9f",
+        "id": "4a394e96ce404b50b469bc48dd41fbd9",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -110,8 +110,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2025-06-15T17:52:35.226649+03:00",
-          "endDate": "2025-06-18T17:52:35.226679+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         }
       }
     ],
@@ -168,12 +168,12 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "b2c76aea070a444fbbec1c1b57823cb0",
+    "tender_id": "2e09b62732bf4c3d8fbdd73a762d660a",
     "contractTemplateName": "00000000.0002.01",
     "status": "pending",
-    "dateCreated": "2025-06-13T17:52:35.511096+03:00",
-    "dateModified": "2025-06-13T17:52:35.511096+03:00",
-    "id": "9432140a177b4871b54d1ab017a5c909"
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "id": "75e93e639c2f4601a8fa27571fa6ca6c"
   },
   "config": {
     "restricted": false

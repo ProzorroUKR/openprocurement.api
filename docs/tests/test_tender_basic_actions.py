@@ -4045,6 +4045,14 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
     relative_to = os.path.dirname(__file__)
     docservice_url = DOCS_URL
 
+    def setUp(self):
+        super().setUp()
+        self.setUpMock()
+
+    def tearDown(self):
+        self.tearDownMock()
+        super().tearDown()
+
     @patch_market(
         {
             "id": "1" * 32,
