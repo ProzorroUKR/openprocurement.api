@@ -13,5 +13,5 @@ from openprocurement.tender.core.procedure.views.cancellation_complaint_post imp
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender cancellation complaint posts",
 )
-class OpenCancellationComplaintPostResource(BaseCancellationComplaintPostResource):
+class COCancellationComplaintPostResource(BaseCancellationComplaintPostResource):
     pass

@@ -20,7 +20,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_milestones_required,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAWebTest,
+    BaseTenderCOWebTest,
     test_tender_co_bids,
     test_tender_co_config,
     test_tender_co_data,
@@ -53,20 +53,20 @@ from openprocurement.tender.open.tests.tender_blanks import (
 )
 
 
-class TenderUAResourceTestMixin:
+class TenderCOResourceTestMixin:
     test_empty_listing = snitch(empty_listing)
     test_tender_fields = snitch(tender_fields)
     test_patch_tender_period = snitch(patch_tender_period)
 
 
-class TenderUaProcessTestMixin:
+class TenderCOProcessTestMixin:
     test_invalid_bid_tender_features = snitch(invalid_bid_tender_features)
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
     test_first_bid_tender = snitch(first_bid_tender)
     test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 
-class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
+class TenderCOResourceTest(BaseTenderCOWebTest, TenderResourceTestMixin, TenderCOResourceTestMixin):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
 
@@ -98,7 +98,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
+class TenderCOProcessTest(BaseTenderCOWebTest, TenderCOProcessTestMixin):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
     initial_bids = test_tender_co_bids
@@ -113,7 +113,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     test_activate_bid_after_adding_lot = snitch(activate_bid_after_adding_lot)
 
 
-class TenderCOResourceTest(BaseTenderUAWebTest):
+class TenderCOResourceTest(BaseTenderCOWebTest):
     initial_lots = test_tender_below_lots
     initial_config = test_tender_co_config
     initial_data = test_tender_co_data
@@ -125,8 +125,8 @@ class TenderCOResourceTest(BaseTenderUAWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAProcessTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCOProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCOResourceTest))
     return suite
 
 

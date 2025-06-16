@@ -13,5 +13,5 @@ from openprocurement.tender.core.procedure.views.award_milestone import (
     description="Tender award milestones",
     procurementMethodType=COMPETITIVE_ORDERING,
 )
-class UAAwardMilestoneResource(BaseAwardMilestoneResource):
+class COAwardMilestoneResource(BaseAwardMilestoneResource):
     pass

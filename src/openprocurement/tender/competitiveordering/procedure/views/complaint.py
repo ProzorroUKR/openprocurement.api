@@ -2,10 +2,10 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.claim import (
-    OpenTenderClaimState,
+    COTenderClaimState,
 )
 from openprocurement.tender.competitiveordering.procedure.state.complaint import (
-    OpenTenderComplaintState,
+    COTenderComplaintState,
 )
 from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
 from openprocurement.tender.core.procedure.views.complaint import (
@@ -22,7 +22,7 @@ from openprocurement.tender.core.procedure.views.complaint import (
     request_method=["GET"],
     description="Tender complaints get",
 )
-class OpenTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
+class COTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     pass
 
 
@@ -35,8 +35,8 @@ class OpenTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     complaintType="claim",
     description="Tender claims",
 )
-class OpenTenderClaimResource(TenderClaimResource):
-    state_class = OpenTenderClaimState
+class COTenderClaimResource(TenderClaimResource):
+    state_class = COTenderClaimState
 
 
 @resource(
@@ -48,5 +48,5 @@ class OpenTenderClaimResource(TenderClaimResource):
     complaintType="complaint",
     description="Tender complaints",
 )
-class OpenTenderComplaintResource(TenderComplaintResource):
-    state_class = OpenTenderComplaintState
+class COTenderComplaintResource(TenderComplaintResource):
+    state_class = COTenderComplaintState

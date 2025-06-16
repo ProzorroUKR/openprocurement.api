@@ -13,5 +13,5 @@ from openprocurement.tender.core.procedure.views.complaint_post import (
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender complaint posts",
 )
-class OpenComplaintPostResource(BaseTenderComplaintPostResource):
+class COComplaintPostResource(BaseTenderComplaintPostResource):
     pass

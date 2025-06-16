@@ -13,5 +13,5 @@ from openprocurement.tender.core.procedure.views.award_complaint_post_document i
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender award complaint post documents",
 )
-class OpenAwardComplaintPostDocumentResource(BaseAwardComplaintPostDocumentResource):
+class COAwardComplaintPostDocumentResource(BaseAwardComplaintPostDocumentResource):
     pass

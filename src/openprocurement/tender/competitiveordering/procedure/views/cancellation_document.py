@@ -13,5 +13,5 @@ from openprocurement.tender.core.procedure.views.cancellation_document import (
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender cancellation documents",
 )
-class CancellationDocumentResource(BaseCancellationDocumentResource):
+class COCancellationDocumentResource(BaseCancellationDocumentResource):
     pass

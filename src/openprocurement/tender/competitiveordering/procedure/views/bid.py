@@ -38,7 +38,7 @@ LOGGER = getLogger(__name__)
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender bids",
 )
-class OpenTenderBidResource(TenderBidResource):
+class COTenderBidResource(TenderBidResource):
     @json_view(
         content_type="application/json",
         permission="create_bid",

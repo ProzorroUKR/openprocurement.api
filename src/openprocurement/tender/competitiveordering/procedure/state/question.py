@@ -1,7 +1,7 @@
 from openprocurement.api.auth import ACCR_4
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
-    OpenTenderState,
+    COTenderState,
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.question import (
@@ -9,7 +9,7 @@ from openprocurement.tender.core.procedure.state.question import (
 )
 
 
-class OpenTenderQuestionStateMixin(TenderQuestionStateMixin):
+class COTenderQuestionStateMixin(TenderQuestionStateMixin):
     def validate_question_operation(self, tender, question):
         super().validate_question_operation(tender, question)
         if tender["status"] != "active.tendering":
@@ -19,5 +19,5 @@ class OpenTenderQuestionStateMixin(TenderQuestionStateMixin):
             )
 
 
-class OpenTenderQuestionState(OpenTenderQuestionStateMixin, OpenTenderState):
+class COTenderQuestionState(COTenderQuestionStateMixin, COTenderState):
     question_create_accreditations = (ACCR_4,)

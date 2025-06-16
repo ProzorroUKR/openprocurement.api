@@ -1,7 +1,7 @@
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
-    OpenTenderState,
+    COTenderState,
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.cancellation import (
@@ -9,7 +9,7 @@ from openprocurement.tender.core.procedure.state.cancellation import (
 )
 
 
-class OpenUACancellationStateMixing(CancellationStateMixing):
+class COCancellationStateMixing(CancellationStateMixing):
     _after_release_reason_types = [
         "noDemand",
         "unFixable",
@@ -56,5 +56,5 @@ class OpenUACancellationStateMixing(CancellationStateMixing):
             check_lot_items(lot_id)
 
 
-class OpenCancellationState(OpenUACancellationStateMixing, OpenTenderState):
+class COCancellationState(COCancellationStateMixing, COTenderState):
     pass

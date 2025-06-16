@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.question import (
-    OpenTenderQuestionState,
+    COTenderQuestionState,
 )
 from openprocurement.tender.core.procedure.views.question import TenderQuestionResource
 
@@ -14,5 +14,5 @@ from openprocurement.tender.core.procedure.views.question import TenderQuestionR
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender questions",
 )
-class UATenderQuestionResource(TenderQuestionResource):
-    state_class = OpenTenderQuestionState
+class COTenderQuestionResource(TenderQuestionResource):
+    state_class = COTenderQuestionState

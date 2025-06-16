@@ -1,10 +1,10 @@
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
-    OpenTenderState,
+    COTenderState,
 )
 from openprocurement.tender.core.procedure.state.cancellation_complaint import (
     CancellationComplaintStateMixin,
 )
 
 
-class OpenCancellationComplaintState(CancellationComplaintStateMixin, OpenTenderState):
+class COCancellationComplaintState(CancellationComplaintStateMixin, COTenderState):
     pass

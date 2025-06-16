@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.lot import (
-    TenderLotState,
+    CompetitiveOrderingTenderLotState,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
@@ -14,5 +14,5 @@ from openprocurement.tender.core.procedure.views.lot import TenderLotResource
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender lots",
 )
-class TenderUALotResource(TenderLotResource):
-    state_class = TenderLotState
+class COTenderLotResource(TenderLotResource):
+    state_class = CompetitiveOrderingTenderLotState

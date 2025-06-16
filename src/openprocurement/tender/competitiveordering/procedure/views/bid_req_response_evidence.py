@@ -11,7 +11,7 @@ from openprocurement.tender.core.procedure.views.bid_req_response_evidence impor
     collection_path="/tenders/{tender_id}/bids/{bid_id}/requirement_responses/{requirement_response_id}/evidences",
     path="/tenders/{tender_id}/bids/{bid_id}/requirement_responses/{requirement_response_id}/evidences/{evidence_id}",
     procurementMethodType=COMPETITIVE_ORDERING,
-    description="Tender UA bidder evidences",
+    description="Tender bidder evidences",
 )
-class BidReqResponseResource(BaseBidReqResponseEvidenceResource):
+class COBidReqResponseResource(BaseBidReqResponseEvidenceResource):
     pass

@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     not_found,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_bids,
 )
 from openprocurement.tender.core.tests.utils import change_auth
@@ -38,7 +38,7 @@ from openprocurement.tender.open.tests.complaint_blanks import (
 )
 
 
-class TenderUAComplaintResourceTestMixin:
+class TenderCOComplaintResourceTestMixin:
     test_create_tender_complaint = snitch(create_tender_complaint)
     test_patch_tender_complaint = snitch(patch_tender_complaint)
     test_review_tender_complaint = snitch(review_tender_complaint)
@@ -50,8 +50,8 @@ class TenderUAComplaintResourceTestMixin:
 
 
 class TenderComplaintResourceTest(
-    BaseTenderUAContentWebTest,
-    TenderUAComplaintResourceTestMixin,
+    BaseTenderCOContentWebTest,
+    TenderCOComplaintResourceTestMixin,
 ):
     test_author = test_tender_below_author
     initial_lots = test_tender_below_lots
@@ -66,7 +66,7 @@ class TenderComplaintResourceTest(
         self.mongodb.tenders.save(tender)
 
 
-class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
+class TenderComplaintDocumentResourceTest(BaseTenderCOContentWebTest):
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -309,7 +309,7 @@ class TenderAwardComplaintObjectionMixin:
 
 
 class TenderComplaintObjectionTest(
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
@@ -329,7 +329,7 @@ class TenderComplaintObjectionTest(
 
 
 class TenderCancellationComplaintObjectionTest(
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
@@ -351,7 +351,7 @@ class TenderCancellationComplaintObjectionTest(
 
 
 class TenderAwardComplaintObjectionTest(
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):

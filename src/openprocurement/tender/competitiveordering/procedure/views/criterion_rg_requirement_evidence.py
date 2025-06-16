@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.criterion_rq_requirement_evidence import (
-    OpenEligibleEvidenceState,
+    COEligibleEvidenceState,
 )
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import (
     BaseEligibleEvidenceResource,
@@ -18,5 +18,5 @@ from openprocurement.tender.core.procedure.views.criterion_rg_requirement_eviden
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender requirement evidence",
 )
-class EligibleEvidenceResource(BaseEligibleEvidenceResource):
-    state_class = OpenEligibleEvidenceState
+class COEligibleEvidenceResource(BaseEligibleEvidenceResource):
+    state_class = COEligibleEvidenceState

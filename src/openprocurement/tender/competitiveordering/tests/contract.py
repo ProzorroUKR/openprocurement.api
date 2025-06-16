@@ -23,7 +23,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_multi_contracts_cancelled_with_one_activated,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_config,
     test_tender_co_multi_buyers_data,
@@ -72,7 +72,7 @@ class CreateActiveAwardMixin:
         return response.json["data"]
 
 
-class TenderContractResourceTest(BaseTenderUAContentWebTest, CreateActiveAwardMixin):
+class TenderContractResourceTest(BaseTenderCOContentWebTest, CreateActiveAwardMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_co_bids
     initial_lots = test_tender_below_lots
@@ -89,7 +89,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, CreateActiveAwardMi
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
-class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest):
+class TenderContractVATNotIncludedResourceTest(BaseTenderCOContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_co_bids
     initial_lots = test_tender_below_lots
@@ -133,7 +133,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
 
 
-class TenderContractMultiBuyersResourceTest(BaseTenderUAContentWebTest):
+class TenderContractMultiBuyersResourceTest(BaseTenderCOContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_co_bids
     initial_lots = test_tender_below_lots
@@ -154,7 +154,7 @@ class TenderContractMultiBuyersResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderEContractResourceTest(
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     CreateActiveAwardMixin,
     TenderEcontractResourceTestMixin,
 ):
@@ -168,7 +168,7 @@ class TenderEContractResourceTest(
 
 
 class TenderEContractCOResourceTest(
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     CreateActiveAwardMixin,
     TenderEcontractResourceTestMixin,
 ):
@@ -196,7 +196,7 @@ class TenderEContractCOResourceTest(
 
 
 class TenderEContractMultiBuyersResourceTest(
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     CreateActiveAwardMixin,
     TenderEContractMultiBuyersResourceTestMixin,
 ):

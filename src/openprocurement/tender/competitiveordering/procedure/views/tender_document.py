@@ -11,7 +11,7 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.tender_document import (
-    UATenderDocumentState,
+    COTenderDocumentState,
 )
 from openprocurement.tender.core.procedure.models.document import (
     Document,
@@ -35,8 +35,8 @@ from openprocurement.tender.core.procedure.views.tender_document import (
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender related binary files (PDFs, etc.)",
 )
-class UATenderDocumentResource(TenderDocumentResource):
-    state_class = UATenderDocumentState
+class COTenderDocumentResource(TenderDocumentResource):
+    state_class = COTenderDocumentState
 
     @json_view(
         validators=(

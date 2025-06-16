@@ -16,7 +16,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     patch_tender_question,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_config,
     test_tender_co_data,
 )
@@ -32,12 +32,12 @@ from openprocurement.tender.open.tests.question_blanks import (
 )
 
 
-class TenderQuestionResourceTest(BaseTenderUAContentWebTest, TenderQuestionResourceTestMixin):
+class TenderQuestionResourceTest(BaseTenderCOContentWebTest, TenderQuestionResourceTestMixin):
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
 
 
-class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
+class TenderLotQuestionResourceTest(BaseTenderCOContentWebTest):
     initial_lots = 2 * test_tender_below_lots
     author_data = test_tender_below_author
 
@@ -66,7 +66,7 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
     test_questions_chronograph_events = snitch(questions_chronograph_events)
 
 
-class TenderCOLotQuestionResourceTest(BaseTenderUAContentWebTest):
+class TenderCOLotQuestionResourceTest(BaseTenderCOContentWebTest):
     initial_lots = test_tender_below_lots
     initial_config = test_tender_co_config
     initial_data = test_tender_co_data

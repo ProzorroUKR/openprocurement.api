@@ -3,7 +3,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_bids,
 )
 from openprocurement.tender.open.tests.chronograph_blanks import (
@@ -23,21 +23,21 @@ class TenderLotSwitchAuctionResourceTestMixin:
     test_set_auction_period_lot = snitch(set_auction_period_lot)
 
 
-class TenderLotSwitch0BidResourceTest(BaseTenderUAContentWebTest):
+class TenderLotSwitch0BidResourceTest(BaseTenderCOContentWebTest):
     initial_lots = test_tender_below_lots
     initial_status = "active.tendering"
     test_switch_to_unsuccessful_lot_0bid = snitch(switch_to_unsuccessful_lot_0bid)
     test_set_auction_period_lot_0bid = snitch(set_auction_period_lot_0bid)
 
 
-class TenderLotSwitch1BidResourceTest(BaseTenderUAContentWebTest):
+class TenderLotSwitch1BidResourceTest(BaseTenderCOContentWebTest):
     initial_lots = test_tender_below_lots
     initial_bids = test_tender_co_bids[:1]
     initial_status = "active.tendering"
     test_not_switch_to_unsuccessful_lot_1bid = snitch(not_switch_to_unsuccessful_lot_1bid)
 
 
-class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest, TenderLotSwitchAuctionResourceTestMixin):
+class TenderLotSwitchAuctionResourceTest(BaseTenderCOContentWebTest, TenderLotSwitchAuctionResourceTestMixin):
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots
     initial_bids = test_tender_co_bids

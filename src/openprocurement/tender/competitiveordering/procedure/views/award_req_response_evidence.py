@@ -13,5 +13,5 @@ from openprocurement.tender.core.procedure.views.award_req_response_evidence imp
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender award evidences",
 )
-class AwardReqResponseResource(BaseReqResponseEvidenceResource):
+class COAwardReqResponseResource(BaseReqResponseEvidenceResource):
     pass

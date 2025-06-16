@@ -18,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     patch_tender_lot_cancellation,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_config,
     test_tender_co_data,
@@ -65,7 +65,7 @@ class TenderAwardsCancellationResourceTestMixin:
     get_now() + timedelta(days=1),
 )
 class TenderCancellationResourceTest(
-    BaseTenderUAContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
+    BaseTenderCOContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots
@@ -74,14 +74,14 @@ class TenderCancellationResourceTest(
     test_activate_cancellation = snitch(activate_cancellation)
 
 
-class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
+class TenderLotCancellationResourceTest(BaseTenderCOContentWebTest):
     initial_lots = test_tender_below_lots
 
     test_create_tender_lot_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_lot_cancellation = snitch(patch_tender_lot_cancellation)
 
 
-class TenderCOLotCancellationResourceTest(BaseTenderUAContentWebTest):
+class TenderCOLotCancellationResourceTest(BaseTenderCOContentWebTest):
     initial_lots = test_tender_below_lots
     initial_data = test_tender_co_data
     initial_config = test_tender_co_config
@@ -90,7 +90,7 @@ class TenderCOLotCancellationResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_lot_cancellation = snitch(patch_tender_co_lot_cancellation)
 
 
-class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
+class TenderLotsCancellationResourceTest(BaseTenderCOContentWebTest):
     initial_lots = 2 * test_tender_below_lots
 
     test_create_tender_lots_cancellation = snitch(create_tender_lots_cancellation)
@@ -102,7 +102,7 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderAwardsCancellationResourceTest(BaseTenderUAContentWebTest, TenderAwardsCancellationResourceTestMixin):
+class TenderAwardsCancellationResourceTest(BaseTenderCOContentWebTest, TenderAwardsCancellationResourceTestMixin):
     initial_lots = 2 * test_tender_below_lots
     initial_status = "active.auction"
     initial_bids = test_tender_co_bids
@@ -115,7 +115,7 @@ class TenderAwardsCancellationResourceTest(BaseTenderUAContentWebTest, TenderAwa
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderLotsCancellationQualificationResourceTest(BaseTenderUAContentWebTest):
+class TenderLotsCancellationQualificationResourceTest(BaseTenderCOContentWebTest):
     initial_lots = 2 * test_tender_below_lots
     initial_status = "active.auction"
     initial_bids = test_tender_co_bids
@@ -128,7 +128,7 @@ class TenderLotsCancellationQualificationResourceTest(BaseTenderUAContentWebTest
     )
 
 
-class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest, TenderCancellationDocumentResourceTestMixin):
+class TenderCancellationDocumentResourceTest(BaseTenderCOContentWebTest, TenderCancellationDocumentResourceTestMixin):
     initial_lots = test_tender_below_lots
 
     def setUp(self):

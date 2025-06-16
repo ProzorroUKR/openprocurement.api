@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.award_complaint_document import (
-    OpenAwardComplaintDocumentState,
+    COAwardComplaintDocumentState,
 )
 from openprocurement.tender.core.procedure.views.award_complaint_document import (
     AwardComplaintDocumentResource,
@@ -16,5 +16,5 @@ from openprocurement.tender.core.procedure.views.award_complaint_document import
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender award complaint documents",
 )
-class OpenAwardComplaintDocumentResource(AwardComplaintDocumentResource):
-    state_class = OpenAwardComplaintDocumentState
+class COAwardComplaintDocumentResource(AwardComplaintDocumentResource):
+    state_class = COAwardComplaintDocumentState

@@ -22,7 +22,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAWebTest,
+    BaseTenderCOWebTest,
     test_tender_co_config,
     test_tender_co_criteria,
 )
@@ -35,7 +35,7 @@ TARGET_CSV_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/cs
 
 
 class TenderResourceTest(
-    BaseTenderUAWebTest,
+    BaseTenderCOWebTest,
     TenderConfigCSVMixin,
     FrameworkActionsTestMixin,
     MockWebTestMixin,

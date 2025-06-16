@@ -13,5 +13,5 @@ from openprocurement.tender.core.procedure.views.award_req_response import (
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender award requirement responses",
 )
-class AwardReqResponseResource(BaseAwardReqResponseResource):
+class COAwardReqResponseResource(BaseAwardReqResponseResource):
     pass

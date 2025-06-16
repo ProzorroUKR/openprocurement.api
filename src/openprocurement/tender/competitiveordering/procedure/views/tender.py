@@ -18,7 +18,7 @@ from openprocurement.tender.competitiveordering.procedure.models.tender import (
     Tender,
 )
 from openprocurement.tender.competitiveordering.procedure.state.tender_details import (
-    OpenTenderDetailsState,
+    COTenderDetailsState,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
@@ -37,8 +37,8 @@ from openprocurement.tender.core.procedure.views.tender import TendersResource
     description="Tenders",
     accept="application/json",
 )
-class AboveThresholdTenderResource(TendersResource):
-    state_class = OpenTenderDetailsState
+class COTenderResource(TendersResource):
+    state_class = COTenderDetailsState
 
     @json_view(
         content_type="application/json",

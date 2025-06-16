@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.cancellation import (
-    OpenCancellationState,
+    COCancellationState,
 )
 from openprocurement.tender.core.procedure.views.cancellation import (
     BaseCancellationResource,
@@ -16,5 +16,5 @@ from openprocurement.tender.core.procedure.views.cancellation import (
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender cancellations",
 )
-class CancellationResource(BaseCancellationResource):
-    state_class = OpenCancellationState
+class COCancellationResource(BaseCancellationResource):
+    state_class = COCancellationState

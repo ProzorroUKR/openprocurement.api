@@ -16,7 +16,7 @@ from openprocurement.tender.core.procedure.views.bid_document import (
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender bidder documents",
 )
-class TenderBidDocumentResource(BaseTenderBidDocumentResource):
+class COTenderBidDocumentResource(BaseTenderBidDocumentResource):
     pass
 
 
@@ -27,7 +27,7 @@ class TenderBidDocumentResource(BaseTenderBidDocumentResource):
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender bidder eligibility documents",
 )
-class TenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
+class COTenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
     pass
 
 
@@ -38,7 +38,7 @@ class TenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResou
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender bidder financial documents",
 )
-class TenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
+class COTenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
     pass
 
 
@@ -49,5 +49,5 @@ class TenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource)
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender bidder qualification documents",
 )
-class TenderBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
+class COTenderBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
     pass

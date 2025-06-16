@@ -12,7 +12,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_supplier,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_complaint_objection,
 )
@@ -368,7 +368,7 @@ class ComplaintPostResourceMixin:
 
 
 class TenderComplaintPostResourceTest(
-    BaseTenderUAContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
+    BaseTenderCOContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     initial_lots = test_tender_below_lots
 
@@ -398,7 +398,7 @@ class TenderComplaintPostResourceTest(
 
 
 class TenderAwardComplaintPostResourceTest(
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
@@ -461,7 +461,7 @@ class TenderAwardComplaintPostResourceTest(
 
 @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderCancellationComplaintPostResourceTest(
-    BaseTenderUAContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
+    BaseTenderCOContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
     initial_lots = test_tender_below_lots
 

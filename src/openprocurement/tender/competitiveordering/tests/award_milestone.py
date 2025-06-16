@@ -4,7 +4,7 @@ from unittest.mock import patch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitiveordering.tests.award import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     TenderAwardPendingResourceTestCase,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
@@ -25,7 +25,7 @@ class TenderAwardMilestone24HTestCase(TenderAwardMilestone24HMixin, TenderAwardP
     initial_lots = test_tender_below_lots
 
 
-class TenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin, BaseTenderUAContentWebTest):
+class TenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin, BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     initial_bids = test_tender_co_bids
     initial_lots = test_tender_below_lots * 2

@@ -15,5 +15,5 @@ LOGGER = getLogger(__name__)
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender contracts",
 )
-class UAContractResource(TenderContractResource):
+class COContractResource(TenderContractResource):
     pass

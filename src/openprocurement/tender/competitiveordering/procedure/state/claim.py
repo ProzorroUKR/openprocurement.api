@@ -1,8 +1,8 @@
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
-    OpenTenderState,
+    COTenderState,
 )
 from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 
 
-class OpenTenderClaimState(ClaimStateMixin, OpenTenderState):
+class COTenderClaimState(ClaimStateMixin, COTenderState):
     pass

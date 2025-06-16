@@ -1,13 +1,13 @@
 from openprocurement.api.constants_env import NEW_ARTICLE_17_CRITERIA_REQUIRED
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
-    OpenTenderState,
+    COTenderState,
 )
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.utils import tender_created_before
 
 
-class AwardState(AwardStateMixing, OpenTenderState):
+class COAwardState(AwardStateMixing, COTenderState):
     award_stand_still_working_days: bool = False
 
     def award_on_patch(self, before, award):

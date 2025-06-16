@@ -18,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     post_tender_bid_with_disabled_lot_values_restriction,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_criteria,
     test_tender_co_data,
@@ -186,7 +186,7 @@ class CreateBidMixin:
         self.bid_token = response.json["access"]["token"]
 
 
-class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
+class TenderBidResourceTest(BaseTenderCOContentWebTest, TenderBidResourceTestMixin):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
     initial_status = "active.tendering"
@@ -198,7 +198,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
     test_bids_related_product = snitch(bids_related_product)
 
 
-class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):
+class TenderBidDecimalResourceTest(BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
     initial_status = "active.tendering"
@@ -215,7 +215,7 @@ class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_bidder_decimal_problem = snitch(patch_tender_bidder_decimal_problem)
 
 
-class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
+class Tender2LotBidResourceTest(BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     test_bids_data = test_tender_co_bids
     initial_lots = 2 * test_tender_below_lots
@@ -231,7 +231,7 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
     )
 
 
-class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
+class TenderBidFeaturesResourceTest(BaseTenderCOContentWebTest):
     initial_data = test_tender_co_features_data
     initial_lots = test_tender_below_lots
     initial_status = "active.tendering"
@@ -249,7 +249,7 @@ class TenderBidDocumentResourceTestMixin:
     test_tender_bidder_confidential_document = snitch(tender_bidder_confidential_document)
 
 
-class TenderBidDocumentResourceTest(CreateBidMixin, TenderBidDocumentResourceTestMixin, BaseTenderUAContentWebTest):
+class TenderBidDocumentResourceTest(CreateBidMixin, TenderBidDocumentResourceTestMixin, BaseTenderCOContentWebTest):
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_co_bids
@@ -258,7 +258,7 @@ class TenderBidDocumentResourceTest(CreateBidMixin, TenderBidDocumentResourceTes
     test_not_found = snitch(not_found)
 
 
-class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderUAContentWebTest):
+class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderCOContentWebTest):
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_co_bids
@@ -267,7 +267,7 @@ class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderUAContentWebTest):
     test_doc_date_modified = snitch(doc_date_modified)
 
 
-class TenderBidderBatchDocumentResourceTest(BaseTenderUAContentWebTest):
+class TenderBidderBatchDocumentResourceTest(BaseTenderCOContentWebTest):
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_co_bids
@@ -287,7 +287,7 @@ class TenderBidderBatchDocumentResourceTest(BaseTenderUAContentWebTest):
 class TenderBidRequirementResponseResourceTest(
     TenderBidRequirementResponseTestMixin,
     CreateBidMixin,
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
 ):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
@@ -298,7 +298,7 @@ class TenderBidRequirementResponseResourceTest(
 class TenderBidRequirementResponseEvidenceResourceTest(
     TenderBidRequirementResponseEvidenceTestMixin,
     CreateBidMixin,
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
 ):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
@@ -309,7 +309,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     test_bid_invalidation_after_req_response_patch = snitch(bid_invalidation_after_req_response_patch)
 
 
-class TenderWithDisabledValueRestriction(BaseTenderUAContentWebTest):
+class TenderWithDisabledValueRestriction(BaseTenderCOContentWebTest):
     initial_status = "active.tendering"
 
     test_post_tender_bid_with_disabled_value_restriction = snitch(post_tender_bid_with_disabled_value_restriction)

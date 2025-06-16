@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
-    OpenTenderState,
+    COTenderState,
 )
 from openprocurement.tender.core.procedure.views.auction import (
     TenderAuctionResource as BaseTenderAuctionResource,
@@ -16,5 +16,5 @@ from openprocurement.tender.core.procedure.views.auction import (
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender auction data",
 )
-class TenderAuctionResource(BaseTenderAuctionResource):
-    state_class = OpenTenderState
+class COTenderAuctionResource(BaseTenderAuctionResource):
+    state_class = COTenderState

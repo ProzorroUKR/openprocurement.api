@@ -196,7 +196,7 @@ class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
 
 
-class BaseTenderUAWebTest(BaseTenderWebTest):
+class BaseTenderCOWebTest(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_co_data
     initial_config = test_tender_co_config
@@ -253,7 +253,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         self.mongodb.tenders.save(tender_document)
 
 
-class BaseTenderUAContentWebTest(BaseTenderUAWebTest):
+class BaseTenderCOContentWebTest(BaseTenderCOWebTest):
     initial_data = test_tender_co_data
     initial_status = "active.tendering"
     initial_bids = None

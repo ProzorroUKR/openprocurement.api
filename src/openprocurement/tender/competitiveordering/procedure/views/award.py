@@ -12,7 +12,7 @@ from openprocurement.tender.competitiveordering.procedure.models.award import (
     Award,
     PatchAward,
 )
-from openprocurement.tender.competitiveordering.procedure.state.award import AwardState
+from openprocurement.tender.competitiveordering.procedure.state.award import COAwardState
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_update_award_in_not_allowed_status,
@@ -30,8 +30,8 @@ from openprocurement.tender.core.procedure.views.award import TenderAwardResourc
     description="Tender awards",
     procurementMethodType=COMPETITIVE_ORDERING,
 )
-class UATenderAwardResource(TenderAwardResource):
-    state_class = AwardState
+class COTenderAwardResource(TenderAwardResource):
+    state_class = COAwardState
 
     @json_view(
         content_type="application/json",

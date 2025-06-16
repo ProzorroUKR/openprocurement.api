@@ -16,13 +16,13 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_features_data,
 )
 
 
-class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, BaseTenderUAContentWebTest):
+class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, BaseTenderCOContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_tender_co_bids
     initial_lots = 2 * test_tender_below_lots
@@ -32,7 +32,7 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin,
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
 ):
     initial_data = test_tender_co_features_data
     initial_status = "active.tendering"

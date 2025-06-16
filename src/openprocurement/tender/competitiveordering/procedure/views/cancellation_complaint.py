@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.cancellation_complaint import (
-    OpenCancellationComplaintState,
+    COCancellationComplaintState,
 )
 from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintGetResource,
@@ -18,7 +18,7 @@ from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     description="Tender cancellation complaints",
     request_method=["GET"],
 )
-class OpenCancellationClaimAndComplaintGetResource(CancellationComplaintGetResource):
+class COCancellationClaimAndComplaintGetResource(CancellationComplaintGetResource):
     pass
 
 
@@ -31,5 +31,5 @@ class OpenCancellationClaimAndComplaintGetResource(CancellationComplaintGetResou
     request_method=["POST", "PATCH"],
     # complaintType="complaint",  you cannot set a different complaintType for Cancellation Complaint
 )
-class OpenCancellationComplaintWriteResource(CancellationComplaintWriteResource):
-    state_class = OpenCancellationComplaintState
+class COCancellationComplaintWriteResource(CancellationComplaintWriteResource):
+    state_class = COCancellationComplaintState

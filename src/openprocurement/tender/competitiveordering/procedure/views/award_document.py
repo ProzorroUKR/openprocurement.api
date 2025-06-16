@@ -36,7 +36,7 @@ from openprocurement.tender.core.procedure.views.award_document import (
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender award documents",
 )
-class UATenderAwardDocumentResource(BaseAwardDocumentResource):
+class COTenderAwardDocumentResource(BaseAwardDocumentResource):
     @json_view(
         validators=(
             unless_bots(validate_item_owner("tender")),

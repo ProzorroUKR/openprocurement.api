@@ -16,7 +16,7 @@ from openprocurement.tender.competitiveordering.tests.award_blanks import (
     qualified_eligible_awards,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_below_supplier,
     test_tender_co_bids,
     test_tender_co_criteria,
@@ -71,7 +71,7 @@ class TenderAwardRequirementResponseEvidenceTestMixin:
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderAwardResourceTest(BaseTenderUAContentWebTest):
+class TenderAwardResourceTest(BaseTenderCOContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
     initial_bids = test_tender_co_bids
@@ -94,7 +94,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
+class TenderLotAwardResourceTest(BaseTenderCOContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
     initial_bids = test_tender_co_bids
@@ -109,7 +109,7 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
+class Tender2LotAwardResourceTest(BaseTenderCOContentWebTest):
     initial_status = "active.qualification"
     initial_lots = 2 * test_tender_below_lots
     initial_bids = test_tender_co_bids
@@ -119,7 +119,7 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
     test_qualified_eligible_awards = snitch(qualified_eligible_awards)
 
 
-class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
+class TenderAwardPendingResourceTestCase(BaseTenderCOContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_co_bids
 

@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.criterion import (
-    OpenCriterionState,
+    COCriterionState,
 )
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 
@@ -14,5 +14,5 @@ from openprocurement.tender.core.procedure.views.criterion import BaseCriterionR
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender criteria",
 )
-class CriterionResource(BaseCriterionResource):
-    state_class = OpenCriterionState
+class COCriterionResource(BaseCriterionResource):
+    state_class = COCriterionState

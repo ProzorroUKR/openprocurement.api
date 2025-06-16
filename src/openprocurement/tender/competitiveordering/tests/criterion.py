@@ -4,7 +4,7 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_data,
     test_tender_co_required_criteria_ids,
 )
@@ -87,7 +87,7 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(TenderCriteriaBaseTestMixin):
     }
 
 
-class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
+class TenderCOCriteriaTest(TenderCriteriaTestMixin, BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
     initial_status = "draft"
@@ -95,7 +95,7 @@ class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
     required_criteria = test_tender_co_required_criteria_ids
 
 
-class TenderUACriteriaLccTest(BaseTenderUAContentWebTest):
+class TenderCOCriteriaLccTest(BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
     initial_status = "draft"
@@ -109,19 +109,19 @@ class TenderUACriteriaLccTest(BaseTenderUAContentWebTest):
     test_lcc_criterion_invalid = snitch(lcc_criterion_invalid)
 
 
-class TenderUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderUAContentWebTest):
+class TenderCOCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     test_lots_data = test_tender_below_lots
 
 
-class TenderUACriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseTenderUAContentWebTest):
+class TenderCOCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     test_lots_data = test_tender_below_lots
 
 
-class TenderUACriteriaRGRequirementEvidenceTest(
+class TenderCOCriteriaRGRequirementEvidenceTest(
     TenderCriteriaRGRequirementEvidenceTestMixin,
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
 ):
     initial_data = test_tender_co_data
     test_lots_data = test_tender_below_lots
@@ -129,10 +129,10 @@ class TenderUACriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUACriteriaTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUACriteriaRGTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUACriteriaRGRequirementTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUACriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCOCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCOCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCOCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCOCriteriaRGRequirementEvidenceTest))
     return suite
 
 

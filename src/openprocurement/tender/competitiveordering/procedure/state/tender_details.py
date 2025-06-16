@@ -7,14 +7,14 @@ from openprocurement.tender.competitiveordering.constants import (
     TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
-    OpenTenderState,
+    COTenderState,
 )
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
 
 
-class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
+class COTenderDetailsState(TenderDetailsMixing, COTenderState):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)

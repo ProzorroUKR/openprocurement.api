@@ -18,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     tender_lot_milestones,
 )
 from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderUAContentWebTest,
+    BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_criteria,
     test_tender_co_data,
@@ -52,21 +52,21 @@ from openprocurement.tender.open.tests.lot_blanks import (
 )
 
 
-class TenderUALotResourceTestMixin:
+class TenderCOLotResourceTestMixin:
     test_patch_tender_currency = snitch(patch_tender_currency)
     test_patch_tender_vat = snitch(patch_tender_vat)
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
 
 
-class TenderUALotProcessTestMixin:
+class TenderCOLotProcessTestMixin:
     test_proc_1lot_1bid_patch = snitch(proc_1lot_1bid_patch)
     test_proc_1lot_2bid = snitch(proc_1lot_2bid)
     test_proc_1lot_3bid_1un = snitch(proc_1lot_3bid_1un)
     test_proc_2lot_2bid_2com_2win = snitch(proc_2lot_2bid_2com_2win)
 
 
-class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
+class TenderLotResourceTest(BaseTenderCOContentWebTest, TenderLotResourceTestMixin, TenderCOLotResourceTestMixin):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
     initial_criteria = test_tender_co_criteria
@@ -79,7 +79,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMix
     test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)
 
 
-class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
+class TenderLotEdgeCasesTest(BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots * 2
     initial_bids = test_tender_co_bids
@@ -90,7 +90,7 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
 
-class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureResourceTestMixin):
+class TenderLotFeatureResourceTest(BaseTenderCOContentWebTest, TenderLotFeatureResourceTestMixin):
     initial_data = test_tender_co_data
     initial_lots = 2 * test_tender_below_lots
     test_bids_data = test_tender_co_bids
@@ -100,7 +100,7 @@ class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureR
     sum_of_max_value_of_all_features = 0.3
 
 
-class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
+class TenderLotBidderResourceTest(BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_co_bids
@@ -110,7 +110,7 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_bidder = snitch(patch_tender_bidder)
 
 
-class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
+class TenderLotFeatureBidderResourceTest(BaseTenderCOContentWebTest):
     initial_data = test_tender_co_data
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_co_bids
@@ -168,13 +168,13 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
+class TenderLotProcessTest(BaseTenderCOContentWebTest, TenderLotProcessTestMixin, TenderCOLotProcessTestMixin):
     initial_data = test_tender_co_data
 
     test_bids_data = test_tender_co_bids
     test_lots_data = test_tender_below_lots
     test_features_tender_data = test_tender_co_features_data
-    setUp = BaseTenderUAContentWebTest.setUp
+    setUp = BaseTenderCOContentWebTest.setUp
 
     days_till_auction_starts = 16
 
