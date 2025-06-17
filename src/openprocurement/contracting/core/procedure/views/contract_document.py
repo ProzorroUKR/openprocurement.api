@@ -1,40 +1,19 @@
-from cornice.resource import resource
-
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_patch_data,
-    validate_upload_document,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.contracting.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
+from openprocurement.api.database import atomic_transaction
+from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState,
 )
+from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
-    validate_add_document_to_active_change,
-    validate_contract_document_operation_not_in_allowed_contract_status,
-    validate_contract_owner,
     validate_download_contract_document,
 )
 from openprocurement.contracting.core.procedure.views.document import (
     BaseDocumentResource,
 )
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.document import resolve_document
 
 
-@resource(
-    name="Contract Documents",
-    collection_path="/contracts/{contract_id}/documents",
-    path="/contracts/{contract_id}/documents/{document_id}",
-    description="Contract related binary files (PDFs, etc.)",
-)
 class ContractDocumentResource(BaseDocumentResource):
     state_class = ContractDocumentState
 
@@ -43,44 +22,19 @@ class ContractDocumentResource(BaseDocumentResource):
         if not context:
             resolve_document(request, self.item_name, self.container)
 
-    @json_view(
-        validators=(
-            unless_admins(validate_contract_owner),
-            validate_input_data(PostDocument, allow_bulk=True),
-            validate_contract_document_operation_not_in_allowed_contract_status,
-        ),
-        permission="upload_contract_documents",
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        validators=(
-            unless_admins(validate_contract_owner),
-            validate_input_data(PostDocument),
-            update_doc_fields_on_put_document,
-            validate_upload_document,
-            validate_data_model(Document),
-            validate_contract_document_operation_not_in_allowed_contract_status,
-        ),
-        permission="edit_contract_documents",
-    )
-    def put(self):
-        return super().put()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_admins(validate_contract_owner),
-            validate_input_data(PatchDocument, none_means_remove=True),
-            validate_patch_data(Document, item_name="document"),
-            validate_contract_document_operation_not_in_allowed_contract_status,
-            validate_add_document_to_active_change,
-        ),
-        permission="edit_contract_documents",
-    )
-    def patch(self):
-        return super().patch()
+    def save(self, **kwargs):
+        with atomic_transaction():
+            contract = self.request.validated["contract"]
+            if self.request.validated.get("contract_was_changed"):
+                if save_tender(self.request):
+                    self.LOGGER.info(
+                        f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
+                        extra=context_unpack(
+                            self.request,
+                            {"MESSAGE_ID": "tender_contract_update_status"},
+                        ),
+                    )
+            return save_contract(self.request, **kwargs)
 
     @json_view(
         validators=(validate_download_contract_document,),

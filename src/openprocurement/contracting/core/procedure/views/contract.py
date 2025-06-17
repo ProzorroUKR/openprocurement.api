@@ -3,12 +3,6 @@ from cornice.resource import resource
 from openprocurement.api.context import get_request
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.context import get_contract
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_input_data,
-    validate_patch_data_simple,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.api.views.base import (
     MongodbResourceListing,
@@ -17,7 +11,6 @@ from openprocurement.api.views.base import (
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
 from openprocurement.contracting.core.procedure.models.contract import (
     AdministratorPatchContract,
-    Contract,
     PatchContract,
     PatchContractPending,
 )
@@ -26,10 +19,6 @@ from openprocurement.contracting.core.procedure.serializers.contract import (
 )
 from openprocurement.contracting.core.procedure.state.contract import ContractState
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_owner,
-    validate_contract_update_not_in_allowed_status,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.tender.core.procedure.utils import save_tender
 
@@ -72,12 +61,6 @@ class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, 
         self.db_listing_method = request.registry.mongodb.contracts.list
 
 
-@resource(
-    name="Contract",
-    path="/contracts/{contract_id}",
-    description="Contracts operations",
-    accept="application/json",
-)
 class ContractResource(ContractBaseResource):
     state_class = ContractState
     serializer_class = ContractBaseSerializer
@@ -90,16 +73,6 @@ class ContractResource(ContractBaseResource):
             "config": contract["config"],
         }
 
-    @json_view(
-        content_type="application/json",
-        permission="edit_contract",
-        validators=(
-            unless_admins(unless_administrator(validate_contract_owner)),
-            validate_input_data(conditional_contract_model),
-            validate_patch_data_simple(Contract, item_name="contract"),
-            unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),
-        ),
-    )
     def patch(self):
         """Contract Edit (partial)"""
         updated = self.request.validated["data"]
