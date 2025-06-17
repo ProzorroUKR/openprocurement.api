@@ -4,18 +4,57 @@ from uuid import uuid4
 from cornice.resource import resource
 
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    unless_admins,
+    validate_input_data,
+    validate_patch_data_simple,
+)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_in_pending_status,
+    validate_contract_owner,
+    validate_contract_update_not_in_allowed_status,
 )
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
+from openprocurement.contracting.core.procedure.views.contract import (
+    ContractResource,
+    conditional_contract_model,
+)
 from openprocurement.contracting.econtract.procedure.models.access import PostAccess
+from openprocurement.contracting.econtract.procedure.models.contract import Contract
+from openprocurement.contracting.econtract.procedure.state.contract import (
+    EContractState,
+)
 from openprocurement.contracting.econtract.procedure.state.contract_access import (
     ContractAccessState,
 )
+
+
+@resource(
+    name="EContract",
+    path="/contracts/{contract_id}",
+    contractType="eContract",
+    description="Contracts operations",
+    accept="application/json",
+)
+class EContractResource(ContractResource):
+    state_class = EContractState
+
+    @json_view(
+        content_type="application/json",
+        permission="edit_contract",
+        validators=(
+            unless_admins(unless_administrator(validate_contract_owner)),
+            validate_input_data(conditional_contract_model),
+            validate_patch_data_simple(Contract, item_name="contract"),
+            unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),
+        ),
+    )
+    def patch(self):
+        return super().patch()
 
 
 @resource(
