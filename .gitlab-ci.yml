@@ -1,4 +1,4 @@
 include:
   - project: 'cdb/openprocurement.api-ci'
-    ref: 'master'
+    ref: 'econtract-tests'
     file: 'api-ci.yml'
