@@ -20,7 +20,7 @@ from openprocurement.contracting.core.procedure.validation import (
     validate_contract_owner,
 )
 from openprocurement.contracting.core.procedure.views.contract_document import (
-    ContractDocumentResource,
+    ContractDocumentResource as BaseContractDocumentResource,
 )
 
 
@@ -31,7 +31,7 @@ from openprocurement.contracting.core.procedure.views.contract_document import (
     contractType="contract",
     description="Contract related binary files (PDFs, etc.)",
 )
-class ContractDocumentResource(ContractDocumentResource):
+class ContractDocumentResource(BaseContractDocumentResource):
     @json_view(
         validators=(
             unless_admins(validate_contract_owner),
