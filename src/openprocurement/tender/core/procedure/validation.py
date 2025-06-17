@@ -35,6 +35,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.constants_env import (
     CONFIDENTIAL_EDRPOU_LIST,
+    CONTRACT_OWNER_REQUIRED_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     RELEASE_2020_04_19,
@@ -1599,6 +1600,13 @@ def validate_signer_info(request, tender, organization, field_name, field_index=
                 name=field_path,
                 status=422,
             )
+    elif tender_created_after(CONTRACT_OWNER_REQUIRED_FROM) and contract_template_name and signer_info:
+        raise_operation_error(
+            request,
+            {"contract_owner": BaseType.MESSAGES["required"]},
+            name=field_path,
+            status=422,
+        )
 
 
 def get_contract_owner_choices():

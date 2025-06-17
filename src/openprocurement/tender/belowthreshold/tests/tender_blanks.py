@@ -4730,6 +4730,22 @@ def set_procuring_entity_contract_owner(self):
         ],
     )
 
+    tender_data["procuringEntity"].pop("contract_owner")
+    with mock.patch(
+        "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM", get_now() - timedelta(days=1)
+    ):
+        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "procuringEntity",
+                    "description": {"contract_owner": "This field is required."},
+                }
+            ],
+        )
+
     tender_data["procuringEntity"]["contract_owner"] = "broker"
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
