@@ -1,11 +1,10 @@
 import unittest
 
-from openprocurement.contracting.core.tests import contract, document
+from openprocurement.contracting.core.tests import document
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(contract.suite())
     suite.addTest(document.suite())
     return suite
 

@@ -1,14 +1,14 @@
 from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.core.procedure.models.access import AccessRole
-from openprocurement.contracting.core.tests.base import BaseContractWebTest
 from openprocurement.contracting.core.tests.utils import create_contract
+from openprocurement.contracting.econtract.tests.base import BaseEContractWebTest
 from openprocurement.contracting.econtract.tests.contract_access_blanks import (
     generate_access,
     get_access,
 )
 
 
-class ContractAccessResourceTest(BaseContractWebTest):
+class ContractAccessResourceTest(BaseEContractWebTest):
 
     def create_contract(self):
         for tender_contract in self.tender_document.get("contracts", ""):

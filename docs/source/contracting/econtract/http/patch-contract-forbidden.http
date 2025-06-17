@@ -1,14 +1,11 @@
-POST /api/2.5/contracts/21c31bf8d9264a3699b4f0ef238aa19f/access HTTP/1.0
+PATCH /api/2.5/contracts/21c31bf8d9264a3699b4f0ef238aa19f?acc_token=762569af3331447a846940af41fd8843 HTTP/1.0
 Authorization: Bearer broker6
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "identifier": {
-      "scheme": "UA-EDR",
-      "id": "123456780"
-    }
+    "contractNumber": "contract #13112"
   }
 }
 
@@ -22,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Invalid identifier"
+      "description": "Forbidden to patch already signed contract in status pending"
     }
   ]
 }
