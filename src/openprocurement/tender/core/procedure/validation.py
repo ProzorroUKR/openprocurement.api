@@ -1584,7 +1584,7 @@ def validate_signer_info(request, tender, organization, field_name, field_index=
             name=field_path,
             status=422,
         )
-    if contract_owner:
+    if contract_owner is not None:
         if not contract_template_name or not signer_info:
             raise_operation_error(
                 request,
