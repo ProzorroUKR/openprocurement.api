@@ -1698,7 +1698,7 @@ def proc_1lot_1bid(self):
     contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
-    # after stand slill period
+    # after stand still period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
