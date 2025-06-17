@@ -1,0 +1,26 @@
+PATCH /api/2.5/contracts/21c31bf8d9264a3699b4f0ef238aa19f?acc_token=762569af3331447a846940af41fd8843 HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "jsonSignature document type for all participants is required for contract in `active` status"
+    }
+  ]
+}
+

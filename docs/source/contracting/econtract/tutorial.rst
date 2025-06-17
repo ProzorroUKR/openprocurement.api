@@ -306,6 +306,44 @@ After activating contract, tender contract **automatically** switch to `active` 
    :code:
 
 
+Signing electronic contract
+---------------------------
+
+If contract was created using new flow with set `contract_owner` in tender for `suppliers` and `buyers` than for activating electronic contract, signer information and all participants signature are required.
+
+At first buyer and supplier should fill signer information and fill all required fields.
+
+It is also required to add contract signature document type from each participant (supplier and buyer).
+If you try activate contract without signatures you'll get error:
+
+.. http:example:: http/contract-activating-wo-signature-error.http
+   :code:
+
+Before adding signature there will be validations that all required fields are set:
+
+.. http:example:: http/contract-add-signature-in-not-ready-contract.http
+   :code:
+
+Supplier adds signature document using his token (`supplier_token`) which he got during access query:
+
+.. http:example:: http/contract-supplier-add-signature-doc.http
+   :code:
+
+If there is at least one signature in contract, it is forbidden to patch contract:
+
+.. http:example:: http/patch-contract-forbidden.http
+   :code:
+
+Buyer adds signature document using his token (`buyer_token`) which he got during access query:
+
+.. http:example:: http/contract-buyer-add-signature-doc.http
+   :code:
+
+If all required signatures are completed, the contract will automatically transition to the `active` status:
+
+.. http:example:: http/get-active-contract.http
+   :code:
+
 Modifying active contract
 -------------------------
 

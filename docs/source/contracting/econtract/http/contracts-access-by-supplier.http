@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/3d373c2d3839446ab6aa6a6b05a8a2cf/access HTTP/1.0
+POST /api/2.5/contracts/21c31bf8d9264a3699b4f0ef238aa19f/access HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,9 +6,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "identifier": {
-      "scheme": "UA-EDR",
-      "id": "00137226",
-      "uri": "http://www.sc.gov.ua/"
+      "scheme": "UA-IPN",
+      "id": "00037256",
+      "uri": "http://www.dus.gov.ua/"
     }
   }
 }
@@ -20,13 +20,13 @@ Content-Type: application/json
 {
   "data": {
     "identifier": {
-      "scheme": "UA-EDR",
-      "id": "00137226",
-      "uri": "http://www.sc.gov.ua/"
+      "scheme": "UA-IPN",
+      "id": "00037256",
+      "uri": "http://www.dus.gov.ua/"
     }
   },
   "access": {
-    "token": "65bc72037bba4941b4d198164fb2cf4c"
+    "token": "a6ea88944b2f4522935d855e6039b416"
   }
 }
 

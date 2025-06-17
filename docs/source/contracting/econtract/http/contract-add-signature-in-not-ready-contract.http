@@ -1,0 +1,30 @@
+POST /api/2.5/contracts/21c31bf8d9264a3699b4f0ef238aa19f/documents?acc_token=762569af3331447a846940af41fd8843 HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "documentType": "jsonSignature",
+    "title": "sign.p7s",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9da67559dbea4c8b830085662d7a358a?Signature=q2jPU9Ji8%2BXnZ7tXeF9H9X8RpEwG%2Fv2nO7A1TB5yZYYCKyojGGZ7ms%2BTYSqg8XkWG0bFtvf1JSkwscF%2B1gN8DQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pkcs7-signature"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "period is required for contract in `active` status"
+    }
+  ]
+}
+

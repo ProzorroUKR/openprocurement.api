@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 14:39+0300\n"
+"POT-Creation-Date: 2025-06-17 12:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -285,6 +285,33 @@ msgstr "Після того, як було додано інформацію п�
 
 msgid "After activating contract, tender contract **automatically** switch to `active` and tender  to `complete`:"
 msgstr "Після активації договору, договір у системі закупівель **автоматично** перейде у `active` і закупівля у статус `complete`:"
+
+msgid "Signing electronic contract"
+msgstr "Підписання електронного контракту"
+
+msgid "If contract was created using new flow with set `contract_owner` in tender for `suppliers` and `buyers` than for activating electronic contract, signer information and all participants signature are required."
+msgstr "Якщо контракт був створений за правилами електронного контрактингу за новим флоу зі встановленними майданчиками для постачальника та замовника ще під час закупівлі, то для активації такого контракту обов'язковими є заповнення інформації підписантів та додавання підписів всіх учасників."
+
+msgid "At first buyer and supplier should fill signer information and fill all required fields."
+msgstr "Перед тим як зареєструвати договір, потрібно замовнику та постачальнику заповнити інформацію підписанта та заповнити всі необхідні поля в контракті."
+
+msgid "It is also required to add contract signature document type from each participant (supplier and buyer). If you try activate contract without signatures you'll get error:"
+msgstr "Також перед тим як зареєструвати угоду, потрібно замовнику та постачальнику додати в якості документів електронні підписи. При спробі активувати угоду без підписів, буде отримана помилка:"
+
+msgid "Before adding signature there will be validations that all required fields are set:"
+msgstr "Перед додаванням підпису будуть спрацьовувати валідації, що всі необхідні поля контракту заповненні:"
+
+msgid "Supplier adds signature document using his token (`supplier_token`) which he got during access query:"
+msgstr "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`), яий він отримав при запиті доступу:"
+
+msgid "If there is at least one signature in contract, it is forbidden to patch contract:"
+msgstr "Якщо в контракті наявний хоча б один підпис, такий контракт заборонено вже редагувати:"
+
+msgid "Buyer adds signature document using his token (`buyer_token`) which he got during access query:"
+msgstr "Замовник додає документ підпису використовуючи свій токен (`buyer_token`), яий він отримав при запиті доступу:"
+
+msgid "If all required signatures are completed, the contract will automatically transition to the `active` status:"
+msgstr "Коли обидва підписа є у системі, то система підтверджує, що контракт підписано і активує його:"
 
 msgid "Modifying active contract"
 msgstr "Редагування зареєстрованого договору"

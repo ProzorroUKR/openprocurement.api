@@ -769,27 +769,7 @@ def contract_status_change(self):
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("description", response.json["data"])
 
-    response = self.app.put_json(
-        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.contract_token}", {"data": test_signer_info}
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    response = self.app.put_json(
-        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}", {"data": test_signer_info}
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending")
-    self.assertEqual(response.json["data"]["status"], self.contract["status"])
-
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+    self.activate_contract()
 
     response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
     self.assertEqual(response.status, "200 OK")
@@ -1694,20 +1674,6 @@ def contract_wo_items_status_change(self):
         response.json["errors"], [{"location": "body", "name": "data", "description": "Can't update contract status"}]
     )
 
-    # set signerInfo for buyer
-    response = self.app.put_json(
-        f"/contracts/{self.contract['id']}/buyer/signer_info?acc_token={self.contract_token}",
-        {"data": test_signer_info},
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    # set signerInfo for suppliers
-    response = self.app.put_json(
-        f"/contracts/{self.contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
-        {"data": test_signer_info},
-    )
-    self.assertEqual(response.status, "200 OK")
-
     # pending > active allowed
 
     contract_value = {**self.contract["value"], "amountNet": self.contract["value"]["amountNet"] - 1}
@@ -1715,18 +1681,13 @@ def contract_wo_items_status_change(self):
         f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
         {
             "data": {
-                "status": "active",
                 "value": contract_value,
-                "contractNumber": "123",
-                "period": {
-                    "startDate": "2016-03-18T18:47:47.155143+02:00",
-                    "endDate": "2016-05-18T18:47:47.155143+02:00",
-                },
             }
         },
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+
+    self.activate_contract()
 
     # active > terminated allowed
     response = self.app.patch_json(
@@ -1795,38 +1756,7 @@ def contract_validate_signer_info(self):
         ],
     )
 
-    # set signerInfo for buyer
-    response = self.app.put_json(
-        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.contract_token}",
-        {"data": test_signer_info},
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    # set signerInfo for suppliers
-    response = self.app.put_json(
-        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
-        {"data": test_signer_info},
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    # activate contract
-    contract_value = {**self.contract["value"], "amountNet": self.contract["value"]["amountNet"] - 1}
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
-        {
-            "data": {
-                "status": "active",
-                "value": contract_value,
-                "contractNumber": "123",
-                "period": {
-                    "startDate": "2016-03-18T18:47:47.155143+02:00",
-                    "endDate": "2016-05-18T18:47:47.155143+02:00",
-                },
-            }
-        },
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+    self.activate_contract()
 
 
 def contract_token_invalid(self):

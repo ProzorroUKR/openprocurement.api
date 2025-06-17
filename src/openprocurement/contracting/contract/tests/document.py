@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.contracting.core.tests.base import BaseContractContentWebTest
+from openprocurement.contracting.contract.tests.base import BaseContractContentWebTest
 from openprocurement.contracting.core.tests.document_blanks import (
     contract_change_document,
     create_contract_document,
@@ -31,7 +31,7 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(ContractDocumentResourceTest))
     return suite
 
 
