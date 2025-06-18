@@ -90,14 +90,14 @@ def contract_activate(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "jsonSignature document type for all participants is required for contract in `active` status",
+                "description": "contractSignature document type for all participants is required for contract in `active` status",
             }
         ],
     )
 
     # add signature only for buyer
     contract_sign_data = {
-        "documentType": "jsonSignature",
+        "documentType": "contractSignature",
         "title": "sign.p7s",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
@@ -121,7 +121,7 @@ def contract_activate(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "jsonSignature document type for all participants is required f"
+                "description": "contractSignature document type for all participants is required f"
                 "or contract in `active` status",
             }
         ],

@@ -1057,7 +1057,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         self.assertEqual(response.status, '200 OK')
 
         contract_sign_data = {
-            "documentType": "jsonSignature",
+            "documentType": "contractSignature",
             "title": "sign.p7s",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,

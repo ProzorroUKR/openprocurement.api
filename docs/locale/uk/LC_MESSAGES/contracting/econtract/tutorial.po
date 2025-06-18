@@ -302,13 +302,13 @@ msgid "Before adding signature there will be validations that all required field
 msgstr "Перед додаванням підпису будуть спрацьовувати валідації, що всі необхідні поля контракту заповненні:"
 
 msgid "Supplier adds signature document using his token (`supplier_token`) which he got during access query:"
-msgstr "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`), яий він отримав при запиті доступу:"
+msgstr "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:"
 
 msgid "If there is at least one signature in contract, it is forbidden to patch contract:"
 msgstr "Якщо в контракті наявний хоча б один підпис, такий контракт заборонено вже редагувати:"
 
 msgid "Buyer adds signature document using his token (`buyer_token`) which he got during access query:"
-msgstr "Замовник додає документ підпису використовуючи свій токен (`buyer_token`), яий він отримав при запиті доступу:"
+msgstr "Замовник додає документ підпису використовуючи свій токен (`buyer_token`), який він отримав при запиті доступу:"
 
 msgid "If all required signatures are completed, the contract will automatically transition to the `active` status:"
 msgstr "Коли обидва підписа є у системі, то система підтверджує, що контракт підписано і активує його:"
@@ -407,7 +407,7 @@ msgid "In order to apply ``active`` status `dateSigned` field must be set."
 msgstr "Щоб застосувати статус ``active`` потрібно встановити поле `dateSigned`."
 
 msgid "After this `change` can't be modified anymore."
-msgstr "ПІсля цього модифікувати зміну `change` вже не можна."
+msgstr "Після цього модифікувати зміну `change` вже не можна."
 
 msgid "`dateSigned` field validation:"
 msgstr "Валідація поля `dateSigned`:"

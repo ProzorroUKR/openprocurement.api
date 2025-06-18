@@ -5,7 +5,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "documentType": "jsonSignature",
+    "documentType": "contractSignature",
     "title": "sign.p7s",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9da67559dbea4c8b830085662d7a358a?Signature=q2jPU9Ji8%2BXnZ7tXeF9H9X8RpEwG%2Fv2nO7A1TB5yZYYCKyojGGZ7ms%2BTYSqg8XkWG0bFtvf1JSkwscF%2B1gN8DQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",

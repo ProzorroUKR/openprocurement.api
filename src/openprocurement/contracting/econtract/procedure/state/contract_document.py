@@ -11,7 +11,7 @@ from openprocurement.contracting.core.procedure.utils import is_bid_owner
 class EContractDocumentState(BaseContractDocumentState):
     def validate_document_post(self, data):
         super().validate_document_post(data)
-        if data.get("documentType") == "jsonSignature":
+        if data.get("documentType") == "contractSignature":
             self.validate_contract_is_ready_for_signing()
             self.set_author_of_object(data)
             self.validate_contract_signature_duplicate(data)
@@ -51,7 +51,7 @@ class EContractDocumentState(BaseContractDocumentState):
         else:
             suppliers_count = 0
         participants_count = suppliers_count + 1  # all suppliers + buyer signature
-        signs_count = len([doc for doc in docs if doc.get("documentType") == "jsonSignature"])
+        signs_count = len([doc for doc in docs if doc.get("documentType") == "contractSignature"])
         if signs_count == participants_count:
             self.set_object_status(contract, "active")
             contract_changed = self.synchronize_contracts_data(contract)
@@ -62,7 +62,7 @@ class EContractDocumentState(BaseContractDocumentState):
 
     def validate_document_patch(self, before, after):
         super().validate_document_patch(before, after)
-        if after.get("documentType") == "jsonSignature":
+        if after.get("documentType") == "contractSignature":
             self.set_author_of_object(after)
             self.validate_object_author(before, after)
             self.validate_contract_signature_duplicate(after)
@@ -76,7 +76,7 @@ class EContractDocumentState(BaseContractDocumentState):
             contract_docs.append(doc_data)
         for prev_doc in contract_docs:
             if (
-                prev_doc.get("documentType") == "jsonSignature"
+                prev_doc.get("documentType") == "contractSignature"
                 and prev_doc["author"] == doc_data["author"]
                 and prev_doc["id"] != doc_data["id"]
             ):

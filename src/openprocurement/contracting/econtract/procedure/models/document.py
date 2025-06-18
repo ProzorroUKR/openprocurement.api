@@ -44,18 +44,16 @@ DOCUMENT_TYPES = (
     "winningBid",
     "evidence",
     "register",
-    "jsonSignature",
+    "contractSignature",
 )
 
 
 class PostDocument(BasePostDocument):
     documentType = StringType(choices=DOCUMENT_TYPES)
-    author = StringType()
 
 
 class PatchDocument(BasePatchDocument):
     documentType = StringType(choices=DOCUMENT_TYPES)
-    author = StringType()
 
 
 class Document(BaseDocument):

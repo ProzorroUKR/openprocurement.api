@@ -43,8 +43,6 @@ class ContractDocumentResourceTest(BaseEContractContentWebTest):
     test_activate_contract_after_signatures_and_document_upload = snitch(
         activate_contract_after_signatures_and_document_upload
     )
-    # test_add_document_by_supplier = snitch(add_document_by_supplier)
-    # test_patch_signature_document_type_by_supplier = snitch(patch_signature_document_type_by_supplier)
 
 
 def suite():
