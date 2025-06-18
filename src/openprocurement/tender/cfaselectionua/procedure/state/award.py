@@ -12,8 +12,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 class AwardState(AwardStateMixing, CFASelectionTenderState):
-    generate_award_milestones = False
-
     def award_status_up(self, before, after, award):
         super().award_status_up(before, after, award)
 
