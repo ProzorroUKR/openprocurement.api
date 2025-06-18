@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "jsonSignature document type for all participants is required for contract in `active` status"
+      "description": "contractSignature document type for all participants is required for contract in `active` status"
     }
   ]
 }

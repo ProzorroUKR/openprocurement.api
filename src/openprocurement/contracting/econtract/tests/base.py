@@ -29,7 +29,7 @@ class BaseEContractContentWebTest(BaseEContractWebTest):
         self.prepare_contract_for_signing()
         # add signature for buyer
         contract_sign_data = {
-            "documentType": "jsonSignature",
+            "documentType": "contractSignature",
             "title": "sign.p7s",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,

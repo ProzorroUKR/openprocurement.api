@@ -3,7 +3,7 @@ from openprocurement.contracting.core.tests.data import test_signer_info
 
 def sign_pending_contract(self):
     contract_sign_data = {
-        "documentType": "jsonSignature",
+        "documentType": "contractSignature",
         "title": "sign.p7s",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
@@ -95,7 +95,7 @@ def sign_pending_contract(self):
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("sign.p7s", response.json["data"]["title"])
     self.assertEqual(response.json["data"]["documentOf"], "contract")
-    self.assertEqual(response.json["data"]["documentType"], "jsonSignature")
+    self.assertEqual(response.json["data"]["documentType"], "contractSignature")
     self.assertIn("author", response.json["data"])
     self.assertEqual(response.json["data"]["author"], "buyer")
 
@@ -108,7 +108,7 @@ def sign_pending_contract(self):
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("sign.p7s", response.json["data"]["title"])
     self.assertEqual(response.json["data"]["documentOf"], "contract")
-    self.assertEqual(response.json["data"]["documentType"], "jsonSignature")
+    self.assertEqual(response.json["data"]["documentType"], "contractSignature")
     self.assertIn("author", response.json["data"])
     self.assertEqual(response.json["data"]["author"], "supplier")
 
@@ -123,7 +123,7 @@ def sign_pending_contract(self):
 def sign_active_contract(self):
     self.activate_contract()
     contract_sign_data = {
-        "documentType": "jsonSignature",
+        "documentType": "contractSignature",
         "title": "sign.p7s",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
@@ -176,7 +176,7 @@ def patch_signature_in_active_contract(self):
 def patch_contract_signature_by_another_user(self):
     self.prepare_contract_for_signing()
     contract_sign_data = {
-        "documentType": "jsonSignature",
+        "documentType": "contractSignature",
         "title": "sign.p7s",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
@@ -206,7 +206,7 @@ def patch_contract_signature_by_another_user(self):
 def patch_contract_signature_duplicate(self):
     self.prepare_contract_for_signing()
     contract_sign_data = {
-        "documentType": "jsonSignature",
+        "documentType": "contractSignature",
         "title": "sign.p7s",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
@@ -232,53 +232,6 @@ def patch_contract_signature_duplicate(self):
     )
 
 
-def add_document_by_supplier(self):
-    doc_data = {
-        "title": "укр.doc",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/msword",
-    }
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.supplier_token}",
-        {"data": doc_data},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Forbidden to add documents other than jsonSignature for supplier",
-    )
-
-
-def patch_signature_document_type_by_supplier(self):
-    contract_sign_data = {
-        "documentType": "jsonSignature",
-        "title": "sign.p7s",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/pkcs7-signature",
-    }
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.supplier_token}", {"data": contract_sign_data}
-    )
-    self.assertEqual(response.status, "201 Created")
-    doc_id = response.json["data"]["id"]
-
-    # patch signature
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.supplier_token}",
-        {"data": {"documentType": "notice"}},
-        status=403,
-    )
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Forbidden to update documents other than jsonSignature for supplier",
-    )
-
-
 def activate_contract_after_signatures_and_document_upload(self):
     contract_before = self.mongodb.contracts.get(self.contract_id)
     self.assertEqual(contract_before["status"], "pending")
@@ -287,7 +240,7 @@ def activate_contract_after_signatures_and_document_upload(self):
 
     # add signature for buyer
     contract_sign_data = {
-        "documentType": "jsonSignature",
+        "documentType": "contractSignature",
         "title": "sign.p7s",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,

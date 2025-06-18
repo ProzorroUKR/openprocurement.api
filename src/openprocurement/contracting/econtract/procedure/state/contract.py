@@ -7,7 +7,7 @@ from openprocurement.contracting.core.procedure.state.contract import (
 class EContractState(BaseContractState):
     def on_patch(self, before, after) -> None:
         if after["status"] == "pending" and any(
-            doc.get("documentType") == "jsonSignature" for doc in before.get("documents", [])
+            doc.get("documentType") == "contractSignature" for doc in before.get("documents", [])
         ):
             raise_operation_error(
                 self.request,
@@ -27,11 +27,11 @@ class EContractState(BaseContractState):
         else:
             suppliers_count = 0
         participants_count = suppliers_count + 1  # all suppliers + buyer signature
-        signs_count = len([doc for doc in data.get("documents", []) if doc.get("documentType") == "jsonSignature"])
+        signs_count = len([doc for doc in data.get("documents", []) if doc.get("documentType") == "contractSignature"])
         if signs_count != participants_count:
             raise_operation_error(
                 self.request,
-                f"jsonSignature document type for all participants "
+                f"contractSignature document type for all participants "
                 f"is required for contract in `{data.get('status')}` status",
                 status=422,
             )
