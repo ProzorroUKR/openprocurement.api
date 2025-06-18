@@ -288,12 +288,13 @@ class ContractStateMixing:
                     "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat()),
                 )
         else:
-            stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("startDate"))
-            if stand_still_end > get_request_now():
-                raise_operation_error(
-                    get_request(),
-                    f"Can't sign contract before award activation date ({stand_still_end.isoformat()})",
-                )
+            if complaint_period_start := award.get("complaintPeriod", {}).get("startDate"):
+                stand_still_end = dt_from_iso(complaint_period_start)
+                if stand_still_end > get_request_now():
+                    raise_operation_error(
+                        get_request(),
+                        f"Can't sign contract before award activation date ({stand_still_end.isoformat()})",
+                    )
 
     def _validate_contract_signing_with_pending_complaints(self, award: dict):
         tender = get_tender()
@@ -563,7 +564,7 @@ class LimitedContractStateMixing:
         elif not statuses - {"complete", "unsuccessful", "cancelled"}:
             self.set_object_status(tender, "complete")
 
-    def validate_contract_with_cancellations_and_contract_signing(self, before: dict, after: dict) -> None:
+    def validate_limited_contract_with_cancellations(self, before: dict, after: dict) -> None:
         tender = get_tender()
         new_rules = get_first_revision_date(tender, default=get_request_now()) > RELEASE_2020_04_19
 
@@ -571,18 +572,6 @@ class LimitedContractStateMixing:
             award_id = self.request.validated["contract"].get("awardID")
             award = [a for a in tender.get("awards") if a["id"] == award_id][0]
             lot_id = award.get("lotID")
-            stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("endDate"))
-            if stand_still_end > get_request_now():
-                raise_operation_error(
-                    self.request,
-                    f"Can't sign contract before stand-still period end ({stand_still_end.isoformat()})",
-                )
-
-            blocked_complaints = any(
-                c["status"] in self.block_complaint_status and a.get("lotID") == lot_id
-                for a in tender["awards"]
-                for c in award.get("complaints", "")
-            )
 
             new_rules_block_complaints = any(
                 complaint["status"] in self.block_complaint_status and cancellation.get("relatedLot") == lot_id
@@ -590,7 +579,7 @@ class LimitedContractStateMixing:
                 for complaint in cancellation.get("complaints", "")
             )
 
-            if blocked_complaints or (new_rules and new_rules_block_complaints):
+            if new_rules and new_rules_block_complaints:
                 raise_operation_error(self.request, "Can't sign contract before reviewing all complaints")
 
     def check_reporting_tender_status_method(self) -> None:
@@ -836,32 +825,14 @@ class ContractState(
     def validate_contract_pending_patch(self, request, before: dict, after: dict) -> None:
         tender = get_tender()
         tender_type = tender.get("procurementMethodType", "")
-        if tender_type in (
-            "belowThreshold",
-            "aboveThresholdEU",
-            "aboveThresholdUA",
-            "aboveThresholdUA.defense",
-            "aboveThreshold",
-            "simple.defense",
-            "esco",
-            "competitiveDialogueEU.stage2",
-            "competitiveDialogueUA.stage2",
-            REQUEST_FOR_PROPOSAL,
-        ):
-            self.validate_threshold_contract(request, before, after)
-        elif tender_type in ("negotiation", "negotiation.quick"):
-            self.validate_limited_negotiation_contract(request, before, after)
+        self.validate_contract_signing(before, after)
+        self.add_esco_contract_duration_to_period(before, after)
+        if tender_type in ("negotiation", "negotiation.quick"):
+            self.validate_limited_contract_with_cancellations(before, after)
 
         award = request.validated["award"]
         self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
         self.validate_update_contract_value_with_award(request, tender, before, after)
-
-    def validate_threshold_contract(self, request, before: dict, after: dict) -> None:
-        self.validate_contract_signing(before, after)
-        self.add_esco_contract_duration_to_period(before, after)
-
-    def validate_limited_negotiation_contract(self, request, before: dict, after: dict) -> None:
-        self.validate_contract_with_cancellations_and_contract_signing(before, after)
 
     def validate_contract_active_patch(self, request, before: dict, after: dict) -> None:
         self.validate_update_contracting_value_identical(request, before, after)
