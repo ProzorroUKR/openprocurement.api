@@ -52,12 +52,44 @@ class Migration(CollectionMigration):
                     except JsonPointerException as e:
 
                         # empty lists was handled wrong for some period
-                        if change["op"] == "add" and str(e).startswith("member 'lotValues' not found in"):
+
+                        # there are revisions that describe revert action as adding 0th element to list
+                        # {
+                        #     "op": "add",
+                        #     "path": "/bids/1/parameters/0",
+                        #     "value": {
+                        #         "code": "b87f55e2de974a43a9fcf07acf3d3c80",
+                        #         "value": 0.05
+                        #     }
+                        # }
+
+                        # but it should be adding to non existing list (creating a list) instead
+                        # {
+                        #     "op": "add",
+                        #     "path": "/bids/1/parameters",
+                        #     "value": [
+                        #         {
+                        #             "code": "b87f55e2de974a43a9fcf07acf3d3c80",
+                        #             "value": 0.05
+                        #         }
+                        #     ]
+                        # }
+
+                        def fix_add_to_new_list(name: str):
                             new_path = change["path"].rsplit("/", 1)[0]
-                            if new_path.endswith("/lotValues"):
-                                change["path"] = new_path
-                                change["value"] = [change["value"]]
+                            if new_path.endswith(f"/{name}"):
+                                change["path"] = new_path  # removed index
+                                change["value"] = [change["value"]]  # wrap in list
                                 apply_patch(rewinded_doc, [deepcopy(change)], in_place=True)
+                                return True
+                            return False
+
+                        if change["op"] == "add" and str(e).startswith("member 'lotValues' not found in"):
+                            if fix_add_to_new_list("lotValues"):
+                                continue
+
+                        if change["op"] == "add" and str(e).startswith("member 'parameters' not found in"):
+                            if fix_add_to_new_list("parameters"):
                                 continue
 
                         logger.error(f"JsonPointerException: {e}, for change: {change}")
