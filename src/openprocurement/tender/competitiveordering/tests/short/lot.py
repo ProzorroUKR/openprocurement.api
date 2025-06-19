@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     tender_lot_guarantee,
     tender_lot_milestones,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.short.base import (
     BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_criteria,

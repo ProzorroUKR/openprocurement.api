@@ -22,14 +22,14 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_multi_contracts_cancelled_validate_amount,
     patch_tender_multi_contracts_cancelled_with_one_activated,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.long.base import (
     BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_config,
     test_tender_co_multi_buyers_data,
     test_tender_co_no_auction,
 )
-from openprocurement.tender.competitiveordering.tests.contract_blanks import (
+from openprocurement.tender.competitiveordering.tests.long.contract_blanks import (
     patch_econtract_co_multi_currency,
 )
 from openprocurement.tender.open.tests.contract_blanks import (

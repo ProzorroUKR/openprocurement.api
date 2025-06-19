@@ -1,6 +1,10 @@
+from copy import deepcopy
+
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
+from openprocurement.api.constants import TENDER_CO_VARIANTS_CONFIG_JSONSCHEMAS
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
+from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.competitiveordering.constants import (
     ENQUIRY_PERIOD_TIME,
@@ -25,7 +29,6 @@ class COTenderDetailsState(TenderDetailsMixing, COTenderState):
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     should_validate_notice_doc_required = True
     agreement_allowed_types = [DPS_TYPE]
-    agreement_with_items_forbidden = True
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
@@ -44,3 +47,27 @@ class COTenderDetailsState(TenderDetailsMixing, COTenderState):
             return False
 
         return True
+
+
+class COTenderConfigMixin(ConfigMixin):
+    co_config_schema_name = "competitiveOrdering"
+
+    def validate_co_config(self, data):
+        config_schema = TENDER_CO_VARIANTS_CONFIG_JSONSCHEMAS.get(self.co_config_schema_name)
+        config_schema = deepcopy(config_schema)
+        config_schema.pop("required", None)
+        self.validate_config_schema(data, config_schema)
+
+    def validate_config(self, data):
+        super().validate_config(data)
+        self.validate_co_config(data)
+
+
+class COShortTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
+    co_config_schema_name = "competitiveOrdering.short"
+    agreement_with_items_forbidden = False
+
+
+class COLongTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
+    co_config_schema_name = "competitiveOrdering.long"
+    agreement_with_items_forbidden = True

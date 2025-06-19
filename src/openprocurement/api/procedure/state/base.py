@@ -46,6 +46,9 @@ class ConfigMixin:
 
     def validate_config(self, data):
         config_schema = self.get_config_schema(data)
+        self.validate_config_schema(data, config_schema)
+
+    def validate_config_schema(self, data, config_schema):
         try:
             validate(data["config"], config_schema)
         except ValidationError as e:

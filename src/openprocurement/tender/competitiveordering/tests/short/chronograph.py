@@ -2,7 +2,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.short.base import (
     BaseTenderCOContentWebTest,
     test_tender_co_bids,
 )

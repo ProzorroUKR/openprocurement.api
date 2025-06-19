@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_features_data,
     test_tender_below_lots,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.short.base import (
     BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_features_data,

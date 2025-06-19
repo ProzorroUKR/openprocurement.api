@@ -3,11 +3,11 @@ from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.competitiveordering.tests.award import (
+from openprocurement.tender.competitiveordering.tests.long.award import (
     BaseTenderCOContentWebTest,
     TenderAwardPendingResourceTestCase,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.long.base import (
     test_tender_co_bids,
     test_tender_co_data,
 )

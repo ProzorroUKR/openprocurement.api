@@ -16,7 +16,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_supplier,
 )
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
-from openprocurement.tender.competitiveordering.tests.periods import PERIODS
+from openprocurement.tender.competitiveordering.tests.long.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_criteria_all,
@@ -92,15 +92,15 @@ test_tender_co_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": True,
-    "hasTenderComplaints": False,
-    "hasAwardComplaints": False,
-    "hasCancellationComplaints": False,
+    "hasTenderComplaints": True,
+    "hasAwardComplaints": True,
+    "hasCancellationComplaints": True,
     "hasValueEstimation": True,
     "hasQualificationComplaints": False,
-    "tenderComplainRegulation": 0,
+    "tenderComplainRegulation": 3,
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
-    "cancellationComplainDuration": 0,
+    "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
     "restricted": False,
@@ -165,7 +165,7 @@ test_agreement_dps_contract_raw_data = {
             },
             "name": "Товариство з обмеженою відповідальністю «Пікселі»",
             "scale": "large",
-        }
+        },
     ],
 }
 test_agreement_dps_data = {

@@ -17,13 +17,13 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lots_cancellation,
     patch_tender_lot_cancellation,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.short.base import (
     BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_config,
     test_tender_co_data,
 )
-from openprocurement.tender.competitiveordering.tests.cancellation_blanks import (
+from openprocurement.tender.competitiveordering.tests.short.cancellation_blanks import (
     create_tender_co_lot_cancellation_complaint,
     patch_tender_co_lot_cancellation,
 )

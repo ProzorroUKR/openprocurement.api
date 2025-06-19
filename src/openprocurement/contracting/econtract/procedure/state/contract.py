@@ -306,6 +306,7 @@ class EContractState(
             "aboveThresholdUA",
             "aboveThresholdUA.defense",
             "aboveThreshold",
+            "competitiveOrdering",
             "simple.defense",
             "esco",
             "competitiveDialogueEU.stage2",

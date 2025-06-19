@@ -4,7 +4,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_below_l
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentResourceTestMixin,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.long.base import (
     BaseTenderCOContentWebTest,
 )
 

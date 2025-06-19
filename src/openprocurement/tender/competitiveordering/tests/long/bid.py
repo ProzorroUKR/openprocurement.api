@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     patch_tender_bid_with_disabled_lot_values_restriction,
     post_tender_bid_with_disabled_lot_values_restriction,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.long.base import (
     BaseTenderCOContentWebTest,
     test_tender_co_bids,
     test_tender_co_criteria,

@@ -201,6 +201,8 @@ class BaseCoreWebTest(BaseWebTest):
                 self.initial_data.get("lots", []),
                 self.initial_data.get("items", []),
             )
+        if self.initial_agreement_data and "items" in self.initial_agreement_data:
+            self.initial_agreement_data["items"] = self.initial_data["items"]
 
     def tearDown(self):
         self.delete_tender()

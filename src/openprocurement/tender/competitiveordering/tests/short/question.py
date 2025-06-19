@@ -15,12 +15,12 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     lot_patch_tender_question_lots_none,
     patch_tender_question,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.short.base import (
     BaseTenderCOContentWebTest,
     test_tender_co_config,
     test_tender_co_data,
 )
-from openprocurement.tender.competitiveordering.tests.question_blanks import (
+from openprocurement.tender.competitiveordering.tests.short.question_blanks import (
     create_tender_question_check_author_co,
     create_tender_question_valid_author_co,
 )

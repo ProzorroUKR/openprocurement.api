@@ -19,15 +19,14 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_lot_minimalstep_validation,
     tender_milestones_required,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.short.base import (
     BaseTenderCOWebTest,
     test_tender_co_bids,
     test_tender_co_data,
 )
-from openprocurement.tender.competitiveordering.tests.tender_blanks import (
-    create_tender_co,
-    create_tender_co_invalid_agreement,
-    create_tender_co_invalid_config,
+from openprocurement.tender.competitiveordering.tests.short.tender_blanks import (
+    create_tender_forbidden_complaints,
+    create_tender_invalid_agreement,
     patch_tender,
     patch_tender_period,
 )
@@ -91,9 +90,8 @@ class TenderCOResourceTest(BaseTenderCOWebTest, TenderResourceTestMixin, TenderC
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_get_ocds_schema = snitch(get_ocds_schema)
-    test_create_tender_co = snitch(create_tender_co)
-    test_create_tender_co_invalid_config = snitch(create_tender_co_invalid_config)
-    test_create_tender_co_invalid_agreement = snitch(create_tender_co_invalid_agreement)
+    test_create_tender_forbidden_complaints = snitch(create_tender_forbidden_complaints)
+    test_create_tender_invalid_agreement = snitch(create_tender_invalid_agreement)
 
 
 @patch(
