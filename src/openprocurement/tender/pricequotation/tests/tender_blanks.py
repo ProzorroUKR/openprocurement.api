@@ -555,6 +555,15 @@ def create_tender_invalid(self):
         response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
+    # try to create PQ without category in item
+    del data["items"][0]["category"]
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": [{"category": ["This field is required."]}], "location": "body", "name": "items"}],
+    )
+
 
 def create_tender_with_inn(self):
     request_path = "/tenders"
