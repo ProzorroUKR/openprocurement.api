@@ -1384,6 +1384,13 @@ class BaseTenderDetailsMixing:
             if category_id := item.get("category"):
                 category = get_tender_category(self.request, category_id)
                 med_category_used = category.get("classification", {}).get("id", "").startswith(CPV_PHARM_PREFIX)
+            else:
+                raise_operation_error(
+                    self.request,
+                    [{"category": ["This field is required."]}],
+                    status=422,
+                    name="items",
+                )
             if (required_profile_for_tender or med_category_used) and not item.get("profile"):
                 raise_operation_error(
                     self.request,
