@@ -1,0 +1,32 @@
+POST /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/access HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "identifier": {
+      "scheme": "UA-IPN",
+      "id": "00037256",
+      "uri": "http://www.dus.gov.ua/"
+    }
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": {
+    "identifier": {
+      "scheme": "UA-IPN",
+      "id": "00037256",
+      "uri": "http://www.dus.gov.ua/"
+    }
+  },
+  "access": {
+    "token": "47c3f4968e1341499809200105e2aade"
+  }
+}
+

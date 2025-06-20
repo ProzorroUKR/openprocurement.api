@@ -398,7 +398,7 @@ Schema
     Regular expression for this field: ``^https?://\S+$``
 
 
-Additionally in :ref:`contracting`, :ref:`openeu` and :ref:`competitivedialogue`:
+Additionally in :ref:`base-contracting`, :ref:`openeu` and :ref:`competitivedialogue`:
 
 :availableLanguage:
     string

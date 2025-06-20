@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-27 17:39+0200\n"
+"POT-Creation-Date: 2025-06-20 12:57+0300\n"
 "PO-Revision-Date: 2017-07-25 15:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -193,9 +193,6 @@ msgstr "Замовник може встановити забезпечення 
 msgid "Also we can modify tender by adding `funders` field data:"
 msgstr "Також можна оновлювати закупівлю шляхом додавання поля `funders`:"
 
-msgid "It is forbidden to patch tender in `active.tendering` status for `belowThreshold` procedure:"
-msgstr "Спрощену закупівлю заборонено редагувати в статусі `active.tendering`:"
-
 msgid "Uploading documentation"
 msgstr "Завантаження документації"
 
@@ -298,6 +295,9 @@ msgstr "Покроковий режим реєстрації"
 msgid "When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tendering` status that allows registration of bids."
 msgstr "Коли приходить ``Tender.tenderingPeriod.startDate``, Закупівля отримує статус `active.tendering`, що дозволяє реєстрацію пропозицій."
 
+msgid "It is forbidden to patch tender in `active.tendering` status for `belowThreshold` procedure:"
+msgstr "Спрощену закупівлю заборонено редагувати в статусі `active.tendering`:"
+
 msgid "Bidder can register a bid for lot №1 in `draft` status:"
 msgstr "Учасник може зареєструвати пропозицію для лота №1 у статусі `draft` (чернетка):"
 
@@ -379,8 +379,8 @@ msgstr "В режимі Е-Контрактінгу угода створюєт�
 msgid "Some of data will be mirrored to tender until contract will be activated for backward compatibility."
 msgstr "Деякі дані для забезпечення сумісності будуть дублюватись в закупівлі до тих пір, поки угода не буде активована."
 
-msgid "Read more about working with EContracting in contracting system in :ref:`econtracting_tutorial` section."
-msgstr "Більше дізнатись про роботу з Е-Контрактінгом в системі угод можна в розділі :ref:`econtracting_tutorial`."
+msgid "Read more about working with EContracting in contracting system in :ref:`contracting_tutorial` section."
+msgstr "Більше дізнатись про роботу з Е-Контрактінгом в системі угод можна в розділі :ref:`contracting_tutorial`."
 
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"

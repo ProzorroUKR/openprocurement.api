@@ -401,7 +401,7 @@ In EContracting the contract is created directly in contracting system.
 .. note::
     Some of data will be mirrored to tender until contract will be activated for backward compatibility.
 
-Read more about working with EContracting in contracting system in :ref:`econtracting_tutorial` section.
+Read more about working with EContracting in contracting system in :ref:`contracting_tutorial` section.
 
 
 Cancelling tender

@@ -1,0 +1,29 @@
+POST /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/access HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "identifier": {
+      "scheme": "UA-EDR",
+      "id": "123456780"
+    }
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Invalid identifier"
+    }
+  ]
+}
+

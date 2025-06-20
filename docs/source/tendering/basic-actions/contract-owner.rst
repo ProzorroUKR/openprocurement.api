@@ -4,7 +4,7 @@
 Providing contract owner
 =========================
 
-For further contracting it is possible provide contract owner (SEDO).
+For further contracting using new flow (:ref:`econtracting_tutorial`) it is possible provide contract owner (SEDO).
 
 For buyer it should be set in one of fields along with `signerInfo`:
 
