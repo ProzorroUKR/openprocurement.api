@@ -5,3 +5,4 @@ pylint-pytest==1.1.7
 bandit[toml]==1.7.7
 autoflake==2.2.1
 ruff==0.6.9
+mypy==1.11.2
