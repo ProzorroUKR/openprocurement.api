@@ -1,0 +1,26 @@
+PATCH /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1?acc_token=e062b9ad8c5f453f9343377d4fcce628 HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "test title"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "url",
+      "name": "permission",
+      "description": "Forbidden"
+    }
+  ]
+}
+

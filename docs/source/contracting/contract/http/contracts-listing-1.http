@@ -1,0 +1,22 @@
+GET /api/2.5/contracts HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "id": "78fd8d7877d74b0dbc9c605462545e1c"
+    }
+  ],
+  "next_page": {
+    "offset": "1696888800.0.1.f9f768d0faee0847eefffbf52378bea6",
+    "path": "/api/2.5/contracts?offset=1696888800.0.1.f9f768d0faee0847eefffbf52378bea6",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts?offset=1696888800.0.1.f9f768d0faee0847eefffbf52378bea6"
+  }
+}
+

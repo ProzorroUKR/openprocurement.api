@@ -258,7 +258,7 @@ The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` reco
 Setting Contract
 ----------------
 
-All operations with contract moved to :ref:`econtracting`
+All operations with contract moved to :ref:`base-contracting`
 
 
 Contract registration

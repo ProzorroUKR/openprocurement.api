@@ -75,4 +75,4 @@ The tender `plans` field contains all the plan ids
 Aggregate contracts
 -------------------
 
-All operations with aggregated contracts moved to :ref:`econtracting`
+All operations with aggregated contracts moved to :ref:`base-contracting`

@@ -54,7 +54,7 @@ Schema
       now legally in force.
     * `cancelled` - this contract has been cancelled prior to being signed.
 
-    Possible values for :ref:`contracting`:
+    Possible values for :ref:`base-contracting`:
 
     * `active` - this contract has been signed by all the parties, and is
       now legally in force.
@@ -115,9 +115,9 @@ Schema
 
     The date when the contract was changed or activated.
 
-    This field is not in :ref:`contracting`
+    This field is not in :ref:`base-contracting`
 
-Additional fields for :ref:`contracting`:
+Additional fields for :ref:`base-contracting`:
 
 
 :procuringEntity:
@@ -147,8 +147,8 @@ Additional fields for :ref:`contracting`:
     Reasons for contract termination. Presence of this field indicates that contract is unsuccessful.
 
 
-Workflow in :ref:`contracting`
-------------------------------
+Workflow in :ref:`base-contracting`
+------------------------------------
 
 .. graphviz::
 

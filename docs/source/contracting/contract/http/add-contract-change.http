@@ -1,0 +1,34 @@
+POST /api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/changes?acc_token=2a616f20d95648cd87d33fdc9357fc4e HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "rationale": "Опис причини змін контракту",
+    "rationale_en": "Contract change cause",
+    "rationaleTypes": [
+      "volumeCuts",
+      "priceReduction"
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": {
+    "rationale": "Опис причини змін контракту",
+    "rationale_en": "Contract change cause",
+    "rationaleTypes": [
+      "volumeCuts",
+      "priceReduction"
+    ],
+    "id": "c6c12b9a46914244a5a592dac09fe91a",
+    "status": "pending",
+    "date": "2023-10-10T01:00:00+03:00"
+  }
+}
+

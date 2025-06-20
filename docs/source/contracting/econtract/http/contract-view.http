@@ -1,4 +1,5 @@
 GET /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1 HTTP/1.0
+Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -95,7 +96,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 10.0,
+            "amount": 20.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
@@ -128,6 +129,7 @@ Content-Type: application/json
         "postalCode": "01220",
         "countryName": "Україна"
       },
+      "contract_owner": "broker6",
       "kind": "general",
       "signerInfo": {
         "name": "Test Testovich",
@@ -153,6 +155,7 @@ Content-Type: application/json
           "postalCode": "01220",
           "countryName": "Україна"
         },
+        "contract_owner": "broker",
         "scale": "micro",
         "signerInfo": {
           "name": "Test Testovich",
@@ -165,7 +168,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "20cc535fb2754274beeeb221674aa637",
+    "tender_id": "1640f9c9f12d4f74b35596c849f209a4",
     "contractTemplateName": "00000000.0002.01",
     "status": "pending",
     "dateCreated": "2023-10-10T01:00:00+03:00",
