@@ -2,10 +2,7 @@ import logging
 from importlib import import_module
 from typing import Type
 
-from openprocurement.api.migrations.base import (
-    CollectionMigration,
-    migrate_collection,
-)
+from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
 
 tender_migration = import_module("openprocurement.tender.core.migrations.0034_migrate_contract_template_name")
 BaseMigration: Type[CollectionMigration] = tender_migration.Migration
