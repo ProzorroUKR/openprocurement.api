@@ -44,22 +44,41 @@ class Migration(CollectionMigration):
         for revision in reversed(doc["revisions"]):
             changes_to_remove = []
 
+            if "changes" not in revision:
+                # there are revisions without changes from chronograph in some old tenders
+                # probably was a bug in the past
+                # ignoring them
+                continue
+
             for change in list(revision["changes"]):
                 if change["path"].startswith("/bids"):
                     try:
                         apply_patch(rewinded_doc, [deepcopy(change)], in_place=True)
 
                     except JsonPointerException as e:
-
                         # empty lists was handled wrong for some period
-                        if change["op"] == "add" and str(e).startswith("member 'lotValues' not found in"):
-                            if self.fix_add_to_new_list(rewinded_doc, change, "lotValues"):
-                                continue
+                        if str(e).startswith(
+                            (
+                                "member 'lotValues' not found in",
+                                "member 'parameters' not found in",
+                                "member 'documents' not found in",
+                                "member 'eligibilityDocuments' not found in",
+                                "member 'qualificationDocuments' not found in",
+                                "member 'financialDocuments' not found in",
+                            )
+                        ):
+                            if change["op"] != "add":
+                                raise
 
-                        # empty lists was handled wrong for some period
-                        if change["op"] == "add" and str(e).startswith("member 'parameters' not found in"):
-                            if self.fix_add_to_new_list(rewinded_doc, change, "parameters"):
-                                continue
+                            key = str(e).split("'")[1]
+                            if not change["path"].endswith(f"/{key}/0"):
+                                raise
+
+                            self.fix_add_to_new_list(change)
+
+                            # apply fixed change
+                            apply_patch(rewinded_doc, [deepcopy(change)], in_place=True)
+                            continue
 
                         logger.error(f"JsonPointerException: {e}, for change: {change}")
                         raise
@@ -68,8 +87,12 @@ class Migration(CollectionMigration):
 
                         # empty lists was handled wrong for some period
                         if str(e) in [
+                            "can't remove non-existent object 'lotValues'",
                             "can't remove non-existent object 'parameters'",
                             "can't remove non-existent object 'documents'",
+                            "can't remove non-existent object 'eligibilityDocuments'",
+                            "can't remove non-existent object 'qualificationDocuments'",
+                            "can't remove non-existent object 'financialDocuments'",
                             "can't remove non-existent object 'additionalIdentifiers'",
                         ]:
                             changes_to_remove.append(change)
@@ -105,7 +128,7 @@ class Migration(CollectionMigration):
             except ValueError:
                 pass
 
-    def fix_add_to_new_list(self, rewinded_doc, change, name: str):
+    def fix_add_to_new_list(self, change):
         """
         empty lists was handled wrong for some period
 
@@ -123,13 +146,8 @@ class Migration(CollectionMigration):
             "value": [{...}]
         }
         """
-        new_path = change["path"].rsplit("/", 1)[0]
-        if new_path.endswith(f"/{name}"):
-            change["path"] = new_path  # removed index
-            change["value"] = [change["value"]]  # wrap in list
-            apply_patch(rewinded_doc, [deepcopy(change)], in_place=True)
-            return True
-        return False
+        change["path"] = change["path"].rsplit("/", 1)[0]  # removed index
+        change["value"] = [change["value"]]  # wrap in list
 
     def generate_base_pipeline_stages(self, doc: dict) -> list:
         return [
