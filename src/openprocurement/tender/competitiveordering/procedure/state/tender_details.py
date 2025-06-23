@@ -14,7 +14,7 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 )
 
 
-class OpenTenderDetailsState(TenderDetailsMixing, COTenderState):
+class COTenderDetailsState(TenderDetailsMixing, COTenderState):
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
