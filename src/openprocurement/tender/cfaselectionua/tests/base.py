@@ -103,6 +103,7 @@ test_tender_cfaselectionua_config = {
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
+    "minTenderingDuration": 3,
     "restricted": False,
 }
 

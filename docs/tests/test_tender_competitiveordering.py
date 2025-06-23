@@ -21,7 +21,7 @@ from openprocurement.framework.dps.tests.base import (
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.short.base import (
     BaseTenderCOWebTest,
     test_tender_co_config,
     test_tender_co_criteria,
@@ -73,7 +73,11 @@ class TenderResourceTest(
         framework_data["qualificationPeriod"] = {
             "endDate": (get_request_now() + datetime.timedelta(days=120)).isoformat()
         }
+        item = deepcopy(test_docs_tender_co["items"][0])
+        framework_data["items"] = [item]
+        framework_data["classification"] = item["classification"]
         framework_config = deepcopy(test_framework_dps_config)
+        framework_config["hasItems"] = True
         self.create_framework(data=framework_data, config=framework_config)
         self.activate_framework()
 
@@ -122,7 +126,6 @@ class TenderResourceTest(
                 "startDate": (get_request_now() + datetime.timedelta(days=2)).isoformat(),
                 "endDate": (get_request_now() + datetime.timedelta(days=5)).isoformat(),
             }
-            item['classification']['id'] = test_framework_dps_data['classification']['id']
         for milestone in data["milestones"]:
             milestone['relatedLot'] = lot['id']
 
@@ -190,23 +193,6 @@ class TenderResourceTest(
 
         bid_tenderer = deepcopy(submission_tenderer)
         bid_tenderer["signerInfo"] = test_signer_info
-
-        agreement = self.mongodb.agreements.get(self.agreement_id)
-        agreement["items"] = [{"id": "12345678"}]
-        self.mongodb.agreements.save(agreement)
-
-        with open(TARGET_DIR + 'tender-for-agreement-with-items-activating-error.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-                {'data': {"status": "active.tendering"}},
-                status=422,
-            )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
-            self.assertEqual(response.json['errors'][0]['description'], "Agreement with items is not allowed.")
-
-        agreement = self.mongodb.agreements.get(self.agreement_id)
-        agreement.pop("items", None)
-        self.mongodb.agreements.save(agreement)
 
         # Tender activating
         with open(TARGET_DIR + 'notice-document-required.http', 'w') as self.app.file_obj:

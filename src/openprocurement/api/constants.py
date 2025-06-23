@@ -198,7 +198,7 @@ TENDER_CONFIG_JSONSCHEMAS = {
     "requestForProposal": standards.load("data_model/schema/TenderConfig/requestForProposal.json"),
 }
 
-TENDER_CO_VARIANTS_CONFIG_JSONSCHEMAS = {
+TENDER_CO_CONFIG_JSONSCHEMAS = {
     "competitiveOrdering.long": standards.load("data_model/schema/TenderConfig/competitiveOrdering.long.json"),
     "competitiveOrdering.short": standards.load("data_model/schema/TenderConfig/competitiveOrdering.short.json"),
 }

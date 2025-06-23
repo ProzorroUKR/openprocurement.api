@@ -317,6 +317,7 @@ test_tender_rfp_config = {
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 4,
     "qualificationDuration": 20,
+    "minTenderingDuration": 4,
     "restricted": False,
 }
 

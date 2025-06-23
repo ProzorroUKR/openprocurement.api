@@ -81,6 +81,7 @@ test_tender_esco_config = {
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 20,
+    "minTenderingDuration": 30,
     "restricted": False,
 }
 

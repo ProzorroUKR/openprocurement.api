@@ -35,14 +35,8 @@ from openprocurement.tender.core.procedure.models.tender import Tender as BaseTe
 from openprocurement.tender.core.procedure.models.tender_base import (
     MAIN_PROCUREMENT_CATEGORY_CHOICES,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_duration,
-)
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.requestforproposal.constants import (
-    REQUEST_FOR_PROPOSAL,
-    TENDERING_DURATION,
-)
+from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
 
 def validate_enquiry_period(data, period):
@@ -61,19 +55,6 @@ def validate_enquiry_period(data, period):
         raise ValidationError("the enquiryPeriod cannot end earlier than 3 calendar days after the start")
 
 
-def validate_tender_period(data, period):
-    if data.get("enquiryPeriod") and data.get("enquiryPeriod").endDate:
-        if period.startDate:
-            if period.startDate < data.get("enquiryPeriod").endDate:
-                raise ValidationError("period should begin after enquiryPeriod")
-        else:
-            period.startDate = data.get("enquiryPeriod").endDate  # default tenderPeriod.startDate
-
-    active_validation = get_first_revision_date(data, default=get_request_now()) > RELEASE_2020_04_19
-    if active_validation and period and period.startDate and period.endDate:
-        validate_tender_period_duration(data, period, TENDERING_DURATION)
-
-
 class PostTender(BasePostTender):
     procurementMethodType = StringType(choices=[REQUEST_FOR_PROPOSAL], default=REQUEST_FOR_PROPOSAL)
     enquiryPeriod = ModelType(StartedEnquiryPeriodEndRequired, required=True)
@@ -87,9 +68,6 @@ class PostTender(BasePostTender):
 
     def validate_enquiryPeriod(self, data, period):
         validate_enquiry_period(data, period)
-
-    def validate_tenderPeriod(self, data, period):
-        validate_tender_period(data, period)
 
 
 class PatchTender(BasePatchTender):
@@ -146,6 +124,3 @@ class Tender(BaseTender):
 
     def validate_enquiryPeriod(self, data, period):
         validate_enquiry_period(data, period)
-
-    def validate_tenderPeriod(self, data, period):
-        validate_tender_period(data, period)

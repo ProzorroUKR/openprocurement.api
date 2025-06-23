@@ -1,8 +1,6 @@
 from datetime import timedelta
 
 REQUEST_FOR_PROPOSAL = "requestForProposal"
-TENDERING_DAYS = 4
-TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
 STAND_STILL_TIME = timedelta(days=2)
 ENQUIRY_STAND_STILL_TIME = timedelta(days=1)
 

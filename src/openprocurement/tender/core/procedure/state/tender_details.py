@@ -28,6 +28,7 @@ from openprocurement.api.constants_env import (
     RELATED_LOT_REQUIRED_FROM,
     TENDER_CONFIG_OPTIONALITY,
 )
+from openprocurement.api.constants_utils import parse_date
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
@@ -231,6 +232,7 @@ class BaseTenderDetailsMixing:
             self.validate_cancellation_blocks(request, before)
 
     def on_post(self, tender):
+        self.update_tender_period(tender)
         self.validate_procurement_method(tender)
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
@@ -245,6 +247,9 @@ class BaseTenderDetailsMixing:
         self.initialize_enquiry_period(tender)
         self.update_complaint_period(tender)
         self.update_date(tender)
+        self.validate_tender_period_after_enquiry_period(tender)
+        self.validate_tender_period_start_date(tender)
+        self.validate_tender_period_duration(tender)
         self.validate_change_item_profile_or_category(tender, {})
         self.validate_contract_template_name(tender, {})
         self.validate_criteria_classification(tender.get("criteria", []))
@@ -256,25 +261,9 @@ class BaseTenderDetailsMixing:
             doc["author"] = "tender_owner"
 
     def on_patch(self, before, after):
-        enquire_start = before.get("enquiryPeriod", {}).get("startDate")
-        if enquire_start and not after.get("enquiryPeriod", {}).get("startDate"):
-            raise_operation_error(
-                get_request(),
-                {"startDate": ["This field cannot be deleted"]},
-                status=422,
-                location="body",
-                name="enquiryPeriod",
-            )
-
-        tendering_start = before.get("tenderPeriod", {}).get("startDate")
-        if tendering_start and not after.get("tenderPeriod", {}).get("startDate"):
-            raise_operation_error(
-                get_request(),
-                {"startDate": ["This field cannot be deleted"]},
-                status=422,
-                location="body",
-                name="tenderPeriod",
-            )
+        self.validate_enquiry_period_delete(before, after)
+        self.update_tender_period(after)
+        self.validate_tender_period_delete(before, after)
 
         # bid invalidation rules
         if before["status"] == "active.tendering":
@@ -287,6 +276,8 @@ class BaseTenderDetailsMixing:
         self.validate_procurement_method(after, before=before)
         self.validate_milestones(after)
         self.validate_pre_qualification_status_change(before, after)
+        self.validate_tender_period_duration(after)
+        self.validate_tender_period_after_enquiry_period(after)
         self.validate_tender_period_start_date_change(before, after)
         self.validate_minimal_step(after, before=before)
         self.validate_tender_value(after)
@@ -332,6 +323,40 @@ class BaseTenderDetailsMixing:
         self.set_mode_test(data)
         super().always(data)
 
+    def update_tender_period(self, tender):
+        tender_period = tender.get("tenderPeriod", {})
+        enquiry_period = tender.get("enquiryPeriod", {})
+        if self.enquiry_before_tendering:
+            if enquiry_period.get("endDate") and not tender_period.get("startDate"):
+                tender["tenderPeriod"] = {
+                    "startDate": enquiry_period.get("endDate"),
+                    "endDate": tender_period.get("endDate"),
+                }
+
+    def validate_enquiry_period_delete(self, before, after):
+        enquiry_period_before = before.get("enquiryPeriod", {})
+        enquiry_period_after = after.get("enquiryPeriod", {})
+        if enquiry_period_before.get("startDate") and not enquiry_period_after.get("startDate"):
+            raise_operation_error(
+                get_request(),
+                {"startDate": ["This field cannot be deleted"]},
+                status=422,
+                location="body",
+                name="enquiryPeriod",
+            )
+
+    def validate_tender_period_delete(self, before, after):
+        tender_period_before = before.get("tenderPeriod", {})
+        tender_period_after = after.get("tenderPeriod", {})
+        if tender_period_before.get("startDate") and not tender_period_after.get("startDate"):
+            raise_operation_error(
+                get_request(),
+                {"startDate": ["This field cannot be deleted"]},
+                status=422,
+                location="body",
+                name="tenderPeriod",
+            )
+
     def validate_signer_info(self, after):
         if buyers := after.get("buyers", []):
             validate_signer_info_container(self.request, after, buyers, "buyers")
@@ -349,17 +374,7 @@ class BaseTenderDetailsMixing:
                 name="status",
             )
         if after == "active.tendering" and before != "active.tendering":
-            tendering_start = data["tenderPeriod"]["startDate"]
-            if dt_from_iso(tendering_start) <= get_request_now() - timedelta(
-                minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES
-            ):
-                raise_operation_error(
-                    get_request(),
-                    "tenderPeriod.startDate should be in greater than current date",
-                    status=422,
-                    location="body",
-                    name="tenderPeriod.startDate",
-                )
+            self.validate_tender_period_start_date(data)
         super().status_up(before, after, data)
 
     def validate_notice_doc_required(self, tender):
@@ -845,6 +860,17 @@ class BaseTenderDetailsMixing:
                     working_days=self.clarification_period_working_day,
                 ).isoformat()
 
+    def validate_tender_period_start_date(self, data):
+        if start_date := data.get("tenderPeriod", {}).get("startDate"):
+            if dt_from_iso(start_date) <= get_request_now() - timedelta(minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES):
+                raise_operation_error(
+                    get_request(),
+                    ["tenderPeriod.startDate should be in greater than current date"],
+                    status=422,
+                    location="body",
+                    name="tenderPeriod",
+                )
+
     def validate_tender_period_start_date_change(self, before, after):
         if before["status"] in ("draft", "draft.stage2", "active.enquiries"):
             # still can change tenderPeriod.startDate
@@ -860,6 +886,44 @@ class BaseTenderDetailsMixing:
                 location="body",
                 name="tenderPeriod.startDate",
             )
+
+    def validate_tender_period_duration(self, data):
+        if start_date := data.get("tenderPeriod", {}).get("startDate"):
+            duration = timedelta(days=data["config"]["minTenderingDuration"])
+            tender_period_end_date = calculate_tender_full_date(
+                parse_date(start_date),
+                duration,
+                tender=data,
+                working_days=self.tender_period_working_day,
+                calendar=self.calendar,
+            )
+            end_date = data.get("tenderPeriod", {}).get("endDate")
+            if end_date and tender_period_end_date > parse_date(end_date):
+                type = "business" if self.tender_period_working_day else "calendar"
+                raise_operation_error(
+                    get_request(),
+                    [
+                        "tenderPeriod must be at least {duration.days} full {type} days long".format(
+                            duration=duration, type=type
+                        )
+                    ],
+                    status=422,
+                    location="body",
+                    name="tenderPeriod",
+                )
+
+    def validate_tender_period_after_enquiry_period(self, data):
+        if self.enquiry_before_tendering:
+            if data.get("enquiryPeriod") and data["enquiryPeriod"].get("endDate"):
+                if data.get("tenderPeriod") and data["tenderPeriod"].get("startDate"):
+                    if data["tenderPeriod"]["startDate"] < data["enquiryPeriod"]["endDate"]:
+                        raise_operation_error(
+                            get_request(),
+                            ["period should begin after enquiryPeriod"],
+                            status=422,
+                            location="body",
+                            name="tenderPeriod",
+                        )
 
     def validate_award_criteria_change(self, after, before):
         if before.get("awardCriteria") != after.get("awardCriteria"):

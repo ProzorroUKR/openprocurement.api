@@ -10,10 +10,7 @@ from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.cfaselectionua.constants import (
-    CFA_SELECTION,
-    TENDERING_DURATION,
-)
+from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agreement
 from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature
 from openprocurement.tender.cfaselectionua.procedure.models.item import Item
@@ -48,27 +45,11 @@ from openprocurement.tender.core.procedure.models.tender import (
     validate_items_related_lot,
 )
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_duration,
-)
 
 
 def validate_features(data, features):
     validate_related_items(data, features)
     validate_features_custom_weight(data, features, Decimal("0.3"))
-
-
-def validate_tender_period(data, period):
-    if (
-        period
-        and period.startDate
-        and data.get("enquiryPeriod")
-        and data.get("enquiryPeriod").endDate
-        and period.startDate < data.get("enquiryPeriod").endDate
-    ):
-        raise ValidationError("period should begin after enquiryPeriod")
-    if period and period.startDate and period.endDate:
-        validate_tender_period_duration(data, period, TENDERING_DURATION)
 
 
 class PostTender(PostBaseTender):
@@ -107,9 +88,6 @@ class PostTender(PostBaseTender):
     # Not required milestones
     def validate_milestones(self, data, value):
         validate_milestones_lot(data, value)
-
-    # def validate_tenderPeriod(self, data, period):
-    #     validate_tender_period(data, period)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -225,9 +203,6 @@ class Tender(BaseTender):
     # Not required milestones
     def validate_milestones(self, data, value):
         validate_milestones_lot(data, value)
-
-    def validate_tenderPeriod(self, data, period):
-        validate_tender_period(data, period)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)

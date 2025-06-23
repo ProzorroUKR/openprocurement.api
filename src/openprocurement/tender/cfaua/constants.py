@@ -4,8 +4,6 @@ from isodate import parse_duration
 
 from openprocurement.api.constants import TZ
 
-TENDERING_DAYS = 30
-TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
 TENDERING_AUCTION = timedelta(days=35)
 
 QUESTIONS_STAND_STILL = timedelta(days=10)  # it's ENQUIRY_PERIOD_TIME

@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
-from openprocurement.api.constants import TENDER_CO_VARIANTS_CONFIG_JSONSCHEMAS
+from openprocurement.api.constants import TENDER_CO_CONFIG_JSONSCHEMAS
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import ConfigMixin
@@ -53,7 +53,7 @@ class COTenderConfigMixin(ConfigMixin):
     co_config_schema_name = "competitiveOrdering"
 
     def validate_co_config(self, data):
-        config_schema = TENDER_CO_VARIANTS_CONFIG_JSONSCHEMAS.get(self.co_config_schema_name)
+        config_schema = TENDER_CO_CONFIG_JSONSCHEMAS.get(self.co_config_schema_name)
         config_schema = deepcopy(config_schema)
         config_schema.pop("required", None)
         self.validate_config_schema(data, config_schema)

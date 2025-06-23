@@ -174,6 +174,7 @@ test_tender_cdeu_config = {
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 20,
+    "minTenderingDuration": 30,
     "restricted": False,
 }
 
@@ -196,6 +197,7 @@ test_tender_cdua_config = {
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 20,
+    "minTenderingDuration": 30,
     "restricted": False,
 }
 
@@ -218,6 +220,7 @@ test_tender_cdeu_stage2_config = {
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 20,
+    "minTenderingDuration": 30,
     "restricted": False,
 }
 
@@ -240,6 +243,7 @@ test_tender_cdua_stage2_config = {
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
+    "minTenderingDuration": 15,
     "restricted": False,
 }
 

@@ -1,6 +1,6 @@
 import unittest
 
-from openprocurement.tender.competitiveordering.tests import (
+from openprocurement.tender.competitiveordering.tests.long import (
     auction,
     award,
     bid,

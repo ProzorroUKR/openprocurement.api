@@ -30,7 +30,6 @@ from openprocurement.api.constants import (
     INN_SCHEME,
     UA_ROAD_CPV_PREFIXES,
     UA_ROAD_SCHEME,
-    WORKING_DAYS,
 )
 from openprocurement.api.constants_env import (
     CONFIDENTIAL_EDRPOU_LIST,
@@ -65,10 +64,6 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_after_2020_rules,
     tender_created_before,
-)
-from openprocurement.tender.core.utils import (
-    calculate_tender_date,
-    calculate_tender_full_date,
 )
 from openprocurement.tender.pricequotation.constants import PQ
 
@@ -1279,34 +1274,6 @@ def validate_ccce_ua(additional_classifications):
     if ccce_count > 1:
         raise ValidationError(
             f"Object shouldn't have more than 1 additionalClassification with scheme {CCCE_UA_SCHEME}"
-        )
-
-
-def validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
-    min_allowed_date = calculate_tender_date(
-        get_request_now(),
-        -timedelta(minutes=10),
-        tender=None,
-        working_days=working_days,
-        calendar=calendar,
-    )
-    if min_allowed_date >= period.startDate:
-        raise ValidationError("tenderPeriod.startDate should be in greater than current date")
-
-
-def validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
-    tender_period_end_date = calculate_tender_full_date(
-        period.startDate,
-        duration,
-        tender=data,
-        working_days=working_days,
-        calendar=calendar,
-    )
-    if tender_period_end_date > period.endDate:
-        raise ValidationError(
-            "tenderPeriod must be at least {duration.days} full {type} days long".format(
-                duration=duration, type="business" if working_days else "calendar"
-            )
         )
 
 

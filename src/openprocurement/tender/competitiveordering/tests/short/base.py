@@ -103,6 +103,7 @@ test_tender_co_config = {
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
+    "minTenderingDuration": 2,
     "restricted": False,
 }
 

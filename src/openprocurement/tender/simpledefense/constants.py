@@ -2,8 +2,6 @@ from datetime import datetime, timedelta
 
 from openprocurement.api.constants import TZ
 
-TENDERING_DAYS = 6
-TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
 STAND_STILL_TIME = timedelta(days=4)
 ENQUIRY_STAND_STILL_TIME = timedelta(days=2)
 CLAIM_SUBMIT_TIME = timedelta(days=3)

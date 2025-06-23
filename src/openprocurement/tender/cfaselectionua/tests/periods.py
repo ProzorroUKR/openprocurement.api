@@ -5,8 +5,9 @@ from openprocurement.tender.cfaselectionua.constants import (
     CLARIFICATIONS_DURATION,
     COMPLAINT_DURATION,
     ENQUIRY_PERIOD,
-    TENDERING_DURATION,
 )
+
+TENDERING_DURATION = timedelta(days=3)
 
 PERIODS = {
     "active.enquiries": {

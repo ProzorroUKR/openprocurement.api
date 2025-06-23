@@ -25,7 +25,7 @@ class TenderBaseResource(BaseResource):
     def __init__(self, request, context=None):
         super().__init__(request, context)
         # init state class that handles tender business logic
-        if self.state_class:
+        if self.state_class is not None:
             self.state = self.state_class(request)
 
         # https://github.com/Cornices/cornice/issues/479#issuecomment-388407385

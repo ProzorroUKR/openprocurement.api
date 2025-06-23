@@ -3,10 +3,11 @@ from datetime import timedelta
 from openprocurement.tender.cfaua.constants import (
     CLARIFICATIONS_UNTIL_PERIOD,
     QUESTIONS_STAND_STILL,
-    TENDERING_DURATION,
     TENDERING_EXTRA_PERIOD,
 )
 
+TENDERING_DAYS = 30
+TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
 COMPLAINT_STAND_STILL = timedelta(days=5)
 QUALIFICATION_COMPLAINT_STAND_STILL = timedelta(days=10)
 

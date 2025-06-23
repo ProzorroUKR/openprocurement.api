@@ -13,8 +13,6 @@ for date_str in HOLIDAYS:
 for date_str in WORKING_WEEKENDS:
     WORKING_DAYS[date_str] = False
 
-TENDERING_DAYS = 6
-TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
 STAND_STILL_TIME = timedelta(days=4)
 ENQUIRY_STAND_STILL_TIME = timedelta(days=2)
 CLAIM_SUBMIT_TIME = timedelta(days=3)

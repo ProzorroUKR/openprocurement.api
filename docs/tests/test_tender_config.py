@@ -44,7 +44,7 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
+from openprocurement.tender.competitiveordering.tests.long.base import (
     test_tender_co_config,
     test_tender_co_criteria,
 )
