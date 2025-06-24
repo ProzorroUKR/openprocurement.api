@@ -71,6 +71,13 @@ def tender_config_has_enquiries_migrate_value(tender):
     return tender_config_default_value(tender, "hasEnquiries")
 
 
+def tender_config_min_enquiries_duration_migrate_value(tender):
+    procurement_method_type = tender.get("procurementMethodType")
+    if procurement_method_type == "competitiveOrdering":
+        return 0
+    return tender_config_default_value(tender, "minEnquiriesDuration")
+
+
 class TenderConfigSerializer(BaseConfigSerializer):
     serializers = {
         "hasAuction": tender_config_default_serializer("hasAuction"),
@@ -98,6 +105,10 @@ class TenderConfigSerializer(BaseConfigSerializer):
         "hasEnquiries": tender_config_default_serializer(
             "hasEnquiries",
             migration_func=tender_config_has_enquiries_migrate_value,
+        ),
+        "minEnquiriesDuration": tender_config_default_serializer(
+            "minEnquiriesDuration",
+            migration_func=tender_config_min_enquiries_duration_migrate_value,
         ),
         "restricted": tender_config_default_serializer("restricted"),
     }

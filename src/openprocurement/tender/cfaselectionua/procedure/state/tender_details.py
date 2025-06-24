@@ -66,9 +66,10 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
     enquiry_period_timedelta = ENQUIRY_PERIOD
 
-    tender_period_working_day = False
     should_validate_pre_selection_agreement = False
     should_initialize_enquiry_period = False
+
+    tender_period_working_day = False
 
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
 
@@ -186,7 +187,12 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             return tender["agreements"][0]
 
     def update_periods(self, tender):
-        enquiry_end = calculate_tender_full_date(get_request_now(), self.enquiry_period_timedelta, tender=tender)
+        enquiry_end = calculate_tender_full_date(
+            get_request_now(),
+            timedelta(days=tender["config"]["minEnquiriesDuration"]),
+            working_days=self.tender_period_working_day,
+            tender=tender,
+        )
         tender["enquiryPeriod"] = {
             "startDate": get_request_now().isoformat(),
             "endDate": enquiry_end.isoformat(),
@@ -196,6 +202,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             "endDate": calculate_tender_full_date(
                 enquiry_end,
                 timedelta(days=tender["config"]["minTenderingDuration"]),
+                working_days=self.tender_period_working_day,
                 tender=tender,
             ).isoformat(),
         }

@@ -104,6 +104,7 @@ test_tender_openua_config = {
     "qualificationDuration": 0,
     "minTenderingDuration": 15,
     "hasEnquiries": False,
+    "minEnquiriesDuration": 0,
     "restricted": False,
 }
 

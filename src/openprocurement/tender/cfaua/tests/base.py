@@ -109,6 +109,7 @@ test_tender_cfaua_config = {
     "qualificationDuration": 20,
     "minTenderingDuration": 30,
     "hasEnquiries": False,
+    "minEnquiriesDuration": 0,
     "restricted": False,
 }
 

@@ -83,6 +83,7 @@ test_tender_esco_config = {
     "qualificationDuration": 20,
     "minTenderingDuration": 30,
     "hasEnquiries": False,
+    "minEnquiriesDuration": 0,
     "restricted": False,
 }
 

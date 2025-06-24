@@ -6,6 +6,7 @@ from pymongo import UpdateOne
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
 from openprocurement.tender.core.procedure.serializers.config import (
     tender_config_has_enquiries_migrate_value,
+    tender_config_min_enquiries_duration_migrate_value,
     tender_config_min_tendering_duration_migrate_value,
 )
 
@@ -31,6 +32,7 @@ class Migration(CollectionMigration):
             "$or": [
                 {"config.minTenderingDuration": {"$exists": False}},
                 {"config.hasEnquiries": {"$exists": False}},
+                {"config.minEnquiriesDuration": {"$exists": False}},
             ]
         }
 
@@ -38,10 +40,14 @@ class Migration(CollectionMigration):
         return {"config": 1, "procurementMethodType": 1}
 
     def update_document(self, doc, context=None):
-        if doc["config"].get("minTenderingDuration") is None:
-            doc["config"]["minTenderingDuration"] = tender_config_min_tendering_duration_migrate_value(doc)
-        if doc["config"].get("hasEnquiries") is None:
-            doc["config"]["hasEnquiries"] = tender_config_has_enquiries_migrate_value(doc)
+        mapping = {
+            "minTenderingDuration": tender_config_min_tendering_duration_migrate_value,
+            "hasEnquiries": tender_config_has_enquiries_migrate_value,
+            "minEnquiriesDuration": tender_config_min_enquiries_duration_migrate_value,
+        }
+        for key, migrate_value in mapping.items():
+            if doc["config"].get(key) is None:
+                doc["config"][key] = migrate_value(doc)
         return doc
 
     def run_test(self):
@@ -83,6 +89,7 @@ class Migration(CollectionMigration):
                                     "hasAuction": True,
                                     "minTenderingDuration": 7,
                                     "hasEnquiries": False,
+                                    "minEnquiriesDuration": 0,
                                 },
                             }
                         },
@@ -108,6 +115,7 @@ class Migration(CollectionMigration):
                                     "hasAuction": True,
                                     "minTenderingDuration": 3,
                                     "hasEnquiries": False,
+                                    "minEnquiriesDuration": 0,
                                 },
                             }
                         },

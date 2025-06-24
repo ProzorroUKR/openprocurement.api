@@ -10,19 +10,21 @@ from openprocurement.tender.openua.procedure.state.tender import OpenUATenderSta
 
 
 class OpenUATenderDetailsMixing(TenderDetailsMixing):
-    tender_period_working_day = False
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
     should_validate_notice_doc_required = True
 
+    tender_period_working_day = False
+
 
 class OpenUATenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-    tendering_period_extra_working_days = False
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")
+
+    tendering_period_extra_working_days = False
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch

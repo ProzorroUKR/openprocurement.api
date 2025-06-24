@@ -108,6 +108,7 @@ test_tender_open_config = {
     "qualificationDuration": 0,
     "minTenderingDuration": 7,
     "hasEnquiries": False,
+    "minEnquiriesDuration": 0,
     "restricted": False,
 }
 

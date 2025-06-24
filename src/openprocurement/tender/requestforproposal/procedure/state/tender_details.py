@@ -19,12 +19,13 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
 
-    tender_period_working_day = False
-    tendering_period_extra_working_days = False
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     should_validate_notice_doc_required = True
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
+
+    tender_period_working_day = False
+    tendering_period_extra_working_days = False
     qualification_complain_duration_working_days = True
 
     def get_patch_data_model(self):

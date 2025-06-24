@@ -201,10 +201,6 @@ class BaseTenderDetailsMixing:
     tender_central_accreditations = None
     tender_edit_accreditations = None
     should_initialize_enquiry_period = True
-    tender_period_working_day = True
-    clarification_period_working_day = True
-    enquiry_period_timedelta: timedelta
-    tendering_period_extra_working_days = False
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
@@ -213,8 +209,6 @@ class BaseTenderDetailsMixing:
     should_validate_notice_doc_required = False
     agreement_field = "agreements"
     should_validate_lot_minimal_step = True
-    tender_complain_regulation_working_days = False
-    qualification_complain_duration_working_days = False
     should_validate_related_lot_in_items = True
     agreement_allowed_types = [IFI_TYPE]
     agreement_with_items_forbidden = False
@@ -222,6 +216,12 @@ class BaseTenderDetailsMixing:
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
     items_profile_required = False
+
+    tender_period_working_day = True
+    tendering_period_extra_working_days = False
+    clarification_period_working_day = True
+    tender_complain_regulation_working_days = False
+    qualification_complain_duration_working_days = False
 
     calendar = WORKING_DAYS
 
@@ -231,6 +231,7 @@ class BaseTenderDetailsMixing:
             self.validate_cancellation_blocks(request, before)
 
     def on_post(self, tender):
+        self.validate_enquiry_period(tender)
         self.update_tender_period(tender)
         self.validate_procurement_method(tender)
         self.validate_tender_value(tender)
@@ -260,6 +261,7 @@ class BaseTenderDetailsMixing:
             doc["author"] = "tender_owner"
 
     def on_patch(self, before, after):
+        self.validate_enquiry_period(after)
         self.validate_enquiry_period_delete(before, after)
         self.update_tender_period(after)
         self.validate_tender_period_delete(before, after)
@@ -858,6 +860,34 @@ class BaseTenderDetailsMixing:
                     tender=tender,
                     working_days=self.clarification_period_working_day,
                 ).isoformat()
+
+    def validate_enquiry_period(self, tender):
+        if not tender["config"]["hasEnquiries"]:
+            return
+
+        period = tender.get("enquiryPeriod", {})
+        if not period:
+            return
+
+        start_date = period.get("startDate")
+        end_date = period.get("endDate")
+        if not start_date or not end_date:
+            return
+
+        min_end_date = calculate_tender_full_date(
+            parse_date(start_date),
+            timedelta(days=tender["config"]["minEnquiriesDuration"]),
+            tender=tender,
+            working_days=self.tender_period_working_day,
+        )
+        if parse_date(end_date) < min_end_date:
+            raise_operation_error(
+                get_request(),
+                ["the enquiryPeriod cannot end earlier than 3 business days after the start"],
+                status=422,
+                location="body",
+                name="enquiryPeriod",
+            )
 
     def validate_tender_period_start_date(self, data):
         if start_date := data.get("tenderPeriod", {}).get("startDate"):

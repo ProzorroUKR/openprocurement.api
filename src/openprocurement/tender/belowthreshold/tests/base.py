@@ -250,6 +250,7 @@ test_tender_below_config = {
     "qualificationDuration": 0,
     "minTenderingDuration": 2,
     "hasEnquiries": True,
+    "minEnquiriesDuration": 3,
     "restricted": False,
 }
 

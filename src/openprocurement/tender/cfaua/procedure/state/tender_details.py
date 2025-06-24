@@ -26,10 +26,11 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    tendering_period_extra_working_days = False
-    tender_period_working_day = False
 
     should_validate_notice_doc_required = False
+
+    tender_period_working_day = False
+    tendering_period_extra_working_days = False
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)
