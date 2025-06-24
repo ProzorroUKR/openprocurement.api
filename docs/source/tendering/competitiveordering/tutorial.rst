@@ -57,11 +57,6 @@ There is the list of all validation errors that can be raised during tender acti
 * tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)
 * Agreement with items is not allowed
 
-For competitiveOrdering tender it is required to have agreement with no items specified. In case of agreement where items are specified, we will see the error on activation attempt:
-
-.. http:example:: http/tender-for-agreement-with-items-activating-error.http
-   :code:
-
 Before activating tender it is required to add sign document to tender.
 If there is no sign document during activation, we will see an error:
 

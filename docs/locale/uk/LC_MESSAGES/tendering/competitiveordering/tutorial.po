@@ -170,9 +170,6 @@ msgstr ""
 msgid "Agreement with items is not allowed"
 msgstr ""
 
-msgid "For competitiveOrdering tender it is required to have agreement with no items specified. In case of agreement where items are specified, we will see the error on activation attempt:"
-msgstr "Для тендеру `competitiveOrdering` необхідно мати угоду без вказаних номенклатур (`items`). Якщо в угоді вказані номенклатури, ми побачимо помилку під час активації:"
-
 msgid "Before activating tender it is required to add sign document to tender. If there is no sign document during activation, we will see an error:"
 msgstr "Перед активацією тендера необхідно обов'язково додати файл підпису. Якщо такого документу нема, під час активації буде помилка:"
 

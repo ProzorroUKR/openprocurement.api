@@ -17,4 +17,5 @@ awardComplainDuration,2,2
 cancellationComplainDuration,0,0
 clarificationUntilDuration,4,4
 qualificationDuration,20,20
+minTenderingDuration,4,4
 restricted,false,false
