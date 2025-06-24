@@ -217,6 +217,7 @@ test_tender_pq_config = {
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
     "minTenderingDuration": 2,
+    "hasEnquiries": False,
     "restricted": False,
 }
 

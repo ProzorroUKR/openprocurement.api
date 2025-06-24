@@ -215,7 +215,6 @@ class BaseTenderDetailsMixing:
     should_validate_lot_minimal_step = True
     tender_complain_regulation_working_days = False
     qualification_complain_duration_working_days = False
-    enquiry_before_tendering = False
     should_validate_related_lot_in_items = True
     agreement_allowed_types = [IFI_TYPE]
     agreement_with_items_forbidden = False
@@ -326,7 +325,7 @@ class BaseTenderDetailsMixing:
     def update_tender_period(self, tender):
         tender_period = tender.get("tenderPeriod", {})
         enquiry_period = tender.get("enquiryPeriod", {})
-        if self.enquiry_before_tendering:
+        if tender["config"]["hasEnquiries"]:
             if enquiry_period.get("endDate") and not tender_period.get("startDate"):
                 tender["tenderPeriod"] = {
                     "startDate": enquiry_period.get("endDate"),
@@ -841,7 +840,7 @@ class BaseTenderDetailsMixing:
 
     def initialize_enquiry_period(self, tender):
         if self.should_initialize_enquiry_period:
-            if not self.enquiry_before_tendering:
+            if not tender["config"]["hasEnquiries"]:
                 tender["enquiryPeriod"] = tender.get("enquiryPeriod") or {}
                 tender["enquiryPeriod"]["startDate"] = tender["tenderPeriod"]["startDate"]
                 tender["enquiryPeriod"]["endDate"] = calculate_tender_full_date(
@@ -913,7 +912,7 @@ class BaseTenderDetailsMixing:
                 )
 
     def validate_tender_period_after_enquiry_period(self, data):
-        if self.enquiry_before_tendering:
+        if data["config"]["hasEnquiries"]:
             if data.get("enquiryPeriod") and data["enquiryPeriod"].get("endDate"):
                 if data.get("tenderPeriod") and data["tenderPeriod"].get("startDate"):
                     if data["tenderPeriod"]["startDate"] < data["enquiryPeriod"]["endDate"]:

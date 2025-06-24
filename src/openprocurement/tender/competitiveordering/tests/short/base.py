@@ -104,6 +104,7 @@ test_tender_co_config = {
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
     "minTenderingDuration": 2,
+    "hasEnquiries": False,
     "restricted": False,
 }
 

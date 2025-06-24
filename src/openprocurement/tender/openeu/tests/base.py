@@ -212,6 +212,7 @@ test_tender_openeu_config = {
     "clarificationUntilDuration": 3,
     "qualificationDuration": 20,
     "minTenderingDuration": 30,
+    "hasEnquiries": False,
     "restricted": False,
 }
 

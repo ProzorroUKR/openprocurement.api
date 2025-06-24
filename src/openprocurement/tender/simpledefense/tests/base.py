@@ -80,6 +80,7 @@ test_tender_simpledefense_config = {
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
     "minTenderingDuration": 6,
+    "hasEnquiries": False,
     "restricted": False,
 }
 

@@ -94,6 +94,7 @@ test_tender_reporting_config = {
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
     "minTenderingDuration": 0,
+    "hasEnquiries": False,
     "restricted": False,
 }
 
@@ -117,6 +118,7 @@ test_tender_negotiation_config = {
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
     "minTenderingDuration": 0,
+    "hasEnquiries": False,
     "restricted": False,
 }
 
@@ -140,6 +142,7 @@ test_tender_negotiation_quick_config = {
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
     "minTenderingDuration": 0,
+    "hasEnquiries": False,
     "restricted": False,
 }
 

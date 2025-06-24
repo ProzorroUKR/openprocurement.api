@@ -69,7 +69,6 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     tender_period_working_day = False
     should_validate_pre_selection_agreement = False
     should_initialize_enquiry_period = False
-    enquiry_before_tendering = True
 
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
 

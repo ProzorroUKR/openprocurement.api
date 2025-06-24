@@ -29,6 +29,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "clarificationUntilDuration": 3,
     "qualificationDuration": 20,
     "minTenderingDuration": 30,
+    "hasEnquiries": False,
     "restricted": False,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
@@ -51,5 +52,6 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
     "minTenderingDuration": 15,
+    "hasEnquiries": False,
     "restricted": False,
 }

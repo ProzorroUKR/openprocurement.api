@@ -104,6 +104,7 @@ test_tender_cfaselectionua_config = {
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
     "minTenderingDuration": 3,
+    "hasEnquiries": True,
     "restricted": False,
 }
 

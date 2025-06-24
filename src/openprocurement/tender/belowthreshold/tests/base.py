@@ -249,6 +249,7 @@ test_tender_below_config = {
     "clarificationUntilDuration": 1,
     "qualificationDuration": 0,
     "minTenderingDuration": 2,
+    "hasEnquiries": True,
     "restricted": False,
 }
 

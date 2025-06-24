@@ -5,6 +5,7 @@ from pymongo import UpdateOne
 
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
 from openprocurement.tender.core.procedure.serializers.config import (
+    tender_config_has_enquiries_migrate_value,
     tender_config_min_tendering_duration_migrate_value,
 )
 
@@ -26,7 +27,12 @@ class Migration(CollectionMigration):
     bulk_max_size: int = 500
 
     def get_filter(self):
-        return {"config.minTenderingDuration": {"$exists": False}}
+        return {
+            "$or": [
+                {"config.minTenderingDuration": {"$exists": False}},
+                {"config.hasEnquiries": {"$exists": False}},
+            ]
+        }
 
     def get_projection(self) -> dict:
         return {"config": 1, "procurementMethodType": 1}
@@ -34,6 +40,8 @@ class Migration(CollectionMigration):
     def update_document(self, doc, context=None):
         if doc["config"].get("minTenderingDuration") is None:
             doc["config"]["minTenderingDuration"] = tender_config_min_tendering_duration_migrate_value(doc)
+        if doc["config"].get("hasEnquiries") is None:
+            doc["config"]["hasEnquiries"] = tender_config_has_enquiries_migrate_value(doc)
         return doc
 
     def run_test(self):
@@ -74,6 +82,7 @@ class Migration(CollectionMigration):
                                 "config": {
                                     "hasAuction": True,
                                     "minTenderingDuration": 7,
+                                    "hasEnquiries": False,
                                 },
                             }
                         },
@@ -98,6 +107,7 @@ class Migration(CollectionMigration):
                                 "config": {
                                     "hasAuction": True,
                                     "minTenderingDuration": 3,
+                                    "hasEnquiries": False,
                                 },
                             }
                         },

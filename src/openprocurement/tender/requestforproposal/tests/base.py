@@ -318,6 +318,7 @@ test_tender_rfp_config = {
     "clarificationUntilDuration": 4,
     "qualificationDuration": 20,
     "minTenderingDuration": 4,
+    "hasEnquiries": True,
     "restricted": False,
 }
 
