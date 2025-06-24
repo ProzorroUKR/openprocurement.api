@@ -1063,6 +1063,7 @@ Content-Type: application/json
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
     "minTenderingDuration": 2,
+    "hasEnquiries": false,
     "restricted": false
   }
 }

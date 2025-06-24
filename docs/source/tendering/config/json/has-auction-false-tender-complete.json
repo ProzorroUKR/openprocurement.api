@@ -7,6 +7,7 @@
         "hasAwardComplaints": true,
         "hasAwardingOrder": true,
         "hasCancellationComplaints": true,
+        "hasEnquiries": false,
         "hasPreSelectionAgreement": false,
         "hasPrequalification": false,
         "hasQualificationComplaints": false,

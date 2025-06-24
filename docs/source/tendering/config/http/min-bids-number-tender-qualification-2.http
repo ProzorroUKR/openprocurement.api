@@ -1955,6 +1955,7 @@ Content-Type: application/json
     "clarificationUntilDuration": 4,
     "qualificationDuration": 20,
     "minTenderingDuration": 4,
+    "hasEnquiries": true,
     "restricted": false
   }
 }

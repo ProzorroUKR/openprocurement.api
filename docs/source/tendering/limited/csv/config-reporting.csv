@@ -18,4 +18,5 @@ cancellationComplainDuration,0,0
 clarificationUntilDuration,0,0
 qualificationDuration,0,0
 minTenderingDuration,0,0
+hasEnquiries,false,false
 restricted,false,false
