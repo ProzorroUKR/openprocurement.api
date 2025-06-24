@@ -19,4 +19,5 @@ clarificationUntilDuration,3,3
 qualificationDuration,0,0
 minTenderingDuration,6,6
 hasEnquiries,false,false
+minEnquiriesDuration,0,0
 restricted,false,false

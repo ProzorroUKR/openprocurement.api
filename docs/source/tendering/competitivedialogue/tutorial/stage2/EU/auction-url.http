@@ -1817,6 +1817,7 @@ Content-Type: application/json
     "qualificationDuration": 20,
     "minTenderingDuration": 30,
     "hasEnquiries": false,
+    "minEnquiriesDuration": 0,
     "restricted": false
   }
 }

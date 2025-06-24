@@ -1013,6 +1013,7 @@ Content-Type: application/json
     "qualificationDuration": 20,
     "minTenderingDuration": 4,
     "hasEnquiries": true,
+    "minEnquiriesDuration": 3,
     "restricted": false
   }
 }

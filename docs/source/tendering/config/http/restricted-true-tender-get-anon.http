@@ -1086,6 +1086,7 @@ Content-Type: application/json
     "qualificationDuration": 0,
     "minTenderingDuration": 7,
     "hasEnquiries": false,
+    "minEnquiriesDuration": 0,
     "restricted": true
   }
 }
