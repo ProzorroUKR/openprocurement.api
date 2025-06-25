@@ -5,6 +5,7 @@ from pymongo import UpdateOne
 
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
 from openprocurement.tender.core.procedure.serializers.config import (
+    tender_config_enquiry_period_regulation_migrate_value,
     tender_config_has_enquiries_migrate_value,
     tender_config_min_enquiries_duration_migrate_value,
     tender_config_min_tendering_duration_migrate_value,
@@ -33,6 +34,7 @@ class Migration(CollectionMigration):
                 {"config.minTenderingDuration": {"$exists": False}},
                 {"config.hasEnquiries": {"$exists": False}},
                 {"config.minEnquiriesDuration": {"$exists": False}},
+                {"config.enquiryPeriodRegulation": {"$exists": False}},
             ]
         }
 
@@ -44,6 +46,7 @@ class Migration(CollectionMigration):
             "minTenderingDuration": tender_config_min_tendering_duration_migrate_value,
             "hasEnquiries": tender_config_has_enquiries_migrate_value,
             "minEnquiriesDuration": tender_config_min_enquiries_duration_migrate_value,
+            "enquiryPeriodRegulation": tender_config_enquiry_period_regulation_migrate_value,
         }
         for key, migrate_value in mapping.items():
             if doc["config"].get(key) is None:
@@ -90,6 +93,7 @@ class Migration(CollectionMigration):
                                     "minTenderingDuration": 7,
                                     "hasEnquiries": False,
                                     "minEnquiriesDuration": 0,
+                                    "enquiryPeriodRegulation": 3,
                                 },
                             }
                         },
@@ -116,6 +120,7 @@ class Migration(CollectionMigration):
                                     "minTenderingDuration": 3,
                                     "hasEnquiries": False,
                                     "minEnquiriesDuration": 0,
+                                    "enquiryPeriodRegulation": 3,
                                 },
                             }
                         },

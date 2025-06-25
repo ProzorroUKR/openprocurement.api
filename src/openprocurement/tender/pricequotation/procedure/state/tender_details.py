@@ -15,7 +15,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     tender_create_accreditations = (ACCR_1, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
-    should_initialize_enquiry_period = False
     should_validate_pre_selection_agreement = True
     should_validate_cpv_prefix = False
     should_validate_notice_doc_required = True
@@ -44,7 +43,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         pass
 
     @staticmethod
-    def set_enquiry_period_invalidation_date(tender):
+    def set_bids_invalidation_date(tender):
         pass
 
     def invalidate_bids_data(self, tender):

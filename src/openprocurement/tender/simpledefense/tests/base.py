@@ -82,6 +82,7 @@ test_tender_simpledefense_config = {
     "minTenderingDuration": 6,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 5,
     "restricted": False,
 }
 

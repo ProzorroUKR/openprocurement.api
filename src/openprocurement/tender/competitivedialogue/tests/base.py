@@ -177,6 +177,7 @@ test_tender_cdeu_config = {
     "minTenderingDuration": 30,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": False,
 }
 
@@ -202,6 +203,7 @@ test_tender_cdua_config = {
     "minTenderingDuration": 30,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": False,
 }
 
@@ -227,6 +229,7 @@ test_tender_cdeu_stage2_config = {
     "minTenderingDuration": 30,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": False,
 }
 
@@ -252,6 +255,7 @@ test_tender_cdua_stage2_config = {
     "minTenderingDuration": 15,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": False,
 }
 

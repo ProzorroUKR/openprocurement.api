@@ -96,6 +96,7 @@ test_tender_reporting_config = {
     "minTenderingDuration": 0,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 0,
     "restricted": False,
 }
 
@@ -121,6 +122,7 @@ test_tender_negotiation_config = {
     "minTenderingDuration": 0,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 0,
     "restricted": False,
 }
 
@@ -146,6 +148,7 @@ test_tender_negotiation_quick_config = {
     "minTenderingDuration": 0,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 0,
     "restricted": False,
 }
 

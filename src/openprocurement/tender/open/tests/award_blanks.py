@@ -27,7 +27,7 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.open.constants import STAND_STILL_TIME
+from openprocurement.tender.open.tests.periods import STAND_STILL_TIME
 from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
 
 

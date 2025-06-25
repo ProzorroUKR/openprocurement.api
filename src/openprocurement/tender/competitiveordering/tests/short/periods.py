@@ -3,20 +3,12 @@ from datetime import timedelta
 PERIODS = {
     "active.tendering": {
         "start": {
-            "enquiryPeriod": {
-                "startDate": timedelta(),
-                "endDate": timedelta(days=5),
-            },
             "tenderPeriod": {
                 "startDate": timedelta(),
                 "endDate": timedelta(days=8),
             },
         },
         "enquiry_end": {
-            "enquiryPeriod": {
-                "startDate": -timedelta(days=7),
-                "endDate": -timedelta(days=1),
-            },
             "tenderPeriod": {
                 "startDate": -timedelta(days=7),
                 "endDate": timedelta(days=2),
@@ -26,10 +18,6 @@ PERIODS = {
             },
         },
         "complaint_end": {
-            "enquiryPeriod": {
-                "startDate": -timedelta(days=6),
-                "endDate": timedelta(days=1),
-            },
             "tenderPeriod": {
                 "startDate": -timedelta(days=6),
                 "endDate": timedelta(days=3),
@@ -39,10 +27,6 @@ PERIODS = {
             },
         },
         "end": {
-            "enquiryPeriod": {
-                "startDate": -timedelta(days=8),
-                "endDate": -timedelta(days=5),
-            },
             "tenderPeriod": {
                 "startDate": -timedelta(days=8),
                 "endDate": timedelta(),
@@ -51,10 +35,6 @@ PERIODS = {
     },
     "active.auction": {
         "start": {
-            "enquiryPeriod": {
-                "startDate": -timedelta(days=8),
-                "endDate": -timedelta(days=3),
-            },
             "tenderPeriod": {
                 "startDate": -timedelta(days=8),
                 "endDate": timedelta(),
@@ -66,10 +46,6 @@ PERIODS = {
     },
     "active.qualification": {
         "start": {
-            "enquiryPeriod": {
-                "startDate": -timedelta(days=9),
-                "endDate": -timedelta(days=4),
-            },
             "tenderPeriod": {
                 "startDate": -timedelta(days=9),
                 "endDate": -timedelta(days=1),
@@ -85,10 +61,6 @@ PERIODS = {
     },
     "active.awarded": {
         "start": {
-            "enquiryPeriod": {
-                "startDate": -timedelta(days=9),
-                "endDate": -timedelta(days=4),
-            },
             "tenderPeriod": {
                 "startDate": -timedelta(days=9),
                 "endDate": -timedelta(days=1),
@@ -105,10 +77,6 @@ PERIODS = {
     },
     "complete": {
         "start": {
-            "enquiryPeriod": {
-                "startDate": -timedelta(days=16),
-                "endDate": -timedelta(days=10),
-            },
             "tenderPeriod": {
                 "startDate": -timedelta(days=16),
                 "endDate": -timedelta(days=8),

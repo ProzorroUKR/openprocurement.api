@@ -16,7 +16,6 @@ from openprocurement.framework.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
 from openprocurement.tender.cfaselectionua.constants import (
-    ENQUIRY_PERIOD,
     MIN_ACTIVE_CONTRACTS,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MINIMAL_STEP_PERCENTAGE,
@@ -64,12 +63,11 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
     agreement_min_active_contracts = MIN_ACTIVE_CONTRACTS
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
-    enquiry_period_timedelta = ENQUIRY_PERIOD
 
     should_validate_pre_selection_agreement = False
-    should_initialize_enquiry_period = False
 
-    tender_period_working_day = False
+    tender_period_working_days = False
+    enquiry_period_working_days = False
 
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
 
@@ -190,21 +188,22 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         enquiry_end = calculate_tender_full_date(
             get_request_now(),
             timedelta(days=tender["config"]["minEnquiriesDuration"]),
-            working_days=self.tender_period_working_day,
+            working_days=self.enquiry_period_working_days,
             tender=tender,
         )
         tender["enquiryPeriod"] = {
             "startDate": get_request_now().isoformat(),
             "endDate": enquiry_end.isoformat(),
         }
+        tender_end = calculate_tender_full_date(
+            enquiry_end,
+            timedelta(days=tender["config"]["minTenderingDuration"]),
+            working_days=self.tender_period_working_days,
+            tender=tender,
+        )
         tender["tenderPeriod"] = {
             "startDate": tender["enquiryPeriod"]["endDate"],
-            "endDate": calculate_tender_full_date(
-                enquiry_end,
-                timedelta(days=tender["config"]["minTenderingDuration"]),
-                working_days=self.tender_period_working_day,
-                tender=tender,
-            ).isoformat(),
+            "endDate": tender_end.isoformat(),
         }
 
     @staticmethod

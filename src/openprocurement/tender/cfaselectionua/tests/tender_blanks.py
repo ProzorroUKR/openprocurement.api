@@ -14,7 +14,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.cfaselectionua.constants import (
     BOT_NAME,
-    ENQUIRY_PERIOD,
     MIN_ACTIVE_CONTRACTS,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
 )
@@ -23,6 +22,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_features,
     test_tender_cfaselectionua_supplier,
 )
+from openprocurement.tender.cfaselectionua.tests.periods import ENQUIRY_PERIOD
 from openprocurement.tender.core.constants import AGREEMENT_IDENTIFIER_MESSAGE
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_without_complaints_after_2020_04_19,

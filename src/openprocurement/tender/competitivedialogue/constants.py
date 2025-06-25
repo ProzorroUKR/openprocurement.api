@@ -31,6 +31,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "minTenderingDuration": 30,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": False,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
@@ -55,5 +56,6 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "minTenderingDuration": 15,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": False,
 }

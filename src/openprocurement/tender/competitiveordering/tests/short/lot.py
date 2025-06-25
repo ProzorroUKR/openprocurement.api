@@ -33,7 +33,6 @@ from openprocurement.tender.open.tests.lot_blanks import (
     get_tender_lots,
     lots_features_delete,
     next_check_value_with_unanswered_claim,
-    next_check_value_with_unanswered_question,
     patch_tender_bidder,
     patch_tender_currency,
     patch_tender_vat,
@@ -48,7 +47,6 @@ from openprocurement.tender.open.tests.lot_blanks import (
     proc_2lot_2bid_1claim_1com_1win,
     proc_2lot_2bid_1lot_del,
     proc_2lot_2bid_2com_2win,
-    question_blocking,
 )
 
 
@@ -84,9 +82,7 @@ class TenderLotEdgeCasesTest(BaseTenderCOContentWebTest):
     initial_lots = test_tender_below_lots * 2
     initial_bids = test_tender_co_bids
 
-    test_question_blocking = snitch(question_blocking)
     test_claim_blocking = snitch(claim_blocking)
-    test_next_check_value_with_unanswered_question = snitch(next_check_value_with_unanswered_question)
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
 

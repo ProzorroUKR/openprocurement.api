@@ -94,6 +94,7 @@ test_tender_openuadefense_config = {
     "minTenderingDuration": 6,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 3,
     "restricted": False,
 }
 

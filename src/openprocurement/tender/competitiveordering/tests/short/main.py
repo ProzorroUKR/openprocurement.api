@@ -9,7 +9,6 @@ from openprocurement.tender.competitiveordering.tests.short import (
     contract,
     document,
     lot,
-    question,
     tender,
 )
 
@@ -23,7 +22,6 @@ def suite():
     suite.addTest(contract.suite())
     suite.addTest(document.suite())
     suite.addTest(lot.suite())
-    suite.addTest(question.suite())
     suite.addTest(tender.suite())
     return suite
 

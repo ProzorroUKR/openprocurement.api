@@ -11,7 +11,6 @@ class ReportingTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
     tender_create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
-    should_initialize_enquiry_period = False
     should_validate_related_lot_in_items = False
 
     contract_template_name_patch_statuses = []
@@ -21,7 +20,6 @@ class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState)
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
-    should_initialize_enquiry_period = False
     should_validate_related_lot_in_items = True
 
     contract_template_name_patch_statuses = ("draft", "active")

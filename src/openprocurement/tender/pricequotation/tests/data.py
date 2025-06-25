@@ -219,6 +219,7 @@ test_tender_pq_config = {
     "minTenderingDuration": 2,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 0,
     "restricted": False,
 }
 

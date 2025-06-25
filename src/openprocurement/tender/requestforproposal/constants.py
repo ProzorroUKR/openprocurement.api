@@ -1,8 +1,6 @@
 from datetime import timedelta
 
 REQUEST_FOR_PROPOSAL = "requestForProposal"
-STAND_STILL_TIME = timedelta(days=2)
-ENQUIRY_STAND_STILL_TIME = timedelta(days=1)
 
 MIN_BIDS_NUMBER = 2
 STATUS4ROLE = {

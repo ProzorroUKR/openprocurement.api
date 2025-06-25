@@ -6,10 +6,6 @@ from openprocurement.api.constants import TZ
 
 TENDERING_AUCTION = timedelta(days=35)
 
-QUESTIONS_STAND_STILL = timedelta(days=10)  # it's ENQUIRY_PERIOD_TIME
-ENQUIRY_PERIOD_TIME = timedelta(days=10)
-ENQUIRY_STAND_STILL_TIME = timedelta(days=3)
-
 BID_UNSUCCESSFUL_FROM = datetime(2016, 10, 18, tzinfo=TZ)
 MIN_BIDS_NUMBER = 3
 TENDERING_EXTRA_PERIOD = timedelta(days=7)

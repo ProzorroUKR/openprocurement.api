@@ -224,6 +224,17 @@ class TenderResourceTest(
             )
 
         # asking questions
+
+        # FIXME: start temp
+        tender_doc = self.mongodb.tenders.get(self.tender_id)
+        tender_doc["enquiryPeriod"] = {
+            "startDate": (get_request_now() - datetime.timedelta(days=1)).isoformat(),
+            "endDate": (get_request_now() + datetime.timedelta(days=1)).isoformat(),
+            "clarificationsUntil": (get_request_now() + datetime.timedelta(days=1)).isoformat(),
+        }
+        self.mongodb.tenders.save(tender_doc)
+        # FIXME: end temp
+
         docs_data = deepcopy(test_docs_question)
         docs_data["author"]["identifier"]["id"] = "11112222"
         with open(TARGET_DIR + 'ask-question-invalid-author.http', 'w') as self.app.file_obj:
@@ -245,6 +256,12 @@ class TenderResourceTest(
             {"data": {"answer": "answer"}},
         )
         self.assertEqual(response.status, "200 OK")
+
+        # FIXME: start temp
+        tender_doc = self.mongodb.tenders.get(self.tender_id)
+        del tender_doc["enquiryPeriod"]
+        self.mongodb.tenders.save(tender_doc)
+        # FIXME: end temp
 
         # Setting Bid guarantee
 

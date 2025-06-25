@@ -13,12 +13,9 @@ for date_str in HOLIDAYS:
 for date_str in WORKING_WEEKENDS:
     WORKING_DAYS[date_str] = False
 
-STAND_STILL_TIME = timedelta(days=4)
-ENQUIRY_STAND_STILL_TIME = timedelta(days=2)
 CLAIM_SUBMIT_TIME = timedelta(days=3)
 COMPLAINT_OLD_SUBMIT_TIME = timedelta(days=3)
 COMPLAINT_OLD_SUBMIT_TIME_BEFORE = datetime(2016, 7, 5, tzinfo=TZ)
-ENQUIRY_PERIOD_TIME = timedelta(days=3)
 TENDERING_EXTRA_PERIOD = timedelta(days=2)
 ABOVE_THRESHOLD_UA_DEFENSE = "aboveThresholdUA.defense"
 

@@ -6,10 +6,7 @@ from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.tender.competitiveordering.constants import (
-    ENQUIRY_PERIOD_TIME,
-    TENDERING_EXTRA_PERIOD,
-)
+from openprocurement.tender.competitiveordering.constants import TENDERING_EXTRA_PERIOD
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
     COTenderState,
 )
@@ -22,16 +19,16 @@ class COTenderDetailsState(TenderDetailsMixing, COTenderState):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
-    tendering_period_extra = TENDERING_EXTRA_PERIOD
-    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
+    tender_period_extra = TENDERING_EXTRA_PERIOD
     should_validate_notice_doc_required = True
     agreement_allowed_types = [DPS_TYPE]
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
-    tender_period_working_day = False
-    clarification_period_working_day = False
-    tendering_period_extra_working_days = False
+    tender_period_working_days = False
+    clarification_period_working_days = False
+    enquiry_period_working_days = False
+    tender_period_extra_working_days = False
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch

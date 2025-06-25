@@ -561,7 +561,6 @@ def create_tender_generated(self):
         "dateCreated",
         "tenderID",
         "status",
-        "enquiryPeriod",
         "tenderPeriod",
         "minimalStep",
         "items",
@@ -590,6 +589,8 @@ def create_tender_generated(self):
         fields.append("agreements")
     if config["hasTenderComplaints"]:
         fields.append("complaintPeriod")
+    if config["hasEnquiries"] is True or config["enquiryPeriodRegulation"] > 0:
+        fields.append("enquiryPeriod")
     self.assertEqual(set(tender), set(fields))
     self.assertNotEqual(data["id"], tender["id"])
 
@@ -607,7 +608,6 @@ def tender_fields(self):
         "id",
         "dateModified",
         "dateCreated",
-        "enquiryPeriod",
         "criteria",
         "tenderID",
         "status",
@@ -622,6 +622,8 @@ def tender_fields(self):
     }
     if config["hasTenderComplaints"] is True:
         expected_difference.add("complaintPeriod")
+    if config["hasEnquiries"] is True or config["enquiryPeriodRegulation"] > 0:
+        expected_difference.add("enquiryPeriod")
 
     difference = set(tender) - set(self.initial_data)
     self.assertEqual(difference, expected_difference)

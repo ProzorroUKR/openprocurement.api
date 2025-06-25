@@ -105,6 +105,7 @@ test_tender_openua_config = {
     "minTenderingDuration": 15,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": False,
 }
 

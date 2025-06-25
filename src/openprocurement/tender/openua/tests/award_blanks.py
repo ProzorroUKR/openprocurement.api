@@ -24,8 +24,8 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.openua.constants import STAND_STILL_TIME
 from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
+from openprocurement.tender.openua.tests.periods import STAND_STILL_TIME
 
 
 def check_tender_award_complaint_period_dates(self):

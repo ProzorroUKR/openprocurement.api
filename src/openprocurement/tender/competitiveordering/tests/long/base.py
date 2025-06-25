@@ -106,6 +106,7 @@ test_tender_co_config = {
     "minTenderingDuration": 7,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 3,
     "restricted": False,
 }
 

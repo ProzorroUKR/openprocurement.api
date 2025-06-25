@@ -1,8 +1,9 @@
 from logging import getLogger
 
 from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.context import get_request_now
+from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.core.procedure.criteria import TenderCriterionMixin
@@ -57,3 +58,15 @@ class TenderState(
         self.calc_auction_periods(data)
         self.update_next_check(data)  # next_check should be after calc_auction_periods
         self.calc_tender_values(data)
+
+    def invalidate_bids_data(self, tender):
+        if is_item_owner(get_request(), tender) and tender.get("status") == "active.tendering":
+            self.set_bids_invalidation_date(tender)
+            for bid in tender.get("bids", ""):
+                if bid.get("status") not in ("deleted", "draft"):
+                    bid["status"] = "invalid"
+
+    @staticmethod
+    def set_bids_invalidation_date(tender):
+        if "enquiryPeriod" in tender:
+            tender["enquiryPeriod"]["invalidationDate"] = get_request_now().isoformat()

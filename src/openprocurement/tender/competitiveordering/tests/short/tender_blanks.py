@@ -41,11 +41,6 @@ def patch_tender_period(self):
         )
         + timedelta(seconds=1)
     ).astimezone(TZ)
-    enquiry_period_end_date = calculate_tender_full_date(
-        tender_period_end_date,
-        -timedelta(days=3),
-        tender=tender,
-    )
     tender_period = deepcopy(tender["tenderPeriod"])
     tender_period["endDate"] = tender_period_end_date.isoformat()
     response = self.app.patch_json(
@@ -55,7 +50,7 @@ def patch_tender_period(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tender_period_end_date.isoformat())
-    self.assertEqual(response.json["data"]["enquiryPeriod"]["endDate"], enquiry_period_end_date.isoformat())
+    self.assertNotIn("enquiryPeriod", response.json["data"])
 
 
 def patch_tender(self):
@@ -119,11 +114,9 @@ def patch_tender(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn("invalidationDate", response.json["data"]["enquiryPeriod"])
+    # self.assertIn("invalidationDate", response.json["data"]["enquiryPeriod"])
     new_tender = response.json["data"]
-    new_enquiryPeriod = new_tender.pop("enquiryPeriod")
     new_dateModified = new_tender.pop("dateModified")
-    tender.pop("enquiryPeriod")
     tender["procurementMethodRationale"] = "Open"
     self.assertEqual(tender, new_tender)
     self.assertNotEqual(dateModified, new_dateModified)
@@ -139,12 +132,10 @@ def patch_tender(self):
         {"data": {"procurementMethodRationale": "OpenOpen"}},
     )
     new_tender2 = response.json["data"]
-    new_enquiryPeriod2 = new_tender2.pop("enquiryPeriod")
     new_dateModified2 = new_tender2.pop("dateModified")
     new_tender.pop("procurementMethodRationale")
     new_tender2.pop("procurementMethodRationale")
     self.assertEqual(new_tender, new_tender2)
-    self.assertNotEqual(new_enquiryPeriod, new_enquiryPeriod2)
     self.assertNotEqual(new_dateModified, new_dateModified2)
 
     response = self.app.patch_json(
@@ -269,12 +260,17 @@ def patch_tender(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"enquiryPeriod": period}},
+        status=422,
     )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "enquiryPeriod", "description": "Rogue field"}],
+    )
+
+    response = self.app.get(f"/tenders/{tender['id']}")
     result = response.json["data"]
-    self.assertNotEqual(period["startDate"], result["enquiryPeriod"]["startDate"])
-    self.assertNotEqual(period["endDate"], result["enquiryPeriod"]["endDate"])
-    self.assertEqual(tender["enquiryPeriod"]["startDate"], result["enquiryPeriod"]["startDate"])
-    self.assertEqual(tender["enquiryPeriod"]["endDate"], result["enquiryPeriod"]["endDate"])
 
     # set lots
     base_value = result["value"]

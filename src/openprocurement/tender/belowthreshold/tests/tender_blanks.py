@@ -817,7 +817,7 @@ def validate_enquiry_period(self):
         response.json["errors"],
         [
             {
-                "description": ["the enquiryPeriod cannot end earlier than 3 business days after the start"],
+                "description": ["the enquiryPeriod cannot end earlier than 3 full business days after the start"],
                 "location": "body",
                 "name": "enquiryPeriod",
             }
@@ -850,7 +850,7 @@ def validate_enquiry_period(self):
         response.json["errors"],
         [
             {
-                "description": ["the enquiryPeriod cannot end earlier than 3 business days after the start"],
+                "description": ["the enquiryPeriod cannot end earlier than 3 full business days after the start"],
                 "location": "body",
                 "name": "enquiryPeriod",
             }
@@ -3626,7 +3626,7 @@ def patch_enquiry_tender_periods(self):
                 {
                     "location": "body",
                     "name": "enquiryPeriod",
-                    "description": ["the enquiryPeriod cannot end earlier than 3 business days after the start"],
+                    "description": ["the enquiryPeriod cannot end earlier than 3 full business days after the start"],
                 }
             ],
         )

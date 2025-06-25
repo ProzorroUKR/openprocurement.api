@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.tender.requestforproposal.constants import ENQUIRY_STAND_STILL_TIME
+ENQUIRY_STAND_STILL_TIME = timedelta(days=1)
 
 PERIODS = {
     "active.enquiries": {
