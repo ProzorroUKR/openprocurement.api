@@ -20,4 +20,5 @@ qualificationDuration,0,0
 minTenderingDuration,2,2
 hasEnquiries,false,false
 minEnquiriesDuration,0,0
+enquiryPeriodRegulation,0,0
 restricted,"true,false",false

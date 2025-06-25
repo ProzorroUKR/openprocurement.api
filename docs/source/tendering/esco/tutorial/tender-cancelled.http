@@ -2380,6 +2380,7 @@ Content-Type: application/json
     "minTenderingDuration": 30,
     "hasEnquiries": false,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": false
   }
 }

@@ -15,9 +15,10 @@ tenderComplainRegulation,"0,3",0
 qualificationComplainDuration,0,0
 awardComplainDuration,5,5
 cancellationComplainDuration,"0,10",0
-clarificationUntilDuration,3,3
+clarificationUntilDuration,"0,3",0
 qualificationDuration,0,0
 minTenderingDuration,"2,7",7
 hasEnquiries,false,false
 minEnquiriesDuration,0,0
+enquiryPeriodRegulation,"3,0",3
 restricted,"false,true",false

@@ -1,6 +1,6 @@
 procurementMethodType,values,default
 aboveThreshold,3,3
-competitiveOrdering,3,3
+competitiveOrdering,"0,3",0
 aboveThresholdEU,3,3
 aboveThresholdUA.defense,3,3
 aboveThresholdUA,3,3

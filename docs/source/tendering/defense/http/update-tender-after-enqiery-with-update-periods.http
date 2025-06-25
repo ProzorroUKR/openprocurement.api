@@ -241,6 +241,7 @@ Content-Type: application/json
     "minTenderingDuration": 6,
     "hasEnquiries": false,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 3,
     "restricted": false
   }
 }

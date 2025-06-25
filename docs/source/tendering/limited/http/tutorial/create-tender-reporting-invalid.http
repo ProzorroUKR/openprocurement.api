@@ -132,6 +132,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "minTenderingDuration": 0,
     "hasEnquiries": false,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 0,
     "restricted": false
   }
 }

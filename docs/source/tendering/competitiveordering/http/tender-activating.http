@@ -989,12 +989,6 @@ Content-Type: application/json
     "status": "active.tendering",
     "procurementMethodType": "competitiveOrdering",
     "awardCriteria": "lowestCost",
-    "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-22T00:00:00+03:00",
-      "clarificationsUntil": "2023-10-25T00:00:00+03:00",
-      "invalidationDate": "2023-10-10T01:00:00+03:00"
-    },
     "tenderPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-25T00:00:00+02:00"
@@ -1060,11 +1054,12 @@ Content-Type: application/json
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
     "cancellationComplainDuration": 0,
-    "clarificationUntilDuration": 3,
+    "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
     "minTenderingDuration": 2,
     "hasEnquiries": false,
     "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 0,
     "restricted": false
   }
 }

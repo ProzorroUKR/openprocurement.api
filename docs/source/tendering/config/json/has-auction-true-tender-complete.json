@@ -3,6 +3,7 @@
         "awardComplainDuration": 5,
         "cancellationComplainDuration": 10,
         "clarificationUntilDuration": 3,
+        "enquiryPeriodRegulation": 3,
         "hasAuction": true,
         "hasAwardComplaints": true,
         "hasAwardingOrder": true,

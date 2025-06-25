@@ -193,6 +193,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "minTenderingDuration": 4,
     "hasEnquiries": true,
     "minEnquiriesDuration": 3,
+    "enquiryPeriodRegulation": 3,
     "restricted": false
   }
 }
@@ -410,6 +411,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d9348acb91fa4dd5
     "minTenderingDuration": 4,
     "hasEnquiries": true,
     "minEnquiriesDuration": 3,
+    "enquiryPeriodRegulation": 3,
     "restricted": false
   },
   "access": {
