@@ -45,6 +45,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_minimalstep_validation,
     required_field_deletion,
     set_buyers_signer_info,
+    set_procuring_entity_contract_owner,
     set_procuring_entity_signer_info,
     tender_created_after_related_lot_is_required,
     tender_created_before_related_lot_is_required,
@@ -100,6 +101,7 @@ class TenderResourceTestMixin:
     test_contract_template_name_set = snitch(contract_template_name_set)
     test_set_procuring_entity_signer_info = snitch(set_procuring_entity_signer_info)
     test_set_buyers_signer_info = snitch(set_buyers_signer_info)
+    test_set_procuring_entity_contract_owner = snitch(set_procuring_entity_contract_owner)
 
 
 class TenderTest(BaseApiWebTest):

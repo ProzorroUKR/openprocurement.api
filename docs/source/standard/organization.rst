@@ -98,6 +98,120 @@ Additionally in :ref:`openeu`:
         * :ref:`ORGANIZATION_SCALE_FROM` constant
 
 
+.. index:: Tenderer, Company
+
+.. _Tenderer:
+
+Tenderer
+========
+
+Schema
+------
+
+:name:
+    string, multilingual
+
+    Additionally in :ref:`openeu` and :ref:`esco`:
+
+    uk (name) and en (name_en) translations are required
+
+    |ocdsDescription|
+    The common name of the organization.
+
+:identifier:
+    :ref:`Identifier`
+
+    |ocdsDescription|
+    The primary identifier for this organization.
+
+:additionalIdentifiers:
+    List of :ref:`identifier` objects
+
+:address:
+    :ref:`Address`, required
+
+:contactPoint:
+    :ref:`ContactPoint`, required
+
+:signerInfo:
+    :ref:`SignerInfo`
+
+:contract_owner:
+    string
+
+    Could be one of the brokers which has the 6th level of accreditation
+
+Additionally in :ref:`openeu`:
+
+:additionalContactPoints:
+    List of :ref:`ContactPoint` objects
+
+:scale:
+    string, required
+
+    Possible values are:
+
+    * `micro`
+    * `sme`
+    * `large`
+    * `mid`
+    * `not specified`
+
+    Validation depends on:
+
+        * :ref:`ORGANIZATION_SCALE_FROM` constant
+
+
+.. index:: Buyer
+
+.. _Buyer:
+
+
+Buyer
+======
+
+Schema
+------
+
+:name:
+    string, multilingual
+
+    |ocdsDescription|
+    The common name of the organization.
+
+:identifier:
+    :ref:`Identifier`
+
+    |ocdsDescription|
+    The primary identifier for this organization.
+
+:address:
+    :ref:`Address`, required
+
+:contactPoint:
+   :ref:`ContactPoint`, optionally can be added to buyers only
+
+:kind:
+    string
+
+    Possible values:
+        - ``authority`` - Public authority, local government or law enforcement agency
+        - ``central`` - Legal entity that conducts procurement in the interests of the customers (CPB)
+        - ``defense`` - Procuring entity that conducts procurement for the defense needs
+        - ``general`` - Legal person providing the needs of the state or territorial community
+        - ``other`` -  State or utility company that is not regarded as procuring entity
+        - ``social`` - Social insurance authority
+        - ``special`` - A legal entity that operates in one or more specific business areas
+
+:signerInfo:
+    :ref:`SignerInfo`
+
+:contract_owner:
+    string
+
+    Could be one of the brokers which has the 6th level of accreditation
+
+
 .. index:: EContractOrganization, Company
 
 .. _EContractOrganization:
@@ -128,6 +242,11 @@ Schema
 
 :signerInfo:
     :ref:`SignerInfo`
+
+:contract_owner:
+    string
+
+    Could be one of the brokers which has the 6th level of accreditation
 
 
 .. index:: Company, id

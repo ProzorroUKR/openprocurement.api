@@ -20,6 +20,45 @@ Content-Type: application/json
     "description": "broker3 now can change the contract",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
+    "items": [
+      {
+        "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
+        "description": "футляри до державних нагород",
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "CPV",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 40.8,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2016-03-20T18:47:47.136678+02:00",
+          "endDate": "2016-03-23T18:47:47.136678+02:00"
+        }
+      }
+    ],
     "tender_id": "232024f88849442aae6b031afd11a28b",
     "owner": "broker3",
     "status": "pending",
@@ -52,45 +91,6 @@ Content-Type: application/json
           "region": "Львівська область",
           "postalCode": "79013",
           "countryName": "Україна"
-        }
-      }
-    ],
-    "items": [
-      {
-        "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
-        "description": "футляри до державних нагород",
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "CPV",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "deliveryDate": {
-          "startDate": "2016-03-20T18:47:47.136678+02:00",
-          "endDate": "2016-03-23T18:47:47.136678+02:00"
-        },
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 40.8,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
         }
       }
     ],

@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-13 18:07+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Providing contract owner"
+msgstr "Встановлення contract owner"
+
+msgid "For further contracting it is possible provide contract owner (SEDO)."
+msgstr "Для подальшого укладання договору в закупівлі можна встановити майданчики, з яких буде виконуватися робота з договором (СЕДО)."
+
+msgid "For buyer it should be set in one of fields along with `signerInfo`:"
+msgstr "Для замовника майданчик має бути вказаний в одному з об'єктів разом з `signerInfo`:"
+
+msgid "`procuringEntity`"
+msgstr ""
+
+msgid "`buyers`"
+msgstr ""
+
+msgid "For supplier it should be set in `bid.tenderers` along with `signerInfo`."
+msgstr "Для постачальника майданчик має бути вказаний в об'єкті `bid.tenderers` разом з `signerInfo`."
+
+msgid "Field `contract_owner` can be set along with `contractTemplateName` in tender and `signerInfo` in object."
+msgstr "Поле `contract_owner` може бути встановлене тільки разом з `contractTemplateName` в закупівлі і  `signerInfo` для цього ж об'єкта."
+
+msgid "If there is no `signerInfo` in object or there is no `contractTemplateName` in tender, we will see an error:"
+msgstr "Якщо в об'єкті не вказано `signerInfo` чи нема `contractTemplateName` в закупівлі, ми побачимо помилку:"
+
+msgid "In field `contract_owner` it is allowed to set one of the brokers which has the 6th level of accreditation."
+msgstr "В полі `contract_owner` дозволено вказувати один з майданчиків, який має 6 рівень акредитації."
+
+msgid "In future contract they will have opportunity to generate token and deal with contract based on their role (`supplier` or `buyer`)."
+msgstr "В майбутньому контракті тільки ці майданчики будуть мати змогу згенерувати токен і працювати з контрактом в залежності від ролі (`supplier` чи `buyer`)."
+
+msgid "If broker which set as a `contract_owner` doesn't have the 6th level of accreditation, we will see an error:"
+msgstr "Якщо майданчик, вказаний як `contract_owner`, не має 6 рівня акреддитації, то ми побачимо помилку:"
+
+msgid "Successful adding `contract_owner` along with `contractTemplateName` in tender and `signerInfo` in `procuringEntity`:"
+msgstr "Успішне додавання `contract_owner` разом з `contractTemplateName` в закупівлі і  `signerInfo` для замовника в `procuringEntity`:"
+
+msgid "Successful adding `contract_owner` along with `contractTemplateName` in tender and `signerInfo` in `bid.tenderers`:"
+msgstr "Успішне додавання `contract_owner` разом з `contractTemplateName` в закупівлі і  `signerInfo` для постачальника в `bid.tenderers`::"
+
+msgid "When contract is created, these brokers can generate token to deal with contract (read more :ref:`authorization-from-different-platforms-new`)."
+msgstr "Після створення контракту ці майданчики можуть згенерувати токен для подальшої роботи з договором (більш детально :ref:`authorization-from-different-platforms-new`)."
+
+msgid "Let's look at contract, after creation, we will see `contract_owner` in `buyer` and `suppliers` objects:"
+msgstr "Подивимося як виглядає договір, в ньому є `contract_owner` в об'єктах `buyer` and `suppliers`:"
+

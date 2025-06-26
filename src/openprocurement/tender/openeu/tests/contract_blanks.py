@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )

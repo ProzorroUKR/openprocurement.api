@@ -1,3 +1,5 @@
+from cornice.resource import resource
+
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items
 from openprocurement.api.procedure.validation import (
@@ -36,6 +38,11 @@ def resolve_transaction(request):
             request.validated["transaction"] = transaction[0]
 
 
+@resource(
+    name="Contract transactions",
+    path="/contracts/{contract_id}/transactions/{transaction_id}",
+    description="Contract transactions",
+)
 class ContractTransactionsResource(ContractBaseResource):
     state_class = TransactionState
 

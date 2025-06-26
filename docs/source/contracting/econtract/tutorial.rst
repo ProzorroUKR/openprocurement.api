@@ -82,60 +82,50 @@ We do see the internal `id` of a contract (that can be used to construct full UR
 Getting access for users from different platforms (new flow)
 -------------------------------------------------------------
 
-Read more :ref:`authorization-from-different-platforms`
+Read more :ref:`authorization-from-different-platforms-new`
 
 For getting access for buyer or supplier endpoint `contracts/{contract_id}/access` is used after contract was created.
 
 Algorith of getting access:
 
 * POST `/access` with identifier of client - returns token for client
-* PATCH `/access?acc_token=...` - finally submit ownership for buyer or supplier
 
-First action is POST `/access` - a query with a client identifier determines whether it is a buyer or supplier.
+Main action is POST `/access` - a query with a client identifier determines whether it is a buyer or supplier.
 If the identifier does not match any of the entities, an error is issued:
 
 .. http:example:: http/contracts-access-invalid.http
    :code:
 
-If identifier is found, then the token is set according to the entity for supplier or buyer:
+If identifier is found, then we validate whether authenticated user is an owner for this role:
 
-.. http:example:: http/contracts-access-by-buyer-1.http
+.. http:example:: http/contracts-access-owner-invalid.http
+   :code:
+
+If identifier is found and owner matches, then the token is set according to the entity for supplier or buyer:
+
+.. http:example:: http/contracts-access-by-buyer.http
    :code:
 
 If buyer get access, we will see in response new `transfer` token too.
 
-Before confirmation, you can make POST requests and set up new tokens. Let's generate token from another platform:
+After token generation, it is allowed to regenerate token, make new POST request with this identifier:
 
 .. http:example:: http/contracts-access-by-buyer-2.http
    :code:
 
-After that a PATCH request is made with the issued token and client ID to activate and confirm the token.
-Then the owner field is being set according to the identifier: `owner` or `supplier_owner`:
-
-.. http:example:: http/contracts-access-by-buyer-2-submit.http
-   :code:
-
-After activation, you cannot make new POST and PATCH requests with this identifier:
-
-.. http:example:: http/contracts-access-by-buyer-3.http
-   :code:
-
-.. http:example:: http/contracts-access-by-buyer-1-submit.http
-   :code:
-
 **NOTE:**
-Then user can modify contract as buyer only using generated token.
+Then user can modify contract as buyer only using the last generated token.
+
+After token was regenerated, previous token can not be used for updating contract:
+
+.. http:example:: http/contracts-patch-by-buyer-1-forbidden.http
+   :code:
 
 The same algorithm will be for supplier access.
 
 Let's require access for supplier:
 
 .. http:example:: http/contracts-access-by-supplier.http
-   :code:
-
-And submit the access:
-
-.. http:example:: http/contracts-access-by-supplier-submit.http
    :code:
 
 **WARNING:**
@@ -155,13 +145,6 @@ When contract in `pending` status buyer can update those fields:
 * `dateSigned`
 * `period`
 * `implementation`
-
-
-**WARNING:**
-After access was generated for buyer, you can not modify contract with `tender_token`:
-
-.. http:example:: http/contract-modify-forbidden-with-old-token.http
-   :code:
 
 
 Setting contract value

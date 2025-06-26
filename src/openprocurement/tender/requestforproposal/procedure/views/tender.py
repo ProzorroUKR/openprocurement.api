@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.auth import ACCR_1, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_accreditation_level,
@@ -46,8 +46,8 @@ class RequestForProposalTenderResource(TendersResource):
             validate_input_data(PostTender),
             validate_config_data(),
             validate_accreditation_level(
-                levels=(ACCR_1, ACCR_5),
-                kind_central_levels=(ACCR_5,),
+                levels=(AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5),
+                kind_central_levels=(AccreditationLevel.ACCR_5,),
                 item="tender",
                 operation="creation",
                 source="data",

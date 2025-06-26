@@ -1,6 +1,6 @@
 from hashlib import sha512
 
-from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.validation import validate_accreditation_level
 from openprocurement.api.utils import error_handler
 from openprocurement.api.validation import (
@@ -109,7 +109,7 @@ def validate_tender_transfer_accreditation_level(request, **kwargs):
 
 def validate_contract_transfer_accreditation_level(request, **kwargs):
     validate_accreditation_level(
-        levels=(ACCR_3, ACCR_5),
+        levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
         item="ownership",
         operation="change",
         source="contract",
@@ -118,7 +118,7 @@ def validate_contract_transfer_accreditation_level(request, **kwargs):
 
 def validate_plan_transfer_accreditation_level(request, **kwargs):
     validate_accreditation_level(
-        levels=(ACCR_1, ACCR_3, ACCR_5),
+        levels=(AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
         item="ownership",
         operation="change",
         source="plan",
@@ -127,7 +127,7 @@ def validate_plan_transfer_accreditation_level(request, **kwargs):
 
 def validate_agreement_transfer_accreditation_level(request, **kwargs):
     validate_accreditation_level(
-        levels=(ACCR_3, ACCR_5),
+        levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
         item="ownership",
         operation="change",
         source="agreement",

@@ -37,10 +37,12 @@ class Buyer(CommonOrganization):
     address = ModelType(Address)
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
     signerInfo = ModelType(SignerInfo)
+    contract_owner = StringType()
 
 
 class Supplier(BusinessOrganization):
     signerInfo = ModelType(SignerInfo)
+    contract_owner = StringType()
 
 
 class ContactLessSupplier(Supplier):
@@ -53,3 +55,4 @@ class ProcuringEntity(Organization):
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)
     signerInfo = ModelType(SignerInfo)
+    contract_owner = StringType()

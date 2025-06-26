@@ -9,9 +9,12 @@ Content-Type: application/json
   "data": {
     "awardID": "283d9284a6054a25a129e848808b75a1",
     "contractID": "UA-2023-10-10-000001-a-1",
-    "owner": "broker",
-    "tender_id": "20cc535fb2754274beeeb221674aa637",
-    "contractTemplateName": "00000000.0002.01",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 500.0
+    },
     "items": [
       {
         "id": "29cbde01600848de837efe5448e726fb",
@@ -29,6 +32,15 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 40.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",
@@ -62,16 +74,7 @@ Content-Type: application/json
               "Відповідь2"
             ]
           }
-        ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 40.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        }
+        ]
       },
       {
         "id": "24726f3002834ed287ec1c07b91606cf",
@@ -89,6 +92,15 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",
@@ -99,15 +111,6 @@ Content-Type: application/json
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
-        },
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
         }
       }
     ],
@@ -161,12 +164,9 @@ Content-Type: application/json
         }
       }
     ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 500.0
-    },
+    "owner": "broker",
+    "tender_id": "20cc535fb2754274beeeb221674aa637",
+    "contractTemplateName": "00000000.0002.01",
     "status": "pending",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",

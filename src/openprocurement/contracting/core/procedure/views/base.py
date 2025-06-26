@@ -6,11 +6,11 @@ from openprocurement.api.utils import (
     request_init_tender,
 )
 from openprocurement.api.views.base import BaseResource
-from openprocurement.contracting.core.procedure.state.contract import BaseContractState
+from openprocurement.contracting.core.procedure.state.contract import ContractState
 
 
 class ContractBaseResource(BaseResource):
-    state_class = BaseContractState
+    state_class = ContractState
 
     def __acl__(self):
         acl = [

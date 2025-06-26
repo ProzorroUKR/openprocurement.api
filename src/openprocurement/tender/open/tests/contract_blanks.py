@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.core.tests.data import test_signer_info
 
 # TenderContractResourceTest
 

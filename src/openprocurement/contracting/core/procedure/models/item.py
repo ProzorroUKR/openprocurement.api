@@ -1,7 +1,8 @@
-from schematics.types import MD5Type
+from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.address import Address
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import (
     AdditionalClassification as BaseAdditionalClassification,
 )
@@ -24,6 +25,13 @@ class AdditionalClassification(BaseAdditionalClassification):
         pass
 
 
+class Attribute(Model):
+    name = StringType(required=True)
+    unit = ModelType(Unit)
+    values = ListType(BaseType(required=True))
+    value = BaseType()
+
+
 class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
@@ -32,3 +40,4 @@ class Item(BaseItem):
     deliveryDate = ModelType(Period)
     relatedLot = MD5Type()
     relatedBuyer = MD5Type()
+    attributes = ListType(ModelType(Attribute, required=True))

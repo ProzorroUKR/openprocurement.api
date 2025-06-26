@@ -298,3 +298,6 @@ LANGUAGE_CODES = standards.load("classifiers/languages.json").keys()
 
 # CS-19019
 PROFILE_REQUIRED_MIN_VALUE_AMOUNT = 500000
+
+# CS-19545
+BROKERS = {broker["name"]: broker["title"] for broker in standards.load("organizations/brokers.json")}

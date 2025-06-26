@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.auth import ACCR_3, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.procedure.validation import (
     unless_administrator,
@@ -50,7 +50,7 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
             validate_input_data(PostAgreement),
             validate_config_data(),
             validate_accreditation_level(
-                levels=(ACCR_3, ACCR_5),
+                levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
                 item="agreement",
                 operation="creation",
                 source="data",

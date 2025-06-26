@@ -31,11 +31,11 @@ from openprocurement.api.context import get_request_now, set_request_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
-from openprocurement.contracting.econtract.tests.data import (
+from openprocurement.contracting.core.tests.data import (
     test_contract_data,
     test_signer_info,
 )
-from openprocurement.contracting.econtract.tests.utils import create_contract
+from openprocurement.contracting.core.tests.utils import create_contract
 from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (

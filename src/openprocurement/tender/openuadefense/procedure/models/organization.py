@@ -19,3 +19,4 @@ class Organization(BaseOrganization):
 class ProcuringEntity(Organization):
     kind = StringType(choices=DEFENSE_PROCURING_ENTITY_KIND_CHOICES, required=True)
     signerInfo = ModelType(SignerInfo)
+    contract_owner = StringType()

@@ -100,7 +100,8 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                     if award["lotID"] == lot["id"] and award["status"] == "active":
                         suppliers = deepcopy(award["suppliers"])
                         for supplier in suppliers:
-                            supplier.pop("signerInfo", None)
+                            for field_name in ("signerInfo", "contract_owner"):
+                                supplier.pop(field_name, None)
                         contracts.append(
                             {
                                 "suppliers": suppliers,

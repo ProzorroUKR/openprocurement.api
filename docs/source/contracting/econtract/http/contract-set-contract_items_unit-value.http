@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1?acc_token=31cb6b454a3f451fb64c52d405dda98a HTTP/1.0
+PATCH /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1?acc_token=2250dde943e44c1f9a528b1fcae9929b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -22,6 +22,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 12,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",
@@ -55,16 +64,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "Відповідь2"
             ]
           }
-        ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 12,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        }
+        ]
       },
       {
         "id": "24726f3002834ed287ec1c07b91606cf",
@@ -82,6 +82,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",
@@ -92,15 +101,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
-        },
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
         }
       }
     ]
@@ -117,6 +117,105 @@ Content-Type: application/json
     "contractID": "UA-2023-10-10-000001-a-1",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
+    "items": [
+      {
+        "id": "29cbde01600848de837efe5448e726fb",
+        "description": "Комп’ютерне обладнання для біда",
+        "quantity": 10.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 12.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "attributes": [
+          {
+            "name": "Форма випуску",
+            "values": [
+              "Розчин для інфузій"
+            ]
+          },
+          {
+            "name": "Доза діючої речовини",
+            "unit": {
+              "name": "кілограми",
+              "code": "KGM"
+            },
+            "value": 5
+          },
+          {
+            "name": "Форма випуску 1",
+            "values": [
+              "Відповідь1",
+              "Відповідь2"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "24726f3002834ed287ec1c07b91606cf",
+        "description": "Комп’ютерне обладнання",
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        }
+      }
+    ],
     "tender_id": "20cc535fb2754274beeeb221674aa637",
     "owner": "broker",
     "status": "pending",
@@ -167,105 +266,6 @@ Content-Type: application/json
           "iban": "111111111111111",
           "position": "Генеральний директор",
           "authorizedBy": "Статут компанії"
-        }
-      }
-    ],
-    "items": [
-      {
-        "id": "29cbde01600848de837efe5448e726fb",
-        "description": "Комп’ютерне обладнання для біда",
-        "quantity": 10.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
-        "attributes": [
-          {
-            "name": "Форма випуску",
-            "values": [
-              "Розчин для інфузій"
-            ]
-          },
-          {
-            "name": "Доза діючої речовини",
-            "unit": {
-              "name": "кілограми",
-              "code": "KGM"
-            },
-            "value": 5
-          },
-          {
-            "name": "Форма випуску 1",
-            "values": [
-              "Відповідь1",
-              "Відповідь2"
-            ]
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 12.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        }
-      },
-      {
-        "id": "24726f3002834ed287ec1c07b91606cf",
-        "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
         }
       }
     ],
