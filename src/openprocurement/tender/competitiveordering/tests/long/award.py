@@ -24,11 +24,11 @@ from openprocurement.tender.competitiveordering.tests.long.award_blanks import (
     qualified_eligible_awards,
 )
 from openprocurement.tender.competitiveordering.tests.long.base import (
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     test_tender_below_supplier,
-    test_tender_co_bids,
-    test_tender_co_criteria,
-    test_tender_co_three_bids,
+    test_tender_co_long_bids,
+    test_tender_co_long_criteria,
+    test_tender_co_long_three_bids,
 )
 from openprocurement.tender.core.tests.utils import change_auth, generate_req_response
 from openprocurement.tender.open.tests.award_blanks import (
@@ -107,7 +107,7 @@ class TenderCOAwardComplaintResourceTestMixin:
 
 
 class TenderAwardRequirementResponseTestMixin:
-    initial_criteria = test_tender_co_criteria
+    initial_criteria = test_tender_co_long_criteria
     initial_lots = test_tender_below_lots
 
     test_create_award_requirement_response = snitch(create_award_requirement_response)
@@ -116,7 +116,7 @@ class TenderAwardRequirementResponseTestMixin:
 
 
 class TenderAwardRequirementResponseEvidenceTestMixin:
-    initial_criteria = test_tender_co_criteria
+    initial_criteria = test_tender_co_long_criteria
     initial_lots = test_tender_below_lots
 
     test_create_award_requirement_response_evidence = snitch(create_award_requirement_response_evidence)
@@ -128,10 +128,10 @@ class TenderAwardRequirementResponseEvidenceTestMixin:
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderAwardResourceTest(BaseTenderCOContentWebTest):
+class TenderAwardResourceTest(BaseTenderCOLongContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_long_bids
 
     test_create_tender_award = snitch(create_tender_award)
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
@@ -151,10 +151,10 @@ class TenderAwardResourceTest(BaseTenderCOContentWebTest):
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderLotAwardResourceTest(BaseTenderCOContentWebTest):
+class TenderLotAwardResourceTest(BaseTenderCOLongContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_long_bids
 
     test_create_lot_award = snitch(create_tender_lot_award)
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
@@ -166,19 +166,19 @@ class TenderLotAwardResourceTest(BaseTenderCOContentWebTest):
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class Tender2LotAwardResourceTest(BaseTenderCOContentWebTest):
+class Tender2LotAwardResourceTest(BaseTenderCOLongContentWebTest):
     initial_status = "active.qualification"
     initial_lots = 2 * test_tender_below_lots
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_long_bids
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
     test_qualified_eligible_awards = snitch(qualified_eligible_awards)
 
 
-class TenderAwardPendingResourceTestCase(BaseTenderCOContentWebTest):
+class TenderAwardPendingResourceTestCase(BaseTenderCOLongContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_three_bids
+    initial_bids = test_tender_co_long_three_bids
 
     def setUp(self):
         super().setUp()
@@ -219,7 +219,7 @@ class TenderAwardQualificationAfterComplaint(
 ):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
-    initial_bids = test_tender_co_three_bids
+    initial_bids = test_tender_co_long_three_bids
 
     test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
     test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)

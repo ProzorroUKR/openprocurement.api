@@ -12,9 +12,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_supplier,
 )
 from openprocurement.tender.competitiveordering.tests.long.base import (
-    BaseTenderCOContentWebTest,
-    test_tender_co_bids,
-    test_tender_co_complaint_objection,
+    BaseTenderCOLongContentWebTest,
+    test_tender_co_long_bids,
+    test_tender_co_long_complaint_objection,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.post_blanks import (
@@ -368,13 +368,13 @@ class ComplaintPostResourceMixin:
 
 
 class TenderComplaintPostResourceTest(
-    BaseTenderCOContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
+    BaseTenderCOLongContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     initial_lots = test_tender_below_lots
 
     def setUp(self):
         super().setUp()
-        objection_data = deepcopy(test_tender_co_complaint_objection)
+        objection_data = deepcopy(test_tender_co_long_complaint_objection)
         objection_data["relatesTo"] = "tender"
         objection_data["relatedItem"] = self.tender_id
         complaint_data = deepcopy(test_tender_below_draft_complaint)
@@ -391,13 +391,13 @@ class TenderComplaintPostResourceTest(
 
 
 class TenderAwardComplaintPostResourceTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
 ):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_long_bids
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -428,7 +428,7 @@ class TenderAwardComplaintPostResourceTest(
             )
 
         # Create complaint for award
-        objection_data = deepcopy(test_tender_co_complaint_objection)
+        objection_data = deepcopy(test_tender_co_long_complaint_objection)
         objection_data["relatesTo"] = "award"
         objection_data["relatedItem"] = self.award_id
         complaint_data = deepcopy(test_tender_below_draft_complaint)
@@ -448,7 +448,7 @@ class TenderAwardComplaintPostResourceTest(
 
 @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderCancellationComplaintPostResourceTest(
-    BaseTenderCOContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
+    BaseTenderCOLongContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
     initial_lots = test_tender_below_lots
 
@@ -487,7 +487,7 @@ class TenderCancellationComplaintPostResourceTest(
         )
 
         # Create complaint for cancellation
-        objection_data = deepcopy(test_tender_co_complaint_objection)
+        objection_data = deepcopy(test_tender_co_long_complaint_objection)
         objection_data["relatesTo"] = "cancellation"
         objection_data["relatedItem"] = self.cancellation_id
         complaint_data = deepcopy(test_tender_below_draft_complaint)

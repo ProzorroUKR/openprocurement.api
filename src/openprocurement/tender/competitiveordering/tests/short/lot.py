@@ -18,11 +18,11 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     tender_lot_milestones,
 )
 from openprocurement.tender.competitiveordering.tests.short.base import (
-    BaseTenderCOContentWebTest,
-    test_tender_co_bids,
-    test_tender_co_criteria,
-    test_tender_co_data,
-    test_tender_co_features_data,
+    BaseTenderCOShortContentWebTest,
+    test_tender_co_short_bids,
+    test_tender_co_short_criteria,
+    test_tender_co_short_data,
+    test_tender_co_short_features_data,
 )
 from openprocurement.tender.open.tests.lot_blanks import (
     claim_blocking,
@@ -64,10 +64,10 @@ class TenderCOLotProcessTestMixin:
     test_proc_2lot_2bid_2com_2win = snitch(proc_2lot_2bid_2com_2win)
 
 
-class TenderLotResourceTest(BaseTenderCOContentWebTest, TenderLotResourceTestMixin, TenderCOLotResourceTestMixin):
-    initial_data = test_tender_co_data
+class TenderLotResourceTest(BaseTenderCOShortContentWebTest, TenderLotResourceTestMixin, TenderCOLotResourceTestMixin):
+    initial_data = test_tender_co_short_data
     initial_lots = test_tender_below_lots
-    initial_criteria = test_tender_co_criteria
+    initial_criteria = test_tender_co_short_criteria
 
     test_lots_data = test_tender_below_lots
 
@@ -77,40 +77,40 @@ class TenderLotResourceTest(BaseTenderCOContentWebTest, TenderLotResourceTestMix
     test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)
 
 
-class TenderLotEdgeCasesTest(BaseTenderCOContentWebTest):
-    initial_data = test_tender_co_data
+class TenderLotEdgeCasesTest(BaseTenderCOShortContentWebTest):
+    initial_data = test_tender_co_short_data
     initial_lots = test_tender_below_lots * 2
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_short_bids
 
     test_claim_blocking = snitch(claim_blocking)
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
 
-class TenderLotFeatureResourceTest(BaseTenderCOContentWebTest, TenderLotFeatureResourceTestMixin):
-    initial_data = test_tender_co_data
+class TenderLotFeatureResourceTest(BaseTenderCOShortContentWebTest, TenderLotFeatureResourceTestMixin):
+    initial_data = test_tender_co_short_data
     initial_lots = 2 * test_tender_below_lots
-    test_bids_data = test_tender_co_bids
-    initial_criteria = test_tender_co_criteria
+    test_bids_data = test_tender_co_short_bids
+    initial_criteria = test_tender_co_short_criteria
     invalid_feature_value = 0.5
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
 
 
-class TenderLotBidderResourceTest(BaseTenderCOContentWebTest):
-    initial_data = test_tender_co_data
+class TenderLotBidderResourceTest(BaseTenderCOShortContentWebTest):
+    initial_data = test_tender_co_short_data
     initial_lots = test_tender_below_lots
-    test_bids_data = test_tender_co_bids
-    initial_criteria = test_tender_co_criteria
+    test_bids_data = test_tender_co_short_bids
+    initial_criteria = test_tender_co_short_criteria
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
 
 
-class TenderLotFeatureBidderResourceTest(BaseTenderCOContentWebTest):
-    initial_data = test_tender_co_data
+class TenderLotFeatureBidderResourceTest(BaseTenderCOShortContentWebTest):
+    initial_data = test_tender_co_short_data
     initial_lots = test_tender_below_lots
-    test_bids_data = test_tender_co_bids
-    initial_criteria = test_tender_co_criteria
+    test_bids_data = test_tender_co_short_bids
+    initial_criteria = test_tender_co_short_criteria
 
     def setUp(self):
         super().setUp()
@@ -164,13 +164,13 @@ class TenderLotFeatureBidderResourceTest(BaseTenderCOContentWebTest):
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderLotProcessTest(BaseTenderCOContentWebTest, TenderLotProcessTestMixin, TenderCOLotProcessTestMixin):
-    initial_data = test_tender_co_data
+class TenderLotProcessTest(BaseTenderCOShortContentWebTest, TenderLotProcessTestMixin, TenderCOLotProcessTestMixin):
+    initial_data = test_tender_co_short_data
 
-    test_bids_data = test_tender_co_bids
+    test_bids_data = test_tender_co_short_bids
     test_lots_data = test_tender_below_lots
-    test_features_tender_data = test_tender_co_features_data
-    setUp = BaseTenderCOContentWebTest.setUp
+    test_features_tender_data = test_tender_co_short_features_data
+    setUp = BaseTenderCOShortContentWebTest.setUp
 
     days_till_auction_starts = 16
 

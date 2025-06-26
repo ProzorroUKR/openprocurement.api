@@ -20,9 +20,9 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_milestones_required,
 )
 from openprocurement.tender.competitiveordering.tests.short.base import (
-    BaseTenderCOWebTest,
-    test_tender_co_bids,
-    test_tender_co_data,
+    BaseTenderCOShortWebTest,
+    test_tender_co_short_bids,
+    test_tender_co_short_data,
 )
 from openprocurement.tender.competitiveordering.tests.short.tender_blanks import (
     create_tender_forbidden_complaints,
@@ -64,8 +64,8 @@ class TenderCOProcessTestMixin:
     test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 
-class TenderCOResourceTest(BaseTenderCOWebTest, TenderResourceTestMixin, TenderCOResourceTestMixin):
-    initial_data = test_tender_co_data
+class TenderCOResourceTest(BaseTenderCOShortWebTest, TenderResourceTestMixin, TenderCOResourceTestMixin):
+    initial_data = test_tender_co_short_data
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -98,10 +98,10 @@ class TenderCOResourceTest(BaseTenderCOWebTest, TenderResourceTestMixin, TenderC
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderCOProcessTest(BaseTenderCOWebTest, TenderCOProcessTestMixin):
-    initial_data = test_tender_co_data
+class TenderCOProcessTest(BaseTenderCOShortWebTest, TenderCOProcessTestMixin):
+    initial_data = test_tender_co_short_data
     initial_lots = test_tender_below_lots
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_short_bids
 
     def setUp(self):
         super().setUp()

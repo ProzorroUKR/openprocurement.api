@@ -16,15 +16,15 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
 )
 from openprocurement.tender.competitiveordering.tests.short.base import (
-    BaseTenderCOContentWebTest,
-    test_tender_co_bids,
-    test_tender_co_features_data,
+    BaseTenderCOShortContentWebTest,
+    test_tender_co_short_bids,
+    test_tender_co_short_features_data,
 )
 
 
-class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, BaseTenderCOContentWebTest):
+class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, BaseTenderCOShortContentWebTest):
     initial_status = "active.tendering"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_short_bids
     initial_lots = 2 * test_tender_below_lots
 
     test_patch_tender_auction = snitch(patch_tender_lots_auction)
@@ -32,9 +32,9 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin,
-    BaseTenderCOContentWebTest,
+    BaseTenderCOShortContentWebTest,
 ):
-    initial_data = test_tender_co_features_data
+    initial_data = test_tender_co_short_features_data
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots * 2
 
@@ -44,7 +44,7 @@ class TenderFeaturesMultilotAuctionResourceTest(
     def setUp(self):
         set_request_now()
 
-        self.initial_bids = deepcopy(test_tender_co_bids[:2])
+        self.initial_bids = deepcopy(test_tender_co_short_bids[:2])
         self.initial_bids[1]["tenderers"][0]["identifier"]["id"] = "00037257"
 
         identifier_0 = self.initial_bids[0]["tenderers"][0]["identifier"]["id"]

@@ -1,7 +1,7 @@
 procurementMethodType,values,default,days
 aboveThreshold,3,3,calendar
 competitiveOrdering.short,0,0,
-competitiveOrdering.long,3,0,
+competitiveOrdering.long,3,3,calendar
 aboveThresholdEU,4,4,calendar
 aboveThresholdUA.defense,2,2,working
 aboveThresholdUA,4,4,calendar

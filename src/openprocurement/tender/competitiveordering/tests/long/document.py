@@ -5,11 +5,11 @@ from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentResourceTestMixin,
 )
 from openprocurement.tender.competitiveordering.tests.long.base import (
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
 )
 
 
-class TenderDocumentResourceTest(BaseTenderCOContentWebTest, TenderDocumentResourceTestMixin):
+class TenderDocumentResourceTest(BaseTenderCOLongContentWebTest, TenderDocumentResourceTestMixin):
     initial_lots = test_tender_below_lots
 
 

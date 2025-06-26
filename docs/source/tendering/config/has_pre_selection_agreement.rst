@@ -55,7 +55,7 @@ For tender that is linked to an agreement, the following validations are applied
 
 * agreement should have at least 3 active contracts
 
-:ref:`competitiveordering` → :ref:`competitiveordering_tutorial`
+:ref:`competitiveordering` → :ref:`competitiveordering_short_tutorial`
 
 electronicCatalogue -> priceQuotation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

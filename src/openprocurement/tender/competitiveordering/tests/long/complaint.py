@@ -14,8 +14,8 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     not_found,
 )
 from openprocurement.tender.competitiveordering.tests.long.base import (
-    BaseTenderCOContentWebTest,
-    test_tender_co_bids,
+    BaseTenderCOLongContentWebTest,
+    test_tender_co_long_bids,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.complaint_blanks import (
@@ -50,14 +50,14 @@ class TenderCOComplaintResourceTestMixin:
 
 
 class TenderComplaintResourceTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     TenderCOComplaintResourceTestMixin,
 ):
     test_author = test_tender_below_author
     initial_lots = test_tender_below_lots
 
 
-class TenderComplaintDocumentResourceTest(BaseTenderCOContentWebTest):
+class TenderComplaintDocumentResourceTest(BaseTenderCOLongContentWebTest):
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -293,7 +293,7 @@ class TenderAwardComplaintObjectionMixin:
 
 
 class TenderComplaintObjectionTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
@@ -304,7 +304,7 @@ class TenderComplaintObjectionTest(
 
 
 class TenderCancellationComplaintObjectionTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
@@ -319,12 +319,12 @@ class TenderCancellationComplaintObjectionTest(
 
 
 class TenderAwardComplaintObjectionTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_long_bids
     initial_lots = test_tender_below_lots
 
     test_objection_related_award_statuses = snitch(objection_related_award_statuses)

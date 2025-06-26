@@ -1,0 +1,152 @@
+.. _competitiveordering_short_tutorial:
+
+Tutorial (short)
+================
+
+Configuration
+-------------
+
+The set of possible configuration values:
+
+.. csv-table::
+   :file: csv/config-short.csv
+   :header-rows: 1
+
+You can look for more details in :ref:`config` section.
+
+Creating tender
+---------------
+
+Tender `competitiveOrdering` has pre-selection procedure and has to be connected to agreement.
+
+Let's use next agreement for our example:
+
+.. http:example:: http/short/view-agreement-1-contract.http
+   :code:
+
+We can create tender connected to this agreement:
+
+.. http:example:: http/short/tender-post-attempt-json-data.http
+   :code:
+
+Also you will need to update data about item's related lots:
+
+.. http:example:: http/short/tender-add-relatedLot-to-item.http
+   :code:
+
+Tender activating
+-----------------
+
+At first we needed to add EXCLUSION criteria to our tender(:ref:`About criteria you can read here<criteria_operation>`).
+
+.. http:example:: http/short/add-exclusion-criteria.http
+   :code:
+
+Let's try to activate tender:
+
+.. http:example:: http/short/tender-activating-insufficient-active-contracts-error.http
+   :code:
+
+You can see that we got error, because we have not enough active contracts in our agreement.
+
+There is the list of all validation errors that can be raised during tender activation related to agreement:
+
+* Agreement not found in agreements
+* Agreement status is not active
+* Agreement has less than 3 active contracts
+* tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)
+
+Before activating tender it is required to add sign document to tender.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: http/short/notice-document-required.http
+   :code:
+
+Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: http/short/add-notice-document.http
+   :code:
+
+After adding more active contracts to our agreement and sign document let's make another attempt to activate tender:
+
+.. http:example:: http/short/tender-activating.http
+   :code:
+
+You can see that tender was activated successfully.
+
+Active tendering period end
+----------------------------
+
+After tender period ended, CBD checks one more time status of contract for suppliers in agreement.
+If contract status is still `active` - bid is getting `active` status too, in other cases - bid gets `invalid` status.
+
+Let's imagine, after `active.tendering` period start, the bid with active contract in agreement was registered successfully:
+
+.. http:example:: http/short/register-third-bid.http
+   :code:
+
+After that second contract supplier in agreement was disqualified during `active.tendering` period.
+
+Let's see our bid status after `active.tendering` period ends. This bid was disqualified:
+
+.. http:example:: http/short/active-tendering-end-not-member-bid.http
+   :code:
+
+Complaints
+----------
+
+Tender `competitiveOrdering` does not contain an appeal in the form of filing a complaint with the AMCU at any stage where such an appeal arises (follow configurations description :ref:`tender_complaints`, :ref:`award_complaints`, :ref:`cancellation_complaints`).
+
+That's why there is no `complaintPeriod` in tender body after it was created.
+If we try to add complaint about tender, we will see the error:
+
+.. http:example:: http/short/tender-add-complaint-error.http
+   :code:
+
+
+Qualification complaints
+-------------------------
+
+As tender `competitiveOrdering` doesn't have the opportunity to add complaint about the decision on the qualifications of participants
+if we try to add complaint about award, we will see the error:
+
+.. http:example:: http/short/tender-add-complaint-qualification-error.http
+   :code:
+
+`complaintPeriod` is present in award as there is a period for adding claims during qualification:
+
+.. http:example:: http/short/tender-get-award.http
+   :code:
+
+
+Cancellation complaints
+------------------------
+
+As tender `competitiveOrdering` doesn't have the opportunity to add complaint about the cancellation
+if we try to add complaint about cancellation, we will see the error:
+
+.. http:example:: http/short/tender-add-complaint-cancellation-error.http
+   :code:
+
+`complaintPeriod` is not present in cancellation. And after cancellation was transferred to status `pending`,
+then cancellation will automatically update status to `active` and tender is being cancelled.
+
+.. http:example:: http/short/pending-cancellation.http
+   :code:
+
+
+Confirming qualification
+------------------------
+
+Qualification comission can set award to `active` or `unsuccessful` status.
+
+There are validations before registering qualification decision:
+
+* `qualified: True` - for setting award from `pending` to `active`
+
+* `qualified: False` - for setting award from `pending` to `unsuccessful`
+
+As `competitiveOrdering` doesn't have ARTICLE 17 criteria, it is forbidden to set field `eligible` for award.
+
+.. note::
+    Further steps for `competitiveOrdering` tender are the same as in :ref:`open`, you can follow corresponding tutorial :ref:`open_tutorial`.

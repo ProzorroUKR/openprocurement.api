@@ -72,8 +72,8 @@ from openprocurement.tender.competitiveordering.constants import (
     SHORT_WORKING_DAYS_CONFIG as CO_SHORT_WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.competitiveordering.tests.long.base import (
-    test_tender_co_config,
-    test_tender_co_criteria,
+    test_tender_co_long_config,
+    test_tender_co_long_criteria,
 )
 from openprocurement.tender.core.constants import DEFAULT_WORKING_DAYS_CONFIG
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
@@ -168,7 +168,7 @@ class TenderConfigCSVMixin:
         for pmt in self.pmts:
             schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
             config_schema = schema["properties"][config_name]
-            config_working_days = self.pmts[pmt].get(config_name)
+            config_working_days = self.pmts.get(pmt, {}).get(config_name)
             row = self.get_config_row(pmt, config_schema, show_days=show_days, working_days=config_working_days)
             rows.append(row)
 
@@ -190,7 +190,7 @@ class TenderConfigCSVMixin:
         schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
 
         for config_name, config_schema in schema["properties"].items():
-            config_working_days = self.pmts[pmt].get(config_name)
+            config_working_days = self.pmts.get(pmt, {}).get(config_name)
             row = self.get_config_row(config_name, config_schema, show_days=True, working_days=config_working_days)
             rows.append(row)
 
@@ -2308,7 +2308,7 @@ class HasPreSelectionAgreementTenderConfigTest(TenderConfigBaseTest, FrameworkAc
         data["items"] = items
         data['procuringEntity'] = procuring_entity
         data['agreements'] = agreements
-        config = deepcopy(test_tender_co_config)
+        config = deepcopy(test_tender_co_long_config)
         config['hasPreSelectionAgreement'] = True
 
         with open(TARGET_DIR + 'has-pre-selection-agreement-true-tender-post.http', 'w') as self.app.file_obj:
@@ -2811,7 +2811,7 @@ class RestrictedTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin
 
         data['lots'] = [lot]
 
-        config = deepcopy(test_tender_co_config)
+        config = deepcopy(test_tender_co_long_config)
 
         for item in data['items']:
             item['relatedLot'] = lot['id']
@@ -2844,7 +2844,7 @@ class RestrictedTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin
         response = self.app.get('/tenders/{}'.format(tender_id))
         tender = response.json["data"]
 
-        test_criteria_data = deepcopy(test_tender_co_criteria)
+        test_criteria_data = deepcopy(test_tender_co_long_criteria)
         set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         response = self.app.post_json(
