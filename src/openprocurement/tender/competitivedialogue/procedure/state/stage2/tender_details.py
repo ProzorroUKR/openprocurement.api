@@ -2,6 +2,10 @@ from datetime import timedelta
 
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5, ACCR_COMPETITIVE
 from openprocurement.api.context import get_request, get_request_now
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_WORKING_DAYS_CONFIG,
+    STAGE_2_UA_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
     BotPatchTender,
     PatchEUTender,
@@ -23,6 +27,8 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     should_validate_related_lot_in_items = False
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft",)
+
+    working_days_config = STAGE_2_EU_WORKING_DAYS_CONFIG
 
     def get_patch_data_model(self):
         if get_request().authenticated_role == "competitive_dialogue":
@@ -57,6 +63,8 @@ class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
     tender_transfer_accreditations = (ACCR_3, ACCR_5)
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft",)
+
+    working_days_config = STAGE_2_UA_WORKING_DAYS_CONFIG
 
     def get_patch_data_model(self):
         if get_request().authenticated_role == "competitive_dialogue":

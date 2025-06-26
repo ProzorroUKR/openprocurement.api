@@ -21,3 +21,21 @@ POST_SUBMIT_TIME = timedelta(days=3)
 UA_KINDS = ("authority", "central", "defense", "general", "social", "special")
 
 COMPETITIVE_ORDERING = "competitiveOrdering"
+
+SHORT_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": True,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": False,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}
+
+LONG_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": False,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}

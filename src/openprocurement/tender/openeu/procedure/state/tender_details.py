@@ -1,4 +1,5 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
+from openprocurement.tender.openeu.constants import WORKING_DAYS_CONFIG
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 from openprocurement.tender.openua.procedure.state.tender_details import (
@@ -12,10 +13,9 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     tender_edit_accreditations = (ACCR_4,)
     tender_period_extra = TENDERING_EXTRA_PERIOD
     contract_template_name_patch_statuses = ("draft", "active.tendering")
-
-    tender_period_working_days = False
-    enquiry_period_working_days = False
     contract_template_required = True
+
+    working_days_config = WORKING_DAYS_CONFIG
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)

@@ -2,6 +2,7 @@ from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.utils import tender_created_before
+from openprocurement.tender.esco.constants import WORKING_DAYS_CONFIG
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsState as BaseTenderDetailsState,
 )
@@ -10,6 +11,8 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 class ESCOTenderDetailsState(BaseTenderDetailsState):
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
+
+    working_days_config = WORKING_DAYS_CONFIG
 
     def on_post(self, tender):
         super().on_post(tender)

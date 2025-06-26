@@ -27,3 +27,12 @@ DEFENSE_PROCURING_ENTITY_KIND_CHOICES = (
     ProcuringEntityKind.SOCIAL.value,
     ProcuringEntityKind.SPECIAL.value,
 )
+
+WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": True,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": True,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": True,
+    "qualificationComplainDuration": False,
+}

@@ -5,6 +5,7 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 from openprocurement.tender.openuadefense.constants import (
     TENDERING_EXTRA_PERIOD,
     WORKING_DAYS,
+    WORKING_DAYS_CONFIG,
 )
 
 
@@ -14,14 +15,12 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     tender_edit_accreditations = (ACCR_4,)
 
     tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra_working_days = True
     should_validate_notice_doc_required = False
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
-    tender_period_working_days = True
-    tender_period_extra_working_days = True
-    enquiry_period_working_days = True
-    tender_complain_regulation_working_days = True
+    working_days_config = WORKING_DAYS_CONFIG
 
     calendar = WORKING_DAYS
 

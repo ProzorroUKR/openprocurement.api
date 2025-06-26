@@ -19,6 +19,7 @@ from openprocurement.tender.cfaselectionua.constants import (
     MIN_ACTIVE_CONTRACTS,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MINIMAL_STEP_PERCENTAGE,
+    WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
     PatchAgreement,
@@ -66,8 +67,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
     should_validate_pre_selection_agreement = False
 
-    tender_period_working_days = False
-    enquiry_period_working_days = False
+    working_days_config = WORKING_DAYS_CONFIG
 
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
 
@@ -188,7 +188,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         enquiry_end = calculate_tender_full_date(
             get_request_now(),
             timedelta(days=tender["config"]["minEnquiriesDuration"]),
-            working_days=self.enquiry_period_working_days,
+            working_days=self.working_days_config["minEnquiriesDuration"],
             tender=tender,
         )
         tender["enquiryPeriod"] = {
@@ -198,7 +198,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         tender_end = calculate_tender_full_date(
             enquiry_end,
             timedelta(days=tender["config"]["minTenderingDuration"]),
-            working_days=self.tender_period_working_days,
+            working_days=self.working_days_config["minTenderingDuration"],
             tender=tender,
         )
         tender["tenderPeriod"] = {

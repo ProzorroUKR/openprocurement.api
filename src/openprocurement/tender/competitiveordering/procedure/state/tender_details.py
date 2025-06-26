@@ -6,7 +6,11 @@ from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.tender.competitiveordering.constants import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.competitiveordering.constants import (
+    LONG_WORKING_DAYS_CONFIG,
+    SHORT_WORKING_DAYS_CONFIG,
+    TENDERING_EXTRA_PERIOD,
+)
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
     COTenderState,
 )
@@ -19,16 +23,10 @@ class COTenderDetailsState(TenderDetailsMixing, COTenderState):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
-    tender_period_extra = TENDERING_EXTRA_PERIOD
     should_validate_notice_doc_required = True
     agreement_allowed_types = [DPS_TYPE]
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")
-
-    tender_period_working_days = False
-    clarification_period_working_days = False
-    enquiry_period_working_days = False
-    tender_period_extra_working_days = False
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
@@ -65,7 +63,17 @@ class COShortTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
     co_config_schema_name = "competitiveOrdering.short"
     agreement_with_items_forbidden = False
 
+    tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra_working_days = False
+
+    working_days_config = SHORT_WORKING_DAYS_CONFIG
+
 
 class COLongTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
     co_config_schema_name = "competitiveOrdering.long"
     agreement_with_items_forbidden = True
+
+    tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra_working_days = False
+
+    working_days_config = LONG_WORKING_DAYS_CONFIG

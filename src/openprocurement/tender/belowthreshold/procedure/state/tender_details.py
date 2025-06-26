@@ -1,5 +1,8 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
-from openprocurement.tender.belowthreshold.constants import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.belowthreshold.constants import (
+    TENDERING_EXTRA_PERIOD,
+    WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.belowthreshold.procedure.models.tender import (
     PatchDraftTender,
     PatchTender,
@@ -20,11 +23,13 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
 
-    tender_period_extra_working_days = True
     tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra_working_days = True
     should_validate_notice_doc_required = True
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.enquiries")
+
+    working_days_config = WORKING_DAYS_CONFIG
 
     def get_patch_data_model(self):
         tender = self.request.validated["tender"]

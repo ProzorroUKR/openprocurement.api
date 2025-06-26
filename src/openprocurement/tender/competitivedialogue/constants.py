@@ -59,3 +59,39 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "enquiryPeriodRegulation": 10,
     "restricted": False,
 }
+
+STAGE_1_EU_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}
+
+STAGE_1_UA_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}
+
+STAGE_2_EU_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}
+
+STAGE_2_UA_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}

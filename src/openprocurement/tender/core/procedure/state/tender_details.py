@@ -52,6 +52,7 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_STATUS_MESSAGE,
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
+    DEFAULT_WORKING_DAYS_CONFIG,
     LIMITED_PROCUREMENT_METHOD_TYPES,
     PROCUREMENT_METHOD_LIMITED,
     PROCUREMENT_METHOD_OPEN,
@@ -215,14 +216,8 @@ class BaseTenderDetailsMixing:
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
     items_profile_required = False
-
-    tender_period_working_days = True
     tender_period_extra_working_days = False
-    enquiry_period_working_days = True
-    clarification_period_working_days = True
-    tender_complain_regulation_working_days = False
-    qualification_complain_duration_working_days = False
-
+    working_days_config = DEFAULT_WORKING_DAYS_CONFIG
     calendar = WORKING_DAYS
 
     def validate_tender_patch(self, before, after):
@@ -726,7 +721,7 @@ class BaseTenderDetailsMixing:
                     end_date = calculate_tender_full_date(
                         get_request_now(),
                         timedelta(days=qualif_complain_duration),
-                        working_days=self.qualification_complain_duration_working_days,
+                        working_days=self.working_days_config["qualificationComplainDuration"],
                         tender=after,
                     ).isoformat()
 
@@ -841,24 +836,22 @@ class BaseTenderDetailsMixing:
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
 
     def initialize_enquiry_period(self, tender):
-        enquiry_period_regulation = tender["config"]["enquiryPeriodRegulation"]
-        if tender["config"]["hasEnquiries"] is False and enquiry_period_regulation > 0:
+        if tender["config"]["hasEnquiries"] is False and tender["config"]["enquiryPeriodRegulation"] > 0:
             tender["enquiryPeriod"] = tender.get("enquiryPeriod") or {}
             tender["enquiryPeriod"]["startDate"] = tender["tenderPeriod"]["startDate"]
             tender["enquiryPeriod"]["endDate"] = calculate_tender_full_date(
                 dt_from_iso(tender["tenderPeriod"]["endDate"]),
-                -timedelta(days=enquiry_period_regulation),
+                -timedelta(days=tender["config"]["enquiryPeriodRegulation"]),
                 tender=tender,
-                working_days=self.enquiry_period_working_days,
+                working_days=self.working_days_config["enquiryPeriodRegulation"],
             ).isoformat()
 
-        clarification_until_duration = tender["config"]["clarificationUntilDuration"]
-        if clarification_until_duration > 0:
+        if tender["config"]["clarificationUntilDuration"] > 0:
             tender["enquiryPeriod"]["clarificationsUntil"] = calculate_tender_full_date(
                 dt_from_iso(tender["enquiryPeriod"]["endDate"]),
-                timedelta(days=clarification_until_duration),
+                timedelta(days=tender["config"]["clarificationUntilDuration"]),
                 tender=tender,
-                working_days=self.clarification_period_working_days,
+                working_days=self.working_days_config["clarificationUntilDuration"],
             ).isoformat()
 
     def validate_enquiry_period(self, tender):
@@ -890,10 +883,10 @@ class BaseTenderDetailsMixing:
             parse_date(start_date),
             min_duration,
             tender=tender,
-            working_days=self.enquiry_period_working_days,
+            working_days=self.working_days_config["minEnquiriesDuration"],
         )
         if parse_date(end_date) < min_end_date:
-            type = "business" if self.enquiry_period_working_days else "calendar"
+            type = "business" if self.working_days_config["minEnquiriesDuration"] else "calendar"
             raise_operation_error(
                 get_request(),
                 [
@@ -940,12 +933,12 @@ class BaseTenderDetailsMixing:
                 parse_date(start_date),
                 min_duration,
                 tender=data,
-                working_days=self.tender_period_working_days,
+                working_days=self.working_days_config["minTenderingDuration"],
                 calendar=self.calendar,
             )
             end_date = data.get("tenderPeriod", {}).get("endDate")
             if end_date and tender_period_end_date > parse_date(end_date):
-                type = "business" if self.tender_period_working_days else "calendar"
+                type = "business" if self.working_days_config["minTenderingDuration"] else "calendar"
                 raise_operation_error(
                     get_request(),
                     [
@@ -1396,7 +1389,7 @@ class BaseTenderDetailsMixing:
             tendering_end,
             -timedelta(days=tender["config"]["tenderComplainRegulation"]),
             tender=tender,
-            working_days=self.tender_complain_regulation_working_days,
+            working_days=self.working_days_config["tenderComplainRegulation"],
         )
         tender["complaintPeriod"] = {
             "startDate": tender["tenderPeriod"]["startDate"],

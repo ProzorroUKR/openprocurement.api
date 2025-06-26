@@ -58,7 +58,7 @@ class TenderResourceTest(
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(
-            pmt="competitiveOrdering",
+            pmt="competitiveOrdering.short",
             file_path=TARGET_CSV_DIR + "config.csv",
         )
 

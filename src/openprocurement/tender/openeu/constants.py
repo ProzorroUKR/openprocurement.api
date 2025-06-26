@@ -16,3 +16,12 @@ EU_PROCURING_ENTITY_KIND_CHOICES = (
     ProcuringEntityKind.SOCIAL.value,
     ProcuringEntityKind.SPECIAL.value,
 )
+
+WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}

@@ -9,3 +9,12 @@ STATUS4ROLE = {
     "tender_owner": ["claim"],
 }
 TENDERING_EXTRA_PERIOD = timedelta(days=4)
+
+WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": True,
+}

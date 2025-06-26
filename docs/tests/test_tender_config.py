@@ -44,10 +44,38 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
+from openprocurement.tender.belowthreshold.constants import (
+    WORKING_DAYS_CONFIG as BELOWTHRESHOLD_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.cfaselectionua.constants import (
+    WORKING_DAYS_CONFIG as CFASELECTIONUA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.cfaua.constants import (
+    WORKING_DAYS_CONFIG as CFAUA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_1_EU_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_1_EU_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_1_UA_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_1_UA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_2_EU_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_UA_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_2_UA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitiveordering.constants import (
+    LONG_WORKING_DAYS_CONFIG as CO_LONG_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitiveordering.constants import (
+    SHORT_WORKING_DAYS_CONFIG as CO_SHORT_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.competitiveordering.tests.long.base import (
     test_tender_co_config,
     test_tender_co_criteria,
 )
+from openprocurement.tender.core.constants import DEFAULT_WORKING_DAYS_CONFIG
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_default_criteria
@@ -57,15 +85,42 @@ from openprocurement.tender.core.tests.utils import (
     set_tender_lots,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
+from openprocurement.tender.esco.constants import (
+    WORKING_DAYS_CONFIG as ESCO_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.esco.tests.base import (
     test_tender_esco_config,
     test_tender_esco_criteria,
 )
+from openprocurement.tender.limited.constants import (
+    WORKING_DAYS_CONFIG as LIMITED_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.open.constants import (
+    WORKING_DAYS_CONFIG as OPEN_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.open.tests.base import test_tender_open_config
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.openeu.constants import (
+    WORKING_DAYS_CONFIG as OPENEU_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.openeu.tests.base import test_tender_openeu_config
 from openprocurement.tender.openeu.tests.periods import PERIODS
+from openprocurement.tender.openua.constants import (
+    WORKING_DAYS_CONFIG as OPENUA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.openuadefense.constants import (
+    WORKING_DAYS_CONFIG as OPENUADEFENSE_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.pricequotation.constants import (
+    WORKING_DAYS_CONFIG as PRICEQUOTATION_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.requestforproposal.constants import (
+    WORKING_DAYS_CONFIG as RFP_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.requestforproposal.tests.base import test_tender_rfp_config
+from openprocurement.tender.simpledefense.constants import (
+    WORKING_DAYS_CONFIG as SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
+)
 
 TARGET_DIR = 'docs/source/tendering/config/http/'
 TARGET_JSON_DIR = 'docs/source/tendering/config/json/'
@@ -73,28 +128,30 @@ TARGET_CSV_DIR = 'docs/source/tendering/config/csv/'
 
 
 class TenderConfigCSVMixin:
+    pmts = {
+        "aboveThreshold": OPEN_WORKING_DAYS_CONFIG,
+        "competitiveOrdering.short": CO_SHORT_WORKING_DAYS_CONFIG,
+        "competitiveOrdering.long": CO_LONG_WORKING_DAYS_CONFIG,
+        "aboveThresholdEU": OPENEU_WORKING_DAYS_CONFIG,
+        "aboveThresholdUA.defense": OPENUADEFENSE_WORKING_DAYS_CONFIG,
+        "aboveThresholdUA": OPENUA_WORKING_DAYS_CONFIG,
+        "belowThreshold": BELOWTHRESHOLD_WORKING_DAYS_CONFIG,
+        "closeFrameworkAgreementSelectionUA": CFASELECTIONUA_WORKING_DAYS_CONFIG,
+        "closeFrameworkAgreementUA": CFAUA_WORKING_DAYS_CONFIG,
+        "competitiveDialogueEU": COMPETITIVEDIALOGUE_STAGE_1_EU_WORKING_DAYS_CONFIG,
+        "competitiveDialogueEU.stage2": COMPETITIVEDIALOGUE_STAGE_2_EU_WORKING_DAYS_CONFIG,
+        "competitiveDialogueUA": COMPETITIVEDIALOGUE_STAGE_1_UA_WORKING_DAYS_CONFIG,
+        "competitiveDialogueUA.stage2": COMPETITIVEDIALOGUE_STAGE_2_UA_WORKING_DAYS_CONFIG,
+        "esco": ESCO_WORKING_DAYS_CONFIG,
+        "negotiation": LIMITED_WORKING_DAYS_CONFIG,
+        "negotiation.quick": LIMITED_WORKING_DAYS_CONFIG,
+        "priceQuotation": PRICEQUOTATION_WORKING_DAYS_CONFIG,
+        "reporting": LIMITED_WORKING_DAYS_CONFIG,
+        "simple.defense": SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
+        "requestForProposal": RFP_WORKING_DAYS_CONFIG,
+    }
+
     def write_config_values_csv(self, config_name, file_path):
-        pmts = [
-            "aboveThreshold",
-            "competitiveOrdering",
-            "aboveThresholdEU",
-            "aboveThresholdUA.defense",
-            "aboveThresholdUA",
-            "belowThreshold",
-            "closeFrameworkAgreementSelectionUA",
-            "closeFrameworkAgreementUA",
-            "competitiveDialogueEU",
-            "competitiveDialogueEU.stage2",
-            "competitiveDialogueUA",
-            "competitiveDialogueUA.stage2",
-            "esco",
-            "negotiation",
-            "negotiation.quick",
-            "priceQuotation",
-            "reporting",
-            "simple.defense",
-            "requestForProposal",
-        ]
 
         headers = [
             "procurementMethodType",
@@ -102,12 +159,17 @@ class TenderConfigCSVMixin:
             "default",
         ]
 
+        show_days = config_name in DEFAULT_WORKING_DAYS_CONFIG.keys()
+        if show_days:
+            headers.append("days")
+
         rows = []
 
-        for pmt in pmts:
+        for pmt in self.pmts:
             schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
             config_schema = schema["properties"][config_name]
-            row = self.get_config_row(pmt, config_schema)
+            config_working_days = self.pmts[pmt].get(config_name)
+            row = self.get_config_row(pmt, config_schema, show_days=show_days, working_days=config_working_days)
             rows.append(row)
 
         with open(file_path, 'w', newline='') as file_csv:
@@ -120,6 +182,7 @@ class TenderConfigCSVMixin:
             "name",
             "values",
             "default",
+            "days",
         ]
 
         rows = []
@@ -127,7 +190,8 @@ class TenderConfigCSVMixin:
         schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
 
         for config_name, config_schema in schema["properties"].items():
-            row = self.get_config_row(config_name, config_schema)
+            config_working_days = self.pmts[pmt].get(config_name)
+            row = self.get_config_row(config_name, config_schema, show_days=True, working_days=config_working_days)
             rows.append(row)
 
         with open(file_path, 'w', newline='') as file_csv:
@@ -151,7 +215,7 @@ class TenderConfigCSVMixin:
             writer.writerow(headers)
             writer.writerows(rows)
 
-    def get_config_row(self, name, config_schema):
+    def get_config_row(self, name, config_schema, show_days=False, working_days=None):
         row = []
 
         # row name
@@ -163,6 +227,17 @@ class TenderConfigCSVMixin:
         # default value
         config_default = config_schema.get("default", "")
         row.append(json.dumps(config_default))
+
+        # days
+        if show_days:
+            if working_days is not None and config_default == 0:
+                row.append("")
+            elif working_days is True:
+                row.append("working")
+            elif working_days is False:
+                row.append("calendar")
+            else:
+                row.append("")
 
         return row
 

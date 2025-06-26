@@ -6,6 +6,7 @@ from openprocurement.framework.electroniccatalogue.constants import (
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
+from openprocurement.tender.pricequotation.constants import WORKING_DAYS_CONFIG
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PriceQuotationTenderState,
 )
@@ -29,6 +30,8 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft",)
+
+    working_days_config = WORKING_DAYS_CONFIG
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)

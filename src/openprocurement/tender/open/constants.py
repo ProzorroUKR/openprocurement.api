@@ -20,3 +20,12 @@ STATUS4ROLE = {
 POST_SUBMIT_TIME = timedelta(days=3)
 
 ABOVE_THRESHOLD = "aboveThreshold"
+
+WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": False,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}

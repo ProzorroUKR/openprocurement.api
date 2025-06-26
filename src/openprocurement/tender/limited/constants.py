@@ -11,3 +11,12 @@ REPORTING_KINDS = (
     "special",
 )
 NEGOTIATION_KINDS = ("authority", "central", "defense", "general", "social", "special")
+
+WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": True,
+    "minEnquiriesDuration": True,
+    "enquiryPeriodRegulation": True,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}

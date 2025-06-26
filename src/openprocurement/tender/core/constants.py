@@ -109,3 +109,12 @@ AGREEMENT_IDENTIFIER_MESSAGE = (
     "tender.procuringEntity.identifier (scheme or id), "
     "doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"
 )
+
+DEFAULT_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": False,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}
