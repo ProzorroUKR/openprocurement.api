@@ -2,7 +2,7 @@ from logging import getLogger
 
 from cornice.resource import resource
 
-from openprocurement.api.auth import ACCR_4
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.validation import (
     validate_accreditation_level,
     validate_data_documents,
@@ -41,7 +41,7 @@ class CompetitiveDialogueStage2EUBidResource(OpenEUTenderBidResource):
         permission="create_bid",
         validators=(
             validate_accreditation_level(
-                levels=(ACCR_4,),
+                levels=(AccreditationLevel.ACCR_4,),
                 item="bid",
                 operation="creation",
             ),
@@ -69,7 +69,7 @@ class CompetitiveDialogueStage2UABidResource(OpenUATenderBidResource):
         permission="create_bid",
         validators=(
             validate_accreditation_level(
-                levels=(ACCR_4,),
+                levels=(AccreditationLevel.ACCR_4,),
                 item="bid",
                 operation="creation",
             ),

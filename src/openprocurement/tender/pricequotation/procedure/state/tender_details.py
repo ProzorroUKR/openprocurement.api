@@ -1,4 +1,4 @@
-from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.context import get_request_now
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
@@ -12,9 +12,9 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 
 class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
-    tender_create_accreditations = (ACCR_1, ACCR_5)
-    tender_central_accreditations = (ACCR_5,)
-    tender_edit_accreditations = (ACCR_2,)
+    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
     should_initialize_enquiry_period = False
     should_validate_pre_selection_agreement = True
     should_validate_cpv_prefix = False

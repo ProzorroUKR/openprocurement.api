@@ -2,7 +2,7 @@ from logging import getLogger
 
 from cornice.resource import resource
 
-from openprocurement.api.auth import ACCR_2
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_accreditation_level,
@@ -49,7 +49,7 @@ class PQTenderBidResource(BelowThresholdTenderBidResource):
         permission="create_bid",
         validators=(
             validate_accreditation_level(
-                levels=(ACCR_2,),
+                levels=(AccreditationLevel.ACCR_2,),
                 item="bid",
                 operation="creation",
             ),

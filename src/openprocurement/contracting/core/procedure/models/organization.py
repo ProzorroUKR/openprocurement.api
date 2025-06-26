@@ -36,6 +36,7 @@ class Organization(Model):
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
     address = ModelType(Address)
     contactPoint = ModelType(ContactPoint)
+    contract_owner = StringType()
 
 
 class Supplier(Organization):

@@ -32,7 +32,7 @@ msgid "Just invoking it reveals an empty set."
 msgstr "При виклику видає пустий набір."
 
 msgid "Contract is transferred from the tender system by an automated process. The circumstances under which this happens are described below."
-msgstr "Перенесення договору із системи закупівель відбувається автоматично.Обставини за яких вібувається перенесення, описані нижче."
+msgstr "Перенесення договору із системи закупівель відбувається автоматично. Обставини за яких вібувається перенесення, описані нижче."
 
 msgid "Creating contract"
 msgstr "Створення договору"
@@ -53,7 +53,7 @@ msgid "A PQ contract is created with additional fields:"
 msgstr "Договір PQ створюється з додатковими полями:"
 
 msgid "`attributes` - formed from requirements and responses in tender"
-msgstr "`attributes` - формується з вимог та відповідей на виомги у закупівлі"
+msgstr "`attributes` - формується з вимог та відповідей на вимоги у закупівлі"
 
 msgid "Getting contract"
 msgstr "Отримання договору"
@@ -65,7 +65,7 @@ msgid "*Contract id is the same in both tender and contract system.*"
 msgstr "*Ідентифікатор `id` договору однаковий в системах закупівель та договорів.*"
 
 msgid "Let's access the URL of the created object:"
-msgstr "Спробуємо доступитись до URL створеного об’єкта:"
+msgstr "Спробуємо отримати створений об’єкт по URL:"
 
 msgid "Getting access"
 msgstr "Отримання доступу"
@@ -248,7 +248,7 @@ msgid "All you need, it's just patch award status to ``cancelled``"
 msgstr "Все що потрібно, це змінити статус award на ``cancelled``"
 
 msgid "Tender contract **automatically** turned to ``cancelled``"
-msgstr "Договір у системі закупівель **автомтично** перейде до ``cancelled``"
+msgstr "Договір у системі закупівель **автоматично** перейде до ``cancelled``"
 
 msgid "Contract in contracting also **automatically** turned to ``cancelled``"
 msgstr "Договір у системі договорів також **автоматично** перейде до ``cancelled``"

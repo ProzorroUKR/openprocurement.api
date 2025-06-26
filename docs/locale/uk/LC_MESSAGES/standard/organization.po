@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-20 11:10+0300\n"
+"POT-Creation-Date: 2025-06-13 17:50+0300\n"
 "PO-Revision-Date: 2019-10-02 21:20+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -102,13 +102,58 @@ msgstr ""
 msgid ":ref:`ORGANIZATION_SCALE_FROM` constant"
 msgstr ""
 
-msgid "EContractOrganization"
+msgid "Tenderer"
 msgstr ""
 
 msgid "signerInfo"
 msgstr ""
 
 msgid ":ref:`SignerInfo`"
+msgstr ""
+
+msgid "contract_owner"
+msgstr ""
+
+msgid "string"
+msgstr "рядок"
+
+msgid "Could be one of the brokers which has the 6th level of accreditation"
+msgstr "Може бути вказаний один з майданчиків, який отримав 6 рівень акредитації"
+
+msgid "Buyer"
+msgstr ""
+
+msgid ":ref:`ContactPoint`, optionally can be added to buyers only"
+msgstr ""
+
+msgid "kind"
+msgstr ""
+
+msgid "Possible values:"
+msgstr "Можливі значення:"
+
+msgid "``authority`` - Public authority, local government or law enforcement agency"
+msgstr "``authority`` - Орган державної влади, місцевого самоврядування або правоохоронний орган"
+
+msgid "``central`` - Legal entity that conducts procurement in the interests of the customers (CPB)"
+msgstr "``central`` - Юридична особа, що здійснює закупівлі в інтересах замовників (ЦЗО)"
+
+msgid "``defense`` - Procuring entity that conducts procurement for the defense needs"
+msgstr "``defense`` - Замовник, що здійснює закупівлі для потреб оборони"
+
+msgid "``general`` - Legal person providing the needs of the state or territorial community"
+msgstr "``general`` - Юридична особа, яка забезпечує потреби держави або територіальної громади"
+
+msgid "``other`` -  State or utility company that is not regarded as procuring entity"
+msgstr "``other`` - Державне або комунальне підприємство, яке не належить до замовників"
+
+msgid "``social`` - Social insurance authority"
+msgstr "``social`` - Орган соціального страхування"
+
+msgid "``special`` - A legal entity that operates in one or more specific business areas"
+msgstr "``special`` - Юридична особа, яка здійснює діяльність в одній або декількох окремих сферах господарювання"
+
+msgid "EContractOrganization"
 msgstr ""
 
 msgid "Identifier"
@@ -158,9 +203,6 @@ msgstr ""
 
 msgid "streetAddress"
 msgstr ""
-
-msgid "string"
-msgstr "рядок"
 
 msgid "|ocdsDescription| The street address. For example, 1600 Amphitheatre Pkwy."
 msgstr "|ocdsDescription| Вулиця. Наприклад, вул.Хрещатик, 22."

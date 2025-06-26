@@ -7,6 +7,7 @@ from hashlib import sha512
 from typing import Callable
 
 from pyramid.httpexceptions import HTTPError
+from pyramid.interfaces import IAuthenticationPolicy
 from pyramid.request import Request
 from schematics.exceptions import ValidationError
 from schematics.types import (
@@ -18,7 +19,7 @@ from schematics.types import (
     StringType,
 )
 
-from openprocurement.api.auth import extract_access_token
+from openprocurement.api.auth import AccreditationLevel, extract_access_token
 from openprocurement.api.constants import (
     ATC_SCHEME,
     CCCE_UA_SCHEME,
@@ -34,6 +35,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.constants_env import (
     CONFIDENTIAL_EDRPOU_LIST,
+    CONTRACT_OWNER_REQUIRED_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     RELEASE_2020_04_19,
@@ -1573,12 +1575,45 @@ def validate_signer_info_container(request, tender, container, container_name):
 
 def validate_signer_info(request, tender, organization, field_name, field_index=None) -> None:
     signer_info = organization.get("signerInfo")
+    contract_owner = organization.get("contract_owner")
     contract_template_name = tender.get("contractTemplateName")
+    field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
     if tender_created_after(TENDER_SIGNER_INFO_REQUIRED_FROM) and contract_template_name and not signer_info:
-        field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
         raise_operation_error(
             request,
             {"signerInfo": BaseType.MESSAGES["required"]},
             name=field_path,
             status=422,
         )
+    if contract_owner is not None:
+        if not contract_template_name or not signer_info:
+            raise_operation_error(
+                request,
+                {"contract_owner": "could be set only along with signerInfo and contractTemplateName"},
+                name=field_path,
+                status=422,
+            )
+        if contract_owner not in get_contract_owner_choices():
+            raise_operation_error(
+                request,
+                {"contract_owner": "should be one of brokers with level 6"},
+                name=field_path,
+                status=422,
+            )
+    elif tender_created_after(CONTRACT_OWNER_REQUIRED_FROM) and contract_template_name and signer_info:
+        raise_operation_error(
+            request,
+            {"contract_owner": BaseType.MESSAGES["required"]},
+            name=field_path,
+            status=422,
+        )
+
+
+def get_contract_owner_choices():
+    request = get_request()
+    policy = request.registry.queryUtility(IAuthenticationPolicy)
+    users = []
+    for user in policy.users.values():
+        if user["group"] == "brokers" and AccreditationLevel.ACCR_6 in user["level"]:
+            users.append(user["name"])
+    return users

@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.validation import (
     validate_accreditation_level,
     validate_config_data,
@@ -45,8 +45,8 @@ class ElectronicCatalogueFrameworkResource(FrameworksResource):
             validate_input_data(PostFramework),
             validate_config_data(),
             validate_accreditation_level(
-                levels=(ACCR_1, ACCR_3, ACCR_5),
-                kind_central_levels=(ACCR_5,),
+                levels=(AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
+                kind_central_levels=(AccreditationLevel.ACCR_5,),
                 item="framework",
                 operation="creation",
                 source="data",

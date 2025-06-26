@@ -1,7 +1,7 @@
 from schematics.exceptions import ValidationError
 from simplejson import JSONDecodeError
 
-from openprocurement.api.auth import ACCR_EXIT, ACCR_TEST, check_user_accreditations
+from openprocurement.api.auth import AccreditationPermission, check_user_accreditations
 from openprocurement.api.utils import (
     error_handler,
     get_first_revision_date,
@@ -55,7 +55,7 @@ def validate_accreditation_level_base(request, levels, name, action):
 
 
 def validate_accreditation_level_mode(request, mode, name, action):
-    if mode is None and request.check_accreditations((ACCR_TEST,)):
+    if mode is None and request.check_accreditations((AccreditationPermission.ACCR_TEST,)):
         request.errors.add(
             "url",
             "mode",
@@ -66,7 +66,7 @@ def validate_accreditation_level_mode(request, mode, name, action):
 
 
 def validate_accreditation_level_owner(request, owner, location, name, action):
-    if not check_user_accreditations(request, owner, (ACCR_EXIT,), default=True):
+    if not check_user_accreditations(request, owner, (AccreditationPermission.ACCR_EXIT,), default=True):
         request.errors.add(
             "url",
             "accreditation",

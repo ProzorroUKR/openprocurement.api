@@ -1,7 +1,7 @@
 from copy import deepcopy
 from logging import getLogger
 
-from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants_env import CRITERIA_CLASSIFICATION_UNIQ_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_tender
@@ -58,9 +58,9 @@ LOGGER = getLogger(__name__)
 
 
 class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
-    tender_create_accreditations = (ACCR_1, ACCR_5)
-    tender_central_accreditations = (ACCR_5,)
-    tender_edit_accreditations = (ACCR_2,)
+    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
 
     agreement_min_active_contracts = MIN_ACTIVE_CONTRACTS
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END

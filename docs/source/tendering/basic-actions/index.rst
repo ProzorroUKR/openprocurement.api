@@ -28,4 +28,5 @@ Contents:
    2pc
    sign-data
    contract-template-name
+   contract-owner
 
