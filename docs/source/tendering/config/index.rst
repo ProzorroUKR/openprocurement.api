@@ -29,3 +29,7 @@ Contents:
    clarification_until_duration
    qualification_duration
    restricted
+   enquiry_period_regulation
+   has_enquiries
+   min_enquiries_duration
+   min_tendering_duration

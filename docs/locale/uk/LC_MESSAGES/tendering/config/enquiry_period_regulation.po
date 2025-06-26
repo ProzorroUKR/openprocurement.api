@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C)
 # This file is distributed under the same license as the openprocurement.api package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 #, fuzzy
 msgid ""
@@ -19,14 +19,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-msgid "hasTenderComplaints"
+msgid "enquiryPeriodRegulation"
 msgstr ""
 
-msgid "Field `hasTenderComplaints` is a boolean field that indicates the presence or absence of a complaint about the terms of the tender documentation in the procurement."
-msgstr "Поле `hasTenderComplaints` є булевим полем, яке визначає наявність або відсутність у закупівлі оскарження (звернення до АМКУ за допомогою скарги) умов тендерної документації."
+msgid "Field `enquiryPeriodRegulation` is an integer field that sets the number of days from the end of the enquiry period to the end of the tendering period."
+msgstr "Поле `enquiryPeriodRegulation` є цифровим полем, що визначає кількість днів між кінцевою датою обговорення умов та кінцевим строком подання пропозицій."
 
-msgid "Possible values for `hasTenderComplaints` field depends on `procurementMethodType` field:"
-msgstr "Можливі значення для поля `hasTenderComplaints` залежать від поля `procurementMethodType`."
+msgid "Possible values for `enquiryPeriodRegulation` field depends on `procurementMethodType` field:"
+msgstr "Можливі значення для поля `enquiryPeriodRegulation` залежать від поля `procurementMethodType`."
 
 msgid "procurementMethodType"
 msgstr ""
@@ -37,16 +37,22 @@ msgstr ""
 msgid "default"
 msgstr ""
 
+msgid "days"
+msgstr ""
+
 msgid "aboveThreshold"
 msgstr ""
 
-msgid "true"
+msgid "3"
+msgstr ""
+
+msgid "calendar"
 msgstr ""
 
 msgid "competitiveOrdering.short"
 msgstr ""
 
-msgid "false"
+msgid "0"
 msgstr ""
 
 msgid "competitiveOrdering.long"
@@ -55,7 +61,13 @@ msgstr ""
 msgid "aboveThresholdEU"
 msgstr ""
 
+msgid "10"
+msgstr ""
+
 msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "working"
 msgstr ""
 
 msgid "aboveThresholdUA"
@@ -100,20 +112,9 @@ msgstr ""
 msgid "simple.defense"
 msgstr ""
 
+msgid "5"
+msgstr ""
+
 msgid "requestForProposal"
 msgstr ""
 
-msgid "hasTenderComplaints is `false`"
-msgstr ""
-
-msgid "Example tutorials:"
-msgstr "Приклад використання:"
-
-msgid ":ref:`competitiveordering` → :ref:`competitiveordering_tutorial`"
-msgstr ""
-
-msgid "hasTenderComplaints is `true`"
-msgstr ""
-
-msgid ":ref:`open` → :ref:`open_tutorial`"
-msgstr ""

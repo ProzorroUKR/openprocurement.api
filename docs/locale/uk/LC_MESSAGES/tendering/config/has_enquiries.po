@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C)
 # This file is distributed under the same license as the openprocurement.api package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 #, fuzzy
 msgid ""
@@ -19,14 +19,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-msgid "hasTenderComplaints"
+msgid "hasEnquiries"
 msgstr ""
 
-msgid "Field `hasTenderComplaints` is a boolean field that indicates the presence or absence of a complaint about the terms of the tender documentation in the procurement."
-msgstr "Поле `hasTenderComplaints` є булевим полем, яке визначає наявність або відсутність у закупівлі оскарження (звернення до АМКУ за допомогою скарги) умов тендерної документації."
+msgid "Field `hasEnquiries` is a boolean field that indicates whether the tender has a separate enquiries period (active.enquiries) that lasts before tendering period (active.tendering)."
+msgstr "Поле `hasAwardingOrder` є булевим полем, яке вказує на наявність або відсутність у закупівлі окремого етапу обговорення умов тендерної документації (active.enquiries) що проходить перед етапом подання пропозицій (active.tendering)"
 
-msgid "Possible values for `hasTenderComplaints` field depends on `procurementMethodType` field:"
-msgstr "Можливі значення для поля `hasTenderComplaints` залежать від поля `procurementMethodType`."
+msgid "Possible values for `hasEnquiries` field depends on `procurementMethodType` field:"
+msgstr "Можливі значення для поля `hasEnquiries` залежать від поля `procurementMethodType`."
 
 msgid "procurementMethodType"
 msgstr ""
@@ -40,13 +40,10 @@ msgstr ""
 msgid "aboveThreshold"
 msgstr ""
 
-msgid "true"
+msgid "false"
 msgstr ""
 
 msgid "competitiveOrdering.short"
-msgstr ""
-
-msgid "false"
 msgstr ""
 
 msgid "competitiveOrdering.long"
@@ -62,6 +59,9 @@ msgid "aboveThresholdUA"
 msgstr ""
 
 msgid "belowThreshold"
+msgstr ""
+
+msgid "true"
 msgstr ""
 
 msgid "closeFrameworkAgreementSelectionUA"
@@ -103,17 +103,3 @@ msgstr ""
 msgid "requestForProposal"
 msgstr ""
 
-msgid "hasTenderComplaints is `false`"
-msgstr ""
-
-msgid "Example tutorials:"
-msgstr "Приклад використання:"
-
-msgid ":ref:`competitiveordering` → :ref:`competitiveordering_tutorial`"
-msgstr ""
-
-msgid "hasTenderComplaints is `true`"
-msgstr ""
-
-msgid ":ref:`open` → :ref:`open_tutorial`"
-msgstr ""

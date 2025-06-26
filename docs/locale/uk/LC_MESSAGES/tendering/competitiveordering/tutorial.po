@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-19 17:50+0200\n"
+"POT-Creation-Date: 2025-06-26 11:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -35,22 +35,25 @@ msgstr ""
 msgid "default"
 msgstr ""
 
+msgid "days"
+msgstr ""
+
 msgid "hasAuction"
 msgstr ""
 
 msgid "true,false"
 msgstr ""
 
-msgid "true"
+msgid "false"
 msgstr ""
 
 msgid "hasAwardingOrder"
 msgstr ""
 
-msgid "hasValueRestriction"
+msgid "true"
 msgstr ""
 
-msgid "false"
+msgid "hasValueRestriction"
 msgstr ""
 
 msgid "valueCurrencyEquality"
@@ -104,10 +107,25 @@ msgstr ""
 msgid "clarificationUntilDuration"
 msgstr ""
 
-msgid "3"
+msgid "qualificationDuration"
 msgstr ""
 
-msgid "qualificationDuration"
+msgid "minTenderingDuration"
+msgstr ""
+
+msgid "2"
+msgstr ""
+
+msgid "working"
+msgstr ""
+
+msgid "hasEnquiries"
+msgstr ""
+
+msgid "minEnquiriesDuration"
+msgstr ""
+
+msgid "enquiryPeriodRegulation"
 msgstr ""
 
 msgid "restricted"
@@ -130,12 +148,6 @@ msgstr "Використаємо `agreement` для прикладу:"
 
 msgid "We can create tender connected to this agreement:"
 msgstr "Ми можемо створити тендер, вказавши цей `agreement`:"
-
-msgid "Tender `competitiveOrdering` does not contain an appeal in the form of filing a complaint with the AMCU at any stage where such an appeal arises (follow configurations description :ref:`tender_complaints`, :ref:`award_complaints`, :ref:`cancellation_complaints`)."
-msgstr "Тендер `competitiveOrdering` не містить оскарження у вигляді подання скарг до АМКУ на будь якому етапі, де таке оскарження виникає (дивитись опис конфігурацій :ref:`tender_complaints`, :ref:`award_complaints`, :ref:`cancellation_complaints`)."
-
-msgid "That's why there is no `complaintPeriod` in tender body after it was created. If we try to add complaint about tender, we will see the error:"
-msgstr "Тому в тендері немає `complaintPeriod` після створення. Якщо ми спробуємо подати скаргу на тендер, ми побачимо помилку:"
 
 msgid "Also you will need to update data about item's related lots:"
 msgstr "Також необхідно відредагувати дані `relatedLot` в `items`:"
@@ -253,4 +265,7 @@ msgstr "`qualified: False` - при переході award з `pending` в `unsu
 
 msgid "As `competitiveOrdering` doesn't have ARTICLE 17 criteria, it is forbidden to set field `eligible` for award."
 msgstr "Так як тендер `competitiveOrdering` не має критеріїв статті 17, заборонено передавали поле `eligible` для авардів."
+
+#~ msgid "3"
+#~ msgstr ""
 

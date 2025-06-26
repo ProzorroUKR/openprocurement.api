@@ -259,7 +259,7 @@ class TenderConfigCSVMixin:
             return empty
 
 
-class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
+class TenderConfigBaseTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -319,7 +319,7 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
         self.assertEqual(response.status, '200 OK')
 
 
-class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
+class HasAuctionTenderConfigTest(TenderConfigBaseTest):
     initial_config = test_tender_open_config
 
     def test_docs_has_auction_values_csv(self):
@@ -657,7 +657,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.json["data"]["status"], 'complete')
 
 
-class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
+class HasAwardingTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_value_restriction_values_csv(self):
         self.write_config_values_csv(
             config_name="hasAwardingOrder",
@@ -1273,7 +1273,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '200 OK')
 
 
-class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
+class HasValueEstimationTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_value_estimation_values_csv(self):
         self.write_config_values_csv(
             config_name="hasValueEstimation",
@@ -1364,7 +1364,7 @@ class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '200 OK')
 
 
-class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
+class HasValueRestrictionTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_value_restriction_values_csv(self):
         self.write_config_values_csv(
             config_name="hasValueRestriction",
@@ -1576,7 +1576,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, "201 Created")
 
 
-class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
+class ValueCurrencyEqualityTenderConfigTest(TenderConfigBaseTest):
     def test_docs_value_currency_equality_values_csv(self):
         self.write_config_values_csv(
             config_name="valueCurrencyEquality",
@@ -1854,7 +1854,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '200 OK')
 
 
-class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
+class MinBidsNumberTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_min_bids_number_values_csv(self):
@@ -2155,7 +2155,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.json['data']['status'], 'active.qualification')
 
 
-class TenderComplainRegulationResourceTest(TenderConfigBaseResourceTest):
+class ComplainRegulationTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
     initial_config = deepcopy(test_tender_rfp_config)
 
@@ -2247,7 +2247,7 @@ class TenderComplainRegulationResourceTest(TenderConfigBaseResourceTest):
             self.assertNotIn("complaintPeriod", response.json["data"])
 
 
-class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
+class HasPrequalificationTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_prequalification_values_csv(self):
         self.write_config_values_csv(
             config_name="hasPrequalification",
@@ -2255,7 +2255,7 @@ class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
         )
 
 
-class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest, FrameworkActionsTestMixin):
+class HasPreSelectionAgreementTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin):
     framework_type = DPS_TYPE
 
     def test_docs_has_pre_selection_agreement_values_csv(self):
@@ -2331,7 +2331,7 @@ class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest, F
             self.assertEqual(response.json['errors'][0]['description'], "Agreement type mismatch.")
 
 
-class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
+class ComplaintsTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_pre_selection_agreement_values_csv(self):
         for config_name in ("hasTenderComplaints", "hasAwardComplaints", "hasCancellationComplaints"):
             self.write_config_values_csv(
@@ -2340,7 +2340,7 @@ class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
             )
 
 
-class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTest):
+class QualificationComplainDurationTenderConfigTest(TenderConfigBaseTest):
     periods = PERIODS
 
     def test_docs_qualification_complain_duration_values_csv(self):
@@ -2565,7 +2565,7 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
                 self.assertEqual(time_diff.days, 5)
 
 
-class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
+class QualificationDurationTenderConfigTest(TenderConfigBaseTest):
     periods = PERIODS
 
     def test_docs_qualification_duration_values_csv(self):
@@ -2734,7 +2734,7 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(end_date, calculated_end_date)
 
 
-class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkActionsTestMixin):
+class RestrictedTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin):
     initial_auth = ("Basic", ("brokerr", ""))
     framework_type = DPS_TYPE
 
@@ -2986,7 +2986,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
         assert response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"] != MASK_STRING
 
 
-class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
+class AwardComplainDurationTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_award_complain_duration_values_csv(self):
@@ -3132,7 +3132,7 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
             self.assertIn("complaintPeriod", response.json["data"])
 
 
-class TenderCancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
+class CancellationComplainDurationTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_cancellation_complain_duration_values_csv(self):
@@ -3278,7 +3278,7 @@ class TenderCancellationComplainDurationResourceTest(TenderConfigBaseResourceTes
             self.assertNotIn("complaintPeriod", response.json["data"])
 
 
-class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
+class CancellationComplainDurationTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_cancellation_complain_duration_values_csv(self):
@@ -3479,7 +3479,7 @@ class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
             self.assertNotIn("complaintPeriod", response.json["data"])
 
 
-class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest):
+class ClarificationUntilDurationTenderConfigTest(TenderConfigBaseTest):
 
     def test_docs_clarification_until_duration_values_csv(self):
         self.write_config_values_csv(
@@ -3540,3 +3540,39 @@ class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest)
             self.assertEqual(
                 expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
             )
+
+
+class MinTenderingDurationTenderConfigTest(TenderConfigBaseTest):
+
+    def test_docs_min_tendering_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="minTenderingDuration",
+            file_path=TARGET_CSV_DIR + "min-tendering-duration-values.csv",
+        )
+
+
+class HasEnquiriesTenderConfigTest(TenderConfigBaseTest):
+
+    def test_docs_has_enquiries_values_csv(self):
+        self.write_config_values_csv(
+            config_name="hasEnquiries",
+            file_path=TARGET_CSV_DIR + "has-enquiries-values.csv",
+        )
+
+
+class MinEnquiriesDurationTenderConfigTest(TenderConfigBaseTest):
+
+    def test_docs_min_enquiries_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="minEnquiriesDuration",
+            file_path=TARGET_CSV_DIR + "min-enquiries-duration-values.csv",
+        )
+
+
+class EnquiryPeriodRegulationTenderConfigTest(TenderConfigBaseTest):
+
+    def test_docs_enquiry_period_regulation_values_csv(self):
+        self.write_config_values_csv(
+            config_name="enquiryPeriodRegulation",
+            file_path=TARGET_CSV_DIR + "enquiry-period-regulation-values.csv",
+        )
