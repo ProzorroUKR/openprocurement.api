@@ -71,6 +71,9 @@ from openprocurement.tender.competitiveordering.constants import (
 from openprocurement.tender.competitiveordering.constants import (
     SHORT_WORKING_DAYS_CONFIG as CO_SHORT_WORKING_DAYS_CONFIG,
 )
+from openprocurement.tender.competitiveordering.constants import (
+    WORKING_DAYS_CONFIG as CO_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.competitiveordering.tests.long.base import (
     test_tender_co_long_config,
     test_tender_co_long_criteria,
@@ -130,6 +133,7 @@ TARGET_CSV_DIR = 'docs/source/tendering/config/csv/'
 class TenderConfigCSVMixin:
     pmts = {
         "aboveThreshold": OPEN_WORKING_DAYS_CONFIG,
+        "competitiveOrdering": CO_WORKING_DAYS_CONFIG,
         "competitiveOrdering.short": CO_SHORT_WORKING_DAYS_CONFIG,
         "competitiveOrdering.long": CO_LONG_WORKING_DAYS_CONFIG,
         "aboveThresholdEU": OPENEU_WORKING_DAYS_CONFIG,
@@ -152,7 +156,6 @@ class TenderConfigCSVMixin:
     }
 
     def write_config_values_csv(self, config_name, file_path):
-
         headers = [
             "procurementMethodType",
             "values",
@@ -163,8 +166,8 @@ class TenderConfigCSVMixin:
         if show_days:
             headers.append("days")
 
+        # Generate rows
         rows = []
-
         for pmt in self.pmts:
             schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
             config_schema = schema["properties"][config_name]
@@ -172,6 +175,7 @@ class TenderConfigCSVMixin:
             row = self.get_config_row(pmt, config_schema, show_days=show_days, working_days=config_working_days)
             rows.append(row)
 
+        # Write to file
         with open(file_path, 'w', newline='') as file_csv:
             writer = csv.writer(file_csv, lineterminator='\n')
             writer.writerow(headers)
@@ -185,19 +189,34 @@ class TenderConfigCSVMixin:
             "days",
         ]
 
-        rows = []
-
         schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
 
+        # Generate rows
+        rows = []
         for config_name, config_schema in schema["properties"].items():
             config_working_days = self.pmts.get(pmt, {}).get(config_name)
             row = self.get_config_row(config_name, config_schema, show_days=True, working_days=config_working_days)
             rows.append(row)
 
+        # Determine which columns have data (non-empty values)
+        column_has_data = [False] * len(headers)
+        for row in rows:
+            for i, value in enumerate(row):
+                if value and value != "":
+                    column_has_data[i] = True
+
+        # Filter headers and rows to only include columns with data
+        filtered_headers = [header for i, header in enumerate(headers) if column_has_data[i]]
+        filtered_rows = []
+        for row in rows:
+            filtered_row = [value for i, value in enumerate(row) if column_has_data[i]]
+            filtered_rows.append(filtered_row)
+
+        # Write to file
         with open(file_path, 'w', newline='') as file_csv:
             writer = csv.writer(file_csv, lineterminator='\n')
-            writer.writerow(headers)
-            writer.writerows(rows)
+            writer.writerow(filtered_headers)
+            writer.writerows(filtered_rows)
 
     def write_config_mask_csv(self, mapping, file_path):
         headers = [
@@ -230,19 +249,31 @@ class TenderConfigCSVMixin:
 
         # days
         if show_days:
-            if working_days is not None and config_default == 0:
-                row.append("")
-            elif working_days is True:
-                row.append("working")
-            elif working_days is False:
-                row.append("calendar")
-            else:
-                row.append("")
+            row.append(self.get_working_days_values(working_days, config_default))
 
         return row
 
+    def get_working_days_values(self, working_days, config_default):
+        separator = " / "
+        if working_days is not None and config_default == 0:
+            return ""
+        elif working_days is True:
+            return "working"
+        elif working_days is False:
+            return "calendar"
+        elif isinstance(working_days, list):
+            return separator.join(
+                map(
+                    self.get_working_days_values,
+                    working_days,
+                    [config_default] * len(working_days),
+                )
+            )
+        else:
+            return ""
+
     def get_config_possible_values(self, config_schema):
-        separator = ","
+        separator = " / "
         empty = ""
         if "enum" in config_schema:
             config_values_enum = config_schema.get("enum", "")
@@ -1138,9 +1169,7 @@ class HasAwardingTenderConfigTest(TenderConfigBaseTest):
                     'bids': [
                         {
                             "id": b["id"],
-                            "lotValues": [
-                                {"value": lot["value"], "relatedLot": lot["relatedLot"]} for lot in b["lotValues"]
-                            ],
+                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
                         }
                         for b in auction_bids_data
                     ]

@@ -22,6 +22,15 @@ UA_KINDS = ("authority", "central", "defense", "general", "social", "special")
 
 COMPETITIVE_ORDERING = "competitiveOrdering"
 
+WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": [True, False],
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": False,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}
+
 SHORT_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": True,
     "minEnquiriesDuration": False,
