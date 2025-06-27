@@ -181,7 +181,10 @@ class AwardStateMixing:
             if period and (not period.get("endDate") or period["endDate"] > now):
                 period["endDate"] = now
         self.set_object_status(award, "cancelled")
-        self.request.validated["contracts_cancelled"] = self.set_award_contracts_cancelled(award)
+
+        contracts_cancelled = self.request.validated.get("contracts_cancelled", [])
+        contracts_cancelled.extend(self.set_award_contracts_cancelled(award))
+        self.request.validated["contracts_cancelled"] = contracts_cancelled
 
     # helpers
     @classmethod
