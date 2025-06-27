@@ -1,8 +1,8 @@
 name,values,default,days
-hasAuction,"true,false",true,
-hasAwardingOrder,"true,false",true,
-hasValueRestriction,"true,false",false,
-valueCurrencyEquality,"true,false",true,
+hasAuction,true / false,true,
+hasAwardingOrder,true / false,true,
+hasValueRestriction,true / false,false,
+valueCurrencyEquality,true / false,true,
 hasPrequalification,false,false,
 minBidsNumber,1,1,
 hasPreSelectionAgreement,true,true,
@@ -21,4 +21,4 @@ minTenderingDuration,7,7,calendar
 hasEnquiries,false,false,
 minEnquiriesDuration,0,0,
 enquiryPeriodRegulation,3,3,calendar
-restricted,"false,true",false,
+restricted,false / true,false,

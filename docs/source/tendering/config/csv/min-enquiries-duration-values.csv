@@ -1,5 +1,6 @@
 procurementMethodType,values,default,days
 aboveThreshold,0,0,
+competitiveOrdering,0,0,
 competitiveOrdering.short,0,0,
 competitiveOrdering.long,0,0,
 aboveThresholdEU,0,0,
