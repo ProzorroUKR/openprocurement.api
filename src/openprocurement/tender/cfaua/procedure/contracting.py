@@ -33,8 +33,8 @@ def save_agreements_agreement(tender_agreement: dict) -> None:
     agreement = deepcopy(tender_agreement)
 
     agreement_data = AgreementSerializer(agreement).data
-    agreement_data = clean_agreement(agreement_data)
     agreement_data.update(get_additional_agreements_data(tender, tender_agreement))
+    agreement_data = clean_agreement(agreement_data)
 
     agreement = PostAgreement(agreement_data).serialize()
     agreement["config"] = {
@@ -50,4 +50,6 @@ def clean_agreement(agreement: dict) -> dict:
     for doc in agreement.get("documents", ""):
         for field in documents_delete_fields:
             doc.pop(field, None)
+    for field_name in ("signerInfo", "contract_owner"):
+        agreement.get("procuringEntity", {}).pop(field_name, None)
     return agreement

@@ -413,7 +413,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 continue
             suppliers = deepcopy(award["suppliers"])
             for supplier in suppliers:
-                supplier.pop("signerInfo", None)
+                for field_name in ("signerInfo", "contract_owner"):
+                    supplier.pop(field_name, None)
             data["contracts"].append(
                 {
                     "id": uuid4().hex,
