@@ -210,6 +210,7 @@ class BaseTenderDetailsMixing:
     should_validate_profiles_agreement_id = False
     should_match_agreement_procuring_entity = True
     should_validate_notice_doc_required = False
+    should_validate_evaluation_reports_doc_required = True
     agreement_field = "agreements"
     should_validate_lot_minimal_step = True
     tender_complain_regulation_working_days = False
@@ -699,7 +700,9 @@ class BaseTenderDetailsMixing:
                         "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints",
                     )
 
-                if tender_created_after(EVALUATION_REPORTS_DOC_REQUIRED_FROM):
+                if self.should_validate_evaluation_reports_doc_required and tender_created_after(
+                    EVALUATION_REPORTS_DOC_REQUIRED_FROM
+                ):
                     validate_doc_type_required(
                         get_tender().get("documents", []),
                         document_type="evaluationReports",
