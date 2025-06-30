@@ -631,62 +631,9 @@ def check_notice_doc_during_activation(self):
     self.tender_token = response.json["access"]["token"]
     self.assertNotIn("noticePublicationDate", response.json["data"])
 
-    request_path = f"/tenders/{self.tender_id}?acc_token={self.tender_token}"
+    # document notice is not required CS-19667
     response = self.app.patch_json(
-        request_path,
-        {"data": {"status": "active.enquiries"}},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Document with type 'notice' and format pkcs7-signature is required"
-    )
-
-    # let's add sign doc
-    response = self.app.post_json(
-        f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
-        {
-            "data": {
-                "title": "sign.p7s",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/pdf",
-                "documentType": "notice",
-            }
-        },
-    )
-    doc_id = response.json["data"]["id"]
-
-    # put document title
-    self.app.put_json(
-        f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}",
-        {
-            "data": {
-                "title": "new.txt",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/pdf",
-                "documentType": "notice",
-            }
-        },
-    )
-
-    # try to activate tender
-    response = self.app.patch_json(
-        request_path,
-        {"data": {"status": "active.enquiries"}},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Document with type 'notice' and format pkcs7-signature is required"
-    )
-    # patch title
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}",
-        {"data": {"title": "sign-2.p7s"}},
-    )
-
-    response = self.app.patch_json(
-        request_path,
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
         {"data": {"status": "active.enquiries"}},
     )
 

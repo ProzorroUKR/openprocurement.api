@@ -5,4 +5,4 @@ from openprocurement.tender.requestforproposal.procedure.state.tender import (
 
 
 class AwardState(AwardStateMixing, RequestForProposalTenderState):
-    pass
+    sign_award_required = False
