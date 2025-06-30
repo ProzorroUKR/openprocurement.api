@@ -21,11 +21,7 @@ class EContractState(BaseContractState):
             self.validate_required_all_participants_signatures(data)
 
     def validate_required_all_participants_signatures(self, data: dict) -> None:
-        tender = self.request.validated["tender"]
-        if tender.get("procurementMethodType") not in ("reporting", "negotiation", "negotiation.quick"):
-            suppliers_count = len(data.get("suppliers", []))
-        else:
-            suppliers_count = 0
+        suppliers_count = len(data.get("suppliers", []))
         participants_count = suppliers_count + 1  # all suppliers + buyer signature
         signs_count = len([doc for doc in data.get("documents", []) if doc.get("documentType") == "contractSignature"])
         if signs_count != participants_count:

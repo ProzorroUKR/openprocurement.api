@@ -40,16 +40,12 @@ class EContractDocumentState(BaseContractDocumentState):
         )
 
     def activate_contract_if_signed(self, doc):
-        tender = self.request.validated["tender"]
         contract = self.request.validated["contract"]
 
         docs = deepcopy(contract.get("documents", []))
         docs.append(doc)
 
-        if tender.get("procurementMethodType") not in ("reporting", "negotiation", "negotiation.quick"):
-            suppliers_count = len(contract.get("suppliers", []))
-        else:
-            suppliers_count = 0
+        suppliers_count = len(contract.get("suppliers", []))
         participants_count = suppliers_count + 1  # all suppliers + buyer signature
         signs_count = len([doc for doc in docs if doc.get("documentType") == "contractSignature"])
         if signs_count == participants_count:
