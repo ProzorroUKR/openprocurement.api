@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-24 04:58+0200\n"
+"POT-Creation-Date: 2025-06-30 12:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -166,17 +166,11 @@ msgstr "Потрібно оновити дані пов’язані із зал
 msgid "Tender activating"
 msgstr "Активація закупівлі"
 
-msgid "Before activating tender it is required to add sign document to tender. If there is no sign document during activation, we will see an error:"
-msgstr "Перед активацією тендера необхідно обов'язково додати файл підпису. Якщо такого документу нема, під час активації буде помилка:"
-
-msgid "Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:"
-msgstr "Файл підпису повинен мати `documentType: notice` та `title: *.p7s`. Додамо такий документ:"
-
 msgid "For activating tender you should update status to ``active.enquiries``:"
 msgstr "Для активації процедури потрібно перевести її статус в ``active.enquiries``:"
 
 msgid "We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
-msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/\"-\"tenders/`) та її `dateModified` дату."
+msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/tenders/`) та її `dateModified` дату."
 
 msgid "Creating second tender"
 msgstr "Створення другої закупівлі"
@@ -385,13 +379,7 @@ msgstr "Спробуємо відхилити авард для `qualified` уч
 msgid "Let's try to set `active` status for `non-qualified` award and we will see an error:"
 msgstr "Спробуємо винести рішення по переможцю по аварду для `non-qualified` учасника:"
 
-msgid "Before making decision it is required to add sign document to award. If there is no sign document during activation, we will see an error:"
-msgstr "Перед прийняттям рішення по переможцю необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час активації буде помилка:"
-
-msgid "The same logic for `unsuccessful` status:"
-msgstr "Така сама логіка при відхилені аварду:"
-
-msgid "Qualification comission registers its decision via the following call:"
+msgid "Qualification commission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення через такий виклик:"
 
 msgid "Setting Contract"

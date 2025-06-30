@@ -121,7 +121,7 @@ msgid "We can see the same response we got after creating tender."
 msgstr "Ми бачимо ту ж відповідь, що і після створення закупівлі."
 
 msgid "We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
-msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/\"-\"tenders/`) та її `dateModified` дату."
+msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/tenders/`) та її `dateModified` дату."
 
 msgid "The previous tender contained only required fields. Let's try creating tender with more data (tender has status `created`):"
 msgstr "Попередня закупівля була створена лише з обов’язковими полями. Тепер додамо закупівлю з максимально допустимим набором даних при створенні (тендер повинен бути у статусі `created`):"
