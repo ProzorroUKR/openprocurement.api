@@ -74,17 +74,6 @@ Also you will need to update data about item's related lots:
 Tender activating
 ~~~~~~~~~~~~~~~~~
 
-Before activating tender it is required to add sign document to tender.
-If there is no sign document during activation, we will see an error:
-
-.. http:example:: http/tutorial/notice-document-required.http
-   :code:
-
-Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
-
-.. http:example:: http/tutorial/add-notice-document.http
-   :code:
-
 For activating tender you should update status to ``active.enquiries``:
 
 .. http:example:: http/tutorial/tender-activating.http
@@ -379,23 +368,7 @@ Let's try to set `active` status for `non-qualified` award and we will see an er
 .. http:example:: http/tutorial/activate-non-qualified-award.http
    :code:
 
-Before making decision it is required to add sign document to award.
-If there is no sign document during activation, we will see an error:
-
-.. http:example:: http/tutorial/award-notice-document-required.http
-   :code:
-
-The same logic for `unsuccessful` status:
-
-.. http:example:: http/tutorial/award-unsuccessful-notice-document-required.http
-   :code:
-
-Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
-
-.. http:example:: http/tutorial/award-add-notice-document.http
-   :code:
-
-Qualification comission registers its decision via the following call:
+Qualification commission registers its decision via the following call:
 
 .. http:example:: http/tutorial/confirm-qualification.http
    :code:

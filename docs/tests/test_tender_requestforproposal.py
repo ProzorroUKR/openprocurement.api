@@ -107,7 +107,6 @@ class TenderResourceTest(
         self.assertEqual(response.status, '200 OK')
 
         # switch to 'active.enquiries'
-        self.add_sign_doc(tender['id'], owner_token)
         with open(TARGET_DIR + 'tutorial/tender-patch-2pc.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"status": 'active.enquiries'}}
@@ -218,15 +217,6 @@ class TenderResourceTest(
         tender_lots = response.json["data"]["lots"]
 
         # Tender activating
-        with open(TARGET_DIR + 'tutorial/notice-document-required.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"status": "active.enquiries"}},
-                status=422,
-            )
-
-        with open(TARGET_DIR + 'tutorial/add-notice-document.http', 'w') as self.app.file_obj:
-            self.add_sign_doc(tender['id'], owner_token)
 
         with open(TARGET_DIR + 'tutorial/tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -253,7 +243,6 @@ class TenderResourceTest(
             )
             self.assertEqual(response.status, '201 Created')
 
-        self.add_sign_doc(response.json["data"]["id"], response.json["access"]["token"])
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(response.json["data"]["id"], response.json["access"]["token"]),
             {'data': {"status": "active.enquiries"}},
@@ -289,7 +278,6 @@ class TenderResourceTest(
         )
         self.assertEqual(response.status, '200 OK')
 
-        self.add_sign_doc(response.json["data"]["id"], tender_2_owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(response.json["data"]["id"], tender_2_owner_token),
             {'data': {"status": "active.enquiries"}},
@@ -709,21 +697,6 @@ class TenderResourceTest(
                 status=422,
             )
 
-        with open(TARGET_DIR + 'tutorial/award-notice-document-required.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {"data": {"status": "active", "qualified": True}},
-                status=422,
-            )
-        with open(TARGET_DIR + 'tutorial/award-unsuccessful-notice-document-required.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {"data": {"status": "unsuccessful"}},
-                status=422,
-            )
-        with open(TARGET_DIR + 'tutorial/award-add-notice-document.http', 'w') as self.app.file_obj:
-            self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
-
         with open(TARGET_DIR + 'tutorial/confirm-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
@@ -867,7 +840,6 @@ class TenderResourceTest(
         self.assertEqual(response.status, '201 Created')
 
         # Tender activating
-        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1131,12 +1103,10 @@ class TenderResourceTest(
         award2_id = award2["id"]
 
         # Activate award
-        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
             {"data": {"status": "active", "qualified": True}},
         )
-        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award2_id}/documents")
         self.app.patch_json(
             '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award2_id, owner_token),
             {"data": {"status": "active", "qualified": True}},
@@ -1239,7 +1209,6 @@ class TenderResourceTest(
         tender_wi_id = response.json['data']['id']
         owner_wi_token = response.json['access']['token']
 
-        self.add_sign_doc(tender_wi_id, owner_wi_token)
         response = self.app.patch_json(
             f'/tenders/{tender_wi_id}?acc_token={owner_wi_token}', {'data': {"status": "active.enquiries"}}
         )
@@ -1247,7 +1216,6 @@ class TenderResourceTest(
 
         # PATCH inspector
 
-        self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             f'/tenders/{tender_id}?acc_token={owner_token}', {'data': {"status": "active.enquiries"}}
         )

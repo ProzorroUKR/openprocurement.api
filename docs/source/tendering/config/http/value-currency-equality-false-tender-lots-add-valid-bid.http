@@ -1382,8 +1382,8 @@ Content-Type: application/json
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "next_check": "2023-10-18T01:00:00+03:00",
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "questions": [
       {
         "id": "dd1bc19ba9794bf6bf9f285a834a3c28",

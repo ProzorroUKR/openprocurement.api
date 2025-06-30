@@ -67,20 +67,6 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "documentType": "notice",
-        "id": "de3138903e444a2181435a3b5efd912b",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f98d671dccf847d29f7a0a6bbd3a847b?Signature=D%2Fc8yzHDEVur6Tl8QEcF0%2BiZtX42CUiVmVYzsyocRp90LxO5L65%2FqyzxkRVY50wkDAQwRJ010xsfshZhHJpvBQ%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "tender_owner",
-        "language": "uk"
-      },
-      {
-        "confidentiality": "public",
         "documentType": "technicalSpecifications",
         "description": "змінений опис документа",
         "description_en": "document description modified",
