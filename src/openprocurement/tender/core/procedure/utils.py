@@ -82,13 +82,14 @@ def set_ownership(item, request, with_transfer=True, access_role=None):
     token = uuid4().hex
     if access_role:
         access_list = item.setdefault("access", [])
+        access_found = False
 
         for access_details in access_list:
             if access_details["role"] == access_role:
                 access_details["owner"] = request.authenticated_userid
                 access_details["token"] = token
-                break
-        else:
+                access_found = True
+        if not access_found:
             access_list.append({"token": token, "role": access_role, "owner": request.authenticated_userid})
     else:
         item["owner_token"] = token

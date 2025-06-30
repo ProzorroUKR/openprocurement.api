@@ -26,7 +26,7 @@ def save_contract(request, insert=False):
 def get_access_fields_by_role(item, role):
     item_access = [access for access in item.get("access", []) if access.get("role") == role]
     if item_access:
-        return item_access[0]
+        return item_access[-1]
 
 
 def is_owner_by_fields(request, item, token_field="token", owner_field="owner", role=None):
