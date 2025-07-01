@@ -1,6 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.relocation.api.procedure.serializers.contract import (
@@ -53,7 +54,12 @@ class ContractResource(ContractBaseResource):
             self.request.errors.status = 403
             return
 
-        update_ownership(contract, transfer)
+        update_ownership(
+            contract,
+            transfer,
+            # try to find new role or CONTRACT/TENDER if it's old contract
+            access_roles=(AccessRole.BUYER, AccessRole.CONTRACT, AccessRole.TENDER),
+        )
         self.request.validated["contract"] = contract
 
         transfer["usedFor"] = location

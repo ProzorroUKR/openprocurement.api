@@ -30,7 +30,15 @@ def set_ownership(item, request):
     return access
 
 
-def update_ownership(tender, transfer):
-    tender["owner"] = transfer["owner"]
-    tender["owner_token"] = transfer["access_token"]
-    tender["transfer_token"] = transfer["transfer_token"]
+def update_ownership(item, transfer, access_roles=()):
+    item["owner"] = transfer["owner"]
+    if access_roles:
+        access_list = item.setdefault("access", [])
+
+        for access_details in access_list:
+            if access_details["role"] in access_roles:
+                access_details["owner"] = transfer["owner"]
+                access_details["token"] = transfer["access_token"]
+    else:
+        item["owner_token"] = transfer["access_token"]
+    item["transfer_token"] = transfer["transfer_token"]
