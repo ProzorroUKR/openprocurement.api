@@ -265,6 +265,33 @@ class BaseContractWebTest(BaseContractTest):
         if self.contract_id:
             self.mongodb.contracts.delete(self.contract_id)
 
+    def prepare_contract_for_signing(self):
+        # add required fields
+        response = self.app.patch_json(
+            f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
+            {
+                "data": {
+                    "contractNumber": "123",
+                    "period": {
+                        "startDate": "2016-03-18T18:47:47.155143+02:00",
+                        "endDate": "2016-05-18T18:47:47.155143+02:00",
+                    },
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # add signerInfo for supplier
+        self.app.put_json(
+            f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
+            {"data": test_signer_info},
+        )
+        # add signerInfo for buyer
+        self.app.put_json(
+            f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.contract_token}",
+            {"data": test_signer_info},
+        )
+
 
 class BaseContractContentWebTest(BaseContractWebTest):
     def setUp(self):

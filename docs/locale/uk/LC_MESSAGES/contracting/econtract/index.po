@@ -23,5 +23,5 @@ msgid "EContracting API interface to OpenProcurement database"
 msgstr "Е-Контрактінг API для реєстрації даних пов’язаних з договором"
 
 msgid "Contents:"
-msgstr "Зміст"
+msgstr "Зміст:"
 

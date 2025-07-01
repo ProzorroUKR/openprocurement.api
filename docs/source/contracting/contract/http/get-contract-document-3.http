@@ -1,0 +1,35 @@
+GET /api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/8ebfb8c02bac4da99c4c82a17c10d8f8?acc_token=2a616f20d95648cd87d33fdc9357fc4e HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "confidentiality": "public",
+    "id": "8ebfb8c02bac4da99c4c82a17c10d8f8",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "contract_additional_docs.doc",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a9311975ab314480acfbb59c2e09b9a8?Signature=eLLNv1wdCAVGGf7H9Hwp21H7crlhV%2B%2Fq4mOML4yjIThwAfk7XkkajH0O39kI9meZU68FWK6qokxpJAhZxRBCCw%3D%3D&KeyID=a8968c46",
+    "documentOf": "contract",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "previousVersions": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_additional_docs.doc",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ef2fb5872c82422ca7d0ece4f4a3e8ed?Signature=I8gJNoDiXD6FQ7BeRWhIrPoEI9fuGvOVZ7TdmhrsxYLNoArvD6V39NiH79jqI0YTHQApHrbvnGq1Z9dYnDHzDA%3D%3D&KeyID=a8968c46",
+        "documentOf": "contract",
+        "id": "8ebfb8c02bac4da99c4c82a17c10d8f8",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
+      }
+    ]
+  }
+}
+

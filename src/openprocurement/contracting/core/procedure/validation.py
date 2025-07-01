@@ -125,3 +125,16 @@ def validate_download_contract_document(request, **_):
             request, request.validated["contract"]
         ):
             raise_operation_error(request, "Document download forbidden.")
+
+
+def validate_contract_signature_operation(request, **_):
+    contract = request.validated["contract"]
+    data = request.validated["data"][0] if isinstance(request.validated["data"], list) else request.validated["data"]
+    # get documentType from request data if it was mentioned or from previously created document during patch
+    document_type = data.get("documentType") or request.validated.get("document", {}).get("documentType")
+    if document_type == "contractSignature" and contract["status"] != "pending":
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} sign document in current "
+            f"({request.validated['contract']['status']}) contract status",
+        )

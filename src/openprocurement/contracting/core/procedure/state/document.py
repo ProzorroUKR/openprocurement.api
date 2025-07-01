@@ -27,10 +27,6 @@ class ContractDocumentState(BaseDocumentStateMixing, ContractState):
         award = self.request.validated["award"]
         self.validate_cancellation_blocks(self.request, tender, lot_id=award.get("lotID"))
 
-    def document_on_post(self, data):
-        super().document_on_post(data)
-        self.validate_confidentiality(data)
-
     def validate_confidentiality(self, data):
         if tender_created_before(CONTRACT_CONFIDENTIAL_DOCS_FROM):
             return
@@ -66,6 +62,5 @@ class ContractDocumentState(BaseDocumentStateMixing, ContractState):
         award = self.request.validated["award"]
         self.validate_cancellation_blocks(self.request, tender, lot_id=award.get("lotID"))
 
-    def document_on_patch(self, before, after):
-        super().document_on_patch(before, after)
-        self.validate_confidentiality(after)
+    def document_always(self, data):
+        self.validate_confidentiality(data)

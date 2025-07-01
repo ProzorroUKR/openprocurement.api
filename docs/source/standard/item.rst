@@ -108,7 +108,7 @@ Additionally in :ref:`pricequotation`:
     ID for related profile
 
 
-Additional fields for :ref:`econtracting`:
+Additional fields for :ref:`base-contracting`:
 
 :attributes:
     List of :ref:`ItemAttribute`
