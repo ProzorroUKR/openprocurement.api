@@ -26,6 +26,10 @@ from openprocurement.api.utils import (
     raise_operation_error,
 )
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.contracting.core.procedure.utils import (
+    is_bid_owner,
+    is_contract_owner,
+)
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     IgnoredClaimMixing,
@@ -1106,3 +1110,15 @@ class ContractState(
         if start_date := period.get("startDate"):
             end_date = calculate_full_date(parse_date(start_date), delta, ceil=True)
             period["endDate"] = end_date.isoformat()
+
+    def set_author_of_object(self, data):
+        contract = self.request.validated["contract"]
+        if is_bid_owner(self.request, contract):
+            data["author"] = "supplier"
+        elif is_contract_owner(self.request, contract):
+            data["author"] = "buyer"
+        else:
+            raise_operation_error(
+                self.request,
+                "Role isn't found, check auth and token",
+            )
