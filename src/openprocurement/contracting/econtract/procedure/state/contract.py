@@ -40,7 +40,7 @@ class EContractState(BaseContractState):
         if before is None:
             raise_operation_error(
                 self.request,
-                f"Previous version of pending contract with cancellations not found",
+                "Previous version of pending contract with cancellations not found",
             )
         for field_name in ("owner", "transfer_token", "access"):
             after[field_name] = before.get(field_name)
@@ -86,7 +86,7 @@ class EContractState(BaseContractState):
         if not updated_contract_data:
             raise_operation_error(
                 self.request,
-                f"No changes detected between previous and current versions of contract",
+                "No changes detected between previous and current versions of contract",
                 status=422,
             )
         item_patch_fields = [

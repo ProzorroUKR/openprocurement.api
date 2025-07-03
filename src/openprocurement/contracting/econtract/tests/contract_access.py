@@ -6,9 +6,11 @@ from openprocurement.contracting.econtract.tests.contract_access_blanks import (
     generate_access,
     get_access,
 )
+from openprocurement.contracting.econtract.tests.data import test_econtract_data
 
 
 class ContractAccessResourceTest(BaseEContractWebTest):
+    initial_data = test_econtract_data
 
     def create_contract(self):
         for tender_contract in self.tender_document.get("contracts", ""):

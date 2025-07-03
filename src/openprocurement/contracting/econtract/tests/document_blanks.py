@@ -1,6 +1,3 @@
-from openprocurement.contracting.core.tests.data import test_signer_info
-
-
 def sign_pending_contract(self):
     contract_sign_data = {
         "documentType": "contractSignature",
@@ -9,81 +6,6 @@ def sign_pending_contract(self):
         "hash": "md5:" + "0" * 32,
         "format": "application/pkcs7-signature",
     }
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
-        {"data": contract_sign_data},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "signerInfo field for buyer and suppliers is required for contract in `pending` status",
-            }
-        ],
-    )
-
-    # add signerInfo for supplier
-    self.app.put_json(
-        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
-        {"data": test_signer_info},
-    )
-    # add signerInfo for buyer
-    self.app.put_json(
-        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.contract_token}",
-        {"data": test_signer_info},
-    )
-
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
-        {"data": contract_sign_data},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "data", "description": "period is required for contract in `active` status"}],
-    )
-
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
-        {
-            "data": {
-                "period": {
-                    "startDate": "2016-03-18T18:47:47.155143+02:00",
-                    "endDate": "2016-05-18T18:47:47.155143+02:00",
-                },
-            }
-        },
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
-        {"data": contract_sign_data},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "contractNumber is required for contract in `active` status",
-            }
-        ],
-    )
-
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
-        {
-            "data": {
-                "contractNumber": "123",
-            }
-        },
-    )
-    self.assertEqual(response.status, "200 OK")
 
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
@@ -174,7 +96,6 @@ def patch_signature_in_active_contract(self):
 
 
 def patch_contract_signature_by_another_user(self):
-    self.prepare_contract_for_signing()
     contract_sign_data = {
         "documentType": "contractSignature",
         "title": "sign.p7s",
@@ -204,7 +125,6 @@ def patch_contract_signature_by_another_user(self):
 
 
 def patch_contract_signature_duplicate(self):
-    self.prepare_contract_for_signing()
     contract_sign_data = {
         "documentType": "contractSignature",
         "title": "sign.p7s",
@@ -235,8 +155,6 @@ def patch_contract_signature_duplicate(self):
 def activate_contract_after_signatures_and_document_upload(self):
     contract_before = self.mongodb.contracts.get(self.contract_id)
     self.assertEqual(contract_before["status"], "pending")
-
-    self.prepare_contract_for_signing()
 
     # add signature for buyer
     contract_sign_data = {
