@@ -1,4 +1,5 @@
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
@@ -21,7 +22,8 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
 
     tendering_period_extra_working_days = False
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-    should_validate_notice_doc_required = True
+    should_validate_notice_doc_required = False
+    should_validate_evaluation_reports_doc_required = False
     enquiry_before_tendering = True
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
@@ -34,6 +36,12 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
         elif tender.get("status", "") in ("draft", "active.enquiries"):
             return PatchDraftTender
         return PatchTender
+
+    def on_patch(self, before, after):
+        super().on_patch(before, after)
+        if after["status"] != "draft" and before["status"] == "draft":
+            # even without document `notice` it is required to set `noticePublicationDate` for RFP (CS-19667)
+            after["noticePublicationDate"] = get_request_now().isoformat()
 
 
 class RequestForProposalTenderDetailsState(RequestForProposalTenderDetailsMixing, RequestForProposalTenderState):

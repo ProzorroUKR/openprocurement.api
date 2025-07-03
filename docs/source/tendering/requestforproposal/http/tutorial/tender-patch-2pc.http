@@ -20,22 +20,6 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000001-a",
-    "documents": [
-      {
-        "confidentiality": "public",
-        "documentType": "notice",
-        "id": "e0a29d9461644e298aca84cecd3c74f6",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0266933cb50b44ecbda38e3ef845158f?Signature=lJ5dKTipR9kr2nt4YO4zMXR7j%2B2A1X7BBPiBeI3Im7yshnfYICRUte2nFRT0Sa%2FQpO5WyxrS4korDCJtVWIwCg%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "tender_owner",
-        "language": "uk"
-      }
-    ],
     "status": "active.enquiries",
     "owner": "broker",
     "title": "футляри до державних нагород",
@@ -167,8 +151,8 @@ Content-Type: application/json
         "relatedLot": "3eb462e96ec44855a81316ca919c3acc"
       }
     ],
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "next_check": "2023-10-17T00:00:00+02:00",
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "id": "b5fe2dfef1b14f2982bb140deff1f53c"
   },
   "config": {
