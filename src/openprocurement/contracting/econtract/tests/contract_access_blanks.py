@@ -1,7 +1,6 @@
 from uuid import uuid4
 
 from openprocurement.contracting.core.procedure.models.access import AccessRole
-from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.contracting.core.tests.utils import create_contract
 from openprocurement.tender.core.tests.utils import change_auth
 
@@ -59,10 +58,17 @@ def generate_access(self):
     self.assertIn("transfer", response.json["access"])
     buyer_token_1 = response.json["access"]["token"]
 
-    # try to patch contract with tender_token (not permitted already)
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
-        {"data": {"title": "test"}},
+    # try to sign contract with tender_token (not permitted already)
+    contract_sign_data = {
+        "documentType": "contractSignature",
+        "title": "sign.p7s",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pkcs7-signature",
+    }
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.tender_token}",
+        {"data": contract_sign_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -78,12 +84,13 @@ def generate_access(self):
     self.assertEqual(contract["owner"], buyer_access["owner"])
     self.assertIn("token", buyer_access)
 
-    # try to patch contract with buyer_token_1
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={buyer_token_1}",
-        {"data": {"title": "test 1"}},
+    # try to sign contract with buyer_token_1
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={buyer_token_1}",
+        {"data": contract_sign_data},
     )
-    self.assertEqual(response.status, "200 OK")
+    doc_id = response.json["data"]["id"]
+    self.assertEqual(response.status, "201 Created")
 
     # try to regenerate token after successful submission of contract token
     response = self.app.post_json(
@@ -94,8 +101,8 @@ def generate_access(self):
 
     # try to patch contract with buyer_token
     response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={buyer_token_1}",
-        {"data": {"title": "test 1"}},
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={buyer_token_1}",
+        {"data": {"title": "new"}},
         status=403,
     )
     self.assertEqual(
@@ -105,8 +112,8 @@ def generate_access(self):
 
     # try to patch contract with buyer_token_2
     response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={buyer_token_2}",
-        {"data": {"title": "test 2"}},
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={buyer_token_2}",
+        {"data": {"title": "new"}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -131,12 +138,12 @@ def generate_access(self):
     self.assertNotEqual(supplier_access, None)
     self.assertIn("token", supplier_access)
 
-    # try to patch contract with supplier_token
-    response = self.app.put_json(
-        f"/contracts/{self.contract['id']}/suppliers/signer_info?acc_token={supplier_token}",
-        {"data": test_signer_info},
+    # try to sign contract with supplier_token
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={supplier_token}",
+        {"data": contract_sign_data},
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "201 Created")
 
     # create contract without EDO platform (old flow)
     contract = self.initial_data
