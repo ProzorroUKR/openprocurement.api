@@ -5,13 +5,13 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState as BaseContractDocumentState,
 )
-from openprocurement.contracting.core.procedure.utils import is_bid_owner
 
 
 class EContractDocumentState(BaseContractDocumentState):
     def validate_document_post(self, data):
         super().validate_document_post(data)
         if data.get("documentType") == "contractSignature":
+            self.validate_contract_cancellations()
             self.validate_contract_is_ready_for_signing()
             self.set_author_of_object(data)
             self.validate_contract_signature_duplicate(data)
@@ -19,6 +19,14 @@ class EContractDocumentState(BaseContractDocumentState):
     def document_on_post(self, data):
         super().document_on_post(data)
         self.activate_contract_if_signed(data)
+
+    def validate_contract_cancellations(self):
+        contract = self.request.validated["contract"]
+        if contract.get("cancellations", []):
+            raise_operation_error(
+                self.request,
+                "Forbidden to sign contract with cancellation",
+            )
 
     def validate_contract_is_ready_for_signing(self):
         tender = self.request.validated["tender"]
@@ -91,10 +99,3 @@ class EContractDocumentState(BaseContractDocumentState):
                 location="url",
                 name="role",
             )
-
-    def set_author_of_object(self, data):
-        contract = self.request.validated["contract"]
-        if is_bid_owner(self.request, contract):
-            data["author"] = "supplier"
-        else:
-            data["author"] = "buyer"

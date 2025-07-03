@@ -232,6 +232,13 @@ def get_additional_contract_data(request, contract, tender, award):
         # For limited procedures
         bid = tender
 
+    contract_data = {
+        "mode": tender.get("mode"),
+        "buyer": buyer,
+        "tender_id": tender["_id"],
+        "owner": tender["owner"],
+    }
+
     # eContract check
     if "contract_owner" in buyer and "contract_owner" in contract["suppliers"][0]:
         access = [
@@ -244,8 +251,18 @@ def get_additional_contract_data(request, contract, tender, award):
                 "role": AccessRole.SUPPLIER,
             },
         ]
+        contract_data.update(
+            {
+                "access": access,
+                "period": {
+                    "startDate": get_request_now().isoformat(),
+                    "endDate": get_request_now().isoformat(),
+                },
+                "contractNumber": "test",
+            }
+        )
     else:
-        access = [
+        contract_data["access"] = [
             {
                 "token": tender["owner_token"],
                 "owner": tender["owner"],
@@ -258,13 +275,7 @@ def get_additional_contract_data(request, contract, tender, award):
             },
         ]
 
-    return {
-        "mode": tender.get("mode"),
-        "buyer": buyer,
-        "tender_id": tender["_id"],
-        "owner": tender["owner"],
-        "access": access,
-    }
+    return contract_data
 
 
 def save_contracts_to_contracting(contracts, award=None):
