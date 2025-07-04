@@ -157,7 +157,7 @@ def is_obj_const_active(obj, constant):
 
 def is_item_owner(request, item, token_field_name="owner_token"):
     acc_token = extract_access_token(request)
-    return request.authenticated_userid == item["owner"] and acc_token == item[token_field_name]
+    return request.authenticated_userid == item["owner"] and acc_token == item.get(token_field_name)
 
 
 def get_items(request, parent, key, uid, raise_404=True):
