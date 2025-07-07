@@ -26,6 +26,9 @@ def save_contract(request, insert=False):
 def get_access_fields_by_role(item, role):
     item_access = [access for access in item.get("access", []) if access.get("role") == role]
     if item_access:
+        # it was a period when we added new access objects in the end of array
+        # that's why we can have two or more tokens for one role (old ones and new one).
+        # New one (actual working token) always the last in the array
         return item_access[-1]
 
 
