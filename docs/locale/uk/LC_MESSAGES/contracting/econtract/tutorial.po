@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-20 12:19+0300\n"
+"POT-Creation-Date: 2025-07-08 18:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -106,23 +106,120 @@ msgstr "Реєстрація договору"
 msgid "If contract was created using new flow with set `contract_owner` in tender for `suppliers` and `buyers` than for activating electronic contract, signer information and all participants signature are required."
 msgstr "Якщо контракт був створений за правилами електронного контрактингу за новим флоу зі встановленними майданчиками для постачальника та замовника ще під час закупівлі, то для активації такого контракту обов'язковими є заповнення інформації підписантів та додавання підписів всіх учасників."
 
-msgid "At first buyer and supplier should fill signer information and fill all required fields the same as in :ref:`contracting_tutorial`."
-msgstr "Перед тим як зареєструвати договір, потрібно замовнику та постачальнику заповнити інформацію підписанта та заповнити всі необхідні поля в контракті так само як і для :ref:`contracting_tutorial`."
+msgid "To activate contract it is required to add contract signature document type from each participant (supplier and buyer)."
+msgstr "Для того, щоб активувати контракт, потрібно замовнику та постачальнику додати в якості документів електронні підписи."
 
-msgid "It is also required to add contract signature document type from each participant (supplier and buyer). If you try activate contract without signatures you'll get error:"
-msgstr "Також перед тим як зареєструвати угоду, потрібно замовнику та постачальнику додати в якості документів електронні підписи. При спробі активувати угоду без підписів, буде отримана помилка:"
-
-msgid "Before adding signature there will be validations that all required fields are set:"
-msgstr "Перед додаванням підпису будуть спрацьовувати валідації, що всі необхідні поля контракту заповненні:"
+msgid "If both sides signed the current version of contract, than contract becomes `active`."
+msgstr "Після того, як будуть накладені два підписи на поточну весрію контракту, контракт стає `active`."
 
 msgid "Supplier adds signature document using his token (`supplier_token`) which he got during access query:"
 msgstr "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:"
-
-msgid "If there is at least one signature in contract, it is forbidden to patch contract:"
-msgstr "Якщо в контракті наявний хоча б один підпис, такий контракт заборонено вже редагувати:"
 
 msgid "Buyer adds signature document using his token (`buyer_token`) which he got during access query:"
 msgstr "Замовник додає документ підпису використовуючи свій токен (`buyer_token`), який він отримав при запиті доступу:"
 
 msgid "If all required signatures are completed, the contract will automatically transition to the `active` status:"
 msgstr "Коли обидва підписа є у системі, то система підтверджує, що контракт підписано і активує його:"
+
+msgid "New versions of contract"
+msgstr "Нові версії договору"
+
+msgid "If one of sides doesn't agree to sign current version of contract, there is an opportunity to create a new version of contract."
+msgstr "Якщо одна зі сторін договору не погоджується підписувати поточну версію контракту, існує можливість створити нову версію контракту, змінивши деякі поля."
+
+msgid "Flow:"
+msgstr "Етапи:"
+
+msgid "create a cancellation of current version of contract"
+msgstr "скасування попереднього контракту"
+
+msgid "POST new version o contract with updates"
+msgstr "створення нової версії зі змінами (POST)"
+
+msgid "sign new version and wait till another side agrees to sign (or create new version by his side)"
+msgstr "підписання нової версії і очікування поки друга сторона погодиться підписати дану версію (або створення нової версії контракту вже іншою стороною)"
+
+msgid "Cancellations"
+msgstr "Скасування"
+
+msgid "It is allowed to cancel current version of contract and create new one only before signature and during contract is `pending`."
+msgstr "Інсує можливість скасування поточної версії контракту та створення нової тільки до моменту підписання і поки контракт знаходиться в статусі `pending`."
+
+msgid "For example, if buyer already sign the contract, it is forbidden for him cancel this version:"
+msgstr "Напркилад, якщо постачальник вже підписав поточну версію договора, то для нього вже заборонено скасування:"
+
+msgid "To cancel current version of contract, participant of contract should create a cancellation with reason:"
+msgstr "Для того, щоб скасувати контракт, учасник договору має додати об'єкт `cancellation` обов'язково вказавши причину скасування:"
+
+msgid "Let's look at contract:"
+msgstr "Подивимося на договір:"
+
+msgid "It is forbidden to add more than one cancellation:"
+msgstr "Заборонено додавати більше ніж один `cancellation`:"
+
+msgid "After cancellation created, there is forbidden to sign contract:"
+msgstr "Після того, як додано `cancellation`, підписувати цю версію контракту вже заборонено:"
+
+msgid "Create new contract version"
+msgstr "Створення нової версії договору"
+
+msgid "Then the same participant should create a new version of contract."
+msgstr "Після скасування той самий учасник має створити нову версію контракту."
+
+msgid "If buyer tries to create a new version, he will see an error, as supplier cancelled previous contract:"
+msgstr "Якщо постачальник спробує створити нову версію, то він побачить помилку, так як скасував попередню версію замовник:"
+
+msgid "Allowed fields for updating:"
+msgstr "Сторона, яка створює нову версію може змінити наступні поля:"
+
+msgid "period"
+msgstr ""
+
+msgid "contractNumber"
+msgstr ""
+
+msgid "items.unit"
+msgstr ""
+
+msgid "items.quantity"
+msgstr ""
+
+msgid "value"
+msgstr ""
+
+msgid "title"
+msgstr ""
+
+msgid "title_en"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "description_en"
+msgstr ""
+
+msgid "dateSigned"
+msgstr ""
+
+msgid "signerInfo (for supplier or buyer depends on who cancelled contract)"
+msgstr "signerInfo (інформацію про підписанта своєї сторони)"
+
+msgid "If participant tried to update another field, he will see an error:"
+msgstr "Якщо учасник намагається змінити якесь інше поле, то він побачить помилку:"
+
+msgid "Let's update fields `period`, `contractNumber` and `signerInfo.name` using token for supplier:"
+msgstr "Змінемо наступні поля `period`, `contractNumber` та `signerInfo.name`, використовуючи токен замовника:"
+
+msgid "Success! Let's look at previous version of contract, it became `cancelled` and cancellation now is `active`:"
+msgstr "Успіх! Подивимося на попередню версію контракту, в нього статус тепер `cancelled` і `cancellation` тепер має статус `active`:"
+
+msgid "Let's look at all contracts in tender:"
+msgstr "Подивимося на всі контракти в закупівлі:"
+
+msgid "After that new round of signatures begins."
+msgstr "Після цього починається новий етап підписання."
+
+msgid "Supplier and buyer can sign this new version of contract if they agreed with changes or create new version if disagreed."
+msgstr "Замовник та постачальник можуть підписати нову версію договору, якщо їх влаштовують зміни або створити нову версію, якщо треба ще щось змінити."
+

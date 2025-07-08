@@ -1,10 +1,7 @@
-GET /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1 HTTP/1.0
+POST /api/2.5/contracts?acc_token=47c3f4968e1341499809200105e2aade HTTP/1.0
 Authorization: Bearer broker
-Host: public-api-sandbox.prozorro.gov.ua
-
-
-HTTP/1.0 200 OK
 Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
@@ -137,7 +134,7 @@ Content-Type: application/json
       "contract_owner": "broker6",
       "kind": "general",
       "signerInfo": {
-        "name": "Test Testovich",
+        "name": "Another buyer",
         "email": "example@email.com",
         "telephone": "+380950000000",
         "iban": "111111111111111",
@@ -175,13 +172,22 @@ Content-Type: application/json
     "owner": "broker",
     "tender_id": "1640f9c9f12d4f74b35596c849f209a4",
     "contractTemplateName": "00000000.0002.01",
-    "status": "pending",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "37d2cea7a3564774858ad5c8681f57b1"
-  },
-  "config": {
-    "restricted": false
+    "status": "pending"
   }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Updated could be only ('items', 'value', 'period', 'contractNumber', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'suppliers') in contract, buyer change forbidden"
+    }
+  ]
 }
 

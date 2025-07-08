@@ -91,27 +91,13 @@ Activating contract
 
 If contract was created using new flow with set `contract_owner` in tender for `suppliers` and `buyers` than for activating electronic contract, signer information and all participants signature are required.
 
-At first buyer and supplier should fill signer information and fill all required fields the same as in :ref:`contracting_tutorial`.
+To activate contract it is required to add contract signature document type from each participant (supplier and buyer).
 
-It is also required to add contract signature document type from each participant (supplier and buyer).
-If you try activate contract without signatures you'll get error:
-
-.. http:example:: http/contract-activating-wo-signature-error.http
-   :code:
-
-Before adding signature there will be validations that all required fields are set:
-
-.. http:example:: http/contract-add-signature-in-not-ready-contract.http
-   :code:
+If both sides signed the current version of contract, than contract becomes `active`.
 
 Supplier adds signature document using his token (`supplier_token`) which he got during access query:
 
 .. http:example:: http/contract-supplier-add-signature-doc.http
-   :code:
-
-If there is at least one signature in contract, it is forbidden to patch contract:
-
-.. http:example:: http/patch-contract-forbidden.http
    :code:
 
 Buyer adds signature document using his token (`buyer_token`) which he got during access query:
@@ -123,3 +109,94 @@ If all required signatures are completed, the contract will automatically transi
 
 .. http:example:: http/get-active-contract.http
    :code:
+
+New versions of contract
+=========================
+
+If one of sides doesn't agree to sign current version of contract, there is an opportunity to create a new version of contract.
+
+Flow:
+
+* create a cancellation of current version of contract
+
+* POST new version o contract with updates
+
+* sign new version and wait till another side agrees to sign (or create new version by his side)
+
+Cancellations
+--------------
+
+It is allowed to cancel current version of contract and create new one only before signature and during contract is `pending`.
+
+For example, if buyer already sign the contract, it is forbidden for him cancel this version:
+
+.. http:example:: http/contract-buyer-cancel-contract-forbidden.http
+   :code:
+
+To cancel current version of contract, participant of contract should create a cancellation with reason:
+
+.. http:example:: http/contract-supplier-cancels-contract.http
+   :code:
+
+Let's look at contract:
+
+.. http:example:: http/cancellation-of-contract.http
+   :code:
+
+It is forbidden to add more than one cancellation:
+
+.. http:example:: http/cancellation-of-contract-duplicated.http
+   :code:
+
+After cancellation created, there is forbidden to sign contract:
+
+.. http:example:: http/contract-supplier-add-signature-forbidden.http
+   :code:
+
+Create new contract version
+---------------------------
+
+Then the same participant should create a new version of contract.
+
+If buyer tries to create a new version, he will see an error, as supplier cancelled previous contract:
+
+.. http:example:: http/contract-buyer-post-contract-forbidden.http
+   :code:
+
+Allowed fields for updating:
+
+* period
+* contractNumber
+* items.unit
+* items.quantity
+* value
+* title
+* title_en
+* description
+* description_en
+* dateSigned
+* signerInfo (for supplier or buyer depends on who cancelled contract)
+
+If participant tried to update another field, he will see an error:
+
+.. http:example:: http/contract-supplier-post-contract-invalid.http
+   :code:
+
+Let's update fields `period`, `contractNumber` and `signerInfo.name` using token for supplier:
+
+.. http:example:: http/contract-supplier-post-contract-version.http
+   :code:
+
+Success! Let's look at previous version of contract, it became `cancelled` and cancellation now is `active`:
+
+.. http:example:: http/get-previous-contract-version.http
+   :code:
+
+Let's look at all contracts in tender:
+
+.. http:example:: http/get-tender-contracts.http
+   :code:
+
+After that new round of signatures begins.
+
+Supplier and buyer can sign this new version of contract if they agreed with changes or create new version if disagreed.

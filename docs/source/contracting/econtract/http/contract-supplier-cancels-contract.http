@@ -1,0 +1,27 @@
+POST /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/cancellations?acc_token=47c3f4968e1341499809200105e2aade HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "reasonType": "requiresChanges",
+    "reason": "want to change signerInfo"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": {
+    "reason": "want to change signerInfo",
+    "reasonType": "requiresChanges",
+    "id": "c58f0f2f3df849e6bbe4ad1f4ca04144",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "status": "pending",
+    "author": "supplier"
+  }
+}
+
