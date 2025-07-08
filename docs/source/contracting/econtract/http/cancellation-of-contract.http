@@ -178,6 +178,31 @@ Content-Type: application/json
     "status": "pending",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/documents/8e9a0dd828594b84a952bd293bf939a4?download=acdee3c5fbb14da0b63000963dea8a81",
+        "documentOf": "contract",
+        "documentType": "contractSignature",
+        "id": "8e9a0dd828594b84a952bd293bf939a4",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "buyer"
+      }
+    ],
+    "cancellations": [
+      {
+        "reason": "want to change signerInfo",
+        "reasonType": "requiresChanges",
+        "id": "c58f0f2f3df849e6bbe4ad1f4ca04144",
+        "dateCreated": "2023-10-10T01:00:00+03:00",
+        "status": "pending",
+        "author": "supplier"
+      }
+    ],
     "id": "37d2cea7a3564774858ad5c8681f57b1"
   },
   "config": {

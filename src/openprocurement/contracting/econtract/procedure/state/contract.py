@@ -74,7 +74,7 @@ class EContractState(BaseContractState):
 
     def validate_contract_changes(self, before, after):
         # check if there are any changes
-        updated_contract_data = dict()
+        updated_contract_data = {}
         for f, v in after.items():
             private_fields = (
                 "id",
@@ -137,7 +137,6 @@ class EContractState(BaseContractState):
         tender = get_request().validated["tender"]
         server_id = get_request().registry.server_id
         contract_number = len(tender.get("contracts", "")) + 1
-        after.pop("_id", None)
         after.update(
             {
                 "id": uuid4().hex,
@@ -147,6 +146,10 @@ class EContractState(BaseContractState):
         )
         self.set_object_status(before, "cancelled")
         self.set_object_status(before["cancellations"][0], "active", update_date=False)
-        tender["contracts"].append(after)
+        base_contract_data = {}
+        base_contract_fields = ("id", "status", "awardID", "date", "contractID", "value")
+        for field in base_contract_fields:
+            base_contract_data[field] = after.get(field)
+        tender["contracts"].append(base_contract_data)
         contract_changed = self.synchronize_contracts_data(before)
         self.request.validated["contract_was_changed"] = contract_changed

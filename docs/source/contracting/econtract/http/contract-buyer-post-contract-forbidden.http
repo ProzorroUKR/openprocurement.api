@@ -1,10 +1,7 @@
-GET /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1 HTTP/1.0
-Authorization: Bearer broker
-Host: public-api-sandbox.prozorro.gov.ua
-
-
-HTTP/1.0 200 OK
+POST /api/2.5/contracts?acc_token=838bca54aee04fbaabd502cb2c7b28a4 HTTP/1.0
+Authorization: Bearer broker6
 Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
@@ -175,13 +172,22 @@ Content-Type: application/json
     "owner": "broker",
     "tender_id": "1640f9c9f12d4f74b35596c849f209a4",
     "contractTemplateName": "00000000.0002.01",
-    "status": "pending",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "37d2cea7a3564774858ad5c8681f57b1"
-  },
-  "config": {
-    "restricted": false
+    "status": "pending"
   }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Forbidden to create new version of contract by buyer, as previous was cancelled by supplier"
+    }
+  ]
 }
 
