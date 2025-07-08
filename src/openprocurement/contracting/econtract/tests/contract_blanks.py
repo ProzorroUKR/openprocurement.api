@@ -164,7 +164,7 @@ def update_pending_contract_forbidden(self):
 def post_new_version_of_contract(self):
     with change_auth(self.app, ("Basic", ("brokerx", ""))):
         response = self.app.post_json(
-            f"/contracts",
+            "/contracts",
             {"data": self.initial_data},
             status=403,
         )
@@ -184,7 +184,7 @@ def post_new_version_of_contract(self):
     # invalid tender id
     contract_data["tender_id"] = uuid4().hex
     response = self.app.post_json(
-        f"/contracts",
+        "/contracts",
         {"data": contract_data},
         status=404,
     )
@@ -195,7 +195,7 @@ def post_new_version_of_contract(self):
 
     contract_data["tender_id"] = self.tender_id
     response = self.app.post_json(
-        f"/contracts",
+        "/contracts",
         {"data": contract_data},
         status=403,
     )
@@ -220,7 +220,7 @@ def post_new_version_of_contract(self):
 
     # try to create contract without token
     response = self.app.post_json(
-        f"/contracts",
+        "/contracts",
         {"data": contract_data},
         status=403,
     )
@@ -266,7 +266,7 @@ def post_new_version_of_contract(self):
     )
 
     # try to change forbidden field
-    contract_data["title"] = "New contract"
+    contract_data["title_ru"] = "New contract"
     response = self.app.post_json(
         f"/contracts?acc_token={self.supplier_token}",
         {"data": contract_data},
@@ -279,12 +279,12 @@ def post_new_version_of_contract(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('items', 'value', 'period', 'contractNumber', 'suppliers') in contract, title change forbidden",
+                "description": "Updated could be only ('items', 'value', 'period', 'contractNumber', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'suppliers') in contract, title_ru change forbidden",
             }
         ],
     )
 
-    del contract_data["title"]
+    del contract_data["title_ru"]
     contract_data["items"][0]["deliveryDate"] = {
         "startDate": "2022-01-01",
     }
@@ -414,3 +414,4 @@ def post_new_version_of_contract(self):
     new_contract = response.json["data"]
     self.assertEqual(new_contract["status"], "pending")
     self.assertNotEqual(prev_contract["contractID"], new_contract["contractID"])
+    self.assertNotEqual(prev_contract["dateCreated"], new_contract["dateCreated"])

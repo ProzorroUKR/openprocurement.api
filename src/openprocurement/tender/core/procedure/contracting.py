@@ -256,9 +256,10 @@ def get_additional_contract_data(request, contract, tender, award):
                 "access": access,
                 "period": {
                     "startDate": get_request_now().isoformat(),
-                    "endDate": get_request_now().isoformat(),
+                    # end of current year
+                    "endDate": get_request_now().replace(month=12, day=31, hour=23, minute=59, second=59).isoformat(),
                 },
-                "contractNumber": "test",
+                "contractNumber": f"{contract['suppliers'][0]['name']} {get_request_now().year}/...",
             }
         )
     else:
