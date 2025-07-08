@@ -1,6 +1,7 @@
 from copy import deepcopy
 from uuid import uuid4
 
+from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import (
     test_contract_data as base_test_contract_data,
 )
@@ -29,10 +30,13 @@ test_econtract_data.update(
                 "signerInfo": test_signer_info,
             }
         ],
-        "contractNumber": "contract #13111",
-        "period": {"startDate": "2016-03-18T18:47:47.155143+02:00", "endDate": "2017-03-18T18:47:47.155143+02:00"},
+        "period": {
+            "startDate": get_now().isoformat(),
+            "endDate": get_now().replace(month=12, day=31, hour=23, minute=59, second=59).isoformat(),
+        },
     }
 )
+test_econtract_data["contractNumber"] = f"{test_econtract_data['suppliers'][0]['name']} {get_now().year}/..."
 
 test_buyer = test_econtract_data.pop("buyer")
 test_buyer["signerInfo"] = test_signer_info
