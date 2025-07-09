@@ -13,6 +13,7 @@ Let's say that we have conducted tender with award. When the award is activated,
 A contract is created with additional fields:
 
 * `contractTemplateName` - copied from tender if exists (more about it in :ref:`contract-template-name`)
+* `period` - `startDate` equals `dateCreated` + 5 calendar days, `endDate` is the end of the year of `startDate`
 
 A PQ contract is created with additional fields:
 
@@ -156,7 +157,7 @@ After cancellation created, there is forbidden to sign contract:
 Create new contract version
 ---------------------------
 
-Then the same participant should create a new version of contract.
+Then the same participant should create a new version of contract using his token.
 
 If buyer tries to create a new version, he will see an error, as supplier cancelled previous contract:
 
@@ -182,7 +183,7 @@ If participant tried to update another field, he will see an error:
 .. http:example:: http/contract-supplier-post-contract-invalid.http
    :code:
 
-Let's update fields `period`, `contractNumber` and `signerInfo.name` using token for supplier:
+Let's update fields `period` and `signerInfo.name` using token for supplier:
 
 .. http:example:: http/contract-supplier-post-contract-version.http
    :code:

@@ -248,23 +248,6 @@ def post_new_version_of_contract(self):
         ],
     )
 
-    response = self.app.post_json(
-        f"/contracts?acc_token={self.supplier_token}",
-        {"data": contract_data},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "No changes detected between previous and current versions of contract",
-            }
-        ],
-    )
-
     # try to change forbidden field
     contract_data["title_ru"] = "New contract"
     response = self.app.post_json(
@@ -279,7 +262,7 @@ def post_new_version_of_contract(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('items', 'value', 'period', 'contractNumber', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'suppliers') in contract, title_ru change forbidden",
+                "description": "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'suppliers') in contract, title_ru change forbidden",
             }
         ],
     )
@@ -290,7 +273,6 @@ def post_new_version_of_contract(self):
     }
     contract_data.update(
         {
-            "contractNumber": "1234",
             "period": {
                 "startDate": "2022-01-01",
                 "endDate": "2026-01-01",

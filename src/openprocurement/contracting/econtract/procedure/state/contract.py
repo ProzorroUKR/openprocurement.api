@@ -60,7 +60,6 @@ class EContractState(BaseContractState):
         self.validate_update_contract_value_net_required(self.request, before, after)
         self.validate_update_contract_value_amount(self.request, before, after)
         self.validate_contract_pending_patch(self.request, before, after)
-        self.validate_required_fields_before_activation(after)
 
     def validate_econtract(self, after):
         for access_details in after["access"]:
@@ -83,17 +82,10 @@ class EContractState(BaseContractState):
             )
             if f not in private_fields and before.get(f) != v:
                 updated_contract_data[f] = v
-        if not updated_contract_data:
-            raise_operation_error(
-                self.request,
-                "No changes detected between previous and current versions of contract",
-                status=422,
-            )
         item_patch_fields = [
             "items",
             "value",
             "period",
-            "contractNumber",
             "title",
             "title_en",
             "description",

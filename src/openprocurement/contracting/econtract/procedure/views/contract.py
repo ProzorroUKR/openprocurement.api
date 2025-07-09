@@ -5,6 +5,7 @@ from uuid import uuid4
 from cornice.resource import resource
 
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.validation import (
     unless_administrator,
@@ -91,39 +92,40 @@ class EContractPostResource(ContractBaseResource):
                 prev_contract = tender_contract
         self.state.validate_on_post(prev_contract, contract)
         self.state.on_post(prev_contract, contract)
-        if save_contract(self.request, insert=True):
-            if self.request.validated.get("contract_was_changed"):
-                if save_tender(self.request):
-                    self.LOGGER.info(
-                        f"Updated tender {tender['_id']} contract {contract['_id']}",
-                        extra=context_unpack(
-                            self.request,
-                            {"MESSAGE_ID": "tender_contract_update_status"},
-                        ),
-                    )
-            self.LOGGER.info(
-                "Created contract {} ({})".format(contract["_id"], contract["tender_id"]),
-                extra=context_unpack(
-                    self.request,
-                    {"MESSAGE_ID": "contract_create"},
-                ),
-            )
-            self.request.response.status = 201
-            new_version_contract = deepcopy(contract)
-            # save prev version of contract
-            request_init_contract(self.request, prev_contract, contract_src={})
-            if save_contract(self.request):
+        with atomic_transaction():
+            if save_contract(self.request, insert=True):
+                if self.request.validated.get("contract_was_changed"):
+                    if save_tender(self.request):
+                        self.LOGGER.info(
+                            f"Updated tender {tender['_id']} contract {contract['_id']}",
+                            extra=context_unpack(
+                                self.request,
+                                {"MESSAGE_ID": "tender_contract_update_status"},
+                            ),
+                        )
                 self.LOGGER.info(
-                    f"Updated contract {prev_contract['_id']}",
+                    "Created contract {} ({})".format(contract["_id"], contract["tender_id"]),
                     extra=context_unpack(
                         self.request,
-                        {"MESSAGE_ID": "contract_patch"},
+                        {"MESSAGE_ID": "contract_create"},
                     ),
                 )
-            return {
-                "data": self.serializer_class(new_version_contract).data,
-                "config": new_version_contract["config"],
-            }
+                self.request.response.status = 201
+                new_version_contract = deepcopy(contract)
+                # save prev version of contract
+                request_init_contract(self.request, prev_contract, contract_src={})
+                if save_contract(self.request):
+                    self.LOGGER.info(
+                        f"Updated contract {prev_contract['_id']}",
+                        extra=context_unpack(
+                            self.request,
+                            {"MESSAGE_ID": "contract_patch"},
+                        ),
+                    )
+                return {
+                    "data": self.serializer_class(new_version_contract).data,
+                    "config": new_version_contract["config"],
+                }
 
 
 @resource(

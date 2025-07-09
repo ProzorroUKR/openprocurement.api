@@ -36,7 +36,6 @@ class EContractDocumentState(BaseContractDocumentState):
         self.set_object_status(contract_after, "active")
 
         self.validate_required_signed_info(contract)
-        self.validate_required_fields_before_activation(contract)
         self.validate_contract_pending_patch(self.request, contract, contract_after)
         self.validate_contract_active_patch(self.request, contract, contract_after)
         self.validate_activate_contract(contract)
