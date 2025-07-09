@@ -36,11 +36,11 @@ class PostAppeal(Model):
         legislation = {
             "version": "2020-04-19",
             "type": "NATIONAL_LEGISLATION",
-            "article": "20.23",
+            "article": "18.23",
             "identifier": {
                 "id": "922-VIII",
                 "legalName": 'Закон України "Про публічні закупівлі"',
-                "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1284",
             },
         }
         return legislation
