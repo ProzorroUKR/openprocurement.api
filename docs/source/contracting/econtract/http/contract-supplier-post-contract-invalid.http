@@ -7,9 +7,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "awardID": "283d9284a6054a25a129e848808b75a1",
     "contractID": "UA-2023-10-10-000001-a-1",
-    "contractNumber": "Державне управління справами 2023/...",
     "period": {
-      "startDate": "2023-10-10T01:00:00+03:00",
+      "startDate": "2023-10-15T00:00:00+03:00",
       "endDate": "2023-12-31T23:59:59+03:00"
     },
     "value": {
@@ -186,7 +185,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Updated could be only ('items', 'value', 'period', 'contractNumber', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'suppliers') in contract, buyer change forbidden"
+      "description": "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'suppliers') in contract, buyer change forbidden"
     }
   ]
 }

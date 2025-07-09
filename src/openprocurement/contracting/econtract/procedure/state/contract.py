@@ -60,7 +60,6 @@ class EContractState(BaseContractState):
         self.validate_update_contract_value_net_required(self.request, before, after)
         self.validate_update_contract_value_amount(self.request, before, after)
         self.validate_contract_pending_patch(self.request, before, after)
-        self.validate_required_fields_before_activation(after)
 
     def validate_econtract(self, after):
         for access_details in after["access"]:
@@ -93,7 +92,6 @@ class EContractState(BaseContractState):
             "items",
             "value",
             "period",
-            "contractNumber",
             "title",
             "title_en",
             "description",

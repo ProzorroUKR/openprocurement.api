@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-08 18:44+0300\n"
+"POT-Creation-Date: 2025-07-09 16:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -36,6 +36,9 @@ msgstr "Договір створюється з додатковими поля
 
 msgid "`contractTemplateName` - copied from tender if exists (more about it in :ref:`contract-template-name`)"
 msgstr "`contractTemplateName` - копіюється з закупівлі, якщо вона встановлена (більше про це в :ref:`contract-template-name`)"
+
+msgid "`period` - `startDate` equals `dateCreated` + 5 calendar days, `endDate` is the end of the year of `startDate`"
+msgstr "`period` - `startDate` дорівнює `dateCreated` контракту + 5 календарних днів, `endDate` дорівнює кінець року, що вказаний у `startDate`"
 
 msgid "A PQ contract is created with additional fields:"
 msgstr "Договір PQ створюється з додатковими полями:"
@@ -208,8 +211,8 @@ msgstr "signerInfo (інформацію про підписанта своєї 
 msgid "If participant tried to update another field, he will see an error:"
 msgstr "Якщо учасник намагається змінити якесь інше поле, то він побачить помилку:"
 
-msgid "Let's update fields `period`, `contractNumber` and `signerInfo.name` using token for supplier:"
-msgstr "Змінемо наступні поля `period`, `contractNumber` та `signerInfo.name`, використовуючи токен замовника:"
+msgid "Let's update fields `period` and `signerInfo.name` using token for supplier:"
+msgstr "Змінемо наступні поля `period` та `signerInfo.name`, використовуючи токен замовника:"
 
 msgid "Success! Let's look at previous version of contract, it became `cancelled` and cancellation now is `active`:"
 msgstr "Успіх! Подивимося на попередню версію контракту, в нього статус тепер `cancelled` і `cancellation` тепер має статус `active`:"

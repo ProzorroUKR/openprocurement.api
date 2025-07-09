@@ -320,7 +320,6 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         contract_data["suppliers"][0]["signerInfo"]["name"] = "Another supplier"
         contract_data.update(
             {
-                "contractNumber": "1234",
                 "period": {
                     "startDate": "2022-01-01",
                     "endDate": "2026-01-01",

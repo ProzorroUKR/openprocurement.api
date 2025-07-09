@@ -13,6 +13,7 @@ Let's say that we have conducted tender with award. When the award is activated,
 A contract is created with additional fields:
 
 * `contractTemplateName` - copied from tender if exists (more about it in :ref:`contract-template-name`)
+* `period` - `startDate` equals `dateCreated` + 5 calendar days, `endDate` is the end of the year of `startDate`
 
 A PQ contract is created with additional fields:
 
@@ -182,7 +183,7 @@ If participant tried to update another field, he will see an error:
 .. http:example:: http/contract-supplier-post-contract-invalid.http
    :code:
 
-Let's update fields `period`, `contractNumber` and `signerInfo.name` using token for supplier:
+Let's update fields `period` and `signerInfo.name` using token for supplier:
 
 .. http:example:: http/contract-supplier-post-contract-version.http
    :code:
