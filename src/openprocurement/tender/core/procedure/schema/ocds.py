@@ -87,10 +87,9 @@ def convert_milestones(milestones, lot_id=None):
 
 def convert_value(v):
     if v:
-        r = {
-            "amount": v["amount"],
-            "currency": v["currency"],
-        }
+        r = {"currency": v["currency"]}
+        if v.get("amount"):  # if hasValueEstimation = False amount is empty
+            r["amount"] = v["amount"]
         return r
 
 
