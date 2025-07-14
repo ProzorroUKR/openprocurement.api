@@ -44,7 +44,11 @@ from openprocurement.planning.api.procedure.models.project import Project
 from openprocurement.planning.api.procedure.models.rationale import RationaleObject
 from openprocurement.planning.api.procedure.models.tender import Tender
 from openprocurement.planning.api.utils import generate_plan_id
+from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
+from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.limited.constants import REPORTING
+from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
 
 class PostPlan(Model):
@@ -169,21 +173,21 @@ def validate_status(plan, status):
     elif status == "complete":
         if not plan.get("tender_id"):
             method = plan.get("tender").get("procurementMethodType")
-            if method not in ("belowThreshold", "reporting", ""):
-                raise ValidationError("Can't complete plan with '{}' " "tender.procurementMethodType".format(method))
+            if method not in (BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL, REPORTING, ""):
+                raise ValidationError("Can't complete plan with '{}' tender.procurementMethodType".format(method))
 
 
 def validate_budget(plan, budget):
     method_type = plan["tender"]["procurementMethodType"]
-    if method_type != "esco":
+    if method_type != ESCO:
         validate_budget_required(plan, budget)
     if method_type not in MULTI_YEAR_BUDGET_PROCEDURES:
         validate_budget_end_date_single_year(plan, budget)
     if method_type in MULTI_YEAR_BUDGET_PROCEDURES:
         validate_budget_end_date_multi_year(plan, budget)
-    if method_type not in ("belowThreshold", "reporting", "esco", ""):
+    if method_type not in (BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL, REPORTING, ESCO, ""):
         validate_budget_breakdown_required(plan, budget)
-    if method_type != "esco":
+    if method_type != ESCO:
         validate_budget_breakdown_amounts(plan, budget)
 
 
