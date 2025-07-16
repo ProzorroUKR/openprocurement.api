@@ -93,7 +93,7 @@ msgid "0"
 msgstr ""
 
 msgid "qualificationComplainDuration"
-msgstr "Оскарження кваліцікації"
+msgstr ""
 
 msgid "awardComplainDuration"
 msgstr ""
