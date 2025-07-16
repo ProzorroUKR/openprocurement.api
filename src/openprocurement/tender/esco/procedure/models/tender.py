@@ -54,15 +54,6 @@ from openprocurement.tender.esco.procedure.models.lot import (
 from openprocurement.tender.openeu.procedure.models.organization import ProcuringEntity
 
 
-def validate_yearly_payments_percentage_range(data, value):
-    if data["fundingKind"] == "other" and value != Decimal("0.8"):
-        raise ValidationError("when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8")
-    if data["fundingKind"] == "budget" and (value > Decimal("0.8") or value < Decimal("0")):
-        raise ValidationError(
-            "when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0"
-        )
-
-
 def validate_award_period(data, period):
     if (
         period
@@ -88,7 +79,7 @@ def validate_lots_yearly_payments_percentage_range(data, lots):
             for lot in lots:
                 if lot["yearlyPaymentsPercentageRange"] != Decimal("0.8"):
                     raise ValidationError(
-                        "when tender fundingKind is other, " "yearlyPaymentsPercentageRange should be equal 0.8"
+                        "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
                     )
         elif data["fundingKind"] == "budget":
             for lot in lots:
@@ -111,7 +102,6 @@ class PostTender(PostBaseTender):
     minValue = ModelType(EstimatedValue, default={"currency": "UAH", "valueAddedTaxIncluded": True})
     minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
     yearlyPaymentsPercentageRange = DecimalType(
-        default=Decimal("0.8"),
         min_value=Decimal("0"),
         max_value=Decimal("1"),
         precision=-5,
@@ -139,9 +129,6 @@ class PostTender(PostBaseTender):
         if period:
             validate_tender_period_start_date(data, period)
             validate_tender_period_duration(data, period, TENDERING_DURATION)
-
-    def validate_yearlyPaymentsPercentageRange(self, data, value):
-        validate_yearly_payments_percentage_range(data, value)
 
     def validate_awardPeriod(self, data, period):
         validate_award_period(data, period)
@@ -240,9 +227,6 @@ class Tender(BaseTender):
         if period:
             # _validate_tender_period_start_date(data, period)  # ENABLED FOR POST ONLY
             validate_tender_period_duration(data, period, TENDERING_DURATION)
-
-    def validate_yearlyPaymentsPercentageRange(self, data, value):
-        validate_yearly_payments_percentage_range(data, value)
 
     def validate_awardPeriod(self, data, period):
         validate_award_period(data, period)

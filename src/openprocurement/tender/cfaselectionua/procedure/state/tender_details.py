@@ -93,7 +93,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
                     minimal_step = deepcopy(after["lots"][0]["value"])
                     minimal_step["amount"] = round(MINIMAL_STEP_PERCENTAGE * minimal_step["amount"], 2)
-                    after["minimalStep"] = after["lots"][0]["minimalStep"] = minimal_step
+                    after["lots"][0]["minimalStep"] = minimal_step
 
                     calculate_tender_features(after)
             elif after["status"] == "draft.unsuccessful":
@@ -270,6 +270,21 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         """
         tender = get_tender()
         kwargs = {
+            "enabled": tender["config"]["hasAuction"] is True and not tender.get("lots"),
+        }
+        validate_field(data, "minimalStep", required=False, **kwargs)
+
+    def validate_lot_minimal_step(self, data, before=None):
+        """
+        Minimal step validation for lot.
+        Minimal step should be required if tender has auction
+
+        :param data: lot
+        :param before: lot
+        :return:
+        """
+        tender = get_tender()
+        kwargs = {
             "before": before,
             "enabled": tender["config"]["hasAuction"] is True,
         }
@@ -344,7 +359,7 @@ def calculate_agreement_contracts_value_amount(tender):
         # handle minimalStep auto decrease
         minimal_step = tender["lots"][0].get("minimalStep")
         if minimal_step and minimal_step["amount"] > value["amount"]:
-            tender["minimalStep"] = tender["lots"][0]["minimalStep"] = value
+            tender["lots"][0]["minimalStep"] = value
 
 
 def calculate_tender_features(tender):

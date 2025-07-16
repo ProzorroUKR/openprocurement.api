@@ -236,7 +236,6 @@ class BaseTenderDetailsMixing:
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
         self.validate_milestones(tender)
-        self.validate_minimal_step(tender)
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
         self.validate_pre_selection_agreement(tender)
@@ -289,7 +288,6 @@ class BaseTenderDetailsMixing:
         self.validate_milestones(after)
         self.validate_pre_qualification_status_change(before, after)
         self.validate_tender_period_start_date_change(before, after)
-        self.validate_minimal_step(after, before=before)
         self.validate_tender_value(after)
         self.validate_tender_lots(after, before=before)
         self.validate_submission_method(after, before=before)
@@ -316,6 +314,7 @@ class BaseTenderDetailsMixing:
             self.validate_related_lot_in_items(after)
 
         if after["status"] != "draft" and before["status"] == "draft":
+            self.validate_minimal_step(after, before=before)
             self.validate_pre_selection_agreement_on_activation(after)
             self.validate_profiles_agreement_id(after)
             self.validate_change_item_profile_or_category(after, before, force_validate=True)
@@ -563,7 +562,7 @@ class BaseTenderDetailsMixing:
                 self.set_lot_guarantee(tender, lot)
                 self.set_lot_value(tender, lot)
                 self.set_lot_minimal_step(tender, lot)
-                self.validate_minimal_step(lot, before)
+                self.validate_lot_minimal_step(lot, before)
                 self.validate_lot_value(tender, lot)
 
     @staticmethod
@@ -584,11 +583,11 @@ class BaseTenderDetailsMixing:
 
     @staticmethod
     def set_lot_minimal_step(tender: dict, lot: dict) -> None:
-        if lot.get("minimalStep") and (tender_minimal_step := tender.get("minimalStep")):
+        if lot.get("minimalStep") and (tender_value := tender.get("value")):
             lot["minimalStep"].update(
                 {
-                    "currency": tender_minimal_step.get("currency"),
-                    "valueAddedTaxIncluded": tender_minimal_step.get("valueAddedTaxIncluded"),
+                    "currency": tender_value.get("currency"),
+                    "valueAddedTaxIncluded": tender_value.get("valueAddedTaxIncluded"),
                 }
             )
 
@@ -623,6 +622,24 @@ class BaseTenderDetailsMixing:
                 "Rogue field",
                 status=422,
                 name="lots.value.amount",
+            )
+
+        if lot_min_step and lot_value["currency"] != lot_min_step["currency"]:
+            raise_operation_error(
+                get_request(),
+                "Lot minimal step currency should be identical to tender currency",
+                status=422,
+                location="body",
+                name="lots.minimalStep.currency",
+            )
+
+        if lot_min_step and lot_value["valueAddedTaxIncluded"] != lot_min_step["valueAddedTaxIncluded"]:
+            raise_operation_error(
+                get_request(),
+                "Lot minimal step valueAddedTaxIncluded should be identical to tender valueAddedTaxIncluded",
+                status=422,
+                location="body",
+                name="lots.minimalStep.valueAddedTaxIncluded",
             )
 
         lot_min_step_amount = lot_min_step.get("amount")
@@ -981,8 +998,23 @@ class BaseTenderDetailsMixing:
         Minimal step validation.
         Minimal step should be required if tender has auction
 
-        :param data: tender or lot
-        :param before: tender or lot
+        :param data: tender
+        :param before: tender
+        :return:
+        """
+        tender = get_tender()
+        kwargs = {
+            "enabled": tender["config"]["hasAuction"] is True and not tender.get("lots"),
+        }
+        validate_field(data, "minimalStep", **kwargs)
+
+    def validate_lot_minimal_step(self, data, before=None):
+        """
+        Minimal step validation for lot.
+        Minimal step should be required if tender has auction
+
+        :param data: lot
+        :param before: lot
         :return:
         """
         tender = get_tender()

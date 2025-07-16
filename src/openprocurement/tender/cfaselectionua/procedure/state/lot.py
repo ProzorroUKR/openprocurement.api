@@ -9,7 +9,7 @@ from openprocurement.tender.core.procedure.utils import validate_field
 class TenderLotState(LotStateMixin, CFASelectionTenderDetailsState):
     should_validate_lot_minimal_step = False
 
-    def validate_minimal_step(self, data, before=None):
+    def validate_lot_minimal_step(self, data, before=None):
         """
         Override to skip minimalStep required validation.
         It's required for cfaselectionua in lot level

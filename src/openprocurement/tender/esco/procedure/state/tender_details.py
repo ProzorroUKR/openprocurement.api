@@ -1,7 +1,11 @@
 from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request_now
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.utils import tender_created_before
+from openprocurement.tender.core.procedure.utils import (
+    tender_created_before,
+    validate_field,
+)
 from openprocurement.tender.esco.constants import QUESTIONS_STAND_STILL
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsState as BaseTenderDetailsState,
@@ -113,15 +117,36 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
         }
 
     def validate_minimal_step(self, data, before=None):
-        # TODO: adjust this validation in case of it will be allowed to disable auction in esco
-        # TODO: Look at original validate_minimal_step in openprocurement.tender.core.procedure.state.tender
+        """
+        minimalStepPercentage and yearlyPaymentsPercentageRange validation.
+        These fields should be required if tender has auction
+
+        :param data: tender or lot
+        :param before: tender or lot
+        :return:
+        """
+        tender = get_tender()
+        kwargs = {
+            "enabled": tender["config"]["hasAuction"] is True and not tender.get("lots"),
+        }
         minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
         for field in minimal_step_fields:
-            if data.get(field) is None:
-                raise_operation_error(
-                    self.request,
-                    ["This field is required."],
-                    status=422,
-                    location="body",
-                    name=field,
-                )
+            validate_field(data, field, **kwargs)
+
+    def validate_lot_minimal_step(self, data, before=None):
+        """
+        minimalStepPercentage and yearlyPaymentsPercentageRange validation.
+        These fields should be required if tender has auction
+
+        :param data: tender or lot
+        :param before: tender or lot
+        :return:
+        """
+        tender = get_tender()
+        kwargs = {
+            "before": before,
+            "enabled": tender["config"]["hasAuction"] is True,
+        }
+        minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
+        for field in minimal_step_fields:
+            validate_field(data, field, **kwargs)
