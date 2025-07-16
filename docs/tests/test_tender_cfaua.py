@@ -78,7 +78,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         lot = deepcopy(test_lots[0])
         lot['id'] = uuid4().hex
         lot['value'] = test_tender_cfaua_data['value']
-        lot['minimalStep'] = test_tender_cfaua_data['minimalStep']
+        lot['minimalStep'] = {"amount": 15, "currency": "UAH"}
         second_item = deepcopy(test_tender_cfaua_data['items'][0])
         second_item['unit']['code'] = 'GRM'
         test_tender_cfaua_data['items'] = [test_tender_cfaua_data['items'][0], second_item]

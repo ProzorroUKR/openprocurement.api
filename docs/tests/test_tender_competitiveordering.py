@@ -109,7 +109,7 @@ class TenderResourceTest(
 
         lot = deepcopy(test_docs_lots[0])
         lot['value'] = data['value']
-        lot['minimalStep'] = data['minimalStep']
+        lot['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot['id'] = uuid4().hex
 
         data['lots'] = [lot]

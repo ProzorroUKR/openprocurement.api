@@ -514,11 +514,6 @@ Content-Type: application/json
       "startDate": "2023-10-04T01:01:00+03:00",
       "endDate": "2023-10-06T01:01:00+03:00"
     },
-    "minimalStep": {
-      "amount": 3.0033300000000005,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "value": {
       "amount": 600.666,
       "currency": "UAH",

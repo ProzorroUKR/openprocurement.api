@@ -10,10 +10,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
-    "minimalStep": {
-      "currency": "UAH",
-      "amount": 5
-    },
     "procurementMethodType": "aboveThresholdEU",
     "value": {
       "currency": "UAH",
@@ -190,11 +186,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/438aef21947a4a09
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amount": 500.0
-    },
-    "minimalStep": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 5.0
     },
     "milestones": [
       {

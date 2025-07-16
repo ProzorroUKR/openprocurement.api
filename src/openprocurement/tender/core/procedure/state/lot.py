@@ -12,8 +12,8 @@ class LotStateMixin:
     request: Callable
 
     get_lot_auction_should_start_after: Callable
-    set_lot_value: Callable
     set_lot_minimal_step: Callable
+    set_lot_value: Callable
     set_lot_guarantee: Callable
     calc_tender_values: Callable
     invalidate_review_requests: Callable

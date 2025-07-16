@@ -12,8 +12,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "amount": 500
     },
     "minimalStep": {
-      "currency": "UAH",
-      "amount": 5
+      "amount": 5,
+      "currency": "UAH"
     },
     "id": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
   }

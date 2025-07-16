@@ -911,11 +911,6 @@ Content-Type: application/json
       "currency": "USD"
     },
     "next_check": "2023-10-10T02:30:00+03:00",
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "auctionPeriod": {
       "startDate": "2023-10-10T01:06:00+03:00"
     },

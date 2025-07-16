@@ -258,15 +258,16 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         config["hasAuction"] = True
 
         test_tender_data = deepcopy(test_docs_tender_open)
+        test_tender_data["minimalStep"] = {"amount": 5, "currency": "UAH"}
 
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
-        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot1['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id1 = lot1['id'] = uuid4().hex
 
         lot2 = deepcopy(test_docs_lots[0])
         lot2['value'] = test_tender_data['value']
-        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot2['minimalStep'] = {"amount": 5, "currency": "UAH"}
 
         test_tender_data['lots'] = [lot1]
         for milestone in test_tender_data["milestones"]:
@@ -304,7 +305,19 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
-        self.activate_tender(tender_id, owner_token)
+        self.add_sign_doc(tender_id, owner_token)
+        with open(TARGET_DIR + 'has-auction-true-tender-with-lots-minimal-step-rogue.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                {'data': {"status": "active.tendering"}},
+                status=422,
+            )
+
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {'data': {"minimalStep": None, "status": "active.tendering"}},
+        )
+        self.assertEqual(response.status, '200 OK')
         bid1_id, bid1_token, bid2_id, bid2_token = self.register_bids(tender_id, owner_token, lot_id1, lot_id2)
 
         #### Auction
@@ -402,7 +415,6 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         config["hasAuction"] = False
 
         test_tender_data = deepcopy(test_docs_tender_open)
-        del test_tender_data['minimalStep']
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
         lot_id1 = lot1['id'] = uuid4().hex
@@ -636,12 +648,12 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
-        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot1['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id1 = lot1['id'] = uuid4().hex
 
         lot2 = deepcopy(test_docs_lots[0])
         lot2['value'] = test_tender_data['value']
-        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot2['minimalStep'] = {"amount": 5, "currency": "UAH"}
 
         test_tender_data['lots'] = [lot1]
         for milestone in test_tender_data["milestones"]:
@@ -797,12 +809,12 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
-        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot1['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id1 = lot1['id'] = uuid4().hex
 
         lot2 = deepcopy(test_docs_lots[0])
         lot2['value'] = test_tender_data['value']
-        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot2['minimalStep'] = {"amount": 5, "currency": "UAH"}
 
         test_tender_data['lots'] = [lot1]
         for milestone in test_tender_data["milestones"]:
@@ -960,7 +972,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         test_tender_data = deepcopy(test_docs_tender_rfp)
         test_lots = deepcopy(test_docs_lots[:1])
         test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        test_lots[0]['minimalStep'] = {"amount": 15, "currency": "UAH"}
         set_tender_lots(test_tender_data, test_lots)
 
         # Creating tender
@@ -1218,7 +1230,7 @@ class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
         tender = response.json['data']
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        test_lots[0]['minimalStep'] = {"amount": 5, "currency": "UAH"}
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
 
@@ -1258,7 +1270,7 @@ class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
         tender = response.json['data']
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        test_lots[0]['minimalStep'] = {"amount": 5, "currency": "UAH"}
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
 
@@ -1304,12 +1316,12 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
-        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot1['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id1 = lot1['id'] = uuid4().hex
 
         lot2 = deepcopy(test_docs_lots[1])
         lot2['value'] = test_tender_data['value']
-        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot2['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id2 = lot2['id'] = uuid4().hex
 
         test_tender_data['lots'] = [lot1, lot2]
@@ -1435,12 +1447,12 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
-        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot1['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id1 = lot1['id'] = uuid4().hex
 
         lot2 = deepcopy(test_docs_lots[1])
         lot2['value'] = test_tender_data['value']
-        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot2['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id2 = lot2['id'] = uuid4().hex
 
         test_tender_data['lots'] = [lot1, lot2]
@@ -1515,12 +1527,12 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         test_tender_data = deepcopy(test_docs_tender_rfp)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
-        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot1['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id1 = lot1['id'] = uuid4().hex
 
         lot2 = deepcopy(test_docs_lots[1])
         lot2['value'] = test_tender_data['value']
-        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot2['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id2 = lot2['id'] = uuid4().hex
 
         test_tender_data['lots'] = [lot1, lot2]
@@ -1654,7 +1666,6 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
 
         test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = deepcopy(test_docs_items_open)
-        del test_tender_data["minimalStep"]
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
         lot_id1 = lot1['id'] = uuid4().hex
@@ -1875,7 +1886,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         test_tender_data = deepcopy(self.initial_data)
         lot = deepcopy(test_docs_lots[0])
         lot['value'] = test_tender_data['value']
-        lot['minimalStep'] = test_tender_data['minimalStep']
+        lot['minimalStep'] = {"amount": 15, "currency": "UAH"}
         lot_id = lot['id'] = uuid4().hex
 
         test_tender_data['lots'] = [lot]
@@ -1928,7 +1939,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         # add lot
         test_lot = deepcopy(test_docs_lots[0])
         test_lot['value'] = self.initial_data['value']
-        test_lot['minimalStep'] = self.initial_data['minimalStep']
+        test_lot['minimalStep'] = {"amount": 15, "currency": "UAH"}
         response = self.app.post_json(
             '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lot}
         )
@@ -1965,12 +1976,12 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
 
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
-        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot1['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id1 = lot1['id'] = uuid4().hex
 
         lot2 = deepcopy(test_docs_lots[1])
         lot2['value'] = test_tender_data['value']
-        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot2['minimalStep'] = {"amount": 5, "currency": "UAH"}
         lot_id2 = lot2['id'] = uuid4().hex
 
         test_tender_data['lots'] = [lot1, lot2]
@@ -2111,7 +2122,7 @@ class TenderComplainRegulationResourceTest(TenderConfigBaseResourceTest):
         # add lot
         test_lot = deepcopy(test_docs_lots[0])
         test_lot["value"] = test_tender_data["value"]
-        test_lot["minimalStep"] = test_tender_data["minimalStep"]
+        test_lot["minimalStep"] = {"amount": 15, "currency": "UAH"}
         response = self.app.post_json(
             "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
             {"data": test_lot},
@@ -2151,7 +2162,7 @@ class TenderComplainRegulationResourceTest(TenderConfigBaseResourceTest):
         # add lot
         test_lot = deepcopy(test_docs_lots[0])
         test_lot["value"] = self.initial_data["value"]
-        test_lot["minimalStep"] = self.initial_data["minimalStep"]
+        test_lot["minimalStep"] = {"amount": 15, "currency": "UAH"}
         response = self.app.post_json(
             "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
             {"data": test_lot},
@@ -2316,8 +2327,7 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
                 }
             }
         )
-        test_lots[0]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
-        test_lots[1]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
+        test_lots[0]['minimalStepPercentage'] = test_lots[1]['minimalStepPercentage'] = 0.006
 
         #### Creating tender
         self.app.authorization = ('Basic', ('broker', ''))
@@ -2506,8 +2516,7 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
         bid = deepcopy(test_docs_bid_draft)
         bid2 = deepcopy(test_docs_bid2)
 
-        test_lots[0]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
-        test_lots[1]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
+        test_lots[0]['minimalStepPercentage'] = test_lots[1]['minimalStepPercentage'] = 0.006
 
         #### Creating tender
         self.app.authorization = ('Basic', ('broker', ''))
@@ -2731,7 +2740,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
 
         lot = deepcopy(test_docs_lots[0])
         lot['value'] = data['value']
-        lot['minimalStep'] = data['minimalStep']
+        lot['minimalStep'] = {"amount": 15, "currency": "UAH"}
         lot['id'] = uuid4().hex
 
         data['lots'] = [lot]
@@ -2927,7 +2936,7 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
         test_tender_data = deepcopy(test_docs_tender_rfp)
         test_lots = deepcopy(test_docs_lots[:1])
         test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        test_lots[0]['minimalStep'] = {"amount": 15, "currency": "UAH"}
         set_tender_lots(test_tender_data, test_lots)
 
         # Creating tender
@@ -3087,7 +3096,7 @@ class TenderCancellationComplainDurationResourceTest(TenderConfigBaseResourceTes
         # add lot
         test_lot = deepcopy(test_docs_lots[0])
         test_lot["value"] = test_tender_data["value"]
-        test_lot["minimalStep"] = test_tender_data["minimalStep"]
+        test_lot["minimalStep"] = {"amount": 15, "currency": "UAH"}
         response = self.app.post_json(
             "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
             {"data": test_lot},
@@ -3156,7 +3165,7 @@ class TenderCancellationComplainDurationResourceTest(TenderConfigBaseResourceTes
         # add lot
         test_lot = deepcopy(test_docs_lots[0])
         test_lot["value"] = self.initial_data["value"]
-        test_lot["minimalStep"] = self.initial_data["minimalStep"]
+        test_lot["minimalStep"] = {"amount": 15, "currency": "UAH"}
         response = self.app.post_json(
             "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
             {"data": test_lot},
@@ -3268,9 +3277,9 @@ class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
         # add lots
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]["value"] = test_tender_data["value"]
-        test_lots[0]["minimalStep"] = test_tender_data["minimalStep"]
+        test_lots[0]["minimalStep"] = {"amount": 15, "currency": "UAH"}
         test_lots[1]["value"] = test_tender_data["value"]
-        test_lots[1]["minimalStep"] = test_tender_data["minimalStep"]
+        test_lots[1]["minimalStep"] = {"amount": 15, "currency": "UAH"}
 
         response = self.app.post_json(
             "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
@@ -3350,9 +3359,9 @@ class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
         # add lots
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]["value"] = test_tender_data["value"]
-        test_lots[0]["minimalStep"] = test_tender_data["minimalStep"]
+        test_lots[0]["minimalStep"] = {"amount": 15, "currency": "UAH"}
         test_lots[1]["value"] = test_tender_data["value"]
-        test_lots[1]["minimalStep"] = test_tender_data["minimalStep"]
+        test_lots[1]["minimalStep"] = {"amount": 15, "currency": "UAH"}
 
         response = self.app.post_json(
             "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),

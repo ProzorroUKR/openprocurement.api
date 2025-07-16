@@ -773,9 +773,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.assertEqual(response.status, '201 Created')
         lot_id = response.json["data"]["id"]
 
+        test_data_wi_id = deepcopy(test_tender_data)
+        test_data_wi_id["minimalStep"] = {"amount": 5, "currency": "UAH"}
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data, 'config': self.initial_config},
+            {'data': test_data_wi_id, 'config': self.initial_config},
         )
         self.assertEqual(response.status, '201 Created')
         tender_wi_id = response.json['data']['id']

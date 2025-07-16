@@ -456,11 +456,6 @@ Content-Type: application/json
         }
       }
     ],
-    "minimalStep": {
-      "amount": 2.5,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "value": {
       "amount": 500.56,
       "currency": "UAH",

@@ -31,9 +31,9 @@ bid.update(test_docs_subcontracting)
 bid.update(test_docs_qualified)
 
 test_lots[0]['value'] = test_tender_data['value']
-test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+test_lots[0]['minimalStep'] = {"amount": 5, "currency": "UAH"}
 test_lots[1]['value'] = test_tender_data['value']
-test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+test_lots[1]['minimalStep'] = {"amount": 5, "currency": "UAH"}
 
 TARGET_DIR = 'docs/source/tendering/open/http/'
 TARGET_CSV_DIR = 'docs/source/tendering/open/csv/'

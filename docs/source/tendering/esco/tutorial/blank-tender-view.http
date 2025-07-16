@@ -18,8 +18,6 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "minimalStepPercentage": 0.006,
-    "yearlyPaymentsPercentageRange": 0.8,
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
     "procuringEntity": {

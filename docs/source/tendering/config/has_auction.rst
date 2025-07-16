@@ -25,6 +25,17 @@ And add lot to it:
 .. http:example:: http/has-auction-true-tender-add-lot.http
    :code:
 
+Field `minimalStep` is required for tenders with auction.
+
+* If it is non-lots tender then this fields is required during activation in tender.
+
+* It it is lots tender - then this field is required in lots but in tender this field is rogue and it doesn't set as minimal value of all `minimalStep` in lots.
+
+If during activation tender has lots and own `minimalStep`, then we will see an error that `minimalStep` is rogue field for tender:
+
+.. http:example:: http/has-auction-true-tender-with-lots-minimal-step-rogue.http
+   :code:
+
 Let's look at completed tender:
 
 .. http:example:: http/has-auction-false-tender-complete.http
@@ -39,9 +50,6 @@ Now let's create a tender with `hasAuction` set to `false`:
    :code:
 
 You can see that there is no `minimalStep` field in the request body, because tender with no auction doesn't have `minimalStep` field.
-
-.. note::
-    The exception is competitive dialogue, where `minimalStep` is required because it will be used in second stage.
 
 And add lot to it:
 

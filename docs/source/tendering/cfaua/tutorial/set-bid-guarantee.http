@@ -29,7 +29,7 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 5.0,
+      "amount": 15.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },

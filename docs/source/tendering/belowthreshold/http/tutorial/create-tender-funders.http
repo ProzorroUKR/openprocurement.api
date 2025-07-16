@@ -39,10 +39,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "amount": 500,
       "currency": "UAH"
     },
-    "minimalStep": {
-      "amount": 15,
-      "currency": "UAH"
-    },
     "items": [
       {
         "id": "ffffffffffffffffffffffffffffffff",
@@ -221,11 +217,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fd4de4e2ac1044b3
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amount": 500.0
-    },
-    "minimalStep": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 15.0
     },
     "tenderPeriod": {
       "startDate": "2023-10-17T00:00:00+02:00",

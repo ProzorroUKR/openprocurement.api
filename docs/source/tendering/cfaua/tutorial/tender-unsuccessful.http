@@ -839,11 +839,6 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -1032,7 +1027,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "amount": 5.0,
+          "amount": 15.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },

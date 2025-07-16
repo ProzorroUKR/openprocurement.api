@@ -115,11 +115,6 @@ Content-Type: application/json
       "amount": 500.0
     },
     "next_check": "2023-10-17T00:00:00+02:00",
-    "minimalStep": {
-      "amount": 15.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderPeriod": {
       "startDate": "2023-10-17T00:00:00+02:00",
       "endDate": "2023-10-25T01:00:11+03:00"

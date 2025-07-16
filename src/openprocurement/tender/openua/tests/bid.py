@@ -198,7 +198,6 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
 
 test_tender_data_decimal = deepcopy(test_tender_openua_data)
 test_tender_data_decimal["value"]["amount"] = 319400.52
-test_tender_data_decimal["value"]["amount"] / 100
 
 
 class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):

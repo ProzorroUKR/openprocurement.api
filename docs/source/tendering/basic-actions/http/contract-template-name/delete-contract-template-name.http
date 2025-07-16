@@ -75,11 +75,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amount": 500.0
     },
-    "minimalStep": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 15.0
-    },
     "tenderPeriod": {
       "startDate": "2023-10-17T00:00:00+02:00",
       "endDate": "2023-10-24T00:00:00+02:00"

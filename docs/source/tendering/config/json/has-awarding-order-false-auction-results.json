@@ -1915,7 +1915,7 @@
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "id": "d7afc0eb4f6d42549557d7b3226417e6",
                 "minimalStep": {
-                    "amount": 15.0,
+                    "amount": 5.0,
                     "currency": "UAH",
                     "valueAddedTaxIncluded": true
                 },
@@ -1937,7 +1937,7 @@
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "id": "ffb255f57e054aaa9f45701dbce47420",
                 "minimalStep": {
-                    "amount": 15.0,
+                    "amount": 5.0,
                     "currency": "UAH",
                     "valueAddedTaxIncluded": true
                 },
@@ -1979,11 +1979,6 @@
                 "type": "financing"
             }
         ],
-        "minimalStep": {
-            "amount": 15.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-        },
         "noticePublicationDate": "2023-10-10T01:00:00+03:00",
         "owner": "broker",
         "procurementMethod": "open",
