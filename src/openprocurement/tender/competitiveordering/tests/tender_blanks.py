@@ -278,13 +278,11 @@ def patch_tender(self):
     changed_value = deepcopy(base_value)
     changed_value["valueAddedTaxIncluded"] = not base_tax
     changed_value["currency"] = "GBP"
-    minimal_step = {"amount": result["minimalStep"]["amount"], "currency": "GBP", "valueAddedTaxIncluded": not base_tax}
     response = self.app.patch_json(
         f"/tenders/{tender['id']}?acc_token={owner_token}",
         {
             "data": {
                 "value": changed_value,
-                "minimalStep": minimal_step,
             }
         },
     )

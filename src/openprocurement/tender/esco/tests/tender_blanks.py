@@ -80,128 +80,6 @@ def tender_minimal_step_invalid(self):
     )
 
 
-def tender_yearlyPaymentsPercentageRange_invalid(self):
-    data = deepcopy(self.initial_data)
-    data["yearlyPaymentsPercentageRange"] = 0.6
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"],
-                "location": "body",
-                "name": "yearlyPaymentsPercentageRange",
-            }
-        ],
-    )
-
-    data["fundingKind"] = "budget"
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["fundingKind"], "budget")
-    tender_id = response.json["data"]["id"]
-    tender_token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
-        {"data": {"yearlyPaymentsPercentageRange": 1}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": [
-                    "when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0"
-                ],
-                "location": "body",
-                "name": "yearlyPaymentsPercentageRange",
-            }
-        ],
-    )
-
-
-def tender_yearlyPaymentsPercentageRange(self):
-    data = deepcopy(self.initial_data)
-    data.pop("lots", None)
-    data["items"][0].pop("relatedLot", None)
-    for milestone in data["milestones"]:
-        milestone.pop("relatedLot", None)
-    del data["yearlyPaymentsPercentageRange"]
-
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
-    tender_id = response.json["data"]["id"]
-    tender_token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
-        {"data": {"fundingKind": "budget", "yearlyPaymentsPercentageRange": 0.31456}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["fundingKind"], "budget")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.31456)
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, tender_token), {"data": {"fundingKind": "other"}}, status=422
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"],
-                "location": "body",
-                "name": "yearlyPaymentsPercentageRange",
-            }
-        ],
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
-        {"data": {"fundingKind": "other", "yearlyPaymentsPercentageRange": 0.8}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["fundingKind"], "other")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
-        {"data": {"yearlyPaymentsPercentageRange": 1}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"],
-                "location": "body",
-                "name": "yearlyPaymentsPercentageRange",
-            }
-        ],
-    )
-
-    data["fundingKind"] = "budget"
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
-
-
 def tender_fundingKind_default(self):
     data = deepcopy(self.initial_data)
     del data["fundingKind"]
@@ -1030,13 +908,6 @@ def patch_tender(self):
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "USD")
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"minimalStepPercentage": 0.02516}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    # ignore patch because if tender has lots then minimalStepPercentage equals minimum of lots minimalStepPercentage
-    self.assertEqual(response.json["data"]["minimalStepPercentage"], 0.02514)
-
-    response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"fundingKind": "budget"}}
     )
     self.assertEqual(response.status, "200 OK")
@@ -1109,7 +980,6 @@ def tender_with_nbu_discount_rate(self):
             "items",
             "minValue",
             "owner",
-            "minimalStepPercentage",
             "procuringEntity",
             "next_check",
             "procurementMethod",
@@ -1120,7 +990,6 @@ def tender_with_nbu_discount_rate(self):
             "date",
             "NBUdiscountRate",
             "fundingKind",
-            "yearlyPaymentsPercentageRange",
             "mainProcurementCategory",
             "lots",
             "documents",
@@ -1486,7 +1355,6 @@ def create_tender_generated(self):
             "items",
             "minValue",
             "owner",
-            "minimalStepPercentage",
             "procuringEntity",
             "next_check",
             "procurementMethod",
@@ -1497,7 +1365,6 @@ def create_tender_generated(self):
             "title_en",
             "date",
             "fundingKind",
-            "yearlyPaymentsPercentageRange",
             "mainProcurementCategory",
             "lots",
             "documents",

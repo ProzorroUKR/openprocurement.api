@@ -18,7 +18,6 @@ test_tender_reporting_data = test_tender_below_data.copy()
 del test_tender_reporting_data["contractTemplateName"]
 del test_tender_reporting_data["enquiryPeriod"]
 del test_tender_reporting_data["tenderPeriod"]
-del test_tender_reporting_data["minimalStep"]
 
 test_tender_reporting_data["procurementMethodType"] = "reporting"
 test_tender_reporting_data["procurementMethodRationale"] = "simple"

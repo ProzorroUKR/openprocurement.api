@@ -178,7 +178,6 @@ test_tender_rfp_data = {
     "mainProcurementCategory": "goods",
     "procuringEntity": test_tender_rfp_procuring_entity,
     "value": {"amount": 500, "currency": "UAH"},
-    "minimalStep": {"amount": 15, "currency": "UAH"},
     "items": [deepcopy(test_tender_rfp_item)],
     "enquiryPeriod": {"endDate": (now + timedelta(days=9)).isoformat()},
     "tenderPeriod": {"endDate": (now + timedelta(days=18)).isoformat()},
@@ -195,7 +194,6 @@ if SANDBOX_MODE:
     test_tender_rfp_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
 test_tender_rfp_data_no_auction = deepcopy(test_tender_rfp_data)
-del test_tender_rfp_data_no_auction["minimalStep"]
 test_tender_rfp_data_no_auction["funders"] = [deepcopy(test_tender_rfp_base_organization)]
 test_tender_rfp_data_no_auction["funders"][0]["identifier"]["id"] = "44000"
 test_tender_rfp_data_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
@@ -245,7 +243,7 @@ test_tender_rfp_lots = [
         "title": "lot title",
         "description": "lot description",
         "value": test_tender_rfp_data["value"],
-        "minimalStep": test_tender_rfp_data["minimalStep"],
+        "minimalStep": {"amount": 15, "currency": "UAH"},
     }
 ]
 test_tender_rfp_lots_no_min_step = [

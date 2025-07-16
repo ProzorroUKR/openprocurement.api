@@ -11,7 +11,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_minimalstep_validation,
     tender_lot_minimalstep_validation,
     tender_milestones_required,
-    tender_minimalstep_validation,
 )
 from openprocurement.tender.open.tests.tender_blanks import (
     create_tender_invalid_config,
@@ -58,7 +57,6 @@ class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
-    test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)

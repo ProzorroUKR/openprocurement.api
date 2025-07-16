@@ -196,8 +196,6 @@ class TenderAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
 
 
 class TenderLotAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
-    initial_lots = test_tender_below_lots
-
     test_create_tender_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
     test_get_tender_award_complaint = snitch(get_tender_lot_award_complaint)

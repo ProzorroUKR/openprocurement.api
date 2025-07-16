@@ -15,7 +15,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_minimalstep_validation,
     tender_lot_minimalstep_validation,
     tender_milestones_required,
-    tender_minimalstep_validation,
     tender_with_guarantee_multilot,
 )
 from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
@@ -69,7 +68,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
-    test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)

@@ -1510,6 +1510,7 @@ def patch_tender(self):
     tender = response.json["data"]
     self.assertEqual(endDate, tender["tenderPeriod"]["endDate"])
 
+    # TODO: ask why it can not be rogue in CFASELECTION
     # we cannot patch tender minimalStep
     new_minimal_step = {"currency": "UAH", "amount": 200.0, "valueAddedTaxIncluded": True}
     response = self.app.patch_json(
@@ -1614,10 +1615,6 @@ def patch_tender_bot(self):
     tender = response.json["data"]
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
-    self.assertIn("minimalStep", response.json["data"])
-    self.assertEqual(
-        response.json["data"]["minimalStep"]["amount"], round(response.json["data"]["minimalStep"]["amount"], 2)
-    )
     self.assertEqual(
         response.json["data"]["lots"][0]["minimalStep"]["amount"],
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),
@@ -2289,10 +2286,6 @@ def edit_tender_in_active_enquiries(self):
     tender = response.json["data"]
 
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
-    self.assertIn("minimalStep", response.json["data"])
-    self.assertEqual(
-        response.json["data"]["minimalStep"]["amount"], round(response.json["data"]["minimalStep"]["amount"], 2)
-    )
     self.assertEqual(
         response.json["data"]["lots"][0]["minimalStep"]["amount"],
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),

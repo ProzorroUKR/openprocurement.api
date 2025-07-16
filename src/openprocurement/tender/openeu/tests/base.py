@@ -110,7 +110,6 @@ test_tender_openeu_data = {
     "mainProcurementCategory": "services",
     "procuringEntity": test_tender_openeu_procuring_entity.copy(),
     "value": {"amount": 500, "currency": "UAH"},
-    "minimalStep": {"amount": 15, "currency": "UAH"},
     "items": [
         {
             "description": "футляри до державних нагород",
@@ -179,7 +178,7 @@ test_tender_openeu_lots = [
         "title": "lot title",
         "description": "lot description",
         "value": test_tender_openeu_data["value"],
-        "minimalStep": test_tender_openeu_data["minimalStep"],
+        "minimalStep": {"amount": 15, "currency": "UAH"},
     }
 ]
 

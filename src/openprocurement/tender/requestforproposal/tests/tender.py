@@ -47,7 +47,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_lot_minimalstep_validation,
     tender_milestones_required,
     tender_milestones_sequence_number,
-    tender_minimalstep_validation,
     tender_not_found,
     tender_notice_documents,
     tender_token_invalid,
@@ -137,7 +136,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
-    test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_tender_item_related_lot_validation = snitch(tender_item_related_lot_validation)
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)

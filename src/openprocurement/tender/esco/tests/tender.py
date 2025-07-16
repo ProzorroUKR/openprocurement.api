@@ -35,8 +35,6 @@ from openprocurement.tender.esco.tests.tender_blanks import (  # TenderESCOTest;
     tender_noticePublicationDate,
     tender_value,
     tender_with_nbu_discount_rate,
-    tender_yearlyPaymentsPercentageRange,
-    tender_yearlyPaymentsPercentageRange_invalid,
 )
 from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
 from openprocurement.tender.openeu.constants import TENDERING_DAYS
@@ -64,8 +62,6 @@ class TenderESCOTest(BaseESCOWebTest):
     test_tender_min_value = snitch(tender_min_value)
     test_create_tender_without_estimated_value = snitch(create_tender_without_estimated_value)
     test_tender_minimal_step_invalid = snitch(tender_minimal_step_invalid)
-    test_tender_yearlyPaymentsPercentageRange_invalid = snitch(tender_yearlyPaymentsPercentageRange_invalid)
-    test_tender_yearlyPaymentsPercentageRange = snitch(tender_yearlyPaymentsPercentageRange)
     test_tender_fundingKind_default = snitch(tender_fundingKind_default)
     test_tender_noticePublicationDate = snitch(tender_noticePublicationDate)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
