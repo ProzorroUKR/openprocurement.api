@@ -288,6 +288,18 @@ class ChronographEventsMixing:
                                     self.awarded_complaint_handler,
                                 )
 
+            # This is not expected to happen in normal flow
+            # Fixes bug when tender status switch to complete was missed
+            # by allowing to manually trigger chronograph view to complete the tender
+            # TODO: Probably can be deleted later
+            lot_statuses = [lot["status"] for lot in lots]
+            tender_terminated_statuses = ("cancelled", "unsuccessful", "complete")
+            if "active" not in lot_statuses and tender.get("status") not in tender_terminated_statuses:
+                yield (
+                    get_request_now().isoformat(),
+                    self.awarded_complaint_handler,
+                )
+
     def lots_awarded_events(self, tender):
         yield from self.lots_qualification_events(tender)
 

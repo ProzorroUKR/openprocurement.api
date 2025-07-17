@@ -173,7 +173,7 @@ class ContractStateMixing:
                         ),
                     )
                     self.set_object_status(lot, "complete")
-            self.switch_status(tender)
+        self.switch_status(tender)
 
     def check_award_complaints(self, tender: dict, now: datetime) -> None:
         pending_complaints = False
