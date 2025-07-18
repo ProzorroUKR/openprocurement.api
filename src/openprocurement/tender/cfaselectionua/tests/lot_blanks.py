@@ -105,25 +105,6 @@ def create_tender_lot_invalid(self):
         ],
     )
 
-    response = self.app.post_json(
-        request_path,
-        {
-            "data": {
-                "title": "lot title",
-                "description": "lot description",
-                "minimalStep": {"amount": "500.0"},
-            }
-        },
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": "Rogue field", "location": "body", "name": "minimalStep"}],
-    )
-
     items = deepcopy(self.initial_data["items"])
     items[0]["relatedLot"] = "0" * 32
     response = self.app.patch_json(

@@ -100,6 +100,11 @@ Content-Type: application/json
         "description": "Опис Лот №1",
         "id": "50fc7d0cb4e3423491c35387a046af42",
         "status": "active",
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
