@@ -13,7 +13,6 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     get_tender_cancellations,
     not_found,
     patch_tender_cancellation,
-    patch_tender_cancellation_2020_04_19,
     patch_tender_cancellation_document,
     patch_tender_lot_cancellation,
     patch_tender_lots_cancellation,
@@ -29,6 +28,9 @@ from openprocurement.tender.requestforproposal.tests.base import (
     test_tender_rfp_bids,
     test_tender_rfp_cancellation,
     test_tender_rfp_lots,
+)
+from openprocurement.tender.requestforproposal.tests.cancellation_blanks import (
+    patch_tender_cancellation_2020_04_19,
 )
 
 
