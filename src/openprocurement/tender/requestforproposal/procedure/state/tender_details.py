@@ -28,6 +28,7 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
     qualification_complain_duration_working_days = True
+    clarification_period_working_day = False
 
     def get_patch_data_model(self):
         tender = get_tender()

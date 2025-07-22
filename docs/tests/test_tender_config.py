@@ -19,11 +19,11 @@ from tests.base.data import (
     test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
+    test_docs_tender_below_maximum,
     test_docs_tender_co,
     test_docs_tender_esco,
     test_docs_tender_open,
     test_docs_tender_rfp,
-    test_docs_tender_rfp_maximum,
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
@@ -44,6 +44,7 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from openprocurement.tender.competitiveordering.tests.base import (
     test_tender_co_config,
     test_tender_co_criteria,
@@ -3416,13 +3417,13 @@ class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest)
         with open(TARGET_DIR + "clarification-until-duration-1-working-day.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': deepcopy(test_docs_tender_rfp_maximum), 'config': deepcopy(test_tender_rfp_config)},
+                {'data': deepcopy(test_docs_tender_below_maximum), 'config': deepcopy(test_tender_below_config)},
             )
             self.assertEqual(response.status, '201 Created')
             end_date = dt_from_iso(response.json["data"]['enquiryPeriod']['endDate'])
             expected_clarif_until = calculate_tender_full_date(
                 end_date,
-                datetime.timedelta(days=test_tender_rfp_config["clarificationUntilDuration"]),
+                datetime.timedelta(days=test_tender_below_config["clarificationUntilDuration"]),
                 tender=response.json["data"],
                 working_days=True,
             )
