@@ -1,4 +1,5 @@
 from copy import deepcopy
+from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.auth import AccreditationLevel
@@ -15,11 +16,10 @@ from openprocurement.framework.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
 from openprocurement.tender.cfaselectionua.constants import (
-    ENQUIRY_PERIOD,
     MIN_ACTIVE_CONTRACTS,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MINIMAL_STEP_PERCENTAGE,
-    TENDERING_DURATION,
+    WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
     PatchAgreement,
@@ -64,11 +64,10 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
     agreement_min_active_contracts = MIN_ACTIVE_CONTRACTS
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
-    enquiry_period_timedelta = ENQUIRY_PERIOD
 
     should_validate_pre_selection_agreement = False
-    should_initialize_enquiry_period = False
-    enquiry_before_tendering = True
+
+    working_days_config = WORKING_DAYS_CONFIG
 
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
 
@@ -78,6 +77,9 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
     def on_patch(self, before, after):
         self.validate_contract_template_name(after, before)
+        self.validate_tender_period_duration(after)
+        self.validate_tender_period_after_enquiry_period(after)
+        self.validate_tender_period_start_date_change(before, after)
         if get_request().authenticated_role == "agreement_selection":
             if after["status"] == "active.enquiries":
                 agreement = after["agreements"][0]
@@ -183,18 +185,25 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             return tender["agreements"][0]
 
     def update_periods(self, tender):
-        enquiry_end = calculate_tender_full_date(get_request_now(), self.enquiry_period_timedelta, tender=tender)
+        enquiry_end = calculate_tender_full_date(
+            get_request_now(),
+            timedelta(days=tender["config"]["minEnquiriesDuration"]),
+            working_days=self.working_days_config["minEnquiriesDuration"],
+            tender=tender,
+        )
         tender["enquiryPeriod"] = {
             "startDate": get_request_now().isoformat(),
             "endDate": enquiry_end.isoformat(),
         }
+        tender_end = calculate_tender_full_date(
+            enquiry_end,
+            timedelta(days=tender["config"]["minTenderingDuration"]),
+            working_days=self.working_days_config["minTenderingDuration"],
+            tender=tender,
+        )
         tender["tenderPeriod"] = {
             "startDate": tender["enquiryPeriod"]["endDate"],
-            "endDate": calculate_tender_full_date(
-                enquiry_end,
-                TENDERING_DURATION,
-                tender=tender,
-            ).isoformat(),
+            "endDate": tender_end.isoformat(),
         }
 
     @staticmethod

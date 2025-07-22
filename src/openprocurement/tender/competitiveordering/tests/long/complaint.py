@@ -13,9 +13,9 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     create_tender_complaint_document,
     not_found,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderCOContentWebTest,
-    test_tender_co_bids,
+from openprocurement.tender.competitiveordering.tests.long.base import (
+    BaseTenderCOLongContentWebTest,
+    test_tender_co_long_bids,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.complaint_blanks import (
@@ -24,6 +24,7 @@ from openprocurement.tender.open.tests.complaint_blanks import (
     bot_patch_tender_complaint_mistaken,
     create_complaint_objection_validation,
     create_tender_complaint,
+    create_tender_complaint_invalid_author,
     mistaken_status_tender_complaint,
     objection_related_award_statuses,
     objection_related_document_of_evidence,
@@ -40,6 +41,7 @@ from openprocurement.tender.open.tests.complaint_blanks import (
 
 class TenderCOComplaintResourceTestMixin:
     test_create_tender_complaint = snitch(create_tender_complaint)
+    test_create_tender_complaint_invalid_author = snitch(create_tender_complaint_invalid_author)
     test_patch_tender_complaint = snitch(patch_tender_complaint)
     test_review_tender_complaint = snitch(review_tender_complaint)
     test_review_tender_stopping_complaint = snitch(review_tender_stopping_complaint)
@@ -50,34 +52,18 @@ class TenderCOComplaintResourceTestMixin:
 
 
 class TenderComplaintResourceTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     TenderCOComplaintResourceTestMixin,
 ):
     test_author = test_tender_below_author
     initial_lots = test_tender_below_lots
 
-    def setUp(self):
-        super().setUp()
 
-        # Force enable complaints for tender
-        tender = self.mongodb.tenders.get(self.tender_id)
-        tender["config"]["hasTenderComplaints"] = True
-        tender["config"]["tenderComplainRegulation"] = 1
-        self.mongodb.tenders.save(tender)
-
-
-class TenderComplaintDocumentResourceTest(BaseTenderCOContentWebTest):
+class TenderComplaintDocumentResourceTest(BaseTenderCOLongContentWebTest):
     initial_lots = test_tender_below_lots
 
     def setUp(self):
         super().setUp()
-
-        # Force enable complaints for tender
-        tender = self.mongodb.tenders.get(self.tender_id)
-        tender["config"]["hasTenderComplaints"] = True
-        tender["config"]["tenderComplainRegulation"] = 1
-        self.mongodb.tenders.save(tender)
-
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -309,7 +295,7 @@ class TenderAwardComplaintObjectionMixin:
 
 
 class TenderComplaintObjectionTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
@@ -318,18 +304,9 @@ class TenderComplaintObjectionTest(
     test_objection_related_item_equals_related_lot = snitch(objection_related_item_equals_related_lot)
     test_objection_related_document_of_evidence = snitch(objection_related_document_of_evidence)
 
-    def setUp(self):
-        super().setUp()
-
-        # Force enable complaints for tender
-        tender = self.mongodb.tenders.get(self.tender_id)
-        tender["config"]["hasTenderComplaints"] = True
-        tender["config"]["tenderComplainRegulation"] = 1
-        self.mongodb.tenders.save(tender)
-
 
 class TenderCancellationComplaintObjectionTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
@@ -339,24 +316,17 @@ class TenderCancellationComplaintObjectionTest(
 
     def setUp(self):
         super().setUp()
-
-        # Force enable complaints for cancellation
-        tender = self.mongodb.tenders.get(self.tender_id)
-        tender["config"]["hasCancellationComplaints"] = True
-        tender["config"]["cancellationComplainDuration"] = 1
-        self.mongodb.tenders.save(tender)
-
         self.set_complaint_period_end()
         self.create_cancellation()
 
 
 class TenderAwardComplaintObjectionTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_long_bids
     initial_lots = test_tender_below_lots
 
     test_objection_related_award_statuses = snitch(objection_related_award_statuses)
@@ -364,13 +334,6 @@ class TenderAwardComplaintObjectionTest(
 
     def setUp(self):
         super().setUp()
-
-        # Force enable complaints for award
-        tender = self.mongodb.tenders.get(self.tender_id)
-        tender["config"]["hasAwardComplaints"] = True
-        tender["config"]["awardComplainDuration"] = 1
-        self.mongodb.tenders.save(tender)
-
         self.create_award()
 
 

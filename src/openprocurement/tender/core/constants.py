@@ -10,6 +10,7 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
@@ -71,6 +72,7 @@ FIRST_STAGE_PROCUREMENT_TYPES = {
     SIMPLE_DEFENSE,
     PRICEQUOTATION,
     REQUEST_FOR_PROPOSAL,
+    COMPETITIVE_ORDERING,
 }
 
 CRITERION_TECHNICAL_FEATURES = "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -109,3 +111,12 @@ AGREEMENT_IDENTIFIER_MESSAGE = (
     "tender.procuringEntity.identifier (scheme or id), "
     "doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"
 )
+
+DEFAULT_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": False,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}

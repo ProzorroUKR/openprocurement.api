@@ -39,11 +39,7 @@ from openprocurement.tender.core.procedure.models.tender_base import (
     PostBaseTender,
 )
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_duration,
-    validate_tender_period_start_date,
-)
-from openprocurement.tender.esco.constants import ESCO, TENDERING_DURATION
+from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.esco.procedure.models.feature import Feature
 from openprocurement.tender.esco.procedure.models.item import Item
 from openprocurement.tender.esco.procedure.models.lot import (
@@ -134,11 +130,6 @@ class PostTender(PostBaseTender):
     enquiryPeriod = ModelType(EnquiryPeriod)
     auctionPeriod = ModelType(TenderAuctionPeriod)
     awardPeriod = ModelType(Period)
-
-    def validate_tenderPeriod(self, data, period):
-        if period:
-            validate_tender_period_start_date(data, period)
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
         validate_yearly_payments_percentage_range(data, value)
@@ -235,11 +226,6 @@ class Tender(BaseTender):
     complaintPeriod = BaseType()
 
     next_check = BaseType()
-
-    def validate_tenderPeriod(self, data, period):
-        if period:
-            # _validate_tender_period_start_date(data, period)  # ENABLED FOR POST ONLY
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
         validate_yearly_payments_percentage_range(data, value)

@@ -678,7 +678,7 @@ def patch_enquiry_tender_periods(self):
                 {
                     "location": "body",
                     "name": "enquiryPeriod",
-                    "description": ["the enquiryPeriod cannot end earlier than 3 calendar days after the start"],
+                    "description": ["the enquiryPeriod cannot end earlier than 3 full calendar days after the start"],
                 }
             ],
         )
@@ -784,7 +784,7 @@ def validate_tender_period(self):
         "endDate": enquiry_end_date,
     }
 
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["tenderPeriod"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1159,7 +1159,7 @@ def validate_enquiry_period(self):
         "endDate": invalid_end_date,
     }
 
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["enquiryPeriod"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1168,7 +1168,7 @@ def validate_enquiry_period(self):
         response.json["errors"],
         [
             {
-                "description": ["the enquiryPeriod cannot end earlier than 3 calendar days after the start"],
+                "description": ["the enquiryPeriod cannot end earlier than 3 full calendar days after the start"],
                 "location": "body",
                 "name": "enquiryPeriod",
             }
@@ -1201,7 +1201,7 @@ def validate_enquiry_period(self):
         response.json["errors"],
         [
             {
-                "description": ["the enquiryPeriod cannot end earlier than 3 calendar days after the start"],
+                "description": ["the enquiryPeriod cannot end earlier than 3 full calendar days after the start"],
                 "location": "body",
                 "name": "enquiryPeriod",
             }

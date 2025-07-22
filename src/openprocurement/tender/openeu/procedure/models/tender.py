@@ -22,14 +22,7 @@ from openprocurement.tender.core.procedure.models.tender import (
 )
 from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_duration,
-    validate_tender_period_start_date,
-)
-from openprocurement.tender.openeu.constants import (
-    ABOVE_THRESHOLD_EU,
-    TENDERING_DURATION,
-)
+from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 from openprocurement.tender.openeu.procedure.models.item import Item
 from openprocurement.tender.openeu.procedure.models.organization import ProcuringEntity
 
@@ -58,11 +51,6 @@ class PostTender(BasePostTender):
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST and data.get("features"):
             raise ValidationError(f"Can`t add features with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria")
-
-    def validate_tenderPeriod(self, data, period):
-        if period:
-            validate_tender_period_start_date(data, period)
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_features(self, data, features):
         validate_related_items(data, features)
@@ -134,9 +122,6 @@ class Tender(BaseTender):
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST and data.get("features"):
             raise ValidationError(f"Can`t add features with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria")
-
-    def validate_tenderPeriod(self, data, period):
-        validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_features(self, data, features):
         validate_related_items(data, features)

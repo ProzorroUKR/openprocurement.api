@@ -14,8 +14,8 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
 )
-from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, TENDERING_DAYS
-from openprocurement.tender.cfaua.tests.periods import PERIODS
+from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.cfaua.tests.periods import PERIODS, TENDERING_DAYS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_criteria_all,
@@ -31,6 +31,7 @@ from openprocurement.tender.openua.tests.base import (
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 now = get_now()
+
 
 # Prepare test_bids_data
 with open(os.path.join(BASE_DIR, "data/test_bids.json")) as fd:
@@ -106,6 +107,10 @@ test_tender_cfaua_config = {
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 20,
+    "minTenderingDuration": 30,
+    "hasEnquiries": False,
+    "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": False,
 }
 

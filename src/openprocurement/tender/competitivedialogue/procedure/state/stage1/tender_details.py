@@ -1,5 +1,9 @@
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.validation import raise_operation_error
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_1_EU_WORKING_DAYS_CONFIG,
+    STAGE_1_UA_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (
     BotPatchTender,
     PatchEUTender,
@@ -48,6 +52,8 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
 
 
 class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+    working_days_config = STAGE_1_EU_WORKING_DAYS_CONFIG
+
     def get_patch_data_model(self):
         if get_request().authenticated_role == "competitive_dialogue":
             return BotPatchTender
@@ -55,6 +61,8 @@ class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
 
 
 class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+    working_days_config = STAGE_1_UA_WORKING_DAYS_CONFIG
+
     def get_patch_data_model(self):
         if get_request().authenticated_role == "competitive_dialogue":
             return BotPatchTender

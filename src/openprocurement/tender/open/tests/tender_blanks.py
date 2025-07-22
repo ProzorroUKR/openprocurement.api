@@ -225,7 +225,9 @@ def create_tender_invalid(self):
 
     data = self.initial_data["tenderPeriod"]
     self.initial_data["tenderPeriod"] = {"startDate": "2014-10-31T00:00:00", "endDate": "2014-10-01T00:00:00"}
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     self.initial_data["tenderPeriod"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -242,7 +244,9 @@ def create_tender_invalid(self):
     )
 
     self.initial_data["tenderPeriod"]["startDate"] = (get_now() - timedelta(minutes=30)).isoformat()
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     del self.initial_data["tenderPeriod"]["startDate"]
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -260,7 +264,9 @@ def create_tender_invalid(self):
 
     now = get_now()
     self.initial_data["awardPeriod"] = {"startDate": now.isoformat(), "endDate": now.isoformat()}
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     del self.initial_data["awardPeriod"]
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -278,7 +284,9 @@ def create_tender_invalid(self):
         "startDate": (now + timedelta(days=15)).isoformat(),
         "endDate": (now + timedelta(days=15)).isoformat(),
     }
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     del self.initial_data["auctionPeriod"]
     del self.initial_data["awardPeriod"]
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -291,7 +299,9 @@ def create_tender_invalid(self):
 
     data = self.initial_data["minimalStep"]
     del self.initial_data["minimalStep"]
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -303,7 +313,9 @@ def create_tender_invalid(self):
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -321,7 +333,9 @@ def create_tender_invalid(self):
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "currency": "USD"}
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -362,7 +376,15 @@ def create_tender_invalid(self):
     data = self.initial_data["items"][0].pop("additionalClassifications")
     cpv_code = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "99999999-9"
+
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        if "items" in agreement:
+            agreement["items"] = self.initial_data["items"]
+        self.mongodb.agreements.save(agreement)
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=201)
+
     self.initial_data["items"][0]["additionalClassifications"] = data
     self.initial_data["items"][0]["classification"]["id"] = cpv_code
     self.assertEqual(response.status, "201 Created")
@@ -372,7 +394,15 @@ def create_tender_invalid(self):
     self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = "Не ДКПП"
     cpv_code = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "99999999-9"
+
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        if "items" in agreement:
+            agreement["items"] = self.initial_data["items"]
+        self.mongodb.agreements.save(agreement)
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = data
     self.initial_data["items"][0]["classification"]["id"] = cpv_code
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -397,7 +427,9 @@ def create_tender_invalid(self):
 
     data = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
     del self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -412,9 +444,12 @@ def create_tender_invalid(self):
             }
         ],
     )
+
     correct_phone = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
     self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = "++223"
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = correct_phone
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -435,7 +470,15 @@ def create_tender_invalid(self):
     data["classification"] = classification
     self.initial_data["items"] = [self.initial_data["items"][0], data]
     self.initial_data["items"][0].pop("id", None)  # Remove id to avoid duplicate id
+
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        if "items" in agreement:
+            agreement["items"] = self.initial_data["items"]
+        self.mongodb.agreements.save(agreement)
+
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -447,7 +490,9 @@ def create_tender_invalid(self):
 
     data = deepcopy(self.initial_data)
     del data["items"][0]["deliveryDate"]["endDate"]
+
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
+
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -516,7 +561,6 @@ def create_tender_generated(self):
         "dateCreated",
         "tenderID",
         "status",
-        "enquiryPeriod",
         "tenderPeriod",
         "minimalStep",
         "items",
@@ -545,6 +589,8 @@ def create_tender_generated(self):
         fields.append("agreements")
     if config["hasTenderComplaints"]:
         fields.append("complaintPeriod")
+    if config["hasEnquiries"] is True or config["enquiryPeriodRegulation"] > 0:
+        fields.append("enquiryPeriod")
     self.assertEqual(set(tender), set(fields))
     self.assertNotEqual(data["id"], tender["id"])
 
@@ -562,7 +608,6 @@ def tender_fields(self):
         "id",
         "dateModified",
         "dateCreated",
-        "enquiryPeriod",
         "criteria",
         "tenderID",
         "status",
@@ -577,6 +622,8 @@ def tender_fields(self):
     }
     if config["hasTenderComplaints"] is True:
         expected_difference.add("complaintPeriod")
+    if config["hasEnquiries"] is True or config["enquiryPeriodRegulation"] > 0:
+        expected_difference.add("enquiryPeriod")
 
     difference = set(tender) - set(self.initial_data)
     self.assertEqual(difference, expected_difference)
@@ -1269,7 +1316,8 @@ def first_bid_tender(self):
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        if "complaintPeriod" in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1340,7 +1388,8 @@ def lost_contract_for_active_award(self):
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        if "complaintPeriod" in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))

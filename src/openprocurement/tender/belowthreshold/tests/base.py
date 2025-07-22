@@ -248,6 +248,10 @@ test_tender_below_config = {
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 1,
     "qualificationDuration": 0,
+    "minTenderingDuration": 2,
+    "hasEnquiries": True,
+    "minEnquiriesDuration": 3,
+    "enquiryPeriodRegulation": 0,
     "restricted": False,
 }
 

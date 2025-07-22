@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+STAND_STILL_TIME = timedelta(days=10)
 PERIODS = {
     "active.tendering": {
         "start": {

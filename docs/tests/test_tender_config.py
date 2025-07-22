@@ -44,10 +44,41 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
-    test_tender_co_config,
-    test_tender_co_criteria,
+from openprocurement.tender.belowthreshold.constants import (
+    WORKING_DAYS_CONFIG as BELOWTHRESHOLD_WORKING_DAYS_CONFIG,
 )
+from openprocurement.tender.cfaselectionua.constants import (
+    WORKING_DAYS_CONFIG as CFASELECTIONUA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.cfaua.constants import (
+    WORKING_DAYS_CONFIG as CFAUA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_1_EU_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_1_EU_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_1_UA_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_1_UA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_2_EU_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_UA_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_2_UA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitiveordering.constants import (
+    LONG_WORKING_DAYS_CONFIG as CO_LONG_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitiveordering.constants import (
+    SHORT_WORKING_DAYS_CONFIG as CO_SHORT_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitiveordering.constants import (
+    WORKING_DAYS_CONFIG as CO_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.competitiveordering.tests.long.base import (
+    test_tender_co_long_config,
+    test_tender_co_long_criteria,
+)
+from openprocurement.tender.core.constants import DEFAULT_WORKING_DAYS_CONFIG
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_default_criteria
@@ -57,15 +88,42 @@ from openprocurement.tender.core.tests.utils import (
     set_tender_lots,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
+from openprocurement.tender.esco.constants import (
+    WORKING_DAYS_CONFIG as ESCO_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.esco.tests.base import (
     test_tender_esco_config,
     test_tender_esco_criteria,
 )
+from openprocurement.tender.limited.constants import (
+    WORKING_DAYS_CONFIG as LIMITED_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.open.constants import (
+    WORKING_DAYS_CONFIG as OPEN_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.open.tests.base import test_tender_open_config
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.openeu.constants import (
+    WORKING_DAYS_CONFIG as OPENEU_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.openeu.tests.base import test_tender_openeu_config
 from openprocurement.tender.openeu.tests.periods import PERIODS
+from openprocurement.tender.openua.constants import (
+    WORKING_DAYS_CONFIG as OPENUA_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.openuadefense.constants import (
+    WORKING_DAYS_CONFIG as OPENUADEFENSE_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.pricequotation.constants import (
+    WORKING_DAYS_CONFIG as PRICEQUOTATION_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.requestforproposal.constants import (
+    WORKING_DAYS_CONFIG as RFP_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.requestforproposal.tests.base import test_tender_rfp_config
+from openprocurement.tender.simpledefense.constants import (
+    WORKING_DAYS_CONFIG as SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
+)
 
 TARGET_DIR = 'docs/source/tendering/config/http/'
 TARGET_JSON_DIR = 'docs/source/tendering/config/json/'
@@ -73,43 +131,51 @@ TARGET_CSV_DIR = 'docs/source/tendering/config/csv/'
 
 
 class TenderConfigCSVMixin:
-    def write_config_values_csv(self, config_name, file_path):
-        pmts = [
-            "aboveThreshold",
-            "competitiveOrdering",
-            "aboveThresholdEU",
-            "aboveThresholdUA.defense",
-            "aboveThresholdUA",
-            "belowThreshold",
-            "closeFrameworkAgreementSelectionUA",
-            "closeFrameworkAgreementUA",
-            "competitiveDialogueEU",
-            "competitiveDialogueEU.stage2",
-            "competitiveDialogueUA",
-            "competitiveDialogueUA.stage2",
-            "esco",
-            "negotiation",
-            "negotiation.quick",
-            "priceQuotation",
-            "reporting",
-            "simple.defense",
-            "requestForProposal",
-        ]
+    pmts = {
+        "aboveThreshold": OPEN_WORKING_DAYS_CONFIG,
+        "competitiveOrdering": CO_WORKING_DAYS_CONFIG,
+        "competitiveOrdering.short": CO_SHORT_WORKING_DAYS_CONFIG,
+        "competitiveOrdering.long": CO_LONG_WORKING_DAYS_CONFIG,
+        "aboveThresholdEU": OPENEU_WORKING_DAYS_CONFIG,
+        "aboveThresholdUA.defense": OPENUADEFENSE_WORKING_DAYS_CONFIG,
+        "aboveThresholdUA": OPENUA_WORKING_DAYS_CONFIG,
+        "belowThreshold": BELOWTHRESHOLD_WORKING_DAYS_CONFIG,
+        "closeFrameworkAgreementSelectionUA": CFASELECTIONUA_WORKING_DAYS_CONFIG,
+        "closeFrameworkAgreementUA": CFAUA_WORKING_DAYS_CONFIG,
+        "competitiveDialogueEU": COMPETITIVEDIALOGUE_STAGE_1_EU_WORKING_DAYS_CONFIG,
+        "competitiveDialogueEU.stage2": COMPETITIVEDIALOGUE_STAGE_2_EU_WORKING_DAYS_CONFIG,
+        "competitiveDialogueUA": COMPETITIVEDIALOGUE_STAGE_1_UA_WORKING_DAYS_CONFIG,
+        "competitiveDialogueUA.stage2": COMPETITIVEDIALOGUE_STAGE_2_UA_WORKING_DAYS_CONFIG,
+        "esco": ESCO_WORKING_DAYS_CONFIG,
+        "negotiation": LIMITED_WORKING_DAYS_CONFIG,
+        "negotiation.quick": LIMITED_WORKING_DAYS_CONFIG,
+        "priceQuotation": PRICEQUOTATION_WORKING_DAYS_CONFIG,
+        "reporting": LIMITED_WORKING_DAYS_CONFIG,
+        "simple.defense": SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
+        "requestForProposal": RFP_WORKING_DAYS_CONFIG,
+    }
 
+    def write_config_values_csv(self, config_name, file_path):
         headers = [
             "procurementMethodType",
             "values",
             "default",
         ]
 
-        rows = []
+        show_days = config_name in DEFAULT_WORKING_DAYS_CONFIG.keys()
+        if show_days:
+            headers.append("days")
 
-        for pmt in pmts:
+        # Generate rows
+        rows = []
+        for pmt in self.pmts:
             schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
             config_schema = schema["properties"][config_name]
-            row = self.get_config_row(pmt, config_schema)
+            config_working_days = self.pmts.get(pmt, {}).get(config_name)
+            row = self.get_config_row(pmt, config_schema, show_days=show_days, working_days=config_working_days)
             rows.append(row)
 
+        # Write to file
         with open(file_path, 'w', newline='') as file_csv:
             writer = csv.writer(file_csv, lineterminator='\n')
             writer.writerow(headers)
@@ -120,20 +186,37 @@ class TenderConfigCSVMixin:
             "name",
             "values",
             "default",
+            "days",
         ]
-
-        rows = []
 
         schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
 
+        # Generate rows
+        rows = []
         for config_name, config_schema in schema["properties"].items():
-            row = self.get_config_row(config_name, config_schema)
+            config_working_days = self.pmts.get(pmt, {}).get(config_name)
+            row = self.get_config_row(config_name, config_schema, show_days=True, working_days=config_working_days)
             rows.append(row)
 
+        # Determine which columns have data (non-empty values)
+        column_has_data = [False] * len(headers)
+        for row in rows:
+            for i, value in enumerate(row):
+                if value and value != "":
+                    column_has_data[i] = True
+
+        # Filter headers and rows to only include columns with data
+        filtered_headers = [header for i, header in enumerate(headers) if column_has_data[i]]
+        filtered_rows = []
+        for row in rows:
+            filtered_row = [value for i, value in enumerate(row) if column_has_data[i]]
+            filtered_rows.append(filtered_row)
+
+        # Write to file
         with open(file_path, 'w', newline='') as file_csv:
             writer = csv.writer(file_csv, lineterminator='\n')
-            writer.writerow(headers)
-            writer.writerows(rows)
+            writer.writerow(filtered_headers)
+            writer.writerows(filtered_rows)
 
     def write_config_mask_csv(self, mapping, file_path):
         headers = [
@@ -151,7 +234,7 @@ class TenderConfigCSVMixin:
             writer.writerow(headers)
             writer.writerows(rows)
 
-    def get_config_row(self, name, config_schema):
+    def get_config_row(self, name, config_schema, show_days=False, working_days=None):
         row = []
 
         # row name
@@ -164,10 +247,33 @@ class TenderConfigCSVMixin:
         config_default = config_schema.get("default", "")
         row.append(json.dumps(config_default))
 
+        # days
+        if show_days:
+            row.append(self.get_working_days_values(working_days, config_default))
+
         return row
 
+    def get_working_days_values(self, working_days, config_default):
+        separator = " / "
+        if working_days is not None and config_default == 0:
+            return ""
+        elif working_days is True:
+            return "working"
+        elif working_days is False:
+            return "calendar"
+        elif isinstance(working_days, list):
+            return separator.join(
+                map(
+                    self.get_working_days_values,
+                    working_days,
+                    [config_default] * len(working_days),
+                )
+            )
+        else:
+            return ""
+
     def get_config_possible_values(self, config_schema):
-        separator = ","
+        separator = " / "
         empty = ""
         if "enum" in config_schema:
             config_values_enum = config_schema.get("enum", "")
@@ -184,7 +290,7 @@ class TenderConfigCSVMixin:
             return empty
 
 
-class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
+class TenderConfigBaseTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -244,7 +350,7 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
         self.assertEqual(response.status, '200 OK')
 
 
-class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
+class HasAuctionTenderConfigTest(TenderConfigBaseTest):
     initial_config = test_tender_open_config
 
     def test_docs_has_auction_values_csv(self):
@@ -582,7 +688,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.json["data"]["status"], 'complete')
 
 
-class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
+class HasAwardingTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_value_restriction_values_csv(self):
         self.write_config_values_csv(
             config_name="hasAwardingOrder",
@@ -1063,9 +1169,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
                     'bids': [
                         {
                             "id": b["id"],
-                            "lotValues": [
-                                {"value": lot["value"], "relatedLot": lot["relatedLot"]} for lot in b["lotValues"]
-                            ],
+                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
                         }
                         for b in auction_bids_data
                     ]
@@ -1198,7 +1302,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '200 OK')
 
 
-class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
+class HasValueEstimationTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_value_estimation_values_csv(self):
         self.write_config_values_csv(
             config_name="hasValueEstimation",
@@ -1289,7 +1393,7 @@ class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '200 OK')
 
 
-class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
+class HasValueRestrictionTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_value_restriction_values_csv(self):
         self.write_config_values_csv(
             config_name="hasValueRestriction",
@@ -1501,7 +1605,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, "201 Created")
 
 
-class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
+class ValueCurrencyEqualityTenderConfigTest(TenderConfigBaseTest):
     def test_docs_value_currency_equality_values_csv(self):
         self.write_config_values_csv(
             config_name="valueCurrencyEquality",
@@ -1779,7 +1883,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '200 OK')
 
 
-class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
+class MinBidsNumberTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_min_bids_number_values_csv(self):
@@ -2080,7 +2184,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.json['data']['status'], 'active.qualification')
 
 
-class TenderComplainRegulationResourceTest(TenderConfigBaseResourceTest):
+class ComplainRegulationTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
     initial_config = deepcopy(test_tender_rfp_config)
 
@@ -2172,7 +2276,7 @@ class TenderComplainRegulationResourceTest(TenderConfigBaseResourceTest):
             self.assertNotIn("complaintPeriod", response.json["data"])
 
 
-class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
+class HasPrequalificationTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_prequalification_values_csv(self):
         self.write_config_values_csv(
             config_name="hasPrequalification",
@@ -2180,7 +2284,7 @@ class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
         )
 
 
-class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest, FrameworkActionsTestMixin):
+class HasPreSelectionAgreementTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin):
     framework_type = DPS_TYPE
 
     def test_docs_has_pre_selection_agreement_values_csv(self):
@@ -2233,7 +2337,7 @@ class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest, F
         data["items"] = items
         data['procuringEntity'] = procuring_entity
         data['agreements'] = agreements
-        config = deepcopy(test_tender_co_config)
+        config = deepcopy(test_tender_co_long_config)
         config['hasPreSelectionAgreement'] = True
 
         with open(TARGET_DIR + 'has-pre-selection-agreement-true-tender-post.http', 'w') as self.app.file_obj:
@@ -2256,7 +2360,7 @@ class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest, F
             self.assertEqual(response.json['errors'][0]['description'], "Agreement type mismatch.")
 
 
-class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
+class ComplaintsTenderConfigTest(TenderConfigBaseTest):
     def test_docs_has_pre_selection_agreement_values_csv(self):
         for config_name in ("hasTenderComplaints", "hasAwardComplaints", "hasCancellationComplaints"):
             self.write_config_values_csv(
@@ -2265,7 +2369,7 @@ class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
             )
 
 
-class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTest):
+class QualificationComplainDurationTenderConfigTest(TenderConfigBaseTest):
     periods = PERIODS
 
     def test_docs_qualification_complain_duration_values_csv(self):
@@ -2490,7 +2594,7 @@ class TenderQualificationComplainDurationResourceTest(TenderConfigBaseResourceTe
                 self.assertEqual(time_diff.days, 5)
 
 
-class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
+class QualificationDurationTenderConfigTest(TenderConfigBaseTest):
     periods = PERIODS
 
     def test_docs_qualification_duration_values_csv(self):
@@ -2659,7 +2763,7 @@ class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(end_date, calculated_end_date)
 
 
-class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkActionsTestMixin):
+class RestrictedTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin):
     initial_auth = ("Basic", ("brokerr", ""))
     framework_type = DPS_TYPE
 
@@ -2736,7 +2840,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
 
         data['lots'] = [lot]
 
-        config = deepcopy(test_tender_co_config)
+        config = deepcopy(test_tender_co_long_config)
 
         for item in data['items']:
             item['relatedLot'] = lot['id']
@@ -2769,7 +2873,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
         response = self.app.get('/tenders/{}'.format(tender_id))
         tender = response.json["data"]
 
-        test_criteria_data = deepcopy(test_tender_co_criteria)
+        test_criteria_data = deepcopy(test_tender_co_long_criteria)
         set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
         response = self.app.post_json(
@@ -2911,7 +3015,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
         assert response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"] != MASK_STRING
 
 
-class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
+class AwardComplainDurationTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_award_complain_duration_values_csv(self):
@@ -3057,7 +3161,7 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
             self.assertIn("complaintPeriod", response.json["data"])
 
 
-class TenderCancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
+class CancellationComplainDurationTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_cancellation_complain_duration_values_csv(self):
@@ -3203,7 +3307,7 @@ class TenderCancellationComplainDurationResourceTest(TenderConfigBaseResourceTes
             self.assertNotIn("complaintPeriod", response.json["data"])
 
 
-class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
+class CancellationComplainDurationTenderConfigTest(TenderConfigBaseTest):
     initial_data = deepcopy(test_docs_tender_rfp)
 
     def test_docs_cancellation_complain_duration_values_csv(self):
@@ -3404,7 +3508,7 @@ class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
             self.assertNotIn("complaintPeriod", response.json["data"])
 
 
-class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest):
+class ClarificationUntilDurationTenderConfigTest(TenderConfigBaseTest):
 
     def test_docs_clarification_until_duration_values_csv(self):
         self.write_config_values_csv(
@@ -3465,3 +3569,39 @@ class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest)
             self.assertEqual(
                 expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
             )
+
+
+class MinTenderingDurationTenderConfigTest(TenderConfigBaseTest):
+
+    def test_docs_min_tendering_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="minTenderingDuration",
+            file_path=TARGET_CSV_DIR + "min-tendering-duration-values.csv",
+        )
+
+
+class HasEnquiriesTenderConfigTest(TenderConfigBaseTest):
+
+    def test_docs_has_enquiries_values_csv(self):
+        self.write_config_values_csv(
+            config_name="hasEnquiries",
+            file_path=TARGET_CSV_DIR + "has-enquiries-values.csv",
+        )
+
+
+class MinEnquiriesDurationTenderConfigTest(TenderConfigBaseTest):
+
+    def test_docs_min_enquiries_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="minEnquiriesDuration",
+            file_path=TARGET_CSV_DIR + "min-enquiries-duration-values.csv",
+        )
+
+
+class EnquiryPeriodRegulationTenderConfigTest(TenderConfigBaseTest):
+
+    def test_docs_enquiry_period_regulation_values_csv(self):
+        self.write_config_values_csv(
+            config_name="enquiryPeriodRegulation",
+            file_path=TARGET_CSV_DIR + "enquiry-period-regulation-values.csv",
+        )

@@ -5,7 +5,6 @@ from uuid import uuid4
 from openprocurement.api.constants import TZ
 from openprocurement.api.constants_utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_lots,
@@ -42,11 +41,6 @@ def patch_tender_period(self):
         )
         + timedelta(seconds=1)
     ).astimezone(TZ)
-    enquiry_period_end_date = calculate_tender_full_date(
-        tender_period_end_date,
-        -timedelta(days=3),
-        tender=tender,
-    )
     tender_period = deepcopy(tender["tenderPeriod"])
     tender_period["endDate"] = tender_period_end_date.isoformat()
     response = self.app.patch_json(
@@ -56,7 +50,7 @@ def patch_tender_period(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["tenderPeriod"]["endDate"], tender_period_end_date.isoformat())
-    self.assertEqual(response.json["data"]["enquiryPeriod"]["endDate"], enquiry_period_end_date.isoformat())
+    self.assertNotIn("enquiryPeriod", response.json["data"])
 
 
 def patch_tender(self):
@@ -111,7 +105,7 @@ def patch_tender(self):
             {
                 "location": "body",
                 "name": "tenderPeriod",
-                "description": ["tenderPeriod must be at least 3 full calendar days long"],
+                "description": ["tenderPeriod must be at least 2 full business days long"],
             }
         ],
     )
@@ -120,11 +114,9 @@ def patch_tender(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn("invalidationDate", response.json["data"]["enquiryPeriod"])
+    # self.assertIn("invalidationDate", response.json["data"]["enquiryPeriod"])
     new_tender = response.json["data"]
-    new_enquiryPeriod = new_tender.pop("enquiryPeriod")
     new_dateModified = new_tender.pop("dateModified")
-    tender.pop("enquiryPeriod")
     tender["procurementMethodRationale"] = "Open"
     self.assertEqual(tender, new_tender)
     self.assertNotEqual(dateModified, new_dateModified)
@@ -140,12 +132,10 @@ def patch_tender(self):
         {"data": {"procurementMethodRationale": "OpenOpen"}},
     )
     new_tender2 = response.json["data"]
-    new_enquiryPeriod2 = new_tender2.pop("enquiryPeriod")
     new_dateModified2 = new_tender2.pop("dateModified")
     new_tender.pop("procurementMethodRationale")
     new_tender2.pop("procurementMethodRationale")
     self.assertEqual(new_tender, new_tender2)
-    self.assertNotEqual(new_enquiryPeriod, new_enquiryPeriod2)
     self.assertNotEqual(new_dateModified, new_dateModified2)
 
     response = self.app.patch_json(
@@ -190,10 +180,14 @@ def patch_tender(self):
     item = deepcopy(self.initial_data["items"][0])
     item["id"] = item_id
     item["classification"] = {"scheme": "ДК021", "id": "44620000-2", "description": "Cartons 2"}
+
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"scheme": "ДК021", "id": "44620000-2"}
+        if "items" in agreement:
+            agreement["items"] = [item]
         self.mongodb.agreements.save(agreement)
+
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": [item]}},
@@ -205,10 +199,14 @@ def patch_tender(self):
         "id": "55523100-3",
         "description": "Послуги з харчування у школах",
     }
+
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"scheme": "ДК021", "id": "55523100-3"}
+        if "items" in agreement:
+            agreement["items"] = [item]
         self.mongodb.agreements.save(agreement)
+
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": [item]}},
@@ -224,10 +222,14 @@ def patch_tender(self):
     item = deepcopy(self.initial_data["items"][0])
     item["id"] = item_id
     item["additionalClassifications"] = [tender["items"][0]["additionalClassifications"][0] for i in range(3)]
+
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = self.initial_data["items"][0]["classification"]
+        if "items" in agreement:
+            agreement["items"] = [item]
         self.mongodb.agreements.save(agreement)
+
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": [item]}},
@@ -258,12 +260,17 @@ def patch_tender(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"enquiryPeriod": period}},
+        status=422,
     )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "enquiryPeriod", "description": "Rogue field"}],
+    )
+
+    response = self.app.get(f"/tenders/{tender['id']}")
     result = response.json["data"]
-    self.assertNotEqual(period["startDate"], result["enquiryPeriod"]["startDate"])
-    self.assertNotEqual(period["endDate"], result["enquiryPeriod"]["endDate"])
-    self.assertEqual(tender["enquiryPeriod"]["startDate"], result["enquiryPeriod"]["startDate"])
-    self.assertEqual(tender["enquiryPeriod"]["endDate"], result["enquiryPeriod"]["endDate"])
 
     # set lots
     base_value = result["value"]
@@ -308,23 +315,7 @@ def patch_tender(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't update tender in current (complete) status")
 
 
-def create_tender_co(self):
-    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("complaintPeriod", response.json["data"])
-    tender_id = response.json["data"]["id"]
-
-    # try to add complaint
-    complaint_data = deepcopy(test_tender_below_draft_complaint)
-    response = self.app.post_json(f"/tenders/{tender_id}/complaints", {"data": complaint_data}, status=403)
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add complaint as it is forbidden by configuration"
-    )
-
-
-def create_tender_co_invalid_config(self):
+def create_tender_forbidden_complaints(self):
     for config_name in ("hasTenderComplaints", "hasAwardComplaints", "hasCancellationComplaints"):
         config = deepcopy(self.initial_config)
         config.update({config_name: True})
@@ -343,8 +334,22 @@ def create_tender_co_invalid_config(self):
             [{"description": "True is not one of [False]", "location": "body", "name": f"config.{config_name}"}],
         )
 
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("complaintPeriod", response.json["data"])
+    tender_id = response.json["data"]["id"]
 
-def create_tender_co_invalid_agreement(self):
+    # try to add complaint
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    response = self.app.post_json(f"/tenders/{tender_id}/complaints", {"data": complaint_data}, status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't add complaint as it is forbidden by configuration"
+    )
+
+
+def create_tender_invalid_agreement(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
 
@@ -382,22 +387,4 @@ def create_tender_co_invalid_agreement(self):
     self.assertEqual(
         response.json["errors"],
         [{"location": "body", "name": "agreements", "description": "Agreement type mismatch."}],
-    )
-
-    # DPS agreement with items is forbidden
-    agreement = self.mongodb.agreements.get(self.agreement_id)
-    agreement["agreementType"] = DPS_TYPE
-    agreement["items"] = [{}]
-    self.mongodb.agreements.save(agreement)
-
-    response = self.app.patch_json(
-        f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"status": "active.tendering"}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "agreements", "description": "Agreement with items is not allowed."}],
     )

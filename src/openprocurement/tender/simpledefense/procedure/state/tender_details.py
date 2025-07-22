@@ -3,8 +3,8 @@ from openprocurement.tender.openuadefense.procedure.state.tender_details import 
     DefenseTenderDetailsState,
 )
 from openprocurement.tender.simpledefense.constants import (
-    ENQUIRY_PERIOD_TIME,
     TENDERING_EXTRA_PERIOD,
+    WORKING_DAYS_CONFIG,
 )
 
 
@@ -13,8 +13,8 @@ class SimpleDefenseTenderDetailsState(DefenseTenderDetailsState):
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
 
-    tendering_period_extra = TENDERING_EXTRA_PERIOD
-    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    tender_complain_regulation_working_days = True
+    tender_period_extra = TENDERING_EXTRA_PERIOD
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")
+
+    working_days_config = WORKING_DAYS_CONFIG

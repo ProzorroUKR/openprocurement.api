@@ -15,7 +15,6 @@ from openprocurement.tender.cfaua.constants import (
     CFA_UA,
     MAX_AGREEMENT_PERIOD,
     MIN_BIDS_NUMBER,
-    TENDERING_DURATION,
 )
 from openprocurement.tender.cfaua.procedure.models.feature import Feature
 from openprocurement.tender.cfaua.procedure.models.item import Item
@@ -47,10 +46,6 @@ from openprocurement.tender.core.procedure.models.tender import Tender as BaseTe
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     validate_features_custom_weight,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_duration,
-    validate_tender_period_start_date,
 )
 
 LOTS_MIN_SIZE = 1
@@ -106,11 +101,6 @@ class PostTender(BasePostTender):
     tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
 
     status = StringType(choices=["draft"], default="draft")
-
-    def validate_tenderPeriod(self, data, period):
-        if period:
-            validate_tender_period_start_date(data, period)
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_features(self, data, features):
         validate_features(data, features)
@@ -203,9 +193,6 @@ class Tender(BaseTender):
 
     auctionPeriod = ModelType(Period)
     awards = BaseType()
-
-    def validate_tenderPeriod(self, data, period):
-        validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_features(self, data, features):
         validate_features(data, features)

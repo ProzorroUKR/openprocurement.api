@@ -3,10 +3,10 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderCOContentWebTest,
-    test_tender_co_data,
-    test_tender_co_required_criteria_ids,
+from openprocurement.tender.competitiveordering.tests.long.base import (
+    BaseTenderCOLongContentWebTest,
+    test_tender_co_long_data,
+    test_tender_co_long_required_criteria_ids,
 )
 from openprocurement.tender.openua.tests.criterion import TenderCriteriaBaseTestMixin
 from openprocurement.tender.openua.tests.criterion_blanks import (
@@ -87,16 +87,16 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(TenderCriteriaBaseTestMixin):
     }
 
 
-class TenderCOCriteriaTest(TenderCriteriaTestMixin, BaseTenderCOContentWebTest):
-    initial_data = test_tender_co_data
+class TenderCOCriteriaTest(TenderCriteriaTestMixin, BaseTenderCOLongContentWebTest):
+    initial_data = test_tender_co_long_data
     initial_lots = test_tender_below_lots
     initial_status = "draft"
 
-    required_criteria = test_tender_co_required_criteria_ids
+    required_criteria = test_tender_co_long_required_criteria_ids
 
 
-class TenderCOCriteriaLccTest(BaseTenderCOContentWebTest):
-    initial_data = test_tender_co_data
+class TenderCOCriteriaLccTest(BaseTenderCOLongContentWebTest):
+    initial_data = test_tender_co_long_data
     initial_lots = test_tender_below_lots
     initial_status = "draft"
 
@@ -109,21 +109,21 @@ class TenderCOCriteriaLccTest(BaseTenderCOContentWebTest):
     test_lcc_criterion_invalid = snitch(lcc_criterion_invalid)
 
 
-class TenderCOCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderCOContentWebTest):
-    initial_data = test_tender_co_data
+class TenderCOCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderCOLongContentWebTest):
+    initial_data = test_tender_co_long_data
     test_lots_data = test_tender_below_lots
 
 
-class TenderCOCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseTenderCOContentWebTest):
-    initial_data = test_tender_co_data
+class TenderCOCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseTenderCOLongContentWebTest):
+    initial_data = test_tender_co_long_data
     test_lots_data = test_tender_below_lots
 
 
 class TenderCOCriteriaRGRequirementEvidenceTest(
     TenderCriteriaRGRequirementEvidenceTestMixin,
-    BaseTenderCOContentWebTest,
+    BaseTenderCOLongContentWebTest,
 ):
-    initial_data = test_tender_co_data
+    initial_data = test_tender_co_long_data
     test_lots_data = test_tender_below_lots
 
 

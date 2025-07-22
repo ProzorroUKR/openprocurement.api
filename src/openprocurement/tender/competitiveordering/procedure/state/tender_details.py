@@ -1,9 +1,14 @@
+from copy import deepcopy
+
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.api.constants import TENDER_CO_CONFIG_JSONSCHEMAS
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
+from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.competitiveordering.constants import (
-    ENQUIRY_PERIOD_TIME,
+    LONG_WORKING_DAYS_CONFIG,
+    SHORT_WORKING_DAYS_CONFIG,
     TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
@@ -18,14 +23,9 @@ class COTenderDetailsState(TenderDetailsMixing, COTenderState):
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-    tender_period_working_day = False
-    clarification_period_working_day = False
-    tendering_period_extra = TENDERING_EXTRA_PERIOD
-    tendering_period_extra_working_days = False
-    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
+
     should_validate_notice_doc_required = True
     agreement_allowed_types = [DPS_TYPE]
-    agreement_with_items_forbidden = True
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
@@ -44,3 +44,37 @@ class COTenderDetailsState(TenderDetailsMixing, COTenderState):
             return False
 
         return True
+
+
+class COTenderConfigMixin(ConfigMixin):
+    co_config_schema_name = "competitiveOrdering"
+
+    def validate_co_config(self, data):
+        config_schema = TENDER_CO_CONFIG_JSONSCHEMAS.get(self.co_config_schema_name)
+        config_schema = deepcopy(config_schema)
+        config_schema.pop("required", None)
+        self.validate_config_schema(data, config_schema)
+
+    def validate_config(self, data):
+        super().validate_config(data)
+        self.validate_co_config(data)
+
+
+class COShortTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
+    co_config_schema_name = "competitiveOrdering.short"
+    agreement_with_items_forbidden = False
+
+    tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra_working_days = False
+
+    working_days_config = SHORT_WORKING_DAYS_CONFIG
+
+
+class COLongTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
+    co_config_schema_name = "competitiveOrdering.long"
+    agreement_with_items_forbidden = True
+
+    tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra_working_days = False
+
+    working_days_config = LONG_WORKING_DAYS_CONFIG

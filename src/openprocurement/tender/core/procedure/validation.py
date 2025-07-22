@@ -31,7 +31,6 @@ from openprocurement.api.constants import (
     INN_SCHEME,
     UA_ROAD_CPV_PREFIXES,
     UA_ROAD_SCHEME,
-    WORKING_DAYS,
 )
 from openprocurement.api.constants_env import (
     CONFIDENTIAL_EDRPOU_LIST,
@@ -55,10 +54,7 @@ from openprocurement.api.utils import (
     raise_operation_error,
 )
 from openprocurement.api.validation import validate_tender_first_revision_date
-from openprocurement.tender.core.constants import (
-    AMOUNT_NET_COEF,
-    FIRST_STAGE_PROCUREMENT_TYPES,
-)
+from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
     find_lot,
     get_criterion_requirement,
@@ -67,10 +63,6 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_after_2020_rules,
     tender_created_before,
-)
-from openprocurement.tender.core.utils import (
-    calculate_tender_date,
-    calculate_tender_full_date,
 )
 from openprocurement.tender.pricequotation.constants import PQ
 
@@ -1195,18 +1187,6 @@ def validate_tender_in_draft(request, **kwargs):
         raise raise_operation_error(request, "Only allowed in draft tender status")
 
 
-def validate_procurement_type_of_first_stage(request, **kwargs):
-    tender = request.validated["tender"]
-    if tender["procurementMethodType"] not in FIRST_STAGE_PROCUREMENT_TYPES:
-        request.errors.add(
-            "body",
-            "procurementMethodType",
-            "Should be one of the first stage values: {}".format(FIRST_STAGE_PROCUREMENT_TYPES),
-        )
-        request.errors.status = 422
-        raise error_handler(request)
-
-
 def check_requirements_active(criterion):
     for rg in criterion.get("requirementGroups", []):
         for requirement in rg.get("requirements", []):
@@ -1281,34 +1261,6 @@ def validate_ccce_ua(additional_classifications):
     if ccce_count > 1:
         raise ValidationError(
             f"Object shouldn't have more than 1 additionalClassification with scheme {CCCE_UA_SCHEME}"
-        )
-
-
-def validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
-    min_allowed_date = calculate_tender_date(
-        get_request_now(),
-        -timedelta(minutes=10),
-        tender=None,
-        working_days=working_days,
-        calendar=calendar,
-    )
-    if min_allowed_date >= period.startDate:
-        raise ValidationError("tenderPeriod.startDate should be in greater than current date")
-
-
-def validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
-    tender_period_end_date = calculate_tender_full_date(
-        period.startDate,
-        duration,
-        tender=data,
-        working_days=working_days,
-        calendar=calendar,
-    )
-    if tender_period_end_date > period.endDate:
-        raise ValidationError(
-            "tenderPeriod must be at least {duration.days} full {type} days long".format(
-                duration=duration, type="business" if working_days else "calendar"
-            )
         )
 
 

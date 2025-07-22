@@ -1,10 +1,9 @@
 from datetime import timedelta
 
-from openprocurement.tender.openeu.constants import (
-    QUESTIONS_STAND_STILL,
-    TENDERING_DURATION,
-)
+from openprocurement.tender.openeu.constants import QUESTIONS_STAND_STILL
 
+TENDERING_DAYS = 30
+TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
 COMPLAINT_STAND_STILL = timedelta(days=5)
 
 PERIODS = {

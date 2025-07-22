@@ -5,4 +5,4 @@ from openprocurement.tender.core.procedure.state.complaint import TenderComplain
 
 
 class COTenderComplaintState(TenderComplaintState, COTenderState):
-    pass
+    should_validate_complaint_author_qualified_supplier = True
