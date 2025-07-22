@@ -417,47 +417,39 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
 @pytest.mark.parametrize(
     "value",
     [
-        "aboveThresholdUA",
-        "aboveThresholdUA.defense",
-        "simple.defense",
-        "aboveThresholdEU",
-        "esco",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU",
-        "closeFrameworkAgreementUA",
+        ("open", "aboveThresholdUA"),
+        ("open", "aboveThresholdUA.defense"),
+        ("open", "simple.defense"),
+        ("open", "aboveThresholdEU"),
+        ("open", "esco"),
+        ("open", "competitiveDialogueUA"),
+        ("open", "competitiveDialogueEU"),
+        ("open", "closeFrameworkAgreementUA"),
+        ("selective", "competitiveOrdering"),
     ],
 )
 def test_fail_complete_manually(app, value):
+    procurement_method, procurement_method_type = value
     app.authorization = ("Basic", ("broker", "broker"))
     test_data = deepcopy(test_plan_data)
     test_data["status"] = "scheduled"
-    test_data["tender"]["procurementMethodType"] = value
-    if value == "aboveThresholdUA.defense":
-        patch_date = get_now() + timedelta(days=1)
-    else:
-        patch_date = get_now() - timedelta(days=1)
+    test_data["tender"]["procurementMethod"] = procurement_method
+    test_data["tender"]["procurementMethodType"] = procurement_method_type
 
-    if value in ("aboveThresholdUA.defense", "simple.defense"):
-        with patch("openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", patch_date):
-            response = app.post_json("/plans", {"data": test_data}, status=403)
-        assert response.status == "403 Forbidden"
-        assert response.json["errors"] == [
-            {
-                'description': 'procuringEntity with general kind cannot publish this type '
-                'of procedure. Procurement method types allowed for this '
-                'kind: centralizedProcurement, belowThreshold, '
-                'aboveThreshold, aboveThresholdUA, aboveThresholdEU, '
-                'competitiveDialogueUA, competitiveDialogueEU, esco, '
-                'closeFrameworkAgreementUA, requestForProposal, '
-                'priceQuotation, reporting, negotiation, negotiation.quick.',
-                'location': 'body',
-                'name': 'kind',
-            }
-        ]
+    if procurement_method_type == "aboveThresholdUA.defense":
+        test_data["procuringEntity"]["kind"] = "defense"
+        patch_path = "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM"
+        defense_patch = patch(patch_path, get_now() + timedelta(days=1))
+        defense_patch.start()
+
+    if procurement_method_type == "simple.defense":
         test_data["procuringEntity"]["kind"] = "defense"
 
-    with patch("openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", patch_date):
-        response = app.post_json("/plans", {"data": test_data})
+    response = app.post_json("/plans", {"data": test_data})
+
+    if procurement_method_type == "aboveThresholdUA.defense":
+        defense_patch.stop()
+
     assert response.status == "201 Created"
     assert response.json["data"]["status"] == "scheduled"
     plan_id = response.json["data"]["id"]
@@ -472,13 +464,21 @@ def test_fail_complete_manually(app, value):
             {
                 "location": "body",
                 "name": "status",
-                "description": ["Can't complete plan with '{}' tender.procurementMethodType".format(value)],
+                "description": [
+                    "Can't complete plan with '{}' tender.procurementMethodType".format(procurement_method_type)
+                ],
             }
         ],
     }
 
 
-@pytest.mark.parametrize("value", [("open", "belowThreshold"), ("limited", "reporting")])
+@pytest.mark.parametrize(
+    "value",
+    [
+        ("open", "belowThreshold"),
+        ("limited", "reporting"),
+    ],
+)
 def test_success_complete_manually(app, value):
     procurement_method, procurement_method_type = value
     app.authorization = ("Basic", ("broker", "broker"))

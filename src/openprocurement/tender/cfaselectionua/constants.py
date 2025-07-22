@@ -1,6 +1,5 @@
 from datetime import timedelta
 
-STAND_STILL_TIME = timedelta(days=2)
 STATUS4ROLE = {
     "complaint_owner": ["draft", "answered"],
     "reviewers": ["pending"],
@@ -9,11 +8,8 @@ STATUS4ROLE = {
 BOT_NAME = "fa_bot"
 DRAFT_FIELDS = ("shortlistedFirms",)
 
-ENQUIRY_PERIOD = timedelta(days=1)
-TENDERING_DURATION = timedelta(days=3)
 AUCTION_DURATION = timedelta(days=1)  # needs to be updated
 COMPLAINT_DURATION = timedelta(days=1)  # needs to be updated
-CLARIFICATIONS_DURATION = timedelta(days=5)  # needs to be updated
 TENDER_PERIOD_MINIMAL_DURATION = timedelta(days=3)
 MIN_PERIOD_UNTIL_AGREEMENT_END = timedelta(days=7)
 MIN_ACTIVE_CONTRACTS = 3
@@ -29,3 +25,12 @@ CFA_SELECTION_KINDS = (
     "social",
     "special",
 )
+
+WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}

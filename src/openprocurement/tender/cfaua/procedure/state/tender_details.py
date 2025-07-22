@@ -5,8 +5,8 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
-    ENQUIRY_PERIOD_TIME,
     TENDERING_EXTRA_PERIOD,
+    WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
@@ -24,12 +24,12 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
 
-    tendering_period_extra = TENDERING_EXTRA_PERIOD
-    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    tendering_period_extra_working_days = False
-    tender_period_working_day = False
+    tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra_working_days = False
 
     should_validate_notice_doc_required = False
+
+    working_days_config = WORKING_DAYS_CONFIG
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)

@@ -22,14 +22,14 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_multi_contracts_cancelled_validate_amount,
     patch_tender_multi_contracts_cancelled_with_one_activated,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderCOContentWebTest,
-    test_tender_co_bids,
-    test_tender_co_config,
-    test_tender_co_multi_buyers_data,
-    test_tender_co_no_auction,
+from openprocurement.tender.competitiveordering.tests.short.base import (
+    BaseTenderCOShortContentWebTest,
+    test_tender_co_short_bids,
+    test_tender_co_short_config,
+    test_tender_co_short_multi_buyers_data,
+    test_tender_co_short_no_auction,
 )
-from openprocurement.tender.competitiveordering.tests.contract_blanks import (
+from openprocurement.tender.competitiveordering.tests.short.contract_blanks import (
     patch_econtract_co_multi_currency,
 )
 from openprocurement.tender.open.tests.contract_blanks import (
@@ -72,9 +72,9 @@ class CreateActiveAwardMixin:
         return response.json["data"]
 
 
-class TenderContractResourceTest(BaseTenderCOContentWebTest, CreateActiveAwardMixin):
+class TenderContractResourceTest(BaseTenderCOShortContentWebTest, CreateActiveAwardMixin):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_short_bids
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -89,9 +89,9 @@ class TenderContractResourceTest(BaseTenderCOContentWebTest, CreateActiveAwardMi
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
-class TenderContractVATNotIncludedResourceTest(BaseTenderCOContentWebTest):
+class TenderContractVATNotIncludedResourceTest(BaseTenderCOShortContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_short_bids
     initial_lots = test_tender_below_lots
 
     def create_award(self):
@@ -133,11 +133,11 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderCOContentWebTest):
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
 
 
-class TenderContractMultiBuyersResourceTest(BaseTenderCOContentWebTest):
+class TenderContractMultiBuyersResourceTest(BaseTenderCOShortContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_short_bids
     initial_lots = test_tender_below_lots
-    initial_data = test_tender_co_multi_buyers_data
+    initial_data = test_tender_co_short_multi_buyers_data
 
     def setUp(self):
         super().setUp()
@@ -154,12 +154,12 @@ class TenderContractMultiBuyersResourceTest(BaseTenderCOContentWebTest):
 
 
 class TenderEContractResourceTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOShortContentWebTest,
     CreateActiveAwardMixin,
     TenderEcontractResourceTestMixin,
 ):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_short_bids
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -168,16 +168,16 @@ class TenderEContractResourceTest(
 
 
 class TenderEContractCOResourceTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOShortContentWebTest,
     CreateActiveAwardMixin,
     TenderEcontractResourceTestMixin,
 ):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_short_bids
     initial_lots = test_tender_below_lots_no_min_step
-    initial_data = test_tender_co_no_auction
+    initial_data = test_tender_co_short_no_auction
     tender_for_funders = True
-    config = deepcopy(test_tender_co_config)
+    config = deepcopy(test_tender_co_short_config)
     config.update(
         {
             "hasAuction": False,
@@ -196,14 +196,14 @@ class TenderEContractCOResourceTest(
 
 
 class TenderEContractMultiBuyersResourceTest(
-    BaseTenderCOContentWebTest,
+    BaseTenderCOShortContentWebTest,
     CreateActiveAwardMixin,
     TenderEContractMultiBuyersResourceTestMixin,
 ):
     initial_status = "active.qualification"
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_short_bids
     initial_lots = test_tender_below_lots
-    initial_data = test_tender_co_multi_buyers_data
+    initial_data = test_tender_co_short_multi_buyers_data
 
     def setUp(self):
         super().setUp()

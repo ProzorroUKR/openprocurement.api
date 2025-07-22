@@ -1,8 +1,6 @@
 from datetime import timedelta
 
 BELOW_THRESHOLD = "belowThreshold"
-STAND_STILL_TIME = timedelta(days=2)
-ENQUIRY_STAND_STILL_TIME = timedelta(days=1)
 
 MIN_BIDS_NUMBER = 2
 STATUS4ROLE = {
@@ -11,3 +9,12 @@ STATUS4ROLE = {
     "tender_owner": ["claim"],
 }
 TENDERING_EXTRA_PERIOD = timedelta(days=2)
+
+WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": True,
+    "minEnquiriesDuration": True,
+    "enquiryPeriodRegulation": True,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}

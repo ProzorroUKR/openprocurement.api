@@ -2,24 +2,25 @@ from datetime import timedelta
 
 from openprocurement.tender.cfaua.constants import (
     CLARIFICATIONS_UNTIL_PERIOD,
-    QUESTIONS_STAND_STILL,
-    TENDERING_DURATION,
     TENDERING_EXTRA_PERIOD,
 )
 
+TENDERING_DAYS = 30
+TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
 COMPLAINT_STAND_STILL = timedelta(days=5)
 QUALIFICATION_COMPLAINT_STAND_STILL = timedelta(days=10)
+ENQUIRY_PERIOD_TIME = timedelta(days=10)
 
 PERIODS = {
     "active.tendering": {
         "start": {
-            "enquiryPeriod": {"startDate": -timedelta(days=1), "endDate": TENDERING_DURATION - QUESTIONS_STAND_STILL},
+            "enquiryPeriod": {"startDate": -timedelta(days=1), "endDate": TENDERING_DURATION - ENQUIRY_PERIOD_TIME},
             "tenderPeriod": {"startDate": -timedelta(days=1), "endDate": TENDERING_DURATION},
         },
         "end": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - timedelta(days=1),
-                "endDate": -QUESTIONS_STAND_STILL,
+                "endDate": -ENQUIRY_PERIOD_TIME,
             },
             "tenderPeriod": {"startDate": -TENDERING_DURATION - timedelta(days=1), "endDate": timedelta()},
         },
@@ -38,7 +39,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": (-TENDERING_DURATION - timedelta(days=1)),
-                "endDate": (-QUESTIONS_STAND_STILL),
+                "endDate": (-ENQUIRY_PERIOD_TIME),
             },
             "tenderPeriod": {"startDate": (-TENDERING_DURATION - timedelta(days=1)), "endDate": timedelta()},
             "qualificationPeriod": {"startDate": timedelta()},
@@ -46,7 +47,7 @@ PERIODS = {
         "end": {
             "enquiryPeriod": {
                 "startDate": (-TENDERING_DURATION - timedelta(days=1)),
-                "endDate": (-QUESTIONS_STAND_STILL),
+                "endDate": (-ENQUIRY_PERIOD_TIME),
             },
             "tenderPeriod": {"startDate": (-TENDERING_DURATION - timedelta(days=1)), "endDate": timedelta()},
             "qualificationPeriod": {"startDate": timedelta()},
@@ -56,7 +57,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": (-TENDERING_DURATION - timedelta(days=1)),
-                "endDate": (-QUESTIONS_STAND_STILL),
+                "endDate": (-ENQUIRY_PERIOD_TIME),
             },
             "tenderPeriod": {"startDate": (-TENDERING_DURATION - timedelta(days=1)), "endDate": timedelta()},
             "qualificationPeriod": {
@@ -69,7 +70,7 @@ PERIODS = {
         "end": {
             "enquiryPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)),
-                "endDate": (-COMPLAINT_STAND_STILL - TENDERING_DURATION + QUESTIONS_STAND_STILL),
+                "endDate": (-COMPLAINT_STAND_STILL - TENDERING_DURATION + ENQUIRY_PERIOD_TIME),
             },
             "tenderPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)),
@@ -87,7 +88,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)),
-                "endDate": (-COMPLAINT_STAND_STILL - TENDERING_DURATION + QUESTIONS_STAND_STILL),
+                "endDate": (-COMPLAINT_STAND_STILL - TENDERING_DURATION + ENQUIRY_PERIOD_TIME),
             },
             "tenderPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)),
@@ -103,7 +104,7 @@ PERIODS = {
         "end": {
             "enquiryPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)),
-                "endDate": (-QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1)),
+                "endDate": (-ENQUIRY_PERIOD_TIME - COMPLAINT_STAND_STILL - timedelta(days=1)),
             },
             "tenderPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)),
@@ -121,7 +122,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)),
-                "endDate": (-QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1)),
+                "endDate": (-ENQUIRY_PERIOD_TIME - COMPLAINT_STAND_STILL - timedelta(days=1)),
             },
             "tenderPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)),
@@ -138,7 +139,7 @@ PERIODS = {
         "end": {
             "enquiryPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)),
-                "endDate": (-QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1)),
+                "endDate": (-ENQUIRY_PERIOD_TIME - COMPLAINT_STAND_STILL - timedelta(days=1)),
             },
             "tenderPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)),
@@ -157,7 +158,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)),
-                "endDate": (-QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1)),
+                "endDate": (-ENQUIRY_PERIOD_TIME - COMPLAINT_STAND_STILL - timedelta(days=1)),
             },
             "tenderPeriod": {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2)),
@@ -180,7 +181,7 @@ PERIODS = {
                     - timedelta(days=2)
                 ),
                 "endDate": (
-                    -QUESTIONS_STAND_STILL
+                    -ENQUIRY_PERIOD_TIME
                     - COMPLAINT_STAND_STILL
                     - QUALIFICATION_COMPLAINT_STAND_STILL
                     - timedelta(days=1)
@@ -219,7 +220,7 @@ PERIODS = {
                     - timedelta(days=2)
                 ),
                 "endDate": (
-                    -QUESTIONS_STAND_STILL
+                    -ENQUIRY_PERIOD_TIME
                     - COMPLAINT_STAND_STILL
                     - QUALIFICATION_COMPLAINT_STAND_STILL
                     - timedelta(days=1)
@@ -255,7 +256,7 @@ PERIODS = {
                 - QUALIFICATION_COMPLAINT_STAND_STILL
                 - CLARIFICATIONS_UNTIL_PERIOD
                 - timedelta(days=3),
-                "endDate": -QUESTIONS_STAND_STILL
+                "endDate": -ENQUIRY_PERIOD_TIME
                 - COMPLAINT_STAND_STILL
                 - QUALIFICATION_COMPLAINT_STAND_STILL
                 - CLARIFICATIONS_UNTIL_PERIOD
@@ -308,7 +309,7 @@ PERIODS = {
                     - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1))
                 ),
                 "endDate": (
-                    -QUESTIONS_STAND_STILL
+                    -ENQUIRY_PERIOD_TIME
                     - COMPLAINT_STAND_STILL
                     - QUALIFICATION_COMPLAINT_STAND_STILL
                     - timedelta(days=1)

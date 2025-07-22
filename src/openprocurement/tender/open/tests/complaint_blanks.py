@@ -59,6 +59,26 @@ def create_tender_complaint(self):
     self.assertEqual(response.json["data"]["objections"][1]["sequenceNumber"], 2)
 
 
+def create_tender_complaint_invalid_author(self):
+    test_author = deepcopy(test_tender_below_author)
+    test_author["identifier"]["id"] = "invalid"
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["author"] = test_author
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {
+            "data": complaint_data,
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Forbidden to add complaint for non-qualified suppliers",
+    )
+
+
 def patch_tender_complaint(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)

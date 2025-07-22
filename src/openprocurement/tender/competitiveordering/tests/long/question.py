@@ -15,12 +15,12 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
     lot_patch_tender_question_lots_none,
     patch_tender_question,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderCOContentWebTest,
-    test_tender_co_config,
-    test_tender_co_data,
+from openprocurement.tender.competitiveordering.tests.long.base import (
+    BaseTenderCOLongContentWebTest,
+    test_tender_co_long_config,
+    test_tender_co_long_data,
 )
-from openprocurement.tender.competitiveordering.tests.question_blanks import (
+from openprocurement.tender.competitiveordering.tests.long.question_blanks import (
     create_tender_question_check_author_co,
     create_tender_question_valid_author_co,
 )
@@ -32,12 +32,12 @@ from openprocurement.tender.open.tests.question_blanks import (
 )
 
 
-class TenderQuestionResourceTest(BaseTenderCOContentWebTest, TenderQuestionResourceTestMixin):
+class TenderQuestionResourceTest(BaseTenderCOLongContentWebTest, TenderQuestionResourceTestMixin):
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
 
 
-class TenderLotQuestionResourceTest(BaseTenderCOContentWebTest):
+class TenderLotQuestionResourceTest(BaseTenderCOLongContentWebTest):
     initial_lots = 2 * test_tender_below_lots
     author_data = test_tender_below_author
 
@@ -66,10 +66,10 @@ class TenderLotQuestionResourceTest(BaseTenderCOContentWebTest):
     test_questions_chronograph_events = snitch(questions_chronograph_events)
 
 
-class TenderCOLotQuestionResourceTest(BaseTenderCOContentWebTest):
+class TenderCOLotQuestionResourceTest(BaseTenderCOLongContentWebTest):
     initial_lots = test_tender_below_lots
-    initial_config = test_tender_co_config
-    initial_data = test_tender_co_data
+    initial_config = test_tender_co_long_config
+    initial_data = test_tender_co_long_data
 
     test_create_tender_question_valid_author = snitch(create_tender_question_valid_author_co)
     test_create_tender_question_check_author = snitch(create_tender_question_check_author_co)

@@ -99,7 +99,6 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
     test_create_lot_cancellation_with_tender_cancellation = snitch(create_lot_cancellation_with_tender_cancellation)
     test_create_tender_lots_cancellation_complaint = snitch(create_tender_lots_cancellation_complaint)
-    # test_patch_tender_lots_cancellation = snitch(patch_tender_lots_cancellation)
 
 
 class TenderAwardsCancellationResourceTest(BaseTenderUAContentWebTest, TenderAwardsCancellationResourceTestMixin):

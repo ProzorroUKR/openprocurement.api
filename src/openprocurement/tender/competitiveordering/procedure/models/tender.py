@@ -3,10 +3,7 @@ from schematics.types.compound import ListType, ModelType
 from schematics.validate import ValidationError
 
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.competitiveordering.constants import (
-    COMPETITIVE_ORDERING,
-    TENDERING_DURATION,
-)
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.models.item import Item
 from openprocurement.tender.competitiveordering.procedure.models.organization import (
     ProcuringEntity,
@@ -34,10 +31,6 @@ from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
 )
 from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_duration,
-    validate_tender_period_start_date,
-)
 
 
 class PostTender(BasePostTender):
@@ -65,11 +58,6 @@ class PostTender(BasePostTender):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
             if data.get("features", []):
                 raise ValidationError("Can`t add features with {} awardCriteria".format(AWARD_CRITERIA_LIFE_CYCLE_COST))
-
-    def validate_tenderPeriod(self, data, period):
-        if period:
-            validate_tender_period_start_date(data, period)
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
 
 
 class PatchTender(BasePatchTender):
@@ -135,7 +123,3 @@ class Tender(BaseTender):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
             if data.get("features", []):
                 raise ValidationError("Can`t add features with {} awardCriteria".format(AWARD_CRITERIA_LIFE_CYCLE_COST))
-
-    def validate_tenderPeriod(self, data, period):
-        if period:
-            validate_tender_period_duration(data, period, TENDERING_DURATION)

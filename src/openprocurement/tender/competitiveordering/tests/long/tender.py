@@ -19,15 +19,13 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_lot_minimalstep_validation,
     tender_milestones_required,
 )
-from openprocurement.tender.competitiveordering.tests.base import (
-    BaseTenderCOWebTest,
-    test_tender_co_bids,
-    test_tender_co_data,
+from openprocurement.tender.competitiveordering.tests.long.base import (
+    BaseTenderCOLongWebTest,
+    test_tender_co_long_bids,
+    test_tender_co_long_data,
 )
-from openprocurement.tender.competitiveordering.tests.tender_blanks import (
-    create_tender_co,
-    create_tender_co_invalid_agreement,
-    create_tender_co_invalid_config,
+from openprocurement.tender.competitiveordering.tests.long.tender_blanks import (
+    create_tender_invalid_agreement,
     patch_tender,
     patch_tender_period,
 )
@@ -65,8 +63,8 @@ class TenderCOProcessTestMixin:
     test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 
-class TenderCOResourceTest(BaseTenderCOWebTest, TenderResourceTestMixin, TenderCOResourceTestMixin):
-    initial_data = test_tender_co_data
+class TenderCOResourceTest(BaseTenderCOLongWebTest, TenderResourceTestMixin, TenderCOResourceTestMixin):
+    initial_data = test_tender_co_long_data
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -75,6 +73,7 @@ class TenderCOResourceTest(BaseTenderCOWebTest, TenderResourceTestMixin, TenderC
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)
+    test_create_tender_co_invalid_agreement = snitch(create_tender_invalid_agreement)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
@@ -91,19 +90,16 @@ class TenderCOResourceTest(BaseTenderCOWebTest, TenderResourceTestMixin, TenderC
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_get_ocds_schema = snitch(get_ocds_schema)
-    test_create_tender_co = snitch(create_tender_co)
-    test_create_tender_co_invalid_config = snitch(create_tender_co_invalid_config)
-    test_create_tender_co_invalid_agreement = snitch(create_tender_co_invalid_agreement)
 
 
 @patch(
     "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
-class TenderCOProcessTest(BaseTenderCOWebTest, TenderCOProcessTestMixin):
-    initial_data = test_tender_co_data
+class TenderCOProcessTest(BaseTenderCOLongWebTest, TenderCOProcessTestMixin):
+    initial_data = test_tender_co_long_data
     initial_lots = test_tender_below_lots
-    initial_bids = test_tender_co_bids
+    initial_bids = test_tender_co_long_bids
 
     def setUp(self):
         super().setUp()

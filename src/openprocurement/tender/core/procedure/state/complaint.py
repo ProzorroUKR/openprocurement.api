@@ -2,7 +2,7 @@ from logging import getLogger
 
 from openprocurement.api.constants_env import OBJECTIONS_ADDITIONAL_VALIDATION_FROM
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_agreement, get_tender
 from openprocurement.api.utils import get_uah_amount_from_value, raise_operation_error
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.constants import (
@@ -29,6 +29,7 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     find_item_by_id,
+    get_supplier_contract,
     restrict_value_to_bounds,
     round_up_to_ten,
     tender_created_after,
@@ -57,6 +58,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
     draft_patch_model = DraftPatchComplaint
     complaints_configuration = "hasTenderComplaints"
     all_documents_should_be_public = False
+    should_validate_complaint_author_qualified_supplier = False
 
     # POST
     def validate_complaint_on_post(self, complaint):
@@ -64,6 +66,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         self.validate_complaint_config()
         self.validate_create_allowed_tender_status()
         self.validate_lot_status()
+        self.validate_complaint_author(complaint)
         self.validate_objections(complaint)
         self.validate_tender_in_complaint_period(tender)
 
@@ -395,6 +398,25 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                             status=422,
                             name="objections.relatedItem",
                         )
+
+    def validate_complaint_author(self, complaint):
+        if not self.should_validate_complaint_author_qualified_supplier:
+            return
+
+        tender = get_tender()
+        if not tender["config"]["hasPreSelectionAgreement"]:
+            return
+
+        agreement = get_agreement()
+        if not agreement:
+            return
+
+        supplier_contract = get_supplier_contract(
+            agreement["contracts"],
+            [complaint["author"]],
+        )
+        if not supplier_contract:
+            raise_operation_error(self.request, "Forbidden to add complaint for non-qualified suppliers")
 
 
 class TenderComplaintState(ComplaintStateMixin, TenderState):

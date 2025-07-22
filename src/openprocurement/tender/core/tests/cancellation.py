@@ -21,22 +21,7 @@ def activate_cancellation_after_2020_04_19(self, cancellation_id, tender_id=None
         tender_token = self.tender_token
 
     tender = self.mongodb.tenders.get(self.tender_id)
-
-    without_complaints = [
-        "reporting",
-        "belowThreshold",
-        "closeFrameworkAgreementSelectionUA",
-        "negotiation",
-        "negotiation.quick",
-        "competitiveOrdering",
-        "requestForProposal",
-    ]
-    tender_type = tender["procurementMethodType"]
-
-    active_award = any(i for i in tender.get("awards", []) if i.get("status") == "active")
-    negotiation_with_active_award = tender_type.startswith("negotiation") and active_award
-
-    if (tender_type not in without_complaints) or negotiation_with_active_award:
+    if tender["config"]["hasCancellationComplaints"]:
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id, tender_id, tender_token)
     else:
         activate_cancellation_without_complaints_after_2020_04_19(self, cancellation_id, tender_id, tender_token)

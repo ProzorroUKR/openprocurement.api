@@ -125,9 +125,3 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                 }
                 agreement = Agreement(data)
                 tender["agreements"].append(agreement.serialize())
-
-    def invalidate_bids_data(self, tender):
-        tender["enquiryPeriod"]["invalidationDate"] = get_request_now().isoformat()
-        for bid in tender.get("bids", ""):
-            if bid.get("status") not in ("deleted", "draft"):
-                bid["status"] = "invalid"

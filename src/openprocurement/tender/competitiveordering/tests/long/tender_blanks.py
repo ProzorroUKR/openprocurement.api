@@ -5,11 +5,7 @@ from uuid import uuid4
 from openprocurement.api.constants import TZ
 from openprocurement.api.constants_utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_draft_complaint,
-    test_tender_below_lots,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -111,7 +107,7 @@ def patch_tender(self):
             {
                 "location": "body",
                 "name": "tenderPeriod",
-                "description": ["tenderPeriod must be at least 3 full calendar days long"],
+                "description": ["tenderPeriod must be at least 7 full calendar days long"],
             }
         ],
     )
@@ -190,10 +186,14 @@ def patch_tender(self):
     item = deepcopy(self.initial_data["items"][0])
     item["id"] = item_id
     item["classification"] = {"scheme": "ДК021", "id": "44620000-2", "description": "Cartons 2"}
+
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"scheme": "ДК021", "id": "44620000-2"}
+        if "items" in agreement:
+            agreement["items"] = [item]
         self.mongodb.agreements.save(agreement)
+
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": [item]}},
@@ -205,10 +205,14 @@ def patch_tender(self):
         "id": "55523100-3",
         "description": "Послуги з харчування у школах",
     }
+
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"scheme": "ДК021", "id": "55523100-3"}
+        if "items" in agreement:
+            agreement["items"] = [item]
         self.mongodb.agreements.save(agreement)
+
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": [item]}},
@@ -224,10 +228,14 @@ def patch_tender(self):
     item = deepcopy(self.initial_data["items"][0])
     item["id"] = item_id
     item["additionalClassifications"] = [tender["items"][0]["additionalClassifications"][0] for i in range(3)]
+
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = self.initial_data["items"][0]["classification"]
+        if "items" in agreement:
+            agreement["items"] = [item]
         self.mongodb.agreements.save(agreement)
+
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": [item]}},
@@ -306,43 +314,7 @@ def patch_tender(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't update tender in current (complete) status")
 
 
-def create_tender_co(self):
-    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("complaintPeriod", response.json["data"])
-    tender_id = response.json["data"]["id"]
-
-    # try to add complaint
-    complaint_data = deepcopy(test_tender_below_draft_complaint)
-    response = self.app.post_json(f"/tenders/{tender_id}/complaints", {"data": complaint_data}, status=403)
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add complaint as it is forbidden by configuration"
-    )
-
-
-def create_tender_co_invalid_config(self):
-    for config_name in ("hasTenderComplaints", "hasAwardComplaints", "hasCancellationComplaints"):
-        config = deepcopy(self.initial_config)
-        config.update({config_name: True})
-        response = self.app.post_json(
-            "/tenders",
-            {
-                "data": self.initial_data,
-                "config": config,
-            },
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [{"description": "True is not one of [False]", "location": "body", "name": f"config.{config_name}"}],
-        )
-
-
-def create_tender_co_invalid_agreement(self):
+def create_tender_invalid_agreement(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
 
@@ -380,22 +352,4 @@ def create_tender_co_invalid_agreement(self):
     self.assertEqual(
         response.json["errors"],
         [{"location": "body", "name": "agreements", "description": "Agreement type mismatch."}],
-    )
-
-    # DPS agreement with items is forbidden
-    agreement = self.mongodb.agreements.get(self.agreement_id)
-    agreement["agreementType"] = DPS_TYPE
-    agreement["items"] = [{}]
-    self.mongodb.agreements.save(agreement)
-
-    response = self.app.patch_json(
-        f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"status": "active.tendering"}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "agreements", "description": "Agreement with items is not allowed."}],
     )

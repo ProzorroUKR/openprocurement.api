@@ -16,7 +16,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_supplier,
 )
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
-from openprocurement.tender.competitiveordering.tests.periods import PERIODS
+from openprocurement.tender.competitiveordering.tests.short.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_criteria_all,
@@ -25,11 +25,11 @@ from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
 
 now = get_now()
 
-test_tender_co_data = test_tender_below_data.copy()
-test_tender_co_data["procurementMethodType"] = COMPETITIVE_ORDERING
-del test_tender_co_data["enquiryPeriod"]
-test_tender_co_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
-test_tender_co_data["items"] = [
+test_tender_co_short_data = test_tender_below_data.copy()
+test_tender_co_short_data["procurementMethodType"] = COMPETITIVE_ORDERING
+del test_tender_co_short_data["enquiryPeriod"]
+test_tender_co_short_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_co_short_data["items"] = [
     {
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
@@ -53,17 +53,17 @@ test_tender_co_data["items"] = [
     }
 ]
 if SANDBOX_MODE:
-    test_tender_co_data["procurementMethodDetails"] = "quick, accelerator=1440"
+    test_tender_co_short_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
 
-test_tender_co_bids = deepcopy(test_tender_below_bids)
-for bid in test_tender_co_bids:
+test_tender_co_short_bids = deepcopy(test_tender_below_bids)
+for bid in test_tender_co_short_bids:
     bid["selfQualified"] = True
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid["selfEligible"] = True
 
-test_tender_co_three_bids = deepcopy(test_tender_co_bids)
-test_tender_co_three_bids.append(
+test_tender_co_short_three_bids = deepcopy(test_tender_co_short_bids)
+test_tender_co_short_three_bids.append(
     {
         "tenderers": [test_tender_below_supplier],
         "value": {"amount": 489.0, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -71,20 +71,22 @@ test_tender_co_three_bids.append(
     }
 )
 
-test_tender_co_features_data = test_tender_below_features_data.copy()
-test_tender_co_features_data["procurementMethodType"] = COMPETITIVE_ORDERING
-del test_tender_co_features_data["enquiryPeriod"]
-test_tender_co_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
-test_tender_co_features_data["items"][0]["deliveryDate"] = test_tender_co_data["items"][0]["deliveryDate"]
-test_tender_co_features_data["items"][0]["deliveryAddress"] = test_tender_co_data["items"][0]["deliveryAddress"]
+test_tender_co_short_features_data = test_tender_below_features_data.copy()
+test_tender_co_short_features_data["procurementMethodType"] = COMPETITIVE_ORDERING
+del test_tender_co_short_features_data["enquiryPeriod"]
+test_tender_co_short_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_co_short_features_data["items"][0]["deliveryDate"] = test_tender_co_short_data["items"][0]["deliveryDate"]
+test_tender_co_short_features_data["items"][0]["deliveryAddress"] = test_tender_co_short_data["items"][0][
+    "deliveryAddress"
+]
 
-test_tender_co_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_co_data,
-    test_tender_co_data["items"][0],
+test_tender_co_short_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_co_short_data,
+    test_tender_co_short_data["items"][0],
     test_tender_below_buyer,
 )
 
-test_tender_co_config = {
+test_tender_co_short_config = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": False,
@@ -101,17 +103,21 @@ test_tender_co_config = {
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
     "cancellationComplainDuration": 0,
-    "clarificationUntilDuration": 3,
+    "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
+    "minTenderingDuration": 2,
+    "hasEnquiries": False,
+    "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 0,
     "restricted": False,
 }
 
-test_tender_co_required_criteria_ids = {
+test_tender_co_short_required_criteria_ids = {
     "CRITERION.OTHER.BID.VALIDITY_PERIOD",
     "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION",
 }
 
-test_tender_co_allowed_criteria_ids = {
+test_tender_co_short_allowed_criteria_ids = {
     "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
     "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
     "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
@@ -125,21 +131,9 @@ test_tender_co_allowed_criteria_ids = {
     "CRITERION.EXCLUSION.NATIONAL.OTHER",
     "CRITERION.OTHER.BID.LANGUAGE",
 }
-test_tender_co_criteria = []
-test_tender_co_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_co_required_criteria_ids))
-test_tender_co_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_co_allowed_criteria_ids))
-
-test_tender_co_complaint_objection = {
-    "title": "My objection",
-    "description": "Test objection",
-    "relatesTo": "tender",
-    "relatedItem": "fc390e460c41460b9bde484d6caefc62",
-    "classification": {"scheme": "violation_amcu", "id": "corruptionDescription", "description": "test classification"},
-    "requestedRemedies": [{"description": "test", "type": "setAsideAward"}],
-    "arguments": [{"description": "test argument"}],
-    "sequenceNumber": 1,
-}
-
+test_tender_co_short_criteria = []
+test_tender_co_short_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_co_short_required_criteria_ids))
+test_tender_co_short_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_co_short_allowed_criteria_ids))
 
 test_agreement_dps_contract_raw_data = {
     "status": "active",
@@ -165,10 +159,10 @@ test_agreement_dps_contract_raw_data = {
             },
             "name": "Товариство з обмеженою відповідальністю «Пікселі»",
             "scale": "large",
-        }
+        },
     ],
 }
-test_agreement_dps_data = {
+test_agreement_dps_with_items_raw_data = {
     "_id": "2e14a78a2074952d5a2d256c3c004dda",
     "doc_type": "Agreement",
     "agreementID": "UA-2021-11-12-000001",
@@ -177,34 +171,35 @@ test_agreement_dps_data = {
     "frameworkID": "985a2e3eab47427283a5c51e84d0986d",
     "period": {"startDate": "2021-11-12T00:00:00.318051+02:00", "endDate": "2022-02-24T20:14:24.577158+03:00"},
     "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
-    "procuringEntity": test_tender_co_data["procuringEntity"],
+    "procuringEntity": test_tender_co_short_data["procuringEntity"],
     "contracts": [
         deepcopy(test_agreement_dps_contract_raw_data),
         deepcopy(test_agreement_dps_contract_raw_data),
         deepcopy(test_agreement_dps_contract_raw_data),
     ],
+    "items": test_tender_co_short_data["items"],
 }
 
-test_tender_co_no_auction = deepcopy(test_tender_co_data)
-test_tender_co_no_auction["funders"] = [deepcopy(test_tender_below_base_organization)]
-test_tender_co_no_auction["funders"][0]["identifier"]["id"] = "44000"
-test_tender_co_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+test_tender_co_short_no_auction = deepcopy(test_tender_co_short_data)
+test_tender_co_short_no_auction["funders"] = [deepcopy(test_tender_below_base_organization)]
+test_tender_co_short_no_auction["funders"][0]["identifier"]["id"] = "44000"
+test_tender_co_short_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
 
 
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
 
 
-class BaseTenderCOWebTest(BaseTenderWebTest):
+class BaseTenderCOShortWebTest(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_co_data
-    initial_config = test_tender_co_config
+    initial_data = test_tender_co_short_data
+    initial_config = test_tender_co_short_config
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
     initial_criteria = None
 
-    initial_agreement_data = test_agreement_dps_data
+    initial_agreement_data = test_agreement_dps_with_items_raw_data
     agreement_id = initial_agreement_data["_id"]
 
     primary_tender_status = "active.tendering"  # status, to which tender should be switched from 'draft'
@@ -252,8 +247,8 @@ class BaseTenderCOWebTest(BaseTenderWebTest):
         self.mongodb.tenders.save(tender_document)
 
 
-class BaseTenderCOContentWebTest(BaseTenderCOWebTest):
-    initial_data = test_tender_co_data
+class BaseTenderCOShortContentWebTest(BaseTenderCOShortWebTest):
+    initial_data = test_tender_co_short_data
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None

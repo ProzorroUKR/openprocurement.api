@@ -4,6 +4,7 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
+from openprocurement.tender.limited.constants import WORKING_DAYS_CONFIG
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
@@ -11,20 +12,22 @@ class ReportingTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
-    should_initialize_enquiry_period = False
     should_validate_related_lot_in_items = False
 
     contract_template_name_patch_statuses = []
+
+    working_days_config = WORKING_DAYS_CONFIG
 
 
 class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-    should_initialize_enquiry_period = False
     should_validate_related_lot_in_items = True
 
     contract_template_name_patch_statuses = ("draft", "active")
+
+    working_days_config = WORKING_DAYS_CONFIG
 
     def on_patch(self, before, after):
         if before.get("awards"):
@@ -44,4 +47,4 @@ class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState)
 
 
 class NegotiationQuickTenderDetailsState(NegotiationTenderDetailsState):
-    pass
+    working_days_config = WORKING_DAYS_CONFIG

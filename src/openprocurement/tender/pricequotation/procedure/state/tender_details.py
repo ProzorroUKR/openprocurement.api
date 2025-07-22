@@ -6,6 +6,7 @@ from openprocurement.framework.electroniccatalogue.constants import (
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
+from openprocurement.tender.pricequotation.constants import WORKING_DAYS_CONFIG
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PriceQuotationTenderState,
 )
@@ -15,7 +16,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
-    should_initialize_enquiry_period = False
+
     should_validate_pre_selection_agreement = True
     should_validate_cpv_prefix = False
     should_validate_notice_doc_required = True
@@ -31,6 +32,8 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft",)
 
+    working_days_config = WORKING_DAYS_CONFIG
+
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
@@ -44,7 +47,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         pass
 
     @staticmethod
-    def set_enquiry_period_invalidation_date(tender):
+    def set_bids_invalidation_date(tender):
         pass
 
     def invalidate_bids_data(self, tender):

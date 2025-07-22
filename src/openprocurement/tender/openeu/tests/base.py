@@ -16,8 +16,7 @@ from openprocurement.tender.core.tests.base import (
     test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers
-from openprocurement.tender.openeu.constants import TENDERING_DAYS
-from openprocurement.tender.openeu.tests.periods import PERIODS
+from openprocurement.tender.openeu.tests.periods import PERIODS, TENDERING_DAYS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
 
 test_tender_openeu_milestones = copy.deepcopy(test_tender_below_milestones)
@@ -211,6 +210,10 @@ test_tender_openeu_config = {
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 20,
+    "minTenderingDuration": 30,
+    "hasEnquiries": False,
+    "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": False,
 }
 
