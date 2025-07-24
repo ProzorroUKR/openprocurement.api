@@ -1133,7 +1133,7 @@ Content-Type: application/json
     "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-24T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-22T00:00:00+03:00",
       "endDate": "2023-10-15T01:00:00+03:00"
     },
     "items": [
