@@ -85,7 +85,18 @@ Content-Type: application/json
       "period": {
         "startDate": "2023-01-01T00:00:00+02:00",
         "endDate": "2023-12-31T00:00:00+02:00"
-      }
+      },
+      "breakdown": [
+        {
+          "id": "d01803a5d3f6451dbfa7cc05b05fb200",
+          "title": "other",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500.0,
+            "currency": "UAH"
+          }
+        }
+      ]
     },
     "classification": {
       "description": "Seeds",

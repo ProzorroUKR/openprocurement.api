@@ -1711,16 +1711,10 @@ def esco_plan(self):
     data = deepcopy(self.initial_data)
     budget = data.pop("budget")
     data["tender"]["procurementMethodType"] = "esco"
-    response = self.app.post_json("/plans", {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    plan = response.json["data"]
+    response = self.app.post_json("/plans", {"data": data}, status=422)
     self.assertEqual(
-        set(plan) - set(self.initial_data),
-        {"id", "dateCreated", "dateModified", "datePublished", "planID", "owner", "status"},
+        response.json["errors"], [{"location": "body", "name": "budget", "description": ["This field is required."]}]
     )
-    self.assertNotIn("budget", plan)
-    self.assertIn(plan["id"], response.headers["Location"])
 
     data["budget"] = budget
     response = self.app.post_json("/plans", {"data": data})

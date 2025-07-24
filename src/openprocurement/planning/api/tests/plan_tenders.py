@@ -678,26 +678,3 @@ def test_fail_cd_second_stage_creation(app, plan, request_tender_data):
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=403)
     assert response.json["errors"][0]["name"] == "procurementMethodType"
-
-
-def test_fail_tender_creation_without_budget_breakdown(app):
-    app.authorization = ("Basic", ("broker", "broker"))
-    request_plan_data = deepcopy(test_plan_data)
-    request_tender_data = deepcopy(test_below_tender_data)
-    del request_plan_data["budget"]["breakdown"]
-    plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
-
-    assert "breakdown" not in plan["data"]["budget"]
-
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=422)
-
-    error_data = response.json["errors"]
-    assert len(error_data) > 0
-    error = error_data[0]
-    assert error["location"] == "body"
-    assert error["name"] == "budget.breakdown"
-    assert error["description"] == "Plan should contain budget breakdown"
-
-    # get plan form db
-    plan_from_db = app.app.registry.mongodb.plans.get(plan["data"]["id"])
-    assert plan_from_db.get("tender_id") is None

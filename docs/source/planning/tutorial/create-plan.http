@@ -182,7 +182,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "period": {
         "startDate": "2023-01-01T00:00:00",
         "endDate": "2023-12-31T00:00:00"
-      }
+      },
+      "breakdown": [
+        {
+          "title": "other",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500,
+            "currency": "UAH"
+          }
+        }
+      ]
     },
     "project": {
       "title": "DREAMs come true",
@@ -245,7 +255,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/647ea8f38f72484ea0
       "period": {
         "startDate": "2023-01-01T00:00:00+02:00",
         "endDate": "2023-12-31T00:00:00+02:00"
-      }
+      },
+      "breakdown": [
+        {
+          "id": "d01803a5d3f6451dbfa7cc05b05fb200",
+          "title": "other",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500.0,
+            "currency": "UAH"
+          }
+        }
+      ]
     },
     "classification": {
       "description": "Seeds",

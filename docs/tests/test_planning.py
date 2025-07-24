@@ -48,7 +48,6 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         test_docs_plan_data['status'] = "draft"
 
         test_breakdown = deepcopy(test_docs_plan_data['budget']['breakdown'])
-        del test_docs_plan_data['budget']['breakdown']
 
         with open(TARGET_DIR + 'create-plan.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/plans?opt_pretty=1', {'data': test_docs_plan_data})
@@ -109,6 +108,9 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-from-plan-validation.http', 'w') as self.app.file_obj:
             self.app.post_json('/plans/{}/tenders'.format(plan['id']), {'data': test_docs_tender_openeu}, status=422)
 
+        plan_doc = self.mongodb.plans.get(plan["id"])
+        del plan_doc["budget"]["breakdown"]
+        self.mongodb.plans.save(plan_doc)
         test_docs_tender_below["items"] = test_docs_plan_data["items"]
         test_docs_tender_below["procuringEntity"]["identifier"] = test_docs_plan_data["procuringEntity"]["identifier"]
         test_docs_tender_below["title"] = "Насіння"

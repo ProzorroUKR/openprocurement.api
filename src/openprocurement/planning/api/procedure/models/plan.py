@@ -179,14 +179,12 @@ def validate_status(plan, status):
 
 def validate_budget(plan, budget):
     method_type = plan["tender"]["procurementMethodType"]
-    if method_type != ESCO:
-        validate_budget_required(plan, budget)
+    validate_budget_required(plan, budget)
+    validate_budget_breakdown_required(plan, budget)
     if method_type not in MULTI_YEAR_BUDGET_PROCEDURES:
         validate_budget_end_date_single_year(plan, budget)
     if method_type in MULTI_YEAR_BUDGET_PROCEDURES:
         validate_budget_end_date_multi_year(plan, budget)
-    if method_type not in (BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL, REPORTING, ESCO, ""):
-        validate_budget_breakdown_required(plan, budget)
     if method_type != ESCO:
         validate_budget_breakdown_amounts(plan, budget)
 
