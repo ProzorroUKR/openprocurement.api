@@ -15,7 +15,7 @@ hasCancellationComplaints is `false`
 -------------------------------------
 
 Example tutorials:
-    * :ref:`competitiveordering` → :ref:`competitiveordering_tutorial`
+    * :ref:`competitiveordering` → :ref:`competitiveordering_short_tutorial`
 
 
 hasCancellationComplaints is `true`

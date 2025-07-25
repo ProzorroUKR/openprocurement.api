@@ -1,6 +1,8 @@
 procurementMethodType,values,default
 aboveThreshold,false,false
-competitiveOrdering,"false,true",false
+competitiveOrdering,false / true,false
+competitiveOrdering.short,false / true,false
+competitiveOrdering.long,false / true,false
 aboveThresholdEU,false,false
 aboveThresholdUA.defense,false,false
 aboveThresholdUA,false,false
@@ -14,7 +16,7 @@ competitiveDialogueUA.stage2,false,false
 esco,false,false
 negotiation,false,false
 negotiation.quick,false,false
-priceQuotation,"true,false",false
+priceQuotation,true / false,false
 reporting,false,false
 simple.defense,false,false
 requestForProposal,false,false

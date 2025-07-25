@@ -147,6 +147,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 4,
     "qualificationDuration": 20,
+    "minTenderingDuration": 4,
+    "hasEnquiries": true,
+    "minEnquiriesDuration": 3,
+    "enquiryPeriodRegulation": 3,
     "restricted": false
   }
 }

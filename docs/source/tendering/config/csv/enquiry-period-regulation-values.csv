@@ -1,0 +1,22 @@
+procurementMethodType,values,default,days
+aboveThreshold,3,3,calendar
+competitiveOrdering,3 / 0,3,calendar
+competitiveOrdering.short,0,0,
+competitiveOrdering.long,3,3,calendar
+aboveThresholdEU,10,10,calendar
+aboveThresholdUA.defense,3,3,working
+aboveThresholdUA,10,10,calendar
+belowThreshold,0,0,
+closeFrameworkAgreementSelectionUA,0,0,
+closeFrameworkAgreementUA,10,10,calendar
+competitiveDialogueEU,10,10,calendar
+competitiveDialogueEU.stage2,10,10,calendar
+competitiveDialogueUA,10,10,calendar
+competitiveDialogueUA.stage2,10,10,calendar
+esco,10,10,calendar
+negotiation,0,0,
+negotiation.quick,0,0,
+priceQuotation,0,0,
+reporting,0,0,
+simple.defense,3,3,working
+requestForProposal,3,3,calendar

@@ -9,3 +9,5 @@ Contents:
    :maxdepth: 2
 
    tutorial
+   tutorial-short
+   tutorial-long

@@ -957,6 +957,10 @@ Content-Type: application/json
         "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
       }
     ],
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+03:00"
+    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -1016,7 +1020,7 @@ Content-Type: application/json
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "55523100-3"
         },
         "additionalClassifications": [
           {
@@ -1051,17 +1055,21 @@ Content-Type: application/json
     "hasPrequalification": false,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": true,
-    "hasTenderComplaints": false,
-    "hasAwardComplaints": false,
-    "hasCancellationComplaints": false,
+    "hasTenderComplaints": true,
+    "hasAwardComplaints": true,
+    "hasCancellationComplaints": true,
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
-    "tenderComplainRegulation": 0,
+    "tenderComplainRegulation": 3,
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
-    "cancellationComplainDuration": 0,
+    "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
+    "minTenderingDuration": 7,
+    "hasEnquiries": false,
+    "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 3,
     "restricted": false
   }
 }

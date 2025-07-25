@@ -18,8 +18,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "agreements",
-      "description": "Agreement with items is not allowed."
+      "name": "documents",
+      "description": "Document with type 'notice' and format pkcs7-signature is required"
     }
   ]
 }

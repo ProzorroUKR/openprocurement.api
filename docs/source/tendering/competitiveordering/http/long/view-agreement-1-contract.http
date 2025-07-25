@@ -38,9 +38,9 @@ Content-Type: application/json
       "kind": "general"
     },
     "classification": {
-      "description": "Mustard seeds",
+      "description": "Послуги з харчування у школах",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "55523100-3"
     },
     "additionalClassifications": [
       {

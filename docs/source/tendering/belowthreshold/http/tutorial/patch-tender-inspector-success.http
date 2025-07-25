@@ -256,6 +256,10 @@ Content-Type: application/json
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 1,
     "qualificationDuration": 0,
+    "minTenderingDuration": 2,
+    "hasEnquiries": true,
+    "minEnquiriesDuration": 3,
+    "enquiryPeriodRegulation": 0,
     "restricted": false
   }
 }
