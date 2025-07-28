@@ -1,0 +1,31 @@
+POST /api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/3131116986bb4f24a6bc60bd8b2b0b24/documents?acc_token=e3de4cad10924527927b751b1ceeae1b HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "post_document_tender.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/842a382f56354d5ebbe08b7dec07d46a?Signature=kI2bMfs5yvKEz9X2%2FQvltWVwqstO4RL3BOo9YBH2hh7xrw30Y58YfnMS0b39iNhheUaB9PF9WUofGzjciV%2FSBQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf",
+    "documentOf": "post",
+    "relatedItem": "53ba68c7dbde471bb0f2e2a445e87077"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "url",
+      "name": "role",
+      "description": "Can add document to post only by post author"
+    }
+  ]
+}
+

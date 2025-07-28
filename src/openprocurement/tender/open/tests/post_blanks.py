@@ -496,14 +496,6 @@ def get_tender_complaint_post_document_json(self):
                 "description": "Lorem ipsum dolor sit amet",
                 "recipient": "complaint_owner",
                 "relatedObjection": self.objection_id,
-                "documents": [
-                    {
-                        "title": "name.doc",
-                        "url": self.generate_docservice_url(),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/msword",
-                    }
-                ],
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -521,6 +513,8 @@ def get_tender_complaint_post_document_json(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
+                "documentOf": "post",
+                "relatedItem": self.post_id,
             }
         )
 
@@ -533,15 +527,6 @@ def get_tender_complaint_post_document_json(self):
     self.assertIn("KeyID=", document["url"])
     self.assertNotIn("Expires=", document["url"])
     key = document["url"].split("/")[-1].split("?")[0]
-
-    response = self.get_post()
-    post = response.json["data"]
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn(key, post["documents"][-1]["url"])
-    self.assertIn("Signature=", post["documents"][-1]["url"])
-    self.assertIn("KeyID=", post["documents"][-1]["url"])
-    self.assertNotIn("Expires=", post["documents"][-1]["url"])
 
     response = self.get_post_documents()
     documents = response.json["data"]
@@ -565,6 +550,8 @@ def get_tender_complaint_post_document_json(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
+                "documentOf": "post",
+                "relatedItem": self.post_id,
             }
         )
 
@@ -585,6 +572,8 @@ def get_tender_complaint_post_document_json(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
+                "documentOf": "post",
+                "relatedItem": self.post_id,
             }
         )
     self.assertEqual(response.status, "200 OK")
@@ -594,16 +583,6 @@ def get_tender_complaint_post_document_json(self):
     self.assertIn("Signature=", document["url"])
     self.assertIn("KeyID=", document["url"])
     self.assertNotIn("Expires=", document["url"])
-    key = document["url"].split("/")[-1].split("?")[0]
-
-    response = self.get_post()
-    post = response.json["data"]
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn(key, post["documents"][-1]["url"])
-    self.assertIn("Signature=", post["documents"][-1]["url"])
-    self.assertIn("KeyID=", post["documents"][-1]["url"])
-    self.assertNotIn("Expires=", post["documents"][-1]["url"])
 
     response = self.get_post_document()
     self.assertEqual(response.status, "200 OK")
@@ -656,12 +635,13 @@ def create_tender_complaint_post_document_json(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
+                "documentOf": "post",
+                "relatedItem": self.post_id,
             }
         )
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    post = response.json["data"]
 
     # create document by complaint_owner
     response = self.post_post_document(
@@ -670,6 +650,8 @@ def create_tender_complaint_post_document_json(self):
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
+            "documentOf": "post",
+            "relatedItem": self.post_id,
         },
         acc_token=self.complaint_owner_token,
         status=403,
@@ -677,7 +659,23 @@ def create_tender_complaint_post_document_json(self):
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add document only by post author")
+    self.assertEqual(response.json["errors"][0]["description"], "Can add document to post only by post author")
+
+    response = self.post_post_document(
+        {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+            "documentOf": "post",
+            "relatedItem": "0" * 32,
+        },
+        acc_token=self.complaint_owner_token,
+        status=422,
+    )
+
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"][0]["description"], "relatedItem should be one of complaint posts")
 
     # create document by tender_owner
     response = self.post_post_document(
@@ -686,6 +684,8 @@ def create_tender_complaint_post_document_json(self):
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
+            "documentOf": "post",
+            "relatedItem": self.post_id,
         },
         acc_token=self.tender_token,
         status=403,
@@ -693,7 +693,7 @@ def create_tender_complaint_post_document_json(self):
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add document only by post author")
+    self.assertEqual(response.json["errors"][0]["description"], "Can add document to post only by post author")
 
     # make complaint status accepted
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
@@ -716,6 +716,8 @@ def create_tender_complaint_post_document_json(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
+                "documentOf": "post",
+                "relatedItem": self.post_id,
             },
             status=403,
         )
@@ -748,6 +750,8 @@ def create_tender_complaint_post_document_json(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
+                "documentOf": "post",
+                "relatedItem": self.post_id,
             }
         )
     self.assertEqual(response.status, "201 Created")
@@ -804,6 +808,8 @@ def create_tender_complaint_post_by_complaint_owner_document_json(self):
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
+            "documentOf": "post",
+            "relatedItem": self.post_id,
         },
         acc_token=self.complaint_owner_token,
     )
@@ -862,6 +868,8 @@ def create_tender_complaint_post_by_tender_owner_document_json(self):
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
+            "documentOf": "post",
+            "relatedItem": self.post_id,
         },
         acc_token=self.tender_token,
     )
@@ -903,6 +911,8 @@ def put_tender_complaint_document_json(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
+                "documentOf": "post",
+                "relatedItem": self.post_id,
             }
         )
 
@@ -920,6 +930,8 @@ def put_tender_complaint_document_json(self):
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
+            "documentOf": "post",
+            "relatedItem": self.post_id,
         },
         status=403,
         acc_token=self.complaint_owner_token,
@@ -966,6 +978,8 @@ def put_tender_complaint_document_json(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
+                "documentOf": "post",
+                "relatedItem": self.post_id,
             },
             status=403,
         )
@@ -998,6 +1012,8 @@ def put_tender_complaint_document_json(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
+                "documentOf": "post",
+                "relatedItem": self.post_id,
             }
         )
     self.assertEqual(response.status, "200 OK")

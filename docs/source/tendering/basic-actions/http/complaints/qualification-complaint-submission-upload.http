@@ -24,9 +24,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d816e417c06e4dc4
     "title": "Complaint_Attachment.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4f4338770f5d44ce84251ce3d6a8f0a4?Signature=EwzKj917ojXxFNkQ4ZSk5IMQEcXsDa%2BhfkjgF84WKomRiP0BG%2FRGPFaXLSJwZgB5cBbPK5WI219Npt6B0xY4CA%3D%3D&KeyID=a8968c46",
-    "documentOf": "tender",
     "language": "uk",
     "id": "c6bbb42e59b04a71b0165ab57db953f7",
+    "documentOf": "tender",
     "datePublished": "2023-10-10T01:00:01+03:00",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "author": "complaint_owner"

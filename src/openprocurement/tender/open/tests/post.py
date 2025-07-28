@@ -80,29 +80,25 @@ class TenderComplaintPostResourceMixin:
         return self.app.get(url, status=status)
 
     def post_post_document(self, data, acc_token=None, status=201):
-        url = "/tenders/{}/complaints/{}/posts/{}/documents".format(self.tender_id, self.complaint_id, self.post_id)
+        url = "/tenders/{}/complaints/{}/documents".format(self.tender_id, self.complaint_id)
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def put_post_document(self, data, acc_token=None, status=200):
-        url = "/tenders/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.complaint_id, self.post_id, self.document_id
-        )
+        url = "/tenders/{}/complaints/{}/documents/{}".format(self.tender_id, self.complaint_id, self.document_id)
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.put_json(url, {"data": data}, status=status)
 
     def get_post_documents(self, status=200, params=None):
-        url = "/tenders/{}/complaints/{}/posts/{}/documents".format(self.tender_id, self.complaint_id, self.post_id)
+        url = "/tenders/{}/complaints/{}/documents".format(self.tender_id, self.complaint_id)
         if params:
             url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
-        url = "/tenders/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.complaint_id, self.post_id, self.document_id
-        )
+        url = "/tenders/{}/complaints/{}/documents/{}".format(self.tender_id, self.complaint_id, self.document_id)
         return self.app.get(url, status=status)
 
 
@@ -158,32 +154,32 @@ class TenderQualificationComplaintPostResourceMixin:
         return self.app.get(url, status=status)
 
     def post_post_document(self, data, acc_token=None, status=201):
-        url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id
+        url = "/tenders/{}/qualifications/{}/complaints/{}/documents".format(
+            self.tender_id, self.qualification_id, self.complaint_id
         )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def put_post_document(self, data, acc_token=None, status=200):
-        url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id, self.document_id
+        url = "/tenders/{}/qualifications/{}/complaints/{}/documents/{}".format(
+            self.tender_id, self.qualification_id, self.complaint_id, self.document_id
         )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.put_json(url, {"data": data}, status=status)
 
     def get_post_documents(self, status=200, params=None):
-        url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id
+        url = "/tenders/{}/qualifications/{}/complaints/{}/documents".format(
+            self.tender_id, self.qualification_id, self.complaint_id
         )
         if params:
             url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
-        url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id, self.document_id
+        url = "/tenders/{}/qualifications/{}/complaints/{}/documents/{}".format(
+            self.tender_id, self.qualification_id, self.complaint_id, self.document_id
         )
         return self.app.get(url, status=status)
 
@@ -234,32 +230,28 @@ class TenderAwardComplaintPostResourceMixin:
         return self.app.get(url, status=status)
 
     def post_post_document(self, data, acc_token=None, status=201):
-        url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id
-        )
+        url = "/tenders/{}/awards/{}/complaints/{}/documents".format(self.tender_id, self.award_id, self.complaint_id)
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def put_post_document(self, data, acc_token=None, status=200):
-        url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id, self.document_id
+        url = "/tenders/{}/awards/{}/complaints/{}/documents/{}".format(
+            self.tender_id, self.award_id, self.complaint_id, self.document_id
         )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.put_json(url, {"data": data}, status=status)
 
     def get_post_documents(self, status=200, params=None):
-        url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id
-        )
+        url = "/tenders/{}/awards/{}/complaints/{}/documents".format(self.tender_id, self.award_id, self.complaint_id)
         if params:
             url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
-        url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id, self.document_id
+        url = "/tenders/{}/awards/{}/complaints/{}/documents/{}".format(
+            self.tender_id, self.award_id, self.complaint_id, self.document_id
         )
         return self.app.get(url, status=status)
 
@@ -307,32 +299,32 @@ class TenderCancellationComplaintPostResourceMixin:
         return self.app.get(url, status=status)
 
     def post_post_document(self, data, acc_token=None, status=201):
-        url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id
+        url = "/tenders/{}/cancellations/{}/complaints/{}/documents".format(
+            self.tender_id, self.cancellation_id, self.complaint_id
         )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def put_post_document(self, data, acc_token=None, status=200):
-        url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id, self.document_id
+        url = "/tenders/{}/cancellations/{}/complaints/{}/documents/{}".format(
+            self.tender_id, self.cancellation_id, self.complaint_id, self.document_id
         )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.put_json(url, {"data": data}, status=status)
 
     def get_post_documents(self, status=200, params=None):
-        url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id
+        url = "/tenders/{}/cancellations/{}/complaints/{}/documents".format(
+            self.tender_id, self.cancellation_id, self.complaint_id
         )
         if params:
             url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
-        url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id, self.document_id
+        url = "/tenders/{}/cancellations/{}/complaints/{}/documents/{}".format(
+            self.tender_id, self.cancellation_id, self.complaint_id, self.document_id
         )
         return self.app.get(url, status=status)
 

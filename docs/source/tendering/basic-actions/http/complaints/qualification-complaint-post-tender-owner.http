@@ -9,15 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
     "relatedPost": "83aa2397dedc450f92cb684b132f7765",
-    "relatedObjection": "65722527aaff4700aecf40863a143993",
-    "documents": [
-      {
-        "title": "post_document_tender.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/be45cb04b88c4ac0a3b8a03c46c24ee0?Signature=t8BUuT0RYUzKwBrm73WmmLdBuny7XP1zCE%2BoOC0jJ60OkriyJLBzj4SPvfncwd%2BBsqL6hUAxnyWhTwXQn8wrDw%3D%3D&KeyID=a8968c46",
-        "hash": "md5:00000000000000000000000000000000",
-        "format": "application/pdf"
-      }
-    ]
+    "relatedObjection": "65722527aaff4700aecf40863a143993"
   }
 }
 
@@ -30,21 +22,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d816e417c06e4dc4
   "data": {
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
-    "documents": [
-      {
-        "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "post_document_tender.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/be45cb04b88c4ac0a3b8a03c46c24ee0?Signature=ltemvlxFiIQ1Ere9QS0LHOyn580cNtsYSN4%2FBrcegGS1tZI8%2BQ4ovl5rrtLeMp5qQrPFyqm5i40%2BmOoBPns%2BDg%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "language": "uk",
-        "id": "228977b586c94c7f8b6d2d5f6e9aeb3f",
-        "datePublished": "2023-10-10T01:00:01+03:00",
-        "dateModified": "2023-10-10T01:00:01+03:00",
-        "author": "tender_owner"
-      }
-    ],
     "recipient": "aboveThresholdReviewers",
     "relatedPost": "83aa2397dedc450f92cb684b132f7765",
     "relatedObjection": "65722527aaff4700aecf40863a143993",
