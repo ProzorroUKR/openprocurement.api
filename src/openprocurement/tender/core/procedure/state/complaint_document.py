@@ -82,7 +82,7 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
                     status=422,
                     name="relatedItem",
                 )
-            elif self.request.authenticated_role != post["author"]:
+            elif self.request.authenticated_role != complaint_post["author"]:
                 raise_operation_error(
                     self.request,
                     "Can add document to post only by post author",
