@@ -360,21 +360,6 @@ def create_tender_invalid(self):
         ],
     )
 
-    data = self.initial_data["items"][0].copy()
-    classification = data["classification"].copy()
-    classification["id"] = "19212310-1"
-    data["classification"] = classification
-    self.initial_data["items"] = [self.initial_data["items"][0], data]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["items"] = self.initial_data["items"][:1]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["CPV class of items (1921, 4461) should be identical"], "location": "body", "name": "items"}],
-    )
-
     cpv = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "160173000-1"
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)

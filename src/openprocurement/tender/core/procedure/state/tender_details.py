@@ -223,6 +223,7 @@ class BaseTenderDetailsMixing:
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
     items_profile_required = False
+    should_validate_items_classifications_prefix = True
 
     calendar = WORKING_DAYS
 
@@ -1106,7 +1107,8 @@ class BaseTenderDetailsMixing:
         if not classifications:
             return
 
-        validate_items_classifications_prefixes(classifications)
+        if self.should_validate_items_classifications_prefix:
+            validate_items_classifications_prefixes(classifications)
 
         if not self.should_validate_pre_selection_agreement:
             return
