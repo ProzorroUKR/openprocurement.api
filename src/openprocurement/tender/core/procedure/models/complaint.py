@@ -20,7 +20,10 @@ from openprocurement.tender.core.procedure.models.complaint_objection import (
     QualificationComplaintObjection,
     TenderComplaintObjection,
 )
-from openprocurement.tender.core.procedure.models.document import Document, PostDocument
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PostComplaintDocument,
+)
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
@@ -78,7 +81,7 @@ class PostComplaint(Model):
             validate_numerated(field_name="sequenceNumber"),
         ],
     )
-    documents = ListType(ModelType(PostDocument, required=True))
+    documents = ListType(ModelType(PostComplaintDocument, required=True))
 
     def validate_status(self, data, value):
         if tender_created_after_2020_rules():

@@ -7,4 +7,4 @@ LOGGER = getLogger(__name__)
 
 
 class CFAUATenderComplaintState(TenderComplaintState, CFAUATenderState):
-    pass
+    all_documents_should_be_public = True

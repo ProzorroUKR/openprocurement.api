@@ -11,6 +11,7 @@ class CFAUAAwardComplaintState(AwardComplaintStateMixin, CFAUATenderState):
         "active.qualification.stand-still",
         "active.qualification",
     )
+    all_documents_should_be_public = True
 
     def reviewers_satisfied_handler(self, complaint):
         super().reviewers_satisfied_handler(complaint)

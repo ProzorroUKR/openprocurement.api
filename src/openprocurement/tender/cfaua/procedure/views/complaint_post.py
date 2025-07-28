@@ -1,8 +1,5 @@
 from cornice.resource import resource
 
-from openprocurement.tender.cfaua.procedure.state.complaint_post import (
-    CFAUAComplaintPostState,
-)
 from openprocurement.tender.core.procedure.views.complaint_post import (
     BaseTenderComplaintPostResource,
 )
@@ -16,4 +13,4 @@ from openprocurement.tender.core.procedure.views.complaint_post import (
     description="Tender complaint posts",
 )
 class CFAUAComplaintPostResource(BaseTenderComplaintPostResource):
-    state_class = CFAUAComplaintPostState
+    pass
