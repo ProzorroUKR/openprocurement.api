@@ -47,6 +47,10 @@ class Migration(CollectionMigration):
     def token_mismatches(access, token):
         return access["token"] != token
 
+    @staticmethod
+    def owner_mismatches(access, owner):
+        return access["owner"] != owner
+
     def check_token_exists_in_access(self, access, role, token, owner):
         obj_access = self.get_role_from_access(access, role)
         if not obj_access:
@@ -57,7 +61,7 @@ class Migration(CollectionMigration):
                     "role": role,
                 }
             )
-        elif self.token_mismatches(obj_access, token):
+        elif self.token_mismatches(obj_access, token) and self.owner_mismatches(obj_access, owner):
             obj_access.update(
                 {
                     "token": token,
