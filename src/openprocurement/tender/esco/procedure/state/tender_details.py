@@ -107,6 +107,7 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
                     name="lots.minValue.amount",
                 )
             self.set_tender_lot_data(tender, lot)
+            self.validate_lot_minimal_step(lot, before)
 
     def set_tender_lot_data(self, tender, lot):
         self.set_lot_guarantee(tender, lot)
