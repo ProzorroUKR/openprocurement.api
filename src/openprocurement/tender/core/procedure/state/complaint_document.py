@@ -68,8 +68,8 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
         pass
 
     def validate_post_docs(self, data):
+        complaint = self.request.validated["complaint"]
         if data["documentOf"] == "post":
-            complaint = self.request.validated["complaint"]
             complaint_post = None
             for post in complaint.get("posts", []):
                 if data.get("relatedItem") == post["id"]:
@@ -91,6 +91,15 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
                 )
             self.validate_complaint_status_for_posts(complaint)
             self.validate_complaint_post_review_date(complaint)
+        elif self.request.authenticated_role != "aboveThresholdReviewers" and complaint["status"] in (
+            "pending",
+            "accepted",
+        ):
+            raise_operation_error(
+                self.request,
+                f"Can submit or edit document not related to post in current ({complaint['status']}) complaint "
+                f"status for {self.request.authenticated_role}",
+            )
 
     def document_always(self, data):
         super().document_always(data)

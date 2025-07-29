@@ -3515,9 +3515,12 @@ def patch_tender_award_complaint_document(self):
                 "format": "application/msword",
             }
         },
+        status=403,
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can submit or edit document not related to post in current (pending) complaint status for complaint_owner",
+    )
 
     self.set_status("complete")
 
@@ -3651,9 +3654,12 @@ def put_tender_lots_award_complaint_document(self):
                 "format": "application/msword",
             }
         },
+        status=403,
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can submit or edit document not related to post in current (pending) complaint status for complaint_owner",
+    )
 
     # set complaint status invalid to be able to cancel the lot-
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
@@ -3776,10 +3782,12 @@ def patch_tender_lots_award_complaint_document(self):
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
         {"data": {"description": "document description2"}},
+        status=403,
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["description"], "document description2")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can submit or edit document not related to post in current (pending) complaint status for complaint_owner",
+    )
 
     # set complaint status invalid to be able to cancel the lot-
     with change_auth(self.app, ("Basic", ("reviewer", ""))):

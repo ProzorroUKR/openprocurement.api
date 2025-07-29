@@ -119,6 +119,12 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                         status=422,
                         name="relatedItem",
                     )
+            elif self.request.authenticated_role != "aboveThresholdReviewers" and data["status"] == "pending":
+                raise_operation_error(
+                    self.request,
+                    f"Can submit or edit document not related to post in current ({data['status']}) complaint "
+                    f"status for {self.request.authenticated_role}",
+                )
 
     # PATCH
     def validate_complaint_on_patch(self, before, complaint):

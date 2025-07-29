@@ -172,7 +172,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint_data = {'data': complaint.copy()}
 
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
-        complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
+        response = self.app.post_json(complaint_url, complaint_data)
+        complaint3_token = response.json['access']['token']
+        complaint3_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'complaints/complaint-submission-upload.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -189,6 +191,19 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 },
             )
             self.assertEqual(response.status, '201 Created')
+
+        if get_now() < RELEASE_2020_04_19:
+            response = self.app.patch_json(
+                "{}/{}?acc_token={}".format(complaint_url, complaint3_id, complaint3_token),
+                {"data": {"status": "pending"}},
+            )
+        else:
+            with change_auth(self.app, ("Basic", ("bot", ""))):
+                response = self.app.patch_json(
+                    "{}/{}".format(complaint_url, complaint3_id), {"data": {"status": "pending"}}
+                )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], "pending")
 
         tender_from_db = self.mongodb.tenders.get(tender["id"])
         claim_data_2 = deepcopy(claim_data)

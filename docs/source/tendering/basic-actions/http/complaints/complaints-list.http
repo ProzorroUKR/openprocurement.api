@@ -22,7 +22,7 @@ Content-Type: application/json
       "type": "claim"
     },
     {
-      "id": "8e1c5f88d0474f14a9dc74a76d7e4e07",
+      "id": "6df7d5abe3524dcfba3f705071ca1ddf",
       "complaintID": "UA-2023-10-10-000001-a.2",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "declined",
@@ -68,7 +68,7 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:00+03:00",
       "objections": [
         {
-          "id": "9d6ee38b73fa410d932513ba5d51fa6d",
+          "id": "e0931d4c79b74864ba80302215758011",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "tender",
@@ -80,14 +80,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "b47e088de1c34d5887123f0a9333c75e",
+              "id": "f590bada0f9c42f18d66de72bd4c9c01",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "ccd5fda81e8e4406bee8e5e0d4f88436",
+              "id": "7c69d72c715c4783ab9383857c0ef196",
               "description": "test argument"
             }
           ],
