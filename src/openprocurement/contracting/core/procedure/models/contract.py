@@ -115,7 +115,7 @@ class Contract(Model):
     )
     tender_token = StringType()  # deprecated
     tender_id = StringType(required=True)
-    owner_token = StringType(default=lambda: uuid4().hex)  # deprecated
+    owner_token = StringType()  # deprecated
     transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=["test"])
