@@ -69,13 +69,20 @@ class Migration(CollectionMigration):
                 }
             )
 
+    @staticmethod
+    def contract_is_electronic(access):
+        for role_details in access:
+            if role_details["role"] in (AccessRole.SUPPLIER, AccessRole.BUYER):
+                return True
+        return False
+
     def update_document(self, doc, context=None):
         prev_access = deepcopy(doc.get("access"))
         access = doc.get("access", [])
         if tender_token := doc.get("tender_token"):
             self.check_token_exists_in_access(access, AccessRole.TENDER, tender_token, doc.get("owner"))
 
-        if contract_token := doc.get("owner_token"):
+        if contract_token := doc.get("owner_token") and not self.contract_is_electronic(access):
             self.check_token_exists_in_access(access, AccessRole.CONTRACT, contract_token, doc.get("owner"))
 
         if bid_token := doc.get("bid_token"):
