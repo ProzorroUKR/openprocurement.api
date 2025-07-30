@@ -4,7 +4,6 @@ from openprocurement.api.auth import extract_access_token
 from openprocurement.api.procedure.utils import (
     append_revision,
     get_revision_changes,
-    is_item_owner,
     save_object,
 )
 from openprocurement.contracting.core.procedure.models.access import AccessRole
@@ -55,16 +54,10 @@ def is_contract_owner(request, contract):
         is_owner_by_fields(request, contract, role=AccessRole.BUYER)
         or is_owner_by_fields(request, contract, role=AccessRole.TENDER)
         or is_owner_by_fields(request, contract, role=AccessRole.CONTRACT)
-        # deprecated access logic
-        or is_tender_owner(request, contract)
-        or ("owner_token" in contract and is_item_owner(request, contract))
     )
 
 
 def is_bid_owner(request, contract):
-    return (
-        is_owner_by_fields(request, contract, role=AccessRole.SUPPLIER)
-        or is_owner_by_fields(request, contract, role=AccessRole.BID)
-        # deprecated access logic
-        or is_owner_by_fields(request, contract, "bid_token", "bid_owner")
+    return is_owner_by_fields(request, contract, role=AccessRole.SUPPLIER) or is_owner_by_fields(
+        request, contract, role=AccessRole.BID
     )
