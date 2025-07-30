@@ -285,3 +285,120 @@ def create_contract_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("sign.p7s", response.json["data"]["title"])
+
+
+def contract_change_document(self):
+    self.activate_contract()
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
+    self.assertEqual(response.json["data"]["documentOf"], "contract")
+    self.assertNotIn("documentType", response.json["data"])
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+        {"data": {"documentOf": "change", "relatedItem": "1234" * 8}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "relatedItem", "description": ["relatedItem should be one of changes"]}],
+    )
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "modifications": {"title": "New"},
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    change = response.json["data"]
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+        {"data": {"documentOf": "change", "relatedItem": change["id"]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual(response.json["data"]["documentOf"], "change")
+    self.assertEqual(response.json["data"]["relatedItem"], change["id"])
+
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url("1" * 32),
+                "hash": "md5:" + "1" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+
+    # add signature for buyer
+    contract_sign_data = {
+        "documentType": "contractSignature",
+        "title": "sign.p7s",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pkcs7-signature",
+    }
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
+        {"data": contract_sign_data},
+    )
+    # add signature for supplier
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.bid_token}",
+        {"data": contract_sign_data},
+    )
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {
+            "data": {
+                "title": "укр2.doc",
+                "url": self.generate_docservice_url("2" * 32),
+                "hash": "md5:" + "2" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+        {"data": {"documentOf": "change", "relatedItem": change["id"]}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Can't add document to 'active' change"}],
+    )
