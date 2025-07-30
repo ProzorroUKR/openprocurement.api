@@ -30,6 +30,18 @@ class PostCancellation(Model):
     )
 
 
+class PostChangeCancellation(PostCancellation):
+    reasonType = StringType(
+        required=True,
+        choices=[
+            "noDemand",
+            "unFixable",
+            "forceMajeure",
+            "expensesCut",
+        ],
+    )
+
+
 class Cancellation(Model):
     id = MD5Type(required=True)
     status = StringType(required=True, choices=["pending", "active"])
@@ -38,6 +50,10 @@ class Cancellation(Model):
         required=True,
         choices=[
             "requiresChanges",
+            "noDemand",
+            "unFixable",
+            "forceMajeure",
+            "expensesCut",
         ],
     )
     dateCreated = IsoDateTimeType(required=True)

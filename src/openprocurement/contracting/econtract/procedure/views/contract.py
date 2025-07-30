@@ -8,11 +8,8 @@ from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
     validate_accreditation_level,
     validate_input_data,
-    validate_patch_data_simple,
 )
 from openprocurement.api.utils import (
     context_unpack,
@@ -28,20 +25,12 @@ from openprocurement.contracting.core.procedure.serializers.contract import (
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_in_active_status,
     validate_contract_in_pending_status,
-    validate_contract_owner,
 )
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.contracting.core.procedure.views.contract import (
-    ContractResource,
-    conditional_contract_model,
-)
+from openprocurement.contracting.core.procedure.views.contract import ContractResource
 from openprocurement.contracting.econtract.procedure.models.access import PostAccess
-from openprocurement.contracting.econtract.procedure.models.contract import (
-    Contract,
-    PostContract,
-)
+from openprocurement.contracting.econtract.procedure.models.contract import PostContract
 from openprocurement.contracting.econtract.procedure.state.contract import (
     EContractState,
 )
@@ -138,18 +127,19 @@ class EContractPostResource(ContractBaseResource):
 class EContractResource(ContractResource):
     state_class = EContractState
 
-    @json_view(
-        content_type="application/json",
-        permission="edit_contract",
-        validators=(
-            unless_admins(unless_administrator(validate_contract_owner)),
-            unless_admins(unless_administrator(validate_contract_in_active_status)),
-            validate_input_data(conditional_contract_model),
-            validate_patch_data_simple(Contract, item_name="contract"),
-        ),
-    )
-    def patch(self):
-        return super().patch()
+    # TODO: may be in the future we will use patch only for terminationDetails, amountPaid and `terminated` status
+    # @json_view(
+    #     content_type="application/json",
+    #     permission="edit_contract",
+    #     validators=(
+    #         unless_admins(unless_administrator(validate_contract_owner)),
+    #         unless_admins(unless_administrator(validate_contract_in_active_status)),
+    #         validate_input_data(conditional_contract_model),
+    #         validate_patch_data_simple(Contract, item_name="contract"),
+    #     ),
+    # )
+    # def patch(self):
+    #     return super().patch()
 
 
 @resource(

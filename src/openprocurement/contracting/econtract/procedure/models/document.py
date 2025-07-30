@@ -9,6 +9,9 @@ from openprocurement.contracting.core.procedure.models.document import (
 from openprocurement.contracting.core.procedure.models.document import (
     PostDocument as BasePostDocument,
 )
+from openprocurement.tender.core.procedure.models.document import (
+    BaseDocument as BaseTenderDocument,
+)
 
 DOCUMENT_TYPES = (
     "tenderNotice",
@@ -59,3 +62,19 @@ class PatchDocument(BasePatchDocument):
 class Document(BaseDocument):
     documentType = StringType(choices=DOCUMENT_TYPES)
     author = StringType()
+
+
+class BaseChangeDocument(BaseTenderDocument):
+    documentOf = StringType(default="change")
+    documentType = StringType(choices=DOCUMENT_TYPES)
+
+    def validate_relatedItem(self, data, related_item):
+        pass
+
+
+class PostChangeDocument(BaseChangeDocument, PostDocument):
+    pass
+
+
+class ChangeDocument(BaseChangeDocument, Document):
+    pass
