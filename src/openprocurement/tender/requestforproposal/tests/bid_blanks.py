@@ -1,5 +1,8 @@
 from copy import deepcopy
+from datetime import timedelta
+from unittest import mock
 
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.utils import (
     generate_req_response,
     set_bid_items,
@@ -282,6 +285,7 @@ def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
     self.assertEqual(response.status, "200 OK")
 
 
+@mock.patch("openprocurement.tender.core.procedure.models.item.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
 def post_bid_multi_currency(self):
     tender = self.mongodb.tenders.get(self.tender_id)
     items = tender.get("items")
