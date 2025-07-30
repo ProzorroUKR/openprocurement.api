@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import test_signer_info
@@ -994,6 +995,9 @@ def patch_contract_single_item_unit_value_round(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
 
+@mock.patch(
+    "openprocurement.contracting.core.procedure.state.contract.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1)
+)
 def patch_contract_multi_items_unit_value(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
