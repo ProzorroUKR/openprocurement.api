@@ -145,36 +145,37 @@ def create_contract_document(self):
     self.assertIn(doc_id, response.headers["Location"])
     self.assertNotIn("acc_token", response.headers["Location"])
 
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
-        {"data": {"status": "terminated", "amountPaid": {"amount": 12, "amountNet": 11}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "terminated")
-
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
-        {
-            "data": {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "1" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Can't add document in current (terminated) contract status",
-                "location": "body",
-                "name": "data",
-            }
-        ],
-    )
+    # TODO: uncomment after termination will be added to electronic contract
+    # response = self.app.patch_json(
+    #     f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
+    #     {"data": {"status": "terminated", "amountPaid": {"amount": 12, "amountNet": 11}}},
+    # )
+    # self.assertEqual(response.status, "200 OK")
+    # self.assertEqual(response.json["data"]["status"], "terminated")
+    #
+    # response = self.app.post_json(
+    #     f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+    #     {
+    #         "data": {
+    #             "title": "укр.doc",
+    #             "url": self.generate_docservice_url(),
+    #             "hash": "md5:" + "1" * 32,
+    #             "format": "application/msword",
+    #         }
+    #     },
+    #     status=403,
+    # )
+    # self.assertEqual(response.status, "403 Forbidden")
+    # self.assertEqual(
+    #     response.json["errors"],
+    #     [
+    #         {
+    #             "description": "Can't add document in current (terminated) contract status",
+    #             "location": "body",
+    #             "name": "data",
+    #         }
+    #     ],
+    # )
 
 
 def put_contract_document(self):
@@ -290,37 +291,37 @@ def put_contract_document(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token),
-        {"data": {"status": "terminated", "amountPaid": {"amount": 100, "amountNet": 90}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "terminated")
-
-    response = self.app.put_json(
-        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url("3" * 32),
-                "hash": "md5:" + "3" * 32,
-                "format": "application/msword",
-            }
-        },
-        content_type="application/msword",
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Can't update document in current (terminated) contract status",
-                "location": "body",
-                "name": "data",
-            }
-        ],
-    )
+    # response = self.app.patch_json(
+    #     "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token),
+    #     {"data": {"status": "terminated", "amountPaid": {"amount": 100, "amountNet": 90}}},
+    # )
+    # self.assertEqual(response.status, "200 OK")
+    # self.assertEqual(response.json["data"]["status"], "terminated")
+    #
+    # response = self.app.put_json(
+    #     f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+    #     {
+    #         "data": {
+    #             "title": "name.doc",
+    #             "url": self.generate_docservice_url("3" * 32),
+    #             "hash": "md5:" + "3" * 32,
+    #             "format": "application/msword",
+    #         }
+    #     },
+    #     content_type="application/msword",
+    #     status=403,
+    # )
+    # self.assertEqual(response.status, "403 Forbidden")
+    # self.assertEqual(
+    #     response.json["errors"],
+    #     [
+    #         {
+    #             "description": "Can't update document in current (terminated) contract status",
+    #             "location": "body",
+    #             "name": "data",
+    #         }
+    #     ],
+    # )
 
 
 def patch_contract_document(self):
@@ -370,29 +371,29 @@ def patch_contract_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
-        {"data": {"status": "terminated", "amountPaid": {"amount": 100, "amountNet": 90}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "terminated")
-
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
-        {"data": {"description": "document description X"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Can't update document in current (terminated) contract status",
-                "location": "body",
-                "name": "data",
-            }
-        ],
-    )
+    # response = self.app.patch_json(
+    #     f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
+    #     {"data": {"status": "terminated", "amountPaid": {"amount": 100, "amountNet": 90}}},
+    # )
+    # self.assertEqual(response.status, "200 OK")
+    # self.assertEqual(response.json["data"]["status"], "terminated")
+    #
+    # response = self.app.patch_json(
+    #     f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+    #     {"data": {"description": "document description X"}},
+    #     status=403,
+    # )
+    # self.assertEqual(response.status, "403 Forbidden")
+    # self.assertEqual(
+    #     response.json["errors"],
+    #     [
+    #         {
+    #             "description": "Can't update document in current (terminated) contract status",
+    #             "location": "body",
+    #             "name": "data",
+    #         }
+    #     ],
+    # )
 
 
 def contract_change_document(self):
