@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-10 11:22+0300\n"
+"POT-Creation-Date: 2025-07-31 11:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -145,11 +145,8 @@ msgstr "підписання нової версії і очікування п�
 msgid "Cancellations"
 msgstr "Скасування"
 
-msgid "It is allowed to cancel current version of contract and create new one only before signature and during contract is `pending`."
-msgstr "Інсує можливість скасування поточної версії контракту та створення нової тільки до моменту підписання і поки контракт знаходиться в статусі `pending`."
-
-msgid "For example, if buyer already sign the contract, it is forbidden for him cancel this version:"
-msgstr "Напркилад, якщо постачальник вже підписав поточну версію договора, то для нього вже заборонено скасування:"
+msgid "It is allowed to cancel current version of contract and create new one during contract is `pending`."
+msgstr "Інсує можливість скасування поточної версії контракту та створення нової тільки поки контракт знаходиться в статусі `pending`."
 
 msgid "To cancel current version of contract, participant of contract should create a cancellation with reason:"
 msgstr "Для того, щоб скасувати контракт, учасник договору має додати об'єкт `cancellation` обов'язково вказавши причину скасування:"

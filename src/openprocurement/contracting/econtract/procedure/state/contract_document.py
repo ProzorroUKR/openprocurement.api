@@ -15,6 +15,11 @@ class EContractDocumentState(BaseContractDocumentState):
             self.validate_contract_is_ready_for_signing()
             self.set_author_of_object(data)
             self.validate_contract_signature_duplicate(data)
+        else:
+            raise_operation_error(
+                self.request,
+                "Only contractSignature documentType is allowed",
+            )
 
     def document_on_post(self, data):
         super().document_on_post(data)
@@ -63,13 +68,6 @@ class EContractDocumentState(BaseContractDocumentState):
             self.check_tender_status_method()
             self.request.validated["contract_was_changed"] = contract_changed
 
-    def validate_document_patch(self, before, after):
-        super().validate_document_patch(before, after)
-        if after.get("documentType") == "contractSignature":
-            self.set_author_of_object(after)
-            self.validate_object_author(before, after)
-            self.validate_contract_signature_duplicate(after)
-
     def validate_contract_signature_duplicate(self, doc_data):
         contract_docs = deepcopy(self.request.validated["contract"].get("documents", []))
         new_documents = self.request.validated["data"]
@@ -89,12 +87,3 @@ class EContractDocumentState(BaseContractDocumentState):
                     location="body",
                     name="documentType",
                 )
-
-    def validate_object_author(self, before, after):
-        if before.get("author") and before["author"] != after["author"]:
-            raise_operation_error(
-                self.request,
-                "Only author can update this object",
-                location="url",
-                name="role",
-            )

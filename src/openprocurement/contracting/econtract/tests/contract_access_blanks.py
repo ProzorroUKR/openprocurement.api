@@ -99,10 +99,10 @@ def generate_access(self):
     )
     buyer_token_2 = response.json["access"]["token"]
 
-    # try to patch contract with buyer_token
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={buyer_token_1}",
-        {"data": {"title": "new"}},
+    # try to update contract with buyer_token
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/cancellations?acc_token={buyer_token_1}",
+        {"data": {"reasonType": "requiresChanges", "reason": "want to change info"}},
         status=403,
     )
     self.assertEqual(
@@ -111,11 +111,17 @@ def generate_access(self):
     )
 
     # try to patch contract with buyer_token_2
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={buyer_token_2}",
-        {"data": {"title": "new"}},
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/cancellations?acc_token={buyer_token_2}",
+        {"data": {"reasonType": "requiresChanges", "reason": "want to change info"}},
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "201 Created")
+
+    # as we cancel contract before
+    contract_doc = self.mongodb.contracts.get(self.contract_id)
+    contract_doc["status"] = "pending"
+    contract_doc["cancellations"] = []
+    self.mongodb.contracts.save(contract_doc)
 
     # set bid owner
     response = self.app.post_json(

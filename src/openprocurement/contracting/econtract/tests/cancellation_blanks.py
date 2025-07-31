@@ -94,38 +94,6 @@ def create_cancellation_by_supplier(self):
     self.assertEqual(response.status, "201 Created")
 
 
-def create_cancellation_after_signing_contract(self):
-    # add signature before cancellation by supplier
-    contract_sign_data = {
-        "documentType": "contractSignature",
-        "title": "sign.p7s",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/pkcs7-signature",
-    }
-    self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.supplier_token}",
-        {"data": contract_sign_data},
-    )
-
-    # try to add cancellation by the same author after signing
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/cancellations?acc_token={self.supplier_token}",
-        {"data": {"reasonType": "requiresChanges", "reason": "want to change info"}},
-        status=403,
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "Contract already signed by supplier",
-            }
-        ],
-    )
-
-
 def get_cancellation(self):
     # add cancellation by supplier
     response = self.app.post_json(

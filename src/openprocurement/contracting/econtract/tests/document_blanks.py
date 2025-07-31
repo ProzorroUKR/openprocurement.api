@@ -76,55 +76,7 @@ def sign_active_contract(self):
     )
 
 
-def patch_signature_in_active_contract(self):
-    self.activate_contract()
-    response = self.app.get(f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}")
-    doc_id = response.json["data"][0]["id"]
-
-    # patch signature
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
-        {"data": {"title": "new.p7s"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update sign document in current (active) contract status",
-    )
-
-
-def patch_contract_signature_by_another_user(self):
-    contract_sign_data = {
-        "documentType": "contractSignature",
-        "title": "sign.p7s",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/pkcs7-signature",
-    }
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}", {"data": contract_sign_data}
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    doc_id = response.json["data"]["id"]
-
-    # patch signature
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.supplier_token}",
-        {"data": {"title": "new.p7s"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Only author can update this object",
-    )
-
-
-def patch_contract_signature_duplicate(self):
+def post_contract_signature_duplicate(self):
     contract_sign_data = {
         "documentType": "contractSignature",
         "title": "sign.p7s",
@@ -179,3 +131,157 @@ def activate_contract_after_signatures_and_document_upload(self):
 
     tender = self.mongodb.tenders.get(self.tender_id)
     self.assertEqual(tender["contracts"][0]["status"], "active")
+
+
+def create_contract_document(self):
+    response = self.app.get("/contracts/{}/documents".format(self.contract_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json, {"data": []})
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {
+            "data": {
+                "documentType": "contractSignature",
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+    self.assertEqual("sign.p7s", response.json["data"]["title"])
+    self.assertEqual(response.json["data"]["documentOf"], "contract")
+
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+
+    response = self.app.get("/contracts/{}/documents".format(self.contract_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"][0]["id"])
+    self.assertEqual("sign.p7s", response.json["data"][0]["title"])
+
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download=some_id", status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}])
+
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download={key}")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
+
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual("sign.p7s", response.json["data"]["title"])
+
+    if self.contract["status"] != "active":
+        self.set_status("active")
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {
+            "data": {
+                "documentType": "contractSignature",
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "data",
+            "description": "Can\'t add sign document in current (active) contract status",
+        },
+    )
+
+
+def create_contract_document_json(self):
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "data", "description": "Only contractSignature documentType is allowed"},
+    )
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {
+            "data": {
+                "documentType": "contractSignature",
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+    self.assertIn(doc_id, response.headers["Location"])
+    self.assertEqual("sign.p7s", response.json["data"]["title"])
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    contract = self.mongodb.contracts.get(self.contract_id)
+    self.assertIn(key, contract["documents"][-1]["url"])
+    self.assertNotIn("Signature=", contract["documents"][-1]["url"])
+    self.assertNotIn("KeyID=", contract["documents"][-1]["url"])
+    self.assertNotIn("Expires=", contract["documents"][-1]["url"])
+
+    response = self.app.get(f"/contracts/{self.contract_id}/documents")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"][0]["id"])
+    self.assertEqual("sign.p7s", response.json["data"][0]["title"])
+
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download=some_id", status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}])
+
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download={key}")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
+
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual("sign.p7s", response.json["data"]["title"])

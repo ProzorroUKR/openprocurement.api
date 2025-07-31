@@ -127,12 +127,7 @@ Flow:
 Cancellations
 --------------
 
-It is allowed to cancel current version of contract and create new one only before signature and during contract is `pending`.
-
-For example, if buyer already sign the contract, it is forbidden for him cancel this version:
-
-.. http:example:: http/contract-buyer-cancel-contract-forbidden.http
-   :code:
+It is allowed to cancel current version of contract and create new one during contract is `pending`.
 
 To cancel current version of contract, participant of contract should create a cancellation with reason:
 

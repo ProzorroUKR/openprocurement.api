@@ -256,14 +256,6 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         )
         self.assertEqual(response.status, '201 Created')
 
-        # buyer tries to cancel contract after signature
-        with open(TARGET_DIR + 'contract-buyer-cancel-contract-forbidden.http', 'w') as self.app.file_obj:
-            self.app.post_json(
-                f"/contracts/{self.contract_id}/cancellations?acc_token={buyer_token_2}",
-                {"data": {"reasonType": "requiresChanges", "reason": "want to change signerInfo"}},
-                status=403,
-            )
-
         self.app.authorization = ('Basic', ('broker', ''))
         with open(TARGET_DIR + 'contract-supplier-cancels-contract.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
