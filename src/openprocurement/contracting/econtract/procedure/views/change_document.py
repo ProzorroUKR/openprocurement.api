@@ -35,6 +35,7 @@ from openprocurement.tender.core.procedure.views.document import resolve_documen
     path="/contracts/{contract_id}/changes/{change_id}/documents/{document_id}",
     contractType="eContract",
     description="EContract changes related binary files (PDFs, etc.)",
+    request_method=("POST", "GET"),
 )
 class EContractChangesDocumentResource(BaseDocumentResource):
     state_class = EContractChangeDocumentState
@@ -57,32 +58,3 @@ class EContractChangesDocumentResource(BaseDocumentResource):
     )
     def collection_post(self):
         return super().collection_post()
-
-    @json_view(
-        validators=(
-            unless_admins(validate_contract_participant),
-            validate_input_data(PostChangeDocument),
-            update_doc_fields_on_put_document,
-            validate_upload_document,
-            validate_data_model(ChangeDocument),
-            validate_contract_change_action_not_in_allowed_contract_status,
-            validate_contract_change_update_not_in_allowed_change_status,
-        ),
-        permission="edit_contract",
-    )
-    def put(self):
-        return super().put()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_admins(validate_contract_participant),
-            validate_input_data(PatchDocument, none_means_remove=True),
-            validate_patch_data(ChangeDocument, item_name="document"),
-            validate_contract_change_action_not_in_allowed_contract_status,
-            validate_contract_change_update_not_in_allowed_change_status,
-        ),
-        permission="edit_contract",
-    )
-    def patch(self):
-        return super().patch()
