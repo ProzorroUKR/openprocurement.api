@@ -8,14 +8,13 @@ from openprocurement.contracting.core.procedure.state.contract import (
 
 class EChangeState(BaseContractState):
     def change_on_post(self, data):
-        self.change_always(data)
+        self.validate_change(data)
         self.set_author_of_object(data)
 
-    def change_on_patch(self, before, after):
-        self.change_always(after)
-
-    def change_always(self, data):
-        contract = self.request.validated["contract"]
+    def validate_change(self, data):
+        # we will work with deepcopy of contract, as we don't want to apply any changes to contract directly,
+        # but we need actual version of contract for next validations with all previous active changes modifications
+        contract = deepcopy(self.request.validated["contract"])
         self.apply_previous_changes(contract)
         self.validate_modifications(contract, data)
         data_for_validation = deepcopy(data["modifications"])

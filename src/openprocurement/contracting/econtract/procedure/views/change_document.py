@@ -1,13 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_patch_data,
-    validate_upload_document,
-)
+from openprocurement.api.procedure.validation import unless_admins, validate_input_data
 from openprocurement.api.utils import json_view
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_change_action_not_in_allowed_contract_status,
@@ -19,8 +12,6 @@ from openprocurement.contracting.core.procedure.views.document import (
     BaseDocumentResource,
 )
 from openprocurement.contracting.econtract.procedure.models.document import (
-    ChangeDocument,
-    PatchDocument,
     PostChangeDocument,
 )
 from openprocurement.contracting.econtract.procedure.state.change_documents import (

@@ -1,0 +1,229 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-07 17:35+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "EContractChange"
+msgstr ""
+
+msgid "Schema"
+msgstr "Схема"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, auto-generated"
+msgstr "uid, генерується автоматично"
+
+msgid "The identifier for this Change."
+msgstr "Ідентифікатор для об'єкта Change"
+
+msgid "rationale"
+msgstr ""
+
+msgid "string, multilingual, required"
+msgstr "рядок, багатомовний, обов'язковий"
+
+msgid "Reason for contract change"
+msgstr "Причина для зміни договору"
+
+msgid "rationaleTypes"
+msgstr ""
+
+msgid "List of strings, required"
+msgstr "Список рядків, обов’язковий"
+
+msgid "Type of the rationale behind contract change"
+msgstr "Тип причини додання змін до договору"
+
+msgid "Changes to the contract can be made in cases described in the 4th part of Article 36 of the Law “On the Public Procurement”."
+msgstr "Внесення змін до істотних умов договору можливі у випадках, описаних частиною четвертою статті 36 Закону України “Про публічні закупівлі”."
+
+msgid "Possible string values are:"
+msgstr "Можливі значення:"
+
+msgid "`volumeCuts` - Reduction of the procurement’s volume"
+msgstr "`volumeCuts` - Зменшення обсягів закупівлі"
+
+msgid "reduction of the procurement’s volume, particularly taking into account the actual expenditures of the procuring entity;"
+msgstr "зменшення обсягів закупівлі, зокрема з урахуванням фактичного обсягу видатків замовника;"
+
+msgid "`itemPriceVariation` - Change in the unit’s price"
+msgstr "`itemPriceVariation` - Зміна ціни за одиницю товару"
+
+msgid "change in the unit’s price (no more than 10%) due to product’s price fluctuations on the market, provided that the said change will not increase the sum of money specified in the contract;"
+msgstr "зміна ціни за одиницю товару не більше ніж на 10 відсотків у разі коливання ціни такого товару на ринку, за умови, що зазначена зміна не призведе до збільшення суми, визначеної в договорі;"
+
+msgid "`qualityImprovement` - Improvement of the procurement item’s quality"
+msgstr "`qualityImprovement` - Покращення якості предмета закупівлі"
+
+msgid "improvement of the item's quality, provided that such improvement will not increase the sum of money specified in the contract;"
+msgstr "покращення якості предмета закупівлі за умови, що таке покращення не призведе до збільшення суми, визначеної в договорі;"
+
+msgid "`durationExtension` - Extension of the period of the contract duration (due to documented objective circumstances)"
+msgstr "`durationExtension` - Продовження строку дії договору (через документально підтверджені об’єктивні обставини)"
+
+msgid "extension of the period of the contract duration and obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including force majeure, delays in funding of procuring entity’s  expenditures, provided that such changes will not increase the sum of money specified in the contract;"
+msgstr "продовження строку дії договору та виконання зобов’язань щодо передання товару, виконання робіт, надання послуг у разі виникнення документально підтверджених об’єктивних обставин, що спричинили таке продовження, у тому числі непереборної сили, затримки фінансування витрат замовника, за умови, що такі зміни не призведуть до збільшення суми, визначеної в договорі;"
+
+msgid "`priceReduction` - Coordinated price reduction"
+msgstr "`priceReduction` - Узгоджене зменшення ціни"
+
+msgid "coordinated downward price change (without changing the quantity (volume) and quality of goods, works, and services);"
+msgstr "узгоджена зміна ціни в бік зменшення (без зміни кількості (обсягу) та якості товарів, робіт і послуг);"
+
+msgid "`taxRate` - Price changes due to changes in tax rates and fees"
+msgstr "`taxRate` - Зміна ціни у зв’язку із зміною ставок податків і зборів"
+
+msgid "price changes due to changes in tax rates and fees in proportion to changes of those rates;"
+msgstr "зміна ціни у зв’язку із зміною ставок податків і зборів пропорційно до змін таких ставок;"
+
+msgid "`thirdParty` - Change of the third-party indicators (rate, indices...)"
+msgstr "`thirdParty` - Зміна сторонніх показників (курсу, тарифів…)"
+
+msgid "changes of established under the law by the State Statistics Service consumer price index, changes in foreign currency, changes in stock prices or Platts indices, regulated prices (rates) and standards that are used in the procurement contract if the price change order is specified in the procurement contract;"
+msgstr "зміна встановленого згідно із законодавством органами державної статистики індексу споживчих цін, зміни курсу іноземної валюти, зміни біржових котирувань або показників Platts, регульованих цін (тарифів) і нормативів, які застосовуються в договорі про закупівлю, у разі встановлення в договорі про закупівлю порядку зміни ціни;"
+
+msgid "`fiscalYearExtension` - Extension of the period of the contract duration to the next year"
+msgstr "`fiscalYearExtension` - Продовження строку дії договору на наступний рік"
+
+msgid "changes in contract terms according to the provisions of part 5 of Article 36."
+msgstr "зміна умов у зв’язку із застосуванням положень частини п’ятої статті 36."
+
+#, python-format
+msgid "Article 36 Part 5. Effect of the procurement contract may be continued for a period sufficient for conduction of the procurement procedure at the beginning of the next year in volume that does not exceed 20% of the sum specified in the contract concluded in the previous year, if expenditures for this purpose are approved in the prescribed manner."
+msgstr "Стаття 36 Частина 5: Дія договору про закупівлю може продовжуватися на строк, достатній для проведення процедури закупівлі на початку наступного року, в обсязі, що не перевищує 20 відсотків суми, визначеної в договорі, укладеному в попередньому році, якщо видатки на цю мету затверджено в установленому порядку."
+
+msgid "date"
+msgstr ""
+
+msgid "string, :ref:`date`, auto-generated"
+msgstr "рядок, :ref:`date`, генерується автоматично"
+
+msgid "status"
+msgstr ""
+
+msgid "string, required"
+msgstr "рядок, обов’язковий"
+
+msgid "The current status of the change."
+msgstr "Поточний стан зміни."
+
+msgid "Possible values are:"
+msgstr "Можливі значення:"
+
+msgid "`pending` - this change has been added."
+msgstr "`очікування` - ця зміна була додана."
+
+msgid "`active` - this change has been confirmed."
+msgstr "`активний` - ця зміна підтверджена."
+
+msgid "`cancelled` - this change has been cancelled."
+msgstr "`cancelled` - ця зміна скасована."
+
+msgid "modifications"
+msgstr ""
+
+msgid "List of :ref:`EContractModifications` objects"
+msgstr "Список об'єктів :ref:`EContractModifications`"
+
+msgid "All fields of contract that will be modified after change is applied."
+msgstr "Поля договору, які будуть змінені, якщо ченжи будуть підписані."
+
+msgid "documents"
+msgstr ""
+
+msgid "List of :ref:`ConfidentialDocument` objects"
+msgstr "Список об’єктів :ref:`ConfidentialDocument`"
+
+msgid "All documents (signatures) related to the cancellation."
+msgstr "Всі документи (підписи), які пов'язані із скасуванням."
+
+msgid "cancellations"
+msgstr ""
+
+msgid "List of :ref:`EContractCancellation` objects."
+msgstr "Список пов’язаних об’єктів :ref:`EContractCancellation`."
+
+msgid "Contains 1 object with `active` status in case of cancelled change."
+msgstr "Містить 1 об’єкт зі статусом `active` на випадок, якщо ченж буде відмінено"
+
+msgid "The :ref:`EContractCancellation` object describes the reason of change cancellation."
+msgstr "Об’єкт :ref:`EContractCancellation` описує причину скасування ченжів."
+
+msgid "author"
+msgstr ""
+
+msgid "string, auto-generated"
+msgstr ""
+
+msgid "The author of change"
+msgstr "Автор ченжів"
+
+msgid "ContractModifications"
+msgstr ""
+
+msgid "title"
+msgstr ""
+
+msgid "|ocdsDescription| Contract title"
+msgstr "|ocdsDescription| Назва договору"
+
+msgid "description"
+msgstr ""
+
+msgid "string"
+msgstr "рядок"
+
+msgid "|ocdsDescription| Contract description"
+msgstr "|ocdsDescription| Опис договору"
+
+msgid "period"
+msgstr ""
+
+msgid ":ref:`Period`"
+msgstr ":ref:`Period`"
+
+msgid "|ocdsDescription| The start and end date for the contract."
+msgstr "|ocdsDescription| Дата початку та завершення договору."
+
+msgid "value"
+msgstr ""
+
+msgid ":ref:`ContractValue` object, auto-generated"
+msgstr "Об’єкт :ref:`ContractValue`, генерується автоматично, лише для читання"
+
+msgid "|ocdsDescription| The total value of this contract."
+msgstr "|ocdsDescription| Загальна вартість договору."
+
+msgid "Check \":ref:`SettingContractValue`\" tutorial section for more info"
+msgstr ""
+
+msgid "items"
+msgstr ""
+
+msgid "List of :ref:`Item` objects, auto-generated, read-only"
+msgstr "Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
+
+msgid "|ocdsDescription| The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat."
+msgstr "|ocdsDescription| Товари, послуги та інші нематеріальні результати у цій угоді. Зверніть увагу: Якщо список співпадає з визначенням переможця `award`, то його не потрібно повторювати."
+
+msgid "contractNumber"
+msgstr ""
+

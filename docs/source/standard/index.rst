@@ -30,6 +30,8 @@ areas that were not covered by it.
    dimension
    document
    econtract
+   econtractcancellation
+   econtractchange
    eligibleevidence
    evidence
    feature

@@ -1,5 +1,4 @@
 from copy import deepcopy
-from uuid import uuid4
 
 from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
 
@@ -415,7 +414,7 @@ def cancellation_of_change(self):
             {
                 "location": "body",
                 "name": "reasonType",
-                "description": ["Value must be one of ['noDemand', 'unFixable', 'forceMajeure', 'expensesCut']."],
+                "description": ["Value must be one of ['requiresChanges']."],
             }
         ],
     )
@@ -423,7 +422,7 @@ def cancellation_of_change(self):
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes/{change_1['id']}/cancellations?acc_token={self.contract_token}",
         {
-            "data": {"reason": "Not actual", "reasonType": "noDemand"},
+            "data": {"reason": "Not actual", "reasonType": "requiresChanges"},
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -482,7 +481,7 @@ def cancellation_of_change(self):
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes/{change_2['id']}/cancellations?acc_token={self.contract_token}",
         {
-            "data": {"reason": "Not actual", "reasonType": "noDemand"},
+            "data": {"reason": "Not actual", "reasonType": "requiresChanges"},
         },
         status=403,
     )
@@ -854,13 +853,7 @@ def change_documents(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "Only contractSignature documentType is allowed"
-            }
-        ],
+        [{"location": "body", "name": "data", "description": "Only contractSignature documentType is allowed"}],
     )
 
     contract_sign_data["documentType"] = "contractSignature"

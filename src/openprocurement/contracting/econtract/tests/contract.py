@@ -18,10 +18,7 @@ from openprocurement.contracting.core.tests.contract_blanks import (
     put_transaction_to_contract,
     simple_add_contract,
 )
-from openprocurement.contracting.econtract.tests.base import (
-    BaseEContractContentWebTest,
-    BaseEContractWebTest,
-)
+from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
 from openprocurement.contracting.econtract.tests.contract_blanks import (
     post_new_version_of_contract,
 )

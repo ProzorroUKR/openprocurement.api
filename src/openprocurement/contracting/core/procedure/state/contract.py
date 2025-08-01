@@ -704,7 +704,7 @@ class ContractState(
     @staticmethod
     def validate_update_contracting_value_identical(request, before, after):
         value = after.get("value")
-        paid_data = request.validated["json_data"].get("amountPaid")  # why from json_data? not from after
+        paid_data = request.validated["json_data"].get("amountPaid")
         for attr in ("currency",):
             if value and paid_data and paid_data.get(attr) is not None:
                 if value.get(attr) != paid_data.get(attr):

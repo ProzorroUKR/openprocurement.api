@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-11 17:12+0300\n"
+"POT-Creation-Date: 2025-08-07 17:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -154,8 +154,8 @@ msgstr "|ocdsDescription| Об’єкт, що управляє закупівл�
 msgid "changes"
 msgstr ""
 
-msgid "List of :ref:`Change` objects."
-msgstr "Список пов’язаних об’єктів :ref:`Change`."
+msgid "List of :ref:`EContractChange` objects."
+msgstr "Список пов’язаних об’єктів :ref:`EContractChange`."
 
 msgid "amountPaid"
 msgstr ""
@@ -204,6 +204,25 @@ msgstr "рядок, генерується автоматично"
 
 msgid "template link on standards"
 msgstr "посилання на шаблон а стандртах"
+
+msgid "cancellations"
+msgstr ""
+
+msgid "List of :ref:`EContractCancellation` objects."
+msgstr "Список пов’язаних об’єктів :ref:`EContractCancellation`."
+
+msgid "Contains 1 object with `active` status in case of cancelled EContract."
+msgstr "Містить 1 об’єкт зі статусом `active` на випадок, якщо версію договора буде відмінено."
+
+#, fuzzy
+msgid "The :ref:`EContractCancellation` object describes the reason of contract cancellation contains accompanying documents  if any."
+msgstr "Об’єкт :ref:`EContractCancellation` описує причину скасування договору та надає відповідні документи, якщо такі є.."
+
+msgid "author"
+msgstr ""
+
+msgid "The author of the new version of contract (if previous one was cancelled)"
+msgstr "Автор нової версії договору (якщо попередня версія була скасована)"
 
 msgid "Workflow"
 msgstr "Робочий процес"
