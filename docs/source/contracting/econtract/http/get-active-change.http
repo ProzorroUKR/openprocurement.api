@@ -1,0 +1,58 @@
+GET /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07?acc_token=838bca54aee04fbaabd502cb2c7b28a4 HTTP/1.0
+Authorization: Bearer broker6
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "rationale": "причина зміни укр",
+    "rationale_en": "change cause en",
+    "rationaleTypes": [
+      "priceReduction"
+    ],
+    "modifications": {
+      "value": {
+        "amount": 235.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true,
+        "amountNet": 200.0
+      }
+    },
+    "id": "68db49ecd6ef439a81feaec69cd6ab07",
+    "status": "active",
+    "date": "2023-10-10T01:00:00+03:00",
+    "author": "supplier",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/c681b342eb664c3ab671f50a68860c14?download=acdee3c5fbb14da0b63000963dea8a81",
+        "documentOf": "change",
+        "documentType": "contractSignature",
+        "id": "c681b342eb664c3ab671f50a68860c14",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "supplier"
+      },
+      {
+        "confidentiality": "public",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/dbfd77f646e24646b486c9993d548773?download=acdee3c5fbb14da0b63000963dea8a81",
+        "documentOf": "change",
+        "documentType": "contractSignature",
+        "id": "dbfd77f646e24646b486c9993d548773",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "buyer"
+      }
+    ]
+  }
+}
+

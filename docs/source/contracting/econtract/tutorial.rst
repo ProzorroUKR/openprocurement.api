@@ -196,3 +196,133 @@ Let's look at all contracts in tender:
 After that new round of signatures begins.
 
 Supplier and buyer can sign this new version of contract if they agreed with changes or create new version if disagreed.
+
+Changes for active contract
+=============================
+
+Changes to the terms of the contracts can be made by the signatories through the submission and signing of an additional agreement. The system uses the terminology "changes".
+
+The initiator of the change can be both the buyer and the supplier.
+
+The initiator fills in three mandatory fields:
+
+:rationale:
+    string, reason of changes
+
+:rationaleTypes:
+    list, reason type of changes
+
+:modifications:
+    object, new values in fields
+
+
+`modifications` is a structure that reflects the changes in the contract field that will be made:
+
+:title:
+    string
+
+:title_en:
+    string
+
+:description:
+    string
+
+:description_en:
+    string
+
+:period:
+    :ref:`Period`
+
+    The start and end date for the contract.
+
+:items:
+    List of :ref:`Item` objects
+
+:value:
+    :ref:`ContractValue` object
+
+:contractNumber:
+    string
+
+Changes can be made only to signed contracts:
+
+.. http:example:: http/changes-for-pending-contract.http
+   :code:
+
+Creating changes
+------------------
+
+Request to create a change:
+
+.. http:example:: http/create-change.http
+   :code:
+
+There are validations for some fields during changes.
+
+For example, if the buyer decided to change currency in contract value:
+
+.. http:example:: http/change-modifications-invalid-currency.http
+   :code:
+
+For example, if the supplier decided to change period endDate in contract to incorrect date:
+
+.. http:example:: http/change-modifications-invalid-period.http
+   :code:
+
+Change activation
+------------------
+
+To activate change it is required to add contract signature document type from each participant (supplier and buyer).
+
+If both sides signed the current version of change, than change becomes `active` and modifications will be taken into account during next changes.
+
+Supplier adds signature document using his token (`supplier_token`):
+
+.. http:example:: http/change-supplier-add-signature-doc.http
+   :code:
+
+Buyer adds signature document using his token (`buyer_token`):
+
+.. http:example:: http/change-buyer-add-signature-doc.http
+   :code:
+
+If all required signatures are completed, the change will automatically transition to the `active` status:
+
+.. http:example:: http/get-active-change.http
+   :code:
+
+Cancellations
+--------------
+
+It is allowed to cancel change of contract if it is not actual anymore.
+
+Create one more change:
+
+.. http:example:: http/create-change-2.http
+   :code:
+
+To cancel change, participant of contract should create a cancellation with reason:
+
+.. http:example:: http/contract-supplier-cancels-change.http
+   :code:
+
+Let's look at change:
+
+.. http:example:: http/cancellation-of-change.http
+   :code:
+
+It is forbidden to add more than one cancellation:
+
+.. http:example:: http/cancellation-of-change-duplicated.http
+   :code:
+
+After cancellation created, there is forbidden to sign change:
+
+.. http:example:: http/contract-supplier-add-signature-to-change-forbidden.http
+    :code:
+
+Signing additional changes does not change the electronic fields of the contract itself.
+That is, if, for example, the value of the contract was changed by an additional change, then changes will contain the current value, and the contract will contain the value current at the time of signing the contract:
+
+.. http:example:: http/get-contract-with-changes.http
+    :code:

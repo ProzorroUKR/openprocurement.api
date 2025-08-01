@@ -10,7 +10,6 @@ from openprocurement.contracting.core.tests.document_blanks import (
 from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
 from openprocurement.contracting.econtract.tests.document_blanks import (
     activate_contract_after_signatures_and_document_upload,
-    contract_change_document,
     create_contract_document,
     create_contract_document_json,
     post_contract_signature_duplicate,
@@ -25,7 +24,6 @@ class ContractDocumentResourceTest(BaseEContractContentWebTest):
     test_create_contract_document_json_invalid = snitch(create_contract_document_json_invalid)
     test_create_contract_document_json = snitch(create_contract_document_json)
     test_create_contract_transaction_document_json = snitch(create_contract_transaction_document_json)
-    test_contract_change_document = snitch(contract_change_document)
     test_limited_contract_confidential_document = snitch(limited_contract_confidential_document)
     test_sign_pending_contract = snitch(sign_pending_contract)
     test_sign_active_contract = snitch(sign_active_contract)

@@ -1,0 +1,35 @@
+POST /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes?acc_token=47c3f4968e1341499809200105e2aade HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "rationale": "причина зміни укр",
+    "rationale_en": "change cause en",
+    "rationaleTypes": [
+      "durationExtension"
+    ],
+    "modifications": {
+      "period": {
+        "endDate": "2021-01-01T00:00:00+02:00"
+      }
+    }
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "period should begin before its end"
+    }
+  ]
+}
+
