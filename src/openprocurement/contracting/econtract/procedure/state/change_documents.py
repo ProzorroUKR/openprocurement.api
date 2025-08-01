@@ -11,6 +11,11 @@ class EContractChangeDocumentState(BaseContractDocumentState):
         if data.get("documentType") == "contractSignature":
             self.set_author_of_object(data)
             self.validate_change_signature_duplicate(data)
+        else:
+            raise_operation_error(
+                self.request,
+                "Only contractSignature documentType is allowed",
+            )
 
     def document_on_post(self, data):
         super().document_on_post(data)
@@ -28,12 +33,6 @@ class EContractChangeDocumentState(BaseContractDocumentState):
         signs_count = len([doc for doc in docs if doc.get("documentType") == "contractSignature"])
         if signs_count == participants_count:
             self.set_object_status(change, "active")
-
-    def validate_document_patch(self, before, after):
-        if after.get("documentType") == "contractSignature":
-            self.set_author_of_object(after)
-            self.validate_object_author(before, after)
-            self.validate_contract_signature_duplicate(after)
 
     def validate_change_signature_duplicate(self, doc_data):
         change_docs = deepcopy(self.request.validated["change"].get("documents", []))
@@ -54,12 +53,3 @@ class EContractChangeDocumentState(BaseContractDocumentState):
                     location="body",
                     name="documentType",
                 )
-
-    def validate_object_author(self, before, after):
-        if before.get("author") and before["author"] != after["author"]:
-            raise_operation_error(
-                self.request,
-                "Only author can update this object",
-                location="url",
-                name="role",
-            )
