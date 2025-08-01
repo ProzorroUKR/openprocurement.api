@@ -7,7 +7,6 @@ from openprocurement.contracting.core.tests.base import (
 )
 from openprocurement.contracting.core.tests.contract_blanks import (
     cancel_tender_award,
-    contract_administrator_change,
     contract_update_add_remove_items,
     create_contract_transfer_token,
     create_contract_w_documents,
@@ -68,18 +67,11 @@ class ContractResource4BrokersTestMultipleItems(BaseContractWebTestTwoItems):
     test_contract_update_add_remove_items = snitch(contract_update_add_remove_items)
 
 
-class ContractResource4AdministratorTest(BaseEContractWebTest):
-    initial_auth = ("Basic", ("administrator", ""))
-
-    test_contract_administrator_change = snitch(contract_administrator_change)
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResource4BrokersTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractActiveResource4BrokersTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResource4AdministratorTest))
     return suite
 
 

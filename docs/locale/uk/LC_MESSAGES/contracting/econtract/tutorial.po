@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-31 11:48+0300\n"
+"POT-Creation-Date: 2025-08-01 15:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -222,4 +222,109 @@ msgstr "Після цього починається новий етап під�
 
 msgid "Supplier and buyer can sign this new version of contract if they agreed with changes or create new version if disagreed."
 msgstr "Замовник та постачальник можуть підписати нову версію договору, якщо їх влаштовують зміни або створити нову версію, якщо треба ще щось змінити."
+
+msgid "Changes for active contract"
+msgstr "Додаткові угоди (зміни) в EContract"
+
+msgid "Changes to the terms of the contracts can be made by the signatories through the submission and signing of an additional agreement. The system uses the terminology \"changes\"."
+msgstr "Зміни в умови контрактів можуть бути внесені підписантами через подання і підписання додаткових угод. В системі використовується термінологія «змін» / «changes»."
+
+msgid "The initiator of the change can be both the buyer and the supplier."
+msgstr "Ініціатором внесення змін може бути обидва замовник і постачальник."
+
+msgid "The initiator fills in three mandatory fields:"
+msgstr "Ініціатор заповнює три обов’язкових поля:"
+
+msgid "rationale"
+msgstr ""
+
+msgid "string, reason of changes"
+msgstr "string, причина змін"
+
+msgid "rationaleTypes"
+msgstr ""
+
+msgid "list, reason type of changes"
+msgstr "list, типи причин"
+
+msgid "modifications"
+msgstr ""
+
+msgid "object, new values in fields"
+msgstr "object, нові значення в електронних полях"
+
+msgid "`modifications` is a structure that reflects the changes in the contract field that will be made:"
+msgstr "`modifications` це структура, що відображає зміни в електроних поля, які буде внесено:"
+
+msgid "string"
+msgstr ""
+
+msgid ":ref:`Period`"
+msgstr ""
+
+msgid "The start and end date for the contract."
+msgstr "Дата початку та кінця договору."
+
+msgid "items"
+msgstr ""
+
+msgid "List of :ref:`Item` objects"
+msgstr ""
+
+msgid ":ref:`ContractValue` object"
+msgstr ""
+
+msgid "Changes can be made only to signed contracts:"
+msgstr "Зміни можна вносити тільки в підписані контракти:"
+
+msgid "Creating changes"
+msgstr "Створення додаткових угод"
+
+msgid "Request to create a change:"
+msgstr "Запит створення пропозиції змін:"
+
+msgid "There are validations for some fields during changes."
+msgstr "Для деяких полів договору існують валідації (такі самі як і були при PATCH для активного договору),"
+
+msgid "For example, if the buyer decided to change currency in contract value:"
+msgstr "Наприклад, якщо замовник вирішив змінити валюту в `value` договору:"
+
+msgid "For example, if the supplier decided to change period endDate in contract to incorrect date:"
+msgstr "Наприклад, якщо постачальник вирішив змінити період договору на неправильну дату:"
+
+msgid "Change activation"
+msgstr "Підписання змін"
+
+msgid "To activate change it is required to add contract signature document type from each participant (supplier and buyer)."
+msgstr "Для того, щоб активувати зміни, потрібно замовнику та постачальнику додати в якості документів електронні підписи."
+
+msgid "If both sides signed the current version of change, than change becomes `active` and modifications will be taken into account during next changes."
+msgstr "Після того, як будуть накладені два підписи на зміни, зміни стають `active`."
+
+msgid "Supplier adds signature document using his token (`supplier_token`):"
+msgstr "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`):"
+
+msgid "Buyer adds signature document using his token (`buyer_token`):"
+msgstr "Замовник додає документ підпису використовуючи свій токен (`buyer_token`):"
+
+msgid "If all required signatures are completed, the change will automatically transition to the `active` status:"
+msgstr "Коли обидва підписа є у системі, то система підтверджує, що зміни підписано і активує їх:"
+
+msgid "It is allowed to cancel change of contract if it is not actual anymore."
+msgstr "Сторони можуть скасовувати дод. угоди, якщо вони неактуальні, надавши коментар."
+
+msgid "Create one more change:"
+msgstr "Створимо ще одну додаткову угоду:"
+
+msgid "To cancel change, participant of contract should create a cancellation with reason:"
+msgstr "Для того, щоб скасувати угоду, учасник договору має додати об'єкт `cancellation` обов'язково вказавши причину скасування:"
+
+msgid "Let's look at change:"
+msgstr "Подивимося на додаткову угоду:"
+
+msgid "After cancellation created, there is forbidden to sign change:"
+msgstr "Після того, як додано `cancellation`, підписувати цю додаткову угоду вже заборонено:"
+
+msgid "Signing additional changes does not change the electronic fields of the contract itself. That is, if, for example, the value of the contract was changed by an additional change, then changes will contain the current value, and the contract will contain the value current at the time of signing the contract:"
+msgstr "Підписання додаткових угод не змінює електронні поля самого контракту. Тобто якщо, наприклад, вартість контракту було змінено додатковою угодою, то в changes буде актуальне значення, а в контракті - актуальне на момент підписання контракту."
 

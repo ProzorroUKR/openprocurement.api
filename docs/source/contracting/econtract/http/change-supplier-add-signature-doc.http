@@ -1,0 +1,36 @@
+POST /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents?acc_token=47c3f4968e1341499809200105e2aade HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "documentType": "contractSignature",
+    "title": "sign.p7s",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/acdee3c5fbb14da0b63000963dea8a81?Signature=9yUTxrhW643akFLoRp4iNOg%2BMn8jCWz86lCZcFmsqOQ9NuiSZW7eAK%2FHc9q0JafVpi1usw1uLpNLIlmU5t%2BKAA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pkcs7-signature"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/c681b342eb664c3ab671f50a68860c14
+
+{
+  "data": {
+    "confidentiality": "public",
+    "title": "sign.p7s",
+    "format": "application/pkcs7-signature",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/acdee3c5fbb14da0b63000963dea8a81?Signature=SOTnP29yDReK3ASdxAlc17sOQOCCLLh4%2BWYuAXnlRmjAX0WBx7GLFrfz0dTBtKZSX9w48W7v8Y%2FUOHXkILiqDg%3D%3D&KeyID=a8968c46",
+    "documentOf": "change",
+    "documentType": "contractSignature",
+    "id": "c681b342eb664c3ab671f50a68860c14",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "author": "supplier"
+  }
+}
+

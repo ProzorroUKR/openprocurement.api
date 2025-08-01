@@ -1,0 +1,38 @@
+GET /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/e3b63c3aac354f6db3fbc8f25d03cc7d HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "rationale": "причина зміни укр",
+    "rationale_en": "change cause en",
+    "rationaleTypes": [
+      "durationExtension"
+    ],
+    "modifications": {
+      "period": {
+        "endDate": "2027-01-01T00:00:00+02:00",
+        "startDate": "2022-01-01T00:00:00+02:00"
+      }
+    },
+    "id": "e3b63c3aac354f6db3fbc8f25d03cc7d",
+    "status": "cancelled",
+    "date": "2023-10-10T01:00:00+03:00",
+    "author": "supplier",
+    "cancellations": [
+      {
+        "reason": "not actual change",
+        "reasonType": "requiresChanges",
+        "id": "3380e0835b714c2d8c6a852fbef4187e",
+        "dateCreated": "2023-10-10T01:00:00+03:00",
+        "status": "active",
+        "author": "supplier"
+      }
+    ]
+  }
+}
+

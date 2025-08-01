@@ -6,16 +6,17 @@ from openprocurement.contracting.econtract.tests.change_blanks import (
     activation_of_change,
     cancellation_of_change,
     change_for_pending_contract_forbidden,
-    change_tender_contract_period,
-    change_tender_contract_value_amount,
-    change_tender_contract_value_vat_change,
-    change_tender_contract_wo_amount_net,
+    change_contract_period,
+    change_contract_value_amount,
+    change_contract_value_vat_change,
+    change_contract_wo_amount_net,
     contract_token_invalid,
     create_change,
     create_change_invalid,
     get_change,
     not_found,
     patch_change,
+    change_documents,
 )
 
 
@@ -53,13 +54,14 @@ class ContractChangesResourceTest(ContractChangesMixin, BaseEContractContentWebT
     test_cancellation_of_change = snitch(cancellation_of_change)
     test_change_for_pending_contract_forbidden = snitch(change_for_pending_contract_forbidden)
     test_contract_token_invalid = snitch(contract_token_invalid)
+    test_change_documents = snitch(change_documents)
 
 
 class ContractChangesModificationsResourceTest(ContractChangesMixin, BaseEContractContentWebTest):
-    test_change_tender_contract_wo_amount_net = snitch(change_tender_contract_wo_amount_net)
-    test_change_tender_contract_value_amount = snitch(change_tender_contract_value_amount)
-    test_change_tender_contract_value_vat_change = snitch(change_tender_contract_value_vat_change)
-    test_change_tender_contract_period = snitch(change_tender_contract_period)
+    test_change_tender_contract_wo_amount_net = snitch(change_contract_wo_amount_net)
+    test_change_tender_contract_value_amount = snitch(change_contract_value_amount)
+    test_change_tender_contract_value_vat_change = snitch(change_contract_value_vat_change)
+    test_change_tender_contract_period = snitch(change_contract_period)
 
 
 def suite():

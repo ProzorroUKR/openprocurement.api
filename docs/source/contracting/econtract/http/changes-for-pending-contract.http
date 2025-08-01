@@ -1,0 +1,36 @@
+POST /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes?acc_token=47c3f4968e1341499809200105e2aade HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "rationale": "причина зміни укр",
+    "rationale_en": "change cause en",
+    "rationaleTypes": [
+      "priceReduction"
+    ],
+    "modifications": {
+      "value": {
+        "amount": 235,
+        "amountNet": 200
+      }
+    }
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Can't add contract change in current (pending) contract status"
+    }
+  ]
+}
+

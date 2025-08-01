@@ -1,4 +1,5 @@
 from copy import deepcopy
+from uuid import uuid4
 
 from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
 
@@ -498,7 +499,7 @@ def cancellation_of_change(self):
     )
 
 
-def change_tender_contract_wo_amount_net(self):
+def change_contract_wo_amount_net(self):
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -531,7 +532,7 @@ def change_tender_contract_wo_amount_net(self):
     self.assertEqual(response.status, "201 Created")
 
 
-def change_tender_contract_value_amount(self):
+def change_contract_value_amount(self):
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -588,7 +589,7 @@ def change_tender_contract_value_amount(self):
     self.assertEqual(contract_modifications["value"]["valueAddedTaxIncluded"], True)
 
 
-def change_tender_contract_value_vat_change(self):
+def change_contract_value_vat_change(self):
     # check that contract.value.valueAddedTaxIncluded is True
     self.assertEqual(
         self.contract["value"]["valueAddedTaxIncluded"],
@@ -664,7 +665,7 @@ def change_tender_contract_value_vat_change(self):
     # self.assertEqual(response.json["errors"][0]["description"], "Amount and amountNet should be equal")
 
 
-def change_tender_contract_period(self):
+def change_contract_period(self):
     previous_period = {
         "startDate": "2016-02-20T18:47:47.155143+02:00",
         "endDate": "2016-06-15T18:47:47.155143+02:00",
@@ -823,3 +824,72 @@ def contract_token_invalid(self):
             }
         ],
     )
+
+
+def change_documents(self):
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "modifications": {"value": {"amount": 235, "amountNet": 200}},
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    change = response.json["data"]
+
+    contract_sign_data = {
+        "title": "sign.p7s",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pkcs7-signature",
+    }
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
+        {"data": contract_sign_data},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Only contractSignature documentType is allowed"
+            }
+        ],
+    )
+
+    contract_sign_data["documentType"] = "contractSignature"
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
+        {"data": contract_sign_data},
+    )
+    doc_id = response.json["data"]["id"]
+
+    # try to patch
+    self.app.patch_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents/{doc_id}?acc_token={self.contract_token}",
+        {"data": {"title": "sign2.p7s"}},
+        status=404,
+    )
+
+    # try to put
+    self.app.put_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents/{doc_id}?acc_token={self.contract_token}",
+        {"data": contract_sign_data},
+        status=404,
+    )
+
+    response = self.app.get(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents/{doc_id}?acc_token={self.contract_token}",
+    )
+    self.assertEqual(response.json["data"]["title"], "sign.p7s")
+
+    response = self.app.get(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
+    )
+    self.assertEqual(response.json["data"][0]["title"], "sign.p7s")
