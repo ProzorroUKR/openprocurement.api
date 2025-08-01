@@ -5,18 +5,18 @@ from openprocurement.contracting.econtract.tests.base import BaseEContractConten
 from openprocurement.contracting.econtract.tests.change_blanks import (
     activation_of_change,
     cancellation_of_change,
-    change_for_pending_contract_forbidden,
     change_contract_period,
     change_contract_value_amount,
     change_contract_value_vat_change,
     change_contract_wo_amount_net,
+    change_documents,
+    change_for_pending_contract_forbidden,
     contract_token_invalid,
     create_change,
     create_change_invalid,
     get_change,
     not_found,
     patch_change,
-    change_documents,
 )
 
 

@@ -33,7 +33,7 @@ def validate_create_contract_change(request, **kwargs):
 
 def validate_contract_change_update_not_in_allowed_change_status(request, **kwargs):
     change = request.validated["change"]
-    if change["status"] == "active":
+    if change["status"] in ("active", "cancelled"):
         raise_operation_error(
             request,
             f"Can't update contract change in current ({change['status']}) status",

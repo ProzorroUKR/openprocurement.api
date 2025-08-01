@@ -1,5 +1,4 @@
 from copy import deepcopy
-from uuid import uuid4
 
 from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
 
@@ -854,13 +853,7 @@ def change_documents(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "Only contractSignature documentType is allowed"
-            }
-        ],
+        [{"location": "body", "name": "data", "description": "Only contractSignature documentType is allowed"}],
     )
 
     contract_sign_data["documentType"] = "contractSignature"
