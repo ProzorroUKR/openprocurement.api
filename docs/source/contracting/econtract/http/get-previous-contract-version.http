@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98?acc_token=838bca54aee04fbaabd502cb2c7b28a4 HTTP/1.0
+GET /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,10 +9,10 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "283d9284a6054a25a129e848808b75a1",
-    "contractID": "UA-2023-10-10-000001-a-2",
+    "contractID": "UA-2023-10-10-000001-a-1",
     "period": {
-      "startDate": "2022-01-01T00:00:00+02:00",
-      "endDate": "2026-01-01T00:00:00+02:00"
+      "startDate": "2023-10-15T00:00:00+03:00",
+      "endDate": "2023-12-31T23:59:59+03:00"
     },
     "value": {
       "amount": 500.0,
@@ -162,7 +162,7 @@ Content-Type: application/json
         "contract_owner": "broker",
         "scale": "micro",
         "signerInfo": {
-          "name": "Another supplier",
+          "name": "Test Testovich",
           "email": "example@email.com",
           "telephone": "+380950000000",
           "iban": "111111111111111",
@@ -174,9 +174,7 @@ Content-Type: application/json
     "owner": "broker",
     "tender_id": "1640f9c9f12d4f74b35596c849f209a4",
     "contractTemplateName": "00000000.0002.01",
-    "status": "active",
-    "author": "supplier",
-    "date": "2023-10-10T01:00:00+03:00",
+    "status": "cancelled",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "documents": [
@@ -185,30 +183,27 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/7f7d3898f20743798bf86ef67bf260d6?download=acdee3c5fbb14da0b63000963dea8a81",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/documents/8e9a0dd828594b84a952bd293bf939a4?download=acdee3c5fbb14da0b63000963dea8a81",
         "documentOf": "contract",
         "documentType": "contractSignature",
-        "id": "7f7d3898f20743798bf86ef67bf260d6",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "supplier"
-      },
-      {
-        "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/22ad6fee7d0042aaa9a1d88e22bf9d67?download=acdee3c5fbb14da0b63000963dea8a81",
-        "documentOf": "contract",
-        "documentType": "contractSignature",
-        "id": "22ad6fee7d0042aaa9a1d88e22bf9d67",
+        "id": "8e9a0dd828594b84a952bd293bf939a4",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "buyer"
       }
     ],
-    "dateSigned": "2023-10-10T01:00:00+03:00",
-    "id": "d71a69be5f1a437abf5134881f4c4b98"
+    "cancellations": [
+      {
+        "reason": "want to change signerInfo",
+        "reasonType": "requiresChanges",
+        "id": "c58f0f2f3df849e6bbe4ad1f4ca04144",
+        "dateCreated": "2023-10-10T01:00:00+03:00",
+        "status": "active",
+        "author": "supplier"
+      }
+    ],
+    "date": "2023-10-10T01:00:00+03:00",
+    "id": "37d2cea7a3564774858ad5c8681f57b1"
   },
   "config": {
     "restricted": false

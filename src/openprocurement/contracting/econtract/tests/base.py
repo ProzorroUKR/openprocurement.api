@@ -1,6 +1,7 @@
 from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.tests.base import BaseContractWebTest
 from openprocurement.contracting.core.tests.utils import create_contract
+from openprocurement.contracting.econtract.tests.data import test_econtract_data
 
 
 class BaseEContractWebTest(BaseContractWebTest):
@@ -25,8 +26,9 @@ class BaseEContractWebTest(BaseContractWebTest):
 
 
 class BaseEContractContentWebTest(BaseEContractWebTest):
+    initial_data = test_econtract_data
+
     def activate_contract(self):
-        self.prepare_contract_for_signing()
         # add signature for buyer
         contract_sign_data = {
             "documentType": "contractSignature",

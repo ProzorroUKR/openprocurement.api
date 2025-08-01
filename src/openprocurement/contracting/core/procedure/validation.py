@@ -47,6 +47,15 @@ def validate_contract_update_not_in_allowed_status(request, **_):
         raise_operation_error(request, f"Can't update contract in current ({contract['status']}) status")
 
 
+def validate_contract_in_active_status(request, **_):
+    contract = request.validated["contract"]
+    if contract["status"] != "active":
+        raise_operation_error(
+            request,
+            f"Can't update contract in current ({contract['status']}) status",
+        )
+
+
 def validate_credentials_generate(request, **_):
     contract = request.validated["contract"]
     if contract["status"] not in ["pending", "active"]:

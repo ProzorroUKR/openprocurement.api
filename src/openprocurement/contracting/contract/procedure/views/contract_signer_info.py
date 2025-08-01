@@ -8,7 +8,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.contracting.core.procedure.state.signer_info import (
+from openprocurement.contracting.contract.procedure.state.signer_info import (
     ContractSignerInfoState,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
@@ -52,6 +52,7 @@ class BaseSignerInfoResource(ContractBaseResource):
     name="Contract buyer signerInfo",
     path="/contracts/{contract_id}/buyer/signer_info",
     description="Contracts buyer signer info operations",
+    contractType="contract",
     accept="application/json",
 )
 class ContractBuyerSignerInfoResource(BaseSignerInfoResource):
@@ -74,6 +75,7 @@ class ContractBuyerSignerInfoResource(BaseSignerInfoResource):
     name="Contract suppliers signerInfo",
     path="/contracts/{contract_id}/suppliers/signer_info",
     description="Contracts suppliers signer info operations",
+    contractType="contract",
     accept="application/json",
 )
 class ContractSuppliersSignerInfoResource(BaseSignerInfoResource):

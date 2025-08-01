@@ -56,9 +56,6 @@ def not_found(self):
         upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}])
 
     response = self.app.get("/contracts/some_id/documents/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")

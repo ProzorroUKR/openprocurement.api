@@ -8,10 +8,7 @@ from tests.base.constants import DOCS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.core.tests.data import (
-    test_contract_data,
-    test_signer_info,
-)
+from openprocurement.contracting.core.tests.data import test_contract_data
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_multi_buyers_data,
 )
@@ -232,8 +229,9 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 status=403,
             )
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'contract-access-by-supplier.http', 'w') as self.app.file_obj:
+        with change_auth(self.app, ("Basic", ("broker", ""))), open(
+            TARGET_DIR + 'contract-access-by-supplier.http', 'w'
+        ) as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/access",
                 {
@@ -244,21 +242,6 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             )
             supplier_token = response.json["access"]["token"]
 
-        # add signer info from supplier
-        response = self.app.put_json(
-            f'/contracts/{self.contract_id}/suppliers/signer_info?acc_token={supplier_token}',
-            {"data": test_signer_info},
-        )
-        self.assertEqual(response.status, '200 OK')
-
-        # add signer info from buyer
-        self.app.authorization = ('Basic', ('broker6', ''))
-
-        response = self.app.put_json(
-            f'/contracts/{self.contract_id}/buyer/signer_info?acc_token={buyer_token_2}', {"data": test_signer_info}
-        )
-        self.assertEqual(response.status, '200 OK')
-
         contract_sign_data = {
             "documentType": "contractSignature",
             "title": "sign.p7s",
@@ -267,54 +250,105 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             "format": "application/pkcs7-signature",
         }
 
-        with open(TARGET_DIR + 'contract-add-signature-in-not-ready-contract.http', 'w') as self.app.file_obj:
-            self.app.post_json(
-                f'/contracts/{self.contract_id}/documents?acc_token={buyer_token_2}',
-                {"data": contract_sign_data},
-                status=422,
-            )
-
-        # add required fields
-        self.app.patch_json(
-            f'/contracts/{self.contract_id}?acc_token={buyer_token_2}',
-            {
-                "data": {
-                    "contractNumber": "contract #13111",
-                    "period": {
-                        "startDate": get_now().isoformat(),
-                        "endDate": (get_now() + timedelta(days=365)).isoformat(),
-                    },
-                }
-            },
+        # buyer signs the current version of contract
+        response = self.app.post_json(
+            f'/contracts/{self.contract_id}/documents?acc_token={buyer_token_2}', {"data": contract_sign_data}
         )
-
-        with open(TARGET_DIR + 'contract-activating-wo-signature-error.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
-                f'/contracts/{self.contract_id}?acc_token={buyer_token_2}',
-                {"data": {"status": "active"}},
-                status=422,
-            )
-
-        with change_auth(self.app, ("Basic", ("broker", ""))), open(
-            TARGET_DIR + 'contract-supplier-add-signature-doc.http', 'w'
-        ) as self.app.file_obj:
-            response = self.app.post_json(
-                f'/contracts/{self.contract_id}/documents?acc_token={supplier_token}', {"data": contract_sign_data}
-            )
         self.assertEqual(response.status, '201 Created')
 
-        with open(TARGET_DIR + 'patch-contract-forbidden.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
-                f'/contracts/{self.contract_id}?acc_token={buyer_token_2}',
-                {"data": {"contractNumber": "contract #13112"}},
+        self.app.authorization = ('Basic', ('broker', ''))
+        with open(TARGET_DIR + 'contract-supplier-cancels-contract.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{self.contract_id}/cancellations?acc_token={supplier_token}",
+                {"data": {"reasonType": "requiresChanges", "reason": "want to change signerInfo"}},
+            )
+        self.assertEqual(response.status, "201 Created")
+
+        with open(TARGET_DIR + 'cancellation-of-contract.http', 'w') as self.app.file_obj:
+            self.app.get(
+                f"/contracts/{self.contract_id}",
+            )
+
+        with open(TARGET_DIR + 'cancellation-of-contract-duplicated.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts/{self.contract_id}/cancellations?acc_token={supplier_token}",
+                {"data": {"reasonType": "requiresChanges", "reason": "want to change signerInfo"}},
                 status=403,
             )
 
-        with open(TARGET_DIR + 'contract-buyer-add-signature-doc.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'contract-supplier-add-signature-forbidden.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f'/contracts/{self.contract_id}/documents?acc_token={supplier_token}',
+                {"data": contract_sign_data},
+                status=403,
+            )
+
+        # POST new version of contract
+        contract_data = deepcopy(self.contract)
+        contract_data.pop("dateModified")
+        contract_data.pop("dateCreated")
+        contract_data.pop("id")
+
+        with change_auth(self.app, ("Basic", ("broker6", ""))), open(
+            TARGET_DIR + 'contract-buyer-post-contract-forbidden.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                f'/contracts?acc_token={buyer_token_2}',
+                {"data": contract_data},
+                status=403,
+            )
+
+        prev_buyer_name = self.contract["buyer"]["signerInfo"]["name"]
+        contract_data["buyer"]["signerInfo"]["name"] = "Another buyer"
+
+        with open(TARGET_DIR + 'contract-supplier-post-contract-invalid.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts?acc_token={supplier_token}",
+                {"data": contract_data},
+                status=422,
+            )
+
+        contract_data["buyer"]["signerInfo"]["name"] = prev_buyer_name
+        contract_data["suppliers"][0]["signerInfo"]["name"] = "Another supplier"
+        contract_data.update(
+            {
+                "period": {
+                    "startDate": "2022-01-01",
+                    "endDate": "2026-01-01",
+                },
+            }
+        )
+
+        with open(TARGET_DIR + 'contract-supplier-post-contract-version.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                f'/contracts/{self.contract_id}/documents?acc_token={buyer_token_2}', {"data": contract_sign_data}
+                f"/contracts?acc_token={supplier_token}",
+                {"data": contract_data},
+            )
+        new_contract = response.json["data"]
+
+        with open(TARGET_DIR + 'get-previous-contract-version.http', 'w') as self.app.file_obj:
+            self.app.get(
+                f"/contracts/{self.contract_id}",
+            )
+
+        with open(TARGET_DIR + 'get-tender-contracts.http', 'w') as self.app.file_obj:
+            self.app.get(
+                f"/tenders/{self.tender_id}/contracts",
+            )
+
+        with open(TARGET_DIR + 'contract-supplier-add-signature-doc.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{new_contract['id']}/documents?acc_token={supplier_token}", {"data": contract_sign_data}
+            )
+        self.assertEqual(response.status, '201 Created')
+
+        with change_auth(self.app, ("Basic", ("broker6", ""))), open(
+            TARGET_DIR + 'contract-buyer-add-signature-doc.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{new_contract['id']}/documents?acc_token={buyer_token_2}", {"data": contract_sign_data}
             )
         self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'get-active-contract.http', 'w') as self.app.file_obj:
-            self.app.get(f'/contracts/{self.contract_id}?acc_token={buyer_token_2}')
+            self.app.get(f"/contracts/{new_contract['id']}?acc_token={buyer_token_2}")

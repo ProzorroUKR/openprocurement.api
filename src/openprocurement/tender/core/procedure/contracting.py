@@ -1,5 +1,6 @@
 from collections import defaultdict
 from copy import deepcopy
+from datetime import timedelta
 from logging import getLogger
 from typing import Dict, List
 from uuid import uuid4
@@ -7,7 +8,11 @@ from uuid import uuid4
 from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import get_contract_by_id, request_init_contract
+from openprocurement.api.utils import (
+    calculate_full_date,
+    get_contract_by_id,
+    request_init_contract,
+)
 from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.models.contract import (
     Buyer,
@@ -21,6 +26,7 @@ from openprocurement.contracting.core.procedure.models.contract import (
     Supplier,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
+from openprocurement.tender.core.constants import CONTRACT_PERIOD_START_DAYS
 from openprocurement.tender.core.procedure.context import get_award, get_request
 from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
 
@@ -232,6 +238,13 @@ def get_additional_contract_data(request, contract, tender, award):
         # For limited procedures
         bid = tender
 
+    contract_data = {
+        "mode": tender.get("mode"),
+        "buyer": buyer,
+        "tender_id": tender["_id"],
+        "owner": tender["owner"],
+    }
+
     # eContract check
     if "contract_owner" in buyer and "contract_owner" in contract["suppliers"][0]:
         access = [
@@ -244,8 +257,21 @@ def get_additional_contract_data(request, contract, tender, award):
                 "role": AccessRole.SUPPLIER,
             },
         ]
+        contract_period_start_date = calculate_full_date(get_request_now(), timedelta(days=CONTRACT_PERIOD_START_DAYS))
+        contract_data.update(
+            {
+                "access": access,
+                "period": {
+                    "startDate": contract_period_start_date.isoformat(),
+                    # end of current year
+                    "endDate": contract_period_start_date.replace(
+                        month=12, day=31, hour=23, minute=59, second=59
+                    ).isoformat(),
+                },
+            }
+        )
     else:
-        access = [
+        contract_data["access"] = [
             {
                 "token": tender["owner_token"],
                 "owner": tender["owner"],
@@ -258,13 +284,7 @@ def get_additional_contract_data(request, contract, tender, award):
             },
         ]
 
-    return {
-        "mode": tender.get("mode"),
-        "buyer": buyer,
-        "tender_id": tender["_id"],
-        "owner": tender["owner"],
-        "access": access,
-    }
+    return contract_data
 
 
 def save_contracts_to_contracting(contracts, award=None):

@@ -109,3 +109,5 @@ AGREEMENT_IDENTIFIER_MESSAGE = (
     "tender.procuringEntity.identifier (scheme or id), "
     "doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"
 )
+
+CONTRACT_PERIOD_START_DAYS = 5
