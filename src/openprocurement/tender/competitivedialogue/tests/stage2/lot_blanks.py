@@ -325,7 +325,6 @@ def patch_tender_vat(self):
         {
             "data": {
                 "value": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
-                "minimalStep": {"valueAddedTaxIncluded": False, "amount": tender["minimalStep"]["amount"]},
             }
         },
         status=422,

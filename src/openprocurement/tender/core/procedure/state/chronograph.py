@@ -885,11 +885,8 @@ class ChronographEventsMixing:
         self.calc_tender_guarantee(tender)
         if tender.get("procurementMethodType") == "esco":
             self.calc_tender_min_value(tender)
-            self.calc_tender_minimal_step_percentage(tender)
-            self.calc_tender_yearly_payments_percentage_range(tender)
         else:
             self.calc_tender_value(tender)
-            self.calc_tender_minimal_step(tender)
 
     @staticmethod
     def calc_tender_value(tender: dict) -> None:
@@ -928,23 +925,6 @@ class ChronographEventsMixing:
         tender["guarantee"] = guarantee
 
     @staticmethod
-    def calc_tender_minimal_step(tender: dict) -> None:
-        if not tender.get("lots") or not tender.get("minimalStep"):
-            return
-        amounts = [
-            i["minimalStep"]["amount"]
-            for i in tender.get("lots", "")
-            if i.get("minimalStep") and i["minimalStep"].get("amount")
-        ]
-        if not amounts:
-            return
-        tender["minimalStep"] = {
-            "amount": min(amounts),
-            "currency": tender["minimalStep"]["currency"],
-            "valueAddedTaxIncluded": tender["minimalStep"]["valueAddedTaxIncluded"],
-        }
-
-    @staticmethod
     def calc_tender_min_value(tender: dict) -> None:
         has_value_estimation = tender["config"]["hasValueEstimation"]
 
@@ -966,18 +946,6 @@ class ChronographEventsMixing:
                 tender["minValue"]["amount"] = sum(lot_values)
         else:
             tender["minValue"]["amount"] = sum(lot_values)
-
-    @staticmethod
-    def calc_tender_minimal_step_percentage(tender: dict) -> None:
-        if not tender.get("lots"):
-            return
-        tender["minimalStepPercentage"] = min(i["minimalStepPercentage"] for i in tender["lots"])
-
-    @staticmethod
-    def calc_tender_yearly_payments_percentage_range(tender: dict) -> None:
-        if not tender.get("lots"):
-            return
-        tender["yearlyPaymentsPercentageRange"] = min(i["yearlyPaymentsPercentageRange"] for i in tender["lots"])
 
     def calc_bids_values(self, tender):
         bids = tender.get("bids", "")

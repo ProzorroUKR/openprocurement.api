@@ -31,11 +31,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     },
     "title": "футляри до державних нагород",
-    "minimalStep": {
-      "currency": "UAH",
-      "amount": 5,
-      "valueAddedTaxIncluded": true
-    },
     "items": [
       {
         "unit": {
@@ -140,9 +135,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "currency": "UAH",
-          "amount": 5,
-          "valueAddedTaxIncluded": true
+          "amount": 15,
+          "currency": "UAH"
         }
       }
     ]
@@ -184,11 +178,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amount": 500.0
-    },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
     },
     "milestones": [
       {
@@ -314,7 +303,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "amount": 5.0,
+          "amount": 15.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },

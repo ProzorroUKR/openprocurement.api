@@ -21,7 +21,7 @@ class LotStateMixin:
     validate_cancellation_blocks: Callable
     validate_tender_period_extension: Callable
     validate_lot_value: Callable
-    validate_minimal_step: Callable
+    validate_lot_minimal_step: Callable
 
     should_validate_lot_minimal_step = True
 
@@ -33,7 +33,7 @@ class LotStateMixin:
     def lot_on_post(self, data: dict) -> None:
         tender = get_tender()
         self.pre_save_validations(data)
-        self.validate_minimal_step(data)
+        self.validate_lot_minimal_step(data)
         self.validate_lot_value(tender, data)
         self.set_lot_data(data)
         self.lot_always(data)
@@ -46,7 +46,7 @@ class LotStateMixin:
     def lot_on_patch(self, before: dict, after: dict) -> None:
         tender = get_tender()
         self.pre_save_validations(after)
-        self.validate_minimal_step(after, before=before)
+        self.validate_lot_minimal_step(after, before=before)
         self.validate_lot_value(tender, after)
         self.set_lot_data(after)
         self.lot_always(after)

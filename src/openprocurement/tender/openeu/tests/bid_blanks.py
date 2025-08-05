@@ -694,7 +694,7 @@ def delete_tender_bidder(self):
     bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
     # update tender. Bids will be invalidated by this request
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"minimalStep": {"amount": 9.0}}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"title": "New one"}}
     )
     self.assertEqual(response.status, "200 OK")
 

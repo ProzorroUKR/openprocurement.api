@@ -207,19 +207,7 @@ def create_tender_invalid(self):
         [{"description": ["period should begin after auctionPeriod"], "location": "body", "name": "awardPeriod"}],
     )
 
-    data = self.initial_data["minimalStep"]
-    del self.initial_data["minimalStep"]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "minimalStep"},
-        response.json["errors"],
-    )
-
-    data = self.initial_data["minimalStep"]
+    data = {"amount": 15, "currency": "UAH"}
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
@@ -254,6 +242,7 @@ def create_tender_invalid(self):
             }
         ],
     )
+
     data = deepcopy(self.initial_data["lots"])
     self.initial_data["lots"][0]["minimalStep"] = {"amount": "1.0"}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
@@ -526,7 +515,6 @@ def create_tender_generated(self):
             "enquiryPeriod",
             "tenderPeriod",
             "complaintPeriod",
-            "minimalStep",
             "items",
             "value",
             "owner",

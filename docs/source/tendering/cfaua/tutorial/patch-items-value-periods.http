@@ -777,11 +777,6 @@ Content-Type: application/json
       "amount": 500.0
     },
     "next_check": "2023-11-09T01:00:10+03:00",
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -911,7 +906,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "amount": 5.0,
+          "amount": 15.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         }

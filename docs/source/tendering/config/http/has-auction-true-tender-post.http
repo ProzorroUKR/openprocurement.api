@@ -9,10 +9,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "endDate": "2023-10-25T00:00:00+02:00"
     },
     "title": "футляри до державних нагород",
-    "minimalStep": {
-      "currency": "UAH",
-      "amount": 5
-    },
     "procurementMethodType": "aboveThreshold",
     "value": {
       "currency": "UAH",
@@ -147,6 +143,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "mainProcurementCategory": "services",
     "contractTemplateName": "00000000.0002.01",
+    "minimalStep": {
+      "amount": 5,
+      "currency": "UAH"
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -156,8 +156,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 500
         },
         "minimalStep": {
-          "currency": "UAH",
-          "amount": 5
+          "amount": 5,
+          "currency": "UAH"
         },
         "id": "d7afc0eb4f6d42549557d7b3226417e6"
       }
@@ -202,9 +202,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
       "amount": 500.0
     },
     "minimalStep": {
-      "amount": 5.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 5.0
     },
     "lots": [
       {

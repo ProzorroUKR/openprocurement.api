@@ -45,7 +45,6 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     tender_lot_fundingKind_yppr,
     tender_lot_yearlyPaymentsPercentageRange,
     tender_min_value,
-    tender_minimal_step_percentage,
 )
 from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 from openprocurement.tender.openeu.tests.lot_blanks import (
@@ -120,7 +119,6 @@ class TenderLotResourceTest(BaseESCOContentWebTest):
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
     test_lot_minimal_step_invalid = snitch(lot_minimal_step_invalid)
-    test_tender_minimal_step_percentage = snitch(tender_minimal_step_percentage)
     test_tender_lot_funding_kind = snitch(tender_lot_funding_kind)
     test_tender_1lot_fundingKind_default = snitch(tender_1lot_fundingKind_default)
     test_tender_2lot_fundingKind_default = snitch(tender_2lot_fundingKind_default)

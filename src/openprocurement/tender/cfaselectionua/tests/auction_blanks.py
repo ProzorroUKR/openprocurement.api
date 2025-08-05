@@ -46,7 +46,6 @@ def get_tender_auction(self):
     auction = response.json["data"]
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
-    self.assertIn("minimalStep", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(
         auction["bids"][0]["lotValues"][0]["value"]["amount"], self.initial_bids[0]["lotValues"][0]["value"]["amount"]
@@ -655,7 +654,6 @@ def get_tender_lots_auction(self):
     auction = response.json["data"]
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
-    self.assertIn("minimalStep", auction)
     self.assertIn("lots", auction)
     self.assertIn("items", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
@@ -1116,7 +1114,6 @@ def get_tender_auction_feature(self):
     auction = response.json["data"]
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
-    self.assertIn("minimalStep", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(auction["bids"][0]["value"]["amount"], self.initial_bids[0]["value"]["amount"])
     self.assertEqual(auction["bids"][1]["value"]["amount"], self.initial_bids[1]["value"]["amount"])
@@ -1303,7 +1300,6 @@ def get_tender_lots_auction_features(self):
     auction = response.json["data"]
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
-    self.assertIn("minimalStep", auction)
     self.assertIn("lots", auction)
     self.assertIn("items", auction)
     self.assertNotIn("tenderers", auction["bids"][0])

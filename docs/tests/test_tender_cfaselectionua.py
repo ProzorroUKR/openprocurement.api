@@ -31,6 +31,7 @@ test_features = deepcopy(test_docs_features)
 test_agreement = deepcopy(test_tender_cfaselectionua_agreement)
 test_agreement['contracts'][0]['suppliers'][0]['scale'] = "large"
 test_lots = deepcopy(test_docs_lots)
+test_lots[0]["minimalStep"] = {"amount": 15, "currency": "UAH", "valueAddedTaxIncluded": True}
 test_tender_maximum_data = deepcopy(test_docs_tender_cfaselectionua_maximum)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

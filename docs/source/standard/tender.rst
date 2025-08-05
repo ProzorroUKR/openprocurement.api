@@ -161,7 +161,7 @@ Schema
    A list of all the companies who entered submissions for the tender.
 
 :minimalStep:
-   :ref:`value`, required
+   :ref:`value`, required for non-lots tenders with auction
 
    The minimal step of auction (reduction). Validation rules:
 
@@ -535,7 +535,7 @@ Additionally in :ref:`esco`:
 
 
 :minimalStepPercentage:
-   :ref:`value`, Float, required.
+   :ref:`value`, Float, required for non-lots tenders with auction.
 
    Minimum step increment of the energy service contract performance indicator during auction that is calculated from  participant’s bid.
    Possible values: from 0.005 to 0.03 (from 0.5% to 3%), with 3-digit precision after comma.
@@ -550,7 +550,7 @@ Additionally in :ref:`esco`:
     Default value: other
 
 :yearlyPaymentsPercentageRange:
-    float, required
+    float, required for non-lots tenders with auction
 
     Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma.
     Possible values:

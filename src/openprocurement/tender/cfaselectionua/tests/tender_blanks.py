@@ -933,7 +933,6 @@ def create_tender(self):
     self.create_agreement(agreement)
 
     data = deepcopy(self.initial_data)
-    data["lots"][0]["minimalStep"] = {"amount": 35, "currency": "UAH"}
     data["items"] = [data["items"][0]]
     data["items"][0]["classification"]["id"] = "33600000-6"
 
@@ -944,18 +943,14 @@ def create_tender(self):
     }
     data["items"][0]["additionalClassifications"] = [additional_classification_0]
 
+    del data["lots"][0]["minimalStep"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
-        response.json["errors"], [{"location": "body", "name": "lots", "description": {"minimalStep": "Rogue field"}}]
+        response.json["errors"],
+        [{"location": "body", "name": "minimalStep", "description": ["This field is required."]}],
     )
 
-    del data["lots"][0]["minimalStep"]
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.json["data"]["items"][0]["classification"]["id"], "33600000-6")
-    self.assertEqual(response.json["data"]["items"][0]["classification"]["scheme"], "ДК021")
-    self.assertEqual(response.json["data"]["items"][0]["additionalClassifications"][0], additional_classification_0)
-    self.assertNotIn("minimalStep", response.json["data"]["lots"][0])
-
+    data["lots"][0]["minimalStep"] = {"amount": 35, "currency": "UAH", "valueAddedTaxIncluded": True}
     additional_classification_1 = {
         "scheme": "ATC",
         "id": "A02AF",
@@ -1510,15 +1505,6 @@ def patch_tender(self):
     tender = response.json["data"]
     self.assertEqual(endDate, tender["tenderPeriod"]["endDate"])
 
-    # we cannot patch tender minimalStep
-    new_minimal_step = {"currency": "UAH", "amount": 200.0, "valueAddedTaxIncluded": True}
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"minimalStep": new_minimal_step}}
-    )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertNotEqual(response.json["data"]["minimalStep"]["amount"], new_minimal_step["amount"])
-    self.assertEqual(response.json["data"]["minimalStep"]["amount"], tender["minimalStep"]["amount"])
-
     self.set_status("active.tendering")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1614,10 +1600,6 @@ def patch_tender_bot(self):
     tender = response.json["data"]
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
-    self.assertIn("minimalStep", response.json["data"])
-    self.assertEqual(
-        response.json["data"]["minimalStep"]["amount"], round(response.json["data"]["minimalStep"]["amount"], 2)
-    )
     self.assertEqual(
         response.json["data"]["lots"][0]["minimalStep"]["amount"],
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),
@@ -2289,10 +2271,6 @@ def edit_tender_in_active_enquiries(self):
     tender = response.json["data"]
 
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
-    self.assertIn("minimalStep", response.json["data"])
-    self.assertEqual(
-        response.json["data"]["minimalStep"]["amount"], round(response.json["data"]["minimalStep"]["amount"], 2)
-    )
     self.assertEqual(
         response.json["data"]["lots"][0]["minimalStep"]["amount"],
         round(response.json["data"]["lots"][0]["minimalStep"]["amount"], 2),

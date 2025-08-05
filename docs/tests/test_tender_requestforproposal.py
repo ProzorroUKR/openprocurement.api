@@ -785,7 +785,6 @@ class TenderResourceTest(
 
         test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = test_docs_items_open
-        del test_tender_data["minimalStep"]
         test_tender_data["funders"] = [deepcopy(test_tender_rfp_base_organization)]
         test_tender_data["funders"][0]["identifier"]["id"] = "44000"
         test_tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
@@ -1201,9 +1200,11 @@ class TenderResourceTest(
         self.assertEqual(response.status, '201 Created')
         lot_id = response.json["data"]["id"]
 
+        test_data_wi_id = deepcopy(test_tender_data)
+        test_data_wi_id["minimalStep"] = {"amount": 15, "currency": "UAH"}
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data, 'config': self.initial_config},
+            {'data': test_data_wi_id, 'config': self.initial_config},
         )
         self.assertEqual(response.status, '201 Created')
         tender_wi_id = response.json['data']['id']

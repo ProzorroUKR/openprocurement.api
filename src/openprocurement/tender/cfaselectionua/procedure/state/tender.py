@@ -18,12 +18,3 @@ class CFASelectionTenderState(TenderState):
             "currency": tender["lots"][0]["value"]["currency"],
             "valueAddedTaxIncluded": tender["lots"][0]["value"]["valueAddedTaxIncluded"],
         }
-
-    def calc_tender_minimal_step(self, tender: dict) -> None:
-        if not all(i.get("minimalStep") for i in tender.get("lots", "")):
-            return
-        tender["minimalStep"] = {
-            "amount": min(i["minimalStep"]["amount"] for i in tender["lots"] if i.get("minimalStep")),
-            "currency": tender["lots"][0]["minimalStep"]["currency"],
-            "valueAddedTaxIncluded": tender["lots"][0]["minimalStep"]["valueAddedTaxIncluded"],
-        }

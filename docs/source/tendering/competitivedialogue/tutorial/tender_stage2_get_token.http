@@ -25,11 +25,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amount": 500.0
     },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "lots": [
       {
         "title": "Лот №1",

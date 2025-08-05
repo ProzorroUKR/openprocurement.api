@@ -289,19 +289,7 @@ def create_tender_invalid(self):
         [{"description": ["period should begin after auctionPeriod"], "location": "body", "name": "awardPeriod"}],
     )
 
-    data = self.initial_data["minimalStep"]
-    del self.initial_data["minimalStep"]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "minimalStep"},
-        response.json["errors"],
-    )
-
-    data = self.initial_data["minimalStep"]
+    data = {"amount": 15, "currency": "UAH"}
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
@@ -518,7 +506,6 @@ def create_tender_generated(self):
         "status",
         "enquiryPeriod",
         "tenderPeriod",
-        "minimalStep",
         "items",
         "value",
         "procuringEntity",
@@ -830,13 +817,11 @@ def patch_tender(self):
     changed_value = deepcopy(base_value)
     changed_value["valueAddedTaxIncluded"] = not base_tax
     changed_value["currency"] = "GBP"
-    minimal_step = {"amount": result["minimalStep"]["amount"], "currency": "GBP", "valueAddedTaxIncluded": not base_tax}
     response = self.app.patch_json(
         f"/tenders/{tender['id']}?acc_token={owner_token}",
         {
             "data": {
                 "value": changed_value,
-                "minimalStep": minimal_step,
             }
         },
     )

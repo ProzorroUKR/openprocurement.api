@@ -1,6 +1,7 @@
 [
     {
         "title": "lot title",
-        "description": "lot description"
+        "description": "lot description",
+        "minimalStep": {"amount":  15, "currency":  "UAH", "valueAddedTaxIncluded": true}
     }
 ]

@@ -1689,11 +1689,6 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "lots": [
       {
         "title": "Лот №1",

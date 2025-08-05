@@ -86,9 +86,9 @@ bid2.update(test_docs_qualified)
 bid3.update(test_docs_qualified)
 
 test_lots[0]['value'] = test_tender_data['value']
-test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+test_lots[0]['minimalStep'] = {"amount": 5, "currency": "UAH"}
 test_lots[1]['value'] = test_tender_data['value']
-test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+test_lots[1]['minimalStep'] = {"amount": 5, "currency": "UAH"}
 
 complaint = deepcopy(test_docs_complaint)
 objection = deepcopy(test_tender_open_complaint_objection)
@@ -2428,6 +2428,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def test_tender_criteria_article_17(self):
         self.app.authorization = ('Basic', ('broker', ''))
         tender_data = deepcopy(test_tender_data)
+        tender_data["minimalStep"] = {"amount": 15, "currency": "UAH"}
         tender_data.update({"status": "draft"})
 
         response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
@@ -2455,8 +2456,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         criteria_id_1 = criteria_1['id']
 
         # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdUA
+        test_data_ua = deepcopy(test_docs_tender_openua)
+        test_data_ua["minimalStep"] = {"amount": 15, "currency": "UAH"}
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': test_docs_tender_openua, 'config': test_tender_openua_config}
+            '/tenders?opt_pretty=1', {'data': test_data_ua, 'config': test_tender_openua_config}
         )
         self.assertEqual(response.status, '201 Created')
         tender_ua_id = response.json["data"]["id"]
@@ -2791,6 +2794,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def test_tender_criteria_article_16(self):
         self.app.authorization = ('Basic', ('broker', ''))
         tender_data = deepcopy(test_tender_data)
+        tender_data["minimalStep"] = {"amount": 15, "currency": "UAH"}
         tender_data.update({"status": "draft"})
 
         response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})

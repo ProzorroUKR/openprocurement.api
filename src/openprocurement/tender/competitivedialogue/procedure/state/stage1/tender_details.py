@@ -1,4 +1,5 @@
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.validation import raise_operation_error
 from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (
     BotPatchTender,
@@ -38,7 +39,15 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
         super().on_patch(before, after)
 
     def validate_minimal_step(self, data, before=None):
-        validate_field(data, "minimalStep", required=True)
+        tender = get_tender()
+        validate_field(
+            data,
+            "minimalStep",
+            enabled=not tender.get("lots"),
+        )
+
+    def validate_lot_minimal_step(self, data, before=None):
+        validate_field(data, "minimalStep")
 
     def validate_submission_method(self, data, before=None):
         validate_field(data, "submissionMethod", required=False)

@@ -531,19 +531,7 @@ def create_tender_invalid(self):
     del self.initial_data["awardPeriod"]
     del self.initial_data["auctionPeriod"]
 
-    data = self.initial_data["minimalStep"]
-    del self.initial_data["minimalStep"]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "minimalStep"},
-        response.json["errors"],
-    )
-
-    data = self.initial_data["minimalStep"]
+    data = {"amount": 15, "currency": "UAH"}
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
@@ -1142,7 +1130,6 @@ def create_tender_with_estimated_value(self):
 
     # Try to tender amount 0
     data["value"]["amount"] = 0
-    data["minimalStep"]["amount"] = 0
     response = self.app.post_json("/tenders", {"data": data, "config": config})
     self.assertEqual(response.status, "201 Created")
 
@@ -1150,17 +1137,6 @@ def create_tender_with_estimated_value(self):
     self.assertEqual(
         response.json["data"]["value"]["amount"],
         sum(lot["value"]["amount"] for lot in data["lots"]),
-    )
-
-    # Try to set tender minimal step amount too high
-    data["minimalStep"]["amount"] = tender_value_amount - 1
-    response = self.app.post_json("/tenders", {"data": data, "config": config})
-    self.assertEqual(response.status, "201 Created")
-
-    # Check it was recalculated and set to min of lots minimal step
-    self.assertEqual(
-        response.json["data"]["minimalStep"]["amount"],
-        min(lot["minimalStep"]["amount"] for lot in data["lots"]),
     )
 
 
@@ -1273,7 +1249,6 @@ def create_tender_generated(self):
         "criteria",
         "enquiryPeriod",
         "tenderPeriod",
-        "minimalStep",
         "items",
         "value",
         "procuringEntity",
@@ -3065,36 +3040,8 @@ def tender_token_invalid(self):
     )
 
 
-def tender_minimalstep_validation(self):
-    data = deepcopy(self.initial_data)
-    data["minimalStep"]["amount"] = 500
-    del data["lots"]
-    for field in ("items", "milestones"):
-        for item in data[field]:
-            del item["relatedLot"]
-    # invalid minimalStep validated on tender level
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0],
-        {
-            "description": "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
-            "location": "body",
-            "name": "data",
-        },
-    )
-    with mock.patch(
-        "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
-        get_now() + timedelta(days=1),
-    ):
-        data["lots"] = self.initial_lots
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
-        self.assertEqual(response.status, "201 Created")
-
-
 def tender_item_related_lot_validation(self):
     data = deepcopy(self.initial_data)
-    data["minimalStep"]["amount"] = 10
     del data["lots"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -3150,7 +3097,7 @@ def tender_lot_minimalstep_validation(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["value"]["amount"], 1000.0)
-    self.assertEqual(response.json["data"]["minimalStep"]["amount"], 15.0)
+    self.assertEqual(response.json["data"]["lots"][1]["minimalStep"]["amount"], 15.0)
 
 
 def patch_tender_minimalstep_validation(self):
@@ -3688,6 +3635,7 @@ def patch_enquiry_tender_periods(self):
 def tender_created_before_related_lot_is_required(self):
     data = deepcopy(test_tender_below_data)
     data["status"] = "draft"
+    data["minimalStep"] = {"amount": 15}  # minimalStep is required for hasAuction True and if tender doesn't have lots
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
@@ -4095,6 +4043,58 @@ def check_notice_doc_during_activation(self):
 
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    self.assertIn("noticePublicationDate", response.json["data"])
+    self.assertEqual(response.json["data"]["status"], "active.enquiries")
+
+
+def check_minimal_step_during_activation(self):
+    data = deepcopy(test_tender_below_data)
+    data["status"] = "draft"
+    data["minimalStep"] = {"amount": 15, "currency": "UAH"}
+    # if tender doesn't have lots it is allowed to add minimalStep
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+
+    # add separately lots
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/lots?acc_token={self.tender_token}", {"data": self.initial_lots[0]}
+    )
+    lot_id = response.json["data"]["id"]
+
+    request_path = f"/tenders/{self.tender_id}?acc_token={self.tender_token}"
+    items = data["items"]
+    for item in items:
+        item["relatedLot"] = lot_id
+    self.app.patch_json(
+        request_path,
+        {"data": {"items": items}},
+    )
+
+    # as lots were added, than during activation minimalStep already is rogue field for tender
+    response = self.app.patch_json(
+        request_path,
+        {"data": {"status": "active.enquiries"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "minimalStep", "description": ["Rogue field."]},
+    )
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": {"minimalStep": None}},
+    )
+    self.assertNotIn("minimalStep", response.json["data"])
+    self.assertIn("minimalStep", response.json["data"]["lots"][0])
+
+    self.add_sign_doc(self.tender_id, self.tender_token)
+    response = self.app.patch_json(
+        request_path,
+        {"data": {"status": "active.enquiries"}},
+    )
+    self.assertEqual(response.status, "200 OK")
     self.assertIn("noticePublicationDate", response.json["data"])
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
 

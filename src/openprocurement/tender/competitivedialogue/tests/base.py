@@ -122,7 +122,7 @@ test_tender_cd_lots = [
         "title": "lot title",
         "description": "lot description",
         "value": test_tender_cdeu_data["value"],
-        "minimalStep": test_tender_cdeu_data["minimalStep"],
+        "minimalStep": {"amount": 15, "currency": "UAH"},
     }
 ]
 

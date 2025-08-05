@@ -22,21 +22,16 @@ test_tender_esco_data = deepcopy(test_tender_openeu_data)
 del test_tender_esco_data["contractTemplateName"]
 test_tender_esco_data["procurementMethodType"] = "esco"
 test_tender_esco_data["NBUdiscountRate"] = NBU_DISCOUNT_RATE
-test_tender_esco_data["minimalStepPercentage"] = 0.02712
 test_tender_esco_data["fundingKind"] = "other"
-test_tender_esco_data["yearlyPaymentsPercentageRange"] = 0.80000
 
 del test_tender_esco_data["value"]
-del test_tender_esco_data["minimalStep"]
 prepare_items(test_tender_esco_data)
 
 
 test_tender_esco_features_data = deepcopy(test_tender_openeu_features_data)
 test_tender_esco_features_data["procurementMethodType"] = "esco"
 test_tender_esco_features_data["NBUdiscountRate"] = NBU_DISCOUNT_RATE
-test_tender_esco_features_data["minimalStepPercentage"] = 0.027
 test_tender_esco_features_data["fundingKind"] = "other"
-test_tender_esco_features_data["yearlyPaymentsPercentageRange"] = 0.80000
 test_tender_esco_features_data["features"][0]["enum"][0]["value"] = 0.03
 test_tender_esco_features_data["features"][0]["enum"][1]["value"] = 0.07
 test_tender_esco_features_data["features"][1]["enum"][0]["value"] = 0.03
@@ -44,7 +39,6 @@ test_tender_esco_features_data["features"][1]["enum"][1]["value"] = 0.05
 test_tender_esco_features_data["features"][1]["enum"][2]["value"] = 0.07
 
 del test_tender_esco_features_data["value"]
-del test_tender_esco_features_data["minimalStep"]
 prepare_items(test_tender_esco_features_data)
 
 test_tender_esco_lots = deepcopy(test_tender_openeu_lots)

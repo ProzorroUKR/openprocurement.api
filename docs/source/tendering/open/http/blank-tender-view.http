@@ -16,11 +16,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amount": 500.0
     },
-    "minimalStep": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 5.0
-    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",

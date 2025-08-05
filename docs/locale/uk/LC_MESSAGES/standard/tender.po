@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-13 17:50+0300\n"
+"POT-Creation-Date: 2025-07-16 19:52+0300\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -274,6 +274,9 @@ msgstr "|ocdsDescription| Список усіх компаній, які под�
 
 msgid "minimalStep"
 msgstr ""
+
+msgid ":ref:`value`, required for non-lots tenders with auction"
+msgstr ":ref:`value`, обов'язково для безлотових закупівель з аукціоном"
 
 msgid "The minimal step of auction (reduction). Validation rules:"
 msgstr "Мінімальний крок аукціону (редукціону). Правила валідації:"
@@ -778,8 +781,8 @@ msgstr ""
 msgid "minimalStepPercentage"
 msgstr ""
 
-msgid ":ref:`value`, Float, required."
-msgstr ":ref:`value`, Float, обов’язково."
+msgid ":ref:`value`, Float, required for non-lots tenders with auction."
+msgstr ":ref:`value`, Float, обов'язково для безлотових закупівель з аукціоном."
 
 msgid "Minimum step increment of the energy service contract performance indicator during auction that is calculated from  participant’s bid. Possible values: from 0.005 to 0.03 (from 0.5% to 3%), with 3-digit precision after comma."
 msgstr ""
@@ -804,6 +807,9 @@ msgstr ""
 
 msgid "yearlyPaymentsPercentageRange"
 msgstr ""
+
+msgid "float, required for non-lots tenders with auction"
+msgstr "float, обов'язково для безлотових закупівель з аукціоном"
 
 msgid "Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma. Possible values:"
 msgstr ""

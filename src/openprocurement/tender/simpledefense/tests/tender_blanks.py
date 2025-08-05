@@ -156,19 +156,7 @@ def create_tender_invalid(self):
         [{"description": ["period should begin after auctionPeriod"], "location": "body", "name": "awardPeriod"}],
     )
 
-    data = self.initial_data["minimalStep"]
-    del self.initial_data["minimalStep"]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "minimalStep"},
-        response.json["errors"],
-    )
-
-    data = self.initial_data["minimalStep"]
+    data = {"amount": 15, "currency": "UAH"}
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
@@ -203,7 +191,6 @@ def create_tender_invalid(self):
             }
         ],
     )
-
     data = self.initial_data["items"][0].pop("additionalClassifications")
     cpv_code = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "99999999-9"

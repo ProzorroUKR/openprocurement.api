@@ -11,7 +11,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "procurementMethodType": "esco",
-    "minimalStepPercentage": 0.006,
     "procuringEntity": {
       "kind": "general",
       "address": {
@@ -95,7 +94,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
-    "yearlyPaymentsPercentageRange": 0.8,
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -163,8 +161,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "minimalStepPercentage": 0.006,
-    "yearlyPaymentsPercentageRange": 0.8,
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
     "procuringEntity": {

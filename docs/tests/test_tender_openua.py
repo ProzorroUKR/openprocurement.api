@@ -835,7 +835,7 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '201 Created')
 
-        self.initial_data["value"]["currency"] = self.initial_data["minimalStep"]["currency"] = "USD"
+        self.initial_data["value"]["currency"] = "USD"
 
         response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
         self.set_initial_status(response.json, "active.tendering")

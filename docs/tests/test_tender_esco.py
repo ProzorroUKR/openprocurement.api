@@ -72,8 +72,7 @@ bid3.update(
     }
 )
 
-test_lots[0]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
-test_lots[1]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
+test_lots[0]['minimalStepPercentage'] = test_lots[1]['minimalStepPercentage'] = 0.006
 
 TARGET_DIR = 'docs/source/tendering/esco/tutorial/'
 TARGET_CSV_DIR = 'docs/source/tendering/esco/csv/'

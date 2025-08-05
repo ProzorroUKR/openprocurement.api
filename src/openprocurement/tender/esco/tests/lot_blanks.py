@@ -267,23 +267,6 @@ def lot_minimal_step_invalid(self):
     )
 
 
-def tender_minimal_step_percentage(self):
-    response = self.app.post_json(
-        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["minimalStepPercentage"], self.test_lots_data[0]["minimalStepPercentage"])
-
-    request_path = "/tenders/{}".format(self.tender_id)
-    response = self.app.get(request_path)
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["data"]["minimalStepPercentage"], min(i["minimalStepPercentage"] for i in self.test_lots_data)
-    )
-
-
 def tender_lot_funding_kind(self):
     data = deepcopy(self.initial_data)
     data["fundingKind"] = "budget"
@@ -457,7 +440,6 @@ def lot_yppr_validation(self):
     self.assertIn("fundingKind", response.json["data"]["lots"][1])
     self.assertEqual(response.json["data"]["lots"][1]["fundingKind"], "budget")
     self.assertEqual(response.json["data"]["lots"][1]["yearlyPaymentsPercentageRange"], 0.6)
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.6)
     owner_token = response.json["access"]["token"]
     tender_id = response.json["data"]["id"]
     lot_id1 = response.json["data"]["lots"][0]["id"]
@@ -602,7 +584,6 @@ def tender_2lot_fundingKind_default(self):
 def tender_lot_yearlyPaymentsPercentageRange(self):
     data = deepcopy(self.initial_data)
     data["fundingKind"] = "budget"
-    data["yearlyPaymentsPercentageRange"] = 0.7
     lot = deepcopy(self.test_lots_data[0])
     data["lots"] = []
     data["lots"].append(deepcopy(lot))
@@ -622,18 +603,6 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
 
     response = self.app.get("/tenders/{}".format(tender_id))
     lots = response.json["data"]["lots"]
-    self.assertEqual(
-        response.json["data"]["yearlyPaymentsPercentageRange"], min(i["yearlyPaymentsPercentageRange"] for i in lots)
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, tender_token), {"data": {"yearlyPaymentsPercentageRange": 0.5}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["data"]["yearlyPaymentsPercentageRange"], min(i["yearlyPaymentsPercentageRange"] for i in lots)
-    )
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot1_id, tender_token),
@@ -642,12 +611,6 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.3)
-
-    response = self.app.get("/tenders/{}".format(tender_id))
-    lots = response.json["data"]["lots"]
-    self.assertEqual(
-        response.json["data"]["yearlyPaymentsPercentageRange"], min(i["yearlyPaymentsPercentageRange"] for i in lots)
-    )
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot1_id, tender_token),
@@ -678,12 +641,11 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_token),
-        {"data": {"fundingKind": "other", "yearlyPaymentsPercentageRange": 0.8}},
+        {"data": {"fundingKind": "other"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn("fundingKind", response.json["data"])
     self.assertEqual(response.json["data"]["fundingKind"], "other")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot1_id, tender_token),
@@ -711,7 +673,6 @@ def tender_lot_fundingKind_yppr(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
     self.assertEqual(response.json["data"]["fundingKind"], "other")
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
@@ -842,7 +803,6 @@ def tender_lot_fundingKind_yppr(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
     self.assertEqual(response.json["data"]["fundingKind"], "other")
     self.assertEqual(response.json["data"]["lots"][0]["yearlyPaymentsPercentageRange"], 0.8)
     # lot fundingKind is 'other' - same as on tender
@@ -890,7 +850,6 @@ def tender_lot_fundingKind_yppr(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
     self.assertEqual(response.json["data"]["fundingKind"], "other")
     self.assertEqual(response.json["data"]["lots"][0]["yearlyPaymentsPercentageRange"], 0.8)
     # lot fundingKind is 'other' - same as on tender
@@ -904,21 +863,10 @@ def tender_lot_Administrator_change_yppr(self):
     auth = self.app.authorization
     data = deepcopy(self.initial_data)
     data["fundingKind"] = "budget"
-    data["yearlyPaymentsPercentageRange"] = 0.4
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.4)
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
-    tender_id = response.json["data"]["id"]
-
-    with change_auth(self.app, ("Basic", ("administrator", ""))):
-        response = self.app.patch_json(
-            "/tenders/{}".format(tender_id), {"data": {"yearlyPaymentsPercentageRange": 0.7}}
-        )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.7)
 
     self.app.authorization = auth
     lot = deepcopy(self.test_lots_data[0])
@@ -929,7 +877,6 @@ def tender_lot_Administrator_change_yppr(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
     tender_id = response.json["data"]["id"]
     self.assertEqual(response.json["data"]["lots"][0]["yearlyPaymentsPercentageRange"], 0.8)
@@ -944,18 +891,12 @@ def tender_lot_Administrator_change_yppr(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.5)
 
-    response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.5)
-
     self.app.authorization = auth
     data["lots"].append(deepcopy(lot))
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
     tender_id = response.json["data"]["id"]
     self.assertEqual(response.json["data"]["lots"][0]["yearlyPaymentsPercentageRange"], 0.8)
@@ -968,11 +909,6 @@ def tender_lot_Administrator_change_yppr(self):
         response = self.app.patch_json(
             "/tenders/{}/lots/{}".format(tender_id, lot2_id), {"data": {"yearlyPaymentsPercentageRange": 0.5}}
         )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.5)
-
-    response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.5)

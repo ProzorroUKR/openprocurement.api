@@ -18,6 +18,7 @@ from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 
 class PostLot(PostBaseLot):
     guarantee = ModelType(Guarantee)
+    minimalStep = ModelType(Value)
 
 
 class PatchLot(BaseLot):

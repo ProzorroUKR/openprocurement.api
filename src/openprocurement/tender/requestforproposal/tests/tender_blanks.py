@@ -241,19 +241,7 @@ def create_tender_invalid(self):
     del self.initial_data["awardPeriod"]
     del self.initial_data["auctionPeriod"]
 
-    data = self.initial_data["minimalStep"]
-    del self.initial_data["minimalStep"]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "minimalStep"},
-        response.json["errors"],
-    )
-
-    data = self.initial_data["minimalStep"]
+    data = {"amount": 15, "currency": "UAH"}
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
@@ -288,7 +276,6 @@ def create_tender_invalid(self):
             }
         ],
     )
-
     data = self.initial_data["items"][0].pop("additionalClassifications")
     cpv_code = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "99999999-9"
@@ -551,6 +538,7 @@ def tender_with_main_procurement_category(self):
 def tender_created_before_related_lot_is_required(self):
     data = deepcopy(test_tender_rfp_data)
     data["status"] = "draft"
+    data["minimalStep"] = {"amount": 15, "currency": "UAH"}  # as tender doesn't have lots
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]

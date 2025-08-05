@@ -1964,11 +1964,6 @@
                 "type": "financing"
             }
         ],
-        "minimalStep": {
-            "amount": 5.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-        },
         "noticePublicationDate": "2023-10-10T01:00:00+03:00",
         "owner": "broker",
         "procurementMethod": "open",

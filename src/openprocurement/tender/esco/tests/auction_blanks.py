@@ -25,8 +25,6 @@ def get_tender_auction(self):
     auction = response.json["data"]
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
-    self.assertIn("minimalStepPercentage", auction)
-    self.assertIn("yearlyPaymentsPercentageRange", auction)
     self.assertIn("fundingKind", auction)
     self.assertIn("procurementMethodType", auction)
     self.assertIn("noticePublicationDate", auction)
@@ -444,7 +442,6 @@ def get_tender_lots_auction(self):
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
     self.assertIn("lots", auction)
-    self.assertIn("yearlyPaymentsPercentageRange", auction)
     self.assertIn("fundingKind", auction)
     self.assertIn("yearlyPaymentsPercentageRange", auction["lots"][0])
     self.assertIn("fundingKind", auction["lots"][0])

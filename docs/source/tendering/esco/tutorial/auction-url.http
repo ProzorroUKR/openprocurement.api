@@ -1803,12 +1803,10 @@ Content-Type: application/json
     "submissionMethod": "electronicAuction",
     "procurementMethodType": "esco",
     "status": "active.auction",
-    "minimalStepPercentage": 0.006,
     "minValue": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "yearlyPaymentsPercentageRange": 0.8,
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
     "guarantee": {

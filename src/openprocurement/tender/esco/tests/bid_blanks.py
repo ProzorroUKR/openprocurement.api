@@ -450,7 +450,7 @@ def create_tender_bid_invalid_funding_kind_budget(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.5)
+    self.assertEqual(response.json["data"]["lots"][0]["yearlyPaymentsPercentageRange"], 0.5)
 
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = {

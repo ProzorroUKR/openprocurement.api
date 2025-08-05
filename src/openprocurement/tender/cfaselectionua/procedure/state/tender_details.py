@@ -4,7 +4,7 @@ from logging import getLogger
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants_env import CRITERIA_CLASSIFICATION_UNIQ_FROM
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_agreement, get_tender
+from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.utils import (
     get_agreement_by_id,
     get_tender_by_id,
@@ -44,7 +44,6 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after,
-    validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_edrpou_confidentiality_doc,
@@ -93,7 +92,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
                     minimal_step = deepcopy(after["lots"][0]["value"])
                     minimal_step["amount"] = round(MINIMAL_STEP_PERCENTAGE * minimal_step["amount"], 2)
-                    after["minimalStep"] = after["lots"][0]["minimalStep"] = minimal_step
+                    after["lots"][0]["minimalStep"] = minimal_step
 
                     calculate_tender_features(after)
             elif after["status"] == "draft.unsuccessful":
@@ -259,22 +258,6 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             if "features" in tender:
                 raise_operation_error(get_request(), "Can't add features")
 
-    def validate_minimal_step(self, data, before=None):
-        """
-        Override to skip minimalStep required validation.
-        It's not required for cfaselectionua in tender level.
-
-        :param data: tender or lot
-        :param before: tender or lot
-        :return:
-        """
-        tender = get_tender()
-        kwargs = {
-            "before": before,
-            "enabled": tender["config"]["hasAuction"] is True,
-        }
-        validate_field(data, "minimalStep", required=False, **kwargs)
-
     def validate_tender_period_extension(self, tender):
         pass
 
@@ -344,7 +327,7 @@ def calculate_agreement_contracts_value_amount(tender):
         # handle minimalStep auto decrease
         minimal_step = tender["lots"][0].get("minimalStep")
         if minimal_step and minimal_step["amount"] > value["amount"]:
-            tender["minimalStep"] = tender["lots"][0]["minimalStep"] = value
+            tender["lots"][0]["minimalStep"] = value
 
 
 def calculate_tender_features(tender):

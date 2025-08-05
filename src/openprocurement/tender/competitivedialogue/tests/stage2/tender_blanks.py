@@ -71,7 +71,7 @@ def create_tender_invalid_eu(self):
         ],
     )
 
-    data = self.initial_data["minimalStep"]
+    data = {"amount": "15", "currency": "UAH"}
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
@@ -365,7 +365,7 @@ def create_tender_invalid_ua(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
 
-    data = self.initial_data["minimalStep"]
+    data = {"amount": "15.0", "currency": "UAH"}
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data

@@ -105,25 +105,6 @@ def create_tender_lot_invalid(self):
         ],
     )
 
-    response = self.app.post_json(
-        request_path,
-        {
-            "data": {
-                "title": "lot title",
-                "description": "lot description",
-                "minimalStep": {"amount": "500.0"},
-            }
-        },
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": "Rogue field", "location": "body", "name": "minimalStep"}],
-    )
-
     items = deepcopy(self.initial_data["items"])
     items[0]["relatedLot"] = "0" * 32
     response = self.app.patch_json(
@@ -300,7 +281,6 @@ def patch_tender_lot(self):
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     result = response.json["data"]
     self.assertEqual(result["lots"][0]["minimalStep"]["amount"], new_lot_minimal_step["amount"])
-    self.assertEqual(result["minimalStep"]["amount"], new_lot_minimal_step["amount"])
     self.assertIn("date", result["lots"][0])
     self.assertIn("value", result["lots"][0])
 
@@ -363,9 +343,6 @@ def patch_tender_lot(self):
         {"data": {"minimalStep": new_lot_minimal_step}},
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["minimalStep"]["amount"], new_lot_minimal_step["amount"])
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["minimalStep"]["amount"], new_lot_minimal_step["amount"])
 
     # WTF is this test !!!! quantity -> lots.minimalStep ?

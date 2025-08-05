@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -142,7 +143,8 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
 
 
 class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):
-    test_tender_data_ua = test_tender_cdua_stage2_data  # TODO: change attribute identifier
+    test_tender_data_ua = deepcopy(test_tender_cdua_stage2_data)  # TODO: change attribute identifier
+    test_tender_data_ua["minimalStep"] = {"amount": 15, "currency": "UAH"}  # as test tender doesn't have lots
     author_data = test_tender_cd_author  # TODO: change attribute identifier
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
