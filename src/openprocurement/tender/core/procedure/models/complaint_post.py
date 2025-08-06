@@ -6,9 +6,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.context import get_complaint
-from openprocurement.tender.core.procedure.models.document import PostDocument
 
 
 class CreateComplaintPost(Model):
@@ -30,7 +28,6 @@ class CreateComplaintPost(Model):
 
     title = StringType(required=True)
     description = StringType(required=True)
-    documents = ListType(ModelType(PostDocument, required=True))  # use model instead of  validate_data_documents(
     recipient = StringType(choices=["complaint_owner", "tender_owner", "aboveThresholdReviewers"])
     relatedPost = StringType()
     relatedObjection = StringType(required=True)

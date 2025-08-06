@@ -3,8 +3,8 @@ from cornice.resource import resource
 from openprocurement.tender.core.procedure.views.cancellation_complaint_document import (
     CancellationComplaintDocumentResource,
 )
-from openprocurement.tender.open.procedure.state.complaint_document import (
-    OpenComplaintDocumentState,
+from openprocurement.tender.limited.procedure.state.cancellation_complaint_documents import (
+    NegotiationCancellationComplaintDocumentState,
 )
 
 
@@ -16,7 +16,7 @@ from openprocurement.tender.open.procedure.state.complaint_document import (
     description="Tender negotiation cancellation complaint documents",
 )
 class NegotiationCancellationComplaintDocumentResource(CancellationComplaintDocumentResource):
-    state_class = OpenComplaintDocumentState
+    state_class = NegotiationCancellationComplaintDocumentState
 
 
 @resource(
@@ -27,4 +27,4 @@ class NegotiationCancellationComplaintDocumentResource(CancellationComplaintDocu
     description="Tender negotiation.quick cancellation complaint documents",
 )
 class NegotiationQuickCancellationComplaintDocumentResource(CancellationComplaintDocumentResource):
-    state_class = OpenComplaintDocumentState
+    state_class = NegotiationCancellationComplaintDocumentState

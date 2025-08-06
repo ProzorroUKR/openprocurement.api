@@ -117,6 +117,10 @@ class PostDocument(BasePostDocument, ConfidentialDocumentMixin):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
 
 
+class PostComplaintDocument(PostDocument):
+    documentOf = StringType(required=True, choices=["tender", "item", "lot", "post"], default="tender")
+
+
 class Document(BaseDocument, ConfidentialDocumentMixin):
     # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
     id = MD5Type(required=True)
@@ -125,7 +129,7 @@ class Document(BaseDocument, ConfidentialDocumentMixin):
     title = StringType(required=True)  # A title of the document.
     format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)  # Link to the document or attachment.
-    documentOf = StringType(required=True, choices=["tender", "item", "lot"])
+    documentOf = StringType(required=True, choices=["tender", "item", "lot", "post"])
     dateModified = StringType()
     author = StringType()
     language = StringType(choices=["uk", "en", "ru"])
@@ -149,3 +153,7 @@ class PatchDocument(BaseDocument):
     @serializable
     def dateModified(self):
         return get_request_now().isoformat()
+
+
+class PatchComplaintDocument(PatchDocument):
+    documentOf = StringType(choices=["tender", "item", "lot", "post"])

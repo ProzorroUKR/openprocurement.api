@@ -22,7 +22,7 @@ Content-Type: application/json
       "type": "claim"
     },
     {
-      "id": "8e1c5f88d0474f14a9dc74a76d7e4e07",
+      "id": "6df7d5abe3524dcfba3f705071ca1ddf",
       "complaintID": "UA-2023-10-10-000001-a.2",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "declined",
@@ -68,7 +68,7 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:00+03:00",
       "objections": [
         {
-          "id": "9d6ee38b73fa410d932513ba5d51fa6d",
+          "id": "e0931d4c79b74864ba80302215758011",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "tender",
@@ -80,14 +80,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "b47e088de1c34d5887123f0a9333c75e",
+              "id": "f590bada0f9c42f18d66de72bd4c9c01",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "ccd5fda81e8e4406bee8e5e0d4f88436",
+              "id": "7c69d72c715c4783ab9383857c0ef196",
               "description": "test argument"
             }
           ],
@@ -544,21 +544,6 @@ Content-Type: application/json
         {
           "title": "Уточнення по вимозі",
           "description": "Додано документ",
-          "documents": [
-            {
-              "confidentiality": "public",
-              "hash": "md5:00000000000000000000000000000000",
-              "title": "post_document_complaint.pdf",
-              "format": "application/pdf",
-              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/842a382f56354d5ebbe08b7dec07d46a?Signature=G0g69DxjEzmE0ZAZ%2B7S9WCAUVZGW3qDS%2F8TpeiMk3jOebuAd%2FKG9FQkkTNhDsFQogV30qRU54gOiuy5jtqW7AQ%3D%3D&KeyID=a8968c46",
-              "documentOf": "tender",
-              "language": "uk",
-              "id": "37c05b8fefe84a36ae717b8b25bcaaab",
-              "datePublished": "2023-10-10T01:00:00+03:00",
-              "dateModified": "2023-10-10T01:00:00+03:00",
-              "author": "complaint_owner"
-            }
-          ],
           "recipient": "aboveThresholdReviewers",
           "relatedPost": "1464868655a9403ca945d3d6c748cb22",
           "relatedObjection": "fbe76ae3525548ddb11afcd4321636b6",
@@ -578,21 +563,6 @@ Content-Type: application/json
         {
           "title": "Уточнення по вимозі",
           "description": "Додано документ",
-          "documents": [
-            {
-              "confidentiality": "public",
-              "hash": "md5:00000000000000000000000000000000",
-              "title": "post_document_tender.pdf",
-              "format": "application/pdf",
-              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3a4ed86d11e9460393a63047c5920470?Signature=WtEhYfcozcKWsGWJ%2BuMeQe6hsm9eBGS%2BDJdVJ2BZzsvEtkiuktiRt0OtWrvVlPpLRPyoOMyYmXJXw5DcphfPAw%3D%3D&KeyID=a8968c46",
-              "documentOf": "tender",
-              "language": "uk",
-              "id": "660ab63e53b9432d837718e5988984ef",
-              "datePublished": "2023-10-10T01:00:00+03:00",
-              "dateModified": "2023-10-10T01:00:00+03:00",
-              "author": "tender_owner"
-            }
-          ],
           "recipient": "aboveThresholdReviewers",
           "relatedPost": "83d9848c51594e758f9f0b771200bbf0",
           "relatedObjection": "fbe76ae3525548ddb11afcd4321636b6",
@@ -606,6 +576,22 @@ Content-Type: application/json
           "relatedObjection": "fbe76ae3525548ddb11afcd4321636b6",
           "id": "4ac3125553134db1bdaecfdda04709a6",
           "datePublished": "2023-10-10T01:00:00+03:00",
+          "author": "tender_owner"
+        }
+      ],
+      "documents": [
+        {
+          "confidentiality": "public",
+          "relatedItem": "53ba68c7dbde471bb0f2e2a445e87077",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "post_document_tender.pdf",
+          "format": "application/pdf",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3a4ed86d11e9460393a63047c5920470?Signature=WtEhYfcozcKWsGWJ%2BuMeQe6hsm9eBGS%2BDJdVJ2BZzsvEtkiuktiRt0OtWrvVlPpLRPyoOMyYmXJXw5DcphfPAw%3D%3D&KeyID=a8968c46",
+          "language": "uk",
+          "id": "6568f175e0e142f7809937a741f97ca7",
+          "documentOf": "post",
+          "datePublished": "2023-10-10T01:00:00+03:00",
+          "dateModified": "2023-10-10T01:00:00+03:00",
           "author": "tender_owner"
         }
       ]

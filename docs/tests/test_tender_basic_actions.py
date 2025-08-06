@@ -172,7 +172,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint_data = {'data': complaint.copy()}
 
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
-        complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
+        response = self.app.post_json(complaint_url, complaint_data)
+        complaint3_token = response.json['access']['token']
+        complaint3_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'complaints/complaint-submission-upload.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -189,6 +191,19 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 },
             )
             self.assertEqual(response.status, '201 Created')
+
+        if get_now() < RELEASE_2020_04_19:
+            response = self.app.patch_json(
+                "{}/{}?acc_token={}".format(complaint_url, complaint3_id, complaint3_token),
+                {"data": {"status": "pending"}},
+            )
+        else:
+            with change_auth(self.app, ("Basic", ("bot", ""))):
+                response = self.app.patch_json(
+                    "{}/{}".format(complaint_url, complaint3_id), {"data": {"status": "pending"}}
+                )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], "pending")
 
         tender_from_db = self.mongodb.tenders.get(tender["id"])
         claim_data_2 = deepcopy(claim_data)
@@ -433,14 +448,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post1_id,
                         "relatedObjection": objection_id,
-                        "documents": [
-                            {
-                                'title': 'post_document_complaint.pdf',
-                                'url': self.generate_docservice_url(),
-                                'hash': 'md5:' + '0' * 32,
-                                'format': 'application/pdf',
-                            }
-                        ],
                     }
                 },
             )
@@ -476,18 +483,44 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post2_id,
                         "relatedObjection": objection_id,
-                        "documents": [
-                            {
-                                'title': 'post_document_tender.pdf',
-                                'url': self.generate_docservice_url(),
-                                'hash': 'md5:' + '0' * 32,
-                                'format': 'application/pdf',
-                            }
-                        ],
                     }
                 },
             )
             self.assertEqual(response.status, '201 Created')
+            post_id = response.json["data"]["id"]
+
+        with open(TARGET_DIR + 'complaints/complaint-post-documents-forbidden.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, complaint8_id, complaint8_token
+                ),
+                {
+                    "data": {
+                        'title': 'post_document_tender.pdf',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf',
+                        'documentOf': 'post',
+                        'relatedItem': post_id,
+                    }
+                },
+                status=403,
+            )
+
+        with open(TARGET_DIR + 'complaints/complaint-post-documents-tender-owner.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/complaints/{}/documents?acc_token={}'.format(self.tender_id, complaint8_id, owner_token),
+                {
+                    "data": {
+                        'title': 'post_document_tender.pdf',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf',
+                        'documentOf': 'post',
+                        'relatedItem': post_id,
+                    }
+                },
+            )
 
         with open(TARGET_DIR + 'complaints/complaint-post-explanation-invalid.http', 'w') as self.app.file_obj:
             self.app.post_json(
@@ -1068,14 +1101,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post1_id,
                         "relatedObjection": objection_id,
-                        "documents": [
-                            {
-                                'title': 'post_document_complaint.pdf',
-                                'url': self.generate_docservice_url(),
-                                'hash': 'md5:' + '0' * 32,
-                                'format': 'application/pdf',
-                            }
-                        ],
                     }
                 },
             )
@@ -1117,18 +1142,51 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post2_id,
                         "relatedObjection": objection_id,
-                        "documents": [
-                            {
-                                'title': 'post_document_tender.pdf',
-                                'url': self.generate_docservice_url(),
-                                'hash': 'md5:' + '0' * 32,
-                                'format': 'application/pdf',
-                            }
-                        ],
                     }
                 },
             )
             self.assertEqual(response.status, '201 Created')
+            post_id = response.json['data']['id']
+
+        with open(
+            TARGET_DIR + 'complaints/qualification-complaint-post-documents-forbidden.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, qualification_id, complaint8_id, complaint8_token
+                ),
+                {
+                    "data": {
+                        'title': 'post_document_tender.pdf',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf',
+                        'documentOf': 'post',
+                        'relatedItem': post_id,
+                    }
+                },
+                status=403,
+            )
+
+        with open(
+            TARGET_DIR + 'complaints/qualification-complaint-post-documents-tender-owner.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, qualification_id, complaint8_id, owner_token
+                ),
+                {
+                    "data": {
+                        'title': 'post_document_tender.pdf',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf',
+                        'documentOf': 'post',
+                        'relatedItem': post_id,
+                    }
+                },
+            )
+
         with open(
             TARGET_DIR + 'complaints/qualification-complaint-post-explanation-invalid.http', 'w'
         ) as self.app.file_obj:
@@ -1740,14 +1798,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post1_id,
                         "relatedObjection": objection_id,
-                        "documents": [
-                            {
-                                'title': 'post_document_complaint.pdf',
-                                'url': self.generate_docservice_url(),
-                                'hash': 'md5:' + '0' * 32,
-                                'format': 'application/pdf',
-                            }
-                        ],
                     }
                 },
             )
@@ -1784,18 +1834,46 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "recipient": "aboveThresholdReviewers",
                         "relatedPost": post2_id,
                         "relatedObjection": objection_id,
-                        "documents": [
-                            {
-                                'title': 'post_document_tender.pdf',
-                                'url': self.generate_docservice_url(),
-                                'hash': 'md5:' + '0' * 32,
-                                'format': 'application/pdf',
-                            }
-                        ],
                     }
                 },
             )
             self.assertEqual(response.status, '201 Created')
+            post_id = response.json['data']['id']
+
+        with open(TARGET_DIR + 'complaints/award-complaint-post-documents-forbidden.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, award_id, complaint8_id, complaint8_token
+                ),
+                {
+                    "data": {
+                        'title': 'post_document_tender.pdf',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf',
+                        'documentOf': 'post',
+                        'relatedItem': post_id,
+                    }
+                },
+                status=403,
+            )
+
+        with open(TARGET_DIR + 'complaints/award-complaint-post-documents-tender-owner.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, award_id, complaint8_id, owner_token
+                ),
+                {
+                    "data": {
+                        'title': 'post_document_tender.pdf',
+                        'url': self.generate_docservice_url(),
+                        'hash': 'md5:' + '0' * 32,
+                        'format': 'application/pdf',
+                        'documentOf': 'post',
+                        'relatedItem': post_id,
+                    }
+                },
+            )
 
         with open(TARGET_DIR + 'complaints/award-complaint-post-explanation-invalid.http', 'w') as self.app.file_obj:
             self.app.post_json(

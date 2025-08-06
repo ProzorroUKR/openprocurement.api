@@ -167,6 +167,24 @@ Tender owner can submit a reply post to reviewer by setting reviewer's post `id`
 .. http:example:: http/complaints/complaint-post-tender-owner.http
    :code:
 
+Tender Conditions Complaint Posts Documents
+---------------------------------------------
+
+Documents for posts should be added in complaint with `documentOf: post` and `relatedItem` id of current post.
+
+Documents for post could be added only during complaint is in `pending` or `accepted` status and not later than 3 full business days before `reviewDate` of complaint.
+
+Only author of post can add documents for his post. Let's try to add documents for post created by tender owner using another author:
+
+.. http:example:: http/complaints/complaint-post-documents-forbidden.http
+   :code:
+
+Let's add documents by tender owner:
+
+.. http:example:: http/complaints/complaint-post-documents-tender-owner.http
+   :code:
+
+
 Complaint Explanations
 ======================
 

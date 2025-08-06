@@ -12,8 +12,8 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.document import (
     Document,
-    PatchDocument,
-    PostDocument,
+    PatchComplaintDocument,
+    PostComplaintDocument,
 )
 from openprocurement.tender.core.procedure.state.complaint_document import (
     ComplaintDocumentState,
@@ -68,7 +68,7 @@ class BaseComplaintDocumentResource(BaseDocumentResource):
                     )
                 ),
             ),
-            validate_input_data(PostDocument, allow_bulk=True),
+            validate_input_data(PostComplaintDocument, allow_bulk=True),
         ),
         permission="upload_complaint_documents",
     )
@@ -85,7 +85,7 @@ class BaseComplaintDocumentResource(BaseDocumentResource):
                     )
                 ),
             ),
-            validate_input_data(PostDocument),
+            validate_input_data(PostComplaintDocument),
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -105,7 +105,7 @@ class BaseComplaintDocumentResource(BaseDocumentResource):
                     )
                 ),
             ),
-            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_input_data(PatchComplaintDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
         ),
         permission="upload_complaint_documents",

@@ -111,18 +111,12 @@ def put_tender_complaint_document(self):
                 "format": "application/msword",
             }
         },
+        status=403,
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    key = self.get_doc_id_from_url(response.json["data"]["url"])
-
-    response = self.app.get(
-        "/tenders/{}/complaints/{}/documents/{}?download={}".format(self.tender_id, self.complaint_id, doc_id, key)
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can submit or edit document not related to post in current (pending) complaint status for complaint_owner",
     )
-    self.assertEqual(response.status, "302 Moved Temporarily")
-    self.assertIn("http://localhost/get/", response.location)
-    self.assertIn("Signature=", response.location)
-    self.assertIn("KeyID=", response.location)
 
     self.set_status("complete")
 

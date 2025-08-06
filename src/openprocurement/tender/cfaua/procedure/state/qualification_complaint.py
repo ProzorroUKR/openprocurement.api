@@ -5,4 +5,4 @@ from openprocurement.tender.core.procedure.state.qualification_complaint import 
 
 
 class CFAUAQualificationComplaintState(QualificationComplaintStateMixin, CFAUATenderState):
-    pass
+    all_documents_should_be_public = True

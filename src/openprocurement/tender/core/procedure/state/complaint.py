@@ -34,6 +34,9 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_after_2020_rules,
 )
+from openprocurement.tender.core.procedure.validation import (
+    validate_edrpou_confidentiality_doc,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -53,6 +56,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
     update_allowed_tender_statuses = ("active.tendering",)
     draft_patch_model = DraftPatchComplaint
     complaints_configuration = "hasTenderComplaints"
+    all_documents_should_be_public = False
 
     # POST
     def validate_complaint_on_post(self, complaint):
@@ -65,6 +69,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
         self.validate_add_complaint_with_tender_cancellation_in_pending(tender)
         self.validate_add_complaint_with_lot_cancellation_in_pending(tender, complaint)
+        self.validate_docs(complaint)
 
     def complaint_on_post(self, complaint):
         tender = get_tender()
@@ -101,6 +106,24 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                 raise_operation_error(
                     self.request,
                     f"Can't update complaint in current ({tender['status']}) tender status",
+                )
+
+    def validate_docs(self, data):
+        for doc in data.get("documents", []):
+            validate_edrpou_confidentiality_doc(doc, should_be_public=self.all_documents_should_be_public)
+            if doc["documentOf"] == "post":
+                if not any(i and doc.get("relatedItem") == i["id"] for i in data.get("posts", "")):
+                    raise_operation_error(
+                        self.request,
+                        "relatedItem should be one of complaint posts",
+                        status=422,
+                        name="relatedItem",
+                    )
+            elif self.request.authenticated_role != "aboveThresholdReviewers" and data["status"] == "pending":
+                raise_operation_error(
+                    self.request,
+                    f"Can submit or edit document not related to post in current ({data['status']}) complaint "
+                    f"status for {self.request.authenticated_role}",
                 )
 
     # PATCH

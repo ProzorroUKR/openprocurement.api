@@ -74,7 +74,6 @@ class BaseComplaintPostResource(TenderBaseResource):
         if "posts" not in complaint:
             complaint["posts"] = []
         complaint["posts"].append(post)
-        self.state.complaint_post_on_post(post)
 
         if save_tender(self.request):
             kwargs = {

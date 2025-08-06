@@ -496,21 +496,6 @@ Content-Type: application/json
         {
           "title": "Уточнення по вимозі",
           "description": "Додано документ",
-          "documents": [
-            {
-              "confidentiality": "public",
-              "hash": "md5:00000000000000000000000000000000",
-              "title": "post_document_complaint.pdf",
-              "format": "application/pdf",
-              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/88f3c6159f9a4c10b47f50ca39411d53?Signature=W9V%2FrlR5ktPEvXkbOjgmcxFEzhfd7%2F154xmdpyhj9xsaDmutuR16ZH8ujmGiloQNvJhhxjnu%2F4Fjxf%2FZTS1fDA%3D%3D&KeyID=a8968c46",
-              "documentOf": "tender",
-              "language": "uk",
-              "id": "bdc6b408421648deb6cca0803c07d7e5",
-              "datePublished": "2023-10-10T01:00:01+03:00",
-              "dateModified": "2023-10-10T01:00:01+03:00",
-              "author": "complaint_owner"
-            }
-          ],
           "recipient": "aboveThresholdReviewers",
           "relatedPost": "1fbeaf3065e04d2e839259e8f5e1536a",
           "relatedObjection": "65722527aaff4700aecf40863a143993",
@@ -530,21 +515,6 @@ Content-Type: application/json
         {
           "title": "Уточнення по вимозі",
           "description": "Додано документ",
-          "documents": [
-            {
-              "confidentiality": "public",
-              "hash": "md5:00000000000000000000000000000000",
-              "title": "post_document_tender.pdf",
-              "format": "application/pdf",
-              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/be45cb04b88c4ac0a3b8a03c46c24ee0?Signature=ltemvlxFiIQ1Ere9QS0LHOyn580cNtsYSN4%2FBrcegGS1tZI8%2BQ4ovl5rrtLeMp5qQrPFyqm5i40%2BmOoBPns%2BDg%3D%3D&KeyID=a8968c46",
-              "documentOf": "tender",
-              "language": "uk",
-              "id": "228977b586c94c7f8b6d2d5f6e9aeb3f",
-              "datePublished": "2023-10-10T01:00:01+03:00",
-              "dateModified": "2023-10-10T01:00:01+03:00",
-              "author": "tender_owner"
-            }
-          ],
           "recipient": "aboveThresholdReviewers",
           "relatedPost": "83aa2397dedc450f92cb684b132f7765",
           "relatedObjection": "65722527aaff4700aecf40863a143993",
@@ -558,6 +528,22 @@ Content-Type: application/json
           "relatedObjection": "65722527aaff4700aecf40863a143993",
           "id": "03aa46c3ea3d4755ac8c96d488b73f6b",
           "datePublished": "2023-10-10T01:00:01+03:00",
+          "author": "tender_owner"
+        }
+      ],
+      "documents": [
+        {
+          "confidentiality": "public",
+          "relatedItem": "63c8c44c092e4b4889e9e9fa0021f52a",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "post_document_tender.pdf",
+          "format": "application/pdf",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/be45cb04b88c4ac0a3b8a03c46c24ee0?Signature=ltemvlxFiIQ1Ere9QS0LHOyn580cNtsYSN4%2FBrcegGS1tZI8%2BQ4ovl5rrtLeMp5qQrPFyqm5i40%2BmOoBPns%2BDg%3D%3D&KeyID=a8968c46",
+          "language": "uk",
+          "id": "018ad24a6e7e44c0ae1502cf3a546f71",
+          "documentOf": "post",
+          "datePublished": "2023-10-10T01:00:01+03:00",
+          "dateModified": "2023-10-10T01:00:01+03:00",
           "author": "tender_owner"
         }
       ]

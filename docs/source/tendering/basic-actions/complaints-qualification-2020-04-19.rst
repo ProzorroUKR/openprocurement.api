@@ -49,8 +49,8 @@ Complaint Posts
 
 Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint.
 
-Tender Conditions Complaint Posts (with complaint owner)
---------------------------------------------------------
+Tender Qualification Complaint Posts (with complaint owner)
+------------------------------------------------------------
 
 Reviewer can submit a post to complaint owner:
 
@@ -62,8 +62,8 @@ Complaint owner can submit a reply post to reviewer by setting reviewer's post `
 .. http:example:: http/complaints/qualification-complaint-post-complaint-owner.http
    :code:
 
-Tender Conditions Complaint Posts (with tender owner)
---------------------------------------------------------
+Tender Qualification Complaint Posts (with tender owner)
+---------------------------------------------------------
 
 Reviewer can submit a post to tender owner:
 
@@ -74,6 +74,24 @@ Tender owner can submit a reply post to reviewer by setting reviewer's post `id`
 
 .. http:example:: http/complaints/qualification-complaint-post-tender-owner.http
    :code:
+
+Tender Qualification Complaint Posts Documents
+------------------------------------------------
+
+Documents for posts should be added in complaint with `documentOf: post` and `relatedItem` id of current post.
+
+Documents for post could be added only during complaint is in `pending` or `accepted` status and not later than 3 full business days before `reviewDate` of complaint.
+
+Only author of post can add documents for his post. Let's try to add documents for post created by tender owner using another author:
+
+.. http:example:: http/complaints/qualification-complaint-post-documents-forbidden.http
+   :code:
+
+Let's add documents by tender owner:
+
+.. http:example:: http/complaints/qualification-complaint-post-documents-tender-owner.http
+   :code:
+
 
 Complaint Appeals
 ==================

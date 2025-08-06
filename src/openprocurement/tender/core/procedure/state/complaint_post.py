@@ -12,9 +12,6 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after_2020_rules,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_edrpou_confidentiality_doc,
-)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 LOGGER = getLogger(__name__)
@@ -24,7 +21,7 @@ class ComplaintPostValidationsMixin:
     request: object
     post_submit_time: timedelta
 
-    def validate_complaint_status(self, complaint):
+    def validate_complaint_status_for_posts(self, complaint):
         complaint_status = complaint.get("status")
         if complaint_status not in ["pending", "accepted"]:
             raise_operation_error(
@@ -66,16 +63,6 @@ class ComplaintPostValidationsMixin:
 class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
     post_submit_time = POST_SUBMIT_TIME
 
-    def complaint_post_on_post(self, post):
-        # set author for documents passed with tender data
-        for doc in post.get("documents", ""):
-            doc["author"] = self.request.authenticated_role
-            assert doc["author"] in (
-                "complaint_owner",
-                "tender_owner",
-                "aboveThresholdReviewers",
-            )
-
     def validate_complaint_post_on_post(self, post):
         complaint = get_complaint()
         if not tender_created_after_2020_rules():
@@ -87,11 +74,6 @@ class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
                 f"Can't submit or edit post in current ({complaint.get('type')}) complaint type",
             )
 
-        self.validate_complaint_status(complaint)
+        self.validate_complaint_status_for_posts(complaint)
         self.validate_complaint_post_objection(complaint, post)
         self.validate_complaint_post_review_date(complaint)
-        self.validate_docs(post)
-
-    def validate_docs(self, data):
-        for doc in data.get("documents", []):
-            validate_edrpou_confidentiality_doc(doc)
