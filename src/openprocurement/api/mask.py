@@ -38,6 +38,25 @@ def compile_mask_mapping(mask_mapping):
     return compiled_mapping
 
 
+def optimize_tender_mask_mapping(mask_mapping, replacement_rules=None):
+    if replacement_rules:
+        mask_mapping = mask_mapping.copy()
+        items_to_process = list(mask_mapping.items())
+        for replacement_path, replacement_values in replacement_rules.items():
+            # create new paths
+            for replacement_value in replacement_values:
+                for path, value in items_to_process:
+                    if replacement_path in path:
+                        new_path = path.replace(replacement_path, replacement_value)
+                        mask_mapping[new_path] = value
+            # remove original path
+            for path, value in items_to_process:
+                if replacement_path in path:
+                    mask_mapping.pop(path)
+
+    return mask_mapping
+
+
 def mask_object_data(request, data, mask_mapping, mask_func=mask_data):
     if not mask_mapping:
         # Nothing to mask
