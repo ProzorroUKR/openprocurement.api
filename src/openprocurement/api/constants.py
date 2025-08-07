@@ -207,6 +207,12 @@ FRAMEWORK_CONFIG_JSONSCHEMAS = {
     ),
 }
 
+# Framework period change causes
+PERIOD_CHANGE_CAUSES = {
+    cause: desc["title_uk"]
+    for cause, desc in standards.load("codelists/frameworks/framework_period_change_causes.json").items()
+}
+
 # Journal prefix
 JOURNAL_PREFIX = os.environ.get("JOURNAL_PREFIX", "JOURNAL_")
 

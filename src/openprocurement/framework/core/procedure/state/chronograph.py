@@ -119,8 +119,6 @@ class AgreementChronographEventsMixing(BaseChronographEventsMixing):
                         )
                         milestone["dateModified"] = now
 
-                if contract["status"] == "active":
-                    contract["status"] = "terminated"
             return True
 
     @staticmethod
