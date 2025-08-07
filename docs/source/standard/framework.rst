@@ -80,7 +80,7 @@ Schema
 
    Period when submissions can be qualified. At least `endDate` has to be provided.
 
-    If :code:`frameworkType` is :code:`electronicCatalogue`, then :code:`qualificationPeriod` can be from 30 to 1095 days long.
+    If :code:`frameworkType` is :code:`electronicCatalogue`, then :code:`qualificationPeriod` can be from 365 to 1461 days long.
 
 
 :status:
@@ -112,6 +112,11 @@ Schema
 
    |ocdsDescription|
    An array of additional classifications for the framework.
+
+:periodChangeHistory:
+   List of :ref:`PeriodChangeHistory` objects
+
+   An array of all qualificationPeriod changes during framework is `active`.
 
 
 :revisions:

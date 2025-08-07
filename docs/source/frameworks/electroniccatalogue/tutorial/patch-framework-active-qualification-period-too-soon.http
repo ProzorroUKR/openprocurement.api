@@ -1,0 +1,38 @@
+POST /api/2.5/frameworks/93bcad4f0fe64036865492ecfe70f113/modify-period?acc_token=067dc9c3de91454dbc0132327f0c1efa HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "qualificationPeriod": {
+      "endDate": "2023-11-10T01:00:00+03:00"
+    },
+    "cause": "other",
+    "causeDescription": "Треба закінчити швидше відбір",
+    "documents": [
+      {
+        "title": "sign.p7s",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c4fbf2317a7b4528b528c015a10e5d57?Signature=7KSQoCRr7aiLuXKNahe7SWu8Snqgvy6Xuz1SUki6IwCxjCJdtJ5S8lofSjdJU6R56AbBA2ih4PCsyQKal7vBBQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pkcs7-signature"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "qualificationPeriod",
+      "description": "qualificationPeriod.endDate couldn't be less than 30 full days from now"
+    }
+  ]
+}
+

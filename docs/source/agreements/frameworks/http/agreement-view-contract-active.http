@@ -14,7 +14,7 @@ Content-Type: application/json
     "status": "active",
     "period": {
       "startDate": "2023-01-16T00:00:00+02:00",
-      "endDate": "2023-05-01T00:00:00+02:00"
+      "endDate": "2024-02-25T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Повна назва юридичної організації.",
@@ -84,7 +84,7 @@ Content-Type: application/json
             "id": "428d21a6c91445ca8785a53103c07905",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2023-05-01T00:00:00+02:00",
+            "dueDate": "2024-02-25T00:00:00+02:00",
             "dateModified": "2023-01-16T00:00:00+02:00"
           },
           {
@@ -143,7 +143,7 @@ Content-Type: application/json
             "id": "659cb532d2ad40f1afd8b160f6bf230b",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2023-05-01T00:00:00+02:00",
+            "dueDate": "2024-02-25T00:00:00+02:00",
             "dateModified": "2023-01-16T00:00:00+02:00"
           }
         ],
@@ -153,7 +153,7 @@ Content-Type: application/json
     "owner": "test",
     "dateModified": "2023-04-16T01:00:00+03:00",
     "date": "2023-01-16T00:00:00+02:00",
-    "next_check": "2023-05-01T00:00:00+02:00",
+    "next_check": "2024-02-25T00:00:00+02:00",
     "dateCreated": "2023-01-16T00:00:00+02:00",
     "id": "6a527caaceb94ad398f77579768a6d67"
   },
