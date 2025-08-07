@@ -43,6 +43,7 @@ areas that were not covered by it.
    milestoneReference
    observation
    organization
+   periodhistory
    plan
    procuringentity
    plancancellation

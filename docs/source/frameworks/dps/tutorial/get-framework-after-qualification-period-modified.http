@@ -1,0 +1,131 @@
+GET /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "prettyID": "UA-F-2023-10-10-000001",
+    "title": "updated in draft status",
+    "description": "Назва предмета закупівлі1",
+    "status": "active",
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "documents": [
+      {
+        "id": "8c94a85001964beaa8b7a98af8df8566",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f5cb842886f141e681b47175faee1ea1?Signature=G7BvnAz3bGtcoEJQ4VMw2s9ARIPKFD0ZsNnTzvkGoYumAUv61r%2BTP0NXiTQhwebXxqUJM1d5aNg5AU8LtKBSCw%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk"
+      },
+      {
+        "id": "cbf1f425f5234b3584c2b0fd8b3f3232",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework_additional_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/beda32f664fb459291d362e650147d5d?Signature=pcYNBP%2FAj04nzgykslGVmqMOd3wtV9PptoB5NuzsDBne78GS2HGn9hmq%2ByTIhaYOr%2Bdtv6mO63IBY8NkQ3jrAg%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk"
+      },
+      {
+        "id": "cbf1f425f5234b3584c2b0fd8b3f3232",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework_additional_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d369fa8572584fffba4fe7fb70daffe2?Signature=%2B8G4s2LtJtEl9ij7xF17ayvO5H1BxrBWc7bAMhNt6pn9JkPAOCocA1BAkf3wIPgRzu8bKDe4qvayMpJcnL%2FlAQ%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk"
+      }
+    ],
+    "agreementID": "2c50602a5c214dfba111d06f8a79565f",
+    "owner": "broker",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-15T00:00:00+02:00"
+    },
+    "qualificationPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-12-15T01:00:00+03:00"
+    },
+    "enquiryPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-25T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-28T00:00:00+03:00"
+    },
+    "next_check": "2023-10-26T00:00:00+03:00",
+    "frameworkType": "dynamicPurchasingSystem",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "зміна",
+        "telephone": "+0440000002",
+        "email": "ab@aa.com"
+      },
+      "kind": "general"
+    },
+    "periodChangeHistory": [
+      {
+        "cause": "noDemandFramework",
+        "causeDescription": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+        "documents": [
+          {
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "application/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b9affa2202e046d680a5747d96eab099?Signature=go%2Bkm6RHUcD0%2BsVsVci2cxFJFZBRePDj%2Fls2AQyTrb%2BsJKEQdifthuSTGt8hc%2BwIeLkkXuN0W00s001bCJHLAQ%3D%3D&KeyID=a8968c46",
+            "language": "uk",
+            "id": "539bbf44f7c049318e5147c15d9fa0d3",
+            "datePublished": "2023-10-26T01:00:00+03:00",
+            "dateModified": "2023-10-26T01:00:00+03:00"
+          }
+        ],
+        "id": "dff3895af05a4e6e82717ab06da366a6",
+        "prevPeriodEndDate": "2024-11-13T01:00:00+03:00",
+        "newPeriodEndDate": "2023-12-15T01:00:00+03:00",
+        "date": "2023-10-26T01:00:00+03:00"
+      }
+    ],
+    "id": "a00a3b5bdaa0437490c883e4482795b2"
+  },
+  "config": {
+    "restrictedDerivatives": false,
+    "clarificationUntilDuration": 3,
+    "qualificationComplainDuration": 0,
+    "hasItems": false
+  }
+}
+

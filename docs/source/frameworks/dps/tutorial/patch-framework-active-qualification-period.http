@@ -1,0 +1,51 @@
+POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/modify-period?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "qualificationPeriod": {
+      "endDate": "2023-12-15T01:00:00+03:00"
+    },
+    "cause": "noDemandFramework",
+    "causeDescription": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+    "documents": [
+      {
+        "title": "sign.p7s",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b9affa2202e046d680a5747d96eab099?Signature=go%2Bkm6RHUcD0%2BsVsVci2cxFJFZBRePDj%2Fls2AQyTrb%2BsJKEQdifthuSTGt8hc%2BwIeLkkXuN0W00s001bCJHLAQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pkcs7-signature"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/modify-period
+
+{
+  "data": {
+    "cause": "noDemandFramework",
+    "causeDescription": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b9affa2202e046d680a5747d96eab099?Signature=go%2Bkm6RHUcD0%2BsVsVci2cxFJFZBRePDj%2Fls2AQyTrb%2BsJKEQdifthuSTGt8hc%2BwIeLkkXuN0W00s001bCJHLAQ%3D%3D&KeyID=a8968c46",
+        "language": "uk",
+        "id": "539bbf44f7c049318e5147c15d9fa0d3",
+        "datePublished": "2023-10-26T01:00:00+03:00",
+        "dateModified": "2023-10-26T01:00:00+03:00"
+      }
+    ],
+    "id": "dff3895af05a4e6e82717ab06da366a6",
+    "prevPeriodEndDate": "2024-11-13T01:00:00+03:00",
+    "newPeriodEndDate": "2023-12-15T01:00:00+03:00",
+    "date": "2023-10-26T01:00:00+03:00"
+  }
+}
+

@@ -42,7 +42,7 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkCoreWebTest, MockWebTestMi
 
         # empty frameworks listing
         data = deepcopy(self.initial_data)
-        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
+        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=400)).isoformat()
         response = self.app.get('/frameworks')
         self.assertEqual(response.json['data'], [])
 

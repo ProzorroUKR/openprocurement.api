@@ -6,7 +6,6 @@ from tests.base.constants import DOCS_URL
 from tests.base.data import test_docs_organization
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseFrameworkWebTest,
@@ -37,7 +36,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
     def test_docs(self):
         self.app.authorization = ('Basic', ('broker', ''))
         # empty frameworks listing
-        self.initial_data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
+        self.initial_data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=400)).isoformat()
         response = self.app.get('/frameworks')
         self.assertEqual(response.json['data'], [])
 
@@ -385,12 +384,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             response = self.app.get('/frameworks/{}'.format(framework['id']))
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'framework-listing.http', 'w') as self.app.file_obj:
-            response = self.app.get('/frameworks'.format(framework['id']))
-            self.assertEqual(len(response.json['data']), 1)
-
         with open(TARGET_DIR + 'patch-framework-active.http', 'w') as self.app.file_obj:
-            new_endDate = (parse_date(framework["qualificationPeriod"]["endDate"]) + timedelta(days=15)).isoformat()
             response = self.app.patch_json(
                 '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
                 {
@@ -399,8 +393,81 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                             "contactPoint": {"telephone": "+0440000002", "name": "зміна", "email": "ab@aa.com"}
                         },
                         "description": "Назва предмета закупівлі1",
-                        "qualificationPeriod": {"endDate": new_endDate},
                     }
                 },
             )
             self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'framework-listing.http', 'w') as self.app.file_obj:
+            response = self.app.get('/frameworks'.format(framework['id']))
+            self.assertEqual(len(response.json['data']), 1)
+
+        with open(TARGET_DIR + 'patch-framework-active-qualification-period-too-soon.http', 'w') as self.app.file_obj:
+            new_endDate = (get_now() + timedelta(days=15)).isoformat()
+            self.app.post_json(
+                '/frameworks/{}/modify-period?acc_token={}'.format(framework['id'], owner_token),
+                {
+                    'data': {
+                        "qualificationPeriod": {"endDate": new_endDate},
+                        "cause": "other",
+                        "causeDescription": "Треба закінчити швидше відбір",
+                        "documents": [
+                            {
+                                "title": "sign.p7s",
+                                "url": self.generate_docservice_url(),
+                                "hash": "md5:" + "0" * 32,
+                                "format": "application/pkcs7-signature",
+                            }
+                        ],
+                    }
+                },
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'patch-framework-active-qualification-period-too-late.http', 'w') as self.app.file_obj:
+            new_endDate = (get_now() + timedelta(days=1500)).isoformat()
+            self.app.post_json(
+                '/frameworks/{}/modify-period?acc_token={}'.format(framework['id'], owner_token),
+                {
+                    'data': {
+                        "qualificationPeriod": {"endDate": new_endDate},
+                        "cause": "other",
+                        "causeDescription": "Треба подовжити відбір",
+                        "documents": [
+                            {
+                                "title": "sign.p7s",
+                                "url": self.generate_docservice_url(),
+                                "hash": "md5:" + "0" * 32,
+                                "format": "application/pkcs7-signature",
+                            }
+                        ],
+                    }
+                },
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'patch-framework-active-qualification-period.http', 'w') as self.app.file_obj:
+            new_endDate = (get_now() + timedelta(days=50)).isoformat()
+            self.app.post_json(
+                '/frameworks/{}/modify-period?acc_token={}'.format(framework['id'], owner_token),
+                {
+                    'data': {
+                        "qualificationPeriod": {"endDate": new_endDate},
+                        "cause": "noDemandFramework",
+                        "causeDescription": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+                        "documents": [
+                            {
+                                "title": "sign.p7s",
+                                "url": self.generate_docservice_url(),
+                                "hash": "md5:" + "0" * 32,
+                                "format": "application/pkcs7-signature",
+                            }
+                        ],
+                    }
+                },
+            )
+
+        with open(TARGET_DIR + 'get-framework-after-qualification-period-modified.http', 'w') as self.app.file_obj:
+            self.app.get(
+                '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
+            )

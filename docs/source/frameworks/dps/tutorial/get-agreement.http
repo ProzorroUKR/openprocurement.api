@@ -14,7 +14,7 @@ Content-Type: application/json
     "status": "active",
     "period": {
       "startDate": "2023-10-26T01:00:00+03:00",
-      "endDate": "2023-12-09T01:00:00+03:00"
+      "endDate": "2024-11-13T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -84,7 +84,7 @@ Content-Type: application/json
             "id": "75dd72d8712449c6b4ca3adb2dd7c11d",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2023-12-09T01:00:00+03:00",
+            "dueDate": "2024-11-13T01:00:00+03:00",
             "dateModified": "2023-10-26T01:00:00+03:00"
           }
         ],
@@ -94,7 +94,7 @@ Content-Type: application/json
     "owner": "broker",
     "dateModified": "2023-10-26T01:00:00+03:00",
     "date": "2023-10-26T01:00:00+03:00",
-    "next_check": "2023-12-09T01:00:00+03:00",
+    "next_check": "2024-11-13T01:00:00+03:00",
     "dateCreated": "2023-10-26T01:00:00+03:00",
     "id": "2c50602a5c214dfba111d06f8a79565f"
   },

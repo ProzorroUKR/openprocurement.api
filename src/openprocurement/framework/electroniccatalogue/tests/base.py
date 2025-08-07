@@ -57,7 +57,7 @@ test_framework_electronic_catalogue_data = {
     "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "qualificationPeriod": {"endDate": (now + timedelta(days=120)).isoformat()},
+    "qualificationPeriod": {"endDate": (now + timedelta(days=365)).isoformat()},
 }
 
 test_framework_electronic_catalogue_config = {
