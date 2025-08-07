@@ -32,6 +32,7 @@ from openprocurement.framework.core.procedure.models.document import (
     Document,
     PostDocument,
 )
+from openprocurement.framework.core.procedure.models.period import PeriodChangeHistory
 from openprocurement.framework.core.procedure.models.question import Question
 from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
@@ -168,6 +169,7 @@ class Framework(RootModel):
     period = ModelType(PeriodEndRequired)
     qualificationPeriod = ModelType(PeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
+    periodChangeHistory = ListType(ModelType(PeriodChangeHistory, required=True))
 
     _attachments = DictType(DictType(BaseType), default=[])  # couchdb attachments
     revisions = BaseType()
@@ -195,7 +197,6 @@ class PatchActiveFramework(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
     documents = ListType(ModelType(PostDocument))
     if SANDBOX_MODE:
