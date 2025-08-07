@@ -184,7 +184,7 @@ def validate_action_in_milestone_status(request, **kwargs):
     if status != "scheduled":
         raise_operation_error(
             request,
-            f"Can't {OPERATIONS.get(request.method)} {obj_name} in current ({status}) status ",
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} in current ({status}) status",
         )
 
 
