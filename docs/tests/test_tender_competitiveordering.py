@@ -71,7 +71,7 @@ class TenderResourceTest(
 
         framework_data = deepcopy(test_framework_dps_data)
         framework_data["qualificationPeriod"] = {
-            "endDate": (get_request_now() + datetime.timedelta(days=120)).isoformat()
+            "endDate": (get_request_now() + datetime.timedelta(days=420)).isoformat()
         }
         framework_config = deepcopy(test_framework_dps_config)
         self.create_framework(data=framework_data, config=framework_config)

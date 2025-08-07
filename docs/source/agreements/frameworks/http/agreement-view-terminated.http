@@ -11,10 +11,10 @@ Content-Type: application/json
     "agreementID": "UA-2023-01-16-000001",
     "frameworkID": "a60d073eaaa043d2b0fb20bdde5bba05",
     "agreementType": "electronicCatalogue",
-    "status": "terminated",
+    "status": "active",
     "period": {
       "startDate": "2023-01-16T00:00:00+02:00",
-      "endDate": "2023-05-01T00:00:00+02:00"
+      "endDate": "2024-02-25T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Повна назва юридичної організації.",
@@ -54,7 +54,7 @@ Content-Type: application/json
         "id": "a2ac96f0669b459981b24978efb9c192",
         "qualificationID": "cea184071f4b4f95b854eede0a95f34f",
         "submissionID": "55914259c674436d9e80c86d5cc4fc19",
-        "status": "terminated",
+        "status": "active",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
@@ -84,7 +84,7 @@ Content-Type: application/json
             "id": "428d21a6c91445ca8785a53103c07905",
             "type": "activation",
             "status": "met",
-            "dueDate": "2023-05-01T00:00:00+02:00",
+            "dueDate": "2024-02-25T00:00:00+02:00",
             "dateModified": "2023-01-16T00:00:00+02:00"
           },
           {
@@ -113,7 +113,7 @@ Content-Type: application/json
         "id": "67143902200745ca9004a1b0a564b4aa",
         "qualificationID": "a71870dfe19945ff859377d40e58a660",
         "submissionID": "f0d1e4003bc84247a2ea1b972c8b2ea3",
-        "status": "terminated",
+        "status": "active",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
@@ -141,18 +141,19 @@ Content-Type: application/json
         "milestones": [
           {
             "id": "659cb532d2ad40f1afd8b160f6bf230b",
-            "status": "met",
+            "status": "scheduled",
             "type": "activation",
-            "dueDate": "2023-05-01T00:00:00+02:00",
-            "dateModified": "2023-10-13T01:00:00+03:00"
+            "dueDate": "2024-02-25T00:00:00+02:00",
+            "dateModified": "2023-01-16T00:00:00+02:00"
           }
         ],
         "date": "2023-01-16T00:00:00+02:00"
       }
     ],
     "owner": "test",
-    "dateModified": "2023-10-13T01:00:00+03:00",
+    "dateModified": "2023-04-16T01:00:00+03:00",
     "date": "2023-01-16T00:00:00+02:00",
+    "next_check": "2024-02-25T00:00:00+02:00",
     "dateCreated": "2023-01-16T00:00:00+02:00",
     "id": "6a527caaceb94ad398f77579768a6d67"
   },

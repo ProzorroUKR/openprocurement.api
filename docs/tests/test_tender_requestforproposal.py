@@ -127,7 +127,7 @@ class TenderResourceTest(
         # Create agreement
 
         framework_data = deepcopy(test_framework_ifi_data)
-        framework_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=120)).isoformat()}
+        framework_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=420)).isoformat()}
         framework_config = deepcopy(test_framework_ifi_config)
 
         self.create_framework(data=framework_data, config=framework_config)

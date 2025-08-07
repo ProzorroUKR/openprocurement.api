@@ -2206,7 +2206,7 @@ class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest, F
 
         framework_data = deepcopy(test_framework_dps_data)
         framework_data["qualificationPeriod"] = {
-            "endDate": (get_request_now() + datetime.timedelta(days=120)).isoformat()
+            "endDate": (get_request_now() + datetime.timedelta(days=420)).isoformat()
         }
         self.create_framework(data=test_framework_dps_data, config=test_framework_dps_config)
         self.activate_framework()
@@ -2701,7 +2701,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
 
         framework_data = deepcopy(test_framework_dps_data)
         framework_data["qualificationPeriod"] = {
-            "endDate": (get_request_now() + datetime.timedelta(days=120)).isoformat()
+            "endDate": (get_request_now() + datetime.timedelta(days=420)).isoformat()
         }
 
         self.create_framework(data=framework_data, config=test_framework_dps_config)

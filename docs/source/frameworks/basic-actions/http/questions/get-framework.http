@@ -29,7 +29,7 @@ Content-Type: application/json
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "qualificationPeriod": {
-      "endDate": "2023-03-02T00:00:00+02:00",
+      "endDate": "2024-02-05T00:00:00+02:00",
       "startDate": "2023-01-01T00:00:00+02:00"
     },
     "frameworkType": "dynamicPurchasingSystem",
@@ -61,7 +61,7 @@ Content-Type: application/json
     },
     "period": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-31T00:00:00+02:00"
+      "endDate": "2024-01-06T00:00:00+02:00"
     },
     "next_check": "2023-01-16T00:00:00+02:00",
     "id": "a57b92a674e24ea996c31d830f7b2084"

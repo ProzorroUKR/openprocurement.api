@@ -31,7 +31,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
         super().setUp()
         self.setUpMock()
         self.initial_data = deepcopy(self.initial_data)
-        self.initial_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=120)).isoformat()}
+        self.initial_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=420)).isoformat()}
 
     def tearDown(self):
         self.tearDownMock()
@@ -173,7 +173,9 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             response = self.app.get(f'/agreements/{self.agreement_id}')
             self.assertEqual(response.status, '200 OK')
 
-        self.assertEqual(response.json["data"]["contracts"][0]["status"], "terminated")
+        self.assertEqual(
+            response.json["data"]["contracts"][0]["status"], "active"
+        )  # CS-20115 contract statuses stay the same
 
         self.tick(delta=timedelta(days=90))
         self.check_agreement_chronograph()

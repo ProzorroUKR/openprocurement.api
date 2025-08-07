@@ -25,6 +25,7 @@ from openprocurement.framework.dps.tests.framework_blanks import (
     listing,
     listing_changes,
     listing_draft,
+    modify_framework_period,
     patch_framework_active,
     patch_framework_draft,
     patch_framework_draft_to_active,
@@ -74,6 +75,7 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     test_framework_not_found = snitch(framework_not_found)
     test_framework_token_invalid = snitch(framework_token_invalid)
     test_framework_fields = snitch(framework_fields)
+    test_modify_framework_period = snitch(modify_framework_period)
 
 
 def suite():

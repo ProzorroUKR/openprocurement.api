@@ -18,7 +18,7 @@ Content-Type: application/json
     "id": "428d21a6c91445ca8785a53103c07905",
     "type": "activation",
     "status": "met",
-    "dueDate": "2023-05-01T00:00:00+02:00",
+    "dueDate": "2024-02-25T00:00:00+02:00",
     "dateModified": "2023-01-16T00:00:00+02:00"
   }
 }
