@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-27 17:16+0200\n"
+"POT-Creation-Date: 2025-08-07 17:10+0300\n"
 "PO-Revision-Date: 2018-08-17 15:16+0300\n"
 "Last-Translator: sorenabell <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
@@ -132,6 +132,12 @@ msgstr "`item`"
 msgid "`lot`"
 msgstr "`lot`"
 
+msgid "For :ref:`Complaint` it is also allowed to choose:"
+msgstr "Для :ref:`Complaint` також можливе значеня:"
+
+msgid "`post`"
+msgstr "`post`"
+
 msgid "relatedItem"
 msgstr ""
 
@@ -149,3 +155,4 @@ msgstr ""
 
 msgid "|ocdsDescription| Make document \"Description of the decision to purchase\"."
 msgstr ""
+

@@ -17,9 +17,6 @@ Schema
 :description:
    string, required
 
-:documents:
-   List of :ref:`document` objects
-
 :relatedPost:
     string
 

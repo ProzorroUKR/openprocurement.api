@@ -99,6 +99,10 @@ Schema
     * `item`
     * `lot`
 
+    For :ref:`Complaint` it is also allowed to choose:
+
+    * `post`
+
 :relatedItem:
     string
 
