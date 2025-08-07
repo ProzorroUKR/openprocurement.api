@@ -12,9 +12,9 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.mask import (
-    AGREEMENT_MASK_MAPPING,
-    QUALIFICATION_MASK_MAPPING,
-    SUBMISSION_MASK_MAPPING,
+    AGREEMENT_MASK_MAPPING_OPTIMIZED,
+    QUALIFICATION_MASK_MAPPING_RAW,
+    SUBMISSION_MASK_MAPPING_RAW,
 )
 from openprocurement.framework.dps.tests.base import (
     BaseFrameworkWebTest,
@@ -89,7 +89,7 @@ class FrameworkConfigCSVMixin:
         rows = []
 
         for path, rule in mapping.items():
-            rows.append([path, rule["value"]])
+            rows.append([path, rule])
 
         with open(file_path, 'w', newline='') as file_csv:
             writer = csv.writer(file_csv, lineterminator='\n')
@@ -114,19 +114,19 @@ class FrameworkConfigBaseResouceTest(BaseFrameworkWebTest, MockWebTestMixin, Fra
 
     def test_docs_restricted_submission_mask_mapping_csv(self):
         self.write_config_mask_csv(
-            mapping=SUBMISSION_MASK_MAPPING,
+            mapping=SUBMISSION_MASK_MAPPING_RAW,
             file_path=TARGET_CSV_DIR_RESTRICTED + "submission-mask-mapping.csv",
         )
 
     def test_docs_restricted_qualification_mask_mapping_csv(self):
         self.write_config_mask_csv(
-            mapping=QUALIFICATION_MASK_MAPPING,
+            mapping=QUALIFICATION_MASK_MAPPING_RAW,
             file_path=TARGET_CSV_DIR_RESTRICTED + "qualification-mask-mapping.csv",
         )
 
     def test_docs_restricted_agreement_mask_mapping_csv(self):
         self.write_config_mask_csv(
-            mapping=AGREEMENT_MASK_MAPPING,
+            mapping=AGREEMENT_MASK_MAPPING_OPTIMIZED,
             file_path=TARGET_CSV_DIR_RESTRICTED + "agreement-mask-mapping.csv",
         )
 

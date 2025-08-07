@@ -30,7 +30,9 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from openprocurement.api.context import get_request_now, set_request_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
-from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
+from openprocurement.contracting.core.procedure.mask import (
+    CONTRACT_MASK_MAPPING_OPTIMIZED,
+)
 from openprocurement.contracting.core.tests.data import (
     test_contract_data,
     test_signer_info,
@@ -49,7 +51,7 @@ from openprocurement.tender.competitiveordering.tests.base import (
     test_tender_co_config,
     test_tender_co_criteria,
 )
-from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING_OPTIMIZED
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_default_criteria
 from openprocurement.tender.core.tests.utils import (
@@ -145,7 +147,7 @@ class TenderConfigCSVMixin:
         rows = []
 
         for path, rule in mapping.items():
-            rows.append([path, rule["value"]])
+            rows.append([path, rule])
 
         with open(file_path, 'w', newline='') as file_csv:
             writer = csv.writer(file_csv, lineterminator='\n')
@@ -2681,13 +2683,13 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest, FrameworkAction
 
     def test_docs_restricted_tender_mask_mapping_csv(self):
         self.write_config_mask_csv(
-            mapping=TENDER_MASK_MAPPING,
+            mapping=TENDER_MASK_MAPPING_OPTIMIZED,
             file_path=TARGET_CSV_DIR + "tender-mask-mapping.csv",
         )
 
     def test_docs_restricted_contract_mask_mapping_csv(self):
         self.write_config_mask_csv(
-            mapping=CONTRACT_MASK_MAPPING,
+            mapping=CONTRACT_MASK_MAPPING_OPTIMIZED,
             file_path=TARGET_CSV_DIR + "contract-mask-mapping.csv",
         )
 

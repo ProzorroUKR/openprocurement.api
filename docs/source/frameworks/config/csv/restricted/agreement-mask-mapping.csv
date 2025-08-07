@@ -20,5 +20,9 @@ $.contracts[*].suppliers[*].additionalContactPoints[*].url,Приховано
 $.contracts[*].suppliers[*].additionalContactPoints[*].name,Приховано
 $.contracts[*].suppliers[*].additionalContactPoints[*].name_en,Hidden
 $.contracts[*].suppliers[*].additionalContactPoints[*].name_ru,Приховано
-$..documents[*].title,Приховано
-$..documents[*].url,Приховано
+$.documents[*].title,Приховано
+$.documents[*].url,Приховано
+$.contracts[*].documents[*].title,Приховано
+$.contracts[*].documents[*].url,Приховано
+$.contracts[*].milestones[*].documents[*].title,Приховано
+$.contracts[*].milestones[*].documents[*].url,Приховано
