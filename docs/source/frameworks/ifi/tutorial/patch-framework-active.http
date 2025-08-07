@@ -12,10 +12,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "email": "ab@aa.com"
       }
     },
-    "description": "Назва предмета закупівлі1",
-    "qualificationPeriod": {
-      "endDate": "2023-12-24T01:00:00+03:00"
-    }
+    "description": "Назва предмета закупівлі1"
   }
 }
 
@@ -80,11 +77,11 @@ Content-Type: application/json
     "dateModified": "2023-10-26T01:00:00+03:00",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-24T00:00:00+02:00"
+      "endDate": "2024-10-14T00:00:00+03:00"
     },
     "qualificationPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-12-24T01:00:00+03:00"
+      "endDate": "2024-11-13T01:00:00+03:00"
     },
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",

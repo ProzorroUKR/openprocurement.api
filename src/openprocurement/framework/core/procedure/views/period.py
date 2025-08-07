@@ -28,7 +28,7 @@ class CorePeriodChangeResource(FrameworkBaseResource):
         ),
     )
     def post(self):
-        update_logging_context(self.request, {"question_id": "__new__"})
+        update_logging_context(self.request, {"period_change_id": "__new__"})
 
         framework = self.request.validated["framework"]
         period_change = self.request.validated["data"]

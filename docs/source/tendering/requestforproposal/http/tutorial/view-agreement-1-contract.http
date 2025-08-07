@@ -14,7 +14,7 @@ Content-Type: application/json
     "status": "active",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2024-02-07T01:00:00+03:00"
+      "endDate": "2024-12-03T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -87,7 +87,7 @@ Content-Type: application/json
             "id": "00464c7636ce464bb05b8504af6f9d9b",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2024-02-07T01:00:00+03:00",
+            "dueDate": "2024-12-03T01:00:00+03:00",
             "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
@@ -130,7 +130,7 @@ Content-Type: application/json
             "id": "f09b253e29ee403a93db4be0fc9c4d54",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2024-02-07T01:00:00+03:00",
+            "dueDate": "2024-12-03T01:00:00+03:00",
             "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
@@ -173,7 +173,7 @@ Content-Type: application/json
             "id": "6cb16718fd5c44beb4a3d0fc3a6323ed",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2024-02-07T01:00:00+03:00",
+            "dueDate": "2024-12-03T01:00:00+03:00",
             "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
@@ -183,7 +183,7 @@ Content-Type: application/json
     "owner": "broker",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "date": "2023-10-10T01:00:00+03:00",
-    "next_check": "2024-02-07T01:00:00+03:00",
+    "next_check": "2024-12-03T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "id": "144de8e79e64488a967c57cebaacb0d3"
   },
