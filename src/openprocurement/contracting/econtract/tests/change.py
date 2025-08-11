@@ -11,6 +11,7 @@ from openprocurement.contracting.econtract.tests.change_blanks import (
     change_contract_wo_amount_net,
     change_documents,
     change_for_pending_contract_forbidden,
+    change_tender_contract_items_change,
     contract_token_invalid,
     create_change,
     create_change_invalid,
@@ -62,6 +63,7 @@ class ContractChangesModificationsResourceTest(ContractChangesMixin, BaseEContra
     test_change_tender_contract_value_amount = snitch(change_contract_value_amount)
     test_change_tender_contract_value_vat_change = snitch(change_contract_value_vat_change)
     test_change_tender_contract_period = snitch(change_contract_period)
+    test_change_tender_contract_items_change = snitch(change_tender_contract_items_change)
 
 
 def suite():

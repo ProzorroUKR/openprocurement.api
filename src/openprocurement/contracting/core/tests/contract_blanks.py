@@ -907,25 +907,13 @@ def contract_items_change(self):
 
     self.set_status("active")
 
-    # try to delete field in nested object during patch
+    # try to add one more item
+    item_2 = deepcopy(item)
+    item_2.pop("id")
+    item_2["classification"]["id"] = "19433000-0"
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {
-            "data": {
-                "items": [
-                    {
-                        **item,
-                        "deliveryAddress": {
-                            "countryName": "Україна",
-                            "streetAddress": "вул. Банкова 1",
-                            "region": "м. Київ",
-                            "locality": "м. Київ",
-                            "countryName_en": "Ukraine",
-                        },
-                    }
-                ]
-            }
-        },
+        {"data": {"items": [item, item_2]}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -935,10 +923,30 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Forbidden to delete fields in deliveryAddress: {'postalCode'}",
+                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, attributtes, additionalClassifications",
             }
         ],
     )
+
+    item_2["classification"] = item["classification"]
+    item_2["additionalClassifications"] = []
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
+        {"data": {"items": [item, item_2]}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, attributtes, additionalClassifications",
+            }
+        ],
+    )
+    item_2["additionalClassifications"] = item["additionalClassifications"]
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
@@ -1020,88 +1028,34 @@ def contract_items_change(self):
     self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 18.2394)
     self.assertEqual(response.json["data"]["items"][0]["description"], "тапочки для тараканів")
 
-    # add one more item
-    old_item = deepcopy(items[0])
-    item = deepcopy(old_item)
-    item["quantity"] = 11
+    item_2["description"] = "New item"
+    item_2["quantity"] = 5
+    item_2["unit"]["value"]["amount"] = 11
+
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"items": [old_item, item]}},
+        {"data": {"items": [item, item_2]}},
         status=422,
     )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "items", "description": ["Item id should be uniq for all items"]}],
-    )
-
-    item_patch_fields = (
-        "description",
-        "description_en",
-        "description_ru",
-        "unit",
-        "deliveryDate",
-        "deliveryAddress",
-        "deliveryLocation",
-        "quantity",
-    )
-
-    # try to change classification
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"items": [{**old_item, "classification": {"id": "19433000-0", "description": "Cartons"}}]}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
             {
                 "location": "body",
-                "name": "data",
-                "description": f"Updated could be only {item_patch_fields} in item, "
-                f"classification change forbidden",
+                "name": "items",
+                "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
             }
         ],
     )
 
+    item["unit"]["value"]["amount"] = 29.8
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"items": [old_item]}},
+        {"data": {"items": [item, item_2]}},
     )
     self.assertEqual(response.status, "200 OK")
-    # self.assertEqual(response.json, None)
 
-    # try to add additional classification
-    item_classific = deepcopy(self.initial_data["items"][0]["classification"])
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {
-            "data": {
-                "items": [
-                    {
-                        **old_item,
-                        "additionalClassifications": [old_item["additionalClassifications"][0], item_classific],
-                    }
-                ]
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": f"Updated could be only {item_patch_fields} in item, "
-                f"additionalClassifications change forbidden",
-            }
-        ],
-    )
-
-    # update item fields
+    # update allowed item fields
     startDate = get_now().isoformat()
     endDate = (get_now() + timedelta(days=90)).isoformat()
     response = self.app.patch_json(
@@ -1110,15 +1064,16 @@ def contract_items_change(self):
             "data": {
                 "items": [
                     {
-                        **old_item,
+                        **item,
                         "quantity": 5.005,
                         "deliveryAddress": {
-                            **old_item["deliveryAddress"],
+                            **item["deliveryAddress"],
                             "postalCode": "79011",
                             "streetAddress": "вул. Літаючого Хом’яка",
                         },
                         "deliveryDate": {"startDate": startDate, "endDate": endDate},
-                    }
+                    },
+                    item_2,
                 ]
             }
         },
@@ -1137,6 +1092,16 @@ def contract_items_change(self):
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}", {"data": {"items": []}}, status=422
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": ["Please provide at least 1 item."],
+            }
+        ],
+    )
 
 
 def contract_update_add_remove_items(self):
