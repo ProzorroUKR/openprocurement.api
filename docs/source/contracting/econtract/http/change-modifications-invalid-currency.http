@@ -1,0 +1,35 @@
+POST /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes?acc_token=838bca54aee04fbaabd502cb2c7b28a4 HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "rationale": "причина зміни укр",
+    "rationaleTypes": [
+      "volumeCuts"
+    ],
+    "modifications": {
+      "value": {
+        "currency": "USD",
+        "amount": 500
+      }
+    }
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "value",
+      "description": "Can't update currency for contract value"
+    }
+  ]
+}
+

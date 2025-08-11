@@ -103,7 +103,7 @@ Schema
 
 
 :changes:
-    List of :ref:`Change` objects.
+    List of :ref:`EContractChange` objects.
 
 :amountPaid:
 
@@ -125,6 +125,19 @@ Schema
     string, auto-generated
 
     template link on standards
+
+:cancellations:
+   List of :ref:`EContractCancellation` objects.
+
+   Contains 1 object with `active` status in case of cancelled EContract.
+
+   The :ref:`EContractCancellation` object describes the reason of contract cancellation contains accompanying
+   documents  if any.
+
+:author:
+    string, auto-generated
+
+    The author of the new version of contract (if previous one was cancelled)
 
 
 Workflow

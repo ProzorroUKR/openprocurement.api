@@ -32,7 +32,7 @@ Content-Type: application/json
     },
     {
       "confidentiality": "public",
-      "relatedItem": "c6c12b9a46914244a5a592dac09fe91a",
+      "relatedItem": "68c208e991674fcfb5853d81817fd6e9",
       "id": "bd7168ca198e414a8c27f8511d95e9d3",
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_changes.doc",

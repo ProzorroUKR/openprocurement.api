@@ -337,9 +337,15 @@ class ContractStateMixing:
         assert before != after, "Statuses must be different"
         data["date"] = get_request_now().isoformat()
 
-    def synchronize_items_unit_value(self, contract):
-        valueAddedTaxIncluded = contract["value"]["valueAddedTaxIncluded"]
-        currency = contract["value"]["currency"]
+    def synchronize_items_unit_value(self, contract, value=None):
+        if contract.get("value"):
+            value_data = contract["value"]
+        elif value is not None:
+            value_data = value
+        else:
+            return
+        valueAddedTaxIncluded = value_data["valueAddedTaxIncluded"]
+        currency = value_data["currency"]
         for item in contract.get("items", ""):
             if item.get("unit"):
                 if item["unit"].get("value"):
@@ -404,7 +410,7 @@ class ContractStateMixing:
     @staticmethod
     def validate_update_contract_value_amount(request, before, after, name="value"):
         value = after.get(name)
-        if value and (before.get(name) != after.get(name) or before.get("status") != after.get("status")):
+        if value and (before.get(name) != after.get(name) or before.get("status") != after.get("status", "active")):
             amount = to_decimal(value.get("amount") or 0)
             amount_net = to_decimal(value.get("amountNet") or 0)
             tax_included = value.get("valueAddedTaxIncluded")
@@ -619,7 +625,7 @@ class ContractState(
     def validate_patch_contract_items(self, request, before: dict, after: dict) -> None:
         # TODO: Remove this logic later with adding new endpoint for items in contract
 
-        after_status = after["status"]
+        after_status = after.get("status", "active")
         if after_status == "active":
             item_patch_fields = [
                 "description",
@@ -711,7 +717,7 @@ class ContractState(
     @staticmethod
     def validate_update_contract_value_net_required(request, before, after, name="value"):
         value = after.get(name)
-        if value and (before.get(name) != after.get(name) or before.get("status") != after.get("status")):
+        if value and (before.get(name) != after.get(name) or before.get("status") != after.get("status", "active")):
             contract_amount_net = value.get("amountNet")
             if contract_amount_net is None:
                 raise_operation_error(
@@ -978,7 +984,7 @@ class ContractState(
         if tender.get("procurementMethodType") == "priceQuotation" and date_signed < dt_from_iso(award.get("date")):
             raise_operation_error(
                 self.request,
-                [f"Contract signature date should be " f"after award activation date ({award['date']})"],
+                [f"Contract signature date should be after award activation date ({award['date']})"],
                 name="dateSigned",
                 status=422,
             )

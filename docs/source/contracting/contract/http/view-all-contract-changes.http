@@ -15,10 +15,10 @@ Content-Type: application/json
         "volumeCuts",
         "priceReduction"
       ],
-      "dateSigned": "2023-10-10T01:00:00+03:00",
-      "id": "c6c12b9a46914244a5a592dac09fe91a",
+      "id": "68c208e991674fcfb5853d81817fd6e9",
       "status": "active",
-      "date": "2023-10-10T01:00:00+03:00"
+      "date": "2023-10-10T01:00:00+03:00",
+      "dateSigned": "2023-10-10T01:00:00+03:00"
     }
   ]
 }
