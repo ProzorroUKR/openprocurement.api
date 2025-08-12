@@ -48,5 +48,7 @@ $.suppliers[*].signerInfo.authorizedBy,Приховано
 $.changes[*].rationale,Приховано
 $.changes[*].rationale_ru,Приховано
 $.changes[*].rationale_en,Приховано
-$..documents[*].title,Приховано
-$..documents[*].url,Приховано
+$.documents[*].title,Приховано
+$.documents[*].url,Приховано
+$.implementation.transactions[*].documents[*].title,Приховано
+$.implementation.transactions[*].documents[*].url,Приховано
