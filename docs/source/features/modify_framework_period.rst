@@ -114,11 +114,12 @@
       ]
     }
 
-Для активних відборів для зміни терміну дії буде окремий ендпоінт:
+Для активних відборів для зміни терміну дії буде окремий ендпоінт додаткових угод.
+В системі використовується термінологія "змін" / "changes".
 
 .. sourcecode::
 
-    /api/2.5/frameworks/{framework_id}/modify-period
+    /api/2.5/frameworks/{framework_id}/changes
 
 Цей ендпоінт буде приймати наступну структуру:
 
@@ -126,33 +127,28 @@
 
     {
       "data": {
-        "cause": "noDemandFramework",
-        "causeDescription": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
-        "qualificationPeriod": {
-          "startDate": "2025-03-07T00:00:00+02:00",
-          "endDate": "2025-02-01T00:00:00+02:00"
+        "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
+        "rationaleTypes": ["noDemandFramework",],
+        "modifications": {
+          "qualificationPeriod": {
+            "startDate": "2025-03-07T00:00:00+02:00",
+            "endDate": "2025-02-01T00:00:00+02:00"
+          },
         },
-        "documents": [
-          {
-            "title": "sign.p7s",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=nCW5EbReV2Kv5cJW%2Fk1jbZNSfFoBVZSfqxXIPggisqqtwhDxMfD%2BRmNddoOHeaunLV6du8Vsiv2YjlbDQhpoDQ%3D%3D&KeyID=a8968c46",
-            "hash": "md5:00000000000000000000000000000000",
-            "format": "sign/p7s",
-            "documentType": "periodSignature"
-          }
-        ]
       }
     }
 
-Замовник обов'язково вказує:
+Замовник обов'язково вказує в додатковій угоді:
+
+* `modifications` - це структура, що відображає зміни в полях відбору, які буде внесено
+
+* `rationaleTypes` - підставу (обґрунтування) змін (наприклад обґрунтування подовження/зменшення терміну дії відбору)
+
+* `rationale` - опис обґрунтування змін
+
+В об'єкті `modifications` обов'язково необхідно вказати новий період:
 
 * `qualificationPeriod.endDate` - кінцеву дату періоду розгляду заявок
-
-* `cause` - підставу (обґрунтування) подовження/зменшення терміну дії відбору
-
-* `causeDescription` - опис обґрунтування подовження/зменшення терміну дії відбору
-
-* `documents` - накладання ЕЦП на зміни
 
 
 Підстави для зміни терміну дії відборів:
@@ -169,27 +165,20 @@
 
 .. sourcecode:: http
 
-    POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/modify-period?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+    POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
 
     {
       "data": {
-        "qualificationPeriod": {
-          "endDate": "2025-02-01T00:00:00+02:00"
+        "modifications": {
+          "qualificationPeriod": {
+            "endDate": "2025-02-01T00:00:00+02:00"
+          },
         },
-        "cause": "noDemandFramework",
-        "causeDescription": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
-        "documents": [
-          {
-            "title": "sign.p7s",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=nCW5EbReV2Kv5cJW%2Fk1jbZNSfFoBVZSfqxXIPggisqqtwhDxMfD%2BRmNddoOHeaunLV6du8Vsiv2YjlbDQhpoDQ%3D%3D&KeyID=a8968c46",
-            "hash": "md5:00000000000000000000000000000000",
-            "format": "sign/p7s",
-            "documentType": "periodSignature"
-          }
-        ]
+        "rationaleTypes": ["noDemandFramework",],
+        "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
       }
     }
 
@@ -211,27 +200,20 @@
 
 .. sourcecode:: http
 
-    POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/modify-period?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+    POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
 
     {
       "data": {
-        "qualificationPeriod": {
-          "endDate": "2030-02-01T00:00:00+02:00"
+        "modifications": {
+          "qualificationPeriod": {
+            "endDate": "2030-02-01T00:00:00+02:00"
+          },
         },
-        "cause": "noDemandFramework",
-        "causeDescription": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
-        "documents": [
-          {
-            "title": "sign.p7s",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=nCW5EbReV2Kv5cJW%2Fk1jbZNSfFoBVZSfqxXIPggisqqtwhDxMfD%2BRmNddoOHeaunLV6du8Vsiv2YjlbDQhpoDQ%3D%3D&KeyID=a8968c46",
-            "hash": "md5:00000000000000000000000000000000",
-            "format": "sign/p7s",
-            "documentType": "periodSignature"
-          }
-        ]
+        "rationaleTypes": ["noDemandFramework",],
+        "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
       }
     }
 
@@ -250,73 +232,24 @@
       ]
     }
 
-Обов'язково має бути доданий хоча б один документ з форматом p7s:
-
-.. sourcecode:: http
-
-    POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/modify-period?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
-    Authorization: Bearer broker
-    Content-Type: application/json
-    Host: lb-api-sandbox.prozorro.gov.ua
-
-    {
-      "data": {
-        "qualificationPeriod": {
-          "endDate": "2030-02-01T00:00:00+02:00"
-        },
-        "cause": "noDemandFramework",
-        "causeDescription": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
-        "documents": [
-          {
-            "title": "test.txt",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=nCW5EbReV2Kv5cJW%2Fk1jbZNSfFoBVZSfqxXIPggisqqtwhDxMfD%2BRmNddoOHeaunLV6du8Vsiv2YjlbDQhpoDQ%3D%3D&KeyID=a8968c46",
-            "hash": "md5:00000000000000000000000000000000",
-            "format": "application/msword",
-          }
-        ]
-      }
-    }
-
-
-    HTTP/1.0 422 Unprocessable Entity
-    Content-Type: application/json
-
-    {
-      "status": "error",
-      "errors": [
-        {
-          "location": "body",
-          "name": "data",
-          "description": "document sign/p7s is required"
-        }
-      ]
-    }
-
 Правильний запит на зміну терміну дії відбору:
 
 .. sourcecode:: http
 
-    POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/modify-period?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+    POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
 
     {
       "data": {
-        "qualificationPeriod": {
-          "endDate": "2025-04-10T00:00:00+02:00"
+        "modifications": {
+          "qualificationPeriod": {
+            "endDate": "2025-04-10T00:00:00+02:00"
+          },
         },
-        "cause": "noDemandFramework",
-        "causeDescription": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
-        "documents": [
-          {
-            "title": "sign.p7s",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=nCW5EbReV2Kv5cJW%2Fk1jbZNSfFoBVZSfqxXIPggisqqtwhDxMfD%2BRmNddoOHeaunLV6du8Vsiv2YjlbDQhpoDQ%3D%3D&KeyID=a8968c46",
-            "hash": "md5:00000000000000000000000000000000",
-            "format": "sign/p7s",
-            "documentType": "periodSignature"
-          }
-        ]
+        "rationaleTypes": ["noDemandFramework",],
+        "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
       }
     }
 
@@ -326,29 +259,59 @@
 
     {
       "data": {
-        "prevPeriodEndDate": "2027-02-01T00:00:00+02:00",
-        "newPeriodEndDate": "2025-04-01T00:00:00+02:00",
+        "modifications": {
+          "qualificationPeriod": {
+            "endDate": "2025-04-10T00:00:00+02:00"
+          },
+        },
+        "rationaleTypes": ["noDemandFramework",],
+        "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
         "date": "2025-03-07T10:50:00+02:00",
-        "cause": "noDemandFramework",
-        "causeDescription": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
-        "documents": [
-          {
-            "id": "8c94a85001964beaa8b7a98af8df8566",
-            "datePublished": "2025-03-07T10:50:00+02:00",
-            "title": "sign.p7s",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=nCW5EbReV2Kv5cJW%2Fk1jbZNSfFoBVZSfqxXIPggisqqtwhDxMfD%2BRmNddoOHeaunLV6du8Vsiv2YjlbDQhpoDQ%3D%3D&KeyID=a8968c46",
-            "hash": "md5:00000000000000000000000000000000",
-            "format": "sign/p7s",
-            "documentType": "periodSignature",
-            "dateModified": "2025-03-07T10:50:00+02:00",
-            "language": "uk"
-          }
-        ]
+        "id": "0c883e4482795b2a00a3b5bdaa043749"
+      }
+    }
+
+Після того, як була створена додаткова угода, необхідно накласти підпис на ці зміни:
+
+.. sourcecode:: http
+
+    POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes/0c883e4482795b2a00a3b5bdaa043749/documents?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    {
+      "data": {
+        "title": "sign.p7s",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=nCW5EbReV2Kv5cJW%2Fk1jbZNSfFoBVZSfqxXIPggisqqtwhDxMfD%2BRmNddoOHeaunLV6du8Vsiv2YjlbDQhpoDQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "sign/p7s",
       }
     }
 
 
-Подивимося тепер як виглядає відбір, в нього з'явився новий об'єкт `periodChangeHistory`, який відображає історію всіх змін терміну дії відборів:
+    HTTP/1.0 201 Created
+    Content-Type: application/json
+
+    {
+      "data": {
+        "id": "8c94a85001964beaa8b7a98af8df8566",
+        "datePublished": "2025-03-07T10:50:00+02:00",
+        "title": "sign.p7s",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=nCW5EbReV2Kv5cJW%2Fk1jbZNSfFoBVZSfqxXIPggisqqtwhDxMfD%2BRmNddoOHeaunLV6du8Vsiv2YjlbDQhpoDQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "sign/p7s",
+        "dateModified": "2025-03-07T10:50:00+02:00",
+        "language": "uk"
+      }
+    }
+
+
+Тепер до об'єкта changes ще додані документи:
+
+* `documents` - накладання ЕЦП на зміни
+
+Подивимося тепер як виглядає відбір - в нього з'явився новий об'єкт `changes`, який відображає історію всіх змін терміну дії відборів:
 
 .. sourcecode:: http
 
@@ -416,7 +379,7 @@
         "dateModified": "2025-01-02T12:00:00+02:00",
         "qualificationPeriod": {
           "startDate": "2025-01-01T12:00:00+02:00",
-          "endDate": "2025-04-01T00:00:00+02:00"
+          "endDate": "2025-04-10T00:00:00+02:00"
         },
         "frameworkType": "dynamicPurchasingSystem",
         "procuringEntity": {
@@ -449,13 +412,23 @@
           "startDate": "2025-01-01T12:00:00+02:00",
           "endDate": "2025-03-10T00:00:00+02:00"
         },
-        "periodChangeHistory": [
+        "changes": [
           {
-            "prevPeriodEndDate": "2027-02-01T00:00:00+02:00",
-            "newPeriodEndDate": "2025-04-01T00:00:00+02:00",
+            "modifications": {
+              "qualificationPeriod": {
+                "endDate": "2025-04-10T00:00:00+02:00"
+              },
+            },
+            "previous": {
+              "qualificationPeriod": {
+                "startDate": "2025-01-01T12:00:00+02:00",
+                "endDate": "2027-02-01T00:00:00+02:00"
+              },
+            },
+            "rationaleTypes": ["noDemandFramework",],
+            "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
             "date": "2025-03-07T10:50:00+02:00",
-            "cause": "noDemandFramework",
-            "causeDescription": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
+            "id": "0c883e4482795b2a00a3b5bdaa043749",
             "documents": [
               {
                 "id": "8c94a85001964beaa8b7a98af8df8566",
@@ -464,7 +437,6 @@
                 "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b13e31b59384667b1631b1e0323599c?Signature=nCW5EbReV2Kv5cJW%2Fk1jbZNSfFoBVZSfqxXIPggisqqtwhDxMfD%2BRmNddoOHeaunLV6du8Vsiv2YjlbDQhpoDQ%3D%3D&KeyID=a8968c46",
                 "hash": "md5:00000000000000000000000000000000",
                 "format": "sign/p7s",
-                "documentType": "periodSignature",
                 "dateModified": "2025-03-07T10:50:00+02:00",
                 "language": "uk"
               }
@@ -481,6 +453,36 @@
         "hasItems": false
       }
     }
+
+Варіант №1 додавання changes без статусів
+------------------------------------------
+
+Флоу зміни періода (так як описано вище):
+
+1) створюємо `change` з новим `qualificationPeriod`
+2) після створення одразу у відборі змінюється `qualificationPeriod`, а попередній записується в об'єкті `changes` в полі `previous`
+3) підписується `change` вже з новим значенням `qualificationPeriod` у відборі (через context)
+
+
+Варіант №2 додавання changes зі статусами
+------------------------------------------
+
+Флоу зміни періода:
+
+1) створюємо `change` з новим `qualificationPeriod` (статус `pending`)
+2) після створення у відборі поки що НЕ ЗМІНЮЄТЬСЯ `qualificationPeriod`, і НЕ ЗАПИСУЄТЬСЯ попередній період в об'єкті `changes` в полі `previous`
+3) підписується відбір з ПОПЕРЕДНІМ значенням `qualificationPeriod`
+4) `change` переводиться в статус `active` через PATCH
+5) після активації `change` у відборі змінюється `qualificationPeriod`, а попередній записується в об'єкті `changes` в полі `previous`
+6) також є можливість `pending` ченж перевести в статус `cancelled` за допомогою PATCH. Після цього не можна буде підписати або активувати ці зміни, а тільки додати нові, якщо необхідно.
+
+Плюси цього підходу:
+
+* маємо таку саму структуру `changes` зі статусами як і у контрактах, і в CFAUA agreements
+
+Мінуси, над якими треба подумати:
+
+* підписується фреймворк з поперднім значенням `qualificationPeriod`, бо ще не активували `change`
 
 
 Валідації для закупівель
