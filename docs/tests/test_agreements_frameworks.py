@@ -173,9 +173,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             response = self.app.get(f'/agreements/{self.agreement_id}')
             self.assertEqual(response.status, '200 OK')
 
-        self.assertEqual(
-            response.json["data"]["contracts"][0]["status"], "active"
-        )  # CS-20115 contract statuses stay the same
+        self.assertEqual(response.json["data"]["contracts"][0]["status"], "terminated")
 
         self.tick(delta=timedelta(days=90))
         self.check_agreement_chronograph()
