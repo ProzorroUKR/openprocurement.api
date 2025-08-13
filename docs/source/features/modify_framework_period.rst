@@ -128,7 +128,7 @@
     {
       "data": {
         "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
-        "rationaleTypes": ["noDemandFramework",],
+        "rationaleType": "noDemandFramework",
         "modifications": {
           "qualificationPeriod": {
             "startDate": "2025-03-07T00:00:00+02:00",
@@ -142,7 +142,7 @@
 
 * `modifications` - це структура, що відображає зміни в полях відбору, які буде внесено
 
-* `rationaleTypes` - підставу (обґрунтування) змін (наприклад обґрунтування подовження/зменшення терміну дії відбору)
+* `rationaleType` - підставу (обґрунтування) змін (наприклад обґрунтування подовження/зменшення терміну дії відбору)
 
 * `rationale` - опис обґрунтування змін
 
@@ -177,7 +177,7 @@
             "endDate": "2025-02-01T00:00:00+02:00"
           },
         },
-        "rationaleTypes": ["noDemandFramework",],
+        "rationaleType": "noDemandFramework",
         "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
       }
     }
@@ -212,7 +212,7 @@
             "endDate": "2030-02-01T00:00:00+02:00"
           },
         },
-        "rationaleTypes": ["noDemandFramework",],
+        "rationaleType": "noDemandFramework",
         "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
       }
     }
@@ -248,7 +248,7 @@
             "endDate": "2025-04-10T00:00:00+02:00"
           },
         },
-        "rationaleTypes": ["noDemandFramework",],
+        "rationaleType": "noDemandFramework",
         "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
       }
     }
@@ -264,7 +264,13 @@
             "endDate": "2025-04-10T00:00:00+02:00"
           },
         },
-        "rationaleTypes": ["noDemandFramework",],
+        "previous": {
+          "qualificationPeriod": {
+            "startDate": "2025-01-01T12:00:00+02:00",
+            "endDate": "2027-02-01T00:00:00+02:00"
+          },
+        }
+        "rationaleType": "noDemandFramework",
         "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
         "date": "2025-03-07T10:50:00+02:00",
         "id": "0c883e4482795b2a00a3b5bdaa043749"
@@ -425,7 +431,7 @@
                 "endDate": "2027-02-01T00:00:00+02:00"
               },
             },
-            "rationaleTypes": ["noDemandFramework",],
+            "rationaleType": "noDemandFramework",
             "rationale": "Відсутність подальшої потреби в закупівлі з використанням рамкової угоди",
             "date": "2025-03-07T10:50:00+02:00",
             "id": "0c883e4482795b2a00a3b5bdaa043749",

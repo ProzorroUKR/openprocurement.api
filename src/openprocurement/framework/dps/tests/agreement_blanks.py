@@ -234,12 +234,12 @@ def change_agreement(self):
     new_endDate = (parse_datetime(self.initial_data["qualificationPeriod"]["endDate"]) - timedelta(days=1)).isoformat()
 
     response = self.app.post_json(
-        f"/frameworks/{self.framework_id}/modify-period?acc_token={self.framework_token}",
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": new_endDate},
-                "causeDescription": "Треба",
-                "cause": "other",
+                "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                "rationale": "Треба",
+                "rationaleType": "other",
             }
         },
     )
@@ -374,12 +374,12 @@ def post_submission_with_active_contract(self):
 def patch_agreement_terminated_status(self):
     end_date = get_now() + timedelta(days=CONTRACT_BAN_DURATION - 1)
     response = self.app.post_json(
-        f"/frameworks/{self.framework_id}/modify-period?acc_token={self.framework_token}",
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": end_date.isoformat()},
-                "causeDescription": "Треба",
-                "cause": "other",
+                "modifications": {"qualificationPeriod": {"endDate": end_date.isoformat()}},
+                "rationale": "Треба",
+                "rationaleType": "other",
             }
         },
     )
@@ -428,12 +428,16 @@ def patch_contract_active_status(self):
     self.assertEqual(response.json["data"]["status"], "suspended")
 
     response = self.app.post_json(
-        f"/frameworks/{self.framework_id}/modify-period?acc_token={self.framework_token}",
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 2)).isoformat()},
-                "causeDescription": "Треба",
-                "cause": "other",
+                "modifications": {
+                    "qualificationPeriod": {
+                        "endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 2)).isoformat()
+                    },
+                },
+                "rationale": "Треба",
+                "rationaleType": "other",
             }
         },
     )
@@ -494,12 +498,12 @@ def patch_contract_active_status(self):
 def patch_several_contracts_active_status(self):
     qualification_end_date = (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()
     response = self.app.post_json(
-        f"/frameworks/{self.framework_id}/modify-period?acc_token={self.framework_token}",
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": qualification_end_date},
-                "causeDescription": "Треба",
-                "cause": "other",
+                "modifications": {"qualificationPeriod": {"endDate": qualification_end_date}},
+                "rationale": "Треба",
+                "rationaleType": "other",
             }
         },
     )
@@ -568,12 +572,12 @@ def patch_several_contracts_active_status(self):
 def agreement_chronograph_milestones(self):
     qualification_end_date = (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()
     response = self.app.post_json(
-        f"/frameworks/{self.framework_id}/modify-period?acc_token={self.framework_token}",
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": qualification_end_date},
-                "causeDescription": "Треба",
-                "cause": "other",
+                "modifications": {"qualificationPeriod": {"endDate": qualification_end_date}},
+                "rationale": "Треба",
+                "rationaleType": "other",
             }
         },
     )

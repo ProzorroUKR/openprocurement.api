@@ -1,7 +1,7 @@
 .. _agreement_framework_index:
 
-Open Framework Agreement - ``dynamicPurchasingSystem``, ``electronicCatalogue``
-===============================================================================
+Open Framework Agreement - ``dynamicPurchasingSystem``, ``electronicCatalogue``, ``internationalFinancialInstitutions``
+========================================================================================================================
 
 Contents:
 
