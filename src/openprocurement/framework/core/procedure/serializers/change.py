@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.serializers.document import (
 )
 
 
-class PeriodChangeSerializer(BaseSerializer):
+class ChangeSerializer(BaseSerializer):
     serializers = {
         "documents": ListSerializer(DocumentSerializer),
     }

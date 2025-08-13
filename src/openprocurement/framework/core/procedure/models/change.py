@@ -14,30 +14,39 @@ from openprocurement.framework.core.procedure.models.document import (
 )
 
 
-class PostPeriodChange(Model):
+class Modifications(Model):
+    qualificationPeriod = ModelType(PeriodEndRequired)
+
+
+class PostChange(Model):
     @serializable
     def id(self):
         return uuid4().hex
 
-    qualificationPeriod = ModelType(PeriodEndRequired, required=True)
-    cause = StringType(required=True)
-    causeDescription = StringType(required=True)
+    rationale = StringType(required=True, min_length=1)
+    rationale_en = StringType()
+    rationaleType = StringType(
+        choices=list(PERIOD_CHANGE_CAUSES.keys()),
+        required=True,
+    )
+    modifications = ModelType(Modifications, required=True)
     documents = ListType(ModelType(PostDocument, required=True), default=[])
 
-    def validate_cause(self, data, value):
-        if value not in PERIOD_CHANGE_CAUSES.keys():
-            raise ValidationError(f"Value must be one of {list(PERIOD_CHANGE_CAUSES.keys())}.")
-
-    def validate_causeDescription(self, data, value):
-        if data.get("cause") != "other" and value != PERIOD_CHANGE_CAUSES.get(data.get("cause")):
+    def validate_rationale(self, data, value):
+        if data.get("rationaleType") != "other" and value != PERIOD_CHANGE_CAUSES.get(data["rationaleType"]):
             raise ValidationError("Value should be from dictionary `framework_period_change_causes`.")
 
 
-class PeriodChangeHistory(Model):
+class Change(Model):
     id = MD5Type()
-    prevPeriodEndDate = IsoDateTimeType()
-    newPeriodEndDate = IsoDateTimeType()
     date = IsoDateTimeType()
-    cause = StringType()
-    causeDescription = StringType()
+    dateModified = IsoDateTimeType()
+    rationale = StringType(required=True, min_length=1)
+    rationale_en = StringType()
+    rationaleType = StringType(
+        choices=list(PERIOD_CHANGE_CAUSES.keys()),
+        required=True,
+    )
+    modifications = ModelType(Modifications, required=True)
+    previous = ModelType(Modifications, required=True)
     documents = ListType(ModelType(Document, required=True))
