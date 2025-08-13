@@ -28,11 +28,11 @@ from openprocurement.api.procedure.models.organization import (
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.models.unit import Unit
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.framework.core.procedure.models.change import Change
 from openprocurement.framework.core.procedure.models.document import (
     Document,
     PostDocument,
 )
-from openprocurement.framework.core.procedure.models.period import PeriodChangeHistory
 from openprocurement.framework.core.procedure.models.question import Question
 from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
@@ -169,7 +169,7 @@ class Framework(RootModel):
     period = ModelType(PeriodEndRequired)
     qualificationPeriod = ModelType(PeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
-    periodChangeHistory = ListType(ModelType(PeriodChangeHistory, required=True))
+    changes = ListType(ModelType(Change, required=True))
 
     _attachments = DictType(DictType(BaseType), default=[])  # couchdb attachments
     revisions = BaseType()
