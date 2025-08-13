@@ -54,7 +54,7 @@ Content-Type: application/json
         "id": "a2ac96f0669b459981b24978efb9c192",
         "qualificationID": "cea184071f4b4f95b854eede0a95f34f",
         "submissionID": "55914259c674436d9e80c86d5cc4fc19",
-        "status": "active",
+        "status": "terminated",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
