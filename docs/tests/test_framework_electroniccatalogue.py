@@ -405,20 +405,12 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
         with open(TARGET_DIR + 'patch-framework-active-qualification-period-too-soon.http', 'w') as self.app.file_obj:
             new_endDate = (get_now() + timedelta(days=15)).isoformat()
             self.app.post_json(
-                '/frameworks/{}/modify-period?acc_token={}'.format(framework['id'], owner_token),
+                '/frameworks/{}/changes?acc_token={}'.format(framework['id'], owner_token),
                 {
                     'data': {
-                        "qualificationPeriod": {"endDate": new_endDate},
-                        "cause": "other",
-                        "causeDescription": "Треба закінчити швидше відбір",
-                        "documents": [
-                            {
-                                "title": "sign.p7s",
-                                "url": self.generate_docservice_url(),
-                                "hash": "md5:" + "0" * 32,
-                                "format": "application/pkcs7-signature",
-                            }
-                        ],
+                        "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                        "rationaleType": "other",
+                        "rationale": "Треба закінчити швидше відбір",
                     }
                 },
                 status=422,
@@ -427,42 +419,47 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
         with open(TARGET_DIR + 'patch-framework-active-qualification-period-too-late.http', 'w') as self.app.file_obj:
             new_endDate = (get_now() + timedelta(days=1500)).isoformat()
             self.app.post_json(
-                '/frameworks/{}/modify-period?acc_token={}'.format(framework['id'], owner_token),
+                '/frameworks/{}/changes?acc_token={}'.format(framework['id'], owner_token),
                 {
                     'data': {
-                        "qualificationPeriod": {"endDate": new_endDate},
-                        "cause": "other",
-                        "causeDescription": "Треба подовжити відбір",
-                        "documents": [
-                            {
-                                "title": "sign.p7s",
-                                "url": self.generate_docservice_url(),
-                                "hash": "md5:" + "0" * 32,
-                                "format": "application/pkcs7-signature",
-                            }
-                        ],
-                    }
+                        "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                        "rationaleType": "other",
+                        "rationale": "Треба подовжити відбір",
+                    },
                 },
                 status=422,
             )
 
         with open(TARGET_DIR + 'patch-framework-active-qualification-period.http', 'w') as self.app.file_obj:
             new_endDate = (get_now() + timedelta(days=50)).isoformat()
-            self.app.post_json(
-                '/frameworks/{}/modify-period?acc_token={}'.format(framework['id'], owner_token),
+            response = self.app.post_json(
+                '/frameworks/{}/changes?acc_token={}'.format(framework['id'], owner_token),
                 {
                     'data': {
-                        "qualificationPeriod": {"endDate": new_endDate},
-                        "cause": "noDemandFramework",
-                        "causeDescription": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
-                        "documents": [
-                            {
-                                "title": "sign.p7s",
-                                "url": self.generate_docservice_url(),
-                                "hash": "md5:" + "0" * 32,
-                                "format": "application/pkcs7-signature",
-                            }
-                        ],
+                        "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                        "rationaleType": "noDemandFramework",
+                        "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+                    },
+                },
+            )
+            change_id = response.json["data"]["id"]
+
+        with open(TARGET_DIR + 'get-change-sign-data.http', 'w') as self.app.file_obj:
+            self.app.get(
+                '/frameworks/{}/changes/{}?acc_token={}&opt_context=true'.format(
+                    framework['id'], change_id, owner_token
+                ),
+            )
+
+        with open(TARGET_DIR + 'sign-framework-active-qualification-period.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/frameworks/{}/changes/{}/documents?acc_token={}'.format(framework['id'], change_id, owner_token),
+                {
+                    'data': {
+                        "title": "sign.p7s",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pkcs7-signature",
                     }
                 },
             )
