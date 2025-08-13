@@ -23,6 +23,7 @@ class MilestoneState(AgreementState):
     def update_contract_status_on_patch(self, data):
         if data["status"] == "met":
             contract = get_request().validated["contract"]
+            contract["status"] = "terminated"
             for milestone in contract["milestones"]:
                 if milestone["status"] == "scheduled":
                     milestone["status"] = "notMet"

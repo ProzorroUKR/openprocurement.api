@@ -623,7 +623,7 @@ def agreement_chronograph_milestones(self):
         agreement = response.json["data"]
 
     milestone_statuses = [i["status"] for i in agreement["contracts"][0]["milestones"]]
-    self.assertEqual(milestone_statuses, ["met", "met", "notMet"])
+    self.assertEqual(milestone_statuses, ['scheduled', 'met', 'scheduled'])  # CS-20115 milestone statuses stay the same
     self.assertNotIn("next_check", agreement)
 
 
@@ -1086,7 +1086,7 @@ def patch_activation_milestone(self):
     response = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")  # CS-20115 contract statuses stay the same
+    self.assertEqual(response.json["data"]["status"], "terminated")
 
     response = self.app.patch_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{activation_milestone_id}"
@@ -1096,7 +1096,9 @@ def patch_activation_milestone(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update milestone in current (met) status")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't update object in current (terminated) contract status"
+    )
 
 
 def patch_ban_milestone(self):
