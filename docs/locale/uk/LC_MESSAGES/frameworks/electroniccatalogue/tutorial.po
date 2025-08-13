@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 12:18+0300\n"
+"POT-Creation-Date: 2025-08-14 12:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,7 +95,7 @@ msgstr "Ще одна перевірка списку відображає но�
 msgid "Modifying qualificationPeriod in active framework"
 msgstr "Зміна qualificationPeriod в активному відборі"
 
-msgid "Also in `active` status can be changed `endDate` for `qualificationPeriod` but it can dbe done only using another endpoint."
+msgid "Also in `active` status can be changed `endDate` for `qualificationPeriod` but it can be done only using another endpoint."
 msgstr "Також у статусі `active` можна замінити `endDate` поле в `qualificationPeriod`, але це можна зробити вже через окремий ендпоінт."
 
 msgid "There are validations for changing `qualificationPeriod.endDate`:"
@@ -107,19 +107,19 @@ msgstr ""
 msgid "qualificationPeriod.endDate couldn't be more than 1461 full days from now"
 msgstr ""
 
-msgid "It is allowed to modify `qualificationPeriod` only by framework owner."
-msgstr "Зміну терміну дії відбору може виконувати лише `framework_owner` (власник кваліфікації)."
+msgid "It is allowed to modify `qualificationPeriod` only by framework owner using `changes`."
+msgstr "Зміну терміну дії відбору може виконувати лише `framework_owner` (власник кваліфікації) використовуючи ченжі."
 
 msgid "Fields for modifying period:"
 msgstr "Поля, які необхідно заповнити для зміни терміну дії відбору:"
 
-msgid "`qualificationPeriod.endDate`"
+msgid "`qualificationPeriod.endDate` (in `change.modifications`)"
 msgstr ""
 
-msgid "`cause`"
+msgid "`rationale`"
 msgstr ""
 
-msgid "`causeDescription`"
+msgid "`rationaleType`"
 msgstr ""
 
 msgid "`documents` (optional)"
@@ -134,14 +134,23 @@ msgstr "Спробуємо змінити `qualificationPeriod.endDate` на п�
 msgid "Success changing of `qualificationPeriod`:"
 msgstr "Успішна зміна терміну дії відбору:"
 
+msgid "There is special parameter `opt_context` for getting change data for signing:"
+msgstr "Необхідно вказати параметр opt_context=true для того, щоб отримати додаткову інформацію з відбору для підписання змін:"
+
+msgid "For more detail about signing the data with context: :ref:`sign-data`."
+msgstr "Для детальної інформації про відображення інформації для підписів, дивитися тут: :ref:`sign-data`."
+
+msgid "Then the signature should be added to change:"
+msgstr "Тепер необхідно додати документ підпису до змін:"
+
 msgid "If `qualificationPeriod.endDate` was changed all periods will be recalculated."
 msgstr "Якщо було змінено поле `qualificationPeriod.endDate` - всі періоди будуть перераховані."
 
 msgid "Let's look at framework:"
 msgstr "Подивимося тепер на відбір:"
 
-msgid "There is a new object `periodChangeHistory` in framework with previous `qualificationPeriod.endDate` and new one. All period changes will be saved in this object."
-msgstr "Тепер у відборі існує новий об'єкт `periodChangeHistory` з попереднім значенням `qualificationPeriod.endDate` і новим значенням. Всі зміни терміну дії відбору будуть збережені в цьому об'єкті."
+msgid "There is a new object `changes` in framework with previous `qualificationPeriod.endDate` and new one. All period changes will be saved in this object."
+msgstr "Тепер у відборі існує новий об'єкт `changes` з попереднім значенням `qualificationPeriod.endDate` і новим значенням. Всі зміни терміну дії відбору будуть збережені в цьому об'єкті."
 
 msgid "Registering submission"
 msgstr "Реєстрація заявки"

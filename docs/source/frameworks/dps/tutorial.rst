@@ -97,20 +97,20 @@ Checking the listing again reflects the new modification date:
 Modifying qualificationPeriod in active framework
 --------------------------------------------------
 
-Also in `active` status can be changed `endDate` for `qualificationPeriod` but it can dbe done only using another endpoint.
+Also in `active` status can be changed `endDate` for `qualificationPeriod` but it can be done only using another endpoint.
 
 There are validations for changing `qualificationPeriod.endDate`:
 
 * qualificationPeriod.endDate couldn't be less than 30 full days from now
 * qualificationPeriod.endDate couldn't be more than 1461 full days from now
 
-It is allowed to modify `qualificationPeriod` only by framework owner.
+It is allowed to modify `qualificationPeriod` only by framework owner using `changes`.
 
 Fields for modifying period:
 
-* `qualificationPeriod.endDate`
-* `cause`
-* `causeDescription`
+* `qualificationPeriod.endDate` (in `change.modifications`)
+* `rationale`
+* `rationaleType`
 * `documents` (optional)
 
 Let's try to change `qualificationPeriod.endDate` with soon date:
@@ -128,6 +128,19 @@ Success changing of `qualificationPeriod`:
 .. http:example:: tutorial/patch-framework-active-qualification-period.http
    :code:
 
+There is special parameter `opt_context` for getting change data for signing:
+
+.. http:example:: tutorial/get-change-sign-data.http
+   :code:
+
+
+For more detail about signing the data with context: :ref:`sign-data`.
+
+Then the signature should be added to change:
+
+.. http:example:: tutorial/sign-framework-active-qualification-period.http
+   :code:
+
 If `qualificationPeriod.endDate` was changed all periods will be recalculated.
 
 Let's look at framework:
@@ -135,7 +148,7 @@ Let's look at framework:
 .. http:example:: tutorial/get-framework-after-qualification-period-modified.http
    :code:
 
-There is a new object `periodChangeHistory` in framework with previous `qualificationPeriod.endDate` and new one. All period changes will be saved in this object.
+There is a new object `changes` in framework with previous `qualificationPeriod.endDate` and new one. All period changes will be saved in this object.
 
 Registering submission
 ----------------------

@@ -1662,26 +1662,44 @@ def modify_framework_period(self):
     new_endDate = (get_now() - timedelta(days=1)).isoformat()
 
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period?acc_token={token}",
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {"data": {}},
         status=422,
     )
     self.assertEqual(
         response.json["errors"],
         [
-            {"location": "body", "name": "qualificationPeriod", "description": ["This field is required."]},
-            {"location": "body", "name": "cause", "description": ["This field is required."]},
-            {"location": "body", "name": "causeDescription", "description": ["This field is required."]},
+            {"location": "body", "name": "rationale", "description": ["This field is required."]},
+            {"location": "body", "name": "rationaleType", "description": ["This field is required."]},
+            {"location": "body", "name": "modifications", "description": ["This field is required."]},
         ],
     )
 
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period?acc_token={token}",
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": new_endDate},
-                "cause": "other",
-                "causeDescription": "Мені дозволили",
+                "modifications": {},
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "modifications", "description": "Framework modifications are empty"},
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
             },
         },
         status=422,
@@ -1691,19 +1709,19 @@ def modify_framework_period(self):
         [
             {
                 "location": "body",
-                "name": "qualificationPeriod",
+                "name": "modifications.qualificationPeriod",
                 "description": "qualificationPeriod.endDate couldn't be less than 30 full days from now",
             },
         ],
     )
 
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period?acc_token={token}",
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {
             "data": {
-                "qualificationPeriod": {"startDate": get_now().isoformat(), "endDate": new_endDate},
-                "cause": "other",
-                "causeDescription": "Мені дозволили",
+                "modifications": {"qualificationPeriod": {"startDate": get_now().isoformat(), "endDate": new_endDate}},
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
             },
         },
         status=422,
@@ -1713,22 +1731,24 @@ def modify_framework_period(self):
         [
             {
                 "location": "body",
-                "name": "qualificationPeriod",
-                "description": {"startDate": ["period should begin before its end"]},
+                "name": "modifications",
+                "description": {"qualificationPeriod": {"startDate": ["period should begin before its end"]}},
             },
         ],
     )
 
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period?acc_token={token}",
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {
             "data": {
-                "qualificationPeriod": {
-                    "startDate": (get_now() - timedelta(days=10)).isoformat(),
-                    "endDate": new_endDate,
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": (get_now() - timedelta(days=10)).isoformat(),
+                        "endDate": new_endDate,
+                    }
                 },
-                "cause": "other",
-                "causeDescription": "Мені дозволили",
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
             },
         },
         status=422,
@@ -1738,7 +1758,7 @@ def modify_framework_period(self):
         [
             {
                 "location": "body",
-                "name": "qualificationPeriod",
+                "name": "modifications.qualificationPeriod",
                 "description": "Forbidden to change qualification period start date",
             },
         ],
@@ -1746,15 +1766,17 @@ def modify_framework_period(self):
 
     new_endDate = (get_now() + timedelta(days=1500)).isoformat()
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period?acc_token={token}",
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {
             "data": {
-                "qualificationPeriod": {
-                    "startDate": framework_qualification_period["startDate"],
-                    "endDate": new_endDate,
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": framework_qualification_period["startDate"],
+                        "endDate": new_endDate,
+                    }
                 },
-                "cause": "other",
-                "causeDescription": "Мені дозволили",
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
             },
         },
         status=422,
@@ -1764,7 +1786,7 @@ def modify_framework_period(self):
         [
             {
                 "location": "body",
-                "name": "qualificationPeriod",
+                "name": "modifications.qualificationPeriod",
                 "description": "qualificationPeriod.endDate couldn't be more than 1461 full days from now",
             },
         ],
@@ -1772,15 +1794,21 @@ def modify_framework_period(self):
 
     new_endDate = (get_now() + timedelta(days=100)).isoformat()
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period",
+        f"/frameworks/{framework['id']}/changes",
         {
             "data": {
                 "qualificationPeriod": {
                     "startDate": framework_qualification_period["startDate"],
                     "endDate": new_endDate,
                 },
-                "cause": "other",
-                "causeDescription": "Мені дозволили",
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": framework_qualification_period["startDate"],
+                        "endDate": new_endDate,
+                    }
+                },
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
             },
         },
         status=403,
@@ -1793,15 +1821,17 @@ def modify_framework_period(self):
     )
 
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period?acc_token={token}",
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {
             "data": {
-                "qualificationPeriod": {
-                    "startDate": (get_now() - timedelta(days=10)).isoformat(),
-                    "endDate": new_endDate,
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": (get_now() - timedelta(days=10)).isoformat(),
+                        "endDate": new_endDate,
+                    }
                 },
-                "cause": "another",
-                "causeDescription": "Мені дозволили",
+                "rationaleType": "another",
+                "rationale": "Мені дозволили",
             },
         },
         status=422,
@@ -1811,26 +1841,19 @@ def modify_framework_period(self):
         [
             {
                 "location": "body",
-                "name": "cause",
+                "name": "rationaleType",
                 "description": [f"Value must be one of {list(PERIOD_CHANGE_CAUSES.keys())}."],
             },
-            {
-                "location": "body",
-                "name": "causeDescription",
-                "description": ["Value should be from dictionary `framework_period_change_causes`."],
-            },
         ],
     )
 
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period?acc_token={token}",
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {
             "data": {
-                "qualificationPeriod": {
-                    "endDate": new_endDate,
-                },
-                "cause": "noDemandFramework",
-                "causeDescription": "Відсутня подальша потреба",
+                "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                "rationale": "Відсутня подальша потреба",
+                "rationaleType": "noDemandFramework",
             },
         },
         status=422,
@@ -1840,26 +1863,28 @@ def modify_framework_period(self):
         [
             {
                 "location": "body",
-                "name": "causeDescription",
+                "name": "rationale",
                 "description": ["Value should be from dictionary `framework_period_change_causes`."],
             },
         ],
     )
 
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period?acc_token={token}",
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {
             "data": {
-                "qualificationPeriod": {
-                    "startDate": framework_qualification_period["startDate"],
-                    "endDate": new_endDate,
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": framework_qualification_period["startDate"],
+                        "endDate": new_endDate,
+                    }
                 },
-                "cause": "other",
-                "causeDescription": "Мені дозволили",
+                "rationale": "Мені дозволили",
+                "rationaleType": "other",
             },
         },
     )
-    framework_qualification_period_end_1 = response.json["data"]["newPeriodEndDate"]
+    framework_qualification_period_end_1 = response.json["data"]["modifications"]["qualificationPeriod"]["endDate"]
 
     response = self.app.get("/frameworks/{}?acc_token={}".format(framework["id"], token))
     self.assertEqual(response.status, "200 OK")
@@ -1868,17 +1893,17 @@ def modify_framework_period(self):
     self.assertNotEqual(changed_framework["qualificationPeriod"]["endDate"], framework_qualification_period["endDate"])
     self.assertEqual(changed_framework["qualificationPeriod"]["endDate"], framework_qualification_period_end_1)
     self.assertNotEqual(changed_framework["dateModified"], framework_date_modified)
-    self.assertEqual(len(changed_framework["periodChangeHistory"]), 1)
-    self.assertEqual(changed_framework["dateModified"], changed_framework["periodChangeHistory"][0]["date"])
+    self.assertEqual(len(changed_framework["changes"]), 1)
+    self.assertEqual(changed_framework["dateModified"], changed_framework["changes"][0]["date"])
 
     new_endDate = (get_now() + timedelta(days=35)).isoformat()
     response = self.app.post_json(
-        f"/frameworks/{framework['id']}/modify-period?acc_token={token}",
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": new_endDate},
-                "cause": "other",
-                "causeDescription": "Мені дозволили",
+                "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                "rationale": "Мені дозволили",
+                "rationaleType": "other",
                 "documents": [
                     {
                         "title": "sign.p7s",
@@ -1890,7 +1915,9 @@ def modify_framework_period(self):
             },
         },
     )
-    framework_qualification_period_end_2 = response.json["data"]["newPeriodEndDate"]
+    change = response.json["data"]
+    change_id = change["id"]
+    framework_qualification_period_end_2 = change["modifications"]["qualificationPeriod"]["endDate"]
     response = self.app.get("/frameworks/{}?acc_token={}".format(framework["id"], token))
     self.assertEqual(response.status, "200 OK")
     changed_framework = response.json["data"]
@@ -1898,10 +1925,98 @@ def modify_framework_period(self):
     self.assertNotEqual(changed_framework["qualificationPeriod"]["endDate"], framework_qualification_period["endDate"])
     self.assertEqual(changed_framework["qualificationPeriod"]["endDate"], framework_qualification_period_end_2)
     self.assertNotEqual(changed_framework["dateModified"], framework_date_modified)
-    self.assertEqual(len(changed_framework["periodChangeHistory"]), 2)
+    self.assertEqual(len(changed_framework["changes"]), 2)
     self.assertEqual(
-        changed_framework["periodChangeHistory"][0]["newPeriodEndDate"],
-        changed_framework["periodChangeHistory"][-1]["prevPeriodEndDate"],
+        changed_framework["changes"][0]["modifications"]["qualificationPeriod"]["endDate"],
+        changed_framework["changes"][-1]["previous"]["qualificationPeriod"]["endDate"],
     )
-    self.assertEqual(changed_framework["dateModified"], changed_framework["periodChangeHistory"][-1]["date"])
+    self.assertEqual(changed_framework["dateModified"], changed_framework["changes"][-1]["date"])
     self.assertNotEqual(changed_framework["period"], framework["period"])
+
+    response = self.app.get("/frameworks/{}/changes?acc_token={}".format(framework["id"], token))
+    self.assertEqual(len(response.json["data"]), 2)
+
+    response = self.app.get("/frameworks/{}/changes/{}?acc_token={}".format(framework["id"], change_id, token))
+    self.assertEqual(
+        response.json["data"]["modifications"]["qualificationPeriod"]["endDate"], framework_qualification_period_end_2
+    )
+
+    # add documents
+    response = self.app.post_json(
+        "/frameworks/{}/changes/{}/documents?acc_token={}".format(framework["id"], change_id, ""),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+
+    response = self.app.post_json(
+        "/frameworks/{}/changes/{}/documents?acc_token={}".format(framework["id"], change_id, token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+    )
+    doc_id = response.json["data"]["id"]
+    self.assertEqual(response.json["data"]["title"], "sign.p7s")
+
+    # patch doc
+    response = self.app.patch_json(
+        "/frameworks/{}/changes/{}/documents/{}?acc_token={}".format(framework["id"], change_id, doc_id, token),
+        {
+            "data": {
+                "title": "sign-1.p7s",
+            }
+        },
+    )
+    self.assertEqual(response.json["data"]["title"], "sign-1.p7s")
+
+    # put doc
+    self.app.put_json(
+        "/frameworks/{}/changes/{}/documents/{}?acc_token={}".format(framework["id"], change_id, doc_id, token),
+        {
+            "data": {
+                "title": "sign-2.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+    )
+
+    # get docs
+    response = self.app.get(
+        "/frameworks/{}/changes/{}/documents?acc_token={}".format(framework["id"], change_id, token),
+    )
+    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(response.json["data"][0]["title"], "sign.p7s")
+    self.assertEqual(response.json["data"][-1]["title"], "sign-2.p7s")
+
+    response = self.app.get(
+        "/frameworks/{}/changes/{}/documents/{}?acc_token={}".format(framework["id"], change_id, doc_id, token),
+    )
+    self.assertEqual(response.json["data"]["title"], "sign-2.p7s")
+    self.assertEqual(response.json["data"]["previousVersions"][0]["title"], "sign-1.p7s")
+
+    # get change for sign with context
+    response = self.app.get(
+        "/frameworks/{}/changes/{}?opt_context=true&acc_token={}".format(framework["id"], change_id, token)
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(["data", "context"], list(response.json.keys()))
+    self.assertEqual(len(response.json["data"]["documents"]), 3)
+    self.assertIn("framework", response.json["context"])
+    self.assertEqual(response.json["context"]["framework"]["status"], "active")
+    self.assertEqual(len(response.json["context"]["framework"]["changes"]), 2)

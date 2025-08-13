@@ -1,0 +1,99 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-14 12:37+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "FrameworkChange"
+msgstr ""
+
+msgid "Schema"
+msgstr "Схема"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, auto-generated"
+msgstr "uid, генерується автоматично"
+
+msgid "rationaleType"
+msgstr ""
+
+msgid "string, required"
+msgstr "рядок, обов'язковий"
+
+msgid "Reason for framework change"
+msgstr "Тип причини  додання змін для відбору"
+
+msgid "Possible values for reasons in `framework period change causes <https://prozorroukr.github.io/standards/codelists/framework/framework_period_change_causes.json>`_ dictionaries."
+msgstr "Можливі значення вказані в довіднику `framework period change causes <https://prozorroukr.github.io/standards/codelists/framework/framework_period_change_causes.json>`_."
+
+msgid "rationale"
+msgstr ""
+
+msgid "string, multilingual, required"
+msgstr "рядок, багатомовний, обов'язковий"
+
+msgid "The description of reason, why framework should be changed."
+msgstr "Причина для зміни відбору."
+
+msgid "modifications"
+msgstr ""
+
+msgid "List of :ref:`FrameworkChangeModifications` objects"
+msgstr "Список об'єктів :ref:`FrameworkChangeModifications`"
+
+msgid "previous"
+msgstr ""
+
+msgid "List of :ref:`FrameworkChangeModifications` objects with values of framework before change."
+msgstr "Список об'єктів :ref:`FrameworkChangeModifications` з попередніми значеннями відбору."
+
+msgid "date"
+msgstr ""
+
+msgid "string, :ref:`Date`, auto-generated, read-only"
+msgstr "рядок, :ref:`date`, генерується автоматично"
+
+msgid "The date of the period changes."
+msgstr "Дата внесення змін."
+
+msgid "dateModified"
+msgstr ""
+
+msgid "string, :ref:`date`, auto-generated"
+msgstr "pядок, :ref:`date`, генерується автоматично"
+
+msgid "documents"
+msgstr ""
+
+msgid "List of :ref:`Document` objects"
+msgstr "Список об’єктів :ref:`Document`"
+
+msgid "FrameworkChangeModifications"
+msgstr ""
+
+msgid "qualificationPeriod"
+msgstr ""
+
+msgid ":ref:`period`, required"
+msgstr ":ref:`period`, обов’язково"
+
+msgid "Period when submissions can be qualified. At least `endDate` has to be provided."
+msgstr "Період, коли приймаються рішення щодо заявок постачальників. Повинна бути вказана хоча б `endDate` дата."
+

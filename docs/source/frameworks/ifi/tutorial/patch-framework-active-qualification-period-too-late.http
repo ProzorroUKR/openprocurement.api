@@ -1,23 +1,17 @@
-POST /api/2.5/frameworks/89208a5c9d04455eaa4c41e2b5f0d70a/modify-period?acc_token=c029ed2daf2c446a9adf956529cf0bc3 HTTP/1.0
+POST /api/2.5/frameworks/89208a5c9d04455eaa4c41e2b5f0d70a/changes?acc_token=c029ed2daf2c446a9adf956529cf0bc3 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "qualificationPeriod": {
-      "endDate": "2027-12-04T01:00:00+03:00"
-    },
-    "cause": "other",
-    "causeDescription": "Треба подовжити відбір",
-    "documents": [
-      {
-        "title": "sign.p7s",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/94184e0ac12940cb9ce5bd7b358f2f5d?Signature=iCJsuema96jL2o%2BTJyiHZ3Q6%2FlcF1HOXvrOWh2EvjtQ5RBXTTLCeR07uJGp9hAOHYjgmWS%2FLYIYcFcLCtIx6Dg%3D%3D&KeyID=a8968c46",
-        "hash": "md5:00000000000000000000000000000000",
-        "format": "application/pkcs7-signature"
+    "modifications": {
+      "qualificationPeriod": {
+        "endDate": "2027-12-04T01:00:00+03:00"
       }
-    ]
+    },
+    "rationaleType": "other",
+    "rationale": "Треба подовжити відбір"
   }
 }
 
@@ -30,7 +24,7 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "qualificationPeriod",
+      "name": "modifications.qualificationPeriod",
       "description": "qualificationPeriod.endDate couldn't be more than 1461 full days from now"
     }
   ]

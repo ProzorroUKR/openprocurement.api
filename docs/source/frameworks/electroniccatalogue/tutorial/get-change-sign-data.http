@@ -1,0 +1,143 @@
+GET /api/2.5/frameworks/93bcad4f0fe64036865492ecfe70f113/changes/f62d2c6867ac44af8c6e9e28cd65fe60?acc_token=067dc9c3de91454dbc0132327f0c1efa&opt_context=true HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+    "rationaleType": "noDemandFramework",
+    "modifications": {
+      "qualificationPeriod": {
+        "endDate": "2023-12-15T01:00:00+03:00"
+      }
+    },
+    "id": "f62d2c6867ac44af8c6e9e28cd65fe60",
+    "previous": {
+      "qualificationPeriod": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2024-11-13T01:00:00+03:00"
+      }
+    },
+    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00"
+  },
+  "context": {
+    "framework": {
+      "prettyID": "UA-F-2023-10-10-000001",
+      "title": "updated in draft status",
+      "description": "Назва предмета закупівлі1",
+      "status": "active",
+      "classification": {
+        "description": "Mustard seeds",
+        "scheme": "ДК021",
+        "id": "03111600-8"
+      },
+      "additionalClassifications": [
+        {
+          "scheme": "ДК003",
+          "id": "17.21.1",
+          "description": "папір і картон гофровані, паперова й картонна тара"
+        }
+      ],
+      "documents": [
+        {
+          "id": "6e3c9989ef844c53b6b202f3c5d3af28",
+          "datePublished": "2023-10-10T01:00:00+03:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "framework.doc",
+          "format": "application/msword",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e38e94f4fbab44ecb6f74b90a27e6181?Signature=eYTcMLrU9pbzXw3zQawemAR2B5P4wH7q9Oi%2BaSrfd8yz0GREYrG3PD2aGzaBcLE443%2FXz7h48KBhMQ9rMl8HDw%3D%3D&KeyID=a8968c46",
+          "dateModified": "2023-10-10T01:00:00+03:00",
+          "language": "uk"
+        },
+        {
+          "id": "1e3e5196731a48e48ca51152eb00c4ba",
+          "datePublished": "2023-10-10T01:00:00+03:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "framework_additional_docs.doc",
+          "format": "application/msword",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc4a665229114a72993b89bb20d7874b?Signature=cdTNyz3oB7rPP2%2Fou8SnYPoxabwo%2BQcAzgKapCGy9PY%2Fo3NSfRnJlvm9jzPX3Maq8xi6wTSODTEEEXWyEhYpCg%3D%3D&KeyID=a8968c46",
+          "dateModified": "2023-10-10T01:00:00+03:00",
+          "language": "uk"
+        },
+        {
+          "id": "1e3e5196731a48e48ca51152eb00c4ba",
+          "datePublished": "2023-10-10T01:00:00+03:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "framework_additional_docs.doc",
+          "format": "application/msword",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0f4300d9a1594cfc800f2ea11c9a38d1?Signature=%2FEIDl4zhMc%2FQIlBBsuAcBovf0l1hIzOWn0E%2BS7E45QoXJ0ZAOOPKXmO2jUWxMhgObJloZ9%2FVLIiar4eop2K7Dg%3D%3D&KeyID=a8968c46",
+          "dateModified": "2023-10-10T01:00:00+03:00",
+          "language": "uk"
+        }
+      ],
+      "agreementID": "6d10ffd01e7a4ab8a94915d9f6eebbdb",
+      "owner": "broker",
+      "date": "2023-10-10T01:00:00+03:00",
+      "dateCreated": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
+      "period": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-11-15T00:00:00+02:00"
+      },
+      "qualificationPeriod": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-12-15T01:00:00+03:00"
+      },
+      "enquiryPeriod": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-25T00:00:00+03:00",
+        "clarificationsUntil": "2023-10-28T00:00:00+03:00"
+      },
+      "next_check": "2023-10-26T00:00:00+03:00",
+      "frameworkType": "electronicCatalogue",
+      "procuringEntity": {
+        "name": "Повна назва юридичної організації.",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "40996564",
+          "legalName": "Назва організації(ЦЗО)"
+        },
+        "address": {
+          "countryName": "Україна",
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220"
+        },
+        "contactPoint": {
+          "name": "зміна",
+          "telephone": "+0440000002",
+          "email": "ab@aa.com"
+        },
+        "kind": "central"
+      },
+      "changes": [
+        {
+          "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+          "rationaleType": "noDemandFramework",
+          "modifications": {
+            "qualificationPeriod": {
+              "endDate": "2023-12-15T01:00:00+03:00"
+            }
+          },
+          "id": "f62d2c6867ac44af8c6e9e28cd65fe60",
+          "previous": {
+            "qualificationPeriod": {
+              "startDate": "2023-10-10T01:00:00+03:00",
+              "endDate": "2024-11-13T01:00:00+03:00"
+            }
+          },
+          "date": "2023-10-26T01:00:00+03:00",
+          "dateModified": "2023-10-26T01:00:00+03:00"
+        }
+      ],
+      "id": "93bcad4f0fe64036865492ecfe70f113"
+    }
+  }
+}
+

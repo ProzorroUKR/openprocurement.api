@@ -16,9 +16,7 @@ from openprocurement.framework.core.procedure.views.base import (
 from openprocurement.framework.core.procedure.views.change import resolve_change
 from openprocurement.framework.core.procedure.views.contract import resolve_contract
 from openprocurement.framework.core.procedure.views.milestone import resolve_milestone
-from openprocurement.tender.core.procedure.documents import (
-    get_file_docservice,
-)
+from openprocurement.tender.core.procedure.documents import get_file_docservice
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
 )

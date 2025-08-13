@@ -1,51 +1,43 @@
-POST /api/2.5/frameworks/93bcad4f0fe64036865492ecfe70f113/modify-period?acc_token=067dc9c3de91454dbc0132327f0c1efa HTTP/1.0
+POST /api/2.5/frameworks/93bcad4f0fe64036865492ecfe70f113/changes?acc_token=067dc9c3de91454dbc0132327f0c1efa HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "qualificationPeriod": {
-      "endDate": "2023-12-15T01:00:00+03:00"
-    },
-    "cause": "noDemandFramework",
-    "causeDescription": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
-    "documents": [
-      {
-        "title": "sign.p7s",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5f5c6056c90545a79fc80699c9d4ca6e?Signature=W%2FGm%2BVbtxW6bKq1tWTvfpK%2Be9Go3PwF9wSpGlNy2SoCDQeXBG2fDGbrs9zWWPWxJnq%2F8qidfvd8m2%2Bef%2FSswAA%3D%3D&KeyID=a8968c46",
-        "hash": "md5:00000000000000000000000000000000",
-        "format": "application/pkcs7-signature"
+    "modifications": {
+      "qualificationPeriod": {
+        "endDate": "2023-12-15T01:00:00+03:00"
       }
-    ]
+    },
+    "rationaleType": "noDemandFramework",
+    "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/93bcad4f0fe64036865492ecfe70f113/modify-period
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/93bcad4f0fe64036865492ecfe70f113/changes/f62d2c6867ac44af8c6e9e28cd65fe60
 
 {
   "data": {
-    "cause": "noDemandFramework",
-    "causeDescription": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5f5c6056c90545a79fc80699c9d4ca6e?Signature=W%2FGm%2BVbtxW6bKq1tWTvfpK%2Be9Go3PwF9wSpGlNy2SoCDQeXBG2fDGbrs9zWWPWxJnq%2F8qidfvd8m2%2Bef%2FSswAA%3D%3D&KeyID=a8968c46",
-        "language": "uk",
-        "id": "d0d760fb092d475b9a3e0b26340d9517",
-        "datePublished": "2023-10-26T01:00:00+03:00",
-        "dateModified": "2023-10-26T01:00:00+03:00"
+    "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+    "rationaleType": "noDemandFramework",
+    "modifications": {
+      "qualificationPeriod": {
+        "endDate": "2023-12-15T01:00:00+03:00"
       }
-    ],
-    "id": "a470daa52f2b4a4383b59f9799b292a7",
-    "prevPeriodEndDate": "2024-11-13T01:00:00+03:00",
-    "newPeriodEndDate": "2023-12-15T01:00:00+03:00",
-    "date": "2023-10-26T01:00:00+03:00"
+    },
+    "id": "f62d2c6867ac44af8c6e9e28cd65fe60",
+    "previous": {
+      "qualificationPeriod": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2024-11-13T01:00:00+03:00"
+      }
+    },
+    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00"
   }
 }
 

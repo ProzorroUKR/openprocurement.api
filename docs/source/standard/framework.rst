@@ -113,10 +113,10 @@ Schema
    |ocdsDescription|
    An array of additional classifications for the framework.
 
-:periodChangeHistory:
-   List of :ref:`PeriodChangeHistory` objects
+:changes:
+   List of :ref:`FrameworkChange` objects
 
-   An array of all qualificationPeriod changes during framework is `active`.
+   An array of all changes during framework is `active`.
 
 
 :revisions:
