@@ -405,7 +405,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                         "rationale_en": "change cause en",
                         "rationaleTypes": ["priceReduction"],
                         "modifications": {
-                            "value": {"amount": 235, "amountNet": 200},
+                            "value": {"amount": 535, "amountNet": 490},
                         },
                     }
                 },
@@ -478,4 +478,67 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'get-contract-with-changes.http', 'w') as self.app.file_obj:
             self.app.get(
                 f"/contracts/{new_contract['id']}?acc_token={supplier_token}",
+            )
+
+        items = deepcopy(new_contract["items"])
+        new_item = deepcopy(items[0])
+        new_item["classification"] = {
+            "id": "22992000-0",
+            "scheme": "ДК021",
+            "description": "Папір або картон ручного виготовлення",
+        }
+        new_item["description"] = "Картон ручного виготовлення"
+        new_item.pop("id", None)
+        with open(TARGET_DIR + 'create-change-items-invalid-classification.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts/{new_contract['id']}/changes?acc_token={supplier_token}",
+                {
+                    "data": {
+                        "rationale": "причина зміни укр",
+                        "rationale_en": "change cause en",
+                        "rationaleTypes": ["itemPriceChange"],
+                        "modifications": {
+                            "items": [items[0], items[1], new_item],
+                        },
+                    }
+                },
+                status=403,
+            )
+
+        new_item["classification"] = items[0]["classification"]
+        new_item["unit"]["value"]["amount"] = 2
+        new_item["quantity"] = 20
+        new_item["description"] = "Додаткове комп’ютерне обладнання"
+
+        with open(TARGET_DIR + 'create-change-items-invalid-price.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts/{new_contract['id']}/changes?acc_token={supplier_token}",
+                {
+                    "data": {
+                        "rationale": "причина зміни укр",
+                        "rationale_en": "change cause en",
+                        "rationaleTypes": ["itemPriceChange"],
+                        "modifications": {
+                            "items": [items[0], items[1], new_item],
+                        },
+                    }
+                },
+                status=422,
+            )
+
+        item_1 = deepcopy(items[0])
+        item_1["quantity"] = 9
+        with open(TARGET_DIR + 'create-change-items.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts/{new_contract['id']}/changes?acc_token={supplier_token}",
+                {
+                    "data": {
+                        "rationale": "причина зміни укр",
+                        "rationale_en": "change cause en",
+                        "rationaleTypes": ["itemPriceChange"],
+                        "modifications": {
+                            "items": [item_1, items[1], new_item],
+                        },
+                    }
+                },
             )
