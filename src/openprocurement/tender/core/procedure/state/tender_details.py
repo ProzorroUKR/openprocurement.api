@@ -314,14 +314,19 @@ class BaseTenderDetailsMixing:
         if self.should_validate_related_lot_in_items:
             self.validate_related_lot_in_items(after)
 
-        if after["status"] != "draft" and before["status"] == "draft":
-            self.validate_minimal_step(after, before=before)
-            self.validate_pre_selection_agreement_on_activation(after)
-            self.validate_profiles_agreement_id(after)
-            self.validate_change_item_profile_or_category(after, before, force_validate=True)
-            self.validate_notice_doc_required(after)
-            self.validate_required_criteria(before, after)
-            self.validate_criteria_requirement_from_market(after.get("criteria", []))
+        if after["status"] != "draft":
+            if before["status"] == "draft":  # validations on activation
+                self.validate_minimal_step(after, before=before)
+                self.validate_pre_selection_agreement_on_activation(after)
+                self.validate_profiles_agreement_id(after)
+                self.validate_change_item_profile_or_category(after, before, force_validate=True)
+                self.validate_notice_doc_required(after)
+                self.validate_required_criteria(before, after)
+                self.validate_criteria_requirement_from_market(after.get("criteria", []))
+            else:
+                for field in ("minimalStep", "minimalStepPercentage", "yearlyPaymentsPercentageRange"):
+                    if after.get(field) != before.get(field):
+                        self.validate_minimal_step(after, before=before)
         else:
             self.validate_change_item_profile_or_category(after, before)
 
