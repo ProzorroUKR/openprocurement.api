@@ -493,12 +493,12 @@ def create_tender_bid_invalid_funding_kind_budget(self):
     lots[0]["yearlyPaymentsPercentageRange"] = 0.8
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"fundingKind": "other", "lots": lots, "yearlyPaymentsPercentageRange": 0.8}},
+        {"data": {"fundingKind": "other", "lots": lots}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["fundingKind"], "other")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
+    self.assertEqual(response.json["data"]["lots"][0]["yearlyPaymentsPercentageRange"], 0.8)
 
 
 @mock.patch(
@@ -1149,10 +1149,10 @@ def bids_invalidation_on_tender_change(self):
     lots[0]["yearlyPaymentsPercentageRange"] = 0.7
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"yearlyPaymentsPercentageRange": 0.7, "fundingKind": "budget", "lots": lots}},
+        {"data": {"fundingKind": "budget", "lots": lots}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.7)
+    self.assertEqual(response.json["data"]["lots"][0]["yearlyPaymentsPercentageRange"], 0.7)
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
 
     # check bids status
