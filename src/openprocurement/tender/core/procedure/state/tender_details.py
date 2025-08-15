@@ -336,6 +336,7 @@ class BaseTenderDetailsMixing:
 
     def always(self, data):
         self.validate_signer_info(data)
+        self.validate_items_quantity(data)
         self.validate_items_profile(data)
         self.set_mode_test(data)
         super().always(data)
@@ -1442,6 +1443,16 @@ class BaseTenderDetailsMixing:
                     status=422,
                     name="items",
                 )
+
+    def validate_items_quantity(self, data):
+        items_with_quantity = [item for item in data.get("items", []) if item.get("quantity") not in (None, 0)]
+        if not items_with_quantity:
+            raise_operation_error(
+                self.request,
+                "At least one item should be with not empty quantity",
+                status=422,
+                name="items",
+            )
 
     def validate_contract_template_name(self, after, before):
         def raise_contract_template_name_error(message):

@@ -100,6 +100,7 @@ class BidState(BaseState):
         items_for_lot = False
         tender_items_id = {}
         tender_lot_id = {}
+        items_with_quantity = []
 
         tender_items = tender.get("items", [])
         if lot_values := data.get("lotValues"):
@@ -152,10 +153,13 @@ class BidState(BaseState):
                                 "currency of bid unit should be identical to currency of tender value"
                             )
                     if item.get("quantity") is not None:
-                        if item["quantity"] == 0 and item["unit"]["value"]["amount"] != 0:
-                            self.raise_items_error(
-                                "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
-                            )
+                        if item["quantity"] == 0:
+                            if item["unit"]["value"]["amount"] != 0:
+                                self.raise_items_error(
+                                    "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
+                                )
+                        else:
+                            items_with_quantity.append(item)
                         if items_for_lot:
                             for lot_id, items_ids in tender_items_id.items():
                                 if item["id"] in items_ids:
@@ -170,6 +174,8 @@ class BidState(BaseState):
 
                 elif self.items_unit_value_required_for_funders and tender.get("funders"):
                     self.raise_items_error("items.unit.value is required for tender with funders")
+                if not items_with_quantity:
+                    self.raise_items_error("At least one item should be with not empty quantity")
         elif self.items_unit_value_required_for_funders and tender.get("funders"):
             self.raise_items_error("items is required for tender with funders")
 
