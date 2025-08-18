@@ -1010,6 +1010,7 @@ Content-Type: application/json
         "id": "6da3dad17b78420aa852e3ba1341aa38",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -1035,6 +1036,7 @@ Content-Type: application/json
         "id": "f468fcb82caa4dab8f05db1e73036820",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",

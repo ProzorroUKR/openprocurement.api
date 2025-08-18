@@ -674,7 +674,19 @@ def patch_item_with_zero_quantity(self):
     item = response.json["data"]["items"][0]
     item["quantity"] = 0
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item]}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item]}}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "items", "description": "At least one item should be with not empty quantity"}],
+    )
+    # add second item than in first one update quantity to 0
+    item_2 = deepcopy(item)
+    item_2["quantity"] = 5
+    item_2.pop("id")
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item, item_2]}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -682,7 +694,7 @@ def patch_item_with_zero_quantity(self):
     item = response.json["data"]["items"][0]
     item["quantity"] = 5
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item]}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item, item_2]}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -693,6 +705,6 @@ def patch_item_with_zero_quantity(self):
     add_criteria(self, criteria=criteria)
     item["quantity"] = 0
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item]}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item, item_2]}}
     )
     self.assertEqual(response.status, "200 OK")

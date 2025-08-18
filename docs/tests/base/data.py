@@ -708,7 +708,6 @@ test_docs_tender_co = {
 test_docs_items_esco = deepcopy(test_docs_items_en)
 for item in test_docs_items_esco:
     del item["unit"]
-    del item["quantity"]
     del item["deliveryDate"]
 
 test_docs_tender_esco = {
