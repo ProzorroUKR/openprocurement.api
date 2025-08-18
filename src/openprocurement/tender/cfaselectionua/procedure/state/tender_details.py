@@ -4,7 +4,7 @@ from logging import getLogger
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants_env import CRITERIA_CLASSIFICATION_UNIQ_FROM
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_agreement
+from openprocurement.api.procedure.context import get_agreement, get_tender
 from openprocurement.api.utils import (
     get_agreement_by_id,
     get_tender_by_id,
@@ -44,6 +44,7 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after,
+    validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_edrpou_confidentiality_doc,
@@ -257,6 +258,41 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         if tender["status"] in ("draft", "draft.pending"):
             if "features" in tender:
                 raise_operation_error(get_request(), "Can't add features")
+
+    def validate_minimal_step(self, data, before=None):
+        """
+        Override to skip minimalStep required validation.
+        It's not required for cfaselectionua in tender level.
+        In cfaselectionua during setting status to active.enquiries
+        field `minimalStep` is calculated using particular formula.
+
+        :param data: tender or lot
+        :param before: tender or lot
+        :return:
+        """
+        tender = get_tender()
+        kwargs = {
+            "enabled": tender["config"]["hasAuction"] is True and not tender.get("lots"),
+        }
+        validate_field(data, "minimalStep", required=False, **kwargs)
+
+    def validate_lot_minimal_step(self, data, before=None):
+        """
+        Minimal step validation for lot.
+        Minimal step should be required if tender has auction
+        In cfaselectionua during setting status to active.enquiries
+        field `minimalStep` for lots is calculated using particular formula.
+
+        :param data: lot
+        :param before: lot
+        :return:
+        """
+        tender = get_tender()
+        kwargs = {
+            "before": before,
+            "enabled": tender["config"]["hasAuction"] is True,
+        }
+        validate_field(data, "minimalStep", required=False, **kwargs)
 
     def validate_tender_period_extension(self, tender):
         pass
