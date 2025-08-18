@@ -933,6 +933,7 @@ def create_tender(self):
     self.create_agreement(agreement)
 
     data = deepcopy(self.initial_data)
+    data["lots"][0]["minimalStep"] = {"amount": 35, "currency": "UAH"}
     data["items"] = [data["items"][0]]
     data["items"][0]["classification"]["id"] = "33600000-6"
 
@@ -943,14 +944,18 @@ def create_tender(self):
     }
     data["items"][0]["additionalClassifications"] = [additional_classification_0]
 
-    del data["lots"][0]["minimalStep"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "minimalStep", "description": ["This field is required."]}],
+        response.json["errors"], [{"location": "body", "name": "lots", "description": {"minimalStep": "Rogue field"}}]
     )
 
-    data["lots"][0]["minimalStep"] = {"amount": 35, "currency": "UAH", "valueAddedTaxIncluded": True}
+    del data["lots"][0]["minimalStep"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.json["data"]["items"][0]["classification"]["id"], "33600000-6")
+    self.assertEqual(response.json["data"]["items"][0]["classification"]["scheme"], "ДК021")
+    self.assertEqual(response.json["data"]["items"][0]["additionalClassifications"][0], additional_classification_0)
+    self.assertNotIn("minimalStep", response.json["data"]["lots"][0])
+
     additional_classification_1 = {
         "scheme": "ATC",
         "id": "A02AF",

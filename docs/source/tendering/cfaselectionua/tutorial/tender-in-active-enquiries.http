@@ -444,13 +444,13 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "id": "50fc7d0cb4e3423491c35387a046af42",
-        "minimalStep": {
-          "amount": 2.5,
+        "value": {
+          "amount": 500.56,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "value": {
-          "amount": 500.56,
+        "minimalStep": {
+          "amount": 2.5,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         }
