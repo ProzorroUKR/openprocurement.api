@@ -97,7 +97,14 @@ def main(global_config, **settings):
     config.registry.docservice_username = settings.get("docservice_username")
     config.registry.docservice_password = settings.get("docservice_password")
     config.registry.docservice_upload_url = settings.get("docservice_upload_url")
+
+    # Catalog API host
     config.registry.catalog_api_host = settings.get("catalog_api_host")
+
+    # Render API host
+    config.registry.render_api_host = settings.get("render_api_host")
+    config.registry.render_api_username = settings.get("render_api_username")
+    config.registry.render_api_password = settings.get("render_api_password")
 
     # deprecated doc service url (for switching to the new host)
     # you can upload documents from it, then urls will be changed to registry.docservice_url

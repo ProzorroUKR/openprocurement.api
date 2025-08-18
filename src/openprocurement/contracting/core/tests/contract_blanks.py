@@ -4,7 +4,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.core.tests.data import documents, test_signer_info
+from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.contracting.core.tests.utils import create_contract
 
 
@@ -1594,30 +1594,6 @@ def contract_administrator_change(self):
     self.assertEqual(response.json["data"]["id"], self.initial_data["id"])
     self.assertEqual(response.json["data"]["owner"], self.initial_data["access"][-1]["owner"])
     self.assertEqual(response.json["data"]["contractID"], self.initial_data["contractID"])
-
-
-def create_contract_w_documents(self):
-    data = self.initial_data.copy()
-    data["documents"] = documents
-    contract = create_contract(self, data)
-    self.assertEqual(contract["status"], "pending")
-    for index, doc in enumerate(documents):
-        self.assertEqual(contract["documents"][index]["id"], doc["id"])
-        self.assertEqual(contract["documents"][index]["datePublished"], doc["datePublished"])
-        self.assertEqual(contract["documents"][index]["dateModified"], doc["dateModified"])
-
-    self.assertNotIn("Signature=", contract["documents"][-1]["url"])
-    self.assertNotIn("KeyID=", contract["documents"][-1]["url"])
-    self.assertNotIn("Expires=", contract["documents"][-1]["url"])
-
-    contract = self.mongodb.contracts.get(contract["id"])
-    self.assertNotIn(
-        "Prefix=ce536c5f46d543ec81ffa86ce4c77c8b%2F9c8b66120d4c415cb334bbad33f94ba9", contract["documents"][-1]["url"]
-    )
-    self.assertNotIn("/da839a4c3d7a41d2852d17f90aa14f47?", contract["documents"][-1]["url"])
-    self.assertNotIn("Signature=", contract["documents"][-1]["url"])
-    self.assertNotIn("KeyID=", contract["documents"][-1]["url"])
-    self.assertNotIn("Expires=", contract["documents"][-1]["url"])
 
 
 def contract_wo_items_status_change(self):

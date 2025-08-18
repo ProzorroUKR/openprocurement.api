@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from logging import getLogger
 from typing import Dict, List
+from urllib.parse import urlparse
 from uuid import uuid4
 
 from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FROM
@@ -12,6 +13,7 @@ from openprocurement.api.utils import (
     calculate_full_date,
     get_contract_by_id,
     request_init_contract,
+    upload_contract_pdf,
 )
 from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.models.contract import (
@@ -25,9 +27,14 @@ from openprocurement.contracting.core.procedure.models.contract import (
     PostContract,
     Supplier,
 )
+from openprocurement.contracting.core.procedure.models.document import PostDocument
+from openprocurement.contracting.core.procedure.serializers.contract import (
+    ContractBaseSerializer,
+)
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.tender.core.constants import CONTRACT_PERIOD_START_DAYS
 from openprocurement.tender.core.procedure.context import get_award, get_request
+from openprocurement.tender.core.procedure.documents import check_document
 from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
 
 LOGGER = getLogger(__name__)
@@ -214,18 +221,17 @@ def set_attributes_to_contract_items(tender, bid, contract):
             item["attributes"] = items_attributes[item["id"]]
 
 
-def get_additional_contract_data(request, contract, tender, award):
-    if "date" in contract:
-        del contract["date"]
-
-    buyer = None
+def get_buyer(tender, contract):
     if contract.get("buyerID"):
         for i in tender.get("buyers", ""):
             if contract["buyerID"] == i["id"] and "id" in i:
-                buyer = deepcopy(i)
-                break
-    else:
-        buyer = deepcopy(tender["procuringEntity"])
+                return deepcopy(i)
+    return deepcopy(tender["procuringEntity"])
+
+
+def get_additional_contract_data(request, contract, tender, award, buyer):
+    if "date" in contract:
+        del contract["date"]
 
     clean_objs([buyer], Buyer, {"id", "contactPoint"})
     clean_objs(contract["suppliers"], Supplier, {"id", "contactPoint"})
@@ -246,7 +252,7 @@ def get_additional_contract_data(request, contract, tender, award):
     }
 
     # eContract check
-    if "contract_owner" in buyer and "contract_owner" in contract["suppliers"][0]:
+    if is_econtract(contract, buyer):
         access = [
             {
                 "owner": buyer["contract_owner"],
@@ -287,13 +293,18 @@ def get_additional_contract_data(request, contract, tender, award):
     return contract_data
 
 
+def is_econtract(contract, buyer):
+    return "contract_owner" in buyer and "contract_owner" in contract["suppliers"][0]
+
+
 def save_contracts_to_contracting(contracts, award=None):
     tender = get_tender()
     if not award:
         award = get_award()
     request = get_request()
     for contract in deepcopy(contracts):
-        additional_contract_data = get_additional_contract_data(request, contract, tender, award)
+        buyer = get_buyer(tender, contract)
+        additional_contract_data = get_additional_contract_data(request, contract, tender, award, buyer)
         if not additional_contract_data:
             return
         contract.update(additional_contract_data)
@@ -301,6 +312,8 @@ def save_contracts_to_contracting(contracts, award=None):
         contract["config"] = {
             "restricted": tender["config"]["restricted"],
         }
+        if is_econtract(contract, buyer):
+            upload_contract_pdf_document(request, contract)
         request_init_contract(request, contract, contract_src={})
         save_contract(request, insert=True)
 
@@ -315,3 +328,20 @@ def update_econtracts_statuses(contracts, status):
             econtract["status"] = status
             econtract["date"] = get_request_now().isoformat()
             save_contract(request)
+
+
+def upload_contract_pdf_document(request, contract: dict):
+    contract_data = ContractBaseSerializer(contract).data
+    document = upload_contract_pdf(request, contract_data)["data"]
+    document = PostDocument(document).serialize()
+    document["documentType"] = "contractNotice"
+    check_document(request, document)
+    key = urlparse(document["url"]).path.split("/")[-1]
+    document["url"] = request.route_url(
+        "EContract Documents",
+        contract_id=contract["id"],
+        document_id=document["id"],
+        _query={"download": key},
+    )
+    contract["documents"] = contract.get("documents", [])
+    contract["documents"].append(document)

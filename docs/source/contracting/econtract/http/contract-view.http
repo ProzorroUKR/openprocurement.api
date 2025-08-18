@@ -175,6 +175,20 @@ Content-Type: application/json
     "tender_id": "1640f9c9f12d4f74b35596c849f209a4",
     "contractTemplateName": "00000000.0002.01",
     "status": "pending",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract.pdf",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/documents/6118e25141d74341b26001da0c0357f5?download=acdee3c5fbb14da0b63000963dea8a81",
+        "documentOf": "contract",
+        "id": "6118e25141d74341b26001da0c0357f5",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "documentType": "contractNotice"
+      }
+    ],
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "37d2cea7a3564774858ad5c8681f57b1"

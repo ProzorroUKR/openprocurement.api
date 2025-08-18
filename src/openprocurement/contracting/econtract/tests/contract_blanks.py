@@ -1,6 +1,8 @@
 from copy import deepcopy
 from uuid import uuid4
 
+import mock
+
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.tender.core.tests.utils import change_auth
 
@@ -362,14 +364,37 @@ def post_new_version_of_contract(self):
             "name": "New supplier",
         }
     )
-    response = self.app.post_json(
-        f"/contracts?acc_token={self.supplier_token}",
-        {"data": contract_data},
-    )
+
+    pdf_data = {
+        "url": self.generate_docservice_url(),
+        "format": "application/pdf",
+        "hash": "md5:" + "0" * 32,
+        "title": "contract.pdf",
+    }
+
+    with mock.patch(
+        "openprocurement.tender.core.procedure.contracting.upload_contract_pdf"
+    ) as mock_upload_contract_pdf:
+        mock_upload_contract_pdf.return_value = {"data": pdf_data}
+        response = self.app.post_json(
+            f"/contracts?acc_token={self.supplier_token}",
+            {"data": contract_data},
+        )
+        mock_upload_contract_pdf.assert_called_once()
+
     new_contract = response.json["data"]
     self.assertEqual(new_contract["status"], "pending")
     self.assertEqual(new_contract["author"], "supplier")
     self.assertEqual(new_contract["suppliers"][0]["signerInfo"]["email"], "new@gmail.com")
+
+    self.assertIn("documents", new_contract)
+    self.assertEqual(new_contract["documents"][0]["documentType"], "contractNotice")
+    self.assertEqual(new_contract["documents"][0]["format"], pdf_data["format"])
+    self.assertEqual(new_contract["documents"][0]["hash"], pdf_data["hash"])
+    self.assertEqual(new_contract["documents"][0]["title"], pdf_data["title"])
+    self.assertIn("url", new_contract["documents"][0])
+    self.assertIn("datePublished", new_contract["documents"][0])
+    self.assertIn("dateModified", new_contract["documents"][0])
 
     response = self.app.get(
         f"/tenders/{self.tender_id}/contracts",
