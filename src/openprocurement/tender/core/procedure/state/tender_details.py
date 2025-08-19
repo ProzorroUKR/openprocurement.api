@@ -23,6 +23,7 @@ from openprocurement.api.constants_env import (
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
+    MINIMAL_STEP_TENDERS_WITH_LOTS_VALIDATION_FROM,
     MINIMAL_STEP_VALIDATION_FROM,
     NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
@@ -316,7 +317,8 @@ class BaseTenderDetailsMixing:
 
         if after["status"] != "draft":
             if before["status"] == "draft":  # validations on activation
-                self.validate_minimal_step(after, before=before)
+                if tender_created_after(MINIMAL_STEP_TENDERS_WITH_LOTS_VALIDATION_FROM):
+                    self.validate_minimal_step(after, before=before)
                 self.validate_pre_selection_agreement_on_activation(after)
                 self.validate_profiles_agreement_id(after)
                 self.validate_change_item_profile_or_category(after, before, force_validate=True)
