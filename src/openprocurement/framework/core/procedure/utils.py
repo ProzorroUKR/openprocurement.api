@@ -119,7 +119,7 @@ def save_object(
 
     for i in additional_obj_names:
         if i in request.validated:
-            request.validated[i]["dateModified"] = get_request_now()
+            request.validated[i]["dateModified"] = get_request_now().isoformat()
 
     return base_save_object(
         request,

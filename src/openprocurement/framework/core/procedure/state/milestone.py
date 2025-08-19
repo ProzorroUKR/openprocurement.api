@@ -15,6 +15,7 @@ class MilestoneState(AgreementState):
 
     def on_patch(self, before, after):
         self.update_contract_status_on_patch(after)
+        after["dateModified"] = get_request_now().isoformat()
         super().on_patch(before, after)
 
     def set_agreement_data(self, data):
@@ -22,11 +23,15 @@ class MilestoneState(AgreementState):
 
     def update_contract_status_on_patch(self, data):
         if data["status"] == "met":
+            now = get_request_now().isoformat()
+            data["dateMet"] = now
             contract = get_request().validated["contract"]
             contract["status"] = "terminated"
+            contract["date"] = now
             for milestone in contract["milestones"]:
                 if milestone["status"] == "scheduled":
                     milestone["status"] = "notMet"
+                    milestone["dateModified"] = now
 
     def set_contract_status_on_post(self, data):
         contract = get_request().validated["contract"]
