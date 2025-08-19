@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-20 12:57+0300\n"
+"POT-Creation-Date: 2025-08-18 10:58+0300\n"
 "PO-Revision-Date: 2019-03-25 11:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -129,11 +129,11 @@ msgstr "Попередня закупівля була створена лише
 msgid "And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties."
 msgstr "І знову код відповіді `201 Created`,  заголовок `Location` і тіло з додатковим `id`, `tenderID`, та властивість `dateModified`."
 
-msgid "To move forward, you need to change status of procedure to ``draft.pending``. This will let the bot to pull up :ref:`Agreement` and move tender to the next status. If provided information meets all the requirements, than the bot moves procedure to ``active.enquiries`` status, else to ``draft.unsuccessful`` terminal status."
-msgstr "Для того, щоб перейти далі, треба змінити статус процедури на ``draft.pending``. Це дозволить боту наповнити :ref:`Agreement` і перевести тендер у наступний статус. Якщо надана інформація відповідає всім вимогам, бот переводить процедуру в статус ``active.enquiries``, інакше в статус ``draft.unsuccessful``."
+msgid "To move forward, you need to change status of procedure to ``draft.pending``. This will let the bot to pull up :ref:`Agreement_cfaua` and move tender to the next status. If provided information meets all the requirements, than the bot moves procedure to ``active.enquiries`` status, else to ``draft.unsuccessful`` terminal status."
+msgstr "Для того, щоб перейти далі, треба змінити статус процедури на ``draft.pending``. Це дозволить боту наповнити :ref:`Agreement_cfaua` і перевести тендер у наступний статус. Якщо надана інформація відповідає всім вимогам, бот переводить процедуру в статус ``active.enquiries``, інакше в статус ``draft.unsuccessful``."
 
-msgid "Let's see, that our tender meets all the requirements, the bot pulled up :ref:`Agreement` of tender and changed status to ``active.enquiries``."
-msgstr "Бачимо, що наш тендер відповідає всім вимогам, бот наповнив :ref:`Agreement` і змінив статус тендера на ``active.enquiries``."
+msgid "Let's see, that our tender meets all the requirements, the bot pulled up :ref:`Agreement_cfaua` of tender and changed status to ``active.enquiries``."
+msgstr "Бачимо, що наш тендер відповідає всім вимогам, бот наповнив :ref:`Agreement_cfaua` і змінив статус тендера на ``active.enquiries``."
 
 msgid "Let's see what listing of tenders reveals us:"
 msgstr "Подивимось, що показує список закупівель:"
@@ -141,8 +141,8 @@ msgstr "Подивимось, що показує список закупіве�
 msgid "When you create a procedure (`draft` status), you can fill in the following fields:"
 msgstr "При створенні процедури в статусі `draft`, можна заповнювати наступні поля:"
 
-msgid "in :ref:`Agreement` - `id`"
-msgstr "у :ref:`Agreement` - `id`"
+msgid "in :ref:`Agreement_cfaua` - `id`"
+msgstr "у :ref:`Agreement_cfaua` - `id`"
 
 msgid "in :ref:`Tender` - `title`, `title_en`, `description`, `description_en`, `guarantee`, `procurementMethodType`, `procuringEntity`"
 msgstr "у :ref:`Tender` - `title`, `title_en`, `description`, `description_en`, `guarantee`, `procurementMethodType`, `procuringEntity`"
@@ -240,8 +240,8 @@ msgstr "Коли приходить ``Tender.tenderingPeriod.startDate``, Зак
 msgid "Bidder can register a bid in ``draft`` status:"
 msgstr "Учасник може зареєструвати пропозицію у статусі `draft` (чернетка):"
 
-msgid "You cannot submit a bid greater than ``agreement.contract.value``. Also Bidder can't submit a bid if he is not party of this Framework Agreement (:ref:`Agreement`)."
-msgstr "Неможливо подати ставку зі значенням вищим, ніж ``agreement.contract.value``. Також, постачальник не може подати ставку, якщо він не є учасником цієї Рамкової угоди (:ref:`Agreement`)."
+msgid "You cannot submit a bid greater than ``agreement.contract.value``. Also Bidder can't submit a bid if he is not party of this Framework Agreement (:ref:`Agreement_cfaua`)."
+msgstr "Неможливо подати ставку зі значенням вищим, ніж ``agreement.contract.value``. Також, постачальник не може подати ставку, якщо він не є учасником цієї Рамкової угоди (:ref:`Agreement_cfaua`)."
 
 msgid "Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid. If there is no sign document during activation, we will see an error:"
 msgstr "Після цього учасник має підтвердити пропозицію, перевівши у ``pending`` статус. Якщо учасник резидент (`tenderers.identifier.scheme = 'UA-EDR'`), то перед підтвердженням пропозиції він має накласти електронний підпис. Якщо файлу підписа не знайдено під час підтвердження, буде наступна помилка:"

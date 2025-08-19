@@ -7,6 +7,7 @@ from openprocurement.api.procedure.serializers.base import (
     ListSerializer,
 )
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
+from openprocurement.framework.core.procedure.serializers.change import ChangeSerializer
 from openprocurement.framework.core.procedure.serializers.question import (
     QuestionSerializer,
 )
@@ -33,6 +34,7 @@ class FrameworkSerializer(BaseUIDSerializer):
     serializers = {
         "documents": ListSerializer(DocumentSerializer),
         "questions": ListSerializer(QuestionSerializer),
+        "changes": ListSerializer(ChangeSerializer),
     }
 
     def __init__(self, data: dict):

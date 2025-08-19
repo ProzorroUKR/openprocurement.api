@@ -28,6 +28,7 @@ from openprocurement.api.procedure.models.organization import (
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.models.unit import Unit
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.framework.core.procedure.models.change import Change
 from openprocurement.framework.core.procedure.models.document import (
     Document,
     PostDocument,
@@ -168,6 +169,7 @@ class Framework(RootModel):
     period = ModelType(PeriodEndRequired)
     qualificationPeriod = ModelType(PeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
+    changes = ListType(ModelType(Change, required=True))
 
     _attachments = DictType(DictType(BaseType), default=[])  # couchdb attachments
     revisions = BaseType()
@@ -195,7 +197,6 @@ class PatchActiveFramework(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
     documents = ListType(ModelType(PostDocument))
     if SANDBOX_MODE:

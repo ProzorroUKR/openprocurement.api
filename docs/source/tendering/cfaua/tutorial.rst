@@ -528,7 +528,7 @@ Completion of qualification is transfer procedure into `active.qualification.sta
 Uploading document with unit price per item
 -------------------------------------------
 
-When tender transfers to status `active.awarded` then :ref:`Agreement` is created and the awarded participants are given 5 business days to upload the itemized price list with unit price per every 'item' 
+When tender transfers to status `active.awarded` then :ref:`Agreement_cfaua` is created and the awarded participants are given 5 business days to upload the itemized price list with unit price per every 'item'
 
 .. http:example:: tutorial/upload-prices-document.http
    :code:
@@ -536,7 +536,7 @@ When tender transfers to status `active.awarded` then :ref:`Agreement` is create
 Entering prices per item by the ordering party
 ----------------------------------------------
 
-The object list :ref:`Agreement` can be obtained via the following call
+The object list :ref:`Agreement_cfaua` can be obtained via the following call
 
 .. http:example:: tutorial/agreements-list.http
    :code:

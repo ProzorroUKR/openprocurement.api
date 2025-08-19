@@ -111,16 +111,6 @@ class AgreementChronographEventsMixing(BaseChronographEventsMixing):
         now = get_request_now()
         if dt_from_iso(data["period"]["endDate"]) < now:
             data["status"] = "terminated"
-            for contract in data["contracts"]:
-                for milestone in contract["milestones"]:
-                    if milestone.get("status", "scheduled") == "scheduled":
-                        milestone["status"] = (
-                            "met" if milestone.get("dueDate") and dt_from_iso(milestone["dueDate"]) <= now else "notMet"
-                        )
-                        milestone["dateModified"] = now
-
-                if contract["status"] == "active":
-                    contract["status"] = "terminated"
             return True
 
     @staticmethod

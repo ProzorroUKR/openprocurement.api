@@ -1,0 +1,43 @@
+POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "modifications": {
+      "qualificationPeriod": {
+        "endDate": "2023-12-15T01:00:00+03:00"
+      }
+    },
+    "rationaleType": "noDemandFramework",
+    "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes/f75d8ebd06e046b581cbf7ef7609f8fe
+
+{
+  "data": {
+    "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+    "rationaleType": "noDemandFramework",
+    "modifications": {
+      "qualificationPeriod": {
+        "endDate": "2023-12-15T01:00:00+03:00"
+      }
+    },
+    "id": "f75d8ebd06e046b581cbf7ef7609f8fe",
+    "previous": {
+      "qualificationPeriod": {
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2024-11-13T01:00:00+03:00"
+      }
+    },
+    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00"
+  }
+}
+

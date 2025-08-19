@@ -121,7 +121,8 @@ def context_view(objs):
                 for parent_name, parent_params in objs.items():
                     parent_serializer_class, mask_mapping = parent_params
                     if parent_obj := self.request.validated.get(parent_name):
-                        mask_object_data(self.request, parent_obj, mask_mapping)
+                        if mask_mapping:
+                            mask_object_data(self.request, parent_obj, mask_mapping)
                         context[parent_name] = parent_serializer_class(parent_obj).data
                 response.update({"context": context})
             return response

@@ -53,13 +53,13 @@ The previous tender contained only required fields. Let's try creating tender wi
 And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
 
 To move forward, you need to change status of procedure to ``draft.pending``. This will let the bot to pull up 
-:ref:`Agreement` and move tender to the next status. If provided information meets all the requirements, than the bot
+:ref:`Agreement_cfaua` and move tender to the next status. If provided information meets all the requirements, than the bot
 moves procedure to ``active.enquiries`` status, else to ``draft.unsuccessful`` terminal status.
 
 .. http:example:: tutorial/tender-switch-draft-pending.http
    :code:
 
-Let's see, that our tender meets all the requirements, the bot pulled up :ref:`Agreement` of tender and changed status to ``active.enquiries``.
+Let's see, that our tender meets all the requirements, the bot pulled up :ref:`Agreement_cfaua` of tender and changed status to ``active.enquiries``.
 
 .. http:example:: tutorial/tender-in-active-enquiries.http
    :code:
@@ -70,7 +70,7 @@ Let's see what listing of tenders reveals us:
    :code:
 
 When you create a procedure (`draft` status), you can fill in the following fields:
-   * in :ref:`Agreement` - `id`
+   * in :ref:`Agreement_cfaua` - `id`
    * in :ref:`Tender` - `title`, `title_en`, `description`, `description_en`, `guarantee`, `procurementMethodType`, `procuringEntity`
    * in :ref:`Lot` - `title`, `title_en`, `description`, `description_en`, `id`, `guarantee`
    * in :ref:`Item` - `description`, `quantity`, `relatedLot`, `unit`, `description_en`, `classification`, `additionalClassifications`, `deliveryAddress`, `deliveryDate`, `deliveryLocation`, `id`
@@ -186,7 +186,7 @@ of bids.
 Bidder can register a bid in ``draft`` status:
 
 You cannot submit a bid greater than ``agreement.contract.value``. Also Bidder can't submit a bid if he is not party of this Framework Agreement
-(:ref:`Agreement`).
+(:ref:`Agreement_cfaua`).
 
 
 .. http:example:: tutorial/register-bidder-invalid.http

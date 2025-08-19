@@ -135,7 +135,7 @@ class FrameworkRestrictedResourceTest(FrameworkConfigBaseResouceTest):
     def test_docs(self):
         # empty frameworks listing
         data = deepcopy(self.initial_data)
-        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
+        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=400)).isoformat()
         data["procuringEntity"]["kind"] = "defense"
 
         config = deepcopy(self.initial_config)
@@ -347,7 +347,7 @@ class FrameworkHasItemsResourceTest(FrameworkConfigBaseResouceTest):
 
     def test_docs(self):
         data = deepcopy(self.initial_data)
-        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
+        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=400)).isoformat()
 
         config = deepcopy(self.initial_config)
 

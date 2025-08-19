@@ -233,12 +233,19 @@ def create_agreement_config_restricted(self):
 def change_agreement(self):
     new_endDate = (parse_datetime(self.initial_data["qualificationPeriod"]["endDate"]) - timedelta(days=1)).isoformat()
 
-    response = self.app.patch_json(
-        f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
-        {"data": {"qualificationPeriod": {"endDate": new_endDate}}},
+    response = self.app.post_json(
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                "rationale": "Треба",
+                "rationaleType": "other",
+            }
+        },
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    response = self.app.get(f"/frameworks/{self.framework_id}")
     self.assertEqual(response.json["data"]["qualificationPeriod"]["endDate"], new_endDate)
 
     response = self.app.get(f"/agreements/{self.agreement_id}")
@@ -366,11 +373,17 @@ def post_submission_with_active_contract(self):
 
 def patch_agreement_terminated_status(self):
     end_date = get_now() + timedelta(days=CONTRACT_BAN_DURATION - 1)
-    response = self.app.patch_json(
-        f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
-        {"data": {"qualificationPeriod": {"endDate": end_date.isoformat()}}},
+    response = self.app.post_json(
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": {"endDate": end_date.isoformat()}},
+                "rationale": "Треба",
+                "rationaleType": "other",
+            }
+        },
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     response = self.app.get(f"/agreements/{self.agreement_id}")
     self.assertEqual(response.status, "200 OK")
@@ -414,15 +427,21 @@ def patch_contract_active_status(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "suspended")
 
-    response = self.app.patch_json(
-        f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
+    response = self.app.post_json(
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 2)).isoformat()}
+                "modifications": {
+                    "qualificationPeriod": {
+                        "endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 2)).isoformat()
+                    },
+                },
+                "rationale": "Треба",
+                "rationaleType": "other",
             }
         },
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     response = self.app.get(f"/agreements/{self.agreement_id}")
     self.assertEqual(response.status, "200 OK")
@@ -477,18 +496,22 @@ def patch_contract_active_status(self):
 
 
 def patch_several_contracts_active_status(self):
-    response = self.app.patch_json(
-        f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
+    qualification_end_date = (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()
+    response = self.app.post_json(
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()}
+                "modifications": {"qualificationPeriod": {"endDate": qualification_end_date}},
+                "rationale": "Треба",
+                "rationaleType": "other",
             }
         },
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    response = self.app.get(f"/agreements/{self.agreement_id}")
-    self.assertEqual(response.status, "200 OK")
+    response = self.app.get(f"/frameworks/{self.framework_id}")
+    self.assertEqual(response.json["data"]["qualificationPeriod"]["endDate"], qualification_end_date)
+    print(qualification_end_date)
 
     base_identifier_id = self.initial_submission_data["tenderers"][0]["identifier"]["id"]
     for shift, milestone_type, identifier_id in [
@@ -541,10 +564,25 @@ def patch_several_contracts_active_status(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "terminated")
         contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
-        self.assertEqual(contract_statuses, ["terminated", "terminated", "suspended"])
+        self.assertEqual(
+            contract_statuses, ["active", "active", "suspended"]
+        )  # CS-20115 contract statuses stay the same
 
 
 def agreement_chronograph_milestones(self):
+    qualification_end_date = (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()
+    response = self.app.post_json(
+        f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": {"endDate": qualification_end_date}},
+                "rationale": "Треба",
+                "rationaleType": "other",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+
     response = self.app.get(f"/agreements/{self.agreement_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["next_check"], response.json["data"]["period"]["endDate"])
@@ -589,7 +627,7 @@ def agreement_chronograph_milestones(self):
         agreement = response.json["data"]
 
     milestone_statuses = [i["status"] for i in agreement["contracts"][0]["milestones"]]
-    self.assertEqual(milestone_statuses, ["met", "met", "notMet"])
+    self.assertEqual(milestone_statuses, ['scheduled', 'met', 'scheduled'])  # CS-20115 milestone statuses stay the same
     self.assertNotIn("next_check", agreement)
 
 

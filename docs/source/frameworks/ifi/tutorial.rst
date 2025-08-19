@@ -54,7 +54,7 @@ Framework activation
 
 The second step is moving the framework to `active` status.
 
-`qualificationPeriod.endDate` should be in between 30 and 1095 days from activation moment.
+`qualificationPeriod.endDate` should be in between 365 and 1461 days from activation moment.
 
 There should be at least 1 document in addition to sign document.
 
@@ -82,9 +82,7 @@ We do see the internal `id` of a framework and its `dateModified` datestamp.
 Modifying framework
 -------------------
 
-In `active` status only some fields can be changed: `telephone`, `name`, `email` for `procuringEntity.contactPoint`, `endDate` for `qualificationPeriod`, `description` and `documents`.
-
-If `qualificationPeriod.endDate` was changed all periods will be recalculated.
+In `active` status only some fields can be changed: `telephone`, `name`, `email` for `procuringEntity.contactPoint`, `description` and `documents`.
 
 .. http:example:: tutorial/patch-framework-active.http
    :code:
@@ -95,6 +93,61 @@ Checking the listing again reflects the new modification date:
 
 .. http:example:: tutorial/framework-listing.http
    :code:
+
+Modifying qualificationPeriod in active framework
+--------------------------------------------------
+
+Also in `active` status can be changed `endDate` for `qualificationPeriod` but it can be done only using another endpoint.
+
+There are validations for changing `qualificationPeriod.endDate`:
+
+* qualificationPeriod.endDate couldn't be less than 30 full days from now
+* qualificationPeriod.endDate couldn't be more than 1461 full days from now
+
+It is allowed to modify `qualificationPeriod` only by framework owner using `changes`.
+
+Fields for modifying period:
+
+* `qualificationPeriod.endDate` (in `change.modifications`)
+* `rationale`
+* `rationaleType`
+* `documents` (optional)
+
+Let's try to change `qualificationPeriod.endDate` with soon date:
+
+.. http:example:: tutorial/patch-framework-active-qualification-period-too-soon.http
+   :code:
+
+Let's try to prolong `qualificationPeriod.endDate` with late date:
+
+.. http:example:: tutorial/patch-framework-active-qualification-period-too-late.http
+   :code:
+
+Success changing of `qualificationPeriod`:
+
+.. http:example:: tutorial/patch-framework-active-qualification-period.http
+   :code:
+
+There is special parameter `opt_context` for getting change data for signing:
+
+.. http:example:: tutorial/get-change-sign-data.http
+   :code:
+
+For more detail about signing the data with context: :ref:`sign-data`.
+
+Then the signature should be added to change:
+
+.. http:example:: tutorial/sign-framework-active-qualification-period.http
+   :code:
+
+If `qualificationPeriod.endDate` was changed all periods will be recalculated.
+
+Let's look at framework:
+
+.. http:example:: tutorial/get-framework-after-qualification-period-modified.http
+   :code:
+
+There is a new object `changes` in framework with previous `qualificationPeriod.endDate` and new one. All period changes will be saved in this object.
 
 Registering submission
 ----------------------

@@ -31,7 +31,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
         super().setUp()
         self.setUpMock()
         self.initial_data = deepcopy(self.initial_data)
-        self.initial_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=120)).isoformat()}
+        self.initial_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=420)).isoformat()}
 
     def tearDown(self):
         self.tearDownMock()

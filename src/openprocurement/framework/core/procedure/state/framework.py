@@ -172,12 +172,9 @@ class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEvents
                         milestone["dueDate"] = end_date
 
     def validate_qualification_period_duration(self, before, after, min_duration, max_duration):
-        if before["status"] == "active" and before["qualificationPeriod"] == after["qualificationPeriod"]:
-            # There is a cases when qualificationPeriod in active frameworks
-            # where changed outside the api to prolong the framework.
-            # In this case we should not validate the qualificationPeriod duration
-            # if it was not changed in this request.
-            # So, skip the validation.
+        if before["status"] == "active":
+            # for active frameworks it is forbidden to modify qualificationPeriod directly.
+            # There is /modify-period endpoint
             return
 
         start_date = dt_from_iso(after["qualificationPeriod"]["startDate"])

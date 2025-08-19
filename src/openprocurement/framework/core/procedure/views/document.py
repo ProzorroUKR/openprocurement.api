@@ -3,6 +3,7 @@ from openprocurement.framework.core.procedure.serializers.document import (
     SubmissionDocumentSerializer,
 )
 from openprocurement.framework.core.procedure.state.document import (
+    BaseFrameworkDocumentState,
     MilestoneDocumentState,
     QualificationDocumentState,
     SubmissionDocumentState,
@@ -12,6 +13,7 @@ from openprocurement.framework.core.procedure.views.base import (
     BaseDocumentResource,
     FrameworkBaseResource,
 )
+from openprocurement.framework.core.procedure.views.change import resolve_change
 from openprocurement.framework.core.procedure.views.contract import resolve_contract
 from openprocurement.framework.core.procedure.views.milestone import resolve_milestone
 from openprocurement.tender.core.procedure.documents import get_file_docservice
@@ -58,6 +60,32 @@ class CoreMilestoneDocumentResource(FrameworkBaseResource, DocumentResourceMixin
             modified=self.get_modified(),
             additional_obj_names=("milestone",),
             **kwargs,
+        )
+
+    def get_file(self):
+        db_doc_id = self.request.validated[self.item_name]["id"]
+        key = self.request.params.get("download")
+        if not any(key in i["url"] for i in self.request.validated["documents"]):
+            self.request.errors.add("url", "download", "Not Found")
+            self.request.errors.status = 404
+            return
+        return get_file_docservice(self.request, db_doc_id, key)
+
+
+class CoreFrameworkChangeDocumentResource(FrameworkBaseResource, DocumentResourceMixin):
+    item_name = "change"
+    state_class = BaseFrameworkDocumentState
+    serializer_class = DocumentSerializer
+    model_class = Document
+
+    def __init__(self, request, context=None):
+        super().__init__(request, context)
+        resolve_change(request)
+        resolve_document(request, self.item_name, self.container)
+
+    def save(self, **kwargs):
+        return save_object(
+            self.request, "framework", modified=self.get_modified(), additional_obj_names=("change",), **kwargs
         )
 
     def get_file(self):

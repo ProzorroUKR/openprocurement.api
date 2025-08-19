@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from freezegun import freeze_time
 
-from openprocurement.api.constants import ROUTE_PREFIX
+from openprocurement.api.constants import PERIOD_CHANGE_CAUSES, ROUTE_PREFIX
 from openprocurement.api.context import set_request_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
@@ -951,7 +951,7 @@ def patch_framework_draft_to_active(self):
     self.assertNotEqual(response.json["data"]["dateModified"], framework["dateModified"])
 
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=30)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=365)).isoformat()
     response = self.app.post_json(
         "/frameworks",
         {
@@ -1005,7 +1005,7 @@ def patch_framework_draft_to_active(self):
 
 def patch_framework_draft_to_active_invalid(self):
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=29)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=364)).isoformat()
     response = self.app.post_json(
         "/frameworks",
         {
@@ -1032,13 +1032,13 @@ def patch_framework_draft_to_active_invalid(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "qualificationPeriod must be at least 30 full calendar days long",
+                "description": "qualificationPeriod must be at least 365 full calendar days long",
             }
         ],
     )
 
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=1096)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=1462)).isoformat()
     response = self.app.post_json(
         "/frameworks",
         {
@@ -1065,7 +1065,7 @@ def patch_framework_draft_to_active_invalid(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "qualificationPeriod must be less than 1095 full calendar days long",
+                "description": "qualificationPeriod must be less than 1461 full calendar days long",
             }
         ],
     )
@@ -1121,7 +1121,6 @@ def patch_framework_active(self):
     for field in framework_ignore_patch_data:
         self.assertEqual(framework[field], response.json["data"][field])
 
-    qualificationPeriod_endDate = (get_now() + timedelta(days=100)).isoformat()
     framework_patch_data = {
         "procuringEntity": {
             "contactPoint": {
@@ -1131,7 +1130,6 @@ def patch_framework_active(self):
             }
         },
         "description": "changed",
-        "qualificationPeriod": {"endDate": qualificationPeriod_endDate},
     }
     response = self.app.patch_json(
         "/frameworks/{}?acc_token={}".format(framework["id"], token), {"data": framework_patch_data}
@@ -1144,75 +1142,19 @@ def patch_framework_active(self):
     self.assertEqual(contact["name"], framework_patch_data["procuringEntity"]["contactPoint"]["name"])
     self.assertEqual(contact["email"], framework_patch_data["procuringEntity"]["contactPoint"]["email"])
     self.assertEqual(framework["description"], framework_patch_data["description"])
-    self.assertEqual(
-        framework["qualificationPeriod"]["endDate"], framework_patch_data["qualificationPeriod"]["endDate"]
-    )
 
-    qualificationPeriod_endDate = (get_now() + timedelta(days=10000)).isoformat()
+    qualificationPeriod_endDate = (get_now() + timedelta(days=1000)).isoformat()
     response = self.app.patch_json(
         "/frameworks/{}?acc_token={}".format(framework["id"], token),
         {"data": {"qualificationPeriod": {"endDate": qualificationPeriod_endDate}}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "qualificationPeriod must be less than 1095 full calendar days long",
-            }
-        ],
+        [{"location": "body", "name": "qualificationPeriod", "description": "Rogue field"}],
     )
-
-    # There is a cases when qualificationPeriod in active frameworks
-    # where changed outside the api to prolong the framework.
-    # In this case we should not validate the qualificationPeriod duration
-    # if it was not changed in this request.
-    qualificationPeriod_endDate_external = (get_now() + timedelta(days=100)).isoformat()
-    framework_raw = self.app.app.registry.mongodb.frameworks.get(framework["id"])
-    framework_raw["qualificationPeriod"] = {
-        "startDate": get_now().isoformat(),
-        "endDate": qualificationPeriod_endDate_external,
-    }
-    self.app.app.registry.mongodb.frameworks.save(framework_raw)
-
-    # patch framework with the same qualificationPeriod.endDate that is greater than max days but different from db
-    qualificationPeriod_endDate = (get_now() + timedelta(days=9999)).isoformat()
-    response = self.app.patch_json(
-        "/frameworks/{}?acc_token={}".format(framework["id"], token),
-        {"data": {"qualificationPeriod": {"endDate": qualificationPeriod_endDate}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "qualificationPeriod must be less than 1095 full calendar days long",
-            }
-        ],
-    )
-
-    # patch framework with the same qualificationPeriod.endDate that is greater than max days but the same as in db
-    framework_patch_data = {
-        "description": "changed again",
-        "qualificationPeriod": {"endDate": qualificationPeriod_endDate_external},
-    }
-    response = self.app.patch_json(
-        "/frameworks/{}?acc_token={}".format(framework["id"], token),
-        {"data": framework_patch_data},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    framework = response.json["data"]
-    self.assertEqual(framework["description"], framework_patch_data["description"])
-    self.assertEqual(framework["qualificationPeriod"]["endDate"], qualificationPeriod_endDate_external)
 
 
 def framework_fields(self):
@@ -1689,3 +1631,399 @@ def complete_status(self):
             self.check_chronograph()
     response = self.app.get("/frameworks/{}".format(self.framework_id))
     self.assertEqual(response.json["data"]["status"], "complete")
+
+
+def modify_framework_period(self):
+    data = deepcopy(self.initial_data)
+    response = self.app.post_json(
+        "/frameworks",
+        {
+            "data": data,
+            "config": self.initial_config,
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    framework = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(framework["status"], "draft")
+
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token), {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    framework = response.json["data"]
+    self.assertEqual(framework["status"], "active")
+
+    framework_qualification_period = framework["qualificationPeriod"]
+    framework_date_modified = framework["dateModified"]
+
+    new_endDate = (get_now() - timedelta(days=1)).isoformat()
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {"data": {}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "rationale", "description": ["This field is required."]},
+            {"location": "body", "name": "rationaleType", "description": ["This field is required."]},
+            {"location": "body", "name": "modifications", "description": ["This field is required."]},
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {},
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "modifications", "description": "Framework modifications are empty"},
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "modifications.qualificationPeriod",
+                "description": "qualificationPeriod.endDate couldn't be less than 30 full days from now",
+            },
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": {"startDate": get_now().isoformat(), "endDate": new_endDate}},
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "modifications",
+                "description": {"qualificationPeriod": {"startDate": ["period should begin before its end"]}},
+            },
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": (get_now() - timedelta(days=10)).isoformat(),
+                        "endDate": new_endDate,
+                    }
+                },
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "modifications.qualificationPeriod",
+                "description": "Forbidden to change qualification period start date",
+            },
+        ],
+    )
+
+    new_endDate = (get_now() + timedelta(days=1500)).isoformat()
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": framework_qualification_period["startDate"],
+                        "endDate": new_endDate,
+                    }
+                },
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "modifications.qualificationPeriod",
+                "description": "qualificationPeriod.endDate couldn't be more than 1461 full days from now",
+            },
+        ],
+    )
+
+    new_endDate = (get_now() + timedelta(days=100)).isoformat()
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes",
+        {
+            "data": {
+                "qualificationPeriod": {
+                    "startDate": framework_qualification_period["startDate"],
+                    "endDate": new_endDate,
+                },
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": framework_qualification_period["startDate"],
+                        "endDate": new_endDate,
+                    }
+                },
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "url", "name": "permission", "description": "Forbidden"},
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": (get_now() - timedelta(days=10)).isoformat(),
+                        "endDate": new_endDate,
+                    }
+                },
+                "rationaleType": "another",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "rationaleType",
+                "description": [f"Value must be one of {list(PERIOD_CHANGE_CAUSES.keys())}."],
+            },
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                "rationale": "Відсутня подальша потреба",
+                "rationaleType": "noDemandFramework",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "rationale",
+                "description": ["Value should be from dictionary `framework_period_change_causes`."],
+            },
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {
+                    "qualificationPeriod": {
+                        "startDate": framework_qualification_period["startDate"],
+                        "endDate": new_endDate,
+                    }
+                },
+                "rationale": "Мені дозволили",
+                "rationaleType": "other",
+            },
+        },
+    )
+    framework_qualification_period_end_1 = response.json["data"]["modifications"]["qualificationPeriod"]["endDate"]
+
+    response = self.app.get("/frameworks/{}?acc_token={}".format(framework["id"], token))
+    self.assertEqual(response.status, "200 OK")
+    changed_framework = response.json["data"]
+    self.assertEqual(changed_framework["qualificationPeriod"]["startDate"], framework_qualification_period["startDate"])
+    self.assertNotEqual(changed_framework["qualificationPeriod"]["endDate"], framework_qualification_period["endDate"])
+    self.assertEqual(changed_framework["qualificationPeriod"]["endDate"], framework_qualification_period_end_1)
+    self.assertNotEqual(changed_framework["dateModified"], framework_date_modified)
+    self.assertEqual(len(changed_framework["changes"]), 1)
+    self.assertEqual(changed_framework["dateModified"], changed_framework["changes"][0]["date"])
+    framework = Framework(changed_framework)
+    date = get_framework_unsuccessful_status_check_date(
+        framework,
+        self.min_submissions_number_days,
+        self.min_submissions_number_working_days,
+    )
+    self.assertEqual(changed_framework["next_check"], date.isoformat())
+
+    new_endDate = (get_now() + timedelta(days=35)).isoformat()
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
+                "rationale": "Мені дозволили",
+                "rationaleType": "other",
+                "documents": [
+                    {
+                        "title": "sign.p7s",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pkcs7-signature",
+                    }
+                ],
+            },
+        },
+    )
+    change = response.json["data"]
+    change_id = change["id"]
+    framework_qualification_period_end_2 = change["modifications"]["qualificationPeriod"]["endDate"]
+    response = self.app.get("/frameworks/{}?acc_token={}".format(framework["id"], token))
+    self.assertEqual(response.status, "200 OK")
+    changed_framework = response.json["data"]
+    self.assertEqual(changed_framework["qualificationPeriod"]["startDate"], framework_qualification_period["startDate"])
+    self.assertNotEqual(changed_framework["qualificationPeriod"]["endDate"], framework_qualification_period["endDate"])
+    self.assertEqual(changed_framework["qualificationPeriod"]["endDate"], framework_qualification_period_end_2)
+    self.assertNotEqual(changed_framework["dateModified"], framework_date_modified)
+    self.assertEqual(len(changed_framework["changes"]), 2)
+    self.assertEqual(
+        changed_framework["changes"][0]["modifications"]["qualificationPeriod"]["endDate"],
+        changed_framework["changes"][-1]["previous"]["qualificationPeriod"]["endDate"],
+    )
+    self.assertEqual(changed_framework["dateModified"], changed_framework["changes"][-1]["date"])
+    self.assertNotEqual(changed_framework["period"], framework["period"])
+
+    response = self.app.get("/frameworks/{}/changes?acc_token={}".format(framework["id"], token))
+    self.assertEqual(len(response.json["data"]), 2)
+
+    response = self.app.get("/frameworks/{}/changes/{}?acc_token={}".format(framework["id"], change_id, token))
+    self.assertEqual(
+        response.json["data"]["modifications"]["qualificationPeriod"]["endDate"], framework_qualification_period_end_2
+    )
+
+    # add documents
+    response = self.app.post_json(
+        "/frameworks/{}/changes/{}/documents?acc_token={}".format(framework["id"], change_id, ""),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+
+    response = self.app.post_json(
+        "/frameworks/{}/changes/{}/documents?acc_token={}".format(framework["id"], change_id, token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+    )
+    doc_id = response.json["data"]["id"]
+    self.assertEqual(response.json["data"]["title"], "sign.p7s")
+
+    # patch doc
+    response = self.app.patch_json(
+        "/frameworks/{}/changes/{}/documents/{}?acc_token={}".format(framework["id"], change_id, doc_id, token),
+        {
+            "data": {
+                "title": "sign-1.p7s",
+            }
+        },
+    )
+    self.assertEqual(response.json["data"]["title"], "sign-1.p7s")
+
+    # put doc
+    self.app.put_json(
+        "/frameworks/{}/changes/{}/documents/{}?acc_token={}".format(framework["id"], change_id, doc_id, token),
+        {
+            "data": {
+                "title": "sign-2.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+    )
+
+    # get docs
+    response = self.app.get(
+        "/frameworks/{}/changes/{}/documents?acc_token={}".format(framework["id"], change_id, token),
+    )
+    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(response.json["data"][0]["title"], "sign.p7s")
+    self.assertEqual(response.json["data"][-1]["title"], "sign-2.p7s")
+
+    response = self.app.get(
+        "/frameworks/{}/changes/{}/documents/{}?acc_token={}".format(framework["id"], change_id, doc_id, token),
+    )
+    self.assertEqual(response.json["data"]["title"], "sign-2.p7s")
+    self.assertEqual(response.json["data"]["previousVersions"][0]["title"], "sign-1.p7s")
+
+    # get change for sign with context
+    response = self.app.get(
+        "/frameworks/{}/changes/{}?opt_context=true&acc_token={}".format(framework["id"], change_id, token)
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(["data", "context"], list(response.json.keys()))
+    self.assertEqual(len(response.json["data"]["documents"]), 3)
+    self.assertIn("framework", response.json["context"])
+    self.assertEqual(response.json["context"]["framework"]["status"], "active")
+    self.assertEqual(len(response.json["context"]["framework"]["changes"]), 2)
