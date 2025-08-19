@@ -4,6 +4,9 @@ from openprocurement.framework.core.procedure.views.change import CoreChangeReso
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
+from openprocurement.framework.electroniccatalogue.procedure.state.change import (
+    ElectronicDialogueChangeState,
+)
 
 
 @resource(
@@ -14,4 +17,4 @@ from openprocurement.framework.electroniccatalogue.constants import (
     description="Framework related changes",
 )
 class FrameworkPeriodChangeResource(CoreChangeResource):
-    pass
+    state_class = ElectronicDialogueChangeState

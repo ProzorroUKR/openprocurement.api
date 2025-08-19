@@ -1895,6 +1895,13 @@ def modify_framework_period(self):
     self.assertNotEqual(changed_framework["dateModified"], framework_date_modified)
     self.assertEqual(len(changed_framework["changes"]), 1)
     self.assertEqual(changed_framework["dateModified"], changed_framework["changes"][0]["date"])
+    framework = Framework(changed_framework)
+    date = get_framework_unsuccessful_status_check_date(
+        framework,
+        self.min_submissions_number_days,
+        self.min_submissions_number_working_days,
+    )
+    self.assertEqual(changed_framework["next_check"], date.isoformat())
 
     new_endDate = (get_now() + timedelta(days=35)).isoformat()
     response = self.app.post_json(
