@@ -2666,3 +2666,102 @@ def patch_tender_bid_with_disabled_value_restriction(self):
         {"data": {"status": "pending", "value": {"amount": 705}}},
     )
     self.assertEqual(response.status, "200 OK")
+
+
+def bid_items_quantity(self):
+    bid = self.test_bids_data[0].copy()
+    tender = self.mongodb.tenders.get(self.tender_id)
+    lots = tender.get("lots")
+
+    set_bid_lotvalues(bid, lots)
+    set_bid_items(self, bid)
+
+    bid["items"][0]["quantity"] = 0
+    bid["items"][0]["unit"]["value"]["amount"] = 0
+    response = self.app.post_json(
+        "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": bid},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": f"At least one item should be with not empty quantity for lot {lots[0]['id']}",
+            }
+        ],
+    )
+
+    # add second item to tender for first lot
+    item = tender["items"][0]
+    item_2 = deepcopy(item)
+    item_2["quantity"] = 5
+    item_2.pop("id")
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item, item_2]}}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    set_bid_items(self, bid)
+
+    bid["items"][0]["quantity"] = 0
+    bid["items"][0]["unit"]["value"]["amount"] = 0
+    bid["items"][1]["quantity"] = 0
+    bid["items"][1]["unit"]["value"]["amount"] = 0
+    response = self.app.post_json(
+        "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": bid},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": f"At least one item should be with not empty quantity for lot {lots[0]['id']}",
+            }
+        ],
+    )
+
+    bid["items"][1]["quantity"] = 5
+    bid["items"][1]["unit"]["value"]["amount"] = 55
+    response = self.app.post_json(
+        "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token), {"data": bid}
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    # add item to tender with another relatedLot
+    item_3 = deepcopy(item_2)
+    item_3["relatedLot"] = lots[1]["id"]
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"items": [item, item_2, item_3]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # add item for second lot without quantity to bid
+    set_bid_items(self, bid)
+
+    bid["items"][-1]["quantity"] = 0
+    bid["items"][-1]["unit"]["value"]["amount"] = 0
+    response = self.app.post_json(
+        "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": bid},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": f"At least one item should be with not empty quantity for lot {lots[-1]['id']}",
+            }
+        ],
+    )

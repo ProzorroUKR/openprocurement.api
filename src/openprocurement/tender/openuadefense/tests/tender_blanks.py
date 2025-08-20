@@ -679,7 +679,13 @@ def patch_item_with_zero_quantity(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "items", "description": "At least one item should be with not empty quantity"}],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "At least one item should be with not empty quantity for each lot",
+            }
+        ],
     )
     # add second item than in first one update quantity to 0
     item_2 = deepcopy(item)

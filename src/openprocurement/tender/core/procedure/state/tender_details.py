@@ -1445,14 +1445,20 @@ class BaseTenderDetailsMixing:
                 )
 
     def validate_items_quantity(self, data):
-        items_with_quantity = [item for item in data.get("items", []) if item.get("quantity") not in (None, 0)]
-        if not items_with_quantity:
-            raise_operation_error(
-                self.request,
-                "At least one item should be with not empty quantity",
-                status=422,
-                name="items",
-            )
+        items_with_quantity = defaultdict(lambda: [])
+        for item in data.get("items", []):
+            lot = item.get("relatedLot")
+            items_with_quantity.setdefault(lot, [])
+            if item.get("quantity") not in (None, 0):
+                items_with_quantity[lot].append(item)
+        for lot_id, not_empty_items in items_with_quantity.items():
+            if not not_empty_items:
+                raise_operation_error(
+                    self.request,
+                    f"At least one item should be with not empty quantity{' for each lot' if lot_id is not None else ''}",
+                    status=422,
+                    name="items",
+                )
 
     def validate_contract_template_name(self, after, before):
         def raise_contract_template_name_error(message):
