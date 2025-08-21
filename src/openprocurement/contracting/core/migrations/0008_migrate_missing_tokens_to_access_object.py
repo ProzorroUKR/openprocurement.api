@@ -1,7 +1,7 @@
 import logging
 from unittest.mock import ANY
 
-from pymongo import UpdateOne
+from pymongo import DESCENDING, UpdateOne
 
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
 from openprocurement.contracting.core.procedure.models.access import AccessRole
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class Migration(CollectionMigration):
-    description = "Migrating missing contracts tokens to access object"
+    description = "Migrating missing tender/bid contracts tokens to access object"
 
     collection_name = "contracts"
 
@@ -23,11 +23,39 @@ class Migration(CollectionMigration):
     log_every: int = 100000
     bulk_max_size: int = 500
 
+    def process_data(self, cursor):
+        cursor.sort([("public_modified", DESCENDING)])
+        super().process_data(cursor)
+
     def get_filter(self):
-        return {"$or": [{"tender_token": {"$exists": True}}, {"bid_token": {"$exists": True}}]}
+        return {
+            "$or": [
+                {
+                    "$and": [
+                        {"tender_token": {"$exists": True}},
+                        {"access": {"$exists": True}},
+                        {"access": {"$not": {"$elemMatch": {"role": "tender"}}}},
+                    ]
+                },
+                {
+                    "$and": [
+                        {"bid_token": {"$exists": True}},
+                        {"access": {"$exists": True}},
+                        {"access": {"$not": {"$elemMatch": {"role": "bid"}}}},
+                    ]
+                },
+            ]
+        }
 
     def get_projection(self):
-        return {"tender_token": 1, "bid_token": 1, "bid_owner": 1, "owner_token": 1, "owner": 1, "access": 1}
+        return {
+            "tender_token": 1,
+            "bid_token": 1,
+            "bid_owner": 1,
+            "owner_token": 1,
+            "owner": 1,
+            "access": 1,
+        }
 
     def update_document(self, doc, context=None):
         is_updated = False
@@ -36,7 +64,8 @@ class Migration(CollectionMigration):
         access_tender = next((item for item in access if item["role"] == AccessRole.TENDER), None)
         access_bid = next((item for item in access if item["role"] == AccessRole.BID), None)
 
-        if (tender_token := doc.get("tender_token")) and not access_tender:
+        tender_token = doc.get("tender_token")
+        if tender_token and not access_tender:
             access.append(
                 {
                     "token": tender_token,
@@ -46,7 +75,8 @@ class Migration(CollectionMigration):
             )
             is_updated = True
 
-        if (bid_token := doc.get("bid_token")) and not access_bid:
+        bid_token = doc.get("bid_token")
+        if bid_token and not access_bid:
             access.append(
                 {
                     "token": bid_token,
