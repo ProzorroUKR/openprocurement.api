@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 18:49+0300\n"
+"POT-Creation-Date: 2025-08-21 19:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -100,6 +100,9 @@ msgstr ""
 msgid "Подивимося тепер як виглядає відбір - в нього з'явився новий об'єкт `changes`, який відображає історію всіх змін терміну дії відборів:"
 msgstr ""
 
+msgid "**Перед реалізацією розглядалися два варіанти додавання changes**"
+msgstr ""
+
 msgid "Варіант №1 додавання changes без статусів"
 msgstr ""
 
@@ -149,6 +152,9 @@ msgid "Мінуси, над якими треба подумати:"
 msgstr ""
 
 msgid "підписується фреймворк з поперднім значенням `qualificationPeriod`, бо ще не активували `change`"
+msgstr ""
+
+msgid "**Для реалізації був обраний Варіант №1**"
 msgstr ""
 
 msgid "Валідації для закупівель"
