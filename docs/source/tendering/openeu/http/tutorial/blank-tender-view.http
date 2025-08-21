@@ -198,6 +198,10 @@ Content-Type: application/json
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 20,
+    "minTenderingDuration": 30,
+    "hasEnquiries": false,
+    "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
     "restricted": false
   }
 }

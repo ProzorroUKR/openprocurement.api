@@ -1,20 +1,24 @@
-name,values,default
-hasAuction,"true,false",true
-hasAwardingOrder,"true,false",true
-hasValueRestriction,"true,false",false
-valueCurrencyEquality,"true,false",true
-hasPrequalification,false,false
-minBidsNumber,1,1
-hasPreSelectionAgreement,true,true
-hasTenderComplaints,false,false
-hasAwardComplaints,false,false
-hasCancellationComplaints,false,false
-hasValueEstimation,true,true
-hasQualificationComplaints,false,false
-tenderComplainRegulation,0,0
-qualificationComplainDuration,0,0
-awardComplainDuration,5,5
-cancellationComplainDuration,0,0
-clarificationUntilDuration,3,3
-qualificationDuration,0,0
-restricted,"false,true",false
+name,values,default,days
+hasAuction,true / false,true,
+hasAwardingOrder,true / false,true,
+hasValueRestriction,true / false,false,
+valueCurrencyEquality,true / false,true,
+hasPrequalification,false,false,
+minBidsNumber,1,1,
+hasPreSelectionAgreement,true,true,
+hasTenderComplaints,false / true,false,
+hasAwardComplaints,false / true,false,
+hasCancellationComplaints,false / true,false,
+hasValueEstimation,true,true,
+hasQualificationComplaints,false,false,
+tenderComplainRegulation,0 / 3,0,
+qualificationComplainDuration,0,0,
+awardComplainDuration,5,5,
+cancellationComplainDuration,0 / 10,0,
+clarificationUntilDuration,0 / 3,0,
+qualificationDuration,0,0,
+minTenderingDuration,2 / 7,7,working / calendar
+hasEnquiries,false,false,
+minEnquiriesDuration,0,0,
+enquiryPeriodRegulation,3 / 0,3,calendar
+restricted,false / true,false,

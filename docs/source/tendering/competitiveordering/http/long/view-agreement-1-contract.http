@@ -14,7 +14,7 @@ Content-Type: application/json
     "status": "active",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2024-12-03T01:00:00+03:00"
+      "endDate": "2024-10-09T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -38,9 +38,9 @@ Content-Type: application/json
       "kind": "general"
     },
     "classification": {
-      "description": "Mustard seeds",
+      "description": "Послуги з харчування у школах",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "55523100-3"
     },
     "additionalClassifications": [
       {
@@ -87,7 +87,7 @@ Content-Type: application/json
             "id": "9b7f9b8fa75b4cf08661bbe8b59f1c18",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2024-12-03T01:00:00+03:00",
+            "dueDate": "2024-10-09T01:00:00+03:00",
             "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
@@ -97,7 +97,7 @@ Content-Type: application/json
     "owner": "broker",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "date": "2023-10-10T01:00:00+03:00",
-    "next_check": "2024-12-03T01:00:00+03:00",
+    "next_check": "2024-10-09T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "id": "5fc0128d227246bb93babd98a94f0ba0"
   },
