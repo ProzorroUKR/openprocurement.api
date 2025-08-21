@@ -5,6 +5,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
+    "title": "Updated title",
+    "expectedValue": false,
     "eligibleEvidences": [
       {
         "title": "Документальне підтвердження",
@@ -22,7 +24,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "bb11c06fbd5545ccb0284ff39aa2d6cc",
-    "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
+    "title": "Updated title",
     "dataType": "boolean",
     "eligibleEvidences": [
       {
@@ -32,7 +34,7 @@ Content-Type: application/json
         "id": "04cd6b2f592e423fb3e8ebca48d236e7"
       }
     ],
-    "expectedValue": true,
+    "expectedValue": false,
     "datePublished": "2023-10-10T01:00:00+03:00",
     "status": "active"
   }

@@ -2690,9 +2690,11 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 ),
                 {
                     'data': {
+                        'title': 'Updated title',
+                        'expectedValue': False,
                         'eligibleEvidences': [
                             test_evidence_data,
-                        ]
+                        ],
                     }
                 },
             )

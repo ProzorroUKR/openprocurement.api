@@ -1985,21 +1985,6 @@ def create_patch_delete_evidences_from_requirement(self):
     )
     # add
     response = self.app.patch_json(
-        request_path,
-        {"data": {"expectedValue": 100, "eligibleEvidences": [self.test_evidence_data, self.test_evidence_data]}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {"location": "body", "name": "expectedValue", "description": "Rogue field"},
-        ],
-    )
-
-    response = self.app.patch_json(
         request_path, {"data": {"eligibleEvidences": [self.test_evidence_data, self.test_evidence_data]}}
     )
 
