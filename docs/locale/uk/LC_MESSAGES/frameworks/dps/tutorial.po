@@ -98,10 +98,10 @@ msgstr "Також у статусі `active` можна замінити `endDa
 msgid "There are validations for changing `qualificationPeriod.endDate`:"
 msgstr "Існують наступні валідації для зміни терміну дії відбору `qualificationPeriod.endDate`:"
 
-msgid "qualificationPeriod.endDate couldn't be less than 30 full days from now"
+msgid "qualificationPeriod.endDate couldn't be less than 30 full calendar days from now"
 msgstr ""
 
-msgid "qualificationPeriod.endDate couldn't be more than 1461 full days from now"
+msgid "qualificationPeriod.endDate couldn't be more than 1461 full calendar days from now"
 msgstr ""
 
 msgid "It is allowed to modify `qualificationPeriod` only by framework owner using `changes`."

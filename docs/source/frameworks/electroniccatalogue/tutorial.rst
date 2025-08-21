@@ -104,8 +104,8 @@ Also in `active` status can be changed `endDate` for `qualificationPeriod` but i
 
 There are validations for changing `qualificationPeriod.endDate`:
 
-* qualificationPeriod.endDate couldn't be less than 30 full days from now
-* qualificationPeriod.endDate couldn't be more than 1461 full days from now
+* qualificationPeriod.endDate couldn't be less than 30 full calendar days from now
+* qualificationPeriod.endDate couldn't be more than 1461 full calendar days from now
 
 It is allowed to modify `qualificationPeriod` only by framework owner using `changes`.
 

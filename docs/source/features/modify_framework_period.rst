@@ -38,7 +38,7 @@
         {
           "location": "body",
           "name": "data",
-          "description": "qualificationPeriod must be at least 365 full calendar days long"
+          "description": "qualificationPeriod couldn't be less than 365 full calendar days long"
         }
       ]
     }
@@ -72,7 +72,7 @@
         {
           "location": "body",
           "name": "data",
-          "description": "qualificationPeriod must be less than 1461 full calendar days long"
+          "description": "qualificationPeriod couldn't be more than 1461 full calendar days long"
         }
       ]
     }
@@ -227,7 +227,7 @@
         {
           "location": "body",
           "name": "data",
-          "description": "qualificationPeriod.endDate couldn't be more than 1461 full days from now"
+          "description": "qualificationPeriod.endDate couldn't be more than 1461 full calendar days from now"
         }
       ]
     }

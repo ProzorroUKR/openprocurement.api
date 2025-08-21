@@ -1032,7 +1032,7 @@ def patch_framework_draft_to_active_invalid(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "qualificationPeriod must be at least 365 full calendar days long",
+                "description": "qualificationPeriod couldn't be less than 365 full calendar days long",
             }
         ],
     )
@@ -1065,7 +1065,7 @@ def patch_framework_draft_to_active_invalid(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "qualificationPeriod must be less than 1461 full calendar days long",
+                "description": "qualificationPeriod couldn't be more than 1461 full calendar days long",
             }
         ],
     )
@@ -1710,7 +1710,7 @@ def modify_framework_period(self):
             {
                 "location": "body",
                 "name": "modifications.qualificationPeriod",
-                "description": "qualificationPeriod.endDate couldn't be less than 30 full days from now",
+                "description": "qualificationPeriod.endDate couldn't be less than 30 full calendar days from now",
             },
         ],
     )
@@ -1787,7 +1787,7 @@ def modify_framework_period(self):
             {
                 "location": "body",
                 "name": "modifications.qualificationPeriod",
-                "description": "qualificationPeriod.endDate couldn't be more than 1461 full days from now",
+                "description": "qualificationPeriod.endDate couldn't be more than 1461 full calendar days from now",
             },
         ],
     )

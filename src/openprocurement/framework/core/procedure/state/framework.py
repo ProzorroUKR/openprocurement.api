@@ -188,7 +188,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEvents
         if end_date_min > end_date:
             raise_operation_error(
                 get_request(),
-                f"qualificationPeriod must be at least {min_duration} full calendar days long",
+                f"qualificationPeriod couldn't be less than {min_duration} full calendar days long",
             )
 
         end_date_max = calculate_framework_full_date(
@@ -200,7 +200,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEvents
         if end_date_max < end_date:
             raise_operation_error(
                 get_request(),
-                f"qualificationPeriod must be less than {max_duration} full calendar days long",
+                f"qualificationPeriod couldn't be more than {max_duration} full calendar days long",
             )
 
     def calculate_framework_periods(self, data):
@@ -250,7 +250,10 @@ class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEvents
             "endDate": period_end_date.isoformat(),
         }
 
-        data["qualificationPeriod"]["startDate"] = enquiry_period_start_date.isoformat()
+        data["qualificationPeriod"] = {
+            "startDate": enquiry_period_start_date.isoformat(),
+            "endDate": data["qualificationPeriod"]["endDate"],
+        }
 
     def validate_items_classification_prefix(self, framework):
         classifications = [item["classification"] for item in framework.get("items", "")]

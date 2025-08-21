@@ -83,7 +83,7 @@ class ChangeState(FrameworkState):
             raise_operation_error(
                 get_request(),
                 f"qualificationPeriod.endDate couldn't be less than "
-                f"{SUBMISSION_STAND_STILL_DURATION} full days from now",
+                f"{SUBMISSION_STAND_STILL_DURATION} full calendar days from now",
                 status=422,
                 name="modifications.qualificationPeriod",
             )
@@ -97,7 +97,7 @@ class ChangeState(FrameworkState):
         if end_date_max < end_date:
             raise_operation_error(
                 get_request(),
-                f"qualificationPeriod.endDate couldn't be more than {MAX_QUALIFICATION_DURATION} full days from now",
+                f"qualificationPeriod.endDate couldn't be more than {MAX_QUALIFICATION_DURATION} full calendar days from now",
                 status=422,
                 name="modifications.qualificationPeriod",
             )

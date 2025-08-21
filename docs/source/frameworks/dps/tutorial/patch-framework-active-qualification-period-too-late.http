@@ -25,7 +25,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "modifications.qualificationPeriod",
-      "description": "qualificationPeriod.endDate couldn't be more than 1461 full days from now"
+      "description": "qualificationPeriod.endDate couldn't be more than 1461 full calendar days from now"
     }
   ]
 }

@@ -29,8 +29,8 @@ Content-Type: application/json
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "qualificationPeriod": {
-      "endDate": "2024-02-05T00:00:00+02:00",
-      "startDate": "2023-01-01T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2024-02-05T00:00:00+02:00"
     },
     "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {

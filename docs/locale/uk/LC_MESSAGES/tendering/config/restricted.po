@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-14 13:39+0100\n"
+"POT-Creation-Date: 2025-08-21 17:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "restricted"
 msgstr ""
@@ -488,247 +488,697 @@ msgstr ""
 msgid "$.contracts[*].documents[*].url"
 msgstr ""
 
-msgid "$..complaints[*].documents[*].title"
+msgid "$.questions[*].title"
 msgstr ""
 
-msgid "$..complaints[*].documents[*].url"
+msgid "$.questions[*].description"
 msgstr ""
 
-msgid "$..complaints[*].posts[*].documents[*].title"
+msgid "$.questions[*].answer"
 msgstr ""
 
-msgid "$..complaints[*].posts[*].documents[*].url"
+msgid "$.questions[*].author.name"
 msgstr ""
 
-msgid "$..complaints[*].title"
+msgid "$.questions[*].author.name_en"
 msgstr ""
 
-msgid "$..complaints[*].description"
+msgid "$.questions[*].author.name_ru"
 msgstr ""
 
-msgid "$..complaints[*].objections[*].title"
+msgid "$.questions[*].author.identifier.id"
 msgstr ""
 
-msgid "$..complaints[*].objections[*].description"
+msgid "$.questions[*].author.identifier.legalName"
 msgstr ""
 
-msgid "$..complaints[*].objections[*].classification.description"
+msgid "$.questions[*].author.identifier.legalName_en"
 msgstr ""
 
-msgid "$..complaints[*].objections[*].requestedRemedies[*].type"
+msgid "$.questions[*].author.identifier.legalName_ru"
 msgstr ""
 
-msgid "$..complaints[*].objections[*].requestedRemedies[*].description"
+msgid "$.questions[*].author.address.streetAddress"
 msgstr ""
 
-msgid "$..complaints[*].objections[*].arguments[*].description"
+msgid "$.questions[*].author.address.locality"
 msgstr ""
 
-msgid "$..complaints[*].objections[*].arguments[*].evidences[*].title"
+msgid "$.questions[*].author.address.region"
 msgstr ""
 
-msgid "$..complaints[*].objections[*].arguments[*].evidences[*].description"
+msgid "$.questions[*].author.address.postalCode"
 msgstr ""
 
-msgid "$..complaints[*].resolution"
+msgid "$.questions[*].author.address.countryName"
 msgstr ""
 
-msgid "$..complaints[*].tendererAction"
+msgid "$.questions[*].author.address.countryName_en"
 msgstr ""
 
-msgid "$..complaints[*].decision"
+msgid "$.questions[*].author.address.countryName_ru"
 msgstr ""
 
-msgid "$..complaints[*].rejectReasonDescription"
+msgid "$.questions[*].author.contactPoint.telephone"
 msgstr ""
 
-msgid "$..complaints[*].reviewPlace"
+msgid "$.questions[*].author.contactPoint.email"
 msgstr ""
 
-msgid "$..complaints[*].cancellationReason"
+msgid "$.questions[*].author.contactPoint.faxNumber"
 msgstr ""
 
-msgid "$..complaints[*].posts[*].title"
+msgid "$.questions[*].author.contactPoint.url"
 msgstr ""
 
-msgid "$..complaints[*].posts[*].description"
+msgid "$.questions[*].author.contactPoint.name"
 msgstr ""
 
-msgid "$..complaints[*].author.name"
+msgid "$.questions[*].author.contactPoint.name_en"
 msgstr ""
 
-msgid "$..complaints[*].author.name_en"
+msgid "$.questions[*].author.contactPoint.name_ru"
 msgstr ""
 
-msgid "$..complaints[*].author.name_ru"
+msgid "$.questions[*].author.additionalContactPoints[*].telephone"
 msgstr ""
 
-msgid "$..complaints[*].author.identifier.id"
+msgid "$.questions[*].author.additionalContactPoints[*].email"
 msgstr ""
 
-msgid "$..complaints[*].author.identifier.legalName"
+msgid "$.questions[*].author.additionalContactPoints[*].faxNumber"
 msgstr ""
 
-msgid "$..complaints[*].author.identifier.legalName_en"
+msgid "$.questions[*].author.additionalContactPoints[*].url"
 msgstr ""
 
-msgid "$..complaints[*].author.identifier.legalName_ru"
+msgid "$.questions[*].author.additionalContactPoints[*].name"
 msgstr ""
 
-msgid "$..complaints[*].author.address.streetAddress"
+msgid "$.questions[*].author.additionalContactPoints[*].name_en"
 msgstr ""
 
-msgid "$..complaints[*].author.address.locality"
+msgid "$.questions[*].author.additionalContactPoints[*].name_ru"
 msgstr ""
 
-msgid "$..complaints[*].author.address.region"
+msgid "$.complaints[*].documents[*].title"
 msgstr ""
 
-msgid "$..complaints[*].author.address.postalCode"
+msgid "$.complaints[*].documents[*].url"
 msgstr ""
 
-msgid "$..complaints[*].author.address.countryName"
+msgid "$.complaints[*].posts[*].documents[*].title"
 msgstr ""
 
-msgid "$..complaints[*].author.address.countryName_en"
+msgid "$.complaints[*].posts[*].documents[*].url"
 msgstr ""
 
-msgid "$..complaints[*].author.address.countryName_ru"
+msgid "$.complaints[*].title"
 msgstr ""
 
-msgid "$..complaints[*].author.contactPoint.telephone"
+msgid "$.complaints[*].description"
 msgstr ""
 
-msgid "$..complaints[*].author.contactPoint.email"
+msgid "$.complaints[*].objections[*].title"
 msgstr ""
 
-msgid "$..complaints[*].author.contactPoint.faxNumber"
+msgid "$.complaints[*].objections[*].description"
 msgstr ""
 
-msgid "$..complaints[*].author.contactPoint.url"
+msgid "$.complaints[*].objections[*].classification.description"
 msgstr ""
 
-msgid "$..complaints[*].author.contactPoint.name"
+msgid "$.complaints[*].objections[*].requestedRemedies[*].type"
 msgstr ""
 
-msgid "$..complaints[*].author.contactPoint.name_en"
+msgid "$.complaints[*].objections[*].requestedRemedies[*].description"
 msgstr ""
 
-msgid "$..complaints[*].author.contactPoint.name_ru"
+msgid "$.complaints[*].objections[*].arguments[*].description"
 msgstr ""
 
-msgid "$..complaints[*].author.additionalContactPoints[*].telephone"
+msgid "$.complaints[*].objections[*].arguments[*].evidences[*].title"
 msgstr ""
 
-msgid "$..complaints[*].author.additionalContactPoints[*].email"
+msgid "$.complaints[*].objections[*].arguments[*].evidences[*].description"
 msgstr ""
 
-msgid "$..complaints[*].author.additionalContactPoints[*].faxNumber"
+msgid "$.complaints[*].resolution"
 msgstr ""
 
-msgid "$..complaints[*].author.additionalContactPoints[*].url"
+msgid "$.complaints[*].tendererAction"
 msgstr ""
 
-msgid "$..complaints[*].author.additionalContactPoints[*].name"
+msgid "$.complaints[*].decision"
 msgstr ""
 
-msgid "$..complaints[*].author.additionalContactPoints[*].name_en"
+msgid "$.complaints[*].rejectReasonDescription"
 msgstr ""
 
-msgid "$..complaints[*].author.additionalContactPoints[*].name_ru"
+msgid "$.complaints[*].reviewPlace"
 msgstr ""
 
-msgid "$..questions[*].title"
+msgid "$.complaints[*].cancellationReason"
 msgstr ""
 
-msgid "$..questions[*].description"
+msgid "$.complaints[*].posts[*].title"
 msgstr ""
 
-msgid "$..questions[*].answer"
+msgid "$.complaints[*].posts[*].description"
 msgstr ""
 
-msgid "$..questions[*].author.name"
+msgid "$.complaints[*].author.name"
 msgstr ""
 
-msgid "$..questions[*].author.name_en"
+msgid "$.complaints[*].author.name_en"
 msgstr ""
 
-msgid "$..questions[*].author.name_ru"
+msgid "$.complaints[*].author.name_ru"
 msgstr ""
 
-msgid "$..questions[*].author.identifier.id"
+msgid "$.complaints[*].author.identifier.id"
 msgstr ""
 
-msgid "$..questions[*].author.identifier.legalName"
+msgid "$.complaints[*].author.identifier.legalName"
 msgstr ""
 
-msgid "$..questions[*].author.identifier.legalName_en"
+msgid "$.complaints[*].author.identifier.legalName_en"
 msgstr ""
 
-msgid "$..questions[*].author.identifier.legalName_ru"
+msgid "$.complaints[*].author.identifier.legalName_ru"
 msgstr ""
 
-msgid "$..questions[*].author.address.streetAddress"
+msgid "$.complaints[*].author.address.streetAddress"
 msgstr ""
 
-msgid "$..questions[*].author.address.locality"
+msgid "$.complaints[*].author.address.locality"
 msgstr ""
 
-msgid "$..questions[*].author.address.region"
+msgid "$.complaints[*].author.address.region"
 msgstr ""
 
-msgid "$..questions[*].author.address.postalCode"
+msgid "$.complaints[*].author.address.postalCode"
 msgstr ""
 
-msgid "$..questions[*].author.address.countryName"
+msgid "$.complaints[*].author.address.countryName"
 msgstr ""
 
-msgid "$..questions[*].author.address.countryName_en"
+msgid "$.complaints[*].author.address.countryName_en"
 msgstr ""
 
-msgid "$..questions[*].author.address.countryName_ru"
+msgid "$.complaints[*].author.address.countryName_ru"
 msgstr ""
 
-msgid "$..questions[*].author.contactPoint.telephone"
+msgid "$.complaints[*].author.contactPoint.telephone"
 msgstr ""
 
-msgid "$..questions[*].author.contactPoint.email"
+msgid "$.complaints[*].author.contactPoint.email"
 msgstr ""
 
-msgid "$..questions[*].author.contactPoint.faxNumber"
+msgid "$.complaints[*].author.contactPoint.faxNumber"
 msgstr ""
 
-msgid "$..questions[*].author.contactPoint.url"
+msgid "$.complaints[*].author.contactPoint.url"
 msgstr ""
 
-msgid "$..questions[*].author.contactPoint.name"
+msgid "$.complaints[*].author.contactPoint.name"
 msgstr ""
 
-msgid "$..questions[*].author.contactPoint.name_en"
+msgid "$.complaints[*].author.contactPoint.name_en"
 msgstr ""
 
-msgid "$..questions[*].author.contactPoint.name_ru"
+msgid "$.complaints[*].author.contactPoint.name_ru"
 msgstr ""
 
-msgid "$..questions[*].author.additionalContactPoints[*].telephone"
+msgid "$.complaints[*].author.additionalContactPoints[*].telephone"
 msgstr ""
 
-msgid "$..questions[*].author.additionalContactPoints[*].email"
+msgid "$.complaints[*].author.additionalContactPoints[*].email"
 msgstr ""
 
-msgid "$..questions[*].author.additionalContactPoints[*].faxNumber"
+msgid "$.complaints[*].author.additionalContactPoints[*].faxNumber"
 msgstr ""
 
-msgid "$..questions[*].author.additionalContactPoints[*].url"
+msgid "$.complaints[*].author.additionalContactPoints[*].url"
 msgstr ""
 
-msgid "$..questions[*].author.additionalContactPoints[*].name"
+msgid "$.complaints[*].author.additionalContactPoints[*].name"
 msgstr ""
 
-msgid "$..questions[*].author.additionalContactPoints[*].name_en"
+msgid "$.complaints[*].author.additionalContactPoints[*].name_en"
 msgstr ""
 
-msgid "$..questions[*].author.additionalContactPoints[*].name_ru"
+msgid "$.complaints[*].author.additionalContactPoints[*].name_ru"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].documents[*].title"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].documents[*].url"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].posts[*].documents[*].title"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].posts[*].documents[*].url"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].title"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].description"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].objections[*].title"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].objections[*].description"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].objections[*].classification.description"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].objections[*].requestedRemedies[*].type"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].objections[*].requestedRemedies[*].description"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].objections[*].arguments[*].description"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].objections[*].arguments[*].evidences[*].title"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].objections[*].arguments[*].evidences[*].description"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].resolution"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].tendererAction"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].decision"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].rejectReasonDescription"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].reviewPlace"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].cancellationReason"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].posts[*].title"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].posts[*].description"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.name"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.name_en"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.name_ru"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.identifier.id"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.identifier.legalName"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.identifier.legalName_en"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.identifier.legalName_ru"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.address.streetAddress"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.address.locality"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.address.region"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.address.postalCode"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.address.countryName"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.address.countryName_en"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.address.countryName_ru"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.contactPoint.telephone"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.contactPoint.email"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.contactPoint.faxNumber"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.contactPoint.url"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.contactPoint.name"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.contactPoint.name_en"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.contactPoint.name_ru"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.additionalContactPoints[*].telephone"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.additionalContactPoints[*].email"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.additionalContactPoints[*].faxNumber"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.additionalContactPoints[*].url"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.additionalContactPoints[*].name"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.additionalContactPoints[*].name_en"
+msgstr ""
+
+msgid "$.awards[*].complaints[*].author.additionalContactPoints[*].name_ru"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].documents[*].title"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].documents[*].url"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].posts[*].documents[*].title"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].posts[*].documents[*].url"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].title"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].description"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].objections[*].title"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].objections[*].description"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].objections[*].classification.description"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].objections[*].requestedRemedies[*].type"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].objections[*].requestedRemedies[*].description"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].objections[*].arguments[*].description"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].objections[*].arguments[*].evidences[*].title"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].objections[*].arguments[*].evidences[*].description"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].resolution"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].tendererAction"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].decision"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].rejectReasonDescription"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].reviewPlace"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].cancellationReason"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].posts[*].title"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].posts[*].description"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.name"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.name_en"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.name_ru"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.identifier.id"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.identifier.legalName"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.identifier.legalName_en"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.identifier.legalName_ru"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.address.streetAddress"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.address.locality"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.address.region"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.address.postalCode"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.address.countryName"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.address.countryName_en"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.address.countryName_ru"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.contactPoint.telephone"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.contactPoint.email"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.contactPoint.faxNumber"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.contactPoint.url"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.contactPoint.name"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.contactPoint.name_en"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.contactPoint.name_ru"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.additionalContactPoints[*].telephone"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.additionalContactPoints[*].email"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.additionalContactPoints[*].faxNumber"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.additionalContactPoints[*].url"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.additionalContactPoints[*].name"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.additionalContactPoints[*].name_en"
+msgstr ""
+
+msgid "$.qualifications[*].complaints[*].author.additionalContactPoints[*].name_ru"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].documents[*].title"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].documents[*].url"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].posts[*].documents[*].title"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].posts[*].documents[*].url"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].title"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].description"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].objections[*].title"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].objections[*].description"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].objections[*].classification.description"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].objections[*].requestedRemedies[*].type"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].objections[*].requestedRemedies[*].description"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].objections[*].arguments[*].description"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].objections[*].arguments[*].evidences[*].title"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].objections[*].arguments[*].evidences[*].description"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].resolution"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].tendererAction"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].decision"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].rejectReasonDescription"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].reviewPlace"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].cancellationReason"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].posts[*].title"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].posts[*].description"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.name"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.name_en"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.name_ru"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.identifier.id"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.identifier.legalName"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.identifier.legalName_en"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.identifier.legalName_ru"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.address.streetAddress"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.address.locality"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.address.region"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.address.postalCode"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.address.countryName"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.address.countryName_en"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.address.countryName_ru"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.contactPoint.telephone"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.contactPoint.email"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.contactPoint.faxNumber"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.contactPoint.url"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.contactPoint.name"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.contactPoint.name_en"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.contactPoint.name_ru"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.additionalContactPoints[*].telephone"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.additionalContactPoints[*].email"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.additionalContactPoints[*].faxNumber"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.additionalContactPoints[*].url"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.additionalContactPoints[*].name"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.additionalContactPoints[*].name_en"
+msgstr ""
+
+msgid "$.cancellations[*].complaints[*].author.additionalContactPoints[*].name_ru"
 msgstr ""
 
 msgid "Rules for contract masking:"
@@ -854,9 +1304,14 @@ msgstr ""
 msgid "$.changes[*].rationale_en"
 msgstr ""
 
-msgid "$..documents[*].title"
+msgid "$.documents[*].title"
 msgstr ""
 
-msgid "$..documents[*].url"
+msgid "$.documents[*].url"
 msgstr ""
 
+msgid "$.implementation.transactions[*].documents[*].title"
+msgstr ""
+
+msgid "$.implementation.transactions[*].documents[*].url"
+msgstr ""
