@@ -315,8 +315,8 @@ class BaseTenderDetailsMixing:
         if self.should_validate_related_lot_in_items:
             self.validate_related_lot_in_items(after)
 
-        if after["status"] != "draft":
-            if before["status"] == "draft":  # validations on activation
+        if after["status"] not in ("draft", "draft.stage2"):
+            if before["status"] in ("draft", "draft.stage2"):  # validations on activation
                 if tender_created_after(MINIMAL_STEP_TENDERS_WITH_LOTS_VALIDATION_FROM):
                     self.validate_minimal_step(after, before=before)
                 self.validate_pre_selection_agreement_on_activation(after)
