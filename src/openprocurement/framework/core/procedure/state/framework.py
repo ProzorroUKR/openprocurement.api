@@ -184,6 +184,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEvents
             start_date,
             timedelta(days=min_duration),
             framework=after,
+            ceil=True,
         )
         if end_date_min > end_date:
             raise_operation_error(

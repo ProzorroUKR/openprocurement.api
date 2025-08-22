@@ -1120,7 +1120,7 @@ def patch_ban_milestone(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add ban milestone for contract in suspended status"
+        response.json["errors"][0]["description"], "Can't update ban milestone for contract in suspended status"
     )
 
 
