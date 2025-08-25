@@ -157,7 +157,7 @@ def validate_contract_suspended(request, **kwargs):
     if milestone_type and request.validated["contract"]["status"] == "suspended" and milestone_type != "activation":
         raise_operation_error(
             request,
-            f"Can't add {milestone_type} milestone for contract in suspended status",
+            f"Can't {OPERATIONS.get(request.method)} {milestone_type} milestone for contract in suspended status",
         )
 
 

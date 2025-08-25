@@ -607,6 +607,9 @@ def agreement_chronograph_milestones(self):
         agreement = response.json["data"]
         milestone = agreement["contracts"][0]["milestones"][1]
         self.assertEqual(milestone["status"], "met")
+        self.assertIn("dateMet", milestone)
+        self.assertEqual(milestone["dateModified"], milestone["dateMet"])
+        self.assertEqual(milestone["dateModified"], agreement["contracts"][0]["date"])
 
         response = self.app.post_json(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
@@ -1086,6 +1089,8 @@ def patch_activation_milestone(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "met")
+    self.assertIn("dateMet", response.json["data"])
+    self.assertEqual(response.json["data"]["dateModified"], response.json["data"]["dateMet"])
 
     response = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}")
     self.assertEqual(response.status, "200 OK")
@@ -1115,7 +1120,7 @@ def patch_ban_milestone(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add ban milestone for contract in suspended status"
+        response.json["errors"][0]["description"], "Can't update ban milestone for contract in suspended status"
     )
 
 

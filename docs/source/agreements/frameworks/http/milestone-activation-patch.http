@@ -19,7 +19,8 @@ Content-Type: application/json
     "type": "activation",
     "status": "met",
     "dueDate": "2024-02-25T00:00:00+02:00",
-    "dateModified": "2023-01-16T00:00:00+02:00"
+    "dateModified": "2023-04-16T01:00:00+03:00",
+    "dateMet": "2023-04-16T01:00:00+03:00"
   }
 }
 

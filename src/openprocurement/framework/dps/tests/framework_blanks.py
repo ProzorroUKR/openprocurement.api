@@ -951,7 +951,7 @@ def patch_framework_draft_to_active(self):
     self.assertNotEqual(response.json["data"]["dateModified"], framework["dateModified"])
 
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=365)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=366)).isoformat()
     response = self.app.post_json(
         "/frameworks",
         {

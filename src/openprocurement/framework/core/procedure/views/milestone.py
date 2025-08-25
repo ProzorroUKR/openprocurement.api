@@ -60,7 +60,7 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
         self.state.on_post(milestone)
         set_item(self.request.validated["agreement"], "contracts", contract["id"], contract)
 
-        if save_object(self.request, "agreement", insert=True):
+        if save_object(self.request, "agreement"):
             self.LOGGER.info(
                 f"Updated agreement milestone {milestone['id']}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_milestone_create"}),

@@ -78,6 +78,7 @@ class ChangeState(FrameworkState):
             start_date,
             timedelta(days=SUBMISSION_STAND_STILL_DURATION),
             framework=framework,
+            ceil=True,
         )
         if end_date_min > end_date:
             raise_operation_error(
