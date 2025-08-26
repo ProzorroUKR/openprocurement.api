@@ -25,7 +25,7 @@ class EChangeState(BaseContractState):
         self.validate_update_contract_value_amount(self.request, contract, data_for_validation)
 
         # for next validations we must have these fields for comparing
-        for field_name in ("value", "amountPaid", "period"):
+        for field_name in ("value", "amountPaid", "period", "items"):
             if field_name not in data_for_validation:
                 data_for_validation[field_name] = contract.get(field_name)
 

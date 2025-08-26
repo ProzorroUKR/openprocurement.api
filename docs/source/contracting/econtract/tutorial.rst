@@ -326,3 +326,35 @@ That is, if, for example, the value of the contract was changed by an additional
 
 .. http:example:: http/get-contract-with-changes.http
     :code:
+
+Items length change
+--------------------
+
+There is an opportunity to change length of items during contract is `active` using `changes`.
+
+It is allowed to add new items, but the main fields should be the same as in one of previous item in contact.
+
+Fields that can not be changed:
+
+* `classification`
+* `relatedLot`
+* `relatedBuyer`
+* `additionalClassifications`
+* `attributes`
+
+Let's try to add new item with new `classification` and we will see an error:
+
+.. http:example:: http/create-change-items-invalid-classification.http
+    :code:
+
+For example, we can split first item into two new items.
+
+But there is still a validation for unit prices of all items:
+
+.. http:example:: http/create-change-items-invalid-price.http
+    :code:
+
+Let's update quantity in first item and add new item with correct `unit.value`:
+
+.. http:example:: http/create-change-items.http
+    :code:

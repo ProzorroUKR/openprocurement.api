@@ -12,8 +12,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "modifications": {
       "value": {
-        "amount": 235,
-        "amountNet": 200
+        "amount": 535,
+        "amountNet": 490
       }
     }
   }
@@ -32,10 +32,10 @@ Content-Type: application/json
     ],
     "modifications": {
       "value": {
-        "amount": 235.0,
+        "amount": 535.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": true,
-        "amountNet": 200.0
+        "amountNet": 490.0
       }
     },
     "id": "68db49ecd6ef439a81feaec69cd6ab07",

@@ -1,3 +1,5 @@
+import hashlib
+import json
 from datetime import datetime, timedelta
 from decimal import ROUND_UP, Decimal
 from itertools import zip_longest
@@ -250,29 +252,6 @@ class ContractStateMixing:
                         get_request(),
                         "Can't activate contract while unit.value is not set for each item",
                     )
-
-    def validate_contract_items(self, before: dict, after: dict) -> None:
-        # TODO: Remove this logic later with adding new endpoint for items in contract
-        items_before = before.get("items", [])
-        items_after = after.get("items", [])
-        for item_before, item_after in zip_longest(items_before, items_after):
-            if None in (item_before, item_after):
-                raise_operation_error(get_request(), "Can't change items list length")
-            else:
-                for k in item_before.keys() | item_after.keys():
-                    before, after = item_before.get(k), item_after.get(k)
-                    if not before and not after:  # [] or None check
-                        continue
-
-                    if k == "unit":
-                        before = {k: v for k, v in (before or {}).items() if k != "value"}
-                        after = {k: v for k, v in (after or {}).items() if k != "value"}
-
-                    if before != after:
-                        raise_operation_error(
-                            get_request(),
-                            "Updated could be only unit.value.amount in item",
-                        )
 
     def validate_contract_signing(self, before: dict, after: dict):
         tender = get_tender()
@@ -627,21 +606,15 @@ class ContractState(
 
         after_status = after.get("status", "active")
         if after_status == "active":
-            item_patch_fields = [
-                "description",
-                "description_en",
-                "description_ru",
-                "unit",
-                "deliveryDate",
-                "deliveryAddress",
-                "deliveryLocation",
-                "quantity",
-            ]
+            self.validate_patch_active_contract_items(request, before, after)
         else:
-            item_patch_fields = [
-                "unit",
-                "quantity",
-            ]
+            self.validate_patch_pending_contract_items(request, before, after)
+
+    def validate_patch_pending_contract_items(self, request, before: dict, after: dict) -> None:
+        item_patch_fields = [
+            "unit",
+            "quantity",
+        ]
         items_before = before.get("items", [])
         items_after = after.get("items", [])
         for item_before, item_after in zip_longest(items_before, items_after):
@@ -679,6 +652,39 @@ class ContractState(
                                 get_request(),
                                 "Forbidden to change currency in contract items unit",
                             )
+
+    def extract_key_hash(self, item):
+        """Make hash from field set"""
+        key_tuple = (
+            json.dumps(item.get("classification", {}), sort_keys=True, ensure_ascii=False),
+            item.get("relatedLot", ""),
+            item.get("relatedBuyer", ""),
+            sorted(item.get("attributes", []), key=lambda a: a.get("name", "")),
+            sorted(item.get("additionalClassifications", []), key=lambda a: a.get("id", "")),
+        )
+        return hashlib.sha1(json.dumps(key_tuple, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
+
+    def validate_patch_active_contract_items(self, request, before: dict, after: dict) -> None:
+        old_items_keys = {self.extract_key_hash(item) for item in before.get("items", [])}
+        new_items_keys = {self.extract_key_hash(item) for item in after.get("items", [])}
+
+        error_msg = (
+            "all main fields should be the same as in previous items: "
+            "classification, relatedLot, relatedBuyer, attributtes, additionalClassifications"
+        )
+        extra_keys = new_items_keys - old_items_keys
+        if extra_keys:
+            raise_operation_error(
+                get_request(),
+                f"Forbidden to add new items main information in contract, {error_msg}",
+            )
+
+        removed_keys = old_items_keys - new_items_keys
+        if removed_keys:
+            raise_operation_error(
+                get_request(),
+                f"Forbidden to delete items main information in contract, {error_msg}",
+            )
 
     def validate_update_contracting_items_unit_value_amount(self, request, before, after) -> None:
         if after.get("items"):

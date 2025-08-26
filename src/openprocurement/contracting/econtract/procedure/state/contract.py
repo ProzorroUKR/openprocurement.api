@@ -97,7 +97,7 @@ class EContractState(BaseContractState):
         else:
             item_patch_fields.append("suppliers")
         for field_name in updated_contract_data.keys():
-            if field_name not in item_patch_fields and before != after:
+            if field_name not in item_patch_fields and before.get(field_name) != after.get(field_name):
                 raise_operation_error(
                     get_request(),
                     f"Updated could be only {tuple(item_patch_fields)} in contract, {field_name} change forbidden",

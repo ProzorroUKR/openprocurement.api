@@ -1,5 +1,7 @@
 from copy import deepcopy
+from datetime import timedelta
 
+from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
 
 
@@ -886,3 +888,222 @@ def change_documents(self):
         f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
     )
     self.assertEqual(response.json["data"][0]["title"], "sign.p7s")
+
+
+def change_tender_contract_items_change(self):
+    item = self.contract["items"][0]
+
+    # try to add one more item
+    item_2 = deepcopy(item)
+    item_2.pop("id")
+    item_2["classification"]["id"] = "19433000-0"
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "modifications": {
+                    "items": [item, item_2],
+                },
+            },
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, attributtes, additionalClassifications",
+            }
+        ],
+    )
+
+    item_2["classification"] = item["classification"]
+    item_2["additionalClassifications"] = []
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "modifications": {
+                    "items": [item, item_2],
+                },
+            },
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, attributtes, additionalClassifications",
+            }
+        ],
+    )
+    item_2["additionalClassifications"] = item["additionalClassifications"]
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "modifications": {
+                    "items": [{**item, "quantity": 12, "description": "тапочки для тараканів"}],
+                },
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
+            }
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "modifications": {
+                    "items": [{**item, "quantity": -1, "description": "тапочки для тараканів"}],
+                },
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "modifications",
+                "description": {"items": [{"quantity": ["Float value should be greater than 0."]}]},
+            }
+        ],
+    )
+
+    item_2["description"] = "New item"
+    item_2["quantity"] = 5
+    item_2["unit"]["value"]["amount"] = 11
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "modifications": {
+                    "items": [item, item_2],
+                },
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
+            }
+        ],
+    )
+
+    item["unit"]["value"]["amount"] = 29.8
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "modifications": {
+                    "items": [item, item_2],
+                },
+            },
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    change = response.json["data"]
+
+    # add signature for buyer
+    contract_sign_data = {
+        "documentType": "contractSignature",
+        "title": "sign.p7s",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pkcs7-signature",
+    }
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
+        {"data": contract_sign_data},
+    )
+
+    # add signature for supplier
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.bid_token}",
+        {"data": contract_sign_data},
+    )
+
+    # update allowed item fields
+    startDate = get_now().isoformat()
+    endDate = (get_now() + timedelta(days=90)).isoformat()
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "modifications": {
+                    "items": [
+                        {
+                            **item,
+                            "quantity": 5.005,
+                            "deliveryAddress": {
+                                **item["deliveryAddress"],
+                                "postalCode": "79011",
+                                "streetAddress": "вул. Літаючого Хом’яка",
+                            },
+                            "deliveryDate": {"startDate": startDate, "endDate": endDate},
+                        },
+                        item_2,
+                    ]
+                },
+            },
+        },
+    )
+    change_2 = response.json["data"]
+    self.assertEqual(change_2["modifications"]["items"][0]["quantity"], 5.005)
+    self.assertEqual(change_2["modifications"]["items"][0]["deliveryAddress"]["postalCode"], "79011")
+    self.assertEqual(
+        change_2["modifications"]["items"][0]["deliveryAddress"]["streetAddress"], "вул. Літаючого Хом’яка"
+    )
+    self.assertEqual(change_2["modifications"]["items"][0]["deliveryAddress"]["region"], "м. Київ")
+    self.assertEqual(change_2["modifications"]["items"][0]["deliveryAddress"]["locality"], "м. Київ")
+    self.assertEqual(change_2["modifications"]["items"][0]["deliveryAddress"]["countryName"], "Україна")
+    self.assertEqual(change_2["modifications"]["items"][0]["deliveryDate"]["startDate"], startDate)
+    self.assertEqual(change_2["modifications"]["items"][0]["deliveryDate"]["endDate"], endDate)
