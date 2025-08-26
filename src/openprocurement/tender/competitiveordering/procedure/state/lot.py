@@ -1,8 +1,13 @@
 from openprocurement.tender.competitiveordering.procedure.state.tender_details import (
-    COTenderDetailsState,
+    COLongTenderDetailsState,
+    COShortTenderDetailsState,
 )
 from openprocurement.tender.core.procedure.state.lot import LotInvalidationBidStateMixin
 
 
-class CompetitiveOrderingTenderLotState(LotInvalidationBidStateMixin, COTenderDetailsState):
+class COShortTenderLotState(LotInvalidationBidStateMixin, COShortTenderDetailsState):
+    pass
+
+
+class COLongTenderLotState(LotInvalidationBidStateMixin, COLongTenderDetailsState):
     pass

@@ -2,8 +2,6 @@ from schematics.types import BaseType, StringType
 from schematics.types.compound import ListType
 from schematics.validate import ValidationError
 
-from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.item import Classification
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
@@ -25,11 +23,7 @@ from openprocurement.tender.core.procedure.models.tender import (
     PostBaseTender,
     validate_related_buyer_in_items,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_start_date,
-)
-from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.pricequotation.constants import PQ, TENDERING_DURATION
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.models.agreement import Agreement
 from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
 from openprocurement.tender.pricequotation.procedure.models.organization import (
@@ -39,18 +33,6 @@ from openprocurement.tender.pricequotation.procedure.models.organization import 
 from openprocurement.tender.pricequotation.procedure.validation import (
     validate_criteria_id_uniq,
 )
-
-
-def validate_tender_period_duration(data, period):
-    tender_period_end_date = calculate_tender_full_date(
-        get_request_now(),
-        TENDERING_DURATION,
-        tender=data,
-        working_days=True,
-        calendar=WORKING_DAYS,
-    )
-    if tender_period_end_date > period.endDate:
-        raise ValidationError(f"tenderPeriod must be at least {TENDERING_DURATION.days} full business days long")
 
 
 class PostTender(PostBaseTender):
@@ -88,11 +70,6 @@ class PostTender(PostBaseTender):
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
-
-    def validate_tenderPeriod(self, data, period):
-        if period.startDate:
-            validate_tender_period_start_date(data, period)
-        validate_tender_period_duration(data, period)
 
     def validate_awardPeriod(self, data, period):
         if (
@@ -194,9 +171,6 @@ class Tender(BaseTender):
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
-
-    def validate_tenderPeriod(self, data, period):
-        validate_tender_period_duration(data, period)
 
     def validate_awardPeriod(self, data, period):
         if (

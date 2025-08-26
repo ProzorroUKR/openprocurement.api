@@ -186,6 +186,26 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_QUALIFICATION_DURATION_OPTIONAL",
         parse_func=parse_bool,
     ),
+    "minTenderingDuration": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_MIN_TENDERING_DURATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "hasEnquiries": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_HAS_ENQUIRIES_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "minEnquiriesDuration": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_MIN_ENQUIRIES_DURATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "enquiryPeriodRegulation": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_ENQUIRY_PERIOD_REGULATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
     "restricted": get_constant(
         CONSTANTS_CONFIG,
         "TENDER_CONFIG_RESTRICTED_OPTIONAL",

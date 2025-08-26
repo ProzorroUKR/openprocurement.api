@@ -199,6 +199,10 @@ Content-Type: application/json
       "endDate": "2023-10-22T00:00:00+03:00",
       "clarificationsUntil": "2023-10-25T00:00:00+03:00"
     },
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+03:00"
+    },
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
@@ -212,17 +216,21 @@ Content-Type: application/json
     "hasPrequalification": false,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": true,
-    "hasTenderComplaints": false,
-    "hasAwardComplaints": false,
-    "hasCancellationComplaints": false,
+    "hasTenderComplaints": true,
+    "hasAwardComplaints": true,
+    "hasCancellationComplaints": true,
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
-    "tenderComplainRegulation": 0,
+    "tenderComplainRegulation": 3,
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
-    "cancellationComplainDuration": 0,
+    "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
+    "minTenderingDuration": 7,
+    "hasEnquiries": false,
+    "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 3,
     "restricted": true
   }
 }

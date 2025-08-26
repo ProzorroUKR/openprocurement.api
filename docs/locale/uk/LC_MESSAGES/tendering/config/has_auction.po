@@ -44,7 +44,13 @@ msgstr ""
 msgid "true"
 msgstr ""
 
-msgid "competitiveOrdering"
+msgid "competitiveOrdering.short"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "competitiveOrdering.long"
 msgstr ""
 
 msgid "aboveThresholdEU"
@@ -66,9 +72,6 @@ msgid "closeFrameworkAgreementUA"
 msgstr ""
 
 msgid "competitiveDialogueEU"
-msgstr ""
-
-msgid "false"
 msgstr ""
 
 msgid "competitiveDialogueEU.stage2"
@@ -160,4 +163,3 @@ msgstr "немає поля `auctionUrl`"
 
 msgid "has no `participationUrl` field"
 msgstr "немає поля `participationUrl`"
-

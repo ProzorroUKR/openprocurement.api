@@ -3,6 +3,7 @@ from datetime import timedelta
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
@@ -32,7 +33,10 @@ PROCEDURES = {
         CFA_UA,
         REQUEST_FOR_PROPOSAL,
     ),
-    "selective": (PQ,),
+    "selective": (
+        PQ,
+        COMPETITIVE_ORDERING,
+    ),
     "limited": (
         REPORTING,
         NEGOTIATION,

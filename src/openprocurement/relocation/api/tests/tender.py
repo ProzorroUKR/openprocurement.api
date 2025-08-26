@@ -1,6 +1,7 @@
 import os
 import uuid
 from copy import deepcopy
+from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -35,7 +36,6 @@ from openprocurement.tender.open.tests.base import (
     test_tender_open_config,
     test_tender_open_data,
 )
-from openprocurement.tender.openeu.constants import TENDERING_DURATION
 from openprocurement.tender.openeu.tests.base import (
     test_tender_openeu_config,
     test_tender_openeu_data,
@@ -495,7 +495,7 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         self.assertNotEqual(transfer_creation_date, transfer_modification_date)
 
         # second owner can change the tender
-        end_date = calculate_tender_full_date(get_now(), TENDERING_DURATION)
+        end_date = calculate_tender_full_date(get_now(), timedelta(days=30))
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, new_access_token),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-09 01:08+0300\n"
+"POT-Creation-Date: 2025-06-26 23:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,10 +41,13 @@ msgstr ""
 msgid "false"
 msgstr ""
 
-msgid "competitiveOrdering"
+msgid "competitiveOrdering.short"
 msgstr ""
 
 msgid "true"
+msgstr ""
+
+msgid "competitiveOrdering.long"
 msgstr ""
 
 msgid "aboveThresholdEU"
@@ -143,7 +146,7 @@ msgstr "ідентифікатор та схема ідентифікатора 
 msgid "agreement should have at least 3 active contracts"
 msgstr "угода повинна мати принаймні 3 активні контракти"
 
-msgid ":ref:`competitiveordering` → :ref:`competitiveordering_tutorial`"
+msgid ":ref:`competitiveordering` → :ref:`competitiveordering_short_tutorial`"
 msgstr ""
 
 msgid "electronicCatalogue -> priceQuotation"

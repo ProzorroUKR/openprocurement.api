@@ -63,9 +63,9 @@ class TenderQuestionStateMixin:
 
     def validate_question_add(self, tender):
         now = get_request_now().isoformat()
-        enquiry_period = tender["enquiryPeriod"]
+        enquiry_period = tender.get("enquiryPeriod")
 
-        if not enquiry_period["startDate"] <= now <= enquiry_period["endDate"]:
+        if not enquiry_period or not enquiry_period["startDate"] <= now <= enquiry_period["endDate"]:
             raise_operation_error(
                 get_request(),
                 "Can add question only in enquiryPeriod",

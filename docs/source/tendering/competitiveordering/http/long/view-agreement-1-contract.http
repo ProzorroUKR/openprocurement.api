@@ -1,0 +1,108 @@
+GET /api/2.5/agreements/5fc0128d227246bb93babd98a94f0ba0 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "agreementID": "UA-2023-10-10-000001",
+    "frameworkID": "2477448abc09477d9eb1f8c33c792723",
+    "agreementType": "dynamicPurchasingSystem",
+    "status": "active",
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2024-10-09T01:00:00+03:00"
+    },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "kind": "general"
+    },
+    "classification": {
+      "description": "Послуги з харчування у школах",
+      "scheme": "ДК021",
+      "id": "55523100-3"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "contracts": [
+      {
+        "id": "e9a70bb65a3e4826a93b8bcd57308ef6",
+        "qualificationID": "fe438cdd20114c49a0d43ef1687410f3",
+        "submissionID": "dfd61b41454b420980cbbf6826d1b9d5",
+        "status": "active",
+        "suppliers": [
+          {
+            "name": "Державне управління справами",
+            "name_en": "State administration",
+            "scale": "micro",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "12345678",
+              "legalName_en": "dus.gov.ua",
+              "uri": "http://www.dus.gov.ua/",
+              "legalName": "Державне управління справами"
+            },
+            "address": {
+              "countryName": "Україна",
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "01220"
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "name_en": "State administration",
+              "telephone": "+0440000000",
+              "email": "aa@aa.com"
+            }
+          }
+        ],
+        "milestones": [
+          {
+            "id": "9b7f9b8fa75b4cf08661bbe8b59f1c18",
+            "status": "scheduled",
+            "type": "activation",
+            "dueDate": "2024-10-09T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00"
+          }
+        ],
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "owner": "broker",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "next_check": "2024-10-09T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "id": "5fc0128d227246bb93babd98a94f0ba0"
+  },
+  "config": {
+    "restricted": false
+  }
+}
+

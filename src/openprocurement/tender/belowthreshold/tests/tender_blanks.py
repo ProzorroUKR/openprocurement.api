@@ -796,7 +796,7 @@ def validate_enquiry_period(self):
         "endDate": invalid_end_date,
     }
 
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["enquiryPeriod"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -805,7 +805,7 @@ def validate_enquiry_period(self):
         response.json["errors"],
         [
             {
-                "description": ["the enquiryPeriod cannot end earlier than 3 business days after the start"],
+                "description": ["the enquiryPeriod cannot end earlier than 3 full business days after the start"],
                 "location": "body",
                 "name": "enquiryPeriod",
             }
@@ -838,7 +838,7 @@ def validate_enquiry_period(self):
         response.json["errors"],
         [
             {
-                "description": ["the enquiryPeriod cannot end earlier than 3 business days after the start"],
+                "description": ["the enquiryPeriod cannot end earlier than 3 full business days after the start"],
                 "location": "body",
                 "name": "enquiryPeriod",
             }
@@ -887,7 +887,7 @@ def validate_tender_period(self):
         "endDate": enquiry_end_date,
     }
 
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["tenderPeriod"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1017,6 +1017,8 @@ def create_tender_with_inn(self):
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"id": "33611000-6", "scheme": "ДК021"}
+        if "items" in agreement:
+            agreement["items"] = self.initial_data["items"]
         self.mongodb.agreements.save(agreement)
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
@@ -1038,6 +1040,8 @@ def create_tender_with_inn(self):
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"id": "33652000-5", "scheme": "ДК021"}
+        if "items" in agreement:
+            agreement["items"] = self.initial_data["items"]
         self.mongodb.agreements.save(agreement)
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
@@ -1338,6 +1342,12 @@ def patch_tender_draft(self):
         "tenderPeriod": tender_period,
     }
 
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        if "items" in agreement:
+            agreement["items"] = [item]
+        self.mongodb.agreements.save(agreement)
+
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender["id"], token), {"data": tender_patch_data})
 
     self.assertEqual(response.status, "200 OK")
@@ -1346,6 +1356,7 @@ def patch_tender_draft(self):
     self.assertIn("items", tender)
     self.assertEqual(len(tender["items"]), 1)
     self.assertEqual(tender["items"][0]["description"], "test item")
+
     if not is_cfaselectionua:
         self.assertEqual(tender["tenderPeriod"], tender_period)
         self.assertEqual(len(tender["features"]), 1)
@@ -1559,6 +1570,8 @@ def create_tender(self):
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"id": "33600000-6", "scheme": "ДК021"}
+        if "items" in agreement:
+            agreement["items"] = data["items"]
         self.mongodb.agreements.save(agreement)
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -1592,6 +1605,8 @@ def create_tender(self):
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"id": "99999999-9", "scheme": "ДК021"}
+        if "items" in agreement:
+            agreement["items"] = initial_data["items"]
         self.mongodb.agreements.save(agreement)
 
     response = self.app.post_json("/tenders", {"data": initial_data, "config": self.initial_config})
@@ -3273,6 +3288,12 @@ def patch_items_related_buyer_id(self):
     third_item["id"] = uuid4().hex
     third_item["description"] = "ноутбуки"
 
+    if self.agreement_id:
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        if "items" in agreement:
+            agreement["items"] = [items[0], second_item, third_item]
+        self.mongodb.agreements.save(agreement)
+
     response = self.app.patch_json(
         patch_request_path, {"data": {"items": [items[0], second_item, third_item]}}, status=422
     )
@@ -3552,7 +3573,7 @@ def patch_enquiry_tender_periods(self):
                 {
                     "location": "body",
                     "name": "enquiryPeriod",
-                    "description": ["the enquiryPeriod cannot end earlier than 3 business days after the start"],
+                    "description": ["the enquiryPeriod cannot end earlier than 3 full business days after the start"],
                 }
             ],
         )
@@ -4171,7 +4192,7 @@ def contract_template_name_set(self):
                         item["id"] = uuid4().hex
                         item["classification"]["id"] = classification_id
                         agreement["items"].append(item)
-                elif agreement.get("classification"):
+                if agreement.get("classification"):
                     agreement["classification"]["id"] = classification_ids[0]
                 self.mongodb.agreements.save(agreement)
 

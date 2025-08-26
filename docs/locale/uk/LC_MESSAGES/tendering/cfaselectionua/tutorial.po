@@ -33,6 +33,9 @@ msgstr ""
 msgid "default"
 msgstr ""
 
+msgid "days"
+msgstr ""
+
 msgid "hasAuction"
 msgstr ""
 
@@ -97,6 +100,24 @@ msgid "clarificationUntilDuration"
 msgstr ""
 
 msgid "qualificationDuration"
+msgstr ""
+
+msgid "minTenderingDuration"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
+msgid "calendar"
+msgstr ""
+
+msgid "hasEnquiries"
+msgstr ""
+
+msgid "minEnquiriesDuration"
+msgstr ""
+
+msgid "enquiryPeriodRegulation"
 msgstr ""
 
 msgid "restricted"

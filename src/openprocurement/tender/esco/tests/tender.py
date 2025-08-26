@@ -37,8 +37,8 @@ from openprocurement.tender.esco.tests.tender_blanks import (  # TenderESCOTest;
     tender_with_nbu_discount_rate,
 )
 from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
-from openprocurement.tender.openeu.constants import TENDERING_DAYS
-from openprocurement.tender.openeu.tests.tender_blanks import (  # TenderProcessTest; TenderResourceTest
+from openprocurement.tender.openeu.tests.periods import TENDERING_DAYS
+from openprocurement.tender.openeu.tests.tender_blanks import (
     invalid_bid_tender_lot,
     lost_contract_for_active_award,
     multiple_bidders_tender,

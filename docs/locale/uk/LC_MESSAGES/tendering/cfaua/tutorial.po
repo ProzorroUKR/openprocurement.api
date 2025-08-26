@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -33,6 +33,9 @@ msgid "values"
 msgstr ""
 
 msgid "default"
+msgstr ""
+
+msgid "days"
 msgstr ""
 
 msgid "hasAuction"
@@ -86,6 +89,9 @@ msgstr ""
 msgid "4"
 msgstr ""
 
+msgid "calendar"
+msgstr ""
+
 msgid "qualificationComplainDuration"
 msgstr ""
 
@@ -104,10 +110,31 @@ msgstr ""
 msgid "clarificationUntilDuration"
 msgstr ""
 
+msgid "working"
+msgstr ""
+
 msgid "qualificationDuration"
 msgstr ""
 
 msgid "20"
+msgstr ""
+
+msgid "minTenderingDuration"
+msgstr ""
+
+msgid "30"
+msgstr ""
+
+msgid "hasEnquiries"
+msgstr ""
+
+msgid "minEnquiriesDuration"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "enquiryPeriodRegulation"
 msgstr ""
 
 msgid "restricted"
@@ -428,6 +455,7 @@ msgstr "Кваліфікаційна комісія отримує список 
 msgid "Adds sign docs and registers its decisions via the following call `per award`:"
 msgstr "Додає підпис і реєструє своє рішення через такий виклик на кожного `award`:"
 
+#, python-brace-format
 msgid "The board may cancel the award winner by calling ``{'data': {'status': 'cancelled'}}``"
 msgstr "Комісія також може дискваліфікувати переможця викликом ``{'data': {'status': 'cancelled'}}``"
 
@@ -479,6 +507,7 @@ msgstr "Сторона замовника може отримати список
 msgid "Entering unit prices is allowed only for all 'items' taken together"
 msgstr "Внесення цін за одиницю товару можливе лише для всіх предметів закупівлі 'items' разом"
 
+#, python-brace-format
 msgid "Also the ordering party is allowed to exclude a winner from the framework agreement by setting the contract to ``{'data': {'status': 'unsuccessful'}}``"
 msgstr "Також стороні замовника дозволено виключити переможця з рамкової угоди, перевівши контракт в статус ``{'data': {'status': 'unsuccessful'}}``"
 

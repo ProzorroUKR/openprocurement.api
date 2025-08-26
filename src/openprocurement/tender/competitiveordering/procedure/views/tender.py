@@ -1,6 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_accreditation_level,
@@ -18,7 +19,8 @@ from openprocurement.tender.competitiveordering.procedure.models.tender import (
     Tender,
 )
 from openprocurement.tender.competitiveordering.procedure.state.tender_details import (
-    COTenderDetailsState,
+    COLongTenderDetailsState,
+    COShortTenderDetailsState,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
@@ -38,7 +40,23 @@ from openprocurement.tender.core.procedure.views.tender import TendersResource
     accept="application/json",
 )
 class COTenderResource(TendersResource):
-    state_class = COTenderDetailsState
+    state_class = None
+    state_short_class = COShortTenderDetailsState
+    state_long_class = COLongTenderDetailsState
+
+    def __init__(self, request, context=None):
+        self.state_short = self.state_short_class(request)
+        self.state_long = self.state_long_class(request)
+        super().__init__(request, context)
+
+    @property
+    def state(self):
+        agreement = get_object("agreement")
+        agreement_has_items = bool(agreement.get("items"))
+        if agreement_has_items:
+            return self.state_short
+        else:
+            return self.state_long
 
     @json_view(
         content_type="application/json",

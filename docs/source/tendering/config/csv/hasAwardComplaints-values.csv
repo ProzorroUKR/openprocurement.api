@@ -1,6 +1,8 @@
 procurementMethodType,values,default
 aboveThreshold,true,true
-competitiveOrdering,false,false
+competitiveOrdering,false / true,false
+competitiveOrdering.short,false,false
+competitiveOrdering.long,true,true
 aboveThresholdEU,true,true
 aboveThresholdUA.defense,true,true
 aboveThresholdUA,true,true
