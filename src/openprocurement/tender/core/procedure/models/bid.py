@@ -18,6 +18,7 @@ from openprocurement.tender.core.procedure.models.document import Document, Post
 from openprocurement.tender.core.procedure.models.item import BaseItem, LocalizationItem
 from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue,
+    PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.core.procedure.models.organization import Supplier
@@ -34,7 +35,7 @@ class PatchBid(BaseBid):
     items = ListType(ModelType(BaseItem, required=True))
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
-    lotValues = ListType(ModelType(LotValue, required=True))
+    lotValues = ListType(ModelType(PatchLotValue, required=True))
     tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     status = StringType(
         choices=[
@@ -72,6 +73,8 @@ class CommonBid(BaseBid):
     items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
+    initialValue = ModelType(Value)  # field added by chronograph
+    participationUrl = StringType()  # field added after auction
     lotValues = ListType(ModelType(LotValue, required=True))
     tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     status = StringType(

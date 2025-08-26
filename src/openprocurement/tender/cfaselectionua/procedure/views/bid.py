@@ -30,6 +30,7 @@ from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
 from openprocurement.tender.core.procedure.validation import (
+    unless_allowed_by_qualification_milestone_24,
     validate_bid_operation_in_tendering,
     validate_bid_operation_not_in_tendering,
     validate_bid_operation_period,
@@ -106,8 +107,10 @@ class CFASelectionTenderBidResource(TenderBidResource):
                 none_means_remove=True,
             ),
             validate_patch_data_simple(Bid, item_name="bid"),
-            validate_bid_operation_not_in_tendering,
-            validate_bid_operation_period,
+            unless_allowed_by_qualification_milestone_24(
+                validate_bid_operation_not_in_tendering,
+                validate_bid_operation_period,
+            ),
         ),
     )
     def patch(self):

@@ -26,6 +26,7 @@ from openprocurement.tender.core.procedure.utils import (
     get_supplier_contract,
     is_bid_items_required,
     tender_created_after,
+    validate_allowed_field_change_in_list,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
@@ -42,6 +43,7 @@ logger = logging.getLogger(__name__)
 class BidState(BaseState):
     items_unit_value_required_for_funders = False
     items_product_required = False
+    qualification_statuses = ("active.qualification", "active.pre-qualification")
 
     @property
     def check_all_exist_tender_items(self):
@@ -74,6 +76,7 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
+        self.validate_patch_bid_fields_during_qualification(before, after)
         self.validate_items_required_field(after)
         self.validate_tenderers_signer_info(after)
         self.lot_values_patch_keep_unchange(after, before)
@@ -244,7 +247,10 @@ class BidState(BaseState):
                 validate_doc_type_quantity(documents, document_type="proposal", obj_name="bid")
 
     def invalidate_pending_bid_after_patch(self, after, before):
-        if self.request.authenticated_role == "Administrator":
+        if (
+            self.request.authenticated_role == "Administrator"
+            or get_tender().get("status") in self.qualification_statuses
+        ):
             return
         if before.get("status") == after.get("status") == "pending" and before != after:
             after["status"] = "invalid"
@@ -425,3 +431,34 @@ class BidState(BaseState):
     def validate_tenderers_signer_info(self, bid):
         tender = self.request.validated["tender"]
         validate_signer_info_container(self.request, tender, bid.get("tenderers"), "tenderers")
+
+    def validate_patch_bid_fields_during_qualification(self, before, after):
+        if get_tender().get("status") not in self.qualification_statuses:
+            return
+        item_patch_fields = [
+            "items",
+            "requirementResponses",
+            "subcontractingDetails",
+            "tenderers",
+        ]
+        for field_name in after.keys():
+            if field_name == "items":
+                validate_allowed_field_change_in_list(
+                    before,
+                    after,
+                    field_name=field_name,
+                    nested_field_names=("unit.value.amount",),
+                )
+            if field_name == "tenderers":
+                validate_allowed_field_change_in_list(
+                    before,
+                    after,
+                    field_name=field_name,
+                    nested_field_names=("signerInfo",),
+                )
+            if field_name not in item_patch_fields and before.get(field_name) != after.get(field_name):
+                raise_operation_error(
+                    get_request(),
+                    f"Updated could be only {tuple(item_patch_fields)} in bid, {field_name} change forbidden",
+                    status=422,
+                )

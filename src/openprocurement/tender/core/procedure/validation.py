@@ -445,6 +445,36 @@ def unless_allowed_by_qualification_milestone(*validations):
     return decorated_validation
 
 
+def unless_allowed_by_qualification_milestone_24(*validations):
+    """
+    decorator for 24hours features to skip some view validator functions
+    :param validation: a function runs unless it's disabled by an active qualification milestone
+    :return:
+    """
+
+    def decorated_validation(request, **_):
+        now = get_request_now().isoformat()
+        tender = request.validated["tender"]
+        bid_id = request.validated["bid"]["id"]
+        awards = [q for q in tender.get("awards", "") if q["status"] == "pending" and q["bid_id"] == bid_id]
+
+        if "qualifications" in tender:  # for procedures with pre-qualification
+            qualifications = [q for q in tender["qualifications"] if q["status"] == "pending" and q["bidID"] == bid_id]
+        else:
+            qualifications = awards
+
+        for q in qualifications:
+            for milestone in q.get("milestones", ""):
+                if milestone["code"] == "24h" and milestone["date"] <= now <= milestone["dueDate"]:
+                    return  # skipping the validation because of 24 hour milestone
+
+        # else
+        for validation in validations:
+            validation(request)
+
+    return decorated_validation
+
+
 # auction
 def validate_auction_tender_status(request, **_):
     tender_status = request.validated["tender"]["status"]

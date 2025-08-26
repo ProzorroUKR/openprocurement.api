@@ -15,6 +15,7 @@ from openprocurement.tender.core.procedure.state.req_response_evidence import (
     BidReqResponseEvidenceState,
 )
 from openprocurement.tender.core.procedure.validation import (
+    unless_allowed_by_qualification_milestone_24,
     validate_operation_ecriteria_objects_evidences,
     validate_view_requirement_responses,
 )
@@ -43,7 +44,9 @@ class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("bid")),
-            validate_operation_ecriteria_objects_evidences,
+            unless_allowed_by_qualification_milestone_24(
+                validate_operation_ecriteria_objects_evidences,
+            ),
             validate_input_data(Evidence),
         ),
         permission="create_rr_evidence",
@@ -69,7 +72,9 @@ class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("bid")),
-            validate_operation_ecriteria_objects_evidences,
+            unless_allowed_by_qualification_milestone_24(
+                validate_operation_ecriteria_objects_evidences,
+            ),
             validate_input_data(PatchEvidence),
             validate_patch_data_simple(Evidence, "evidence"),
         ),
@@ -81,7 +86,9 @@ class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
     @json_view(
         validators=(
             unless_administrator(validate_item_owner("bid")),
-            validate_operation_ecriteria_objects_evidences,
+            unless_allowed_by_qualification_milestone_24(
+                validate_operation_ecriteria_objects_evidences,
+            ),
         ),
         permission="edit_rr_evidence",
     )

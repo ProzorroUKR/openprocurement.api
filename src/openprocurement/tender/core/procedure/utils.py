@@ -648,3 +648,69 @@ def get_lot_value_status(lot_value, bid):
     if bid.get("status") == "pending":
         return "pending"
     return "active"
+
+
+def validate_allowed_field_change_in_list(before, after, field_name, nested_field_names):
+    items = after.get(field_name, [])
+    before_items = before.get(field_name, [])
+    request = get_request()
+    if len(items) != len(before_items):
+        raise_operation_error(
+            request,
+            "List size change's not allowed",
+            status=422,
+            location="body",
+            name=f"{field_name}",
+        )
+
+    for after_item, before_item in zip(items, before_items):
+        for item_field_name, after_value in after_item.items():
+            before_value = before_item.get(item_field_name)
+
+            # take all allowed nested fields provided with path
+            allowed_nested = [nf for nf in nested_field_names if nf.startswith(f"{item_field_name}.")]
+
+            if allowed_nested:
+                after_copy = deepcopy(after_value)
+                before_copy = deepcopy(before_value)
+
+                for nf in allowed_nested:
+                    remove_nested_value(
+                        after_copy,
+                        nf[len(item_field_name) + 1 :],  # if path is `unit.value.amount` we need only `value.amount`
+                    )
+                    remove_nested_value(before_copy, nf[len(item_field_name) + 1 :])
+
+                # if something changed left -> error
+                if after_copy != before_copy:
+                    raise_operation_error(
+                        request,
+                        f"It is allowed to change only fields: {nested_field_names}",
+                        location="body",
+                        name=f"{field_name}.{item_field_name}",
+                        status=422,
+                    )
+
+            else:
+                # if field not in nested_field_names and has been changed
+                if item_field_name not in nested_field_names and after_value != before_value:
+                    raise_operation_error(
+                        request,
+                        "Field change's not allowed",
+                        location="body",
+                        name=f"{field_name}.{item_field_name}",
+                        status=422,
+                    )
+
+
+def remove_nested_value(data: dict, path: str):
+    """
+    Delete nested value from dict
+    Path could be like this: 'unit.value.amount'.
+    """
+    keys = path.split(".")
+    for k in keys[:-1]:
+        if not isinstance(data, dict) or k not in data:
+            return None
+        data = data[k]
+    data.pop(keys[-1], None)
