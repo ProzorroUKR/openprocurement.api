@@ -121,7 +121,8 @@ class RequirementResponse(BaseRequirementResponse):
 
         # should work only for bids !!
         if criterion and criterion["source"] == "winner":
-            valid_statuses = ["active.awarded", "active.qualification"]
+            # active.pre-qualification added in CS-20110
+            valid_statuses = ["active.awarded", "active.qualification", "active.pre-qualification"]
             if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
                 valid_statuses.append("active.qualification.stand-still")
             if tender["status"] not in valid_statuses:

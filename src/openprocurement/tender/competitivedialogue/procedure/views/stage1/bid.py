@@ -22,6 +22,7 @@ from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
 from openprocurement.tender.core.procedure.validation import (
+    unless_allowed_by_qualification_milestone_24,
     validate_bid_operation_not_in_tendering,
     validate_bid_operation_period,
     validate_update_deleted_bid,
@@ -61,8 +62,10 @@ class CompetitiveDialogueUABidResource(OpenEUTenderBidResource):
         content_type="application/json",
         permission="edit_bid",
         validators=(
-            validate_bid_operation_not_in_tendering,
-            validate_bid_operation_period,
+            unless_allowed_by_qualification_milestone_24(
+                validate_bid_operation_not_in_tendering,
+                validate_bid_operation_period,
+            ),
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
@@ -103,8 +106,10 @@ class CompetitiveDialogueEUBidResource(OpenEUTenderBidResource):
         content_type="application/json",
         permission="edit_bid",
         validators=(
-            validate_bid_operation_not_in_tendering,
-            validate_bid_operation_period,
+            unless_allowed_by_qualification_milestone_24(
+                validate_bid_operation_not_in_tendering,
+                validate_bid_operation_period,
+            ),
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,)),

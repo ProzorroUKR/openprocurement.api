@@ -22,6 +22,7 @@ from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
 from openprocurement.tender.core.procedure.validation import (
+    unless_allowed_by_qualification_milestone_24,
     validate_bid_operation_not_in_tendering,
     validate_bid_operation_period,
     validate_update_deleted_bid,
@@ -69,8 +70,10 @@ class COTenderBidResource(TenderBidResource):
                 none_means_remove=True,
             ),
             validate_patch_data_simple(Bid, item_name="bid"),
-            validate_bid_operation_not_in_tendering,
-            validate_bid_operation_period,
+            unless_allowed_by_qualification_milestone_24(
+                validate_bid_operation_not_in_tendering,
+                validate_bid_operation_period,
+            ),
         ),
     )
     def patch(self):

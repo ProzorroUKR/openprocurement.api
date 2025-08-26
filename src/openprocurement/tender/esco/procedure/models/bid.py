@@ -10,6 +10,7 @@ from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.esco.procedure.models.item import BidItem
 from openprocurement.tender.esco.procedure.models.lot_value import (
     LotValue,
+    PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.esco.procedure.models.value import ESCOValue, PatchESCOValue
@@ -48,7 +49,7 @@ class ESCOMixin(Model):
 
 class PatchBid(ESCOMixin, BasePatchBid):
     value = ModelType(PatchESCOValue)
-    lotValues = ListType(ModelType(LotValue, required=True))
+    lotValues = ListType(ModelType(PatchLotValue, required=True))
 
     def validate_value(self, data, value):
         return  # will be validated at Bid model

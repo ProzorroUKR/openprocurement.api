@@ -20,6 +20,15 @@ class PostLotValue(BasePostLotValue):
                 validate_lotvalue_value(get_tender(), data["relatedLot"], value)
 
 
+class PatchLotValue(BasePostLotValue):
+    value = ModelType(ESCOValue, required=True)
+
+    def validate_value(self, data, value):
+        if data.get("status") != "draft":
+            if value is not None:
+                validate_lotvalue_value(get_tender(), data["relatedLot"], value)
+
+
 class LotValue(BaseLotValue):
     value = ModelType(ESCOValue, required=True)
 

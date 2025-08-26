@@ -9,6 +9,7 @@ from openprocurement.tender.core.procedure.models.bid import PatchBid as BasePat
 from openprocurement.tender.core.procedure.models.bid import PostBid as BasePostBid
 from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue,
+    PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.core.procedure.models.parameter import (
@@ -32,7 +33,7 @@ class PostBid(BasePostBid):
 class PatchBid(BasePatchBid):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(choices=[True])
-    lotValues = ListType(ModelType(LotValue, required=True))
+    lotValues = ListType(ModelType(PatchLotValue, required=True))
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
 
 
