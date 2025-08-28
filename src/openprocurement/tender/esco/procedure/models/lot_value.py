@@ -5,6 +5,9 @@ from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue as BaseLotValue,
 )
 from openprocurement.tender.core.procedure.models.lot_value import (
+    PatchLotValue as BasePatchLotValue,
+)
+from openprocurement.tender.core.procedure.models.lot_value import (
     PostLotValue as BasePostLotValue,
 )
 from openprocurement.tender.esco.procedure.models.value import ESCOValue
@@ -20,7 +23,7 @@ class PostLotValue(BasePostLotValue):
                 validate_lotvalue_value(get_tender(), data["relatedLot"], value)
 
 
-class PatchLotValue(BasePostLotValue):
+class PatchLotValue(BasePatchLotValue):
     value = ModelType(ESCOValue, required=True)
 
     def validate_value(self, data, value):

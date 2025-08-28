@@ -1,0 +1,32 @@
+POST /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/bids/c8928ffae76b497484f9691c2d2c9638/requirement_responses/1cae6c4b3c8e4178a4ba00a755c373e7/evidences?acc_token=19ed37dcc08b490a95812c30bc5bfbe6 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "Requirement response",
+    "relatedDocument": {
+      "id": "cb18607f52bb496fbddfbce0d827fc3e",
+      "title": "name.doc"
+    },
+    "type": "document"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": {
+    "title": "Requirement response",
+    "type": "document",
+    "relatedDocument": {
+      "id": "cb18607f52bb496fbddfbce0d827fc3e",
+      "title": "name.doc"
+    },
+    "id": "3392f240b0af4f1fb6469a6132168682"
+  }
+}
+
