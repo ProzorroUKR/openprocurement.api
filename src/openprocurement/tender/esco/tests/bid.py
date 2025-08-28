@@ -1,6 +1,8 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
 from unittest import mock
+from unittest.mock import patch
 
 from esculator import escp, npv
 
@@ -68,11 +70,16 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     put_tender_bidder_document,
     put_tender_bidder_document_private_json,
 )
+from openprocurement.tender.openua.tests.award import TenderAwardPendingResourceTestCase
 from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
     bids_related_product,
     patch_tender_with_bids_lots_none,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    patch_bid_during_qualification_forbidden,
+    patch_bid_during_qualification_with_24h_milestone,
 )
 
 bid_amount_performance = round(
@@ -253,6 +260,14 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 ):
     test_bids_data = test_tender_esco_bids
     initial_status = "active.tendering"
+
+
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
+class TenderBidDuringQualification(TenderAwardPendingResourceTestCase):
+    test_patch_bid_during_qualification_forbidden = snitch(patch_bid_during_qualification_forbidden)
+    test_patch_bid_during_qualification_with_24h_milestone = snitch(patch_bid_during_qualification_with_24h_milestone)
 
 
 def suite():

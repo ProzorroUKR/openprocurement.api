@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_document_json,
     create_tender_bid_document_json_bulk,
@@ -13,7 +16,12 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 )
 from openprocurement.tender.core.tests.mock import MockCriteriaIDMixin, MockMarketMixin
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_responses
-from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
+from openprocurement.tender.openua.tests.award import TenderAwardPendingResourceTestCase
+from openprocurement.tender.openua.tests.bid_blanks import (
+    bids_related_product,
+    patch_bid_during_qualification_forbidden,
+    patch_bid_during_qualification_with_24h_milestone,
+)
 from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     bid_Administrator_change,
@@ -159,6 +167,14 @@ class TenderBidBatchDocumentResourceTest(MockMarketMixin, TenderContentWebTest):
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
     test_create_tender_bid_with_documents = snitch(create_tender_bid_with_documents)
+
+
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
+class TenderBidDuringQualification(TenderAwardPendingResourceTestCase):
+    test_patch_bid_during_qualification_forbidden = snitch(patch_bid_during_qualification_forbidden)
+    test_patch_bid_during_qualification_with_24h_milestone = snitch(patch_bid_during_qualification_with_24h_milestone)
 
 
 def suite():

@@ -65,12 +65,15 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     put_tender_bidder_document,
     put_tender_bidder_document_private_json,
 )
+from openprocurement.tender.openua.tests.award import TenderAwardPendingResourceTestCase
 from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
 )
 from openprocurement.tender.openua.tests.bid_blanks import (
     bids_related_product,
+    patch_bid_during_qualification_forbidden,
+    patch_bid_during_qualification_with_24h_milestone,
     patch_tender_with_bids_lots_none,
 )
 
@@ -243,6 +246,14 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     initial_status = "active.tendering"
     tender_auth = ("Basic", ("token", ""))
     guarantee_criterion = True
+
+
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
+class TenderBidDuringQualification(TenderAwardPendingResourceTestCase):
+    test_patch_bid_during_qualification_forbidden = snitch(patch_bid_during_qualification_forbidden)
+    test_patch_bid_during_qualification_with_24h_milestone = snitch(patch_bid_during_qualification_with_24h_milestone)
 
 
 def suite():

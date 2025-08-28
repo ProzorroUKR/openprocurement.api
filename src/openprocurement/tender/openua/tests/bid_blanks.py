@@ -2,6 +2,8 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import Mock, patch
 
+from freezegun import freeze_time
+
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     now,
@@ -2443,4 +2445,182 @@ def bids_related_product(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"], f"Products {related_product_id} not found in catalouges."
+        )
+
+
+def patch_bid_during_qualification_forbidden(self):
+    self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"subcontractingDetails": "foo"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "data",
+            "description": "Can't update bid in current (active.qualification) tender status",
+        },
+    )
+
+
+def patch_bid_during_qualification_with_24h_milestone(self):
+    bids = self.mongodb.tenders.get(self.tender_id).get("bids")
+
+    # milestone 24h creation
+    request_data = {
+        "code": "24h",
+        "description": "One ring to bring them all and in the darkness bind them",
+        "dueDate": (get_now() + timedelta(days=1)).isoformat(),
+    }
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/milestones?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {"data": request_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"value": {"amount": 453}}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "data",
+            "description": "Updated could be only ('items', 'requirementResponses', 'subcontractingDetails', 'tenderers') in bid, value change forbidden",
+        },
+    )
+
+    # try to change items length
+    items = deepcopy(bids[0]["items"])
+    item_2 = deepcopy(items[0])
+    item_2.pop("id")
+    items.append(item_2)
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "items", "description": "List size change's not allowed"},
+    )
+
+    # try to change items fields which are forbidden to patch during qualification
+    items = deepcopy(bids[0]["items"])
+    items[0]["description"] = "new item"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "items.description", "description": "Field change's not allowed"},
+    )
+
+    items = deepcopy(bids[0]["items"])
+    items[0]["unit"]["name"] = "new unit name"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "items.unit",
+            "description": "It is allowed to change only fields: ('unit.value.amount',)",
+        },
+    )
+
+    items = deepcopy(bids[0]["items"])
+    items[0]["unit"]["value"]["currency"] = "USD"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "items.unit",
+            "description": "It is allowed to change only fields: ('unit.value.amount',)",
+        },
+    )
+
+    # try to change unit.value.amount to invalid value
+    items = deepcopy(bids[0]["items"])
+    items[0]["unit"]["value"]["amount"] = 5000
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "items",
+            "description": "Total amount of unit values can't be greater than bid.value.amount",
+        },
+    )
+
+    # successfully change unit.value.amount and subcontractingDetails
+    items[0]["unit"]["value"]["amount"] = 105
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"items": items, "subcontractingDetails": "foo"}},
+    )
+    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["subcontractingDetails"], "foo")
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 105)
+
+    # try to change tenderers fields which are forbidden to patch during qualification
+    tenderers = deepcopy(bids[0]["tenderers"])
+    tenderers[0]["address"]["streetAddress"] = "Street 1"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"tenderers": tenderers}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "tenderers.address", "description": "Field change's not allowed"},
+    )
+
+    # successfully change signerInfo
+    tenderers = deepcopy(bids[0]["tenderers"])
+    tenderers[0]["signerInfo"]["name"] = "Mr Brown"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"tenderers": tenderers}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to patch bid after milestone dueDate
+    with freeze_time((get_now() + timedelta(days=1))):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+            {"data": {"subcontractingDetails": "bar"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"][0],
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't update bid in current (active.qualification) tender status",
+            },
         )
