@@ -1782,7 +1782,24 @@ def tender_items_float_quantity(self):
 def tender_items_zero_quantity(self):
     data = deepcopy(self.initial_data)
     quantity = 0
-    data["items"][0]["quantity"] = quantity
+    item = data["items"][0]
+    item["quantity"] = quantity
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "At least one item should be with not empty quantity for each lot",
+            }
+        ],
+    )
+    # add second item than in first one update quantity to 0
+    item_2 = deepcopy(item)
+    item_2["quantity"] = 5
+    data["items"].append(item_2)
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -3183,7 +3200,25 @@ def patch_item_with_zero_quantity(self):
     item = tender["items"][0]
     item["quantity"] = 0
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item]}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item]}}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "At least one item should be with not empty quantity for each lot",
+            }
+        ],
+    )
+    # add second item than in first one update quantity to 0
+    item_2 = deepcopy(item)
+    item_2["quantity"] = 5
+    item_2.pop("id")
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item, item_2]}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

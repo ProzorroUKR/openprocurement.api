@@ -35,6 +35,7 @@ from openprocurement.tender.open.tests.bid_blanks import (
     bid_Administrator_change,
     bid_invalidation_after_req_response_patch,
     bid_invalidation_after_requirement_put,
+    bid_items_quantity,
     bids_activation_on_tender_documents,
     bids_invalidation_on_tender_change,
     create_bid_after_removing_lot,
@@ -229,6 +230,7 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_bid_with_disabled_lot_values_restriction = snitch(
         patch_tender_bid_with_disabled_lot_values_restriction
     )
+    test_bid_items_quantity = snitch(bid_items_quantity)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):

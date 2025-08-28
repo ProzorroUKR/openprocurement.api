@@ -66,7 +66,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "region": "м. Київ",
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
-        }
+        },
+        "quantity": 1
       },
       {
         "additionalClassifications": [
@@ -83,6 +84,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "id": "37810000-9",
           "description": "Test"
         },
+        "quantity": 1,
         "deliveryAddress": {
           "countryName": "Україна",
           "postalCode": "79000",
@@ -205,6 +207,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
         "id": "6da3dad17b78420aa852e3ba1341aa38",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -229,6 +232,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
         "id": "f468fcb82caa4dab8f05db1e73036820",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",

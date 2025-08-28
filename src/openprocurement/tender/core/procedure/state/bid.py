@@ -61,6 +61,7 @@ class BidState(BaseState):
         self.validate_status(data)
         self.validate_bid_vs_agreement(data)
         self.validate_items_id(data)
+        self.validate_items_quantity(data)
         self.validate_items_related_product(data, {})
         self.validate_proposal_docs(data)
         self.validate_req_responses(data)
@@ -80,6 +81,7 @@ class BidState(BaseState):
         self.validate_status_change(before, after)
         self.update_date_for_new_lot_values(after, before)
         self.validate_items_id(after)
+        self.validate_items_quantity(after)
         self.validate_items_related_product(after, before)
         self.validate_proposal_docs(after, before)
         self.invalidate_pending_bid_after_patch(after, before)
@@ -170,6 +172,7 @@ class BidState(BaseState):
 
                 elif self.items_unit_value_required_for_funders and tender.get("funders"):
                     self.raise_items_error("items.unit.value is required for tender with funders")
+
         elif self.items_unit_value_required_for_funders and tender.get("funders"):
             self.raise_items_error("items is required for tender with funders")
 
@@ -178,6 +181,43 @@ class BidState(BaseState):
                 validate_items_unit_amount(items_ids, lot_values_by_id[lot_id], obj_name="bid.lotValues")
         else:
             validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
+
+    def validate_items_quantity(self, data):
+        tender = get_tender()
+        items_for_lot = False
+        tender_items_id = {}
+
+        tender_items = tender.get("items", [])
+        if lot_values := data.get("lotValues"):
+            items_with_quantity = defaultdict(lambda: [])
+            for lot_value in lot_values:
+                tender_items_id[lot_value["relatedLot"]] = {
+                    tender_item["id"]
+                    for tender_item in tender_items
+                    if tender_item.get("relatedLot") == lot_value["relatedLot"]
+                }
+            items_for_lot = True
+        else:
+            items_with_quantity = []
+
+        if data.get("items"):
+            for item in data["items"]:
+                if items_for_lot:
+                    for lot_id, items_ids in tender_items_id.items():
+                        if item["id"] in items_ids:
+                            items_with_quantity.setdefault(lot_id, [])
+                            if item.get("quantity") not in (None, 0):
+                                items_with_quantity[lot_id].append(item)
+                elif item.get("quantity") not in (None, 0):
+                    items_with_quantity.append(item)
+
+            if not items_with_quantity:
+                self.raise_items_error("At least one item should be with not empty quantity")
+
+            if items_for_lot:
+                for lot_id, items_ids in items_with_quantity.items():
+                    if not items_ids:
+                        self.raise_items_error(f"At least one item should be with not empty quantity for lot {lot_id}")
 
     def validate_proposal_doc_required(self, bid):
         if bid["tenderers"][0].get("identifier", {}).get("scheme") == "UA-EDR":

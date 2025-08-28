@@ -324,6 +324,7 @@ class BaseTenderDetailsMixing:
 
     def always(self, data):
         self.validate_signer_info(data)
+        self.validate_items_quantity(data)
         self.validate_items_profile(data)
         self.set_mode_test(data)
         super().always(data)
@@ -1533,6 +1534,22 @@ class BaseTenderDetailsMixing:
                 raise_operation_error(
                     self.request,
                     [{"profile": ["This field is required."]}],
+                    status=422,
+                    name="items",
+                )
+
+    def validate_items_quantity(self, data):
+        items_with_quantity = defaultdict(lambda: [])
+        for item in data.get("items", []):
+            lot = item.get("relatedLot")
+            items_with_quantity.setdefault(lot, [])
+            if item.get("quantity") not in (None, 0):
+                items_with_quantity[lot].append(item)
+        for lot_id, not_empty_items in items_with_quantity.items():
+            if not not_empty_items:
+                raise_operation_error(
+                    self.request,
+                    f"At least one item should be with not empty quantity{' for each lot' if lot_id is not None else ''}",
                     status=422,
                     name="items",
                 )
