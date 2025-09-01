@@ -35,6 +35,7 @@ class Contract(Model):
         min_size=1,
     )
     date = IsoDateTimeType()
+    dateModified = IsoDateTimeType()
 
     def validate_suppliers(self, data, suppliers):
         if len(suppliers) != 1:

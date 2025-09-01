@@ -9,13 +9,16 @@ LOGGER = getLogger(__name__)
 
 class MilestoneState(AgreementState):
     def on_post(self, data):
-        get_request().validated["contract"]["date"] = data["dateModified"] = get_request_now().isoformat()
+        contract = get_request().validated["contract"]
+        contract["date"] = contract["dateModified"] = data["dateModified"] = get_request_now().isoformat()
         self.set_contract_status_on_post(data)
         super().on_post(data)
 
     def on_patch(self, before, after):
         self.update_contract_status_on_patch(after)
-        after["dateModified"] = get_request_now().isoformat()
+        now = get_request_now().isoformat()
+        contract = get_request().validated["contract"]
+        after["dateModified"] = contract["dateModified"] = now
         super().on_patch(before, after)
 
     def set_agreement_data(self, data):
@@ -27,7 +30,7 @@ class MilestoneState(AgreementState):
             data["dateMet"] = now
             contract = get_request().validated["contract"]
             contract["status"] = "terminated"
-            contract["date"] = now
+            contract["date"] = contract["dateModified"] = now
             for milestone in contract["milestones"]:
                 if milestone["status"] == "scheduled":
                     milestone["status"] = "notMet"

@@ -167,6 +167,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEvents
                 }
             )
             for contract in agreement_data["contracts"]:
+                contract["dateModified"] = get_request_now().isoformat()
                 for milestone in contract["milestones"]:
                     if milestone["type"] == "activation":
                         milestone["dueDate"] = end_date
