@@ -61,7 +61,7 @@ def validate_cd2_allowed_patch_fields(request, **_):
             item_whitelist = {"deliveryDate"}
             for a, b in zip(items, before_items):
                 for f in a:
-                    if f not in item_whitelist and a[f] != b[f]:
+                    if f not in item_whitelist and a[f] != b.get(f):
                         return raise_operation_error(
                             request,
                             "Field change's not allowed",
