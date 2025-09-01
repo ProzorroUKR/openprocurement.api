@@ -236,7 +236,7 @@ For tenders іn draft statuses you can post exclusion requirement:
 .. http:example:: http/criteria/add-exclusion-criteria-requirement.http
    :code:
 
-For tenders in draft statuses you can patch exclusion requirement, but you can send only `eligibleEvidences`
+For tenders in draft statuses you can use PATCH method to update requirements for exclusion criteria:
 
 .. http:example:: http/criteria/patch-exclusion-criteria-requirement.http
    :code:

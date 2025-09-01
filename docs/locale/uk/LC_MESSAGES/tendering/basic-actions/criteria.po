@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-11 10:29+0300\n"
+"POT-Creation-Date: 2025-08-27 10:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,15 +164,14 @@ msgstr "Вийняткові критерії та всі дочірні об'є
 msgid "For tenders іn draft statuses you can post exclusion requirement:"
 msgstr "Для тендерів в статусі чернетки є можливість додавати вимоги вийняткових критеріїв:"
 
-msgid "For tenders in draft statuses you can patch exclusion requirement, but you can send only `eligibleEvidences`"
-msgstr "Для тендерів в статусі чернетки вимоги вийняткових критеріїв можливо редагувати, але тільки передаючи поле `eligibleEvidences:`"
+msgid "For tenders in draft statuses you can use PATCH method to update requirements for exclusion criteria:"
+msgstr "Для тендерів в статусі чернетки є можливість використати PATCH метод для оновлення вимоги вийняткових критеріїв:"
 
 msgid "For tenders in non-draft statuses you can PUT exclusion requirement, but you can change only `status` and `eligibleEvidences`"
 msgstr "Для статусів `active.enquiries` та `active.tendering` вимоги вийняткових критеріїв можливо редагувати методом PUT, але змінювати можна лише поля `status` та `eligibleEvidences`"
 
-#, fuzzy
 msgid "Language criterion workflow"
-msgstr "Схема роботи вийняткових критеріїв"
+msgstr "Схема роботи мовних критеріїв"
 
 msgid "Language criterion creates as other and could be presented in bulk request with other criteria. Language should be specified in `title`"
 msgstr "Мовний критерій створюється так само як і інші та може бути включений до запиту на створення з іншими критеріями. Мова має бути вказана в `title`"

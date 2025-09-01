@@ -11,9 +11,10 @@ from openprocurement.api.utils import (
 from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
 from openprocurement.tender.core.procedure.models.criterion import (
-    PatchExclusionLccRequirement,
     PatchRequirement,
     PatchTechnicalFeatureRequirement,
+    PutExclusionLccRequirement,
+    PutRequirement,
     ReqStatuses,
     validate_criteria_requirement_uniq,
     validate_requirement_eligibleEvidences,
@@ -45,14 +46,19 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
         criterion = self.request.validated["criterion"]
         classification_id = criterion["classification"]["id"]
         model = PatchRequirement
-        if classification_id.startswith("CRITERION.EXCLUSION") or classification_id in CRITERION_LIFE_CYCLE_COST_IDS:
-            model = PatchExclusionLccRequirement
-        elif classification_id == CRITERION_TECHNICAL_FEATURES:
+        if classification_id == CRITERION_TECHNICAL_FEATURES:
             model = PatchTechnicalFeatureRequirement
         return model
 
     def get_put_data_model(self):
-        return self.get_patch_data_model()
+        criterion = self.request.validated["criterion"]
+        classification_id = criterion["classification"]["id"]
+        model = PutRequirement
+        if classification_id.startswith("CRITERION.EXCLUSION") or classification_id in CRITERION_LIFE_CYCLE_COST_IDS:
+            model = PutExclusionLccRequirement
+        elif classification_id == CRITERION_TECHNICAL_FEATURES:
+            model = PatchTechnicalFeatureRequirement
+        return model
 
     def requirement_on_post(self, data: dict) -> None:
         self.validate_on_post(data)
