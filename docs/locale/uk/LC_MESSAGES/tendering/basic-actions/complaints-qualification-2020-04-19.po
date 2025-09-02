@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-28 12:30+0300\n"
+"POT-Creation-Date: 2025-09-02 15:47+0300\n"
 "PO-Revision-Date: 2020-05-20 23:07+0300\n"
 "Last-Translator: \n"
 "Language: uk\n"
@@ -81,8 +81,8 @@ msgstr "Подання документів до запиту до скарги 
 msgid "Documents for posts should be added in complaint with `documentOf: post` and `relatedItem` id of current post."
 msgstr "Документи до запиту до скарги мають бути додані до самої скарги з вказаними полями `documentOf: post` та `relatedItem` ідентифікатором самого запиту."
 
-msgid "Documents for post could be added only during complaint is in `pending` or `accepted` status and not later than 3 full business days before `reviewDate` of complaint."
-msgstr "Документи до запиту до скарги можуть бути додані поки скарга має статус `pending` чи `accepted` і не пізніше ніж за 3 робочі дні до дати розгляду скарги (3 рд до `reviewDate`)."
+msgid "Documents for post could be added only during complaint is in `pending` or `accepted` status and not later than 1 full business days before `reviewDate` of complaint."
+msgstr "Документи до запиту до скарги можуть бути додані поки скарга має статус `pending` чи `accepted` і не пізніше ніж за 1 робочі дні до дати розгляду скарги (3 рд до `reviewDate`)."
 
 msgid "Only author of post can add documents for his post. Let's try to add documents for post created by tender owner using another author:"
 msgstr "Тільки автор запиту до скарги може додавати документ, який посилається на його запит. Спробуємо додати документи до запиту від замовника, від імені іншого автора (скаржника):"
@@ -108,8 +108,8 @@ msgstr "Пояснення до скарги - це певна текстова 
 msgid "Once complaint is in `pending` or `accepted` status complaint owner or tender owner can submit a post to complaint as explanation."
 msgstr "Для скарги у статусах `pending` та `accepted` скаржник, що подав скаргу, або замовник закупівлі має можливість додати пояснення до скарги."
 
-msgid "Explanations can be added no later than 3 working days before the date of review of the complaint (3 days before reviewDate)"
-msgstr "Пояснення можна додавати не пізніше ніж за 3 робочі дні до дати розгляду скарги (3 рд до reviewDate)"
+msgid "Explanations can be added no later than 1 working days before the date of review of the complaint (1 days before reviewDate)"
+msgstr "Пояснення можна додавати не пізніше ніж за 1 робочі дні до дати розгляду скарги (1 рд до reviewDate)"
 
 msgid "Each explanation must be related to one of the objections of the complaint  (`complaints:objections`)."
 msgstr "Кожне пояснення обов'язково повинно відноситись до одного із пунктів скарги (`complaints:objections`)."
