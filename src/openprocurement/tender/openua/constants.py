@@ -18,7 +18,6 @@ STATUS4ROLE = {
     "aboveThresholdReviewers": ["pending", "accepted", "stopping"],
     "tender_owner": ["claim", "pending", "accepted", "satisfied"],
 }
-POST_SUBMIT_TIME = timedelta(days=3)
 ABOVE_THRESHOLD_UA = "aboveThresholdUA"
 
 UA_PROCURING_ENTITY_KIND_CHOICES = (

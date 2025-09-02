@@ -2,9 +2,9 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.constants import POST_SUBMIT_TIME
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.open.constants import POST_SUBMIT_TIME
 
 RELEASE_2020_04_19_TEST_ENABLED = get_now() - timedelta(days=1)
 RELEASE_2020_04_19_TEST_DISABLED = get_now() + timedelta(days=1)
@@ -85,7 +85,7 @@ def create_complaint_post_review_date_forbidden(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 full business days before reviewDate",
+        f"Can submit or edit post not later than {POST_SUBMIT_TIME.days} full business days before reviewDate",
     )
 
 
@@ -726,7 +726,7 @@ def create_tender_complaint_post_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 full business days before reviewDate",
+        f"Can submit or edit post not later than {POST_SUBMIT_TIME.days} full business days before reviewDate",
     )
 
     # change complaint reviewDate
@@ -988,7 +988,7 @@ def put_tender_complaint_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 full business days before reviewDate",
+        f"Can submit or edit post not later than {POST_SUBMIT_TIME.days} full business days before reviewDate",
     )
 
     # change complaint reviewDate
@@ -1126,7 +1126,7 @@ def create_complaint_post_explanation_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 full business days before reviewDate",
+        f"Can submit or edit post not later than {POST_SUBMIT_TIME.days} full business days before reviewDate",
     )
 
     # change reviewDate
