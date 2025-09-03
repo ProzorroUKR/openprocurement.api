@@ -61,7 +61,7 @@ class FrameworkConfigMixin(ConfigMixin):
         super().validate_config(data)
 
 
-class FrameworkState(BaseState, FrameworkConfigMixin, FrameworkChronographEventsMixing):
+class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, BaseState):
     agreement_class = AgreementState
     qualification_class = QualificationState
     submission_class = SubmissionState
