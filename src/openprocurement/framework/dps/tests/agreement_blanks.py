@@ -804,6 +804,8 @@ def create_milestone_document_forbidden(self):
 
 
 def create_milestone_documents(self):
+    response = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}")
+    date_modified = response.json["data"]["dateModified"]
     response = self.app.post_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
         f"/documents?acc_token={self.framework_token}",
@@ -818,6 +820,9 @@ def create_milestone_documents(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}")
+    self.assertNotEqual(response.json["data"]["dateModified"], date_modified)
 
 
 def create_milestone_document_json_bulk(self):
