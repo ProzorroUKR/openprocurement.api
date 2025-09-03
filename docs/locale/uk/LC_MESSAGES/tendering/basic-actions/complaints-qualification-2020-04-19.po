@@ -82,7 +82,7 @@ msgid "Documents for posts should be added in complaint with `documentOf: post` 
 msgstr "Документи до запиту до скарги мають бути додані до самої скарги з вказаними полями `documentOf: post` та `relatedItem` ідентифікатором самого запиту."
 
 msgid "Documents for post could be added only during complaint is in `pending` or `accepted` status and not later than 1 full business days before `reviewDate` of complaint."
-msgstr "Документи до запиту до скарги можуть бути додані поки скарга має статус `pending` чи `accepted` і не пізніше ніж за 1 робочі дні до дати розгляду скарги (3 рд до `reviewDate`)."
+msgstr "Документи до запиту до скарги можуть бути додані поки скарга має статус `pending` чи `accepted` і не пізніше ніж за 1 робочі дні до дати розгляду скарги (1 рд до `reviewDate`)."
 
 msgid "Only author of post can add documents for his post. Let's try to add documents for post created by tender owner using another author:"
 msgstr "Тільки автор запиту до скарги може додавати документ, який посилається на його запит. Спробуємо додати документи до запиту від замовника, від імені іншого автора (скаржника):"
