@@ -233,6 +233,19 @@ class AwardStateMixing:
         tender = self.request.validated["tender"]
         validate_signer_info_container(self.request, tender, award.get("suppliers"), "suppliers")
 
+    @staticmethod
+    def has_active_contract(current_award, tender):
+        awards_ids = []
+        for award in tender.get("awards", []):
+            if tender.get("lots") and award["lotID"] != current_award["lotID"]:
+                continue
+            awards_ids.append(award["id"])
+        for contract in tender.get("contracts", []):
+            if contract["awardID"] in awards_ids:
+                if contract["status"] == "active":
+                    return True
+        return False
+
 
 # example use
 class AwardState(AwardStateMixing, TenderState):
