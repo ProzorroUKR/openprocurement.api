@@ -1,9 +1,6 @@
 import unittest
-from datetime import timedelta
-from unittest import mock
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award import (
     Tender2LotAwardDocumentResourceTestMixin,
     TenderAwardComplaintDocumentResourceTestMixin,
@@ -24,10 +21,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.utils import change_auth, generate_req_response
-from openprocurement.tender.open.tests.award import (
-    Tender2LotAwardQualificationAfterComplaintMixin,
-    TenderAwardQualificationAfterComplaintMixin,
-)
 from openprocurement.tender.open.tests.award_blanks import award_sign
 from openprocurement.tender.openua.tests.award_blanks import (
     bot_patch_tender_award_complaint,
@@ -67,7 +60,6 @@ from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openua_bids,
     test_tender_openua_criteria,
-    test_tender_openua_three_bids,
 )
 
 
@@ -146,24 +138,6 @@ class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
             )
         award = response.json["data"]
         self.award_id = award["id"]
-
-
-@mock.patch(
-    "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
-    get_now() - timedelta(days=1),
-)
-class TenderAwardQualificationAfterComplaint(
-    TenderAwardQualificationAfterComplaintMixin,
-    TenderAwardPendingResourceTestCase,
-):
-    initial_bids = test_tender_openua_three_bids
-
-
-class Tender2LotAwardQualificationAfterComplaintResourceTest(
-    Tender2LotAwardQualificationAfterComplaintMixin,
-    TenderAwardPendingResourceTestCase,
-):
-    initial_lots = 2 * test_tender_below_lots
 
 
 class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):

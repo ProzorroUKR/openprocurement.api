@@ -1539,6 +1539,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint["objections"][0]["relatedItem"] = award_id
         complaint["objections"][0]["relatesTo"] = "award"
 
+        with open(TARGET_DIR + 'qualification/awards-get.http', 'w') as self.app.file_obj:
+            self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, award_id, owner_token))
+
         # fetch sign data
         with open(TARGET_DIR + 'sign-data/sign-award-data.http', 'w') as self.app.file_obj:
             self.app.get(f"/tenders/{self.tender_id}/awards/{award_id}?opt_context=true")
@@ -1588,11 +1591,24 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token))
 
         # check complaints for unsuccessful award
+        with open(TARGET_DIR + 'qualification/award-pending-upload.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {
+                    "data": {
+                        "url": self.generate_docservice_url(),
+                        "title": "Unsuccessful_Reason.pdf",
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                    }
+                },
+            )
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
-        self.app.patch_json(
-            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
-        )
+        with open(TARGET_DIR + 'qualification/award-pending-unsuccessful.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+            )
 
         with open(TARGET_DIR + 'complaints/award-unsuccessful-complaint-invalid-bidder.http', 'w') as self.app.file_obj:
             self.app.post_json(
@@ -2103,6 +2119,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         )
         self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'qualification/award-active-get.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token))
+            self.assertEqual(response.status, '200 OK')
+
         with open(TARGET_DIR + 'complaints/award-complaint-submit.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token),
@@ -2143,6 +2163,99 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     {'data': {"status": "mistaken"}},
                 )
                 self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'qualification/award-active-cancel.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {'data': {"status": "cancelled"}},
+            )
+            self.assertEqual(response.status, '200 OK')
+        new_award_id = response.headers['Location'][-32:]
+
+        with open(TARGET_DIR + 'qualification/award-active-cancel-upload.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, new_award_id, owner_token),
+                {
+                    "data": {
+                        "url": self.generate_docservice_url(),
+                        "title": "Cancellation_Reason.pdf",
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                    }
+                },
+            )
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{new_award_id}/documents")
+        with open(TARGET_DIR + 'qualification/award-active-cancel-disqualify.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, owner_token),
+                {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+            )
+        with open(TARGET_DIR + 'qualification/awards-unsuccessful-get1.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, owner_token),
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'qualification/awards-unsuccessful-cancel-wo-complaints.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, owner_token),
+                {"data": {"status": "cancelled"}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'qualification/awards-unsuccessful-cancelled-get.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        award_id = response.json["data"][-1]["id"]
+        self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+            {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        )
+
+        with open(TARGET_DIR + 'qualification/awards-unsuccessful-get2.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        claim_data = {'data': claim.copy()}
+        claim_data['data']['status'] = 'claim'
+        response = self.app.post_json(
+            '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token_2), claim_data
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        complaint_id = response.json['data']['id']
+        response = self.app.patch_json(
+            '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                self.tender_id, award_id, complaint_id, owner_token
+            ),
+            {
+                'data': {
+                    "status": "answered",
+                    "resolutionType": "resolved",
+                    "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно",
+                }
+            },
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'qualification/awards-unsuccessful-cancel.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                {'data': {"status": "cancelled"}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'qualification/awards-unsuccessful-get3.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
+            )
+            self.assertEqual(response.status, '200 OK')
 
     def test_cancellation_complaints(self):
         self.app.authorization = ('Basic', ('broker', ''))

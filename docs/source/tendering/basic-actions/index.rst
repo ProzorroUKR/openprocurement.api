@@ -25,6 +25,7 @@ Contents:
    technical-features
    24hours
    prolongation_awards
+   qualification
    2pc
    sign-data
    contract-template-name

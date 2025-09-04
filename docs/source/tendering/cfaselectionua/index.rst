@@ -10,4 +10,3 @@ Contents:
 
    overview
    tutorial
-   qualification

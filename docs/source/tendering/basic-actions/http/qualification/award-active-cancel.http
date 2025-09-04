@@ -1,0 +1,220 @@
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/22538da636d84b5b88ad4598942e3823?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "cancelled"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/7467244beb734dc286a5428eaf4609b5
+
+{
+  "data": {
+    "id": "22538da636d84b5b88ad4598942e3823",
+    "status": "cancelled",
+    "date": "2023-10-10T01:00:03+03:00",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
+      }
+    ],
+    "bid_id": "c938a8780db146beaba184a25937b356",
+    "lotID": "c94486b261084c09ac0c731b74d35c85",
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:03+03:00",
+      "endDate": "2023-10-10T01:00:03+03:00"
+    },
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "7ff6db97ff8c494e82e7f9b6b3d05195",
+        "datePublished": "2023-10-10T01:00:03+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/279112f8106a4601b7775f4630e91f34?Signature=1eX%2BsMr0dE7YzBIzXW0sy2DrCuxZUeAyNStlBqH0dMGF8Driq5Jp%2BErhA4H0sB2zwY%2Fm9WEvPZe0KdBJzutJAg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:03+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "period": {
+      "startDate": "2023-10-10T01:00:03+03:00",
+      "endDate": "2023-10-18T00:00:00+03:00"
+    },
+    "qualified": true,
+    "complaints": [
+      {
+        "author": {
+          "name": "ДКП «Школяр»",
+          "address": {
+            "streetAddress": "вул. Островського, 33",
+            "locality": "м. Вінниця",
+            "region": "Вінницька область",
+            "postalCode": "21100",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Сергій Олексюк",
+            "email": "soleksuk@gmail.com",
+            "telephone": "+380432216930"
+          },
+          "identifier": {
+            "scheme": "UA-EDR",
+            "uri": "http://www.sc.gov.ua/",
+            "id": "00137256",
+            "legalName": "ДКП «Школяр»"
+          }
+        },
+        "title": "Недостатньо інформації",
+        "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+        "status": "draft",
+        "type": "complaint",
+        "objections": [
+          {
+            "id": "7b2198d26c724f3bad6317a7c68572a0",
+            "title": "My objection",
+            "description": "Test objection",
+            "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+            "classification": {
+              "scheme": "violation_amcu",
+              "id": "corruptionDescription",
+              "description": "test classification"
+            },
+            "requestedRemedies": [
+              {
+                "id": "5791e81deae241a4a8165f81295e4dca",
+                "type": "setAsideAward",
+                "description": "test"
+              }
+            ],
+            "arguments": [
+              {
+                "id": "be70abde69b2426ea4e2f9dda93d6a87",
+                "description": "test argument"
+              }
+            ],
+            "sequenceNumber": 1,
+            "relatesTo": "award"
+          }
+        ],
+        "id": "39df58db552846e58d5e16996582b329",
+        "date": "2023-10-10T01:00:03+03:00",
+        "bid_id": "c938a8780db146beaba184a25937b356",
+        "complaintID": "UA-2023-10-10-000001-a.11",
+        "relatedLot": "c94486b261084c09ac0c731b74d35c85",
+        "value": {
+          "amount": 3000,
+          "currency": "UAH"
+        }
+      },
+      {
+        "id": "5ad9b454c79346d898b47701c6bbf71c",
+        "complaintID": "UA-2023-10-10-000001-a.12",
+        "date": "2023-10-10T01:00:03+03:00",
+        "status": "mistaken",
+        "type": "complaint",
+        "relatedLot": "c94486b261084c09ac0c731b74d35c85",
+        "bid_id": "c938a8780db146beaba184a25937b356",
+        "author": {
+          "name": "ДКП «Школяр»",
+          "address": {
+            "streetAddress": "вул. Островського, 33",
+            "locality": "м. Вінниця",
+            "region": "Вінницька область",
+            "postalCode": "21100",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Сергій Олексюк",
+            "email": "soleksuk@gmail.com",
+            "telephone": "+380432216930"
+          },
+          "identifier": {
+            "scheme": "UA-EDR",
+            "uri": "http://www.sc.gov.ua/",
+            "id": "00137256",
+            "legalName": "ДКП «Школяр»"
+          }
+        },
+        "title": "Недостатньо інформації",
+        "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+        "objections": [
+          {
+            "id": "d12b653b91b440769afaef7ea503c851",
+            "title": "My objection",
+            "description": "Test objection",
+            "relatesTo": "award",
+            "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+            "classification": {
+              "scheme": "violation_amcu",
+              "id": "corruptionDescription",
+              "description": "test classification"
+            },
+            "requestedRemedies": [
+              {
+                "id": "15dacd2b0d264bec8e04372645c9c038",
+                "type": "setAsideAward",
+                "description": "test"
+              }
+            ],
+            "arguments": [
+              {
+                "id": "835d37bcbcc84a168e08c326969b47a8",
+                "description": "test argument"
+              }
+            ],
+            "sequenceNumber": 1
+          }
+        ],
+        "value": {
+          "amount": 3000.0,
+          "currency": "UAH"
+        },
+        "rejectReason": "cancelledByComplainant"
+      }
+    ],
+    "eligible": true
+  }
+}
+
