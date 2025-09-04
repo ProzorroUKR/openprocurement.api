@@ -1,5 +1,6 @@
 from logging import getLogger
 
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.utils import context_unpack, json_view
@@ -49,6 +50,7 @@ class AgreementContractsResource(FrameworkBaseResource):
     def patch(self):
         updated = self.request.validated["data"]
         if updated:
+            updated["dateModified"] = get_request_now().isoformat()
             contract = self.request.validated["contract"]
             set_item(
                 self.request.validated["agreement"],

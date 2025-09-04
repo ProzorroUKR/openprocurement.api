@@ -106,12 +106,13 @@ class AgreementState(BaseState, AgreementChronographEventsMixing):
             return
 
         contract_id = generate_id()
+        now = get_request_now().isoformat()
         first_milestone = {
             "id": generate_id(),
             "status": "scheduled",
             "type": "activation",
             "dueDate": framework.get("qualificationPeriod").get("endDate"),
-            "dateModified": get_request_now().isoformat(),
+            "dateModified": now,
         }
         contract = {
             "id": contract_id,
@@ -120,7 +121,8 @@ class AgreementState(BaseState, AgreementChronographEventsMixing):
             "status": "active",
             "suppliers": submission["tenderers"],
             "milestones": [first_milestone],
-            "date": get_request_now().isoformat(),
+            "date": now,
+            "dateModified": now,
         }
 
         if "contracts" not in agreement:

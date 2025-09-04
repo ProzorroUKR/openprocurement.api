@@ -91,7 +91,8 @@ Content-Type: application/json
             "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "id": "71493e93a3804e8b8c23cfcc21d838cf",
@@ -134,7 +135,8 @@ Content-Type: application/json
             "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "id": "a4ff7ab0a7794f20af93e8f54678b8f6",
@@ -177,7 +179,8 @@ Content-Type: application/json
             "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "owner": "broker",

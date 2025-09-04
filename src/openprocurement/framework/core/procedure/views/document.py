@@ -58,7 +58,7 @@ class CoreMilestoneDocumentResource(FrameworkBaseResource, DocumentResourceMixin
             self.request,
             "agreement",
             modified=self.get_modified(),
-            additional_obj_names=("milestone",),
+            additional_obj_names=("milestone", "contract"),
             **kwargs,
         )
 

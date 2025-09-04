@@ -122,6 +122,7 @@ class AgreementChronographEventsMixing(BaseChronographEventsMixing):
                     if milestone["type"] == "ban":
                         if dt_from_iso(milestone["dueDate"]) <= now:
                             contract["status"] = "active"
+                            contract["date"] = contract["dateModified"] = now.isoformat()
                             milestone["status"] = "met"
-                            contract["date"] = milestone["dateModified"] = milestone["dateMet"] = now.isoformat()
+                            milestone["dateModified"] = milestone["dateMet"] = now.isoformat()
                         break

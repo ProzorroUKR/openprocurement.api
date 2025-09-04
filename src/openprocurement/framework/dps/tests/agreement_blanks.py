@@ -418,6 +418,11 @@ def patch_agreement_manually_to_terminated_status(self):
 
 
 def patch_contract_active_status(self):
+    response = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",
+    )
+    self.assertIn("dateModified", response.json["data"])
+    date_modified = response.json["data"]["dateModified"]
     response = self.app.post_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
         {"data": {"type": "ban"}},
@@ -426,6 +431,8 @@ def patch_contract_active_status(self):
     response = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "suspended")
+    date_modified_1 = response.json["data"]["dateModified"]
+    self.assertNotEqual(date_modified, date_modified_1)
 
     response = self.app.post_json(
         f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
@@ -454,6 +461,8 @@ def patch_contract_active_status(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["contracts"][0]["status"], "active")
+    date_modified_2 = response.json["data"]["contracts"][0]["dateModified"]
+    self.assertNotEqual(date_modified_1, date_modified_2)
 
     submission = self.mongodb.submissions.get(self.submission_id)
     submission["status"] = "draft"
@@ -795,6 +804,8 @@ def create_milestone_document_forbidden(self):
 
 
 def create_milestone_documents(self):
+    response = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}")
+    date_modified = response.json["data"]["dateModified"]
     response = self.app.post_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
         f"/documents?acc_token={self.framework_token}",
@@ -809,6 +820,9 @@ def create_milestone_documents(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}")
+    self.assertNotEqual(response.json["data"]["dateModified"], date_modified)
 
 
 def create_milestone_document_json_bulk(self):
