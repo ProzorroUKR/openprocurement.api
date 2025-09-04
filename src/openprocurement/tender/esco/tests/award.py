@@ -1,7 +1,5 @@
 import unittest
 from copy import deepcopy
-from datetime import timedelta
-from unittest import mock
 
 from esculator import escp, npv
 
@@ -30,13 +28,8 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_esco_bids,
     test_tender_esco_lots,
 )
-from openprocurement.tender.open.tests.award import (
-    Tender2LotAwardQualificationAfterComplaintMixin,
-    TenderAwardQualificationAfterComplaintMixin,
-)
 from openprocurement.tender.openeu.tests.award import (
     Tender2LotAwardComplaintResourceTestMixin,
-    Tender2LotAwardResourceTestMixin,
     TenderLotAwardComplaintResourceTestMixin,
     TenderLotAwardResourceTestMixin,
 )
@@ -138,43 +131,6 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest, TenderLotAwardResourceT
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
 
 
-@mock.patch(
-    "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
-    get_now() - timedelta(days=1),
-)
-class TenderAwardQualificationAfterComplaint(TenderAwardQualificationAfterComplaintMixin, BaseESCOContentWebTest):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_esco_bids
-    initial_lots = test_tender_esco_lots
-    initial_auth = ("Basic", ("broker", ""))
-
-    def setUp(self):
-        super().setUp()
-
-        self.prepare_award()
-
-        # Get award
-        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        self.award_id = response.json["data"][0]["id"]
-
-
-class Tender2LotAwardResourceTest(BaseESCOContentWebTest, Tender2LotAwardResourceTestMixin):
-    initial_status = "active.tendering"
-    initial_lots = 2 * test_tender_esco_lots
-    initial_bids = test_tender_esco_bids
-    initial_auth = ("Basic", ("broker", ""))
-
-    def setUp(self):
-        super().setUp()
-
-        self.prepare_award()
-
-        # Get award
-        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        self.award_id = response.json["data"][0]["id"]
-        self.app.authorization = ("Basic", ("broker", ""))
-
-
 class TenderAwardComplaintResourceTest(
     BaseESCOContentWebTest, TenderAwardComplaintResourceTestMixin, TenderUAAwardComplaintResourceTestMixin
 ):
@@ -242,33 +198,6 @@ class Tender2LotAwardComplaintResourceTest(
     TenderLotAwardComplaintResourceTest, Tender2LotAwardComplaintResourceTestMixin
 ):
     initial_lots = 2 * test_tender_esco_lots
-
-
-class Tender2LotAwardQualificationAfterComplaintResourceTest(
-    BaseESCOContentWebTest, Tender2LotAwardQualificationAfterComplaintMixin
-):
-    initial_bids = test_tender_esco_bids
-    initial_lots = 2 * test_tender_esco_lots
-    initial_status = "active.qualification"
-    initial_auth = ("Basic", ("broker", ""))
-
-    def setUp(self):
-        super().setUp()
-
-        with change_auth(self.app, ("Basic", ("token", ""))):
-            response = self.app.post_json(
-                "/tenders/{}/awards".format(self.tender_id),
-                {
-                    "data": {
-                        "suppliers": [test_tender_below_supplier],
-                        "status": "pending",
-                        "bid_id": self.initial_bids[0]["id"],
-                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],
-                    }
-                },
-            )
-        award = response.json["data"]
-        self.award_id = award["id"]
 
 
 class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):

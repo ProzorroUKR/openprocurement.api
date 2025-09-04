@@ -1,0 +1,127 @@
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/bc6fb19320f74b098ce8da8fc9b38e9b?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "cancelled"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/44f46cbfd0514a05ae2319491d4f5623
+
+{
+  "data": {
+    "id": "bc6fb19320f74b098ce8da8fc9b38e9b",
+    "status": "cancelled",
+    "date": "2023-10-10T01:00:03+03:00",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930"
+        },
+        "scale": "sme",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
+      }
+    ],
+    "bid_id": "a5bf718ab7f14f40bef4ad334f3c936a",
+    "lotID": "c94486b261084c09ac0c731b74d35c85",
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:03+03:00",
+      "endDate": "2023-10-10T01:00:03+03:00"
+    },
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "7e6312cc3e5c4e0abb1b3c8529c2f2c0",
+        "datePublished": "2023-10-10T01:00:03+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/69792a2f4a604dc7a8d11f1e0fe45c7b?Signature=%2BMpzYdCTayd0Ash6kwB2Mf9fz7Tt6Na6vcaLZE6qvT7749fJk1yI4GldAQw1VJWL6RMDYDV1wYu10wzwGG0bDA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:03+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "period": {
+      "startDate": "2023-10-10T01:00:03+03:00",
+      "endDate": "2023-10-18T00:00:00+03:00"
+    },
+    "qualified": false,
+    "complaints": [
+      {
+        "id": "1f9a9fce74de4f65a683b218b2cdfb11",
+        "complaintID": "UA-2023-10-10-000001-a.13",
+        "date": "2023-10-10T01:00:03+03:00",
+        "author": {
+          "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 33",
+            "locality": "м. Вінниця",
+            "region": "Вінницька область",
+            "postalCode": "21100",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Сергій Олексюк",
+            "email": "soleksuk@gmail.com",
+            "telephone": "+380432216930"
+          }
+        },
+        "title": "Недостатньо інформації",
+        "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+        "status": "answered",
+        "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно",
+        "resolutionType": "resolved",
+        "dateSubmitted": "2023-10-10T01:00:03+03:00",
+        "type": "claim",
+        "relatedLot": "c94486b261084c09ac0c731b74d35c85",
+        "bid_id": "a5bf718ab7f14f40bef4ad334f3c936a",
+        "dateAnswered": "2023-10-10T01:00:03+03:00"
+      }
+    ],
+    "eligible": false
+  }
+}
+

@@ -1,0 +1,35 @@
+POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/7467244beb734dc286a5428eaf4609b5/documents?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bceb3dcd0654ff78f3e340dcf560acd?Signature=Lgx896cbOqyGkulK%2B0glL8noSGEmeMdyVs3gZCUz4v0CC3phJn%2FCrsScmUKj2QGPtP2kFFnbsIik2DfNhSmoCw%3D%3D&KeyID=a8968c46",
+    "title": "Cancellation_Reason.pdf",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/7467244beb734dc286a5428eaf4609b5/documents/43afeda05c8b4b06bf3dfeb5da2d2e6e
+
+{
+  "data": {
+    "confidentiality": "public",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "Cancellation_Reason.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bceb3dcd0654ff78f3e340dcf560acd?Signature=ZXdIawKdRrq527SGraC6tfZnTHzMZJXce0DpWtcC0QrM8NpOiry9pITDrxvYGoUtgPn93228qwZcC9qy3O06Bg%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "language": "uk",
+    "id": "43afeda05c8b4b06bf3dfeb5da2d2e6e",
+    "datePublished": "2023-10-10T01:00:03+03:00",
+    "dateModified": "2023-10-10T01:00:03+03:00",
+    "author": "tender_owner"
+  }
+}
+

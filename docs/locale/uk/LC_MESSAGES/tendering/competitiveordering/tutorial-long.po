@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-26 23:41+0300\n"
+"POT-Creation-Date: 2025-09-08 12:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial (long)"
 msgstr "Туторіал (подовжений тендер)"
@@ -41,19 +41,19 @@ msgstr ""
 msgid "hasAuction"
 msgstr ""
 
-msgid "true,false"
-msgstr ""
-
-msgid "false"
-msgstr ""
-
-msgid "hasAwardingOrder"
+msgid "true / false"
 msgstr ""
 
 msgid "true"
 msgstr ""
 
+msgid "hasAwardingOrder"
+msgstr ""
+
 msgid "hasValueRestriction"
+msgstr ""
+
+msgid "false"
 msgstr ""
 
 msgid "valueCurrencyEquality"
@@ -89,10 +89,16 @@ msgstr ""
 msgid "tenderComplainRegulation"
 msgstr ""
 
-msgid "0"
+msgid "3"
+msgstr ""
+
+msgid "calendar"
 msgstr ""
 
 msgid "qualificationComplainDuration"
+msgstr ""
+
+msgid "0"
 msgstr ""
 
 msgid "awardComplainDuration"
@@ -104,6 +110,9 @@ msgstr ""
 msgid "cancellationComplainDuration"
 msgstr ""
 
+msgid "10"
+msgstr ""
+
 msgid "clarificationUntilDuration"
 msgstr ""
 
@@ -113,10 +122,7 @@ msgstr ""
 msgid "minTenderingDuration"
 msgstr ""
 
-msgid "2"
-msgstr ""
-
-msgid "working"
+msgid "7"
 msgstr ""
 
 msgid "hasEnquiries"
@@ -131,7 +137,7 @@ msgstr ""
 msgid "restricted"
 msgstr ""
 
-msgid "false,true"
+msgid "false / true"
 msgstr ""
 
 msgid "You can look for more details in :ref:`config` section."
