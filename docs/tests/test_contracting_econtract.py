@@ -4,6 +4,7 @@ from datetime import timedelta
 from unittest.mock import Mock, patch
 from uuid import uuid4
 
+import mock
 from tests.base.constants import DOCS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
@@ -152,10 +153,20 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
         # set award as active
         self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{award_id}/documents")
-        self.app.patch_json(
-            f'/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}',
-            {"data": {"status": "active", "qualified": True}},
-        )
+        pdf_data = {
+            "url": self.generate_docservice_url(),
+            "format": "application/pdf",
+            "hash": "md5:" + "0" * 32,
+            "title": "contract.pdf",
+        }
+        upload_mock_path = "openprocurement.tender.core.procedure.contracting.upload_contract_pdf"
+        with mock.patch(upload_mock_path) as mock_upload_contract_pdf:
+            mock_upload_contract_pdf.return_value = {"data": pdf_data}
+            self.app.patch_json(
+                f'/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}',
+                {"data": {"status": "active", "qualified": True}},
+            )
+            mock_upload_contract_pdf.assert_called_once()
         # get contract id
         response = self.app.get(f'/tenders/{tender_id}')
         contract = response.json['data']['contracts'][-1]
@@ -284,6 +295,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         contract_data.pop("dateModified")
         contract_data.pop("dateCreated")
         contract_data.pop("id")
+        contract_data.pop("documents")
 
         with change_auth(self.app, ("Basic", ("broker6", ""))), open(
             TARGET_DIR + 'contract-buyer-post-contract-forbidden.http', 'w'
@@ -316,10 +328,13 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         )
 
         with open(TARGET_DIR + 'contract-supplier-post-contract-version.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                f"/contracts?acc_token={supplier_token}",
-                {"data": contract_data},
-            )
+            with mock.patch(upload_mock_path) as mock_upload_contract_pdf:
+                mock_upload_contract_pdf.return_value = {"data": pdf_data}
+                response = self.app.post_json(
+                    f"/contracts?acc_token={supplier_token}",
+                    {"data": contract_data},
+                )
+                mock_upload_contract_pdf.assert_called_once()
         new_contract = response.json["data"]
 
         with open(TARGET_DIR + 'get-previous-contract-version.http', 'w') as self.app.file_obj:

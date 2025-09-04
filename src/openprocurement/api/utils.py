@@ -591,6 +591,21 @@ def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple |
     return data
 
 
+def upload_contract_pdf(request, contract: dict):
+    resp = requests.post(
+        f"{request.registry.render_api_host}/api/1.0/contract/upload",
+        json={"data": contract},
+        auth=(request.registry.render_api_username, request.registry.render_api_password),
+    )
+    if resp.status_code != 200:
+        raise_operation_error(
+            request,
+            f"Fail uploading contract pdf: {resp.status_code} {resp.text}.",
+            status=422,
+        )
+    return resp.json()
+
+
 def get_tender_profile(request, profile_id: str, validate_status: tuple | None = None) -> dict:
     return get_catalogue_object(request, "profiles", profile_id, validate_status)
 

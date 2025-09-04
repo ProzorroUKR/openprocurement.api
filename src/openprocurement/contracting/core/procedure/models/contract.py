@@ -56,7 +56,6 @@ class PostContract(Model):
     value = ModelType(ContractValue)
 
     items = ListType(ModelType(Item, required=True))
-    documents = ListType(ModelType(Document, required=True))
     buyer = ModelType(Buyer, required=True)
     suppliers = ListType(ModelType(Supplier), min_size=1, max_size=1)
 

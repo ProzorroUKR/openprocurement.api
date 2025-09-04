@@ -6,6 +6,9 @@ from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.state.contract import (
     ContractState as BaseContractState,
 )
+from openprocurement.tender.core.procedure.contracting import (
+    upload_contract_pdf_document,
+)
 
 
 class EContractState(BaseContractState):
@@ -79,6 +82,7 @@ class EContractState(BaseContractState):
                 "id",
                 "transfer_token",
                 "author",
+                "documents",
             )
             if f not in private_fields and before.get(f) != v:
                 updated_contract_data[f] = v
@@ -136,6 +140,7 @@ class EContractState(BaseContractState):
                 "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
             }
         )
+        upload_contract_pdf_document(self.request, after)
         self.set_object_status(before, "cancelled")
         self.set_object_status(before["cancellations"][0], "active", update_date=False)
         base_contract_data = {}

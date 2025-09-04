@@ -177,15 +177,25 @@ Content-Type: application/json
     "status": "active",
     "author": "supplier",
     "date": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
     "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract.pdf",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/d0cfb4b9efbc40338460f946b7932266?download=acdee3c5fbb14da0b63000963dea8a81",
+        "documentOf": "contract",
+        "id": "d0cfb4b9efbc40338460f946b7932266",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "documentType": "contractNotice"
+      },
       {
         "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/7f7d3898f20743798bf86ef67bf260d6?download=acdee3c5fbb14da0b63000963dea8a81",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/7f7d3898f20743798bf86ef67bf260d6?download=9dc6bfe4683b4e63a799bbe366ba9376",
         "documentOf": "contract",
         "documentType": "contractSignature",
         "id": "7f7d3898f20743798bf86ef67bf260d6",
@@ -198,7 +208,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/22ad6fee7d0042aaa9a1d88e22bf9d67?download=acdee3c5fbb14da0b63000963dea8a81",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/22ad6fee7d0042aaa9a1d88e22bf9d67?download=9dc6bfe4683b4e63a799bbe366ba9376",
         "documentOf": "contract",
         "documentType": "contractSignature",
         "id": "22ad6fee7d0042aaa9a1d88e22bf9d67",
@@ -207,6 +217,8 @@ Content-Type: application/json
         "author": "buyer"
       }
     ],
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "dateSigned": "2023-10-10T01:00:00+03:00",
     "changes": [
       {
@@ -233,7 +245,7 @@ Content-Type: application/json
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
             "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/c681b342eb664c3ab671f50a68860c14?download=acdee3c5fbb14da0b63000963dea8a81",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/c681b342eb664c3ab671f50a68860c14?download=9dc6bfe4683b4e63a799bbe366ba9376",
             "documentOf": "change",
             "documentType": "contractSignature",
             "id": "c681b342eb664c3ab671f50a68860c14",
@@ -246,7 +258,7 @@ Content-Type: application/json
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
             "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/dbfd77f646e24646b486c9993d548773?download=acdee3c5fbb14da0b63000963dea8a81",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/dbfd77f646e24646b486c9993d548773?download=9dc6bfe4683b4e63a799bbe366ba9376",
             "documentOf": "change",
             "documentType": "contractSignature",
             "id": "dbfd77f646e24646b486c9993d548773",

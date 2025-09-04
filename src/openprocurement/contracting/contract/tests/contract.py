@@ -20,7 +20,6 @@ from openprocurement.contracting.core.tests.contract_blanks import (
     contract_validate_signer_info,
     contract_wo_items_status_change,
     create_contract_transfer_token,
-    create_contract_w_documents,
     empty_listing,
     get_contract,
     listing,
@@ -62,7 +61,6 @@ class ContractResourceTest(BaseContractTest):
     test_get_contract = snitch(get_contract)
     test_not_found = snitch(not_found)
     test_create_contract_transfer_token = snitch(create_contract_transfer_token)
-    test_create_contract_w_documents = snitch(create_contract_w_documents)
 
 
 class ContractResource4BrokersTest(BaseContractContentWebTest):

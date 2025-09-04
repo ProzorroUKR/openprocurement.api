@@ -924,6 +924,7 @@ def limited_contract_confidential_document(self):
         f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
         {"data": {"status": "active", "qualified": True}},
     )
+
     response = self.app.get(f"/tenders/{tender_id}/contracts")
     contract_id = response.json["data"][0]["id"]
 
