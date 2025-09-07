@@ -16,7 +16,6 @@ levels = {
 
 
 def make_filter(
-    app,
     global_conf,
     logger_name="wsgi",
     format=None,
@@ -28,11 +27,15 @@ def make_filter(
         logging_level = levels[logging_level]
     if isinstance(set_logger_level, (bytes, str)):
         set_logger_level = levels[set_logger_level]
-    return TransLogger(
-        app,
-        format=format or None,
-        logging_level=logging_level,
-        logger_name=logger_name,
-        setup_console_handler=asbool(setup_console_handler),
-        set_logger_level=set_logger_level,
-    )
+
+    def filter(app):
+        return TransLogger(
+            app,
+            format=format or None,
+            logging_level=logging_level,
+            logger_name=logger_name,
+            setup_console_handler=asbool(setup_console_handler),
+            set_logger_level=set_logger_level,
+        )
+
+    return filter

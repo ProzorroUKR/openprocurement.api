@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        UV_EXTRA_ARGS: "--group test --group docs"
     environment:
       SANDBOX_MODE: 'True'
     depends_on:

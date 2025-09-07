@@ -8,8 +8,16 @@ repos:
         args:
           - src
           - docs/tests
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.8
+
+  - repo: local
     hooks:
     - id: ruff
+      name: Run Ruff Linter
+      entry: uv run --active ruff check --force-exclude --fix
+      language: python
+      types_or: [ python, pyi, jupyter ]
     - id: ruff-format
+      name: Run Ruff Formatter
+      language: python
+      types_or: [ python, pyi, jupyter ]
+      entry: uv run --active ruff format --force-exclude

@@ -14,12 +14,14 @@ if not any(
 
     gevent.monkey.patch_all()
 
+import tomllib
+from importlib import import_module
 from logging import getLogger
+from pathlib import Path
 
 import sentry_sdk
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
-from pkg_resources import iter_entry_points
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.httpexceptions import HTTPPreconditionFailed
@@ -44,6 +46,22 @@ from openprocurement.api.utils import (
 )
 
 LOGGER = getLogger("{}.init".format(__name__))
+
+
+logger = getLogger(__name__)
+
+
+def load_modules_from_pyproject():
+    pyproject_path = Path(__file__).parent.parent.parent.parent / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        pyproject = tomllib.load(f)
+    modules = pyproject.get("app", {}).get("modules", {})
+    return modules
+
+
+def load_callable(path):
+    module, func = path.split(":")
+    return getattr(import_module(module), func)
 
 
 def main(global_config, **settings):
@@ -86,10 +104,11 @@ def main(global_config, **settings):
     config.registry.mongodb = MongodbStore(settings)
 
     # search for plugins
-    plugins = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
-    for entry_point in iter_entry_points("openprocurement.api.plugins"):
-        if not plugins or entry_point.name in plugins:
-            plugin = entry_point.load()
+    all_modules = load_modules_from_pyproject()
+    restricted_modules = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
+    for module_name, module_path in all_modules.items():
+        if not restricted_modules or module_name in restricted_modules:
+            plugin = load_callable(module_path)
             plugin(config)
 
     # Document Service key
@@ -123,16 +142,6 @@ def main(global_config, **settings):
             config.registry.keyring[key[:8]] = VerifyKey(key, encoder=HexEncoder)
 
     config.registry.server_id = settings.get("id", "")
-
-    # search subscribers
-    subscribers_keys = [k for k in settings if k.startswith("subscribers.")]
-    for k in subscribers_keys:
-        subscribers = settings[k].split(",")
-        for subscriber in subscribers:
-            for entry_point in iter_entry_points("openprocurement.{}".format(k), subscriber):
-                if entry_point:
-                    plugin = entry_point.load()
-                    plugin(config)
 
     config.registry.health_threshold = float(settings.get("health_threshold", 512))
     config.registry.health_threshold_func = settings.get("health_threshold_func", "all")
