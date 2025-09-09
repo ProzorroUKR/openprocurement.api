@@ -101,6 +101,7 @@ Delivery Logic
 .. sourcecode:: http
 
     PATCH /api/2.5/tenders/4178f66eebf04c4497d0fb223feeb0fe HTTP/1.0
+
     Authorization: Bearer broker
     Content-Length: 1874
     Content-Type: application/json
@@ -211,6 +212,7 @@ Delivery Logic
 .. sourcecode:: http
 
     PATCH /api/2.5/tenders/4178f66eebf04c4497d0fb223feeb0fe HTTP/1.0
+
     Authorization: Bearer broker
     Content-Length: 1874
     Content-Type: application/json
