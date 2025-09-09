@@ -652,3 +652,31 @@ def is_boolean(value):
             return False
 
     return False
+
+
+def verify_signature(request, data, sign):
+    request_data = {
+        "sign": b64encode(sign).decode(),
+        "data": b64encode(data).decode(),
+    }
+
+    resp = requests.post(
+        f"{request.registry.sign_api_host}/verify_data",
+        json=request_data,
+        auth=(request.registry.sign_api_username, request.registry.sign_api_password),
+    )
+
+    try:
+        resp_data = resp.json()
+    except Exception:
+        resp_data = {}
+
+    if resp_data.get("status") != "success":
+        try:
+            error_description = resp_data["errors"][0]["description"]
+        except (KeyError, IndexError):
+            error_description = resp.status_code
+
+        raise_operation_error(request, f"Fail verifying signature: {error_description}.", status=422)
+
+    return resp_data["data"]
