@@ -65,6 +65,9 @@ class BaseReqResponseState(BaseState):
         if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
             validate_req_response_values(req_response)
 
+    def on_delete(self):
+        pass
+
 
 class BidReqResponseState(BaseReqResponseState):
     parent_obj_name = "bid"
@@ -77,6 +80,9 @@ class BidReqResponseState(BaseReqResponseState):
 
     def always(self, data: dict) -> None:
         super().always(data)
+        invalidate_pending_bid()
+
+    def on_delete(self):
         invalidate_pending_bid()
 
 

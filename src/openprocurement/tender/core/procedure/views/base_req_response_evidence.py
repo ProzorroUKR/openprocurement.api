@@ -100,6 +100,8 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
         if not req_response["evidences"]:
             del req_response["evidences"]
 
+        self.state.on_delete()
+
         if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
                 f"Deleted {self.parent_obj_name} requirement response evidence {evidence['id']}",

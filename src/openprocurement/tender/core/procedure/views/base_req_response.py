@@ -111,6 +111,8 @@ class BaseReqResponseResource(TenderBaseResource):
         if not parent["requirementResponses"]:
             del parent["requirementResponses"]
 
+        self.state.on_delete()
+
         if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
                 f"Deleted {self.parent_obj_name} requirement response {req_response['id']}",
