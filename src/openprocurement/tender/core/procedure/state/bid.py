@@ -78,10 +78,10 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
-        self.validate_patch_bid_fields_during_qualification(before, after)
         self.validate_items_required_field(after)
         self.validate_tenderers_signer_info(after)
         self.lot_values_patch_keep_unchange(after, before)
+        self.validate_patch_bid_fields_during_qualification(before, after)
         self.validate_bid_unit_value(after)
         self.validate_status_change(before, after)
         self.update_date_for_new_lot_values(after, before)
