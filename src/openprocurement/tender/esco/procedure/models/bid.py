@@ -55,6 +55,10 @@ class PatchBid(ESCOMixin, BasePatchBid):
         return  # will be validated at Bid model
 
 
+class PatchQualificationBid(PatchBid):
+    lotValues = ListType(ModelType(LotValue, required=True))
+
+
 class PostBid(ESCOMixin, BasePostBid):
     lotValues = ListType(ModelType(PostLotValue, required=True))
 

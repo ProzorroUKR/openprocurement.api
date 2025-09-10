@@ -294,13 +294,13 @@ def validate_accreditation_level(levels, item, operation, source="tender", kind_
     return validate
 
 
-def validate_input_data_from_resolved_model(none_means_remove=False):
+def validate_input_data_from_resolved_model(filters=None, none_means_remove=False):
     def validated(request, **_):
         state = request.root.state
         method = request.method.lower()
         model = getattr(state, f"get_{method}_data_model")()
         request.validated[f"{method}_data_model"] = model
-        validate = validate_input_data(model, none_means_remove=none_means_remove)
+        validate = validate_input_data(model, filters=filters, none_means_remove=none_means_remove)
         return validate(request, **_)
 
     return validated

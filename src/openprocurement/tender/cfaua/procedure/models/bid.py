@@ -6,6 +6,9 @@ from openprocurement.tender.core.procedure.models.bid import (
     PatchLocalizationBid as BasePatchBid,
 )
 from openprocurement.tender.core.procedure.models.bid import (
+    PatchQualificationLocalizationBid as BasePatchQualificationBid,
+)
+from openprocurement.tender.core.procedure.models.bid import (
     PostLocalizationBid as BasePostBid,
 )
 from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
@@ -18,6 +21,11 @@ from openprocurement.tender.core.procedure.models.req_response import (
 class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     selfQualified = BooleanType(choices=[True])  # selfQualified, selfEligible are the same as in the parent but
     selfEligible = BooleanType(choices=[True])  # tests fail because they in different order
+
+
+class PatchQualificationBid(PatchObjResponsesMixin, BasePatchQualificationBid):
+    selfQualified = BooleanType(choices=[True])
+    selfEligible = BooleanType(choices=[True])
 
 
 class PostBid(BidResponsesMixin, BasePostBid):

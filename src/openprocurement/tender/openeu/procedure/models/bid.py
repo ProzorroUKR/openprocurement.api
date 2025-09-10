@@ -20,6 +20,10 @@ class PatchBid(BasePatchBid):
     selfEligible = BooleanType(choices=[True])  # tests fail because they in different order
 
 
+class PatchQualificationBid(PatchBid):
+    lotValues = ListType(ModelType(LotValue, required=True))
+
+
 class PostBid(BasePostBid):
     lotValues = ListType(ModelType(PostLotValue, required=True))
 

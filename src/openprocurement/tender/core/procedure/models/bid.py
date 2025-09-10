@@ -51,8 +51,16 @@ class PatchBid(BaseBid):
     subcontractingDetails = StringType()
 
 
+class PatchQualificationBid(PatchBid):
+    lotValues = ListType(ModelType(LotValue, required=True))
+
+
 class PatchLocalizationBid(PatchBid):
     items = ListType(ModelType(LocalizationItem, required=True))
+
+
+class PatchQualificationLocalizationBid(PatchLocalizationBid):
+    lotValues = ListType(ModelType(LotValue, required=True))
 
 
 # --- PATCH DATA

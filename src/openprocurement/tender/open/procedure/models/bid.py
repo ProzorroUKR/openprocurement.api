@@ -34,6 +34,10 @@ class PatchBid(BasePatchBid, PatchObjResponsesMixin):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
 
 
+class PatchQualificationBid(PatchBid):
+    lotValues = ListType(ModelType(LotValue, required=True))
+
+
 class PostBid(BasePostBid, BidResponsesMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(required=True, choices=[True])

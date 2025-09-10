@@ -9,20 +9,21 @@ from openprocurement.api.procedure.validation import (
     validate_accreditation_level,
     validate_data_documents,
     validate_input_data,
+    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaua.procedure.models.bid import Bid, PatchBid, PostBid
+from openprocurement.tender.cfaua.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.cfaua.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.cfaua.procedure.serializers.tender import (
     CFAUATenderSerializer,
 )
+from openprocurement.tender.cfaua.procedure.state.bid import CFAUABidState
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
-from openprocurement.tender.core.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone_24,
     validate_bid_operation_in_tendering,
@@ -44,7 +45,7 @@ LOGGER = getLogger(__name__)
     description="Tender EU bids",
 )
 class CFAUATenderBidResource(OpenUATenderBidResource):
-    state_class = BidState
+    state_class = CFAUABidState
     serializer_class = BidSerializer
 
     @json_view(
@@ -95,8 +96,7 @@ class CFAUATenderBidResource(OpenUATenderBidResource):
         validators=(
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-            validate_input_data(
-                PatchBid,
+            validate_input_data_from_resolved_model(
                 filters=(filter_administrator_bid_update,),
                 none_means_remove=True,
             ),
