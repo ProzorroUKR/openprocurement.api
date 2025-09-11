@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-16 20:00+0300\n"
+"POT-Creation-Date: 2025-09-08 12:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,10 +38,13 @@ msgstr ""
 msgid "aboveThreshold"
 msgstr ""
 
-msgid "true,false"
+msgid "true / false"
 msgstr ""
 
 msgid "true"
+msgstr ""
+
+msgid "competitiveOrdering"
 msgstr ""
 
 msgid "competitiveOrdering.short"

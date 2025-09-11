@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-26 11:29+0300\n"
+"POT-Creation-Date: 2025-09-08 12:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "minBidsNumber"
 msgstr ""
@@ -41,6 +41,9 @@ msgid "aboveThreshold"
 msgstr ""
 
 msgid "1"
+msgstr ""
+
+msgid "competitiveOrdering"
 msgstr ""
 
 msgid "competitiveOrdering.short"
@@ -156,3 +159,4 @@ msgstr "Подивимося на тендер після закінчення `
 
 msgid "After `active.auction` is finished, the system should run `active.qualification`. We look again at the `minBidsNumber:2` value and check for active bids. are there two of them? Yes, let's run `active.qualification`:"
 msgstr "Після закінчення `active.auction`, система повинна запустити `active.qualification`. Дивимось знову на значення `minBidsNumber:2` та перевіряємо наявність активних bids. Їх два? Так, запускаємо `active.qualification`:"
+
