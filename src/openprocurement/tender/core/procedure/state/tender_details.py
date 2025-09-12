@@ -28,6 +28,7 @@ from openprocurement.api.constants_env import (
     NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
     TENDER_CONFIG_OPTIONALITY,
+    UNIFIED_CRITERIA_LOGIC_FROM,
 )
 from openprocurement.api.constants_utils import parse_date
 from openprocurement.api.context import get_request_now
@@ -221,6 +222,7 @@ class BaseTenderDetailsMixing:
     should_validate_items_classifications_prefix = True
     tender_period_extra_working_days = False
     working_days_config = DEFAULT_WORKING_DAYS_CONFIG
+    should_validate_required_market_criteria = True
 
     calendar = WORKING_DAYS
 
@@ -1056,6 +1058,9 @@ class BaseTenderDetailsMixing:
                 get_request(),
                 f"Tender must contain one of article 16 criteria: {', '.join(sorted(required_article_16_criteria_ids))}",
             )
+
+        if tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM) and not self.should_validate_required_market_criteria:
+            return
 
         for item in after.get("items", []):
             market_obj = None

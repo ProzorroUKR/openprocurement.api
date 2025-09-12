@@ -54,6 +54,36 @@ GUARANTEE_ALLOWED_TENDER_TYPES = (
     "requestForProposal",
 )
 
+CONTRACT_GUARANTEE_ALLOWED_TENDER_TYPES = (
+    "belowThreshold",
+    "aboveThreshold",
+    "competitiveOrdering",
+    "aboveThresholdUA",
+    "aboveThresholdEU",
+    "esco",
+    "priceQuotation",
+    "competitiveDialogueUA.stage2",
+    "competitiveDialogueEU.stage2",
+    "closeFrameworkAgreementSelectionUA",
+    "requestForProposal",
+    "simple.defense",
+)
+
+BID_GUARANTEE_ALLOWED_TENDER_TYPES = (
+    "belowThreshold",
+    "aboveThreshold",
+    "competitiveOrdering",
+    "aboveThresholdUA",
+    "aboveThresholdEU",
+    "esco",
+    "competitiveDialogueUA.stage2",
+    "competitiveDialogueEU.stage2",
+    "closeFrameworkAgreementUA",
+    "closeFrameworkAgreementSelectionUA",
+    "requestForProposal",
+    "simple.defense",
+)
+
 BID_REQUIRED_ITEMS_TENDER_TYPES = (
     "belowThreshold",
     "aboveThreshold",

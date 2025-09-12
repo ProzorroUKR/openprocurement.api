@@ -41,6 +41,7 @@ from openprocurement.api.constants_env import (
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
     TENDER_SIGNER_INFO_REQUIRED_FROM,
+    UNIFIED_CRITERIA_LOGIC_FROM,
 )
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
@@ -672,8 +673,10 @@ def validate_tender_guarantee(request, **_):
         return
 
     tender_type = tender["procurementMethodType"]
-    if tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES:
+    if tender_created_before(UNIFIED_CRITERIA_LOGIC_FROM) and tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES:
         return
+
+    bid_guarantee_criterion = "CRITERION.OTHER.BID.GUARANTEE"
 
     if tender.get("lots"):
         related_guarantee_lots = [
@@ -681,26 +684,34 @@ def validate_tender_guarantee(request, **_):
             for criterion in tender.get("criteria", "")
             if criterion.get("relatesTo") == "lot"
             and criterion.get("classification")
-            and criterion["classification"]["id"] == "CRITERION.OTHER.BID.GUARANTEE"
+            and criterion["classification"]["id"] == bid_guarantee_criterion
         ]
         for lot in tender["lots"]:
-            if lot["id"] in related_guarantee_lots and (not lot.get("guarantee") or lot["guarantee"]["amount"] <= 0):
-                raise_operation_error(request, "Should be specified 'guarantee.amount' more than 0 to lot")
+            if lot["id"] in related_guarantee_lots:
+                if not lot.get("guarantee") or lot["guarantee"]["amount"] <= 0:
+                    raise_operation_error(
+                        request,
+                        f"Should be specified 'guarantee.amount' more than 0 to lot for {bid_guarantee_criterion}",
+                    )
+            elif tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM) and lot.get("guarantee", {}).get("amount", 0) > 0:
+                raise_operation_error(
+                    request,
+                    f"Should be specified {bid_guarantee_criterion} for 'guarantee.amount' more than 0 to lot",
+                )
 
     else:
         amount = data["guarantee"]["amount"] if data.get("guarantee") else 0
-        needed_criterion = "CRITERION.OTHER.BID.GUARANTEE"
         tender_criteria = [
             criterion["classification"]["id"]
             for criterion in tender.get("criteria", "")
             if criterion.get("classification")
         ]
-        if (amount <= 0 and needed_criterion in tender_criteria) or (
-            amount > 0 and needed_criterion not in tender_criteria
+        if (amount <= 0 and bid_guarantee_criterion in tender_criteria) or (
+            amount > 0 and bid_guarantee_criterion not in tender_criteria
         ):
             raise_operation_error(
                 request,
-                "Should be specified {} and 'guarantee.amount' more than 0".format(needed_criterion),
+                f"Should be specified {bid_guarantee_criterion} and 'guarantee.amount' more than 0",
             )
 
 

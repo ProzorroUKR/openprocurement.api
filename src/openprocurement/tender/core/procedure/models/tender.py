@@ -8,7 +8,10 @@ from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import ListType
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
+from openprocurement.tender.core.constants import (
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
+    AWARD_CRITERIA_LOWEST_COST,
+)
 from openprocurement.tender.core.procedure.models.feature import (
     Feature,
     validate_related_items,
@@ -89,7 +92,10 @@ class PostTender(PostBaseTender):
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], default=AWARD_CRITERIA_LOWEST_COST)
+    awardCriteria = StringType(
+        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
+        default=AWARD_CRITERIA_LOWEST_COST,
+    )
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(EstimatedValue, required=True)
@@ -131,13 +137,17 @@ class PostTender(PostBaseTender):
 
         validate_milestones_lot(data, value)
 
+    def validate_awardCriteria(self, data, value):
+        if value == AWARD_CRITERIA_LIFE_CYCLE_COST and data.get("features"):
+            raise ValidationError(f"Can`t add features with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria")
+
 
 class PatchTender(PatchBaseTender):
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
+    awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST])
     procuringEntity = ModelType(ProcuringEntity)
     value = ModelType(EstimatedValue)
     guarantee = ModelType(Guarantee)
@@ -164,7 +174,7 @@ class Tender(BaseTender):
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
+    awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(EstimatedValue, required=True)
     guarantee = ModelType(Guarantee)
@@ -205,3 +215,7 @@ class Tender(BaseTender):
                 raise ValidationError("Tender should contain at least one milestone")
 
         validate_milestones_lot(data, value)
+
+    def validate_awardCriteria(self, data, value):
+        if value == AWARD_CRITERIA_LIFE_CYCLE_COST and data.get("features"):
+            raise ValidationError(f"Can`t add features with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria")

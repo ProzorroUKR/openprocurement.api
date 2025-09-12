@@ -8,6 +8,8 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
+    BID_GUARANTEE_ALLOWED_TENDER_TYPES,
+    CONTRACT_GUARANTEE_ALLOWED_TENDER_TYPES,
     COUNTRIES_MAP,
     CRITERION_LIFE_CYCLE_COST_IDS,
     GUARANTEE_ALLOWED_TENDER_TYPES,
@@ -17,6 +19,7 @@ from openprocurement.api.constants_env import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
     PQ_CRITERIA_ID_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
+    UNIFIED_CRITERIA_LOGIC_FROM,
 )
 from openprocurement.api.context import get_json_data, get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
@@ -73,11 +76,14 @@ class CriterionClassification(BaseClassification):
     @staticmethod
     def _validate_guarantee_id(code, tender):
         tender_created = get_first_revision_date(tender, default=get_request_now())
-        criteria_to_check = (
-            "CRITERION.OTHER.CONTRACT.GUARANTEE",
-            "CRITERION.OTHER.BID.GUARANTEE",
-        )
-        if (
+        criteria_to_check = {
+            "CRITERION.OTHER.CONTRACT.GUARANTEE": CONTRACT_GUARANTEE_ALLOWED_TENDER_TYPES,
+            "CRITERION.OTHER.BID.GUARANTEE": BID_GUARANTEE_ALLOWED_TENDER_TYPES,
+        }
+        if tender_created >= UNIFIED_CRITERIA_LOGIC_FROM:
+            if code in criteria_to_check and tender["procurementMethodType"] not in criteria_to_check[code]:
+                raise ValidationError(f"{code} is available only in {criteria_to_check[code]}")
+        elif (
             tender_created >= RELEASE_GUARANTEE_CRITERION_FROM
             and code in criteria_to_check
             and tender["procurementMethodType"] not in GUARANTEE_ALLOWED_TENDER_TYPES
