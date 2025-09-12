@@ -34,6 +34,7 @@ class PatchLotValue(BasePatchLotValue):
 
 class LotValue(BaseLotValue):
     value = ModelType(ESCOValue, required=True)
+    initialValue = ModelType(ESCOValue)  # field added by chronograph
 
     def validate_value(self, data, value):
         if data.get("status") != "draft":
