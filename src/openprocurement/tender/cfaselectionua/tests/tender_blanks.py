@@ -548,6 +548,10 @@ def create_tender_draft_pending(self):
     self.assertEqual(response.json["data"]["status"], "draft.pending")
 
 
+@mock.patch(
+    "openprocurement.tender.cfaselectionua.procedure.state.tender_details.UNIFIED_CRITERIA_LOGIC_FROM",
+    get_now() + timedelta(days=1),
+)
 def switch_tender_to_draft_pending(self):
     create_tender_draft(self)
 

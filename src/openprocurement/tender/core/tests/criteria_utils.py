@@ -14,7 +14,6 @@ from openprocurement.tender.core.tests.utils import (
 
 TENDERS_WITHOUT_CRITERIA = [
     "aboveThresholdUA.defense",
-    "simple.defense",
     "reporting",
     "negotiation",
     "negotiation.quick",
