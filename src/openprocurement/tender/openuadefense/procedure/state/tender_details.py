@@ -24,9 +24,6 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
 
     calendar = WORKING_DAYS
 
-    def validate_required_criteria(self, before, after):
-        pass
-
 
 class AboveThresholdUADefenseTenderDetailsState(DefenseTenderDetailsState):
     should_validate_related_lot_in_items = False

@@ -3,7 +3,10 @@ from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.constants_env import CRITERIA_CLASSIFICATION_UNIQ_FROM
+from openprocurement.api.constants_env import (
+    CRITERIA_CLASSIFICATION_UNIQ_FROM,
+    UNIFIED_CRITERIA_LOGIC_FROM,
+)
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_tender
 from openprocurement.api.utils import (
@@ -311,6 +314,9 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             validate_edrpou_confidentiality_doc(doc, should_be_public=True)
 
     def validate_exist_guarantee_criteria(self, tender):
+        if tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM):
+            return
+
         agreement_id = tender["agreements"][0]["id"]
         if not (agreement := get_agreement_by_id(get_request(), agreement_id, raise_error=False)):
             return

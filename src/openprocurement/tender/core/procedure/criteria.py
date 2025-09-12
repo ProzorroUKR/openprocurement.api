@@ -7,6 +7,7 @@ from openprocurement.api.constants import CRITERIA_LIST
 from openprocurement.api.constants_env import (
     CRITERIA_CLASSIFICATION_VALIDATION_FROM,
     NEW_REQUIREMENTS_RULES_FROM,
+    UNIFIED_CRITERIA_LOGIC_FROM,
 )
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
@@ -182,6 +183,11 @@ class TenderCriterionMixin:
                         market_requirements_ids = set(market_requirements.keys())
                         tender_requirements_ids = set(tender_requirements.keys())
                         if (
+                            tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM)
+                            and not self.should_validate_required_market_criteria
+                        ):
+                            pass
+                        elif (
                             requirements_from_profile
                             or tender_criterion["classification"]["id"] == CRITERION_LOCALIZATION
                         ):

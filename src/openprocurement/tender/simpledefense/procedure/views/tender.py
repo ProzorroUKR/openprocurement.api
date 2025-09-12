@@ -13,6 +13,7 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_change_status_with_cancellation_lot_pending,
+    validate_tender_guarantee,
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.openuadefense.procedure.views.tender import (
@@ -73,6 +74,7 @@ class SimpleDefenseTenderResource(AboveThresholdUADefenseTenderResource):
             validate_input_data(PatchTender, none_means_remove=True),
             validate_patch_data_simple(Tender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
+            validate_tender_guarantee,
         ),
         permission="edit_tender",
     )
