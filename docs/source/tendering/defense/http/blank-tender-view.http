@@ -10,6 +10,7 @@ Content-Type: application/json
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "amount": 500.0,
@@ -47,7 +48,6 @@ Content-Type: application/json
       }
     ],
     "status": "draft",
-    "awardCriteria": "lowestCost",
     "tenderPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-05T00:00:00+02:00"

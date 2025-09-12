@@ -154,6 +154,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "id": "514d764704784304906b25138785146c"
       }
     ],
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "amount": 500.0,
@@ -216,7 +217,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     },
     "status": "draft",
     "procurementMethodType": "competitiveOrdering",
-    "awardCriteria": "lowestCost",
     "tenderPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-25T00:00:00+02:00"

@@ -29,6 +29,7 @@ from openprocurement.tender.core.procedure.utils import tender_created_after
 
 class TenderCriterionMixin:
     request: Request
+    should_validate_required_market_criteria: bool
 
     def _validate_criterion_uniq(self, data, previous_criteria=[]) -> None:
         new_criteria: dict[str, Any] = {}

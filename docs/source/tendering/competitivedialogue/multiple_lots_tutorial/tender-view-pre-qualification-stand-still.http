@@ -321,6 +321,7 @@ Content-Type: application/json
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -470,7 +471,6 @@ Content-Type: application/json
         "authorizedBy": "Статут компанії"
       }
     },
-    "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-09-09T01:01:00+03:00",
       "endDate": "2023-09-30T01:01:00+03:00",

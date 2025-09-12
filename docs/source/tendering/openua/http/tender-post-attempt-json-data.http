@@ -144,6 +144,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b7594b17253d4e3c
     "mainProcurementCategory": "services",
     "contractTemplateName": "00000000.0002.01",
     "title": "футляри до державних нагород",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "amount": 500.0,
@@ -206,7 +207,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b7594b17253d4e3c
     },
     "status": "draft",
     "procurementMethodType": "aboveThresholdUA",
-    "awardCriteria": "lowestCost",
     "tenderPeriod": {
       "startDate": "2023-10-21T01:03:02+03:00",
       "endDate": "2023-11-10T00:00:00+02:00"

@@ -195,7 +195,7 @@ For tenders in draft statuses there is possibility to create, update and delete 
 Retrieve Eligible Evidence
 """"""""""""""""""""""""""
 
- .. http:example:: http/criteria/requirement-evidences-list.http
+.. http:example:: http/criteria/requirement-evidences-list.http
    :code:
 
 .. http:example:: http/criteria/requirement-evidence.http
@@ -205,17 +205,17 @@ Retrieve Eligible Evidence
 Exclusion criteria
 ------------------
 
-Exclusion criteria available and required for the following procedures: aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA,
-competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA
+Exclusion criteria are required for the following procedures: `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `competitiveOrdering`, `competitiveDialogueUA`,
+`competitiveDialogueEU`, `esco`, `closeFrameworkAgreementUA`, `simple.defense`.
 
 `Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__
 
-You can't update tender to status `active.tendering` without 11 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:
+You can't update tender to status `active.tendering` without 11 EXCLUSION and OTHER required criteria:
 
 .. http:example:: http/criteria/update-tender-status-without-exclusion-criteria-general.http
    :code:
 
-For aboveThreshold, competitiveOrdering, aboveThresholdEU you can't update tender to status `active.tendering` without 10 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:
+For `aboveThreshold`, `aboveThresholdEU` you can't update tender to status `active.tendering` without 10 EXCLUSION and OTHER required criteria:
 
 .. http:example:: http/criteria/update-tender-status-without-exclusion-criteria-open.http
    :code:
@@ -264,14 +264,22 @@ But field `eligibleEvidences` is forbidden
 .. http:example:: http-handwritten/criteria/update-language-criterion-with-not-listed-lang.http
    :code:
 
-Bid guarantee criterion (available for tenders: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`).
+Guarantee criteria workflow
+----------------------------
+
+Bid guarantee criterion available for tenders: `belowThreshold`, `competitiveOrdering`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueUA.stage2`,
+`competitiveDialogueEU.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `requestForProposal`, `simple.defense`.
+
 If specified, should be also specified `guarantee` for tender if criterion
 `relatesTo` = `'tender'` or `guarantee` for lot if `relatesTo` = `'lot'`
 
 .. http:example:: http-handwritten/criteria/create-bid-guarantee-criterion.http
    :code:
 
-Contract guarantee criterion (available for tenders: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`).
+Contract guarantee criterion available for tenders: `belowThreshold`, `competitiveOrdering`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`,
+`competitiveDialogueUA`, `competitiveDialogueEU`, `competitiveDialogueUA.stage2`, `competitiveDialogueEU.stage2`, `priceQuotation`,
+`closeFrameworkAgreementSelectionUA`, `requestForProposal`, `simple.defense`.
+
 For current criterion could be set only `source` = `'winner'`.
 `eligibleEvidences` could be added according to :ref:`bidding`
 
@@ -410,12 +418,38 @@ Exclusion criteria workflow
 Article 16 criteria
 --------------------
 
-Article 16 criteria are required for the following procedures: aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA,
-competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA
+Article 16 criteria are required for the following procedures: `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `competitiveDialogueUA`,
+`competitiveDialogueEU`, `esco`, `closeFrameworkAgreementUA`.
 
 `Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_16.json>`__
 
 You can't update tender to status `active.tendering` without at least one of ARTICLE_16 criterion:
 
 .. http:example:: http/criteria/update-tender-status-without-article-16-criteria.http
+   :code:
+
+
+LCC criteria
+-------------
+
+Life cycle cost criteria could be added only for procedures which have `awardCriteria` field set to `lifeCycleCost`.
+
+Let's create procedure with another `awardCriteria`:
+
+.. http:example:: http/criteria/post-tender-award-criteria-lowest-cost.http
+   :code:
+
+Then let's try to add criteria LCC, we see an error:
+
+.. http:example:: http/criteria/lcc-with-invalid-award-criteria.http
+   :code:
+
+Let's create procedure with `awardCriteria` set to `lifeCycleCost`:
+
+.. http:example:: http/criteria/post-tender-award-criteria-lcc.http
+   :code:
+
+Successfully adding criteria LCC:
+
+.. http:example:: http/criteria/lcc-with-valid-award-criteria.http
    :code:
