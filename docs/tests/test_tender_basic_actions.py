@@ -39,7 +39,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
-    test_language_criteria,
+    test_lcc_tender_criteria,
     test_tech_feature_criteria,
 )
 from openprocurement.tender.core.tests.mock import patch_market
@@ -53,6 +53,7 @@ from openprocurement.tender.open.tests.base import (
     test_tender_open_complaint_appeal_proceeding,
     test_tender_open_complaint_objection,
 )
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_criteria
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.openua.tests.base import test_tender_openua_config
 from openprocurement.tender.pricequotation.tests.base import (
@@ -2926,8 +2927,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
 
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        test_criteria_data.extend(test_language_criteria)
+        test_criteria_data = deepcopy(test_tender_openeu_criteria[:-1])
         set_tender_criteria(test_criteria_data, tender.get("lots", []), tender.get("items", []))
         with open(TARGET_DIR + 'criteria/bulk-create-exclusion-criteria.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
@@ -4162,6 +4162,37 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {"data": {"contractTemplateName": "00000000.0002.01"}},
                 status=422,
+            )
+
+    def test_LCC_criteria(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        tender_data = deepcopy(self.initial_data)
+
+        with open(TARGET_DIR + 'criteria/post-tender-award-criteria-lowest-cost.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        owner_token = response.json['access']['token']
+
+        with open(TARGET_DIR + 'criteria/lcc-with-invalid-award-criteria.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f'/tenders/{tender["id"]}/criteria?acc_token={owner_token}',
+                {'data': test_lcc_tender_criteria},
+                status=422,
+            )
+
+        tender_data["awardCriteria"] = "lifeCycleCost"
+        with open(TARGET_DIR + 'criteria/post-tender-award-criteria-lcc.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
+            self.assertEqual(response.status, '201 Created')
+            tender = response.json["data"]
+            owner_token = response.json['access']['token']
+
+        with open(TARGET_DIR + 'criteria/lcc-with-valid-award-criteria.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f'/tenders/{tender["id"]}/criteria?acc_token={owner_token}',
+                {'data': test_lcc_tender_criteria},
             )
 
 

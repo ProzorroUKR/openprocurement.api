@@ -26,6 +26,7 @@ Content-Type: application/json
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -54,7 +55,6 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
-    "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-31T00:00:00+02:00",

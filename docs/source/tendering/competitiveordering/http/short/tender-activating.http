@@ -896,6 +896,7 @@ Content-Type: application/json
     ],
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -983,7 +984,6 @@ Content-Type: application/json
     },
     "status": "active.tendering",
     "procurementMethodType": "competitiveOrdering",
-    "awardCriteria": "lowestCost",
     "tenderPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-25T00:00:00+02:00"

@@ -12,6 +12,7 @@ Content-Type: application/json
     "title_en": "Services in school canteens",
     "contractTemplateName": "00000000.0002.01",
     "title": "Послуги шкільних їдалень",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -78,7 +79,6 @@ Content-Type: application/json
       }
     },
     "status": "draft",
-    "awardCriteria": "lowestCost",
     "tenderPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-10T00:00:00+02:00"

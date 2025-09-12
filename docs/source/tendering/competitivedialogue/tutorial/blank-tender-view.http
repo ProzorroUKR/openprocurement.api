@@ -10,6 +10,7 @@ Content-Type: application/json
   "data": {
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -74,7 +75,6 @@ Content-Type: application/json
         "authorizedBy": "Статут компанії"
       }
     },
-    "awardCriteria": "lowestCost",
     "tenderPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-10T01:00:00+03:00"
