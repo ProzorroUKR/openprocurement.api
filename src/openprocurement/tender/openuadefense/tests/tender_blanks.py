@@ -9,8 +9,6 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
 # TenderUATest
 from openprocurement.tender.openuadefense.utils import calculate_tender_full_date
@@ -705,10 +703,6 @@ def patch_item_with_zero_quantity(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["items"][0]["quantity"], 5)
-    criteria = deepcopy(test_exclusion_criteria)
-    criteria[0]["relatesTo"] = "item"
-    criteria[0]["relatedItem"] = item["id"]
-    add_criteria(self, criteria=criteria)
     item["quantity"] = 0
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item, item_2]}}

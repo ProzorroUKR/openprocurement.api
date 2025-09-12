@@ -10,8 +10,8 @@ from openprocurement.tender.openua.tests.criterion import (
 )
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
-    test_tender_simpledefense_criteria,
     test_tender_simpledefense_data,
+    test_tender_simpledefense_required_criteria_ids,
 )
 from openprocurement.tender.simpledefense.tests.criterion_blanks import (
     delete_requirement_evidence,
@@ -24,7 +24,7 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, BaseSimpleDefContentWebTest):
     test_lots_data = test_tender_below_lots
     initial_status = "draft"
 
-    required_criteria = test_tender_simpledefense_criteria
+    required_criteria = test_tender_simpledefense_required_criteria_ids
 
 
 class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseSimpleDefContentWebTest):

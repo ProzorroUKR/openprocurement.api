@@ -491,8 +491,13 @@ def create_tender_generated(self):
     ):
         assert_fields.update(
             [
-                "criteria",
                 "noticePublicationDate",
+            ]
+        )
+    if tender["procurementMethodType"] != "aboveThresholdUA.defense":
+        assert_fields.update(
+            [
+                "criteria",
             ]
         )
     self.assertEqual(
