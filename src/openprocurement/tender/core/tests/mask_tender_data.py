@@ -9,6 +9,7 @@ from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     app,
     change_auth,
     singleton_app,
+    unwrap_app,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 
@@ -35,7 +36,7 @@ def test_mask_tender_by_is_masked(app):
         initial_data["config"] = test_tender_below_config
 
     initial_data["config"] = test_tender_below_config
-    app.app.registry.mongodb.tenders.save(initial_data, insert=True)
+    unwrap_app(app).registry.mongodb.tenders.save(initial_data, insert=True)
 
     id = initial_data['_id']
 
@@ -48,9 +49,9 @@ def test_mask_tender_by_is_masked(app):
     assert "is_masked" not in data
 
     # Mask tender
-    initial_data["_rev"] = app.app.registry.mongodb.tenders.get(id)["_rev"]
+    initial_data["_rev"] = unwrap_app(app).registry.mongodb.tenders.get(id)["_rev"]
     initial_data["is_masked"] = True
-    app.app.registry.mongodb.tenders.save(initial_data)
+    unwrap_app(app).registry.mongodb.tenders.save(initial_data)
 
     # Check tender masked
     response = app.get(f"/tenders/{id}")
@@ -88,12 +89,12 @@ def test_mask_tender_by_is_masked(app):
     assert data["items"][0]["description"] == "0" * len(data["items"][0]["description"])
 
     # Unmask tender
-    initial_data["_rev"] = app.app.registry.mongodb.tenders.get(id)["_rev"]
+    initial_data["_rev"] = unwrap_app(app).registry.mongodb.tenders.get(id)["_rev"]
     initial_data["is_masked"] = False
-    app.app.registry.mongodb.tenders.save(initial_data)
+    unwrap_app(app).registry.mongodb.tenders.save(initial_data)
 
     # Check is_masked field was removed
-    assert "is_masked" not in app.app.registry.mongodb.tenders.get(id)
+    assert "is_masked" not in unwrap_app(app).registry.mongodb.tenders.get(id)
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
@@ -103,7 +104,7 @@ def test_mask_tender_skipped(app):
         initial_data = json.load(f)
         initial_data["config"] = test_tender_below_config
 
-    app.app.registry.mongodb.tenders.save(initial_data, insert=True)
+    unwrap_app(app).registry.mongodb.tenders.save(initial_data, insert=True)
 
     id = initial_data['_id']
 
@@ -124,7 +125,7 @@ def test_mask_tender_by_config_restricted(app):
     id = initial_db_data['_id']
 
     # Save to db
-    app.app.registry.mongodb.tenders.save(initial_db_data, insert=True)
+    unwrap_app(app).registry.mongodb.tenders.save(initial_db_data, insert=True)
 
     # Get not masked data
     response = app.get(f"/tenders/{id}")
@@ -132,11 +133,11 @@ def test_mask_tender_by_config_restricted(app):
     actual_data = response.json["data"]
 
     # Mask data
-    db_data = app.app.registry.mongodb.tenders.get(id)
+    db_data = unwrap_app(app).registry.mongodb.tenders.get(id)
     if "config" not in db_data:
         db_data["config"] = {}
     db_data["config"]["restricted"] = True
-    app.app.registry.mongodb.tenders.save(db_data)
+    unwrap_app(app).registry.mongodb.tenders.save(db_data)
 
     # Get masked data
     response = app.get(f"/tenders/{id}")

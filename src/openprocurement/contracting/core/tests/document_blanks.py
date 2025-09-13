@@ -562,7 +562,7 @@ def create_contract_document_json_invalid(self):
         {
             "data": {
                 "title": "укр.doc",
-                "url": self.generate_docservice_url().replace(list(self.app.app.registry.keyring.keys())[-1], "0" * 8),
+                "url": self.generate_docservice_url().replace(list(self.registry.keyring.keys())[-1], "0" * 8),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
             }

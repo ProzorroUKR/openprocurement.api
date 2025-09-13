@@ -5,9 +5,10 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        UV_EXTRA_ARGS: "--all-groups"
+        UV_EXTRA_ARGS: ""
     environment:
       SANDBOX_MODE: 'True'
+      NO_GEVENT_MONKEY_PATCH: 'YESNOSTOPPATCHING'
     depends_on:
       - mongo
     volumes:
@@ -16,7 +17,17 @@ services:
       - "./etc:/app/etc:delegated"
     ports:
       - "8000:80"
-    command: ["gunicorn", "--bind", "0.0.0.0:80", "-k", "gevent", "--paste", "etc/service.ini", "--graceful-timeout=60", "--timeout=3600"]
+#    command: ["gunicorn", "--bind", "0.0.0.0:80", "-k", "gevent", "--paste", "etc/service.ini", "--graceful-timeout=60", "--timeout=3600"]
+    command: [
+      "gunicorn",
+      "--bind",
+      "0.0.0.0:80",
+      "-k", "aiohttp.GunicornWebWorker",
+#      "--workers", "4",
+      "--paste", "etc/service.ini",
+      "--graceful-timeout=60",
+      "--timeout=3600",
+    ]
 
   mongo:
     image: 'bitnami/mongodb:4.4.10'

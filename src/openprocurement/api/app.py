@@ -14,6 +14,7 @@ if not any(
 
     gevent.monkey.patch_all()
 
+import configparser
 import tomllib
 from importlib import import_module
 from logging import getLogger
@@ -22,11 +23,13 @@ from pathlib import Path
 import sentry_sdk
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
+from paste.deploy.config import make_prefix_middleware
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.httpexceptions import HTTPPreconditionFailed
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
+from request_id_middleware.middleware import RequestIdMiddleware
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.pyramid import PyramidIntegration
 
@@ -37,6 +40,7 @@ from openprocurement.api.auth import (
 )
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.database import MongodbStore
+from openprocurement.api.translogger import make_filter as make_trans_logger_filter
 from openprocurement.api.utils import (
     forbidden,
     get_currency_rates,
@@ -49,6 +53,20 @@ LOGGER = getLogger("{}.init".format(__name__))
 
 
 logger = getLogger(__name__)
+
+
+def load_config(filename):
+    config = configparser.ConfigParser(interpolation=None)
+    config.read(filename)
+    # config_dict = {
+    #     section: {
+    #         option: str(config[section][option])
+    #         for option in config[section]
+    #     }
+    #     for section in config.sections()
+    # }
+    config_dict = {section: dict(config[section]) for section in config.sections()}
+    return config_dict
 
 
 def load_modules_from_pyproject():
@@ -149,4 +167,39 @@ def main(global_config, **settings):
 
     config.add_tween("openprocurement.api.middlewares.DBSessionCookieMiddleware")
     app = config.make_wsgi_app()
+
+    # We plan to move from PasteDeploy and pyramid.
+    # At this stage we're going to move filters/middlewares from .ini file to the python code.
+    # We still use .ini file to hold the configuration, until we ready to switch completely.
+    # By default, we get only [app:api] block, so we need to load the entire config again.
+    global_settings = load_config(global_config["__file__"])
+
+    # transaction logger
+    trans_logger_settings = global_settings.get("filter:translogger") or {}
+    trans_logger_settings.pop("use", None)  # we already imported it 😉
+    app = make_trans_logger_filter(
+        global_config,
+        **trans_logger_settings,  # most probably we set only "set_logger_level" and others are allways the same
+    )(app)
+
+    # request_id
+    # does `req.environ[self.env_request_id] = req.headers[self.resp_header_client_request_id]`
+    request_id_settings = global_settings.get("filter:request_id") or {}
+    request_id_settings.pop("paste.filter_factory", None)
+    app = RequestIdMiddleware.factory(
+        global_config,
+        **request_id_settings,  # env_request_id to REQUEST_ID and resp_header_request_id to X-Request-ID (default)
+    )(app)
+
+    # prefix middleware
+    # config is empty, means it doesn't really do with prefix.
+    # translate_forwarded_server=True is default parameter means it translates HTTP_X_FORWARDED_ headers.
+    # See source of paste.deploy.config.PrefixMiddleware for more details
+    prefix_middleware_settings = global_settings.get("filter:proxy-prefix") or {}
+    prefix_middleware_settings.pop("use", None)  # expected to be empty at this point
+    app = make_prefix_middleware(
+        app,
+        global_config,
+        **prefix_middleware_settings,
+    )
     return app

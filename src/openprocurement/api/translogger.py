@@ -28,7 +28,7 @@ def make_filter(
     if isinstance(set_logger_level, (bytes, str)):
         set_logger_level = levels[set_logger_level]
 
-    def filter(app):
+    def filter(app, *args, **kwargs):
         return TransLogger(
             app,
             format=format or None,

@@ -884,7 +884,7 @@ def patch_tender_bid(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.json["errors"][0]["description"], "Can't update bid to ({}) status".format(status))
 
-    d1 = self.app.app.registry.mongodb.tenders.get(self.tender_id)
+    d1 = self.registry.mongodb.tenders.get(self.tender_id)
 
     lot_values[0]["value"]["amount"] = 400
     response = self.app.patch_json(
@@ -895,7 +895,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
 
-    d2 = self.app.app.registry.mongodb.tenders.get(self.tender_id)
+    d2 = self.registry.mongodb.tenders.get(self.tender_id)
     self.assertEqual(d1["bids"][0]["lotValues"][0]["value"], d2["bids"][0]["lotValues"][0]["value"])
 
     self.set_status("complete")

@@ -9,6 +9,7 @@ from nacl.encoding import HexEncoder
 from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     app,
     singleton_app,
+    unwrap_app,
 )
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -149,7 +150,7 @@ def test_fail_not_draft(app, plan):
     add_criteria(app, tender["data"]["id"], tender["access"]["token"])
     uuid = uuid4().hex
     doc_hash = '0' * 32
-    signer = app.app.registry.docservice_key
+    signer = unwrap_app(app).registry.docservice_key
     keyid = signer.verify_key.encode(encoder=HexEncoder)[:8].decode()
     msg = "{}\0{}".format(uuid, doc_hash).encode()
     signature = b64encode(signer.sign(msg).signature)
@@ -227,10 +228,10 @@ def test_fail_duplicate(app, tender, plan):
     }
 
     # what if plan hasn't been updated for an unknown reason
-    plan_obj = app.app.registry.mongodb.plans.get(plan["data"]["id"])
+    plan_obj = unwrap_app(app).registry.mongodb.plans.get(plan["data"]["id"])
     del plan_obj["tender_id"]
     plan_obj["status"] = "scheduled"
-    app.app.registry.mongodb.save_data(app.app.registry.mongodb.plans.collection, plan_obj)
+    unwrap_app(app).registry.mongodb.save_data(unwrap_app(app).registry.mongodb.plans.collection, plan_obj)
 
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),

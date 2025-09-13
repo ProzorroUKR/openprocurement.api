@@ -7,6 +7,7 @@ from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     app,
     singleton_app,
+    unwrap_app,
 )
 from openprocurement.api.utils import get_now
 from openprocurement.planning.api.constants import PROCEDURES
@@ -385,7 +386,7 @@ def test_fail_tender_creation(app):
     }
 
     # get plan form db
-    plan_from_db = app.app.registry.mongodb.plans.get(plan["data"]["id"])
+    plan_from_db = unwrap_app(app).registry.mongodb.plans.get(plan["data"]["id"])
     assert plan_from_db.get("tender_id") is None
 
 
@@ -420,9 +421,9 @@ def test_success_plan_tenders_creation(app, request_tender_data, request_tender_
         request_plan_data['procuringEntity']['kind'] = 'defense'
     plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
 
-    agreements_collection_original_get = app.app.registry.mongodb.agreements.get
+    agreements_collection_original_get = unwrap_app(app).registry.mongodb.agreements.get
     if request_tender_data["procurementMethodType"] == "priceQuotation" and "agreement" in request_tender_data:
-        app.app.registry.mongodb.agreements.get = MagicMock(
+        unwrap_app(app).registry.mongodb.agreements.get = MagicMock(
             return_value={
                 "id": request_tender_data["agreement"]["id"],
                 "agreementType": "electronicCatalogue",
@@ -438,7 +439,7 @@ def test_success_plan_tenders_creation(app, request_tender_data, request_tender_
     )
     assert response.status == "201 Created"
 
-    app.app.registry.mongodb.agreements.get = agreements_collection_original_get
+    unwrap_app(app).registry.mongodb.agreements.get = agreements_collection_original_get
 
     tender_data = response.json["data"]
     assert tender_data["plans"] == [{"id": plan["data"]["id"]}]
@@ -450,9 +451,9 @@ def test_success_plan_tenders_creation(app, request_tender_data, request_tender_
     assert response.json["data"]["tender_id"] == tender_data["id"]
 
     # removing status (if the tender was created before the plan statuses release)
-    plan_from_db = app.app.registry.mongodb.plans.get(plan["data"]["id"])
+    plan_from_db = unwrap_app(app).registry.mongodb.plans.get(plan["data"]["id"])
     del plan_from_db["status"]
-    app.app.registry.mongodb.save_data(app.app.registry.mongodb.plans.collection, plan_from_db)
+    unwrap_app(app).registry.mongodb.save_data(unwrap_app(app).registry.mongodb.plans.collection, plan_from_db)
 
     # add another tender
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=422)
@@ -494,9 +495,9 @@ def test_validations_before_and_after_tender(app):
     assert response.status == "201 Created"
 
     # removing status (if the tender was created before the plan statuses release)
-    plan_from_db = app.app.registry.mongodb.plans.get(plan["data"]["id"])
+    plan_from_db = unwrap_app(app).registry.mongodb.plans.get(plan["data"]["id"])
     del plan_from_db["status"]
-    app.app.registry.mongodb.save_data(app.app.registry.mongodb.plans.collection, plan_from_db)
+    unwrap_app(app).registry.mongodb.save_data(unwrap_app(app).registry.mongodb.plans.collection, plan_from_db)
 
     response = app.get("/plans/{}".format(plan["data"]["id"]))
     assert response.json["data"]["status"] == "complete"
@@ -635,9 +636,9 @@ def test_fail_pass_plans(app, plan, request_tender_data, request_tender_config):
     tender_data = {**request_tender_data}
     tender_data["plans"] = [{"id": plan["data"]["id"]}]
 
-    agreements_collection_original_get = app.app.registry.mongodb.agreements.get
+    agreements_collection_original_get = unwrap_app(app).registry.mongodb.agreements.get
     if request_tender_data["procurementMethodType"] == "priceQuotation" and "agreement" in request_tender_data:
-        app.app.registry.mongodb.agreements.get = MagicMock(
+        unwrap_app(app).registry.mongodb.agreements.get = MagicMock(
             return_value={
                 "id": request_tender_data["agreement"]["id"],
                 "agreementType": "electronicCatalogue",
@@ -654,7 +655,7 @@ def test_fail_pass_plans(app, plan, request_tender_data, request_tender_config):
     assert response.status == "201 Created"
     tender_data = response.json["data"]
 
-    app.app.registry.mongodb.agreements.get = agreements_collection_original_get
+    unwrap_app(app).registry.mongodb.agreements.get = agreements_collection_original_get
 
     assert "plans" not in tender_data  # NOT in
     assert tender_data["title"] == request_tender_data["title"]

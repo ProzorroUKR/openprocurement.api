@@ -11,6 +11,7 @@ from openprocurement.api.migrations.base import CollectionMigration
 from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     app,
     singleton_app,
+    unwrap_app,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
@@ -83,7 +84,7 @@ def migration_app(app):
         assert response.json["data"]["title"] == "original title"
         assert response.json["data"]["title_en"] == "original title en"
 
-    collection = app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(app).registry.mongodb.tenders.collection
     tenders = list(collection.find())
     assert len(tenders) == len(test_tenders)
     assert len(tenders) > 0
@@ -92,7 +93,7 @@ def migration_app(app):
 
 
 def app_env(app):
-    env = prepare(None, app.app.registry)
+    env = prepare(None, unwrap_app(app).registry)
     env["app"] = app.app
     return env
 
@@ -132,7 +133,7 @@ def create_collection_migration_test(path: str):
 
 
 def test_migration(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -190,7 +191,7 @@ def test_migration(migration_app):
 
 
 def test_migration_multiple_bulk_write(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -232,7 +233,7 @@ def test_migration_multiple_bulk_write(migration_app):
 
 
 def test_migration_multiple_bulk_write_fail(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -296,7 +297,7 @@ def test_migration_multiple_bulk_write_fail(migration_app):
 
 
 def test_migration_with_filter(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -330,7 +331,7 @@ def test_migration_with_filter(migration_app):
 
 
 def test_migration_with_filter_arg(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -363,7 +364,7 @@ def test_migration_with_filter_arg(migration_app):
 
 
 def test_migration_with_projection(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -393,7 +394,7 @@ def test_migration_with_projection(migration_app):
 
 
 def test_migration_update_date_modified(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -419,7 +420,7 @@ def test_migration_update_date_modified(migration_app):
 
 
 def test_migration_update_feed_position(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -445,7 +446,7 @@ def test_migration_update_feed_position(migration_app):
 
 
 def test_migration_with_readonly_arg(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())

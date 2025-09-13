@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/awards?acc_token=6670a4933d854a00afa53a2979728a6d HTTP/1.0
+GET /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/awards?acc_token=2672dd6712284300b2af487b1f9d0ac1 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -64,7 +64,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "sign/pkcs7-signature",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/37eae6e70da24997b06d7b039b9a1667?Signature=RrsHbgQa1n7Yn45e3eh815YVvjlNVLzlN9UeLEX6QeZ5SVgaaMynkIPpn5hb4GhnoiPpJaHu4UBMv%2F0gf%2FDUCw%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f1e5b2d67aa74652b72646f1fa9f07cd?Signature=rmNnA0vuXPvYfh9NlL0zJ6om2M5nO1DVEayL3acG6y%2FIYCAtaTLL%2Fy21LPXUeKS04SZkiQuQxibZDehHBMM9Bg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-10-10T01:00:00+03:00",
           "author": "tender_owner",
@@ -129,7 +129,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "sign/pkcs7-signature",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/64b83c125be44df0abe9a95cfcaff393?Signature=%2B4vsjdJsqXq7y%2FbF3mNoFvb3Dtf1gfKG8ahY287SuA48nqhtGy7ZioRjpGUNQcAHVTqOu2Ev%2FNk5Af8O5Fo6Ag%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d15f4486d1ad4b22bd3b45da2fc9dacd?Signature=AdI2pwCI7bjO2%2F40cPDqY0gxXvaAqIhRegvNzf4Gid6CmSQOTiHZWstd6ggK90%2BvQME6VyqdeDNrIxVXtaGNBA%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-10-10T01:00:00+03:00",
           "author": "tender_owner",
@@ -246,7 +246,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "sign/pkcs7-signature",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/57dc148c5b0e4e43ae80adf112301648?Signature=wJMWrM46PjHChwlVyQHr4pLT6AOlrd252GDxHDSyIjy2cwoAHWnH9uuuJNdmn3HGiwnmseNSr2qF57ixp4dzDw%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8e42bbf01d32421693890770dab711e4?Signature=tD9bg3KFOTh3hrLQ8oH1rPrlTKMTnWi92uuTe41kFBZ0QrELZLPeOcdJEOoicjxZDL3%2FljbiE64qPQo5qlvSAg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-10-10T01:00:00+03:00",
           "author": "tender_owner",

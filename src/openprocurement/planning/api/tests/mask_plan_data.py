@@ -8,6 +8,7 @@ from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     app,
     change_auth,
     singleton_app,
+    unwrap_app,
 )
 
 
@@ -30,8 +31,8 @@ def test_mask_plan_by_is_masked(app):
     set_request_now()
     with open("src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
         initial_data = json.load(f)
-    app.app.registry.mongodb.plans.store.save_data(
-        app.app.registry.mongodb.plans.collection,
+    unwrap_app(app).registry.mongodb.plans.store.save_data(
+        unwrap_app(app).registry.mongodb.plans.collection,
         initial_data,
         insert=True,
     )
@@ -47,10 +48,10 @@ def test_mask_plan_by_is_masked(app):
     assert "is_masked" not in data
 
     # Mask plan
-    initial_data["_rev"] = app.app.registry.mongodb.plans.get(id)["_rev"]
+    initial_data["_rev"] = unwrap_app(app).registry.mongodb.plans.get(id)["_rev"]
     initial_data["is_masked"] = True
-    app.app.registry.mongodb.plans.store.save_data(
-        app.app.registry.mongodb.plans.collection,
+    unwrap_app(app).registry.mongodb.plans.store.save_data(
+        unwrap_app(app).registry.mongodb.plans.collection,
         initial_data,
     )
 
@@ -83,15 +84,15 @@ def test_mask_plan_by_is_masked(app):
     assert data["items"][0]["description"] == "0" * len(data["items"][0]["description"])
 
     # Unmask plan
-    initial_data["_rev"] = app.app.registry.mongodb.plans.get(id)["_rev"]
+    initial_data["_rev"] = unwrap_app(app).registry.mongodb.plans.get(id)["_rev"]
     initial_data["is_masked"] = False
-    app.app.registry.mongodb.plans.store.save_data(
-        app.app.registry.mongodb.plans.collection,
+    unwrap_app(app).registry.mongodb.plans.store.save_data(
+        unwrap_app(app).registry.mongodb.plans.collection,
         initial_data,
     )
 
     # Check is_masked field was removed
-    assert "is_masked" not in app.app.registry.mongodb.plans.get(id)
+    assert "is_masked" not in unwrap_app(app).registry.mongodb.plans.get(id)
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
@@ -99,8 +100,8 @@ def test_mask_plan_skipped(app):
     set_request_now()
     with open("src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
         initial_data = json.load(f)
-    app.app.registry.mongodb.plans.store.save_data(
-        app.app.registry.mongodb.plans.collection,
+    unwrap_app(app).registry.mongodb.plans.store.save_data(
+        unwrap_app(app).registry.mongodb.plans.collection,
         initial_data,
         insert=True,
     )

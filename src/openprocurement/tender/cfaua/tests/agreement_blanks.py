@@ -14,7 +14,7 @@ from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_
 
 
 def get_tender_agreement(self):
-    agreement_raw = self.app.app.registry.mongodb.tenders.get(self.tender_id)["agreements"][0]
+    agreement_raw = self.registry.mongodb.tenders.get(self.tender_id)["agreements"][0]
     agreement = Agreement(agreement_raw).serialize()
 
     self.app.authorization = ("Basic", ("broker", ""))

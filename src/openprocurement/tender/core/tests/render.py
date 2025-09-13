@@ -5,6 +5,7 @@ from openprocurement.api.context import set_request_now
 from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     app,
     singleton_app,
+    unwrap_app,
 )
 
 
@@ -21,7 +22,7 @@ def get_fixture(name, ext="json"):
 def test_render_tender(app):
     data = get_fixture("tender_to_render", ext="json")
     set_request_now()
-    app.app.registry.mongodb.tenders.save(data, insert=True)
+    unwrap_app(app).registry.mongodb.tenders.save(data, insert=True)
 
     response = app.get("/render/txt/tenders/520d3c3a9a9f47b9bec63eb6d86610eb")
     expected = get_fixture("tender_to_render", ext="txt")

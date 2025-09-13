@@ -56,7 +56,7 @@ You can read more about pre-commit here: https://pre-commit.com/
 
 Sync explicitly
 ```shell
-uv sync --frozen  --all-groups
+uv sync --frozen
 ```
 
 Or run any command with `--frozen` option and `.venv` will be synced automatically.
