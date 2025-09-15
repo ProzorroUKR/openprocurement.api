@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "ComplaintResolution.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/387779db79c3467fa8b929a750b5dbc6?Signature=FXRcJRD4vRdEh79v9kTOvmqsm8RFeTbTWAC5m7uT5gXLltM1iR4oKqHH49KxgtQzCDC9Ebc0J2lrD28%2FYMGRCg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/62462284500f4d2aab9f20620eb9fb7a?Signature=alJU9U9HgK%2BtA4DrWF4BWN%2FHJheDqRPjrtiVzAqpRv0PXdlFcmVW9tvaK6PyooW3Sf1kSGI6MpUFL8UEFJPmBA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/b2df0a3f487a401987b1cdf1170a93be/complaints/c823c3c9df2e45f1a4bcc72a8e1c5639/documents/434ef81656d04109b501cfa21842d9f0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/b2df0a3f487a401987b1cdf1170a93be/complaints/c823c3c9df2e45f1a4bcc72a8e1c5639/documents/287752d37a9a4459b3af40ffac65138c
 
 {
   "data": {
@@ -23,9 +23,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43
     "hash": "md5:00000000000000000000000000000000",
     "title": "ComplaintResolution.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/387779db79c3467fa8b929a750b5dbc6?Signature=%2B61%2FzHlwM2Do1rNjoS4OBZ2LnROIdHfx8JQuqiiwO%2FJNdUgC7MihOoc4rOQr7yJi7Ik%2BME2t4mPeEsuBYZRKCg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/62462284500f4d2aab9f20620eb9fb7a?Signature=mXmHNiCgBemyfeSCvFM3JC%2F%2F10hKn%2BNWBI6ytOSdCmpNfSQQ2NlGHvlcEVjFuhvsJJ2T8MDZ4I6lG3dqi4ohCw%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "434ef81656d04109b501cfa21842d9f0",
+    "id": "287752d37a9a4459b3af40ffac65138c",
     "documentOf": "tender",
     "datePublished": "2023-10-10T01:00:03+03:00",
     "dateModified": "2023-10-10T01:00:03+03:00",

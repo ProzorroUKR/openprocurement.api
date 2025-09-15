@@ -26,7 +26,7 @@ Tender Award Claim Submission (with documents)
 
 At first create a claim. Send POST request with bidder's access token.
 
-.. http:example:: http/complaints/award-complaint-submission.http
+.. http:example:: http/complaints/award-claim-submission.http
    :code:
 
 Then upload necessary documents:

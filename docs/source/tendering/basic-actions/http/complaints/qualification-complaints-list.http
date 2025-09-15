@@ -28,12 +28,12 @@ Content-Type: application/json
         },
         {
           "confidentiality": "public",
-          "id": "d8e5dded0898482d8f690fe3a03e5455",
+          "id": "24027c56af4f4117b43bbf03844ea5ef",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a450311edb8e418082d4746c150e309c?Signature=YEwa62grbHz%2FpgWudzaozRd5aSTu0dyQqLeWFmuCdnZgq7kP%2FZlRlY5Th2vLdyINshKMDdLdCwbzyduHv7S0CQ%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/49f578e96f5b42a18dead2c2259ea044?Signature=MQjwk5ex7srNRc53%2FVZJzEVSawrIZ1LmWo7q1Md9y8tF0MowbCzrLrwXwJ27rRpFwVeCiqtsiHaJCI1G0CIpBQ%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-10-10T01:00:01+03:00",
           "author": "aboveThresholdReviewers",
@@ -552,6 +552,21 @@ Content-Type: application/json
       "id": "4c81990c6f94481fbc9016a490468ca5",
       "complaintID": "UA-2023-10-10-000001-a.9",
       "date": "2023-10-10T01:00:01+03:00",
+      "documents": [
+        {
+          "confidentiality": "public",
+          "id": "d8e5dded0898482d8f690fe3a03e5455",
+          "datePublished": "2023-10-10T01:00:01+03:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "Complaint_Attachment.pdf",
+          "format": "application/pdf",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a450311edb8e418082d4746c150e309c?Signature=YEwa62grbHz%2FpgWudzaozRd5aSTu0dyQqLeWFmuCdnZgq7kP%2FZlRlY5Th2vLdyINshKMDdLdCwbzyduHv7S0CQ%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2023-10-10T01:00:01+03:00",
+          "author": "complaint_owner",
+          "language": "uk"
+        }
+      ],
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "status": "claim",

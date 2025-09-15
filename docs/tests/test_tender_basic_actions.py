@@ -1240,16 +1240,37 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        response = self.app.post_json(
-            '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token),
-            {'data': claim},
-        )
-        self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + 'complaints/qualification-claim-submission.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
+                    self.tender_id, qualification_id, bid_token
+                ),
+                {'data': claim},
+            )
+            self.assertEqual(response.status, '201 Created')
+            claim_id = response.json['data']['id']
+            claim_token = response.json['access']['token']
+
+        with open(TARGET_DIR + 'complaints/qualification-claim-submission-upload.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, qualification_id, claim_id, claim_token
+                ),
+                {
+                    "data": {
+                        "title": "Complaint_Attachment.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'complaints/qualification-complaint-claim.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
-                    self.tender_id, qualification_id, response.json['data']['id'], response.json['access']['token']
+                    self.tender_id, qualification_id, claim_id, claim_token
                 ),
                 {"data": {"status": "claim"}},
             )
@@ -1926,15 +1947,35 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        response = self.app.post_json(
-            '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), {'data': claim}
-        )
-        self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + 'complaints/award-claim-submission.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token),
+                {'data': claim},
+            )
+            self.assertEqual(response.status, '201 Created')
+            claim_id = response.json['data']['id']
+            claim_token = response.json['access']['token']
+
+        with open(TARGET_DIR + 'complaints/award-claim-submission-upload.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, award_id, claim_id, claim_token
+                ),
+                {
+                    "data": {
+                        "title": "Complaint_Attachment.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'complaints/award-complaint-claim.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
-                    self.tender_id, award_id, response.json['data']['id'], response.json['access']['token']
+                    self.tender_id, award_id, claim_id, claim_token
                 ),
                 {'data': {"status": "claim"}},
             )

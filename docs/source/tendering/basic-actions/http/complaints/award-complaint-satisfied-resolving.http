@@ -105,12 +105,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43
           },
           {
             "confidentiality": "public",
-            "id": "434ef81656d04109b501cfa21842d9f0",
+            "id": "287752d37a9a4459b3af40ffac65138c",
             "datePublished": "2023-10-10T01:00:03+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "ComplaintResolution.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/387779db79c3467fa8b929a750b5dbc6?Signature=%2B61%2FzHlwM2Do1rNjoS4OBZ2LnROIdHfx8JQuqiiwO%2FJNdUgC7MihOoc4rOQr7yJi7Ik%2BME2t4mPeEsuBYZRKCg%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/62462284500f4d2aab9f20620eb9fb7a?Signature=mXmHNiCgBemyfeSCvFM3JC%2F%2F10hKn%2BNWBI6ytOSdCmpNfSQQ2NlGHvlcEVjFuhvsJJ2T8MDZ4I6lG3dqi4ohCw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:03+03:00",
             "author": "aboveThresholdReviewers",
@@ -673,6 +673,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43
         "id": "c3b46e2364504e909d2c67d3c6c50002",
         "complaintID": "UA-2023-10-10-000001-a.10",
         "date": "2023-10-10T01:00:03+03:00",
+        "documents": [
+          {
+            "confidentiality": "public",
+            "id": "434ef81656d04109b501cfa21842d9f0",
+            "datePublished": "2023-10-10T01:00:03+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Complaint_Attachment.pdf",
+            "format": "application/pdf",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/387779db79c3467fa8b929a750b5dbc6?Signature=%2B61%2FzHlwM2Do1rNjoS4OBZ2LnROIdHfx8JQuqiiwO%2FJNdUgC7MihOoc4rOQr7yJi7Ik%2BME2t4mPeEsuBYZRKCg%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:03+03:00",
+            "author": "complaint_owner",
+            "language": "uk"
+          }
+        ],
         "author": {
           "name": "ДКП «Школяр»",
           "identifier": {

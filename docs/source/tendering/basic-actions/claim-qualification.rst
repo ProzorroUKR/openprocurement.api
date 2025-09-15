@@ -26,12 +26,12 @@ Tender Qualification Claim Submission (with documents)
 
 At first create a claim. Send POST request with bidder's access token.
 
-.. http:example:: http/complaints/qualification-complaint-submission.http
+.. http:example:: http/complaints/qualification-claim-submission.http
    :code:
 
 Then upload necessary documents:
 
-.. http:example:: http/complaints/qualification-complaint-submission-upload.http
+.. http:example:: http/complaints/qualification-claim-submission-upload.http
    :code:
 
 Submit tender qualification claim:
