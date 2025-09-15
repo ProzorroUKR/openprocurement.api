@@ -94,15 +94,15 @@ class OpenEUTenderBidResource(TenderBidResource):
         validators=(
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
+            unless_allowed_by_qualification_milestone_24(
+                validate_bid_operation_not_in_tendering,
+                validate_bid_operation_period,
+            ),
             validate_input_data_from_resolved_model(
                 filters=(filter_administrator_bid_update,),
                 none_means_remove=True,
             ),
             validate_patch_data_simple(Bid, item_name="bid"),
-            unless_allowed_by_qualification_milestone_24(
-                validate_bid_operation_not_in_tendering,
-                validate_bid_operation_period,
-            ),
         ),
     )
     def patch(self):
