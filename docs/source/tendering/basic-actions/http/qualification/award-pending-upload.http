@@ -1,0 +1,35 @@
+POST /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/8850d78aa8a94c148d6d245907f40d3e/documents?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4a2c835c20234675996acdb75895c85d?Signature=YL7cuF2UxH9ZWUAzIGM1nn1w7vhGQBpiuind9GGtZehqWku1hBRYYP52WtPURtq1xKr1zMsu%2BZ5yA5McIzeIAQ%3D%3D&KeyID=a8968c46",
+    "title": "Unsuccessful_Reason.pdf",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/8850d78aa8a94c148d6d245907f40d3e/documents/8877d62f0eca47768110812edcfac2bd
+
+{
+  "data": {
+    "confidentiality": "public",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "Unsuccessful_Reason.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4a2c835c20234675996acdb75895c85d?Signature=iHxmOhpjYq6HoLfeXXW9NG0%2Bj8YcKzwiehIwB6tN80u9XbtRgHkyE0rU82W0sRHgSnMD%2BE1lqCGU%2F%2BdGqAHlAA%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "language": "uk",
+    "id": "8877d62f0eca47768110812edcfac2bd",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "author": "tender_owner"
+  }
+}
+

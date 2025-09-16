@@ -1,0 +1,127 @@
+PATCH /api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/8850d78aa8a94c148d6d245907f40d3e?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "unsuccessful",
+    "qualified": false,
+    "eligible": false
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b4ed03227c24f43b34f74183e3e0ca2/awards/b2df0a3f487a401987b1cdf1170a93be
+
+{
+  "data": {
+    "milestones": [
+      {
+        "id": "c23f1e6c8b8541679f85e57083e7e7ca",
+        "dueDate": "2023-11-08T00:00:00+02:00",
+        "description": "Обгрунтування продовження строків розгляду",
+        "date": "2023-10-10T01:00:00+03:00",
+        "code": "extensionPeriod"
+      }
+    ],
+    "id": "8850d78aa8a94c148d6d245907f40d3e",
+    "status": "unsuccessful",
+    "date": "2023-10-10T01:00:00+03:00",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930"
+        },
+        "scale": "sme",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
+      }
+    ],
+    "bid_id": "a5bf718ab7f14f40bef4ad334f3c936a",
+    "lotID": "c94486b261084c09ac0c731b74d35c85",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "extensionReport",
+        "id": "4ecaf6fd84a64ef7be6d699a0d7dfd87",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9e73f25e6c244dedb63b178e39850910?Signature=BgUR7Gc5BoDndGmHyDa8gtnPb9KrDGv5MHpcJJWgl5wLcMbCUXLpoWVBt%2B%2FZSCiSD7y6YyiwBhz46%2ByzW1QKDA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
+        "confidentiality": "public",
+        "id": "8877d62f0eca47768110812edcfac2bd",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Unsuccessful_Reason.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4a2c835c20234675996acdb75895c85d?Signature=iHxmOhpjYq6HoLfeXXW9NG0%2Bj8YcKzwiehIwB6tN80u9XbtRgHkyE0rU82W0sRHgSnMD%2BE1lqCGU%2F%2BdGqAHlAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "ca97b8d25ebe472bbc0743836689ca65",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b2a756363fa944d0a1f114ad61596941?Signature=8cPgccCsJm9usNSCzp3G3yLxIDRxzosP%2F0%2FvDRibTxJqlosOS4hYfXzGUP6CYl7yLbNABiFw9HaA4fv4HnOeDA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-08T00:00:00+02:00"
+    },
+    "qualified": false,
+    "eligible": false,
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-21T00:00:00+03:00"
+    }
+  }
+}
+

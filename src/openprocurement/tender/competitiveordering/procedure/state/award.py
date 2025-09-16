@@ -57,7 +57,7 @@ class COAwardState(AwardStateMixing, COTenderState):
             self.add_next_award()
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
-        if not self.has_considered_award_complaints(award, tender):
+        if self.has_active_contract(award, tender):
             raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
 
         if tender["status"] == "active.awarded":
@@ -74,14 +74,3 @@ class COAwardState(AwardStateMixing, COTenderState):
 
         self.cancel_award(award)
         self.add_next_award()
-
-    @staticmethod
-    def has_considered_award_complaints(current_award, tender):
-        considered_statuses = ("satisfied", "resolved")
-        for award in tender.get("awards", []):
-            if tender.get("lots") and award["lotID"] != current_award["lotID"]:
-                continue
-            for complaint in award.get("complaints", ""):
-                if complaint["status"] in considered_statuses:
-                    return True
-        return False

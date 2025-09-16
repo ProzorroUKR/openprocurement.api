@@ -19,14 +19,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_supplier,
 )
-from openprocurement.tender.open.tests.award import (
-    Tender2LotAwardQualificationAfterComplaintMixin,
-    TenderAwardQualificationAfterComplaintMixin,
-)
 from openprocurement.tender.open.tests.award_blanks import (
     award_sign,
-    patch_tender_award_unsuccessful_complaint_first,
-    patch_tender_award_unsuccessful_complaint_second,
+    patch_tender_award_unsuccessful_first,
+    patch_tender_award_unsuccessful_forbidden,
+    patch_tender_award_unsuccessful_second,
 )
 from openprocurement.tender.openeu.tests.award_blanks import (
     check_tender_award_complaint_period_dates,
@@ -65,14 +62,15 @@ from openprocurement.tender.openua.tests.award_blanks import (
     "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
     get_now() - timedelta(days=1),
 )
-class TenderAwardQualificationAfterComplaint(TenderAwardQualificationAfterComplaintMixin, BaseTenderContentWebTest):
+class TenderAwardQualificationResourceTest(BaseTenderContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_tender_openeu_three_bids
     initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
 
-    test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
-    test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
+    test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_first)
+    test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_second)
+    test_patch_tender_award_unsuccessful_forbidden = snitch(patch_tender_award_unsuccessful_forbidden)
 
     def setUp(self):
         super().setUp()
@@ -220,33 +218,6 @@ class Tender2LotAwardComplaintResourceTest(
     TenderLotAwardComplaintResourceTest, Tender2LotAwardComplaintResourceTestMixin
 ):
     initial_lots = 2 * test_tender_openeu_lots
-
-
-class Tender2LotAwardQualificationAfterComplaintResourceTest(
-    BaseTenderContentWebTest, Tender2LotAwardQualificationAfterComplaintMixin
-):
-    initial_bids = test_tender_openeu_bids
-    initial_lots = 2 * test_tender_openeu_lots
-    initial_status = "active.qualification"
-    initial_auth = ("Basic", ("broker", ""))
-
-    def setUp(self):
-        super().setUp()
-
-        with change_auth(self.app, ("Basic", ("token", ""))):
-            response = self.app.post_json(
-                "/tenders/{}/awards".format(self.tender_id),
-                {
-                    "data": {
-                        "suppliers": [test_tender_below_supplier],
-                        "status": "pending",
-                        "bid_id": self.initial_bids[0]["id"],
-                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],
-                    }
-                },
-            )
-        award = response.json["data"]
-        self.award_id = award["id"]
 
 
 class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):
