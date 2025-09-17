@@ -19,6 +19,22 @@ Example of pre-qualification
 .. http:example:: ./http/24hours/qualification-milestone-post.http
    :code:
 
+After adding milestone `24h`, the award/qualification should be signed with `documentType: deviationReport`.
+
+Signing :ref:`qualificationmilestone` for qualification:
+
+.. http:example:: ./http/24hours/award-sign-milestone-24.http
+   :code:
+
+Signing milestone of pre-qualification:
+
+.. http:example:: ./http/24hours/qualification-sign-milestone-24.http
+   :code:
+
+Only one document with type `deviationReport` could be in award/qualification:
+
+.. http:example:: ./http/24hours/award-sign-milestone-24-duplicate.http
+   :code:
 
 The "dueDate" field in the response indicates the end of the period when
 procuring entity is unable to make a decision on the qualification object
