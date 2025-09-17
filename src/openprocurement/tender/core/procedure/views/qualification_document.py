@@ -15,6 +15,9 @@ from openprocurement.tender.core.procedure.models.document import (
     PatchDocument,
     PostDocument,
 )
+from openprocurement.tender.core.procedure.state.qualification_document import (
+    QualificationDocumentState,
+)
 from openprocurement.tender.core.procedure.validation import (
     get_qualification_document_role,
     validate_qualification_document_operation_not_in_allowed_status,
@@ -32,6 +35,7 @@ from openprocurement.tender.core.procedure.views.qualification import (
 
 class BaseQualificationDocumentResource(BaseDocumentResource):
     item_name = "qualification"
+    state_class = QualificationDocumentState
 
     def __acl__(self):
         acl = [
