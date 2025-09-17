@@ -9,12 +9,16 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.qualification import (
     PatchQualification,
     Qualification,
 )
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
 )
 from openprocurement.tender.core.procedure.state.qualification import QualificationState
 from openprocurement.tender.core.procedure.utils import save_tender
@@ -25,6 +29,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_status_before_milestone_due_date,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.utils import context_view
 
 
 def resolve_qualification(request):
@@ -73,6 +78,11 @@ class TenderQualificationResource(TenderBaseResource):
         )
         return {"data": data}
 
+    @context_view(
+        objs={
+            "tender": (TenderBaseSerializer, TENDER_MASK_MAPPING),
+        }
+    )
     @json_view(permission="view_tender")
     def get(self):
         """Retrieving the qualification"""

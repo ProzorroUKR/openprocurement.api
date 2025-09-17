@@ -49,6 +49,7 @@ DOCUMENT_TYPES = (
     "register",
     "proposal",
     "extensionReport",
+    "deviationReport",
 )
 
 
