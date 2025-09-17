@@ -1,0 +1,338 @@
+GET /api/2.5/tenders/63d45e7d060440c8b42df0103d3e4e71/qualifications/12341234123412341234123412341234?opt_context=true HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "12341234123412341234123412341234",
+    "bidID": "f4d63c639fda4121b0186a837f165f9d",
+    "status": "pending",
+    "milestones": [
+      {
+        "code": "24h",
+        "description": "One ring to bring them all and in the darkness bind them",
+        "id": "182da3c69b404effa4160cbcfa0c68ff",
+        "dueDate": "2023-10-11T01:00:03+03:00",
+        "date": "2023-10-10T01:00:03+03:00"
+      }
+    ]
+  },
+  "context": {
+    "tender": {
+      "mainProcurementCategory": "services",
+      "contractTemplateName": "00000000.0002.01",
+      "title": "футляри до державних нагород",
+      "value": {
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true,
+        "amount": 500.0
+      },
+      "milestones": [
+        {
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "title": "signingTheContract",
+          "type": "financing",
+          "code": "prepayment",
+          "percentage": 45.55,
+          "duration": {
+            "days": 2,
+            "type": "banking"
+          },
+          "sequenceNumber": 1
+        },
+        {
+          "id": "b6aa81db6ded4bee84861c5fc3961462",
+          "title": "deliveryOfGoods",
+          "type": "financing",
+          "code": "postpayment",
+          "percentage": 54.45,
+          "duration": {
+            "days": 900,
+            "type": "calendar"
+          },
+          "sequenceNumber": 2
+        }
+      ],
+      "procuringEntity": {
+        "name": "ЗОСШ #10 м.Вінниці",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "21725150",
+          "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+          "legalName_en": " "
+        },
+        "address": {
+          "streetAddress": "вул. Стахурського. 22",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21027",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Куца Світлана Валентинівна",
+          "telephone": "+380432465302",
+          "url": "http://sch10.edu.vn.ua/",
+          "name_en": " "
+        },
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        },
+        "kind": "special",
+        "name_en": " "
+      },
+      "status": "active.pre-qualification",
+      "procurementMethodType": "aboveThresholdEU",
+      "awardCriteria": "lowestCost",
+      "tenderPeriod": {
+        "startDate": "2023-09-23T01:00:00+03:00",
+        "endDate": "2023-11-09T01:00:11+03:00"
+      },
+      "items": [
+        {
+          "id": "8e2e445ce9814ad49a1eb7ba03d618f6",
+          "description": "Послуги шкільних їдалень",
+          "unit": {
+            "name": "папір",
+            "value": {
+              "amount": 10.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
+          "quantity": 1.0,
+          "classification": {
+            "description": "Послуги з харчування у школах",
+            "scheme": "ДК021",
+            "id": "55523100-3"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "ДКПП",
+              "id": "17.21.1",
+              "description": "Послуги шкільних їдалень"
+            }
+          ],
+          "deliveryDate": {
+            "startDate": "2023-10-30T00:00:00+02:00",
+            "endDate": "2023-11-29T00:00:00+02:00"
+          },
+          "deliveryAddress": {
+            "streetAddress": "вул. Банкова 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "79000",
+            "countryName": "Україна"
+          }
+        }
+      ],
+      "tenderID": "UA-2023-10-10-000001-a",
+      "owner": "broker",
+      "procurementMethod": "open",
+      "submissionMethod": "electronicAuction",
+      "enquiryPeriod": {
+        "startDate": "2023-09-23T01:00:00+03:00",
+        "endDate": "2023-10-06T01:00:00+03:00",
+        "clarificationsUntil": "2023-11-03T00:00:00+02:00"
+      },
+      "complaintPeriod": {
+        "startDate": "2023-09-23T01:00:00+03:00",
+        "endDate": "2023-10-09T01:00:00+03:00"
+      },
+      "date": "2023-10-10T01:00:00+03:00",
+      "dateCreated": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:00:03+03:00",
+      "bids": [
+        {
+          "value": {
+            "amount": 469.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "tenderers": [
+            {
+              "name": "Державне управління справами",
+              "identifier": {
+                "scheme": "UA-IPN",
+                "id": "00037256",
+                "legalName": "Державне управління справами",
+                "uri": "http://www.dus.gov.ua/"
+              },
+              "address": {
+                "streetAddress": "вул. Банкова, 11, корпус 1",
+                "locality": "м. Київ",
+                "region": "м. Київ",
+                "postalCode": "01220",
+                "countryName": "Україна"
+              },
+              "contactPoint": {
+                "name": "Державне управління справами",
+                "telephone": "+0440000000"
+              },
+              "scale": "micro",
+              "signerInfo": {
+                "name": "Test Testovich",
+                "email": "example@email.com",
+                "telephone": "+380950000000",
+                "iban": "111111111111111",
+                "position": "Генеральний директор",
+                "authorizedBy": "Статут компанії"
+              }
+            }
+          ],
+          "status": "active",
+          "id": "f4d63c639fda4121b0186a837f165f9d",
+          "date": "2023-10-10T01:00:00+03:00",
+          "items": [
+            {
+              "id": "8e2e445ce9814ad49a1eb7ba03d618f6",
+              "description": "футляри до державних нагород",
+              "unit": {
+                "name": "кг",
+                "value": {
+                  "amount": 110.0,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": false
+                },
+                "code": "KGM"
+              },
+              "quantity": 4.0
+            }
+          ],
+          "selfQualified": true,
+          "submissionDate": "2023-10-10T01:00:00+03:00",
+          "initialValue": {
+            "amount": 469.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "documents": [
+            {
+              "confidentiality": "public",
+              "hash": "md5:00000000000000000000000000000000",
+              "title": "укр.doc",
+              "format": "application/msword",
+              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fddb39dd595c481e8b47b24009815ba5?Signature=jrorAOTvpwDYRbU0V4b3GRhiHvL8Co1AHanO3si1lMIuGzyjTfBD1ZNDXZuVeoAGCRyvua1CZ5Mc16NXKfIsDg%3D%3D&KeyID=a8968c46",
+              "documentOf": "tender",
+              "language": "uk",
+              "id": "01c2c1926b6e45e28ab3538e6e070487",
+              "datePublished": "2023-10-10T01:00:01+03:00",
+              "dateModified": "2023-10-10T01:00:01+03:00"
+            },
+            {
+              "confidentiality": "public",
+              "id": "01c2c1926b6e45e28ab3538e6e070487",
+              "datePublished": "2023-10-10T01:00:01+03:00",
+              "hash": "md5:00000000000000000000000000000000",
+              "title": "укр.doc",
+              "format": "application/msword",
+              "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1d09390ce1346ecbd799fc07110bcdc?Signature=IGkuizXsb%2BH7ILFXaZFKijmb2kaU4Y%2BPjk57NkERIi1OXLgcRrDA7rReT60YaxWhQFB%2B3h74nClq4lzm2nY%2BDA%3D%3D&KeyID=a8968c46",
+              "documentOf": "tender",
+              "dateModified": "2023-10-10T01:00:01+03:00",
+              "language": "uk"
+            }
+          ]
+        },
+        {
+          "value": {
+            "amount": 479.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "tenderers": [
+            {
+              "name": "Державне управління справами",
+              "identifier": {
+                "scheme": "UA-IPN",
+                "id": "00037256",
+                "legalName": "Державне управління справами",
+                "uri": "http://www.dus.gov.ua/"
+              },
+              "address": {
+                "streetAddress": "вул. Банкова, 11, корпус 1",
+                "locality": "м. Київ",
+                "region": "м. Київ",
+                "postalCode": "01220",
+                "countryName": "Україна"
+              },
+              "contactPoint": {
+                "name": "Державне управління справами",
+                "telephone": "+0440000000"
+              },
+              "scale": "micro",
+              "signerInfo": {
+                "name": "Test Testovich",
+                "email": "example@email.com",
+                "telephone": "+380950000000",
+                "iban": "111111111111111",
+                "position": "Генеральний директор",
+                "authorizedBy": "Статут компанії"
+              }
+            }
+          ],
+          "status": "active",
+          "id": "eedbc04b2ac74189b7cf3586a31d740a",
+          "date": "2023-10-10T01:00:00+03:00",
+          "items": [
+            {
+              "id": "8e2e445ce9814ad49a1eb7ba03d618f6",
+              "description": "футляри до державних нагород",
+              "unit": {
+                "name": "кг",
+                "value": {
+                  "amount": 110.0,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": false
+                },
+                "code": "KGM"
+              },
+              "quantity": 4.0
+            }
+          ],
+          "selfQualified": true,
+          "submissionDate": "2023-10-10T01:00:00+03:00",
+          "initialValue": {
+            "amount": 479.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
+      ],
+      "auctionPeriod": {
+        "startDate": "2023-10-09T01:00:00+03:00",
+        "endDate": "2023-10-10T01:00:00+03:00"
+      },
+      "awardPeriod": {
+        "startDate": "2023-11-09T01:00:11+03:00"
+      },
+      "title_en": " ",
+      "qualifications": [
+        {
+          "id": "12341234123412341234123412341234",
+          "bidID": "f4d63c639fda4121b0186a837f165f9d",
+          "status": "pending",
+          "milestones": [
+            {
+              "code": "24h",
+              "description": "One ring to bring them all and in the darkness bind them",
+              "id": "182da3c69b404effa4160cbcfa0c68ff",
+              "dueDate": "2023-10-11T01:00:03+03:00",
+              "date": "2023-10-10T01:00:03+03:00"
+            }
+          ]
+        }
+      ],
+      "id": "63d45e7d060440c8b42df0103d3e4e71"
+    }
+  }
+}
+

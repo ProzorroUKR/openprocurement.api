@@ -31,6 +31,14 @@ Schema
 
       Can be used in  :ref:`bid`
 
+    * `extensionReport` - **Sign document for prolongation milestone in award**
+
+      Can be used in :ref:`award`.
+
+    * `deviationReport` - **Sign document for 24hour milestone in award/qualification**
+
+      Can be used in :ref:`qualification` and :ref:`award`.
+
     Possible values for :ref:`tender`: `tender document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_
     
     

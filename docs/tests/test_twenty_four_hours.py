@@ -213,6 +213,29 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             )
         self.assertEqual(response.status, "201 Created")
 
+        # signing award with milestone 24h
+        deviation_doc_data = {
+            "title": "sign.p7s",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pkcs7-signature",
+            "documentType": "deviationReport",
+        }
+
+        with open(TARGET_DIR + '24hours/award-sign-milestone-24.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f'/tenders/{self.tender_id}/awards/{self.award_id}/documents?acc_token={self.tender_token}',
+                {"data": deviation_doc_data},
+            )
+
+        # second extensionReport doc is forbidden to add
+        with open(TARGET_DIR + '24hours/award-sign-milestone-24-duplicate.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f'/tenders/{self.tender_id}/awards/{self.award_id}/documents?acc_token={self.tender_token}',
+                {"data": deviation_doc_data},
+                status=422,
+            )
+
         self.tick()
 
         with open(TARGET_DIR + '24hours/award-patch.http', 'w') as self.app.file_obj:
@@ -385,3 +408,16 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                 {"data": request_data},
             )
         self.assertEqual(response.status, "201 Created")
+
+        # get sign data for qualification
+        with open(TARGET_DIR + 'sign-data/sign-qualification-data.http', 'w') as self.app.file_obj:
+            self.app.get(
+                f'/tenders/{self.tender_id}/qualifications/{qualification_id}?opt_context=true',
+            )
+
+        # signing qualification with milestone 24h
+        with open(TARGET_DIR + '24hours/qualification-sign-milestone-24.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                f'/tenders/{self.tender_id}/qualifications/{qualification_id}/documents?acc_token={self.tender_token}',
+                {"data": deviation_doc_data},
+            )

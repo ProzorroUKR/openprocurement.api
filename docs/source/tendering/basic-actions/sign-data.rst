@@ -26,6 +26,17 @@ Use `opt_context=true` as parameter for getting additional information for signi
 As we can see there is additional field `context`, which has information from `tender` inside.
 
 
+Qualification
+--------------
+
+Use `opt_context=true` as parameter for getting additional information for signing qualification:
+
+.. http:example:: ./http/sign-data/sign-qualification-data.http
+   :code:
+
+As we can see there is additional field `context`, which has information from `tender` inside.
+
+
 Bid
 ---
 
