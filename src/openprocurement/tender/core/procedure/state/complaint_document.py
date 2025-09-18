@@ -90,7 +90,6 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
                     name="role",
                 )
             self.validate_complaint_status_for_posts(complaint)
-            self.validate_complaint_post_review_date(complaint)
         elif self.request.authenticated_role != "aboveThresholdReviewers" and complaint["status"] in (
             "pending",
             "accepted",
