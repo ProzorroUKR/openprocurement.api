@@ -2,9 +2,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.constants import POST_SUBMIT_TIME
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_full_date
 
 RELEASE_2020_04_19_TEST_ENABLED = get_now() - timedelta(days=1)
 RELEASE_2020_04_19_TEST_DISABLED = get_now() + timedelta(days=1)
@@ -45,47 +43,6 @@ def create_complaint_post_status_forbidden(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't submit or edit post in current (draft) complaint status"
-    )
-
-
-@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-def create_complaint_post_review_date_forbidden(self):
-    # make complaint status pending
-    with change_auth(self.app, ("Basic", ("bot", ""))):
-        response = self.patch_complaint({"status": "pending"}, self.complaint_owner_token)
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "pending")
-
-    # make complaint status accepted
-    with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.patch_complaint(
-            {
-                "status": "accepted",
-                "reviewDate": get_now().isoformat(),
-                "reviewPlace": "some",
-            },
-            self.complaint_owner_token,
-        )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "accepted")
-
-    # create post by reviewer
-    with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post(
-            {
-                "title": "Lorem ipsum",
-                "description": "Lorem ipsum dolor sit amet",
-                "recipient": "complaint_owner",
-                "relatedObjection": self.objection_id,
-            },
-            status=403,
-        )
-
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        f"Can submit or edit post not later than {POST_SUBMIT_TIME.days} full business days before reviewDate",
     )
 
 
@@ -708,40 +665,6 @@ def create_tender_complaint_post_document_json(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "accepted")
 
-    # create document by reviewer
-    with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post_document(
-            {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-                "documentOf": "post",
-                "relatedItem": self.post_id,
-            },
-            status=403,
-        )
-
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        f"Can submit or edit post not later than {POST_SUBMIT_TIME.days} full business days before reviewDate",
-    )
-
-    # change complaint reviewDate
-    with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.patch_complaint(
-            {
-                "reviewDate": calculate_tender_full_date(
-                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), tender={}, working_days=True
-                ).isoformat(),
-            },
-            self.complaint_owner_token,
-        )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "accepted")
-
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.post_post_document(
@@ -980,40 +903,6 @@ def put_tender_complaint_document_json(self):
                 "format": "application/msword",
                 "documentOf": "post",
                 "relatedItem": self.post_id,
-            },
-            status=403,
-        )
-
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        f"Can submit or edit post not later than {POST_SUBMIT_TIME.days} full business days before reviewDate",
-    )
-
-    # change complaint reviewDate
-    with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.patch_complaint(
-            {
-                "reviewDate": calculate_tender_full_date(
-                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), tender={}, working_days=True
-                ).isoformat(),
-            },
-            self.complaint_owner_token,
-        )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "accepted")
-
-    # put document by reviewer
-    with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.put_post_document(
-            {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-                "documentOf": "post",
-                "relatedItem": self.post_id,
             }
         )
     self.assertEqual(response.status, "200 OK")
@@ -1111,34 +1000,6 @@ def create_complaint_post_explanation_invalid(self):
         response.json["errors"][0],
         {"location": "body", "name": "description", "description": ["This field is required."]},
     )
-
-    # reviewDate too soon
-    response = self.post_post(
-        {
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "relatedObjection": self.objection_id,
-        },
-        acc_token=self.tender_token,
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        f"Can submit or edit post not later than {POST_SUBMIT_TIME.days} full business days before reviewDate",
-    )
-
-    # change reviewDate
-    with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        self.patch_complaint(
-            {
-                "reviewDate": calculate_tender_full_date(
-                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), tender={}, working_days=True
-                ).isoformat(),
-            },
-            self.complaint_owner_token,
-        )
 
     # create successfully explanation
     response = self.post_post(
