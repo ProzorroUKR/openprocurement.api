@@ -2,9 +2,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.constants import POST_SUBMIT_TIME
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_full_date
 
 RELEASE_2020_04_19_TEST_ENABLED = get_now() - timedelta(days=1)
 RELEASE_2020_04_19_TEST_DISABLED = get_now() + timedelta(days=1)
