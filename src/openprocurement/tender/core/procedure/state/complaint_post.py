@@ -1,4 +1,3 @@
-from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.utils import raise_operation_error
@@ -34,7 +33,6 @@ class ComplaintPostValidationsMixin:
 
 
 class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
-
     def validate_complaint_post_on_post(self, post):
         complaint = get_complaint()
         if not tender_created_after_2020_rules():
