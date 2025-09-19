@@ -2,7 +2,6 @@ from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.constants import POST_SUBMIT_TIME
 from openprocurement.tender.core.procedure.context import get_complaint
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
@@ -12,7 +11,6 @@ LOGGER = getLogger(__name__)
 
 class ComplaintPostValidationsMixin:
     request: object
-    post_submit_time: timedelta
 
     def validate_complaint_status_for_posts(self, complaint):
         complaint_status = complaint.get("status")
@@ -36,7 +34,6 @@ class ComplaintPostValidationsMixin:
 
 
 class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
-    post_submit_time = POST_SUBMIT_TIME
 
     def validate_complaint_post_on_post(self, post):
         complaint = get_complaint()

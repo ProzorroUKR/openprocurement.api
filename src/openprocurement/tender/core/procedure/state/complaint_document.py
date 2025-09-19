@@ -1,7 +1,6 @@
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.core.constants import POST_SUBMIT_TIME
 from openprocurement.tender.core.procedure.state.complaint_post import (
     ComplaintPostValidationsMixin,
 )
@@ -29,7 +28,6 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
         "active.qualification",
         "active.awarded",
     )
-    post_submit_time = POST_SUBMIT_TIME
 
     def validate_document_post(self, data):
         if document := self.request.validated.get("document"):  # POST new version via PUT method

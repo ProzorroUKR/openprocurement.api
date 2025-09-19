@@ -97,8 +97,6 @@ AWARD_CRITERIA_LOWEST_COST = "lowestCost"
 AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
 AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
 
-POST_SUBMIT_TIME = timedelta(days=1)
-
 # Agreement errors
 AGREEMENT_NOT_FOUND_MESSAGE = "Agreement not found"
 AGREEMENT_STATUS_MESSAGE = "Agreement status is not active"

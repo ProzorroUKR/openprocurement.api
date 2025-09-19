@@ -96,7 +96,7 @@ Tender Award Complaint Posts Documents
 
 Documents for posts should be added in complaint with `documentOf: post` and `relatedItem` id of current post.
 
-Documents for post could be added only during complaint is in `pending` or `accepted` status and not later than 1 full business days before `reviewDate` of complaint.
+Documents for post could be added only during complaint is in `pending` or `accepted` status.
 
 Only author of post can add documents for his post. Let's try to add documents for post created by tender owner using another author:
 
@@ -122,8 +122,6 @@ An explanation of a complaint is a certain textual information and, if necessary
 Explanations to the complaint are submitted by subjects on their own initiative, without a request from AMCU. AMCU will not respond to such explanations, but will only consider them.
 
 Once complaint is in `pending` or `accepted` status complaint owner or tender owner can submit a post to complaint as explanation.
-
-Explanations can be added no later than 1 working days before the date of review of the complaint (1 days before reviewDate)
 
 Each explanation must be related to one of the objections of the complaint  (`complaints:objections`).
 
