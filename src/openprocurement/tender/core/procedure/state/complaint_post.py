@@ -1,18 +1,11 @@
 from datetime import timedelta
 from logging import getLogger
 
-from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.constants import POST_SUBMIT_TIME
 from openprocurement.tender.core.procedure.context import get_complaint
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.utils import (
-    dt_from_iso,
-    tender_created_after_2020_rules,
-)
-from openprocurement.tender.core.utils import calculate_tender_full_date
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 
 LOGGER = getLogger(__name__)
 
@@ -28,24 +21,6 @@ class ComplaintPostValidationsMixin:
                 self.request,
                 f"Can't submit or edit post in current ({complaint_status}) complaint status",
             )
-
-    def validate_complaint_post_review_date(self, complaint):
-        complaint_status = complaint.get("status")
-        if complaint_status == "accepted":
-            tender = get_tender()
-            post_end_date = calculate_tender_full_date(
-                dt_from_iso(complaint["reviewDate"]),
-                -self.post_submit_time,
-                tender=tender,
-                working_days=True,
-                calendar=WORKING_DAYS,
-            )
-            if get_request_now() > post_end_date:
-                raise_operation_error(
-                    self.request,
-                    f"Can submit or edit post not later than {self.post_submit_time.days} "
-                    "full business days before reviewDate",
-                )
 
     def validate_complaint_post_objection(self, complaint, post):
         for obj in complaint.get("objections", []):
@@ -76,4 +51,3 @@ class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
 
         self.validate_complaint_status_for_posts(complaint)
         self.validate_complaint_post_objection(complaint, post)
-        self.validate_complaint_post_review_date(complaint)

@@ -27,7 +27,6 @@ from openprocurement.tender.open.tests.post_blanks import (
     create_complaint_post_explanation,
     create_complaint_post_explanation_invalid,
     create_complaint_post_release_forbidden,
-    create_complaint_post_review_date_forbidden,
     create_complaint_post_status_forbidden,
     create_complaint_post_tender_owner,
     create_complaint_post_validate_recipient,
@@ -52,7 +51,6 @@ class ClaimPostResourceMixin:
 class ComplaintPostResourceMixin:
     test_create_complaint_post_release_forbidden = snitch(create_complaint_post_release_forbidden)
     test_create_complaint_post_status_forbidden = snitch(create_complaint_post_status_forbidden)
-    test_create_complaint_post_review_date_forbidden = snitch(create_complaint_post_review_date_forbidden)
     test_create_complaint_post_complaint_owner = snitch(create_complaint_post_complaint_owner)
     test_create_complaint_post_tender_owner = snitch(create_complaint_post_tender_owner)
     test_create_complaint_post_validate_recipient = snitch(create_complaint_post_validate_recipient)
