@@ -3,6 +3,7 @@ import logging
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.utils import (
     context_unpack,
@@ -14,6 +15,9 @@ from openprocurement.api.utils import (
 from openprocurement.api.views.base import (
     MongodbResourceListing,
     RestrictedResourceListingMixin,
+)
+from openprocurement.tender.competitivedialogue.procedure.utils import (
+    save_stage_2_tender,
 )
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.schema.ocds import ocds_format_tender
@@ -144,11 +148,28 @@ class TendersResource(TenderBaseResource):
             tender = self.request.validated["tender"] = updated
             self.state.validate_tender_patch(tender_src, tender)
             self.state.on_patch(tender_src, tender)
-            if save_tender(self.request):
-                self.LOGGER.info(
-                    f"Updated tender {updated['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"}),
-                )
+            with atomic_transaction():
+                if save_tender(self.request):
+                    if stage_2_tender := self.request.validated.get("stage_2_tender"):
+                        save_stage_2_tender(stage_2_tender)
+                        self.LOGGER.info(
+                            f"Successfully created tender stage2 id={stage_2_tender['_id']} "
+                            f"from competitive dialogue id={updated['_id']}",
+                            extra=context_unpack(
+                                self.request,
+                                {"MESSAGE_ID": "tender_create"},
+                                {
+                                    "tender_id": stage_2_tender["_id"],
+                                    "tenderID": stage_2_tender["tenderID"],
+                                    "tender_mode": stage_2_tender.get("mode"),
+                                },
+                            ),
+                        )
+
+                    self.LOGGER.info(
+                        f"Updated tender {updated['_id']}",
+                        extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"}),
+                    )
         return {
             "data": self.serializer_class(tender).data,
             "config": tender["config"],

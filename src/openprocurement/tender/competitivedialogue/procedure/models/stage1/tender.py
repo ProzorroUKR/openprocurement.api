@@ -3,7 +3,6 @@ from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
-from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
@@ -39,13 +38,6 @@ from openprocurement.tender.openua.procedure.models.item import Item as UAItem
 from openprocurement.tender.openua.procedure.models.organization import (
     ProcuringEntity as UAProcuringEntity,
 )
-
-
-class BotPatchTender(Model):  # "competitive_dialogue": whitelist("status", "stage2TenderID"),
-    id = StringType()
-    stage2TenderID = StringType()  # TODO: move to a distinct endpoint
-    status = StringType(choices=["complete"])
-
 
 # === EU
 
