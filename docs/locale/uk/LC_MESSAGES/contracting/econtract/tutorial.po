@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-14 13:45+0300\n"
+"POT-Creation-Date: 2025-09-22 15:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,19 +17,85 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
+
+msgid "Передумови"
+msgstr ""
+
+msgid "Для електронних контрактів тендер має відповідати наступним вимогам"
+msgstr ""
+
+msgid "має бути обрано шаблон договору за допомогою поля `contractTemplateName` в тендері"
+msgstr ""
+
+msgid "має бути обраним майданчик 6 рівня акредитації для замовників та постачальників"
+msgstr ""
+
+msgid "Розглянемо детальніше вимоги щодо тендеру."
+msgstr ""
+
+msgid "Шаблон договору"
+msgstr ""
+
+msgid "Поле `contractTemplateName` має бути обов'язково обрано на етапі створення тендеру (більше тут :ref:`contract-template-name`)"
+msgstr ""
+
+msgid "Це поле визначає шаблон договору, який буде використано для створення PDF документу договору."
+msgstr ""
+
+msgid "Майданчик 6 рівня акредитації"
+msgstr ""
+
+msgid "При створенні контракту замовнику (buyer) та постачальнику (supplier) має бути надано можливість вказати майданчик на якому буде проходити контрактінг."
+msgstr ""
+
+msgid "Назва майданчика має бути вказана"
+msgstr ""
+
+msgid "в полі `contract_owner` в `procuringEntity` (або `buyers` для закупівель ЦЗО) для замовників"
+msgstr ""
+
+msgid "в полі `contract_owner` в `tenderers` пропозиції для постачальників"
+msgstr ""
+
+msgid "Поле `contract_owner` може мати лише назву майданчика, який пройшов акредитацію 6 рівня."
+msgstr ""
+
+msgid "Для замовника майданчик має вказати поле `contract_owner` в `procuringEntity` (або `buyers` для закупівель ЦЗО)."
+msgstr ""
+
+msgid "Отримати перелік майданчиків можна за допомогою API запиту:"
+msgstr ""
+
+msgid "Якщо спробувати створити тендер з майданчиком не 6го рівня, то отримаємо помилку:"
+msgstr ""
+
+msgid "Відфільтруємо майданчики 6го рівня:"
+msgstr ""
+
+msgid "Створимо тендер з майданчиком 6го рівня:"
+msgstr ""
+
+msgid "Тендер створено успішно."
+msgstr ""
+
+msgid "Для постачальника майданчик має вказати поле `contract_owner` в полі `tenderers` пропозиції."
+msgstr ""
+
+msgid "Переглянемо як виглядає пропозиція для постачальника:"
+msgstr ""
+
+msgid "Як бачимо, майданчик вказано правильно."
+msgstr ""
 
 msgid "Creating contract"
 msgstr "Створення договору"
 
 msgid "Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status."
 msgstr "Нехай у нас відбулась закупівля і є переможець. Після вибору перможця **автоматично** створюється контракт в закупівлі з обмеженим набором полів(`id`, `awardID`, `status`, `date`, `value`) та в системі договорів з повним набором полів(:ref:`Econtract`) у статусі ``pending``."
-
-msgid "*Brokers (eMalls) can't create contracts in the contract system.*"
-msgstr "*Майданчики (брокери) не мають можливості створювати договори в системі договорів.*"
 
 msgid "A contract is created with additional fields:"
 msgstr "Договір створюється з додатковими полями:"
@@ -46,6 +112,12 @@ msgstr "Договір PQ створюється з додатковими по�
 msgid "`attributes` - formed from requirements and responses in tender"
 msgstr "`attributes` - формується з вимог та відповідей на вимоги у закупівлі"
 
+msgid "Also, PDF document is created based on the template (`contractTemplateName`) and automatically attached to the contract with documentType `contractNotice`."
+msgstr "Також, PDF документ створюється на основі шаблону (`contractTemplateName`) та автоматично прикріплюється до договору з documentType `contractNotice`."
+
+msgid "This document will be required for signing for both supplier and buyer later to activate the contract."
+msgstr "Цей документ буде потрібен для підписання як постачальником, так і замовником пізніше, щоб активувати договір."
+
 msgid "Getting contract"
 msgstr "Отримання договору"
 
@@ -61,9 +133,7 @@ msgstr "Спробуємо отримати створений об’єкт п�
 msgid "Getting access"
 msgstr "Отримання доступу"
 
-msgid "Read more :ref:`authorization-from-different-platforms-new`"
-msgstr "Більше інформації :ref:`authorization-from-different-platforms-new`"
-
+#, python-brace-format
 msgid "For getting access for buyer or supplier endpoint `contracts/{contract_id}/access` is used after contract was created."
 msgstr "Для отримання доступу для замовника або постачальника використовується ендпоінт `contracts/{contract_id}/access` після ствворення контракту."
 
@@ -111,6 +181,30 @@ msgstr "Якщо контракт був створений за правила�
 
 msgid "To activate contract it is required to add contract signature document type from each participant (supplier and buyer)."
 msgstr "Для того, щоб активувати контракт, потрібно замовнику та постачальнику додати в якості документів електронні підписи."
+
+msgid "Requirements for signing:"
+msgstr "Вимоги до підпису:"
+
+msgid "Contract document with documentType `contractNotice` should be signed"
+msgstr "Має бути підписаний документ договору з `documentType` `contractNotice`"
+
+msgid "Signature file should be attached to the contract with documentType `contractSignature`"
+msgstr "Файл підпису має бути прикріплений до договору з `documentType` `contractSignature`"
+
+msgid "Signature must have following parameters:"
+msgstr "Підпис повинен мати наступні параметри:"
+
+msgid "Format: CAdES-X Long"
+msgstr "Формат підпису: CAdES-X Long"
+
+msgid "Algorithm: DSTU 4145"
+msgstr "Алгоритм підпису: ДСТУ 4145"
+
+msgid "Type: Separate data and signature files (detached)"
+msgstr "Тип підпису: Підпис та дані в окремих файлах (detached)"
+
+msgid "Here is a diagram of the signing process:"
+msgstr "Діаграма процесу підписання:"
 
 msgid "If both sides signed the current version of contract, than contract becomes `active`."
 msgstr "Після того, як будуть накладені два підписи на поточну весрію контракту, контракт стає `active`."
@@ -366,4 +460,3 @@ msgstr "Але при цьому все ще існує валідація на 
 
 msgid "Let's update quantity in first item and add new item with correct `unit.value`:"
 msgstr "Відредагуємо `quantity` в першому `item` і додамо новий `item` з коректною ціною `unit.value`:"
-

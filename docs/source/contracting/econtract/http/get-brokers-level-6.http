@@ -1,0 +1,47 @@
+GET /api/2.5/brokers?levels=6 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "name": "broker",
+      "title": "broker",
+      "levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "permissions": []
+    },
+    {
+      "name": "broker05",
+      "title": "broker05",
+      "levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "permissions": []
+    },
+    {
+      "name": "broker6",
+      "title": "broker6",
+      "levels": [
+        6
+      ],
+      "permissions": []
+    }
+  ]
+}
+

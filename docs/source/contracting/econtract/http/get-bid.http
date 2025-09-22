@@ -1,0 +1,132 @@
+GET /api/2.5/tenders/1640f9c9f12d4f74b35596c849f209a4/bids/6eb4106605214f398c4336aee7072c4c?acc_token=59d78bf3d096420083e6123a1a8f570e HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "6eb4106605214f398c4336aee7072c4c",
+    "date": "2023-10-10T01:00:00+03:00",
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        },
+        "contract_owner": "broker6"
+      }
+    ],
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "69f64e8338624b1b96b67521e187dd15",
+          "title": "Форма випуску"
+        },
+        "values": [
+          "Розчин для інфузій"
+        ],
+        "id": "8fdf76d96e1343edb25e36a00f7f8a77",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "67d0045d70704ed59178df21ef252490",
+          "title": "Доза діючої речовини"
+        },
+        "value": 5,
+        "id": "cc5f60db5c874a83ac3e02081b1abeb9",
+        "unit": {
+          "code": "KGM",
+          "name": "кілограми"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "3148689ceab945a0a0acd4a1796f2298",
+          "title": "Форма випуску 1"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ],
+        "id": "3c14d0aff57746b5b102d37694354cf4",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      }
+    ],
+    "status": "pending",
+    "items": [
+      {
+        "id": "29cbde01600848de837efe5448e726fb",
+        "description": "Комп’ютерне обладнання для біда",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 40.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 10.0,
+        "product": "11111111111111111111111111111111"
+      },
+      {
+        "id": "24726f3002834ed287ec1c07b91606cf",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 20.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "product": "11111111111111111111111111111111"
+      }
+    ],
+    "submissionDate": "2023-10-10T01:00:00+03:00"
+  }
+}
+

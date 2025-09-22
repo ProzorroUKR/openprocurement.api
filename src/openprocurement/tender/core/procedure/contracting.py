@@ -3,7 +3,6 @@ from copy import deepcopy
 from datetime import timedelta
 from logging import getLogger
 from typing import Dict, List
-from urllib.parse import urlparse
 from uuid import uuid4
 
 from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FROM
@@ -34,7 +33,10 @@ from openprocurement.contracting.core.procedure.serializers.contract import (
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.tender.core.constants import CONTRACT_PERIOD_START_DAYS
 from openprocurement.tender.core.procedure.context import get_award, get_request
-from openprocurement.tender.core.procedure.documents import check_document
+from openprocurement.tender.core.procedure.documents import (
+    check_document,
+    update_document_url,
+)
 from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
 
 LOGGER = getLogger(__name__)
@@ -336,12 +338,8 @@ def upload_contract_pdf_document(request, contract: dict):
     document = PostDocument(document).serialize()
     document["documentType"] = "contractNotice"
     check_document(request, document)
-    key = urlparse(document["url"]).path.split("/")[-1]
-    document["url"] = request.route_url(
-        "EContract Documents",
-        contract_id=contract["id"],
-        document_id=document["id"],
-        _query={"download": key},
-    )
+    document_route = "EContract Documents"
+    route_kwargs = {"contract_id": contract["id"]}
+    update_document_url(request, document, document_route, route_kwargs)
     contract["documents"] = contract.get("documents", [])
     contract["documents"].append(document)

@@ -34,6 +34,7 @@ def url_to_absolute(url):
         request = get_request()
         result = f"{request.scheme}://{request.host}{ROUTE_PREFIX}{url}"
         return result
+    return url
 
 
 def confidential_url_serialize(url, document):

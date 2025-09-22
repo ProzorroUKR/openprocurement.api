@@ -1,5 +1,5 @@
 GET /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1 HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer broker6
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "283d9284a6054a25a129e848808b75a1",
-    "contractID": "UA-2023-10-10-000001-a-1",
+    "contractID": "UA-2023-10-10-000002-a-1",
     "period": {
       "startDate": "2023-10-15T00:00:00+03:00",
       "endDate": "2023-12-31T23:59:59+03:00"
@@ -159,7 +159,7 @@ Content-Type: application/json
           "postalCode": "01220",
           "countryName": "Україна"
         },
-        "contract_owner": "broker",
+        "contract_owner": "broker6",
         "scale": "micro",
         "signerInfo": {
           "name": "Test Testovich",

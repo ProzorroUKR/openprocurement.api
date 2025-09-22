@@ -106,6 +106,11 @@ def main(global_config, **settings):
     config.registry.render_api_username = settings.get("render_api_username")
     config.registry.render_api_password = settings.get("render_api_password")
 
+    # Sign API host
+    config.registry.sign_api_host = settings.get("sign_api_host")
+    config.registry.sign_api_username = settings.get("sign_api_username")
+    config.registry.sign_api_password = settings.get("sign_api_password")
+
     # deprecated doc service url (for switching to the new host)
     # you can upload documents from it, then urls will be changed to registry.docservice_url
     # so they both must be the same document service
