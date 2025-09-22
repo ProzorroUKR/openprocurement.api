@@ -1,0 +1,25 @@
+@startuml
+
+skinparam note {
+  TextAlignment center
+}
+
+participant "Broker" as Broker
+participant "ЦБД API" as CDB
+participant "Render API" as Render
+participant "DS API" as DS
+    Broker --> CDB: Запит \nна створення контракту \n- активовано авард \n- створено нову версію контракту
+    activate CDB
+    CDB --> Render: Запит на рендеринг \nPDF контракту
+    activate Render
+    hnote over Render: Рендерінг PDF контракту
+    Render --> DS: Запит на вивантаження (upload) \nPDF контракту
+    activate DS
+    hnote over DS: Збереження файлу PDF\nв сховище
+    DS --> Render: JSON з URL-ом \nна PDF контракт
+    deactivate DS
+    Render --> CDB: JSON з URL-ом \nна PDF контракт
+    deactivate Render
+    hnote over CDB: Прикріплення PDF \nв документи контракту
+    CDB --> Broker: JSON з прикріпленим \nPDF контрактом
+    deactivate CDB

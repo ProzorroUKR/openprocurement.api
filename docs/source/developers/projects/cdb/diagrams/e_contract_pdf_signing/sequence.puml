@@ -1,0 +1,52 @@
+@startuml
+
+skinparam note {
+  TextAlignment center
+}
+
+participant "Broker" as Broker
+participant "ЦБД API" as CDB
+participant "Sign API" as Sign
+participant "DS API" as DS
+
+Broker --> DS: Запит на завантаження (download) \nфайлу PDF
+activate DS
+hnote over DS: Завантаження файлу PDF \nз сховища
+DS --> Broker: Файл PDF
+deactivate DS
+
+...
+
+hnote over Broker: Накладання підпису \nна PDF
+
+...
+
+Broker --> DS: Запит на вивантаження (upload) \nфайлу підпису
+activate DS
+hnote over DS: Збереження файлу підпису\nв сховище
+DS --> Broker: JSON з URL-ом \nна файл підпис
+deactivate DS
+
+...
+
+Broker --> CDB: Запит на прикріплення \nфайлу підпису
+activate CDB
+CDB --> Sign: Запит на перевірку підпису
+activate Sign
+Sign --> DS: Запит на завантаження (download) \nфайлу підпису
+activate DS
+hnote over DS: Завантаження файлу підпису \nз сховища
+DS --> Sign: Файл підпис
+deactivate DS
+Sign --> DS: Запит на завантаження (download) \nфайлу PDF
+activate DS
+hnote over DS: Завантаження файлу PDF \nз сховища
+DS --> Sign: Файл PDF
+deactivate DS
+hnote over Sign: Перевірка підпису \nнакладеного на PDF \nза допомогою eulib
+Sign --> CDB: JSON з результатом \nперевірки підпису
+deactivate Sign
+hnote over CDB: Прикріплення підпису \nв документи контракту
+hnote over CDB: Дії з контрактом \nпередбачені за умови \nвалідного підпису
+CDB --> Broker: JSON з прикріпленим \nпідписом
+deactivate CDB

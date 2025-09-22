@@ -110,7 +110,7 @@ Next table shows which statuses for each procurementMethodType allow to set/upda
 The correctness of the `contractTemplateName` is determined by items classification id.
 
 All available templates and their selection rules can be found in the `standards
-<https://github.com/ProzorroUKR/standards/blob/master/templates/contract_templates_keys.json>`_.
+<https://github.com/ProzorroUKR/standards/blob/master/templates/contract_templates.json>`_.
 
 If you try to set value out from standards or invalid for current classification, you'll get error:
 

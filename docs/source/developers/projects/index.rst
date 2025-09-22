@@ -43,6 +43,8 @@
    cdb/tests
    cdb/ci
    cdb/release
+   cdb/render
+   cdb/sign
 
 Група суміжних проєктів ЦБД
 ---------------------------
@@ -172,6 +174,30 @@
 .. admonition:: TODO
 
    Загальний опис
+
+Проєкт Render API
+------------------
+
+.. admonition:: TODO
+   
+   Загальний опис
+
+.. toctree::
+   :maxdepth: 2
+
+   cdb/render
+
+Проєкт Sign API
+---------------
+
+.. admonition:: TODO
+
+   Загальний опис
+
+.. toctree::
+   :maxdepth: 2
+
+   cdb/sign
 
 Бібліотеки
 ----------

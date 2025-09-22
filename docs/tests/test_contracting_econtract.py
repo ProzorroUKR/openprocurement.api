@@ -35,7 +35,8 @@ test_tender_data = deepcopy(test_tender_pq_data)
 test_tender_data["procuringEntity"]["identifier"]["id"] = "00037257"
 test_tender_data_multi_buyers = deepcopy(test_tender_below_multi_buyers_data)
 
-TARGET_DIR = 'docs/source/contracting/econtract/http/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TARGET_DIR = os.path.join(BASE_DIR, 'source/contracting/econtract/http/')
 
 
 class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
@@ -92,21 +93,45 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         agreement = {"id": self.agreement_id}
         tender_data["agreement"] = agreement
 
+        # get all brokers
+        with open(TARGET_DIR + 'get-brokers-all.http', 'w') as self.app.file_obj:
+            self.app.get('/brokers')
+
+        # try to create tender with broker1
+        tender_data["procuringEntity"]["contract_owner"] = "broker1"
+        with open(TARGET_DIR + 'create-tender-broker-1-fail.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(
+            response.json['errors'][0]['description'],
+            {"contract_owner": "should be one of brokers with level 6"},
+        )
+
+        # get brokers with level 6
+        with open(TARGET_DIR + 'get-brokers-level-6.http', 'w') as self.app.file_obj:
+            self.app.get('/brokers?levels=6')
+
+        # create tender with broker6
         tender_data["procuringEntity"]["contract_owner"] = "broker6"
-        response = self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config})
+        with open(TARGET_DIR + 'create-tender-broker-6.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config})
+        self.assertEqual(response.status, '201 Created')
         tender_id = self.tender_id = response.json['data']['id']
         tender_token = response.json['access']['token']
+
         tender_items = response.json['data']['items']
+
         # switch to active.tendering
         response = self.set_status(
             'active.tendering', extra={'auctionPeriod': {'startDate': (get_now() + timedelta(days=10)).isoformat()}}
         )
         tender = response.json["data"]
         self.assertIn("auctionPeriod", response.json['data'])
+
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
         supplier = deepcopy(test_tender_pq_supplier)
-        supplier["contract_owner"] = "broker"
+        supplier["contract_owner"] = "broker6"
         product = {"id": "1" * 32, "status": "active"}
         with patch(
             "openprocurement.api.utils.requests.get",
@@ -144,6 +169,12 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                     ],
                 },
             )
+
+        # get bid
+        bid_id = bid['id']
+        with open(TARGET_DIR + 'get-bid.http', 'w') as self.app.file_obj:
+            self.app.get(f'/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}')
+
         # switch to active.qualification
         self.set_status('active.qualification')
         # get awards
@@ -179,7 +210,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             response = self.app.get(f'/contracts/{self.contract_id}')
             self.contract = response.json["data"]
             self.assertEqual(self.contract["buyer"]["contract_owner"], "broker6")
-            self.assertEqual(self.contract["suppliers"][0]["contract_owner"], "broker")
+            self.assertEqual(self.contract["suppliers"][0]["contract_owner"], "broker6")
 
         # Getting access for contract
         self.app.authorization = ('Basic', ('broker6', ''))
@@ -244,7 +275,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 status=403,
             )
 
-        with change_auth(self.app, ("Basic", ("broker", ""))), open(
+        with change_auth(self.app, ("Basic", ("broker6", ""))), open(
             TARGET_DIR + 'contract-access-by-supplier.http', 'w'
         ) as self.app.file_obj:
             response = self.app.post_json(
@@ -263,7 +294,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         )
         self.assertEqual(response.status, '201 Created')
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ('Basic', ('broker6', ''))
         with open(TARGET_DIR + 'contract-supplier-cancels-contract.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/cancellations?acc_token={supplier_token}",

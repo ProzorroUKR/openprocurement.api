@@ -3,12 +3,72 @@
 Tutorial
 ========
 
+Передумови
+----------
+
+Для електронних контрактів тендер має відповідати наступним вимогам
+
+* має бути обрано шаблон договору за допомогою поля `contractTemplateName` в тендері
+* має бути обраним майданчик 6 рівня акредитації для замовників та постачальників
+
+Розглянемо детальніше вимоги щодо тендеру.
+
+Шаблон договору
+~~~~~~~~~~~~~~~
+
+Поле `contractTemplateName` має бути обов'язково обрано на етапі створення тендеру (більше тут :ref:`contract-template-name`)
+
+Це поле визначає шаблон договору, який буде використано для створення PDF документу договору.
+
+Майданчик 6 рівня акредитації
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+При створенні контракту замовнику (buyer) та постачальнику (supplier) має бути надано можливість вказати майданчик на якому буде проходити контрактінг.
+
+Назва майданчика має бути вказана
+
+* в полі `contract_owner` в `procuringEntity` (або `buyers` для закупівель ЦЗО) для замовників
+* в полі `contract_owner` в `tenderers` пропозиції для постачальників
+
+Поле `contract_owner` може мати лише назву майданчика, який пройшов акредитацію 6 рівня.
+
+Для замовника майданчик має вказати поле `contract_owner` в `procuringEntity` (або `buyers` для закупівель ЦЗО).
+
+Отримати перелік майданчиків можна за допомогою API запиту:
+
+.. http:example:: http/get-brokers-all.http
+   :code:
+
+Якщо спробувати створити тендер з майданчиком не 6го рівня, то отримаємо помилку:
+
+.. http:example:: http/create-tender-broker-1-fail.http
+   :code:
+
+Відфільтруємо майданчики 6го рівня:
+
+.. http:example:: http/get-brokers-level-6.http
+   :code:
+
+Створимо тендер з майданчиком 6го рівня:
+
+.. http:example:: http/create-tender-broker-6.http
+   :code:
+
+Тендер створено успішно.
+
+Для постачальника майданчик має вказати поле `contract_owner` в полі `tenderers` пропозиції.
+
+Переглянемо як виглядає пропозиція для постачальника:
+
+.. http:example:: http/get-bid.http
+   :code:
+
+Як бачимо, майданчик вказано правильно.
+
 Creating contract
 -----------------
 
 Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status.
-
-*Brokers (eMalls) can't create contracts in the contract system.*
 
 A contract is created with additional fields:
 
@@ -19,6 +79,9 @@ A PQ contract is created with additional fields:
 
 * `attributes` - formed from requirements and responses in tender
 
+Also, PDF document is created based on the template (`contractTemplateName`) and automatically attached to the contract with documentType `contractNotice`. 
+
+This document will be required for signing for both supplier and buyer later to activate the contract.
 
 Getting contract
 ----------------
@@ -37,8 +100,6 @@ Let's access the URL of the created object:
 
 Getting access
 ---------------
-
-Read more :ref:`authorization-from-different-platforms-new`
 
 For getting access for buyer or supplier endpoint `contracts/{contract_id}/access` is used after contract was created.
 
@@ -93,6 +154,20 @@ Activating contract
 If contract was created using new flow with set `contract_owner` in tender for `suppliers` and `buyers` than for activating electronic contract, signer information and all participants signature are required.
 
 To activate contract it is required to add contract signature document type from each participant (supplier and buyer).
+
+Requirements for signing:
+
+* Contract document with documentType `contractNotice` should be signed
+* Signature file should be attached to the contract with documentType `contractSignature`
+* Signature must have following parameters:
+
+  * Format: CAdES-X Long
+  * Algorithm: DSTU 4145
+  * Type: Separate data and signature files (detached)
+
+Here is a diagram of the signing process:
+
+.. image:: /contracting/econtract/diagram/e_contract_pdf_signing/sequence.png
 
 If both sides signed the current version of contract, than contract becomes `active`.
 

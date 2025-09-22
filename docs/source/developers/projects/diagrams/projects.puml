@@ -16,23 +16,24 @@ skinparam defaultTextAlignment center
 
 rectangle "Проєкти ЦБД" {
     rectangle "Група суміжних проєктів ЦБД" as CDBSatelliteProjectsGroup {
-        rectangle "Проєкт\nChronograph" as ChronographProject COLOR_PROJECT
-        rectangle "Група проєктів\nBridges" as BridgesProjectGroup {
-            rectangle "Проєкт\nFA\nBridge" as BridgeFAProject COLOR_PROJECT
-            rectangle "Проєкт\nCD\nBridge" as BridgeCDProject COLOR_PROJECT
-        }
-        rectangle "Проєкт\nTasks" as TasksProject COLOR_PROJECT
         rectangle "Група проєктів\nAuction" as AuctionProjectGroup {
             rectangle "Проєкт\nAuction" as AuctionProject COLOR_PROJECT
             rectangle "Проєкт\nAuction\nFrontend" as AuctionFrontendProject COLOR_PROJECT
         }
+        rectangle "Група проєктів\nBridges" as BridgesProjectGroup {
+            rectangle "Проєкт\nCD\nBridge" as BridgeCDProject COLOR_PROJECT
+        }
+        rectangle "Проєкт\nTasks" as TasksProject COLOR_PROJECT
+        rectangle "Проєкт\nChronograph" as ChronographProject COLOR_PROJECT
     }
 
     rectangle "Проєкт\nCDB\nAPI" as CDBProject COLOR_PROJECT
 
     rectangle "Залежності ЦБД" as CDBDependencies {
-        rectangle "Проєкт\nDS\nAPI" as DSAPIProject COLOR_PROJECT
+        rectangle "Проєкт\nSign\nAPI" as SignAPIProject COLOR_PROJECT
+        rectangle "Проєкт\nRender\nAPI" as RenderAPIProject COLOR_PROJECT
         rectangle "Проєкт\nCatalog\nAPI" as CatalogAPIProject COLOR_PROJECT
+        rectangle "Проєкт\nDS\nAPI" as DSAPIProject COLOR_PROJECT
     }
 
     rectangle "Споживачі ЦБД" as CDBConsumers {
@@ -44,32 +45,30 @@ rectangle "Проєкти ЦБД" {
 
 ' ===== Connections =====
 
-AuctionFrontendProject -left-> AuctionProject #Blue : read
+AuctionFrontendProject -left-> AuctionProject #Blue
 
-CDBProject <-up- ChronographProject #Green : read\nwrite
-CDBProject <-up- BridgeFAProject #OrangeRed : read\nwrite
-CDBProject <-up- BridgeCDProject #Purple : read\nwrite
-CDBProject <-up- TasksProject #Chocolate : read\nwrite
+CDBProject <-up- ChronographProject #Green
+CDBProject <-up- BridgeCDProject #Purple
+CDBProject <-up- TasksProject #Chocolate
 
-CDBProject <-up- AuctionProject #Blue : read\nwrite
+CDBProject <-up- AuctionProject #Blue
 
-CDBProject -down-> DSAPIProject #ForestGreen : read
-CDBProject -down-> CatalogAPIProject #RoyalBlue : read
+CDBProject <-down-> RenderAPIProject #OrangeRed
+CDBProject -down-> SignAPIProject #Orchid
+CDBProject -down-> DSAPIProject #ForestGreen
+CDBProject -down-> CatalogAPIProject #RoyalBlue
 
-CDBProject <-down- AuditAPIProject #BlueViolet : read
-CDBProject <-down- RisksProject #DimGray : read
-CDBProject <-down- BillingProject #Red : read
+CDBProject <-down- AuditAPIProject #BlueViolet
+CDBProject <-down- RisksProject #DimGray
+CDBProject <-down- BillingProject #Red
 
-AuditAPIProject -left-> DSAPIProject #LightSeaGreen : read
+AuditAPIProject -left-> DSAPIProject #LightSeaGreen
 
 ' ===== Layout =====
 
-ChronographProject -[hidden]right- BridgeFAProject
-BridgeFAProject -[hidden]right- BridgeCDProject
-BridgeCDProject -[hidden]right- TasksProject
-TasksProject -[hidden]right- AuctionProject
-
 CDBDependencies -[hidden]right- CDBConsumers
+RenderAPIProject -[hidden]right- SignAPIProject
+SignAPIProject -[hidden]right- CatalogAPIProject
 CatalogAPIProject -[hidden]right- DSAPIProject
 DSAPIProject -[hidden]right- AuditAPIProject
 AuditAPIProject -[hidden]right- RisksProject

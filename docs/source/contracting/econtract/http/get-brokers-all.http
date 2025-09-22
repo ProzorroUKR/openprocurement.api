@@ -1,0 +1,159 @@
+GET /api/2.5/brokers HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "name": "broker",
+      "title": "broker",
+      "levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "permissions": []
+    },
+    {
+      "name": "brokerh",
+      "title": "brokerh",
+      "levels": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "permissions": []
+    },
+    {
+      "name": "brokerx",
+      "title": "brokerx",
+      "levels": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "permissions": [
+        "x"
+      ]
+    },
+    {
+      "name": "brokerr",
+      "title": "brokerr",
+      "levels": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "permissions": [
+        "r"
+      ]
+    },
+    {
+      "name": "broker05",
+      "title": "broker05",
+      "levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "permissions": []
+    },
+    {
+      "name": "broker1",
+      "title": "broker1",
+      "levels": [
+        1
+      ],
+      "permissions": []
+    },
+    {
+      "name": "broker2",
+      "title": "broker2",
+      "levels": [
+        2
+      ],
+      "permissions": []
+    },
+    {
+      "name": "broker3",
+      "title": "broker3",
+      "levels": [
+        3
+      ],
+      "permissions": []
+    },
+    {
+      "name": "broker4",
+      "title": "broker4",
+      "levels": [
+        4
+      ],
+      "permissions": []
+    },
+    {
+      "name": "broker6",
+      "title": "broker6",
+      "levels": [
+        6
+      ],
+      "permissions": []
+    },
+    {
+      "name": "broker1t",
+      "title": "broker1t",
+      "levels": [
+        1
+      ],
+      "permissions": [
+        "t"
+      ]
+    },
+    {
+      "name": "broker2t",
+      "title": "broker2t",
+      "levels": [
+        2
+      ],
+      "permissions": [
+        "t"
+      ]
+    },
+    {
+      "name": "broker3t",
+      "title": "broker3t",
+      "levels": [
+        3
+      ],
+      "permissions": [
+        "t"
+      ]
+    },
+    {
+      "name": "broker4t",
+      "title": "broker4t",
+      "levels": [
+        4
+      ],
+      "permissions": [
+        "t"
+      ]
+    }
+  ]
+}
+

@@ -1,5 +1,5 @@
 GET /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98?acc_token=838bca54aee04fbaabd502cb2c7b28a4 HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer broker6
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "283d9284a6054a25a129e848808b75a1",
-    "contractID": "UA-2023-10-10-000001-a-2",
+    "contractID": "UA-2023-10-10-000002-a-2",
     "period": {
       "startDate": "2022-01-01T00:00:00+02:00",
       "endDate": "2026-01-01T00:00:00+02:00"
@@ -159,7 +159,7 @@ Content-Type: application/json
           "postalCode": "01220",
           "countryName": "Україна"
         },
-        "contract_owner": "broker",
+        "contract_owner": "broker6",
         "scale": "micro",
         "signerInfo": {
           "name": "Another supplier",
