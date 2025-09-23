@@ -6,6 +6,7 @@ from schematics.types import BaseType
 
 from openprocurement.api.constants_env import (
     BID_ITEMS_PRODUCT_REQUIRED_FROM,
+    ITEM_QUANTITY_REQUIRED_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
@@ -26,6 +27,7 @@ from openprocurement.tender.core.procedure.utils import (
     get_supplier_contract,
     is_bid_items_required,
     tender_created_after,
+    tender_created_before,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
@@ -183,6 +185,9 @@ class BidState(BaseState):
             validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
 
     def validate_items_quantity(self, data):
+        if tender_created_before(ITEM_QUANTITY_REQUIRED_FROM):
+            return
+
         tender = get_tender()
         items_for_lot = False
         tender_items_id = {}

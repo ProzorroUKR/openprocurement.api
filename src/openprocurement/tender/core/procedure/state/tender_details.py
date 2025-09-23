@@ -21,6 +21,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.constants_env import (
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
+    ITEM_QUANTITY_REQUIRED_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
     MINIMAL_STEP_TENDERS_WITH_LOTS_VALIDATION_FROM,
@@ -71,6 +72,7 @@ from openprocurement.tender.core.procedure.utils import (
     get_contract_template_names_for_classification_ids,
     set_mode_test_titles,
     tender_created_after,
+    tender_created_before,
     validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
@@ -1539,6 +1541,9 @@ class BaseTenderDetailsMixing:
                 )
 
     def validate_items_quantity(self, data):
+        if tender_created_before(ITEM_QUANTITY_REQUIRED_FROM):
+            return
+
         items_with_quantity = defaultdict(lambda: [])
         for item in data.get("items", []):
             lot = item.get("relatedLot")
