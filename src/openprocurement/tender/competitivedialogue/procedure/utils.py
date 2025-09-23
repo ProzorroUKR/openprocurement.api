@@ -146,12 +146,12 @@ def get_bid_by_id(bids: list, bid_id: str) -> dict:
 
 
 def prepare_lot(orig_tender: dict, lot_id: str, items: list) -> dict:
-    lot = None
+    lot = {}
     for tender_lot in orig_tender["lots"]:
         if tender_lot["id"] == lot_id:
             lot = tender_lot
             break
-    if lot["status"] != "active":
+    if lot.get("status") != "active":
         return {}
 
     for item in orig_tender["items"]:

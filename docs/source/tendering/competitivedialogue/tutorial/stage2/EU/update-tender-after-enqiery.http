@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067?acc_token=7c2c64030510420cac054902f901f0ea HTTP/1.0
+PATCH /api/2.5/tenders/63f6240986e249dd8322133f0b7b7122?acc_token=2182f06aeee14e949d1047d91b89268d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "df93f16269c1459498258425b39d385a",
+        "id": "179a3c6724694765b74df4ad81d52bf9",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -17,7 +17,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+        "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "deliveryDate": {
           "startDate": "2023-10-30T01:00:00+03:00",
           "endDate": "2023-11-10T01:00:00+03:00"

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/c429ff66bfe7408592ede2909ac98702/bids HTTP/1.0
+POST /api/2.5/tenders/7f818311963440f0b49ba53c35a0f971/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -43,7 +43,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 499
         },
-        "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5"
+        "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611"
       }
     ]
   }
@@ -52,7 +52,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c429ff66bfe7408592ede2909ac98702/bids/7334046d9fc046358e61bf8dc7d2cd18
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7f818311963440f0b49ba53c35a0f971/bids/7334046d9fc046358e61bf8dc7d2cd18
 
 {
   "data": {
@@ -88,6 +88,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c429ff66bfe74085
         }
       }
     ],
+    "status": "draft",
     "lotValues": [
       {
         "status": "pending",
@@ -96,18 +97,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c429ff66bfe74085
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
+        "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "status": "draft",
     "selfQualified": true,
     "id": "7334046d9fc046358e61bf8dc7d2cd18",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "2508459293004ecd98722030b6755c24",
-    "transfer": "1730feb046794e9690e1388abd15eec2"
+    "token": "35fed98016da4c168c0a688b3650dcff",
+    "transfer": "5470a65c3955490a8816c2a3a14e642f"
   }
 }
 

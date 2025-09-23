@@ -520,7 +520,6 @@ def patch_several_contracts_active_status(self):
     self.assertEqual(response.content_type, "application/json")
     response = self.app.get(f"/frameworks/{self.framework_id}")
     self.assertEqual(response.json["data"]["qualificationPeriod"]["endDate"], qualification_end_date)
-    print(qualification_end_date)
 
     base_identifier_id = self.initial_submission_data["tenderers"][0]["identifier"]["id"]
     for shift, milestone_type, identifier_id in [

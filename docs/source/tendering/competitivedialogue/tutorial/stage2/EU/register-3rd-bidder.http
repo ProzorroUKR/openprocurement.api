@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids HTTP/1.0
+POST /api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -9,23 +9,23 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "address": {
           "countryName": "Україна",
-          "locality": "м. Запоріжя",
+          "locality": "м. Львів",
           "postalCode": "79013",
-          "region": "Запорізька область",
-          "streetAddress": "вул. Коцюбинського, 15"
+          "region": "Львівська область",
+          "streetAddress": "вул. Островського, 35"
         },
         "contactPoint": {
           "email": "fake@mail.com",
-          "name": "Іван Карпенко",
+          "name": "Іван Іваненко",
           "telephone": "+380322123456"
         },
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137228",
+          "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "«Кенгуру»",
-        "scale": "large",
+        "name": "«Снігур»",
+        "scale": "mid",
         "signerInfo": {
           "name": "Test Testovich",
           "telephone": "+380950000000",
@@ -82,7 +82,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 5
         },
-        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0"
+        "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b"
       }
     ]
   }
@@ -91,31 +91,31 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids/48b5b53cabfd47d599a5bb5b9f9ee193
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/a294d5f005de48f5adf9976f46c1c4ee
 
 {
   "data": {
     "tenderers": [
       {
-        "name": "«Кенгуру»",
+        "name": "«Снігур»",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137228",
+          "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
-          "streetAddress": "вул. Коцюбинського, 15",
-          "locality": "м. Запоріжя",
-          "region": "Запорізька область",
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів",
+          "region": "Львівська область",
           "postalCode": "79013",
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Іван Карпенко",
+          "name": "Іван Іваненко",
           "email": "fake@mail.com",
           "telephone": "+380322123456"
         },
-        "scale": "large",
+        "scale": "mid",
         "signerInfo": {
           "name": "Test Testovich",
           "email": "example@email.com",
@@ -135,7 +135,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+        "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "date": "2023-10-10T01:03:00+03:00"
       }
     ],
@@ -148,7 +148,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/328d5b2129754795ab3332190744419e?Signature=%2BfJgYx%2F65LEAbnv6PrgVoI4evhRTul5iYRAJSEP%2B7DPnXuKdz5mV2PgArkfwjW07wnaef2b4jut7%2FQmJSwsbAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "4f85d91368144a4999f6939b0d47473d",
+        "id": "f4087866f44c4f7eb87f2a561344b458",
         "datePublished": "2023-10-10T01:03:00+03:00",
         "dateModified": "2023-10-10T01:03:00+03:00"
       },
@@ -160,7 +160,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
         "format": "application/pdf",
         "documentOf": "tender",
         "language": "uk",
-        "id": "8541dc9046f44d258ef24a7ed9509768",
+        "id": "c8ea5e6aee4348e09aadb84fe97db1ed",
         "datePublished": "2023-10-10T01:03:00+03:00",
         "dateModified": "2023-10-10T01:03:00+03:00"
       }
@@ -174,7 +174,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3717e8740203445a99d0ba3d4a388920?Signature=5XzSldetRi01hhDNbF3ofKcnB%2Fc1jFGE86GGgt2DyF2TfktCNcIZqt61IsSLouGAIO88F6wM4pPf5wjajYz5Cw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "a76823e385494d0fad7384a067b907d2",
+        "id": "e3d5d88cdf5740b3af905077a2e89ad2",
         "datePublished": "2023-10-10T01:03:00+03:00",
         "dateModified": "2023-10-10T01:03:00+03:00"
       }
@@ -188,7 +188,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7ac6b69cc8b348fe881ef329f6e3a668?Signature=nQOxpa2%2FmiCN108r4oO41TPcTWSk793in64eiJcAISpSe5bxBf%2BYlL2ewyvkzEekTNcM5YUIZwyg8r%2Fa%2FDCFAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "4dce2427bf4a48fbb3762e39386626e7",
+        "id": "1e6f4c044691475b896ab9b4d3f41211",
         "datePublished": "2023-10-10T01:03:00+03:00",
         "dateModified": "2023-10-10T01:03:00+03:00"
       }
@@ -202,18 +202,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e7a65edca6534628ab1450eb548cf02a?Signature=id0UYGt9ByuxscHlNT85NVUGK8jqVIQwpgwwcyyzaOdWQ6%2BhjxCfiqJMLlUtkGArXop3vMHqBYoVSpc3nhRkAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "bb6f4fef8da741ffad01a7725faffd44",
+        "id": "23963cacf97d4aecaef9fdf7890a0b6d",
         "datePublished": "2023-10-10T01:03:00+03:00",
         "dateModified": "2023-10-10T01:03:00+03:00"
       }
     ],
     "selfQualified": true,
-    "id": "48b5b53cabfd47d599a5bb5b9f9ee193",
+    "id": "a294d5f005de48f5adf9976f46c1c4ee",
     "date": "2023-10-10T01:03:00+03:00"
   },
   "access": {
-    "token": "36e54dba0c6a4c9e8a739d1c5dc2c540",
-    "transfer": "5b1aa7e1c3294a76b9c207f09da06c4f"
+    "token": "3526604413bc4daa9717d09fa828a3c4",
+    "transfer": "ce313f3a607b4e8791aa617a357e3e4d"
   }
 }
 

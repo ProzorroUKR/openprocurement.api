@@ -1,9 +1,7 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
-from hashlib import sha512
 from unittest import mock
-from uuid import uuid4
 
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
@@ -33,11 +31,9 @@ from tests.test_tender_config import TenderConfigCSVMixin
 from openprocurement.api.utils import get_now
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
-    BaseCompetitiveDialogUAStage2WebTest,
+    BaseCompetitiveDialogUAWebTest,
     test_tender_cdeu_criteria,
-    test_tender_cdeu_stage2_config,
     test_tender_cdua_criteria,
-    test_tender_cdua_stage2_config,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import (
@@ -60,7 +56,7 @@ bid4 = deepcopy(test_docs_bid4)
 bid2_with_docs = deepcopy(bid2)
 bid2_with_docs_st2 = deepcopy(bid2)
 bid4_with_docs = deepcopy(bid4)
-bid4_with_docs_st2 = deepcopy(bid4)
+bid3_with_docs_st2 = deepcopy(bid3)
 bid_document = deepcopy(test_docs_bid_document)
 bid_document2 = deepcopy(test_docs_bid_document2)
 
@@ -77,7 +73,7 @@ bid4.update(test_docs_qualified)
 bid2_with_docs.update(test_docs_qualified)
 bid2_with_docs_st2.update(test_docs_qualified)
 bid4_with_docs.update(test_docs_qualified)
-bid4_with_docs_st2.update(test_docs_qualified)
+bid3_with_docs_st2.update(test_docs_qualified)
 
 del bid['value']
 del bid2['value']
@@ -97,7 +93,159 @@ TARGET_CSV_DIR = 'docs/source/tendering/competitivedialogue/csv/'
 TARGET_DIR_MULTIPLE = 'docs/source/tendering/competitivedialogue/multiple_lots_tutorial/'
 
 
-class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, TenderConfigCSVMixin):
+class CDStage2Mixin:
+    def create_tender_stage_2(self, pmt="competitiveDialogueEU"):
+        test_tender_data_stage1["tenderPeriod"] = {"endDate": (get_now() + timedelta(days=31)).isoformat()}
+        if pmt:
+            test_tender_data_stage1["procurementMethodType"] = pmt
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1', {'data': test_tender_data_stage1, 'config': self.initial_config}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        # add lots
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id = response.json['data']['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id
+        items[1]["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {'items': items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.set_status("active.tendering")
+
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(tender_id),
+            {
+                'data': {
+                    'status': 'draft',
+                    'selfQualified': True,
+                    'tenderers': bid["tenderers"],
+                    'lotValues': [{'subcontractingDetails': 'ДКП «Орфей», Україна', 'relatedLot': lot_id}],
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid1_token = response.json['access']['token']
+        bid1_id = response.json['data']['id']
+        self.add_sign_doc(
+            self.tender_id,
+            bid1_token,
+            docs_url=f"/bids/{bid1_id}/documents",
+            document_type="proposal",
+        ).json["data"]["id"]
+        self.set_responses(tender_id, response.json, 'pending')
+
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(tender_id),
+            {
+                'data': {
+                    'status': 'draft',
+                    'selfQualified': True,
+                    'tenderers': bid2['tenderers'],
+                    'lotValues': [
+                        {'relatedLot': lot_id},
+                    ],
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid2_id = response.json['data']['id']
+        bid2_token = response.json['access']['token']
+        self.add_sign_doc(
+            self.tender_id,
+            bid2_token,
+            docs_url=f"/bids/{bid2_id}/documents",
+            document_type="proposal",
+        ).json["data"]["id"]
+        self.set_responses(tender_id, response.json, 'pending')
+
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(tender_id),
+            {
+                'data': {
+                    'status': 'draft',
+                    'selfQualified': True,
+                    'tenderers': bid3['tenderers'],
+                    'lotValues': [
+                        {'relatedLot': lot_id},
+                    ],
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid3_id = response.json['data']['id']
+        bid3_token = response.json['access']['token']
+        self.add_sign_doc(
+            self.tender_id,
+            bid3_token,
+            docs_url=f"/bids/{bid3_id}/documents",
+            document_type="proposal",
+        ).json["data"]["id"]
+        self.set_responses(tender_id, response.json, 'pending')
+
+        # switch to active.pre-qualification
+        self.time_shift('active.pre-qualification')
+        self.check_chronograph()
+
+        response = self.app.get('/tenders/{}/qualifications?acc_token={}'.format(self.tender_id, owner_token))
+        self.assertEqual(response.content_type, 'application/json')
+        qualifications = response.json['data']
+
+        for qualification in qualifications:
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], owner_token),
+                {'data': {'status': 'active', 'qualified': True, 'eligible': True}},
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'active')
+
+        self.add_sign_doc(self.tender_id, owner_token, document_type="evaluationReports")
+
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {'data': {'status': 'active.pre-qualification.stand-still'}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        ###### Pending
+
+        self.set_status(
+            'active.stage2.pending', {'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'}
+        )
+        self.check_chronograph()
+
+        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active.stage2.pending')
+
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+            {'data': {'status': 'active.stage2.waiting'}},
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'complete')
+        self.tender_id = response.json['data']['stage2TenderID']
+        response = self.app.patch_json('/tenders/{}/credentials?acc_token={}'.format(self.tender_id, owner_token), {})
+        self.assertEqual(response.status, '200 OK')
+        owner_token = response.json['access']['token']
+        return tender, owner_token, lot_id
+
+
+class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, TenderConfigCSVMixin, CDStage2Mixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -708,38 +856,8 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 {'data': {'status': 'active.stage2.waiting'}},
             )
             self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'active.stage2.waiting')
-
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-
-        test_docs_tender_stage2EU['dialogue_token'] = sha512(owner_token.encode()).hexdigest()
-        test_docs_tender_stage2EU['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
-        lot = deepcopy(test_lots[0])
-        lot["id"] = lot_id = uuid4().hex
-        test_docs_tender_stage2EU["lots"] = [lot]
-        test_docs_tender_stage2EU["items"][0]["relatedLot"] = lot_id
-        test_docs_tender_stage2EU["items"][1]["relatedLot"] = lot_id
-        response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': test_docs_tender_stage2EU, 'config': test_tender_cdeu_stage2_config}
-        )
-        self.assertEqual(response.status, '201 Created')
-        new_tender_id = response.json['data']['id']
-        self.new_tender_token = response.json['access']['token']
-
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(new_tender_id, self.new_tender_token),
-            {'data': {'status': 'draft.stage2'}},
-        )
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'draft.stage2')
-
-        self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
-            {'data': {'stage2TenderID': new_tender_id, 'status': 'complete'}},
-        )
-
-        self.app.authorization = auth
+            self.assertEqual(response.json['data']['status'], 'complete')
+            new_tender_id = response.json["data"]["stage2TenderID"]
 
         with open(TARGET_DIR + 'tender_stage1_complete.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token))
@@ -767,37 +885,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 self.assertEqual(response.json['data']['status'], 'active.tendering')
 
     def test_stage2_EU(self):
-        request_path = '/tenders?opt_pretty=1'
-
-        #### Creating tender
-
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-
-        test_docs_tender_stage2EU['dialogue_token'] = sha512(b"super_secret_token").hexdigest()
-        test_docs_tender_stage2EU['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
-        lot = deepcopy(test_lots[0])
-        lot["id"] = lot_id = uuid4().hex
-        test_docs_tender_stage2EU["lots"] = [lot]
-        test_docs_tender_stage2EU["items"][0]["relatedLot"] = lot_id
-        test_docs_tender_stage2EU["items"][1]["relatedLot"] = lot_id
-        for firm in test_docs_tender_stage2EU['shortlistedFirms']:
-            firm['lots'] = [{'id': lot_id}]
-
-        response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': test_docs_tender_stage2EU, 'config': test_tender_cdeu_stage2_config}
-        )
-        self.assertEqual(response.status, '201 Created')
-        self.tender_id = response.json['data']['id']
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token), {'data': {'status': 'draft.stage2'}}
-        )
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'draft.stage2')
-
-        self.app.authorization = ('Basic', ('broker', ''))
+        tender, owner_token, lot_id = self.create_tender_stage_2()
 
         #### Modifying tender
 
@@ -1235,22 +1323,25 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 'confidentialityRationale': 'Only our company sells badgers with pink hair.',
             }
         )
-        bid4_with_docs_st2["documents"] = [bid_document, bid_document2]
-        bid4_with_docs_st2["eligibilityDocuments"] = [test_docs_bid_document3_eligibility]
-        bid4_with_docs_st2["financialDocuments"] = [test_docs_bid_document4_financialy]
-        bid4_with_docs_st2["qualificationDocuments"] = [test_docs_bid_document5_qualification]
-        for document in bid4_with_docs_st2['documents']:
+        bid3_with_docs_st2["documents"] = [bid_document, bid_document2]
+        bid3_with_docs_st2["eligibilityDocuments"] = [test_docs_bid_document3_eligibility]
+        bid3_with_docs_st2["financialDocuments"] = [test_docs_bid_document4_financialy]
+        bid3_with_docs_st2["qualificationDocuments"] = [test_docs_bid_document5_qualification]
+        for document in bid3_with_docs_st2['documents']:
             document['url'] = self.generate_docservice_url()
-        for document in bid4_with_docs_st2['eligibilityDocuments']:
+        for document in bid3_with_docs_st2['eligibilityDocuments']:
             document['url'] = self.generate_docservice_url()
-        for document in bid4_with_docs_st2['financialDocuments']:
+        for document in bid3_with_docs_st2['financialDocuments']:
             document['url'] = self.generate_docservice_url()
-        for document in bid4_with_docs_st2['qualificationDocuments']:
+        for document in bid3_with_docs_st2['qualificationDocuments']:
             document['url'] = self.generate_docservice_url()
 
         with open(TARGET_DIR + 'stage2/EU/register-3rd-bidder.http', 'w') as self.app.file_obj:
-            set_bid_lotvalues(bid4_with_docs_st2, tender_lots)
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid4_with_docs_st2})
+            set_bid_lotvalues(bid3_with_docs_st2, tender_lots)
+            print(bid3_with_docs_st2)
+            print(tender_lots)
+            print(tender["shortlistedFirms"])
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid3_with_docs_st2})
             bid3_id = response.json['data']['id']
             bids_access[bid3_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
@@ -1622,24 +1713,23 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         ).json["data"]["id"]
         self.set_responses(tender_id, response.json, 'pending')
 
-        with open(TARGET_DIR_MULTIPLE + 'bid-lot2.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/bids'.format(tender_id),
-                {
-                    'data': {
-                        'status': 'draft',
-                        'selfQualified': True,
-                        'tenderers': bid3['tenderers'],
-                        'lotValues': [
-                            {'relatedLot': lot_id1},
-                            {'subcontractingDetails': 'ДКП «Укр Прінт», Україна', 'relatedLot': lot_id2},
-                        ],
-                    }
-                },
-            )
-            self.assertEqual(response.status, '201 Created')
-            bid3_id = response.json['data']['id']
-            bid3_token = response.json['access']['token']
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(tender_id),
+            {
+                'data': {
+                    'status': 'draft',
+                    'selfQualified': True,
+                    'tenderers': bid3['tenderers'],
+                    'lotValues': [
+                        {'relatedLot': lot_id1},
+                        {'subcontractingDetails': 'ДКП «Укр Прінт», Україна', 'relatedLot': lot_id2},
+                    ],
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid3_id = response.json['data']['id']
+        bid3_token = response.json['access']['token']
         doc3_id = self.add_sign_doc(
             self.tender_id,
             bid3_token,
@@ -1689,7 +1779,15 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR_MULTIPLE + 'bid-lot2-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid2_id, bid2_token),
-                {'data': {'lotValues': [{'relatedLot': lot_id1}], 'status': 'pending'}},
+                {
+                    'data': {
+                        'lotValues': [
+                            {'relatedLot': lot_id1},
+                            {'subcontractingDetails': 'ДКП «Укр Прінт», Україна', 'relatedLot': lot_id2},
+                        ],
+                        'status': 'pending',
+                    }
+                },
             )
 
         self.add_sign_doc(
@@ -1702,10 +1800,41 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR_MULTIPLE + 'bid-lot3-update-view.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid3_id, bid3_token),
-                {'data': {'lotValues': [{'relatedLot': lot_id1}], 'status': 'pending'}},
+                {
+                    'data': {
+                        'lotValues': [
+                            {'subcontractingDetails': 'ДКП «Укр Прінт», Україна', 'relatedLot': lot_id2},
+                            {'relatedLot': lot_id1},
+                        ],
+                        'status': 'pending',
+                    }
+                },
             )
 
             self.assertEqual(response.status, '200 OK')
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(tender_id),
+            {
+                'data': {
+                    'status': 'draft',
+                    'selfQualified': True,
+                    'tenderers': bid4['tenderers'],
+                    'lotValues': [
+                        {'subcontractingDetails': 'ДКП «Укр Прінт», Україна', 'relatedLot': lot_id2},
+                    ],
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid4_id = response.json['data']['id']
+        bid4_token = response.json['access']['token']
+        self.add_sign_doc(
+            self.tender_id,
+            bid4_token,
+            docs_url=f"/bids/{bid4_id}/documents",
+            document_type="proposal",
+        ).json["data"]["id"]
+        self.set_responses(tender_id, response.json, 'pending')
         # switch to active.pre-qualification
         self.time_shift('active.pre-qualification')
         self.check_chronograph()
@@ -1738,6 +1867,27 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         response = self.app.patch_json(
             '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[2]['id'], owner_token),
+            {'data': {'status': 'active', 'qualified': True, 'eligible': True}},
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.patch_json(
+            '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[3]['id'], owner_token),
+            {'data': {'status': 'active', 'qualified': True, 'eligible': True}},
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.patch_json(
+            '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[4]['id'], owner_token),
+            {'data': {'status': 'active', 'qualified': True, 'eligible': True}},
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json['data']['status'], 'active')
+
+        response = self.app.patch_json(
+            '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualifications[5]['id'], owner_token),
             {'data': {'status': 'active', 'qualified': True, 'eligible': True}},
         )
         self.assertEqual(response.status, '200 OK')
@@ -1777,37 +1927,12 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 {'data': {'status': 'active.stage2.waiting'}},
             )
             self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'active.stage2.waiting')
-
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-
-        response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token))
-        # Update firms after adding lots
-        test_tender_data_stage2_multiple_lots['lots'] = response.json['data']['lots']
-        for l in test_tender_data_stage2_multiple_lots['lots']:
-            del l["status"]
-        test_tender_data_stage2_multiple_lots['items'] = response.json['data']['items']
-        test_tender_data_stage2_multiple_lots['shortlistedFirms'][0]['lots'] = [{'id': lot_id1}]
-        test_tender_data_stage2_multiple_lots['shortlistedFirms'][1]['lots'] = [{'id': lot_id1}, {'id': lot_id2}]
-        test_tender_data_stage2_multiple_lots['shortlistedFirms'][2]['lots'] = [{'id': lot_id1}, {'id': lot_id2}]
-
-        test_tender_data_stage2_multiple_lots['dialogue_token'] = sha512(owner_token.encode()).hexdigest()
-        test_tender_data_stage2_multiple_lots['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
-        response = self.app.post_json(
-            '/tenders?opt_pretty=1',
-            {'data': test_tender_data_stage2_multiple_lots, 'config': test_tender_cdeu_stage2_config},
-        )
-        self.assertEqual(response.status, '201 Created')
-        new_tender_id = response.json['data']['id']
+            self.assertEqual(response.json['data']['status'], 'complete')
+            new_tender_id = response.json['data']['stage2TenderID']
+        response = self.app.patch_json('/tenders/{}/credentials?acc_token={}'.format(new_tender_id, owner_token), {})
+        self.assertEqual(response.status, '200 OK')
         self.new_tender_token = response.json['access']['token']
 
-        self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
-            {'data': {'stage2TenderID': new_tender_id, 'status': 'complete'}},
-        )
-
-        self.app.authorization = auth
         with open(TARGET_DIR_MULTIPLE + 'tender_stage1_complete.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token))
             self.assertEqual(response.status, '200 OK')
@@ -1913,7 +2038,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             )
 
 
-class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTestMixin):
+class TenderResourceTestStage2UA(BaseCompetitiveDialogUAWebTest, MockWebTestMixin, CDStage2Mixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -1934,31 +2059,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
 
         #### Exploring basic rules
 
-        self.app.authorization = ('Basic', ('competitive_dialogue', ''))
-
-        test_docs_tender_stage2UA['dialogue_token'] = sha512(b"super_secret_token").hexdigest()
-        test_docs_tender_stage2UA['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
-        lot = deepcopy(test_lots[0])
-        lot["id"] = lot_id = uuid4().hex
-        test_docs_tender_stage2UA["lots"] = [lot]
-        test_docs_tender_stage2UA["items"][0]["relatedLot"] = lot_id
-        for firm in test_docs_tender_stage2UA['shortlistedFirms']:
-            firm['lots'] = [{'id': lot_id}]
-        response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': test_docs_tender_stage2UA, 'config': test_tender_cdua_stage2_config}
-        )
-        self.assertEqual(response.status, '201 Created')
-        self.tender_id = response.json['data']['id']
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token), {'data': {'status': 'draft.stage2'}}
-        )
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['status'], 'draft.stage2')
-
-        self.app.authorization = ('Basic', ('broker', ''))
+        tender, owner_token, lot_id = self.create_tender_stage_2()
 
         #### Modifying tender
 

@@ -437,7 +437,7 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         data = deepcopy(self.initial_data)
         data["owner"] = self.first_owner
         config = self.initial_config
-        with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+        with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json("/tenders", {"data": data, "config": config})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -527,7 +527,7 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         data = deepcopy(self.initial_data)
         data["owner"] = self.first_owner
         config = self.initial_config
-        with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+        with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json("/tenders", {"data": data, "config": config})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

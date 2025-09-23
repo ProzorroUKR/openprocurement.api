@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067?acc_token=7c2c64030510420cac054902f901f0ea HTTP/1.0
+PATCH /api/2.5/tenders/63f6240986e249dd8322133f0b7b7122?acc_token=2182f06aeee14e949d1047d91b89268d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -22,7 +22,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000016-a.2",
+    "tenderID": "UA-2023-10-10-000001-a.2",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
@@ -37,7 +37,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "48bd8a7458e346f1beeb61941fa097f0",
+        "id": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "currency": "UAH",
@@ -99,9 +99,10 @@ Content-Type: application/json
       "endDate": "2023-11-06T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
+    "dialogueID": "fd33fd5b39064a0aa259b9166d21c51e",
     "items": [
       {
-        "id": "df93f16269c1459498258425b39d385a",
+        "id": "179a3c6724694765b74df4ad81d52bf9",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -111,7 +112,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+        "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -140,7 +141,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "eb0caecc9b504e399758fdab06249c11",
+        "id": "98c3bc5a0ecd44d19fa05700628bd3a6",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -150,7 +151,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+        "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -184,12 +185,13 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Школяр»",
         "lots": [
           {
-            "id": "48bd8a7458e346f1beeb61941fa097f0"
+            "id": "1a0adfbe4ac4403796c2a35d1efaf96b"
           }
         ]
       },
@@ -197,31 +199,32 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Книга»",
         "lots": [
           {
-            "id": "48bd8a7458e346f1beeb61941fa097f0"
+            "id": "1a0adfbe4ac4403796c2a35d1efaf96b"
           }
         ]
       },
       {
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137228",
+          "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "«Кенгуру»",
+        "name": "«Снігур»",
         "lots": [
           {
-            "id": "48bd8a7458e346f1beeb61941fa097f0"
+            "id": "1a0adfbe4ac4403796c2a35d1efaf96b"
           }
         ]
       }
     ],
     "status": "draft.stage2",
-    "id": "1ee782bb9bb14b8e92d250a14317d067"
+    "id": "63f6240986e249dd8322133f0b7b7122"
   },
   "config": {
     "hasAuction": true,

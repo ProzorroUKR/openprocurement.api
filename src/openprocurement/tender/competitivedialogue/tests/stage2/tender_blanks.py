@@ -2,6 +2,8 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
 
+from freezegun import freeze_time
+
 from openprocurement.api.constants import ROUTE_PREFIX, TZ
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -12,11 +14,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central as create_tender_central_base,
 )
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_EU_TYPE,
-    CD_UA_TYPE,
-    STAGE2_STATUS,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE2_STATUS
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
@@ -30,192 +29,12 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 # CompetitiveDialogStage2EUResourceTest
-def create_tender_invalid_eu(self):
-    request_path = "/tenders"
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-
-    self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_EU_TYPE, "invalid_field": "invalid_value"}}, status=403
-    )
-    self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_EU_TYPE, "value": "invalid_value"}}, status=403
-    )
-    self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_EU_TYPE, "procurementMethod": "invalid_value"}}, status=403
-    )
-    self.app.post_json(
-        request_path,
-        {"data": {"procurementMethodType": CD_EU_TYPE, "enquiryPeriod": {"endDate": "invalid_value"}}},
-        status=403,
-    )
-    self.app.post_json(
-        request_path,
-        {"data": {"procurementMethodType": CD_EU_TYPE, "enquiryPeriod": {"endDate": "9999-12-31T23:59:59.999999"}}},
-        status=403,
-    )
-
-    self.initial_data["tenderPeriod"] = {"startDate": "2014-10-31T00:00:00", "endDate": "2014-10-01T00:00:00"}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    del self.initial_data["tenderPeriod"]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": {"startDate": ["period should begin before its end"]},
-                "location": "body",
-                "name": "tenderPeriod",
-            }
-        ],
-    )
-
-    data = {"amount": "15", "currency": "UAH"}
-    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Tender minimal step valueAddedTaxIncluded should be identical to tender valueAddedTaxIncluded",
-                "location": "body",
-                "name": "minimalStep.valueAddedTaxIncluded",
-            }
-        ],
-    )
-
-    data = self.initial_data["minimalStep"]
-    self.initial_data["minimalStep"] = {"amount": "100.0", "currency": "USD"}
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Tender minimal step currency should be identical to tender currency",
-                "location": "body",
-                "name": "minimalStep.currency",
-            }
-        ],
-    )
-
-    data = self.initial_data["items"][0]["additionalClassifications"][0]["scheme"]
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = "Не ДКПП"
-    cpv_code = self.initial_data["items"][0]["classification"]["id"]
-    self.initial_data["items"][0]["classification"]["id"] = "99999999-9"
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = data
-    self.initial_data["items"][0]["classification"]["id"] = cpv_code
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": [
-                    {
-                        "additionalClassifications": [
-                            "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
-                        ]
-                    }
-                ],
-                "location": "body",
-                "name": "items",
-            }
-        ],
-    )
-
-    addit_classif = [
-        {"scheme": "INN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"},
-        {"scheme": "INN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"},
-        {"scheme": "NotINN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"},
-    ]
-    data = self.initial_data["items"][0]["classification"]["id"]
-    self.initial_data["items"][0]["classification"]["id"] = "33611000-6"
-    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
-    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
-    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
-    self.initial_data["items"][0]["classification"]["id"] = data
-    self.assertEqual(response.status, "201 Created")
-
-    data = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
-    del self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": {"contactPoint": {"email": ["telephone or email should be present"]}},
-                "location": "body",
-                "name": "procuringEntity",
-            }
-        ],
-    )
-    correct_phone = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
-    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = "++223"
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = correct_phone
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
-            }
-        ],
-    )
-
-    data = self.initial_data["items"][0].copy()
-    classification = data["classification"].copy()
-    classification["id"] = "19212310-1"
-    data["classification"] = classification
-    item = deepcopy(self.initial_data["items"][0])
-    self.initial_data["items"] = [item, data]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["items"] = self.initial_data["items"][:1]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["CPV class of items (1921, 4461) should be identical"], "location": "body", "name": "items"}],
-    )
-
-    data = deepcopy(self.initial_data)
-    del data["items"][0]["deliveryDate"]
-    response = self.app.post_json(request_path, {"data": data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": [{"deliveryDate": ["This field is required."]}], "location": "body", "name": "items"}],
-    )
-
-
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
     mock.Mock(return_value={}),
 )
 def patch_tender_eu(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
@@ -333,189 +152,12 @@ def empty_listing_ua(self):
     self.assertIn("limit=10", response.json["prev_page"]["uri"])
 
 
-def create_tender_invalid_ua(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-    request_path = "/tenders"
-    response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_UA_TYPE, "invalid_field": "invalid_value"}}, status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-
-    response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_UA_TYPE, "value": "invalid_value"}}, status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-
-    response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": CD_UA_TYPE, "procurementMethod": "invalid_value"}}, status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-
-    response = self.app.post_json(
-        request_path,
-        {"data": {"procurementMethodType": CD_UA_TYPE, "enquiryPeriod": {"endDate": "invalid_value"}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-
-    response = self.app.post_json(
-        request_path,
-        {"data": {"procurementMethodType": CD_UA_TYPE, "enquiryPeriod": {"endDate": "9999-12-31T23:59:59.999999"}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-
-    data = {"amount": "15.0", "currency": "UAH"}
-    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Tender minimal step valueAddedTaxIncluded should be identical to tender valueAddedTaxIncluded",
-                "location": "body",
-                "name": "minimalStep.valueAddedTaxIncluded",
-            }
-        ],
-    )
-
-    data = self.initial_data["minimalStep"]
-    self.initial_data["minimalStep"] = {"amount": "100.0", "currency": "USD"}
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Tender minimal step currency should be identical to tender currency",
-                "location": "body",
-                "name": "minimalStep.currency",
-            }
-        ],
-    )
-
-    data = self.initial_data["items"][0]["additionalClassifications"][0]["scheme"]
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = "Не ДКПП"
-    cpv_code = self.initial_data["items"][0]["classification"]["id"]
-    self.initial_data["items"][0]["classification"]["id"] = "99999999-9"
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["items"][0]["additionalClassifications"][0]["scheme"] = data
-    self.initial_data["items"][0]["classification"]["id"] = cpv_code
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": [
-                    {
-                        "additionalClassifications": [
-                            "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
-                        ]
-                    }
-                ],
-                "location": "body",
-                "name": "items",
-            }
-        ],
-    )
-
-    addit_classif = [
-        {"scheme": "INN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"},
-        {"scheme": "INN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"},
-        {"scheme": "NotINN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"},
-    ]
-    data = self.initial_data["items"][0]["classification"]["id"]
-    self.initial_data["items"][0]["classification"]["id"] = "33611000-6"
-    orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
-    self.initial_data["items"][0]["additionalClassifications"] = addit_classif
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
-    self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
-    self.initial_data["items"][0]["classification"]["id"] = data
-    self.assertEqual(response.status, "201 Created")
-
-    data = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
-    del self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": {"contactPoint": {"email": ["telephone or email should be present"]}},
-                "location": "body",
-                "name": "procuringEntity",
-            }
-        ],
-    )
-    correct_phone = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
-    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = "++223"
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = correct_phone
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
-            }
-        ],
-    )
-
-    data = self.initial_data["items"][0].copy()
-    classification = data["classification"].copy()
-    classification["id"] = "19212310-1"
-    data["classification"] = classification
-    item = deepcopy(self.initial_data["items"][0])
-    self.initial_data["items"] = [item, data]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["items"] = self.initial_data["items"][:1]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["CPV class of items (1921, 4461) should be identical"], "location": "body", "name": "items"}],
-    )
-
-    data = deepcopy(self.initial_data)
-    del data["items"][0]["deliveryDate"]["endDate"]
-    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": [{"deliveryDate": {"endDate": ["This field is required."]}}],
-                "location": "body",
-                "name": "items",
-            }
-        ],
-    )
-
-
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
     mock.Mock(return_value={}),
 )
 def patch_tender_ua(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
@@ -573,7 +215,7 @@ def patch_tender_ua(self):
 
 
 def create_tender_invalid_config(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     request_path = "/tenders"
     config = deepcopy(self.initial_config)
     config.update({"minBidsNumber": 0})
@@ -610,7 +252,7 @@ def create_tender_invalid_config(self):
 
 # CompetitiveDialogStage2ResourceTest
 def listing(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -716,7 +358,7 @@ def listing(self):
 
     test_tender_data_2 = self.initial_data.copy()
     test_tender_data_2["mode"] = "test"
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
         "/tenders",
         {
@@ -740,7 +382,7 @@ def listing(self):
 
 
 def listing_draft(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -788,7 +430,7 @@ def listing_draft(self):
 
 
 def tender_not_found(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -809,8 +451,8 @@ def tender_not_found(self):
 
 
 def invalid_procurementMethod(self):
-    """Create create or edit field procurementMethod second stage"""
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    """Edit field procurementMethod second stage"""
+    self.app.authorization = ("Basic", ("token", ""))
     data = deepcopy(self.initial_data)
     del data["procurementMethod"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -821,6 +463,7 @@ def invalid_procurementMethod(self):
     self.assertEqual(response.json["data"]["procurementMethod"], "selective")
 
     add_criteria(self, tender["id"], token)
+    self.set_tender_status(tender, token, "draft.stage2")
     # Try edit
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
@@ -830,21 +473,12 @@ def invalid_procurementMethod(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "procurementMethod", "description": "procurementMethod should be selective"}],
-    )
-
-    # Try create and send wrong procurementMethod
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-    data["procurementMethod"] = "open"
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "procurementMethod", "description": "procurementMethod should be selective"}],
+        [{"location": "body", "name": "procurementMethod", "description": "Field change's not allowed"}],
     )
 
 
 def listing_changes(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders?feed=changes")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -950,7 +584,7 @@ def listing_changes(self):
 
 
 def create_tender(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -969,7 +603,6 @@ def create_tender(self):
             "dateModified",
             "dateCreated",
             "enquiryPeriod",
-            "tenderPeriod",
             "complaintPeriod",
             "awardCriteria",
             "submissionMethod",
@@ -1082,7 +715,7 @@ def tender_funders(self):
 
 
 def tender_features_invalid(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     data = self.initial_data.copy()
     item = data["items"][0].copy()
     item["id"] = "1"
@@ -1227,7 +860,7 @@ def tender_features_invalid(self):
 
 
 def get_tender(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -1294,7 +927,7 @@ def create_tender_with_non_required_unit(self):
 
 
 def tender_features(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     data = self.initial_data.copy()
     item = data["items"][0].copy()
     item["id"] = "1"
@@ -1345,7 +978,7 @@ def tender_features(self):
     mock.Mock(return_value={}),
 )
 def patch_tender_1(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -1462,7 +1095,7 @@ def patch_tender_1(self):
 
 
 def dateModified_tender(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -1485,7 +1118,7 @@ def dateModified_tender(self):
 
 
 def guarantee(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     data = deepcopy(self.initial_data)
     data["guarantee"] = {"amount": 55}
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -1509,7 +1142,7 @@ def guarantee(self):
 
 
 def tender_Administrator_change(self):
-    with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+    with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
@@ -1524,12 +1157,14 @@ def tender_Administrator_change(self):
     identifier = tender_db["shortlistedFirms"][0]["identifier"]
     self.test_bids_data[0]["tenderers"][0]["identifier"]["id"] = identifier["id"]
     self.test_bids_data[0]["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
-    response = self.app.post_json(
-        "/tenders/{}/questions".format(tender["id"]),
-        {"data": {"title": "question title", "description": "question description", "author": self.author_data}},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
+    enquiry_period_start = dt_from_iso(tender["enquiryPeriod"]["startDate"])
+    with freeze_time(enquiry_period_start.isoformat()):
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(tender["id"]),
+            {"data": {"title": "question title", "description": "question description", "author": self.author_data}},
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
     question = response.json["data"]
 
     pq_entity = deepcopy(tender["procuringEntity"])
@@ -1553,7 +1188,7 @@ def tender_Administrator_change(self):
             response.json["errors"], [{"location": "url", "name": "permission", "description": "Forbidden"}]
         )
 
-    with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+    with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
@@ -1582,7 +1217,7 @@ def tender_Administrator_change(self):
 
 
 def patch_not_author(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
 
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
@@ -1630,7 +1265,7 @@ def invalid_tender_conditions(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.json["data"], [])
 
-    with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+    with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.post_json("/tenders", {"data": self.test_tender_data_ua, "config": self.initial_config})
         tender_id = self.tender_id = response.json["data"]["id"]
         owner_token = self.tender_token = response.json["access"]["token"]
@@ -1661,7 +1296,7 @@ def one_valid_bid_tender_ua(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.json["data"], [])
     # create tender
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json("/tenders", {"data": self.test_tender_data_ua, "config": self.initial_config})
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
@@ -1701,7 +1336,7 @@ def one_invalid_and_1draft_bids_tender(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.json["data"], [])
     # create tender
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json("/tenders", {"data": self.test_tender_data_ua, "config": self.initial_config})
     tender = response.json["data"]
     tender_id = self.tender_id = tender["id"]
@@ -1741,7 +1376,7 @@ def first_bid_tender(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.json["data"], [])
     # create tender
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json("/tenders", {"data": self.test_tender_data_ua, "config": self.initial_config})
     tender = response.json["data"]
     tender_id = self.tender_id = tender["id"]
@@ -1845,12 +1480,12 @@ def first_bid_tender(self):
 
 def tender_milestones_not_required(self):
     data = deepcopy(self.initial_data)
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     data["milestones"] = []
 
     self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
 
 
 def create_tender_central(self):
-    with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+    with change_auth(self.app, ("Basic", ("token", ""))):
         create_tender_central_base(self)

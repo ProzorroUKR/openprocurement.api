@@ -970,6 +970,8 @@ Content-Type: application/json
           }
         ],
         "id": "bef46d74750b4f74b30d46b87c69df0c",
+        "date": "2023-10-10T01:03:00+03:00",
+        "submissionDate": "2023-10-10T01:03:00+03:00",
         "tenderers": [
           {
             "name": "Школяр",
@@ -1005,7 +1007,8 @@ Content-Type: application/json
         "lotValues": [
           {
             "relatedLot": "ad1db171228241499c0b61c8c29f611e",
-            "status": "active"
+            "status": "active",
+            "date": "2023-10-10T01:03:00+03:00"
           }
         ],
         "documents": [
@@ -1044,7 +1047,6 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "DescriptiveProposal.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/bef46d74750b4f74b30d46b87c69df0c/documents/0f65f65495124536a21d8afdc065c368?download=d55cf7685594417eafcd6a81cf099e54",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
             "language": "uk",
@@ -1058,7 +1060,6 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/bef46d74750b4f74b30d46b87c69df0c/documents/adcd26cc4b474909bbc3810dc6ebcfa0?download=8b781eec9f744181a275c6919de639dc",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
             "language": "uk",
@@ -1079,6 +1080,8 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
+        "subcontractingDetails": "ДКП «Орфей», Україна",
+        "selfQualified": true,
         "status": "active"
       },
       {
@@ -1231,6 +1234,7 @@ Content-Type: application/json
           }
         ],
         "id": "b63db23cfe7147aba4fde01651dc573b",
+        "date": "2023-10-10T01:03:00+03:00",
         "tenderers": [
           {
             "name": "ДКП «Книга»",
@@ -1266,7 +1270,8 @@ Content-Type: application/json
         "lotValues": [
           {
             "relatedLot": "ad1db171228241499c0b61c8c29f611e",
-            "status": "active"
+            "status": "active",
+            "date": "2023-10-10T01:03:00+03:00"
           }
         ],
         "documents": [
@@ -1285,7 +1290,9 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "status": "active"
+        "selfQualified": true,
+        "status": "active",
+        "submissionDate": "2023-10-10T01:03:00+03:00"
       },
       {
         "requirementResponses": [
@@ -1643,6 +1650,7 @@ Content-Type: application/json
           }
         ],
         "id": "19275a9d05654013b82b1d96a4d035f6",
+        "date": "2023-10-10T01:03:00+03:00",
         "tenderers": [
           {
             "name": "«Кенгуру»",
@@ -1677,7 +1685,8 @@ Content-Type: application/json
         "lotValues": [
           {
             "relatedLot": "ad1db171228241499c0b61c8c29f611e",
-            "status": "active"
+            "status": "active",
+            "date": "2023-10-10T01:03:00+03:00"
           }
         ],
         "documents": [
@@ -1702,7 +1711,6 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/19275a9d05654013b82b1d96a4d035f6/documents/0a3996c6d56d4540a2c1007b7b1a83dc?download=0949e250dfc14f529d528e285cbde095",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk",
@@ -1723,7 +1731,9 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "status": "active"
+        "selfQualified": true,
+        "status": "active",
+        "submissionDate": "2023-10-10T01:03:00+03:00"
       }
     ],
     "questions": [
@@ -1942,7 +1952,7 @@ Content-Type: application/json
     },
     "procurementMethodType": "competitiveDialogueEU",
     "mainProcurementCategory": "services",
-    "status": "active.stage2.waiting",
+    "status": "complete",
     "items": [
       {
         "id": "17b92a59d0db4fb28c7cde663fc37352",
@@ -2042,6 +2052,7 @@ Content-Type: application/json
         }
       }
     ],
+    "stage2TenderID": "e5aef484694a4145a50462500e11fbbe",
     "id": "e01d495b72a74a27ae9a485bbdccc84a"
   },
   "config": {
