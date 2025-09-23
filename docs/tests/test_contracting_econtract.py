@@ -206,6 +206,9 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'example-contract.http', 'w') as self.app.file_obj:
             self.app.get(f'/tenders/{tender_id}/contracts/{self.contract_id}')
 
+        with open(TARGET_DIR + 'contract-list.http', 'w') as self.app.file_obj:
+            self.app.get(f'/contracts?opt_fields=status')
+
         with open(TARGET_DIR + 'contract-view.http', 'w') as self.app.file_obj:
             response = self.app.get(f'/contracts/{self.contract_id}')
             self.contract = response.json["data"]

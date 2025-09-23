@@ -3,8 +3,20 @@
 Tutorial
 ========
 
+Загальна картина
+----------------
+
+Процес визначення переможця відбувається на майданчиках 1-4 рівнів акредитації.
+
+Процес електронного контракту відбувається на майданчиках 6 рівня акредитації.
+
+.. image:: /contracting/econtract/diagram/activity/image.png
+
 Передумови
 ----------
+
+Вимоги до тендеру
+~~~~~~~~~~~~~~~~~
 
 Для електронних контрактів тендер має відповідати наступним вимогам
 
@@ -93,6 +105,13 @@ Contract in the tender system
 
 *Contract id is the same in both tender and contract system.*
 
+Let’s see what listing of contracts in contracting module reveals us:
+
+.. http:example:: http/contract-list.http
+   :code:
+
+
+
 Let's access the URL of the created object:
 
 .. http:example:: http/contract-view.http
@@ -167,7 +186,7 @@ Requirements for signing:
 
 Here is a diagram of the signing process:
 
-.. image:: /contracting/econtract/diagram/e_contract_pdf_signing/sequence.png
+.. image:: /contracting/econtract/diagram/e_contract_pdf_signing/image.png
 
 If both sides signed the current version of contract, than contract becomes `active`.
 

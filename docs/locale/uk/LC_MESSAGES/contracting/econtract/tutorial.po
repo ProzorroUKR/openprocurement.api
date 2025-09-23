@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-22 15:07+0300\n"
+"POT-Creation-Date: 2025-09-23 13:18+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -22,7 +22,19 @@ msgstr ""
 msgid "Tutorial"
 msgstr "Туторіал"
 
+msgid "Загальна картина"
+msgstr ""
+
+msgid "Процес визначення переможця відбувається на майданчиках 1-4 рівнів акредитації."
+msgstr ""
+
+msgid "Процес електронного контракту відбувається на майданчиках 6 рівня акредитації."
+msgstr ""
+
 msgid "Передумови"
+msgstr ""
+
+msgid "Вимоги до тендеру"
 msgstr ""
 
 msgid "Для електронних контрактів тендер має відповідати наступним вимогам"
@@ -126,6 +138,9 @@ msgstr "Договір в системі закупівель"
 
 msgid "*Contract id is the same in both tender and contract system.*"
 msgstr "*Ідентифікатор `id` договору однаковий в системах закупівель та договорів.*"
+
+msgid "Let’s see what listing of contracts in contracting module reveals us:"
+msgstr ""
 
 msgid "Let's access the URL of the created object:"
 msgstr "Спробуємо отримати створений об’єкт по URL:"
