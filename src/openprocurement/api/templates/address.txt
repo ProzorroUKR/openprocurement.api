@@ -1,1 +1,0 @@
-{{ address.streetAddress }}, {{ address.locality }}, {{ address.region }}, {{ address.postalCode }}, {{ address.countryName }}

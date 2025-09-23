@@ -1,6 +1,0 @@
-Заголовок: {{ doc.title }}
-Ідентифікатор в апі: {{ doc.id }}
-Хеш: {{ doc.hash }}
-Формат: {{ doc.format }}
-Опубліковано вперше: {{ doc.datePublished }}
-Оновлено: {{ doc.dateModified }}
