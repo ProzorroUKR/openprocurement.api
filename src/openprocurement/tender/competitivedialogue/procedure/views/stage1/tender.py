@@ -25,9 +25,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_de
     CDEUStage1TenderDetailsState,
     CDUAStage1TenderDetailsState,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import (
-    unless_cd_bridge,
-)
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_change_status_with_cancellation_lot_pending,
@@ -70,7 +67,7 @@ class CDEUTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft",
@@ -128,7 +125,7 @@ class CDUATenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft",

@@ -1,7 +1,6 @@
-from typing import List, Optional, Tuple
+from typing import Optional
 
 from cornice.resource import resource
-from pyramid.security import Allow
 
 from openprocurement.api.procedure.validation import (
     unless_administrator,
@@ -18,33 +17,18 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.procedure.state.criterion import (
     CDCriterionState,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import (
-    unless_cd_bridge,
-)
-from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion import (
-    BaseCDCriterionResource,
-)
 from openprocurement.tender.core.procedure.models.criterion import (
     Criterion,
     PatchCriterion,
 )
+from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 
 
-class BaseStage2CriterionResource(BaseCDCriterionResource):
-    def __acl__(self) -> List[Tuple[str, str, str]]:
-        acl = super().__acl__()
-        acl.extend(
-            [
-                (Allow, "g:competitive_dialogue", "create_criterion"),
-                (Allow, "g:competitive_dialogue", "edit_criterion"),
-            ]
-        )
-        return acl
-
+class BaseStage2CriterionResource(BaseCriterionResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             validate_input_data(Criterion, allow_bulk=True),
         ),
         permission="create_criterion",
@@ -55,7 +39,7 @@ class BaseStage2CriterionResource(BaseCDCriterionResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             validate_input_data(PatchCriterion),
             validate_patch_data_simple(Criterion, "criterion"),
         ),

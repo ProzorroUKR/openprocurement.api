@@ -17,23 +17,20 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import (
     CDRequirementGroupState,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import (
-    unless_cd_bridge,
-)
-from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg import (
-    BaseCDRequirementGroupResource,
-)
 from openprocurement.tender.core.procedure.models.criterion import (
     PatchRequirementGroup,
     RequirementGroup,
 )
+from openprocurement.tender.core.procedure.views.criterion_rg import (
+    BaseRequirementGroupResource,
+)
 
 
-class BaseStage2RequirementGroupResource(BaseCDRequirementGroupResource):
+class BaseStage2RequirementGroupResource(BaseRequirementGroupResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             validate_input_data(RequirementGroup),
         ),
         permission="create_rg",
@@ -44,7 +41,7 @@ class BaseStage2RequirementGroupResource(BaseCDRequirementGroupResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             validate_input_data(PatchRequirementGroup),
             validate_patch_data_simple(RequirementGroup, "requirement_group"),
         ),

@@ -30,7 +30,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDUAStage2TenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import (
-    unless_cd_bridge,
     validate_cd2_allowed_patch_fields,
 )
 from openprocurement.tender.core.procedure.serializers.tender import (
@@ -83,7 +82,7 @@ class TenderStage2UEResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft.stage2",
@@ -93,9 +92,7 @@ class TenderStage2UEResource(TendersResource):
                 )
             ),
             validate_input_data(PatchEUTender, none_means_remove=True),
-            unless_administrator(
-                unless_cd_bridge(validate_cd2_allowed_patch_fields)
-            ),  # TODO make models only allow these fields
+            unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
             validate_patch_data_simple(EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
         ),
@@ -138,7 +135,7 @@ class TenderStage2UAResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft.stage2",
@@ -148,9 +145,7 @@ class TenderStage2UAResource(TendersResource):
                 )
             ),
             validate_input_data(PatchUATender, none_means_remove=True),
-            unless_administrator(
-                unless_cd_bridge(validate_cd2_allowed_patch_fields)
-            ),  # TODO make models only allow these fields
+            unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
             validate_patch_data_simple(UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
         ),

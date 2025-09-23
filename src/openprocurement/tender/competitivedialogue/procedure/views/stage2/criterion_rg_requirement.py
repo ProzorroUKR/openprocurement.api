@@ -1,7 +1,6 @@
-from typing import List, Optional, Tuple
+from typing import Optional
 
 from cornice.resource import resource
-from pyramid.security import Allow
 
 from openprocurement.api.procedure.validation import (
     unless_administrator,
@@ -19,33 +18,20 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement import (
     CDRequirementState,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import (
-    unless_cd_bridge,
-)
-from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg_requirement import (
-    BaseCDRequirementResource,
-)
 from openprocurement.tender.core.procedure.models.criterion import (
     PostRequirement,
     Requirement,
 )
+from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
+    BaseRequirementResource,
+)
 
 
-class BaseStage2RequirementResource(BaseCDRequirementResource):
-    def __acl__(self) -> List[Tuple[str, str, str]]:
-        acl = super().__acl__()
-        acl.extend(
-            [
-                (Allow, "g:competitive_dialogue", "create_requirement"),
-                (Allow, "g:competitive_dialogue", "edit_requirement"),
-            ]
-        )
-        return acl
-
+class BaseStage2RequirementResource(BaseRequirementResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             validate_input_data(PostRequirement),
         ),
         permission="create_requirement",
@@ -56,7 +42,7 @@ class BaseStage2RequirementResource(BaseCDRequirementResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             validate_input_data_from_resolved_model(),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
@@ -68,7 +54,7 @@ class BaseStage2RequirementResource(BaseCDRequirementResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             validate_input_data_from_resolved_model(none_means_remove=True),
             validate_patch_data_simple(Requirement, "requirement"),
         ),

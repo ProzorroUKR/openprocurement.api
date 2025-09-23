@@ -1,7 +1,4 @@
-from typing import List, Tuple
-
 from cornice.resource import resource
-from pyramid.security import Allow
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement_evidence import (
@@ -10,18 +7,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_req
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import (
     BaseEligibleEvidenceResource,
 )
-
-
-class BaseCDEligibleEvidenceResource(BaseEligibleEvidenceResource):
-    def __acl__(self) -> List[Tuple[str, str, str]]:
-        acl = super().__acl__()
-        acl.extend(
-            [
-                (Allow, "g:competitive_dialogue", "create_requirement"),
-                (Allow, "g:competitive_dialogue", "edit_requirement"),
-            ]
-        )
-        return acl
 
 
 @resource(
@@ -33,7 +18,7 @@ class BaseCDEligibleEvidenceResource(BaseEligibleEvidenceResource):
     procurementMethodType=CD_EU_TYPE,
     description="Competitive Dialogue EU requirement evidence",
 )
-class CDEUEligibleEvidenceResource(BaseCDEligibleEvidenceResource):
+class CDEUEligibleEvidenceResource(BaseEligibleEvidenceResource):
     state_class = CDEligibleEvidenceState
 
 
@@ -46,5 +31,5 @@ class CDEUEligibleEvidenceResource(BaseCDEligibleEvidenceResource):
     procurementMethodType=CD_UA_TYPE,
     description="Competitive Dialogue UA requirement evidence",
 )
-class CDUAEligibleEvidenceResource(BaseCDEligibleEvidenceResource):
+class CDUAEligibleEvidenceResource(BaseEligibleEvidenceResource):
     state_class = CDEligibleEvidenceState
