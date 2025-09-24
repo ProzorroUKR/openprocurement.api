@@ -335,6 +335,35 @@ See examples of `items` customization below. You can:
 .. http:example:: http/update-contract-item.http
    :code:
 
+* add new item:
+
+It is allowed to add new items, but the main fields should be the same as in one of previous item in contact.
+
+Fields that can not be changed:
+
+* `classification`
+* `relatedLot`
+* `relatedBuyer`
+* `additionalClassifications`
+* `attributes`
+
+Let's try to add new item with new `classification` and we will see an error:
+
+.. http:example:: http/add-item-invalid-classification.http
+    :code:
+
+For example, we can split first item into two new items.
+
+But there is still a validation for unit prices of all items:
+
+.. http:example:: http/add-item-invalid-price.http
+    :code:
+
+Let's update quantity in first item and add new item with correct `unit.value`:
+
+.. http:example:: http/add-contract-item.http
+   :code:
+
 Applying the change
 ~~~~~~~~~~~~~~~~~~~
 

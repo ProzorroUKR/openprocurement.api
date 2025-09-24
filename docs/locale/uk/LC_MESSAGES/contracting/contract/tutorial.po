@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-20 12:19+0300\n"
+"POT-Creation-Date: 2025-09-24 11:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -324,6 +324,42 @@ msgstr "Дивіться приклади зміни елемента (`items`) 
 
 msgid "update item:"
 msgstr "оновити елемент (`items`):"
+
+msgid "add new item:"
+msgstr "додати новий item:"
+
+msgid "It is allowed to add new items, but the main fields should be the same as in one of previous item in contact."
+msgstr "Дозволяється додавати новий item, але при цьому основні поля мають відповідати попереднім значенням в масиві `items`."
+
+msgid "Fields that can not be changed:"
+msgstr "Поля, які не можна змінювати:"
+
+msgid "`classification`"
+msgstr ""
+
+msgid "`relatedLot`"
+msgstr ""
+
+msgid "`relatedBuyer`"
+msgstr ""
+
+msgid "`additionalClassifications`"
+msgstr ""
+
+msgid "`attributes`"
+msgstr ""
+
+msgid "Let's try to add new item with new `classification` and we will see an error:"
+msgstr "Спробуємо додати новий `item` з новим полем `classification` і побачимо помилку:"
+
+msgid "For example, we can split first item into two new items."
+msgstr "Наприклад, розділимо перший `item` на дві номенклатури з такими самими основними полями."
+
+msgid "But there is still a validation for unit prices of all items:"
+msgstr "Але при цьому все ще існує валідація на суму цін за одиницю для всіх `items`:"
+
+msgid "Let's update quantity in first item and add new item with correct `unit.value`:"
+msgstr "Відредагуємо `quantity` в першому `item` і додамо новий `item` з коректною ціною `unit.value`:"
 
 msgid "Applying the change"
 msgstr "Застосування зміни"

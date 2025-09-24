@@ -31,7 +31,7 @@ Content-Type: application/json
       {
         "id": "5b122642e8964f00a1535be1d2b2270a",
         "description": "Комп’ютерне обладнання для біда",
-        "quantity": 20.0,
+        "quantity": 10.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -124,6 +124,66 @@ Content-Type: application/json
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
         }
+      },
+      {
+        "id": "4a0124d7eb8d4fe3b391a39808b1a2ee",
+        "description": "Картон ручного виготовлення",
+        "quantity": 20.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 4.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "attributes": [
+          {
+            "name": "Форма випуску",
+            "values": [
+              "Розчин для інфузій"
+            ]
+          },
+          {
+            "name": "Доза діючої речовини",
+            "unit": {
+              "name": "кілограми",
+              "code": "KGM"
+            },
+            "value": 5
+          },
+          {
+            "name": "Форма випуску 1",
+            "values": [
+              "Відповідь1",
+              "Відповідь2"
+            ]
+          }
+        ]
       }
     ],
     "tender_id": "1acc9cfa6eed4eeea6d8b801bcf4aa98",

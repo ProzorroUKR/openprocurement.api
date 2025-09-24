@@ -495,6 +495,46 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             item2 = response.json['data']['items'][0]
             self.assertEqual(item2['quantity'], 20)
 
+        items = deepcopy(contract["items"])
+        new_item = deepcopy(items[0])
+        new_item["classification"] = {
+            "id": "22992000-0",
+            "scheme": "ДК021",
+            "description": "Папір або картон ручного виготовлення",
+        }
+        new_item["description"] = "Картон ручного виготовлення"
+        new_item.pop("id", None)
+        with open(TARGET_DIR + 'add-item-invalid-classification.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/contracts/{contract_id}?acc_token={tender_token}',
+                {
+                    "data": {"items": [items[0], items[1], new_item]},
+                },
+                status=403,
+            )
+
+        new_item["classification"] = items[0]["classification"]
+        new_item["unit"]["value"]["amount"] = 4.5
+        new_item["quantity"] = 20
+        with open(TARGET_DIR + 'add-item-invalid-price.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/contracts/{contract_id}?acc_token={tender_token}',
+                {
+                    "data": {"items": [items[0], items[1], new_item]},
+                },
+                status=422,
+            )
+
+        items[0]["quantity"] = 10
+        with open(TARGET_DIR + 'add-contract-item.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/contracts/{contract_id}?acc_token={tender_token}',
+                {
+                    "data": {"items": [items[0], items[1], new_item]},
+                },
+            )
+            self.assertEqual(response.status, '200 OK')
+
         # apply contract change
         with open(TARGET_DIR + 'apply-contract-change.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

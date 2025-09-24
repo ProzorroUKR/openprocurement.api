@@ -39,7 +39,7 @@ Successful adding `contract_owner` along with `contractTemplateName` in tender a
 .. http:example:: ./http/contract-owner/add-contract-owner-supplier.http
    :code:
 
-When contract is created, these brokers can generate token to deal with contract (read more :ref:`authorization-from-different-platforms-new`).
+When contract is created, these brokers can generate token to deal with contract.
 
 Let's look at contract, after creation, we will see `contract_owner` in `buyer` and `suppliers` objects:
 

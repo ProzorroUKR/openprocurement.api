@@ -1,0 +1,183 @@
+PATCH /api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c?acc_token=2a616f20d95648cd87d33fdc9357fc4e HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "items": [
+      {
+        "id": "5b122642e8964f00a1535be1d2b2270a",
+        "description": "Комп’ютерне обладнання для біда",
+        "quantity": 20,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 9,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "attributes": [
+          {
+            "name": "Форма випуску",
+            "values": [
+              "Розчин для інфузій"
+            ]
+          },
+          {
+            "name": "Доза діючої речовини",
+            "unit": {
+              "name": "кілограми",
+              "code": "KGM"
+            },
+            "value": 5
+          },
+          {
+            "name": "Форма випуску 1",
+            "values": [
+              "Відповідь1",
+              "Відповідь2"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ce44a97bd43a49069c1cb60ef789199e",
+        "description": "Комп’ютерне обладнання",
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        }
+      },
+      {
+        "description": "Картон ручного виготовлення",
+        "quantity": 20,
+        "classification": {
+          "id": "22992000-0",
+          "scheme": "ДК021",
+          "description": "Папір або картон ручного виготовлення"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 9,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "attributes": [
+          {
+            "name": "Форма випуску",
+            "values": [
+              "Розчин для інфузій"
+            ]
+          },
+          {
+            "name": "Доза діючої речовини",
+            "unit": {
+              "name": "кілограми",
+              "code": "KGM"
+            },
+            "value": 5
+          },
+          {
+            "name": "Форма випуску 1",
+            "values": [
+              "Відповідь1",
+              "Відповідь2"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, attributtes, additionalClassifications"
+    }
+  ]
+}
+
