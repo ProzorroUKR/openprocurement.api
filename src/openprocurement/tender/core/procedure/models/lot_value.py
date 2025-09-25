@@ -25,20 +25,11 @@ class PostLotValue(Model):
 
 
 class PatchLotValue(PostLotValue):
-    status = StringType(choices=["pending"], default="pending")
-    value = ModelType(Value)
-    relatedLot = MD5Type()
-
-    def validate_value(self, data, value):
-        if value is not None:
-            validate_lotvalue_value(get_tender(), data["relatedLot"], value)
-
-    def validate_relatedLot(self, data, related_lot):
-        if related_lot is not None:
-            validate_related_lot(get_tender(), related_lot)
-
-
-class LotValue(PostLotValue):
     weightedValue = ModelType(WeightedValue)
     status = StringType(choices=["pending", "active", "unsuccessful"], default="pending")
     date = StringType()
+
+
+class LotValue(PatchLotValue):
+    initialValue = ModelType(Value)  # field added by chronograph
+    participationUrl = StringType()  # field added after auction

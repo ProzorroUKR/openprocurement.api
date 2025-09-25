@@ -1,0 +1,323 @@
+PATCH /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/bids/c8928ffae76b497484f9691c2d2c9638?acc_token=19ed37dcc08b490a95812c30bc5bfbe6 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "subcontractingDetails": "ДП «Орфей»",
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Бойко Микола Миколайович>",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111222222",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "51ea2bc03fb747719489afc5489c0704",
+          "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій"
+        },
+        "value": 90,
+        "id": "2ebe62c348974251b6eaf360b24a37fc",
+        "unit": {
+          "code": "DAY",
+          "name": "день"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
+        }
+      },
+      {
+        "requirement": {
+          "id": "a70bde95057a45d194ee57c1ea554621",
+          "title": "Мова тендерної пропозиції"
+        },
+        "values": [
+          "ukr"
+        ],
+        "id": "8f0d13b43f1048c9aebd8335530aac4f",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.BID.LANGUAGE"
+        }
+      },
+      {
+        "requirement": {
+          "id": "2e08589ad7034b81ba5734b96e65d065",
+          "title": "Учасник закупівлі спроможний виконати обсяг передбачений закупівлею робіт або послуг"
+        },
+        "value": true,
+        "id": "8878b18489ec439096472ab710aaa2cc",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "f33be4baa0bd487882b2644291a0803f",
+          "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
+        },
+        "value": true,
+        "id": "0a195042022a49c59dfdd31c43a2dfe5",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "c687e04874724f219379642b8b615791",
+          "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
+        },
+        "value": true,
+        "id": "e08a691aec4f4bc9860326bf5e59039a",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "8f017087a8604befaa4cbeb59085efc8",
+          "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
+        },
+        "value": true,
+        "id": "71fcd751c79647e485598016a898294c",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+        }
+      },
+      {
+        "requirement": {
+          "id": "dec171a47493479099fa7a2e62f55662",
+          "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+        },
+        "value": true,
+        "id": "b7b04592ef3943468e6666c2cee70d8d",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "d1cefbd2ed4b474887fb0a917358170e",
+          "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
+        },
+        "value": true,
+        "id": "4572b138b83e4ac7b8c02619cec7db08",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
+        }
+      },
+      {
+        "requirement": {
+          "id": "6306e97948bc4f7c8cd4f388eb003c1f",
+          "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
+        },
+        "value": true,
+        "id": "d97fe0c9c9a34042aaa65f4a0ae4f25c",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "acd0f346124142a78c0021e867cba61e",
+          "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
+        },
+        "value": true,
+        "id": "5d60ae883cac45dc8dafcbfda24527ef",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
+        }
+      },
+      {
+        "requirement": {
+          "id": "096a07e4ff1b4ea39cf2f85f19ef007f",
+          "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
+        },
+        "value": true,
+        "id": "477fbb34370f42d986828feaee1fd2de",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "43a43e39b0df40bdb0d1c6c5b49d7d47",
+          "title": "Учасник процедури закупівлі не мав з цим самим замовником договорів достроково розірваних через невиконання (учасником) своїх зобов'язань через що було застосовано санкції у вигляді штрафів та/або відшкодування збитків"
+        },
+        "value": true,
+        "id": "6f8d75a1429c419f8e0da6caef97741f",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
+        }
+      },
+      {
+        "requirement": {
+          "id": "17e6ca12b5dc47e2b379957c773510b5",
+          "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
+        },
+        "value": true,
+        "id": "6fed74f7b47743d8817afbcad7309014",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
+        }
+      },
+      {
+        "requirement": {
+          "id": "f808b1cff3284f9ea8a0de71fddb560a",
+          "title": "Текст заповнений користувачем"
+        },
+        "value": true,
+        "id": "2e8f5078a26743fa8d9efbae33d51fe7",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+        }
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 250.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "5666a4d7fa694af28825b1971b3912b9",
+        "status": "active",
+        "date": "2023-10-10T01:00:00+03:00",
+        "initialValue": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/985f6e927f784969aabb65fd84ff2415_5666a4d7fa694af28825b1971b3912b9?key_for_bid=c8928ffae76b497484f9691c2d2c9638"
+      }
+    ],
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Бойко Микола Миколайович>",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111222222",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
+      }
+    ],
+    "status": "active",
+    "subcontractingDetails": "ДП «Орфей»",
+    "id": "c8928ffae76b497484f9691c2d2c9638",
+    "date": "2023-10-10T01:00:00+03:00",
+    "submissionDate": "2023-10-10T01:00:00+03:00",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "proposal",
+        "id": "01c2c1926b6e45e28ab3538e6e070487",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.p7s",
+        "format": "sign/p7s",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/145abcfa123242cfb8f40499713728ce?Signature=T6akBxjy60LCHo5f7LJXTNcNr7iycMtAEeTPHTQ7204eGxQ1SMbYnjsAPoMs6B3vztC3B%2FK7xieiZnyUpkN2BA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk"
+      },
+      {
+        "confidentiality": "public",
+        "id": "cb18607f52bb496fbddfbce0d827fc3e",
+        "datePublished": "2023-10-10T01:00:01+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "укр.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/01265147e4f24f6ea5e560fbf578c1e7?Signature=3RMTWnAUjDnE9cQNIu5m3aFKVVUxPHY7UMorTfYNEvdUoNBZyq2ts3nN4XOKk1UEn%2FjLG22fzvb9cOjE8OrJAg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:01+03:00",
+        "language": "uk"
+      },
+      {
+        "confidentiality": "public",
+        "id": "cb18607f52bb496fbddfbce0d827fc3e",
+        "datePublished": "2023-10-10T01:00:01+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "укр.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fddb39dd595c481e8b47b24009815ba5?Signature=jrorAOTvpwDYRbU0V4b3GRhiHvL8Co1AHanO3si1lMIuGzyjTfBD1ZNDXZuVeoAGCRyvua1CZ5Mc16NXKfIsDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:01+03:00",
+        "language": "uk"
+      }
+    ],
+    "selfQualified": true
+  }
+}
+

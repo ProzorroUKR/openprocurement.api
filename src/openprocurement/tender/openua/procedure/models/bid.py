@@ -9,6 +9,9 @@ from openprocurement.tender.core.procedure.models.bid import (
     PatchLocalizationBid as BasePatchBid,
 )
 from openprocurement.tender.core.procedure.models.bid import (
+    PatchQualificationLocalizationBid as BasePatchQualificationBid,
+)
+from openprocurement.tender.core.procedure.models.bid import (
     PostLocalizationBid as BasePostBid,
 )
 from openprocurement.tender.core.procedure.models.parameter import (
@@ -23,6 +26,12 @@ from openprocurement.tender.core.procedure.validation import validate_bid_value
 
 
 class PatchBid(BasePatchBid, PatchObjResponsesMixin):
+    selfEligible = BooleanType(choices=[True])
+    selfQualified = BooleanType(choices=[True])
+    parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
+
+
+class PatchQualificationBid(BasePatchQualificationBid, PatchObjResponsesMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(choices=[True])
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])

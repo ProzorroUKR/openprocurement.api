@@ -3,6 +3,9 @@ from openprocurement.tender.core.procedure.models.bid import (
     PatchLocalizationBid as BasePatchBid,
 )
 from openprocurement.tender.core.procedure.models.bid import (
+    PatchQualificationLocalizationBid as BasePatchQualificationBid,
+)
+from openprocurement.tender.core.procedure.models.bid import (
     PostLocalizationBid as BasePostBid,
 )
 from openprocurement.tender.core.procedure.models.req_response import (
@@ -16,6 +19,10 @@ class PostBid(BasePostBid, BidResponsesMixin):
 
 
 class PatchBid(PatchObjResponsesMixin, BasePatchBid):
+    pass
+
+
+class PatchQualificationBid(PatchObjResponsesMixin, BasePatchQualificationBid):
     pass
 
 

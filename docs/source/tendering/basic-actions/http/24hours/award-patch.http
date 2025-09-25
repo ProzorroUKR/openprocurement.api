@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/63d45e7d060440c8b42df0103d3e4e71/awards/e017e0a26d4049128b6d94ac0b57855c?acc_token=a0ea6f183a7a4fde911a3e7a8c1918e8 HTTP/1.0
+PATCH /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/awards/93f2f28f7c40428fa1d64021d5556203?acc_token=fce6c7cfa3c64325baa1e5be7db2ce1c HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -21,7 +21,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Can't change status to 'active' until milestone.dueDate: 2023-10-11T01:00:00+03:00"
+      "description": "Can't change status to 'active' until milestone.dueDate: 2023-10-12T00:00:00+03:00"
     }
   ]
 }

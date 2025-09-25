@@ -13,6 +13,7 @@ from openprocurement.tender.core.procedure.models.req_response import (
 )
 from openprocurement.tender.core.procedure.state.req_response import BidReqResponseState
 from openprocurement.tender.core.procedure.validation import (
+    unless_allowed_by_qualification_milestone_24,
     validate_operation_ecriteria_on_tender_status,
     validate_view_requirement_responses,
 )
@@ -37,7 +38,9 @@ class BidReqResponseResource(BaseReqResponseResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("bid")),
-            validate_operation_ecriteria_on_tender_status,
+            unless_allowed_by_qualification_milestone_24(
+                validate_operation_ecriteria_on_tender_status,
+            ),
             validate_input_data(RequirementResponse, allow_bulk=True),
         ),
         permission="create_req_response",
@@ -63,7 +66,9 @@ class BidReqResponseResource(BaseReqResponseResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("bid")),
-            validate_operation_ecriteria_on_tender_status,
+            unless_allowed_by_qualification_milestone_24(
+                validate_operation_ecriteria_on_tender_status,
+            ),
             validate_input_data(PatchRequirementResponse, none_means_remove=True),
             validate_patch_data_simple(RequirementResponse, "requirement_response"),
         ),
@@ -75,7 +80,9 @@ class BidReqResponseResource(BaseReqResponseResource):
     @json_view(
         validators=(
             unless_administrator(validate_item_owner("bid")),
-            validate_operation_ecriteria_on_tender_status,
+            unless_allowed_by_qualification_milestone_24(
+                validate_operation_ecriteria_on_tender_status,
+            ),
         ),
         permission="edit_req_response",
     )

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/63d45e7d060440c8b42df0103d3e4e71/qualifications/12341234123412341234123412341234/milestones?acc_token=a0ea6f183a7a4fde911a3e7a8c1918e8 HTTP/1.0
+POST /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/qualifications/12341234123412341234123412341234/milestones?acc_token=fce6c7cfa3c64325baa1e5be7db2ce1c HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -13,15 +13,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63d45e7d060440c8b42df0103d3e4e71/qualifications/12341234123412341234123412341234/milestones/182da3c69b404effa4160cbcfa0c68ff
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/qualifications/12341234123412341234123412341234/milestones/182da3c69b404effa4160cbcfa0c68ff
 
 {
   "data": {
     "code": "24h",
     "description": "One ring to bring them all and in the darkness bind them",
     "id": "182da3c69b404effa4160cbcfa0c68ff",
-    "dueDate": "2023-10-11T01:00:03+03:00",
-    "date": "2023-10-10T01:00:03+03:00"
+    "dueDate": "2023-10-13T01:00:04+03:00",
+    "date": "2023-10-12T01:00:04+03:00"
   }
 }
 

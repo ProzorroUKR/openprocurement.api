@@ -6,6 +6,7 @@ from openprocurement.api.procedure.types import ListType
 from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.tender.competitiveordering.procedure.models.lot_value import (
     LotValue,
+    PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.core.procedure.models.bid import LocalizationBid as BaseBid
@@ -29,8 +30,12 @@ from openprocurement.tender.core.procedure.validation import validate_bid_value
 class PatchBid(BasePatchBid, PatchObjResponsesMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(choices=[True])
-    lotValues = ListType(ModelType(LotValue, required=True))
+    lotValues = ListType(ModelType(PatchLotValue, required=True))
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
+
+
+class PatchQualificationBid(PatchBid):
+    lotValues = ListType(ModelType(LotValue, required=True))
 
 
 class PostBid(BasePostBid, BidResponsesMixin):

@@ -32,6 +32,9 @@ class ReqResponseEvidenceState(BaseState):
         validate_evidence_relatedDocument(parent, evidence, self.parent_obj_name)
         validate_evidence_type(req_response, evidence)
 
+    def on_delete(self):
+        pass
+
 
 class BidReqResponseEvidenceState(ReqResponseEvidenceState):
     parent_obj_name = "bid"
@@ -44,6 +47,9 @@ class BidReqResponseEvidenceState(ReqResponseEvidenceState):
 
     def always(self, data: dict) -> None:
         super().always(data)
+        invalidate_pending_bid()
+
+    def on_delete(self):
         invalidate_pending_bid()
 
 

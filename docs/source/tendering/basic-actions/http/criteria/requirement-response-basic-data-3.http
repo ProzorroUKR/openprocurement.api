@@ -62,11 +62,11 @@ Content-Type: application/json
               "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "c4192d5b130f4ecb9676c792c9f013b2"
+            "id": "0b229220b79b4e0590d9ff0d40708c80"
           }
         ],
         "value": true,
-        "id": "2563469214244e298ec86d1a642c97df",
+        "id": "30a7fc3d9f254a09868092b3c6c01094",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
@@ -85,11 +85,11 @@ Content-Type: application/json
               "id": "ed166e26753444678ed95a3ebd151434",
               "title": "name.doc"
             },
-            "id": "9702f4bb2f674d38a1d81a88a3679e7d"
+            "id": "dc728e8b0f214cd68b640e5b5979fbfa"
           }
         ],
         "value": true,
-        "id": "c7cac5e706e1408f8987bbe3de32e842",
+        "id": "12e2544bd319446cb0095fdbc20c6e9e",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"

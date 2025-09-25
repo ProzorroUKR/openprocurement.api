@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     bid_activate_with_cancelled_tenderer_criterion,
     bid_Administrator_change,
@@ -48,6 +51,13 @@ from openprocurement.tender.openeu.tests.bid import (
     CreateBidMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    patch_bid_during_qualification_forbidden,
+    patch_bid_during_qualification_with_24h_milestone,
+)
+from openprocurement.tender.requestforproposal.tests.award import (
+    TenderAwardPendingResourceTestCase,
 )
 from openprocurement.tender.requestforproposal.tests.base import (
     TenderContentWebTest,
@@ -299,6 +309,14 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
             }
         )
         self.create_tender(config=config)
+
+
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
+class TenderBidDuringQualification(TenderAwardPendingResourceTestCase):
+    test_patch_bid_during_qualification_forbidden = snitch(patch_bid_during_qualification_forbidden)
+    test_patch_bid_during_qualification_with_24h_milestone = snitch(patch_bid_during_qualification_with_24h_milestone)
 
 
 def suite():

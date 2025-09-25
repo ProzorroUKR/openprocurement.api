@@ -1,0 +1,35 @@
+POST /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/bids/c8928ffae76b497484f9691c2d2c9638/requirement_responses?acc_token=19ed37dcc08b490a95812c30bc5bfbe6 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "requirement": {
+      "id": "cf0b763786724393a511636b968611a8"
+    },
+    "value": true
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "requirement": {
+        "id": "cf0b763786724393a511636b968611a8",
+        "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом, шахрайством та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+      },
+      "value": true,
+      "id": "1cae6c4b3c8e4178a4ba00a755c373e7",
+      "classification": {
+        "scheme": "ESPD211",
+        "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+      }
+    }
+  ]
+}
+

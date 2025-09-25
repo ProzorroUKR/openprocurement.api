@@ -1,0 +1,23 @@
+DELETE /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/bids/c8928ffae76b497484f9691c2d2c9638/requirement_responses/b7b04592ef3943468e6666c2cee70d8d?acc_token=19ed37dcc08b490a95812c30bc5bfbe6 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "requirement": {
+      "id": "dec171a47493479099fa7a2e62f55662",
+      "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+    },
+    "value": true,
+    "id": "b7b04592ef3943468e6666c2cee70d8d",
+    "classification": {
+      "scheme": "ESPD211",
+      "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+    }
+  }
+}
+

@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/bids/c8928ffae76b497484f9691c2d2c9638?acc_token=19ed37dcc08b490a95812c30bc5bfbe6 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "subcontractingDetails": "ДП «Орфей», Україна"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Can't update bid in current (active.qualification) tender status"
+    }
+  ]
+}
+
