@@ -14,7 +14,11 @@ from openprocurement.api.constants import (
     WORKING_DAYS,
 )
 from openprocurement.api.context import get_request, get_request_now
-from openprocurement.api.utils import calculate_date, context_unpack
+from openprocurement.api.utils import (
+    calculate_date,
+    calculate_full_date,
+    context_unpack,
+)
 from openprocurement.tender.core.procedure.utils import (
     calc_auction_replan_time,
     dt_from_iso,
@@ -151,6 +155,8 @@ class ShouldStartAfterMixing:
             elif complaint.get("dateDecision"):
                 # other blocking complaints unblock on dateDecision
                 date = dt_from_iso(complaint["dateDecision"])
+                # additionally by law we should wait 2 full days after dateDecision
+                date = calculate_full_date(date, timedelta(days=2), ceil=True)
                 unblock_dates.append(date)
         return unblock_dates
 
