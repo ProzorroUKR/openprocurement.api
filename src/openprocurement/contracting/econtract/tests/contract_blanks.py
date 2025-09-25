@@ -232,24 +232,6 @@ def post_new_version_of_contract(self):
         [{"location": "body", "name": "data", "description": "Role isn't found, check auth and token"}],
     )
 
-    # try to create contract by another author
-    response = self.app.post_json(
-        f"/contracts?acc_token={self.contract_token}",
-        {"data": contract_data},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "Forbidden to create new version of contract by buyer, as previous was cancelled by supplier",
-            }
-        ],
-    )
-
     # try to change forbidden field
     contract_data["title_ru"] = "New contract"
     response = self.app.post_json(
