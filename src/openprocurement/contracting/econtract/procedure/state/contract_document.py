@@ -121,14 +121,13 @@ class EContractDocumentState(BaseContractDocumentState):
         # Verify signature
         verify_data = verify_signature(self.request, pdf, signature)
         self.validate_contract_signature_type(verify_data)
+        self.validate_contract_signature_cert(verify_data)
 
     def validate_contract_signature_type(self, verify_data):
-        type = verify_data.get("sign", {}).get("type", {})
+        sign_info = verify_data.get("sign_info", {})
+        sign_type = sign_info.get("pdwSignType")
 
-        code = type.get("code")
-        name = type.get("name", "Unknown")
-
-        if code is None:
+        if sign_type is None:
             raise_operation_error(
                 self.request,
                 "Can't validate signature type",
@@ -152,8 +151,25 @@ class EContractDocumentState(BaseContractDocumentState):
 
         EU_SIGN_TYPE_CADES_X_LONG = 16
 
-        if not bool(code & EU_SIGN_TYPE_CADES_X_LONG):
+        if not bool(sign_type & EU_SIGN_TYPE_CADES_X_LONG):
             raise_operation_error(
                 self.request,
-                f"Invalid signature type {name}, expected CAdES-X Long",
+                f"Invalid signature type {sign_type}, expected CAdES-X Long",
+            )
+
+    def validate_contract_signature_cert(self, verify_data):
+        certs_info = verify_data.get("cert_info", {})
+        cert_key_type = certs_info.get("dwPublicKeyType")
+        if not cert_key_type:
+            raise_operation_error(
+                self.request,
+                "Can't validate certificate",
+            )
+
+        EU_CERT_KEY_TYPE_DSTU4145 = 1
+
+        if cert_key_type != EU_CERT_KEY_TYPE_DSTU4145:
+            raise_operation_error(
+                self.request,
+                "Invalid certificate key type, expected ДСТУ-4145",
             )
