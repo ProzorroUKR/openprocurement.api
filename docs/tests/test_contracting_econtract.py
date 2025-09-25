@@ -331,15 +331,6 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         contract_data.pop("id")
         contract_data.pop("documents")
 
-        with change_auth(self.app, ("Basic", ("broker6", ""))), open(
-            TARGET_DIR + 'contract-buyer-post-contract-forbidden.http', 'w'
-        ) as self.app.file_obj:
-            self.app.post_json(
-                f'/contracts?acc_token={buyer_token_2}',
-                {"data": contract_data},
-                status=403,
-            )
-
         prev_buyer_name = self.contract["buyer"]["signerInfo"]["name"]
         contract_data["buyer"]["signerInfo"]["name"] = "Another buyer"
 

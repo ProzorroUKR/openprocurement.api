@@ -246,12 +246,7 @@ After cancellation created, there is forbidden to sign contract:
 Create new contract version
 ---------------------------
 
-Then the same participant should create a new version of contract using his token.
-
-If buyer tries to create a new version, he will see an error, as supplier cancelled previous contract:
-
-.. http:example:: http/contract-buyer-post-contract-forbidden.http
-   :code:
+Then any of the participant should create a new version of contract using his token.
 
 Allowed fields for updating:
 

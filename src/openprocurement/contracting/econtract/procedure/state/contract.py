@@ -52,7 +52,6 @@ class EContractState(BaseContractState):
     def validate_on_post(self, before, after) -> None:
         self.prepare_contract(before, after)
         self.validate_econtract(after)
-        self.validate_contract_author(before, after)
         self.validate_contract_changes(before, after)
         tender = get_request().validated["tender"]
         award = [award for award in tender.get("awards", []) if award.get("id") == after.get("awardID")][0]
@@ -120,14 +119,6 @@ class EContractState(BaseContractState):
                             f"Updated could be only signerInfo in {field_name}, {nested_field_name} change forbidden",
                             status=422,
                         )
-
-    def validate_contract_author(self, before, after):
-        if before["cancellations"][0]["author"] != after["author"]:
-            raise_operation_error(
-                self.request,
-                f"Forbidden to create new version of contract by {after['author']}, "
-                f"as previous was cancelled by {before['cancellations'][0]['author']}",
-            )
 
     def on_post(self, before, after):
         tender = get_request().validated["tender"]
