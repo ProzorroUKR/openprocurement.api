@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-28 13:11+0300\n"
+"POT-Creation-Date: 2025-09-17 16:55+0300\n"
 "PO-Revision-Date: 2020-04-23 11:14+0300\n"
 "Last-Translator: \n"
 "Language: uk_UA\n"
@@ -44,6 +44,18 @@ msgstr "Приклад розміщення :ref:`qualificationmilestone` для
 
 msgid "Example of pre-qualification"
 msgstr "Приклад попередньої кваліфікації"
+
+msgid "After adding milestone `24h`, the award/qualification should be signed with `documentType: deviationReport`."
+msgstr "Після додавання майлстоуну виправлення невідповідностей `24h`, award/qualification має бути підписаний через додавання файлу `documentType: deviationReport`."
+
+msgid "Signing :ref:`qualificationmilestone` for qualification:"
+msgstr "Підписання :ref:`qualificationmilestone` для кваліфікації:"
+
+msgid "Signing milestone of pre-qualification:"
+msgstr "Підписання попередньої кваліфікації:"
+
+msgid "Only one document with type `deviationReport` could be in award/qualification:"
+msgstr "Тільки один документ з типом `deviationReport` може бути доданий до award/qualification:"
 
 msgid "The \"dueDate\" field in the response indicates the end of the period when procuring entity is unable to make a decision on the qualification object"
 msgstr "Поле “dueDate” у відповіді вказує на кінець періоду, під час якого замовник не може прийняти рішення щодо об’єкта кваліфікації"

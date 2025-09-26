@@ -32,3 +32,4 @@ class AwardDocumentState(BaseDocumentState):
         if tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
             validate_doc_type_quantity(award_docs, obj_name="award")
         validate_doc_type_quantity(award_docs, document_type="extensionReport", obj_name="award")
+        validate_doc_type_quantity(award_docs, document_type="deviationReport", obj_name="award")

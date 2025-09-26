@@ -1,0 +1,30 @@
+POST /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/awards/93f2f28f7c40428fa1d64021d5556203/documents?acc_token=fce6c7cfa3c64325baa1e5be7db2ce1c HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "sign.p7s",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/01265147e4f24f6ea5e560fbf578c1e7?Signature=7HMw2TZyhD2F4ZNs1yNh2%2FgrA6biivlgmvV1ZyINVyWQ0qeg1LIlcToIYwUnomj%2FNEECyi604eoZpxTjtC%2BOBA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pkcs7-signature",
+    "documentType": "deviationReport"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "documents",
+      "description": "deviationReport document in award should be only one"
+    }
+  ]
+}
+

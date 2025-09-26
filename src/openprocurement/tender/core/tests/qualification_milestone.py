@@ -294,6 +294,44 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
         self.assertEqual(response.status, "201 Created")
         created_milestone = response.json["data"]
 
+        # add sign doc
+        deviation_doc_data = {
+            "title": "sign.p7s",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pkcs7-signature",
+            "documentType": "deviationReport",
+        }
+        response = self.app.post_json(
+            "/tenders/{}/{}s/{}/documents?acc_token={}".format(
+                self.tender_id, self.context_name, self.context_id, self.tender_token
+            ),
+            {"data": deviation_doc_data},
+        )
+        self.assertEqual(response.status, "201 Created")
+
+        # try to sign one more time
+        response = self.app.post_json(
+            "/tenders/{}/{}s/{}/documents?acc_token={}".format(
+                self.tender_id, self.context_name, self.context_id, self.tender_token
+            ),
+            {"data": deviation_doc_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json,
+            {
+                "status": "error",
+                "errors": [
+                    {
+                        "location": "body",
+                        "name": "documents",
+                        "description": "deviationReport document in award should be only one",
+                    }
+                ],
+            },
+        )
+
         # wait until milestone dueDate ends
         with patch(
             "openprocurement.tender.core.procedure.validation.get_request_now",

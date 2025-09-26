@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 14:56+0300\n"
+"POT-Creation-Date: 2025-09-17 16:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -45,6 +45,12 @@ msgstr "Необхідно вказати параметр `opt_context=true` д
 
 msgid "As we can see there is additional field `context`, which has information from `tender` inside."
 msgstr "Як ми можемо побачити, з'явилося додаткове поле `context`, в якому наявна інформація з тендеру."
+
+msgid "Qualification"
+msgstr ""
+
+msgid "Use `opt_context=true` as parameter for getting additional information for signing qualification:"
+msgstr "Необхідно вказати параметр `opt_context=true` для того, щоб отримати  додаткову інформацію з тендера для підписання пре-кваліфікації:"
 
 msgid "Bid"
 msgstr ""
