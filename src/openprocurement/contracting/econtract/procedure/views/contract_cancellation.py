@@ -15,7 +15,7 @@ from openprocurement.contracting.core.procedure.validation import (
 )
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.contracting.econtract.procedure.models.cancellation import (
-    PostCancellation,
+    PostContractCancellation,
 )
 from openprocurement.contracting.econtract.procedure.state.contract_cancellation import (
     CancellationState,
@@ -66,7 +66,7 @@ class EContractsCancellationsResource(ContractBaseResource):
         permission="edit_contract",
         validators=(
             unless_administrator(unless_admins(validate_contract_participant)),
-            validate_input_data(PostCancellation),
+            validate_input_data(PostContractCancellation),
             validate_contract_in_pending_status,
         ),
     )
