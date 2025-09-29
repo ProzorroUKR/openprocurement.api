@@ -30,6 +30,16 @@ class PostCancellation(Model):
     )
 
 
+class PostContractCancellation(PostCancellation):
+    reasonType = StringType(
+        required=True,
+        choices=[
+            "requiresChanges",
+            "signingRefusal",
+        ],
+    )
+
+
 class Cancellation(Model):
     id = MD5Type(required=True)
     status = StringType(required=True, choices=["pending", "active"])
@@ -38,6 +48,7 @@ class Cancellation(Model):
         required=True,
         choices=[
             "requiresChanges",
+            "signingRefusal",
         ],
     )
     dateCreated = IsoDateTimeType(required=True)

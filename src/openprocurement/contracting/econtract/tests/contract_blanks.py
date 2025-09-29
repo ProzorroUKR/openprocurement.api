@@ -404,3 +404,55 @@ def post_new_version_of_contract(self):
     self.assertEqual(new_contract["status"], "pending")
     self.assertNotEqual(prev_contract["contractID"], new_contract["contractID"])
     self.assertNotEqual(prev_contract["dateCreated"], new_contract["dateCreated"])
+
+
+def contract_cancellation_via_award(self):
+    # add cancellation by supplier
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/cancellations?acc_token={self.supplier_token}",
+        {"data": {"reasonType": "signingRefusal", "reason": "want to quid"}},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    # try to create new version of contract
+    contract_data = deepcopy(self.initial_data)
+    contract_data["tender_id"] = self.tender_id
+    response = self.app.post_json(
+        f"/contracts?acc_token={self.contract_token}",
+        {"data": contract_data},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "For contract with cancellation reason `signingRefusal` buyer should cancel the award.",
+            }
+        ],
+    )
+    response = self.app.get(f"/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/awards/{self.contract['awardID']}?acc_token={self.tender_token}",
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    response = self.app.get(f"/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    response = self.app.get(f"/contracts/{self.contract['id']}/cancellations")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"][0]["status"], "active")
