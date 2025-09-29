@@ -327,6 +327,9 @@ def update_econtracts_statuses(contracts, status):
         econtract = get_contract_by_id(request, contract["id"], raise_error=False)
         if econtract:
             request_init_contract(request, econtract, contract_src={})
+            for cancellation in econtract.get("cancellations", []):
+                if cancellation["status"] == "pending" and cancellation["reasonType"] == "signingRefusal":
+                    cancellation["status"] = "active"
             econtract["status"] = status
             econtract["date"] = get_request_now().isoformat()
             save_contract(request)
