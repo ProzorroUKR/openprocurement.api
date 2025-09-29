@@ -1,0 +1,78 @@
+PATCH /api/2.5/tenders/1640f9c9f12d4f74b35596c849f209a4/awards/283d9284a6054a25a129e848808b75a1?acc_token=7939b7ae24e54362bc4e994730616bca HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "cancelled"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1640f9c9f12d4f74b35596c849f209a4/awards/1b4f4c15efe44f04bcd52e5db833077a
+
+{
+  "data": {
+    "id": "283d9284a6054a25a129e848808b75a1",
+    "status": "cancelled",
+    "date": "2023-10-10T01:00:00+03:00",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        },
+        "contract_owner": "broker6"
+      }
+    ],
+    "bid_id": "6eb4106605214f398c4336aee7072c4c",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "aaa30dac32c847c9b6835c1f4501df97",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "sign/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/86bc318502e343a59c58137933cd1af0?Signature=hsltR%2BvlMEkWC%2FYGw3BxRGC2fe9YODIu8lrnHVBW1hH6OIcxnEy6JCOCxu9p62rOUREo7qYfN8t2LtrPDngpDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "qualified": true
+  }
+}
+

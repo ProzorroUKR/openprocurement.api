@@ -20,7 +20,13 @@ def create_cancellation_by_buyer(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "reasonType", 'description': ["Value must be one of ['requiresChanges']."]}],
+        [
+            {
+                "location": "body",
+                "name": "reasonType",
+                'description': ["Value must be one of ['requiresChanges', 'signingRefusal']."],
+            }
+        ],
     )
 
     response = self.app.post_json(
