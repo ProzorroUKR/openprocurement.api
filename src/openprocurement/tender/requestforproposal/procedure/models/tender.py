@@ -28,7 +28,7 @@ from openprocurement.tender.core.procedure.models.tender import Tender as BaseTe
 from openprocurement.tender.core.procedure.models.tender_base import (
     MAIN_PROCUREMENT_CATEGORY_CHOICES,
 )
-from openprocurement.tender.core.procedure.models.value import Guarantee
+from openprocurement.tender.core.procedure.models.value import BasicValue
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
 
@@ -55,7 +55,7 @@ class PatchTender(BasePatchTender):
 
 class PatchActiveTender(Model):
     tenderPeriod = ModelType(PeriodEndRequired)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     value = ModelType(Value)
     milestones = ListType(
         ModelType(Milestone, required=True),

@@ -1,10 +1,10 @@
 from schematics.types import BooleanType, FloatType
 
-from openprocurement.api.procedure.models.value import Guarantee
+from openprocurement.api.procedure.models.value import BasicValue
 from openprocurement.api.procedure.types import DecimalType
 
 
-class Value(Guarantee):
+class Value(BasicValue):
     valueAddedTaxIncluded = BooleanType(required=True)
 
 

@@ -6,7 +6,7 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import DecimalType
 
 
-class Guarantee(Model):
+class BasicValue(Model):
     amount = FloatType(required=True, min_value=0)  # Amount as a number.
     currency = StringType(required=True, default="UAH", max_length=3, min_length=3)  # 3-letter ISO 4217 format.
 
@@ -15,7 +15,7 @@ class Guarantee(Model):
             raise ValidationError(f"Currency must be only {', '.join(CURRENCIES)}.")
 
 
-class Value(Guarantee):
+class Value(BasicValue):
     valueAddedTaxIncluded = BooleanType(required=True, default=True)
 
 

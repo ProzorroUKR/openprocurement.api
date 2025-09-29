@@ -12,7 +12,7 @@ from openprocurement.tender.core.procedure.models.lot import (
 )
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 from openprocurement.tender.core.procedure.models.value import (
-    Guarantee,
+    BasicValue,
     PostEstimatedValue,
 )
 from openprocurement.tender.esco.procedure.constants import (
@@ -27,7 +27,7 @@ class PostLot(PostBaseLot):
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,
         precision=LotMinimalStepPercentageValues.PRECISION,
     )
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     yearlyPaymentsPercentageRange = DecimalType(
         default=Decimal("0.8"),
         min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
@@ -38,7 +38,7 @@ class PostLot(PostBaseLot):
 
 class PatchLot(BaseLot):
     title = StringType()
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     minimalStepPercentage = DecimalType(
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,
@@ -63,7 +63,7 @@ class PostTenderLot(PostLot, TenderLotMixin):
 
 class PatchTenderLot(BaseLot, TenderLotMixin):
     minValue = ModelType(EstimatedValue)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     fundingKind = StringType(choices=["budget", "other"])
     minimalStepPercentage = DecimalType(
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,
@@ -84,7 +84,7 @@ class Lot(BaseLot, TenderLotMixin):
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,
         precision=LotMinimalStepPercentageValues.PRECISION,
     )
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     fundingKind = StringType(choices=["budget", "other"], required=True)
     yearlyPaymentsPercentageRange = DecimalType(
         min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,

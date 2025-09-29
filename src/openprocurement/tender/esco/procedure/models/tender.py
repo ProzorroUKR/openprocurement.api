@@ -34,7 +34,7 @@ from openprocurement.tender.core.procedure.models.tender_base import (
     PatchBaseTender,
     PostBaseTender,
 )
-from openprocurement.tender.core.procedure.models.value import Guarantee
+from openprocurement.tender.core.procedure.models.value import BasicValue
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.esco.procedure.models.feature import Feature
@@ -112,7 +112,7 @@ class PostTender(PostBaseTender):
     )
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
@@ -169,7 +169,7 @@ class PatchTender(PatchBaseTender):
     yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"])
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
 
     procuringEntity = ModelType(ProcuringEntity)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
@@ -201,7 +201,7 @@ class Tender(BaseTender):
     yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])

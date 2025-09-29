@@ -40,7 +40,7 @@ from openprocurement.tender.core.procedure.models.tender import (
     PostBaseTender,
     validate_items_related_lot,
 )
-from openprocurement.tender.core.procedure.models.value import Guarantee
+from openprocurement.tender.core.procedure.models.value import BasicValue
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 
 
@@ -75,7 +75,7 @@ class PostTender(PostBaseTender):
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     # tenderPeriod = ModelType(PeriodEndRequired)
 
     # Non-required mainProcurementCategory
@@ -139,7 +139,7 @@ class PatchTender(PatchBaseTender):
     tenderPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable
     minimalStep = ModelType(Value)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
 
     def validate_tenderPeriod(self, data, period):
         if period and get_tender()["status"] != "active.enquiries":
@@ -189,7 +189,7 @@ class Tender(BaseTender):
     # will be overwritten by serializable
     minimalStep = ModelType(Value)
     value = ModelType(Value)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
 
     next_check = BaseType()
 
@@ -211,7 +211,7 @@ class Tender(BaseTender):
     @serializable(
         serialized_name="guarantee",
         serialize_when_none=False,
-        type=ModelType(Guarantee),
+        type=ModelType(BasicValue),
     )
     def tender_guarantee(self):
         if self.lots:

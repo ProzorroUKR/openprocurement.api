@@ -39,7 +39,7 @@ from openprocurement.tender.core.procedure.models.tender_base import (
     PatchBaseTender,
     PostBaseTender,
 )
-from openprocurement.tender.core.procedure.models.value import Guarantee
+from openprocurement.tender.core.procedure.models.value import BasicValue
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     validate_features_custom_weight,
@@ -90,7 +90,7 @@ class PostTender(PostBaseTender):
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(EstimatedValue, required=True)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     minimalStep = ModelType(EstimatedValue)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
@@ -137,7 +137,7 @@ class PatchTender(PatchBaseTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
     procuringEntity = ModelType(ProcuringEntity)
     value = ModelType(EstimatedValue)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     minimalStep = ModelType(EstimatedValue)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired)
@@ -164,7 +164,7 @@ class Tender(BaseTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(EstimatedValue, required=True)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     next_check = BaseType()
     minimalStep = ModelType(EstimatedValue)
     enquiryPeriod = ModelType(EnquiryPeriod, required=True)
