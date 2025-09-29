@@ -1251,9 +1251,9 @@ Content-Type: application/json
         "id": "d7afc0eb4f6d42549557d7b3226417e6",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
-          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 500.0
         }
       },
       {
@@ -1263,9 +1263,9 @@ Content-Type: application/json
         "id": "6670a4933d854a00afa53a2979728a6d",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
-          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 500.0
         }
       }
     ],

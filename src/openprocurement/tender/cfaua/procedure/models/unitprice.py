@@ -5,7 +5,7 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import DecimalType
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee
+from openprocurement.tender.core.procedure.models.value import Guarantee
 
 
 class Value(Guarantee):

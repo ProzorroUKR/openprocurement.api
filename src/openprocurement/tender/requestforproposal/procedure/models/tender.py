@@ -6,7 +6,6 @@ from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.procedure.models.document import PostDocument
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.item import TechFeatureItem as Item
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
 from openprocurement.tender.core.procedure.models.lot import (
@@ -29,6 +28,7 @@ from openprocurement.tender.core.procedure.models.tender import Tender as BaseTe
 from openprocurement.tender.core.procedure.models.tender_base import (
     MAIN_PROCUREMENT_CATEGORY_CHOICES,
 )
+from openprocurement.tender.core.procedure.models.value import Guarantee
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
 

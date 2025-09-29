@@ -113,9 +113,9 @@ Content-Type: application/json
         "id": "5740fe669c0546188adff1c8c9b0aa58",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
-          "amount": 500000.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 500000.0
         }
       }
     ],

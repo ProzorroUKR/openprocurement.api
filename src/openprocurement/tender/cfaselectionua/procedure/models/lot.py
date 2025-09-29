@@ -1,17 +1,17 @@
 from schematics.types import BaseType, MD5Type, StringType, URLType
 from schematics.types.compound import ModelType
 
-from openprocurement.tender.core.procedure.models.guarantee import (
-    EstimatedValue,
-    Guarantee,
-    Value,
-)
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
     PostBaseLot,
     TenderLotMixin,
 )
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
+from openprocurement.tender.core.procedure.models.value import (
+    EstimatedValue,
+    Guarantee,
+    Value,
+)
 
 # -- START model for view ---
 

@@ -3,12 +3,12 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument
-from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue,
     PatchLotValue,
     PostLotValue,
 )
+from openprocurement.tender.core.procedure.models.value import WeightedValue
 from openprocurement.tender.openua.procedure.models.bid import Bid as BaseBid
 from openprocurement.tender.openua.procedure.models.bid import PatchBid as BasePatchBid
 from openprocurement.tender.openua.procedure.models.bid import PostBid as BasePostBid

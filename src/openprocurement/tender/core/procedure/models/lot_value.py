@@ -4,7 +4,7 @@ from schematics.types.compound import ModelType
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
+from openprocurement.tender.core.procedure.models.value import WeightedValue
 from openprocurement.tender.core.procedure.validation import (
     validate_lotvalue_value,
     validate_related_lot,

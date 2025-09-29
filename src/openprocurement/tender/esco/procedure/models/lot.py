@@ -5,17 +5,16 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import DecimalType
-from openprocurement.tender.core.procedure.models.guarantee import (
-    Guarantee,
-    PostEstimatedValue,
-    PostGuarantee,
-)
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
     PostBaseLot,
     TenderLotMixin,
 )
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
+from openprocurement.tender.core.procedure.models.value import (
+    Guarantee,
+    PostEstimatedValue,
+)
 from openprocurement.tender.esco.procedure.constants import (
     LotMinimalStepPercentageValues,
     LotYearlyPaymentsPercentageRangeValues,
@@ -28,7 +27,7 @@ class PostLot(PostBaseLot):
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,
         precision=LotMinimalStepPercentageValues.PRECISION,
     )
-    guarantee = ModelType(PostGuarantee)
+    guarantee = ModelType(Guarantee)
     yearlyPaymentsPercentageRange = DecimalType(
         default=Decimal("0.8"),
         min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,

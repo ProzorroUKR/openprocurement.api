@@ -7,13 +7,12 @@ from schematics.validate import ValidationError
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType
-from openprocurement.tender.core.procedure.models.guarantee import (
+from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
+from openprocurement.tender.core.procedure.models.value import (
     EstimatedValue,
     Guarantee,
     PostEstimatedValue,
-    PostGuarantee,
 )
-from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 
 
 class BaseLot(Model):
@@ -50,7 +49,7 @@ class PatchLot(BaseLot):
 class PostLot(PostBaseLot):
     value = ModelType(PostEstimatedValue, required=True)
     minimalStep = ModelType(PostEstimatedValue)
-    guarantee = ModelType(PostGuarantee)
+    guarantee = ModelType(Guarantee)
 
 
 # --- For work from tender ---

@@ -10,10 +10,6 @@ from openprocurement.api.procedure.types import DecimalType
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.core.procedure.models.guarantee import (
-    Guarantee,
-    PostGuarantee,
-)
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
     validate_items_uniq,
@@ -38,6 +34,7 @@ from openprocurement.tender.core.procedure.models.tender_base import (
     PatchBaseTender,
     PostBaseTender,
 )
+from openprocurement.tender.core.procedure.models.value import Guarantee
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.esco.procedure.models.feature import Feature
@@ -115,7 +112,7 @@ class PostTender(PostBaseTender):
     )
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
-    guarantee = ModelType(PostGuarantee)
+    guarantee = ModelType(Guarantee)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])

@@ -7,7 +7,7 @@ from schematics.types.serializable import serializable
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.models.value import Value, WeightedValue
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.tender.core.procedure.models.award_milestone import (
     AwardMilestoneListMixin,
@@ -33,7 +33,7 @@ class PostAward(BaseAward):
 
     status = StringType(required=True, choices=["pending"], default="pending")
     value = ModelType(Value)
-    weightedValue = ModelType(Value)
+    weightedValue = ModelType(WeightedValue)
     suppliers = ListType(
         ModelType(Supplier, required=True),
         required=True,
@@ -70,7 +70,7 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
     status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
     date = IsoDateTimeType(required=True)
     value = ModelType(Value)
-    weightedValue = ModelType(Value)
+    weightedValue = ModelType(WeightedValue)
     suppliers = ListType(
         ModelType(Supplier, required=True),
         required=True,

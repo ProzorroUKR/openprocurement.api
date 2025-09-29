@@ -24,8 +24,8 @@ from openprocurement.tender.core.procedure.models.document import (
     Document,
     PostComplaintDocument,
 )
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.organization import Organization
+from openprocurement.tender.core.procedure.models.value import Guarantee
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.procedure.validation import (
     validate_numerated,

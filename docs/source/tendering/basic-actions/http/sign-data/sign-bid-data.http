@@ -100,14 +100,14 @@ Content-Type: application/json
           "id": "c94486b261084c09ac0c731b74d35c85",
           "date": "2023-10-10T01:00:00+03:00",
           "value": {
-            "amount": 500.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": true,
+            "amount": 500.0
           },
           "minimalStep": {
-            "amount": 5.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": true,
+            "amount": 5.0
           }
         }
       ],

@@ -3,7 +3,7 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.bank import BankAccount
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.guarantee import Guarantee
+from openprocurement.api.procedure.models.value import Guarantee
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.contracting.core.procedure.models.document import (
     TransactionDocument,

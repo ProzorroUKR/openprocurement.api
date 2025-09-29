@@ -173,13 +173,13 @@ Content-Type: application/json
         "id": "13e393636d614660a90f07fa8b4feea6",
         "status": "active",
         "value": {
-          "amount": 500.0,
           "currency": "UAH",
+          "amount": 500.0,
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "amount": 5.0,
           "currency": "UAH",
+          "amount": 5.0,
           "valueAddedTaxIncluded": true
         },
         "date": "2023-10-10T01:00:00+03:00"

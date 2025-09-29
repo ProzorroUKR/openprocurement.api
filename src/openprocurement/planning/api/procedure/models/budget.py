@@ -16,7 +16,7 @@ from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.procedure.utils import is_const_active
 from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TITLES
-from openprocurement.planning.api.procedure.models.guarantee import Guarantee
+from openprocurement.api.procedure.models.value import Guarantee
 
 
 class BudgetProject(Model):

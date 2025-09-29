@@ -13,10 +13,6 @@ from openprocurement.tender.core.procedure.models.feature import (
     Feature,
     validate_related_items,
 )
-from openprocurement.tender.core.procedure.models.guarantee import (
-    Guarantee,
-    PostGuarantee,
-)
 from openprocurement.tender.core.procedure.models.item import (
     Item,
     validate_classification_id,
@@ -43,6 +39,7 @@ from openprocurement.tender.core.procedure.models.tender_base import (
     PatchBaseTender,
     PostBaseTender,
 )
+from openprocurement.tender.core.procedure.models.value import Guarantee
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     validate_features_custom_weight,
@@ -93,7 +90,7 @@ class PostTender(PostBaseTender):
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(EstimatedValue, required=True)
-    guarantee = ModelType(PostGuarantee)
+    guarantee = ModelType(Guarantee)
     minimalStep = ModelType(EstimatedValue)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired, required=True)

@@ -25,10 +25,6 @@ from openprocurement.tender.cfaselectionua.procedure.models.organization import 
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.core.procedure.models.guarantee import (
-    Guarantee,
-    PostGuarantee,
-)
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
     validate_related_buyer_in_items,
@@ -44,6 +40,7 @@ from openprocurement.tender.core.procedure.models.tender import (
     PostBaseTender,
     validate_items_related_lot,
 )
+from openprocurement.tender.core.procedure.models.value import Guarantee
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 
 
@@ -78,7 +75,7 @@ class PostTender(PostBaseTender):
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
-    guarantee = ModelType(PostGuarantee)
+    guarantee = ModelType(Guarantee)
     # tenderPeriod = ModelType(PeriodEndRequired)
 
     # Non-required mainProcurementCategory

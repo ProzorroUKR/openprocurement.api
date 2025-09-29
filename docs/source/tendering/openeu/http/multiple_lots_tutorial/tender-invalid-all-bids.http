@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "value": {
-      "amount": 400,
       "currency": "UAH",
+      "amount": 400,
       "valueAddedTaxIncluded": true
     }
   }
@@ -25,14 +25,14 @@ Content-Type: application/json
     "id": "fb3576b2e3fc409bb7efaee95c9f259e",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
-      "amount": 400.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 400.0
     },
     "minimalStep": {
-      "amount": 5.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 5.0
     }
   }
 }
