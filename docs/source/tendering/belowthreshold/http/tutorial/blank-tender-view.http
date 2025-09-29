@@ -43,8 +43,8 @@ Content-Type: application/json
     },
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 500.0
+      "amount": 500.0,
+      "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
       "startDate": "2023-10-17T00:00:00+02:00",

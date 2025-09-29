@@ -7,7 +7,7 @@ from schematics.types.serializable import serializable
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.models.value import Value, WeightedValue
+from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.tender.core.procedure.models.award_milestone import (
     AwardMilestoneListMixin,
@@ -20,6 +20,7 @@ from openprocurement.tender.core.procedure.models.req_response import (
     ObjResponseMixin,
     PatchObjResponsesMixin,
 )
+from openprocurement.tender.core.procedure.models.value import WeightedValue
 
 
 class PostAward(BaseAward):

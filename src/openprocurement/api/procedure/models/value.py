@@ -3,7 +3,6 @@ from schematics.types import BooleanType, FloatType, StringType
 
 from openprocurement.api.constants import CURRENCIES
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import DecimalType
 
 
 class BasicValue(Model):
@@ -17,11 +16,6 @@ class BasicValue(Model):
 
 class Value(BasicValue):
     valueAddedTaxIncluded = BooleanType(required=True, default=True)
-
-
-class WeightedValue(Value):
-    denominator = DecimalType()
-    addition = DecimalType()
 
 
 class EstimatedValue(Value):

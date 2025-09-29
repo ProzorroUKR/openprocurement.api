@@ -4,7 +4,6 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
-from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import ListType
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.validation import validate_items_uniq
@@ -39,7 +38,10 @@ from openprocurement.tender.core.procedure.models.tender_base import (
     PatchBaseTender,
     PostBaseTender,
 )
-from openprocurement.tender.core.procedure.models.value import BasicValue
+from openprocurement.tender.core.procedure.models.value import (
+    BasicValue,
+    PostEstimatedValue,
+)
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     validate_features_custom_weight,
@@ -89,9 +91,9 @@ class PostTender(PostBaseTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], default=AWARD_CRITERIA_LOWEST_COST)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    value = ModelType(EstimatedValue, required=True)
+    value = ModelType(PostEstimatedValue, required=True)
     guarantee = ModelType(BasicValue)
-    minimalStep = ModelType(EstimatedValue)
+    minimalStep = ModelType(PostEstimatedValue)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
@@ -136,9 +138,9 @@ class PatchTender(PatchBaseTender):
     submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
     procuringEntity = ModelType(ProcuringEntity)
-    value = ModelType(EstimatedValue)
+    value = ModelType(PostEstimatedValue)
     guarantee = ModelType(BasicValue)
-    minimalStep = ModelType(EstimatedValue)
+    minimalStep = ModelType(PostEstimatedValue)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired)
     awardPeriod = ModelType(Period)
@@ -163,10 +165,10 @@ class Tender(BaseTender):
     submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    value = ModelType(EstimatedValue, required=True)
+    value = ModelType(PostEstimatedValue, required=True)
     guarantee = ModelType(BasicValue)
     next_check = BaseType()
-    minimalStep = ModelType(EstimatedValue)
+    minimalStep = ModelType(PostEstimatedValue)
     enquiryPeriod = ModelType(EnquiryPeriod, required=True)
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)

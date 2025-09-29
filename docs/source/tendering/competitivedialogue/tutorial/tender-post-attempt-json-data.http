@@ -185,8 +185,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
     "title": "Послуги шкільних їдалень",
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 500.0
+      "amount": 500.0,
+      "valueAddedTaxIncluded": true
     },
     "milestones": [
       {

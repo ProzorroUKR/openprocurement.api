@@ -3,7 +3,6 @@ from decimal import Decimal
 from schematics.types import StringType, URLType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import DecimalType
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
@@ -62,7 +61,7 @@ class PostTenderLot(PostLot, TenderLotMixin):
 
 
 class PatchTenderLot(BaseLot, TenderLotMixin):
-    minValue = ModelType(EstimatedValue)
+    minValue = ModelType(PostEstimatedValue)
     guarantee = ModelType(BasicValue)
     fundingKind = StringType(choices=["budget", "other"])
     minimalStepPercentage = DecimalType(
@@ -78,7 +77,7 @@ class PatchTenderLot(BaseLot, TenderLotMixin):
 
 
 class Lot(BaseLot, TenderLotMixin):
-    minValue = ModelType(EstimatedValue)
+    minValue = ModelType(PostEstimatedValue)
     minimalStepPercentage = DecimalType(
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,

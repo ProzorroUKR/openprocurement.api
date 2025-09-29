@@ -20,3 +20,4 @@ class WeightedValue(Value):
     amount = DecimalType(required=True, precision=-2)
     denominator = FloatType()
     addition = DecimalType(precision=-2)
+    valueAddedTaxIncluded = BooleanType(required=True, default=True)

@@ -26,13 +26,13 @@ Content-Type: application/json
     "submissionMethod": "electronicAuction",
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 500.0
+      "amount": 500.0,
+      "valueAddedTaxIncluded": true
     },
     "minimalStep": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 5.0
+      "amount": 5.0,
+      "valueAddedTaxIncluded": true
     },
     "milestones": [
       {
