@@ -127,18 +127,18 @@ class ShouldStartAfterMixing:
     @classmethod
     def get_tender_complaints_unblock_dates(cls, tender):
         complaints = tender.get("complaints", "")
-        return cls.get_complaints_unblock_dates(complaints)
+        return cls.get_complaints_unblock_dates(tender, complaints)
 
     @classmethod
     def get_tender_qualification_complaints_unblock_dates(cls, tender):
         unblock_dates = []
         for qualification in tender.get("qualifications", ""):
             complaints = qualification.get("complaints", "")
-            unblock_dates.extend(cls.get_complaints_unblock_dates(complaints))
+            unblock_dates.extend(cls.get_complaints_unblock_dates(tender, complaints))
         return unblock_dates
 
     @classmethod
-    def get_complaints_unblock_dates(cls, complaints):
+    def get_complaints_unblock_dates(cls, tender, complaints):
         unblock_dates = []
         for complaint in complaints:
             if complaint.get("status") in cls.block_complaint_status:
@@ -152,7 +152,7 @@ class ShouldStartAfterMixing:
                 # other blocking complaints unblock on dateDecision
                 date = dt_from_iso(complaint["dateDecision"])
                 # additionally by law we should wait 2 full days after dateDecision
-                date = calculate_tender_full_date(date, timedelta(days=2))
+                date = calculate_tender_full_date(date, timedelta(days=2), tender=tender)
                 unblock_dates.append(date)
         return unblock_dates
 
