@@ -24,6 +24,7 @@ Schema
     There are possible values:
 
     * `requiresChanges`
+    * `signingRefusal`
 
 :status:
     string
