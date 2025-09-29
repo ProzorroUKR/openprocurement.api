@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
+GET /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98 HTTP/1.0
 Authorization: Bearer broker6
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,11 +8,11 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "1b4f4c15efe44f04bcd52e5db833077a",
-    "contractID": "UA-2023-10-10-000002-a-3",
+    "awardID": "283d9284a6054a25a129e848808b75a1",
+    "contractID": "UA-2023-10-10-000002-a-2",
     "period": {
-      "startDate": "2023-10-15T00:00:00+03:00",
-      "endDate": "2023-12-31T23:59:59+03:00"
+      "startDate": "2022-01-01T00:00:00+02:00",
+      "endDate": "2026-01-01T00:00:00+02:00"
     },
     "value": {
       "amount": 500.0,
@@ -162,7 +162,7 @@ Content-Type: application/json
         "contract_owner": "broker6",
         "scale": "micro",
         "signerInfo": {
-          "name": "Test Testovich",
+          "name": "Another supplier",
           "email": "example@email.com",
           "telephone": "+380950000000",
           "iban": "111111111111111",
@@ -174,128 +174,36 @@ Content-Type: application/json
     "owner": "broker",
     "tender_id": "1640f9c9f12d4f74b35596c849f209a4",
     "contractTemplateName": "00000000.0002.01",
-    "status": "active",
+    "status": "pending",
+    "author": "supplier",
+    "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
         "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/a2ce835139874860b1b6fb0bf6b5575d?download=acdee3c5fbb14da0b63000963dea8a81",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/d0cfb4b9efbc40338460f946b7932266?download=acdee3c5fbb14da0b63000963dea8a81",
         "documentOf": "contract",
-        "id": "a2ce835139874860b1b6fb0bf6b5575d",
+        "id": "d0cfb4b9efbc40338460f946b7932266",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "documentType": "contractNotice"
-      },
-      {
-        "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/7f7d3898f20743798bf86ef67bf260d6?download=9dc6bfe4683b4e63a799bbe366ba9376",
-        "documentOf": "contract",
-        "documentType": "contractSignature",
-        "id": "7f7d3898f20743798bf86ef67bf260d6",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "supplier"
-      },
-      {
-        "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/22ad6fee7d0042aaa9a1d88e22bf9d67?download=9dc6bfe4683b4e63a799bbe366ba9376",
-        "documentOf": "contract",
-        "documentType": "contractSignature",
-        "id": "22ad6fee7d0042aaa9a1d88e22bf9d67",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "buyer"
       }
     ],
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateSigned": "2023-10-10T01:00:00+03:00",
-    "changes": [
+    "cancellations": [
       {
-        "rationale": "причина зміни укр",
-        "rationale_en": "change cause en",
-        "rationaleTypes": [
-          "priceReduction"
-        ],
-        "modifications": {
-          "value": {
-            "amount": 535.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true,
-            "amountNet": 490.0
-          }
-        },
-        "id": "68db49ecd6ef439a81feaec69cd6ab07",
-        "status": "active",
-        "date": "2023-10-10T01:00:00+03:00",
-        "author": "supplier",
-        "documents": [
-          {
-            "confidentiality": "public",
-            "title": "sign.p7s",
-            "format": "application/pkcs7-signature",
-            "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/c681b342eb664c3ab671f50a68860c14?download=9dc6bfe4683b4e63a799bbe366ba9376",
-            "documentOf": "change",
-            "documentType": "contractSignature",
-            "id": "c681b342eb664c3ab671f50a68860c14",
-            "datePublished": "2023-10-10T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00",
-            "author": "supplier"
-          },
-          {
-            "confidentiality": "public",
-            "title": "sign.p7s",
-            "format": "application/pkcs7-signature",
-            "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/dbfd77f646e24646b486c9993d548773?download=9dc6bfe4683b4e63a799bbe366ba9376",
-            "documentOf": "change",
-            "documentType": "contractSignature",
-            "id": "dbfd77f646e24646b486c9993d548773",
-            "datePublished": "2023-10-10T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00",
-            "author": "buyer"
-          }
-        ]
-      },
-      {
-        "rationale": "причина зміни укр",
-        "rationale_en": "change cause en",
-        "rationaleTypes": [
-          "durationExtension"
-        ],
-        "modifications": {
-          "period": {
-            "endDate": "2027-01-01T00:00:00+02:00",
-            "startDate": "2023-10-15T00:00:00+03:00"
-          }
-        },
-        "id": "e3b63c3aac354f6db3fbc8f25d03cc7d",
-        "status": "cancelled",
-        "date": "2023-10-10T01:00:00+03:00",
-        "author": "supplier",
-        "cancellations": [
-          {
-            "reason": "not actual change",
-            "reasonType": "requiresChanges",
-            "id": "4f8c5f34f0e34e2fad07dce1798124e2",
-            "dateCreated": "2023-10-10T01:00:00+03:00",
-            "status": "active",
-            "author": "supplier"
-          }
-        ]
+        "reason": "want to quid",
+        "reasonType": "signingRefusal",
+        "id": "3380e0835b714c2d8c6a852fbef4187e",
+        "dateCreated": "2023-10-10T01:00:00+03:00",
+        "status": "pending",
+        "author": "supplier"
       }
     ],
-    "id": "38891909c9274c02b0bdca60fa5d2260"
+    "id": "d71a69be5f1a437abf5134881f4c4b98"
   },
   "config": {
     "restricted": false

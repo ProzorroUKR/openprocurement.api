@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07?acc_token=838bca54aee04fbaabd502cb2c7b28a4 HTTP/1.0
+GET /api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07?acc_token=095f224d5ed54436b623b406684b80f1 HTTP/1.0
 Authorization: Bearer broker6
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -31,7 +31,7 @@ Content-Type: application/json
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "hash": "md5:00000000000000000000000000000000",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/c681b342eb664c3ab671f50a68860c14?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/c681b342eb664c3ab671f50a68860c14?download=9dc6bfe4683b4e63a799bbe366ba9376",
         "documentOf": "change",
         "documentType": "contractSignature",
         "id": "c681b342eb664c3ab671f50a68860c14",
@@ -44,7 +44,7 @@ Content-Type: application/json
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "hash": "md5:00000000000000000000000000000000",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/dbfd77f646e24646b486c9993d548773?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/dbfd77f646e24646b486c9993d548773?download=9dc6bfe4683b4e63a799bbe366ba9376",
         "documentOf": "change",
         "documentType": "contractSignature",
         "id": "dbfd77f646e24646b486c9993d548773",

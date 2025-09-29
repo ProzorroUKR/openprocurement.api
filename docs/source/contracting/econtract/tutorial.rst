@@ -205,6 +205,9 @@ If all required signatures are completed, the contract will automatically transi
 .. http:example:: http/get-active-contract.http
    :code:
 
+
+.. _contract_versions:
+
 New versions of contract
 =========================
 
@@ -223,7 +226,7 @@ Cancellations
 
 It is allowed to cancel current version of contract and create new one during contract is `pending`.
 
-To cancel current version of contract, participant of contract should create a cancellation with reason:
+To cancel current version of contract, participant of contract should create a cancellation with reason `requiresChanges`:
 
 .. http:example:: http/contract-supplier-cancels-contract.http
    :code:
@@ -290,6 +293,45 @@ Let's look at all contracts in tender:
 After that new round of signatures begins.
 
 Supplier and buyer can sign this new version of contract if they agreed with changes or create new version if disagreed.
+
+Cancellations of Econtract
+===========================
+
+It is allowed to cancel contract while it is on `pending` status.
+
+There are two `reasonTypes` for creating cancellation of contract:
+
+* `requiresChanges`
+* `signingRefusal`
+
+Reason `requiresChanges` means that one of the sides doesn't agree to sign current version of contract, and they want to create a new version of contract. Described in :ref:`contract_versions`.
+
+Reason `signingRefusal` means that the winner of tender is refused to sign aa contract, that's why his award should be cancelled by buyer.
+
+Participant of contract can create a cancellation with reason `signingRefusal`:
+
+.. http:example:: http/contract-supplier-cancels-contract-2.http
+   :code:
+
+Let's look at contract:
+
+.. http:example:: http/winner-cancellation-of-contract.http
+   :code:
+
+After that buyer should cancel the winner via award:
+
+.. http:example:: http/winner-award-cancellation.http
+   :code:
+
+Let's look at contract one more time and we will see that contract became `cancelled`, cancellation became `active`:
+
+.. http:example:: http/contract-with-winner-cancellation.http
+   :code:
+
+Let's look at tender, the winner is cancelled an awarding is continuing:
+
+.. http:example:: http/tender-with-winner-cancellation-of-contract.http
+   :code:
 
 Changes for active contract
 =============================
