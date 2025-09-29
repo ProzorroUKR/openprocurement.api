@@ -699,7 +699,7 @@ def validate_tender_guarantee(request, **_):
     if tender["status"] == new_status:
         return
 
-    if new_status not in ("active", "active.tendering"):
+    if new_status not in ("active", "active.enquiries", "active.tendering"):
         return
 
     tender_type = tender["procurementMethodType"]
