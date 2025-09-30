@@ -27,8 +27,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e
     "weightedValue": {
       "currency": "UAH",
       "amount": 388.11,
-      "denominator": 1.2857142857142858,
-      "valueAddedTaxIncluded": true
+      "denominator": 1.2857142857142858
     },
     "suppliers": [
       {

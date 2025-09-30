@@ -458,19 +458,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             {
                 'data': {
                     'bids': [
-                        {
-                            "id": b["id"],
-                            "lotValues": [
-                                {
-                                    "value": {
-                                        "amount": b["lotValues"][0]["value"]["amount"],
-                                        "currency": b["lotValues"][0]["value"]["currency"],
-                                        "valueAddedTaxIncluded": b["lotValues"][0]["value"]["valueAddedTaxIncluded"],
-                                    },
-                                },
-                            ],
-                        }
-                        for b in auction_bids_data
+                        {"id": b["id"], "lotValues": [{"value": b["lotValues"][0]["value"]}]} for b in auction_bids_data
                     ]
                 }
             },

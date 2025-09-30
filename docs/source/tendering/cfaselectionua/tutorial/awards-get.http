@@ -20,8 +20,7 @@ Content-Type: application/json
       "weightedValue": {
         "currency": "UAH",
         "amount": 388.11,
-        "denominator": 1.2857142857142858,
-        "valueAddedTaxIncluded": true
+        "denominator": 1.2857142857142858
       },
       "suppliers": [
         {

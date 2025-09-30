@@ -16,8 +16,13 @@ class PostEstimatedValue(EstimatedValue):
     valueAddedTaxIncluded = BooleanType(required=True, default=True)
 
 
-class WeightedValue(Value):
+class WeightedValue(BasicValue):
     amount = DecimalType(required=True, precision=-2)
     denominator = FloatType()
     addition = DecimalType(precision=-2)
-    valueAddedTaxIncluded = BooleanType(required=True, default=True)
+
+    # Keep for backward compatibility
+    # For now we have this filed in old data
+    # It's not decided yet to remove it or not by migration
+    # In case of migration we will remove this field
+    valueAddedTaxIncluded = BooleanType()
