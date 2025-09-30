@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 13:18+0300\n"
+"POT-Creation-Date: 2025-10-01 01:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -410,6 +410,15 @@ msgstr "Для того, щоб активувати зміни, потрібн�
 msgid "If both sides signed the current version of change, than change becomes `active` and modifications will be taken into account during next changes."
 msgstr "Після того, як будуть накладені два підписи на зміни, зміни стають `active`."
 
+msgid "В процесі розробки."
+msgstr ""
+
+msgid "Вимоги до підпису буде додано пізніше."
+msgstr ""
+
+msgid "Процес підписання змін буде схожий до процесу підписання договору."
+msgstr ""
+
 msgid "Supplier adds signature document using his token (`supplier_token`):"
 msgstr "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`):"
 
@@ -475,3 +484,4 @@ msgstr "Але при цьому все ще існує валідація на 
 
 msgid "Let's update quantity in first item and add new item with correct `unit.value`:"
 msgstr "Відредагуємо `quantity` в першому `item` і додамо новий `item` з коректною ціною `unit.value`:"
+

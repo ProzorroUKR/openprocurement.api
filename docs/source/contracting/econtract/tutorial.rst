@@ -370,6 +370,13 @@ To activate change it is required to add contract signature document type from e
 
 If both sides signed the current version of change, than change becomes `active` and modifications will be taken into account during next changes.
 
+.. warning::
+    В процесі розробки.
+
+    Вимоги до підпису буде додано пізніше. 
+    
+    Процес підписання змін буде схожий до процесу підписання договору.
+
 Supplier adds signature document using his token (`supplier_token`):
 
 .. http:example:: http/change-supplier-add-signature-doc.http
