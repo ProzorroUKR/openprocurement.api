@@ -31,7 +31,7 @@ Schema
    Absent in :ref:`esco`
 
 :guarantee:
-    :ref:`Guarantee`
+    :ref:`BasicValue`
 
     Bid guarantee
 

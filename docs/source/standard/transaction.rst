@@ -27,7 +27,7 @@ Schema
     The date of the transaction.
 
 :value:
-    string, :ref:`Guarantee`, required
+    string, :ref:`BasicValue`, required
 
     The value of the transaction.
 

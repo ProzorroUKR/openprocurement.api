@@ -411,7 +411,7 @@ BudgetBreakdown
     Detailed description of budget breakdown.
 
 :value:
-    :ref:`Guarantee`
+    :ref:`BasicValue`
 
     Budget breakdown value
 

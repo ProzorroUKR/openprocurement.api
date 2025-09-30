@@ -205,10 +205,10 @@ Schema
     List of `Change` objects
 
 
-.. _guarantee:
+.. _BasicValue:
 
-Guarantee
-=========
+BasicValue
+==========
 
 Schema
 ------

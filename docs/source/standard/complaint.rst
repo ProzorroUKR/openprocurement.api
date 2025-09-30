@@ -116,7 +116,7 @@ Schema
     List of :ref:`complaint-appeal` objects
 
 :value:
-    :ref:`Guarantee`, auto-generated
+    :ref:`BasicValue`, auto-generated
 
     Amount to be paid to activate this complaint. See :ref:`complaint-payments`
 
