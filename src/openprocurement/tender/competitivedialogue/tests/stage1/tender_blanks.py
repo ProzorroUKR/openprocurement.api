@@ -50,7 +50,7 @@ def create_tender_invalid_eu(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or EstimatedValue instance instead of str."],
+                "description": ["Please use a mapping for this field or PostEstimatedValue instance instead of str."],
                 "location": "body",
                 "name": "value",
             }
@@ -756,7 +756,7 @@ def create_tender_invalid_ua(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or EstimatedValue instance instead of str."],
+                "description": ["Please use a mapping for this field or PostEstimatedValue instance instead of str."],
                 "location": "body",
                 "name": "value",
             }
