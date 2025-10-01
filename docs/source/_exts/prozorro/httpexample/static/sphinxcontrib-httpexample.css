@@ -1,29 +1,113 @@
-.http-example .caption,
-.section ul .http-example .caption {
-    display: inline-block;
-    cursor: pointer;
-    padding: 0.5em 1em;
-    margin: 0;
-}
-.http-example .caption.selected {
-    font-weight: bold;
-    background-color: #fff;
+.http-example {
+    margin: 0 0 24px;
+    width: 100%;
+    overflow-x: auto;
     border: 1px solid #e1e4e5;
-    border-bottom: 1px solid white;
+    border-radius: 4px;
 }
+
+.http-example-wrapper {
+    width: fit-content;
+    min-width: 100%;
+}
+
 .http-example div[class^='highlight'] {
-    margin-top: -1px;
+    margin: 0;
+    border: none;
+    overflow-x: visible;
 }
+
+.http-example-request + .http-example-response {
+    border-top: 1px solid #e1e4e5;
+}
+
+.json-content {
+    border-top: 1px solid #e1e4e5;
+}
+
 .http-example div[class^='highlight'] pre {
     white-space: normal;
 }
+
 .http-example div.highlight-bash pre {
     white-space: pre-wrap;
 }
-.http-example-http div[class^='highlight'] pre,
+
+.http-example-request div[class^='highlight'] pre,
 .http-example-response div[class^='highlight'] pre {
     white-space: pre;
+    overflow-x: visible;
 }
-.http-example div[class~='highlight'] pre {
-    max-height: 70vh;
+
+.http-example div[class^='highlight'] pre:hover,
+.http-example div[class^='highlight'] pre:focus {
+    overflow-x: visible;
+}
+
+.http-example .json-foldable {
+    position: relative;
+    min-width: 200px; /* Ensure minimum width for button visibility */
+    overflow: visible; /* Ensure button is not clipped */
+}
+
+.http-example .json-fold-toggle {
+    display: block;
+    position: sticky;
+    top: 0;
+    /* We use JS to set 'left' to stick it to the right side of the viewport */
+    width: fit-content;
+    margin: 0 0 -25px 10px; /* Adjusted for button height, no top margin to prevent collapse */
+    transform: translateY(8px); /* Visual offset without affecting layout flow */
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    z-index: 10;
+    color: #6c757d;
+    user-select: none;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.http-example .json-fold-toggle:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.http-example .json-fold-toggle::before {
+    content: "▶";
+    margin-right: 4px;
+}
+
+.http-example .json-fold-toggle.expanded::before {
+    content: "▼";
+}
+
+.http-example .json-foldable .json-content {
+    max-height: 200px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 0;
+}
+
+.http-example .json-foldable .json-content::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 1px;
+    right: 1px;
+    height: 50px;
+    background: linear-gradient(transparent, #eeffcc);
+    pointer-events: none;
+}
+
+.http-example .json-foldable.expanded .json-content {
+    max-height: none;
+}
+
+.http-example .json-foldable.expanded .json-content::after {
+    display: none;
 }
