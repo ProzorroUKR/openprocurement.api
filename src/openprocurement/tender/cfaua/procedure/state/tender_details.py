@@ -28,6 +28,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
     tender_period_extra_working_days = False
 
     should_validate_notice_doc_required = False
+    should_validate_required_market_criteria = False
 
     working_days_config = WORKING_DAYS_CONFIG
 
