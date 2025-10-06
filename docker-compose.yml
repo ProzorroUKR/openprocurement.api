@@ -17,7 +17,7 @@ services:
     command: ["gunicorn", "--bind", "0.0.0.0:80", "-k", "gevent", "--paste", "etc/service.ini", "--graceful-timeout=60", "--timeout=3600"]
 
   mongo:
-    image: 'bitnamilegacy/mongodb:6.0.13'
+    image: bitnamilegacy/mongodb:6.0.13
     environment:
       MONGODB_ROOT_PASSWORD: example
       MONGODB_ADVERTISED_HOSTNAME: mongo
