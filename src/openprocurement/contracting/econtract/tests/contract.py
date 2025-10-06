@@ -19,6 +19,7 @@ from openprocurement.contracting.core.tests.contract_blanks import (
 )
 from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
 from openprocurement.contracting.econtract.tests.contract_blanks import (
+    contract_cancellation_via_award,
     post_new_version_of_contract,
 )
 from openprocurement.contracting.econtract.tests.data import test_econtract_data
@@ -46,6 +47,7 @@ class ContractResource4BrokersTest(BaseEContractContentWebTest):
     test_cancel_tender_award = snitch(cancel_tender_award)
     test_put_transaction_to_contract = snitch(put_transaction_to_contract)
     test_post_new_version_of_contract = snitch(post_new_version_of_contract)
+    test_contract_cancellation_via_award = snitch(contract_cancellation_via_award)
 
 
 class ContractActiveResource4BrokersTest(BaseEContractContentWebTest):

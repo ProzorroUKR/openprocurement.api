@@ -1,15 +1,18 @@
-POST /api/2.5/contracts?acc_token=838bca54aee04fbaabd502cb2c7b28a4 HTTP/1.0
+GET /api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98 HTTP/1.0
 Authorization: Bearer broker6
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "awardID": "283d9284a6054a25a129e848808b75a1",
-    "contractID": "UA-2023-10-10-000002-a-1",
+    "contractID": "UA-2023-10-10-000002-a-2",
     "period": {
-      "startDate": "2023-10-15T00:00:00+03:00",
-      "endDate": "2023-12-31T23:59:59+03:00"
+      "startDate": "2022-01-01T00:00:00+02:00",
+      "endDate": "2026-01-01T00:00:00+02:00"
     },
     "value": {
       "amount": 500.0,
@@ -159,7 +162,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "contract_owner": "broker6",
         "scale": "micro",
         "signerInfo": {
-          "name": "Test Testovich",
+          "name": "Another supplier",
           "email": "example@email.com",
           "telephone": "+380950000000",
           "iban": "111111111111111",
@@ -171,22 +174,39 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "owner": "broker",
     "tender_id": "1640f9c9f12d4f74b35596c849f209a4",
     "contractTemplateName": "00000000.0002.01",
-    "status": "pending"
+    "status": "pending",
+    "author": "supplier",
+    "date": "2023-10-10T01:00:00+03:00",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract.pdf",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/d0cfb4b9efbc40338460f946b7932266?download=acdee3c5fbb14da0b63000963dea8a81",
+        "documentOf": "contract",
+        "id": "d0cfb4b9efbc40338460f946b7932266",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "documentType": "contractNotice"
+      }
+    ],
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "cancellations": [
+      {
+        "reason": "want to quid",
+        "reasonType": "signingRefusal",
+        "id": "3380e0835b714c2d8c6a852fbef4187e",
+        "dateCreated": "2023-10-10T01:00:00+03:00",
+        "status": "pending",
+        "author": "supplier"
+      }
+    ],
+    "id": "d71a69be5f1a437abf5134881f4c4b98"
+  },
+  "config": {
+    "restricted": false
   }
-}
-
-
-HTTP/1.0 403 Forbidden
-Content-Type: application/json
-
-{
-  "status": "error",
-  "errors": [
-    {
-      "location": "body",
-      "name": "data",
-      "description": "Forbidden to create new version of contract by buyer, as previous was cancelled by supplier"
-    }
-  ]
 }
 

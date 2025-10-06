@@ -51,8 +51,8 @@ class EContractState(BaseContractState):
 
     def validate_on_post(self, before, after) -> None:
         self.prepare_contract(before, after)
+        self.validate_cancellation_reason_type(before)
         self.validate_econtract(after)
-        self.validate_contract_author(before, after)
         self.validate_contract_changes(before, after)
         tender = get_request().validated["tender"]
         award = [award for award in tender.get("awards", []) if award.get("id") == after.get("awardID")][0]
@@ -63,6 +63,14 @@ class EContractState(BaseContractState):
         self.validate_update_contract_value_net_required(self.request, before, after)
         self.validate_update_contract_value_amount(self.request, before, after)
         self.validate_contract_pending_patch(self.request, before, after)
+
+    def validate_cancellation_reason_type(self, prev_contract):
+        for cancellation in prev_contract.get("cancellations", []):
+            if cancellation.get("status") == "pending" and cancellation.get("reasonType") == "signingRefusal":
+                raise_operation_error(
+                    self.request,
+                    "For contract with cancellation reason `signingRefusal` buyer should cancel the award.",
+                )
 
     def validate_econtract(self, after):
         for access_details in after["access"]:
@@ -120,14 +128,6 @@ class EContractState(BaseContractState):
                             f"Updated could be only signerInfo in {field_name}, {nested_field_name} change forbidden",
                             status=422,
                         )
-
-    def validate_contract_author(self, before, after):
-        if before["cancellations"][0]["author"] != after["author"]:
-            raise_operation_error(
-                self.request,
-                f"Forbidden to create new version of contract by {after['author']}, "
-                f"as previous was cancelled by {before['cancellations'][0]['author']}",
-            )
 
     def on_post(self, before, after):
         tender = get_request().validated["tender"]

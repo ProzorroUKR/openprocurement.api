@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 13:18+0300\n"
+"POT-Creation-Date: 2025-09-29 14:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -257,8 +257,8 @@ msgstr "Скасування"
 msgid "It is allowed to cancel current version of contract and create new one during contract is `pending`."
 msgstr "Інсує можливість скасування поточної версії контракту та створення нової тільки поки контракт знаходиться в статусі `pending`."
 
-msgid "To cancel current version of contract, participant of contract should create a cancellation with reason:"
-msgstr "Для того, щоб скасувати контракт, учасник договору має додати об'єкт `cancellation` обов'язково вказавши причину скасування:"
+msgid "To cancel current version of contract, participant of contract should create a cancellation with reason `requiresChanges`:"
+msgstr "Для того, щоб скасувати контракт, учасник договору має додати об'єкт `cancellation` обов'язково вказавши причину скасування `requiresChanges`:"
 
 msgid "Let's look at contract:"
 msgstr "Подивимося на договір:"
@@ -272,11 +272,8 @@ msgstr "Після того, як додано `cancellation`, підписув�
 msgid "Create new contract version"
 msgstr "Створення нової версії договору"
 
-msgid "Then the same participant should create a new version of contract using his token."
-msgstr "Після скасування той самий учасник має створити нову версію контракту, використовуючи свій токен."
-
-msgid "If buyer tries to create a new version, he will see an error, as supplier cancelled previous contract:"
-msgstr "Якщо постачальник спробує створити нову версію, то він побачить помилку, так як скасував попередню версію замовник:"
+msgid "Then any of the participant should create a new version of contract using his token."
+msgstr "Після скасування будь-який учасник має створити нову версію контракту, використовуючи свій токен."
 
 msgid "Allowed fields for updating:"
 msgstr "Сторона, яка створює нову версію може змінити наступні поля:"
@@ -331,6 +328,39 @@ msgstr "Після цього починається новий етап під�
 
 msgid "Supplier and buyer can sign this new version of contract if they agreed with changes or create new version if disagreed."
 msgstr "Замовник та постачальник можуть підписати нову версію договору, якщо їх влаштовують зміни або створити нову версію, якщо треба ще щось змінити."
+
+msgid "Cancellations of Econtract"
+msgstr "Скасування електронного договору"
+
+msgid "It is allowed to cancel contract while it is on `pending` status."
+msgstr "Договір можна скасувати, поки він в статусі `pending`."
+
+msgid "There are two `reasonTypes` for creating cancellation of contract:"
+msgstr "При створенні скасування договору можна обрати одну з двох причини скасування:"
+
+msgid "`requiresChanges`"
+msgstr ""
+
+msgid "`signingRefusal`"
+msgstr ""
+
+msgid "Reason `requiresChanges` means that one of the sides doesn't agree to sign current version of contract, and they want to create a new version of contract. Described in :ref:`contract_versions`."
+msgstr "Причина скасування `requiresChanges` використовується, якщо одна зі сторін договору не погоджується підписувати поточну версію контракту і є необхідність створити нову версію контракту, змінивши деякі поля. Детально описано в :ref:`contract_versions`."
+
+msgid "Reason `signingRefusal` means that the winner of tender is refused to sign aa contract, that's why his award should be cancelled by buyer."
+msgstr "Причина скасування `signingRefusal` використовується, якщо переможець процедури закупівлі відмовився від підписання договору про закупівлю відповідно до вимог тендерної документації або укладення договору про закупівлю. В цьому випадку авард переможця має бути скасований."
+
+msgid "Participant of contract can create a cancellation with reason `signingRefusal`:"
+msgstr "Підписант (замовник/постачальник) може створити `cancellation` з причиною `reasonType = signingRefusal`:"
+
+msgid "After that buyer should cancel the winner via award:"
+msgstr "Після цього замовник скасовує переможця - `award` змінює статус на `cancelled`:"
+
+msgid "Let's look at contract one more time and we will see that contract became `cancelled`, cancellation became `active`:"
+msgstr "Подивимося на контракт ще раз і побачимо, що в нього статус тепер `cancelled` і `cancellation` тепер має статус `active`:"
+
+msgid "Let's look at tender, the winner is cancelled an awarding is continuing:"
+msgstr "Подивимося на закупівлю, переможець скасований і підтвердження кваліфікації продовужється (статус закупівлі знову `active.qualification`):"
 
 msgid "Changes for active contract"
 msgstr "Додаткові угоди (зміни) в EContract"
@@ -475,3 +505,4 @@ msgstr "Але при цьому все ще існує валідація на 
 
 msgid "Let's update quantity in first item and add new item with correct `unit.value`:"
 msgstr "Відредагуємо `quantity` в першому `item` і додамо новий `item` з коректною ціною `unit.value`:"
+
