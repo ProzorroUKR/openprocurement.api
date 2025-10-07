@@ -3,13 +3,13 @@ from decimal import Decimal
 
 from esculator import escp, npv
 from schematics.exceptions import ValidationError
-from schematics.types import IntType
+from schematics.types import BooleanType, IntType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.models.value import BasicValue
 from openprocurement.api.procedure.types import DecimalType, ListType, StringDecimalType
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.esco.procedure.utils import to_decimal
@@ -26,38 +26,35 @@ class ContractDuration(Model):
             raise ValidationError("min contract duration 1 day")
 
 
-class BaseESCOValue(Value):
-    amount = DecimalType(
-        min_value=Decimal("0"), required=False, precision=-2
-    )  # Calculated energy service contract value.
-    amountPerformance = DecimalType(
-        required=False, precision=-2
-    )  # Calculated energy service contract performance indicator
-    yearlyPaymentsPercentage = DecimalType(precision=-5, min_value=Decimal("0"), max_value=Decimal("1"))
+class BasicESCOValue(BasicValue):
+    # Calculated energy service contract value.
+    amount = DecimalType(min_value=Decimal("0"), required=False, precision=-2)
+
+
+class ESCOValue(BasicESCOValue):
+    valueAddedTaxIncluded = BooleanType(required=True, default=True)
+    # Calculated energy service contract performance indicator
+    amountPerformance = DecimalType(required=False, precision=-2)
     # The percentage of annual payments in favor of Bidder
-    annualCostsReduction = ListType(StringDecimalType())  # Buyer's annual costs reduction
+    yearlyPaymentsPercentage = DecimalType(precision=-5, min_value=Decimal("0"), max_value=Decimal("1"))
+    # Buyer's annual costs reduction
+    annualCostsReduction = ListType(StringDecimalType())
+    # Contract duration
     contractDuration = ModelType(ContractDuration)
-    denominator = DecimalType()
-    addition = DecimalType()
 
 
-class PatchESCOValue(BaseESCOValue):
+class PatchESCOValue(ESCOValue):
     def validate_annualCostsReduction(self, data, value):
         if value is not None and len(value) != 21:
             raise ValidationError("annual costs reduction should be set for 21 period")
 
 
-class ESCOValue(BaseESCOValue):
-    amount = DecimalType(
-        min_value=Decimal("0"), required=False, precision=-2
-    )  # Calculated energy service contract value.
-    amountPerformance = DecimalType(
-        required=False, precision=-2
-    )  # Calculated energy service contract performance indicator
-    yearlyPaymentsPercentage = DecimalType(
-        required=True, precision=-5, min_value=Decimal("0"), max_value=Decimal("1")
-    )  # The percentage of annual payments in favor of Bidder
-    annualCostsReduction = ListType(StringDecimalType(), required=True)  # Buyer's annual costs reduction
+class ESCODynamicValue(ESCOValue):
+    # The percentage of annual payments in favor of Bidder
+    yearlyPaymentsPercentage = DecimalType(required=True, precision=-5, min_value=Decimal("0"), max_value=Decimal("1"))
+    # Buyer's annual costs reduction
+    annualCostsReduction = ListType(StringDecimalType(), required=True)
+    # Contract duration
     contractDuration = ModelType(ContractDuration, required=True)
 
     @serializable(serialized_name="amountPerformance", type=DecimalType(precision=-2))
@@ -93,20 +90,31 @@ class ESCOValue(BaseESCOValue):
             raise ValidationError("annual costs reduction should be set for 21 period")
 
     def validate_yearlyPaymentsPercentage(self, data, value):
-        if data.get("status") != "draft":
-            tender = get_tender()
+        tender = get_tender()
 
-            if tender["fundingKind"] == "other" and value < Decimal("0.8"):
-                raise ValidationError("yearlyPaymentsPercentage should be greater than 0.8 and less than 1")
-            if tender["fundingKind"] == "budget":
-                if not tender.get("lots"):
-                    if value > Decimal(tender["yearlyPaymentsPercentageRange"]):
-                        raise ValidationError(
-                            "yearlyPaymentsPercentage should be greater than 0 and less than {}".format(
-                                tender["yearlyPaymentsPercentageRange"]
-                            )
-                        )
+        if tender["fundingKind"] == "other" and value < Decimal("0.8"):
+            raise ValidationError("yearlyPaymentsPercentage should be greater than 0.8 and less than 1")
+
+        if tender.get("lots"):
+            # Validation for lots is done in the state
+            # (maybe this one further should be moved to the state as well)
+            return
+
+        p_range = tender["yearlyPaymentsPercentageRange"]
+        if tender["fundingKind"] == "budget" and value > Decimal(p_range):
+            raise ValidationError("yearlyPaymentsPercentage should be greater than 0 and less than {}".format(p_range))
 
 
-class ContractESCOValue(BaseESCOValue):
+class ESCOWeightedValue(BasicESCOValue):
+    # Calculated energy service contract performance indicator
+    amountPerformance = DecimalType(required=False, precision=-2)
+
+    denominator = DecimalType()
+    addition = DecimalType(precision=-2)
+
+    # Keep for backward compatibility
+    valueAddedTaxIncluded = BooleanType()
+
+
+class ContractESCOValue(ESCOValue):
     amountNet = DecimalType(min_value=Decimal("0"), precision=-2)

@@ -241,8 +241,8 @@ Content-Type: application/json
         "date": "2023-10-10T01:02:01+03:00",
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
           "amount": 9767.32,
+          "valueAddedTaxIncluded": true,
           "amountPerformance": 801.83,
           "yearlyPaymentsPercentage": 0.85,
           "annualCostsReduction": [
@@ -275,8 +275,8 @@ Content-Type: application/json
         },
         "initialValue": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
           "amount": 9767.32,
+          "valueAddedTaxIncluded": true,
           "amountPerformance": 801.83,
           "yearlyPaymentsPercentage": 0.85,
           "annualCostsReduction": [
