@@ -312,14 +312,15 @@ class BidState(BaseState):
             return
 
         agreement = get_object("agreement")
+
+        self.validate_bid_with_contract(data, agreement)
+
+    def validate_bid_with_contract(self, data, agreement):
         supplier_contract = get_supplier_contract(
             agreement["contracts"],
             data["tenderers"],
         )
 
-        self.validate_bid_with_contract(data, supplier_contract)
-
-    def validate_bid_with_contract(self, data, supplier_contract):
         if not supplier_contract:
             raise_operation_error(self.request, "Bid is not a member of agreement")
 
@@ -333,7 +334,7 @@ class BidState(BaseState):
                 "Bid value.amount can't be greater than contact value.amount.",
             )
 
-        if data.get("parameters"):
+        if data.get("parameters") and agreement.get("frameworkID") is None:  # validate only for CFASelection
             contract_parameters = {p["code"]: p["value"] for p in supplier_contract.get("parameters", "")}
             for p in data["parameters"]:
                 code = p["code"]
