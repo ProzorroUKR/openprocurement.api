@@ -17,6 +17,9 @@ from openprocurement.tender.competitiveordering.tests.long.base import (
     BaseTenderCOLongContentWebTest,
     test_tender_co_long_bids,
 )
+from openprocurement.tender.competitiveordering.tests.long.complaint_blanks import (
+    create_tender_complaint_for_restricted_tender,
+)
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.complaint_blanks import (
     bot_patch_tender_complaint,
@@ -42,6 +45,7 @@ from openprocurement.tender.open.tests.complaint_blanks import (
 class TenderCOComplaintResourceTestMixin:
     test_create_tender_complaint = snitch(create_tender_complaint)
     test_create_tender_complaint_invalid_author = snitch(create_tender_complaint_invalid_author)
+    test_create_tender_complaint_for_restricted_tender = snitch(create_tender_complaint_for_restricted_tender)
     test_patch_tender_complaint = snitch(patch_tender_complaint)
     test_review_tender_complaint = snitch(review_tender_complaint)
     test_review_tender_stopping_complaint = snitch(review_tender_stopping_complaint)

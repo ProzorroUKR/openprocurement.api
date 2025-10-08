@@ -92,6 +92,11 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                 self.request,
                 "Can't add complaint as it is forbidden by configuration",
             )
+        if tender["config"]["restricted"] is True:
+            raise_operation_error(
+                self.request,
+                "Can't add complaint for restricted tender",
+            )
 
     def validate_create_allowed_tender_status(self):
         if self.create_allowed_tender_statuses:
