@@ -1,0 +1,141 @@
+GET /violation_reports/UA-2025-10-12-000001 HTTP/1.0
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 51d59d0a-6835-42cf-94b4-e7707c66ca97
+Content-Length: 4442
+
+{
+  "data": {
+    "reason": "signingRefusal",
+    "description": "Постачальник відмовився підписувати контракт.",
+    "documents": [
+      {
+        "id": "7e8e5a4b626a41428a114dd86e7fb103",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://127.0.0.1:44097/api/2.5/violation_reports/UA-2025-10-12-000001/documents/7e8e5a4b626a41428a114dd86e7fb103?download=11fe3d1db3b04617842cac7739d0765f",
+        "dateModified": "2025-10-12T15:35:35+03:00",
+        "datePublished": "2025-10-12T15:35:35+03:00",
+        "documentType": "violationReportEvidence",
+        "title": "evidences.doc",
+        "format": "application/msword",
+        "language": "uk"
+      },
+      {
+        "id": "52a0bd8739eb4d51b8cb4bb7f2a660eb",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://127.0.0.1:44097/api/2.5/violation_reports/UA-2025-10-12-000001/documents/52a0bd8739eb4d51b8cb4bb7f2a660eb?download=1af03b529f6948de9a28c9dc7509e2a6",
+        "dateModified": "2025-10-12T15:35:35+03:00",
+        "datePublished": "2025-10-12T15:35:35+03:00",
+        "documentType": "violationReportSignature",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "language": "uk"
+      }
+    ],
+    "id": "UA-2025-10-12-000001",
+    "rev": "4-814873ceedf847a6882725b46017a36c",
+    "tender_id": "a07f5838-bf95-4250-8794-279094a82cb5",
+    "contract_id": "e9ac96db5d7a401eafd7ff2f598e50f7",
+    "dateCreated": "2025-10-12T15:35:35+03:00",
+    "dateModified": "2025-10-16T10:15:00+03:00",
+    "buyer": {
+      "name": "Adam Rogers",
+      "identifier": {
+        "id": "747768582",
+        "scheme": "UA-EDR"
+      },
+      "address": {
+        "streetAddress": "142 Diane Circle Suite 855",
+        "postalCode": "82089",
+        "countryName": "Burundi"
+      },
+      "contactPoint": {
+        "name": "Tina Nash",
+        "email": "david75@example.net",
+        "telephone": "290-410-5323x4617",
+        "faxNumber": "458.515.6359",
+        "url": "https://www.solis.info/"
+      },
+      "kind": "general"
+    },
+    "suppliers": [
+      {
+        "name": "Isaac Gray",
+        "identifier": {
+          "id": "455174194",
+          "scheme": "UA-EDR"
+        },
+        "address": {
+          "streetAddress": "1404 Smith Ford",
+          "postalCode": "31657",
+          "countryName": "Qatar"
+        },
+        "contactPoint": {
+          "name": "Donna Hall",
+          "email": "jonesdanielle@example.com",
+          "telephone": "7905794191",
+          "faxNumber": "3434038075",
+          "url": "https://www.jenkins.com/"
+        },
+        "scale": "large"
+      }
+    ],
+    "defendantPeriod": {
+      "startDate": "2025-10-12T15:35:35+03:00",
+      "endDate": "2025-10-15T00:00:00+03:00"
+    },
+    "defendantStatement": {
+      "description": "В усьому винні бобри.",
+      "documents": [
+        {
+          "id": "4c793a11070240ea89c5127f4e304052",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://127.0.0.1:44097/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatement/documents/4c793a11070240ea89c5127f4e304052?download=8f4fe019a1eb47c89368f08477396a2a",
+          "dateModified": "2025-10-13T01:50:35+03:00",
+          "datePublished": "2025-10-13T01:50:35+03:00",
+          "documentType": "violationReportEvidence",
+          "title": "beavers.gif",
+          "format": "image/gif",
+          "language": "uk"
+        },
+        {
+          "id": "ab82f5b1deb9442cbe2003f70b073b7c",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://127.0.0.1:44097/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatement/documents/ab82f5b1deb9442cbe2003f70b073b7c?download=a1f1ed4e2da44ff1a0318a19bf6fb686",
+          "dateModified": "2025-10-13T01:50:35+03:00",
+          "datePublished": "2025-10-13T01:50:35+03:00",
+          "documentType": "violationReportSignature",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk"
+        }
+      ],
+      "dateCreated": "2025-10-13T01:50:35+03:00"
+    },
+    "decisionPeriod": {
+      "startDate": "2025-10-16T00:00:00+03:00",
+      "endDate": "2025-10-18T00:00:00+03:00"
+    },
+    "decision": {
+      "status": "declinedNoViolation",
+      "description": "Суворо засуджуємо бобрів.",
+      "documents": [
+        {
+          "id": "4d537b06001c4a6ebba6471f354cd4b5",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://127.0.0.1:44097/api/2.5/violation_reports/UA-2025-10-12-000001/decision/documents/4d537b06001c4a6ebba6471f354cd4b5?download=8c3c22b782a34a3e885acd7059fdced0",
+          "dateModified": "2025-10-16T10:15:00+03:00",
+          "datePublished": "2025-10-16T10:15:00+03:00",
+          "documentType": "violationReportSignature",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk"
+        }
+      ],
+      "dateCreated": "2025-10-16T10:15:00+03:00"
+    },
+    "status": "declinedNoViolation"
+  }
+}

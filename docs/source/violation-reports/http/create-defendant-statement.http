@@ -1,0 +1,61 @@
+PUT /violation_reports/UA-2025-10-12-000001/defendantStatement HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "description": "В усьому винні бобри.",
+    "documents": [
+      {
+        "title": "beavers.gif",
+        "url": "http://ds.k8s.prozorro.local/get/8f4fe019a1eb47c89368f08477396a2a?Signature=rgD4j7MYEdWctvAnAPdO9sxLrUr6KdCVeLgfPIVDzeBrQxeYjKabDShKxnBMXGLeptcnwEyPExG3XYKzHtUzCQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "image/gif",
+        "documentType": "violationReportEvidence"
+      },
+      {
+        "title": "sign.p7s",
+        "url": "http://ds.k8s.prozorro.local/get/a1f1ed4e2da44ff1a0318a19bf6fb686?Signature=KjFHumBJV2TOIuW5BhBh8Nr7kYTc6y97YrtbQc80cU%2BP7mK3zQ%2FcOH8oHgKpSDB7OzUAWIEtTGxVkukWyejGBQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pkcs7-signature",
+        "documentType": "violationReportSignature"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json; charset=utf-8
+X-Request-ID: fa165726-2745-4adf-be19-8e75377ff6a6
+Content-Length: 1160
+
+{
+  "data": {
+    "description": "В усьому винні бобри.",
+    "documents": [
+      {
+        "id": "4c793a11070240ea89c5127f4e304052",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://127.0.0.1:44097/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatement/documents/4c793a11070240ea89c5127f4e304052?download=8f4fe019a1eb47c89368f08477396a2a",
+        "dateModified": "2025-10-13T01:50:35+03:00",
+        "datePublished": "2025-10-13T01:50:35+03:00",
+        "documentType": "violationReportEvidence",
+        "title": "beavers.gif",
+        "format": "image/gif",
+        "language": "uk"
+      },
+      {
+        "id": "ab82f5b1deb9442cbe2003f70b073b7c",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://127.0.0.1:44097/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatement/documents/ab82f5b1deb9442cbe2003f70b073b7c?download=a1f1ed4e2da44ff1a0318a19bf6fb686",
+        "dateModified": "2025-10-13T01:50:35+03:00",
+        "datePublished": "2025-10-13T01:50:35+03:00",
+        "documentType": "violationReportSignature",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "language": "uk"
+      }
+    ],
+    "dateCreated": "2025-10-13T01:50:35+03:00"
+  }
+}

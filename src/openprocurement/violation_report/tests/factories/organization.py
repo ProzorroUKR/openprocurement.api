@@ -1,0 +1,64 @@
+from factory import Factory, Faker, SubFactory
+
+from openprocurement.api.models_async.organization import (
+    Address,
+    Buyer,
+    ContactPoint,
+    Identifier,
+    Organization,
+    Supplier,
+)
+
+
+class IdentifierFactory(Factory):
+    class Meta:
+        model = Identifier
+
+    id = Faker("passport_number")
+    scheme = "UA-EDR"
+
+
+class AddressFactory(Factory):
+    class Meta:
+        model = Address
+
+    streetAddress = Faker("street_address")
+    postalCode = Faker("postcode")
+    countryName = Faker("country")
+
+
+class ContactPointFactory(Factory):
+    class Meta:
+        model = ContactPoint
+
+    name = Faker("name")
+    email = Faker("email")
+    telephone = Faker("phone_number")
+    faxNumber = Faker("phone_number")
+    url = Faker("url")
+
+
+class OrganizationFactory(Factory):
+    class Meta:
+        model = Organization
+
+    name = Faker("name")
+    identifier = SubFactory(IdentifierFactory)
+    address = SubFactory(AddressFactory)
+    contactPoint = SubFactory(ContactPointFactory)
+
+
+class BuyerFactory(OrganizationFactory):
+    class Meta:
+        model = Buyer
+
+    kind = "general"
+    signerInfo = None
+
+
+class SupplierFactory(OrganizationFactory):
+    class Meta:
+        model = Supplier
+
+    scale = Faker("random_element", elements=["micro", "sme", "large"])
+    signerInfo = None

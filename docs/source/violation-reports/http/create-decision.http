@@ -1,0 +1,45 @@
+PUT /violation_reports/UA-2025-10-12-000001/decision HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "status": "declinedNoViolation",
+    "description": "Суворо засуджуємо бобрів.",
+    "documents": [
+      {
+        "title": "sign.p7s",
+        "url": "http://ds.k8s.prozorro.local/get/8c3c22b782a34a3e885acd7059fdced0?Signature=g8uy4QVVrlnRWQRVfmBCWdi3LAMF4Gc17i8QXF73ta%2FOp3y9%2Bmq9VjOgKKVXp8wTw9oSTsMO62fKksLXjYeyAQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pkcs7-signature",
+        "documentType": "violationReportSignature"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 1477583d-e344-459c-a517-0694c3cd8063
+Content-Length: 737
+
+{
+  "data": {
+    "status": "declinedNoViolation",
+    "description": "Суворо засуджуємо бобрів.",
+    "documents": [
+      {
+        "id": "4d537b06001c4a6ebba6471f354cd4b5",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://127.0.0.1:44097/api/2.5/violation_reports/UA-2025-10-12-000001/decision/documents/4d537b06001c4a6ebba6471f354cd4b5?download=8c3c22b782a34a3e885acd7059fdced0",
+        "dateModified": "2025-10-16T10:15:00+03:00",
+        "datePublished": "2025-10-16T10:15:00+03:00",
+        "documentType": "violationReportSignature",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "language": "uk"
+      }
+    ],
+    "dateCreated": "2025-10-16T10:15:00+03:00"
+  }
+}

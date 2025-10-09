@@ -73,7 +73,16 @@ uv add httpx
 ```
 or with a constraint
 ```shell
-uv add "httpx>=0.20"
+uv add "aiohttp>=3.12,<4"
+```
+or
+```shell
+uv add aiohttp~=3.12
+```
+
+To add `dev` requirements
+```shell
+uv add pytest-aiohttp~=1.0  --group=dev
 ```
 
 To add/update requirement with a github source

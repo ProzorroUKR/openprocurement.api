@@ -5,7 +5,6 @@ from pyramid.request import Request
 from pyramid.security import Allow, Everyone
 
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.constants import VERSION
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_accreditation_level,
@@ -170,7 +169,7 @@ class PlanTendersResource(PlanBaseResource):
         headers = self.request.headers
         headers["Content-type"] = "application/json; charset=utf-8"
         sub_req = Request.blank(
-            f"/api/{VERSION}/tenders",
+            "/tenders",  # depends on ROUTE_PREFIX
             environ={"REQUEST_METHOD": "POST"},
             headers=headers,
         )
