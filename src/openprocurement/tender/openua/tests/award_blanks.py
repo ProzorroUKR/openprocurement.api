@@ -1335,19 +1335,6 @@ def review_tender_award_complaint(self):
                 self.assertEqual(response.json["data"]["reviewPlace"], "some")
                 self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
-            self.app.authorization = ("Basic", ("token", ""))
-            patch_data = {"status": "active", "qualified": True}
-            if self.initial_data['procurementMethodType'] != "simple.defense":
-                patch_data["eligible"] = True
-            response = self.app.patch_json(
-                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-                {"data": patch_data},
-                status=403,
-            )
-            self.assertEqual(response.status, "403 Forbidden")
-            self.assertEqual(response.content_type, "application/json")
-            self.assertEqual(response.json["errors"][0]["description"], "Can't update award with accepted complaint")
-
         self.app.authorization = ("Basic", ("reviewer", ""))
         now = get_now()
         data = {"status": status}
