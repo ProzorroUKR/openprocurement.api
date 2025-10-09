@@ -58,23 +58,15 @@ logger = getLogger(__name__)
 def load_config(filename):
     config = configparser.ConfigParser(interpolation=None)
     config.read(filename)
-    # config_dict = {
-    #     section: {
-    #         option: str(config[section][option])
-    #         for option in config[section]
-    #     }
-    #     for section in config.sections()
-    # }
     config_dict = {section: dict(config[section]) for section in config.sections()}
     return config_dict
 
 
-def load_modules_from_pyproject():
+def load_pyproject():
     pyproject_path = Path(__file__).parent.parent.parent.parent / "pyproject.toml"
     with pyproject_path.open("rb") as f:
         pyproject = tomllib.load(f)
-    modules = pyproject.get("app", {}).get("modules", {})
-    return modules
+    return pyproject
 
 
 def load_callable(path):
@@ -103,7 +95,7 @@ def main(global_config, **settings):
         settings=settings,
         authentication_policy=AuthenticationPolicy(settings["auth.file"], __name__),
         authorization_policy=AuthorizationPolicy(),
-        route_prefix=ROUTE_PREFIX,
+        route_prefix="" if settings.get("disable_route_prefix") else ROUTE_PREFIX,
     )
     config.include("pyramid_exclog")
     config.include("cornice")
@@ -122,7 +114,8 @@ def main(global_config, **settings):
     config.registry.mongodb = MongodbStore(settings)
 
     # search for plugins
-    all_modules = load_modules_from_pyproject()
+    pyproject = load_pyproject()
+    all_modules = pyproject.get("app", {}).get("modules", {})
     restricted_modules = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
     for module_name, module_path in all_modules.items():
         if not restricted_modules or module_name in restricted_modules:
@@ -175,31 +168,30 @@ def main(global_config, **settings):
     global_settings = load_config(global_config["__file__"])
 
     # transaction logger
+    # we can drop "filter:translogger" config now, should work fine
     trans_logger_settings = global_settings.get("filter:translogger") or {}
     trans_logger_settings.pop("use", None)  # we already imported it 😉
     app = make_trans_logger_filter(
         global_config,
-        **trans_logger_settings,  # most probably we set only "set_logger_level" and others are allways the same
+        logger_name=trans_logger_settings.get("logger_name", "wsgi"),
+        set_logger_level=trans_logger_settings.get("set_logger_level", "WARNING"),
+        setup_console_handler=trans_logger_settings.get("setup_console_handler", False),
     )(app)
 
     # request_id
     # does `req.environ[self.env_request_id] = req.headers[self.resp_header_client_request_id]`
+    # we can drop "filter:request_id" config now, should work fine
     request_id_settings = global_settings.get("filter:request_id") or {}
     request_id_settings.pop("paste.filter_factory", None)
     app = RequestIdMiddleware.factory(
         global_config,
-        **request_id_settings,  # env_request_id to REQUEST_ID and resp_header_request_id to X-Request-ID (default)
+        env_request_id=request_id_settings.get("env_request_id", "REQUEST_ID"),
+        resp_header_request_id=request_id_settings.get("resp_header_request_id", "X-Request-ID"),
     )(app)
 
     # prefix middleware
     # config is empty, means it doesn't really do with prefix.
     # translate_forwarded_server=True is default parameter means it translates HTTP_X_FORWARDED_ headers.
     # See source of paste.deploy.config.PrefixMiddleware for more details
-    prefix_middleware_settings = global_settings.get("filter:proxy-prefix") or {}
-    prefix_middleware_settings.pop("use", None)  # expected to be empty at this point
-    app = make_prefix_middleware(
-        app,
-        global_config,
-        **prefix_middleware_settings,
-    )
+    app = make_prefix_middleware(app, global_config)
     return app

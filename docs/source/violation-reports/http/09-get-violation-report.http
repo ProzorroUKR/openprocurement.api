@@ -1,0 +1,159 @@
+GET /violation_reports/UA-2025-10-12-000001 HTTP/1.0
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-000000000015
+Content-Length: 4900
+
+{
+  "data": {
+    "details": {
+      "reason": "signingRefusal",
+      "description": "Постачальник відмовився підписувати контракт.",
+      "documents": [
+        {
+          "id": "88888888444455556666000000000005",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/details/documents/88888888444455556666000000000005?download=88888888444455556666000000000003",
+          "dateModified": "2025-10-12T15:35:35+03:00",
+          "datePublished": "2025-10-12T15:35:35+03:00",
+          "documentType": "violationReportEvidence",
+          "title": "evidences.doc",
+          "format": "application/msword",
+          "language": "uk"
+        },
+        {
+          "id": "88888888444455556666000000000008",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/details/documents/88888888444455556666000000000008?download=88888888444455556666000000000006",
+          "dateModified": "2025-10-12T15:37:35+03:00",
+          "datePublished": "2025-10-12T15:37:35+03:00",
+          "documentType": "violationReportSignature",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk"
+        }
+      ],
+      "dateModified": "2025-10-12T15:37:35+03:00"
+    },
+    "id": "UA-2025-10-12-000001",
+    "status": "declinedNoViolation",
+    "tender_id": "d1f6f86c-029a-4245-bb91-433a6aa79987",
+    "contract_id": "88888888444455556666000000000001",
+    "dateCreated": "2025-10-12T15:35:35+03:00",
+    "dateModified": "2025-10-16T10:15:12+03:00",
+    "author": {
+      "name": "Elizabeth Richardson",
+      "identifier": {
+        "id": "I96251648",
+        "scheme": "UA-EDR"
+      },
+      "address": {
+        "streetAddress": "825 Amanda Street",
+        "postalCode": "54518",
+        "countryName": "Myanmar"
+      },
+      "contactPoint": {
+        "name": "Brittany Ball",
+        "email": "marymorris@example.com",
+        "telephone": "408-860-0292x41619",
+        "faxNumber": "489.650.3173",
+        "url": "https://www.petty.com/"
+      },
+      "kind": "general"
+    },
+    "defendants": [
+      {
+        "name": "Daryl Ryan",
+        "identifier": {
+          "id": "M50007162",
+          "scheme": "UA-EDR"
+        },
+        "address": {
+          "streetAddress": "538 Timothy Circle",
+          "postalCode": "02312",
+          "countryName": "Niue"
+        },
+        "contactPoint": {
+          "name": "Raymond Church DVM",
+          "email": "michaelbates@example.org",
+          "telephone": "+1-421-672-5332",
+          "faxNumber": "(381)680-2072",
+          "url": "https://www.butler-sanchez.com/"
+        },
+        "scale": "micro"
+      }
+    ],
+    "authority": {
+      "name": "Christopher Thompson",
+      "identifier": {
+        "id": "N86511739",
+        "scheme": "UA-EDR"
+      },
+      "address": {
+        "streetAddress": "283 Bradley Crossroad",
+        "postalCode": "71051",
+        "countryName": "Malawi"
+      },
+      "contactPoint": {
+        "name": "Megan Yates",
+        "email": "kimberly05@example.net",
+        "telephone": "+1-791-812-5047",
+        "faxNumber": "479-244-7704x7035",
+        "url": "http://www.morrison.biz/"
+      },
+      "kind": "central"
+    },
+    "defendantPeriod": {
+      "startDate": "2025-10-12T15:38:10+03:00",
+      "endDate": "2025-10-16T00:00:00+03:00"
+    },
+    "defendantStatement": {
+      "description": "В усьому винні бобри.",
+      "documents": [
+        {
+          "id": "8888888844445555666600000000000d",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatement/documents/8888888844445555666600000000000d?download=8888888844445555666600000000000b",
+          "dateModified": "2025-10-13T01:53:25+03:00",
+          "datePublished": "2025-10-13T01:53:25+03:00",
+          "documentType": "violationReportEvidence",
+          "title": "beavers.gif",
+          "format": "image/gif",
+          "language": "uk"
+        },
+        {
+          "id": "88888888444455556666000000000010",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatement/documents/88888888444455556666000000000010?download=8888888844445555666600000000000e",
+          "dateModified": "2025-10-13T01:53:40+03:00",
+          "datePublished": "2025-10-13T01:53:40+03:00",
+          "documentType": "violationReportSignature",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk"
+        }
+      ],
+      "dateModified": "2025-10-13T01:53:40+03:00"
+    },
+    "decision": {
+      "status": "declinedNoViolation",
+      "description": "Суворо засуджуємо бобрів.",
+      "documents": [
+        {
+          "id": "88888888444455556666000000000014",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/decision/documents/88888888444455556666000000000014?download=88888888444455556666000000000012",
+          "dateModified": "2025-10-16T10:15:12+03:00",
+          "datePublished": "2025-10-16T10:15:12+03:00",
+          "documentType": "violationReportSignature",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk"
+        }
+      ],
+      "dateModified": "2025-10-16T10:15:12+03:00"
+    }
+  }
+}

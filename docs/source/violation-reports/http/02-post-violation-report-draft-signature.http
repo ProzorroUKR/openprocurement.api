@@ -1,0 +1,32 @@
+POST /violation_reports/UA-2025-10-12-000001/details/documents HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "title": "sign.p7s",
+    "url": "http://ds.k8s.prozorro.local/get/88888888444455556666000000000006?Signature=cfo4ecD6o1L0DH%2BsNiYAQZhHxaoHsr3Y04rnQO6IfVGLOX7sGZQgXT2DkMUP4DsDB%2FYOREFYHy0%2FsYcIgqgiCg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pkcs7-signature",
+    "documentType": "violationReportSignature"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-000000000007
+Content-Length: 503
+
+{
+  "data": {
+    "id": "88888888444455556666000000000008",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/details/documents/88888888444455556666000000000008?download=88888888444455556666000000000006",
+    "dateModified": "2025-10-12T15:37:35+03:00",
+    "datePublished": "2025-10-12T15:37:35+03:00",
+    "documentType": "violationReportSignature",
+    "title": "sign.p7s",
+    "format": "application/pkcs7-signature",
+    "language": "uk"
+  }
+}

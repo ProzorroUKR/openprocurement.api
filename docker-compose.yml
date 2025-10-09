@@ -1,4 +1,3 @@
-version: '3'
 services:
   api:
     build:
@@ -7,12 +6,14 @@ services:
       args:
         UV_EXTRA_ARGS: ""
     environment:
+      PYTHONUNBUFFERED: 'True'
       SANDBOX_MODE: 'True'
       NO_GEVENT_MONKEY_PATCH: 'YESNOSTOPPATCHING'
     depends_on:
       - mongo
     volumes:
       - "./src/openprocurement:/app/src/openprocurement:delegated"
+      - "./pyproject.toml:/app/pyproject.toml:delegated"
       - "./docs:/app/docs:delegated"
       - "./etc:/app/etc:delegated"
     ports:
@@ -51,13 +52,13 @@ services:
 #    depends_on:
 #      - mongo
 
-#  mongo-express:
-#    image: mongo-express
-#    depends_on:
-#      - mongo
-#    environment:
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-#      ME_CONFIG_MONGODB_SERVER: mongo
-#    ports:
-#      - 8081:8081
+  mongo-express:
+    image: mongo-express
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: mongo
+    ports:
+      - 8081:8081

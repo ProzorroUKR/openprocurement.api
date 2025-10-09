@@ -1,4 +1,5 @@
 from logging import getLogger
+from typing import Optional
 
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
@@ -10,17 +11,18 @@ from openprocurement.tender.core.procedure.utils import extract_path
 LOGGER = getLogger("openprocurement.contracting.core")
 
 
-def extract_contract_id(request):
+def extract_contract_id(request) -> Optional[str]:
     if request.matchdict and "contract_id" in request.matchdict:
         return request.matchdict.get("contract_id")
 
     path = extract_path(request)
     # extract tender id
     parts = path.split("/")
-    if len(parts) < 5 or parts[3] != "contracts":
-        return
-    contract_id = parts[4]
-    return contract_id
+    if len(parts) > 2 and parts[1] == "contracts":  # without prefix
+        return parts[2]
+    if len(parts) > 4 and parts[3] == "contracts":  # with prefix
+        return parts[4]
+    return None
 
 
 def extract_contract_doc(request):
