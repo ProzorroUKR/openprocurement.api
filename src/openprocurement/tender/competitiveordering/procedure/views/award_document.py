@@ -11,9 +11,6 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
-from openprocurement.tender.competitiveordering.procedure.validation import (
-    validate_accepted_complaints,
-)
 from openprocurement.tender.core.procedure.models.document import (
     Document,
     PatchDocument,
@@ -43,7 +40,6 @@ class COTenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_input_data(PostDocument, allow_bulk=True),
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
-            validate_accepted_complaints,
         ),
         permission="upload_award_documents",
     )
@@ -57,7 +53,6 @@ class COTenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
             validate_award_document_author,
-            validate_accepted_complaints,
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -76,7 +71,6 @@ class COTenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
             validate_award_document_author,
-            validate_accepted_complaints,
         ),
         permission="edit_award_documents",
     )

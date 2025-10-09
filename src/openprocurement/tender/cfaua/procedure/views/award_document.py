@@ -14,6 +14,7 @@ from openprocurement.tender.cfaua.procedure.state.award_document import (
     CFAUAAwardDocumentState,
 )
 from openprocurement.tender.cfaua.procedure.validation import (
+    validate_accepted_complaints,
     validate_award_document_tender_not_in_allowed_status,
 )
 from openprocurement.tender.core.procedure.models.document import (
@@ -28,9 +29,6 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.views.award_document import (
     BaseAwardDocumentResource,
-)
-from openprocurement.tender.openua.procedure.validation import (
-    validate_accepted_complaints,
 )
 
 
