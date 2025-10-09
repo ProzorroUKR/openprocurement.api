@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState as BaseContractDocumentState,
@@ -32,6 +33,7 @@ class EContractChangeDocumentState(BaseContractDocumentState):
         participants_count = suppliers_count + 1  # all suppliers + buyer signature
         signs_count = len([doc for doc in docs if doc.get("documentType") == "contractSignature"])
         if signs_count == participants_count:
+            change["dateSigned"] = get_request_now().isoformat()
             self.set_object_status(change, "active")
 
     def validate_change_signature_duplicate(self, doc_data):

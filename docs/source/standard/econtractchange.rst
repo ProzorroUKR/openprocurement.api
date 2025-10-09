@@ -66,6 +66,12 @@ Schema
 :date:
     string, :ref:`date`, auto-generated
 
+:dateSigned:
+    string, :ref:`date`
+
+    |ocdsDescription|
+    The date when the change was signed. In the case of multiple signatures, the date of the last signature.
+
 :status:
     string, required
 

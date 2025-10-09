@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-07 17:35+0300\n"
+"POT-Creation-Date: 2025-10-09 14:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -115,6 +115,15 @@ msgstr ""
 
 msgid "string, :ref:`date`, auto-generated"
 msgstr "рядок, :ref:`date`, генерується автоматично"
+
+msgid "dateSigned"
+msgstr ""
+
+msgid "string, :ref:`date`"
+msgstr "рядок, :ref:`date`"
+
+msgid "|ocdsDescription| The date when the change was signed. In the case of multiple signatures, the date of the last signature."
+msgstr "|ocdsDescription| Дата підписання додаткової угоди. Якщо було декілька підписань, то береться дата останнього підписання."
 
 msgid "status"
 msgstr ""

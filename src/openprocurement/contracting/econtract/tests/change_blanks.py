@@ -358,6 +358,7 @@ def activation_of_change(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
+    self.assertNotIn("dateSigned", response.json["data"])
 
     # add signature for supplier
     self.app.post_json(
@@ -369,6 +370,7 @@ def activation_of_change(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
+    self.assertIn("dateSigned", response.json["data"])
 
 
 def cancellation_of_change(self):
