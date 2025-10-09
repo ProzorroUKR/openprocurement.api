@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-17 16:55+0300\n"
+"POT-Creation-Date: 2025-10-09 11:40+0300\n"
 "PO-Revision-Date: 2020-04-23 11:14+0300\n"
 "Last-Translator: \n"
 "Language: uk_UA\n"
@@ -34,6 +34,9 @@ msgid "items.unit.value.amount"
 msgstr ""
 
 msgid "subcontractingDetails"
+msgstr ""
+
+msgid "lotValues.subcontractingDetails"
 msgstr ""
 
 msgid "tenderers.signerInfo"

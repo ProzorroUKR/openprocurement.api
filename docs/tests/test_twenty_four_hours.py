@@ -280,8 +280,11 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                 status=200,
             )
 
+        response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token))
+        bid1 = response.json["data"]
         bid1["tenderers"][0]["signerInfo"]["name"] = "Бойко Микола Миколайович>"
         bid1["tenderers"][0]["signerInfo"]["iban"] = "111111111222222"
+        bid1["lotValues"][0]["subcontractingDetails"] = "ДП «Орфей»"
         with open(TARGET_DIR + '24hours/patch-bid.http', 'w') as self.app.file_obj:
             self.app.patch_json(
                 "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
@@ -289,6 +292,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                     "data": {
                         "subcontractingDetails": "ДП «Орфей»",
                         "tenderers": bid1["tenderers"],
+                        "lotValues": bid1["lotValues"],
                     }
                 },
                 status=200,

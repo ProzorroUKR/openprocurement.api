@@ -2494,7 +2494,7 @@ def patch_bid_during_qualification_with_24h_milestone(self):
         {
             "location": "body",
             "name": "data",
-            "description": "Updated could be only ('items', 'requirementResponses', 'subcontractingDetails', 'tenderers') in bid, value change forbidden",
+            "description": "Updated could be only ('items', 'requirementResponses', 'subcontractingDetails', 'tenderers', 'lotValues') in bid, value change forbidden",
         },
     )
 

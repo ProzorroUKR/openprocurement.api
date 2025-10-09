@@ -11,6 +11,7 @@ The fields that may be updated during 24 hours milestone:
 * requirementResponses
 * items.unit.value.amount
 * subcontractingDetails
+* lotValues.subcontractingDetails
 * tenderers.signerInfo
 
 
