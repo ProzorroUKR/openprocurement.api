@@ -24,9 +24,6 @@ from openprocurement.tender.core.procedure.views.award_document import (
     BaseAwardDocumentResource,
 )
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.open.procedure.validation import (
-    validate_accepted_complaints,
-)
 
 
 @resource(
@@ -43,7 +40,6 @@ class UATenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_input_data(PostDocument, allow_bulk=True),
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
-            validate_accepted_complaints,
         ),
         permission="upload_award_documents",
     )
@@ -57,7 +53,6 @@ class UATenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
             validate_award_document_author,
-            validate_accepted_complaints,
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -76,7 +71,6 @@ class UATenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
             validate_award_document_author,
-            validate_accepted_complaints,
         ),
         permission="edit_award_documents",
     )
