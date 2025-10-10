@@ -446,6 +446,7 @@ class BidState(BaseState):
             "requirementResponses",
             "subcontractingDetails",
             "tenderers",
+            "lotValues",
         ]
         for field_name in after.keys():
             if field_name == "items":
@@ -461,6 +462,13 @@ class BidState(BaseState):
                     after,
                     field_name=field_name,
                     nested_field_names=("signerInfo",),
+                )
+            if field_name == "lotValues":
+                validate_allowed_field_change_in_list(
+                    before,
+                    after,
+                    field_name=field_name,
+                    nested_field_names=("subcontractingDetails",),
                 )
             if field_name not in item_patch_fields and before.get(field_name) != after.get(field_name):
                 raise_operation_error(

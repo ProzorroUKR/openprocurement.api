@@ -664,6 +664,12 @@ def validate_allowed_field_change_in_list(before, after, field_name, nested_fiel
         )
 
     for after_item, before_item in zip(items, before_items):
+        keys_difference = set(before_item.keys()) - set(after_item.keys())
+        if keys_difference:
+            raise_operation_error(
+                get_request(),
+                f"Forbidden to delete fields {keys_difference}",
+            )
         for item_field_name, after_value in after_item.items():
             before_value = before_item.get(item_field_name)
 

@@ -37,6 +37,25 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "authorizedBy": "Статут компанії"
         }
       }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 250.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "5666a4d7fa694af28825b1971b3912b9",
+        "status": "active",
+        "date": "2023-10-10T01:00:00+03:00",
+        "initialValue": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/985f6e927f784969aabb65fd84ff2415_5666a4d7fa694af28825b1971b3912b9?key_for_bid=c8928ffae76b497484f9691c2d2c9638",
+        "subcontractingDetails": "ДП «Орфей»"
+      }
     ]
   }
 }
@@ -231,6 +250,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "5666a4d7fa694af28825b1971b3912b9",
+        "subcontractingDetails": "ДП «Орфей»",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "initialValue": {
