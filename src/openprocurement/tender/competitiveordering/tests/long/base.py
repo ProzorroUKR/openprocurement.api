@@ -114,7 +114,6 @@ test_tender_co_long_config = {
 
 test_tender_co_long_required_criteria_ids = {
     "CRITERION.OTHER.BID.VALIDITY_PERIOD",
-    "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION",
 }
 
 test_tender_co_long_allowed_criteria_ids = {
