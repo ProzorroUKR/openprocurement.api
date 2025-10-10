@@ -213,8 +213,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d
     },
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 0.0
+      "amount": 0.0,
+      "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
       "startDate": "2023-10-17T00:00:00+02:00",

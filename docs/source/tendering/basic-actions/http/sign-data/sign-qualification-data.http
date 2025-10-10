@@ -968,14 +968,14 @@ Content-Type: application/json
           "id": "5666a4d7fa694af28825b1971b3912b9",
           "date": "2023-10-10T01:00:00+03:00",
           "value": {
-            "amount": 500.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": true,
+            "amount": 500.0
           },
           "minimalStep": {
-            "amount": 15.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": true,
+            "amount": 15.0
           },
           "auctionPeriod": {
             "startDate": "2023-10-10T01:00:00+03:00",

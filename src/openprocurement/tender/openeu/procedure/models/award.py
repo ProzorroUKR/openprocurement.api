@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.models.award import (
 from openprocurement.tender.core.procedure.models.award import (
     PostAward as BasePostAward,
 )
-from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
+from openprocurement.tender.core.procedure.models.value import WeightedValue
 from openprocurement.tender.openua.procedure.models.item import Item
 
 

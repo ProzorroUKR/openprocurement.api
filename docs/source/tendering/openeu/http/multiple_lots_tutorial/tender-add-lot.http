@@ -30,13 +30,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/438aef21947a4a09
     "id": "90605edc448c4de18fee176ba1865b55",
     "status": "active",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
+      "amount": 500.0,
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 5.0,
       "currency": "UAH",
+      "amount": 5.0,
       "valueAddedTaxIncluded": true
     },
     "date": "2023-10-10T01:00:00+03:00"

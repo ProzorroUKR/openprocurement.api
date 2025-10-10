@@ -148,13 +148,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/99bce310829042bb
     "title": "футляри до державних нагород",
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 500.0
+      "amount": 500.0,
+      "valueAddedTaxIncluded": true
     },
     "minimalStep": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 5.0
+      "amount": 5.0,
+      "valueAddedTaxIncluded": true
     },
     "milestones": [
       {

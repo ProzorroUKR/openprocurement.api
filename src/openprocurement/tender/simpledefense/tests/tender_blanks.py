@@ -32,7 +32,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or EstimatedValue instance instead of str."],
+                "description": ["Please use a mapping for this field or PostEstimatedValue instance instead of str."],
                 "location": "body",
                 "name": "value",
             }

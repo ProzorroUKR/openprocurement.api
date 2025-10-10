@@ -10,12 +10,15 @@ from openprocurement.tender.core.procedure.models.award import (
     PostAward as BasePostAward,
 )
 from openprocurement.tender.esco.procedure.models.item import Item
-from openprocurement.tender.esco.procedure.models.value import BaseESCOValue
+from openprocurement.tender.esco.procedure.models.value import (
+    ESCOValue,
+    ESCOWeightedValue,
+)
 
 
 class Award(BaseAward):
-    value = ModelType(BaseESCOValue)
-    weightedValue = ModelType(BaseESCOValue)
+    value = ModelType(ESCOValue)
+    weightedValue = ModelType(ESCOWeightedValue)
     eligible = BooleanType()
     items = ListType(ModelType(Item, required=True))
 
@@ -30,6 +33,6 @@ class PatchAward(BasePatchAward):
 
 
 class PostAward(BasePostAward):
-    value = ModelType(BaseESCOValue)
-    weightedValue = ModelType(BaseESCOValue)
+    value = ModelType(ESCOValue)
+    weightedValue = ModelType(ESCOWeightedValue)
     items = ListType(ModelType(Item, required=True))

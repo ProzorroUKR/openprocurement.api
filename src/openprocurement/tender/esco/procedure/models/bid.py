@@ -13,14 +13,19 @@ from openprocurement.tender.esco.procedure.models.lot_value import (
     PatchLotValue,
     PostLotValue,
 )
-from openprocurement.tender.esco.procedure.models.value import ESCOValue, PatchESCOValue
+from openprocurement.tender.esco.procedure.models.value import (
+    ESCODynamicValue,
+    ESCOWeightedValue,
+    PatchESCOValue,
+)
 from openprocurement.tender.openeu.procedure.models.bid import Bid as BaseBid
 from openprocurement.tender.openeu.procedure.models.bid import PatchBid as BasePatchBid
 from openprocurement.tender.openeu.procedure.models.bid import PostBid as BasePostBid
 
 
 class ESCOMixin(Model):
-    value = ModelType(ESCOValue)
+    value = ModelType(ESCODynamicValue)
+    weightedValue = ModelType(ESCOWeightedValue)
     lotValues = ListType(ModelType(LotValue, required=True))
     selfQualified = BooleanType(required=False)
     selfEligible = BooleanType(required=False)

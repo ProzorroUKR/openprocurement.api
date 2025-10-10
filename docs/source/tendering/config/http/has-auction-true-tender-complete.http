@@ -1052,14 +1052,14 @@ Content-Type: application/json
         "id": "d7afc0eb4f6d42549557d7b3226417e6",
         "date": "2023-11-09T00:00:00+02:00",
         "value": {
-          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 500.0
         },
         "minimalStep": {
-          "amount": 5.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 5.0
         },
         "auctionPeriod": {
           "startDate": "2023-11-09T00:00:00+02:00",
@@ -1074,14 +1074,14 @@ Content-Type: application/json
         "id": "ffb255f57e054aaa9f45701dbce47420",
         "date": "2023-11-09T00:00:00+02:00",
         "value": {
-          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 500.0
         },
         "minimalStep": {
-          "amount": 5.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 5.0
         },
         "auctionPeriod": {
           "startDate": "2023-11-09T00:00:00+02:00",

@@ -1,21 +1,24 @@
-from schematics.types import BooleanType, FloatType
+from schematics.exceptions import ValidationError
+from schematics.types import BooleanType, FloatType, StringType
 
-from openprocurement.api.procedure.models.guarantee import Guarantee
-from openprocurement.api.procedure.types import DecimalType
+from openprocurement.api.constants import CURRENCIES
+from openprocurement.api.procedure.models.base import Model
 
 
-class Value(Guarantee):
+class BasicValue(Model):
+    amount = FloatType(required=True, min_value=0)  # Amount as a number.
+    currency = StringType(required=True, default="UAH", max_length=3, min_length=3)  # 3-letter ISO 4217 format.
+
+    def validate_currency(self, guarantee, currency):
+        if currency not in CURRENCIES:
+            raise ValidationError(f"Currency must be only {', '.join(CURRENCIES)}.")
+
+
+class Value(BasicValue):
     valueAddedTaxIncluded = BooleanType(required=True, default=True)
-    denominator = DecimalType()
-    addition = DecimalType()
 
 
 class EstimatedValue(Value):
-    """Estimated tender value.
-
-    Amount is not required.
-    """
-
     amount = FloatType(required=False, min_value=0)
 
 

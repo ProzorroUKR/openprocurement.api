@@ -26,10 +26,11 @@ class ESCOBidState(BidState):
                 yearly_value = to_decimal(lv["value"]["yearlyPaymentsPercentage"])
                 lots = [i for i in tender.get("lots", "") if i["id"] == lv["relatedLot"]]
 
-                if lots and yearly_value > Decimal(lots[0]["yearlyPaymentsPercentageRange"]):
+                p_range = lots[0]["yearlyPaymentsPercentageRange"]
+                if lots and yearly_value > Decimal(p_range):
                     raise_operation_error(
                         self.request,
-                        f"yearlyPaymentsPercentage should be greater than 0 and less than {lots[0]['yearlyPaymentsPercentageRange']}",
+                        f"yearlyPaymentsPercentage should be greater than 0 and less than {p_range}",
                         status=422,
                         name="lotValues.value",
                     )

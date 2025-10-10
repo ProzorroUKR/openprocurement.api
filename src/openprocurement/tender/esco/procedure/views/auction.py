@@ -10,7 +10,7 @@ from openprocurement.tender.esco.procedure.models.auction import (
     AuctionLotResults,
     AuctionResults,
 )
-from openprocurement.tender.esco.procedure.models.value import ESCOValue
+from openprocurement.tender.esco.procedure.models.value import ESCODynamicValue
 from openprocurement.tender.esco.procedure.serializers.auction import AuctionSerializer
 from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 from openprocurement.tender.openua.procedure.views.auction import TenderAuctionResource
@@ -41,7 +41,7 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
             if "value" in passed_bid:
                 value = tender_bids[passed_bid["id"]]["value"].copy()
                 value.update(passed_bid["value"])
-                passed_bid["value"] = ESCOValue(value).serialize()
+                passed_bid["value"] = ESCODynamicValue(value).serialize()
         return super().collection_post()
 
     @json_view(
@@ -65,5 +65,5 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
                     if value:
                         value = bid_values[passed_bid["id"]][lv["relatedLot"]].copy()
                         value.update(lv["value"])
-                        lv["value"] = ESCOValue(value).serialize()
+                        lv["value"] = ESCODynamicValue(value).serialize()
         return super().post()

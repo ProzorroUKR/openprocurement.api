@@ -12,11 +12,11 @@ from openprocurement.tender.core.procedure.models.bid import (
     PatchQualificationBid as BasePatchQualificationBid,
 )
 from openprocurement.tender.core.procedure.models.bid import PostBid as BasePostBid
-from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.models.req_response import (
     BidResponsesMixin,
     PatchObjResponsesMixin,
 )
+from openprocurement.tender.core.procedure.models.value import WeightedValue
 
 
 class PatchBid(PatchObjResponsesMixin, BasePatchBid):

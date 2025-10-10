@@ -20,6 +20,7 @@ from openprocurement.tender.core.procedure.models.req_response import (
     ObjResponseMixin,
     PatchObjResponsesMixin,
 )
+from openprocurement.tender.core.procedure.models.value import WeightedValue
 
 
 class PostAward(BaseAward):
@@ -33,7 +34,7 @@ class PostAward(BaseAward):
 
     status = StringType(required=True, choices=["pending"], default="pending")
     value = ModelType(Value)
-    weightedValue = ModelType(Value)
+    weightedValue = ModelType(WeightedValue)
     suppliers = ListType(
         ModelType(Supplier, required=True),
         required=True,
@@ -70,7 +71,7 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
     status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
     date = IsoDateTimeType(required=True)
     value = ModelType(Value)
-    weightedValue = ModelType(Value)
+    weightedValue = ModelType(WeightedValue)
     suppliers = ListType(
         ModelType(Supplier, required=True),
         required=True,

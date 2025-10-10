@@ -1249,8 +1249,8 @@ Content-Type: application/json
             "date": "2023-10-10T01:02:01+03:00",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
               "amount": 9430.27,
+              "valueAddedTaxIncluded": true,
               "amountPerformance": 864.98,
               "yearlyPaymentsPercentage": 0.9,
               "annualCostsReduction": [
@@ -1283,8 +1283,8 @@ Content-Type: application/json
             },
             "initialValue": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
               "amount": 9430.27,
+              "valueAddedTaxIncluded": true,
               "amountPerformance": 864.98,
               "yearlyPaymentsPercentage": 0.9,
               "annualCostsReduction": [
@@ -1553,8 +1553,8 @@ Content-Type: application/json
             "date": "2023-10-10T01:02:01+03:00",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
               "amount": 9767.32,
+              "valueAddedTaxIncluded": true,
               "amountPerformance": 801.83,
               "yearlyPaymentsPercentage": 0.85,
               "annualCostsReduction": [
@@ -1587,8 +1587,8 @@ Content-Type: application/json
             },
             "initialValue": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
               "amount": 9767.32,
+              "valueAddedTaxIncluded": true,
               "amountPerformance": 801.83,
               "yearlyPaymentsPercentage": 0.85,
               "annualCostsReduction": [
@@ -2260,8 +2260,8 @@ Content-Type: application/json
         "qualified": true,
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
           "amount": 9430.27,
+          "valueAddedTaxIncluded": true,
           "amountPerformance": 864.98,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
@@ -2308,8 +2308,8 @@ Content-Type: application/json
         "contractID": "UA-2023-10-10-000001-a-1",
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
           "amount": 9430.27,
+          "valueAddedTaxIncluded": true,
           "amountNet": 9430.27
         }
       }

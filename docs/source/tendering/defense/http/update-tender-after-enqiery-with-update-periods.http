@@ -88,8 +88,8 @@ Content-Type: application/json
     "submissionMethod": "electronicAuction",
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 501.0
+      "amount": 501.0,
+      "valueAddedTaxIncluded": true
     },
     "guarantee": {
       "amount": 8.0,
@@ -98,8 +98,8 @@ Content-Type: application/json
     "next_check": "2023-10-18T01:00:01+03:00",
     "minimalStep": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 5.0
+      "amount": 5.0,
+      "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
       "startDate": "2023-10-19T12:29:40.230000+03:00",

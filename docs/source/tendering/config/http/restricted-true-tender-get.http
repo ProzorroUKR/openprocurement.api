@@ -928,14 +928,14 @@ Content-Type: application/json
         "id": "86393d2e4e8042efb3a7b0a7cdfe8d61",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
-          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 500.0
         },
         "minimalStep": {
-          "amount": 15.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 15.0
         },
         "auctionPeriod": {
           "shouldStartAfter": "2023-10-26T00:00:00+03:00",

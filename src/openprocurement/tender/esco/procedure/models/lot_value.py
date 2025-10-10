@@ -10,12 +10,15 @@ from openprocurement.tender.core.procedure.models.lot_value import (
 from openprocurement.tender.core.procedure.models.lot_value import (
     PostLotValue as BasePostLotValue,
 )
-from openprocurement.tender.esco.procedure.models.value import ESCOValue
+from openprocurement.tender.esco.procedure.models.value import (
+    ESCODynamicValue,
+    ESCOWeightedValue,
+)
 from openprocurement.tender.esco.procedure.validation import validate_lotvalue_value
 
 
 class PostLotValue(BasePostLotValue):
-    value = ModelType(ESCOValue, required=True)
+    value = ModelType(ESCODynamicValue, required=True)
 
     def validate_value(self, data, value):
         if data.get("status") != "draft":
@@ -24,7 +27,8 @@ class PostLotValue(BasePostLotValue):
 
 
 class PatchLotValue(BasePatchLotValue):
-    value = ModelType(ESCOValue, required=True)
+    value = ModelType(ESCODynamicValue, required=True)
+    weightedValue = ModelType(ESCOWeightedValue)
 
     def validate_value(self, data, value):
         if data.get("status") != "draft":
@@ -33,8 +37,9 @@ class PatchLotValue(BasePatchLotValue):
 
 
 class LotValue(BaseLotValue):
-    value = ModelType(ESCOValue, required=True)
-    initialValue = ModelType(ESCOValue)  # field added by chronograph
+    value = ModelType(ESCODynamicValue, required=True)
+    initialValue = ModelType(ESCODynamicValue)  # field added by chronograph
+    weightedValue = ModelType(ESCOWeightedValue)
 
     def validate_value(self, data, value):
         if data.get("status") != "draft":

@@ -24,9 +24,9 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "id": "50fc7d0cb4e3423491c35387a046af42",
     "value": {
-      "amount": 600.67,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 600.67
     },
     "minimalStep": {
       "amount": 2.5,

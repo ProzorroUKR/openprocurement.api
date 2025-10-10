@@ -1697,14 +1697,14 @@ Content-Type: application/json
         "id": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
-          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 500.0
         },
         "minimalStep": {
-          "amount": 5.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 5.0
         },
         "auctionPeriod": {
           "shouldStartAfter": "2023-10-16T00:00:00+03:00",

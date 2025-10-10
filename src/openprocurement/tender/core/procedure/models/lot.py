@@ -7,13 +7,12 @@ from schematics.validate import ValidationError
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType
-from openprocurement.tender.core.procedure.models.guarantee import (
-    EstimatedValue,
-    Guarantee,
-    PostEstimatedValue,
-    PostGuarantee,
-)
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
+from openprocurement.tender.core.procedure.models.value import (
+    BasicValue,
+    EstimatedValue,
+    PostEstimatedValue,
+)
 
 
 class BaseLot(Model):
@@ -43,14 +42,14 @@ class PatchLot(BaseLot):
     title = StringType()
     value = ModelType(EstimatedValue)
     minimalStep = ModelType(EstimatedValue)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
     status = StringType(choices=["active"])
 
 
 class PostLot(PostBaseLot):
     value = ModelType(PostEstimatedValue, required=True)
     minimalStep = ModelType(PostEstimatedValue)
-    guarantee = ModelType(PostGuarantee)
+    guarantee = ModelType(BasicValue)
 
 
 # --- For work from tender ---
@@ -59,7 +58,7 @@ class PostLot(PostBaseLot):
 class PatchTenderLot(BaseLot, TenderLotMixin):
     value = ModelType(EstimatedValue, required=True)
     minimalStep = ModelType(EstimatedValue)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
 
 
 class PostTenderLot(PostLot, TenderLotMixin):
@@ -69,7 +68,7 @@ class PostTenderLot(PostLot, TenderLotMixin):
 class Lot(BaseLot, TenderLotMixin):
     value = ModelType(EstimatedValue, required=True)
     minimalStep = ModelType(EstimatedValue)
-    guarantee = ModelType(Guarantee)
+    guarantee = ModelType(BasicValue)
 
     auctionPeriod = ModelType(LotAuctionPeriod)
     auctionUrl = URLType()
