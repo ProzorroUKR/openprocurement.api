@@ -92,17 +92,24 @@ class ESCODynamicValue(ESCOValue):
     def validate_yearlyPaymentsPercentage(self, data, value):
         tender = get_tender()
 
-        if tender["fundingKind"] == "other" and value < Decimal("0.8"):
-            raise ValidationError("yearlyPaymentsPercentage should be greater than 0.8 and less than 1")
+        if tender["fundingKind"] == "other":
+            min_value = 0.8
+            if value < Decimal(str(min_value)):
+                raise ValidationError(
+                    "yearlyPaymentsPercentage should be greater than {} and less than 1".format(min_value)
+                )
 
         if tender.get("lots"):
             # Validation for lots is done in the state
             # (maybe this one further should be moved to the state as well)
             return
 
-        p_range = tender["yearlyPaymentsPercentageRange"]
-        if tender["fundingKind"] == "budget" and value > Decimal(p_range):
-            raise ValidationError("yearlyPaymentsPercentage should be greater than 0 and less than {}".format(p_range))
+        if tender["fundingKind"] == "budget":
+            max_value = tender["yearlyPaymentsPercentageRange"]
+            if value > Decimal(str(max_value)):
+                raise ValidationError(
+                    "yearlyPaymentsPercentage should be greater than 0 and less than {}".format(max_value)
+                )
 
 
 class ESCOWeightedValue(BasicESCOValue):
