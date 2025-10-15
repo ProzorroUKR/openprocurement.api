@@ -1,10 +1,8 @@
-from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
 from openprocurement.contracting.core.tests.data import test_signer_info
-from openprocurement.contracting.core.tests.utils import create_contract
 
 
 def not_found(self):
@@ -370,31 +368,26 @@ def patch_change(self):
 
 
 def no_items_contract_change(self):
-    data = deepcopy(self.initial_data)
-    del data["items"]
-
-    contract = create_contract(self, data)
-    self.assertEqual(contract["status"], "pending")
-    self.assertNotIn("items", contract)
-    token = data["access"][-1]["token"]
-    supplier_token = data["access"][0]["token"]
+    contract = self.mongodb.contracts.get(self.contract["id"])
+    del contract["items"]
+    self.mongodb.contracts.save(contract)
 
     # activate contract
 
     response = self.app.put_json(
-        f"/contracts/{contract['id']}/buyer/signer_info?acc_token={token}",
+        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.tender_token}",
         {"data": test_signer_info},
     )
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.put_json(
-        f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={supplier_token}",
+        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
         {"data": test_signer_info},
     )
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
-        f"/contracts/{contract['id']}?acc_token={token}",
+        f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
         {
             "data": {
                 "status": "active",
@@ -409,7 +402,7 @@ def no_items_contract_change(self):
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.post_json(
-        f"/contracts/{contract['id']}/changes?acc_token={token}",
+        f"/contracts/{self.contract_id}/changes?acc_token={self.tender_token}",
         {"data": {"rationale": "причина зміни укр", "rationaleTypes": ["qualityImprovement"]}},
     )
     self.assertEqual(response.status, "201 Created")
@@ -417,19 +410,19 @@ def no_items_contract_change(self):
     self.assertEqual(change["status"], "pending")
 
     response = self.app.patch_json(
-        f"/contracts/{contract['id']}/changes/{change['id']}?acc_token={token}",
+        f"/contracts/{self.contract_id}/changes/{change['id']}?acc_token={self.tender_token}",
         {"data": {"status": "active", "dateSigned": get_now().isoformat()}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
 
     response = self.app.patch_json(
-        f"/contracts/{contract['id']}?acc_token={token}",
+        f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
         {"data": {"value": {**contract["value"], "amountNet": contract["value"]["amount"] - 1}}},
     )
 
     response = self.app.patch_json(
-        f"/contracts/{contract['id']}?acc_token={token}",
+        f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
         {
             "data": {
                 "status": "terminated",
@@ -440,12 +433,12 @@ def no_items_contract_change(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "terminated")
 
-    response = self.app.get(f"/contracts/{contract['id']}")
+    response = self.app.get(f"/contracts/{self.contract_id}")
     self.assertNotIn("items", response.json["data"])
 
 
 def change_date_signed(self):
-    self.set_status("active")
+    self.set_contract_status("active")
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
@@ -660,7 +653,7 @@ def change_date_signed(self):
 
 def date_signed_on_change_creation(self):
     # test create change with date signed
-    self.set_status("active")
+    self.set_contract_status("active")
 
     now = get_now()
     one_day_in_past = (now - timedelta(days=1)).isoformat()

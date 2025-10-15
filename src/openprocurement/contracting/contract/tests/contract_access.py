@@ -17,11 +17,11 @@ class ContractResourceCredentialsTest(BaseContractWebTest):
 
 
 class ContractActiveResourceCredentialsTest(BaseContractWebTest):
-    initial_status = "active"
+    initial_contract_status = "active"
 
     def setUp(self):
         super().setUp()
         self.tender_token = self.tender_document["owner_token"]
-        self.set_status(self.initial_status)
+        self.set_contract_status(self.initial_contract_status)
 
     test_generate_credentials = snitch(generate_credentials)

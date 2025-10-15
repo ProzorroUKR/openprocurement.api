@@ -189,7 +189,7 @@ def create_contract_document(self):
     self.assertEqual("sign.p7s", response.json["data"]["title"])
 
     if self.contract["status"] != "active":
-        self.set_status("active")
+        self.set_contract_status("active")
 
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",

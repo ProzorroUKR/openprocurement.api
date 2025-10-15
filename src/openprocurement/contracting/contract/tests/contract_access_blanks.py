@@ -11,7 +11,6 @@ def generate_credentials(self):
         f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}", {"data": ""}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["id"], self.initial_data["id"])
     self.assertNotIn("tender_token", response.json["data"])
     self.assertNotIn("owner_token", response.json["data"])
     self.assertEqual(response.json["data"]["owner"], "broker")
@@ -23,7 +22,6 @@ def generate_credentials(self):
         f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}", {"data": ""}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["id"], self.initial_data["id"])
     self.assertEqual(len(response.json["access"]["token"]), 32)
     token2 = response.json["access"]["token"]
     self.assertNotEqual(token1, token2)

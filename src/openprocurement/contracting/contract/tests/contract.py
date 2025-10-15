@@ -5,7 +5,6 @@ from openprocurement.contracting.contract.tests.base import BaseContractContentW
 from openprocurement.contracting.core.tests.base import (
     BaseContractTest,
     BaseContractWebTest,
-    BaseContractWebTestTwoItems,
 )
 from openprocurement.contracting.core.tests.contract_blanks import (
     cancel_tender_award,
@@ -36,28 +35,23 @@ from openprocurement.contracting.core.tests.contract_blanks import (
     patch_tender_contract_without_value,
     patch_tender_contract_wo_amount_net,
     put_transaction_to_contract,
-    simple_add_contract,
 )
 from openprocurement.contracting.core.tests.data import (
     test_contract_data,
-    test_contract_data_wo_items,
-    test_contract_data_wo_value_amount_net,
+    test_contract_data_second_item,
 )
 
 
 class ContractListingTests(BaseContractTest):
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_contract_data
+    initial_contract_data = test_contract_data
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
     test_listing_changes = snitch(listing_changes)
 
 
-class ContractResourceTest(BaseContractTest):
-    initial_data = test_contract_data
-
-    test_simple_add_contract = snitch(simple_add_contract)
+class ContractResourceTest(BaseContractContentWebTest):
     test_get_contract = snitch(get_contract)
     test_not_found = snitch(not_found)
     test_create_contract_transfer_token = snitch(create_contract_transfer_token)
@@ -77,7 +71,7 @@ class ContractResource4BrokersTest(BaseContractContentWebTest):
 
 
 class ContractActiveResource4BrokersTest(BaseContractContentWebTest):
-    initial_status = "active"
+    initial_contract_status = "active"
 
     test_patch_tender_contract_identical = snitch(patch_tender_contract_identical)
     test_patch_tender_contract_value_vat_change = snitch(patch_tender_contract_value_vat_change)
@@ -88,26 +82,39 @@ class ContractActiveResource4BrokersTest(BaseContractContentWebTest):
     test_patch_tender_contract_period = snitch(patch_tender_contract_period)
 
 
-class ContractResource4BrokersTestMultipleItems(BaseContractWebTestTwoItems):
+class ContractResource4BrokersTestMultipleItems(BaseContractContentWebTest):
+    def setUp(self):
+        super().setUp()
+        contract_doc = self.mongodb.contracts.get(self.contract_id)
+        contract_doc['items'].append(test_contract_data_second_item)
+        self.mongodb.contracts.save(contract_doc)
+
     test_contract_update_add_remove_items = snitch(contract_update_add_remove_items)
 
 
 class ContractResource4AdministratorTest(BaseContractWebTest):
-    initial_auth = ("Basic", ("administrator", ""))
-
     test_contract_administrator_change = snitch(contract_administrator_change)
 
 
 class ContractWOItemsResource4BrokersTest(BaseContractContentWebTest):
-    initial_data = test_contract_data_wo_items
+    def setUp(self):
+        super().setUp()
+        contract_doc = self.mongodb.contracts.get(self.contract_id)
+        del contract_doc['items']
+        self.mongodb.contracts.save(contract_doc)
 
     test_contract_wo_items_status_change = snitch(contract_wo_items_status_change)
     test_contract_validate_signer_info = snitch(contract_validate_signer_info)
 
 
 class ContractWOAmountNetResource4BrokersTest(BaseContractContentWebTest):
-    initial_status = "active"
-    initial_data = test_contract_data_wo_value_amount_net
+    initial_contract_status = "active"
+
+    def setUp(self):
+        super().setUp()
+        contract_doc = self.mongodb.contracts.get(self.contract_id)
+        del contract_doc['value']['amountNet']
+        self.mongodb.contracts.save(contract_doc)
 
     test_patch_tender_contract = snitch(patch_tender_contract_wo_amount_net)
 

@@ -9,7 +9,7 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.core.tests.base import test_contract_data
+from openprocurement.contracting.core.tests.data import test_contract_data
 from openprocurement.contracting.core.tests.utils import create_contract
 from openprocurement.framework.cfaua.tests.base import test_agreement_data
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config

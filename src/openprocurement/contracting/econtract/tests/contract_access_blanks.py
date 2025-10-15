@@ -152,13 +152,12 @@ def generate_access(self):
     self.assertEqual(response.status, "201 Created")
 
     # create contract without EDO platform (old flow)
-    contract = self.initial_data
-    contract.update(self.tender_document.get("contracts", "")[0])
+    contract = self.initial_contract_data
     contract.update(
         {
             "tender_id": self.tender_id,
             "access": [
-                {"token": self.initial_bids_tokens[0], "owner": "broker", "role": AccessRole.BID},
+                {"token": self.bid_token, "owner": "broker", "role": AccessRole.BID},
                 {
                     "token": self.tender_document["owner_token"],
                     "owner": self.tender_document["owner"],

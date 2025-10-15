@@ -93,6 +93,7 @@ test_tender_pq_author = test_tender_pq_base_organization.copy()
 test_tender_pq_procuring_entity = test_tender_pq_base_organization.copy()
 test_tender_pq_procuring_entity["kind"] = "general"
 test_tender_pq_procuring_entity["signerInfo"] = test_signer_info
+test_tender_pq_procuring_entity["identifier"] = {"scheme": "UA-IPN", "id": "00037200", "uri": "http://www.dus.gov.ua/"}
 
 test_tender_pq_buyer = test_tender_pq_procuring_entity.copy()
 test_tender_pq_buyer.pop("contactPoint")

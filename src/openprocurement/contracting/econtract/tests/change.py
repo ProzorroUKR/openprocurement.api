@@ -22,7 +22,7 @@ from openprocurement.contracting.econtract.tests.change_blanks import (
 
 
 class ContractChangesMixin:
-    initial_status = "active"
+    initial_contract_status = "active"
 
     def activate_change(self, change_id):
         contract_sign_data = {

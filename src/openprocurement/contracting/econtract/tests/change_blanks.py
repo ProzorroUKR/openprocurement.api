@@ -333,7 +333,7 @@ def activation_of_change(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "modifications": {"value": {"amount": 235, "amountNet": 200}},
+                "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
     )
@@ -381,7 +381,7 @@ def cancellation_of_change(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "modifications": {"value": {"amount": 235, "amountNet": 200}},
+                "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
     )
@@ -466,7 +466,7 @@ def cancellation_of_change(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "modifications": {"value": {"amount": 235, "amountNet": 200}},
+                "modifications": {"value": {"amount": 445, "amountNet": 440.5}},
             }
         },
     )
@@ -528,7 +528,7 @@ def change_contract_wo_amount_net(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "modifications": {"value": {"amount": 235, "amountNet": 200}},
+                "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
     )
@@ -543,7 +543,7 @@ def change_contract_value_amount(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "modifications": {"value": {**self.contract["value"], "amount": 235, "amountNet": 237}},
+                "modifications": {"value": {**self.contract["value"], "amount": 445, "amountNet": 447}},
             }
         },
         status=403,
@@ -561,7 +561,7 @@ def change_contract_value_amount(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "modifications": {"value": {"amount": 235, "amountNet": 100}},
+                "modifications": {"value": {"amount": 445, "amountNet": 100}},
             }
         },
         status=403,
@@ -579,15 +579,15 @@ def change_contract_value_amount(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "modifications": {"value": {"amount": 235, "amountNet": 201}},
+                "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
     )
     self.assertEqual(response.status, "201 Created")
 
     contract_modifications = response.json["data"]["modifications"]
-    self.assertEqual(contract_modifications["value"]["amount"], 235)
-    self.assertEqual(contract_modifications["value"]["amountNet"], 201)
+    self.assertEqual(contract_modifications["value"]["amount"], 445)
+    self.assertEqual(contract_modifications["value"]["amountNet"], 440)
     self.assertEqual(contract_modifications["value"]["currency"], "UAH")
     self.assertEqual(contract_modifications["value"]["valueAddedTaxIncluded"], True)
 
@@ -837,7 +837,7 @@ def change_documents(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReduction"],
-                "modifications": {"value": {"amount": 235, "amountNet": 200}},
+                "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
     )
@@ -1034,7 +1034,8 @@ def change_tender_contract_items_change(self):
         ],
     )
 
-    item["unit"]["value"]["amount"] = 29.8
+    item["quantity"] = 5
+    item["unit"]["value"]["amount"] = 77
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
         {
