@@ -889,6 +889,17 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         #### Modifying tender
 
+        with open(TARGET_DIR + 'stage2/EU/patch-tender-invalid.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                {
+                    'data': {
+                        'title': 'Послуги їдалень'
+                    }
+                },
+                status=422
+            )
+
         response = self.app.get(f"/tenders/{self.tender_id}")
         tender = response.json["data"]
         tender_period_end_date = get_now() + timedelta(days=31)
@@ -2062,6 +2073,17 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAWebTest, MockWebTestMixi
         tender, owner_token, lot_id = self.create_tender_stage_2()
 
         #### Modifying tender
+
+        with open(TARGET_DIR + 'stage2/UA/patch-tender-invalid.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                {
+                    'data': {
+                        'title': 'Послуги їдалень'
+                    }
+                },
+                status=422
+            )
 
         tender_period_end_date = get_now() + timedelta(days=31)
         with open(TARGET_DIR + 'stage2/UA/patch-tender-periods.http', 'w') as self.app.file_obj:

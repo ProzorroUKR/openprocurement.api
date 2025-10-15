@@ -16,7 +16,13 @@ Modifying tender
 
 On first stage you set procurementMethodType to ``CompetitiveDialogueEU`` then on second stage you have tender which similar to Open UE procedure.
 
-You can modify only ``tenderPeriod.endDate`` and ``deliveryDate`` for ``items``. Another changes will not be saved.
+You can modify only ``tenderPeriod.endDate`` and ``deliveryDate`` for ``items``.
+
+If you change another field we will see an error:
+
+.. http:example:: tutorial/stage2/EU/patch-tender-invalid.http
+   :code:
+
 Let's update tender by supplementing it with all other essential properties:
 
 .. http:example:: tutorial/stage2/EU/patch-tender-periods.http
