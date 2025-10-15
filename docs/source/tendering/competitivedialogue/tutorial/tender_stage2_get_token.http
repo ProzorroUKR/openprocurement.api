@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/076ef09c7f8e49a3bc7595e4b4cc1339/credentials?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
+PATCH /api/2.5/tenders/e5aef484694a4145a50462500e11fbbe/credentials?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -12,14 +12,8 @@ Content-Type: application/json
 {
   "data": {
     "title_en": "Services in school canteens",
-    "date": "2023-10-10T01:03:00+03:00",
-    "dateModified": "2023-10-10T01:03:00+03:00",
-    "dateCreated": "2023-10-10T01:03:00+03:00",
-    "tenderID": "UA-2023-10-10-000016-a.2",
-    "owner": "broker",
-    "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
-    "submissionMethod": "electronicAuction",
+    "title": "Послуги шкільних їдалень",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -29,18 +23,18 @@ Content-Type: application/json
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "status": "active",
-        "id": "4e1bf7ec2f044a43a96412e4204188e7",
         "date": "2023-10-10T01:03:00+03:00",
+        "id": "ad1db171228241499c0b61c8c29f611e",
+        "status": "active",
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 500.0
+          "amount": 500.0,
+          "valueAddedTaxIncluded": true
         },
         "minimalStep": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 5.0
+          "amount": 5.0,
+          "valueAddedTaxIncluded": true
         }
       }
     ],
@@ -77,24 +71,58 @@ Content-Type: application/json
         "authorizedBy": "Статут компанії"
       }
     },
+    "status": "draft.stage2",
     "awardCriteria": "lowestCost",
-    "enquiryPeriod": {
-      "startDate": "2023-10-10T01:03:00+03:00",
-      "endDate": "2023-10-31T00:00:00+02:00",
-      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2023-10-10T01:03:00+03:00",
-      "endDate": "2023-11-10T00:00:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2023-10-10T01:03:00+03:00",
-      "endDate": "2023-11-06T00:00:00+02:00"
-    },
     "procurementMethodType": "competitiveDialogueEU.stage2",
+    "owner": "broker",
+    "tenderID": "UA-2023-10-10-000001-a.2",
+    "dialogueID": "e01d495b72a74a27ae9a485bbdccc84a",
+    "shortlistedFirms": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "Школяр",
+        "lots": [
+          {
+            "id": "ad1db171228241499c0b61c8c29f611e"
+          }
+        ]
+      },
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»",
+        "lots": [
+          {
+            "id": "ad1db171228241499c0b61c8c29f611e"
+          }
+        ]
+      },
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137228",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "«Кенгуру»",
+        "lots": [
+          {
+            "id": "ad1db171228241499c0b61c8c29f611e"
+          }
+        ]
+      }
+    ],
     "items": [
       {
-        "id": "eb132877a4d447ab9a0651dbd4d5d20a",
+        "id": "17b92a59d0db4fb28c7cde663fc37352",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -104,7 +132,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "4e1bf7ec2f044a43a96412e4204188e7",
+        "relatedLot": "ad1db171228241499c0b61c8c29f611e",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -133,7 +161,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "f2de1df5aad94b62beb2c89a23c04c0e",
+        "id": "1db0630f08f04bf7b614719e8c8ef3e9",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -143,7 +171,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "4e1bf7ec2f044a43a96412e4204188e7",
+        "relatedLot": "ad1db171228241499c0b61c8c29f611e",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -172,34 +200,24 @@ Content-Type: application/json
         }
       }
     ],
-    "shortlistedFirms": [
-      {
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "name": "ДКП «Школяр»"
-      },
-      {
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "name": "ДКП «Книга»"
-      },
-      {
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137228",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "name": "«Кенгуру»"
-      }
-    ],
-    "status": "draft.stage2",
-    "id": "076ef09c7f8e49a3bc7595e4b4cc1339"
+    "tenderPeriod": {
+      "startDate": "2023-10-10T01:03:00+03:00",
+      "endDate": "2023-11-10T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
+    "enquiryPeriod": {
+      "startDate": "2023-10-10T01:03:00+03:00",
+      "endDate": "2023-10-31T00:00:00+02:00",
+      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:03:00+03:00",
+      "endDate": "2023-11-06T00:00:00+02:00"
+    },
+    "date": "2023-10-10T01:03:00+03:00",
+    "dateCreated": "2023-10-10T01:03:00+03:00",
+    "dateModified": "2023-10-10T01:03:00+03:00",
+    "id": "e5aef484694a4145a50462500e11fbbe"
   },
   "access": {
     "token": "7daf4a43d2eb4322865a73d28689213b",

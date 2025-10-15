@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/c429ff66bfe7408592ede2909ac98702 HTTP/1.0
+GET /api/2.5/tenders/7f818311963440f0b49ba53c35a0f971 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,6 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "title_en": "Services in school canteens",
     "criteria": [
       {
         "id": "8d0817292850416e81d690d0932d4f6b",
@@ -810,12 +811,287 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:03:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000016-a.2",
+    "tenderID": "UA-2023-10-10-000001-a.2",
+    "bids": [
+      {
+        "requirementResponses": [
+          {
+            "requirement": {
+              "id": "2807c6053fbc46829115a6feb196f090",
+              "title": "Мова тендерної пропозиції"
+            },
+            "values": [
+              "ukr"
+            ],
+            "id": "1d04ed1e40e04bdaa652d64001a6bbe5",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.OTHER.BID.LANGUAGE"
+            }
+          },
+          {
+            "requirement": {
+              "id": "80ab165517a8498eadec49f133270e4e",
+              "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
+            },
+            "value": true,
+            "id": "83d26369d1384ce0bd090e0507d784d6",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+            }
+          },
+          {
+            "requirement": {
+              "id": "620e7a7a6e544c64be8d1ea6d6eac5f9",
+              "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
+            },
+            "value": true,
+            "id": "97d3b3b1dd214e5b87b63cbcfc766caf",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+            }
+          },
+          {
+            "requirement": {
+              "id": "802325e1d2d54d359e6db8117b42124c",
+              "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
+            },
+            "value": true,
+            "id": "74ebd9b413e4436e8640fc904b6ed1ae",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+            }
+          },
+          {
+            "requirement": {
+              "id": "21a39686facc4711b3b21bf63fb6343d",
+              "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+            },
+            "value": true,
+            "id": "6bb0b632b2b347899b1d120a4badff79",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+            }
+          },
+          {
+            "requirement": {
+              "id": "b3c575d277364483b0b234a0cea6db78",
+              "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
+            },
+            "value": true,
+            "id": "2e0aa4c7e5194fd9983818395ff6b1b6",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
+            }
+          },
+          {
+            "requirement": {
+              "id": "fff1120a52e445ce8efbeb3585557488",
+              "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
+            },
+            "value": true,
+            "id": "e2f0635bd5864bba86d9500a3d852c3a",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
+            }
+          },
+          {
+            "requirement": {
+              "id": "8014080e41c94ec39823bb1a68151e71",
+              "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
+            },
+            "value": true,
+            "id": "31909ef605ad45c08c420918911307c5",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
+            }
+          },
+          {
+            "requirement": {
+              "id": "a9d103ff597d45ed94544de89827f27e",
+              "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
+            },
+            "value": true,
+            "id": "f77280aa6fdd49af85ab1dee73d4ba7e",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
+            }
+          },
+          {
+            "requirement": {
+              "id": "c7abf4626fe6435783bce6eb1599f37c",
+              "title": "Учасник процедури закупівлі не мав з цим самим замовником договорів достроково розірваних через невиконання (учасником) своїх зобов'язань через що було застосовано санкції у вигляді штрафів та/або відшкодування збитків"
+            },
+            "value": true,
+            "id": "d7f753ddfabe4cf788b08fe685b43f47",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
+            }
+          },
+          {
+            "requirement": {
+              "id": "0c8fcce034b14f0688a692e5b5785ad2",
+              "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
+            },
+            "value": true,
+            "id": "c594b1a68e554c82b463f09e39d12b89",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
+            }
+          },
+          {
+            "requirement": {
+              "id": "d9d2ee1d8ef5427c986b70a204c82f6c",
+              "title": "Текст заповнений користувачем"
+            },
+            "value": true,
+            "id": "93df6c93affa459eaead9df3ef2824a8",
+            "classification": {
+              "scheme": "ESPD211",
+              "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+            }
+          }
+        ],
+        "tenderers": [
+          {
+            "name": "Школяр",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            },
+            "scale": "micro",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            }
+          }
+        ],
+        "status": "active",
+        "id": "7334046d9fc046358e61bf8dc7d2cd18",
+        "lotValues": [
+          {
+            "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611",
+            "status": "active"
+          }
+        ],
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "4d759e3733374818b6aa57f97151c718",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Proposal.p7s",
+            "format": "sign/p7s",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c2d1d13cfad44a15b8201e00cf70e9c7?Signature=r9Z69x6Pwe1Id7ddhc1o4PvtNHgmGTO6eg6lehsZ7Tq896Hyfj1wD346vs8v4Rtj2XcYTLN7pbCW3UDGa%2BXCBA%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "language": "uk"
+          },
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "4d759e3733374818b6aa57f97151c718",
+            "datePublished": "2023-10-10T01:01:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "sign/p7s",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/95433f46190744cc8bf28fcf49c80bb1?Signature=eUQo4wXuvQHJiS2XyQ8aF6ZkACTK0Jo3TiORgCI%2FYF7SFZy%2B3t4WTQY%2FKrCLr75GJaWw5zxXflBtFiHdbqL6BA%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:01:00+03:00",
+            "language": "uk"
+          },
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "4d759e3733374818b6aa57f97151c718",
+            "datePublished": "2023-10-10T01:03:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "sign/p7s",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e5dfbb1faa814cda9e0e9f50dc3967a6?Signature=l0xFs7OaiDGohZDwQyTn3EOM4JVlSz%2Biwv9RpBiflJ8I5IuO7XRMcxSiE28QMEmwJdYP4E9ptWsKL0LBmKJHAg%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:03:00+03:00",
+            "language": "uk"
+          }
+        ]
+      },
+      {
+        "tenderers": [
+          {
+            "name": "ДКП «Книга»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137226",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Андрій Олексюк",
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930"
+            },
+            "scale": "sme",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            }
+          }
+        ],
+        "status": "draft",
+        "lotValues": [
+          {
+            "status": "pending",
+            "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611"
+          }
+        ],
+        "id": "933771e1159d4c478afc9638b0f276ae"
+      }
+    ],
     "questions": [
       {
         "id": "ad448805cc1644b19f8610c78e0881d2",
         "author": {
-          "hash": "0404a9e06d615d181561d61d8fec16ee"
+          "hash": "c640e1714aa731726061f37aad252e80"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -867,7 +1143,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "title": "футляри до державних нагород",
+    "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "value": {
@@ -881,7 +1157,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "9d95d7c5f19f4d24b17d650fe94a42f5",
+        "id": "a13cb7e45ea242fbb5c0fb54f7002611",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "currency": "UAH",
@@ -896,32 +1172,11 @@ Content-Type: application/json
         "auctionPeriod": {
           "startDate": "2023-10-10T01:03:00+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c429ff66bfe7408592ede2909ac98702_9d95d7c5f19f4d24b17d650fe94a42f5"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/7f818311963440f0b49ba53c35a0f971_a13cb7e45ea242fbb5c0fb54f7002611"
       }
     ],
-    "complaintPeriod": {
-      "startDate": "2023-09-12T01:00:00+03:00",
-      "endDate": "2023-10-14T00:00:00+03:00"
-    },
-    "awardCriteria": "lowestCost",
-    "enquiryPeriod": {
-      "startDate": "2023-09-24T01:03:00+03:00",
-      "endDate": "2023-10-07T01:03:00+03:00",
-      "clarificationsUntil": "2023-10-12T00:00:00+03:00",
-      "invalidationDate": "2023-10-10T01:01:00+03:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2023-09-24T01:03:00+03:00",
-      "endDate": "2023-10-10T01:03:00+03:00"
-    },
-    "procurementMethodType": "competitiveDialogueUA.stage2",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      },
       "address": {
         "streetAddress": "вул. Стахурського. 22",
         "locality": "м. Вінниця",
@@ -929,11 +1184,21 @@ Content-Type: application/json
         "postalCode": "21027",
         "countryName": "Україна"
       },
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
       "contactPoint": {
         "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "url": "http://sch10.edu.vn.ua/",
+        "name_en": "Kutsa Svitlana V.",
+        "availableLanguage": "uk"
       },
+      "kind": "general",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -941,54 +1206,28 @@ Content-Type: application/json
         "iban": "111111111111111",
         "position": "Генеральний директор",
         "authorizedBy": "Статут компанії"
-      },
-      "kind": "special"
-    },
-    "shortlistedFirms": [
-      {
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "name": "ДКП «Школяр»",
-        "lots": [
-          {
-            "id": "9d95d7c5f19f4d24b17d650fe94a42f5"
-          }
-        ]
-      },
-      {
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "name": "ДКП «Книга»",
-        "lots": [
-          {
-            "id": "9d95d7c5f19f4d24b17d650fe94a42f5"
-          }
-        ]
-      },
-      {
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137228",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "name": "«Кенгуру»",
-        "lots": [
-          {
-            "id": "9d95d7c5f19f4d24b17d650fe94a42f5"
-          }
-        ]
       }
-    ],
-    "status": "active.auction",
+    },
+    "awardCriteria": "lowestCost",
+    "enquiryPeriod": {
+      "startDate": "2023-09-04T01:03:00+03:00",
+      "endDate": "2023-09-15T01:03:00+03:00",
+      "clarificationsUntil": "2023-10-12T00:00:00+03:00",
+      "invalidationDate": "2023-10-10T01:01:00+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2023-09-04T01:03:00+03:00",
+      "endDate": "2023-10-05T01:03:00+03:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2023-09-11T01:00:00+03:00",
+      "endDate": "2023-10-14T00:00:00+03:00"
+    },
+    "procurementMethodType": "competitiveDialogueEU.stage2",
+    "dialogueID": "6ef2a6a9c4ff4cf5bbb1d85a4fcc1df5",
     "items": [
       {
-        "id": "13f0040df5734d49897e3a210624414e",
+        "id": "8b33a5402bfd45f5ac231333088ebbe2",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -998,7 +1237,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
+        "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-10T01:01:00+03:00"
@@ -1010,47 +1249,136 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
+        "description_en": "Services in school canteens",
         "unit": {
-          "name": "папір",
+          "name": "кілограм",
           "value": {
-            "amount": 10.0,
+            "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
         },
         "classification": {
-          "description": "Послуги з харчування у школах",
+          "description": "Test",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "37810000-9"
+        }
+      },
+      {
+        "id": "b45b751b68374e5f935bd9842cbe7693",
+        "description": "Послуги шкільних їдалень",
+        "quantity": 1.0,
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611",
+        "deliveryDate": {
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "PK"
+        },
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
         }
       }
     ],
+    "shortlistedFirms": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "lots": [
+          {
+            "id": "a13cb7e45ea242fbb5c0fb54f7002611"
+          }
+        ]
+      },
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»",
+        "lots": [
+          {
+            "id": "a13cb7e45ea242fbb5c0fb54f7002611"
+          }
+        ]
+      },
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137227",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "«Снігур»",
+        "lots": [
+          {
+            "id": "a13cb7e45ea242fbb5c0fb54f7002611"
+          }
+        ]
+      }
+    ],
+    "status": "active.auction",
+    "qualificationPeriod": {
+      "startDate": "2023-10-05T01:03:00+03:00",
+      "endDate": "2023-10-10T01:03:00+03:00",
+      "reportingDatePublication": "2023-10-05T01:03:00+03:00"
+    },
     "auctionPeriod": {
       "startDate": "2023-10-10T01:03:00+03:00"
     },
-    "id": "c429ff66bfe7408592ede2909ac98702"
+    "id": "7f818311963440f0b49ba53c35a0f971"
   },
   "config": {
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
-    "hasPrequalification": false,
+    "hasPrequalification": true,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": false,
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
     "hasValueEstimation": true,
-    "hasQualificationComplaints": false,
+    "hasQualificationComplaints": true,
     "tenderComplainRegulation": 4,
-    "qualificationComplainDuration": 0,
+    "qualificationComplainDuration": 5,
     "awardComplainDuration": 10,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
-    "qualificationDuration": 0,
-    "minTenderingDuration": 15,
+    "qualificationDuration": 20,
+    "minTenderingDuration": 30,
     "hasEnquiries": false,
     "minEnquiriesDuration": 0,
     "enquiryPeriodRegulation": 10,

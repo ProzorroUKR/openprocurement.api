@@ -8,6 +8,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "lotValues": [
       {
         "relatedLot": "176e6033e7af4efc95f6a5c290a3311d"
+      },
+      {
+        "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+        "relatedLot": "cdab28eeafd5467e935a8a62fb9d0f21"
       }
     ],
     "status": "pending"
@@ -58,6 +62,12 @@ Content-Type: application/json
     "lotValues": [
       {
         "relatedLot": "176e6033e7af4efc95f6a5c290a3311d",
+        "status": "pending",
+        "date": "2023-10-10T01:01:00+03:00"
+      },
+      {
+        "relatedLot": "cdab28eeafd5467e935a8a62fb9d0f21",
+        "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
         "date": "2023-10-10T01:01:00+03:00"
       }

@@ -17,23 +17,20 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement_evidence import (
     CDEligibleEvidenceState,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import (
-    unless_cd_bridge,
-)
-from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg_requirement_evidence import (
-    BaseCDEligibleEvidenceResource,
-)
 from openprocurement.tender.core.procedure.models.criterion import (
     EligibleEvidence,
     PatchEligibleEvidence,
 )
+from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import (
+    BaseEligibleEvidenceResource,
+)
 
 
-class BaseStage2EligibleEvidenceResource(BaseCDEligibleEvidenceResource):
+class BaseStage2EligibleEvidenceResource(BaseEligibleEvidenceResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             validate_input_data(EligibleEvidence),
         ),
         permission="create_evidence",
@@ -44,7 +41,7 @@ class BaseStage2EligibleEvidenceResource(BaseCDEligibleEvidenceResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             validate_input_data(PatchEligibleEvidence),
             validate_patch_data_simple(EligibleEvidence, "evidence"),
         ),

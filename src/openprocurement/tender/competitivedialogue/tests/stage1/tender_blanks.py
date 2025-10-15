@@ -15,11 +15,7 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_stage1_bids,
 )
-from openprocurement.tender.core.tests.utils import (
-    change_auth,
-    set_bid_lotvalues,
-    set_tender_lots,
-)
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
@@ -532,18 +528,6 @@ def patch_tender(self):
 
     self.set_status("active.stage2.waiting")
 
-    with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
-        self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-            {"data": {"stage2TenderID": "a" * 32, "id": tender["id"]}},
-        )
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "complete"}}
-        )
-
-    self.assertEqual(response.json["data"]["status"], "complete")
-    self.assertEqual(response.json["data"]["stage2TenderID"], "a" * 32)
-
     # Can't set activate.action status anytime for dialog
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "active.auction"}}, status=403
@@ -646,7 +630,15 @@ def multiple_bidders_tender_eu(self):
         {"data": {"status": "active.stage2.waiting"}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active.stage2.waiting")
+    stage_2_id = response.json["data"]["stage2TenderID"]
+    self.assertEqual(response.json["data"]["status"], "complete")
+
+    response = self.app.get(
+        f"/tenders/{stage_2_id}",
+    )
+    self.assertEqual(response.json["data"]["dialogueID"], tender_id)
+    self.assertEqual(response.json["data"]["status"], "draft.stage2")
+    self.assertIn("shortlistedFirms", response.json["data"])
 
 
 def try_go_to_ready_stage_eu(self):

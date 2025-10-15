@@ -1,5 +1,4 @@
 from cornice.resource import resource
-from pyramid.security import Allow
 
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.validation import (
@@ -9,7 +8,6 @@ from openprocurement.api.procedure.validation import (
     validate_config_data,
     validate_data_documents,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
 )
@@ -17,6 +15,8 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (
     EUTender,
+    PatchEUTender,
+    PatchUATender,
     PostEUTender,
     PostUATender,
     UATender,
@@ -24,9 +24,6 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender i
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
     CDEUStage1TenderDetailsState,
     CDUAStage1TenderDetailsState,
-)
-from openprocurement.tender.competitivedialogue.procedure.validation import (
-    unless_cd_bridge,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
@@ -47,13 +44,6 @@ from openprocurement.tender.core.procedure.views.tender import TendersResource
 )
 class CDEUTenderResource(TendersResource):
     state_class = CDEUStage1TenderDetailsState
-
-    def __acl__(self):
-        acl = super().__acl__()
-        acl.append(
-            (Allow, "g:competitive_dialogue", "edit_tender"),
-        )
-        return acl
 
     @json_view(
         content_type="application/json",
@@ -77,7 +67,7 @@ class CDEUTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft",
@@ -85,10 +75,9 @@ class CDEUTenderResource(TendersResource):
                     "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
                     "active.pre-qualification.stand-still",
                     "active.stage2.pending",
-                    "active.stage2.waiting",
                 )
             ),
-            validate_input_data_from_resolved_model(none_means_remove=True),
+            validate_input_data(PatchEUTender, none_means_remove=True),
             validate_patch_data_simple(EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,
@@ -114,13 +103,6 @@ class CDEUTenderResource(TendersResource):
 class CDUATenderResource(TendersResource):
     state_class = CDUAStage1TenderDetailsState
 
-    def __acl__(self):
-        acl = super().__acl__()
-        acl.append(
-            (Allow, "g:competitive_dialogue", "edit_tender"),
-        )
-        return acl
-
     @json_view(
         content_type="application/json",
         permission="create_tender",
@@ -143,7 +125,7 @@ class CDUATenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            unless_admins(unless_administrator(validate_item_owner("tender"))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft",
@@ -151,10 +133,9 @@ class CDUATenderResource(TendersResource):
                     "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
                     "active.pre-qualification.stand-still",
                     "active.stage2.pending",
-                    "active.stage2.waiting",
                 )
             ),
-            validate_input_data_from_resolved_model(none_means_remove=True),
+            validate_input_data(PatchUATender, none_means_remove=True),
             validate_patch_data_simple(UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,

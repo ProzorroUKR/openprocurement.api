@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/48845373b4f4425aacd15269732d23fe?acc_token=76e94aec52174f7cb0bdd959b57b0d52 HTTP/1.0
+GET /api/2.5/tenders/a022abe459f44ca09a6fd64d10e43947?acc_token=23b321e752874a0a9d34cc6c3b5bc1c5 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -811,7 +811,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:01:00+03:00",
     "dateModified": "2023-10-10T01:01:00+03:00",
     "dateCreated": "2023-10-10T01:01:00+03:00",
-    "tenderID": "UA-2023-10-10-000016-a.2",
+    "tenderID": "UA-2023-10-10-000001-a.2",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
@@ -906,6 +906,7 @@ Content-Type: application/json
       "endDate": "2023-11-06T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
+    "dialogueID": "0122f7569ef34718a69b5de8643cccfd",
     "items": [
       {
         "id": "0e078f21edb14004adbc8fd8f746b15a",
@@ -991,6 +992,7 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Школяр»",
@@ -1004,6 +1006,7 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Книга»",
@@ -1019,14 +1022,27 @@ Content-Type: application/json
       {
         "identifier": {
           "scheme": "UA-EDR",
+          "id": "00137227",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "«Снігур»",
+        "lots": [
+          {
+            "id": "cdab28eeafd5467e935a8a62fb9d0f21"
+          },
+          {
+            "id": "176e6033e7af4efc95f6a5c290a3311d"
+          }
+        ]
+      },
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
           "id": "00137228",
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "«Кенгуру»",
         "lots": [
-          {
-            "id": "176e6033e7af4efc95f6a5c290a3311d"
-          },
           {
             "id": "cdab28eeafd5467e935a8a62fb9d0f21"
           }
@@ -1035,7 +1051,7 @@ Content-Type: application/json
     ],
     "status": "active.tendering",
     "next_check": "2023-11-10T00:00:00+02:00",
-    "id": "48845373b4f4425aacd15269732d23fe"
+    "id": "a022abe459f44ca09a6fd64d10e43947"
   },
   "config": {
     "hasAuction": true,

@@ -17,15 +17,6 @@ def validate_firm_to_create_bid(request, **_):
         raise_operation_error(request, "Firm can't create bid")
 
 
-def unless_cd_bridge(*validations):
-    def decorated(request, **_):
-        if request.authenticated_role != "competitive_dialogue":
-            for validation in validations:
-                validation(request)
-
-    return decorated
-
-
 def validate_cd2_allowed_patch_fields(request, **_):
     changes = request.validated["data"]
     tender = request.validated["tender"]

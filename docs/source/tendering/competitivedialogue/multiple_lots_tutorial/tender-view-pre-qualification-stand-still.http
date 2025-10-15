@@ -131,6 +131,10 @@ Content-Type: application/json
           {
             "relatedLot": "176e6033e7af4efc95f6a5c290a3311d",
             "status": "active"
+          },
+          {
+            "relatedLot": "cdab28eeafd5467e935a8a62fb9d0f21",
+            "status": "active"
           }
         ],
         "documents": [
@@ -200,6 +204,10 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
+            "relatedLot": "cdab28eeafd5467e935a8a62fb9d0f21",
+            "status": "active"
+          },
+          {
             "relatedLot": "176e6033e7af4efc95f6a5c290a3311d",
             "status": "active"
           }
@@ -228,6 +236,63 @@ Content-Type: application/json
             "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fb072ee0e97645fe8d97143dd01bfd39?Signature=sG1sjsKWlvQONxTqKmJR4HKP6syZNOk0iAmkuvy5VqzLCq9OxmGI%2BCbIPCgzdpJe7QVn5w9eLajd0%2Fb16o0PBg%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:01:00+03:00",
+            "language": "uk",
+            "isDescriptionDecision": false
+          }
+        ],
+        "status": "active"
+      },
+      {
+        "id": "7a25aec16c274693a9a03af1dcc05f32",
+        "tenderers": [
+          {
+            "name": "«Кенгуру»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137228",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Коцюбинського, 15",
+              "locality": "м. Запоріжя",
+              "region": "Запорізька область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Іван Карпенко",
+              "email": "fake@mail.com",
+              "telephone": "+380322123456"
+            },
+            "scale": "large",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            }
+          }
+        ],
+        "lotValues": [
+          {
+            "relatedLot": "cdab28eeafd5467e935a8a62fb9d0f21",
+            "status": "active"
+          }
+        ],
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "d4ec2f63c02246dd80911e9f7217352c",
+            "datePublished": "2023-10-10T01:01:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "sign/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/97b6b2fb61c747c0afa0e76ff2c30812?Signature=ndAqQQlWrUe39pk6Vlj1jSYdyy43qv58FHtQzsvukB41Se%2BBvkD%2BcRUK7xT9H2DGufNZqLo36k6FH2T3%2BmhHAg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:01:00+03:00",
             "language": "uk",
@@ -321,8 +386,47 @@ Content-Type: application/json
       },
       {
         "id": "6ecdff1511a54a4182cb0edb47026f1f",
+        "bidID": "110e51882d0f47e5a0c6168c89e9595a",
+        "lotID": "cdab28eeafd5467e935a8a62fb9d0f21",
+        "status": "active",
+        "date": "2023-10-10T01:01:00+03:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:01:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
+      },
+      {
+        "id": "455696660eab4eb8ae27233295975477",
+        "bidID": "8f1f20c9676f4c51b1e41855982f5629",
+        "lotID": "cdab28eeafd5467e935a8a62fb9d0f21",
+        "status": "active",
+        "date": "2023-10-10T01:01:00+03:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:01:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
+      },
+      {
+        "id": "b407d317f8d649eb8048697239f81486",
         "bidID": "8f1f20c9676f4c51b1e41855982f5629",
         "lotID": "176e6033e7af4efc95f6a5c290a3311d",
+        "status": "active",
+        "date": "2023-10-10T01:01:00+03:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:01:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
+      },
+      {
+        "id": "aa5974d7117a420e8997eca59822f426",
+        "bidID": "7a25aec16c274693a9a03af1dcc05f32",
+        "lotID": "cdab28eeafd5467e935a8a62fb9d0f21",
         "status": "active",
         "date": "2023-10-10T01:01:00+03:00",
         "qualified": true,
@@ -485,9 +589,9 @@ Content-Type: application/json
       {
         "title": "Лот №2",
         "description": "Опис Лот №2",
-        "status": "unsuccessful",
+        "status": "active",
         "id": "cdab28eeafd5467e935a8a62fb9d0f21",
-        "date": "2023-10-10T01:01:00+03:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,

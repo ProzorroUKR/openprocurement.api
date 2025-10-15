@@ -17,8 +17,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     create_tender,
     create_tender_central,
     create_tender_invalid_config,
-    create_tender_invalid_eu,
-    create_tender_invalid_ua,
     dateModified_tender,
     first_bid_tender,
     get_tender,
@@ -48,7 +46,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 
 
 class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest):
-    initial_auth = ("Basic", ("competitive_dialogue", ""))
+    initial_auth = ("Basic", ("token", ""))
     author_data = test_tender_cd_author
     initial_data = test_tender_cdeu_stage2_data
     initial_config = test_tender_cdeu_stage2_config
@@ -57,13 +55,10 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
-        if status == "draft.stage2":
-            self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-            response = self.app.patch_json(
-                "/tenders/{id}?acc_token={token}".format(id=tender["id"], token=token), {"data": {"status": status}}
-            )
-            self.app.authorization = auth
-            return response
+        if status == "draft.stage2":  # sets automatically in state class
+            tender_doc = self.mongodb.tenders.get(tender["id"])
+            tender_doc["status"] = "draft.stage2"
+            self.mongodb.tenders.save(tender_doc)
         if status == "active.tendering":
             add_criteria(self, tender["id"], token)
             self.app.authorization = ("Basic", ("broker", ""))
@@ -77,7 +72,6 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_listing = snitch(listing)
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
-    test_create_tender_invalid = snitch(create_tender_invalid_eu)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender = snitch(create_tender)
     test_create_tender_central = snitch(create_tender_central)
@@ -104,13 +98,10 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
-        if status == "draft.stage2":
-            self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-            response = self.app.patch_json(
-                "/tenders/{id}?acc_token={token}".format(id=tender["id"], token=token), {"data": {"status": status}}
-            )
-            self.app.authorization = auth
-            return response
+        if status == "draft.stage2":  # sets automatically in state class
+            tender_doc = self.mongodb.tenders.get(tender["id"])
+            tender_doc["status"] = "draft.stage2"
+            self.mongodb.tenders.save(tender_doc)
         if status == "active.tendering":
             add_criteria(self, tender["id"], token)
             self.app.authorization = ("Basic", ("broker", ""))
@@ -125,7 +116,6 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     test_listing = snitch(listing)
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
-    test_create_tender_invalid = snitch(create_tender_invalid_ua)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender = snitch(create_tender)
     test_create_tender_central = snitch(create_tender_central)

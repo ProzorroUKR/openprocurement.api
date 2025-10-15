@@ -1133,9 +1133,11 @@ class BaseTenderDetailsMixing:
         :return:
         """
         tender = get_tender()
+        # minimalStep is required for CD procedures although stage1 doesn't have auction
+        is_cd_tender = "competitiveDialogue" in tender["procurementMethodType"]
         kwargs = {
             "before": before,
-            "enabled": tender["config"]["hasAuction"] is True,
+            "enabled": is_cd_tender or tender["config"]["hasAuction"] is True,
         }
         validate_field(data, "minimalStep", **kwargs)
 

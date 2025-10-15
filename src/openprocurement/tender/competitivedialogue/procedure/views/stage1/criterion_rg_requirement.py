@@ -1,7 +1,4 @@
-from typing import List, Tuple
-
 from cornice.resource import resource
-from pyramid.security import Allow
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement import (
@@ -10,18 +7,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_req
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     BaseRequirementResource,
 )
-
-
-class BaseCDRequirementResource(BaseRequirementResource):
-    def __acl__(self) -> List[Tuple[str, str, str]]:
-        acl = super().__acl__()
-        acl.extend(
-            [
-                (Allow, "g:competitive_dialogue", "create_requirement"),
-                (Allow, "g:competitive_dialogue", "edit_requirement"),
-            ]
-        )
-        return acl
 
 
 @resource(
@@ -33,7 +18,7 @@ class BaseCDRequirementResource(BaseRequirementResource):
     procurementMethodType=CD_EU_TYPE,
     description="Competitive Dialogue EU requirement group requirement",
 )
-class CDEURequirementResource(BaseCDRequirementResource):
+class CDEURequirementResource(BaseRequirementResource):
     state_class = CDRequirementState
 
 
@@ -46,5 +31,5 @@ class CDEURequirementResource(BaseCDRequirementResource):
     procurementMethodType=CD_UA_TYPE,
     description="Competitive Dialogue UA requirement group requirement",
 )
-class CDUARequirementResource(BaseCDRequirementResource):
+class CDUARequirementResource(BaseRequirementResource):
     state_class = CDRequirementState

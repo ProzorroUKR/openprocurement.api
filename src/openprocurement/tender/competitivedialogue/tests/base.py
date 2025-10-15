@@ -7,6 +7,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_buyer,
     test_tender_below_supplier,
@@ -30,6 +31,7 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
     set_tender_multi_buyers,
 )
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openeu.tests.base import (
     test_tender_openeu_bids,
     test_tender_openeu_data,
@@ -65,14 +67,14 @@ test_tender_cdua_data["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).is
 # stage 2
 test_tender_cdeu_stage2_data = deepcopy(test_tender_openeu_data)
 del test_tender_cdeu_stage2_data["contractTemplateName"]
-del test_tender_cdeu_stage2_data["tenderPeriod"]
+test_tender_cdeu_stage2_data["tenderPeriod"]["startDate"] = now.isoformat()
 test_tender_cdeu_stage2_data["tenderID"] = "bla bla bla this iis stage 2 eu"
 test_tender_cdeu_stage2_data["procurementMethodType"] = STAGE_2_EU_TYPE
 test_tender_cdeu_stage2_data["procurementMethod"] = "selective"
 
 test_tender_cdua_stage2_data = deepcopy(test_tender_openua_data)
 del test_tender_cdua_stage2_data["contractTemplateName"]
-del test_tender_cdua_stage2_data["tenderPeriod"]
+test_tender_cdua_stage2_data["tenderPeriod"]["startDate"] = now.isoformat()
 test_tender_cdua_stage2_data["tenderID"] = "bla bla bla this iis stage 2 ua"
 test_tender_cdua_stage2_data["procurementMethodType"] = STAGE_2_UA_TYPE
 test_tender_cdua_stage2_data["procurementMethod"] = "selective"
@@ -141,19 +143,6 @@ del test_tender_cd_author["signerInfo"]
 if SANDBOX_MODE:
     test_tender_cdeu_data["procurementMethodDetails"] = "quick, accelerator=1440"
     test_tender_cdua_data["procurementMethodDetails"] = "quick, accelerator=1440"
-
-
-test_tender_cdeu_stage2_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_cdeu_stage2_data,
-    test_tender_cdeu_stage2_data["items"][0],
-    test_tender_below_buyer,
-)
-
-test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_cdua_stage2_data,
-    test_tender_cdua_stage2_data["items"][0],
-    test_tender_below_buyer,
-)
 
 test_tender_cdeu_config = {
     "hasAuction": False,
@@ -296,6 +285,30 @@ test_tender_cdeu_criteria.extend(test_article_16_criteria[:1])
 test_tender_cdua_criteria = []
 test_tender_cdua_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_cdua_required_criteria_ids))
 test_tender_cdua_criteria.extend(test_article_16_criteria[:1])
+
+test_tender_cdeu_stage2_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_cdeu_stage2_data,
+    test_tender_cdeu_stage2_data["items"][0],
+    test_tender_below_buyer,
+)
+
+test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_cdua_stage2_data,
+    test_tender_cdua_stage2_data["items"][0],
+    test_tender_below_buyer,
+)
+
+test_tender_cdeu_stage2_data["tenderPeriod"]["endDate"] = calculate_tender_full_date(
+    get_now(),
+    timedelta(days=test_tender_cdeu_stage2_config["minTenderingDuration"] + 1),
+    tender=test_tender_cdeu_stage2_data,
+).isoformat()
+
+test_tender_cdua_stage2_data["tenderPeriod"]["endDate"] = calculate_tender_full_date(
+    get_now(),
+    timedelta(days=test_tender_cdua_stage2_config["minTenderingDuration"] + 1),
+    tender=test_tender_cdeu_stage2_data,
+).isoformat()
 
 
 class BaseCompetitiveDialogApiWebTest(BaseWebTest):
@@ -448,7 +461,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
     if initial_bids is None:
         initial_bids = self.initial_bids
     auth = self.app.authorization
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+    self.app.authorization = ("Basic", ("token", ""))
     data = deepcopy(initial_data)
     config = deepcopy(self.initial_config)
     if initial_lots:  # add lots
@@ -481,11 +494,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
     self.tender = tender
     self.tender_token = response.json["access"]["token"]
     self.tender_id = tender["id"]
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-    self.app.patch_json(
-        "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
-        {"data": {"status": "draft.stage2"}},
-    )
+    self.set_status("draft.stage2")
 
     criteria = []
     if self.initial_criteria:

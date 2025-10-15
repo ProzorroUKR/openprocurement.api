@@ -49,12 +49,12 @@ test_tender_openeu_supplier = {
 
 test_tender_openeu_bids = [
     {
-        "tenderers": [test_tender_openeu_supplier.copy()],
+        "tenderers": [copy.deepcopy(test_tender_openeu_supplier)],
         "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         "selfQualified": True,
     },
     {
-        "tenderers": [test_tender_openeu_supplier.copy()],
+        "tenderers": [copy.deepcopy(test_tender_openeu_supplier)],
         "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         "selfQualified": True,
     },

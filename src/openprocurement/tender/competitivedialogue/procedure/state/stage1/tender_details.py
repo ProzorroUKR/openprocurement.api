@@ -1,19 +1,25 @@
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.validation import raise_operation_error
 from openprocurement.tender.competitivedialogue.constants import (
     STAGE_1_EU_WORKING_DAYS_CONFIG,
     STAGE_1_UA_WORKING_DAYS_CONFIG,
+    STAGE_2_EU_DEFAULT_CONFIG,
+    STAGE_2_UA_DEFAULT_CONFIG,
 )
-from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (
-    BotPatchTender,
-    PatchEUTender,
-    PatchUATender,
+from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
+    PostEUTender,
+    PostUATender,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import (
     CDStage1TenderState,
 )
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
+    CDEUStage2TenderDetailsState,
+    CDUAStage2TenderDetailsState,
+)
+from openprocurement.tender.competitivedialogue.procedure.utils import (
+    prepare_stage2_tender_data,
+)
 from openprocurement.tender.core.procedure.utils import validate_field
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsMixing,
@@ -29,18 +35,20 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
-    def on_patch(self, before, after):
-        if get_request().authenticated_role != "competitive_dialogue":
-            if before["status"] == "active.stage2.waiting":
-                raise_operation_error(
-                    get_request(),
-                    "Can't update tender in (active.stage2.waiting) status",
-                )
+    def status_up(self, before, after, data):
+        super().status_up(before, after, data)
+        if after == "active.stage2.waiting":
+            # prepare stage2 tender
+            new_tender = prepare_stage2_tender_data(data)
+            new_tender = self.stage_2_tender_model(new_tender).serialize()
+            new_tender["config"] = self.stage_2_config
+            self.stage_2_tender_state(self.request).on_post(new_tender)
+            # create stage2 tender
+            self.request.validated["stage_2_tender"] = new_tender
 
-            if after["status"] == "complete":
-                raise_operation_error(get_request(), "Can't update tender to (complete) status")
-
-        super().on_patch(before, after)
+            # update stage1 tender
+            data["stage2TenderID"] = new_tender["_id"]
+            self.set_object_status(data, "complete")
 
     def validate_minimal_step(self, data, before=None):
         tender = get_tender()
@@ -62,17 +70,13 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
 
 class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
     working_days_config = STAGE_1_EU_WORKING_DAYS_CONFIG
-
-    def get_patch_data_model(self):
-        if get_request().authenticated_role == "competitive_dialogue":
-            return BotPatchTender
-        return PatchEUTender
+    stage_2_tender_state = CDEUStage2TenderDetailsState
+    stage_2_tender_model = PostEUTender
+    stage_2_config = STAGE_2_EU_DEFAULT_CONFIG
 
 
 class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
     working_days_config = STAGE_1_UA_WORKING_DAYS_CONFIG
-
-    def get_patch_data_model(self):
-        if get_request().authenticated_role == "competitive_dialogue":
-            return BotPatchTender
-        return PatchUATender
+    stage_2_tender_state = CDUAStage2TenderDetailsState
+    stage_2_tender_model = PostUATender
+    stage_2_config = STAGE_2_UA_DEFAULT_CONFIG

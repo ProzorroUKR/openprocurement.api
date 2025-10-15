@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c429ff66bfe7408592ede2909ac98702?acc_token=f3668c9a0c9b4eb28c46968fd261494e HTTP/1.0
+PATCH /api/2.5/tenders/7f818311963440f0b49ba53c35a0f971?acc_token=e24ebb78f89c43e0aa508fd9d7839e4d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "13f0040df5734d49897e3a210624414e",
+        "id": "8b33a5402bfd45f5ac231333088ebbe2",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -17,7 +17,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
+        "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-10T01:00:00+03:00"
@@ -29,19 +29,59 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
+        "description_en": "Services in school canteens",
         "unit": {
-          "name": "папір",
+          "name": "кілограм",
           "value": {
-            "amount": 10.0,
+            "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
         },
         "classification": {
-          "description": "Послуги з харчування у школах",
+          "description": "Test",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "37810000-9"
+        }
+      },
+      {
+        "id": "b45b751b68374e5f935bd9842cbe7693",
+        "description": "Послуги шкільних їдалень",
+        "quantity": 1.0,
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611",
+        "deliveryDate": {
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "PK"
+        },
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
         }
       }
     ]

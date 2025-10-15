@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067?acc_token=7c2c64030510420cac054902f901f0ea HTTP/1.0
+PATCH /api/2.5/tenders/63f6240986e249dd8322133f0b7b7122?acc_token=2182f06aeee14e949d1047d91b89268d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -818,7 +818,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:03:00+03:00",
     "dateModified": "2023-10-10T01:03:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000016-a.2",
+    "tenderID": "UA-2023-10-10-000001-a.2",
     "bids": [
       {
         "requirementResponses": [
@@ -1005,7 +1005,7 @@ Content-Type: application/json
         "id": "526b7a685a8b4427b01d99ca0954cec5",
         "lotValues": [
           {
-            "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+            "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
             "status": "active"
           }
         ],
@@ -1031,7 +1031,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids/526b7a685a8b4427b01d99ca0954cec5/documents/5b06a9da989c4515a4f2b31118482cb2?download=13b7a37e7fcb4e3c89c6012bb35fbe35",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/526b7a685a8b4427b01d99ca0954cec5/documents/5b06a9da989c4515a4f2b31118482cb2?download=13b7a37e7fcb4e3c89c6012bb35fbe35",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
@@ -1249,7 +1249,7 @@ Content-Type: application/json
         "id": "88d8e0d7211445dfbd33d16c77a599c9",
         "lotValues": [
           {
-            "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+            "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
             "status": "active"
           }
         ],
@@ -1420,25 +1420,25 @@ Content-Type: application/json
         ],
         "tenderers": [
           {
-            "name": "«Кенгуру»",
+            "name": "«Снігур»",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "00137228",
+              "id": "00137227",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "streetAddress": "вул. Коцюбинського, 15",
-              "locality": "м. Запоріжя",
-              "region": "Запорізька область",
+              "streetAddress": "вул. Островського, 35",
+              "locality": "м. Львів",
+              "region": "Львівська область",
               "postalCode": "79013",
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Іван Карпенко",
+              "name": "Іван Іваненко",
               "email": "fake@mail.com",
               "telephone": "+380322123456"
             },
-            "scale": "large",
+            "scale": "mid",
             "signerInfo": {
               "name": "Test Testovich",
               "email": "example@email.com",
@@ -1450,17 +1450,17 @@ Content-Type: application/json
           }
         ],
         "status": "unsuccessful",
-        "id": "48b5b53cabfd47d599a5bb5b9f9ee193",
+        "id": "a294d5f005de48f5adf9976f46c1c4ee",
         "lotValues": [
           {
-            "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+            "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
             "status": "unsuccessful"
           }
         ],
         "documents": [
           {
             "confidentiality": "public",
-            "id": "4f85d91368144a4999f6939b0d47473d",
+            "id": "f4087866f44c4f7eb87f2a561344b458",
             "datePublished": "2023-10-10T01:03:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1473,12 +1473,12 @@ Content-Type: application/json
           {
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "id": "8541dc9046f44d258ef24a7ed9509768",
+            "id": "c8ea5e6aee4348e09aadb84fe97db1ed",
             "datePublished": "2023-10-10T01:03:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids/48b5b53cabfd47d599a5bb5b9f9ee193/documents/8541dc9046f44d258ef24a7ed9509768?download=42865ab1b0de4861a16a0b26900142e2",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/a294d5f005de48f5adf9976f46c1c4ee/documents/c8ea5e6aee4348e09aadb84fe97db1ed?download=42865ab1b0de4861a16a0b26900142e2",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk"
@@ -1500,7 +1500,7 @@ Content-Type: application/json
         "eligibilityDocuments": [
           {
             "confidentiality": "public",
-            "id": "4dce2427bf4a48fbb3762e39386626e7",
+            "id": "1e6f4c044691475b896ab9b4d3f41211",
             "datePublished": "2023-10-10T01:03:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
@@ -1518,7 +1518,7 @@ Content-Type: application/json
       {
         "id": "63bf01974eb14864adafa781be2a7f77",
         "author": {
-          "hash": "9e2a4cec7671a276583de07681527f21"
+          "hash": "8a1ef4dc1cb00290a7043ca0a2ebeaba"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -1597,7 +1597,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "48bd8a7458e346f1beeb61941fa097f0",
+        "id": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "currency": "UAH",
@@ -1624,7 +1624,7 @@ Content-Type: application/json
       {
         "id": "d38d108669794b50a50dc2a588371b08",
         "bidID": "526b7a685a8b4427b01d99ca0954cec5",
-        "lotID": "48bd8a7458e346f1beeb61941fa097f0",
+        "lotID": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": true,
@@ -1637,7 +1637,7 @@ Content-Type: application/json
       {
         "id": "dadc246c1761425aa64da65fc8929c92",
         "bidID": "88d8e0d7211445dfbd33d16c77a599c9",
-        "lotID": "48bd8a7458e346f1beeb61941fa097f0",
+        "lotID": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": true,
@@ -1649,8 +1649,8 @@ Content-Type: application/json
       },
       {
         "id": "a72b6ea0a3be49349c634aa33a00b2ce",
-        "bidID": "48b5b53cabfd47d599a5bb5b9f9ee193",
-        "lotID": "48bd8a7458e346f1beeb61941fa097f0",
+        "bidID": "a294d5f005de48f5adf9976f46c1c4ee",
+        "lotID": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "status": "unsuccessful",
         "date": "2023-10-10T01:03:00+03:00",
         "qualified": false,
@@ -1710,9 +1710,10 @@ Content-Type: application/json
       "endDate": "2023-10-06T00:00:00+03:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
+    "dialogueID": "fd33fd5b39064a0aa259b9166d21c51e",
     "items": [
       {
-        "id": "df93f16269c1459498258425b39d385a",
+        "id": "179a3c6724694765b74df4ad81d52bf9",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -1722,7 +1723,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+        "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "deliveryDate": {
           "startDate": "2023-10-30T01:00:00+03:00",
           "endDate": "2023-11-10T01:01:00+03:00"
@@ -1756,12 +1757,13 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Школяр»",
         "lots": [
           {
-            "id": "48bd8a7458e346f1beeb61941fa097f0"
+            "id": "1a0adfbe4ac4403796c2a35d1efaf96b"
           }
         ]
       },
@@ -1769,32 +1771,33 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Книга»",
         "lots": [
           {
-            "id": "48bd8a7458e346f1beeb61941fa097f0"
+            "id": "1a0adfbe4ac4403796c2a35d1efaf96b"
           }
         ]
       },
       {
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137228",
+          "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "«Кенгуру»",
+        "name": "«Снігур»",
         "lots": [
           {
-            "id": "48bd8a7458e346f1beeb61941fa097f0"
+            "id": "1a0adfbe4ac4403796c2a35d1efaf96b"
           }
         ]
       }
     ],
     "status": "active.pre-qualification.stand-still",
     "next_check": "2023-10-16T00:00:00+03:00",
-    "id": "1ee782bb9bb14b8e92d250a14317d067"
+    "id": "63f6240986e249dd8322133f0b7b7122"
   },
   "config": {
     "hasAuction": true,

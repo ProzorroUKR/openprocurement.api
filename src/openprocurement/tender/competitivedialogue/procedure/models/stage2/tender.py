@@ -2,7 +2,6 @@ from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import validate_items_uniq
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.validation import validate_features_uniq
@@ -44,12 +43,6 @@ from openprocurement.tender.openua.procedure.models.tender import (
     PostTender as UABasePostTender,
 )
 from openprocurement.tender.openua.procedure.models.tender import Tender as UABaseTender
-
-
-class BotPatchTender(Model):  # TODO: move to a distinct endpoint
-    id = StringType()
-    dialogueID = StringType()
-    status = StringType(choices=["draft.stage2"])
 
 
 # === EU

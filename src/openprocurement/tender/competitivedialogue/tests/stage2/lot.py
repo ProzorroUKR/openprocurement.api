@@ -189,7 +189,7 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUStage2WebTest):
 
     def create_tender(self, initial_lots, features=None):
         auth = self.app.authorization
-        self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+        self.app.authorization = ("Basic", ("token", ""))
         data = deepcopy(self.initial_data)
         config = deepcopy(self.initial_config)
         if initial_lots:
@@ -217,11 +217,7 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUStage2WebTest):
         self.tender = tender
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
-        self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-        self.app.patch_json(
-            "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
-            {"data": {"status": "draft.stage2"}},
-        )
+        self.set_status("draft.stage2")
 
         add_criteria(self)
 
@@ -363,7 +359,7 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
 
     def create_tender(self, initial_lots, features=None):
         auth = self.app.authorization
-        self.app.authorization = ("Basic", ("competitive_dialogue", ""))
+        self.app.authorization = ("Basic", ("token", ""))
         data = deepcopy(self.initial_data)
         config = deepcopy(self.initial_config)
         if initial_lots:
@@ -393,11 +389,7 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
         self.tender = tender
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
-        self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-        self.app.patch_json(
-            "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
-            {"data": {"status": "draft.stage2"}},
-        )
+        self.set_status("draft.stage2")
 
         add_criteria(self)
         self.app.authorization = ("Basic", ("broker", ""))

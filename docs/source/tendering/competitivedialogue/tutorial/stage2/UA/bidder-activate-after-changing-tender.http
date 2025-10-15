@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c429ff66bfe7408592ede2909ac98702/bids/7334046d9fc046358e61bf8dc7d2cd18?acc_token=2508459293004ecd98722030b6755c24 HTTP/1.0
+PATCH /api/2.5/tenders/7f818311963440f0b49ba53c35a0f971/bids/7334046d9fc046358e61bf8dc7d2cd18?acc_token=35fed98016da4c168c0a688b3650dcff HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -163,18 +163,6 @@ Content-Type: application/json
         }
       }
     ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
-        "status": "pending",
-        "date": "2023-10-10T01:03:00+03:00"
-      }
-    ],
     "tenderers": [
       {
         "name": "Школяр",
@@ -211,6 +199,18 @@ Content-Type: application/json
     "id": "7334046d9fc046358e61bf8dc7d2cd18",
     "date": "2023-10-10T01:03:00+03:00",
     "submissionDate": "2023-10-10T01:03:00+03:00",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611",
+        "status": "pending",
+        "date": "2023-10-10T01:03:00+03:00"
+      }
+    ],
     "documents": [
       {
         "confidentiality": "public",

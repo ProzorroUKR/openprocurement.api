@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/076ef09c7f8e49a3bc7595e4b4cc1339?acc_token=7daf4a43d2eb4322865a73d28689213b HTTP/1.0
+PATCH /api/2.5/tenders/e5aef484694a4145a50462500e11fbbe?acc_token=7daf4a43d2eb4322865a73d28689213b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -19,7 +19,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:03:00+03:00",
     "dateModified": "2023-10-10T01:03:00+03:00",
     "dateCreated": "2023-10-10T01:03:00+03:00",
-    "tenderID": "UA-2023-10-10-000016-a.2",
+    "tenderID": "UA-2023-10-10-000001-a.2",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
@@ -34,7 +34,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "4e1bf7ec2f044a43a96412e4204188e7",
+        "id": "ad1db171228241499c0b61c8c29f611e",
         "date": "2023-10-10T01:03:00+03:00",
         "value": {
           "currency": "UAH",
@@ -97,9 +97,10 @@ Content-Type: application/json
       "endDate": "2023-11-06T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
+    "dialogueID": "e01d495b72a74a27ae9a485bbdccc84a",
     "items": [
       {
-        "id": "eb132877a4d447ab9a0651dbd4d5d20a",
+        "id": "17b92a59d0db4fb28c7cde663fc37352",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -109,7 +110,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "4e1bf7ec2f044a43a96412e4204188e7",
+        "relatedLot": "ad1db171228241499c0b61c8c29f611e",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -138,7 +139,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "f2de1df5aad94b62beb2c89a23c04c0e",
+        "id": "1db0630f08f04bf7b614719e8c8ef3e9",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -148,7 +149,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "4e1bf7ec2f044a43a96412e4204188e7",
+        "relatedLot": "ad1db171228241499c0b61c8c29f611e",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -182,17 +183,29 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "ДКП «Школяр»"
+        "name": "Школяр",
+        "lots": [
+          {
+            "id": "ad1db171228241499c0b61c8c29f611e"
+          }
+        ]
       },
       {
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "ДКП «Книга»"
+        "name": "ДКП «Книга»",
+        "lots": [
+          {
+            "id": "ad1db171228241499c0b61c8c29f611e"
+          }
+        ]
       },
       {
         "identifier": {
@@ -200,12 +213,17 @@ Content-Type: application/json
           "id": "00137228",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "«Кенгуру»"
+        "name": "«Кенгуру»",
+        "lots": [
+          {
+            "id": "ad1db171228241499c0b61c8c29f611e"
+          }
+        ]
       }
     ],
     "status": "active.tendering",
     "next_check": "2023-11-10T00:00:00+02:00",
-    "id": "076ef09c7f8e49a3bc7595e4b4cc1339"
+    "id": "e5aef484694a4145a50462500e11fbbe"
   },
   "config": {
     "hasAuction": true,
