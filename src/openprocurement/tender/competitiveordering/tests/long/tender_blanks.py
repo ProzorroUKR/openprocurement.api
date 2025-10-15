@@ -321,6 +321,22 @@ def create_tender_invalid_agreement(self):
     config = deepcopy(self.initial_config)
     config.update({"hasPreSelectionAgreement": True})
 
+    del data["agreements"]
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "agreements", "description": "Agreement not provided or not exist"}],
+    )
+
     response = self.app.post_json(
         "/tenders",
         {

@@ -11,7 +11,7 @@ from openprocurement.api.procedure.validation import (
     validate_item_owner,
     validate_patch_data_simple,
 )
-from openprocurement.api.utils import json_view
+from openprocurement.api.utils import json_view, raise_operation_error
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.models.tender import (
     PatchTender,
@@ -52,6 +52,8 @@ class COTenderResource(TendersResource):
     @property
     def state(self):
         agreement = get_object("agreement")
+        if not agreement:
+            raise_operation_error(self.request, "Agreement not provided or not exist", status=422, name="agreements")
         agreement_has_items = bool(agreement.get("items"))
         if agreement_has_items:
             return self.state_short
