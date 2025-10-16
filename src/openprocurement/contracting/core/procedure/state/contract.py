@@ -758,7 +758,6 @@ class ContractState(
 
     def on_patch(self, before, after) -> None:
         after["id"] = after["_id"]
-        self.convert_items_attributes_types(before, after)
         self.validate_contract_patch(self.request, before, after)
         if after.get("value"):
             self.synchronize_items_unit_value(after)
@@ -1060,36 +1059,6 @@ class ContractState(
     def check_skip_award_complaint_period(self) -> bool:
         tender = get_tender()
         return tender.get("config", {}).get("hasAwardComplaints") is False
-
-    def convert_items_attributes_types(self, before: dict, after: dict):
-        if "items" not in before:
-            return
-
-        items_before = before.get("items", [])
-        items_after = after.get("items", [])
-        for item_before, item_after in zip_longest(items_before, items_after):
-            if not item_before or not item_after:
-                continue
-
-            attrs_before = item_before.get("attributes", [])
-            attrs_after = item_after.get("attributes", [])
-
-            for attr_before, attr_after in zip_longest(attrs_before, attrs_after):
-                if not attr_before or not attr_after:
-                    continue
-                if "values" in attr_before:
-                    value_type = type(attr_before["values"][0])
-                else:
-                    value_type = type(attr_before["value"])
-                if value_type is Decimal:
-                    value_type = to_decimal
-                try:
-                    if "values" in attr_after:
-                        attr_after["values"] = [value_type(i) for i in attr_after["values"]]
-                    elif "value" in attr_after:
-                        attr_after["value"] = value_type(attr_after["value"])
-                except TypeError:
-                    raise_operation_error(self.request, "items attributes type mismatch.", status=422)
 
     def add_esco_contract_duration_to_period(self, before, after):
         request = get_request()
