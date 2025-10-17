@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-24 11:32+0300\n"
+"POT-Creation-Date: 2025-10-17 13:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -344,9 +344,6 @@ msgid "`relatedBuyer`"
 msgstr ""
 
 msgid "`additionalClassifications`"
-msgstr ""
-
-msgid "`attributes`"
 msgstr ""
 
 msgid "Let's try to add new item with new `classification` and we will see an error:"
