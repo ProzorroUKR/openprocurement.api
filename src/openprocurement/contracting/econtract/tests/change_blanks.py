@@ -918,7 +918,7 @@ def change_tender_contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, attributtes, additionalClassifications",
+                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, additionalClassifications",
             }
         ],
     )
@@ -946,7 +946,7 @@ def change_tender_contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, attributtes, additionalClassifications",
+                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, additionalClassifications",
             }
         ],
     )
