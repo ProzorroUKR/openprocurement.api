@@ -471,7 +471,6 @@ Fields that can not be changed:
 * `relatedLot`
 * `relatedBuyer`
 * `additionalClassifications`
-* `attributes`
 
 Let's try to add new item with new `classification` and we will see an error:
 

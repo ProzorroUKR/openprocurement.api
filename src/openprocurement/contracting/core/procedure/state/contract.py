@@ -659,7 +659,6 @@ class ContractState(
             json.dumps(item.get("classification", {}), sort_keys=True, ensure_ascii=False),
             item.get("relatedLot", ""),
             item.get("relatedBuyer", ""),
-            sorted(item.get("attributes", []), key=lambda a: a.get("name", "")),
             sorted(item.get("additionalClassifications", []), key=lambda a: a.get("id", "")),
         )
         return hashlib.sha1(json.dumps(key_tuple, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
@@ -670,7 +669,7 @@ class ContractState(
 
         error_msg = (
             "all main fields should be the same as in previous items: "
-            "classification, relatedLot, relatedBuyer, attributtes, additionalClassifications"
+            "classification, relatedLot, relatedBuyer, additionalClassifications"
         )
         extra_keys = new_items_keys - old_items_keys
         if extra_keys:
