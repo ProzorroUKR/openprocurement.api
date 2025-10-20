@@ -28,6 +28,18 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_change.pdf",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
+        "documentOf": "contract",
+        "id": "88962047c28144d99916ae75c9a2a38a",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "documentType": "contractNotice"
+      },
+      {
+        "confidentiality": "public",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "hash": "md5:00000000000000000000000000000000",

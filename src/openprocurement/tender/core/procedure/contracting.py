@@ -352,7 +352,7 @@ def upload_contract_pdf_document(contract: dict, tender: dict):
     document["documentType"] = "contractNotice"
     check_document(request, document)
     document_route = "EContract Documents"
-    route_kwargs = {"contract_id": contract_data["id"]}
+    route_kwargs = {"contract_id": contract["id"]}
     update_document_url(request, document, document_route, route_kwargs)
     contract["documents"] = contract.get("documents", [])
     contract["documents"].append(document)
@@ -360,11 +360,10 @@ def upload_contract_pdf_document(contract: dict, tender: dict):
 
 def upload_contract_change_pdf_document(change: dict, contract: dict, tender: dict):
     request = get_request()
-    change_data = change
     contract_data = ContractBaseSerializer(contract).data
     tender_data = TenderBaseSerializer(tender).data
     data = {
-        "change": change_data,
+        "change": change,
         "contract": contract_data,
         "tender": tender_data,
     }
@@ -373,7 +372,7 @@ def upload_contract_change_pdf_document(change: dict, contract: dict, tender: di
     document["documentType"] = "contractNotice"
     check_document(request, document)
     document_route = "EContract change documents"
-    route_kwargs = {"contract_id": contract_data["id"], "change_id": change_data["id"]}
+    route_kwargs = {"contract_id": contract_data["id"], "change_id": change["id"]}
     update_document_url(request, document, document_route, route_kwargs)
     change["documents"] = change.get("documents", [])
     change["documents"].append(document)
