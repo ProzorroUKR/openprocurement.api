@@ -4,12 +4,18 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import (
     ContractState as BaseContractState,
 )
+from openprocurement.tender.core.procedure.contracting import (
+    upload_contract_change_pdf_document,
+)
 
 
 class EChangeState(BaseContractState):
     def change_on_post(self, data):
         self.validate_change(data)
         self.set_author_of_object(data)
+        contract = self.request.validated["contract"]
+        tender = self.request.validated["tender"]
+        upload_contract_change_pdf_document(data, contract, tender)
 
     def validate_change(self, data):
         # we will work with deepcopy of contract, as we don't want to apply any changes to contract directly,

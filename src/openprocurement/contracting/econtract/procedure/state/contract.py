@@ -140,7 +140,7 @@ class EContractState(BaseContractState):
                 "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
             }
         )
-        upload_contract_pdf_document(self.request, after)
+        upload_contract_pdf_document(after, tender)
         self.set_object_status(before, "cancelled")
         self.set_object_status(before["cancellations"][0], "active", update_date=False)
         base_contract_data = {}

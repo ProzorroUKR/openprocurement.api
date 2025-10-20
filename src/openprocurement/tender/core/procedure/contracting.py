@@ -12,6 +12,7 @@ from openprocurement.api.utils import (
     calculate_full_date,
     get_contract_by_id,
     request_init_contract,
+    upload_contract_change_pdf,
     upload_contract_pdf,
 )
 from openprocurement.contracting.core.procedure.models.access import AccessRole
@@ -36,6 +37,9 @@ from openprocurement.tender.core.procedure.context import get_award, get_request
 from openprocurement.tender.core.procedure.documents import (
     check_document,
     update_document_url,
+)
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
 )
 from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
 
@@ -315,7 +319,7 @@ def save_contracts_to_contracting(contracts, award=None):
             "restricted": tender["config"]["restricted"],
         }
         if is_econtract(contract, buyer):
-            upload_contract_pdf_document(request, contract)
+            upload_contract_pdf_document(contract, tender)
         request_init_contract(request, contract, contract_src={})
         save_contract(request, insert=True)
 
@@ -335,14 +339,41 @@ def update_econtracts_statuses(contracts, status):
             save_contract(request)
 
 
-def upload_contract_pdf_document(request, contract: dict):
+def upload_contract_pdf_document(contract: dict, tender: dict):
+    request = get_request()
     contract_data = ContractBaseSerializer(contract).data
-    document = upload_contract_pdf(request, contract_data)["data"]
+    tender_data = TenderBaseSerializer(tender).data
+    data = {
+        "contract": contract_data,
+        "tender": tender_data,
+    }
+    document = upload_contract_pdf(request, data)["data"]
     document = PostDocument(document).serialize()
     document["documentType"] = "contractNotice"
     check_document(request, document)
     document_route = "EContract Documents"
-    route_kwargs = {"contract_id": contract["id"]}
+    route_kwargs = {"contract_id": contract_data["id"]}
     update_document_url(request, document, document_route, route_kwargs)
     contract["documents"] = contract.get("documents", [])
     contract["documents"].append(document)
+
+
+def upload_contract_change_pdf_document(change: dict, contract: dict, tender: dict):
+    request = get_request()
+    change_data = change
+    contract_data = ContractBaseSerializer(contract).data
+    tender_data = TenderBaseSerializer(tender).data
+    data = {
+        "change": change_data,
+        "contract": contract_data,
+        "tender": tender_data,
+    }
+    document = upload_contract_change_pdf(request, data)["data"]
+    document = PostDocument(document).serialize()
+    document["documentType"] = "contractNotice"
+    check_document(request, document)
+    document_route = "EContract change documents"
+    route_kwargs = {"contract_id": contract_data["id"], "change_id": change_data["id"]}
+    update_document_url(request, document, document_route, route_kwargs)
+    change["documents"] = change.get("documents", [])
+    change["documents"].append(document)
