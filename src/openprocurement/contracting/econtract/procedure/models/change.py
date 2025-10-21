@@ -51,6 +51,7 @@ class Change(BaseChange):
     id = MD5Type(required=True)
     status = StringType(choices=["pending", "active", "cancelled"])
     date = IsoDateTimeType()
+    dateSigned = IsoDateTimeType()
     modifications = ModelType(Modifications, required=True)
     documents = ListType(ModelType(Document, required=True))
     cancellations = ListType(ModelType(Cancellation, required=True))

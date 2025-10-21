@@ -52,7 +52,8 @@ Content-Type: application/json
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "buyer"
       }
-    ]
+    ],
+    "dateSigned": "2023-10-10T01:00:00+03:00"
   }
 }
 
