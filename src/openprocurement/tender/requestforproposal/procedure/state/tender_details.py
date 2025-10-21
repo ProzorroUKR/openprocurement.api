@@ -27,6 +27,7 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
     tender_period_extra_working_days = False
     should_validate_notice_doc_required = False
     should_validate_evaluation_reports_doc_required = False
+    should_validate_items_classifications_prefix = False
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
 
