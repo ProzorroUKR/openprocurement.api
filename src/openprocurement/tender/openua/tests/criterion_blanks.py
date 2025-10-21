@@ -547,13 +547,14 @@ def activate_tender(self):
         )
 
         # Add required criteria (except one)
-        response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_criteria[:-1]},
-        )
+        if len(test_criteria) > 1:
+            response = self.app.post_json(
+                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+                {"data": test_criteria[:-1]},
+            )
 
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.content_type, "application/json")
         doc = self.mongodb.tenders.get(self.tender_id)
         tender_criteria = {
             criterion["classification"]["id"]
@@ -585,24 +586,25 @@ def activate_tender(self):
         )
 
         # Try to add already added criteria
-        response = self.app.post_json(
-            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_criteria[:1]},
-            status=403,
-        )
+        if len(test_criteria) > 1:
+            response = self.app.post_json(
+                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+                {"data": test_criteria[:1]},
+                status=403,
+            )
 
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    'description': 'Criteria are not unique',
-                    'location': 'body',
-                    'name': 'data',
-                }
-            ],
-        )
+            self.assertEqual(response.status, "403 Forbidden")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(
+                response.json["errors"],
+                [
+                    {
+                        'description': 'Criteria are not unique',
+                        'location': 'body',
+                        'name': 'data',
+                    }
+                ],
+            )
 
         doc = self.mongodb.tenders.get(self.tender_id)
         tender_criteria = {

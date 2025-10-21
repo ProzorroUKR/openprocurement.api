@@ -24,6 +24,7 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "amount": 500.0,
@@ -65,7 +66,6 @@ Content-Type: application/json
       "endDate": "2023-11-02T00:00:00+02:00"
     },
     "status": "active.tendering",
-    "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-01T00:00:00+02:00",

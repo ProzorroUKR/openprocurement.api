@@ -3410,7 +3410,7 @@ def tender_with_guarantee_multilot(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Should be specified 'guarantee.amount' more than 0 to lot",
+                "description": "Should be specified 'guarantee.amount' more than 0 to lot for CRITERION.OTHER.BID.GUARANTEE",
             }
         ],
     )

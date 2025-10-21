@@ -34,6 +34,7 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
     should_validate_notice_doc_required = False
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
+    should_validate_required_market_criteria = False
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)

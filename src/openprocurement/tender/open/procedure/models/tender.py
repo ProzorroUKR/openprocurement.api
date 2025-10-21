@@ -1,12 +1,7 @@
 from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
-from schematics.validate import ValidationError
 
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.constants import (
-    AWARD_CRITERIA_LIFE_CYCLE_COST,
-    AWARD_CRITERIA_LOWEST_COST,
-)
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
 from openprocurement.tender.core.procedure.models.metric import (
     Metric,
@@ -35,10 +30,6 @@ class PostTender(BasePostTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
     procurementMethodType = StringType(choices=[ABOVE_THRESHOLD], default=ABOVE_THRESHOLD)
-    awardCriteria = StringType(
-        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
-        default=AWARD_CRITERIA_LOWEST_COST,
-    )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PostPeriodStartEndRequired, required=True)
     items = ListType(
@@ -52,11 +43,6 @@ class PostTender(BasePostTender):
         validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
     )
 
-    def validate_awardCriteria(self, data, value):
-        if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
-            if data.get("features", []):
-                raise ValidationError("Can`t add features with {} awardCriteria".format(AWARD_CRITERIA_LIFE_CYCLE_COST))
-
 
 class PatchTender(BasePatchTender):
     procuringEntity = ModelType(ProcuringEntity)
@@ -67,9 +53,6 @@ class PatchTender(BasePatchTender):
             "active.pre-qualification",
             "active.pre-qualification.stand-still",
         ],
-    )
-    awardCriteria = StringType(
-        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
     )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired)
@@ -100,10 +83,6 @@ class Tender(BaseTender):
         ],
     )
     procurementMethodType = StringType(choices=[ABOVE_THRESHOLD], required=True)
-    awardCriteria = StringType(
-        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
-        required=True,
-    )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     items = ListType(
@@ -116,8 +95,3 @@ class Tender(BaseTender):
         ModelType(Metric),
         validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
     )
-
-    def validate_awardCriteria(self, data, value):
-        if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
-            if data.get("features", []):
-                raise ValidationError("Can`t add features with {} awardCriteria".format(AWARD_CRITERIA_LIFE_CYCLE_COST))

@@ -37,6 +37,7 @@ from openprocurement.tender.core.procedure.serializers.tender import (
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_change_status_with_cancellation_lot_pending,
+    validate_tender_guarantee,
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
@@ -95,6 +96,7 @@ class TenderStage2UEResource(TendersResource):
             unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
             validate_patch_data_simple(EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
+            unless_administrator(validate_tender_guarantee),
         ),
         permission="edit_tender",
     )
@@ -148,6 +150,7 @@ class TenderStage2UAResource(TendersResource):
             unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
             validate_patch_data_simple(UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
+            unless_administrator(validate_tender_guarantee),
         ),
         permission="edit_tender",
     )

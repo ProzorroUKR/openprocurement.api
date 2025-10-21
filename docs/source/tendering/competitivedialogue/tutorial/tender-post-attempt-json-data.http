@@ -183,6 +183,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
   "data": {
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "amount": 500.0,
@@ -247,7 +248,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
         "authorizedBy": "Статут компанії"
       }
     },
-    "awardCriteria": "lowestCost",
     "tenderPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-10T01:00:00+03:00"

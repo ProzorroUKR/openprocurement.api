@@ -848,6 +848,7 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -950,7 +951,6 @@ Content-Type: application/json
       }
     },
     "status": "active.pre-qualification",
-    "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-09-10T01:01:00+03:00",
       "endDate": "2023-09-30T01:01:00+03:00",

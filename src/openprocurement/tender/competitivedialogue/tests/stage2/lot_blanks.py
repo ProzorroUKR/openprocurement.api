@@ -11,6 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_openeu_bids,
 )
+from openprocurement.tender.core.tests.base import test_tender_guarantee_criteria
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
@@ -18,6 +19,7 @@ from openprocurement.tender.core.tests.utils import (
     activate_contract,
     set_bid_items,
     set_bid_responses,
+    set_tender_criteria,
 )
 
 # TenderStage2EU(UA)LotResourceTest
@@ -478,6 +480,11 @@ def delete_tender_lot(self):
 def tender_lot_guarantee(self):
     lots = deepcopy(self.initial_lots)
     lots[0]["guarantee"] = {"amount": 20, "currency": "GBP"}
+    self.initial_data["criteria"] = deepcopy(test_tender_guarantee_criteria)
+    set_tender_criteria(self.initial_data["criteria"], self.initial_lots, self.initial_data["items"])
+    self.initial_data["criteria"][0]["relatesTo"] = "lot"
+    self.initial_data["criteria"][0]["relatedItem"] = lots[0]["id"]
+
     self.create_tender(initial_lots=lots)
     lot = self.lots[0]
     lot_id = lot["id"]
@@ -493,12 +500,22 @@ def tender_lot_guarantee(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 20)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
+    self.initial_data["criteria"] = []
 
 
 def tender_lot_guarantee_v2(self):
     lots = deepcopy(self.initial_lots)
     lots[0]["guarantee"] = {"amount": 20, "currency": "GBP"}
     lots[1]["guarantee"] = {"amount": 40, "currency": "GBP"}
+    self.initial_data["criteria"] = [
+        deepcopy(test_tender_guarantee_criteria[0]),
+        deepcopy(test_tender_guarantee_criteria[0]),
+    ]
+    set_tender_criteria(self.initial_data["criteria"], lots, self.initial_data["items"])
+    self.initial_data["criteria"][0]["relatesTo"] = "lot"
+    self.initial_data["criteria"][0]["relatedItem"] = lots[0]["id"]
+    self.initial_data["criteria"][1]["relatesTo"] = "lot"
+    self.initial_data["criteria"][1]["relatedItem"] = lots[1]["id"]
     self.create_tender(initial_lots=lots)
     lot = self.lots[0]
     lot_id = lot["id"]
@@ -544,6 +561,7 @@ def tender_lot_guarantee_v2(self):
         response.json["errors"],
         [{"location": "body", "name": "guarantee", "description": "Field change's not allowed"}],
     )
+    self.initial_data["criteria"] = []
 
 
 # TenderStage2EU(UA)LotBidderResourceTest

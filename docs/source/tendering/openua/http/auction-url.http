@@ -994,6 +994,7 @@ Content-Type: application/json
     "procurementMethod": "open",
     "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -1092,7 +1093,6 @@ Content-Type: application/json
     },
     "status": "active.auction",
     "procurementMethodType": "aboveThresholdUA",
-    "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-09-24T01:02:01+03:00",
       "endDate": "2023-10-07T01:02:01+03:00",

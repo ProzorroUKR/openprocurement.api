@@ -14,6 +14,7 @@ Content-Type: application/json
     "title_en": "Services in school canteens",
     "procurementMethod": "selective",
     "title": "Послуги шкільних їдалень",
+    "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -72,7 +73,6 @@ Content-Type: application/json
       }
     },
     "status": "draft.stage2",
-    "awardCriteria": "lowestCost",
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "owner": "broker",
     "tenderID": "UA-2023-10-10-000001-a.2",
