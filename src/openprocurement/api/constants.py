@@ -293,6 +293,18 @@ TENDER_CAUSE = {
     key for key, desc in standards.load("codelists/tender/tender_cause.json").items() if desc["archive"] is False
 }
 
+TENDER_CAUSE_DECREE_1178 = {
+    key
+    for key, desc in standards.load("codelists/tender/tender_cause_decree_1178.json").items()
+    if desc["archive"] is False
+}
+
+TENDER_CAUSE_LAW_922 = {
+    key
+    for key, desc in standards.load("codelists/tender/tender_cause_law_922.json").items()
+    if desc["archive"] is False
+}
+
 # Should be at the end of the file for now
 # TODO: move to modules initialization
 TENDER_CRITERIA_RULES = {
