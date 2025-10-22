@@ -77,7 +77,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "value": {
       "amount": 500000,
       "currency": "UAH",
-      "valueAddedTaxIncluded": false
+      "valueAddedTaxIncluded": true
     },
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
@@ -112,10 +112,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services",
-    "cause": "twiceUnsuccessful",
-    "causeDescription": "оригінальний тендер не вдався двічі",
-    "causeDescription_en": "original tender has failed twice",
-    "causeDescription_ru": "оригинальный тендер не получился дважды",
+    "causeDetails": {
+      "title": "lastHope",
+      "scheme": "LAW922",
+      "description": "оригінальний тендер не вдався двічі",
+      "description_en": "оригинальный тендер не получился дважды"
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -123,7 +125,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500000,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false
+          "valueAddedTaxIncluded": true
         },
         "id": "e10f7c85d2484c99a312334e6e9faaac"
       }
@@ -203,7 +205,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
     "status": "draft",
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": false,
+      "valueAddedTaxIncluded": true,
       "amount": 500000.0
     },
     "items": [
@@ -215,7 +217,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
           "value": {
             "amount": 10.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": false
+            "valueAddedTaxIncluded": true
           },
           "code": "KGM"
         },
@@ -246,10 +248,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
         }
       }
     ],
-    "cause": "twiceUnsuccessful",
-    "causeDescription": "оригінальний тендер не вдався двічі",
-    "causeDescription_en": "original tender has failed twice",
-    "causeDescription_ru": "оригинальный тендер не получился дважды",
+    "causeDetails": {
+      "title": "lastHope",
+      "scheme": "LAW922",
+      "description": "оригінальний тендер не вдався двічі",
+      "description_en": "оригинальный тендер не получился дважды"
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -259,7 +263,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
         "value": {
           "currency": "UAH",
           "amount": 500000.0,
-          "valueAddedTaxIncluded": false
+          "valueAddedTaxIncluded": true
         },
         "date": "2023-10-10T01:00:00+03:00"
       }

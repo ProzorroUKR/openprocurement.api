@@ -40,7 +40,7 @@ Creating tender for reporting procedure
 
 To create tender for **reporting** procedure you should set ``reporting`` value for ``procurementMethodType``.
 
-For **reporting** procedure there is required field `cause`. It is required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:
+For **reporting** procedure there is required field `causeDetails`. It is required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:
 
     * 100 000 for goods,
     * 200 000 for services,
@@ -51,7 +51,7 @@ Let's try to create tender with value amount bigger than threshold and without `
 .. http:example:: http/tutorial/create-tender-reporting-invalid.http
    :code:
 
-Let's add `cause` and `causeDescription` and then create a tender:
+Let's add `causeDetails` and then create a tender:
 
 .. http:example:: http/tutorial/create-tender-reporting-procuringEntity.http
    :code:
@@ -282,10 +282,10 @@ Contract registration
 Confidential documents for contract
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When creating a tender, the customer selects one of the items (`cause`) from the drop-down list of reasons for applying the purchase contract report.
+When creating a tender, the customer selects one of the items (`causeDetails.title` for particular `causeDetails.scheme`) from the drop-down list of reasons for applying the purchase contract report.
 If one of the particular reasons is used, the files (documents) that the customer uploads to the contract and changes to the contract (`"documentOf": "contract"` and `"documentOf": "change"`) must be hidden in such reporting procedure.
 
-Documents should be confidential if reporting has one ot the causes:
+Documents should be confidential if reporting has one ot the `causeDetails.title`:
 
     * criticalInfrastructure
     * civilProtection
@@ -299,7 +299,7 @@ and has one of document types:
     * contractSigned - Signed contract
     * contractAnnexe - Annexes to the contract
 
-Confidentiality should be applied for documents, in case of application of the above causes. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`.
+Confidentiality should be applied for documents, in case of application of the above `causeDetails.title`. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`.
 
 Let's add documents to contract and set `confidentiality` as public, we will see an error:
 

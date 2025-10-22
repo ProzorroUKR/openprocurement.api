@@ -404,3 +404,75 @@ Workflow
 
 \* marks initial state
 
+
+.. _CauseDetails:
+
+CauseDetails
+============
+
+Scheme
+------
+
+:title:
+    string, required for **negotiation** and **negotiation.quick** procedures.
+    Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:
+
+        * 100 000 for goods,
+        * 200 000 for services,
+        * 1 500 000 for works.
+
+    Causes for using reporting, negotiation or negotiation.quick procedures.
+
+    Possible values for **negotiation** and **negotiation.quick** procedures:
+
+        * `twiceUnsuccessful`
+
+        * `additionalPurchase`
+
+        * `additionalConstruction`
+
+        * `stateLegalServices`
+
+        * `resolvingInsolvency`
+
+        * `artPurchase`
+
+        * `contestWinner`
+
+        * `technicalReasons`
+
+        * `intProperty`
+
+        * `lastHope`
+
+    Possible values for **negotiation.quick** procedure:
+
+        * `emergency`
+
+        * `humanitarianAid`
+
+        * `contractCancelled`
+
+        * `activeComplaint`
+
+    Possible values for **reporting** procedure in `tender causes law 922 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_law_922.json>`_
+    and `tender causes decree 1178 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_decree_1178.json>`_ dictionaries.
+
+
+    Only in :ref:`limited`.
+
+:scheme:
+    string, required
+
+    Type of tender cause schema.
+    Possible values are:
+
+    * `LAW922`
+    * `DECREE1178`
+
+:description:
+    string, multilingual
+
+    Reasoning behind usage of reporting, negotiation or negotiation.quick procedures.
+
+    Only in :ref:`limited`
