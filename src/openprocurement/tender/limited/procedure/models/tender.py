@@ -5,7 +5,6 @@ from openprocurement.api.constants import TENDER_CAUSE
 from openprocurement.api.constants_env import (
     MILESTONES_VALIDATION_FROM,
     NEW_NEGOTIATION_CAUSES_FROM,
-    QUICK_CAUSE_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
@@ -38,6 +37,11 @@ from openprocurement.tender.limited.constants import (
     NEGOTIATION_QUICK,
     REPORTING,
 )
+from openprocurement.tender.limited.procedure.models.cause import (
+    CauseDetails,
+    NegotiationCauseDetails,
+    NegotiationQuickCauseDetails,
+)
 from openprocurement.tender.limited.procedure.models.item import ReportingItem
 from openprocurement.tender.limited.procedure.models.lot import (
     Lot,
@@ -58,7 +62,7 @@ VALUE_AMOUNT_THRESHOLD = {
 }
 
 
-def reporting_cause_is_required(data, value):
+def reporting_cause_is_required(data):
     return all(
         [
             data.get("procuringEntity", {}).get("kind") != "other",
@@ -69,7 +73,6 @@ def reporting_cause_is_required(data, value):
                 and data.get("mainProcurementCategory")
                 and data["value"]["amount"] >= VALUE_AMOUNT_THRESHOLD[data["mainProcurementCategory"]]
             ),
-            not value,
         ]
     )
 
@@ -95,6 +98,7 @@ class PostReportingTender(PostBaseTender):
     cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
+    causeDetails = ModelType(CauseDetails)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -106,9 +110,6 @@ class PostReportingTender(PostBaseTender):
                     raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
 
     def validate_cause(self, data, value):
-        if reporting_cause_is_required(data, value):
-            raise ValidationError(BaseType.MESSAGES["required"])
-
         if value is not None and value not in TENDER_CAUSE:
             raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
 
@@ -132,6 +133,7 @@ class PatchReportingTender(CommonBaseTender):
     cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
+    causeDetails = ModelType(CauseDetails)
 
 
 class ReportingTender(BaseTender):
@@ -157,6 +159,7 @@ class ReportingTender(BaseTender):
     cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
+    causeDetails = ModelType(CauseDetails)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -168,9 +171,6 @@ class ReportingTender(BaseTender):
                     raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
 
     def validate_cause(self, data, value):
-        if reporting_cause_is_required(data, value):
-            raise ValidationError(BaseType.MESSAGES["required"])
-
         if value is not None and value not in TENDER_CAUSE:
             raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
 
@@ -202,7 +202,7 @@ cause_choices_new = [
 def validate_cause(value):
     is_new = get_first_revision_date(get_tender(), default=get_request_now()) > NEW_NEGOTIATION_CAUSES_FROM
     choices = cause_choices_new if is_new else cause_choices
-    if value not in choices:
+    if value is not None and value not in choices:
         raise ValidationError("Value must be one of ['{}'].".format("', '".join(choices)))
 
 
@@ -217,10 +217,11 @@ class PostNegotiationTender(PostBaseTender):
         min_size=1,
         validators=[validate_items_uniq, validate_classification_id],
     )
-    cause = StringType(required=True)
+    cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
+    causeDetails = ModelType(NegotiationCauseDetails, required=True)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
@@ -254,6 +255,7 @@ class PatchNegotiationTender(CommonBaseTender):
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
+    causeDetails = ModelType(NegotiationCauseDetails)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
@@ -270,10 +272,11 @@ class NegotiationTender(BaseTender):
         min_size=1,
         validators=[validate_items_uniq, validate_classification_id],
     )
-    cause = StringType(required=True)
+    cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
+    causeDetails = ModelType(NegotiationCauseDetails)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
@@ -304,10 +307,6 @@ cause_choices_quick_new = cause_choices_new + [
 
 
 def validate_cause_quick(value):
-    required = get_first_revision_date(get_tender(), default=get_request_now()) >= QUICK_CAUSE_REQUIRED_FROM
-    if required and not value:
-        raise ValidationError(BaseType.MESSAGES["required"])
-
     if value:
         is_new = get_first_revision_date(get_tender(), default=get_request_now()) > NEW_NEGOTIATION_CAUSES_FROM
         choices = cause_choices_quick_new if is_new else cause_choices_quick
@@ -318,6 +317,7 @@ def validate_cause_quick(value):
 class PostNegotiationQuickTender(PostNegotiationTender):
     procurementMethodType = StringType(choices=[NEGOTIATION_QUICK], default=NEGOTIATION_QUICK)
     cause = StringType()
+    causeDetails = ModelType(NegotiationQuickCauseDetails)
 
     def validate_cause(self, data, value):
         validate_cause_quick(value)
@@ -325,11 +325,13 @@ class PostNegotiationQuickTender(PostNegotiationTender):
 
 class PatchNegotiationQuickTender(PatchNegotiationTender):
     procurementMethodType = StringType(choices=[NEGOTIATION_QUICK])
+    causeDetails = ModelType(NegotiationQuickCauseDetails)
 
 
 class NegotiationQuickTender(NegotiationTender):
     procurementMethodType = StringType(choices=[NEGOTIATION_QUICK], required=True)
     cause = StringType()
+    causeDetails = ModelType(NegotiationQuickCauseDetails)
 
     def validate_cause(self, data, value):
         validate_cause_quick(value)

@@ -34,7 +34,10 @@ class ContractDocumentState(BaseDocumentStateMixing, ContractState):
         if (
             data.get("documentOf") in ("contract", "change")
             and data.get("documentType") in ("contractSigned", "contractAnnexe")
-            and tender.get("cause") in CONFIDENTIAL_DOCS_CAUSES
+            and (
+                tender.get("cause") in CONFIDENTIAL_DOCS_CAUSES
+                or tender.get("causeDetails", {}).get("title") in CONFIDENTIAL_DOCS_CAUSES
+            )
         ) or (
             data.get("title") == "sign.p7s"
             and data.get("format") == "application/pkcs7-signature"
