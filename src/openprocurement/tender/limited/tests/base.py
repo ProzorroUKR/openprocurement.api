@@ -27,8 +27,11 @@ if SANDBOX_MODE:
 
 test_tender_negotiation_data = deepcopy(test_tender_reporting_data)
 test_tender_negotiation_data["procurementMethodType"] = "negotiation"
-test_tender_negotiation_data["cause"] = "twiceUnsuccessful"
-test_tender_negotiation_data["causeDescription"] = "chupacabra"
+test_tender_negotiation_data["causeDetails"] = {
+    "title": "additionalConstruction",
+    "scheme": "LAW922",
+    "description": "chupacabra",
+}
 if SANDBOX_MODE:
     test_tender_negotiation_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
@@ -40,8 +43,11 @@ test_tender_negotiation_data_2items["items"] = [
 
 test_tender_negotiation_quick_data = deepcopy(test_tender_reporting_data)
 test_tender_negotiation_quick_data["procurementMethodType"] = "negotiation.quick"
-test_tender_negotiation_quick_data["cause"] = "additionalConstruction"
-test_tender_negotiation_quick_data["causeDescription"] = "chupacabra"
+test_tender_negotiation_quick_data["causeDetails"] = {
+    "title": "additionalConstruction",
+    "scheme": "LAW922",
+    "description": "chupacabra",
+}
 if SANDBOX_MODE:
     test_tender_negotiation_quick_data["procurementMethodDetails"] = "quick, accelerator=1440"
 

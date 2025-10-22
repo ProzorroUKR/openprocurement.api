@@ -112,10 +112,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services",
-    "cause": "twiceUnsuccessful",
-    "causeDescription": "оригінальний тендер не вдався двічі",
-    "causeDescription_en": "original tender has failed twice",
-    "causeDescription_ru": "оригинальный тендер не получился дважды",
+    "causeDetails": {
+      "title": "lastHope",
+      "scheme": "LAW922",
+      "description": "оригінальний тендер не вдався двічі",
+      "description_en": "оригинальный тендер не получился дважды"
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -123,7 +125,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500000,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false
+          "valueAddedTaxIncluded": true
         },
         "id": "5740fe669c0546188adff1c8c9b0aa58"
       }
@@ -245,9 +247,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
         }
       }
     ],
-    "causeDescription": "оригінальний тендер не вдався двічі",
-    "causeDescription_en": "original tender has failed twice",
-    "causeDescription_ru": "оригинальный тендер не получился дважды",
     "lots": [
       {
         "title": "Лот №1",
@@ -291,7 +290,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
       }
     ],
     "procurementMethodType": "negotiation.quick",
-    "cause": "twiceUnsuccessful",
+    "causeDetails": {
+      "title": "lastHope",
+      "scheme": "LAW922",
+      "description": "оригінальний тендер не вдався двічі",
+      "description_en": "оригинальный тендер не получился дважды"
+    },
     "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
     "date": "2023-10-10T01:00:00+03:00",

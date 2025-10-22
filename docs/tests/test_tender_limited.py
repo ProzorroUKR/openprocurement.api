@@ -21,16 +21,19 @@ test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 
 award_negotiation['value']['valueAddedTaxIncluded'] = False
 test_tender_negotiation_data['procurementMethodType'] = "negotiation"
-test_tender_negotiation_data['cause'] = "twiceUnsuccessful"
-test_tender_negotiation_data['causeDescription'] = "оригінальний тендер не вдався двічі"
-test_tender_negotiation_data['causeDescription_en'] = "original tender has failed twice"
-test_tender_negotiation_data['causeDescription_ru'] = "оригинальный тендер не получился дважды"
-test_tender_negotiation_data['value']['valueAddedTaxIncluded'] = False
-test_tender_negotiation_quick_data['cause'] = "twiceUnsuccessful"
+test_tender_negotiation_data['causeDetails'] = {
+    "title": "lastHope",
+    "scheme": "LAW922",
+    "description": "оригінальний тендер не вдався двічі",
+    "description_en": "оригинальный тендер не получился дважды",
+}
 test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
-test_tender_negotiation_quick_data['causeDescription'] = "оригінальний тендер не вдався двічі"
-test_tender_negotiation_quick_data['causeDescription_en'] = "original tender has failed twice"
-test_tender_negotiation_quick_data['causeDescription_ru'] = "оригинальный тендер не получился дважды"
+test_tender_negotiation_quick_data['causeDetails'] = {
+    "title": "lastHope",
+    "scheme": "LAW922",
+    "description": "оригінальний тендер не вдався двічі",
+    "description_en": "оригинальный тендер не получился дважды",
+}
 test_lots[0]['value'] = test_tender_negotiation_data['value']
 
 TARGET_DIR = 'docs/source/tendering/limited/http/'
@@ -85,10 +88,11 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             self.app.post_json(
                 '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}, status=422
             )
-        reporting_data["cause"] = "defencePurchase"
-        reporting_data["causeDescription"] = (
-            "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
-        )
+        reporting_data["causeDetails"] = {
+            "title": "defencePurchase",
+            "scheme": "DECREE1178",
+            "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
+        }
 
         with open(TARGET_DIR + 'tutorial/create-tender-reporting-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

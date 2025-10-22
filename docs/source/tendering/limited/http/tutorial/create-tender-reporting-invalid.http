@@ -146,10 +146,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "cause",
-      "description": [
-        "This field is required."
-      ]
+      "name": "causeDetails",
+      "description": "This field is required."
     }
   ]
 }

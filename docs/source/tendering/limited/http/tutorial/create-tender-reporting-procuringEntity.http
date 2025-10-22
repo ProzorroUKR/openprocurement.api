@@ -109,8 +109,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services",
-    "cause": "defencePurchase",
-    "causeDescription": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+    "causeDetails": {
+      "title": "defencePurchase",
+      "scheme": "DECREE1178",
+      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+    }
   },
   "config": {
     "hasAuction": false,
@@ -254,9 +257,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
         "sequenceNumber": 2
       }
     ],
-    "cause": "defencePurchase",
-    "causeDescription": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "causeDetails": {
+      "title": "defencePurchase",
+      "scheme": "DECREE1178",
+      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+    },
+    "tenderID": "UA-2023-10-10-000002-a",
     "owner": "broker",
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",

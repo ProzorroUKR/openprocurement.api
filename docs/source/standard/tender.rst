@@ -448,6 +448,8 @@ Schema
 
 
 :cause:
+    **Deprecated (use CauseDetails instead)**
+
     string, required for **negotiation** and **negotiation.quick** procedures.
     Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:
 
@@ -495,9 +497,18 @@ Schema
     Only in :ref:`limited`
 
 :causeDescription:
+    **Deprecated (use CauseDetails instead)**
+
     string, multilingual
 
     Reasoning behind usage of reporting, negotiation or negotiation.quick procedures.
+
+    Only in :ref:`limited`
+
+:causeDetails:
+    :ref:`CauseDetails`, required
+
+    Causes and reasoning for tenders.
 
     Only in :ref:`limited`
 

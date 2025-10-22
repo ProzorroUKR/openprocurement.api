@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-30 13:51+0300\n"
+"POT-Creation-Date: 2025-10-22 11:34+0300\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tender"
 msgstr "Tender"
@@ -660,6 +660,9 @@ msgstr "Зміни властивостей об’єктів Закупівлі
 msgid "cause"
 msgstr ""
 
+msgid "**Deprecated (use CauseDetails instead)**"
+msgstr "**Deprecated (нове поле CauseDetails)**"
+
 msgid "string, required for **negotiation** and **negotiation.quick** procedures. Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
 msgstr "рядок, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**. Також обов’язковий для **звітів**, які мають пусте поле `procurementMethodRationale`, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
 
@@ -731,6 +734,15 @@ msgstr ""
 
 msgid "Reasoning behind usage of reporting, negotiation or negotiation.quick procedures."
 msgstr "Обгрунтування використання звітів, \\”звичайної\\” переговорної процедури або переговорної процедури за нагальною потребою."
+
+msgid "causeDetails"
+msgstr ""
+
+msgid ":ref:`CauseDetails`, required"
+msgstr ":ref:`CauseDetails`, обов’язково"
+
+msgid "Causes and reasoning for tenders."
+msgstr "Підстави та обгрунтування використання звітів."
 
 msgid "stage2TenderID"
 msgstr ""
@@ -857,7 +869,4 @@ msgstr "Робочий процес у :ref:`limited`"
 
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
-
-#~ msgid ":ref:`Guarantee`"
-#~ msgstr ":ref:`Guarantee`"
 

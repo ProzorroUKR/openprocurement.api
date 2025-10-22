@@ -37,6 +37,7 @@ class CauseDetails(Model):
 
 class NegotiationCauseDetails(CauseDetails):
     def validate_title(self, data, value):
+        # pylint: disable-next=import-outside-toplevel, cyclic-import
         from openprocurement.tender.limited.procedure.models.tender import (
             validate_cause,
         )
@@ -47,6 +48,7 @@ class NegotiationCauseDetails(CauseDetails):
 
 class NegotiationQuickCauseDetails(CauseDetails):
     def validate_title(self, data, value):
+        # pylint: disable-next=import-outside-toplevel, cyclic-import
         from openprocurement.tender.limited.procedure.models.tender import (
             validate_cause_quick,
         )

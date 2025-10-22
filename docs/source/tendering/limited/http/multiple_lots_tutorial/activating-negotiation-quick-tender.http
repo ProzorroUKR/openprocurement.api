@@ -102,9 +102,6 @@ Content-Type: application/json
         }
       }
     ],
-    "causeDescription": "оригінальний тендер не вдався двічі",
-    "causeDescription_en": "original tender has failed twice",
-    "causeDescription_ru": "оригинальный тендер не получился дважды",
     "lots": [
       {
         "title": "Лот №1",
@@ -148,7 +145,12 @@ Content-Type: application/json
       }
     ],
     "procurementMethodType": "negotiation.quick",
-    "cause": "twiceUnsuccessful",
+    "causeDetails": {
+      "title": "lastHope",
+      "scheme": "LAW922",
+      "description": "оригінальний тендер не вдався двічі",
+      "description_en": "оригинальный тендер не получился дважды"
+    },
     "id": "f082eef1f646440d9089b9620ea0bb9a"
   },
   "config": {
