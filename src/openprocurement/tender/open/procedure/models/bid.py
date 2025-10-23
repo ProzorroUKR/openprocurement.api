@@ -11,6 +11,11 @@ from openprocurement.tender.core.procedure.models.bid import (
 from openprocurement.tender.core.procedure.models.bid import (
     PostLocalizationBid as BasePostBid,
 )
+from openprocurement.tender.core.procedure.models.lot_value import (
+    LotValue,
+    PatchLotValue,
+    PostLotValue,
+)
 from openprocurement.tender.core.procedure.models.parameter import (
     Parameter,
     PatchParameter,
@@ -20,11 +25,6 @@ from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
 )
 from openprocurement.tender.core.procedure.validation import validate_bid_value
-from openprocurement.tender.open.procedure.models.lot_value import (
-    LotValue,
-    PatchLotValue,
-    PostLotValue,
-)
 
 
 class PatchBid(BasePatchBid, PatchObjResponsesMixin):

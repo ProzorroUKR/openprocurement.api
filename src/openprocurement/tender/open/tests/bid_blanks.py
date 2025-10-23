@@ -326,7 +326,7 @@ def patch_tender_bidder(self):
         }
     )
     set_bid_lotvalues(bid_data, self.initial_lots)
-    bid_data["lotValues"][0]["value"]["amount"] = 600
+    bid_data["lotValues"][0]["value"]["amount"] = 450
     set_bid_items(self, bid_data)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -340,7 +340,7 @@ def patch_tender_bidder(self):
     bid_patch_data = {}
     bid_patch_data["status"] = "pending"
     bid_patch_data["lotValues"] = bid["lotValues"]
-    bid_patch_data["lotValues"][0]["value"]["amount"] = 600
+    bid_patch_data["lotValues"][0]["value"]["amount"] = 450
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),

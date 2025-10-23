@@ -1,7 +1,7 @@
 name,values,default,days
 hasAuction,true / false,true,
 hasAwardingOrder,true,true,
-hasValueRestriction,false,false,
+hasValueRestriction,true / false,true,
 valueCurrencyEquality,true,true,
 hasPrequalification,false,false,
 minBidsNumber,1,1,
