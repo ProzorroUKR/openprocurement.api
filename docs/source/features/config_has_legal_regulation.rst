@@ -20,6 +20,7 @@ Framework
 .. sourcecode:: http
 
     POST /api/2.5/frameworks HTTP/1.0
+
     Authorization: Bearer broker
     Content-Length: 1874
     Content-Type: application/json
@@ -105,8 +106,8 @@ belowThreshold
 
 .. sourcecode:: http
 
-
     POST /api/2.5/tenders HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
@@ -141,8 +142,8 @@ belowThreshold
 
 .. sourcecode:: http
 
-
     POST /api/2.5/tenders HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua

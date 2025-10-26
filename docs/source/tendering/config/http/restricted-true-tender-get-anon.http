@@ -831,7 +831,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "description.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2bd25ecac7274f6e9f062904741ca519?Signature=04hHKqkfEYNBn47hT2%2Fg5vgbmio8EMgJrzWTGBeDns6YS%2BzrzqlId10tGDlez1vyqPMIwr9td5VXY7u1mj7yBA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/349bf917e1334dfe9816ddbb91a3fad6?Signature=beqQpqI7dbt%2BD3dVao8STtH2TGgkKxyo32e7GgEI6f3%2FM0u9q%2Bsgw66N68X88v9%2FMoHP0FTnYYN4U%2FnoKvD2Cg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
         "id": "3cf50cf789a440d295515c9528981a93",
@@ -845,7 +845,7 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "agreements": [
       {
-        "id": "514d764704784304906b25138785146c"
+        "id": "120e2d279ef84f8db8c5a993a4e58137"
       }
     ],
     "procurementMethod": "selective",
@@ -861,7 +861,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "id": "2b1b594948f547af9eff49515789e928",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "currency": "UAH",
@@ -891,7 +891,7 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       },
       {
         "id": "4f9fb352f8474e8cab00b4f6fae6ee06",
@@ -904,7 +904,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
     "complaintPeriod": {
@@ -978,7 +978,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "deliveryDate": {
           "startDate": "1970-01-01T03:00:00+03:00",
           "endDate": "1970-01-01T03:00:00+03:00"

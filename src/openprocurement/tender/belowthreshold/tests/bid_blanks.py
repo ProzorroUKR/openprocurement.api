@@ -788,7 +788,7 @@ def post_tender_bid_with_another_currency(self):
         {
             "quantity": 7,
             "description": "футляри до державних нагород",
-            "id": items[0]['id'],
+            "id": items[0]["id"],
             "unit": {
                 "name": "Item",
                 "code": "KGM",
@@ -1499,7 +1499,7 @@ def patch_tender_bid_document(self):
     )
     self.assertEqual(
         response.json,
-        {'status': 'error', 'errors': [{'location': 'url', 'name': 'permission', 'description': 'Forbidden'}]},
+        {"status": "error", "errors": [{"location": "url", "name": "permission", "description": "Forbidden"}]},
     )
 
     response = self.app.patch_json(
@@ -1723,7 +1723,7 @@ def create_tender_bid_document_json(self):
     )
     self.assertEqual(
         response.json,
-        {'status': 'error', 'errors': [{'location': 'url', 'name': 'permission', 'description': 'Forbidden'}]},
+        {"status": "error", "errors": [{"location": "url", "name": "permission", "description": "Forbidden"}]},
     )
 
     response = self.app.post_json(
@@ -2255,7 +2255,7 @@ def put_tender_bid_document_json(self):
     )
     self.assertEqual(
         response.json,
-        {'status': 'error', 'errors': [{'location': 'url', 'name': 'permission', 'description': 'Forbidden'}]},
+        {"status": "error", "errors": [{"location": "url", "name": "permission", "description": "Forbidden"}]},
     )
 
     response = self.app.put_json(
@@ -2397,7 +2397,7 @@ def create_tender_bid_with_document_invalid(self):
     docs = [
         {
             "title": "name.doc",
-            "url": self.generate_docservice_url().replace(list(self.app.app.registry.keyring.keys())[-1], "0" * 8),
+            "url": self.generate_docservice_url().replace(list(self.registry.keyring.keys())[-1], "0" * 8),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
         }

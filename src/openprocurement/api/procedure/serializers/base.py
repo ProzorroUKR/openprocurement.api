@@ -60,6 +60,9 @@ class BaseSerializer(AbstractSerializer[dict[str, Any]]):
         # serialize
         serialized_data = {}
         for key, value in items:
+            if value is None:  # model.model_dump(exclude_none=True) doesn't work for sub models
+                continue
+
             serialized_value = self.serialize_value(key, value, **kwargs)
 
             # post-serialize

@@ -14,6 +14,7 @@
 .. sourcecode:: http
 
     PATCH /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
@@ -48,6 +49,7 @@
 .. sourcecode:: http
 
     PATCH /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
@@ -87,6 +89,7 @@
 .. sourcecode:: http
 
     PATCH /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
@@ -166,6 +169,7 @@
 .. sourcecode:: http
 
     POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
@@ -201,6 +205,7 @@
 .. sourcecode:: http
 
     POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
@@ -237,6 +242,7 @@
 .. sourcecode:: http
 
     POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
@@ -282,6 +288,7 @@
 .. sourcecode:: http
 
     POST /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/changes/0c883e4482795b2a00a3b5bdaa043749/documents?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua
@@ -322,6 +329,7 @@
 .. sourcecode:: http
 
     GET /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+
     Authorization: Bearer broker
     Content-Type: application/json
     Host: lb-api-sandbox.prozorro.gov.ua

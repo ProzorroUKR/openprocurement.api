@@ -175,7 +175,7 @@ class TenderConfigMixin(ConfigMixin):
         has_restricted_preselection_agreement = False
         agreement = get_agreement()
         if agreement:
-            has_restricted_preselection_agreement = agreement["config"]["restricted"] is True
+            has_restricted_preselection_agreement = agreement["config"].get("restricted") is True
         if has_restricted_preselection_agreement is True and data["config"]["restricted"] is False:
             raise_operation_error(
                 self.request,

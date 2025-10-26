@@ -18,6 +18,7 @@ from openprocurement.api.auth import (
     check_accreditations,
 )
 from openprocurement.api.subscribers import add_logging_context, set_logging_context
+from openprocurement.api.tests.base import unwrap_app
 from openprocurement.historical.core.constants import HASH, PREVIOUS_HASH, VERSION
 from openprocurement.historical.core.tests.utils import Db, mock_doc
 from openprocurement.historical.core.utils import (
@@ -168,7 +169,9 @@ class HistoricalResourceTestCase(unittest.TestCase):
             )
 
     def test_route_not_found(self):
-        self.app.app.routes_mapper.routelist = [r for r in self.app.app.routes_mapper.routelist if r.name != "MockBase"]
+        unwrap_app(self.app).routes_mapper.routelist = [
+            r for r in unwrap_app(self.app).routes_mapper.routelist if r.name != "MockBase"
+        ]
 
         response = self.app.get("/mock/{}/historical".format(mock_doc.id), status=404)
         self.assertEqual(response.status, "404 Not Found")

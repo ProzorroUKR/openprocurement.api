@@ -2588,12 +2588,15 @@ def criterion_from_market_profile(self):
         }
     ]
 
-    with patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        Mock(return_value={"id": "0" * 32, "criteria": []}),
-    ), patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
+    with (
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_category",
+            Mock(return_value={"id": "0" * 32, "criteria": []}),
+        ),
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
+        ),
     ):
         # expectedValue in profile requirements != expectedValue in tender requirement
         response = self.app.post_json(
@@ -2631,12 +2634,15 @@ def criterion_from_market_profile(self):
         }
     ]
 
-    with patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        Mock(return_value={"id": "0" * 32, "criteria": []}),
-    ), patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
+    with (
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_category",
+            Mock(return_value={"id": "0" * 32, "criteria": []}),
+        ),
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
+        ),
     ):
         # title in profile requirements != title in tender requirement
         response = activate_tender(status=422)
@@ -2711,12 +2717,15 @@ def criterion_from_market_profile(self):
         }
     )
 
-    with patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        Mock(return_value={"id": "0" * 32, "criteria": []}),
-    ), patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
+    with (
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_category",
+            Mock(return_value={"id": "0" * 32, "criteria": []}),
+        ),
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": market_tech_feature}),
+        ),
     ):
         # title in profile requirements != title in tender requirement
         cancel_requirement(rg_id, req_id)
@@ -2930,12 +2939,15 @@ def criterion_from_market_category(self):
         }
     ]
 
-    with patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
-    ), patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
+    with (
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_category",
+            Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+        ),
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
+        ),
     ):
         # title in category requirements != title in tender requirement
         response = self.app.post_json(
@@ -3000,12 +3012,15 @@ def criterion_from_market_category(self):
         }
     )
 
-    with patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
-    ), patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
+    with (
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_category",
+            Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+        ),
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
+        ),
     ):
 
         # no expectedValue in tender requirement
@@ -3086,12 +3101,15 @@ def criterion_from_market_category(self):
         }
     )
 
-    with patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
-    ), patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-        Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
+    with (
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_category",
+            Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+        ),
+        patch(
+            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+            Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
+        ),
     ):
         # not all requirements from category should be in tender
         self.app.patch_json(

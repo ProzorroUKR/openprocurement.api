@@ -1,11 +1,10 @@
 from datetime import timedelta
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.tests.base import (  # pylint: disable=unused-import
-    app,
-    singleton_app,
-)
+from openprocurement.api.tests.base import app, singleton_app, unwrap_app
 from openprocurement.tender.core.tests.utils import change_auth
+
+fixtures = (app, singleton_app)
 
 fake_tender_data = {
     "doc_type": "Tender",
@@ -58,7 +57,7 @@ def save_fake_tender_data(app, data=None):
     uid = tender_data.pop("_id", None)
     if uid:
         filters["_id"] = uid
-    app.app.registry.mongodb.tenders.collection.update_one(
+    unwrap_app(app).registry.mongodb.tenders.collection.update_one(
         filters,
         {"$set": tender_data},
         upsert=True,

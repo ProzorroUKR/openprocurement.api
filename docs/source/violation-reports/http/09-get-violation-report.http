@@ -1,0 +1,160 @@
+GET /violation_reports/UA-2025-10-12-000001 HTTP/1.0
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-000000000016
+Content-Length: 4937
+
+{
+  "data": {
+    "details": {
+      "reason": "signingRefusal",
+      "description": "Постачальник відмовився підписувати контракт.",
+      "documents": [
+        {
+          "id": "88888888444455556666000000000006",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/details/documents/88888888444455556666000000000006?download=88888888444455556666000000000004",
+          "dateModified": "2025-10-12T15:35:35+03:00",
+          "datePublished": "2025-10-12T15:35:35+03:00",
+          "documentType": "violationReportEvidence",
+          "title": "evidences.doc",
+          "format": "application/msword",
+          "language": "uk"
+        },
+        {
+          "id": "88888888444455556666000000000009",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/details/documents/88888888444455556666000000000009?download=88888888444455556666000000000007",
+          "dateModified": "2025-10-12T15:37:35+03:00",
+          "datePublished": "2025-10-12T15:37:35+03:00",
+          "documentType": "violationReportSignature",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk"
+        }
+      ],
+      "dateModified": "2025-10-12T15:37:35+03:00"
+    },
+    "id": "UA-2025-10-12-000001",
+    "status": "declinedNoViolation",
+    "tender_id": "88888888444455556666000000000002",
+    "contract_id": "88888888444455556666000000000001",
+    "dateCreated": "2025-10-12T15:35:35+03:00",
+    "dateModified": "2025-10-16T10:15:12+03:00",
+    "datePublished": "2025-10-12T15:38:10+03:00",
+    "author": {
+      "name": "Adam Bryan",
+      "identifier": {
+        "id": "534962516",
+        "scheme": "UA-EDR"
+      },
+      "address": {
+        "streetAddress": "298 Michael Street Apt. 869",
+        "postalCode": "66552",
+        "countryName": "Chad"
+      },
+      "contactPoint": {
+        "name": "Nathan Lee",
+        "email": "marc75@example.org",
+        "telephone": "560.702.9241x61926",
+        "faxNumber": "8314738249",
+        "url": "http://www.lucero-collier.com/"
+      },
+      "kind": "general"
+    },
+    "defendants": [
+      {
+        "name": "Hannah Peterson",
+        "identifier": {
+          "id": "500071620",
+          "scheme": "UA-EDR"
+        },
+        "address": {
+          "streetAddress": "81790 Connie Islands Suite 835",
+          "postalCode": "87381",
+          "countryName": "Qatar"
+        },
+        "contactPoint": {
+          "name": "Chase Simpson",
+          "email": "jerry22@example.com",
+          "telephone": "(381)680-2072",
+          "faxNumber": "461.576.2320x55262",
+          "url": "https://wilson-schneider.com/"
+        },
+        "scale": "large"
+      }
+    ],
+    "authority": {
+      "name": "Christina Taylor",
+      "identifier": {
+        "id": "K94288046",
+        "scheme": "UA-EDR"
+      },
+      "address": {
+        "streetAddress": "8891 Eric Station",
+        "postalCode": "83706",
+        "countryName": "Argentina"
+      },
+      "contactPoint": {
+        "name": "Jeremy Wood",
+        "email": "shane44@example.net",
+        "telephone": "570.847.0352x0101",
+        "faxNumber": "824.553.4561x9450",
+        "url": "http://www.roth.com/"
+      },
+      "kind": "central"
+    },
+    "defendantPeriod": {
+      "startDate": "2025-10-12T15:38:10+03:00",
+      "endDate": "2025-10-16T00:00:00+03:00"
+    },
+    "defendantStatement": {
+      "description": "В усьому винні бобри.",
+      "documents": [
+        {
+          "id": "8888888844445555666600000000000e",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatement/documents/8888888844445555666600000000000e?download=8888888844445555666600000000000c",
+          "dateModified": "2025-10-13T01:53:25+03:00",
+          "datePublished": "2025-10-13T01:53:25+03:00",
+          "documentType": "violationReportEvidence",
+          "title": "beavers.gif",
+          "format": "image/gif",
+          "language": "uk"
+        },
+        {
+          "id": "88888888444455556666000000000011",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatement/documents/88888888444455556666000000000011?download=8888888844445555666600000000000f",
+          "dateModified": "2025-10-13T01:53:40+03:00",
+          "datePublished": "2025-10-13T01:53:40+03:00",
+          "documentType": "violationReportSignature",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk"
+        }
+      ],
+      "dateModified": "2025-10-13T01:53:40+03:00"
+    },
+    "decision": {
+      "status": "declinedNoViolation",
+      "description": "Суворо засуджуємо бобрів.",
+      "documents": [
+        {
+          "id": "88888888444455556666000000000015",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/decision/documents/88888888444455556666000000000015?download=88888888444455556666000000000013",
+          "dateModified": "2025-10-16T10:15:12+03:00",
+          "datePublished": "2025-10-16T10:15:12+03:00",
+          "documentType": "violationReportSignature",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk"
+        }
+      ],
+      "dateModified": "2025-10-16T10:15:12+03:00"
+    }
+  }
+}

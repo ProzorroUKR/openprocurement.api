@@ -5,14 +5,12 @@ from unittest.mock import MagicMock, patch
 from openprocurement.api.context import set_request_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.tests.base import (  # pylint: disable=unused-import
-    app,
-    change_auth,
-    singleton_app,
-)
+from openprocurement.api.tests.base import app, change_auth, singleton_app, unwrap_app
 from openprocurement.contracting.core.tests.utils import (
     create_minimal_tender_for_contract,
 )
+
+fixtures = (app, singleton_app)
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
@@ -35,14 +33,14 @@ def test_mask_contract_by_is_masked(app):
 
     with open("src/openprocurement/contracting/core/tests/data/contract_to_mask.json") as f:
         initial_data = json.load(f)
-    app.app.registry.mongodb.contracts.store.save_data(
-        app.app.registry.mongodb.contracts.collection,
+    unwrap_app(app).registry.mongodb.contracts.store.save_data(
+        unwrap_app(app).registry.mongodb.contracts.collection,
         initial_data,
         insert=True,
     )
-    create_minimal_tender_for_contract(app.app.registry.mongodb, initial_data)
+    create_minimal_tender_for_contract(unwrap_app(app).registry.mongodb, initial_data)
 
-    id = initial_data['_id']
+    id = initial_data["_id"]
 
     # Check contract not masked
     response = app.get(f"/contracts/{id}")
@@ -53,10 +51,10 @@ def test_mask_contract_by_is_masked(app):
     assert "is_masked" not in data
 
     # Mask contract
-    initial_data["_rev"] = app.app.registry.mongodb.contracts.get(id)["_rev"]
+    initial_data["_rev"] = unwrap_app(app).registry.mongodb.contracts.get(id)["_rev"]
     initial_data["is_masked"] = True
-    app.app.registry.mongodb.contracts.store.save_data(
-        app.app.registry.mongodb.contracts.collection,
+    unwrap_app(app).registry.mongodb.contracts.store.save_data(
+        unwrap_app(app).registry.mongodb.contracts.collection,
         initial_data,
     )
 
@@ -89,15 +87,15 @@ def test_mask_contract_by_is_masked(app):
     assert data["items"][0]["description"] == "0" * len(data["items"][0]["description"])
 
     # Unmask contract
-    initial_data["_rev"] = app.app.registry.mongodb.contracts.get(id)["_rev"]
+    initial_data["_rev"] = unwrap_app(app).registry.mongodb.contracts.get(id)["_rev"]
     initial_data["is_masked"] = False
-    app.app.registry.mongodb.contracts.store.save_data(
-        app.app.registry.mongodb.contracts.collection,
+    unwrap_app(app).registry.mongodb.contracts.store.save_data(
+        unwrap_app(app).registry.mongodb.contracts.collection,
         initial_data,
     )
 
     # Check is_masked field was removed
-    assert "is_masked" not in app.app.registry.mongodb.contracts.get(id)
+    assert "is_masked" not in unwrap_app(app).registry.mongodb.contracts.get(id)
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
@@ -105,13 +103,13 @@ def test_mask_contract_skipped(app):
     set_request_now()
     with open("src/openprocurement/contracting/core/tests/data/contract_to_mask.json") as f:
         initial_data = json.load(f)
-    app.app.registry.mongodb.contracts.store.save_data(
-        app.app.registry.mongodb.contracts.collection,
+    unwrap_app(app).registry.mongodb.contracts.store.save_data(
+        unwrap_app(app).registry.mongodb.contracts.collection,
         initial_data,
         insert=True,
     )
 
-    id = initial_data['_id']
+    id = initial_data["_id"]
 
     response = app.get(f"/contracts/{id}")
     assert response.status_code == 200
@@ -125,10 +123,10 @@ def test_mask_contract_by_config_restricted(app):
     # Load initial db data
     with open("src/openprocurement/contracting/core/tests/data/contract_to_mask.json") as f:
         initial_db_data = json.load(f)
-    id = initial_db_data['_id']
+    id = initial_db_data["_id"]
 
     # Save to db
-    app.app.registry.mongodb.contracts.save(initial_db_data, insert=True)
+    unwrap_app(app).registry.mongodb.contracts.save(initial_db_data, insert=True)
 
     # Get not masked data
     response = app.get(f"/contracts/{id}")
@@ -136,11 +134,11 @@ def test_mask_contract_by_config_restricted(app):
     actual_data = response.json["data"]
 
     # Mask data
-    db_data = app.app.registry.mongodb.contracts.get(id)
+    db_data = unwrap_app(app).registry.mongodb.contracts.get(id)
     if "config" not in db_data:
         db_data["config"] = {}
     db_data["config"]["restricted"] = True
-    app.app.registry.mongodb.contracts.save(db_data)
+    unwrap_app(app).registry.mongodb.contracts.save(db_data)
 
     # Get masked data
     response = app.get(f"/contracts/{id}")

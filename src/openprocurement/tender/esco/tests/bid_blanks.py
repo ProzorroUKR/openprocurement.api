@@ -520,7 +520,7 @@ def create_tender_bid(self):
             "items": [  # add items without quantity
                 {
                     "description": "футляри до державних нагород",
-                    "id": items[0]['id'],
+                    "id": items[0]["id"],
                 },
             ],
         }
@@ -543,10 +543,12 @@ def create_tender_bid(self):
         bid["lotValues"][0]["value"]["contractDuration"]["days"],
         self.test_bids_data[0]["lotValues"][0]["value"]["contractDuration"]["days"],
     )
-    self.assertEqual(
-        bid["lotValues"][0]["value"]["annualCostsReduction"],
-        self.test_bids_data[0]["lotValues"][0]["value"]["annualCostsReduction"],
-    ),
+    (
+        self.assertEqual(
+            bid["lotValues"][0]["value"]["annualCostsReduction"],
+            self.test_bids_data[0]["lotValues"][0]["value"]["annualCostsReduction"],
+        ),
+    )
     self.assertEqual(
         bid["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
         self.test_bids_data[0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
@@ -797,7 +799,7 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token)
     doc_id = response.json["data"]["documents"][-1]["id"]
     self.assertNotEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
@@ -815,7 +817,7 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token, doc_id)
     self.assertEqual(response.json["data"]["lotValues"][0]["value"], bid["lotValues"][0]["value"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
     self.assertNotEqual(response.json["data"]["lotValues"][0]["value"]["amountPerformance"], 500)
@@ -832,7 +834,7 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token, doc_id)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["value"], bid["lotValues"][0]["value"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
     # checking that annualCostsReduction change affected npv and escp
@@ -848,7 +850,7 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token, doc_id)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["value"], bid["lotValues"][0]["value"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["yearlyPaymentsPercentage"], 0.91111)
@@ -884,7 +886,7 @@ def patch_tender_bid(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.json["errors"][0]["description"], "Can't update bid to ({}) status".format(status))
 
-    d1 = self.app.app.registry.mongodb.tenders.get(self.tender_id)
+    d1 = self.registry.mongodb.tenders.get(self.tender_id)
 
     lot_values[0]["value"]["amount"] = 400
     response = self.app.patch_json(
@@ -893,9 +895,9 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token, doc_id)
 
-    d2 = self.app.app.registry.mongodb.tenders.get(self.tender_id)
+    d2 = self.registry.mongodb.tenders.get(self.tender_id)
     self.assertEqual(d1["bids"][0]["lotValues"][0]["value"], d2["bids"][0]["lotValues"][0]["value"])
 
     self.set_status("complete")

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff?acc_token=f1e5b2d67aa74652b72646f1fa9f07cd HTTP/1.0
+PATCH /api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff?acc_token=72c23cdbf37d48cc86e38cc626e42d6b HTTP/1.0
 Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -31,7 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -59,7 +59,7 @@ Content-Type: application/json
     "title": "футляри до державних нагород",
     "agreements": [
       {
-        "id": "514d764704784304906b25138785146c"
+        "id": "120e2d279ef84f8db8c5a993a4e58137"
       }
     ],
     "awardCriteria": "lowestCost",
@@ -72,7 +72,7 @@ Content-Type: application/json
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "id": "2b1b594948f547af9eff49515789e928",
         "status": "active",
         "value": {
           "currency": "UAH",
@@ -99,7 +99,7 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       },
       {
         "id": "4f9fb352f8474e8cab00b4f6fae6ee06",
@@ -112,7 +112,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
     "procuringEntity": {
@@ -176,7 +176,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"

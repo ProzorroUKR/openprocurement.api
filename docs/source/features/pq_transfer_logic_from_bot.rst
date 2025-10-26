@@ -14,6 +14,7 @@ Tender creation remains unchanged for PQ. A tender is created in the same way as
 .. sourcecode:: http
 
     POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+
     Authorization: Bearer broker
     Content-Length: 4542
     Content-Type: application/json
@@ -251,6 +252,7 @@ If Procuring Entity will try to activate PQ procedure with non-existed profile i
 .. sourcecode:: http
 
     PATCH /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f?acc_token=d3c6750ff65148df856b59e65feba396 HTTP/1.0
+
     Authorization: Bearer broker
     Content-Length: 40
     Content-Type: application/json
@@ -282,6 +284,7 @@ If Procuring Entity will try to activate PQ procedure with non-existed agreement
 .. sourcecode:: http
 
     PATCH /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f?acc_token=d3c6750ff65148df856b59e65feba396 HTTP/1.0
+
     Authorization: Bearer broker
     Content-Length: 40
     Content-Type: application/json
@@ -313,6 +316,7 @@ In case profile agreement and related agreement in tender aren't equal, the next
 .. sourcecode:: http
 
     PATCH /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f?acc_token=d3c6750ff65148df856b59e65feba396 HTTP/1.0
+
     Authorization: Bearer broker
     Content-Length: 40
     Content-Type: application/json
@@ -344,6 +348,7 @@ If agreement is in terminated status:
 .. sourcecode:: http
 
     PATCH /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f?acc_token=d3c6750ff65148df856b59e65feba396 HTTP/1.0
+
     Authorization: Bearer broker
     Content-Length: 40
     Content-Type: application/json
@@ -375,6 +380,7 @@ If there is problem with connection to ProZorro e-Catalogues, we will see error:
 .. sourcecode:: http
 
     PATCH /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f?acc_token=d3c6750ff65148df856b59e65feba396 HTTP/1.0
+
     Authorization: Bearer broker
     Content-Length: 40
     Content-Type: application/json
@@ -410,6 +416,7 @@ If PQ procedure matches all requirements, it will be switched to `active.tenderi
 .. sourcecode:: http
 
     GET /api/2.5/tenders/511ad32c232540d693bcdda2dd603406 HTTP/1.0
+
     Authorization: Bearer broker
     Host: public-api-sandbox.prozorro.gov.ua
 

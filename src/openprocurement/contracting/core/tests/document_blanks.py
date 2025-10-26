@@ -562,7 +562,7 @@ def create_contract_document_json_invalid(self):
         {
             "data": {
                 "title": "укр.doc",
-                "url": self.generate_docservice_url().replace(list(self.app.app.registry.keyring.keys())[-1], "0" * 8),
+                "url": self.generate_docservice_url().replace(list(self.registry.keyring.keys())[-1], "0" * 8),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
             }
@@ -831,9 +831,9 @@ def create_contract_transaction_document_json(self):
     doc_id = response.json["data"]["id"]
 
     response = self.app.get(f"/contracts/{self.contract['id']}/transactions/{transaction_id}")
-    documents = response.json['data']['documents']
+    documents = response.json["data"]["documents"]
 
-    self.assertEqual(doc_id, documents[0]['id'])
+    self.assertEqual(doc_id, documents[0]["id"])
 
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/transactions/{transaction_id}/documents?acc_token={self.contract_token}",
@@ -864,9 +864,9 @@ def create_contract_transaction_document_json(self):
     doc_id2 = response.json["data"]["id"]
 
     response = self.app.get(f"/contracts/{self.contract['id']}/transactions/{transaction_id}")
-    documents = response.json['data']['documents']
+    documents = response.json["data"]["documents"]
     self.assertEqual(len(documents), 2)
-    self.assertEqual(doc_id2, documents[1]['id'])
+    self.assertEqual(doc_id2, documents[1]["id"])
 
     invalid_transaction_id = 678123
     response = self.app.post_json(
@@ -886,9 +886,9 @@ def create_contract_transaction_document_json(self):
         response.json["errors"],
         [
             {
-                'description': "Not Found",
-                'location': 'url',
-                'name': 'transaction_id',
+                "description": "Not Found",
+                "location": "url",
+                "name": "transaction_id",
             }
         ],
     )

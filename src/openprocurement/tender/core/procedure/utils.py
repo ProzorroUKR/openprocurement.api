@@ -443,17 +443,18 @@ def extract_path(request):
     return path
 
 
-def extract_tender_id(request):
+def extract_tender_id(request) -> Optional[str]:
     if request.matchdict and "tender_id" in request.matchdict:
         return request.matchdict.get("tender_id")
 
     path = extract_path(request)
     # extract tender id
     parts = path.split("/")
-    if len(parts) < 5 or parts[3] != "tenders":
-        return
-    tender_id = parts[4]
-    return tender_id
+    if len(parts) > 2 and parts[1] == "tenders":
+        return parts[2]  # without ROUTE_PREFIX
+    if len(parts) > 4 and parts[3] == "tenders":
+        return parts[4]  # with ROUTE_PREFIX
+    return None
 
 
 def extract_tender_doc(request):
