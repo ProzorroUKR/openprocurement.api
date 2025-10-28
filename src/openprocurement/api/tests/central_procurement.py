@@ -14,12 +14,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
     test_tender_below_data,
 )
-from openprocurement.tender.cfaselectionua.tests.base import (
-    test_tender_cfaselectionua_config,
-)
-from openprocurement.tender.cfaselectionua.tests.tender import (
-    test_tender_cfaselectionua_data,
-)
 from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_config,
     test_tender_cfaua_with_lots_data,
@@ -62,7 +56,6 @@ from openprocurement.tender.simpledefense.tests.base import (
 test_tenders = [
     (test_tender_below_data, test_tender_below_config),
     (test_tender_cfaua_with_lots_data, test_tender_cfaua_config),
-    (test_tender_cfaselectionua_data, test_tender_cfaselectionua_config),
     (test_tender_cdeu_data, test_tender_cdeu_config),
     (test_tender_cdua_data, test_tender_cdua_config),
     (test_tender_esco_data, test_tender_esco_config),

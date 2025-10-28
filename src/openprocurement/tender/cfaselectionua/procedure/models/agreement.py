@@ -31,6 +31,7 @@ class PatchAgreement(Model):
     id = MD5Type()
     agreementID = StringType()
     agreementNumber = StringType()
+    agreementType = StringType()
     date = IsoDateTimeType()
     dateSigned = IsoDateTimeType()
     description = StringType()
@@ -74,4 +75,5 @@ class PatchAgreement(Model):
 
 class Agreement(PatchAgreement):
     id = MD5Type(required=True)
+    agreementType = StringType()
     documents = BaseType()

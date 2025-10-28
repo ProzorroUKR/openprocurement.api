@@ -76,6 +76,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         for contract in test_agreement['contracts']:
             contract['parameters'] = test_docs_parameters
 
+        agreement = deepcopy(test_agreement)
+        agreement["_id"] = agreement_id
+        self.create_agreement(agreement)
+
         lot = deepcopy(test_lots[0])
         lot['id'] = uuid4().hex
 
@@ -116,12 +120,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             '/tenders?opt_pretty=1', {'data': test_tender_cfaselectionua_data, 'config': self.initial_config}
         )
         self.assertEqual(response.status, '201 Created')
-
-        agreement = deepcopy(test_agreement)
-        agreement["_id"] = agreement_id
-        agreement['features'] = test_features
-
-        self.create_agreement(agreement)
 
         with open(TARGET_DIR + 'tender-switch-draft-pending.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
