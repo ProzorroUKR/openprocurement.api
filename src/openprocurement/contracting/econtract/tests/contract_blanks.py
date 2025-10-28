@@ -164,10 +164,16 @@ def update_pending_contract_forbidden(self):
 
 
 def post_new_version_of_contract(self):
+    response = self.app.get(f"/contracts/{self.contract_id}")
+    initial_contract_data = response.json["data"]
+    contract_data = deepcopy(initial_contract_data)
+    del contract_data["dateCreated"]
+    del contract_data["dateModified"]
+
     with change_auth(self.app, ("Basic", ("brokerx", ""))):
         response = self.app.post_json(
             "/contracts",
-            {"data": self.initial_data},
+            {"data": contract_data},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -181,8 +187,6 @@ def post_new_version_of_contract(self):
                 }
             ],
         )
-
-    contract_data = deepcopy(self.initial_data)
     # invalid tender id
     contract_data["tender_id"] = uuid4().hex
     response = self.app.post_json(
@@ -279,7 +283,7 @@ def post_new_version_of_contract(self):
         ],
     )
 
-    contract_data["items"][0]["deliveryDate"] = self.initial_data["items"][0]["deliveryDate"]
+    contract_data["items"][0]["deliveryDate"] = initial_contract_data["items"][0]["deliveryDate"]
     contract_data["value"]["currency"] = "USD"
     response = self.app.post_json(
         f"/contracts?acc_token={self.supplier_token}",
@@ -309,7 +313,7 @@ def post_new_version_of_contract(self):
         ],
     )
 
-    contract_data["value"] = deepcopy(self.initial_data["value"])
+    contract_data["value"] = deepcopy(initial_contract_data["value"])
     del contract_data["value"]["amountNet"]
     response = self.app.post_json(
         f"/contracts?acc_token={self.supplier_token}",
@@ -339,7 +343,7 @@ def post_new_version_of_contract(self):
         ],
     )
 
-    contract_data["suppliers"] = deepcopy(self.initial_data["suppliers"])
+    contract_data["suppliers"] = deepcopy(initial_contract_data["suppliers"])
     contract_data["suppliers"][0]["signerInfo"].update(
         {
             "email": "new@gmail.com",
@@ -407,6 +411,12 @@ def post_new_version_of_contract(self):
 
 
 def contract_cancellation_via_award(self):
+    response = self.app.get(f"/contracts/{self.contract_id}")
+    initial_contract_data = response.json["data"]
+    contract_data = deepcopy(initial_contract_data)
+    del contract_data["dateCreated"]
+    del contract_data["dateModified"]
+
     # add cancellation by supplier
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/cancellations?acc_token={self.supplier_token}",
@@ -415,7 +425,6 @@ def contract_cancellation_via_award(self):
     self.assertEqual(response.status, "201 Created")
 
     # try to create new version of contract
-    contract_data = deepcopy(self.initial_data)
     contract_data["tender_id"] = self.tender_id
     response = self.app.post_json(
         f"/contracts?acc_token={self.contract_token}",

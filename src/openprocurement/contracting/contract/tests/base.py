@@ -25,9 +25,8 @@ class BaseContractContentWebTest(BaseContractWebTest):
     def setUp(self):
         super().setUp()
         response = self.app.patch_json(
-            "/contracts/{}/credentials?acc_token={}".format(self.contract_id, self.initial_data["access"][-1]["token"]),
+            "/contracts/{}/credentials?acc_token={}".format(self.contract_id, self.tender_token),
             {"data": {}},
         )
         self.contract_token = response.json["access"]["token"]
-        self.bid_token = self.initial_bids_tokens[0]
-        self.set_status(self.initial_status)
+        self.set_contract_status(self.initial_contract_status)

@@ -1,6 +1,5 @@
 from copy import deepcopy
 from datetime import timedelta
-from uuid import uuid4
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import (
@@ -8,8 +7,11 @@ from openprocurement.contracting.core.tests.data import (
 )
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.tender.core.constants import CONTRACT_PERIOD_START_DAYS
+from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_data,
+    test_tender_pq_supplier,
+)
 
-test_tender_token = uuid4().hex
 test_econtract_data = deepcopy(base_test_contract_data)
 test_econtract_data.update(
     {
@@ -45,3 +47,20 @@ test_buyer = test_econtract_data.pop("buyer")
 test_buyer["signerInfo"] = test_signer_info
 
 test_econtract_data.update({"buyer": test_buyer})
+
+test_tender_pq_e_supplier = deepcopy(test_tender_pq_supplier)
+test_tender_pq_e_supplier["contract_owner"] = "broker"
+
+test_tender_pq_e_bids = [
+    {
+        "tenderers": [test_tender_pq_e_supplier],
+        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+    },
+    {
+        "tenderers": [test_tender_pq_e_supplier],
+        "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+    },
+]
+
+test_tender_pq_e_data = deepcopy(test_tender_pq_data)
+test_tender_pq_e_data["procuringEntity"]["contract_owner"] = "broker"
