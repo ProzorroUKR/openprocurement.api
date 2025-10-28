@@ -39,7 +39,6 @@ def listing(self):
     tenders = []
 
     data = deepcopy(self.initial_data)
-    data["agreements"] = [{"id": uuid4().hex}]
     for i in range(3):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
@@ -156,7 +155,6 @@ def listing_changes(self):
     tenders = []
 
     data = deepcopy(self.initial_data)
-    data["agreements"] = [{"id": uuid4().hex}]
     for i in range(3):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
@@ -268,7 +266,7 @@ def listing_draft(self):
 
     tenders = []
     data = deepcopy(self.initial_data)
-    data.update({"status": "draft", "agreements": [{"id": uuid4().hex}]})
+    data.update({"status": "draft"})
 
     for i in range(3):
         response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
@@ -349,6 +347,10 @@ def create_tender_invalid(self):
     data = deepcopy(self.initial_data)
     data["items"][0].pop("additionalClassifications")
     data["items"][0]["classification"]["id"] = "99999999-9"
+
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["items"][0]["classification"]["id"] = "99999999-9"
+    self.mongodb.agreements.save(agreement)
 
     response = self.app.post_json(
         request_path,
@@ -1334,6 +1336,9 @@ def patch_tender(self):
     data["items"][-1]["id"] = uuid4().hex
     data["items"][-1]["description"] = "test_description"
     data["procuringEntity"]["contactPoint"]["faxNumber"] = "+0440000000"
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["items"] = data["items"]
+    self.mongodb.agreements.save(agreement)
     response = self.app.get("/tenders")
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(len(response.json["data"]), 0)
@@ -1569,11 +1574,19 @@ def patch_tender_bot(self):
     self.delete_agreement()
 
     # agreement is not found
-    create_tender_draft_pending(self)
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
-    reasons = set(response.json["data"]["unsuccessfulReason"])
-    self.assertFalse(reasons.difference({"Agreement not found"}))
+    data = deepcopy(self.initial_data)
+    data["agreements"] = [{"id": self.agreement_id}]
+    data.update({"status": "draft"})
+    data["documents"] = [
+        {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }
+    ]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["errors"][0]["description"], "Agreement not found")
 
     # patch tender with different changes by bot
     agreement = deepcopy(self.initial_agreement)
@@ -1726,16 +1739,10 @@ def patch_tender_bot(self):
     )
 
     # patch tender with wrong identifier
-    agreement = deepcopy(self.initial_agreement)
-    agreement["procuringEntity"]["identifier"]["id"] = "21725150"  # tender procuringEntity identifier is 00037256
+    data["procuringEntity"]["identifier"]["id"] = "21725150"  # agreement procuringEntity identifier is 00037256
 
-    self.create_agreement(agreement)
-    create_tender_draft_pending(self)
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
-    self.assertEqual(response.json["data"]["unsuccessfulReason"], [AGREEMENT_IDENTIFIER_MESSAGE])
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["errors"][0]["description"], AGREEMENT_IDENTIFIER_MESSAGE)
 
     # patch tender with agreement -> with documents
     agreement = deepcopy(self.initial_agreement)

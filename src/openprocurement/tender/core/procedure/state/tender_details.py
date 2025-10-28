@@ -416,9 +416,6 @@ class BaseTenderDetailsMixing:
         return tender_agreements
 
     def validate_pre_selection_agreement(self, tender):
-        if self.should_validate_pre_selection_agreement is False:
-            return
-
         tender_agreements = self.get_tender_agreements(tender)
 
         if tender["config"]["hasPreSelectionAgreement"] is False:
@@ -463,9 +460,6 @@ class BaseTenderDetailsMixing:
         We dont care if agreement was changed after tender was activated
         and those valdations no longer pass
         """
-        if self.should_validate_pre_selection_agreement is False:
-            return
-
         if tender["config"]["hasPreSelectionAgreement"] is False:
             return
 

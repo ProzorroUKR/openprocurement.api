@@ -3,6 +3,7 @@
     "status": "active",
     "title": "[ТЕСТУВАННЯ] ",
     "numberOfContracts": 3,
+    "agreementType": "closeFrameworkAgreementUA",
     "contracts": [
         {
             "status": "active",

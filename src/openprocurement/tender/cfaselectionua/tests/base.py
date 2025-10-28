@@ -184,6 +184,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.agreement_id = uuid4().hex
         agreement = deepcopy(self.initial_agreement)
         self.create_agreement(agreement)
+        self.initial_data["agreements"] = [{"id": self.agreement_id}]
 
     def get_timedelta(self, **kw):
         delta = timedelta(**kw)
@@ -411,4 +412,7 @@ class TenderContentWebTest(BaseTenderWebTest):
 
     def setUp(self):
         super().setUp()
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        agreement["items"] = self.initial_data["items"]
+        self.mongodb.agreements.save(agreement)
         self.create_tender()

@@ -81,6 +81,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         for contract in test_agreement["contracts"]:
             contract["parameters"] = test_docs_parameters
 
+        agreement = deepcopy(test_agreement)
+        agreement["_id"] = agreement_id
+        self.create_agreement(agreement)
+
         lot = deepcopy(test_lots[0])
         lot["id"] = uuid4().hex
 

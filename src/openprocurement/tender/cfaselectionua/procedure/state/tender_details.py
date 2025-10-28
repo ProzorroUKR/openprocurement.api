@@ -15,6 +15,7 @@ from openprocurement.api.utils import (
     handle_data_exceptions,
     raise_operation_error,
 )
+from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
@@ -67,6 +68,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
     agreement_min_active_contracts = MIN_ACTIVE_CONTRACTS
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
+    agreement_allowed_types = [CFA_UA]
 
     should_validate_pre_selection_agreement = False
 
