@@ -33,25 +33,3 @@ class CauseDetails(Model):
     def validate_title(self, data, value):
         if value is not None and value not in CAUSE_SCHEME_MAPPING[data["scheme"]]:
             raise ValidationError(f"Value must be one of {CAUSE_SCHEME_MAPPING[data['scheme']]}.")
-
-
-class NegotiationCauseDetails(CauseDetails):
-    def validate_title(self, data, value):
-        # pylint: disable-next=import-outside-toplevel, cyclic-import
-        from openprocurement.tender.limited.procedure.models.tender import (
-            validate_cause,
-        )
-
-        validate_cause(value)
-        super().validate_title(self, data, value)
-
-
-class NegotiationQuickCauseDetails(CauseDetails):
-    def validate_title(self, data, value):
-        # pylint: disable-next=import-outside-toplevel, cyclic-import
-        from openprocurement.tender.limited.procedure.models.tender import (
-            validate_cause_quick,
-        )
-
-        validate_cause_quick(value)
-        super().validate_title(self, data, value)

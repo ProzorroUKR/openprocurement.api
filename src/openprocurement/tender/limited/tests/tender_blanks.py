@@ -1497,7 +1497,20 @@ def tender_cause_choices(self):
     )
 
     del data["cause"]
-    data["causeDetails"] = {"title": "unexisting value", "scheme": "LAW922"}
+    data["causeDetails"] = {
+        "title": "hematopoieticStemCells",
+        "scheme": "LAW922",
+    }  # value from dictionary, but not from the state choices
+    choices = (
+        "additionalPurchase",
+        "additionalConstruction",
+        "stateLegalServices",
+        "artPurchase",
+        "contestWinner",
+        "technicalReasons",
+        "intProperty",
+        "lastHope",
+    )
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1506,11 +1519,9 @@ def tender_cause_choices(self):
         response.json["errors"],
         [
             {
-                "description": {
-                    "title": ["Value must be one of ['{}'].".format("', '".join(choices))],
-                },
+                "description": f"Value for negotiation must be one of {choices}.",
                 "location": "body",
-                "name": "causeDetails",
+                "name": "causeDetails.title",
             }
         ],
     )

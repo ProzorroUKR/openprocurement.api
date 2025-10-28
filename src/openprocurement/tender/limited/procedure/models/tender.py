@@ -37,11 +37,7 @@ from openprocurement.tender.limited.constants import (
     NEGOTIATION_QUICK,
     REPORTING,
 )
-from openprocurement.tender.limited.procedure.models.cause import (
-    CauseDetails,
-    NegotiationCauseDetails,
-    NegotiationQuickCauseDetails,
-)
+from openprocurement.tender.limited.procedure.models.cause import CauseDetails
 from openprocurement.tender.limited.procedure.models.item import ReportingItem
 from openprocurement.tender.limited.procedure.models.lot import (
     Lot,
@@ -221,7 +217,7 @@ class PostNegotiationTender(PostBaseTender):
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
-    causeDetails = ModelType(NegotiationCauseDetails, required=True)
+    causeDetails = ModelType(CauseDetails, required=True)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
@@ -255,7 +251,7 @@ class PatchNegotiationTender(CommonBaseTender):
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
-    causeDetails = ModelType(NegotiationCauseDetails)
+    causeDetails = ModelType(CauseDetails)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
@@ -276,7 +272,7 @@ class NegotiationTender(BaseTender):
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
-    causeDetails = ModelType(NegotiationCauseDetails)
+    causeDetails = ModelType(CauseDetails)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
@@ -317,7 +313,7 @@ def validate_cause_quick(value):
 class PostNegotiationQuickTender(PostNegotiationTender):
     procurementMethodType = StringType(choices=[NEGOTIATION_QUICK], default=NEGOTIATION_QUICK)
     cause = StringType()
-    causeDetails = ModelType(NegotiationQuickCauseDetails)
+    causeDetails = ModelType(CauseDetails)
 
     def validate_cause(self, data, value):
         validate_cause_quick(value)
@@ -325,13 +321,13 @@ class PostNegotiationQuickTender(PostNegotiationTender):
 
 class PatchNegotiationQuickTender(PatchNegotiationTender):
     procurementMethodType = StringType(choices=[NEGOTIATION_QUICK])
-    causeDetails = ModelType(NegotiationQuickCauseDetails)
+    causeDetails = ModelType(CauseDetails)
 
 
 class NegotiationQuickTender(NegotiationTender):
     procurementMethodType = StringType(choices=[NEGOTIATION_QUICK], required=True)
     cause = StringType()
-    causeDetails = ModelType(NegotiationQuickCauseDetails)
+    causeDetails = ModelType(CauseDetails)
 
     def validate_cause(self, data, value):
         validate_cause_quick(value)

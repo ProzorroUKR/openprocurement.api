@@ -108,6 +108,17 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
 
     working_days_config = WORKING_DAYS_CONFIG
 
+    cause_choices = (
+        "additionalPurchase",
+        "additionalConstruction",
+        "stateLegalServices",
+        "artPurchase",
+        "contestWinner",
+        "technicalReasons",
+        "intProperty",
+        "lastHope",
+    )
+
     def on_post(self, tender):
         self.validate_cause_required(tender)
         super().on_post(tender)
@@ -128,6 +139,19 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     @staticmethod
     def set_lot_minimal_step(tender: dict, data: dict) -> None:
         pass
+
+    def validate_cause_required(self, data):
+        super().validate_cause_required(data)
+        if tender_created_after(CAUSE_DETAILS_REQUIRED_FROM):
+            if value := data.get("causeDetails", {}).get("title"):
+                if value not in self.cause_choices:
+                    raise_operation_error(
+                        self.request,
+                        f"Value for negotiation must be one of {self.cause_choices}.",
+                        status=422,
+                        location="body",
+                        name="causeDetails.title",
+                    )
 
 
 class NegotiationQuickTenderDetailsState(NegotiationTenderDetailsState):
