@@ -18,7 +18,9 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     not_found,
     patch_pending_bid,
     patch_tender_bid_with_disabled_lot_values_restriction,
+    patch_tender_bid_with_exceeded_lot_values,
     post_tender_bid_with_disabled_lot_values_restriction,
+    post_tender_bid_with_exceeded_lot_values,
 )
 from openprocurement.tender.core.tests.utils import (
     set_bid_items,
@@ -326,6 +328,21 @@ class TenderWithDisabledValueRestriction(BaseTenderUAContentWebTest):
     test_patch_tender_bid_with_disabled_value_restriction = snitch(patch_tender_bid_with_disabled_value_restriction)
 
 
+class TenderWithEnabledValueRestriction(BaseTenderUAContentWebTest):
+    test_bids_data = test_tender_open_bids
+    initial_lots = 2 * test_tender_below_lots
+    initial_status = "active.tendering"
+
+    test_post_tender_bid_with_exceeded_lot_values = snitch(post_tender_bid_with_exceeded_lot_values)
+    test_patch_tender_bid_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
+
+    def setUp(self):
+        super(BaseTenderUAContentWebTest, self).setUp()
+        config = deepcopy(self.initial_config)
+        config.update({"hasValueRestriction": True})
+        self.create_tender(config=config)
+
+
 @patch(
     "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
 )
@@ -343,6 +360,7 @@ def suite():
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderWithDisabledValueRestriction))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderWithEnabledValueRestriction))
     return suite
 
 

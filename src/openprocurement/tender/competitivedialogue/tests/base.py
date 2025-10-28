@@ -1,6 +1,6 @@
 import os
 from copy import deepcopy
-from datetime import datetime, timedelta
+from datetime import timedelta
 from hashlib import sha512
 from unittest import mock
 from uuid import uuid4
@@ -51,7 +51,7 @@ for b in test_tender_cd_stage1_bids:
         if f not in ("tenderers", "selfQualified", "selfEligible", "lotValues"):
             del b[f]
 
-now = datetime.now()
+now = get_now()
 
 test_tender_cdeu_data = deepcopy(test_tender_openeu_data)
 del test_tender_cdeu_data["contractTemplateName"]
@@ -303,13 +303,13 @@ test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
 )
 
 test_tender_cdeu_stage2_data["tenderPeriod"]["endDate"] = calculate_tender_full_date(
-    get_now(),
+    now,
     timedelta(days=test_tender_cdeu_stage2_config["minTenderingDuration"] + 1),
     tender=test_tender_cdeu_stage2_data,
 ).isoformat()
 
 test_tender_cdua_stage2_data["tenderPeriod"]["endDate"] = calculate_tender_full_date(
-    get_now(),
+    now,
     timedelta(days=test_tender_cdua_stage2_config["minTenderingDuration"] + 1),
     tender=test_tender_cdeu_stage2_data,
 ).isoformat()
