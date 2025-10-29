@@ -369,6 +369,7 @@ def upload_contract_change_pdf_document(change: dict, contract: dict, tender: di
     }
     document = upload_contract_change_pdf(request, data)["data"]
     document = PostDocument(document).serialize()
+    document["documentOf"] = "change"
     document["documentType"] = "contractNotice"
     check_document(request, document)
     document_route = "EContract change documents"
