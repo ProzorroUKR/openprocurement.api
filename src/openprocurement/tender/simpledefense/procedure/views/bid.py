@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_accreditation_level,
     validate_data_documents,
     validate_input_data,
+    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
 )
@@ -22,10 +23,9 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.openuadefense.procedure.views.bid import (
     OpenUADefenseTenderBidResource,
 )
-from openprocurement.tender.simpledefense.procedure.models.bid import (
-    Bid,
-    PatchBid,
-    PostBid,
+from openprocurement.tender.simpledefense.procedure.models.bid import Bid, PostBid
+from openprocurement.tender.simpledefense.procedure.state.bid import (
+    SimpleDefenseBidState,
 )
 
 
@@ -37,6 +37,8 @@ from openprocurement.tender.simpledefense.procedure.models.bid import (
     description="Tender simple.defense bids",
 )
 class SimpleDefenseTenderBidResource(OpenUADefenseTenderBidResource):
+    state_class = SimpleDefenseBidState
+
     @json_view(
         content_type="application/json",
         permission="create_bid",
@@ -65,8 +67,7 @@ class SimpleDefenseTenderBidResource(OpenUADefenseTenderBidResource):
                 validate_bid_operation_not_in_tendering,
                 validate_bid_operation_period,
             ),
-            validate_input_data(
-                PatchBid,
+            validate_input_data_from_resolved_model(
                 filters=(filter_administrator_bid_update,),
                 none_means_remove=True,
             ),
