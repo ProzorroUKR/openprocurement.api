@@ -119,9 +119,18 @@ class ConfidentialDocumentMixin(Model):
             ConfidentialityType.PUBLIC.value,
             ConfidentialityType.BUYER_ONLY.value,
         ],
-        default=ConfidentialityType.PUBLIC.value,
     )
     confidentialityRationale = StringType()
 
     def validate_confidentialityRationale(self, data, val):
         validate_confidentiality_rationale(data, val)
+
+
+class PostConfidentialDocumentMixin(ConfidentialDocumentMixin):
+    confidentiality = StringType(
+        choices=[
+            ConfidentialityType.PUBLIC.value,
+            ConfidentialityType.BUYER_ONLY.value,
+        ],
+        default=ConfidentialityType.PUBLIC.value,
+    )

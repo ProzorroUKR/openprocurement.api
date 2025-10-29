@@ -5,10 +5,14 @@ from openprocurement.api.procedure.models.document import (
     ConfidentialityType,
 )
 from openprocurement.api.procedure.models.document import Document as BaseDocument
-from openprocurement.api.procedure.models.document import PatchDocument, PostDocument
+from openprocurement.api.procedure.models.document import (
+    PatchDocument,
+    PostConfidentialDocumentMixin,
+    PostDocument,
+)
 
 
-class PostSubmissionDocument(PostDocument, ConfidentialDocumentMixin):
+class PostSubmissionDocument(PostDocument, PostConfidentialDocumentMixin):
     pass
 
 
