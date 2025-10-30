@@ -51,6 +51,8 @@ class BaseComplaintResource(TenderBaseResource):
             (Allow, "g:bots", "edit_complaint"),
             (Allow, "g:Administrator", "edit_complaint"),
             (Allow, "g:aboveThresholdReviewers", "edit_complaint"),
+            # reviewers once where used in belowThreshold, when complaints were allowed
+            # (Allow, "g:reviewers", "edit_complaint"),
             (Allow, "g:admins", ALL_PERMISSIONS),
         ]
         return acl

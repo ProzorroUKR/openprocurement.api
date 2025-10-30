@@ -39,6 +39,8 @@ class BaseComplaintDocumentResource(BaseDocumentResource):
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "upload_complaint_documents"),
             (Allow, "g:aboveThresholdReviewers", "upload_complaint_documents"),
+            # reviewers once where used in belowThreshold, when complaints were allowed
+            # (Allow, "g:reviewers", "upload_complaint_documents"),
             (Allow, "g:admins", "upload_complaint_documents"),
         ]
         return acl
