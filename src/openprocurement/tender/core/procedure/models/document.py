@@ -10,6 +10,7 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.document import (
     ConfidentialDocumentMixin,
     ConfidentialityType,
+    PostConfidentialDocumentMixin,
 )
 from openprocurement.api.procedure.types import HashType
 
@@ -104,7 +105,7 @@ class BasePostDocument(BaseDocument):
         validate_relatedItem(related_item, data.get("documentOf"))
 
 
-class PostDocument(BasePostDocument, ConfidentialDocumentMixin):
+class PostDocument(BasePostDocument, PostConfidentialDocumentMixin):
     # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
 
     @serializable

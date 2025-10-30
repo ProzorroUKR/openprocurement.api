@@ -28,8 +28,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/995d8a97b6c2
     "format": "application/msword",
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/995d8a97b6c24a0cbe9ed82fe2cd8e8b/documents/0892dd79961a4b7e876f5542ed89ad17?download=7f19dbc3120f4fb7b70d566828100d5c",
     "language": "uk",
-    "confidentiality": "buyerOnly",
     "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
+    "confidentiality": "buyerOnly",
     "id": "0892dd79961a4b7e876f5542ed89ad17",
     "datePublished": "2023-10-26T01:00:00+03:00",
     "dateModified": "2023-10-26T01:00:00+03:00"

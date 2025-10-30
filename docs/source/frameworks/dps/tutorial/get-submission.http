@@ -56,8 +56,8 @@ Content-Type: application/json
         "title": "specs.doc",
         "format": "application/msword",
         "language": "uk",
-        "confidentiality": "buyerOnly",
         "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
+        "confidentiality": "buyerOnly",
         "id": "13fa49055fe748d0894f252eaa5dd280",
         "datePublished": "2023-10-26T01:00:00+03:00",
         "dateModified": "2023-10-26T01:00:00+03:00"

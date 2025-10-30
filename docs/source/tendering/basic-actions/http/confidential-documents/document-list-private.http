@@ -9,8 +9,8 @@ Content-Type: application/json
 {
   "data": [
     {
-      "confidentiality": "buyerOnly",
       "confidentialityRationale": "This document contains some secret data that shouldn't be public",
+      "confidentiality": "buyerOnly",
       "hash": "md5:00000000000000000000000000000000",
       "title": "private.doc",
       "format": "application/msword",

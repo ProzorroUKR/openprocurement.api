@@ -8,8 +8,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "confidentiality": "buyerOnly",
     "confidentialityRationale": "Файл буде оприлюднено в електронній системі закупівель через 90 днів з дня припинення або скасування правового режиму воєнного стану в Україні відповідно до п 13, пп 21 Постанови 1178",
+    "confidentiality": "buyerOnly",
     "documentType": "contractAnnexe",
     "hash": "md5:00000000000000000000000000000000",
     "title": "annexe.doc",
