@@ -2,7 +2,6 @@ from datetime import timedelta
 
 STATUS4ROLE = {
     "complaint_owner": ["draft", "answered"],
-    "reviewers": ["pending"],
     "tender_owner": ["claim"],
 }
 BOT_NAME = "fa_bot"
