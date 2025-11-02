@@ -2,18 +2,17 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from tests.base.constants import DOCS_URL
-from tests.base.data import test_docs_organization
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
-
 from openprocurement.api.utils import get_now
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseFrameworkWebTest,
     test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
 )
+from tests.base.constants import DOCS_URL
+from tests.base.data import test_docs_organization
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-TARGET_DIR = 'docs/source/frameworks/electroniccatalogue/tutorial/'
+TARGET_DIR = "docs/source/frameworks/electroniccatalogue/tutorial/"
 
 test_framework_electronic_catalogue_data = deepcopy(test_framework_electronic_catalogue_data)
 
@@ -34,36 +33,36 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
         super().tearDown()
 
     def test_docs(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         # empty frameworks listing
         self.initial_data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=400)).isoformat()
-        response = self.app.get('/frameworks')
-        self.assertEqual(response.json['data'], [])
+        response = self.app.get("/frameworks")
+        self.assertEqual(response.json["data"], [])
 
         # create frameworks
-        with open(TARGET_DIR + 'create-framework.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/frameworks', {'data': self.initial_data, 'config': self.initial_config})
-            self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + "create-framework.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/frameworks", {"data": self.initial_data, "config": self.initial_config})
+            self.assertEqual(response.status, "201 Created")
 
-        framework = response.json['data']
+        framework = response.json["data"]
         self.framework_id = framework["id"]
-        owner_token = response.json['access']['token']
+        owner_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'patch-framework-draft.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-framework-draft.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
+                "/frameworks/{}?acc_token={}".format(framework["id"], owner_token),
                 {
-                    'data': {
+                    "data": {
                         "procuringEntity": {"contactPoint": {"telephone": "+0440000001"}},
                         "title": "updated in draft status",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'upload-framework-document.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "upload-framework-document.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/frameworks/{}/documents?acc_token={}'.format(framework['id'], owner_token),
+                "/frameworks/{}/documents?acc_token={}".format(framework["id"], owner_token),
                 {
                     "data": {
                         "title": "framework.doc",
@@ -74,12 +73,12 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 },
             )
 
-        with open(TARGET_DIR + 'framework-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/frameworks/{}/documents?acc_token={}'.format(framework['id'], owner_token))
+        with open(TARGET_DIR + "framework-documents.http", "w") as self.app.file_obj:
+            response = self.app.get("/frameworks/{}/documents?acc_token={}".format(framework["id"], owner_token))
 
-        with open(TARGET_DIR + 'upload-framework-document-2.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "upload-framework-document-2.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/frameworks/{}/documents?acc_token={}'.format(framework['id'], owner_token),
+                "/frameworks/{}/documents?acc_token={}".format(framework["id"], owner_token),
                 {
                     "data": {
                         "title": "framework_additional_docs.doc",
@@ -90,11 +89,11 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 },
             )
 
-        doc_id = response.json['data']['id']
+        doc_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'upload-framework-document-3.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "upload-framework-document-3.http", "w") as self.app.file_obj:
             response = self.app.put_json(
-                '/frameworks/{}/documents/{}?acc_token={}'.format(framework['id'], doc_id, owner_token),
+                "/frameworks/{}/documents/{}?acc_token={}".format(framework["id"], doc_id, owner_token),
                 {
                     "data": {
                         "title": "framework_additional_docs.doc",
@@ -105,37 +104,37 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 },
             )
 
-        with open(TARGET_DIR + 'get-framework-document-3.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "get-framework-document-3.http", "w") as self.app.file_obj:
             response = self.app.get(
-                '/frameworks/{}/documents/{}?acc_token={}'.format(framework['id'], doc_id, owner_token)
+                "/frameworks/{}/documents/{}?acc_token={}".format(framework["id"], doc_id, owner_token)
             )
 
-        with open(TARGET_DIR + 'patch-framework-draft-to-active.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-framework-draft-to-active.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token), {'data': {"status": "active"}}
+                "/frameworks/{}?acc_token={}".format(framework["id"], owner_token), {"data": {"status": "active"}}
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         # Submissions
         self.tick(delta=timedelta(days=16))
-        with open(TARGET_DIR + 'register-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "register-submission.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/submissions',
+                "/submissions",
                 {
-                    'data': {
+                    "data": {
                         "tenderers": [test_docs_organization],
                         "frameworkID": self.framework_id,
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'upload-submission-document.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "upload-submission-document.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/submissions/{}/documents?acc_token={}'.format(self.submission_id, self.submission_token),
+                "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
                 {
                     "data": {
                         "title": "submission_docs.doc",
@@ -145,18 +144,18 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'get-submission-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/submissions/{}/documents'.format(self.submission_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "get-submission-documents.http", "w") as self.app.file_obj:
+            response = self.app.get("/submissions/{}/documents".format(self.submission_id))
+            self.assertEqual(response.status, "200 OK")
 
         # add confidential doc without rationale
-        with open(TARGET_DIR + 'upload-submission-conf-docs-wo-rationale.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "upload-submission-conf-docs-wo-rationale.http", "w") as self.app.file_obj:
             self.app.post_json(
-                f'/submissions/{self.submission_id}/documents?acc_token={self.submission_token}',
+                f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}",
                 {
-                    'data': {
+                    "data": {
                         "title": "specs.doc",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
@@ -167,11 +166,11 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 },
                 status=422,
             )
-        with open(TARGET_DIR + 'upload-submission-conf-docs.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "upload-submission-conf-docs.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                f'/submissions/{self.submission_id}/documents?acc_token={self.submission_token}',
+                f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}",
                 {
-                    'data': {
+                    "data": {
                         "title": "specs.doc",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
@@ -182,52 +181,52 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                     },
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
             doc_id = response.json["data"]["id"]
 
         # get doc directly as tender owner
-        with open(TARGET_DIR + 'get-submission-conf-docs-by-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "get-submission-conf-docs-by-owner.http", "w") as self.app.file_obj:
             response = self.app.get(
-                f'/submissions/{self.submission_id}/documents/{doc_id}?acc_token={self.submission_token}',
+                f"/submissions/{self.submission_id}/documents/{doc_id}?acc_token={self.submission_token}",
             )
             self.assertIn("url", response.json["data"])
 
         # get doc directly as public
-        with open(TARGET_DIR + 'get-submission-conf-docs-by-public.http', 'w') as self.app.file_obj:
-            response = self.app.get(f'/submissions/{self.submission_id}/documents/{doc_id}')
+        with open(TARGET_DIR + "get-submission-conf-docs-by-public.http", "w") as self.app.file_obj:
+            response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id}")
             self.assertNotIn("url", response.json["data"])
 
         # download as tender public
-        with open(TARGET_DIR + 'upload-submission-conf-doc-by-public.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "upload-submission-conf-doc-by-public.http", "w") as self.app.file_obj:
             self.app.get(
                 f"/submissions/{self.submission_id}/documents/{doc_id}?download=1",
                 status=403,
             )
 
-        with open(TARGET_DIR + 'get-submission.http', 'w') as self.app.file_obj:
-            response = self.app.get('/submissions/{}'.format(self.submission_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "get-submission.http", "w") as self.app.file_obj:
+            response = self.app.get("/submissions/{}".format(self.submission_id))
+            self.assertEqual(response.status, "200 OK")
 
         tenderer = deepcopy(test_docs_organization)
         tenderer["name"] = "НАЗВА"
-        with open(TARGET_DIR + 'updating-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "updating-submission.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/submissions/{}?acc_token={}'.format(self.submission_id, self.submission_token),
-                {'data': {"tenderers": [tenderer]}},
+                "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+                {"data": {"tenderers": [tenderer]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'deleting-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "deleting-submission.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/submissions/{}?acc_token={}'.format(self.submission_id, self.submission_token),
-                {'data': {"status": "deleted"}},
+                "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+                {"data": {"status": "deleted"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.post_json(
-            '/submissions'.format(self.submission_id, self.submission_token),
+            "/submissions".format(),
             {
-                'data': {
+                "data": {
                     "tenderers": [test_docs_organization],
                     "frameworkID": self.framework_id,
                 }
@@ -236,28 +235,28 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'activating-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "activating-submission.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/submissions/{}?acc_token={}'.format(self.submission_id, self.submission_token),
-                {'data': {"status": "active"}},
+                "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+                {"data": {"status": "active"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         self.qualification_id = response.json["data"]["qualificationID"]
 
-        with open(TARGET_DIR + 'submission-listing.http', 'w') as self.app.file_obj:
-            response = self.app.get('/submissions'.format(self.framework_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "submission-listing.http", "w") as self.app.file_obj:
+            response = self.app.get("/submissions".format())
+            self.assertEqual(response.status, "200 OK")
 
         # Qualification
 
-        with open(TARGET_DIR + 'get-qualification.http', 'w') as self.app.file_obj:
-            response = self.app.get('/qualifications/{}'.format(self.qualification_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "get-qualification.http", "w") as self.app.file_obj:
+            response = self.app.get("/qualifications/{}".format(self.qualification_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'upload-qualification-document.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "upload-qualification-document.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/qualifications/{}/documents?acc_token={}'.format(self.qualification_id, owner_token),
+                "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, owner_token),
                 {
                     "data": {
                         "title": "qualification.doc",
@@ -267,30 +266,34 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'qualification-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/qualifications/{}/documents'.format(self.qualification_id, owner_token))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "qualification-documents.http", "w") as self.app.file_obj:
+            response = self.app.get(
+                "/qualifications/{}/documents".format(
+                    self.qualification_id,
+                )
+            )
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'get-qualification-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/qualifications/{}/documents'.format(self.qualification_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "get-qualification-documents.http", "w") as self.app.file_obj:
+            response = self.app.get("/qualifications/{}/documents".format(self.qualification_id))
+            self.assertEqual(response.status, "200 OK")
 
         # with open(TARGET_DIR + 'get-qualification.http', 'w') as self.app.file_obj:
         #     response = self.app.get('/qualifications/{}'.format(self.qualification_id))
         #     self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'evaluation-reports-document-required-for-cancelling.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "evaluation-reports-document-required-for-cancelling.http", "w") as self.app.file_obj:
             self.app.patch_json(
-                f'/qualifications/{self.qualification_id}?acc_token={owner_token}',
-                {'data': {"status": "unsuccessful"}},
+                f"/qualifications/{self.qualification_id}?acc_token={owner_token}",
+                {"data": {"status": "unsuccessful"}},
                 status=422,
             )
 
-        with open(TARGET_DIR + 'add-evaluation-reports-document-for-cancelling.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "add-evaluation-reports-document-for-cancelling.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                f'/qualifications/{self.qualification_id}/documents?acc_token={owner_token}',
+                f"/qualifications/{self.qualification_id}/documents?acc_token={owner_token}",
                 {
                     "data": {
                         "title": "sign.p7s",
@@ -301,18 +304,18 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
-        with open(TARGET_DIR + 'unsuccessful-qualification.http', 'w') as self.app.file_obj:
+            self.assertEqual(response.status, "201 Created")
+        with open(TARGET_DIR + "unsuccessful-qualification.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/qualifications/{}?acc_token={}'.format(self.qualification_id, owner_token),
-                {'data': {"status": "unsuccessful"}},
+                "/qualifications/{}?acc_token={}".format(self.qualification_id, owner_token),
+                {"data": {"status": "unsuccessful"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.post_json(
-            '/submissions'.format(self.submission_id, self.submission_token),
+            "/submissions".format(),
             {
-                'data': {
+                "data": {
                     "tenderers": [test_docs_organization],
                     "frameworkID": self.framework_id,
                 }
@@ -322,20 +325,20 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
         self.submission_token = response.json["access"]["token"]
 
         response = self.app.patch_json(
-            '/submissions/{}?acc_token={}'.format(self.submission_id, self.submission_token),
-            {'data': {"status": "active"}},
+            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+            {"data": {"status": "active"}},
         )
         self.qualification_id = response.json["data"]["qualificationID"]
-        with open(TARGET_DIR + 'evaluation-reports-document-required.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "evaluation-reports-document-required.http", "w") as self.app.file_obj:
             self.app.patch_json(
-                f'/qualifications/{self.qualification_id}?acc_token={owner_token}',
-                {'data': {"status": "active"}},
+                f"/qualifications/{self.qualification_id}?acc_token={owner_token}",
+                {"data": {"status": "active"}},
                 status=422,
             )
 
-        with open(TARGET_DIR + 'add-evaluation-reports-document.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "add-evaluation-reports-document.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                f'/qualifications/{self.qualification_id}/documents?acc_token={owner_token}',
+                f"/qualifications/{self.qualification_id}/documents?acc_token={owner_token}",
                 {
                     "data": {
                         "title": "sign.p7s",
@@ -346,49 +349,49 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'activation-qualification.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "activation-qualification.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/qualifications/{}?acc_token={}'.format(self.qualification_id, owner_token),
-                {'data': {"status": "active"}},
+                "/qualifications/{}?acc_token={}".format(self.qualification_id, owner_token),
+                {"data": {"status": "active"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'get-framework-with-agreement.http', 'w') as self.app.file_obj:
-            response = self.app.get(f'/frameworks/{self.framework_id}')
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "get-framework-with-agreement.http", "w") as self.app.file_obj:
+            response = self.app.get(f"/frameworks/{self.framework_id}")
+            self.assertEqual(response.status, "200 OK")
             agreement_id = response.json["data"]["agreementID"]
 
-        with open(TARGET_DIR + 'get-agreement.http', 'w') as self.app.file_obj:
-            response = self.app.get(f'/agreements/{agreement_id}')
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "get-agreement.http", "w") as self.app.file_obj:
+            response = self.app.get(f"/agreements/{agreement_id}")
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'agreement-listing.http', 'w') as self.app.file_obj:
-            response = self.app.get(f'/agreements')
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "agreement-listing.http", "w") as self.app.file_obj:
+            response = self.app.get("/agreements")
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'get-submissions-by-framework-id.http', 'w') as self.app.file_obj:
-            response = self.app.get('/frameworks/{}/submissions'.format(self.framework_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "get-submissions-by-framework-id.http", "w") as self.app.file_obj:
+            response = self.app.get("/frameworks/{}/submissions".format(self.framework_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'get-qualifications-by-framework-id.http', 'w') as self.app.file_obj:
-            response = self.app.get('/frameworks/{}/qualifications'.format(self.framework_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "get-qualifications-by-framework-id.http", "w") as self.app.file_obj:
+            response = self.app.get("/frameworks/{}/qualifications".format(self.framework_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'qualification-listing.http', 'w') as self.app.file_obj:
-            response = self.app.get('/qualifications'.format(self.framework_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "qualification-listing.http", "w") as self.app.file_obj:
+            response = self.app.get("/qualifications".format())
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'get-framework.http', 'w') as self.app.file_obj:
-            response = self.app.get('/frameworks/{}'.format(framework['id']))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "get-framework.http", "w") as self.app.file_obj:
+            response = self.app.get("/frameworks/{}".format(framework["id"]))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'patch-framework-active.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-framework-active.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
+                "/frameworks/{}?acc_token={}".format(framework["id"], owner_token),
                 {
-                    'data': {
+                    "data": {
                         "procuringEntity": {
                             "contactPoint": {"telephone": "+0440000002", "name": "зміна", "email": "ab@aa.com"}
                         },
@@ -396,18 +399,18 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'framework-listing.http', 'w') as self.app.file_obj:
-            response = self.app.get('/frameworks'.format(framework['id']))
-            self.assertEqual(len(response.json['data']), 1)
+        with open(TARGET_DIR + "framework-listing.http", "w") as self.app.file_obj:
+            response = self.app.get("/frameworks".format())
+            self.assertEqual(len(response.json["data"]), 1)
 
-        with open(TARGET_DIR + 'patch-framework-active-qualification-period-too-soon.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-framework-active-qualification-period-too-soon.http", "w") as self.app.file_obj:
             new_endDate = (get_now() + timedelta(days=15)).isoformat()
             self.app.post_json(
-                '/frameworks/{}/changes?acc_token={}'.format(framework['id'], owner_token),
+                "/frameworks/{}/changes?acc_token={}".format(framework["id"], owner_token),
                 {
-                    'data': {
+                    "data": {
                         "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
                         "rationaleType": "other",
                         "rationale": "Треба закінчити швидше відбір",
@@ -416,12 +419,12 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 status=422,
             )
 
-        with open(TARGET_DIR + 'patch-framework-active-qualification-period-too-late.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-framework-active-qualification-period-too-late.http", "w") as self.app.file_obj:
             new_endDate = (get_now() + timedelta(days=1500)).isoformat()
             self.app.post_json(
-                '/frameworks/{}/changes?acc_token={}'.format(framework['id'], owner_token),
+                "/frameworks/{}/changes?acc_token={}".format(framework["id"], owner_token),
                 {
-                    'data': {
+                    "data": {
                         "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
                         "rationaleType": "other",
                         "rationale": "Треба подовжити відбір",
@@ -430,12 +433,12 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 status=422,
             )
 
-        with open(TARGET_DIR + 'patch-framework-active-qualification-period.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-framework-active-qualification-period.http", "w") as self.app.file_obj:
             new_endDate = (get_now() + timedelta(days=50)).isoformat()
             response = self.app.post_json(
-                '/frameworks/{}/changes?acc_token={}'.format(framework['id'], owner_token),
+                "/frameworks/{}/changes?acc_token={}".format(framework["id"], owner_token),
                 {
-                    'data': {
+                    "data": {
                         "modifications": {"qualificationPeriod": {"endDate": new_endDate}},
                         "rationaleType": "noDemandFramework",
                         "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
@@ -444,18 +447,18 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             )
             change_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'get-change-sign-data.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "get-change-sign-data.http", "w") as self.app.file_obj:
             self.app.get(
-                '/frameworks/{}/changes/{}?acc_token={}&opt_context=true'.format(
-                    framework['id'], change_id, owner_token
+                "/frameworks/{}/changes/{}?acc_token={}&opt_context=true".format(
+                    framework["id"], change_id, owner_token
                 ),
             )
 
-        with open(TARGET_DIR + 'sign-framework-active-qualification-period.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "sign-framework-active-qualification-period.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/frameworks/{}/changes/{}/documents?acc_token={}'.format(framework['id'], change_id, owner_token),
+                "/frameworks/{}/changes/{}/documents?acc_token={}".format(framework["id"], change_id, owner_token),
                 {
-                    'data': {
+                    "data": {
                         "title": "sign.p7s",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
@@ -464,7 +467,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 },
             )
 
-        with open(TARGET_DIR + 'get-framework-after-qualification-period-modified.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "get-framework-after-qualification-period-modified.http", "w") as self.app.file_obj:
             self.app.get(
-                '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
+                "/frameworks/{}?acc_token={}".format(framework["id"], owner_token),
             )

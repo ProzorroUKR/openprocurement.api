@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/526b7a685a8b4427b01d99ca0954cec5?acc_token=0821de66310b4994a87dd835d467997f HTTP/1.0
+PATCH /api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/af834426933c49a6827f489339ebf6d4?acc_token=b1c427c0dde44172887ecf0d51eb210a HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -255,7 +255,7 @@ Content-Type: application/json
       }
     ],
     "status": "invalid",
-    "id": "526b7a685a8b4427b01d99ca0954cec5",
+    "id": "af834426933c49a6827f489339ebf6d4",
     "date": "2023-10-10T01:00:00+03:00",
     "submissionDate": "2023-10-10T01:00:00+03:00",
     "lotValues": [
@@ -279,7 +279,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/825d276709454a46939be97f92b7bf69?Signature=lf6PQxDQX6YxfEmWieNquKzkXlp0vbEKLltz%2BkyIdEaVpJ4xUgf7%2FwTniY1Q3RcEF5YHLJG996Jzz5ocsEQuCA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/13b7a37e7fcb4e3c89c6012bb35fbe35?Signature=%2BVgDpYFt8ROko6jp3pcCiLuavdVU0ACe67dPgUWQn98xSPsF1jSvtjv0kZBtfwA7RzZ97Nv%2BW9RzSArbzTflBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"

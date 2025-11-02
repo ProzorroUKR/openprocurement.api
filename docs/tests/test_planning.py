@@ -2,6 +2,8 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
+from openprocurement.planning.api.tests.base import BasePlanWebTest
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from tests.base.constants import DOCS_URL
 from tests.base.data import (
     test_docs_plan_data,
@@ -10,10 +12,7 @@ from tests.base.data import (
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-from openprocurement.planning.api.tests.base import BasePlanWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
-
-TARGET_DIR = 'docs/source/planning/tutorial/'
+TARGET_DIR = "docs/source/planning/tutorial/"
 
 test_docs_plan_data = deepcopy(test_docs_plan_data)
 test_docs_tender_openeu = deepcopy(test_docs_tender_openeu)
@@ -39,42 +38,42 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         pass
 
     def test_docs(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         # empty plans listing
-        response = self.app.get('/plans')
-        self.assertEqual(response.json['data'], [])
+        response = self.app.get("/plans")
+        self.assertEqual(response.json["data"], [])
 
         # create plan
-        test_docs_plan_data['status'] = "draft"
+        test_docs_plan_data["status"] = "draft"
 
-        test_breakdown = deepcopy(test_docs_plan_data['budget']['breakdown'])
+        test_breakdown = deepcopy(test_docs_plan_data["budget"]["breakdown"])
 
-        with open(TARGET_DIR + 'create-plan.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/plans?opt_pretty=1', {'data': test_docs_plan_data})
-            self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + "create-plan.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/plans?opt_pretty=1", {"data": test_docs_plan_data})
+            self.assertEqual(response.status, "201 Created")
 
-        plan = response.json['data']
+        plan = response.json["data"]
         self.plan_id = plan["id"]
-        owner_token = response.json['access']['token']
+        owner_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'patch-plan-status-scheduled.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-plan-status-scheduled.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"status": "scheduled"}}
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token), {"data": {"status": "scheduled"}}
             )
             self.assertEqual(response.json["data"]["status"], "scheduled")
 
-        with open(TARGET_DIR + 'plan-listing.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "plan-listing.http", "w") as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get('/plans')
-            self.assertEqual(response.status, '200 OK')
+            response = self.app.get("/plans")
+            self.assertEqual(response.status, "200 OK")
             self.app.file_obj.write("\n")
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'patch-plan-procuringEntity-name.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("broker", ""))
+        with open(TARGET_DIR + "patch-plan-procuringEntity-name.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token),
                 {
-                    'data': {
+                    "data": {
                         "items": [
                             {
                                 "description": "Насіння овочевих культур",
@@ -95,18 +94,18 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 },
             )
 
-        with open(TARGET_DIR + 'plan-listing-after-patch.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "plan-listing-after-patch.http", "w") as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get('/plans')
-            self.assertEqual(response.status, '200 OK')
+            response = self.app.get("/plans")
+            self.assertEqual(response.status, "200 OK")
             self.app.file_obj.write("\n")
 
         # tender creation
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
-        with open(TARGET_DIR + 'tender-from-plan-validation.http', 'w') as self.app.file_obj:
-            self.app.post_json('/plans/{}/tenders'.format(plan['id']), {'data': test_docs_tender_openeu}, status=422)
+        with open(TARGET_DIR + "tender-from-plan-validation.http", "w") as self.app.file_obj:
+            self.app.post_json("/plans/{}/tenders".format(plan["id"]), {"data": test_docs_tender_openeu}, status=422)
 
         plan_doc = self.mongodb.plans.get(plan["id"])
         del plan_doc["budget"]["breakdown"]
@@ -116,20 +115,20 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         test_docs_tender_below["title"] = "Насіння"
         test_docs_tender_below["status"] = "draft"
 
-        with open(TARGET_DIR + 'tender-from-plan-breakdown.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tender-from-plan-breakdown.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/plans/{}/tenders'.format(plan['id']),
-                {'data': test_docs_tender_below, 'config': test_tender_below_config},
+                "/plans/{}/tenders".format(plan["id"]),
+                {"data": test_docs_tender_below, "config": test_tender_below_config},
                 status=422,
             )
 
-        budget = deepcopy(test_docs_plan_data['budget'])
-        budget['breakdown'] = test_breakdown
+        budget = deepcopy(test_docs_plan_data["budget"])
+        budget["breakdown"] = test_breakdown
         budget["project"] = {"id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6", "name": "Project name"}
-        with open(TARGET_DIR + 'patch-plan-budget-project-name-invalid.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-plan-budget-project-name-invalid.http", "w") as self.app.file_obj:
             self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
-                {'data': {"budget": budget}},
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token),
+                {"data": {"budget": budget}},
                 status=422,
             )
 
@@ -138,18 +137,18 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
             "name": "1.1. Набрання чинності законодавчими змінами щодо реформи оплати праці в державній службі",
             "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform",
         }
-        with open(TARGET_DIR + 'patch-plan-breakdown.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-plan-breakdown.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"budget": budget}}
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token), {"data": {"budget": budget}}
             )
 
         budget["breakdown"][0]["title"] = "state"
         with open(
-            TARGET_DIR + 'patch-plan-budget-breakdown-classifications-state-invalid.http', 'w'
+            TARGET_DIR + "patch-plan-budget-breakdown-classifications-state-invalid.http", "w"
         ) as self.app.file_obj:
             self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
-                {'data': {"budget": budget}},
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token),
+                {"data": {"budget": budget}},
                 status=422,
             )
 
@@ -158,17 +157,17 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
             "id": "3505000",
             "description": "Державна аудиторська служба України",
         }
-        with open(TARGET_DIR + 'patch-plan-budget-breakdown-classifications-state.http', 'w') as self.app.file_obj:
-            self.app.patch_json('/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"budget": budget}})
+        with open(TARGET_DIR + "patch-plan-budget-breakdown-classifications-state.http", "w") as self.app.file_obj:
+            self.app.patch_json("/plans/{}?acc_token={}".format(plan["id"], owner_token), {"data": {"budget": budget}})
 
         budget["breakdown"][0]["title"] = "local"
         del budget["breakdown"][0]["classification"]
         with open(
-            TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local-invalid.http', 'w'
+            TARGET_DIR + "patch-plan-budget-breakdown-classifications-local-invalid.http", "w"
         ) as self.app.file_obj:
             self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
-                {'data': {"budget": budget}},
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token),
+                {"data": {"budget": budget}},
                 status=422,
             )
 
@@ -179,22 +178,22 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         }
 
         with open(
-            TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local-address-required.http', 'w'
+            TARGET_DIR + "patch-plan-budget-breakdown-classifications-local-address-required.http", "w"
         ) as self.app.file_obj:
             self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
-                {'data': {"budget": budget}},
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token),
+                {"data": {"budget": budget}},
                 status=422,
             )
 
         budget["breakdown"][0]["address"] = {"countryName": "Україна"}
 
         with open(
-            TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local-address-invalid.http', 'w'
+            TARGET_DIR + "patch-plan-budget-breakdown-classifications-local-address-invalid.http", "w"
         ) as self.app.file_obj:
             self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
-                {'data': {"budget": budget}},
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token),
+                {"data": {"budget": budget}},
                 status=422,
             )
 
@@ -208,23 +207,23 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 }
             ],
         }
-        with open(TARGET_DIR + 'patch-plan-budget-breakdown-classifications-local.http', 'w') as self.app.file_obj:
-            self.app.patch_json('/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"budget": budget}})
+        with open(TARGET_DIR + "patch-plan-budget-breakdown-classifications-local.http", "w") as self.app.file_obj:
+            self.app.patch_json("/plans/{}?acc_token={}".format(plan["id"], owner_token), {"data": {"budget": budget}})
 
-        with open(TARGET_DIR + 'tender-from-plan.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tender-from-plan.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/plans/{}/tenders'.format(plan['id']),
-                {'data': test_docs_tender_below, 'config': test_tender_below_config},
+                "/plans/{}/tenders".format(plan["id"]),
+                {"data": test_docs_tender_below, "config": test_tender_below_config},
             )
 
         # readonly
 
-        with open(TARGET_DIR + 'tender-from-plan-readonly.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tender-from-plan-readonly.http", "w") as self.app.file_obj:
             self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan["id"], owner_token),
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token),
                 {
-                    'data': {
-                        'procuringEntity': {
+                    "data": {
+                        "procuringEntity": {
                             "identifier": {
                                 "scheme": "UA-EDR",
                                 "id": "111983",
@@ -237,48 +236,48 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        with open(TARGET_DIR + 'get-complete-plan.http', 'w') as self.app.file_obj:
-            response = self.app.get('/plans/{}'.format(plan['id']))
+        with open(TARGET_DIR + "get-complete-plan.http", "w") as self.app.file_obj:
+            response = self.app.get("/plans/{}".format(plan["id"]))
         self.assertEqual(response.json["data"]["status"], "complete")
 
         # update complete plan
         self.tick(delta=timedelta(days=1, hours=1, seconds=33))
-        rationale = 'Змістовне пояснення необхідності закупівлі'
-        with open(TARGET_DIR + 'complete-plan-rationale.http', 'w') as self.app.file_obj:
+        rationale = "Змістовне пояснення необхідності закупівлі"
+        with open(TARGET_DIR + "complete-plan-rationale.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan["id"], owner_token),
-                {'data': {'rationale': {"description": rationale}}},
+                "/plans/{}?acc_token={}".format(plan["id"], owner_token),
+                {"data": {"rationale": {"description": rationale}}},
             )
         self.assertEqual(response.json["data"]["rationale"]["description"], rationale)
 
         # rationale history
-        with open(TARGET_DIR + 'plan-rationale-history.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "plan-rationale-history.http", "w") as self.app.file_obj:
             self.app.get(f"/history/plans/{plan['id']}?opt_fields=rationale")
 
         # tender manually completion
-        response = self.app.post_json('/plans', {'data': test_docs_plan_data})
-        self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json("/plans", {"data": test_docs_plan_data})
+        self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complete-plan-manually.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complete-plan-manually.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(response.json['data']['id'], response.json['access']['token']),
-                {'data': {"status": "complete"}},
+                "/plans/{}?acc_token={}".format(response.json["data"]["id"], response.json["access"]["token"]),
+                {"data": {"status": "complete"}},
             )
             self.assertEqual(response.json["data"]["status"], "complete")
 
         # tender cancellation
         test_docs_plan_data["status"] = "scheduled"
-        response = self.app.post_json('/plans', {'data': test_docs_plan_data})
-        self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json("/plans", {"data": test_docs_plan_data})
+        self.assertEqual(response.status, "201 Created")
 
-        plan_id = response.json['data']['id']
-        acc_token = response.json['access']['token']
+        plan_id = response.json["data"]["id"]
+        acc_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'plan-cancellation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "plan-cancellation.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan_id, acc_token),
+                "/plans/{}?acc_token={}".format(plan_id, acc_token),
                 {
-                    'data': {
+                    "data": {
                         "cancellation": {
                             "reason": "Підстава для скасування",
                             "reason_en": "Reason of the cancellation",
@@ -288,11 +287,11 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
             )
         self.assertEqual(response.json["data"]["status"], "scheduled")
 
-        with open(TARGET_DIR + 'plan-cancellation-activation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "plan-cancellation-activation.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan_id, acc_token),
+                "/plans/{}?acc_token={}".format(plan_id, acc_token),
                 {
-                    'data': {
+                    "data": {
                         "cancellation": {
                             "reason": "Підстава для скасування",
                             "status": "active",

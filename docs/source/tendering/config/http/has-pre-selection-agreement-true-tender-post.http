@@ -107,7 +107,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "mainProcurementCategory": "services",
     "agreements": [
       {
-        "id": "514d764704784304906b25138785146c"
+        "id": "120e2d279ef84f8db8c5a993a4e58137"
       }
     ],
     "contractTemplateName": "00000000.0002.01"
@@ -151,7 +151,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "title": "футляри до державних нагород",
     "agreements": [
       {
-        "id": "514d764704784304906b25138785146c"
+        "id": "120e2d279ef84f8db8c5a993a4e58137"
       }
     ],
     "awardCriteria": "lowestCost",
@@ -304,8 +304,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "restricted": false
   },
   "access": {
-    "token": "86393d2e4e8042efb3a7b0a7cdfe8d61",
-    "transfer": "af1e4a374fe0437f9b6d522c0e415a6e"
+    "token": "7617d51c15154ebf916a047f62fbe2b9",
+    "transfer": "1b8e08f9f6884523bb9f72745c1deb5c"
   }
 }
 

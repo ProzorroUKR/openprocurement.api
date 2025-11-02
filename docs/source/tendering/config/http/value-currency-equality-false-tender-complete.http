@@ -1023,7 +1023,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/269571a044964dbeabc9ca9c20e6eed8?Signature=FFPr9dMHm4ZPaMLaHgLzYxeJLnD7mK%2BQfgksDHZ9YzlQlLV5%2BupQsa3d3VHEMv7WepsP6oz7E6cM0uD1cHhrDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4334e629929748428879b88ec6da0bab?Signature=stnMVw0LCVaifPnurvcwcOjpb8BN1IXo0JCOGSKTYMxK1ljMAfkdOaQwTjqNG1GR6IIg7GYR1Bc1b5RaYqIeAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -1217,7 +1217,7 @@ Content-Type: application/json
       {
         "id": "dd1bc19ba9794bf6bf9f285a834a3c28",
         "author": {
-          "hash": "a982ed89e9643cfa85c688c3a7ec233d"
+          "hash": "e26122351be2c0e4bbca37a1391e043c"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -1505,7 +1505,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b32f001d0dfb40c59d84b4e4154c4656?Signature=o0XKcwz%2BrCwhSIxZ5nFq6Ufw6hUpVCE2hsy0yIO3QYSiFYmuO2Tvx3aV8AcUxYJ%2BN%2Bc2%2FxLZyPo8gnIdSIBPCw%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f18b8a8f5e9f49ab86d0c8257ad0d0b3?Signature=gUD9CArsLkdJKjU433j1O0Ivaanfvu6P1joV8W%2FOPLbZZoWPn8pshAplt7MOC0qep2s2iv47JmKaK6lcVuGxAA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
@@ -1571,7 +1571,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a698fc2a68a64eebbbbf8dba0b4d77fa?Signature=lAQ18NyymFlpiBDp%2FMHECThfKcqXr2I%2BH7nvdv03Y2vZ8vqyadyA1If5teboRHoadw7%2FAsf9bPzyBCd6QA2GAw%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f885561c4cd4ae5b45bd3e40a1f9828?Signature=nSdAIxrZ%2BnGpB9T5BOTW%2FyDAgGbHPfP75zRNjBGiwsj%2BPFRkutzgJbtqLCXEO53I65UowzBR4GzCcUhJ8oGHCQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-11-09T00:00:00+02:00",
             "author": "tender_owner",
@@ -1640,7 +1640,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f18b8a8f5e9f49ab86d0c8257ad0d0b3?Signature=gUD9CArsLkdJKjU433j1O0Ivaanfvu6P1joV8W%2FOPLbZZoWPn8pshAplt7MOC0qep2s2iv47JmKaK6lcVuGxAA%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/044479574d254f76835790f4fc469e92?Signature=MbK6IILsE3Z3d2WmKFapmc9IPPWc4KkqyTrE4JuRMubMsT8CyQau%2FXYwntcZyGTbzIdgYfcpxMGGA6nNCrLUDA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-11-09T00:00:00+02:00",
             "author": "tender_owner",
@@ -1660,7 +1660,7 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "46869872f67449aabbe1a2bfe87200fb",
+        "id": "fb01413f75834ce39e130e160c2a5a11",
         "status": "active",
         "awardID": "45661e84097445e784c31e2d96566832",
         "date": "2023-11-09T00:00:00+02:00",
@@ -1673,7 +1673,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "af1f946d1ab8441f9ec7d0324162df65",
+        "id": "7b24533c27bf4163a4b3ec5be9e8abeb",
         "status": "active",
         "awardID": "866d796c99b14e0991b5504bad98f827",
         "date": "2023-11-09T00:00:00+02:00",

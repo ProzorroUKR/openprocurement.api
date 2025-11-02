@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents?acc_token=312a92a0096444fa9b9761b0af134205 HTTP/1.0
+POST /api/2.5/tenders/f135bade563d49fc9233e1f1d37fdcf0/documents?acc_token=dc92946b9e4b4ea583fcb7d1136d6cc8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "AwardCriteria.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b660719e71c4e3b80ac24648fac52c2?Signature=eS2wVabWmvP5si%2FkVffHiUyAYYqBscVl%2FSuJNEMRaTFJTIH0u2jc5VDjA83bK%2FovLGhxot3yTZ4OiVbZWdfLDA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6306049946ae4528b91128df0c649981?Signature=ARZcwvq%2BLMZUdXvE6PZPmuP6TQNxZiEdfNBr9mihNXU4Fg3sDKBffodS1sGmBaLmvgITF7hQVACCtKMO2HauDw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents/219c08f909904568b9a726d99fe509f2
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f135bade563d49fc9233e1f1d37fdcf0/documents/219c08f909904568b9a726d99fe509f2
 
 {
   "data": {
@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b660719e71c4e3b80ac24648fac52c2?Signature=KztTkrH3lsmZaP%2BWO8J%2BbI7PYNNV%2FDEQjh%2BizLUhw8aULUu%2BxQgMmxFapPOUaK4nNViYOHS8wZXvQIukYB2EAg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6306049946ae4528b91128df0c649981?Signature=82%2B8iXiCeIz%2BiC%2B%2FhZpYJc%2B45RABxdPfQ0xTUI2WtzGrZQmUrUEvIAWhZ%2FJOJLloN%2BsCZV6FQm%2BcSMmiS6xeCg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "219c08f909904568b9a726d99fe509f2",

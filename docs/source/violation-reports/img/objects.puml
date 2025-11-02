@@ -1,0 +1,67 @@
+@startuml
+allowmixing
+
+
+rectangle ViolationReport  #azure {
+
+    process " 1. Формування звернення     " as Draft #paleturquoise;line:blue;text:blue {
+        rectangle Details  #cyan [
+            **Details**
+
+            * reason
+            * description
+            * documents
+        ]
+    }
+
+    process "2. Період для надання контраргументів" as DefendantPeriod #palegreen;line:green;text:green {
+        rectangle defendantPeriodObject  #mediumseagreen [
+            **defendantPeriod**
+
+            * startDate = publishedDate
+            * endDate = +3 business days
+        ]
+
+        rectangle DefendantStatement #darkseagreen [
+            **DefendantStatement**
+
+            * description
+            * documents
+        ]
+
+    }
+
+
+
+    process "  3. Розгляд звернення    " as DecisionStage #lightpink;text:red {
+        rectangle Decision  #lightcoral [
+            **Decision**
+
+            * status
+            * description
+            * documents
+        ]
+    }
+
+
+    note bottom of Details
+    1. Замовник заповнює деталі в зверненні.
+    2. Додає документи і накладає ЕЦП.
+    3. Публікує звернення.
+    end note
+
+
+    note bottom of DefendantStatement
+    1. Постачальник надає текст відповіді.
+    2. Додає документи і накладає ЕЦП.
+    end note
+
+
+    note bottom of Decision
+    1. ЦЗО заповнює тип і деталі рішення.
+    2. Додає документи і накладає ЕЦП.
+    end note
+
+}
+
+@enduml

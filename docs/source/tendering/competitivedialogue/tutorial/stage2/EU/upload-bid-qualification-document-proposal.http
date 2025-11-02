@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/526b7a685a8b4427b01d99ca0954cec5/qualification_documents?acc_token=0821de66310b4994a87dd835d467997f HTTP/1.0
+POST /api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/af834426933c49a6827f489339ebf6d4/qualification_documents?acc_token=b1c427c0dde44172887ecf0d51eb210a HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "qualification_document.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4217b439967f4358be4477c7a01fcf02?Signature=0KWoIxBfWEZrQTw5Om4Md%2BsiDlSNzuLM2RQYiaV4iuYsiU%2FJlKhg3X5MFgtbPquCgSMtQ%2BaqTBQsdv90gI4yDw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0df47249712b48d281e049c4337b9342?Signature=w%2Fnrus6YXJnBlzjN%2F%2FuNnHDJmKpvQTv7cpENc4KAJLRHi5VyOrzcZE0pQRPE1nDrwLAAfPLdNZ7ZmRqsTpPaAg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/526b7a685a8b4427b01d99ca0954cec5/qualification_documents/23cc86fd9d93468d921e1103c6762fa7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/af834426933c49a6827f489339ebf6d4/qualification_documents/23cc86fd9d93468d921e1103c6762fa7
 
 {
   "data": {
@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63f6240986e249dd
     "hash": "md5:00000000000000000000000000000000",
     "title": "qualification_document.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4217b439967f4358be4477c7a01fcf02?Signature=fT10tQJXs1FqPvafKQ50cOalNgAZ5Eq7PM1jkms2BP%2B8nzo62zp66HanQtnT3m03cHXAvlliNN551YfKH%2FHACQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0df47249712b48d281e049c4337b9342?Signature=oarUFrP5FbC9WzdRUJSAvPP5yy0r0%2FVXsVzdk3X05PGjX00oQHK9R5PKjPKLgL7uclBBBcO84gfM6Hgx4qg3Aw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "23cc86fd9d93468d921e1103c6762fa7",

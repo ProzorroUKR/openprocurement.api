@@ -123,12 +123,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "857bf8327126450d82f8a82679f7c783",
-    "transfer": "bebf8577c87d49a99472444e2fc46ea7"
+    "token": "46869872f67449aabbe1a2bfe87200fb",
+    "transfer": "87879070e6fc47e98110621d6eed0956"
   }
 }
 
-POST /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c/documents?acc_token=857bf8327126450d82f8a82679f7c783 HTTP/1.0
+POST /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c/documents?acc_token=46869872f67449aabbe1a2bfe87200fb HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -137,7 +137,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "title": "sign.p7s",
     "documentType": "proposal",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b32f001d0dfb40c59d84b4e4154c4656?Signature=kdagARSwckmUho%2FSDqOKkA7QYMhE6U5y%2FM3eFkZn3i04%2BklQB390f6J%2FHo55UfVJleys9hnQ5JIcpWbjg4gYAQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f18b8a8f5e9f49ab86d0c8257ad0d0b3?Signature=AnWIwBmsN300tUuI0zEqZqtK9TVu0m7U8fcOiejtZ%2BLCPEhLhZZZH3KM2FiEBGKewExtZ%2F3ygNwdPWPEluu9AQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "sign/pkcs7-signature"
   }
@@ -155,7 +155,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "hash": "md5:00000000000000000000000000000000",
     "title": "sign.p7s",
     "format": "sign/pkcs7-signature",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b32f001d0dfb40c59d84b4e4154c4656?Signature=o0XKcwz%2BrCwhSIxZ5nFq6Ufw6hUpVCE2hsy0yIO3QYSiFYmuO2Tvx3aV8AcUxYJ%2BN%2Bc2%2FxLZyPo8gnIdSIBPCw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f18b8a8f5e9f49ab86d0c8257ad0d0b3?Signature=gUD9CArsLkdJKjU433j1O0Ivaanfvu6P1joV8W%2FOPLbZZoWPn8pshAplt7MOC0qep2s2iv47JmKaK6lcVuGxAA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "e3899d998f4d4394bbac7d6e0df0dd38",
@@ -1189,7 +1189,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/269571a044964dbeabc9ca9c20e6eed8?Signature=FFPr9dMHm4ZPaMLaHgLzYxeJLnD7mK%2BQfgksDHZ9YzlQlLV5%2BupQsa3d3VHEMv7WepsP6oz7E6cM0uD1cHhrDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4334e629929748428879b88ec6da0bab?Signature=stnMVw0LCVaifPnurvcwcOjpb8BN1IXo0JCOGSKTYMxK1ljMAfkdOaQwTjqNG1GR6IIg7GYR1Bc1b5RaYqIeAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -1384,7 +1384,7 @@ Content-Type: application/json
       {
         "id": "dd1bc19ba9794bf6bf9f285a834a3c28",
         "author": {
-          "hash": "a982ed89e9643cfa85c688c3a7ec233d"
+          "hash": "e26122351be2c0e4bbca37a1391e043c"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -1423,7 +1423,7 @@ Content-Type: application/json
   }
 }
 
-PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c?acc_token=857bf8327126450d82f8a82679f7c783 HTTP/1.0
+PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c?acc_token=46869872f67449aabbe1a2bfe87200fb HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -1806,7 +1806,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b32f001d0dfb40c59d84b4e4154c4656?Signature=o0XKcwz%2BrCwhSIxZ5nFq6Ufw6hUpVCE2hsy0yIO3QYSiFYmuO2Tvx3aV8AcUxYJ%2BN%2Bc2%2FxLZyPo8gnIdSIBPCw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f18b8a8f5e9f49ab86d0c8257ad0d0b3?Signature=gUD9CArsLkdJKjU433j1O0Ivaanfvu6P1joV8W%2FOPLbZZoWPn8pshAplt7MOC0qep2s2iv47JmKaK6lcVuGxAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"

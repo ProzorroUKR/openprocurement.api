@@ -265,7 +265,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f3167a9af8a5408e9c9bf06a20c342af
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/493cc77e367e48e9b931dcc640be6399
 
 {
   "data": {
@@ -380,7 +380,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f3167a9af8a5408e
         "sequenceNumber": 1
       },
       {
-        "id": "36a0ebd2e0384832b07998384bee5afa",
+        "id": "726b0d1e63f942f69f5c05a55228dffa",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -400,7 +400,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f3167a9af8a5408e
     },
     "items": [
       {
-        "id": "fe66d188f34747d5951b6beccec3e6d6",
+        "id": "19cd4e67d5d74d72b02bbe74396528b4",
         "description": "телевізори",
         "unit": {
           "name": "кг",
@@ -438,7 +438,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f3167a9af8a5408e
         "relatedBuyer": "11111111111111111111111111111111"
       },
       {
-        "id": "b5d9b537b9504cd593f910631e6bdddf",
+        "id": "772f78cfff9a4b819afe5600198aa064",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -476,7 +476,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f3167a9af8a5408e
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "2d1b0babcc54478fba1a16d7f3720bd9",
+        "id": "a002ecdf57284cda954a229f1e80d6b0",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -521,7 +521,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f3167a9af8a5408e
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "f3167a9af8a5408e9c9bf06a20c342af"
+    "id": "493cc77e367e48e9b931dcc640be6399"
   },
   "config": {
     "hasAuction": true,
@@ -549,8 +549,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f3167a9af8a5408e
     "restricted": false
   },
   "access": {
-    "token": "7ad226ebe2cc4033acb03c7c28304fda",
-    "transfer": "d4e4422202554bd2985b9af404661a90"
+    "token": "50c8dbad7b0c4fd49d4a96be7c4355af",
+    "transfer": "a88d15516aa948d68b5cba7058d07cb6"
   }
 }
 

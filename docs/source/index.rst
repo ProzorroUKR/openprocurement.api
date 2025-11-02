@@ -22,6 +22,7 @@ Contents:
    relocation/index
    medicines-registry/index
    centralized-procurements/index
+   violation-reports/index
    dates
    performance
    cluster

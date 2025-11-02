@@ -30,7 +30,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f0166f642ba4817896e6d8610fd91d0?Signature=PoAcgcxtH3J1qbTNn75N4x3nLKqkGBSbaF4pKCJpQ6p0ja%2B9aj0ayz7BVVEW2cQP0MapEKLjVBAT%2FxPBRmVqDA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/739e34000b5246919098c41f0f27f950?Signature=lJkAmMVYRXssgKc4mCfknsSZ8sPEZ6EaexOsHaNMYBlhTJaP797%2B006mJAaumheN5qIKMMeAKKFVz%2B%2FtSco8AQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:02:01+03:00",
         "language": "uk"
@@ -43,7 +43,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/739e34000b5246919098c41f0f27f950?Signature=lJkAmMVYRXssgKc4mCfknsSZ8sPEZ6EaexOsHaNMYBlhTJaP797%2B006mJAaumheN5qIKMMeAKKFVz%2B%2FtSco8AQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0d35966037ca492a987834d0701eaf4b?Signature=PDZV1r3X1RtTIz%2FbPch2RW%2FmqOev5M4SPm28308qYQ%2FnCfZiv0zt3BmlsRPNQzKdJkfWMAsR4sEBzDXDjNrZBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:02:01+03:00",
         "language": "uk"

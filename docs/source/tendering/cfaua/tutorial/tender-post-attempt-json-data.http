@@ -63,7 +63,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "description_en": "Cases for state awards",
         "quantity": 5,
-        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d"
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
       },
       {
         "unit": {
@@ -96,7 +96,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "description_en": "Cases for state awards",
         "quantity": 5,
-        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d"
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
       }
     ],
     "title_en": "Cases for state awards",
@@ -128,7 +128,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "9dea7e57fca24c0fa6c43f752611342d",
+        "id": "1045105100a341998426114b17a5c1ff",
         "value": {
           "currency": "UAH",
           "amount": 500,
@@ -246,7 +246,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -280,7 +280,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -299,7 +299,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "9dea7e57fca24c0fa6c43f752611342d",
+        "id": "1045105100a341998426114b17a5c1ff",
         "status": "active",
         "value": {
           "currency": "UAH",

@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/ccced68340f74973894bcfbbac2d355b?acc_token=7ad226ebe2cc4033acb03c7c28304fda HTTP/1.0
+PATCH /api/2.5/contracts/ccced68340f74973894bcfbbac2d355b?acc_token=50c8dbad7b0c4fd49d4a96be7c4355af HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

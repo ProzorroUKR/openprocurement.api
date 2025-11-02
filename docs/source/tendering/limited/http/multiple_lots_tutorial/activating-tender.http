@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/57baff7abc454a00be404f9f6ba19f64?acc_token=0136b93cb65a417597bd4b9df6a394a3 HTTP/1.0
+PATCH /api/2.5/tenders/1de84806f4424d54b8614417174247fe?acc_token=4d4a63099eb4444ea39e8c0fcab3a157 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -64,7 +64,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "7de091a5de774ca78aacbe579972d39d",
+        "id": "b4ec02877b6a4c8a933097da0bdfcc40",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -130,7 +130,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "9016514e93f345448b331a4310e33a9b",
+        "id": "9719719439f4436592dc7848f69ac4f6",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -149,7 +149,7 @@ Content-Type: application/json
       "description": "оригінальний тендер не вдався двічі",
       "description_en": "the original tender failed twice"
     },
-    "id": "57baff7abc454a00be404f9f6ba19f64"
+    "id": "1de84806f4424d54b8614417174247fe"
   },
   "config": {
     "hasAuction": false,

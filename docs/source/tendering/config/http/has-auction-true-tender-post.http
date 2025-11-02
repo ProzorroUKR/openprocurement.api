@@ -414,8 +414,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "restricted": false
   },
   "access": {
-    "token": "6670a4933d854a00afa53a2979728a6d",
-    "transfer": "2672dd6712284300b2af487b1f9d0ac1"
+    "token": "2672dd6712284300b2af487b1f9d0ac1",
+    "transfer": "339cb54465f04f18918ea43e3d45e961"
   }
 }
 

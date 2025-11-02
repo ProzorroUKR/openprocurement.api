@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "Notice.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc6cce7e75b44d2cb3d18880fbe458b7?Signature=FuesgBoZeOVKxYJDoHuPjYSlsXguRVkqopwJSVQ9YZC5TMR2D3AhvZNvsAQ2JmgF3mK9IHJ%2Bb%2BjuxEPgAdEtAQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5d169ce23cec4af7bf917411b6f8d92e?Signature=FcA7Hz63uKW%2BVh%2F8W5BnvrhQb09TfZy6pdQTIXgVD2oE1PETgXJD6RebMVIh3mkInQlR507U%2BOOJNzizU4cBDQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de38bea4a6534e13
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc6cce7e75b44d2cb3d18880fbe458b7?Signature=UGG%2B0o%2BMiwWJ6yn2fSjv0zh%2B4yTGFr5A1qWbN9Vpeboqk9g5sML9Cmf4aEclnKxyPlVehF5TUkXrXLayjronCQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5d169ce23cec4af7bf917411b6f8d92e?Signature=LeqFakBbyoXFKn%2B0J2loXxLnNNmua3vIhxKIboSgi4TrpAYC5NxZosfktZvAtKTnoHI8%2BUf%2FYKCgK6frO1OjCQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "15fff0ad98f34414aaa5e58a4d8889e6",

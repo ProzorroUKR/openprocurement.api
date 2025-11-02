@@ -5,8 +5,6 @@ from unittest.mock import Mock, patch
 from uuid import uuid4
 
 import mock
-from tests.base.constants import DOCS_URL
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import test_contract_data
@@ -29,6 +27,8 @@ from openprocurement.tender.pricequotation.tests.utils import (
     copy_criteria_req_id,
     criteria_drop_uuids,
 )
+from tests.base.constants import DOCS_URL
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 test_contract_data = deepcopy(test_contract_data)
 test_tender_data = deepcopy(test_tender_pq_data)
@@ -36,7 +36,7 @@ test_tender_data["procuringEntity"]["identifier"]["id"] = "00037257"
 test_tender_data_multi_buyers = deepcopy(test_tender_below_multi_buyers_data)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TARGET_DIR = os.path.join(BASE_DIR, 'source/contracting/econtract/http/')
+TARGET_DIR = os.path.join(BASE_DIR, "source/contracting/econtract/http/")
 
 
 class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
@@ -64,16 +64,16 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
     def test_docs(self):
         tender_data = deepcopy(test_tender_pq_data)
         tender_data["procuringEntity"]["identifier"]["id"] = "00037257"
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         # empty tenders listing
-        response = self.app.get('/tenders')
-        self.assertEqual(response.json['data'], [])
+        response = self.app.get("/tenders")
+        self.assertEqual(response.json["data"], [])
 
         # create tender
-        tender_data['items'].append(deepcopy(tender_data['items'][0]))
-        for item in tender_data['items']:
+        tender_data["items"].append(deepcopy(tender_data["items"][0]))
+        for item in tender_data["items"]:
             item["id"] = uuid4().hex
-            item['deliveryDate'] = {
+            item["deliveryDate"] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat(),
             }
@@ -94,42 +94,42 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         tender_data["agreement"] = agreement
 
         # get all brokers
-        with open(TARGET_DIR + 'get-brokers-all.http', 'w') as self.app.file_obj:
-            self.app.get('/brokers')
+        with open(TARGET_DIR + "get-brokers-all.http", "w") as self.app.file_obj:
+            self.app.get("/brokers")
 
         # try to create tender with broker1
         tender_data["procuringEntity"]["contract_owner"] = "broker1"
-        with open(TARGET_DIR + 'create-tender-broker-1-fail.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config}, status=422)
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+        with open(TARGET_DIR + "create-tender-broker-1-fail.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
-            response.json['errors'][0]['description'],
+            response.json["errors"][0]["description"],
             {"contract_owner": "should be one of brokers with level 6"},
         )
 
         # get brokers with level 6
-        with open(TARGET_DIR + 'get-brokers-level-6.http', 'w') as self.app.file_obj:
-            self.app.get('/brokers?levels=6')
+        with open(TARGET_DIR + "get-brokers-level-6.http", "w") as self.app.file_obj:
+            self.app.get("/brokers?levels=6")
 
         # create tender with broker6
         tender_data["procuringEntity"]["contract_owner"] = "broker6"
-        with open(TARGET_DIR + 'create-tender-broker-6.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config})
-        self.assertEqual(response.status, '201 Created')
-        tender_id = self.tender_id = response.json['data']['id']
-        tender_token = response.json['access']['token']
+        with open(TARGET_DIR + "create-tender-broker-6.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
+        tender_id = self.tender_id = response.json["data"]["id"]
+        tender_token = response.json["access"]["token"]
 
-        tender_items = response.json['data']['items']
+        tender_items = response.json["data"]["items"]
 
         # switch to active.tendering
         response = self.set_status(
-            'active.tendering', extra={'auctionPeriod': {'startDate': (get_now() + timedelta(days=10)).isoformat()}}
+            "active.tendering", extra={"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
         )
         tender = response.json["data"]
-        self.assertIn("auctionPeriod", response.json['data'])
+        self.assertIn("auctionPeriod", response.json["data"])
 
         # create bid
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         supplier = deepcopy(test_tender_pq_supplier)
         supplier["contract_owner"] = "broker6"
         product = {"id": "1" * 32, "status": "active"}
@@ -140,10 +140,10 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             bid, bid_token = self.create_bid(
                 self.tender_id,
                 {
-                    'tenderers': [supplier],
-                    'value': {'amount': 500},
-                    'requirementResponses': copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1),
-                    'items': [
+                    "tenderers": [supplier],
+                    "value": {"amount": 500},
+                    "requirementResponses": copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1),
+                    "items": [
                         {
                             "id": tender_items[0]["id"],
                             "description": "Комп’ютерне обладнання для біда",
@@ -153,7 +153,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                                 "code": "KGM",
                                 "value": {"amount": 40, "valueAddedTaxIncluded": False},
                             },
-                            "product": product['id'],
+                            "product": product["id"],
                         },
                         {
                             "id": tender_items[1]["id"],
@@ -164,24 +164,24 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                                 "code": "KGM",
                                 "value": {"amount": 20, "valueAddedTaxIncluded": False},
                             },
-                            "product": product['id'],
+                            "product": product["id"],
                         },
                     ],
                 },
             )
 
         # get bid
-        bid_id = bid['id']
-        with open(TARGET_DIR + 'get-bid.http', 'w') as self.app.file_obj:
-            self.app.get(f'/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}')
+        bid_id = bid["id"]
+        with open(TARGET_DIR + "get-bid.http", "w") as self.app.file_obj:
+            self.app.get(f"/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}")
 
         # switch to active.qualification
-        self.set_status('active.qualification')
+        self.set_status("active.qualification")
         # get awards
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.get(f'/tenders/{tender_id}/awards?acc_token={tender_token}')
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get(f"/tenders/{tender_id}/awards?acc_token={tender_token}")
         # get pending award
-        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
         # set award as active
         self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{award_id}/documents")
         pdf_data = {
@@ -194,31 +194,31 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         with mock.patch(upload_mock_path) as mock_upload_contract_pdf:
             mock_upload_contract_pdf.return_value = {"data": pdf_data}
             self.app.patch_json(
-                f'/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}',
+                f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
                 {"data": {"status": "active", "qualified": True}},
             )
             mock_upload_contract_pdf.assert_called_once()
         # get contract id
-        response = self.app.get(f'/tenders/{tender_id}')
-        contract = response.json['data']['contracts'][-1]
-        self.contract_id = contract['id']
+        response = self.app.get(f"/tenders/{tender_id}")
+        contract = response.json["data"]["contracts"][-1]
+        self.contract_id = contract["id"]
 
-        with open(TARGET_DIR + 'example-contract.http', 'w') as self.app.file_obj:
-            self.app.get(f'/tenders/{tender_id}/contracts/{self.contract_id}')
+        with open(TARGET_DIR + "example-contract.http", "w") as self.app.file_obj:
+            self.app.get(f"/tenders/{tender_id}/contracts/{self.contract_id}")
 
-        with open(TARGET_DIR + 'contract-list.http', 'w') as self.app.file_obj:
-            self.app.get(f'/contracts?opt_fields=status')
+        with open(TARGET_DIR + "contract-list.http", "w") as self.app.file_obj:
+            self.app.get("/contracts?opt_fields=status")
 
-        with open(TARGET_DIR + 'contract-view.http', 'w') as self.app.file_obj:
-            response = self.app.get(f'/contracts/{self.contract_id}')
+        with open(TARGET_DIR + "contract-view.http", "w") as self.app.file_obj:
+            response = self.app.get(f"/contracts/{self.contract_id}")
             self.contract = response.json["data"]
             self.assertEqual(self.contract["buyer"]["contract_owner"], "broker6")
             self.assertEqual(self.contract["suppliers"][0]["contract_owner"], "broker6")
 
         # Getting access for contract
-        self.app.authorization = ('Basic', ('broker6', ''))
+        self.app.authorization = ("Basic", ("broker6", ""))
 
-        with open(TARGET_DIR + 'contract-access-invalid.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-access-invalid.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/access",
                 {
@@ -229,8 +229,9 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 status=403,
             )
 
-        with open(TARGET_DIR + 'contract-access-owner-invalid.http', 'w') as self.app.file_obj, change_auth(
-            self.app, ("Basic", ("token", ""))
+        with (
+            open(TARGET_DIR + "contract-access-owner-invalid.http", "w") as self.app.file_obj,
+            change_auth(self.app, ("Basic", ("token", ""))),
         ):
             self.app.post_json(
                 f"/contracts/{self.contract_id}/access",
@@ -242,7 +243,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 status=403,
             )
 
-        with open(TARGET_DIR + 'contract-access-by-buyer.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-access-by-buyer.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/access",
                 {
@@ -252,7 +253,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 },
             )
             buyer_token_1 = response.json["access"]["token"]
-        with open(TARGET_DIR + 'contract-access-by-buyer-2.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-access-by-buyer-2.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/access",
                 {
@@ -271,16 +272,17 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             "hash": "md5:" + "0" * 32,
             "format": "application/pkcs7-signature",
         }
-        with open(TARGET_DIR + 'contract-patch-by-buyer-1-forbidden.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-patch-by-buyer-1-forbidden.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/documents?acc_token={buyer_token_1}",
                 {"data": contract_sign_data},
                 status=403,
             )
 
-        with change_auth(self.app, ("Basic", ("broker6", ""))), open(
-            TARGET_DIR + 'contract-access-by-supplier.http', 'w'
-        ) as self.app.file_obj:
+        with (
+            change_auth(self.app, ("Basic", ("broker6", ""))),
+            open(TARGET_DIR + "contract-access-by-supplier.http", "w") as self.app.file_obj,
+        ):
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/access",
                 {
@@ -293,33 +295,33 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
 
         # buyer signs the current version of contract
         response = self.app.post_json(
-            f'/contracts/{self.contract_id}/documents?acc_token={buyer_token_2}', {"data": contract_sign_data}
+            f"/contracts/{self.contract_id}/documents?acc_token={buyer_token_2}", {"data": contract_sign_data}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        self.app.authorization = ('Basic', ('broker6', ''))
-        with open(TARGET_DIR + 'contract-supplier-cancels-contract.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("broker6", ""))
+        with open(TARGET_DIR + "contract-supplier-cancels-contract.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/cancellations?acc_token={supplier_token}",
                 {"data": {"reasonType": "requiresChanges", "reason": "want to change signerInfo"}},
             )
         self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'cancellation-of-contract.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "cancellation-of-contract.http", "w") as self.app.file_obj:
             self.app.get(
                 f"/contracts/{self.contract_id}",
             )
 
-        with open(TARGET_DIR + 'cancellation-of-contract-duplicated.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "cancellation-of-contract-duplicated.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/cancellations?acc_token={supplier_token}",
                 {"data": {"reasonType": "requiresChanges", "reason": "want to change signerInfo"}},
                 status=403,
             )
 
-        with open(TARGET_DIR + 'contract-supplier-add-signature-forbidden.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-supplier-add-signature-forbidden.http", "w") as self.app.file_obj:
             self.app.post_json(
-                f'/contracts/{self.contract_id}/documents?acc_token={supplier_token}',
+                f"/contracts/{self.contract_id}/documents?acc_token={supplier_token}",
                 {"data": contract_sign_data},
                 status=403,
             )
@@ -334,7 +336,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         prev_buyer_name = self.contract["buyer"]["signerInfo"]["name"]
         contract_data["buyer"]["signerInfo"]["name"] = "Another buyer"
 
-        with open(TARGET_DIR + 'contract-supplier-post-contract-invalid.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-supplier-post-contract-invalid.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts?acc_token={supplier_token}",
                 {"data": contract_data},
@@ -352,7 +354,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             }
         )
 
-        with open(TARGET_DIR + 'contract-supplier-post-contract-version.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-supplier-post-contract-version.http", "w") as self.app.file_obj:
             with mock.patch(upload_mock_path) as mock_upload_contract_pdf:
                 mock_upload_contract_pdf.return_value = {"data": pdf_data}
                 response = self.app.post_json(
@@ -362,58 +364,59 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 mock_upload_contract_pdf.assert_called_once()
         new_contract = response.json["data"]
 
-        with open(TARGET_DIR + 'get-previous-contract-version.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "get-previous-contract-version.http", "w") as self.app.file_obj:
             self.app.get(
                 f"/contracts/{self.contract_id}",
             )
 
-        with open(TARGET_DIR + 'get-tender-contracts.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "get-tender-contracts.http", "w") as self.app.file_obj:
             self.app.get(
                 f"/tenders/{self.tender_id}/contracts",
             )
 
-        with open(TARGET_DIR + 'contract-supplier-cancels-contract-2.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-supplier-cancels-contract-2.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{new_contract['id']}/cancellations?acc_token={supplier_token}",
                 {"data": {"reasonType": "signingRefusal", "reason": "want to quid"}},
             )
         self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'winner-cancellation-of-contract.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "winner-cancellation-of-contract.http", "w") as self.app.file_obj:
             self.app.get(
                 f"/contracts/{new_contract['id']}",
             )
 
-        with open(TARGET_DIR + 'winner-award-cancellation.http', 'w') as self.app.file_obj, change_auth(
-            self.app, ("Basic", ("broker", ""))
+        with (
+            open(TARGET_DIR + "winner-award-cancellation.http", "w") as self.app.file_obj,
+            change_auth(self.app, ("Basic", ("broker", ""))),
         ):
             self.app.patch_json(
-                f'/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}',
+                f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
                 {"data": {"status": "cancelled"}},
             )
 
-        with open(TARGET_DIR + 'contract-with-winner-cancellation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-with-winner-cancellation.http", "w") as self.app.file_obj:
             self.app.get(
                 f"/contracts/{new_contract['id']}",
             )
 
-        with open(TARGET_DIR + 'tender-with-winner-cancellation-of-contract.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tender-with-winner-cancellation-of-contract.http", "w") as self.app.file_obj:
             response = self.app.get(
-                f'/tenders/{tender_id}?acc_token={tender_token}',
+                f"/tenders/{tender_id}?acc_token={tender_token}",
             )
 
         new_award_id = response.json["data"]["awards"][-1]["id"]
         with mock.patch(upload_mock_path) as mock_upload_contract_pdf, change_auth(self.app, ("Basic", ("token", ""))):
             mock_upload_contract_pdf.return_value = {"data": pdf_data}
             self.app.patch_json(
-                f'/tenders/{tender_id}/awards/{new_award_id}?acc_token={tender_token}',
+                f"/tenders/{tender_id}/awards/{new_award_id}?acc_token={tender_token}",
                 {"data": {"status": "active", "qualified": True}},
             )
             mock_upload_contract_pdf.assert_called_once()
         # get contract id
-        response = self.app.get(f'/tenders/{tender_id}')
-        contract = response.json['data']['contracts'][-1]
-        self.contract_id = contract['id']
+        response = self.app.get(f"/tenders/{tender_id}")
+        contract = response.json["data"]["contracts"][-1]
+        self.contract_id = contract["id"]
 
         # Getting access for contract
         response = self.app.post_json(
@@ -436,7 +439,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         )
         supplier_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'changes-for-pending-contract.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "changes-for-pending-contract.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
                 {
@@ -450,26 +453,28 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 status=403,
             )
 
-        with open(TARGET_DIR + 'contract-supplier-add-signature-doc.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-supplier-add-signature-doc.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/documents?acc_token={supplier_token}", {"data": contract_sign_data}
             )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        with change_auth(self.app, ("Basic", ("broker6", ""))), open(
-            TARGET_DIR + 'contract-buyer-add-signature-doc.http', 'w'
-        ) as self.app.file_obj:
+        with (
+            change_auth(self.app, ("Basic", ("broker6", ""))),
+            open(TARGET_DIR + "contract-buyer-add-signature-doc.http", "w") as self.app.file_obj,
+        ):
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/documents?acc_token={buyer_token_2}", {"data": contract_sign_data}
             )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'get-active-contract.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "get-active-contract.http", "w") as self.app.file_obj:
             self.app.get(f"/contracts/{self.contract_id}?acc_token={buyer_token_2}")
 
-        with change_auth(self.app, ("Basic", ("broker6", ""))), open(
-            TARGET_DIR + 'change-modifications-invalid-currency.http', 'w'
-        ) as self.app.file_obj:
+        with (
+            change_auth(self.app, ("Basic", ("broker6", ""))),
+            open(TARGET_DIR + "change-modifications-invalid-currency.http", "w") as self.app.file_obj,
+        ):
             self.app.post_json(
                 f"/contracts/{self.contract_id}/changes?acc_token={buyer_token_2}",
                 {
@@ -482,7 +487,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 status=403,
             )
 
-        with open(TARGET_DIR + 'change-modifications-invalid-period.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "change-modifications-invalid-period.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
                 {
@@ -526,25 +531,27 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 change_id = response.json["data"]["id"]
             mock_upload_contract_change_pdf.assert_called_once()
 
-        with open(TARGET_DIR + 'change-supplier-add-signature-doc.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "change-supplier-add-signature-doc.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/changes/{change_id}/documents?acc_token={supplier_token}",
                 {"data": contract_sign_data},
             )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        with change_auth(self.app, ("Basic", ("broker6", ""))), open(
-            TARGET_DIR + 'change-buyer-add-signature-doc.http', 'w'
-        ) as self.app.file_obj:
+        with (
+            change_auth(self.app, ("Basic", ("broker6", ""))),
+            open(TARGET_DIR + "change-buyer-add-signature-doc.http", "w") as self.app.file_obj,
+        ):
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/changes/{change_id}/documents?acc_token={buyer_token_2}",
                 {"data": contract_sign_data},
             )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        with change_auth(self.app, ("Basic", ("broker6", ""))), open(
-            TARGET_DIR + 'get-active-change.http', 'w'
-        ) as self.app.file_obj:
+        with (
+            change_auth(self.app, ("Basic", ("broker6", ""))),
+            open(TARGET_DIR + "get-active-change.http", "w") as self.app.file_obj,
+        ):
             self.app.get(f"/contracts/{self.contract_id}/changes/{change_id}?acc_token={buyer_token_2}")
 
         # cancellations
@@ -567,33 +574,33 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             mock_upload_contract_change_pdf.assert_called_once()
 
         change_id_2 = response.json["data"]["id"]
-        with open(TARGET_DIR + 'contract-supplier-cancels-change.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-supplier-cancels-change.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/changes/{change_id_2}/cancellations?acc_token={supplier_token}",
                 {"data": {"reasonType": "requiresChanges", "reason": "not actual change"}},
             )
         self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'cancellation-of-change.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "cancellation-of-change.http", "w") as self.app.file_obj:
             self.app.get(
                 f"/contracts/{self.contract_id}/changes/{change_id_2}",
             )
 
-        with open(TARGET_DIR + 'cancellation-of-change-duplicated.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "cancellation-of-change-duplicated.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/changes/{change_id_2}/cancellations?acc_token={supplier_token}",
                 {"data": {"reasonType": "requiresChanges", "reason": "not actual change"}},
                 status=403,
             )
 
-        with open(TARGET_DIR + 'contract-supplier-add-signature-to-change-forbidden.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-supplier-add-signature-to-change-forbidden.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/changes/{change_id_2}/documents?acc_token={supplier_token}",
                 {"data": contract_sign_data},
                 status=403,
             )
 
-        with open(TARGET_DIR + 'get-contract-with-changes.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "get-contract-with-changes.http", "w") as self.app.file_obj:
             response = self.app.get(
                 f"/contracts/{self.contract_id}?acc_token={supplier_token}",
             )
@@ -607,7 +614,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         }
         new_item["description"] = "Картон ручного виготовлення"
         new_item.pop("id", None)
-        with open(TARGET_DIR + 'create-change-items-invalid-classification.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "create-change-items-invalid-classification.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
                 {
@@ -628,7 +635,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         new_item["quantity"] = 20
         new_item["description"] = "Додаткове комп’ютерне обладнання"
 
-        with open(TARGET_DIR + 'create-change-items-invalid-price.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "create-change-items-invalid-price.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
                 {

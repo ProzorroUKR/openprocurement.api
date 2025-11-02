@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/93bcad4f0fe64036865492ecfe70f113/qualifications HTTP/1.0
+GET /api/2.5/frameworks/093bd3718cb14e2c933c209d60e76b0b/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -33,7 +33,7 @@ Content-Type: application/json
         }
       ],
       "submissionID": "5e1269d73d184f65bf1f889a1abc9974",
-      "frameworkID": "93bcad4f0fe64036865492ecfe70f113",
+      "frameworkID": "093bd3718cb14e2c933c209d60e76b0b",
       "status": "unsuccessful",
       "date": "2023-10-26T01:00:00+03:00",
       "dateCreated": "2023-10-26T01:00:00+03:00",
@@ -55,7 +55,7 @@ Content-Type: application/json
         }
       ],
       "submissionID": "4693711d52b14347b47af79c501fbd5f",
-      "frameworkID": "93bcad4f0fe64036865492ecfe70f113",
+      "frameworkID": "093bd3718cb14e2c933c209d60e76b0b",
       "status": "active",
       "date": "2023-10-26T01:00:00+03:00",
       "dateCreated": "2023-10-26T01:00:00+03:00",

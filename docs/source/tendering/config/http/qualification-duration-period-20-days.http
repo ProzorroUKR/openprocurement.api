@@ -924,7 +924,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/389951a70228404a81d813a8c8f3d793?Signature=0kJ9eyKFrjCXRrVInJu%2BDv0t7vMookxw8xja5Nwb4xIm7VcZZczptQYIbb%2F2R0b%2FnkTTJGj9gjH7Ri6zNUoBDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bebf8577c87d49a99472444e2fc46ea7?Signature=VXKEzY1RhERMTq8fbs4cq6Uzwe3%2Bc8cpKXGYDpDf7B3WbI8WnUke%2Btn8jNTLRC1O%2FtSTzH7r%2FN1uF9rZqpbEDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -1324,7 +1324,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bebf8577c87d49a99472444e2fc46ea7?Signature=VXKEzY1RhERMTq8fbs4cq6Uzwe3%2Bc8cpKXGYDpDf7B3WbI8WnUke%2Btn8jNTLRC1O%2FtSTzH7r%2FN1uF9rZqpbEDQ%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/87879070e6fc47e98110621d6eed0956?Signature=gGFRPA0qMAT1zgWJyLHDwql6dd4O6gqd5qzjyCGWdNA8Nr3pCA8f5tTvi4SJXM05V%2BdA%2BAmayveqcurpXKlBCA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
@@ -1557,7 +1557,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a698fc2a68a64eebbbbf8dba0b4d77fa?Signature=lAQ18NyymFlpiBDp%2FMHECThfKcqXr2I%2BH7nvdv03Y2vZ8vqyadyA1If5teboRHoadw7%2FAsf9bPzyBCd6QA2GAw%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/37eae6e70da24997b06d7b039b9a1667?Signature=RrsHbgQa1n7Yn45e3eh815YVvjlNVLzlN9UeLEX6QeZ5SVgaaMynkIPpn5hb4GhnoiPpJaHu4UBMv%2F0gf%2FDUCw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"

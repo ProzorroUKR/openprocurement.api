@@ -74,7 +74,7 @@ Content-Type: application/json
       {
         "profile": "655360-30230000-889652-40000777",
         "category": "655360-30230000-889652",
-        "id": "b9d12bf323eb4d539fc49c3d7d1c6446",
+        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -117,7 +117,7 @@ Content-Type: application/json
         "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
         "source": "tenderer",
         "relatesTo": "item",
-        "relatedItem": "b9d12bf323eb4d539fc49c3d7d1c6446",
+        "relatedItem": "30c4edcb5705460a9ca5fd7985bfe56c",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"

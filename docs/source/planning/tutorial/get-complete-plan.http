@@ -1,4 +1,4 @@
-GET /api/2.5/plans/647ea8f38f72484ea0245b71b7cd4231 HTTP/1.0
+GET /api/2.5/plans/41dd1a57d4074913838107cf156a4f5f HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "status": "complete",
     "procuringEntity": {
-      "id": "3dd578dcb6d34f1fa29434f9f012065d",
+      "id": "88b1bac11a154af28d39a636d067680a",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -58,7 +58,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "abf2efd495c14084a00790a883386ee2",
+          "id": "a274bbff989845ab890f65beecb1426d",
           "title": "local",
           "description": "Breakdown other description.",
           "value": {
@@ -124,7 +124,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "bdec69d290d548aca291dd58d4a1854d",
+        "id": "983235c9a84e41128bba17109da5e414",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -162,7 +162,7 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:00+03:00",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "tender_id": "7f5e6c2aa6f54cc3a2f6589002f0d6ce",
-    "id": "647ea8f38f72484ea0245b71b7cd4231"
+    "id": "41dd1a57d4074913838107cf156a4f5f"
   }
 }
 

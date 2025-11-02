@@ -1,4 +1,4 @@
-DELETE /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/bids/55faa050ef4746c29fc00870518cecad?acc_token=1e67ef046652447ea98fbc09899c438b HTTP/1.0
+DELETE /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/bids/4ab3fec8e0784ffbb62c204741ed37fc?acc_token=4b182a91a2864791a3088e84e44e6f08 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -50,7 +50,7 @@ Content-Type: application/json
           "title": "Діагональ екрану"
         },
         "value": 23.8,
-        "id": "d322358cebbd4e9a9f65e1425f4934e1",
+        "id": "be4caa39955a4cafb7d1aa9f595b31fd",
         "unit": {
           "code": "INH",
           "name": "дюйм"
@@ -68,7 +68,7 @@ Content-Type: application/json
         "values": [
           "1920x1080"
         ],
-        "id": "30ab504260c643ab8e603a6545b2f5a8",
+        "id": "39be98dc02274a1eb4b7f714b60a80b2",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -82,7 +82,7 @@ Content-Type: application/json
         "values": [
           "16:9"
         ],
-        "id": "7ec98001370f4de7a7973ebec7471ee3",
+        "id": "f8a8879c85c649e1867a9bac8e707106",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -94,7 +94,7 @@ Content-Type: application/json
           "title": "Яскравість дисплея"
         },
         "value": 0,
-        "id": "9aa3163bcc85432eae1ef76d95c69317",
+        "id": "8c30b05d1b0d44f39eb7c9e2f24b6398",
         "unit": {
           "code": "A24",
           "name": "кд/м²"
@@ -112,7 +112,7 @@ Content-Type: application/json
         "values": [
           "1000:1"
         ],
-        "id": "dfad8e79057a4cd0803f1a0d6adb3bec",
+        "id": "f890f771f119438c84df516bedf71125",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -124,7 +124,7 @@ Content-Type: application/json
           "title": "Кількість портів HDMI"
         },
         "value": 1,
-        "id": "ada3bc7bb9624da998cfd33cd2e306d6",
+        "id": "42aaf319b91a42579853fc576c437faf",
         "unit": {
           "code": "H87",
           "name": "штук"
@@ -140,7 +140,7 @@ Content-Type: application/json
           "title": "Кількість портів D-sub"
         },
         "value": 1,
-        "id": "2186546dcbbe4423a6f276f1c97601f9",
+        "id": "006470aff5344f12b98c26e3fced17f5",
         "unit": {
           "code": "H87",
           "name": "штук"
@@ -158,7 +158,7 @@ Content-Type: application/json
         "values": [
           "HDMI"
         ],
-        "id": "0715b554d0fe4dddab2e85f594d826cb",
+        "id": "f47628aed7c44295a311a82af64ca477",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -170,7 +170,7 @@ Content-Type: application/json
           "title": "Гарантія"
         },
         "value": 36,
-        "id": "b428ba5403cd4ebab61bbc860de74eed",
+        "id": "c2f888b26b0b458d8b9ee2e1eb492aec",
         "unit": {
           "code": "MON",
           "name": "місяців"
@@ -184,7 +184,7 @@ Content-Type: application/json
     "status": "draft",
     "items": [
       {
-        "id": "b9d12bf323eb4d539fc49c3d7d1c6446",
+        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -199,7 +199,7 @@ Content-Type: application/json
         "product": "bee4548f9f344b8db47807229189394f"
       }
     ],
-    "id": "55faa050ef4746c29fc00870518cecad",
+    "id": "4ab3fec8e0784ffbb62c204741ed37fc",
     "date": "2024-01-01T00:00:01+02:00"
   }
 }

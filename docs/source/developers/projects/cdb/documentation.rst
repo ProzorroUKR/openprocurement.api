@@ -9,44 +9,10 @@
 Підготовка середовища
 ~~~~~~~~~~~~~~~~~~~~~
 
-1. Створіть віртуальне середовище:
-
 .. code-block:: bash
 
-   virtualenv -p python3.11 venv
+   docker compose build
 
-або
-
-.. code-block:: bash
-
-   python3 -m venv venv
-
-2. Активуйте віртуальне середовище:
-
-.. code-block:: bash
-
-   source venv/bin/activate
-
-3. Встановіть необхідні залежності:
-
-.. code-block:: bash
-
-   pip install -r requirements.txt
-   pip install -r requirements-test.txt
-   pip install -r docs/source/requirements.txt
-
-
-4.Додайте "mongo" у /etc/hosts
-
-.. code-block:: bash
-
-   echo "127.0.0.1 mongo" >> /etc/hosts
-
-5. Запустіть mongo за потреби:
-
-.. code-block:: bash
-
-   docker-compose up -d mongo
 
 Генерація прикладів запитів
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,24 +23,21 @@
 
 .. code-block:: bash
 
-   py.test docs/tests
+   docker compose run --rm api pytest docs/tests
 
 2. За потреби запустіть окремо певний тест:
 
 .. code-block:: bash
 
-   py.test docs/tests/test_belowthreshold.py -k test_docs_milestones
+   docker compose run --rm api pytest docs/tests/test_belowthreshold.py -k test_docs_milestones
+
 
 Генерація документації
 ~~~~~~~~~~~~~~~~~~~~~~
 
-.. warning:: Наступні команди потрібно виконувати у папці ``docs``
-
-1. Згенеруйте документацію
-
 .. code-block:: bash
 
-   make html
+   docker compose run --rm api sh -c "cd docs && make html"
 
 Згенерована документація буде у папці ``build/html``
 
@@ -89,13 +52,13 @@
 
 .. code-block:: bash
 
-   make clean
+   docker compose run --rm api sh -c "cd docs && make clean"
 
 2. Витягніть всі рядки, що підлягають перекладу, з документації. 
 
 .. code-block:: bash
 
-   make gettext
+   docker compose run --rm api sh -c "cd docs && make gettext"
 
 .. note:: Будуть оновлені каталоги рядків ``.pot`` у папці ``build/locale/``
 
@@ -103,7 +66,7 @@
 
 .. code-block:: bash
 
-   make locale-update
+   docker compose run --rm api sh -c "cd docs && make locale-update"
 
 .. note:: Буде оновлено існуючі файли ``.po`` у папці ``locale/uk/LC_MESSAGES/`` новими/зміненими рядками з каталогу згенерованого у попередньому пункті.
 
@@ -113,7 +76,7 @@
 
 .. code-block:: bash
 
-   make locale-build
+   docker compose run --rm api sh -c "cd docs && make locale-build"
 
 .. note:: З файлів ``.po`` у папці ``locale/uk/LC_MESSAGES/`` будуть скомпільовані ``.mo`` файли
 

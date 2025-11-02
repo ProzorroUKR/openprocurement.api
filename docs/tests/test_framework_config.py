@@ -5,9 +5,6 @@ from copy import deepcopy
 from datetime import timedelta
 
 import standards
-from tests.base.constants import DOCS_URL
-from tests.base.data import test_docs_items_dps, test_docs_organization
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
@@ -22,12 +19,15 @@ from openprocurement.framework.dps.tests.base import (
     test_framework_dps_data,
     test_submission_data,
 )
+from tests.base.constants import DOCS_URL
+from tests.base.data import test_docs_items_dps, test_docs_organization
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-TARGET_DIR = 'docs/source/frameworks/config/http/'
-TARGET_CSV_DIR = 'docs/source/frameworks/config/csv/'
+TARGET_DIR = "docs/source/frameworks/config/http/"
+TARGET_CSV_DIR = "docs/source/frameworks/config/csv/"
 
-TARGET_DIR_RESTRICTED = 'docs/source/frameworks/config/http/restricted/'
-TARGET_CSV_DIR_RESTRICTED = 'docs/source/frameworks/config/csv/restricted/'
+TARGET_DIR_RESTRICTED = "docs/source/frameworks/config/http/restricted/"
+TARGET_CSV_DIR_RESTRICTED = "docs/source/frameworks/config/csv/restricted/"
 
 test_framework_dps_data = deepcopy(test_framework_dps_data)
 test_framework_dps_config = deepcopy(test_framework_dps_config)
@@ -47,7 +47,7 @@ class FrameworkConfigCSVMixin:
             if config_values_min == config_values_max:
                 return config_values_min
             else:
-                return f'{config_values_min} - {config_values_max}'
+                return f"{config_values_min} - {config_values_max}"
         else:
             return empty
 
@@ -74,8 +74,8 @@ class FrameworkConfigCSVMixin:
             row = self.get_config_row(framework_type, config_schema)
             rows.append(row)
 
-        with open(file_path, 'w', newline='') as file_csv:
-            writer = csv.writer(file_csv, lineterminator='\n')
+        with open(file_path, "w", newline="") as file_csv:
+            writer = csv.writer(file_csv, lineterminator="\n")
             writer.writerow(headers)
             writer.writerows(rows)
 
@@ -91,8 +91,8 @@ class FrameworkConfigCSVMixin:
         for path, rule in mapping.items():
             rows.append([path, rule])
 
-        with open(file_path, 'w', newline='') as file_csv:
-            writer = csv.writer(file_csv, lineterminator='\n')
+        with open(file_path, "w", newline="") as file_csv:
+            writer = csv.writer(file_csv, lineterminator="\n")
             writer.writerow(headers)
             writer.writerows(rows)
 
@@ -141,49 +141,49 @@ class FrameworkRestrictedResourceTest(FrameworkConfigBaseResouceTest):
         config = deepcopy(self.initial_config)
         config["restrictedDerivatives"] = True
 
-        response = self.app.get('/frameworks')
-        self.assertEqual(response.json['data'], [])
+        response = self.app.get("/frameworks")
+        self.assertEqual(response.json["data"], [])
 
         # create frameworks
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-            with open(TARGET_DIR_RESTRICTED + 'framework-create-broker.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR_RESTRICTED + "framework-create-broker.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
-                    '/frameworks',
+                    "/frameworks",
                     {
-                        'data': data,
-                        'config': config,
+                        "data": data,
+                        "config": config,
                     },
                 )
-                self.assertEqual(response.status, '201 Created')
+                self.assertEqual(response.status, "201 Created")
 
-            framework = response.json['data']
+            framework = response.json["data"]
             self.framework_id = framework["id"]
-            owner_token = response.json['access']['token']
+            owner_token = response.json["access"]["token"]
 
-            with open(TARGET_DIR_RESTRICTED + 'framework-activate-broker.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR_RESTRICTED + "framework-activate-broker.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token), {'data': {"status": "active"}}
+                    "/frameworks/{}?acc_token={}".format(framework["id"], owner_token), {"data": {"status": "active"}}
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
         # Submissions
 
         # Create by Broker
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-            with open(TARGET_DIR_RESTRICTED + 'submission-register-broker.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR_RESTRICTED + "submission-register-broker.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
-                    '/submissions',
+                    "/submissions",
                     {
-                        'data': {
+                        "data": {
                             "tenderers": [test_docs_organization],
                             "frameworkID": self.framework_id,
                         },
-                        'config': {
-                            'restricted': True,
+                        "config": {
+                            "restricted": True,
                         },
                     },
                 )
-                self.assertEqual(response.status, '201 Created')
+                self.assertEqual(response.status, "201 Created")
 
         self.submission1_id = response.json["data"]["id"]
         self.submission1_token = response.json["access"]["token"]
@@ -191,7 +191,7 @@ class FrameworkRestrictedResourceTest(FrameworkConfigBaseResouceTest):
         # Add Submission document
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
             response = self.app.post_json(
-                '/submissions/{}/documents?acc_token={}'.format(self.submission1_id, self.submission1_token),
+                "/submissions/{}/documents?acc_token={}".format(self.submission1_id, self.submission1_token),
                 {
                     "data": {
                         "title": "укр.doc",
@@ -205,41 +205,41 @@ class FrameworkRestrictedResourceTest(FrameworkConfigBaseResouceTest):
 
         # Activate Submission
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-            with open(TARGET_DIR_RESTRICTED + 'submission-activate-broker.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR_RESTRICTED + "submission-activate-broker.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/submissions/{}?acc_token={}'.format(self.submission1_id, self.submission1_token),
-                    {'data': {"status": "active"}},
+                    "/submissions/{}?acc_token={}".format(self.submission1_id, self.submission1_token),
+                    {"data": {"status": "active"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
             self.qualification1_id = response.json["data"]["qualificationID"]
 
         # Check by Broker, can see submissions
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-            with open(TARGET_DIR_RESTRICTED + 'submission-feed-broker.http', 'w') as self.app.file_obj:
-                response = self.app.get('/submissions?opt_fields=frameworkID,status,documents')
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "submission-feed-broker.http", "w") as self.app.file_obj:
+                response = self.app.get("/submissions?opt_fields=frameworkID,status,documents")
+                self.assertEqual(response.status, "200 OK")
 
-            with open(TARGET_DIR_RESTRICTED + 'submission-get-broker.http', 'w') as self.app.file_obj:
-                response = self.app.get('/submissions/{}'.format(self.submission1_id))
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "submission-get-broker.http", "w") as self.app.file_obj:
+                response = self.app.get("/submissions/{}".format(self.submission1_id))
+                self.assertEqual(response.status, "200 OK")
 
         # Check by Anonymous
         with change_auth(self.app, None):
-            with open(TARGET_DIR_RESTRICTED + 'submission-feed-anonymous.http', 'w') as self.app.file_obj:
-                response = self.app.get('/submissions?opt_fields=frameworkID,status,documents')
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "submission-feed-anonymous.http", "w") as self.app.file_obj:
+                response = self.app.get("/submissions?opt_fields=frameworkID,status,documents")
+                self.assertEqual(response.status, "200 OK")
 
-            with open(TARGET_DIR_RESTRICTED + 'submission-get-anonymous.http', 'w') as self.app.file_obj:
-                response = self.app.get('/submissions/{}'.format(self.submission1_id))
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "submission-get-anonymous.http", "w") as self.app.file_obj:
+                response = self.app.get("/submissions/{}".format(self.submission1_id))
+                self.assertEqual(response.status, "200 OK")
 
         # Qualification
 
         # Add Qualification document
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
             response = self.app.post_json(
-                '/qualifications/{}/documents?acc_token={}'.format(self.qualification1_id, owner_token),
+                "/qualifications/{}/documents?acc_token={}".format(self.qualification1_id, owner_token),
                 {
                     "data": {
                         "title": "укр.doc",
@@ -253,28 +253,28 @@ class FrameworkRestrictedResourceTest(FrameworkConfigBaseResouceTest):
 
         # Check by Broker, can see qualifications
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-            with open(TARGET_DIR_RESTRICTED + 'qualification-feed-broker.http', 'w') as self.app.file_obj:
-                response = self.app.get('/qualifications?opt_fields=frameworkID,status,documents')
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "qualification-feed-broker.http", "w") as self.app.file_obj:
+                response = self.app.get("/qualifications?opt_fields=frameworkID,status,documents")
+                self.assertEqual(response.status, "200 OK")
 
-            with open(TARGET_DIR_RESTRICTED + 'qualification-get-broker.http', 'w') as self.app.file_obj:
-                response = self.app.get('/qualifications/{}'.format(self.qualification1_id))
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "qualification-get-broker.http", "w") as self.app.file_obj:
+                response = self.app.get("/qualifications/{}".format(self.qualification1_id))
+                self.assertEqual(response.status, "200 OK")
 
         # Check by Anonymous
         with change_auth(self.app, None):
-            with open(TARGET_DIR_RESTRICTED + 'qualification-feed-anonymous.http', 'w') as self.app.file_obj:
-                response = self.app.get('/qualifications?opt_fields=frameworkID,status,documents')
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "qualification-feed-anonymous.http", "w") as self.app.file_obj:
+                response = self.app.get("/qualifications?opt_fields=frameworkID,status,documents")
+                self.assertEqual(response.status, "200 OK")
 
-            with open(TARGET_DIR_RESTRICTED + 'qualification-get-anonymous.http', 'w') as self.app.file_obj:
-                response = self.app.get('/qualifications/{}'.format(self.qualification1_id))
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "qualification-get-anonymous.http", "w") as self.app.file_obj:
+                response = self.app.get("/qualifications/{}".format(self.qualification1_id))
+                self.assertEqual(response.status, "200 OK")
 
         # Activate Qualifications
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
             response = self.app.post_json(
-                '/qualifications/{}/documents?acc_token={}'.format(self.qualification1_id, owner_token),
+                "/qualifications/{}/documents?acc_token={}".format(self.qualification1_id, owner_token),
                 {
                     "data": {
                         "title": "sign.p7s",
@@ -285,41 +285,41 @@ class FrameworkRestrictedResourceTest(FrameworkConfigBaseResouceTest):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
-            with open(TARGET_DIR_RESTRICTED + 'qualification-activate-broker.http', 'w') as self.app.file_obj:
+            self.assertEqual(response.status, "201 Created")
+            with open(TARGET_DIR_RESTRICTED + "qualification-activate-broker.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/qualifications/{}?acc_token={}'.format(self.qualification1_id, owner_token),
-                    {'data': {"status": "active"}},
+                    "/qualifications/{}?acc_token={}".format(self.qualification1_id, owner_token),
+                    {"data": {"status": "active"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
         # Agreement
 
         with change_auth(self.app, None):
-            with open(TARGET_DIR_RESTRICTED + 'framework-with-agreement.http', 'w') as self.app.file_obj:
-                response = self.app.get(f'/frameworks/{self.framework_id}')
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "framework-with-agreement.http", "w") as self.app.file_obj:
+                response = self.app.get(f"/frameworks/{self.framework_id}")
+                self.assertEqual(response.status, "200 OK")
                 self.agreement_id = response.json["data"]["agreementID"]
 
         # Check by Broker
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-            with open(TARGET_DIR_RESTRICTED + 'agreement-feed-broker.http', 'w') as self.app.file_obj:
-                response = self.app.get('/agreements?opt_fields=status,procuringEntity')
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "agreement-feed-broker.http", "w") as self.app.file_obj:
+                response = self.app.get("/agreements?opt_fields=status,procuringEntity")
+                self.assertEqual(response.status, "200 OK")
 
-            with open(TARGET_DIR_RESTRICTED + 'agreement-get-broker.http', 'w') as self.app.file_obj:
-                response = self.app.get('/agreements/{}'.format(self.agreement_id))
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "agreement-get-broker.http", "w") as self.app.file_obj:
+                response = self.app.get("/agreements/{}".format(self.agreement_id))
+                self.assertEqual(response.status, "200 OK")
 
         # Check by Anonymous
         with change_auth(self.app, None):
-            with open(TARGET_DIR_RESTRICTED + 'agreement-feed-anonymous.http', 'w') as self.app.file_obj:
-                response = self.app.get('/agreements?opt_fields=status,procuringEntity')
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "agreement-feed-anonymous.http", "w") as self.app.file_obj:
+                response = self.app.get("/agreements?opt_fields=status,procuringEntity")
+                self.assertEqual(response.status, "200 OK")
 
-            with open(TARGET_DIR_RESTRICTED + 'agreement-get-anonymous.http', 'w') as self.app.file_obj:
-                response = self.app.get('/agreements/{}'.format(self.agreement_id))
-                self.assertEqual(response.status, '200 OK')
+            with open(TARGET_DIR_RESTRICTED + "agreement-get-anonymous.http", "w") as self.app.file_obj:
+                response = self.app.get("/agreements/{}".format(self.agreement_id))
+                self.assertEqual(response.status, "200 OK")
 
 
 class FrameworkClarificationUntilDurationResourceTest(FrameworkConfigBaseResouceTest):
@@ -358,19 +358,18 @@ class FrameworkHasItemsResourceTest(FrameworkConfigBaseResouceTest):
         data["items"] = test_docs_items_dps
 
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
-            with open(TARGET_DIR + 'has-items-false-with-items-create-error.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "has-items-false-with-items-create-error.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
-                    '/frameworks',
+                    "/frameworks",
                     {
-                        'data': data,
-                        'config': config,
+                        "data": data,
+                        "config": config,
                     },
                     status=422,
                 )
-                self.assertEqual(response.status, '422 Unprocessable Entity')
+                self.assertEqual(response.status, "422 Unprocessable Entity")
                 self.assertEqual(
-                    response.json['errors'],
+                    response.json["errors"],
                     [
                         {
                             "location": "body",
@@ -384,29 +383,28 @@ class FrameworkHasItemsResourceTest(FrameworkConfigBaseResouceTest):
         data.pop("items", None)
 
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
-            with open(TARGET_DIR + 'has-items-false-without-items-create.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "has-items-false-without-items-create.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
-                    '/frameworks',
+                    "/frameworks",
                     {
-                        'data': data,
-                        'config': config,
+                        "data": data,
+                        "config": config,
                     },
                 )
-                self.assertEqual(response.status, '201 Created')
+                self.assertEqual(response.status, "201 Created")
 
-            self.assertEqual(response.json['config']['hasItems'], False)
+            self.assertEqual(response.json["config"]["hasItems"], False)
 
-            framework = response.json['data']
+            framework = response.json["data"]
             self.framework_id = framework["id"]
-            self.framework_token = response.json['access']['token']
+            self.framework_token = response.json["access"]["token"]
 
-            with open(TARGET_DIR + 'has-items-false-without-items-activate-success.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "has-items-false-without-items-activate-success.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/frameworks/{}?acc_token={}'.format(self.framework_id, self.framework_token),
-                    {'data': {"status": "active"}},
+                    "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
+                    {"data": {"status": "active"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
             self.create_submission(data=test_submission_data)
             self.activate_submission()
@@ -428,32 +426,31 @@ class FrameworkHasItemsResourceTest(FrameworkConfigBaseResouceTest):
         data.pop("items", None)
 
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
-            with open(TARGET_DIR + 'has-items-true-without-items-create.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "has-items-true-without-items-create.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
-                    '/frameworks',
+                    "/frameworks",
                     {
-                        'data': data,
-                        'config': config,
+                        "data": data,
+                        "config": config,
                     },
                 )
-                self.assertEqual(response.status, '201 Created')
+                self.assertEqual(response.status, "201 Created")
 
-            self.assertEqual(response.json['config']['hasItems'], True)
+            self.assertEqual(response.json["config"]["hasItems"], True)
 
-            framework = response.json['data']
+            framework = response.json["data"]
             self.framework_id = framework["id"]
-            self.framework_token = response.json['access']['token']
+            self.framework_token = response.json["access"]["token"]
 
-            with open(TARGET_DIR + 'has-items-true-without-items-activate-error.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "has-items-true-without-items-activate-error.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/frameworks/{}?acc_token={}'.format(self.framework_id, self.framework_token),
-                    {'data': {"status": "active"}},
+                    "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
+                    {"data": {"status": "active"}},
                     status=422,
                 )
-                self.assertEqual(response.status, '422 Unprocessable Entity')
+                self.assertEqual(response.status, "422 Unprocessable Entity")
                 self.assertEqual(
-                    response.json['errors'],
+                    response.json["errors"],
                     [
                         {
                             "location": "body",
@@ -467,29 +464,28 @@ class FrameworkHasItemsResourceTest(FrameworkConfigBaseResouceTest):
         data["items"] = test_docs_items_dps
 
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
-            with open(TARGET_DIR + 'has-items-true-with-items-create.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "has-items-true-with-items-create.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
-                    '/frameworks',
+                    "/frameworks",
                     {
-                        'data': data,
-                        'config': config,
+                        "data": data,
+                        "config": config,
                     },
                 )
-                self.assertEqual(response.status, '201 Created')
+                self.assertEqual(response.status, "201 Created")
 
-            self.assertEqual(response.json['config']['hasItems'], True)
+            self.assertEqual(response.json["config"]["hasItems"], True)
 
-            framework = response.json['data']
+            framework = response.json["data"]
             self.framework_id = framework["id"]
-            self.framework_token = response.json['access']['token']
+            self.framework_token = response.json["access"]["token"]
 
-            with open(TARGET_DIR + 'has-items-true-with-items-activate-success.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "has-items-true-with-items-activate-success.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/frameworks/{}?acc_token={}'.format(self.framework_id, self.framework_token),
-                    {'data': {"status": "active"}},
+                    "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
+                    {"data": {"status": "active"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
             self.create_submission(data=test_submission_data)
             self.activate_submission()
@@ -498,7 +494,7 @@ class FrameworkHasItemsResourceTest(FrameworkConfigBaseResouceTest):
             framework = response.json["data"]
             self.agreement_id = framework["agreementID"]
 
-            with open(TARGET_DIR + 'has-items-true-with-items-agreement.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "has-items-true-with-items-agreement.http", "w") as self.app.file_obj:
                 response = self.app.get("/agreements/{}".format(self.agreement_id))
                 self.assertEqual(response.status, "200 OK")
                 self.assertEqual(response.content_type, "application/json")

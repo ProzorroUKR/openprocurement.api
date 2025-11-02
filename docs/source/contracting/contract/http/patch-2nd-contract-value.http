@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/66570cc698414ed6a3d9f41e21430ffd?acc_token=bd752c98d89446f193f57dcd79983c09 HTTP/1.0
+PATCH /api/2.5/contracts/66570cc698414ed6a3d9f41e21430ffd?acc_token=0aff03b619d44f96b3106053625a7357 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -25,7 +25,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "items": [
       {
-        "id": "904d401d470746dea36321c947700fc2",
+        "id": "8e022f41db5141c28550be76bbbd600a",
         "description": "портфелі",
         "quantity": 5.0,
         "classification": {
@@ -63,7 +63,7 @@ Content-Type: application/json
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "4b4f9ec479ce4edd9721fec1f323568c",
+        "id": "32a3cfc4a06d4962b4c998c340e399c5",
         "description": "портфелі",
         "quantity": 5.0,
         "classification": {
@@ -101,7 +101,7 @@ Content-Type: application/json
         "relatedBuyer": "22222222222222222222222222222222"
       }
     ],
-    "tender_id": "a2a81b5e37bf4a689b8300d5a9447a11",
+    "tender_id": "19e9963bdfcc4808a9b31fd3ef480e61",
     "owner": "broker",
     "status": "pending",
     "buyer": {

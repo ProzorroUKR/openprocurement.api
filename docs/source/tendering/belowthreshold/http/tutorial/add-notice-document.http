@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents?acc_token=312a92a0096444fa9b9761b0af134205 HTTP/1.0
+POST /api/2.5/tenders/f135bade563d49fc9233e1f1d37fdcf0/documents?acc_token=dc92946b9e4b4ea583fcb7d1136d6cc8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "title": "sign.p7s",
     "documentType": "notice",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cdb6e7cdd13c424ca6d701372a9e7de1?Signature=g9aLJk243q7Y%2BLJ9P02TCUxjNSqeaiP8N4lNyTzj%2FZBMlVvoOv0nm0mV7thwEZG5I7%2F2L1wHy90Vo%2Fjx%2BOK5Dg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/28ead5b46c074f4faf2188518029eeda?Signature=5ctwt%2FCNhhbgoPe1IJoI6ekt0M1xnQDvYqB6mEIwc8neckpF6vdQFm1yLKFXARRP%2FIlK%2B%2BPim2KI5VQrQiohBQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "sign/pkcs7-signature"
   }
@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents/cd8449f4d78c4f088c61ca2d58851f67
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f135bade563d49fc9233e1f1d37fdcf0/documents/11f074cdd7974562be5529038ab2d5ce
 
 {
   "data": {
@@ -25,10 +25,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
     "hash": "md5:00000000000000000000000000000000",
     "title": "sign.p7s",
     "format": "sign/pkcs7-signature",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cdb6e7cdd13c424ca6d701372a9e7de1?Signature=%2B4SXU9Ao9xR1zTNFK4AzMIh%2BFZN4b25SfjdO69%2FfmaM8%2FcKMeDB0Xa2jCG%2FgA25Q5u3c5StwiOD10dl8ZqyEAw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/28ead5b46c074f4faf2188518029eeda?Signature=yz3QviIT0rhmN2R%2FoW%2FuouBXwElCrPboBXdHQFBjPrl77FrI1u1zRIUG3NwxoIPM9OjspxObxfANznaO5nkACA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
-    "id": "cd8449f4d78c4f088c61ca2d58851f67",
+    "id": "11f074cdd7974562be5529038ab2d5ce",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "author": "tender_owner"

@@ -1,0 +1,23 @@
+POST /violation_reports/UA-2025-10-12-000001/decisions HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "resolution": "declinedNoViolation",
+    "description": "Комісія дійшла висновку, що ці карти не підпадають під гриф \"таємно\" або \"для службового користування\"."
+  }
+}
+
+
+HTTP/1.0 400 Bad Request
+Content-Type: application/json; charset=utf-8
+Content-Length: 189
+
+{
+  "type": "http-bad-request",
+  "title": "Bad Request",
+  "details": "Can change decision only after defendantPeriod.endDate.",
+  "status": 400,
+  "now": "2023-10-10T01:00:00+03:00",
+  "period": null
+}

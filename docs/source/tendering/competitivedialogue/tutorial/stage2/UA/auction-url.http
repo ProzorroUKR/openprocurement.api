@@ -1126,7 +1126,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "7334046d9fc046358e61bf8dc7d2cd18",
+        "id": "052d2aa3db724254aec98633d9673cf5",
         "lotValues": [
           {
             "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611",
@@ -1142,7 +1142,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.p7s",
             "format": "sign/p7s",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c2d1d13cfad44a15b8201e00cf70e9c7?Signature=r9Z69x6Pwe1Id7ddhc1o4PvtNHgmGTO6eg6lehsZ7Tq896Hyfj1wD346vs8v4Rtj2XcYTLN7pbCW3UDGa%2BXCBA%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dfdbc256001345cdbc55087b0629daa4?Signature=Vv4I4H6%2B56pEfHdP5KTHGOONf1WYAJCQX9Dd103a6bDOxVvXQB6k9y8fiygdT5HwaZbjwx%2FFDo3CvXv3cVImAQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
@@ -1215,14 +1215,14 @@ Content-Type: application/json
             "relatedLot": "a13cb7e45ea242fbb5c0fb54f7002611"
           }
         ],
-        "id": "933771e1159d4c478afc9638b0f276ae"
+        "id": "c57539f17aa846149a74dec2e4ef175d"
       }
     ],
     "questions": [
       {
         "id": "ad448805cc1644b19f8610c78e0881d2",
         "author": {
-          "hash": "c640e1714aa731726061f37aad252e80"
+          "hash": "ccbdd3020ced0cb059da296b5ccfa5d7"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",

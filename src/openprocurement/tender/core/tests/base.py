@@ -116,7 +116,7 @@ class BaseWebTest(BaseApiWebTest):
         self.setUpDS()
 
     def setUpDS(self):
-        self.app.app.registry.docservice_url = self.docservice_url
+        self.registry.docservice_url = self.docservice_url
 
         def request(method, url, **kwargs):
             response = Response()
@@ -135,9 +135,8 @@ class BaseWebTest(BaseApiWebTest):
 
     def generate_docservice_url(self, doc_hash=None):
         uuid = uuid4().hex
-        doc_hash = doc_hash or '0' * 32
-        registry = self.app.app.registry
-        signer = registry.docservice_key
+        doc_hash = doc_hash or "0" * 32
+        signer = self.registry.docservice_key
         keyid = signer.verify_key.encode(encoder=HexEncoder)[:8].decode()
         msg = "{}\0{}".format(uuid, doc_hash).encode()
         signature = b64encode(signer.sign(msg).signature)
@@ -154,7 +153,7 @@ class BaseWebTest(BaseApiWebTest):
 
     def tearDownDS(self):
         SESSION.request = srequest
-        self.app.app.registry.docservice_url = None
+        self.registry.docservice_url = None
 
     def tearDown(self):
         self.tearDownDS()

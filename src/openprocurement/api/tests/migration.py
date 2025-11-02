@@ -8,10 +8,7 @@ from pymongo.errors import BulkWriteError
 from pyramid.scripting import prepare
 
 from openprocurement.api.migrations.base import CollectionMigration
-from openprocurement.api.tests.base import (  # pylint: disable=unused-import
-    app,
-    singleton_app,
-)
+from openprocurement.api.tests.base import app, singleton_app, unwrap_app
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
     test_tender_below_data,
@@ -53,6 +50,8 @@ from openprocurement.tender.openua.tests.base import (
     test_tender_openua_data,
 )
 
+fixtures = (app, singleton_app)
+
 test_tenders = [
     (test_tender_below_data, test_tender_below_config),
     (test_tender_cfaua_with_lots_data, test_tender_cfaua_config),
@@ -83,7 +82,7 @@ def migration_app(app):
         assert response.json["data"]["title"] == "original title"
         assert response.json["data"]["title_en"] == "original title en"
 
-    collection = app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(app).registry.mongodb.tenders.collection
     tenders = list(collection.find())
     assert len(tenders) == len(test_tenders)
     assert len(tenders) > 0
@@ -92,7 +91,7 @@ def migration_app(app):
 
 
 def app_env(app):
-    env = prepare(None, app.app.registry)
+    env = prepare(None, unwrap_app(app).registry)
     env["app"] = app.app
     return env
 
@@ -117,7 +116,7 @@ class TestMigration(CollectionMigration):
 
 
 def create_collection_migration_test(path: str):
-    module_path, class_name = path.rsplit('.', 1)
+    module_path, class_name = path.rsplit(".", 1)
     module = import_module(module_path)
     migration_class = getattr(module, class_name)
 
@@ -132,7 +131,7 @@ def create_collection_migration_test(path: str):
 
 
 def test_migration(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -173,16 +172,16 @@ def test_migration(migration_app):
         assert tenders[i]["public_modified"] == tenders_before[i]["public_modified"]
         assert len(tenders[i]["revisions"]) == 2
         assert tenders[i]["revisions"][-1] == {
-            'author': 'migration',
-            'changes': [
+            "author": "migration",
+            "changes": [
                 {
-                    'op': 'replace',
-                    'path': '/title',
-                    'value': 'original title',
+                    "op": "replace",
+                    "path": "/title",
+                    "value": "original title",
                 }
             ],
-            'date': tenders[i]["revisions"][-1]["date"],
-            'rev': tenders_before[i]["_rev"],
+            "date": tenders[i]["revisions"][-1]["date"],
+            "rev": tenders_before[i]["_rev"],
         }
 
     # Restore original bulk_write
@@ -190,7 +189,7 @@ def test_migration(migration_app):
 
 
 def test_migration_multiple_bulk_write(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -232,7 +231,7 @@ def test_migration_multiple_bulk_write(migration_app):
 
 
 def test_migration_multiple_bulk_write_fail(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -296,7 +295,7 @@ def test_migration_multiple_bulk_write_fail(migration_app):
 
 
 def test_migration_with_filter(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -330,7 +329,7 @@ def test_migration_with_filter(migration_app):
 
 
 def test_migration_with_filter_arg(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -363,7 +362,7 @@ def test_migration_with_filter_arg(migration_app):
 
 
 def test_migration_with_projection(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -393,7 +392,7 @@ def test_migration_with_projection(migration_app):
 
 
 def test_migration_update_date_modified(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -419,7 +418,7 @@ def test_migration_update_date_modified(migration_app):
 
 
 def test_migration_update_feed_position(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())
@@ -445,7 +444,7 @@ def test_migration_update_feed_position(migration_app):
 
 
 def test_migration_with_readonly_arg(migration_app):
-    collection = migration_app.app.registry.mongodb.tenders.collection
+    collection = unwrap_app(migration_app).registry.mongodb.tenders.collection
 
     # Get not migrated data
     tenders_before = list(collection.find())

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/agreements/b996fbc0afc54062aac0fbaa492eb9e0?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+PATCH /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/agreements/9ed77f9be3594c058f334504330db2a0?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,8 +15,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "b996fbc0afc54062aac0fbaa492eb9e0",
-    "agreementID": "UA-2023-10-10-000001-a-5bbbf8d945c940e7a4e133125410d6e71",
+    "id": "9ed77f9be3594c058f334504330db2a0",
+    "agreementID": "UA-2023-10-10-000001-a-aca99b8fbaae4bd2bae56e4fda098aba1",
     "date": "2023-10-21T01:04:05+03:00",
     "dateSigned": "2023-10-10T01:03:03+03:00",
     "items": [
@@ -40,7 +40,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -74,7 +74,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -96,7 +96,7 @@ Content-Type: application/json
     "status": "unsuccessful",
     "contracts": [
       {
-        "id": "3cfdad4a64a54acfb88bc4b77dc03d71",
+        "id": "435bc70b5c0741cc9c52222076226966",
         "status": "active",
         "suppliers": [
           {
@@ -140,11 +140,11 @@ Content-Type: application/json
           }
         ],
         "awardID": "38b196e95ad147f9aa09040a36a54964",
-        "bidID": "d36d4d7ab1d54578b92e72a7bf21354e",
+        "bidID": "704ce27d8af84133be0e67b6e00cd665",
         "date": "2023-10-10T01:02:01+03:00"
       },
       {
-        "id": "b9c82bbdb13b481bae95d48eb2724c58",
+        "id": "cb426592555249f6b5d11db1dd95d037",
         "status": "active",
         "suppliers": [
           {
@@ -189,11 +189,11 @@ Content-Type: application/json
           }
         ],
         "awardID": "36b9fc7fa38d41d9990670956f8f12f8",
-        "bidID": "5d3dc5765f7b493e88a8cf48097c37b1",
+        "bidID": "9b7bc233b5b9426ba47f63ae0070dc79",
         "date": "2023-10-10T01:02:01+03:00"
       },
       {
-        "id": "9a0c84972c4b468788d51e716c0ea464",
+        "id": "962f56827dfc4fefa1366e9451f2a0ba",
         "status": "active",
         "suppliers": [
           {
@@ -238,7 +238,7 @@ Content-Type: application/json
           }
         ],
         "awardID": "afa433c494e44739930128fe436e711d",
-        "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
+        "bidID": "95db393211474a7c930f5c3df7f52b56",
         "date": "2023-10-10T01:02:01+03:00"
       }
     ],
@@ -248,7 +248,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_first_document.doc",
         "format": "application/msdoc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/633d2c4405c7411c964a2f74bef204a7?Signature=2FPFBDAzfNSjUJaNN2kihHCxVudB2V0CD6h50sD7W1ycSlcAAXwRxoJBUbxf5xayR7FIx2%2B1bw8tl8s0jqACBQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/40137a4b174840698ca8b3aaf28eeb5b?Signature=tCeyLe%2B3DjDDTG4vsAwydgsKxHNLxjB5dIhwG%2FonMKXaabEh2Q1Wv7BJgorwI%2BNr4GLZ2vQ3JJCzhznoFUT%2BAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
         "id": "423f7bf339ec4ae7a2ba951d261b20c8",
@@ -264,7 +264,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_second_document.doc",
         "format": "application/msdoc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/40137a4b174840698ca8b3aaf28eeb5b?Signature=tCeyLe%2B3DjDDTG4vsAwydgsKxHNLxjB5dIhwG%2FonMKXaabEh2Q1Wv7BJgorwI%2BNr4GLZ2vQ3JJCzhznoFUT%2BAw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b86c18d8ffe4836af041e14fe4337dd?Signature=OQ27UsW1yVx2dUOATRGqk5APhXGCyM3%2FBTwM%2BM72JoCkTDNlGuxjmz1DaQymNzGtEBCd6ZLr02Avrgpw5O4NCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:02:01+03:00",
         "language": "en"

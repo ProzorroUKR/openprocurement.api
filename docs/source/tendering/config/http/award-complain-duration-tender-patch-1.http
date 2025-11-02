@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/awards/45661e84097445e784c31e2d96566832?acc_token=6670a4933d854a00afa53a2979728a6d HTTP/1.0
+PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/awards/45661e84097445e784c31e2d96566832?acc_token=2672dd6712284300b2af487b1f9d0ac1 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -67,7 +67,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/37eae6e70da24997b06d7b039b9a1667?Signature=RrsHbgQa1n7Yn45e3eh815YVvjlNVLzlN9UeLEX6QeZ5SVgaaMynkIPpn5hb4GhnoiPpJaHu4UBMv%2F0gf%2FDUCw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f89e955b36364289a374027aa67d6edf?Signature=LZH%2F8OgJ8hCfa0E2uEk4kyKp%2Fbt967jdAV71cCj070kKqGh3TTGOmFpey0X%2BvrgVupd5mpQjWGVNdRvfP64vCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",

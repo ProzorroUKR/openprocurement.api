@@ -79,7 +79,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+        "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -98,7 +98,7 @@ Content-Type: application/json
       {
         "title": "lot title",
         "description": "lot description",
-        "id": "04651361e47848abb6eda21e59c8b4a1",
+        "id": "41d9357c4d24494186fe2da6c7e8ad7d",
         "status": "active",
         "value": {
           "currency": "UAH",
@@ -192,11 +192,11 @@ Content-Type: application/json
               "amount": 469.0,
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+            "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
             "date": "2023-08-18T01:00:01+03:00"
           }
         ],
-        "id": "78290ccc2a114830a97e8f2c510bacaf",
+        "id": "2b11d016d9234ec2b719df7659304750",
         "date": "2023-08-18T01:00:01+03:00",
         "status": "active"
       },
@@ -235,11 +235,11 @@ Content-Type: application/json
               "amount": 470.0,
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+            "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
             "date": "2023-08-18T01:00:02+03:00"
           }
         ],
-        "id": "be6885d5a2ec4336a11ed73370239ed6",
+        "id": "668d4247367842bc867d5e415519e115",
         "date": "2023-08-18T01:00:02+03:00",
         "status": "active"
       },
@@ -278,21 +278,21 @@ Content-Type: application/json
               "amount": 471.0,
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+            "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
             "date": "2023-08-18T01:00:03+03:00"
           }
         ],
-        "id": "593a5fc959d64463b40f460fe47f30cb",
+        "id": "5205692aa028408abb67b23cdb8ecab6",
         "date": "2023-08-18T01:00:03+03:00",
         "status": "active"
       }
     ],
     "qualifications": [
       {
-        "id": "6f9ddb0ff2914d5bbbb13f216e5c3cfb",
-        "bidID": "78290ccc2a114830a97e8f2c510bacaf",
+        "id": "20626d3bfbf74dd787c9c85c7b93e367",
+        "bidID": "2b11d016d9234ec2b719df7659304750",
         "status": "active",
-        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "lotID": "41d9357c4d24494186fe2da6c7e8ad7d",
         "date": "2023-09-18T01:00:00+03:00",
         "qualified": true,
         "eligible": true,
@@ -302,10 +302,10 @@ Content-Type: application/json
         }
       },
       {
-        "id": "3c1ef529e7b84db2a7f8824f830c80e9",
-        "bidID": "be6885d5a2ec4336a11ed73370239ed6",
+        "id": "4e071e67f0534119aa76a90f464766f4",
+        "bidID": "668d4247367842bc867d5e415519e115",
         "status": "active",
-        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "lotID": "41d9357c4d24494186fe2da6c7e8ad7d",
         "date": "2023-09-18T01:00:00+03:00",
         "qualified": true,
         "eligible": true,
@@ -315,10 +315,10 @@ Content-Type: application/json
         }
       },
       {
-        "id": "1376deb920134d33b9a67dd23a462745",
-        "bidID": "593a5fc959d64463b40f460fe47f30cb",
+        "id": "43bb1faff26048109c76d94c75df9402",
+        "bidID": "5205692aa028408abb67b23cdb8ecab6",
         "status": "active",
-        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "lotID": "41d9357c4d24494186fe2da6c7e8ad7d",
         "date": "2023-09-18T01:00:00+03:00",
         "qualified": true,
         "eligible": true,
@@ -331,7 +331,7 @@ Content-Type: application/json
     "awards": [
       {
         "status": "active",
-        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "lotID": "41d9357c4d24494186fe2da6c7e8ad7d",
         "suppliers": [
           {
             "contactPoint": {
@@ -357,14 +357,14 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "78290ccc2a114830a97e8f2c510bacaf",
+        "bid_id": "2b11d016d9234ec2b719df7659304750",
         "value": {
           "currency": "UAH",
           "amount": 469,
           "valueAddedTaxIncluded": true
         },
         "date": "2023-09-24T01:00:00+03:00",
-        "id": "f99be86681de4f368037738d6af12903",
+        "id": "011e63208de240c896e459f6bcb39725",
         "complaintPeriod": {
           "startDate": "2023-09-24T01:00:00+03:00",
           "endDate": "2023-10-04T01:00:00+03:00"
@@ -372,7 +372,7 @@ Content-Type: application/json
       },
       {
         "status": "active",
-        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "lotID": "41d9357c4d24494186fe2da6c7e8ad7d",
         "suppliers": [
           {
             "contactPoint": {
@@ -398,14 +398,14 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "be6885d5a2ec4336a11ed73370239ed6",
+        "bid_id": "668d4247367842bc867d5e415519e115",
         "value": {
           "currency": "UAH",
           "amount": 470,
           "valueAddedTaxIncluded": true
         },
         "date": "2023-09-24T01:00:00+03:00",
-        "id": "e5e6c374e9db46c2bf634056b03768db",
+        "id": "1e4ce39ccc9d44f694f3311d124f43d9",
         "complaintPeriod": {
           "startDate": "2023-09-24T01:00:00+03:00",
           "endDate": "2023-10-04T01:00:00+03:00"
@@ -413,7 +413,7 @@ Content-Type: application/json
       },
       {
         "status": "active",
-        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "lotID": "41d9357c4d24494186fe2da6c7e8ad7d",
         "suppliers": [
           {
             "contactPoint": {
@@ -439,14 +439,14 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "593a5fc959d64463b40f460fe47f30cb",
+        "bid_id": "5205692aa028408abb67b23cdb8ecab6",
         "value": {
           "currency": "UAH",
           "amount": 471,
           "valueAddedTaxIncluded": true
         },
         "date": "2023-09-24T01:00:00+03:00",
-        "id": "ea7c848eefbb4037a273456dd333ce1a",
+        "id": "0f7d7962750e47f3bc7deadc3e1e4071",
         "complaintPeriod": {
           "startDate": "2023-09-24T01:00:00+03:00",
           "endDate": "2023-10-04T01:00:00+03:00"
@@ -455,7 +455,7 @@ Content-Type: application/json
     ],
     "agreements": [
       {
-        "id": "b7536ab0fbe34a1dafa73fe7943ff79c",
+        "id": "8887db77f71c4a0496b39ac2c4eea78c",
         "items": [
           {
             "id": "a0aa16102ff345948a7508d8c03bb529",
@@ -477,7 +477,7 @@ Content-Type: application/json
                 "description": "папір і картон гофровані, паперова й картонна тара"
               }
             ],
-            "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+            "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
             "deliveryDate": {
               "startDate": "2018-06-27T13:39:09.362837+03:00",
               "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -492,11 +492,11 @@ Content-Type: application/json
             "description_en": "Cases for state awards"
           }
         ],
-        "agreementID": "UA-2023-10-10-000001-a-e75ece1cddb64807825e058d729510f61",
+        "agreementID": "UA-2023-10-10-000001-a-ea4a5ba075dd404db964b580ae32918c1",
         "date": "2023-10-10T01:00:00+03:00",
         "contracts": [
           {
-            "id": "3f790a2fc7c647a7be968a10e669e9fa",
+            "id": "633a51fd12d44a77ab03e65ccd808aa7",
             "suppliers": [
               {
                 "contactPoint": {
@@ -522,8 +522,8 @@ Content-Type: application/json
                 "scale": "micro"
               }
             ],
-            "awardID": "f99be86681de4f368037738d6af12903",
-            "bidID": "78290ccc2a114830a97e8f2c510bacaf",
+            "awardID": "011e63208de240c896e459f6bcb39725",
+            "bidID": "2b11d016d9234ec2b719df7659304750",
             "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
@@ -538,7 +538,7 @@ Content-Type: application/json
             "status": "active"
           },
           {
-            "id": "142288b4ac5447c088ae5c55bed1f9fc",
+            "id": "b0403401034942fe9e4317ee69e69f8d",
             "suppliers": [
               {
                 "contactPoint": {
@@ -564,8 +564,8 @@ Content-Type: application/json
                 "scale": "micro"
               }
             ],
-            "awardID": "e5e6c374e9db46c2bf634056b03768db",
-            "bidID": "be6885d5a2ec4336a11ed73370239ed6",
+            "awardID": "1e4ce39ccc9d44f694f3311d124f43d9",
+            "bidID": "668d4247367842bc867d5e415519e115",
             "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
@@ -580,7 +580,7 @@ Content-Type: application/json
             "status": "active"
           },
           {
-            "id": "bd325edc619c4f61b067e07529a08461",
+            "id": "ff0b7237e5e74871a348807ea6591bb6",
             "suppliers": [
               {
                 "contactPoint": {
@@ -606,8 +606,8 @@ Content-Type: application/json
                 "scale": "micro"
               }
             ],
-            "awardID": "ea7c848eefbb4037a273456dd333ce1a",
-            "bidID": "593a5fc959d64463b40f460fe47f30cb",
+            "awardID": "0f7d7962750e47f3bc7deadc3e1e4071",
+            "bidID": "5205692aa028408abb67b23cdb8ecab6",
             "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {

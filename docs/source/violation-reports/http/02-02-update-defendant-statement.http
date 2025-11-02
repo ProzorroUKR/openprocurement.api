@@ -1,0 +1,36 @@
+PATCH /violation_reports/UA-2025-10-12-000001/defendantStatements/88888888444455556666000000000016 HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "description": "В усьому винні бобри. Обіцяли, що більше не будуть."
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-000000000018
+Content-Length: 925
+
+{
+  "data": {
+    "id": "88888888444455556666000000000016",
+    "description": "В усьому винні бобри. Обіцяли, що більше не будуть.",
+    "documents": [
+      {
+        "id": "88888888444455556666000000000017",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatements/88888888444455556666000000000016/documents/88888888444455556666000000000017?download=88888888444455556666000000000014",
+        "dateModified": "2025-10-13T01:54:34+03:00",
+        "datePublished": "2025-10-13T01:54:34+03:00",
+        "documentType": "violationReportEvidence",
+        "title": "beavers.gif",
+        "format": "image/gif",
+        "language": "uk"
+      }
+    ],
+    "dateModified": "2025-10-13T01:54:49+03:00",
+    "status": "draft"
+  }
+}

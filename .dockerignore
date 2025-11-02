@@ -1,0 +1,14 @@
+# Ignore common development-related files and directories
+.git
+.gitignore
+node_modules
+temp/
+logs/*.log
+
+# Ignore sensitive files
+.venv
+.env
+*.key
+
+# Include a specific file within an ignored directory
+!temp/important_config.json
