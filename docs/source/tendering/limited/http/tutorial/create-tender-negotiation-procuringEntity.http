@@ -116,7 +116,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "title": "lastHope",
       "scheme": "LAW922",
       "description": "оригінальний тендер не вдався двічі",
-      "description_en": "оригинальный тендер не получился дважды"
+      "description_en": "the original tender failed twice"
     },
     "lots": [
       {
@@ -252,7 +252,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
       "title": "lastHope",
       "scheme": "LAW922",
       "description": "оригінальний тендер не вдався двічі",
-      "description_en": "оригинальный тендер не получился дважды"
+      "description_en": "the original tender failed twice"
     },
     "lots": [
       {

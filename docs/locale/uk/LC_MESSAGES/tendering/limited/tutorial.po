@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-22 11:42+0300\n"
+"POT-Creation-Date: 2025-11-03 16:19+0200\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -163,6 +163,9 @@ msgstr "1 500 000 для робіт."
 
 msgid "Let's try to create tender with value amount bigger than threshold and without `procurementMethodRationale`:"
 msgstr "Спробуємо створити тендер з очікуваною вартістю більше ніж поріг та без поля `procurementMethodRationale`:"
+
+msgid "Fields `title` and `scheme` are required, that's why it is forbidden to add only `causeDetails.description`:"
+msgstr "Поля `title` та `scheme` обов'язкові для заповнення, тому заборонено передавати тільки `causeDetails.description`:"
 
 msgid "Let's add `causeDetails` and then create a tender:"
 msgstr "Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю:"

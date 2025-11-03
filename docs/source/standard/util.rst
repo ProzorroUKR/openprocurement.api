@@ -423,39 +423,7 @@ Scheme
 
     Causes for using reporting, negotiation or negotiation.quick procedures.
 
-    Possible values for **negotiation** and **negotiation.quick** procedures:
-
-        * `twiceUnsuccessful`
-
-        * `additionalPurchase`
-
-        * `additionalConstruction`
-
-        * `stateLegalServices`
-
-        * `resolvingInsolvency`
-
-        * `artPurchase`
-
-        * `contestWinner`
-
-        * `technicalReasons`
-
-        * `intProperty`
-
-        * `lastHope`
-
-    Possible values for **negotiation.quick** procedure:
-
-        * `emergency`
-
-        * `humanitarianAid`
-
-        * `contractCancelled`
-
-        * `activeComplaint`
-
-    Possible values for **reporting** procedure in `tender causes law 922 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_law_922.json>`_
+    Possible values in `tender causes law 922 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_law_922.json>`_
     and `tender causes decree 1178 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_decree_1178.json>`_ dictionaries.
 
 

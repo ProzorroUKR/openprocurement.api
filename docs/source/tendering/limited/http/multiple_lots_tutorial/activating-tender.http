@@ -147,7 +147,7 @@ Content-Type: application/json
       "title": "lastHope",
       "scheme": "LAW922",
       "description": "оригінальний тендер не вдався двічі",
-      "description_en": "оригинальный тендер не получился дважды"
+      "description_en": "the original tender failed twice"
     },
     "id": "57baff7abc454a00be404f9f6ba19f64"
   },

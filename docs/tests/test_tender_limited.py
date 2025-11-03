@@ -25,14 +25,14 @@ test_tender_negotiation_data['causeDetails'] = {
     "title": "lastHope",
     "scheme": "LAW922",
     "description": "оригінальний тендер не вдався двічі",
-    "description_en": "оригинальный тендер не получился дважды",
+    "description_en": "the original tender failed twice",
 }
 test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
 test_tender_negotiation_quick_data['causeDetails'] = {
     "title": "lastHope",
     "scheme": "LAW922",
     "description": "оригінальний тендер не вдався двічі",
-    "description_en": "оригинальный тендер не получился дважды",
+    "description_en": "the original tender failed twice",
 }
 test_lots[0]['value'] = test_tender_negotiation_data['value']
 
@@ -88,6 +88,15 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             self.app.post_json(
                 '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}, status=422
             )
+
+        reporting_data["causeDetails"] = {
+            "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
+        }
+        with open(TARGET_DIR + 'tutorial/create-tender-reporting-invalid-cause-details.http', 'w') as self.app.file_obj:
+            self.app.post_json(
+                '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}, status=422
+            )
+
         reporting_data["causeDetails"] = {
             "title": "defencePurchase",
             "scheme": "DECREE1178",

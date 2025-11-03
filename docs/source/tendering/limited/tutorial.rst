@@ -51,6 +51,11 @@ Let's try to create tender with value amount bigger than threshold and without `
 .. http:example:: http/tutorial/create-tender-reporting-invalid.http
    :code:
 
+Fields `title` and `scheme` are required, that's why it is forbidden to add only `causeDetails.description`:
+
+.. http:example:: http/tutorial/create-tender-reporting-invalid-cause-details.http
+   :code:
+
 Let's add `causeDetails` and then create a tender:
 
 .. http:example:: http/tutorial/create-tender-reporting-procuringEntity.http

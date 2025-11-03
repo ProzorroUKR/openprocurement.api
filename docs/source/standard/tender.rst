@@ -457,41 +457,9 @@ Schema
         * 200 000 for services,
         * 1 500 000 for works.
 
-    Causes for using reporting, negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine "On Public Procurement".
+    Causes for using reporting, negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine "On Public Procurement"
 
-    Possible values for **negotiation** and **negotiation.quick** procedures:
-
-        * `twiceUnsuccessful` Two tenders have already been cancelled due to lack of participants
-
-        * `additionalPurchase` Need to use the same supplier for unification, standardization, etc.
-
-        * `additionalConstruction` Need of additional construction works
-
-        * `stateLegalServices` Purchase of legal services connected with protection of rights and interests of Ukraine
-
-        * `resolvingInsolvency` Goods procurement related to resolving insolvency according to the law
-
-        * `artPurchase` Procurement related to creation or purchase of artwork
-
-        * `contestWinner` Conclusion of contract with the winner of architecture or art contest
-
-        * `technicalReasons` Lack of competition due to technical reasons
-
-        * `intProperty` Necessity of protecting intellectual property rights
-
-        * `lastHope` Conclusion of contract with the last hope supplier
-
-    Possible values for **negotiation.quick** procedure:
-
-        * `emergency` Occurrence of special economical reasons related to emergency management
-
-        * `humanitarianAid` Occurrence of special economical reasons related to emergency management
-
-        * `contractCancelled` Termination of an agreement by the fault of supplier
-
-        * `activeComplaint` Unfinished complaining process in active procurement
-
-    Possible values for **reporting** procedure in `tender causes <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_ dictionaries.
+    Possible values in `tender causes <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_ dictionaries.
 
 
     Only in :ref:`limited`
