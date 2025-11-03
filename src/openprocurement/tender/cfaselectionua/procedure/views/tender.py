@@ -106,13 +106,8 @@ class CFASelectionTenderResource(TendersResource):
         tender = self.request.validated["tender"]
         if tender["status"] == "draft.pending":
             set_request_now()
-            self.request.authenticated_role = "agreement_selection"
             tender_src = self.request.validated["tender_src"] = deepcopy(tender)
-            agreement = self.state.copy_agreement_data(tender)
-            if agreement:
-                tender["status"] = "active.enquiries"
-            else:
-                tender["status"] = "draft.unsuccessful"
+            tender["status"] = "active.enquiries"
             self.state.validate_tender_patch(tender_src, tender)
             self.state.on_patch(tender_src, tender)
             if save_tender(self.request):
