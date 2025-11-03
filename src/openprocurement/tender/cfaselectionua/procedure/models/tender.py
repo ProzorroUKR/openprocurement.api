@@ -104,7 +104,6 @@ class PatchTender(PatchBaseTender):
         choices=[
             "draft",
             "draft.pending",
-            "draft.unsuccessful",
             "active.enquiries",
             "active.tendering",
             "active.pre-qualification",
@@ -131,7 +130,6 @@ class PatchTender(PatchBaseTender):
         validators=[validate_uniq_id],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    unsuccessfulReason = ListType(StringType, serialize_when_none=False)
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     tenderPeriod = ModelType(PeriodEndRequired)

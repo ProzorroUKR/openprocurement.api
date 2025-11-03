@@ -35,9 +35,7 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_CHANGE_MESSAGE,
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_EXPIRED_MESSAGE,
-    AGREEMENT_IDENTIFIER_MESSAGE,
     AGREEMENT_ITEMS_MESSAGE,
-    AGREEMENT_NOT_FOUND_MESSAGE,
     AGREEMENT_START_DATE_MESSAGE,
     AGREEMENT_STATUS_MESSAGE,
 )
@@ -77,6 +75,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
 
     def on_post(self, tender):
+        self.copy_agreement_data(tender)
         super().on_post(tender)
         self.check_owner_forbidden_fields(tender)
 
@@ -87,92 +86,74 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         self.validate_tender_period_duration(after)
         self.validate_tender_period_after_enquiry_period(after)
         self.validate_tender_period_start_date_change(before, after)
-        if get_request().authenticated_role == "agreement_selection":
-            if after["status"] == "active.enquiries":
-                agreement = after["agreements"][0]
-                reason = self.find_agreement_unsuccessful_reason(after, agreement)
-                if reason:
-                    after["unsuccessfulReason"] = [reason]
-                    self.get_change_tender_status_handler("draft.unsuccessful")(after)
+        self.check_owner_forbidden_fields(after)
 
-                else:
-                    self.update_periods(after)
-
-                    calculate_agreement_contracts_value_amount(after)
-
-                    minimal_step = deepcopy(after["lots"][0]["value"])
-                    minimal_step["amount"] = round(MINIMAL_STEP_PERCENTAGE * minimal_step["amount"], 2)
-                    after["lots"][0]["minimalStep"] = minimal_step
-
-                    calculate_tender_features(after)
-            elif after["status"] == "draft.unsuccessful":
-                after["unsuccessfulReason"] = [AGREEMENT_NOT_FOUND_MESSAGE]
-                self.get_change_tender_status_handler("draft.unsuccessful")(after)
-            elif before["status"] != "draft.pending" or after["status"] != "draft.pending":
+        if before["status"] == "draft" and after["status"] == "draft":
+            pass
+        elif before["status"] == "draft" and after["status"] == "draft.pending":
+            self.update_periods(after)
+            if not after["agreements"] or not after.get("items"):
                 raise_operation_error(
                     get_request(),
-                    f"Can't switch tender from ({before['status']}) to ({after['status']}) status.",
+                    "Can't switch tender to (draft.pending) status without agreements or items.",
                 )
+            self.validate_exist_guarantee_criteria(after)
+            self.validate_required_criteria(before, after)
+            self.validate_criteria_requirement_from_market(after.get("criteria", []))
+        elif before["status"] == "draft.pending" and after["status"] == "active.enquiries":
+            self.validate_pre_selection_agreement(after)
+            self.update_periods(after)
 
-        else:  # tender owner
-            self.check_owner_forbidden_fields(after)
+            calculate_agreement_contracts_value_amount(after)
 
-            if before["status"] == "draft" and after["status"] == "draft":
-                pass
-            elif before["status"] == "draft" and after["status"] == "draft.pending":
-                self.update_periods(after)
-                if not after["agreements"] or not after.get("items"):
+            minimal_step = deepcopy(after["lots"][0]["value"])
+            minimal_step["amount"] = round(MINIMAL_STEP_PERCENTAGE * minimal_step["amount"], 2)
+            after["lots"][0]["minimalStep"] = minimal_step
+
+            calculate_tender_features(after)
+        elif before["status"] != after["status"]:
+            raise_operation_error(
+                get_request(),
+                f"Can't switch tender from ({before['status']}) to ({after['status']}) status.",
+            )
+
+        elif after["status"] == "active.enquiries":
+            if len(before["items"]) != len(after["items"]):
+                raise_operation_error(get_request(), "Can't update tender items. Items count mismatch")
+
+            if [item["id"] for item in before["items"]] != [item["id"] for item in after["items"]]:
+                raise_operation_error(get_request(), "Can't update tender items. Items order mismatch")
+
+            for f in ("unit", "classification", "additionalClassifications"):
+                if [item.get(f) for item in before["items"]] != [item.get(f) for item in after["items"]]:
                     raise_operation_error(
                         get_request(),
-                        "Can't switch tender to (draft.pending) status without agreements or items.",
+                        f"Can't update {f} in items in active.enquiries",
                     )
-                self.validate_exist_guarantee_criteria(after)
-                self.validate_required_criteria(before, after)
-                self.validate_criteria_requirement_from_market(after.get("criteria", []))
 
-            elif before["status"] != after["status"]:
+            if before["tenderPeriod"]["startDate"] != after["tenderPeriod"].get("startDate"):
                 raise_operation_error(
                     get_request(),
-                    f"Can't switch tender from ({before['status']}) to ({after['status']}) status.",
+                    "Can't update tenderPeriod.startDate in active.enquiries",
                 )
 
-            elif after["status"] == "active.enquiries":
-                if len(before["items"]) != len(after["items"]):
-                    raise_operation_error(get_request(), "Can't update tender items. Items count mismatch")
+            if before["procuringEntity"] != after["procuringEntity"]:
+                raise_operation_error(
+                    get_request(),
+                    "Can't update procuringEntity in active.enquiries",
+                )
 
-                if [item["id"] for item in before["items"]] != [item["id"] for item in after["items"]]:
-                    raise_operation_error(get_request(), "Can't update tender items. Items order mismatch")
-
-                for f in ("unit", "classification", "additionalClassifications"):
-                    if [item.get(f) for item in before["items"]] != [item.get(f) for item in after["items"]]:
+            if "items" in get_request().validated["json_data"]:
+                calculate_agreement_contracts_value_amount(after)
+        else:
+            allowed_fields = ("procurementMethodDetails", "contractTemplateName")
+            for k in get_request().validated["json_data"].keys():
+                if k not in allowed_fields:
+                    if before.get(k) != after.get(k):
                         raise_operation_error(
                             get_request(),
-                            f"Can't update {f} in items in active.enquiries",
+                            f"Only fields {allowed_fields} can be updated at {after['status']}",
                         )
-
-                if before["tenderPeriod"]["startDate"] != after["tenderPeriod"].get("startDate"):
-                    raise_operation_error(
-                        get_request(),
-                        "Can't update tenderPeriod.startDate in active.enquiries",
-                    )
-
-                if before["procuringEntity"] != after["procuringEntity"]:
-                    raise_operation_error(
-                        get_request(),
-                        "Can't update procuringEntity in active.enquiries",
-                    )
-
-                if "items" in get_request().validated["json_data"]:
-                    calculate_agreement_contracts_value_amount(after)
-            else:
-                allowed_fields = ("procurementMethodDetails", "contractTemplateName")
-                for k in get_request().validated["json_data"].keys():
-                    if k not in allowed_fields:
-                        if before.get(k) != after.get(k):
-                            raise_operation_error(
-                                get_request(),
-                                f"Only fields {allowed_fields} can be updated at {after['status']}",
-                            )
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
             self._validate_criterion_uniq(after.get("criteria", []))
         self.validate_docs(after, before)
@@ -217,27 +198,33 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     def watch_value_meta_changes(tender):
         pass  # TODO: shouldn't it work here
 
-    def find_agreement_unsuccessful_reason(self, tender, agreement):
+    def validate_pre_selection_agreement(self, tender):
+        super().validate_pre_selection_agreement(tender)
+        # move validations from CFA bot
+        agreement = tender["agreements"][0]
         if self.is_agreement_not_active(agreement):
-            return AGREEMENT_STATUS_MESSAGE
+            message = AGREEMENT_STATUS_MESSAGE
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
         if self.are_tender_items_is_not_subset_of_agreement_items(tender, agreement):
-            return AGREEMENT_ITEMS_MESSAGE
+            message = AGREEMENT_ITEMS_MESSAGE
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
         if self.is_agreement_expired(tender, agreement):
-            return AGREEMENT_EXPIRED_MESSAGE.format(self.agreement_min_period_until_end.days)
+            message = AGREEMENT_EXPIRED_MESSAGE.format(self.agreement_min_period_until_end.days)
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
         elif self.is_agreement_start_date_later(tender, agreement):
-            return AGREEMENT_START_DATE_MESSAGE
+            message = AGREEMENT_START_DATE_MESSAGE
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
         if self.is_agreement_has_pending_changes(agreement):
-            return AGREEMENT_CHANGE_MESSAGE
+            message = AGREEMENT_CHANGE_MESSAGE
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
         if self.has_insufficient_active_contracts(agreement):
-            return AGREEMENT_CONTRACTS_MESSAGE.format(self.agreement_min_active_contracts)
-
-        if self.has_mismatched_procuring_entities(tender, agreement):
-            return AGREEMENT_IDENTIFIER_MESSAGE
+            message = AGREEMENT_CONTRACTS_MESSAGE.format(self.agreement_min_active_contracts)
+            raise_operation_error(self.request, message, status=422, name=self.agreement_field)
 
     @classmethod
     def are_tender_items_is_not_subset_of_agreement_items(cls, tender, agreement):
@@ -260,7 +247,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
     @classmethod
     def is_agreement_start_date_later(cls, tender, agreement):
-        return agreement["period"]["startDate"] > tender["date"]
+        return tender.get("date") and agreement["period"]["startDate"] > tender["date"]
 
     @classmethod
     def is_agreement_has_pending_changes(cls, agreement):

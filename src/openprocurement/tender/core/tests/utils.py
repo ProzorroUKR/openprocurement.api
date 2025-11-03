@@ -394,13 +394,13 @@ def set_tender_multi_buyers(_test_tender_data, _test_item, _test_buyer):
 
     test_item2 = deepcopy(_test_item)
     test_item2["description"] = "портфелі"
-    test_item2.pop("id", None)
+    test_item2["id"] = uuid4().hex
 
     test_item3 = deepcopy(_test_item)
     test_item3["description"] = "столи"
-    test_item3.pop("id", None)
+    test_item3["id"] = uuid4().hex
 
-    _tender_data["items"] = [test_item1, test_item2, test_item2]
+    _tender_data["items"] = [test_item1, test_item2, test_item3]
 
     # create 2 buyers
     buyer1_id = uuid4().hex

@@ -358,11 +358,20 @@ def create_tender_invalid(self):
             "data": data,
             "config": self.initial_config,
         },
-        status=201,
+        status=422,
     )
 
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Agreement items is not subset of tender items",
+                "location": "body",
+                "name": "agreements",
+            }
+        ],
+    )
 
     data = deepcopy(self.initial_data)
     data["items"][0]["additionalClassifications"][0]["scheme"] = "Не ДКПП"
@@ -439,6 +448,70 @@ def create_tender_invalid(self):
             }
         ],
     )
+
+    # post tender with less than 7 days to end
+    data = deepcopy(self.initial_data)
+
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["items"] = self.initial_agreement["items"]
+    six_days = timedelta(days=6)
+    if SANDBOX_MODE:
+        six_days = six_days / 1440
+    agreement["period"]["endDate"] = (get_now() + six_days).isoformat()
+    self.mongodb.agreements.save(agreement)
+
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": data,
+            "config": self.initial_config,
+        },
+        status=422,
+    )
+
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Agreement ends less than {} days".format(MIN_PERIOD_UNTIL_AGREEMENT_END.days),
+                "location": "body",
+                "name": "agreements",
+            }
+        ],
+    )
+
+    # post tender with less than 3 active contracts
+    agreement = deepcopy(self.initial_agreement)
+    agreement["contracts"] = agreement["contracts"][:2]  # only first and second contract
+    self.create_agreement(agreement)
+
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": data,
+            "config": self.initial_config,
+        },
+        status=422,
+    )
+
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Agreement has less than {} active contracts".format(MIN_ACTIVE_CONTRACTS),
+                "location": "body",
+                "name": "agreements",
+            }
+        ],
+    )
+
+    # post tender with wrong identifier
+    data["procuringEntity"]["identifier"]["id"] = "21725150"  # agreement procuringEntity identifier is 00037256
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["errors"][0]["description"], AGREEMENT_IDENTIFIER_MESSAGE)
 
 
 def create_tender_generated(self):
@@ -695,48 +768,26 @@ def create_tender_from_terminated_agreement(self):
 
     self.create_agreement(agreement)
 
-    create_tender_draft_pending(self)
-
     response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
+        "/tenders",
         {
-            "data": {
-                "tenderers": [test_tender_cfaselectionua_supplier],
-                "subcontractingDetails": "test_details",
-                "lotValues": [
-                    {
-                        "subcontractingDetails": "test_details",
-                        "value": {"amount": 500},
-                        "relatedLot": self.initial_data["lots"][0]["id"],
-                    }
-                ],
-            }
+            "data": self.initial_data,
+            "config": self.initial_config,
         },
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status_code, 403)
+
+    self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
         [
             {
-                "description": "Can't add bid in current (draft.unsuccessful) tender status",
+                "description": "Agreement status is not active",
                 "location": "body",
-                "name": "data",
+                "name": "agreements",
             }
         ],
     )
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.status, "200 OK")
-    tender = response.json["data"]
-    self.assertEqual(tender["agreements"][0]["status"], "terminated")
-    self.assertEqual(tender["status"], "draft.unsuccessful")
-    self.assertEqual(tender["unsuccessfulReason"], ["Agreement status is not active"])
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    tender = response.json["data"]
-    self.assertEqual(tender["status"], "draft.unsuccessful")
-    self.assertEqual(tender["unsuccessfulReason"], ["Agreement status is not active"])
 
 
 def create_tender_from_agreement_with_features(self):
@@ -809,8 +860,20 @@ def create_tender_from_agreement_with_changes(self):
 
     agreement["changes"][0]["status"] = "pending"
     self.create_agreement(agreement)
-    create_tender_draft_pending(self)
-    create_tender_from_agreement_with_pending_changes(self)
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": self.initial_data,
+            "config": self.initial_config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        {'location': 'body', 'name': 'agreements', 'description': "Agreement has pending change"},
+        response.json["errors"][0],
+    )
 
 
 def create_tender_from_agreement_with_invalid_changes(self):
@@ -831,11 +894,12 @@ def create_tender_from_agreement_with_invalid_changes(self):
 
     self.create_agreement(agreement)
 
-    create_tender_draft(self)
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"status": "draft.pending"}},
+    response = self.app.post_json(
+        "/tenders",
+        {
+            "data": self.initial_data,
+            "config": self.initial_config,
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -852,15 +916,6 @@ def create_tender_from_agreement_with_active_changes(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("changes", response.json["data"]["agreements"][0])
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
-
-
-def create_tender_from_agreement_with_pending_changes(self):
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("changes", response.json["data"]["agreements"][0])
-    self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
-    self.assertEqual(response.json["data"]["unsuccessfulReason"], ["Agreement has pending change"])
 
 
 def create_tender(self):
@@ -936,7 +991,13 @@ def create_tender(self):
     self.assertNotIn("streetAddress", response.json["data"]["items"][0]["deliveryAddress"])
     self.assertNotIn("region", response.json["data"]["items"][0]["deliveryAddress"])
 
+    additional_classification_0 = {
+        "scheme": "INN",
+        "id": "sodium oxybate",
+        "description": "папір і картон гофровані, паперова й картонна тара",
+    }
     agreement["items"][0]["classification"]["id"] = "33600000-6"
+    agreement["items"][0]["additionalClassifications"] = [additional_classification_0]
     self.create_agreement(agreement)
 
     data = deepcopy(self.initial_data)
@@ -944,11 +1005,6 @@ def create_tender(self):
     data["items"] = [data["items"][0]]
     data["items"][0]["classification"]["id"] = "33600000-6"
 
-    additional_classification_0 = {
-        "scheme": "INN",
-        "id": "sodium oxybate",
-        "description": "папір і картон гофровані, паперова й картонна тара",
-    }
     data["items"][0]["additionalClassifications"] = [additional_classification_0]
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
@@ -960,24 +1016,13 @@ def create_tender(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.json["data"]["items"][0]["classification"]["id"], "33600000-6")
     self.assertEqual(response.json["data"]["items"][0]["classification"]["scheme"], "ДК021")
-    self.assertEqual(response.json["data"]["items"][0]["additionalClassifications"][0], additional_classification_0)
     self.assertNotIn("minimalStep", response.json["data"]["lots"][0])
 
-    additional_classification_1 = {
-        "scheme": "ATC",
-        "id": "A02AF",
-        "description": "папір і картон гофровані, паперова й картонна тара",
-    }
-    data["items"][0]["additionalClassifications"].append(additional_classification_1)
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["items"][0]["classification"]["id"], "33600000-6")
     self.assertEqual(response.json["data"]["items"][0]["classification"]["scheme"], "ДК021")
-    self.assertEqual(
-        response.json["data"]["items"][0]["additionalClassifications"],
-        [additional_classification_0, additional_classification_1],
-    )
 
     agreement = deepcopy(self.initial_agreement)
     self.create_agreement(agreement)
@@ -1546,7 +1591,7 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"unsuccessfulReason": ["Beep"]}},
+        {"data": {"description": "Beep"}},
         status=403,
     )
     self.assertEqual(
@@ -1612,19 +1657,13 @@ def patch_tender_bot(self):
             "id": uuid4().hex,
         },
     ]
+    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
     self.create_agreement(agreement)
     create_tender_draft_pending(self)
 
     response = self.app.get("/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["changes"], agreement["changes"])
-
-    # patch tender items with correct items by bot
-    agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
-
-    self.create_agreement(agreement)
-    create_tender_draft_pending(self)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
@@ -1689,24 +1728,6 @@ def patch_tender_bot(self):
     self.assertNotIn(new_item_feature["code"], (f["code"] for f in tender_data["features"]))
     self.assertIn(second_item["id"], (i["id"] for i in tender_data["agreements"][0]["items"]))
 
-    # patch tender with less than 7 days to end
-    agreement = deepcopy(self.initial_agreement)
-    six_days = timedelta(days=6)
-    if SANDBOX_MODE:
-        six_days = six_days / 1440
-    agreement["period"]["endDate"] = (get_now() + six_days).isoformat()
-
-    self.create_agreement(agreement)
-    create_tender_draft_pending(self)
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
-    self.assertEqual(
-        response.json["data"]["unsuccessfulReason"],
-        ["Agreement ends less than {} days".format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)],
-    )
-
     # patch tender argeement.period.startDate > tender.date
     agreement = deepcopy(self.initial_agreement)
     day = timedelta(days=1)
@@ -1715,27 +1736,21 @@ def patch_tender_bot(self):
     agreement["period"]["startDate"] = (get_now() + day).isoformat()
 
     self.create_agreement(agreement)
-    create_tender_draft_pending(self)
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
-    self.assertEqual(response.json["data"]["unsuccessfulReason"], ["agreements[0].period.startDate is > tender.date"])
-
-    # patch tender with less than 3 active contracts
-    agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
-    agreement["contracts"] = agreement["contracts"][:2]  # only first and second contract
-
-    self.create_agreement(agreement)
-    create_tender_draft_pending(self)
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
+    create_tender_draft(self)
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "draft.pending"}},
+        status=422,
+    )
     self.assertEqual(
-        response.json["data"]["unsuccessfulReason"],
-        ["Agreement has less than {} active contracts".format(MIN_ACTIVE_CONTRACTS)],
+        response.json["errors"],
+        [
+            {
+                "description": "agreements[0].period.startDate is > tender.date",
+                "location": "body",
+                "name": "agreements",
+            }
+        ],
     )
 
     # patch tender with wrong identifier
