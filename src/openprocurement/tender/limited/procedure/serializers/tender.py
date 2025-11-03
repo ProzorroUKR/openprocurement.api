@@ -5,7 +5,9 @@ from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
 from openprocurement.tender.limited.constants import REPORTING
-from openprocurement.tender.limited.procedure.models.cause import CAUSE_SCHEME_MAPPING
+from openprocurement.tender.limited.procedure.models.cause import (
+    CAUSE_SCHEME_MAPPING_ALL,
+)
 
 
 def convert_cause_to_cause_details(obj):
@@ -25,7 +27,7 @@ def convert_cause_to_cause_details(obj):
             obj["causeDetails"]["scheme"] = "DECREE1178"
     else:
         obj["causeDetails"]["scheme"] = "LAW922"
-    if obj["causeDetails"]["title"] not in CAUSE_SCHEME_MAPPING[obj["causeDetails"]["scheme"]]:
+    if obj["causeDetails"]["title"] not in CAUSE_SCHEME_MAPPING_ALL[obj["causeDetails"]["scheme"]]:
         return prev_obj
     return obj
 

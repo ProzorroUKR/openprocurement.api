@@ -217,7 +217,7 @@ class PostNegotiationTender(PostBaseTender):
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
-    causeDetails = ModelType(CauseDetails, required=True)
+    causeDetails = ModelType(CauseDetails)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])

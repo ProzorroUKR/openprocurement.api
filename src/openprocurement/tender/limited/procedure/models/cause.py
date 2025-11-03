@@ -2,7 +2,12 @@ from enum import StrEnum
 
 from schematics.types import StringType
 
-from openprocurement.api.constants import TENDER_CAUSE_DECREE_1178, TENDER_CAUSE_LAW_922
+from openprocurement.api.constants import (
+    TENDER_CAUSE_DECREE_1178,
+    TENDER_CAUSE_DECREE_1178_ALL,
+    TENDER_CAUSE_LAW_922,
+    TENDER_CAUSE_LAW_922_ALL,
+)
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.validation import ValidationError
 
@@ -12,9 +17,15 @@ class CauseScheme(StrEnum):
     LAW_922 = "LAW922"
 
 
+# only active causes
 CAUSE_SCHEME_MAPPING = {
     CauseScheme.DECREE_1178.value: TENDER_CAUSE_DECREE_1178,
     CauseScheme.LAW_922.value: TENDER_CAUSE_LAW_922,
+}
+
+CAUSE_SCHEME_MAPPING_ALL = {
+    CauseScheme.DECREE_1178.value: TENDER_CAUSE_DECREE_1178_ALL,
+    CauseScheme.LAW_922.value: TENDER_CAUSE_LAW_922_ALL,
 }
 
 
