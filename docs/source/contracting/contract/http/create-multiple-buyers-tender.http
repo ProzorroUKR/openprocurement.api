@@ -109,10 +109,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
         },
+        "id": "11111111111111111111111111111111",
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "description": "портфелі",
+        "description": "столи",
         "classification": {
           "scheme": "ДК021",
           "id": "44617100-9",
@@ -144,6 +145,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
         },
+        "id": "22222222222222222222222222222222",
         "relatedBuyer": "22222222222222222222222222222222"
       }
     ],
@@ -438,7 +440,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/493cc77e367e48e9
         "relatedBuyer": "11111111111111111111111111111111"
       },
       {
-        "id": "772f78cfff9a4b819afe5600198aa064",
+        "id": "11111111111111111111111111111111",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -476,8 +478,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/493cc77e367e48e9
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "a002ecdf57284cda954a229f1e80d6b0",
-        "description": "портфелі",
+        "id": "22222222222222222222222222222222",
+        "description": "столи",
         "unit": {
           "name": "кг",
           "value": {

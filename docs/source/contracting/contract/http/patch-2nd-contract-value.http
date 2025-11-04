@@ -25,7 +25,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "items": [
       {
-        "id": "8e022f41db5141c28550be76bbbd600a",
+        "id": "11111111111111111111111111111111",
         "description": "портфелі",
         "quantity": 5.0,
         "classification": {
@@ -63,8 +63,8 @@ Content-Type: application/json
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "32a3cfc4a06d4962b4c998c340e399c5",
-        "description": "портфелі",
+        "id": "22222222222222222222222222222222",
+        "description": "столи",
         "quantity": 5.0,
         "classification": {
           "description": "Cartons",

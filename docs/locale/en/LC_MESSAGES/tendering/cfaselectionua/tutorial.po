@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-02 23:35+0200\n"
+"POT-Creation-Date: 2025-12-26 18:27+0200\n"
 "PO-Revision-Date: 2019-03-25 11:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -149,7 +149,34 @@ msgstr ""
 msgid "Створення закупівлі"
 msgstr "Creating tender"
 
-msgid "Створимо закупівлю з мінімально допустимим (обовязковим для заповнення) набором даних:"
+msgid "Існують наступні валідації на агрімент під час створення закупівлі:"
+msgstr "There are agreement validations during tender creating:"
+
+msgid "Поле `agreements` обов'язкове"
+msgstr "Field `agreements` is required"
+
+msgid "Додаткова угода має існувати"
+msgstr "Agreement should exist"
+
+msgid "`agreementType` має відповідати типу закупівлі"
+msgstr "`agreementType` should match tender"
+
+msgid "`agreement.procuringEntity.identifier` має відповідати `tender.procuringEntity.identifier`"
+msgstr "`agreement.procuringEntity.identifier` should match `tender.procuringEntity.identifier`"
+
+msgid "Додаткова угода має бути `active`"
+msgstr "Agreement should be `active`"
+
+msgid "`items` додаткової угоди мають бути обов'язковою частиною `items` в закупівлі"
+msgstr "Agreement items should be a subset of tender items"
+
+msgid "Додаткова угода не може бути закінчена менше ніж за 7 днів до створення закупівлі"
+msgstr "Agreement shouldn't end less than 7 days before tender creation"
+
+msgid "Додаткова угода має містити міннімум 3 активних контракти"
+msgstr "Agreement should have at least 3 active contracts"
+
+msgid "Let's create tender with the minimal (only required) data set and correct agreement:"
 msgstr "Let's create tender with the minimal (only required) data set:"
 
 msgid "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу на `procurementMethodType`, а також на те, що закупівля створюється зі статусом `draft`."

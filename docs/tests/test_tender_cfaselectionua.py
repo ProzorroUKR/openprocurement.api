@@ -81,14 +81,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         for contract in test_agreement["contracts"]:
             contract["parameters"] = test_docs_parameters
 
-        agreement = deepcopy(test_agreement)
-        agreement["_id"] = agreement_id
-        self.create_agreement(agreement)
-
         lot = deepcopy(test_lots[0])
         lot["id"] = uuid4().hex
 
-        test_tender_cfaselectionua_data.update(agreements)
         test_tender_cfaselectionua_data["lots"] = [lot]
         for item in test_tender_cfaselectionua_data["items"]:
             item["relatedLot"] = lot["id"]
@@ -96,6 +91,99 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat(),
             }
+
+        test_tender_cfaselectionua_data.pop("agreements")
+        with open(TARGET_DIR + "tender-post-invalid-agreement-required.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_cfaselectionua_data, "config": self.initial_config},
+                status=422,
+            )
+
+        test_tender_cfaselectionua_data["agreements"] = [{"id": uuid4().hex}]
+        with open(TARGET_DIR + "tender-post-invalid-agreement-not-found.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_cfaselectionua_data, "config": self.initial_config},
+                status=422,
+            )
+
+        agreement = deepcopy(test_agreement)
+        agreement["_id"] = agreement_id
+        agreement["agreementType"] = "dynamicPurchasingSystem"
+        agreement["features"] = test_features
+        self.create_agreement(agreement)
+
+        test_tender_cfaselectionua_data.update(agreements)
+        with open(TARGET_DIR + "tender-post-invalid-agreement-type-mismatch.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_cfaselectionua_data, "config": self.initial_config},
+                status=422,
+            )
+
+        agreement_doc = self.mongodb.agreements.get(agreement_id)
+        agreement_doc["agreementType"] = "closeFrameworkAgreementUA"
+        agreement_doc["procuringEntity"]["identifier"]["id"] = "21725150"
+        self.mongodb.agreements.save(agreement_doc)
+        with open(
+            TARGET_DIR + "tender-post-invalid-agreement-procuring-entity-mismatch.http", "w"
+        ) as self.app.file_obj:
+            self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_cfaselectionua_data, "config": self.initial_config},
+                status=422,
+            )
+
+        agreement_doc = self.mongodb.agreements.get(agreement_id)
+        agreement_doc["procuringEntity"] = test_agreement["procuringEntity"]
+        agreement_doc["status"] = "terminated"
+        self.mongodb.agreements.save(agreement_doc)
+        with open(TARGET_DIR + "tender-post-invalid-agreement-terminated.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_cfaselectionua_data, "config": self.initial_config},
+                status=422,
+            )
+
+        agreement_doc = self.mongodb.agreements.get(agreement_id)
+        agreement_doc["status"] = "active"
+        agreement_doc["items"][0]["classification"]["id"] = "44617000-8"
+        self.mongodb.agreements.save(agreement_doc)
+        with open(TARGET_DIR + "tender-post-invalid-agreement-items.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_cfaselectionua_data, "config": self.initial_config},
+                status=422,
+            )
+
+        agreement_doc = self.mongodb.agreements.get(agreement_id)
+        agreement_doc["items"] = test_tender_cfaselectionua_data["items"]
+        agreement_doc["period"]["endDate"] = (get_now() + timedelta(days=6)).isoformat()
+        self.mongodb.agreements.save(agreement_doc)
+
+        with open(TARGET_DIR + "tender-post-invalid-agreement-expired.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_cfaselectionua_data, "config": self.initial_config},
+                status=422,
+            )
+
+        agreement_doc = self.mongodb.agreements.get(agreement_id)
+        agreement_doc["period"]["endDate"] = (get_now() + timedelta(days=8)).isoformat()
+        agreement_doc["contracts"] = agreement["contracts"][:2]
+        self.mongodb.agreements.save(agreement_doc)
+
+        with open(TARGET_DIR + "tender-post-invalid-agreement-not-enough-contracts.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_cfaselectionua_data, "config": self.initial_config},
+                status=422,
+            )
+
+        agreement_doc = self.mongodb.agreements.get(agreement_id)
+        agreement_doc["contracts"] = agreement["contracts"]
+        self.mongodb.agreements.save(agreement_doc)
 
         with open(TARGET_DIR + "tender-post-attempt-json-data.http", "w") as self.app.file_obj:
             response = self.app.post_json(
@@ -115,22 +203,23 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         test_tender_maximum_data["items"][0]["id"] = uuid4().hex
         test_tender_maximum_data["items"][0]["relatedLot"] = lot["id"]
 
+        agreement_doc = self.mongodb.agreements.get(agreement_id)
+        agreement_doc["items"] = test_tender_maximum_data["items"]
+        self.mongodb.agreements.save(agreement_doc)
+
         with open(TARGET_DIR + "create-tender-procuringEntity.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders?opt_pretty=1", {"data": test_tender_maximum_data, "config": self.initial_config}
             )
             self.assertEqual(response.status, "201 Created")
 
+        agreement_doc = self.mongodb.agreements.get(agreement_id)
+        agreement_doc["items"] = test_tender_cfaselectionua_data["items"]
+        self.mongodb.agreements.save(agreement_doc)
         response = self.app.post_json(
             "/tenders?opt_pretty=1", {"data": test_tender_cfaselectionua_data, "config": self.initial_config}
         )
         self.assertEqual(response.status, "201 Created")
-
-        agreement = deepcopy(test_agreement)
-        agreement["_id"] = agreement_id
-        agreement["features"] = test_features
-
-        self.create_agreement(agreement)
 
         with open(TARGET_DIR + "tender-switch-draft-pending.http", "w") as self.app.file_obj:
             response = self.app.patch_json(

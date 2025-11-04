@@ -11,7 +11,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:01:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000004-a",
+    "tenderID": "UA-2023-10-10-000011-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
@@ -160,10 +160,10 @@ Content-Type: application/json
           {
             "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
             "description": "футляри до державних нагород",
-            "description_en": "Cases for state awards",
+            "description_en": "futliary do derzhavnyh nagorod",
             "quantity": 5.0,
             "classification": {
-              "description": "Cartons",
+              "description": "New Cartons",
               "scheme": "ДК021",
               "id": "44617100-9"
             },
@@ -175,8 +175,8 @@ Content-Type: application/json
               }
             ],
             "deliveryDate": {
-              "startDate": "2018-06-27T13:39:09.362837+03:00",
-              "endDate": "2018-06-30T13:39:09.362837+03:00"
+              "startDate": "2023-10-12T01:00:00+03:00",
+              "endDate": "2023-10-15T01:00:00+03:00"
             },
             "deliveryAddress": {
               "streetAddress": "вул. Банкова 1",
@@ -185,15 +185,21 @@ Content-Type: application/json
               "postalCode": "79000",
               "countryName": "Україна"
             },
+            "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
             "unit": {
               "name": "item",
+              "value": {
+                "amount": 6.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true
+              },
               "code": "KGM"
             }
           }
         ],
         "period": {
           "startDate": "2018-09-11T11:23:20.418390+03:00",
-          "endDate": "2222-01-23T11:23:20.418436+03:00"
+          "endDate": "2023-10-18T01:00:00+03:00"
         },
         "status": "active",
         "contracts": [

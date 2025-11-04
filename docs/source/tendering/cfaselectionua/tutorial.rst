@@ -26,7 +26,49 @@ Configuration
 Створення закупівлі
 -------------------
 
-Створимо закупівлю з мінімально допустимим (обовязковим для заповнення) набором даних:
+Існують наступні валідації на агрімент під час створення закупівлі:
+
+* Поле `agreements` обов'язкове
+
+.. http:example:: tutorial/tender-post-invalid-agreement-required.http
+   :code:
+
+* Додаткова угода має існувати
+
+.. http:example:: tutorial/tender-post-invalid-agreement-not-found.http
+   :code:
+
+* `agreementType` має відповідати типу закупівлі
+
+.. http:example:: tutorial/tender-post-invalid-agreement-type-mismatch.http
+   :code:
+
+* `agreement.procuringEntity.identifier` має відповідати `tender.procuringEntity.identifier`
+
+.. http:example:: tutorial/tender-post-invalid-agreement-procuring-entity-mismatch.http
+   :code:
+
+* Додаткова угода має бути `active`
+
+.. http:example:: tutorial/tender-post-invalid-agreement-terminated.http
+   :code:
+
+* `items` додаткової угоди мають бути обов'язковою частиною `items` в закупівлі
+
+.. http:example:: tutorial/tender-post-invalid-agreement-items.http
+   :code:
+
+* Додаткова угода не може бути закінчена менше ніж за 7 днів до створення закупівлі
+
+.. http:example:: tutorial/tender-post-invalid-agreement-expired.http
+   :code:
+
+* Додаткова угода має містити міннімум 3 активних контракти
+
+.. http:example:: tutorial/tender-post-invalid-agreement-not-enough-contracts.http
+   :code:
+
+Створимо закупівлю з мінімально допустимим (обовязковим для заповнення) набором даних та правильно вказаним агріментом:
 
 .. http:example:: tutorial/tender-post-attempt-json-data.http
    :code:
