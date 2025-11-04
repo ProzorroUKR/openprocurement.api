@@ -19,7 +19,49 @@ You can look for more details in :ref:`config` section.
 Creating tender
 ---------------
 
-Let's create tender with the minimal (only required) data set:
+There are agreement validations during tender creating:
+
+* Field `agreements` is required
+
+.. http:example:: tutorial/tender-post-invalid-agreement-required.http
+   :code:
+
+* Agreement should exist
+
+.. http:example:: tutorial/tender-post-invalid-agreement-not-found.http
+   :code:
+
+* `agreementType` should match tender
+
+.. http:example:: tutorial/tender-post-invalid-agreement-type-mismatch.http
+   :code:
+
+* `agreement.procuringEntity.identifier` should match `tender.procuringEntity.identifier`
+
+.. http:example:: tutorial/tender-post-invalid-agreement-procuring-entity-mismatch.http
+   :code:
+
+* Agreement should be `active`
+
+.. http:example:: tutorial/tender-post-invalid-agreement-terminated.http
+   :code:
+
+* Agreement items should be a subset of tender items
+
+.. http:example:: tutorial/tender-post-invalid-agreement-items.http
+   :code:
+
+* Agreement shouldn't end less than 7 days before tender creation
+
+.. http:example:: tutorial/tender-post-invalid-agreement-expired.http
+   :code:
+
+* Agreement should have at least 3 active contracts
+
+.. http:example:: tutorial/tender-post-invalid-agreement-not-enough-contracts.http
+   :code:
+
+Let's create tender with the minimal (only required) data set and correct agreement:
 
 .. http:example:: tutorial/tender-post-attempt-json-data.http
    :code:

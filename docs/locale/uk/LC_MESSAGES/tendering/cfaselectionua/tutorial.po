@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-30 13:51+0300\n"
+"POT-Creation-Date: 2025-11-04 15:45+0200\n"
 "PO-Revision-Date: 2019-03-25 11:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -129,8 +129,35 @@ msgstr "Ви можете ознайомитись з деталями в сек
 msgid "Creating tender"
 msgstr "Створення закупівлі"
 
-msgid "Let's create tender with the minimal (only required) data set:"
-msgstr "Створимо закупівлю з мінімально допустимим (обовязковим для заповнення) набором даних:"
+msgid "There are agreement validations during tender creating:"
+msgstr "Існують наступні валідації на агрімент під час створення закупівлі:"
+
+msgid "Field `agreements` is required"
+msgstr "Поле `agreements` обов'язкове"
+
+msgid "Agreement should exist"
+msgstr "Додаткова угода має існувати"
+
+msgid "`agreementType` should match tender"
+msgstr "`agreementType` має відповідати типу закупівлі"
+
+msgid "`agreement.procuringEntity.identifier` should match `tender.procuringEntity.identifier`"
+msgstr "`agreement.procuringEntity.identifier` має відповідати `tender.procuringEntity.identifier`"
+
+msgid "Agreement should be `active`"
+msgstr "Додаткова угода має бути `active`"
+
+msgid "Agreement items should be a subset of tender items"
+msgstr "`items` додаткової угоди мають бути обов'язковою частиною `items` в закупівлі"
+
+msgid "Agreement shouldn't end less than 7 days before tender creation"
+msgstr "Додаткова угода не може бути закінчена менше ніж за 7 днів до створення закупівлі"
+
+msgid "Agreement should have at least 3 active contracts"
+msgstr "Додаткова угода має містити міннімум 3 активних контракти"
+
+msgid "Let's create tender with the minimal (only required) data set and correct agreement:"
+msgstr "Створимо закупівлю з мінімально допустимим (обовязковим для заповнення) набором даних та правильно вказаним агріментом:"
 
 msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified. Pay attention to the `procurementMethodType`. Note that tender is created with `draft` status."
 msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу на `procurementMethodType`, а також на те, що закупівля створюється зі статусом `draft`."
@@ -425,3 +452,4 @@ msgstr "Активація запиту та скасування закупів
 
 msgid "It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and `Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
 msgstr "Можливо, буде корисно побачити актуальні вимоги: `Сценарії ручного тестування для III рівня акредитації <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ і `Сценарії ручного тестування для IV рівня акредитації <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
+
