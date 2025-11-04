@@ -589,10 +589,10 @@ def migrate(
 ):
     os.environ["NO_GEVENT_MONKEY_PATCH"] = "1"
     args = parser().parse_args()
-    with bootstrap(args.p) as env:
-        if args.test:
-            migration(env, args).run_test()
-        else:
+    if args.test:
+        migration(MagicMock(), args).run_test()
+    else:
+        with bootstrap(args.p) as env:
             migration(env, args).run()
 
 
