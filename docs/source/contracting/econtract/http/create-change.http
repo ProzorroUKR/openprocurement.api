@@ -41,7 +41,21 @@ Content-Type: application/json
     "id": "68db49ecd6ef439a81feaec69cd6ab07",
     "status": "pending",
     "date": "2023-10-10T01:00:00+03:00",
-    "author": "supplier"
+    "author": "supplier",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_change.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
+        "documentOf": "change",
+        "id": "88962047c28144d99916ae75c9a2a38a",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "documentType": "contractNotice"
+      }
+    ]
   }
 }
 

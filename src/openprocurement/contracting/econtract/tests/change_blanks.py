@@ -57,7 +57,7 @@ def get_change(self):
     self.assertEqual(len(response.json["data"]["changes"]), 1)
     self.assertEqual(
         set(response.json["data"]["changes"][0].keys()),
-        {"id", "date", "status", "rationaleTypes", "rationale", "rationale_en", "modifications", "author"},
+        {"id", "date", "status", "rationaleTypes", "rationale", "rationale_en", "modifications", "author", "documents"},
     )
 
     self.app.authorization = None
@@ -66,7 +66,7 @@ def get_change(self):
     self.assertEqual(len(response.json["data"]), 1)
     self.assertEqual(
         set(response.json["data"][0].keys()),
-        {"id", "date", "status", "rationaleTypes", "rationale", "rationale_en", "modifications", "author"},
+        {"id", "date", "status", "rationaleTypes", "rationale", "rationale_en", "modifications", "author", "documents"},
     )
 
 
@@ -844,6 +844,9 @@ def change_documents(self):
     self.assertEqual(response.status, "201 Created")
     change = response.json["data"]
 
+    self.assertEqual(len(change["documents"]), 1)
+    self.assertEqual(change["documents"][0]["title"], "contract_change.pdf")
+
     contract_sign_data = {
         "title": "sign.p7s",
         "url": self.generate_docservice_url(),
@@ -889,7 +892,7 @@ def change_documents(self):
     response = self.app.get(
         f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
     )
-    self.assertEqual(response.json["data"][0]["title"], "sign.p7s")
+    self.assertEqual(response.json["data"][-1]["title"], "sign.p7s")
 
 
 def change_tender_contract_items_change(self):

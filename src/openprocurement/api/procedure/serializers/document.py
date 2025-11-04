@@ -2,6 +2,8 @@ from string import hexdigits
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
+import requests
+
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.document import ConfidentialityType
@@ -54,3 +56,10 @@ class DocumentSerializer(BaseSerializer):
         if key == "url":
             kwargs["document"] = self.raw
         return super().serialize_value(key, value, **kwargs)
+
+
+def load_document_content(doc):
+    doc_url = download_url_serialize(doc.get("url"), doc)
+    resp = requests.get(doc_url)
+    resp.raise_for_status()
+    return resp.content

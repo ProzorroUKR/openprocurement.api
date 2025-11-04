@@ -356,9 +356,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/d0cfb4b9efbc40338460f946b7932266?download=acdee3c5fbb14da0b63000963dea8a81",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/ba34cbd977c84a82a2261261c72db7ec?download=acdee3c5fbb14da0b63000963dea8a81",
         "documentOf": "contract",
-        "id": "d0cfb4b9efbc40338460f946b7932266",
+        "id": "ba34cbd977c84a82a2261261c72db7ec",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "documentType": "contractNotice"

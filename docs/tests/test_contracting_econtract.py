@@ -500,21 +500,31 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        with open(TARGET_DIR + 'create-change.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
-                {
-                    "data": {
-                        "rationale": "причина зміни укр",
-                        "rationale_en": "change cause en",
-                        "rationaleTypes": ["priceReduction"],
-                        "modifications": {
-                            "value": {"amount": 535, "amountNet": 490},
-                        },
-                    }
-                },
-            )
-            change_id = response.json["data"]["id"]
+        pdf_data = {
+            "url": self.generate_docservice_url(),
+            "format": "application/pdf",
+            "hash": "md5:" + "0" * 32,
+            "title": "contract_change.pdf",
+        }
+        upload_change_mock_path = "openprocurement.tender.core.procedure.contracting.upload_contract_change_pdf"
+        with mock.patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
+            mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
+            with open(TARGET_DIR + 'create-change.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(
+                    f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
+                    {
+                        "data": {
+                            "rationale": "причина зміни укр",
+                            "rationale_en": "change cause en",
+                            "rationaleTypes": ["priceReduction"],
+                            "modifications": {
+                                "value": {"amount": 535, "amountNet": 490},
+                            },
+                        }
+                    },
+                )
+                change_id = response.json["data"]["id"]
+            mock_upload_contract_change_pdf.assert_called_once()
 
         with open(TARGET_DIR + 'change-supplier-add-signature-doc.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -538,20 +548,24 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             self.app.get(f"/contracts/{self.contract_id}/changes/{change_id}?acc_token={buyer_token_2}")
 
         # cancellations
-        with open(TARGET_DIR + 'create-change-2.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
-                {
-                    "data": {
-                        "rationale": "причина зміни укр",
-                        "rationale_en": "change cause en",
-                        "rationaleTypes": ["durationExtension"],
-                        "modifications": {
-                            "period": {"endDate": "2027-01-01T00:00:00+02:00"},
-                        },
-                    }
-                },
-            )
+        with mock.patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
+            mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
+            with open(TARGET_DIR + 'create-change-2.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(
+                    f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
+                    {
+                        "data": {
+                            "rationale": "причина зміни укр",
+                            "rationale_en": "change cause en",
+                            "rationaleTypes": ["durationExtension"],
+                            "modifications": {
+                                "period": {"endDate": "2027-01-01T00:00:00+02:00"},
+                            },
+                        }
+                    },
+                )
+            mock_upload_contract_change_pdf.assert_called_once()
+
         change_id_2 = response.json["data"]["id"]
         with open(TARGET_DIR + 'contract-supplier-cancels-change.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -632,17 +646,20 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
 
         item_1 = deepcopy(items[0])
         item_1["quantity"] = 9
-        with open(TARGET_DIR + 'create-change-items.http', 'w') as self.app.file_obj:
-            self.app.post_json(
-                f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
-                {
-                    "data": {
-                        "rationale": "причина зміни укр",
-                        "rationale_en": "change cause en",
-                        "rationaleTypes": ["itemPriceChange"],
-                        "modifications": {
-                            "items": [item_1, items[1], new_item],
-                        },
-                    }
-                },
-            )
+        with mock.patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
+            mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
+            with open(TARGET_DIR + 'create-change-items.http', 'w') as self.app.file_obj:
+                self.app.post_json(
+                    f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
+                    {
+                        "data": {
+                            "rationale": "причина зміни укр",
+                            "rationale_en": "change cause en",
+                            "rationaleTypes": ["itemPriceChange"],
+                            "modifications": {
+                                "items": [item_1, items[1], new_item],
+                            },
+                        }
+                    },
+                )
+            mock_upload_contract_change_pdf.assert_called_once()

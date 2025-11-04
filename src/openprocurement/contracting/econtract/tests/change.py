@@ -1,5 +1,7 @@
 import unittest
 
+import mock
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
 from openprocurement.contracting.econtract.tests.change_blanks import (
@@ -23,6 +25,24 @@ from openprocurement.contracting.econtract.tests.change_blanks import (
 
 class ContractChangesMixin:
     initial_contract_status = "active"
+
+    def setUp(self):
+        super().setUp()
+        pdf_data = {
+            "url": self.generate_docservice_url(),
+            "format": "application/pdf",
+            "hash": "md5:" + "0" * 32,
+            "title": "contract_change.pdf",
+        }
+        self.upload_patch = mock.patch(
+            "openprocurement.tender.core.procedure.contracting.upload_contract_change_pdf",
+            return_value={"data": pdf_data},
+        )
+        self.upload_patch.start()
+
+    def tearDown(self):
+        self.upload_patch.stop()
+        super().tearDown()
 
     def activate_change(self, change_id):
         contract_sign_data = {

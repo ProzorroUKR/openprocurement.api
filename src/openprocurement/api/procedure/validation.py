@@ -452,3 +452,69 @@ def validate_items_classifications_prefixes(
             status=422,
             name="items",
         )
+
+
+def validate_apisign_signature_type(verify_data):
+    sign_info = verify_data.get("sign_info", {})
+    sign_type = sign_info.get("pdwSignType")
+
+    if sign_type is None:
+        raise_operation_error(
+            get_request(),
+            "Can't validate signature type",
+        )
+
+    validate_signature_type(sign_type)
+
+
+def validate_signature_type(sign_type):
+    """
+    Validate that the signature type is CAdES-X Long
+
+    It seams each signature type is a bitmask of the following types:
+
+    1   == 0b00000001  # CAdES-BES
+    4   == 0b00000100  # CAdES-T
+    8   == 0b00001000  # CAdES-C
+    16  == 0b00010000  # CAdES-X Long
+    128 == 0b10000000  # CAdES-X Long Trusted
+
+    We need
+     - CAdES-X Long
+     - CAdES-X Long + CAdES-X Long Trusted
+
+    But CAdES-X Long Trusted is modifier and signature will still be CAdES-X Long
+    So to check if the signature type is CAdES-X Long or CAdES-X Long + CAdES-X Long Trusted
+    we need to check if the signature type has CAdES-X Long bit set
+    """
+
+    EU_SIGN_TYPE_CADES_X_LONG = 16
+    if not bool(sign_type & EU_SIGN_TYPE_CADES_X_LONG):
+        raise_operation_error(
+            get_request(),
+            f"Invalid signature type {sign_type}, expected CAdES-X Long",
+        )
+
+
+def validate_apisign_signature_cert(verify_data):
+    certs_info = verify_data.get("cert_info", {})
+    cert_key_type = certs_info.get("dwPublicKeyType")
+    if not cert_key_type:
+        raise_operation_error(
+            get_request(),
+            "Can't validate certificate",
+        )
+    validate_cert_key_type(cert_key_type)
+
+
+def validate_cert_key_type(cert_key_type):
+    """
+    Validate that the certificate key type is ДСТУ-4145
+    """
+    EU_CERT_KEY_TYPE_DSTU4145 = 1
+
+    if cert_key_type != EU_CERT_KEY_TYPE_DSTU4145:
+        raise_operation_error(
+            get_request(),
+            "Invalid certificate key type, expected ДСТУ-4145",
+        )

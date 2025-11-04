@@ -181,9 +181,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/a2ce835139874860b1b6fb0bf6b5575d?download=acdee3c5fbb14da0b63000963dea8a81",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/e7d826dbc2944bb6bba19f45034deddd?download=acdee3c5fbb14da0b63000963dea8a81",
         "documentOf": "contract",
-        "id": "a2ce835139874860b1b6fb0bf6b5575d",
+        "id": "e7d826dbc2944bb6bba19f45034deddd",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "documentType": "contractNotice"
@@ -241,6 +241,18 @@ Content-Type: application/json
         "documents": [
           {
             "confidentiality": "public",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "contract_change.pdf",
+            "format": "application/pdf",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
+            "documentOf": "change",
+            "id": "88962047c28144d99916ae75c9a2a38a",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "documentType": "contractNotice"
+          },
+          {
+            "confidentiality": "public",
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
             "hash": "md5:00000000000000000000000000000000",
@@ -284,6 +296,20 @@ Content-Type: application/json
         "status": "cancelled",
         "date": "2023-10-10T01:00:00+03:00",
         "author": "supplier",
+        "documents": [
+          {
+            "confidentiality": "public",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "contract_change.pdf",
+            "format": "application/pdf",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/e3b63c3aac354f6db3fbc8f25d03cc7d/documents/9471624212664412824822e912a743df?download=33830e473a1348d6a5a7e4eb3379672d",
+            "documentOf": "change",
+            "id": "9471624212664412824822e912a743df",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "documentType": "contractNotice"
+          }
+        ],
         "cancellations": [
           {
             "reason": "not actual change",

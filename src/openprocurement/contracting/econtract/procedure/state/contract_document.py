@@ -1,11 +1,13 @@
 from copy import deepcopy
 
-import requests
-
 from openprocurement.api.constants_env import SIGNATURE_VERIFICATION_ENABLED
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.serializers.document import download_url_serialize
-from openprocurement.api.utils import raise_operation_error, verify_signature
+from openprocurement.api.procedure.serializers.document import load_document_content
+from openprocurement.api.procedure.validation import (
+    validate_apisign_signature_cert,
+    validate_apisign_signature_type,
+)
+from openprocurement.api.utils import raise_operation_error, verify_signature_apisign
 from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState as BaseContractDocumentState,
 )
@@ -97,79 +99,25 @@ class EContractDocumentState(BaseContractDocumentState):
         if not SIGNATURE_VERIFICATION_ENABLED:
             return
         # Get signature file from ds
-        doc_url = download_url_serialize(doc_data.get("url"), doc_data)
-        response = requests.get(doc_url)
-        response.raise_for_status()
-        signature = response.content
-        # Get pdf file from ds
-        pdf = None
+        signature = load_document_content(doc_data)
+        # Find contract notice document
+        pdf_doc = None
         contract = self.request.validated["contract"]
         for doc in contract.get("documents", []):
             if doc.get("documentType") == "contractNotice":
-                pdf_url = download_url_serialize(doc.get("url"), doc)
-                response = requests.get(pdf_url)
-                response.raise_for_status()
-                pdf = response.content
+                pdf_doc = doc
                 break
-        if not pdf:
+        if not pdf_doc:
             raise_operation_error(
                 self.request,
                 "Contract pdf not found",
                 location="body",
                 name="documents",
             )
+        # Get pdf file from ds
+        pdf = load_document_content(doc)
         # Verify signature
-        verify_data = verify_signature(self.request, pdf, signature)
-        self.validate_contract_signature_type(verify_data)
-        self.validate_contract_signature_cert(verify_data)
-
-    def validate_contract_signature_type(self, verify_data):
-        sign_info = verify_data.get("sign_info", {})
-        sign_type = sign_info.get("pdwSignType")
-
-        if sign_type is None:
-            raise_operation_error(
-                self.request,
-                "Can't validate signature type",
-            )
-
-        # It seams each signature type is a bitmask of the following types:
-        #
-        # 1   == 0b00000001  # CAdES-BES
-        # 4   == 0b00000100  # CAdES-T
-        # 8   == 0b00001000  # CAdES-C
-        # 16  == 0b00010000  # CAdES-X Long
-        # 128 == 0b10000000  # CAdES-X Long Trusted
-        #
-        # We need
-        #  - CAdES-X Long
-        #  - CAdES-X Long + CAdES-X Long Trusted
-        #
-        # But CAdES-X Long Trusted is modifier and signature will still be CAdES-X Long
-        # So to check if the signature type is CAdES-X Long or CAdES-X Long + CAdES-X Long Trusted
-        # we need to check if the signature type has CAdES-X Long bit set
-
-        EU_SIGN_TYPE_CADES_X_LONG = 16
-
-        if not bool(sign_type & EU_SIGN_TYPE_CADES_X_LONG):
-            raise_operation_error(
-                self.request,
-                f"Invalid signature type {sign_type}, expected CAdES-X Long",
-            )
-
-    def validate_contract_signature_cert(self, verify_data):
-        certs_info = verify_data.get("cert_info", {})
-        cert_key_type = certs_info.get("dwPublicKeyType")
-        if not cert_key_type:
-            raise_operation_error(
-                self.request,
-                "Can't validate certificate",
-            )
-
-        EU_CERT_KEY_TYPE_DSTU4145 = 1
-
-        if cert_key_type != EU_CERT_KEY_TYPE_DSTU4145:
-            raise_operation_error(
-                self.request,
-                "Invalid certificate key type, expected ДСТУ-4145",
-            )
+        verify_data = verify_signature_apisign(pdf, signature)
+        # Validate signature
+        validate_apisign_signature_type(verify_data)
+        validate_apisign_signature_cert(verify_data)

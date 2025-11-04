@@ -36,7 +36,7 @@ from openprocurement.api.constants import (
     WORKING_DAYS,
 )
 from openprocurement.api.constants_env import DST_AWARE_PERIODS_FROM
-from openprocurement.api.context import get_local_cache
+from openprocurement.api.context import get_local_cache, get_request
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.events import ErrorDescriptorEvent
 
@@ -591,16 +591,31 @@ def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple |
     return data
 
 
-def upload_contract_pdf(request, contract: dict):
+def upload_contract_pdf(request, data: dict):
     resp = requests.post(
         f"{request.registry.render_api_host}/api/1.0/contract/upload",
-        json={"data": contract},
+        json={"data": data},
         auth=(request.registry.render_api_username, request.registry.render_api_password),
     )
     if resp.status_code != 200:
         raise_operation_error(
             request,
             f"Fail uploading contract pdf: {resp.status_code} {resp.text}.",
+            status=422,
+        )
+    return resp.json()
+
+
+def upload_contract_change_pdf(request, data: dict):
+    resp = requests.post(
+        f"{request.registry.render_api_host}/api/1.0/contract/change/upload",
+        json={"data": data},
+        auth=(request.registry.render_api_username, request.registry.render_api_password),
+    )
+    if resp.status_code != 200:
+        raise_operation_error(
+            request,
+            f"Fail uploading contract change pdf: {resp.status_code} {resp.text}.",
             status=422,
         )
     return resp.json()
@@ -654,15 +669,17 @@ def is_boolean(value):
     return False
 
 
-def verify_signature(request, data, sign):
-    request_data = {
+def verify_signature_apisign(data, sign):
+    request = get_request()
+
+    req_data = {
         "sign": b64encode(sign).decode(),
         "data": b64encode(data).decode(),
     }
 
     resp = requests.post(
         f"{request.registry.sign_api_host}/verify_data",
-        json=request_data,
+        json=req_data,
         auth=(request.registry.sign_api_username, request.registry.sign_api_password),
     )
 
@@ -677,6 +694,10 @@ def verify_signature(request, data, sign):
         except (KeyError, IndexError):
             error_description = resp.status_code
 
-        raise_operation_error(request, f"Fail verifying signature: {error_description}.", status=422)
+        raise_operation_error(
+            request,
+            f"Fail verifying signature: {error_description}.",
+            status=422,
+        )
 
     return resp_data["data"]
