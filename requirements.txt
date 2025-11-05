@@ -38,4 +38,4 @@ git+https://github.com/ProzorroUKR/barbecue.git@0.2#egg=barbecue
 # https://github.com/ProzorroUKR/openprocurement.audit.api
 # https://github.com/ProzorroUKR/prozorro_tasks
 
-git+https://github.com/ProzorroUKR/standards.git@e703ca1554f629a82d2766248930641bf5d1a563#egg=standards
+git+https://github.com/ProzorroUKR/standards.git@1.0.203#egg=standards

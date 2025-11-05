@@ -1409,7 +1409,7 @@ def tender_cause(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "causeDetails"}],
+        [{"description": "This field is required.", "location": "body", "name": "causeDetails"}],
     )
 
     data["causeDetails"] = {"title": "additionalPurchase", "scheme": "LAW922"}
