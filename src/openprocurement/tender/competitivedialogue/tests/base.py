@@ -67,14 +67,14 @@ test_tender_cdua_data["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).is
 # stage 2
 test_tender_cdeu_stage2_data = deepcopy(test_tender_openeu_data)
 del test_tender_cdeu_stage2_data["contractTemplateName"]
-test_tender_cdeu_stage2_data["tenderPeriod"]["startDate"] = (now + timedelta(seconds=5)).isoformat()
+test_tender_cdeu_stage2_data["tenderPeriod"]["startDate"] = (now + timedelta(minutes=1)).isoformat()
 test_tender_cdeu_stage2_data["tenderID"] = "bla bla bla this iis stage 2 eu"
 test_tender_cdeu_stage2_data["procurementMethodType"] = STAGE_2_EU_TYPE
 test_tender_cdeu_stage2_data["procurementMethod"] = "selective"
 
 test_tender_cdua_stage2_data = deepcopy(test_tender_openua_data)
 del test_tender_cdua_stage2_data["contractTemplateName"]
-test_tender_cdua_stage2_data["tenderPeriod"]["startDate"] = (now + timedelta(seconds=5)).isoformat()
+test_tender_cdua_stage2_data["tenderPeriod"]["startDate"] = (now + timedelta(minutes=1)).isoformat()
 test_tender_cdua_stage2_data["tenderID"] = "bla bla bla this iis stage 2 ua"
 test_tender_cdua_stage2_data["procurementMethodType"] = STAGE_2_UA_TYPE
 test_tender_cdua_stage2_data["procurementMethod"] = "selective"
@@ -303,13 +303,13 @@ test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
 )
 
 test_tender_cdeu_stage2_data["tenderPeriod"]["endDate"] = calculate_tender_full_date(
-    now,
+    now + timedelta(minutes=1),  # startDate
     timedelta(days=test_tender_cdeu_stage2_config["minTenderingDuration"] + 1),
     tender=test_tender_cdeu_stage2_data,
 ).isoformat()
 
 test_tender_cdua_stage2_data["tenderPeriod"]["endDate"] = calculate_tender_full_date(
-    now,
+    now + timedelta(minutes=1),  # startDate
     timedelta(days=test_tender_cdua_stage2_config["minTenderingDuration"] + 1),
     tender=test_tender_cdeu_stage2_data,
 ).isoformat()
