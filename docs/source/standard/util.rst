@@ -423,8 +423,8 @@ Scheme
 
     Causes for using reporting, negotiation or negotiation.quick procedures.
 
-    Possible values in `tender causes law 922 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_law_922.json>`_
-    and `tender causes decree 1178 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_decree_1178.json>`_ dictionaries.
+    Possible values in `tender causes law 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_law_922.json>`_
+    and `tender causes decree 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_decree_1178.json>`_ dictionaries.
 
 
     Only in :ref:`limited`.
