@@ -26,6 +26,9 @@ from openprocurement.tender.limited.procedure.models.tender import (
     PostReportingTender,
     ReportingTender,
 )
+from openprocurement.tender.limited.procedure.serializers.tender import (
+    LimitedTenderBaseSerializer,
+)
 from openprocurement.tender.limited.procedure.state.tender_details import (
     NegotiationQuickTenderDetailsState,
     NegotiationTenderDetailsState,
@@ -43,6 +46,7 @@ from openprocurement.tender.limited.procedure.state.tender_details import (
 )
 class ReportingTenderResource(TendersResource):
     state_class = ReportingTenderDetailsState
+    serializer_class = LimitedTenderBaseSerializer
 
     @json_view(
         content_type="application/json",
@@ -87,6 +91,7 @@ class ReportingTenderResource(TendersResource):
 )
 class NegotiationTenderResource(TendersResource):
     state_class = NegotiationTenderDetailsState
+    serializer_class = LimitedTenderBaseSerializer
 
     @json_view(
         content_type="application/json",
@@ -131,6 +136,7 @@ class NegotiationTenderResource(TendersResource):
 )
 class NegotiationQuickTenderResource(TendersResource):
     state_class = NegotiationQuickTenderDetailsState
+    serializer_class = LimitedTenderBaseSerializer
 
     @json_view(
         content_type="application/json",

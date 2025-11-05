@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-30 13:51+0300\n"
+"POT-Creation-Date: 2025-11-03 16:19+0200\n"
 "PO-Revision-Date: 2018-09-12 16:36+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Period"
 msgstr "Period"
@@ -387,6 +387,48 @@ msgstr "Робочий процес"
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
 
-#~ msgid "Guarantee"
-#~ msgstr "Guarantee"
+msgid "CauseDetails"
+msgstr ""
+
+msgid "string, required for **negotiation** and **negotiation.quick** procedures. Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
+msgstr "рядок, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**. Також обов’язковий для **звітів**, які мають пусте поле `procurementMethodRationale`, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
+
+msgid "100 000 for goods,"
+msgstr "100 000 для товарів,"
+
+msgid "200 000 for services,"
+msgstr "200 000 для послуг,"
+
+msgid "1 500 000 for works."
+msgstr "1 500 000 для робіт."
+
+msgid "Causes for using reporting, negotiation or negotiation.quick procedures."
+msgstr "Обгрунтування використання звітів, \\”звичайної\\” переговорної процедури або переговорної процедури за нагальною потребою."
+
+msgid "Possible values in `tender causes law 922 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_law_922.json>`_ and `tender causes decree 1178 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_decree_1178.json>`_ dictionaries."
+msgstr "Можливі значення зберігаються у довіднику `підстави згідно закону 922 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_law_922.json>`_ та `підстави згідно постанові 1178 <https://github.com/ProzorroUKR/standards/blob/e2b09e11dc7f2d52a318d3fb766c9cbe61a9b989/codelists/tender/tender_cause_decree_1178.json>`_."
+
+msgid "Only in :ref:`limited`."
+msgstr "Тільки у :ref:`limited`."
+
+msgid "Type of tender cause schema. Possible values are:"
+msgstr "Тип довідника, з якого буде вказана підстава. Можливі значення:"
+
+msgid "`LAW922`"
+msgstr ""
+
+msgid "`DECREE1178`"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "string, multilingual"
+msgstr "рядок, багатомовний"
+
+msgid "Reasoning behind usage of reporting, negotiation or negotiation.quick procedures."
+msgstr "Обгрунтування використання звітів, \\”звичайної\\” переговорної процедури або переговорної процедури за нагальною потребою."
+
+msgid "Only in :ref:`limited`"
+msgstr "Тільки у :ref:`limited`"
 

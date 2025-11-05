@@ -108,7 +108,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "mainProcurementCategory": "services"
+    "mainProcurementCategory": "services",
+    "causeDetails": {
+      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+    }
   },
   "config": {
     "hasAuction": false,
@@ -147,7 +150,14 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "causeDetails",
-      "description": "This field is required."
+      "description": {
+        "title": [
+          "This field is required."
+        ],
+        "scheme": [
+          "This field is required."
+        ]
+      }
     }
   ]
 }

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-08 12:41+0300\n"
+"POT-Creation-Date: 2025-11-03 16:19+0200\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -149,8 +149,8 @@ msgstr "Створення закупівлі для процедури звіт
 msgid "To create tender for **reporting** procedure you should set ``reporting`` value for ``procurementMethodType``."
 msgstr "Щоб створити закупівлю за процедурою **звітування про укладений договір**, потрібно встановити значення ``reporting`` для ``procurementMethodType``."
 
-msgid "For **reporting** procedure there is required field `cause`. It is required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
-msgstr "Для процедури **звітування про укладений договір** додавання поля `cause` до тендеру є обов’язковими, якщо поле `procurmentMethodRationale` пусте, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
+msgid "For **reporting** procedure there is required field `causeDetails`. It is required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
+msgstr "Для процедури **звітування про укладений договір** додавання поля `causeDetails` до тендеру є обов’язковим, якщо поле `procurmentMethodRationale` пусте, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
 
 msgid "100 000 for goods,"
 msgstr "100 000 для товарів,"
@@ -164,8 +164,11 @@ msgstr "1 500 000 для робіт."
 msgid "Let's try to create tender with value amount bigger than threshold and without `procurementMethodRationale`:"
 msgstr "Спробуємо створити тендер з очікуваною вартістю більше ніж поріг та без поля `procurementMethodRationale`:"
 
-msgid "Let's add `cause` and `causeDescription` and then create a tender:"
-msgstr "Додамо до тендеру поля `cause` та `causeDescription` і після цього створимо закупівлю:"
+msgid "Fields `title` and `scheme` are required, that's why it is forbidden to add only `causeDetails.description`:"
+msgstr "Поля `title` та `scheme` обов'язкові для заповнення, тому заборонено передавати тільки `causeDetails.description`:"
+
+msgid "Let's add `causeDetails` and then create a tender:"
+msgstr "Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю:"
 
 msgid "We have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties."
 msgstr "Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковим ідентифікатором `id`, `tenderID` та властивість `dateModified` - дату, що показує час, коли закупівля востаннє модифікувалась."
@@ -341,11 +344,11 @@ msgstr "Угода про закупівлю для **переговорної �
 msgid "Confidential documents for contract"
 msgstr "Конфіденційні файли у контракті"
 
-msgid "When creating a tender, the customer selects one of the items (`cause`) from the drop-down list of reasons for applying the purchase contract report. If one of the particular reasons is used, the files (documents) that the customer uploads to the contract and changes to the contract (`\"documentOf\": \"contract\"` and `\"documentOf\": \"change\"`) must be hidden in such reporting procedure."
-msgstr "Під час створення тендеру замовник з випадаючого списку підстав застосування звіту про договір про закупівлю у формі обирає один з пунктів (cause). У випадку застосування однієї з наведених підстав, в такому звіті мають бути приховані файли (documents), які замовник завантажує до контракту та змін до договору (`\"documentOf\": \"contract\"` та `\"documentOf\": \"change\"`)."
+msgid "When creating a tender, the customer selects one of the items (`causeDetails.title` for particular `causeDetails.scheme`) from the drop-down list of reasons for applying the purchase contract report. If one of the particular reasons is used, the files (documents) that the customer uploads to the contract and changes to the contract (`\"documentOf\": \"contract\"` and `\"documentOf\": \"change\"`) must be hidden in such reporting procedure."
+msgstr "Під час створення тендеру замовник з випадаючого списку підстав застосування звіту про договір про закупівлю у формі обирає один з пунктів (`causeDetails.title` в залежності від обраної схеми `causeDetails.scheme`). У випадку застосування однієї з наведених підстав, в такому звіті мають бути приховані файли (documents), які замовник завантажує до контракту та змін до договору (`\"documentOf\": \"contract\"` та `\"documentOf\": \"change\"`)."
 
-msgid "Documents should be confidential if reporting has one ot the causes:"
-msgstr "Документи мають бути конфіденційними якщо звіт має одну з перерахованих підстав (`cause`):"
+msgid "Documents should be confidential if reporting has one ot the `causeDetails.title`:"
+msgstr "Документи мають бути конфіденційними якщо звіт має одну з перерахованих підстав (`causeDetails.title`):"
 
 msgid "criticalInfrastructure"
 msgstr ""
@@ -374,7 +377,7 @@ msgstr "contractSigned - Підписаний договір"
 msgid "contractAnnexe - Annexes to the contract"
 msgstr "contractAnnexe - Додатки до договору"
 
-msgid "Confidentiality should be applied for documents, in case of application of the above causes. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`."
+msgid "Confidentiality should be applied for documents, in case of application of the above `causeDetails.title`. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`."
 msgstr "Приховання (конфіденційність) має бути застосована для documents, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`."
 
 msgid "Let's add documents to contract and set `confidentiality` as public, we will see an error:"

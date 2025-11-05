@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-30 13:51+0300\n"
+"POT-Creation-Date: 2025-11-03 16:19+0200\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tender"
 msgstr "Tender"
@@ -660,6 +660,9 @@ msgstr "Зміни властивостей об’єктів Закупівлі
 msgid "cause"
 msgstr ""
 
+msgid "**Deprecated (use CauseDetails instead)**"
+msgstr "**Deprecated (нове поле CauseDetails)**"
+
 msgid "string, required for **negotiation** and **negotiation.quick** procedures. Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
 msgstr "рядок, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**. Також обов’язковий для **звітів**, які мають пусте поле `procurementMethodRationale`, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
 
@@ -672,65 +675,26 @@ msgstr "200 000 для послуг,"
 msgid "1 500 000 for works."
 msgstr "1 500 000 для робіт."
 
-msgid "Causes for using reporting, negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine \"On Public Procurement\"."
+msgid "Causes for using reporting, negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine \"On Public Procurement\""
 msgstr "Підстава для використання звітів, “звичайної” переговорної процедури або переговорної процедури за нагальною потребою. Для більш детальної інформації дивіться статтю 35 Закону України \\”Про публічні закупівлі\\”."
 
-msgid "Possible values for **negotiation** and **negotiation.quick** procedures:"
-msgstr "Можливі значення для **переговорної процедури** та **переговорної процедури за нагальною потребою** :"
-
-msgid "`twiceUnsuccessful` Two tenders have already been cancelled due to lack of participants"
-msgstr "`twiceUnsuccessful` cт. 35, п. 4 Якщо замовником було двічі відмінено тендер через відсутність достатньої кількості учасників, при цьому предмет закупівлі, його технічні та якісні характеристики, а також вимоги до учасника не повинні відрізнятися від вимог, що були визначені замовником у тедерній документації"
-
-msgid "`additionalPurchase` Need to use the same supplier for unification, standardization, etc."
-msgstr "`additionalPurchase` cт. 35, п. 5 Потреба здійснити додаткову закупівлю в того самого постачальника з метою уніфікації, стандартизації або забезпечення сумісності з наявними товарами, технологіями, роботами чи послугами, якщо заміна попереднього постачальника (виконавця робіт, надавача послуг) може призвести до несумісності або виникнення проблем технічного характеру, пов’язаних з експлуатацією та обслуговуванням."
-
-msgid "`additionalConstruction` Need of additional construction works"
-msgstr "`additionalConstruction` cт. 35, п. 6 Необхідність проведення додаткових будівельних робіт, не зазначених у початковому проекті, але які стали через непередбачувані обставини необхідними для виконання проекту за сукупності таких умов: договір буде укладено з попереднім виконавцем цих робіт, такі роботи технічно чи економічно пов’язані з головним (первинним) договором; загальна вартість додаткових робіт не перевищує 50 відсотків вартості головного (первинного) договору"
-
-msgid "`stateLegalServices` Purchase of legal services connected with protection of rights and interests of Ukraine"
-msgstr "`stateLegalServices` cт. 35, п. 7 Закупівля юридичних послуг, пов’язаних із захистом прав та інтересів України, у тому числі з метою захисту національної безпеки і оборони, під час врегулювання спорів, розгляду в закордонних юрисдикційних органах справ за участю іноземного суб’єкта та України, на підставі рішення Кабінету Міністрів України або введених в дію відповідно до закону рішень Ради національної безпеки і оборони України"
-
-msgid "`resolvingInsolvency` Goods procurement related to resolving insolvency according to the law"
-msgstr "`resolvingInsolvency` Закупівля товарів за процедурою відновлення платоспроможності боржника згідно із законодавством"
-
-msgid "`artPurchase` Procurement related to creation or purchase of artwork"
-msgstr "`artPurchase` Предмет закупівлі полягає у створенні або придбанні витвору мистецтва"
-
-msgid "`contestWinner` Conclusion of contract with the winner of architecture or art contest"
-msgstr "`contestWinner` Укладення договору з переможцем архітектурного або мистецького конкурсу"
-
-msgid "`technicalReasons` Lack of competition due to technical reasons"
-msgstr "`technicalReasons` Відсутність конкуренції з технічних причин"
-
-msgid "`intProperty` Necessity of protecting intellectual property rights"
-msgstr "`intProperty` Необхідність захисту прав інтелектуальної власності"
-
-msgid "`lastHope` Conclusion of contract with the last hope supplier"
-msgstr "`lastHope` Укладення договору з постачальником “останньої надії”"
-
-msgid "Possible values for **negotiation.quick** procedure:"
-msgstr "Можливі значення для **переговорної процедури за нагальною потребою**:"
-
-msgid "`emergency` Occurrence of special economical reasons related to emergency management"
-msgstr "`emergency` Виникнення особливих економічних обставин з негайною ліквідацією наслідків надзвичайних ситуацій"
-
-msgid "`humanitarianAid` Occurrence of special economical reasons related to emergency management"
-msgstr "`humanitarianAid` Надання Україною гуманітарної допомоги іншим державам"
-
-msgid "`contractCancelled` Termination of an agreement by the fault of supplier"
-msgstr "`contractCancelled` Розірвання договору про закупівлю з вини учасника"
-
-msgid "`activeComplaint` Unfinished complaining process in active procurement"
-msgstr "`activeComplaint` Оскарження прийнятих рішень, дій чи бездіяльності замовника щодо триваючого тендера"
-
-msgid "Possible values for **reporting** procedure in `tender causes <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_ dictionaries."
-msgstr "Можливі значення для **звітів** зберігаються у довіднику `підстави <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_."
+msgid "Possible values in `tender causes <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_ dictionaries."
+msgstr "Можливі значення зберігаються у довіднику `підстави <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_."
 
 msgid "causeDescription"
 msgstr ""
 
 msgid "Reasoning behind usage of reporting, negotiation or negotiation.quick procedures."
 msgstr "Обгрунтування використання звітів, \\”звичайної\\” переговорної процедури або переговорної процедури за нагальною потребою."
+
+msgid "causeDetails"
+msgstr ""
+
+msgid ":ref:`CauseDetails`, required"
+msgstr ":ref:`CauseDetails`, обов’язково"
+
+msgid "Causes and reasoning for tenders."
+msgstr "Підстави та обгрунтування використання звітів."
 
 msgid "stage2TenderID"
 msgstr ""
@@ -857,7 +821,4 @@ msgstr "Робочий процес у :ref:`limited`"
 
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
-
-#~ msgid ":ref:`Guarantee`"
-#~ msgstr ":ref:`Guarantee`"
 

@@ -22,7 +22,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "tenderID": "UA-2023-10-10-000002-a",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
@@ -128,8 +128,11 @@ Content-Type: application/json
         "sequenceNumber": 2
       }
     ],
-    "cause": "defencePurchase",
-    "causeDescription": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
+    "causeDetails": {
+      "title": "defencePurchase",
+      "scheme": "DECREE1178",
+      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+    },
     "id": "f082eef1f646440d9089b9620ea0bb9a"
   },
   "config": {
