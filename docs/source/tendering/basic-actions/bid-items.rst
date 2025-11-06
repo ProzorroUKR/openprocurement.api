@@ -67,7 +67,7 @@ Product in bid items is available in these procedures:
 Create bid with product in items
 --------------------------------
 
-All of you need it's pass product identificator of active product from market to field `product` in bid.items.
+All you need it's pass product identifier of active product with the same category as in tender item from market to field `product` in bid.items.
 
 
 If you pass a non-existent identifier, you will get an error:
@@ -79,6 +79,11 @@ If you pass a non-existent identifier, you will get an error:
 if you try to pass identifier of product with `hidden` status, you'll also get error:
 
 .. http:example:: http/bid-items-localization/item-product-not-active.http
+   :code:
+
+If you try to pass identifier of product with another `relatedCategory` that doesn't match `category` in tender item, you'll also get error:
+
+.. http:example:: http/bid-items-localization/item-product-invalid-related-category.http
    :code:
 
 

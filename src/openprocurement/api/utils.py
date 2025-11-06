@@ -35,10 +35,14 @@ from openprocurement.api.constants import (
     UA_ROAD_CPV_PREFIXES,
     WORKING_DAYS,
 )
-from openprocurement.api.constants_env import DST_AWARE_PERIODS_FROM
-from openprocurement.api.context import get_local_cache, get_request
+from openprocurement.api.constants_env import (
+    DST_AWARE_PERIODS_FROM,
+    PRODUCT_CATEGORY_VALIDATION_FROM,
+)
+from openprocurement.api.context import get_local_cache, get_request, get_request_now
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.events import ErrorDescriptorEvent
+from openprocurement.api.procedure.context import get_tender
 
 json_view = partial(view, renderer="json")
 
@@ -547,7 +551,9 @@ def delete_nones(data: dict):
             del data[k]
 
 
-def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple | None = None) -> dict:
+def get_catalogue_object(
+    request, uri: str, obj_id: str, valid_statuses: tuple | None = None, related_category: str | None = None
+) -> dict:
     catalog_api_host = request.registry.catalog_api_host
     obj_name = uri.split("/")[-1]
 
@@ -585,6 +591,18 @@ def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple |
             raise_operation_error(
                 request,
                 f"{obj_name.capitalize()} {obj_id}: {data['status']} not in {valid_statuses}",
+                status=422,
+            )
+
+    if (
+        get_first_revision_date(get_tender(), default=get_request_now()) > PRODUCT_CATEGORY_VALIDATION_FROM
+        and related_category
+    ):
+        if data.get("relatedCategory") != related_category:
+            raise_operation_error(
+                request,
+                f"{obj_name.capitalize()} {obj_id}: relatedCategory {data.get('relatedCategory')} doesn't match "
+                f"category from tender item {related_category}",
                 status=422,
             )
 
@@ -629,8 +647,10 @@ def get_tender_category(request, category_id: str, validate_status: tuple | None
     return get_catalogue_object(request, "categories", category_id, validate_status)
 
 
-def get_tender_product(request, product_id: str, validate_status: tuple | None = None) -> dict:
-    return get_catalogue_object(request, "products", product_id, validate_status)
+def get_tender_product(
+    request, product_id: str, validate_status: tuple | None = None, related_category: str | None = None
+) -> dict:
+    return get_catalogue_object(request, "products", product_id, validate_status, related_category)
 
 
 def calculate_normalized_date(date_obj, ceil=False):

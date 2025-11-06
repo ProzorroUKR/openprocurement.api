@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-10 11:30+0200\n"
+"POT-Creation-Date: 2025-11-06 12:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -97,7 +97,7 @@ msgstr ""
 msgid "Create bid with product in items"
 msgstr "Стоврення пропозиції з продуктом в предметі закупівлі"
 
-msgid "All of you need it's pass product identificator of active product from market to field `product` in bid.items."
+msgid "All you need it's pass product identifier of active product with the same category as in tender item from market to field `product` in bid.items."
 msgstr "Все що вам потрібно це вказати ідентифікатор активного продукту з маркету в полі `product` у bid.items."
 
 msgid "If you pass a non-existent identifier, you will get an error:"
@@ -105,6 +105,9 @@ msgstr "Якщо ви спробуєте передати не існуючий 
 
 msgid "if you try to pass identifier of product with `hidden` status, you'll also get error:"
 msgstr "Якщо ви спробуєте передати ідентифікатор продукту зі статусом `hidden`, ви отримаєте помилку:"
+
+msgid "If you try to pass identifier of product with another `relatedCategory` that doesn't match `category` in tender item, you'll also get error:"
+msgstr "Якщо ви спробуєте передати ідентифікатор продукту з іншим знченням в полі `relatedCategory` аніж `category` в айтемі тендера, ви отримаєте помилку:"
 
 msgid "So if all rules are met, you can create bid with product in items:"
 msgstr "тже, якщо всі правила дотримані, ви можете створити пропозицію з продуктом у предметі закупівлі:"
