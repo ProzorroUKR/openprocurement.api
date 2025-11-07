@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class Migration(CollectionMigration):
-    description = "Migrate tenders complaint posts"
+    description = "Migrate limited tenders causes"
 
     collection_name = "tenders"
 
