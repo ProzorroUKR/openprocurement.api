@@ -4078,11 +4078,16 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
     def test_docs_bid_items_localization(self):
         self.app.authorization = ('Basic', ('broker', ''))
+        data = deepcopy(self.initial_data)
+        profile = deepcopy(test_tender_pq_short_profile)
+        category = {"id": profile["relatedCategory"], "status": "active"}
 
-        response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
-        )
-        self.assertEqual(response.status, '201 Created')
+        data["items"][0]["profile"] = profile["id"]
+        data["items"][0]["category"] = category["id"]
+
+        with patch_market(profile, category):
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': data, 'config': self.initial_config})
+            self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         owner_token = response.json['access']['token']
@@ -4116,6 +4121,8 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         del bid_items[0]["classification"]
         del bid_items[0]["additionalClassifications"]
+        del bid_items[0]["category"]
+        del bid_items[0]["profile"]
 
         set_bid_lotvalues(bid_data, [lot])
         bid_data["items"] = bid_items
@@ -4160,7 +4167,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         # Create
 
-        product = {"id": "1" * 32, "status": "hidden"}
+        product = {"id": "1" * 32, "status": "hidden", "relatedCategory": "0" * 32}
         bid_data["items"][0]["product"] = product["id"]
         set_bid_lotvalues(bid_data, [lot])
 
@@ -4178,6 +4185,16 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
         product["status"] = "active"
+        with patch(
+            "openprocurement.api.utils.requests.get",
+            Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
+        ), open(
+            TARGET_DIR + 'bid-items-localization/item-product-invalid-related-category.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=422)
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        product["relatedCategory"] = tender["items"][0]["category"]
 
         with patch(
             "openprocurement.tender.core.procedure.state.bid.get_tender_product",

@@ -56,13 +56,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "unit": {
           "name": "кілограм",
           "value": {
-            "amount": 6.0,
+            "amount": 7,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 5.0
+        "quantity": 4,
+        "product": "11111111111111111111111111111111"
       }
     ]
   }
@@ -77,8 +78,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "items",
-      "description": "valueAddedTaxIncluded of bid unit should be False"
+      "name": "data",
+      "description": "Products 11111111111111111111111111111111: relatedCategory 00000000000000000000000000000000 doesn't match category from tender item 655360-30230000-889652"
     }
   ]
 }

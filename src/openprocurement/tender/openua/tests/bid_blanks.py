@@ -2400,9 +2400,27 @@ def bids_related_product(self):
             response.json["errors"][0]["description"], f"Products {related_product_id} not found in catalouges."
         )
 
+    if tender_item_1.get("category"):
+        response_200 = Mock()
+        response_200.status_code = 200
+        response_200.json = Mock(return_value={"data": {"id": related_product_id, "relatedCategory": "a" * 32}})
+
+        with patch(
+            "requests.get",
+            Mock(return_value=response_200),
+        ):
+            response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                f"Products {related_product_id}: relatedCategory {'a' * 32} doesn't match category from "
+                f"tender item {tender_item_1['category']}",
+            )
+
     response_200 = Mock()
     response_200.status_code = 200
-    response_200.json = Mock(return_value={"data": {"id": related_product_id}})
+    response_200.json = Mock(
+        return_value={"data": {"id": related_product_id, "relatedCategory": tender_item_1.get("category")}}
+    )
 
     with patch(
         "requests.get",

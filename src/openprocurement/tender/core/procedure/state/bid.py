@@ -418,7 +418,11 @@ class BidState(BaseState):
         for item_id, after_rp in after_items_rps.items():
             if after_rp:
                 if not (before_rp := before_items_rps.get(item_id)) or before_rp != after_rp:
-                    get_tender_product(get_request(), after_rp, ("active",))
+                    item_category = None
+                    for item in self.request.validated["tender"].get("items", []):
+                        if item["id"] == item_id:
+                            item_category = item.get("category")
+                    get_tender_product(get_request(), after_rp, ("active",), item_category)
 
     def lot_values_patch_keep_unchange(self, after: dict, before: dict):
         fields_keep_unchanged = ("weightedValue", "date", "status")
