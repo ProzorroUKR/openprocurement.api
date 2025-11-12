@@ -164,6 +164,10 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",
+    "qualificationPeriod": {
+      "startDate": "2023-10-24T01:00:00+03:00",
+      "endDate": "2023-11-22T00:00:00+02:00"
+    },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "lots": [
@@ -182,7 +186,11 @@ Content-Type: application/json
           "amount": 5.0,
           "valueAddedTaxIncluded": true
         },
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00",
+        "auctionPeriod": {
+          "shouldStartAfter": "2023-10-25T00:00:00+03:00",
+          "startDate": "2023-10-25T12:22:15.236000+03:00"
+        }
       }
     ],
     "id": "2b5eb9efd396490d8e3e662b7153c1ff"

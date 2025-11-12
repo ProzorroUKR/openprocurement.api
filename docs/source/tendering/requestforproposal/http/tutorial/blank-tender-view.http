@@ -122,6 +122,14 @@ Content-Type: application/json
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",
+    "qualificationPeriod": {
+      "startDate": "2023-10-24T01:00:00+03:00",
+      "endDate": "2023-11-22T00:00:00+02:00"
+    },
+    "auctionPeriod": {
+      "shouldStartAfter": "2023-10-25T00:00:00+03:00",
+      "startDate": "2023-10-25T13:09:55.701000+03:00"
+    },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "285d5c5b074a45f198c9a207b4c60b64"

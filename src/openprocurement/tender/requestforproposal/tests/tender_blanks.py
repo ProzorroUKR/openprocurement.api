@@ -1,10 +1,11 @@
+import unittest
 from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
 
 from freezegun import freeze_time
 
-from openprocurement.api.constants import TZ
+from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
@@ -941,9 +942,9 @@ def tender_funders(self):
     )
 
 
+@unittest.skipIf(SANDBOX_MODE, "Skip test with accelerator")
 def patch_tender_active_tendering(self):
     data = deepcopy(self.initial_data)
-    data.pop("procurementMethodDetails", None)
     data["tenderPeriod"]["endDate"] = calculate_tender_full_date(
         get_now(),
         timedelta(days=15),

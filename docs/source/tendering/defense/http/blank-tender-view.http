@@ -136,6 +136,10 @@ Content-Type: application/json
       "endDate": "2023-11-02T00:00:00+02:00"
     },
     "date": "2023-10-10T01:00:00+03:00",
+    "auctionPeriod": {
+      "shouldStartAfter": "2023-11-05T00:00:00+02:00",
+      "startDate": "2023-11-06T13:09:55.701000+02:00"
+    },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "5fd17b367a75453582bffe24ae83b896"

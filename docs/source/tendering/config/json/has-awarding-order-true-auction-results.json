@@ -25,9 +25,7 @@
         "valueCurrencyEquality": true
     },
     "data": {
-        "auctionPeriod": {
-            "startDate": "2023-10-10T01:00:00+03:00"
-        },
+        "auctionPeriod": {},
         "awardCriteria": "lowestCost",
         "awardPeriod": {
             "startDate": "2023-10-10T01:00:00+03:00"
@@ -1914,6 +1912,10 @@
                 "position": "\u0413\u0435\u043d\u0435\u0440\u0430\u043b\u044c\u043d\u0438\u0439 \u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440",
                 "telephone": "+380950000000"
             }
+        },
+        "qualificationPeriod": {
+            "endDate": "2023-11-08T00:00:00+02:00",
+            "startDate": "2023-10-10T01:00:00+03:00"
         },
         "questions": [
             {

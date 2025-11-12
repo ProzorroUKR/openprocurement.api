@@ -567,9 +567,7 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "auctionPeriod": {
-      "startDate": "2023-10-10T01:01:00+03:00"
-    },
+    "auctionPeriod": {},
     "id": "782a773bcc70490e923de940a94a5ada"
   },
   "config": {

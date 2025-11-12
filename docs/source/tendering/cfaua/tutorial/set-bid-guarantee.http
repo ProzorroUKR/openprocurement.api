@@ -36,6 +36,9 @@ Content-Type: application/json
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
+    },
+    "auctionPeriod": {
+      "startDate": "2023-12-08T13:09:55.701000+02:00"
     }
   }
 }

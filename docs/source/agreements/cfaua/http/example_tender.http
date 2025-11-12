@@ -136,17 +136,14 @@ Content-Type: application/json
       "endDate": "2023-11-06T00:00:00+02:00"
     },
     "date": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
     "qualificationPeriod": {
       "startDate": "2023-09-18T01:00:00+03:00",
       "endDate": "2023-09-23T01:00:00+03:00",
       "reportingDatePublication": "2023-09-18T01:00:00+03:00"
     },
-    "auctionPeriod": {
-      "startDate": "2023-09-23T01:00:00+03:00",
-      "endDate": "2023-09-24T01:00:00+03:00"
-    },
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "auctionPeriod": {},
     "awardPeriod": {
       "startDate": "2023-09-24T01:00:00+03:00",
       "endDate": "2023-10-04T01:00:00+03:00"

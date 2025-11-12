@@ -6,6 +6,7 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import BaseWebTest, test_signer_info
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
     get_criteria_by_ids,
@@ -17,6 +18,7 @@ from openprocurement.tender.core.tests.utils import (
     set_tender_lots,
     set_tender_multi_buyers,
 )
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.requestforproposal.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.requestforproposal.tests.periods import PERIODS
 
@@ -179,19 +181,32 @@ test_tender_rfp_data = {
     "procuringEntity": test_tender_rfp_procuring_entity,
     "value": {"amount": 500, "currency": "UAH"},
     "items": [deepcopy(test_tender_rfp_item)],
-    "enquiryPeriod": {"endDate": (now + timedelta(days=9)).isoformat()},
-    "tenderPeriod": {"endDate": (now + timedelta(days=18)).isoformat()},
     "procurementMethodType": "requestForProposal",
     "milestones": test_tender_rfp_milestones,
     "funders": [funder],
     "contractTemplateName": "00000000.0002.01",
 }
 
-test_tender_rfp_with_inspector_data = deepcopy(test_tender_rfp_data)
-test_tender_rfp_with_inspector_data.update({"funders": [funder], "inspector": funder})
-
 if SANDBOX_MODE:
     test_tender_rfp_data["procurementMethodDetails"] = "quick, accelerator=1440"
+
+test_tender_rfp_data["enquiryPeriod"] = {
+    "endDate": calculate_tender_full_date(
+        now,
+        timedelta(days=9),
+        tender=test_tender_rfp_data,
+    ).isoformat()
+}
+test_tender_rfp_data["tenderPeriod"] = {
+    "endDate": calculate_tender_full_date(
+        dt_from_iso(test_tender_rfp_data["enquiryPeriod"]["endDate"]),
+        timedelta(days=10),
+        tender=test_tender_rfp_data,
+    ).isoformat()
+}
+
+test_tender_rfp_with_inspector_data = deepcopy(test_tender_rfp_data)
+test_tender_rfp_with_inspector_data.update({"funders": [funder], "inspector": funder})
 
 test_tender_rfp_data_no_auction = deepcopy(test_tender_rfp_data)
 test_tender_rfp_data_no_auction["funders"] = [deepcopy(test_tender_rfp_base_organization)]

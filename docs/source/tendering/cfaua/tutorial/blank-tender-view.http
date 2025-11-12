@@ -882,6 +882,10 @@ Content-Type: application/json
         "sequenceNumber": 1
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2023-11-10T00:00:00+02:00",
+      "endDate": "2023-12-08T00:00:00+02:00"
+    },
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
@@ -1000,6 +1004,9 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
           "amount": 15.0
+        },
+        "auctionPeriod": {
+          "startDate": "2023-12-08T13:09:55.701000+02:00"
         }
       }
     ],

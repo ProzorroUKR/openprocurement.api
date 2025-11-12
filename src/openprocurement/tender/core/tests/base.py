@@ -352,15 +352,17 @@ class BaseCoreWebTest(BaseWebTest):
 
     def update_periods(self, status, startend="start", shift=None):
         shift = shift or timedelta()
+        lots = self.tender_document.get("lots", [])
         if status in self.periods:
             for period in self.periods[status][startend]:
                 self.tender_document_patch.update({period: {}})
+                if period in ("auctionPeriod",) and lots:  # auctionPeriod should be on lot level
+                    continue
                 for date in self.periods[status][startend][period]:
                     self.tender_document_patch[period][date] = (
                         (self.calculate_period_date(date, period, startend, status) + shift).astimezone(TZ).isoformat()
                     )
 
-            lots = self.tender_document.get("lots", [])
             if lots:
                 for period in self.periods[status][startend]:
                     if period in ("auctionPeriod",):

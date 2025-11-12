@@ -84,7 +84,11 @@ Content-Type: application/json
           "amount": 5.0,
           "valueAddedTaxIncluded": true
         },
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00",
+        "auctionPeriod": {
+          "shouldStartAfter": "2023-10-26T00:00:00+03:00",
+          "startDate": "2023-10-26T13:09:55.701000+03:00"
+        }
       }
     ],
     "milestones": [

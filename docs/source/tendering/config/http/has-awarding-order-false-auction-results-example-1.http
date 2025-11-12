@@ -1126,6 +1126,10 @@ Content-Type: application/json
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-08T00:00:00+02:00"
+    },
     "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
       "startDate": "2023-10-02T01:00:00+03:00",
@@ -1990,9 +1994,7 @@ Content-Type: application/json
         "submissionDate": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "auctionPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00"
-    },
+    "auctionPeriod": {},
     "awardPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00"
     },

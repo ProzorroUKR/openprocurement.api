@@ -224,7 +224,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "amount": 5.0,
           "valueAddedTaxIncluded": true
         },
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00",
+        "auctionPeriod": {
+          "shouldStartAfter": "2023-10-25T00:00:00+03:00",
+          "startDate": "2023-10-25T13:09:55.701000+03:00"
+        }
       },
       {
         "title": "Лот №2",
@@ -241,7 +245,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "amount": 5.0,
           "valueAddedTaxIncluded": true
         },
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00",
+        "auctionPeriod": {
+          "shouldStartAfter": "2023-10-25T00:00:00+03:00",
+          "startDate": "2023-10-25T12:22:15.236000+03:00"
+        }
       }
     ],
     "milestones": [
@@ -314,6 +322,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",
+    "qualificationPeriod": {
+      "startDate": "2023-10-24T01:00:00+03:00",
+      "endDate": "2023-11-22T00:00:00+02:00"
+    },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "38bca89f7ba4477d97f553d576fd6994"

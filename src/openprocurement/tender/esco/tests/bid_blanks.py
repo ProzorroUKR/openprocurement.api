@@ -443,6 +443,7 @@ def create_tender_bid_invalid(self):
 def create_tender_bid_invalid_funding_kind_budget(self):
     lots = deepcopy(self.tender_lots)
     lots[0]["yearlyPaymentsPercentageRange"] = 0.5
+    lots[0].pop("auctionPeriod", None)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"fundingKind": "budget", "lots": lots}},
@@ -1147,6 +1148,7 @@ def bids_invalidation_on_tender_change(self):
     # that is less than a value in bids as they will be invalidated by this request
     lots = deepcopy(self.tender_lots)
     lots[0]["yearlyPaymentsPercentageRange"] = 0.7
+    lots[0].pop("auctionPeriod", None)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"fundingKind": "budget", "lots": lots}},

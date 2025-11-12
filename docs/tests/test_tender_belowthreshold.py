@@ -145,6 +145,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, '200 OK')
 
         tender_lots = response.json["data"]["lots"]
+        for lot in tender_lots:
+            del lot["auctionPeriod"]
 
         response = self.app.post_json(
             '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),

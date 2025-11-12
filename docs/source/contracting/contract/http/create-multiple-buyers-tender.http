@@ -147,12 +147,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedBuyer": "22222222222222222222222222222222"
       }
     ],
-    "enquiryPeriod": {
-      "endDate": "2023-10-17T01:00:00+03:00"
-    },
-    "tenderPeriod": {
-      "endDate": "2023-10-24T01:00:00+03:00"
-    },
     "procurementMethodType": "belowThreshold",
     "milestones": [
       {
@@ -180,6 +174,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "contractTemplateName": "00000000.0002.01",
+    "enquiryPeriod": {
+      "endDate": "2023-10-17T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2023-10-24T01:00:00+03:00"
+    },
     "buyers": [
       {
         "name": "Державне управління справами",
@@ -519,6 +519,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f3167a9af8a5408e
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",
+    "auctionPeriod": {
+      "shouldStartAfter": "2023-10-25T00:00:00+03:00",
+      "startDate": "2023-10-25T13:09:55.701000+03:00"
+    },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "f3167a9af8a5408e9c9bf06a20c342af"

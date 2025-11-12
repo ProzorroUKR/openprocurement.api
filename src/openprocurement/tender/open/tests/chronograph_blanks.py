@@ -1,8 +1,10 @@
+import unittest
 from copy import deepcopy
 from datetime import timedelta
 
 from freezegun import freeze_time
 
+from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -20,6 +22,7 @@ def switch_to_unsuccessful_lot_0bid(self):
     self.assertEqual({i["status"] for i in response.json["data"]["lots"]}, {"unsuccessful"})
 
 
+@unittest.skipIf(SANDBOX_MODE, "Skip test with accelerator")
 def set_auction_period_lot_0bid(self):
     start_date = "9999-01-01T00:00:00+00:00"
     data = {"data": {"lots": [{"auctionPeriod": {"startDate": start_date}} for i in self.initial_lots]}}

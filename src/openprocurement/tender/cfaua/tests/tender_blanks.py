@@ -532,12 +532,13 @@ def create_tender_generated(self):
             "mainProcurementCategory",
             "milestones",
             "documents",
+            "qualificationPeriod",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
     self.assertEqual(
         set(tender["lots"][0]),
-        {"status", "description", "title", "minimalStep", "value", "date", "id"},
+        {"status", "description", "title", "minimalStep", "value", "date", "id", "auctionPeriod"},
     )
 
 
@@ -739,6 +740,8 @@ def patch_tender(self):
 
     lots = deepcopy(self.initial_lots)
     lots[0]["minimalStep"]["amount"] = 123
+    for lot in lots:
+        lot.pop("auctionPeriod", None)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"lots": lots}},

@@ -957,6 +957,10 @@ Content-Type: application/json
         "sequenceNumber": 1
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2023-10-18T01:00:00+03:00",
+      "endDate": "2023-11-16T00:00:00+02:00"
+    },
     "complaintPeriod": {
       "startDate": "2023-09-15T01:00:00+03:00",
       "endDate": "2023-10-14T00:00:00+03:00"
@@ -1079,6 +1083,9 @@ Content-Type: application/json
         "guarantee": {
           "amount": 8.0,
           "currency": "USD"
+        },
+        "auctionPeriod": {
+          "startDate": "2023-12-08T13:09:55.701000+02:00"
         }
       }
     ],

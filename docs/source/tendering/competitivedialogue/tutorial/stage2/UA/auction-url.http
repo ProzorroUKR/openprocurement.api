@@ -1307,6 +1307,11 @@ Content-Type: application/json
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/7f818311963440f0b49ba53c35a0f971_a13cb7e45ea242fbb5c0fb54f7002611"
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2023-10-05T01:03:00+03:00",
+      "endDate": "2023-11-03T00:00:00+02:00",
+      "reportingDatePublication": "2023-10-05T01:03:00+03:00"
+    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {
@@ -1480,14 +1485,7 @@ Content-Type: application/json
       }
     ],
     "status": "active.auction",
-    "qualificationPeriod": {
-      "startDate": "2023-10-05T01:03:00+03:00",
-      "endDate": "2023-10-10T01:03:00+03:00",
-      "reportingDatePublication": "2023-10-05T01:03:00+03:00"
-    },
-    "auctionPeriod": {
-      "startDate": "2023-10-10T01:03:00+03:00"
-    },
+    "auctionPeriod": {},
     "id": "7f818311963440f0b49ba53c35a0f971"
   },
   "config": {

@@ -856,8 +856,8 @@ Content-Type: application/json
           "amount": 5.0
         },
         "auctionPeriod": {
-          "shouldStartAfter": "2023-10-26T00:00:00+03:00",
-          "startDate": "2023-10-26T13:09:55.701000+03:00"
+          "startDate": "2023-10-26T13:09:55.701000+03:00",
+          "shouldStartAfter": "2023-10-26T00:00:00+03:00"
         }
       }
     ],

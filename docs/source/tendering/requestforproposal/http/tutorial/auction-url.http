@@ -202,6 +202,10 @@ Content-Type: application/json
         "sequenceNumber": 2
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2023-10-16T01:15:06+03:00",
+      "endDate": "2023-11-14T00:00:00+02:00"
+    },
     "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
       "startDate": "2023-10-01T01:15:06+03:00",
@@ -240,9 +244,7 @@ Content-Type: application/json
         "relatedLot": "880b8274983b40cfa8455e8e3d82bb70"
       }
     ],
-    "auctionPeriod": {
-      "startDate": "2023-10-16T01:15:06+03:00"
-    },
+    "auctionPeriod": {},
     "id": "285d5c5b074a45f198c9a207b4c60b64"
   },
   "config": {

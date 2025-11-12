@@ -137,6 +137,9 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
           "amount": 15.0
+        },
+        "auctionPeriod": {
+          "startDate": "2023-10-25T12:22:15.236000+03:00"
         }
       }
     ],
@@ -166,6 +169,10 @@ Content-Type: application/json
         "sequenceNumber": 2
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2023-10-28T01:00:00+03:00",
+      "endDate": "2023-11-25T00:00:00+02:00"
+    },
     "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",

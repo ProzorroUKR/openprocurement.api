@@ -699,6 +699,7 @@ def tender_fields(self):
             "date",
             "noticePublicationDate",
             "documents",
+            "qualificationPeriod",
         },
     )
 
@@ -993,6 +994,7 @@ def tender_with_nbu_discount_rate(self):
             "mainProcurementCategory",
             "lots",
             "documents",
+            "qualificationPeriod",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1368,6 +1370,7 @@ def create_tender_generated(self):
             "mainProcurementCategory",
             "lots",
             "documents",
+            "qualificationPeriod",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

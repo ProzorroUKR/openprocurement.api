@@ -948,6 +948,9 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
           "amount": 5.0
+        },
+        "auctionPeriod": {
+          "startDate": "2023-12-08T13:09:55.701000+02:00"
         }
       },
       {
@@ -965,9 +968,16 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
           "amount": 5.0
+        },
+        "auctionPeriod": {
+          "startDate": "2023-12-08T12:22:15.236000+02:00"
         }
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2023-11-10T00:00:00+02:00",
+      "endDate": "2023-12-08T00:00:00+02:00"
+    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {
