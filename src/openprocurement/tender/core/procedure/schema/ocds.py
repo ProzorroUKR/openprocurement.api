@@ -316,7 +316,7 @@ def prepare_release(plan, tender, lot=None):
     if bids:
         bids = filter_bids_by_lot(bids, lot_id)
         if bids:
-            bid_dates = [b["date"] for b in bids if "date" in b]
+            bid_dates = [date for b in bids if (date := b.get("date"))]
             r["bids"] = {
                 "statistics": [
                     {
