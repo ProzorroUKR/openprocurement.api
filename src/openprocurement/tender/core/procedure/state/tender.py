@@ -14,6 +14,7 @@ from openprocurement.tender.core.procedure.state.auction import ShouldStartAfter
 from openprocurement.tender.core.procedure.state.chronograph import (
     ChronographEventsMixing,
 )
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 LOGGER = getLogger(__name__)
 
@@ -55,6 +56,8 @@ class TenderState(
 
     def always(self, data):
         super().always(data)
+        if tender_period_end_date := data.get("tenderPeriod", {}).get("endDate"):
+            self.calc_qualification_period(data, dt_from_iso(tender_period_end_date))
         self.calc_auction_periods(data)
         self.update_next_check(data)  # next_check should be after calc_auction_periods
         self.calc_tender_values(data)

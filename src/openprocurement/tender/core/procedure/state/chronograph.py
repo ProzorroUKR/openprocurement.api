@@ -336,8 +336,6 @@ class ChronographEventsMixing:
         return handler
 
     def tendering_end_handler(self, tender):
-        qualification_duration = tender["config"]["qualificationDuration"]
-
         for complaint in tender.get("complaints", ""):
             if complaint.get("status") == "answered" and complaint.get("resolutionType"):
                 self.set_object_status(complaint, complaint["resolutionType"])
@@ -346,19 +344,7 @@ class ChronographEventsMixing:
             handler = self.get_change_tender_status_handler("active.pre-qualification")
             handler(tender)
 
-            if qualification_duration > 0:
-                start_date = get_request_now()
-                end_date = calculate_tender_full_date(
-                    start_date,
-                    timedelta(days=qualification_duration),
-                    tender=tender,
-                    working_days=True,
-                )
-                tender["qualificationPeriod"] = {
-                    "startDate": start_date.isoformat(),
-                    "endDate": end_date.isoformat(),
-                }
-
+            self.calc_qualification_period(tender, start_date=get_request_now())
             self.remove_draft_bids(tender)
             self.check_bids_number(tender)
             self.prepare_qualifications(tender)
@@ -979,3 +965,22 @@ class ChronographEventsMixing:
             weighted_value = self.calc_weighted_value(tender, bid, value_container, lot_id)
             if weighted_value:
                 value_container["weightedValue"] = weighted_value
+
+    @staticmethod
+    def calc_qualification_period(tender, start_date):
+        qualification_duration = tender["config"]["qualificationDuration"]
+        if qualification_duration > 0:
+            end_date = calculate_tender_full_date(
+                start_date,
+                timedelta(days=qualification_duration),
+                tender=tender,
+                working_days=True,
+            )
+            if "qualificationPeriod" not in tender:
+                tender["qualificationPeriod"] = {}
+            tender["qualificationPeriod"].update(
+                {
+                    "startDate": start_date.isoformat(),
+                    "endDate": end_date.isoformat(),
+                }
+            )
