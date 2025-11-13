@@ -3,7 +3,6 @@ from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.models.item import validate_items_uniq
-from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.competitivedialogue.constants import (
     FEATURES_MAX_SUM,
@@ -24,6 +23,9 @@ from openprocurement.tender.core.procedure.models.criterion import (
     validate_criteria_requirement_uniq,
 )
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
+from openprocurement.tender.core.procedure.models.period import (
+    PostPeriodStartEndRequired,
+)
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.core.procedure.validation import validate_object_id_uniq
 from openprocurement.tender.openeu.procedure.models.tender import (
@@ -62,7 +64,7 @@ class PostEUTender(BasePostTender):
         validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    tenderPeriod = ModelType(Period)
+    tenderPeriod = ModelType(PostPeriodStartEndRequired)
 
     criteria = ListType(
         ModelType(Criterion, required=True),
@@ -181,7 +183,7 @@ class PostUATender(UABasePostTender):
         validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    tenderPeriod = ModelType(Period)
+    tenderPeriod = ModelType(PostPeriodStartEndRequired)
 
     criteria = ListType(
         ModelType(Criterion, required=True),

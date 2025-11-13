@@ -1,3 +1,6 @@
+import unittest
+
+from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.core.tests.utils import change_auth
 
@@ -75,6 +78,7 @@ def switch_to_unsuccessful_lot_0bid(self):
     self.assertEqual({i["status"] for i in response.json["data"]["lots"]}, {"unsuccessful"})
 
 
+@unittest.skipIf(SANDBOX_MODE, "Skip test with accelerator")
 def set_auction_period_lot_0bid(self):
     start_date = "9999-01-01T00:00:00+00:00"
     data = {"data": {"lots": [{"auctionPeriod": {"startDate": start_date}} for i in self.initial_lots]}}
