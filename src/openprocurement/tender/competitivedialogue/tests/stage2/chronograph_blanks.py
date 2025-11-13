@@ -1,4 +1,7 @@
 # TenderStage2EUSwitchUnsuccessfulResourceTest
+import unittest
+
+from openprocurement.api.constants import SANDBOX_MODE
 
 
 def switch_to_unsuccessful_eu(self):
@@ -10,6 +13,7 @@ def switch_to_unsuccessful_eu(self):
 # TenderStage2UA2LotSwitch0BidResourceTest
 
 
+@unittest.skipIf(SANDBOX_MODE, "Skip test with accelerator")
 def set_auction_period_2_lot_0_bid_ua(self):
     start_date = "9999-01-01T00:00:00+00:00"
     data = {"data": {"lots": [{"auctionPeriod": {"startDate": start_date}} for i in self.lots]}}
