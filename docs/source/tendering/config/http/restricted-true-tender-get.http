@@ -808,7 +808,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b97ad9dc846441568596cedaf5861ddf?Signature=1bbZIFc2UX7Jv%2BrGhZsVsfzgQOoaNYJ698VdI3w8pUxo8buOliLsilF5RwpUwq3pdCrK5LWlu%2BhSNwRiVBdrBQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ff032154594a4d9caaec41abffe07807?Signature=6t5aT3W8t7hrmTZhHvqrTl8jLiwE1LdPdibW7Br8K76AeLwaSMwhf7nbWx8B16TfULT0X%2BcY5ZAZNXTGpD1WAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -819,7 +819,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7617d51c15154ebf916a047f62fbe2b9?Signature=gT%2FbQbvqzg0T7Rjlmgk0RPCIq0v%2BZU5A4HIIN7AvTx98Uvy50VbK6hX6fKqN4jCu%2FDEy7g2r5eFUySUx%2FsCHDQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0f9a0f44ed0e4d9692457bd7f8e7a40b?Signature=D0O5FQDSAsgizq%2BD%2FoR6I2h4abfwz6eYvq0m20wPQvdhn9esqqA52Jku7F5kBLs%2BZe%2FO5%2F9bz8InqPIRV4CRBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
         "id": "c4a5427de3d04afca7b9a450030a5f5f",
@@ -832,7 +832,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "description.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2bd25ecac7274f6e9f062904741ca519?Signature=04hHKqkfEYNBn47hT2%2Fg5vgbmio8EMgJrzWTGBeDns6YS%2BzrzqlId10tGDlez1vyqPMIwr9td5VXY7u1mj7yBA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/349bf917e1334dfe9816ddbb91a3fad6?Signature=beqQpqI7dbt%2BD3dVao8STtH2TGgkKxyo32e7GgEI6f3%2FM0u9q%2Bsgw66N68X88v9%2FMoHP0FTnYYN4U%2FnoKvD2Cg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
         "id": "3cf50cf789a440d295515c9528981a93",
@@ -846,7 +846,7 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "agreements": [
       {
-        "id": "514d764704784304906b25138785146c"
+        "id": "120e2d279ef84f8db8c5a993a4e58137"
       }
     ],
     "procurementMethod": "selective",
@@ -891,7 +891,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "id": "2b1b594948f547af9eff49515789e928",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "currency": "UAH",
@@ -921,7 +921,7 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       },
       {
         "id": "4f9fb352f8474e8cab00b4f6fae6ee06",
@@ -934,7 +934,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
     "complaintPeriod": {
@@ -979,7 +979,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/b5da67b11f7643f78cdf909b0d5c4595/financial_documents?acc_token=846eef8ae3ae4b00bba2d663a59ee0b5 HTTP/1.0
+GET /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/95db393211474a7c930f5c3df7f52b56/financial_documents?acc_token=8e071dd39f464632a4bbfec1d3158ff9 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -13,7 +13,7 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c24f82881bbb413090880c729b494aae?Signature=app%2BiiGZXRYRV6OZMZaFCDWjMMMDFli1za4%2Fa0SLVWvBPCedtbCeWYiKlYKje%2F2qExFpqXRWRVTawYA6oZQ8Bw%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c32b189a6c2c4e448b7dc3df40238d0f?Signature=ve6Dhs5w7t4rssfrLBxJXcavIWivbWX53as8YLKEyqqrHAJNYPCav9fNrPyqCPLvPNi8nz4l3mfWxLYABLX%2FCQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "language": "uk",
       "id": "d635a8518d174c68905ea8c32db44d8d",
@@ -25,7 +25,7 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc2.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c32b189a6c2c4e448b7dc3df40238d0f?Signature=ve6Dhs5w7t4rssfrLBxJXcavIWivbWX53as8YLKEyqqrHAJNYPCav9fNrPyqCPLvPNi8nz4l3mfWxLYABLX%2FCQ%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4fca42afab104d078e9e40fd0d564692?Signature=pZIt3UxIqV4tmuCMqLf%2Blff1iwJriyW%2BndAoQecwWjl3rZL1q4hGvy6lAFKlfNUs2Rq6B%2F0Ky71Vad7ImyDrCw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "language": "uk",
       "id": "f2c9f5d7408e41cba716c6e629b5925a",

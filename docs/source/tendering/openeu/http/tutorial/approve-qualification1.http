@@ -18,7 +18,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "12d8fc16cd794898bd3aa66e6a4468e6",
-    "bidID": "6c9b000bb76043f28a985112442b7301",
+    "bidID": "4f71946f27da43f3a17b7f31d3a9a159",
     "lotID": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
     "status": "active",
     "date": "2023-10-10T01:03:00+03:00",

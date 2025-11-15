@@ -5,7 +5,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "awardID": "283d9284a6054a25a129e848808b75a1",
+    "awardID": "f10947246ab44416ab8f1f75df484ded",
     "contractID": "UA-2023-10-10-000002-a-1",
     "period": {
       "startDate": "2022-01-01",
@@ -169,7 +169,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "owner": "broker",
-    "tender_id": "1640f9c9f12d4f74b35596c849f209a4",
+    "tender_id": "b86d98f551fa49dfa9004373a996b627",
     "contractTemplateName": "00000000.0002.01",
     "status": "pending"
   }
@@ -181,7 +181,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "283d9284a6054a25a129e848808b75a1",
+    "awardID": "f10947246ab44416ab8f1f75df484ded",
     "contractID": "UA-2023-10-10-000002-a-2",
     "period": {
       "startDate": "2022-01-01T00:00:00+02:00",
@@ -345,7 +345,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "1640f9c9f12d4f74b35596c849f209a4",
+    "tender_id": "b86d98f551fa49dfa9004373a996b627",
     "contractTemplateName": "00000000.0002.01",
     "status": "pending",
     "author": "supplier",

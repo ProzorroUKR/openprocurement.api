@@ -1845,7 +1845,7 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token)
     doc_id = response.json["data"]["documents"][-1]["id"]
     self.assertNotEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
@@ -1856,7 +1856,7 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token, doc_id)
     self.assertNotEqual(response.json["data"]["date"], bid["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
@@ -1866,7 +1866,7 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token, doc_id)
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 440)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], bid["date"])
 
@@ -2317,7 +2317,7 @@ def create_tender_bid_with_document_invalid(self):
     docs = [
         {
             "title": "name.doc",
-            "url": self.generate_docservice_url().replace(list(self.app.app.registry.keyring.keys())[-1], "0" * 8),
+            "url": self.generate_docservice_url().replace(list(self.registry.keyring.keys())[-1], "0" * 8),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
         }

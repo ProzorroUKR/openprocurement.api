@@ -1,31 +1,10 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
 from uuid import uuid4
 
 import mock
 from mock import Mock, patch
-from tests.base.constants import AUCTIONS_URL, DOCS_URL
-from tests.base.data import (
-    test_docs_bid2,
-    test_docs_bid3_with_docs,
-    test_docs_bid_draft,
-    test_docs_claim,
-    test_docs_complaint,
-    test_docs_criterion_data,
-    test_docs_eligible_evidence_data,
-    test_docs_lots,
-    test_docs_qualified,
-    test_docs_requirement_data,
-    test_docs_requirement_group_data,
-    test_docs_subcontracting,
-    test_docs_tender_below,
-    test_docs_tender_openeu,
-    test_docs_tender_openua,
-)
-from tests.base.helpers import complaint_create_pending
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -73,6 +52,26 @@ from openprocurement.tender.pricequotation.tests.utils import (
     copy_criteria_req_id,
     criteria_drop_uuids,
 )
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_bid2,
+    test_docs_bid3_with_docs,
+    test_docs_bid_draft,
+    test_docs_claim,
+    test_docs_complaint,
+    test_docs_criterion_data,
+    test_docs_eligible_evidence_data,
+    test_docs_lots,
+    test_docs_qualified,
+    test_docs_requirement_data,
+    test_docs_requirement_group_data,
+    test_docs_subcontracting,
+    test_docs_tender_below,
+    test_docs_tender_openeu,
+    test_docs_tender_openua,
+)
+from tests.base.helpers import complaint_create_pending
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 test_tender_below_data = deepcopy(test_docs_tender_below)
 
@@ -416,7 +415,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint8_id, complaint8_token = complaint_create_pending(self, complaint_url, complaint_data)
 
         response = self.app.get(
-            '/tenders/{}/complaints'.format(self.tender_id, complaint8_id),
+            '/tenders/{}/complaints'.format(self.tender_id),
         )
         objection_id = response.json["data"][-1]["objections"][0]["id"]
 
@@ -1562,7 +1561,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint["objections"][0]["relatesTo"] = "award"
 
         with open(TARGET_DIR + 'qualification/awards-get.http', 'w') as self.app.file_obj:
-            self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, award_id, owner_token))
+            self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, award_id))
 
         # fetch sign data
         with open(TARGET_DIR + 'sign-data/sign-award-data.http', 'w') as self.app.file_obj:
@@ -3856,7 +3855,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def test_docs_constants(self):
         with open(TARGET_DIR + 'constants/constants.http', 'w') as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get('/constants'.format(self.tender_id))
+            response = self.app.get('/constants')
             self.assertEqual(response.status, '200 OK')
 
 

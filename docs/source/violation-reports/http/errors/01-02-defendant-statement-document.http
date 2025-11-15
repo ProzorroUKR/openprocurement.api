@@ -1,0 +1,24 @@
+POST /violation_reports/UA-2025-10-12-000001/defendantStatements/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/documents HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "title": "ai_generated_beavers_0001.gif",
+    "url": "http://ds.k8s.prozorro.local/get/88888888444455556666000000000007?Signature=XF62M8ju%2BwVGFNUBbFY8KAs35I1ePbQg0lVW4XA6mV96MpeBRWS90rdudMfnW5K4o5zH%2FMkT07r0KnGkR29XAw%3D%3D&KeyID=a8968c46",
+    "hash": "md5:22222222222222222222222222222222",
+    "format": "image/gif",
+    "documentType": "violationReportEvidence"
+  }
+}
+
+
+HTTP/1.0 404 Not Found
+Content-Type: application/json; charset=utf-8
+Content-Length: 107
+
+{
+  "type": "http-not-found",
+  "title": "Not Found",
+  "details": "defendantStatement not found.",
+  "status": 404
+}

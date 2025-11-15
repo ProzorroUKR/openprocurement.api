@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/efc2bdfd149240f1bf2262ff356c60d0?acc_token=cc99c7a557f54ca08b0bf5d757bb11b8 HTTP/1.0
+PATCH /api/2.5/plans/ea8a6cb667df4469af2c5584ab0a020e?acc_token=6f445f8ad768485ebab228d82950e7ba HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "status": "complete",
     "procuringEntity": {
-      "id": "deb1063d81184ee0b2fcc0c8db1526d3",
+      "id": "cd4726e5f1f64a5c9c188ff51c4346fb",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -64,7 +64,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "a819e82250614114ba485a59ec92d8dc",
+          "id": "3b04a4fad68b4d238ff2e8e15f73a185",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -89,7 +89,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-11-000001-a",
     "items": [
       {
-        "id": "5384314bfdfb4235a10c4b2060c04eba",
+        "id": "e54a3f8417234a50aa3de12940ad3344",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -120,7 +120,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "cf7e8ef089b84926853e2c41b8c19c2b",
+        "id": "c5547809efc24afb89cc5b8183041c30",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -151,7 +151,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "5577b5e8eb24440da9c5fd188f1d9086",
+        "id": "5c315bc666db4c8d878eecf2ca040cb2",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -184,7 +184,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "762d601282164523b9e3e113e7c95a21",
+        "id": "9a5ea501d57a44988afe500963d6267c",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -221,7 +221,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-11T02:00:33+03:00",
     "dateModified": "2023-10-11T02:00:33+03:00",
     "datePublished": "2023-10-11T02:00:33+03:00",
-    "id": "efc2bdfd149240f1bf2262ff356c60d0"
+    "id": "ea8a6cb667df4469af2c5584ab0a020e"
   }
 }
 

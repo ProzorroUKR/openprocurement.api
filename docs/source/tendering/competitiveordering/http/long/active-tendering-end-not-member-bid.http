@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35/bids/85865608102c4ce89daf08165556887c?acc_token=86a7083da54d4d0797b257b94f58ae3c HTTP/1.0
+GET /api/2.5/tenders/2962db9abbea4fb0b3bc91032ccbade5/bids/85865608102c4ce89daf08165556887c?acc_token=86a7083da54d4d0797b257b94f58ae3c HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -221,7 +221,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c",
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00"
       }

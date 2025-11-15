@@ -112,7 +112,7 @@ plan = {
     "items": [
         {
             "deliveryDate": {"endDate": (now + timedelta(days=15)).isoformat()},
-            "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.92", "description": "Насіння гірчиці"}],
+            "additionalClassifications": [{"scheme": "ДКПП", "id": "28.23.23", "description": "Насіння гірчиці"}],
             "unit": {"code": "KGM", "name": "кг"},
             "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
             "quantity": 1000,
@@ -120,7 +120,7 @@ plan = {
         },
         {
             "deliveryDate": {"endDate": (now + timedelta(days=16)).isoformat()},
-            "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.95", "description": "Насіння соняшнику"}],
+            "additionalClassifications": [{"scheme": "ДКПП", "id": "28.23.23", "description": "Насіння соняшнику"}],
             "unit": {"code": "KGM", "name": "кг"},
             "classification": {"scheme": "ДК021", "description": "Sunflower seeds", "id": "03111300-5"},
             "quantity": 2000,
@@ -128,7 +128,7 @@ plan = {
         },
         {
             "deliveryDate": {"endDate": (now + timedelta(days=17)).isoformat()},
-            "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.84", "description": "Насіння бавовнику"}],
+            "additionalClassifications": [{"scheme": "ДКПП", "id": "28.23.23", "description": "Насіння бавовнику"}],
             "unit": {"code": "KGM", "name": "кг"},
             "classification": {"scheme": "ДК021", "description": "Cotton seeds", "id": "03111400-6"},
             "quantity": 3000,
@@ -136,7 +136,6 @@ plan = {
         },
     ],
     "classification": {"scheme": "ДК021", "description": "Seeds", "id": "03111000-2"},
-    "additionalClassifications": [{"scheme": "КЕКВ", "id": "1", "description": "-"}],
     "procuringEntity": {
         "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
         "name": "ДУС",

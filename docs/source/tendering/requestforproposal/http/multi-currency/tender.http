@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/6694d8a81cfc4ddc8d56a87558eaf7e7 HTTP/1.0
+GET /api/2.5/tenders/a2c51926819e43aea0de24b309bde8f9 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -861,7 +861,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "30176f0915f24bb68a6ce8d1aa87ec73",
+        "id": "a67245d10a444533a2a7da072ff0937a",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -881,7 +881,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "be03754657d546b28f05d0164e668b57",
+        "id": "bff94f5ed31d45638537e5b84a41df3a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -919,7 +919,7 @@ Content-Type: application/json
         "relatedLot": "a1b71828e35f4f83b5bc1754af3856c1"
       },
       {
-        "id": "528c4b1ae2f94ab483cc213e6f81e38e",
+        "id": "b8c28526683045a4b98d2f557dce20be",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -964,7 +964,7 @@ Content-Type: application/json
       {
         "id": "71d5fa95badf42479077347f91506bb9",
         "author": {
-          "hash": "c0bd17a70256648f3f7fbffb36d24b61"
+          "hash": "91d6ade2fad149c31b497b1abbb4f259"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -974,7 +974,7 @@ Content-Type: application/json
         "dateAnswered": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "6694d8a81cfc4ddc8d56a87558eaf7e7"
+    "id": "a2c51926819e43aea0de24b309bde8f9"
   },
   "config": {
     "hasAuction": false,

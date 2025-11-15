@@ -6,10 +6,7 @@ from uuid import uuid4
 import pytest
 from nacl.encoding import HexEncoder
 
-from openprocurement.api.tests.base import (  # pylint: disable=unused-import
-    app,
-    singleton_app,
-)
+from openprocurement.api.tests.base import app, singleton_app, unwrap_app
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_buyer,
@@ -21,6 +18,8 @@ from openprocurement.tender.openua.tests.base import (
     test_tender_openua_config,
     test_tender_openua_data,
 )
+
+fixtures = (app, singleton_app)
 
 test_tender_openua_central_data = deepcopy(test_tender_openua_data)
 
@@ -92,8 +91,8 @@ def test_post_tender_plan_data_empty(app, tender):
         status=422,
     )
     assert response.json == {
-        'status': 'error',
-        'errors': [{'description': ['This field is required.'], 'location': 'body', 'name': 'id'}],
+        "status": "error",
+        "errors": [{"description": ["This field is required."], "location": "body", "name": "id"}],
     }
 
 
@@ -104,8 +103,8 @@ def test_post_tender_plan_404(app, tender):
         status=404,
     )
     assert response.json == {
-        'status': 'error',
-        'errors': [{'description': 'Not Found', 'location': 'url', 'name': 'plan_id'}],
+        "status": "error",
+        "errors": [{"description": "Not Found", "location": "url", "name": "plan_id"}],
     }
 
 
@@ -114,7 +113,7 @@ def test_post_tender_plan_success(app, tender, plan):
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
         {"data": {"id": plan["data"]["id"]}},
     )
-    assert response.json["data"] == [{'id': plan["data"]["id"]}]
+    assert response.json["data"] == [{"id": plan["data"]["id"]}]
 
     response = app.get("/tenders/{}".format(tender["data"]["id"]))
     assert response.json["data"]["dateModified"] > tender["data"]["dateModified"]
@@ -131,7 +130,7 @@ def test_post_tender_plan_success(app, tender, plan):
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
         {"data": {"id": another_plan["data"]["id"]}},
     )
-    assert response.json["data"] == [{'id': plan["data"]["id"]}, {'id': another_plan["data"]["id"]}]
+    assert response.json["data"] == [{"id": plan["data"]["id"]}, {"id": another_plan["data"]["id"]}]
 
 
 def test_fail_not_draft(app, plan):
@@ -148,8 +147,8 @@ def test_fail_not_draft(app, plan):
 
     add_criteria(app, tender["data"]["id"], tender["access"]["token"])
     uuid = uuid4().hex
-    doc_hash = '0' * 32
-    signer = app.app.registry.docservice_key
+    doc_hash = "0" * 32
+    signer = unwrap_app(app).registry.docservice_key
     keyid = signer.verify_key.encode(encoder=HexEncoder)[:8].decode()
     msg = "{}\0{}".format(uuid, doc_hash).encode()
     signature = b64encode(signer.sign(msg).signature)
@@ -222,15 +221,15 @@ def test_fail_duplicate(app, tender, plan):
         status=422,
     )
     assert response.json == {
-        'status': 'error',
-        'errors': [{'description': "Can't update plan in 'complete' status", 'location': 'body', 'name': 'status'}],
+        "status": "error",
+        "errors": [{"description": "Can't update plan in 'complete' status", "location": "body", "name": "status"}],
     }
 
     # what if plan hasn't been updated for an unknown reason
-    plan_obj = app.app.registry.mongodb.plans.get(plan["data"]["id"])
+    plan_obj = unwrap_app(app).registry.mongodb.plans.get(plan["data"]["id"])
     del plan_obj["tender_id"]
     plan_obj["status"] = "scheduled"
-    app.app.registry.mongodb.save_data(app.app.registry.mongodb.plans.collection, plan_obj)
+    unwrap_app(app).registry.mongodb.save_data(unwrap_app(app).registry.mongodb.plans.collection, plan_obj)
 
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
@@ -238,7 +237,7 @@ def test_fail_duplicate(app, tender, plan):
         status=422,
     )
     assert response.json == {
-        'status': 'error',
-        'errors': [{'description': ['The list should not contain duplicates'], 'location': 'body', 'name': 'plans'}],
+        "status": "error",
+        "errors": [{"description": ["The list should not contain duplicates"], "location": "body", "name": "plans"}],
     }
     # in this case the plan might be completed manually

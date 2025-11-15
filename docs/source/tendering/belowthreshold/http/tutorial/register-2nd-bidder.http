@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/bids HTTP/1.0
+POST /api/2.5/tenders/f135bade563d49fc9233e1f1d37fdcf0/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -40,13 +40,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "documents": [
       {
         "title": "Proposal_part1.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf174abb36e944eb8ca48f1afe8eb4d2?Signature=WDXegnKNg9AdBRTo4j4t6EF4BMzNnJNbBNfhLP7QnfC05OShy5may0d59F82Od7%2BwFgjO4wuvq6yD8mZa3tDAg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e688ac21d30544acae2a608abd62c6db?Signature=Z5rbnmhgLAC5HP7XjWvl5AhpbY2QiyC2qRiTfC9k88KH0xk9GThxUVqRCQKucgrsgQGaoiZri3qnfOhSsKiSDw%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       },
       {
         "title": "Proposal_part2.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fa5035ab921b4fb2888800987217ada4?Signature=eTtba2q5X3l9k6OXoEK9GiiYSgndMWeOQoKywqUAHWCIwE2ErQXMA7NocAqnGRJDCHQXXQO%2FXXOF2SJlT2TwDw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0501acceab444f6eae776cd24fd87ef3?Signature=fs6NNRwSQ%2BnfngHTymKvDSctK9ttIoTh0iFkleiYoX2TAJ0rAa%2Fjnyeq2fr0lQyYQE1XY1nJ8vN0k8yB%2BybODA%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       }
@@ -80,7 +80,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/bids/9a6691c52a6e40478d3057022922c776
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f135bade563d49fc9233e1f1d37fdcf0/bids/678cd22c5ad346b8866b31e22de7a4a4
 
 {
   "data": {
@@ -135,10 +135,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf174abb36e944eb8ca48f1afe8eb4d2?Signature=nhY11nzZvoAKjFc3a%2FPpyp9%2BxrzoIXCWAYyrTlcJ%2FVzF6BLISq%2FmFK7mkqMFMxpbHQrYyJ%2B0DcVJExrJdvE1DA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e688ac21d30544acae2a608abd62c6db?Signature=ZT%2B9Wm821WQxxWkE09sAtThpAyjtL8vuDKWsrHN97OLWrqw5y3ph4sKc6dOPOEv77Wud5vEzVtnCU4CwkKSFDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "ccf322b5a0fb4d3b9b0907b484b608a1",
+        "id": "2c84f061f4e847e9a353c3cad6e3774f",
         "datePublished": "2023-10-16T01:15:06+03:00",
         "dateModified": "2023-10-16T01:15:06+03:00"
       },
@@ -147,10 +147,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fa5035ab921b4fb2888800987217ada4?Signature=9meqwsW99XL5YpmHvnJQjExFMu2X6to3Wor7h88g%2F%2FV5eb6%2FfKI%2B872U0tVny68LXkJ0GMTjT2raZPL%2BOC%2BXAQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0501acceab444f6eae776cd24fd87ef3?Signature=q3zXnwJt170cWDOoG%2F%2BjKYRp0GyK%2F6kBbZ6goCASzWU4VQAU9eRaNhfotScxKpKulW7g1yVpVLbWF2A7otUKDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "341d34bf1670472a967cb53c243b82f0",
+        "id": "e9f487e3cdff4415a6b88985b1f7c925",
         "datePublished": "2023-10-16T01:15:06+03:00",
         "dateModified": "2023-10-16T01:15:06+03:00"
       }
@@ -170,12 +170,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
         "quantity": 5.0
       }
     ],
-    "id": "9a6691c52a6e40478d3057022922c776",
+    "id": "678cd22c5ad346b8866b31e22de7a4a4",
     "date": "2023-10-16T01:15:06+03:00"
   },
   "access": {
-    "token": "db886e7c3bb649edb5893b47afcb0f05",
-    "transfer": "0056a47dd1314de1b805b11d8cb1089f"
+    "token": "58e7e915f6b442bba7b8afc64641d413",
+    "transfer": "27a3a99a9af64e729e538c6ed62314d5"
   }
 }
 

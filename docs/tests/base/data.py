@@ -3,14 +3,14 @@ from datetime import datetime, timedelta
 from hashlib import sha512
 
 from dateutil.parser import parse
-from tests.base.constants import MOCK_DATETIME
 
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_milestones,
 )
+from tests.base.constants import MOCK_DATETIME
 
-test_docs_parameters = [{'code': 'OCDS-123454-AIR-INTAKE', 'value': 0.1}, {'code': 'OCDS-123454-YEARS', 'value': 0.1}]
+test_docs_parameters = [{"code": "OCDS-123454-AIR-INTAKE", "value": 0.1}, {"code": "OCDS-123454-YEARS", "value": 0.1}]
 
 test_docs_organization = {
     "address": {
@@ -52,8 +52,8 @@ test_docs_tenderer = {
 }
 
 test_docs_author = deepcopy(test_docs_tenderer)
-del test_docs_author['scale']
-del test_docs_author['signerInfo']
+del test_docs_author["scale"]
+del test_docs_author["signerInfo"]
 
 test_docs_complaint_author = deepcopy(test_docs_author)
 test_docs_complaint_author["identifier"]["legalName"] = "ДКП «Школяр»"
@@ -79,8 +79,8 @@ test_docs_tenderer2 = {
 }
 
 test_docs_author2 = deepcopy(test_docs_tenderer2)
-del test_docs_author2['scale']
-del test_docs_author2['signerInfo']
+del test_docs_author2["scale"]
+del test_docs_author2["signerInfo"]
 test_docs_tenderer3 = {
     "address": {
         "countryName": "Україна",
@@ -121,48 +121,48 @@ test_docs_bad_participant = {
     },
     "contactPoint": {"email": "pole@gmail.com", "name": "Вільям Поле", "telephone": "+380452216931"},
     "identifier": {"id": "00137230", "legalName": "ТОВ Бур", "scheme": "UA-EDR", "uri": "http://pole.edu.vn.ua/"},
-    "name": "ТОВ \"Бур\"",
+    "name": 'ТОВ "Бур"',
     "scale": "mid",
     "signerInfo": test_signer_info,
 }
 
 test_docs_bad_author = deepcopy(test_docs_bad_participant)
-del test_docs_bad_author['scale']
-del test_docs_bad_author['signerInfo']
+del test_docs_bad_author["scale"]
+del test_docs_bad_author["signerInfo"]
 
 test_docs_bid_document = {
-    'title': 'Proposal_part1.pdf',
-    'url': "http://broken1.ds",
-    'hash': 'md5:' + '0' * 32,
-    'format': 'application/pdf',
+    "title": "Proposal_part1.pdf",
+    "url": "http://broken1.ds",
+    "hash": "md5:" + "0" * 32,
+    "format": "application/pdf",
 }
 
 test_docs_bid_document2 = {
-    'title': 'Proposal_part2.pdf',
-    'url': "http://broken2.ds",
-    'hash': 'md5:' + '0' * 32,
-    'format': 'application/pdf',
+    "title": "Proposal_part2.pdf",
+    "url": "http://broken2.ds",
+    "hash": "md5:" + "0" * 32,
+    "format": "application/pdf",
 }
 
 test_docs_bid_document3_eligibility = {
-    'title': 'eligibility_doc.pdf',
-    'url': "http://broken3.ds",
-    'hash': 'md5:' + '0' * 32,
-    'format': 'application/pdf',
+    "title": "eligibility_doc.pdf",
+    "url": "http://broken3.ds",
+    "hash": "md5:" + "0" * 32,
+    "format": "application/pdf",
 }
 
 test_docs_bid_document4_financialy = {
-    'title': 'financial_doc.pdf',
-    'url': "http://broken4.ds",
-    'hash': 'md5:' + '0' * 32,
-    'format': 'application/pdf',
+    "title": "financial_doc.pdf",
+    "url": "http://broken4.ds",
+    "hash": "md5:" + "0" * 32,
+    "format": "application/pdf",
 }
 
 test_docs_bid_document5_qualification = {
-    'title': 'qualification_document.pdf',
-    'url': "http://broken5.ds",
-    'hash': 'md5:' + '0' * 32,
-    'format': 'application/pdf',
+    "title": "qualification_document.pdf",
+    "url": "http://broken5.ds",
+    "hash": "md5:" + "0" * 32,
+    "format": "application/pdf",
 }
 
 test_docs_bid = {"tenderers": [test_docs_tenderer], "value": {"amount": 500}}
@@ -268,7 +268,7 @@ test_docs_claim = {
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "title": "Недостатньо інформації",
     "type": "claim",
-    'author': test_docs_author,
+    "author": test_docs_author,
 }
 
 test_docs_complaint = {
@@ -276,21 +276,21 @@ test_docs_complaint = {
     "title": "Недостатньо інформації",
     "status": "draft",
     "type": "complaint",
-    'author': test_docs_complaint_author,
+    "author": test_docs_complaint_author,
 }
 
-test_docs_qualified = {'selfQualified': True}
+test_docs_qualified = {"selfQualified": True}
 
-test_docs_subcontracting = {'subcontractingDetails': "ДКП «Орфей», Україна"}
+test_docs_subcontracting = {"subcontractingDetails": "ДКП «Орфей», Україна"}
 
 test_docs_lots = [
     {
-        'title': 'Лот №1',
-        'description': 'Опис Лот №1',
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
     },
     {
-        'title': 'Лот №2',
-        'description': 'Опис Лот №2',
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
     },
 ]
 
@@ -465,7 +465,7 @@ test_docs_procuring_entity = {
         "streetAddress": "вул. Банкова, 11, корпус 1",
     },
     "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
-    'kind': 'general',
+    "kind": "general",
     "signerInfo": test_signer_info,
 }
 
@@ -487,8 +487,8 @@ test_docs_procuring_entity_en = {
     },
     "identifier": {
         "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"",
+        "legalName": 'Заклад "Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради"',
+        "legalName_en": 'The institution "Secondary school I-III levels № 10 Vinnitsa City Council"',
         "scheme": "UA-EDR",
     },
     "name": "ЗОСШ #10 м.Вінниці",
@@ -512,7 +512,7 @@ test_docs_procuring_entity_ua = {
     },
     "identifier": {
         "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName": 'Заклад "Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради"',
         "scheme": "UA-EDR",
     },
     "name": "ЗОСШ #10 м.Вінниці",
@@ -520,10 +520,10 @@ test_docs_procuring_entity_ua = {
 }
 
 test_docs_shortlisted_firms = [
-    {"identifier": {"scheme": "UA-EDR", "id": '00137256', "uri": 'http://www.sc.gov.ua/'}, "name": "ДКП «Школяр»"},
-    {"identifier": {"scheme": "UA-EDR", "id": '00137226', "uri": 'http://www.sc.gov.ua/'}, "name": "ДКП «Книга»"},
+    {"identifier": {"scheme": "UA-EDR", "id": "00137256", "uri": "http://www.sc.gov.ua/"}, "name": "ДКП «Школяр»"},
+    {"identifier": {"scheme": "UA-EDR", "id": "00137226", "uri": "http://www.sc.gov.ua/"}, "name": "ДКП «Книга»"},
     {
-        "identifier": {"scheme": "UA-EDR", "id": '00137228', "uri": 'http://www.sc.gov.ua/'},
+        "identifier": {"scheme": "UA-EDR", "id": "00137228", "uri": "http://www.sc.gov.ua/"},
         "name": "«Кенгуру»",
     },
 ]
@@ -579,7 +579,7 @@ test_docs_tender_cfaselectionua_maximum = {
             "streetAddress": "вул. Банкова, 11, корпус 1",
         },
         "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
-        'kind': 'general',
+        "kind": "general",
     },
     "items": test_docs_items,
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
@@ -602,7 +602,7 @@ test_docs_tender_stage1 = {
 
 test_docs_tender_stage2_multiple_lots = {
     "procurementMethod": "selective",
-    "dialogue_token": sha512(b'secret').hexdigest(),
+    "dialogue_token": sha512(b"secret").hexdigest(),
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "procurementMethodType": "competitiveDialogueEU.stage2",
@@ -868,7 +868,7 @@ test_docs_criterion_data = {
     "requirementGroups": [test_docs_requirement_group_data],
     "description": "Cуб’єкт господарювання (учасник) протягом останніх трьох років притягувався до відповідальності "
     "за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 "
-    "Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних "
+    'Закону України "Про захист економічної конкуренції", у вигляді вчинення антиконкурентних '
     "узгоджених дій, що стосуються спотворення результатів тендерів",
     "classification": {"scheme": "ESPD211", "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"},
     "title": "Вчинення економічних правопорушень",
@@ -878,7 +878,7 @@ test_docs_criterion_data = {
             "version": "2024-10-23",
             "identifier": {
                 "id": "922-VIII",
-                "legalName": "Закон України \"Про публічні закупівлі\"",
+                "legalName": 'Закон України "Про публічні закупівлі"',
                 "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1261",
             },
             "type": "NATIONAL_LEGISLATION",
@@ -888,7 +888,7 @@ test_docs_criterion_data = {
             "version": "2024-05-16",
             "identifier": {
                 "id": "2210-III",
-                "legalName": "Закон України \"Про захист економічної конкуренції\"",
+                "legalName": 'Закон України "Про захист економічної конкуренції"',
                 "uri": "https://zakon.rada.gov.ua/laws/show/2210-14#n46",
             },
             "type": "NATIONAL_LEGISLATION",
@@ -898,7 +898,7 @@ test_docs_criterion_data = {
             "version": "2024-05-16",
             "identifier": {
                 "id": "2210-III",
-                "legalName": "Закон України \"Про захист економічної конкуренції\"",
+                "legalName": 'Закон України "Про захист економічної конкуренції"',
                 "uri": "https://zakon.rada.gov.ua/laws/show/2210-14#n456",
             },
             "type": "NATIONAL_LEGISLATION",

@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "b996fbc0afc54062aac0fbaa492eb9e0",
+      "id": "9ed77f9be3594c058f334504330db2a0",
       "items": [
         {
           "id": "d7b3fb7152ec4af88ec6210d2be36685",
@@ -31,7 +31,7 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
-          "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+          "relatedLot": "1045105100a341998426114b17a5c1ff",
           "deliveryDate": {
             "startDate": "2018-06-27T13:39:09.362837+03:00",
             "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -65,7 +65,7 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
-          "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+          "relatedLot": "1045105100a341998426114b17a5c1ff",
           "deliveryDate": {
             "startDate": "2018-06-27T13:39:09.362837+03:00",
             "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -80,11 +80,11 @@ Content-Type: application/json
           "description_en": "Cases for state awards"
         }
       ],
-      "agreementID": "UA-2023-10-10-000001-a-5bbbf8d945c940e7a4e133125410d6e71",
+      "agreementID": "UA-2023-10-10-000001-a-aca99b8fbaae4bd2bae56e4fda098aba1",
       "date": "2023-10-10T01:02:01+03:00",
       "contracts": [
         {
-          "id": "3cfdad4a64a54acfb88bc4b77dc03d71",
+          "id": "435bc70b5c0741cc9c52222076226966",
           "suppliers": [
             {
               "name": "«Снігур»",
@@ -109,7 +109,7 @@ Content-Type: application/json
             }
           ],
           "awardID": "38b196e95ad147f9aa09040a36a54964",
-          "bidID": "d36d4d7ab1d54578b92e72a7bf21354e",
+          "bidID": "704ce27d8af84133be0e67b6e00cd665",
           "date": "2023-10-10T01:02:01+03:00",
           "unitPrices": [
             {
@@ -130,7 +130,7 @@ Content-Type: application/json
           "status": "active"
         },
         {
-          "id": "b9c82bbdb13b481bae95d48eb2724c58",
+          "id": "cb426592555249f6b5d11db1dd95d037",
           "suppliers": [
             {
               "name": "ДКП «Книга»",
@@ -156,7 +156,7 @@ Content-Type: application/json
             }
           ],
           "awardID": "36b9fc7fa38d41d9990670956f8f12f8",
-          "bidID": "5d3dc5765f7b493e88a8cf48097c37b1",
+          "bidID": "9b7bc233b5b9426ba47f63ae0070dc79",
           "date": "2023-10-10T01:02:01+03:00",
           "unitPrices": [
             {
@@ -177,7 +177,7 @@ Content-Type: application/json
           "status": "active"
         },
         {
-          "id": "9a0c84972c4b468788d51e716c0ea464",
+          "id": "962f56827dfc4fefa1366e9451f2a0ba",
           "suppliers": [
             {
               "name": "Школяр",
@@ -203,7 +203,7 @@ Content-Type: application/json
             }
           ],
           "awardID": "afa433c494e44739930128fe436e711d",
-          "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
+          "bidID": "95db393211474a7c930f5c3df7f52b56",
           "date": "2023-10-10T01:02:01+03:00",
           "unitPrices": [
             {

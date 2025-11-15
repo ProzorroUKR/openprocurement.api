@@ -1,0 +1,32 @@
+POST /violation_reports/UA-2025-10-12-000001/decisions/88888888444455556666000000000027/documents HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "title": "protocol(2).pdf",
+    "url": "http://ds.k8s.prozorro.local/get/8888888844445555666600000000002e?Signature=yL50lAlm7w0hOo0u2wycJrc68JwK9Ax9LEPxsmM4bveZ9CX1ybdZUk%2BLsb3mQDkog%2FQcknRxXCsU9C2cqBO8CQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:ffffffffffffffffffffffffffffffff",
+    "format": "application/pdf",
+    "documentType": "violationReportEvidence"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-00000000002f
+Content-Length: 532
+
+{
+  "data": {
+    "id": "88888888444455556666000000000030",
+    "hash": "md5:ffffffffffffffffffffffffffffffff",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000030?download=8888888844445555666600000000002e",
+    "dateModified": "2025-10-16T10:15:54+03:00",
+    "datePublished": "2025-10-16T10:15:54+03:00",
+    "documentType": "violationReportEvidence",
+    "title": "protocol(2).pdf",
+    "format": "application/pdf",
+    "language": "uk"
+  }
+}

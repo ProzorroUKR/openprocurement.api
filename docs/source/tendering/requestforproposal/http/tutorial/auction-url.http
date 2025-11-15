@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64 HTTP/1.0
+GET /api/2.5/tenders/137bba901398466a9aa1880da2ade9a6 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -41,7 +41,7 @@ Content-Type: application/json
       {
         "id": "18aed6d02f154d56b9784733349f80f0",
         "author": {
-          "hash": "1aed9a553aa8fab0177d7427516aa4fe"
+          "hash": "0008badd6aa9dd04675d471581d21e5f"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -63,7 +63,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc867212802644aea197d58690d3ba5a?Signature=MtSkXRos1yrfdfBsgMVs8NAB4Wh%2F3OPVOFqVj5MdI%2BUj6iyTIMVI7fe6VbiXH3hp71yoRH90hxn6jwSEUdesDQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d990d4897b1a47a19bf707544e0c8c39?Signature=Odg7g4lnQq9K23uhoeviII9%2BTeGyK%2BZebhgl5aO%2FJj1M4qGN5N%2Fq0TCVhB39EYEVdlWkc0V%2B3rnS%2FDb4w%2Fd7Bg%3D%3D&KeyID=a8968c46",
         "documentOf": "item",
         "dateModified": "2023-10-10T01:03:03+03:00",
         "author": "tender_owner",
@@ -76,7 +76,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c9a7351bbd9c4577b75310df27591499?Signature=MunTW%2BVyETXx31v93sGhr6mh73PISFITfTGZpi50QbReHquPGEuZi04vK%2F9JcE45YC5McBK17PE%2FTSY6U%2FB%2BAQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/67b500f3327a4160bff847fa3b925862?Signature=QDxTKt%2F6a6o%2F969%2BED3IcEBTGuad5zzNYo28gOuxadXnyR0axXnzhPWvrEHCP4VwkSewBFtL2VvUFUHm%2FE9PBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:06:04+03:00",
         "author": "tender_owner",
@@ -91,7 +91,7 @@ Content-Type: application/json
         "hash": "md5:11111111111111111111111111111111",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/56b3816a95d94faa973fdac01b15d17f?Signature=OwaEFJzrubfVGiEJjno3o6fbkaDy8WMg0aIbV29ps0%2FiV7Eu7ggkxhTP0bldt05cfWWqeVZRCMyMceYRFqfvAw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1f6e46ecf5b4734b57a1aceb67834c1?Signature=%2Bq%2F%2FE5Sml8snWliS1olYK%2Bk9P5xg%2Bp0PVGPhAjQOELiMK882BsSWbDnohWwS9zCChlXkEgWdayK5lb2oDaVeBA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:10:05+03:00",
         "author": "tender_owner",
@@ -173,7 +173,7 @@ Content-Type: application/json
         "auctionPeriod": {
           "startDate": "2023-10-16T01:15:06+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/285d5c5b074a45f198c9a207b4c60b64_880b8274983b40cfa8455e8e3d82bb70"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/137bba901398466a9aa1880da2ade9a6_880b8274983b40cfa8455e8e3d82bb70"
       }
     ],
     "milestones": [
@@ -190,7 +190,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "0b78866cd0af4b7995fbeaa9ed101d08",
+        "id": "4b7d2866ae0e4de7b1ccffded4f891fc",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -241,7 +241,7 @@ Content-Type: application/json
       }
     ],
     "auctionPeriod": {},
-    "id": "285d5c5b074a45f198c9a207b4c60b64"
+    "id": "137bba901398466a9aa1880da2ade9a6"
   },
   "config": {
     "hasAuction": true,

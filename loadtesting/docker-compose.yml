@@ -6,10 +6,11 @@ services:
     image: locustio/locust
     ports:
       - "8089:8089"
+      - "5557:5557"
     volumes:
       - ./:/mnt/locust
-#    command: -f /mnt/locust/plans.py --host http://host.docker.internal:8000
-    command: -f /mnt/locust/plans.py --headless --master -u 200 -r 10 -t 2m --host https://lb-api-mongo.prozorro.gov.ua
+    command: -f /mnt/locust/plans.py --master --host http://host.docker.internal:8000
+#    command: -f /mnt/locust/plans.py --headless --master -u 200 -r 10 -t 2m --host https://lb-api-mongo.prozorro.gov.ua
 #    command: -f /mnt/locust/plans.py --headless --master -u 100 -r 10 -t 10m --host https://public.api.openprocurement.org
 
   worker1:

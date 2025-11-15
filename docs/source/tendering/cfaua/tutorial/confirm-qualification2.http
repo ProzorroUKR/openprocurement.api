@@ -56,8 +56,8 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
-    "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+    "bid_id": "704ce27d8af84133be0e67b6e00cd665",
+    "lotID": "1045105100a341998426114b17a5c1ff",
     "documents": [
       {
         "confidentiality": "public",

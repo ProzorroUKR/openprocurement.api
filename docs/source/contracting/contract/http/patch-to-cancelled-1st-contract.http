@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/790377c1e17d4a10956295b8430efb4a?acc_token=7ad226ebe2cc4033acb03c7c28304fda HTTP/1.0
+PATCH /api/2.5/contracts/790377c1e17d4a10956295b8430efb4a?acc_token=50c8dbad7b0c4fd49d4a96be7c4355af HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -22,7 +22,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "items": [
       {
-        "id": "fe66d188f34747d5951b6beccec3e6d6",
+        "id": "19cd4e67d5d74d72b02bbe74396528b4",
         "description": "телевізори",
         "quantity": 5.0,
         "classification": {
@@ -60,7 +60,7 @@ Content-Type: application/json
         "relatedBuyer": "11111111111111111111111111111111"
       }
     ],
-    "tender_id": "f3167a9af8a5408e9c9bf06a20c342af",
+    "tender_id": "493cc77e367e48e9b931dcc640be6399",
     "owner": "broker",
     "status": "cancelled",
     "buyer": {

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/a450405f3c6840318420a210894cccb1/bids/020c67f8680340e48ada4a03d9a58f08?acc_token=6c750553f8fa4c8c959a1b8f8bccb7a4 HTTP/1.0
+PATCH /api/2.5/tenders/a450405f3c6840318420a210894cccb1/bids/b95fce2e04814c75af421b557849d00f?acc_token=60f4f451f2864f7e9428372a1316e992 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -268,7 +268,7 @@ Content-Type: application/json
     ],
     "status": "invalid",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "020c67f8680340e48ada4a03d9a58f08",
+    "id": "b95fce2e04814c75af421b557849d00f",
     "date": "2023-10-10T01:00:00+03:00",
     "submissionDate": "2023-10-10T01:00:00+03:00",
     "documents": [
@@ -280,7 +280,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7f0c077b0665474cad7c427b6e53ab37?Signature=mvP6D4QsriaXbp93rPArpZwko6w0Rt5hwLbV5d74A5QWO2aOZHNSQLbiHjwdbgAoWEGFszXrbJdSNygESE4EBQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e98ff4ebc6424cfba4838b5e790e1366?Signature=fOkU3ELmyYVvsahAhcRBc7yC874TjzHPh5cYUAHPJd4t9ojzcEf%2FMi8YRSSL7rX%2BSaDC1SYS%2Bh7h%2FXQRDaHCAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/782a773bcc70490e923de940a94a5ada/documents?acc_token=ee095d9d556042c3afc71a91cc4b9236 HTTP/1.0
+POST /api/2.5/tenders/fba2e58fd313460b90eae28673490d56/documents?acc_token=71a2cd2ca3764e0ba43ac51484c2c194 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "Notice.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d351393c1280494ba80f9ffa0b2345f7?Signature=mjrhcvxfj51xIU2CqbPF%2FzPe%2Bd9FKslP4eiSZXoY%2FMzKo2zEQf5WkBpSQFsYC8wf0lH99XgwPL9nZqe2hhqLBw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3ba0f207674a43cf8e9d4c5871611d15?Signature=hZFi%2F8fyPtTO8f7JuJPvCyKTdf2qP8jMXmqeNgamJu9rpCq102mEfaQGA4dKdndRMLpVndNuuiVwyzBbRPqjDQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e923de940a94a5ada/documents/b251271910ed4b72b37546d506938f9d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fba2e58fd313460b90eae28673490d56/documents/b251271910ed4b72b37546d506938f9d
 
 {
   "data": {
@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/782a773bcc70490e
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d351393c1280494ba80f9ffa0b2345f7?Signature=pjE0GKDow2IhqnpZvpSXzjckw%2FfmzKn9av6v5zsel8b7aOVuccX%2BkVAVvextRKgot2qX2Z0HJOocOSfv1qOuAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3ba0f207674a43cf8e9d4c5871611d15?Signature=LBOVrszR%2FPkgCoL2sXgxu%2FmzZVj%2FZsLxKy%2BolJOPFUdWVmGXQ%2FA4uehXg4sua6XYNupyqdbZ0hqR2N8Fva4XDg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "b251271910ed4b72b37546d506938f9d",

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import inspect
 from decimal import Decimal
-from typing import Any, Callable, Generic, TypeVar, Union
+from typing import Any, Callable, Generic, Optional, TypeVar, Union
 
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.utils import to_decimal
@@ -52,10 +52,10 @@ class BaseSerializer(AbstractSerializer[dict[str, Any]]):
     def data(self) -> dict[str, Any]:
         return self.serialize(self.raw, **self.kwargs)
 
-    def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
-        items = list(data.items())
-
+    def serialize(self, data: Optional[dict[str, Any]], **kwargs) -> dict[str, Any]:
         # pre-serialize
+        # data can be None, because pydantic dumps nones, while schematics doesn't
+        items = [] if data is None else list(data.items())
         if self.private_fields:
             disabled_optional_fields = self.optional_fields - self.get_optional_fields()
             private_fields = self.private_fields | disabled_optional_fields
@@ -122,10 +122,11 @@ class BaseUIDSerializer(BaseSerializer):
         "attachments",
     }
 
-    def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
-        data = data.copy()
-        for field in self.un_underscore_fields:
-            data[field] = data.pop(f"_{field}", None)
+    def serialize(self, data: Optional[dict[str, Any]], **kwargs) -> dict[str, Any]:
+        if data is not None:
+            data = data.copy()
+            for field in self.un_underscore_fields:
+                data[field] = data.pop(f"_{field}", None)
         return super().serialize(data, **kwargs)
 
 

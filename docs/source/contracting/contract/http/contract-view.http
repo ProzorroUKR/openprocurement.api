@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "0c30221d374647faae3dff142532b976",
+    "awardID": "765d1e83c038413ab7717ec5e820fdfd",
     "contractID": "UA-2023-10-10-000001-a-1",
     "value": {
       "amount": 500.0,
@@ -165,7 +165,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "1acc9cfa6eed4eeea6d8b801bcf4aa98",
+    "tender_id": "19e4c71b4b4b4595a5bb125c6c5e2df7",
     "contractTemplateName": "00000000.0002.01",
     "status": "pending",
     "dateCreated": "2023-10-10T01:00:00+03:00",

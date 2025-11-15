@@ -9,37 +9,37 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "fbbb064fb0ca4e51bc1e7ec7665d3496",
-      "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
+      "id": "94b658eb87b04f0cad16554d0fbcc11a",
+      "bidID": "95db393211474a7c930f5c3df7f52b56",
       "status": "pending",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "date": "2023-10-10T01:02:01+03:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "3a049b1a7357476e9a5d69269f9c3567",
-      "bidID": "5d3dc5765f7b493e88a8cf48097c37b1",
+      "id": "a23f7992d1f6432f900483528b748a47",
+      "bidID": "9b7bc233b5b9426ba47f63ae0070dc79",
       "status": "pending",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "date": "2023-10-10T01:02:01+03:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "32d7247464d94a83aac69196b8f8ad52",
-      "bidID": "4812f5c2e01041e9b8a8969467bc02a3",
+      "id": "3c314cb490a34293961ff666e4c278dc",
+      "bidID": "f8e242e2e58946d48f91e312e605bdd1",
       "status": "pending",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "date": "2023-10-10T01:02:01+03:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "fde93f7cacc14fc99caf75c038df4222",
-      "bidID": "d36d4d7ab1d54578b92e72a7bf21354e",
+      "id": "ce73001044a743bf8deb2f239bcfbb04",
+      "bidID": "704ce27d8af84133be0e67b6e00cd665",
       "status": "pending",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "date": "2023-10-10T01:02:01+03:00",
       "qualified": false,
       "eligible": false

@@ -1,22 +1,38 @@
-version: '3'
 services:
   api:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        UV_EXTRA_ARGS: ""
     environment:
+      PYTHONUNBUFFERED: 'True'
       SANDBOX_MODE: 'True'
     depends_on:
       - mongo
     volumes:
       - "./src/openprocurement:/app/src/openprocurement:delegated"
+      - "./src/prozorro_cdb:/app/src/prozorro_cdb:delegated"
+      - "./pyproject.toml:/app/pyproject.toml:delegated"
       - "./docs:/app/docs:delegated"
       - "./etc:/app/etc:delegated"
+      - "./tests:/app/tests:delegated"
     ports:
       - "8000:80"
-    command: ["gunicorn", "--bind", "0.0.0.0:80", "-k", "gevent", "--paste", "etc/service.ini", "--graceful-timeout=60", "--timeout=3600"]
+    command: [
+      "gunicorn",
+      "--reload",
+      "--bind",
+      "0.0.0.0:80",
+      "-k", "aiohttp.GunicornWebWorker",
+#      "--workers", "4",
+      "--paste", "etc/service.ini",
+      "--graceful-timeout=60",
+      "--timeout=3600",
+    ]
 
   mongo:
+#    platform: linux/amd64
     image: bitnamilegacy/mongodb:6.0.13
     environment:
       MONGODB_ROOT_PASSWORD: example
@@ -24,6 +40,7 @@ services:
       MONGODB_REPLICA_SET_MODE: primary
       MONGODB_REPLICA_SET_NAME: rs0
       MONGODB_REPLICA_SET_KEY: replicaSetKey
+#      EXPERIMENTAL_DOCKER_DESKTOP_FORCE_QEMU: 1
     ports:
       - 27017:27017
 

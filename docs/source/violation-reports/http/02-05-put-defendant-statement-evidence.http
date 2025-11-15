@@ -1,0 +1,32 @@
+PUT /violation_reports/UA-2025-10-12-000001/defendantStatements/88888888444455556666000000000016/documents/8888888844445555666600000000001c HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "title": "ai_generated_beavers_0001.gif",
+    "url": "http://ds.k8s.prozorro.local/get/8888888844445555666600000000001d?Signature=KSrlQAiXGxV%2B6OCfzAAxT9jxSLFAIV5ZRvgnh5LUca26FXNh8Eij%2B1hc6Y9n5vXnQHatGCLfiLy2YxQVfvvuAw%3D%3D&KeyID=a8968c46",
+    "hash": "md5:22222222222222222222222222222222",
+    "format": "image/gif",
+    "documentType": "violationReportEvidence"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-00000000001e
+Content-Length: 550
+
+{
+  "data": {
+    "id": "8888888844445555666600000000001c",
+    "hash": "md5:22222222222222222222222222222222",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatements/88888888444455556666000000000016/documents/8888888844445555666600000000001f?download=8888888844445555666600000000001d",
+    "dateModified": "2025-10-13T01:55:34+03:00",
+    "datePublished": "2025-10-13T01:55:34+03:00",
+    "documentType": "violationReportEvidence",
+    "title": "ai_generated_beavers_0001.gif",
+    "format": "image/gif",
+    "language": "uk"
+  }
+}

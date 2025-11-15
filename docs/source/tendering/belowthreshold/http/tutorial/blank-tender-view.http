@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3 HTTP/1.0
+GET /api/2.5/tenders/f135bade563d49fc9233e1f1d37fdcf0 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -64,7 +64,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "cf51460eec4e4fa18e979c6e8381ca16",
+        "id": "8834d7b932264a4c803719c6ac65e6c6",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -123,7 +123,7 @@ Content-Type: application/json
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "3f5ff57c43ca4ba6b3a1d0619b7a14c3"
+    "id": "f135bade563d49fc9233e1f1d37fdcf0"
   },
   "config": {
     "hasAuction": true,

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35?acc_token=c782381dc42044419e7b795dac6655ef HTTP/1.0
+PATCH /api/2.5/tenders/2962db9abbea4fb0b3bc91032ccbade5?acc_token=38dc41bb7ffe499b8fb3ba9755bdc5a0 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "097876a4ccce409e85ad30246cb689af",
+        "id": "4eec7ed289df4a9c85073761e0eebedf",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -31,7 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c",
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49",
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -101,7 +101,7 @@ Content-Type: application/json
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "0e04ecea261746bc8fbcced833cde77c",
+        "id": "b57af820b63544f6a1ebe63bfb940e49",
         "status": "active",
         "value": {
           "currency": "UAH",
@@ -132,10 +132,10 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
       },
       {
-        "id": "bd322cd551154bbe8ebd4319bdd63d0e",
+        "id": "0ef4b44761df4c04a04587ba962e6557",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -145,7 +145,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
       }
     ],
     "status": "draft",
@@ -156,7 +156,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "097876a4ccce409e85ad30246cb689af",
+        "id": "4eec7ed289df4a9c85073761e0eebedf",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -180,7 +180,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c",
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49",
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -210,7 +210,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "eedf00bccdb24a20b547ba72173a8d35"
+    "id": "2962db9abbea4fb0b3bc91032ccbade5"
   },
   "config": {
     "hasAuction": true,

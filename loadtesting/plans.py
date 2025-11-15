@@ -62,7 +62,7 @@ class User(HttpUser):
     def list_backward_opt_field(self):
         self.list(descending="1", opt_fields="dateCreated,planID")
 
-    @task(80000)
+    @task(10)
     def get_plan(self):
         try:
             uid = random.choice(PLANS)
@@ -76,34 +76,32 @@ class User(HttpUser):
         if response.status_code not in (404, 200):
             print(response.content)
 
-    # @task(10)
-    # def post_plan(self):
-    #     from data import USERS, plan
-    #     result = self.client.post(
-    #         PLANS_URL,
-    #         name="/api/plans",
-    #         json={"data": plan}
-    #     )
-    #     if result.status_code != 201:
-    #         print(result.content)
-    #     else:
-    #         response = result.json()
-    #         CREATED_PLANS.append(
-    #             (response["data"]["id"],
-    #              response["access"]["token"])
-    #         )
+    @task(10)
+    def post_plan(self):
+        from data import plan
 
-    # @task(10)
-    # def edit_plan(self):
-    #     try:
-    #         uid, token = CREATED_PLANS.pop()
-    #     except IndexError:  # if empty
-    #         return
-    #
-    #     response = self.client.patch(
-    #         f"{PLANS_URL}/{uid}?acc_token={token}",
-    #         name="/api/plans/{uuid}",
-    #         json={"data": {"status": "scheduled"}}
-    #     )
-    #     if response.status_code != 200:
-    #         print(response.json())
+        result = self.client.post(PLANS_URL, name="/api/plans", json={"data": plan})
+        if result.status_code != 201:
+            print(result.content)
+        else:
+            response = result.json()
+            CREATED_PLANS.append((response["data"]["id"], response["access"]["token"]))
+
+    @task(10)
+    def edit_plan(self):
+        try:
+            uid, token = CREATED_PLANS.pop()
+        except IndexError:  # if empty
+            return
+
+        response = self.client.patch(
+            f"{PLANS_URL}/{uid}?acc_token={token}", name="/api/plans/{uuid}", json={"data": {"status": "scheduled"}}
+        )
+        if response.status_code != 200:
+            print(response.json())
+
+    @task(1)
+    def hello_aiohttp(self):
+        response = self.client.get("/ping/")
+        if response.status_code != 200:
+            print(response.text)

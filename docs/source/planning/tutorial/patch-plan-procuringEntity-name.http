@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/647ea8f38f72484ea0245b71b7cd4231?acc_token=499da8e897254fb7a478ae7555785628 HTTP/1.0
+PATCH /api/2.5/plans/41dd1a57d4074913838107cf156a4f5f?acc_token=80859e574f134c2293a68741f9752cb3 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -41,7 +41,7 @@ Content-Type: application/json
   "data": {
     "status": "scheduled",
     "procuringEntity": {
-      "id": "3dd578dcb6d34f1fa29434f9f012065d",
+      "id": "88b1bac11a154af28d39a636d067680a",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -88,7 +88,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "d01803a5d3f6451dbfa7cc05b05fb200",
+          "id": "ebd2d1b64342489db061d882f9616ad9",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -139,7 +139,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "bdec69d290d548aca291dd58d4a1854d",
+        "id": "983235c9a84e41128bba17109da5e414",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -176,7 +176,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "id": "647ea8f38f72484ea0245b71b7cd4231"
+    "id": "41dd1a57d4074913838107cf156a4f5f"
   }
 }
 

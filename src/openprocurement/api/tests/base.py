@@ -57,6 +57,19 @@ test_signer_info = {
 }
 
 
+def unwrap_app(app):
+    """
+    Application is wrapped in prefix, request_id and transaction_logger middleware.
+    Somehow it's possible to be inconsistent across so few of them,
+    so they refer wrapped application as .app or .application.
+    :param app:
+    :return:
+    """
+    while (new_app := getattr(app, "app", None)) or (new_app := getattr(app, "application", None)):
+        app = new_app
+    return app
+
+
 class BaseWebTest(unittest.TestCase):
     """
     Base Web Test to test openprocurement.api.
@@ -78,9 +91,9 @@ class BaseWebTest(unittest.TestCase):
         if key not in app_cache:
             app_cache[key] = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
         cls.app = app_cache[key]
-        # cls.app = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
+        cls.registry = unwrap_app(cls.app).registry
 
-        cls.mongodb = cls.app.app.registry.mongodb
+        cls.mongodb = cls.registry.mongodb
         cls.clean_mongodb()
 
     def setUp(self):
@@ -101,7 +114,7 @@ class BaseWebTest(unittest.TestCase):
 @pytest.fixture(scope="session")
 def singleton_app():
     app = BaseTestApp(loadwsgiapp("config:tests.ini", relative_to=os.path.dirname(__file__)))
-    app.app.registry.docservice_url = "http://localhost"
+    unwrap_app(app).registry.docservice_url = "http://localhost"
     return app
 
 
@@ -109,7 +122,7 @@ def singleton_app():
 def app(singleton_app):
     singleton_app.authorization = None
     yield singleton_app
-    mongodb = singleton_app.app.registry.mongodb
+    mongodb = unwrap_app(singleton_app).registry.mongodb
     if hasattr(mongodb, "tenders"):
         mongodb.tenders.flush()
     if hasattr(mongodb, "plans"):

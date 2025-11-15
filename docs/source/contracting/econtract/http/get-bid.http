@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1640f9c9f12d4f74b35596c849f209a4/bids/6eb4106605214f398c4336aee7072c4c?acc_token=59d78bf3d096420083e6123a1a8f570e HTTP/1.0
+GET /api/2.5/tenders/b86d98f551fa49dfa9004373a996b627/bids/6eb4106605214f398c4336aee7072c4c?acc_token=59d78bf3d096420083e6123a1a8f570e HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -49,7 +49,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "69f64e8338624b1b96b67521e187dd15",
+          "id": "2de4ee74b54b45898ddd46d2bd7400e2",
           "title": "Форма випуску"
         },
         "values": [
@@ -63,7 +63,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "67d0045d70704ed59178df21ef252490",
+          "id": "f26994c6d1a44559b89c1f222ef7a058",
           "title": "Доза діючої речовини"
         },
         "value": 5,
@@ -79,7 +79,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "3148689ceab945a0a0acd4a1796f2298",
+          "id": "f5db16e047d64f44bae77b44d68006a7",
           "title": "Форма випуску 1"
         },
         "values": [

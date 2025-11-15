@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/cancellations/f831d34a0471424e8781aa551242a056/documents?acc_token=312a92a0096444fa9b9761b0af134205 HTTP/1.0
+POST /api/2.5/tenders/f135bade563d49fc9233e1f1d37fdcf0/cancellations/f831d34a0471424e8781aa551242a056/documents?acc_token=dc92946b9e4b4ea583fcb7d1136d6cc8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "Notice.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/20d128e9e0d94b378f0d20eff02ff88a?Signature=6Aau607x5CXp0Vdnc5a8w7oySBzRAyWHS6cwxTsQSwATWWy%2FH35Qu1XRQNFx%2BFjLb0PiNhZXvLhk25MiMr10Dw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/011516a37c734dbbb25fa3293c1b9219?Signature=AJg4NH2hiZkEfuJIneM%2Fg7e5IS5y%2FSBJsmozOw18ZxQbbxjFqOF5CO3oaQhVmtaKt1hkbeYu8rHLNrx96vRLCA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/cancellations/f831d34a0471424e8781aa551242a056/documents/4209da1a3798479080a341358dfc6a2d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f135bade563d49fc9233e1f1d37fdcf0/cancellations/f831d34a0471424e8781aa551242a056/documents/4209da1a3798479080a341358dfc6a2d
 
 {
   "data": {
@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/20d128e9e0d94b378f0d20eff02ff88a?Signature=QS7hf8dU8Isr0Gx2mdwGuwjLDNmtMoB5LiUhr9Tr9YS6ojYM4GK8efB0rqFu%2FXzy7Uma7Qi50c5nWl%2BFVfzqDQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/011516a37c734dbbb25fa3293c1b9219?Signature=BbSimHtlSPehd4BaIyr%2BHNdEuQIkpX%2FyyO5xRSPE%2BDV%2BNyGTwC%2B7lo2VGb3XJOgvA4BoiMCPC0lqVnzEjtWtBA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "4209da1a3798479080a341358dfc6a2d",

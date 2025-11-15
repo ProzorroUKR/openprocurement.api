@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "frameworkID": "93bcad4f0fe64036865492ecfe70f113",
+    "frameworkID": "093bd3718cb14e2c933c209d60e76b0b",
     "submissionID": "5e1269d73d184f65bf1f889a1abc9974",
     "qualificationType": "electronicCatalogue",
     "status": "pending",

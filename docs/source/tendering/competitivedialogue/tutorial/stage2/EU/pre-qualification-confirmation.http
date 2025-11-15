@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b?acc_token=2182f06aeee14e949d1047d91b89268d HTTP/1.0
+PATCH /api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b?acc_token=b26dbd42e5bc4b7b8cf9d32948e2c9ab HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -1143,7 +1143,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "526b7a685a8b4427b01d99ca0954cec5",
+        "id": "af834426933c49a6827f489339ebf6d4",
         "lotValues": [
           {
             "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
@@ -1159,7 +1159,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.p7s",
             "format": "sign/p7s",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/825d276709454a46939be97f92b7bf69?Signature=lf6PQxDQX6YxfEmWieNquKzkXlp0vbEKLltz%2BkyIdEaVpJ4xUgf7%2FwTniY1Q3RcEF5YHLJG996Jzz5ocsEQuCA%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/13b7a37e7fcb4e3c89c6012bb35fbe35?Signature=%2BVgDpYFt8ROko6jp3pcCiLuavdVU0ACe67dPgUWQn98xSPsF1jSvtjv0kZBtfwA7RzZ97Nv%2BW9RzSArbzTflBg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
@@ -1172,7 +1172,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids/526b7a685a8b4427b01d99ca0954cec5/documents/5b06a9da989c4515a4f2b31118482cb2?download=13b7a37e7fcb4e3c89c6012bb35fbe35",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids/af834426933c49a6827f489339ebf6d4/documents/5b06a9da989c4515a4f2b31118482cb2?download=223e4b63a6f54e16bbbcccd903732318",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
@@ -1415,7 +1415,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "88d8e0d7211445dfbd33d16c77a599c9",
+        "id": "052052ea2d0543d3a1b32c824f396644",
         "lotValues": [
           {
             "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
@@ -1647,7 +1647,7 @@ Content-Type: application/json
           }
         ],
         "status": "unsuccessful",
-        "id": "a294d5f005de48f5adf9976f46c1c4ee",
+        "id": "a2215d2df67044de94a54d4887aea9c0",
         "lotValues": [
           {
             "relatedLot": "1a0adfbe4ac4403796c2a35d1efaf96b",
@@ -1657,12 +1657,12 @@ Content-Type: application/json
         "documents": [
           {
             "confidentiality": "public",
-            "id": "f4087866f44c4f7eb87f2a561344b458",
+            "id": "df3a5130338a481f80a0248f7f9b0d81",
             "datePublished": "2023-10-10T01:03:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/328d5b2129754795ab3332190744419e?Signature=%2BfJgYx%2F65LEAbnv6PrgVoI4evhRTul5iYRAJSEP%2B7DPnXuKdz5mV2PgArkfwjW07wnaef2b4jut7%2FQmJSwsbAQ%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2bb75de80c514b19b1f38e1ca72079e5?Signature=OXTsXZs%2FXhK8vVGOM7ssY%2FQZhn0MTf6wgF7%2BoT2TxPVVVKF7%2BK3X%2FczC5XbV8BieQBAeSLEkFRbWfehIs3z8CA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk"
@@ -1670,12 +1670,12 @@ Content-Type: application/json
           {
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "id": "c8ea5e6aee4348e09aadb84fe97db1ed",
+            "id": "aa66a57bd9794b659f2468903a9890c5",
             "datePublished": "2023-10-10T01:03:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids/a294d5f005de48f5adf9976f46c1c4ee/documents/c8ea5e6aee4348e09aadb84fe97db1ed?download=42865ab1b0de4861a16a0b26900142e2",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids/a2215d2df67044de94a54d4887aea9c0/documents/aa66a57bd9794b659f2468903a9890c5?download=52f5d8e868fa4fc48e433bd1bb2861f1",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk"
@@ -1697,12 +1697,12 @@ Content-Type: application/json
         "eligibilityDocuments": [
           {
             "confidentiality": "public",
-            "id": "1e6f4c044691475b896ab9b4d3f41211",
+            "id": "8c8d35cbc2714092a8dd7f15813e0f91",
             "datePublished": "2023-10-10T01:03:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7ac6b69cc8b348fe881ef329f6e3a668?Signature=nQOxpa2%2FmiCN108r4oO41TPcTWSk793in64eiJcAISpSe5bxBf%2BYlL2ewyvkzEekTNcM5YUIZwyg8r%2Fa%2FDCFAg%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f9005257360b4b35a1f69e9c55536354?Signature=PCMQVibeK8Og45h3Z3m8kil%2BGjsgXz3XWypCEUb5T0axhY4SZWPsU8uIhiRJJIR0Gy%2BpFWByx%2FpuL7WOxBaeAw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk"
@@ -1715,7 +1715,7 @@ Content-Type: application/json
       {
         "id": "63bf01974eb14864adafa781be2a7f77",
         "author": {
-          "hash": "8a1ef4dc1cb00290a7043ca0a2ebeaba"
+          "hash": "f134fb43003eeac672ebb8c99f646d2f"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -1821,7 +1821,7 @@ Content-Type: application/json
     "qualifications": [
       {
         "id": "d38d108669794b50a50dc2a588371b08",
-        "bidID": "526b7a685a8b4427b01d99ca0954cec5",
+        "bidID": "af834426933c49a6827f489339ebf6d4",
         "lotID": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
@@ -1834,7 +1834,7 @@ Content-Type: application/json
       },
       {
         "id": "dadc246c1761425aa64da65fc8929c92",
-        "bidID": "88d8e0d7211445dfbd33d16c77a599c9",
+        "bidID": "052052ea2d0543d3a1b32c824f396644",
         "lotID": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "status": "active",
         "date": "2023-10-10T01:03:00+03:00",
@@ -1847,7 +1847,7 @@ Content-Type: application/json
       },
       {
         "id": "a72b6ea0a3be49349c634aa33a00b2ce",
-        "bidID": "a294d5f005de48f5adf9976f46c1c4ee",
+        "bidID": "a2215d2df67044de94a54d4887aea9c0",
         "lotID": "1a0adfbe4ac4403796c2a35d1efaf96b",
         "status": "unsuccessful",
         "date": "2023-10-10T01:03:00+03:00",
