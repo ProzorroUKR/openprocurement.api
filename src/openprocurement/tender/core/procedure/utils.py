@@ -611,28 +611,75 @@ def get_contract_template_names_for_prefix(
     return expected_names
 
 
+def get_contract_template_names_default(active_only: bool = True) -> set[str]:
+    template_names = set()
+    if DEFAULT_CONTRACT_TEMPLATE_KEY in CONTRACT_TEMPLATES:
+        template_names = get_contract_template_names_for_prefix(DEFAULT_CONTRACT_TEMPLATE_KEY, active_only)
+    return template_names
+
+
+def get_contract_template_names_for_classification_id(
+    classification_id: str,
+    active_only: bool = True,
+) -> set[str]:
+    template_names = set()
+
+    # Find all matching prefixes for this classification id
+    matching_prefixes = set()
+    for prefix in CONTRACT_TEMPLATES:
+        if classification_id.startswith(prefix):
+            matching_prefixes.add(prefix)
+
+    if matching_prefixes:
+        # Find templates for each matching prefix
+        for prefix in matching_prefixes:
+            prefix_expected_names = get_contract_template_names_for_prefix(prefix, active_only)
+
+            # Zero templates means we found prefix that explicitly forbids templates usage
+            # Interrupt searching and return empty set
+            if len(prefix_expected_names) == 0:
+                return set()
+
+            # Add templates to classification expected names
+            template_names.update(prefix_expected_names)
+
+    # If no templates found, use default templates
+    if len(template_names) == 0:
+        template_names = get_contract_template_names_default(active_only)
+
+    return template_names
+
+
 def get_contract_template_names_for_classification_ids(
     classification_ids: Iterable[str],
     active_only: bool = True,
 ) -> set[str]:
-    expected_names = set()
-    matching_prefixes = set()
+    template_names = set()
 
-    # Find all matching prefixes that work for all classification id's
-    for prefix in CONTRACT_TEMPLATES:
-        if all(classification_id.startswith(prefix) for classification_id in classification_ids):
-            matching_prefixes.add(prefix)
+    # Gather template names for all classifications
+    template_sets = [
+        get_contract_template_names_for_classification_id(classification_id, active_only)
+        for classification_id in classification_ids
+    ]
 
-    # If we found matching prefixes, use templates for those prefixes
-    if matching_prefixes:
-        for prefix in matching_prefixes:
-            expected_names.update(get_contract_template_names_for_prefix(prefix, active_only))
+    # Zero templates in classification template set means forbidden templates usage for this classification
+    # If all classifications forbid templates usage, then templates are forbidden overall
+    if all(len(template_set) == 0 for template_set in template_sets):
+        return set()
 
-    # If no matching prefix found, use default templates
-    elif DEFAULT_CONTRACT_TEMPLATE_KEY in CONTRACT_TEMPLATES:
-        expected_names.update(get_contract_template_names_for_prefix(DEFAULT_CONTRACT_TEMPLATE_KEY, active_only))
+    # Find intersection of all classification template sets
+    template_names = template_sets[0]
+    for template_set in template_sets[1:]:
+        template_names &= template_set
+        # Early exit if intersection becomes empty
+        if len(template_names) == 0:
+            break
 
-    return expected_names
+    # If intersection is empty, use default templates
+    if len(template_names) == 0:
+        template_names = get_contract_template_names_default(active_only)
+
+    return template_names
 
 
 def get_lot_value_status(lot_value, bid):

@@ -4165,6 +4165,11 @@ def check_minimal_step_during_activation(self):
                     "name": "03220000.0001.01",
                     "active": True,
                 },
+                {
+                    "title": "Відповідь на питання закупівлі, Всесвіту і взагалі",
+                    "name": "THE.ANSWER.TO.THE.QUESTION.0001.01",
+                    "active": True,
+                },
             ],
         },
         "03222": {
@@ -4172,6 +4177,18 @@ def check_minimal_step_during_activation(self):
                 {
                     "title": "Фрукти і горіхи",
                     "name": "03222000.0001.01",
+                    "active": True,
+                },
+            ],
+        },
+        "032222": {
+            "templates": [],
+        },
+        "42": {
+            "templates": [
+                {
+                    "title": "Відповідь на питання закупівлі, Всесвіту і взагалі",
+                    "name": "THE.ANSWER.TO.THE.QUESTION.0001.01",
                     "active": True,
                 },
             ],
@@ -4337,19 +4354,6 @@ def contract_template_name_set(self):
             response.json["errors"][0]["description"],
         )
 
-    def test_match_multiple_template_groups(template_name, classification_ids):
-        response = self.app.patch_json(
-            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-            {"data": {"contractTemplateName": template_name}},
-            status=422,
-        )
-        self.assertEqual(response.json["errors"][0]["name"], "contractTemplateName")
-        self.assertIn(
-            f"Multiple contract template groups match current classifications {', '.join(classification_ids)}. "
-            "Consider using items with classifications that belong to the same contract template group",
-            response.json["errors"][0]["description"],
-        )
-
     def test_contract_proforma():
 
         if pmt == "closeFrameworkAgreementSelectionUA" and status == "active.tendering":
@@ -4387,11 +4391,17 @@ def contract_template_name_set(self):
         if not (pmt == "closeFrameworkAgreementSelectionUA" and status == "active.tendering"):
             data.update(extra or {})
 
-        response = self.app.patch_json(
-            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-            {"data": data},
+        should_validate_items_classifications_prefix_mock_str = (
+            "openprocurement.tender.core.procedure.state.tender_details."
+            "TenderDetailsMixing.should_validate_items_classifications_prefix"
         )
-        self.assertEqual(response.status, "200 OK")
+
+        with mock.patch(should_validate_items_classifications_prefix_mock_str, False):
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+                {"data": data},
+            )
+            self.assertEqual(response.status, "200 OK")
 
         for key, value in data.items():
             self.assertEqual(response.json["data"][key], value)
@@ -4575,6 +4585,15 @@ def contract_template_name_set(self):
             classification_ids=["09310000-5"],
         )
 
+        # Test no template (multiple matching prefixes)
+        prepare_tender_state(
+            template_name=None,
+            classification_ids=["03222200-5"],
+        )
+        test_no_template(
+            classification_ids=["03222200-5"],
+        )
+
         # Test detailed
         # Example:
         # 03221113-1 (0322)
@@ -4625,6 +4644,27 @@ def contract_template_name_set(self):
         test_set_valid_value(
             template_name="03222000.0001.01",
         )
+
+        validate_classification_prefixes_disabled_pmts = ("requestForProposal",)
+
+        if pmt in validate_classification_prefixes_disabled_pmts:
+            # Example:
+            # 03222111-4 (03222)
+            # 42111111-4 (42)
+            # Allowed template names:
+            # THE.ANSWER.TO.THE.QUESTION.0001.01
+            prepare_tender_state(
+                template_name=None,
+                classification_ids=["03222111-4", "42112100-8"],
+            )
+            test_set_valid_value(
+                template_name="THE.ANSWER.TO.THE.QUESTION.0001.01",
+            )
+            test_set_invalid_value(
+                template_name="03222000.0001.01",
+                allowed_template_names=["THE.ANSWER.TO.THE.QUESTION.0001.01"],
+                classification_ids=["03222111-4", "42112100-8"],
+            )
 
 
 def set_procuring_entity_signer_info(self):
