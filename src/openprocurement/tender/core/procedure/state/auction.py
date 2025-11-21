@@ -126,11 +126,9 @@ class ShouldStartAfterMixing:
 
     @staticmethod
     def get_auction_should_start_after_allowed_statuses(tender):
-        allowed_statuses = ["draft", "draft.stage2", "active.auction"]
+        allowed_statuses = ["draft", "draft.stage2", "active.enquiries", "active.tendering", "active.auction"]
         if tender["config"]["hasPrequalification"]:
-            allowed_statuses.append("active.pre-qualification.stand-still")
-        else:
-            allowed_statuses.append("active.tendering")
+            allowed_statuses.extend(["active.pre-qualification", "active.pre-qualification.stand-still"])
         return allowed_statuses
 
     @classmethod
