@@ -9,6 +9,7 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 class PQCancellationStateMixing(BelowThresholdCancellationStateMixing):
     _after_release_reason_types = [
         "noDemand",
+        "unFixable",
         "forceMajeure",
         "expensesCut",
     ]
