@@ -1037,7 +1037,8 @@ Content-Type: application/json
         "fundingKind": "other",
         "yearlyPaymentsPercentageRange": 0.8,
         "auctionPeriod": {
-          "startDate": "2023-12-08T12:22:15.236000+02:00"
+          "startDate": "2023-12-08T12:22:15.236000+02:00",
+          "shouldStartAfter": "2023-12-08T00:00:00+02:00"
         }
       }
     ],

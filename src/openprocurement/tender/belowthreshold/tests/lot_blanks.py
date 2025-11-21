@@ -736,12 +736,15 @@ def get_tender_lot(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
+    self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+    self.assertNotIn("endDate", lot["auctionPeriod"])
 
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        set(response.json["data"]), {"id", "date", "title", "description", "minimalStep", "value", "status"}
+        set(response.json["data"]),
+        {"id", "date", "title", "description", "minimalStep", "value", "status", "auctionPeriod"},
     )
 
     self.set_status("active.qualification")
@@ -750,8 +753,12 @@ def get_tender_lot(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     api_lot = response.json["data"]
+    self.assertIn("endDate", api_lot["auctionPeriod"])
+    self.assertNotIn("shouldStartAfter", api_lot["auctionPeriod"])
     if "auctionPeriod" in api_lot:
         api_lot.pop("auctionPeriod")
+    if "auctionPeriod" in lot:
+        lot.pop("auctionPeriod")
     self.assertEqual(api_lot, lot)
 
     response = self.app.get("/tenders/{}/lots/some_id".format(self.tender_id), status=404)
@@ -774,13 +781,15 @@ def get_tender_lots(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
+    self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+    self.assertNotIn("endDate", lot["auctionPeriod"])
 
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         set(response.json["data"][-1]),
-        {"id", "date", "title", "description", "minimalStep", "value", "status"},
+        {"id", "date", "title", "description", "minimalStep", "value", "status", "auctionPeriod"},
     )
 
     self.set_status("active.qualification")
@@ -789,8 +798,12 @@ def get_tender_lots(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     api_lot = response.json["data"][-1]
+    self.assertIn("endDate", api_lot["auctionPeriod"])
+    self.assertNotIn("shouldStartAfter", api_lot["auctionPeriod"])
     if "auctionPeriod" in api_lot:
         api_lot.pop("auctionPeriod")
+    if "auctionPeriod" in lot:
+        lot.pop("auctionPeriod")
     self.assertEqual(api_lot, lot)
 
     response = self.app.get("/tenders/some_id/lots", status=404)

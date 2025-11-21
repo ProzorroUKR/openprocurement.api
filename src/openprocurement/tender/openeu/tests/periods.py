@@ -11,11 +11,12 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -timedelta(days=1),
-                "endDate": TENDERING_DURATION - QUESTIONS_STAND_STILL,
+                "endDate": TENDERING_DURATION + timedelta(days=1) - QUESTIONS_STAND_STILL,
             },
             "tenderPeriod": {
                 "startDate": -timedelta(days=1),
-                "endDate": TENDERING_DURATION,
+                # we don't want to recalculate auctionPeriod (tenderPeriod.eendDate should be the same as in draft)
+                "endDate": TENDERING_DURATION + timedelta(days=1),
             },
         },
         "enquiry_end": {

@@ -919,8 +919,6 @@ class BaseTenderDetailsMixing:
             tender=tender,
             working_days=self.working_days_config["minEnquiriesDuration"],
         )
-        print(min_end_date)
-        print(end_date)
         if parse_date(end_date) < min_end_date:
             type = "business" if self.working_days_config["minEnquiriesDuration"] else "calendar"
             raise_operation_error(
