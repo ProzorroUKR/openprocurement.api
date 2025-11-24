@@ -2,6 +2,8 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
+from freezegun import freeze_time
+
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
@@ -238,6 +240,8 @@ def patch_tender_qualifications_after_status_change(self):
 
 
 def check_reporting_date_publication(self):
+    response = self.app.get(f"/tenders/{self.tender_id}?acc_token={self.tender_token}")
+    prev_qualification_end_date = response.json["data"]["qualificationPeriod"]["endDate"]
     response = self.app.get(f"/tenders/{self.tender_id}/qualifications?acc_token={self.tender_token}")
     self.assertEqual(response.content_type, "application/json")
     qualifications = response.json["data"]
@@ -251,13 +255,17 @@ def check_reporting_date_publication(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], status)
     self.add_sign_doc(self.tender_id, self.tender_token, document_type="evaluationReports")
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active.pre-qualification.stand-still"}},
-    )
+    with freeze_time(prev_qualification_end_date):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active.pre-qualification.stand-still"}},
+        )
     self.assertEqual(response.status, "200 OK")
     qualification_period = response.json["data"]["qualificationPeriod"]
     self.assertIn("reportingDatePublication", qualification_period)
+    self.assertEqual(
+        qualification_period["endDate"], response.json["data"]["qualifications"][-1]["complaintPeriod"]["endDate"]
+    )
     reporting_date = parse_date(qualification_period["reportingDatePublication"])
 
     qualifications = response.json["data"]["qualifications"]

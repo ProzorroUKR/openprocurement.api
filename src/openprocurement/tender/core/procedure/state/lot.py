@@ -98,7 +98,7 @@ class LotStateMixin:
         data["auctionPeriod"] = auction_period
         # if auctionPeriod was calculated in draft tender before lots were added
         if tender.get("auctionPeriod"):
-            del tender["auctionPeriod"]
+            tender["auctionPeriod"] = None
 
     def validate_lots_unique(self) -> None:
         tender = get_tender()

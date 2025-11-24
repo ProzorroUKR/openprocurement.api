@@ -968,6 +968,8 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_qualification_period(tender, start_date):
+        if tender["config"]["hasPrequalification"] is False:
+            return
         qualification_duration = tender["config"]["qualificationDuration"]
         if qualification_duration > 0:
             end_date = calculate_tender_full_date(

@@ -57,7 +57,7 @@ class ShouldStartAfterMixing:
                         del lot["auctionPeriod"]
             # if auctionPeriod was calculated in draft tender before lots were added
             if tender.get("auctionPeriod"):
-                del tender["auctionPeriod"]
+                tender["auctionPeriod"] = None
 
         else:
             period = tender.get("auctionPeriod", {})
