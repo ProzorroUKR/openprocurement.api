@@ -6,8 +6,7 @@ from uuid import uuid4
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
     TENDER_CAUSE,
-    TENDER_CAUSE_DECREE_1178,
-    TENDER_CAUSE_LAW_922,
+    TENDER_CAUSE_REPORTING,
 )
 from openprocurement.api.constants_env import (
     NEW_NEGOTIATION_CAUSES_FROM,
@@ -1663,7 +1662,7 @@ def tender_cause_reporting(self):
             {
                 "location": "body",
                 "name": "causeDetails",
-                "description": {"title": [f"Value must be one of {TENDER_CAUSE_DECREE_1178}."]},
+                "description": {"title": [f"Value must be one of {TENDER_CAUSE_REPORTING}."]},
             }
         ],
     )
@@ -1676,7 +1675,7 @@ def tender_cause_reporting(self):
             {
                 "location": "body",
                 "name": "causeDetails",
-                "description": {"title": [f"Value must be one of {TENDER_CAUSE_LAW_922}."]},
+                "description": {"title": [f"Value must be one of {TENDER_CAUSE_REPORTING}."]},
             }
         ],
     )
