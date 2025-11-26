@@ -1789,15 +1789,15 @@ Content-Type: application/json
           "amount": 5.0
         },
         "auctionPeriod": {
-          "startDate": "2023-11-03T15:28:52.219000+02:00",
-          "shouldStartAfter": "2023-11-03T00:00:00+02:00"
+          "startDate": "2023-10-11T15:28:52.219000+03:00",
+          "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/63f6240986e249dd8322133f0b7b7122_1a0adfbe4ac4403796c2a35d1efaf96b"
       }
     ],
     "qualificationPeriod": {
       "startDate": "2023-10-05T01:03:00+03:00",
-      "endDate": "2023-11-03T00:00:00+02:00",
+      "endDate": "2023-10-10T01:03:00+03:00",
       "reportingDatePublication": "2023-10-05T01:03:00+03:00"
     },
     "qualifications": [
@@ -1975,7 +1975,7 @@ Content-Type: application/json
       }
     ],
     "status": "active.auction",
-    "next_check": "2023-11-03T15:28:52.219000+02:00",
+    "next_check": "2023-10-11T15:28:52.219000+03:00",
     "auctionPeriod": {},
     "id": "63f6240986e249dd8322133f0b7b7122"
   },

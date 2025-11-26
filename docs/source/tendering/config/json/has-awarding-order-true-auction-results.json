@@ -1913,10 +1913,6 @@
                 "telephone": "+380950000000"
             }
         },
-        "qualificationPeriod": {
-            "endDate": "2023-11-08T00:00:00+02:00",
-            "startDate": "2023-10-10T01:00:00+03:00"
-        },
         "questions": [
             {
                 "answer": "\u0422\u0430\u0431\u043b\u0438\u0446\u044e \u0434\u043e\u0434\u0430\u043d\u043e \u0432 \u0444\u0430\u0439\u043b\u0456 \"Kalorijnist.xslx\"",

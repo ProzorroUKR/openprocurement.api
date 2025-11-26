@@ -1857,8 +1857,8 @@ Content-Type: application/json
         "fundingKind": "other",
         "yearlyPaymentsPercentageRange": 0.8,
         "auctionPeriod": {
-          "startDate": "2023-11-03T13:01:01.441000+02:00",
-          "shouldStartAfter": "2023-11-03T00:00:00+02:00"
+          "startDate": "2023-10-11T13:01:01.441000+03:00",
+          "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_16dcfa2a699842d3a0f9b9553db58532"
       }
@@ -1955,7 +1955,7 @@ Content-Type: application/json
     },
     "qualificationPeriod": {
       "startDate": "2023-10-05T01:02:01+03:00",
-      "endDate": "2023-11-03T00:00:00+02:00",
+      "endDate": "2023-10-10T01:02:01+03:00",
       "reportingDatePublication": "2023-10-05T01:02:01+03:00"
     },
     "qualifications": [
@@ -2003,7 +2003,7 @@ Content-Type: application/json
       "startDate": "2023-09-09T01:02:01+03:00",
       "endDate": "2023-10-06T00:00:00+03:00"
     },
-    "next_check": "2023-11-03T13:01:01.441000+02:00",
+    "next_check": "2023-10-11T13:01:01.441000+03:00",
     "auctionPeriod": {},
     "id": "552fdec279c740ab85e2b30af7a37d37"
   },

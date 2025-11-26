@@ -164,10 +164,6 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",
-    "qualificationPeriod": {
-      "startDate": "2023-10-24T01:00:00+03:00",
-      "endDate": "2023-11-22T00:00:00+02:00"
-    },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "lots": [

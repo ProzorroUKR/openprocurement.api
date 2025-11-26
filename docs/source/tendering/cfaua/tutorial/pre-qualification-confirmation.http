@@ -2162,7 +2162,7 @@ Content-Type: application/json
           "currency": "USD"
         },
         "auctionPeriod": {
-          "startDate": "2023-10-16T12:04:26.072000+03:00",
+          "startDate": "2023-10-16T12:29:40.230000+03:00",
           "shouldStartAfter": "2023-10-16T00:00:00+03:00"
         }
       }

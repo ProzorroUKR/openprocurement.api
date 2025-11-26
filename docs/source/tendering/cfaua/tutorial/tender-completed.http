@@ -2091,7 +2091,7 @@ Content-Type: application/json
     ],
     "qualificationPeriod": {
       "startDate": "2023-09-24T01:02:01+03:00",
-      "endDate": "2023-10-21T00:00:00+03:00",
+      "endDate": "2023-09-29T01:02:01+03:00",
       "reportingDatePublication": "2023-09-24T01:02:01+03:00"
     },
     "complaintPeriod": {
