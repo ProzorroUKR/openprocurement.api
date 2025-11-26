@@ -8,7 +8,6 @@ from openprocurement.api.procedure.types import HashType
 from openprocurement.tender.core.procedure.models.document import (
     BaseDocument,
     BasePostDocument,
-    validate_relatedItem,
 )
 
 
@@ -45,6 +44,3 @@ class Document(BaseDocument):
     dateModified = StringType()
     author = StringType()
     language = StringType(choices=["uk", "en", "ru"])
-
-    def validate_relatedItem(self, data, related_item):
-        validate_relatedItem(related_item, data.get("documentOf"))
