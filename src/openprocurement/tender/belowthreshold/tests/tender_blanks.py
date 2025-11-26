@@ -1273,8 +1273,6 @@ def create_tender_generated(self):
         fields.append("funders")
     if "procurementMethodDetails" in tender:
         fields.append("procurementMethodDetails")
-    if self.initial_data["procurementMethodType"] == "requestForProposal":
-        fields.append("qualificationPeriod")
     self.assertEqual(set(tender), set(fields))
     self.assertNotEqual(data["id"], tender["id"])
 
@@ -1712,8 +1710,6 @@ def tender_fields(self):
         "documents",
         "noticePublicationDate",
     }
-    if self.initial_data["procurementMethodType"] == "requestForProposal":
-        fields.add("qualificationPeriod")
     self.assertEqual(
         set(tender) - set(self.initial_data),
         fields,

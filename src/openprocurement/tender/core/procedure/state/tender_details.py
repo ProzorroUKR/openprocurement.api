@@ -256,6 +256,8 @@ class BaseTenderDetailsMixing:
         self.validate_contract_template_name(tender, {})
         self.validate_criteria_classification(tender.get("criteria", []))
         self.validate_criteria_requirements_rules(tender.get("criteria", []))
+        if tender_period_end_date := tender.get("tenderPeriod", {}).get("endDate"):
+            self.calc_qualification_period(tender, dt_from_iso(tender_period_end_date))
         super().on_post(tender)
 
         # set author for documents passed with tender data
@@ -323,6 +325,10 @@ class BaseTenderDetailsMixing:
                         self.validate_minimal_step(after, before=before)
         else:
             self.validate_change_item_profile_or_category(after, before)
+        if after.get("tenderPeriod", {}).get("endDate") and after["tenderPeriod"]["endDate"] != before.get(
+            "tenderPeriod", {}
+        ).get("endDate"):
+            self.calc_qualification_period(after, dt_from_iso(after["tenderPeriod"]["endDate"]))
 
         super().on_patch(before, after)
 
