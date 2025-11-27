@@ -110,7 +110,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "mainProcurementCategory": "services",
     "causeDetails": {
-      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+      "code": "defencePurchase"
     }
   },
   "config": {
@@ -151,7 +151,7 @@ Content-Type: application/json
       "location": "body",
       "name": "causeDetails",
       "description": {
-        "code": [
+        "description": [
           "This field is required."
         ]
       }

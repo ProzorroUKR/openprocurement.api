@@ -83,18 +83,18 @@ class CauseDetailsMixing:
             if cause_details.get("code") not in CAUSE_DETAILS_MAPPING[procurement_method_type]:
                 raise_operation_error(
                     self.request,
-                    f"Value must be one of {list(CAUSE_DETAILS_MAPPING[procurement_method_type].keys())}.",
+                    {"code": [f"Value must be one of {list(CAUSE_DETAILS_MAPPING[procurement_method_type].keys())}."]},
                     status=422,
                     location="body",
-                    name="causeDetails.code",
+                    name="causeDetails",
                 )
             if cause_details.get("code") and not cause_details.get("description"):
                 raise_operation_error(
                     self.request,
-                    "This field is required.",
+                    {"description": ["This field is required."]},
                     status=422,
                     location="body",
-                    name="causeDetails.description",
+                    name="causeDetails",
                 )
             cause_code = cause_details["code"]
             cause_details.update(
