@@ -293,21 +293,21 @@ TENDER_CAUSE = {
     key for key, desc in standards.load("codelists/tender/tender_cause.json").items() if desc["archive"] is False
 }
 
-TENDER_CAUSE_REPORTING = dict()
+TENDER_CAUSE_REPORTING = {}
 TENDER_CAUSE_REPORTING_ALL = standards.load("codelists/tender/tender_cause_details/reporting.json")
 
 for key, desc in TENDER_CAUSE_REPORTING_ALL.items():
     if desc["archive"] is False:
         TENDER_CAUSE_REPORTING[key] = desc
 
-TENDER_CAUSE_NEGOTIATION = dict()
+TENDER_CAUSE_NEGOTIATION = {}
 TENDER_CAUSE_NEGOTIATION_ALL = standards.load("codelists/tender/tender_cause_details/negotiation.json")
 
 for key, desc in TENDER_CAUSE_NEGOTIATION_ALL.items():
     if desc["archive"] is False:
         TENDER_CAUSE_NEGOTIATION[key] = desc
 
-TENDER_CAUSE_NEGOTIATION_QUICK = dict()
+TENDER_CAUSE_NEGOTIATION_QUICK = {}
 TENDER_CAUSE_NEGOTIATION_QUICK_ALL = standards.load("codelists/tender/tender_cause_details/negotiation.quick.json")
 
 for key, desc in TENDER_CAUSE_NEGOTIATION_QUICK_ALL.items():

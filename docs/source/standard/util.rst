@@ -413,7 +413,7 @@ CauseDetails
 Scheme
 ------
 
-:title:
+:code:
     string, required for **negotiation** and **negotiation.quick** procedures.
     Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:
 
@@ -423,24 +423,30 @@ Scheme
 
     Causes for using reporting, negotiation or negotiation.quick procedures.
 
-    Possible values in `tender causes law 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_law_922.json>`_
-    and `tender causes decree 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_decree_1178.json>`_ dictionaries.
+    Possible values are in dictionaries depends on `procurementMethodType`:
 
-
-    Only in :ref:`limited`.
+        * `reporting <https://github.com/ProzorroUKR/standards/blob/7639b9ff42492ebc2b5217f10c24242c205d3019/codelists/tender/tender_cause_details/reporting.json>`_
+        * `negotiation <https://github.com/ProzorroUKR/standards/blob/7639b9ff42492ebc2b5217f10c24242c205d3019/codelists/tender/tender_cause_details/negotiation.json>`_
+        * `negotiation.quick <https://github.com/ProzorroUKR/standards/blob/7639b9ff42492ebc2b5217f10c24242c205d3019/codelists/tender/tender_cause_details/negotiation.quick.json>`_
 
 :scheme:
-    string, required
+    string
 
-    Type of tender cause schema.
+    Scheme of tender cause justification.
+    Automatically set in CDB based on dictionary value.
     Possible values are:
 
     * `LAW922`
     * `DECREE1178`
 
+:title:
+    string, multilingual
+
+    Legal justification for usage of reporting, negotiation or negotiation.quick procedures.
+    Automatically set in CDB based on dictionary value.
+
+
 :description:
     string, multilingual
 
     Reasoning behind usage of reporting, negotiation or negotiation.quick procedures.
-
-    Only in :ref:`limited`

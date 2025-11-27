@@ -6,6 +6,8 @@ from uuid import uuid4
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
     TENDER_CAUSE,
+    TENDER_CAUSE_NEGOTIATION,
+    TENDER_CAUSE_NEGOTIATION_QUICK,
     TENDER_CAUSE_REPORTING,
 )
 from openprocurement.api.constants_env import (
@@ -1411,7 +1413,7 @@ def tender_cause(self):
         [{"description": "This field is required.", "location": "body", "name": "causeDetails"}],
     )
 
-    data["causeDetails"] = {"title": "additionalPurchase", "scheme": "LAW922"}
+    data["causeDetails"] = {"code": "additionalPurchase", "scheme": "LAW922", "description": "test"}
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
 
@@ -1420,10 +1422,10 @@ def tender_cause(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"causeDetails": {"title": "stateLegalServices", "scheme": "LAW922"}}},
+        {"data": {"causeDetails": {"code": "stateLegalServices", "scheme": "LAW922", "description": "test"}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["causeDetails"]["title"], "stateLegalServices")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "stateLegalServices")
 
 
 def tender_cause_quick(self):
@@ -1452,7 +1454,7 @@ def tender_cause_quick(self):
         [{"description": "This field is required.", "location": "body", "name": "causeDetails"}],
     )
 
-    data["causeDetails"] = {"title": "additionalConstruction", "scheme": "LAW922"}
+    data["causeDetails"] = {"code": "additionalConstruction", "scheme": "LAW922", "description": "test"}
 
     with mock.patch(constant_target_1, get_now() - timedelta(days=1)):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -1497,19 +1499,14 @@ def tender_cause_choices(self):
 
     del data["cause"]
     data["causeDetails"] = {
-        "title": "hematopoieticStemCells",
-        "scheme": "LAW922",
-    }  # value from dictionary, but not from the state choices
-    choices = (
-        "additionalPurchase",
-        "additionalConstruction",
-        "stateLegalServices",
-        "artPurchase",
-        "contestWinner",
-        "technicalReasons",
-        "intProperty",
-        "lastHope",
-    )
+        "code": "hematopoieticStemCells",
+        "description": "test",
+    }  # value from another dictionary
+    cause_choices_map = {
+        "negotiation": list(TENDER_CAUSE_NEGOTIATION.keys()),
+        "negotiation.quick": list(TENDER_CAUSE_NEGOTIATION_QUICK.keys()),
+    }
+    choices = cause_choices_map.get(data["procurementMethodType"])
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1518,9 +1515,9 @@ def tender_cause_choices(self):
         response.json["errors"],
         [
             {
-                "description": f"Value for negotiation must be one of {choices}.",
+                "description": {"code": [f"Value must be one of {choices}."]},
                 "location": "body",
-                "name": "causeDetails.title",
+                "name": "causeDetails",
             }
         ],
     )
@@ -1529,9 +1526,18 @@ def tender_cause_choices(self):
 def tender_cause_desc(self):
     data = deepcopy(self.initial_data)
     del data["causeDetails"]["description"]
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertNotIn("causeDescription", response.json["data"])  # causeDetails.description is optional
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": {"description": ["This field is required."]},
+                "location": "body",
+                "name": "causeDetails",
+            }
+        ],
+    )  # causeDetails.description is required
 
     data["causeDetails"]["description"] = "blue pine"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -1633,15 +1639,31 @@ def tender_cause_reporting(self):
             {
                 "location": "body",
                 "name": "causeDetails",
-                "description": {"title": ["This field is required."], "scheme": ["This field is required."]},
+                "description": {"code": ["This field is required."]},
             }
         ],
     )
 
     data["causeDetails"] = {
-        "title": "noCompetition",
+        "code": "noCompetition",
+    }
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "causeDetails",
+                "description": {"code": [f"Value must be one of {list(TENDER_CAUSE_REPORTING.keys())}."]},
+            }
+        ],
+    )
+
+    data["causeDetails"] = {
+        "code": "naturalGas",
         "scheme": "test",
     }
+
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
@@ -1654,19 +1676,6 @@ def tender_cause_reporting(self):
         ],
     )
 
-    data["causeDetails"]["scheme"] = "DECREE1178"
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "causeDetails",
-                "description": {"title": [f"Value must be one of {TENDER_CAUSE_REPORTING}."]},
-            }
-        ],
-    )
-
     data["causeDetails"]["scheme"] = "LAW922"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
@@ -1675,13 +1684,16 @@ def tender_cause_reporting(self):
             {
                 "location": "body",
                 "name": "causeDetails",
-                "description": {"title": [f"Value must be one of {TENDER_CAUSE_REPORTING}."]},
+                "description": {"description": ["This field is required."]},
             }
         ],
     )
 
     # set both fields causeDetails and cause
-    data["causeDetails"]["title"] = "lastHope"
+    data["causeDetails"] = {
+        "code": "lastHope",
+        "description": "cause description",
+    }
     data["cause"] = "naturalGas"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
@@ -1697,7 +1709,7 @@ def tender_cause_reporting(self):
                 {
                     "location": "body",
                     "name": "cause",
-                    "description": "Fields should be equal: cause and causeDetails.title.",
+                    "description": "Fields should be equal: cause and causeDetails.code.",
                 }
             ],
         )
@@ -1713,7 +1725,6 @@ def tender_cause_reporting(self):
 
     del data["cause"]
     data["causeDescription"] = "test"
-    data["causeDetails"]["description"] = "another test"
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
@@ -1733,7 +1744,7 @@ def tender_cause_reporting(self):
             ],
         )
 
-        data["causeDescription"] = "another test"
+        data["causeDescription"] = "cause description"
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         tender_id = response.json["data"]["id"]
@@ -1762,10 +1773,19 @@ def tender_cause_reporting(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"causeDetails": {"title": "stateLegalServices", "scheme": "LAW922", "description": "foo"}}},
+        {"data": {"causeDetails": {"code": "stateLegalServices", "scheme": "LAW922", "description": "foo"}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["causeDetails"]["title"], "stateLegalServices")
+    self.assertEqual(
+        response.json["data"]["causeDetails"],
+        {
+            'code': 'stateLegalServices',
+            'scheme': 'DECREE1178',
+            'description': 'foo',
+            'title': 'Підпункт 10 пункту 13',
+            'title_en': 'Subparagraph 10 of paragraph 13',
+        },
+    )
 
     # patch cause in active status
     response = self.app.patch_json(f"/tenders/{tender_id}?acc_token={owner_token}", {"data": {"status": "active"}})
@@ -1775,10 +1795,10 @@ def tender_cause_reporting(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"causeDetails": {"title": "additionalPurchase", "scheme": "LAW922", "description": "foo"}}},
+        {"data": {"causeDetails": {"code": "additionalPurchase", "scheme": "LAW922", "description": "foo"}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["causeDetails"]["title"], "additionalPurchase")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "additionalPurchase")
 
     # try to delete procurementMethodRationale in active tender without cause
     data = deepcopy(self.initial_data)

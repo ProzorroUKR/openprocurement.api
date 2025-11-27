@@ -110,8 +110,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "mainProcurementCategory": "services",
     "causeDetails": {
-      "title": "defencePurchase",
-      "scheme": "DECREE1178",
+      "code": "defencePurchase",
       "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
     }
   },
@@ -258,11 +257,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
       }
     ],
     "causeDetails": {
-      "title": "defencePurchase",
+      "code": "defencePurchase",
+      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
       "scheme": "DECREE1178",
-      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+      "title": "Підпункт 21 пункту 13",
+      "title_en": "Subparagraph 21 of paragraph 13"
     },
-    "tenderID": "UA-2023-10-10-000002-a",
+    "tenderID": "UA-2023-10-10-000003-a",
     "owner": "broker",
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",

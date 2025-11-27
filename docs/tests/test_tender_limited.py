@@ -22,15 +22,13 @@ test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 award_negotiation['value']['valueAddedTaxIncluded'] = False
 test_tender_negotiation_data['procurementMethodType'] = "negotiation"
 test_tender_negotiation_data['causeDetails'] = {
-    "title": "lastHope",
-    "scheme": "LAW922",
+    "code": "lastHope",
     "description": "оригінальний тендер не вдався двічі",
     "description_en": "the original tender failed twice",
 }
 test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
 test_tender_negotiation_quick_data['causeDetails'] = {
-    "title": "lastHope",
-    "scheme": "LAW922",
+    "code": "lastHope",
     "description": "оригінальний тендер не вдався двічі",
     "description_en": "the original tender failed twice",
 }
@@ -98,8 +96,17 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             )
 
         reporting_data["causeDetails"] = {
-            "title": "defencePurchase",
-            "scheme": "DECREE1178",
+            "code": "defencePurchase",
+        }
+        with open(
+            TARGET_DIR + 'tutorial/create-tender-reporting-cause-details-description-required.http', 'w'
+        ) as self.app.file_obj:
+            self.app.post_json(
+                '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}, status=422
+            )
+
+        reporting_data["causeDetails"] = {
+            "code": "defencePurchase",
             "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
         }
 
