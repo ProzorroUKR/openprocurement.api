@@ -1,6 +1,5 @@
 import json
 import logging
-from copy import deepcopy
 from unittest.mock import ANY
 
 from pymongo import UpdateOne
@@ -86,8 +85,6 @@ class Migration(CollectionMigration):
         }
 
     def update_document(self, doc, context=None):
-        prev_doc = deepcopy(doc)
-
         procurement_method_type = doc.get("procurementMethodType", "")
 
         if "complaints" in doc:
@@ -115,26 +112,7 @@ class Migration(CollectionMigration):
                         award_id=award_id,
                     )
 
-        if prev_doc != doc:
-            if "revisions" in doc and doc["revisions"]:
-                last_revision = doc["revisions"][-1]
-                if "changes" in last_revision and last_revision["changes"]:
-
-                    def _change_key(change):
-                        path = change.get("path", "")
-                        if path.startswith("/complaints"):
-                            order = 0
-                        elif path.startswith("/qualifications"):
-                            order = 1
-                        elif path.startswith("/awards"):
-                            order = 2
-                        else:
-                            order = 99
-                        return (order, path)
-
-                    last_revision["changes"].sort(key=_change_key)
-
-            return doc
+        return doc
 
     def process_complaints_list(self, complaints, doc, procurement_method_type, qualification_id=None, award_id=None):
         """Process a list of complaints and add documents to them"""
@@ -159,17 +137,14 @@ class Migration(CollectionMigration):
                         key = urlparse(document["url"]).path.split("/")[-1]
 
                         if key in existing_keys:
-                            if qualification_id:
-                                logger.info(
-                                    f"Document already exists with key {key} in tender {tender_id} "
-                                    f"qualification {qualification_id}"
+                            logger.info(
+                                f"Document already exists with key {key} in tender {tender_id}"
+                                + (
+                                    (qualification_id and f" qualification {qualification_id}")
+                                    or (award_id and f" award {award_id}")
+                                    or ""
                                 )
-                            elif award_id:
-                                logger.info(
-                                    f"Document already exists with key {key} in tender {tender_id} award {award_id}"
-                                )
-                            else:
-                                logger.info(f"Document already exists with key {key} in tender {tender_id}")
+                            )
                             continue
 
                         documents[index] = self.fill_document(
@@ -186,15 +161,14 @@ class Migration(CollectionMigration):
 
                         complaint["documents"].append(documents[index])
 
-                        if qualification_id:
-                            logger.info(
-                                f"Document added with key {key} in tender {tender_id} "
-                                f"qualification {qualification_id}"
+                        logger.info(
+                            f"Document added with key {key} in tender {tender_id}"
+                            + (
+                                (qualification_id and f" qualification {qualification_id}")
+                                or (award_id and f" award {award_id}")
+                                or ""
                             )
-                        elif award_id:
-                            logger.info(f"Document added with key {key} in tender {tender_id} award {award_id}")
-                        else:
-                            logger.info(f"Document added with key {key} in tender {tender_id}")
+                        )
 
     def fill_document(self, document, doc, complaint, procurement_method_type, qualification_id=None, award_id=None):
         set_request_now()
@@ -209,17 +183,26 @@ class Migration(CollectionMigration):
 
         if qualification_id:
             post_document["url"] = (
-                f"/tenders/{doc['_id']}/qualifications/{qualification_id}/complaints/{complaint['id']}"
-                f"/documents/{post_document['id']}?download={key}"
+                f"/tenders/{doc['_id']}"
+                f"/qualifications/{qualification_id}"
+                f"/complaints/{complaint['id']}"
+                f"/documents/{post_document['id']}"
+                f"?download={key}"
             )
         elif award_id:
             post_document["url"] = (
-                f"/tenders/{doc['_id']}/awards/{award_id}/complaints/{complaint['id']}"
-                f"/documents/{post_document['id']}?download={key}"
+                f"/tenders/{doc['_id']}"
+                f"/awards/{award_id}"
+                f"/complaints/{complaint['id']}"
+                f"/documents/{post_document['id']}"
+                f"?download={key}"
             )
         else:
             post_document["url"] = (
-                f"/tenders/{doc['_id']}/complaints/{complaint['id']}/documents/{post_document['id']}?download={key}"
+                f"/tenders/{doc['_id']}"
+                f"/complaints/{complaint['id']}"
+                f"/documents/{post_document['id']}"
+                f"?download={key}"
             )
 
         if procurement_method_type == "belowThreshold":
@@ -277,6 +260,17 @@ class Migration(CollectionMigration):
                 "created_at": "2019-12-26 17:41:08",
                 "updated_at": "2020-06-09 16:44:17",
             },
+            {
+                "complaint_id": "95c62cc027c4405d89abaf1702dde32b",
+                "json": {
+                    "url": "https://public.docs.openprocurement.org/get/8f27273968fa4705bef5d732dc7b31ad?KeyID=2a446ee0&Signature=nBIXqUIwkzKiob8jCpN7GhuLU9m2imFePajyq4vRd01ybFPK3o194qeSZaPg4MsXYZTVf49h2SFsQlFMfocJDA%253D%253D",
+                    "hash": "md5:8b651030203fcf2373e1ab16926743ad",
+                    "title": "рішення від 18.05.2020 № 9540.pdf",
+                    "format": "application/pdf",
+                },
+                "created_at": "2020-05-18 18:16:47",
+                "updated_at": "2020-06-09 16:42:41",
+            },
         ]
 
         mock_collection = self.run_test_data(
@@ -300,7 +294,7 @@ class Migration(CollectionMigration):
                     ],
                     "qualifications": [
                         {
-                            "id": "qual_123",
+                            "id": "483d0d588cd643f69174b6ab61e49891",
                             "complaints": [
                                 {
                                     "id": "007230d6141345fb9043f53f3be6c928",
@@ -332,7 +326,7 @@ class Migration(CollectionMigration):
                                     "hash": "md5:0019d23bef56a136a1891211d7007f6f",
                                     "title": "existing_document.pdf",
                                     "format": "application/pdf",
-                                    "url": "/tenders/2ae66bda17f640e490b68cf6180609fd/complaints/95c62cc027c4405d89abaf1702dde32b/documents/a82d1c4958c8435f955344fa3b7b4872?download=582e43df6e404681ab588f41f0dbe11c",
+                                    "url": "/tenders/2ae66bda17f640e490b68cf6180609fd/complaints/95c62cc027c4405d89abaf1702dde32b/documents/a82d1c4958c8435f955344fa3b7b4872?download=8f27273968fa4705bef5d732dc7b31ad",
                                     "documentOf": "tender",
                                     "dateModified": "2024-12-16T15:16:21.690739+02:00",
                                     "author": "complaint_owner",
@@ -343,7 +337,7 @@ class Migration(CollectionMigration):
                     ],
                     "awards": [
                         {
-                            "id": "award_456",
+                            "id": "9e0c4ece9fb44d0bb2d540b9939f87dc",
                             "complaints": [
                                 {
                                     "id": "e1c083ec6fe1409984bb0b275fd8b365",
@@ -432,7 +426,7 @@ class Migration(CollectionMigration):
                         ],
                         "qualifications": [
                             {
-                                "id": "qual_123",
+                                "id": "483d0d588cd643f69174b6ab61e49891",
                                 "complaints": [
                                     {
                                         "id": "007230d6141345fb9043f53f3be6c928",
@@ -492,7 +486,7 @@ class Migration(CollectionMigration):
                                         "hash": "md5:0019d23bef56a136a1891211d7007f6f",
                                         "title": "existing_document.pdf",
                                         "format": "application/pdf",
-                                        "url": "/tenders/2ae66bda17f640e490b68cf6180609fd/complaints/95c62cc027c4405d89abaf1702dde32b/documents/a82d1c4958c8435f955344fa3b7b4872?download=582e43df6e404681ab588f41f0dbe11c",
+                                        "url": "/tenders/2ae66bda17f640e490b68cf6180609fd/complaints/95c62cc027c4405d89abaf1702dde32b/documents/a82d1c4958c8435f955344fa3b7b4872?download=8f27273968fa4705bef5d732dc7b31ad",
                                         "documentOf": "tender",
                                         "dateModified": "2024-12-16T15:16:21.690739+02:00",
                                         "author": "complaint_owner",
@@ -504,7 +498,7 @@ class Migration(CollectionMigration):
                         ],
                         "awards": [
                             {
-                                "id": "award_456",
+                                "id": "9e0c4ece9fb44d0bb2d540b9939f87dc",
                                 "complaints": [
                                     {
                                         "id": "e1c083ec6fe1409984bb0b275fd8b365",
@@ -542,7 +536,65 @@ class Migration(CollectionMigration):
             ],
         )
 
+        # Sort changes arrays for order-independent comparison
+        call_args = mock_collection.bulk_write.call_args[0][0]
+        expected_update_1._doc[0]["$set"]["revisions"][1]["changes"].sort(key=lambda x: x["path"])
+        expected_update_2._doc[0]["$set"]["revisions"][1]["changes"].sort(key=lambda x: x["path"])
+        call_args[0]._doc[0]["$set"]["revisions"][1]["changes"].sort(key=lambda x: x["path"])
+        call_args[1]._doc[0]["$set"]["revisions"][1]["changes"].sort(key=lambda x: x["path"])
+
         mock_collection.bulk_write.assert_called_once_with([expected_update_1, expected_update_2])
+
+        # Test URL generation
+        # Extract actual documents from the call
+        actual_doc_1 = call_args[0]._doc[0]["$set"]
+        actual_doc_2 = call_args[1]._doc[0]["$set"]
+
+        # Test tender-level complaint URL (belowThreshold)
+        tender_complaint_doc = actual_doc_1["complaints"][0]["documents"][0]
+        expected_key_1 = "a93173c8d9b44f46848371dfaac31797"
+        expected_url_1 = (
+            "/tenders/39e5353444754b2fbe42bf0282ac951d"
+            "/complaints/8bd9e3d73b8340ba949b1f6214126914"
+            f"/documents/{tender_complaint_doc['id']}"
+            f"?download={expected_key_1}"
+        )
+        assert tender_complaint_doc["url"] == expected_url_1
+
+        # Test qualification complaint URL
+        qual_complaint_doc = actual_doc_1["qualifications"][0]["complaints"][0]["documents"][0]
+        expected_key_3 = "820cce445ea94afe8c69f218049110b2"
+        expected_url_3 = (
+            "/tenders/39e5353444754b2fbe42bf0282ac951d"
+            "/qualifications/483d0d588cd643f69174b6ab61e49891"
+            "/complaints/007230d6141345fb9043f53f3be6c928"
+            f"/documents/{qual_complaint_doc['id']}"
+            f"?download={expected_key_3}"
+        )
+        assert qual_complaint_doc["url"] == expected_url_3
+
+        # Test tender-level complaint URL (aboveThresholdUA)
+        tender_complaint_doc_2 = actual_doc_2["complaints"][0]["documents"][1]  # Second document (first is existing)
+        expected_key_2 = "e3c47ac9552342c1b452772ba82d7b33"
+        expected_url_2 = (
+            "/tenders/2ae66bda17f640e490b68cf6180609fd"
+            "/complaints/95c62cc027c4405d89abaf1702dde32b"
+            f"/documents/{tender_complaint_doc_2['id']}"
+            f"?download={expected_key_2}"
+        )
+        assert tender_complaint_doc_2["url"] == expected_url_2
+
+        # Test award complaint URL
+        award_complaint_doc = actual_doc_2["awards"][0]["complaints"][0]["documents"][0]
+        expected_key_4 = "71f4e6106b544a339a63b979a6087def"
+        expected_url_4 = (
+            "/tenders/2ae66bda17f640e490b68cf6180609fd/"
+            "awards/9e0c4ece9fb44d0bb2d540b9939f87dc/"
+            "complaints/e1c083ec6fe1409984bb0b275fd8b365/"
+            f"documents/{award_complaint_doc['id']}"
+            f"?download={expected_key_4}"
+        )
+        assert award_complaint_doc["url"] == expected_url_4
 
 
 class MigrationArgumentParser(CollectionMigrationArgumentParser):
