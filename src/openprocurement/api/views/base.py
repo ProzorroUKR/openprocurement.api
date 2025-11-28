@@ -67,6 +67,7 @@ class MongodbResourceListing(BaseResource):
     listing_allowed_fields = {"dateModified", "created", "modified"}
     default_limit = 100
     max_limit = 1000
+    min_limit = 1
 
     db_listing_method: Callable
     filter_key: str | None = None
@@ -146,6 +147,7 @@ class MongodbResourceListing(BaseResource):
 
         # call db method
         limit_results = params.get("limit", self.default_limit)
+        limit_results = max(limit_results, self.min_limit)
 
         results = self.db_listing_method(
             offset_field=ts_offset_field if isinstance(offset_value, Timestamp) else time_offset_field,
