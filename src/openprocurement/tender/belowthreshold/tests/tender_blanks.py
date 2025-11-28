@@ -1694,24 +1694,25 @@ def tender_fields(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = self.set_initial_status(response.json).json["data"]
+    fields = {
+        "id",
+        "dateModified",
+        "dateCreated",
+        "criteria",
+        "tenderID",
+        "date",
+        "status",
+        "procurementMethod",
+        "awardCriteria",
+        "submissionMethod",
+        "next_check",
+        "owner",
+        "documents",
+        "noticePublicationDate",
+    }
     self.assertEqual(
         set(tender) - set(self.initial_data),
-        {
-            "id",
-            "dateModified",
-            "dateCreated",
-            "criteria",
-            "tenderID",
-            "date",
-            "status",
-            "procurementMethod",
-            "awardCriteria",
-            "submissionMethod",
-            "next_check",
-            "owner",
-            "documents",
-            "noticePublicationDate",
-        },
+        fields,
     )
     self.assertIn(tender["id"], response.headers["Location"])
 
@@ -3156,6 +3157,8 @@ def patch_tender_minimalstep_validation(self):
 
         lots = deepcopy(response.json["data"]["lots"])
         lots[0]["minimalStep"]["amount"] = 123
+        for lot in lots:
+            lot.pop("auctionPeriod", None)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": lots}}, status=200
         )

@@ -248,9 +248,7 @@ Content-Type: application/json
         "dateAnswered": "2023-10-10T01:10:05+03:00"
       }
     ],
-    "auctionPeriod": {
-      "startDate": "2023-10-16T01:15:06+03:00"
-    },
+    "auctionPeriod": {},
     "id": "3f5ff57c43ca4ba6b3a1d0619b7a14c3"
   },
   "config": {

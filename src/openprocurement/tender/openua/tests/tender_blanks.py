@@ -519,7 +519,7 @@ def tender_fields(self):
         tender_set.remove("procurementMethodDetails")
 
     difference = tender_set - set(self.initial_data)
-    difference -= {"auctionPeriod"}  # openeu
+    difference -= {"auctionPeriod", "qualificationPeriod"}  # openeu
     self.assertEqual(
         difference,
         {

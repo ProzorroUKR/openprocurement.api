@@ -14,7 +14,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central as create_tender_central_base,
 )
-from openprocurement.tender.competitivedialogue.constants import STAGE2_STATUS
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE2_STATUS,
+    STAGE_2_EU_TYPE,
+)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
@@ -596,18 +599,21 @@ def create_tender(self):
     tender_set = set(tender)
     if "procurementMethodDetails" in tender_set:
         tender_set.remove("procurementMethodDetails")
+    fields = {
+        "id",
+        "dateModified",
+        "dateCreated",
+        "enquiryPeriod",
+        "complaintPeriod",
+        "awardCriteria",
+        "submissionMethod",
+        "date",
+    }
+    if tender["procurementMethodType"] == STAGE_2_EU_TYPE:
+        fields.add("qualificationPeriod")
     self.assertEqual(
         tender_set - set(self.initial_data),
-        {
-            "id",
-            "dateModified",
-            "dateCreated",
-            "enquiryPeriod",
-            "complaintPeriod",
-            "awardCriteria",
-            "submissionMethod",
-            "date",
-        },
+        fields,
     )
     self.assertIn(tender["id"], response.headers["Location"])
     self.assertEqual(tender["tenderID"], self.initial_data["tenderID"])

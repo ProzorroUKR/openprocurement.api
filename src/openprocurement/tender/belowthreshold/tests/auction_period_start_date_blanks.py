@@ -1,13 +1,16 @@
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
 # TenderAuctionPeriodStartDateResourceTest
 def tender_collection_put_auction_period_in_active_tendering(self):
     self.app.authorization = ("Basic", ("administrator", ""))
-    new_start = (get_now() + timedelta(days=self.days_till_auction_starts + 1)).isoformat()
-    start_date = (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender_period_end_date = response.json["data"]["tenderPeriod"]["endDate"]
+    new_start = (dt_from_iso(tender_period_end_date) + timedelta(days=self.days_till_auction_starts + 1)).isoformat()
+    start_date = (dt_from_iso(tender_period_end_date) + timedelta(days=self.days_till_auction_starts)).isoformat()
     self.set_status("active.tendering", {"auctionPeriod": {"startDate": start_date}})
     response = self.app.put_json(
         f"/tenders/{self.tender_id}/auctionPeriod", {"data": {"startDate": new_start}}, status=200
@@ -17,8 +20,10 @@ def tender_collection_put_auction_period_in_active_tendering(self):
 
 def tender_collection_put_auction_period_in_active_auction(self):
     self.app.authorization = ("Basic", ("administrator", ""))
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender_period_end_date = response.json["data"]["tenderPeriod"]["endDate"]
     self.set_status("active.auction")
-    new_start = (get_now() + timedelta(days=self.days_till_auction_starts + 1)).isoformat()
+    new_start = (dt_from_iso(tender_period_end_date) + timedelta(days=self.days_till_auction_starts + 1)).isoformat()
     response = self.app.put_json(
         f"/tenders/{self.tender_id}/auctionPeriod", {"data": {"startDate": new_start}}, status=200
     )

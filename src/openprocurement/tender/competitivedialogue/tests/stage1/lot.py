@@ -9,8 +9,6 @@ from openprocurement.tender.belowthreshold.tests.lot import (
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     create_tender_lot_minimalstep_validation,
-    get_tender_lot,
-    get_tender_lots,
     patch_tender_lot_minimalstep_validation,
     tender_features_invalid,
     tender_value,
@@ -29,6 +27,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 from openprocurement.tender.competitivedialogue.tests.stage1.lot_blanks import (
     create_tender_bidder_invalid,
     create_tender_with_features_bidder_invalid,
+    get_tender_lot,
+    get_tender_lots,
     one_lot_0bid,
     one_lot_2bid,
     one_lot_2bid_1unqualified,

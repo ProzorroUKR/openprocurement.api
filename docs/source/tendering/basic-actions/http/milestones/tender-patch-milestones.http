@@ -90,6 +90,10 @@ Content-Type: application/json
       "startDate": "2023-10-17T01:00:00+03:00",
       "endDate": "2023-10-24T01:00:00+03:00"
     },
+    "auctionPeriod": {
+      "startDate": "2023-10-25T13:09:55.701000+03:00",
+      "shouldStartAfter": "2023-10-25T00:00:00+03:00"
+    },
     "milestones": [
       {
         "id": "39aa1d1c9c8f48e8a0fcc405fb1aeb81",

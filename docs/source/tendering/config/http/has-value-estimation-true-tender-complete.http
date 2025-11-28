@@ -182,7 +182,11 @@ Content-Type: application/json
           "amount": 5.0,
           "valueAddedTaxIncluded": true
         },
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00",
+        "auctionPeriod": {
+          "shouldStartAfter": "2023-10-25T00:00:00+03:00",
+          "startDate": "2023-10-25T12:22:15.236000+03:00"
+        }
       }
     ],
     "id": "38bca89f7ba4477d97f553d576fd6994"

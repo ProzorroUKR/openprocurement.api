@@ -146,6 +146,10 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
           "amount": 15.0
+        },
+        "auctionPeriod": {
+          "startDate": "2023-10-26T12:28:35.700000+03:00",
+          "shouldStartAfter": "2023-10-26T00:00:00+03:00"
         }
       }
     ],

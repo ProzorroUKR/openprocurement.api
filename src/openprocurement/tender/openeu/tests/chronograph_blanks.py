@@ -1,4 +1,10 @@
 # TenderSwitchPreQualificationResourceTest
+import unittest
+from datetime import timedelta
+
+from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.utils import get_now
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 def active_tendering_to_pre_qual(self):
@@ -10,6 +16,7 @@ def active_tendering_to_pre_qual(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
 
+@unittest.skipIf(SANDBOX_MODE, "Skip test with accelerator")
 def active_tendering_to_pre_qual_unsuccessful(self):
     response = self.set_status("active.pre-qualification", {"status": "active.tendering"})
     self.assertEqual(response.status, "200 OK")
@@ -19,20 +26,30 @@ def active_tendering_to_pre_qual_unsuccessful(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
     self.check_chronograph()
 
+    auction_start_date = calculate_tender_full_date(
+        get_now(),
+        timedelta(days=30),
+        tender=self.tender_document,
+    ).isoformat()
     response = self.check_chronograph(
-        data={"data": {"lots": [{"auctionPeriod": {"startDate": "2021-11-04T14:05:00+02:00"}}, {}, {}]}}
+        data={"data": {"lots": [{"auctionPeriod": {"startDate": auction_start_date}}, {}, {}]}}
     )
     lots = response.json["data"]["lots"]
-    self.assertEqual(lots[0]["auctionPeriod"]["startDate"], "2021-11-04T14:05:00+02:00")
+    self.assertEqual(lots[0]["auctionPeriod"]["startDate"], auction_start_date)
     self.assertNotIn("auctionPeriod", lots[1])
     self.assertNotIn("auctionPeriod", lots[2])
 
     # second update had a bug, and `"auctionPeriod": null` appeared for second and third lots
+    auction_start_date_2 = calculate_tender_full_date(
+        get_now(),
+        timedelta(days=31),
+        tender=self.tender_document,
+    ).isoformat()
     response = self.check_chronograph(
-        data={"data": {"lots": [{"auctionPeriod": {"startDate": "2021-11-05T14:05:00+02:00"}}, {}, {}]}}
+        data={"data": {"lots": [{"auctionPeriod": {"startDate": auction_start_date_2}}, {}, {}]}}
     )
     lots = response.json["data"]["lots"]
-    self.assertEqual(lots[0]["auctionPeriod"]["startDate"], "2021-11-05T14:05:00+02:00")
+    self.assertEqual(lots[0]["auctionPeriod"]["startDate"], auction_start_date_2)
     self.assertNotIn("auctionPeriod", lots[1])
     self.assertNotIn("auctionPeriod", lots[2])
 

@@ -8,7 +8,6 @@ from typing import Iterable, Optional
 from uuid import uuid4
 
 from barbecue import vnmax
-from dateorro import calc_normalized_datetime
 from jsonpatch import JsonPatchException
 from jsonpatch import apply_patch as apply_json_patch
 from jsonpointer import JsonPointerException, resolve_pointer
@@ -39,6 +38,7 @@ from openprocurement.api.procedure.utils import (
     save_object,
 )
 from openprocurement.api.utils import (
+    calculate_normalized_date,
     context_unpack,
     error_handler,
     get_child_items,
@@ -175,7 +175,7 @@ def submission_method_details_includes(substr, tender):
 def normalize_should_start_after(start_after, tender):
     if submission_method_details_includes(QUICK, tender):
         return start_after
-    return calc_normalized_datetime(start_after, ceil=True)
+    return calculate_normalized_date(start_after, ceil=True)
 
 
 def contracts_allow_to_complete(contracts) -> bool:

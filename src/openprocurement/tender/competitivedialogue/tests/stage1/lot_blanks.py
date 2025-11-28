@@ -781,3 +781,75 @@ def two_lot_2bid_2com_2win(self):
         {"data": {"status": "active.pre-qualification.stand-still"}},
     )
     self.assertEqual(response.status, "200 OK")
+
+
+def get_tender_lot(self):
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    lot = response.json["data"]
+
+    response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        set(response.json["data"]),
+        {"id", "date", "title", "description", "minimalStep", "value", "status"},
+    )
+
+    self.set_status("active.qualification")
+
+    response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    api_lot = response.json["data"]
+    if "auctionPeriod" in api_lot:
+        api_lot.pop("auctionPeriod")
+    self.assertEqual(api_lot, lot)
+
+    response = self.app.get("/tenders/{}/lots/some_id".format(self.tender_id), status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "lot_id"}])
+
+    response = self.app.get("/tenders/some_id/lots/some_id", status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
+
+
+def get_tender_lots(self):
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    lot = response.json["data"]
+
+    response = self.app.get("/tenders/{}/lots".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        set(response.json["data"][-1]),
+        {"id", "date", "title", "description", "minimalStep", "value", "status"},
+    )
+
+    self.set_status("active.qualification")
+
+    response = self.app.get("/tenders/{}/lots".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    api_lot = response.json["data"][-1]
+    if "auctionPeriod" in api_lot:
+        api_lot.pop("auctionPeriod")
+    self.assertEqual(api_lot, lot)
+
+    response = self.app.get("/tenders/some_id/lots", status=404)
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])

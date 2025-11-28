@@ -244,6 +244,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",
+    "auctionPeriod": {
+      "shouldStartAfter": "2023-10-25T00:00:00+03:00",
+      "startDate": "2023-10-25T13:09:55.701000+03:00"
+    },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "3f5ff57c43ca4ba6b3a1d0619b7a14c3"

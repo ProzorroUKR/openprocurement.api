@@ -1990,9 +1990,7 @@ Content-Type: application/json
         "submissionDate": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "auctionPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00"
-    },
+    "auctionPeriod": {},
     "awardPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00"
     },

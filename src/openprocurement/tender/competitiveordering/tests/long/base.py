@@ -28,7 +28,7 @@ now = get_now()
 test_tender_co_long_data = test_tender_below_data.copy()
 test_tender_co_long_data["procurementMethodType"] = COMPETITIVE_ORDERING
 del test_tender_co_long_data["enquiryPeriod"]
-test_tender_co_long_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_co_long_data["tenderPeriod"] = {"endDate": (now + timedelta(days=8)).isoformat()}
 test_tender_co_long_data["items"] = [
     {
         "description": "футляри до державних нагород",
@@ -55,7 +55,6 @@ test_tender_co_long_data["items"] = [
 if SANDBOX_MODE:
     test_tender_co_long_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
-
 test_tender_co_long_bids = deepcopy(test_tender_below_bids)
 for bid in test_tender_co_long_bids:
     bid["selfQualified"] = True
@@ -74,7 +73,7 @@ test_tender_co_long_three_bids.append(
 test_tender_co_long_features_data = test_tender_below_features_data.copy()
 test_tender_co_long_features_data["procurementMethodType"] = COMPETITIVE_ORDERING
 del test_tender_co_long_features_data["enquiryPeriod"]
-test_tender_co_long_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_co_long_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=8)).isoformat()}
 test_tender_co_long_features_data["items"][0]["deliveryDate"] = test_tender_co_long_data["items"][0]["deliveryDate"]
 test_tender_co_long_features_data["items"][0]["deliveryAddress"] = test_tender_co_long_data["items"][0][
     "deliveryAddress"

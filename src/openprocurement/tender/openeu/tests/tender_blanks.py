@@ -366,6 +366,7 @@ def create_tender_generated(self):
             "status",
             "enquiryPeriod",
             "tenderPeriod",
+            "qualificationPeriod",
             "complaintPeriod",
             "criteria",
             "items",

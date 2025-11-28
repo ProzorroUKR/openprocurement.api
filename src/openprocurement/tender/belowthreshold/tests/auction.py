@@ -10,7 +10,6 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # Tend
     get_tender_lots_auction_features,
     patch_tender_lots_auction,
     post_tender_auction,
-    post_tender_auction_document,
     post_tender_auction_feature,
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
@@ -37,7 +36,6 @@ auction_test_tender_data["submissionMethodDetails"] = "test submissionMethodDeta
 class TenderAuctionResourceTestMixin:
     test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
     test_post_tender_auction = snitch(post_tender_auction)
-    test_post_tender_auction_document = snitch(post_tender_auction_document)
 
 
 class TenderLotAuctionResourceTestMixin:

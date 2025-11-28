@@ -15,6 +15,7 @@ from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
 def get_tender_lot(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     lot = response.json["data"]["lots"][0]
+    lot.pop("auctionPeriod")
 
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -51,6 +52,7 @@ def get_tender_lot(self):
 def get_tender_lots(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     lot = response.json["data"]["lots"][0]
+    lot.pop("auctionPeriod")
 
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")

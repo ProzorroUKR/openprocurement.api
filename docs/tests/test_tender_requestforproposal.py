@@ -215,6 +215,8 @@ class TenderResourceTest(
             self.assertEqual(response.status, '200 OK')
 
         tender_lots = response.json["data"]["lots"]
+        for lot in tender_lots:
+            del lot["auctionPeriod"]
 
         # Tender activating
 

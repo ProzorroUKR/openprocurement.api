@@ -55,6 +55,9 @@ class ShouldStartAfterMixing:
                     del period["shouldStartAfter"]
                     if not period:
                         del lot["auctionPeriod"]
+            # if auctionPeriod was calculated in draft tender before lots were added
+            if tender.get("auctionPeriod"):
+                del tender["auctionPeriod"]
 
         else:
             period = tender.get("auctionPeriod", {})
@@ -111,6 +114,10 @@ class ShouldStartAfterMixing:
                 complaints_unblock_dates.append(dt_from_iso(qualification_period["endDate"]))
                 start_after = max(complaints_unblock_dates)
                 return normalize_should_start_after(start_after, tender).isoformat()
+        elif tender["status"] in ("draft", "draft.stage2"):
+            # in CFASelection there is no tenderPeriod in draft, we don't calculate auctionPeriod
+            if tender_period_end := tender.get("tenderPeriod", {}).get("endDate"):
+                return normalize_should_start_after(dt_from_iso(tender_period_end), tender).isoformat()
         else:
             complaints_unblock_dates = self.get_tender_complaints_unblock_dates(tender)
             complaints_unblock_dates.append(dt_from_iso(tender["tenderPeriod"]["endDate"]))
@@ -119,10 +126,10 @@ class ShouldStartAfterMixing:
 
     @staticmethod
     def get_auction_should_start_after_allowed_statuses(tender):
+        allowed_statuses = ["draft", "draft.stage2", "active.enquiries", "active.tendering", "active.auction"]
         if tender["config"]["hasPrequalification"]:
-            return ("active.pre-qualification.stand-still", "active.auction")
-        else:
-            return ("active.tendering", "active.auction")
+            allowed_statuses.extend(["active.pre-qualification", "active.pre-qualification.stand-still"])
+        return allowed_statuses
 
     @classmethod
     def get_tender_complaints_unblock_dates(cls, tender):

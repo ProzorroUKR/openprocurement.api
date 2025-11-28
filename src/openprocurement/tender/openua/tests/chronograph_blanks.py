@@ -7,6 +7,7 @@ from openprocurement.tender.core.tests.utils import change_auth
 # TenderSwitch0BidResourceTest
 
 
+@unittest.skipIf(SANDBOX_MODE, "Skip test with accelerator")
 def set_auction_period_0bid(self):
     start_date = "9999-01-01T00:00:00+00:00"
     response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}})

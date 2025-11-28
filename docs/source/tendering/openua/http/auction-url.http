@@ -1000,10 +1000,7 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-11T12:04:26.072000+03:00",
-    "auctionPeriod": {
-      "startDate": "2023-10-10T01:02:01+03:00"
-    },
+    "next_check": "2023-10-11T15:28:52.219000+03:00",
     "lots": [
       {
         "title": "lot title",
@@ -1022,7 +1019,7 @@ Content-Type: application/json
           "amount": 15.0
         },
         "auctionPeriod": {
-          "startDate": "2023-10-11T12:04:26.072000+03:00",
+          "startDate": "2023-10-11T15:28:52.219000+03:00",
           "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/a450405f3c6840318420a210894cccb1_1a0da17891e04af7a0eda87d40a4a290"
@@ -1139,6 +1136,7 @@ Content-Type: application/json
         }
       }
     ],
+    "auctionPeriod": {},
     "id": "a450405f3c6840318420a210894cccb1"
   },
   "config": {

@@ -240,9 +240,7 @@ Content-Type: application/json
         "relatedLot": "880b8274983b40cfa8455e8e3d82bb70"
       }
     ],
-    "auctionPeriod": {
-      "startDate": "2023-10-16T01:15:06+03:00"
-    },
+    "auctionPeriod": {},
     "id": "285d5c5b074a45f198c9a207b4c60b64"
   },
   "config": {
