@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-27 13:53+0200\n"
+"POT-Creation-Date: 2025-12-01 16:23+0200\n"
 "PO-Revision-Date: 2018-09-12 16:36+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -411,13 +411,13 @@ msgstr "Обгрунтування використання звітів, \\”�
 msgid "Possible values are in dictionaries depends on `procurementMethodType`:"
 msgstr "Можливі значення зберігаються у довідниках в залежності від `procurementMethodType`:"
 
-msgid "`reporting <https://github.com/ProzorroUKR/standards/blob/7639b9ff42492ebc2b5217f10c24242c205d3019/codelists/tender/tender_cause_details/reporting.json>`_"
+msgid "`reporting <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_details/reporting.json>`_"
 msgstr ""
 
-msgid "`negotiation <https://github.com/ProzorroUKR/standards/blob/7639b9ff42492ebc2b5217f10c24242c205d3019/codelists/tender/tender_cause_details/negotiation.json>`_"
+msgid "`negotiation <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_details/negotiation.json>`_"
 msgstr ""
 
-msgid "`negotiation.quick <https://github.com/ProzorroUKR/standards/blob/7639b9ff42492ebc2b5217f10c24242c205d3019/codelists/tender/tender_cause_details/negotiation.quick.json>`_"
+msgid "`negotiation.quick <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_details/negotiation.quick.json>`_"
 msgstr ""
 
 msgid "Scheme of tender cause justification. Automatically set in CDB based on dictionary value. Possible values are:"

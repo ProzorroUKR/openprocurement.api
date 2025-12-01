@@ -425,9 +425,9 @@ Scheme
 
     Possible values are in dictionaries depends on `procurementMethodType`:
 
-        * `reporting <https://github.com/ProzorroUKR/standards/blob/7639b9ff42492ebc2b5217f10c24242c205d3019/codelists/tender/tender_cause_details/reporting.json>`_
-        * `negotiation <https://github.com/ProzorroUKR/standards/blob/7639b9ff42492ebc2b5217f10c24242c205d3019/codelists/tender/tender_cause_details/negotiation.json>`_
-        * `negotiation.quick <https://github.com/ProzorroUKR/standards/blob/7639b9ff42492ebc2b5217f10c24242c205d3019/codelists/tender/tender_cause_details/negotiation.quick.json>`_
+        * `reporting <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_details/reporting.json>`_
+        * `negotiation <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_details/negotiation.json>`_
+        * `negotiation.quick <https://github.com/ProzorroUKR/standards/blob/master/codelists/tender/tender_cause_details/negotiation.quick.json>`_
 
 :scheme:
     string
