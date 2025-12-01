@@ -1,34 +1,38 @@
 from copy import deepcopy
 from typing import Any
 
+from openprocurement.api.constants import CAUSE_DETAILS_MAPPING_ALL
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
-from openprocurement.tender.limited.constants import REPORTING
-from openprocurement.tender.limited.procedure.models.cause import (
-    CAUSE_SCHEME_MAPPING_ALL,
-)
+
+
+def set_cause_details_from_dictionary(obj):
+    prev_obj = deepcopy(obj)
+    procurement_method_type = obj["procurementMethodType"]
+    if cause_code := obj["causeDetails"].get("code"):
+        if cause_code not in CAUSE_DETAILS_MAPPING_ALL[procurement_method_type]:
+            return prev_obj
+        obj["causeDetails"].update(
+            {
+                "scheme": CAUSE_DETAILS_MAPPING_ALL[procurement_method_type][cause_code]["scheme"],
+                "title": CAUSE_DETAILS_MAPPING_ALL[procurement_method_type][cause_code]["title_uk"],
+                "title_en": CAUSE_DETAILS_MAPPING_ALL[procurement_method_type][cause_code]["title_en"],
+            }
+        )
+    return obj
 
 
 def convert_cause_to_cause_details(obj):
-    prev_obj = deepcopy(obj)
     obj["causeDetails"] = {}
     for field_name, field_alt_name in [
-        ("cause", "title"),
+        ("cause", "code"),
         ("causeDescription", "description"),
         ("causeDescription_en", "description_en"),
     ]:
         if obj.get(field_name):
             obj["causeDetails"][field_alt_name] = obj[field_name]
-    if obj["procurementMethodType"] == REPORTING:
-        if obj["cause"] == "hematopoieticStemCells":
-            obj["causeDetails"]["scheme"] = "LAW922"
-        else:
-            obj["causeDetails"]["scheme"] = "DECREE1178"
-    else:
-        obj["causeDetails"]["scheme"] = "LAW922"
-    if obj["causeDetails"]["title"] not in CAUSE_SCHEME_MAPPING_ALL[obj["causeDetails"]["scheme"]]:
-        return prev_obj
+    obj = set_cause_details_from_dictionary(obj)
     return obj
 
 

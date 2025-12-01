@@ -1,4 +1,5 @@
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.api.constants import CAUSE_DETAILS_MAPPING
 from openprocurement.api.constants_env import (
     CAUSE_DETAILS_REQUIRED_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
@@ -59,7 +60,7 @@ class CauseDetailsMixing:
                         name="cause",
                     )
             for field_name, field_alt_name in [
-                ("cause", "title"),
+                ("cause", "code"),
                 ("causeDescription", "description"),
                 ("causeDescription_en", "description_en"),
             ]:
@@ -76,6 +77,34 @@ class CauseDetailsMixing:
                         name=field_name,
                     )
 
+    def set_cause_details_data(self, data):
+        if cause_details := data.get("causeDetails"):
+            procurement_method_type = data["procurementMethodType"]
+            if cause_details.get("code") not in CAUSE_DETAILS_MAPPING[procurement_method_type]:
+                raise_operation_error(
+                    self.request,
+                    {"code": [f"Value must be one of {list(CAUSE_DETAILS_MAPPING[procurement_method_type].keys())}."]},
+                    status=422,
+                    location="body",
+                    name="causeDetails",
+                )
+            if cause_details.get("code") and not cause_details.get("description"):
+                raise_operation_error(
+                    self.request,
+                    {"description": ["This field is required."]},
+                    status=422,
+                    location="body",
+                    name="causeDetails",
+                )
+            cause_code = cause_details["code"]
+            cause_details.update(
+                {
+                    "scheme": CAUSE_DETAILS_MAPPING[procurement_method_type][cause_code]["scheme"],
+                    "title": CAUSE_DETAILS_MAPPING[procurement_method_type][cause_code]["title_uk"],
+                    "title_en": CAUSE_DETAILS_MAPPING[procurement_method_type][cause_code]["title_en"],
+                }
+            )
+
 
 class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
@@ -90,10 +119,12 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
 
     def on_post(self, tender):
         self.validate_cause_required(tender)
+        self.set_cause_details_data(tender)
         super().on_post(tender)
 
     def on_patch(self, before, after):
         self.validate_cause_required(after)
+        self.set_cause_details_data(after)
         super().on_patch(before, after)
 
 
@@ -108,23 +139,14 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
 
     working_days_config = WORKING_DAYS_CONFIG
 
-    cause_choices = (
-        "additionalPurchase",
-        "additionalConstruction",
-        "stateLegalServices",
-        "artPurchase",
-        "contestWinner",
-        "technicalReasons",
-        "intProperty",
-        "lastHope",
-    )
-
     def on_post(self, tender):
         self.validate_cause_required(tender)
+        self.set_cause_details_data(tender)
         super().on_post(tender)
 
     def on_patch(self, before, after):
         self.validate_cause_required(after)
+        self.set_cause_details_data(after)
         if before.get("awards"):
             raise_operation_error(
                 get_request(),
@@ -139,19 +161,6 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     @staticmethod
     def set_lot_minimal_step(tender: dict, data: dict) -> None:
         pass
-
-    def validate_cause_required(self, data):
-        super().validate_cause_required(data)
-        if tender_created_after(CAUSE_DETAILS_REQUIRED_FROM):
-            if value := data.get("causeDetails", {}).get("title"):
-                if value not in self.cause_choices:
-                    raise_operation_error(
-                        self.request,
-                        f"Value for negotiation must be one of {self.cause_choices}.",
-                        status=422,
-                        location="body",
-                        name="causeDetails.title",
-                    )
 
 
 class NegotiationQuickTenderDetailsState(NegotiationTenderDetailsState):

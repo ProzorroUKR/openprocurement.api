@@ -183,7 +183,9 @@ Content-Type: application/json
     ],
     "procurementMethodType": "negotiation.quick",
     "causeDetails": {
-      "title": "lastHope",
+      "code": "lastHope",
+      "title": "Абзац 6 пункту 2 частини 2 статті 40",
+      "title_en": "Paragraph 6, subparagraph 2, paragraph 2, Article 40",
       "scheme": "LAW922",
       "description": "оригінальний тендер не вдався двічі",
       "description_en": "the original tender failed twice"

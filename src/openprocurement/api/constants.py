@@ -293,21 +293,40 @@ TENDER_CAUSE = {
     key for key, desc in standards.load("codelists/tender/tender_cause.json").items() if desc["archive"] is False
 }
 
-TENDER_CAUSE_DECREE_1178 = set()
-TENDER_CAUSE_DECREE_1178_ALL = set()
+TENDER_CAUSE_REPORTING = {}
+TENDER_CAUSE_REPORTING_ALL = standards.load("codelists/tender/tender_cause_details/reporting.json")
 
-for key, desc in standards.load("codelists/tender/tender_cause_decree_1178.json").items():
-    TENDER_CAUSE_DECREE_1178_ALL.add(key)
+for key, desc in TENDER_CAUSE_REPORTING_ALL.items():
     if desc["archive"] is False:
-        TENDER_CAUSE_DECREE_1178.add(key)
+        TENDER_CAUSE_REPORTING[key] = desc
 
-TENDER_CAUSE_LAW_922 = set()
-TENDER_CAUSE_LAW_922_ALL = set()
+TENDER_CAUSE_NEGOTIATION = {}
+TENDER_CAUSE_NEGOTIATION_ALL = standards.load("codelists/tender/tender_cause_details/negotiation.json")
 
-for key, desc in standards.load("codelists/tender/tender_cause_law_922.json").items():
-    TENDER_CAUSE_LAW_922_ALL.add(key)
+for key, desc in TENDER_CAUSE_NEGOTIATION_ALL.items():
     if desc["archive"] is False:
-        TENDER_CAUSE_LAW_922.add(key)
+        TENDER_CAUSE_NEGOTIATION[key] = desc
+
+TENDER_CAUSE_NEGOTIATION_QUICK = {}
+TENDER_CAUSE_NEGOTIATION_QUICK_ALL = standards.load("codelists/tender/tender_cause_details/negotiation.quick.json")
+
+for key, desc in TENDER_CAUSE_NEGOTIATION_QUICK_ALL.items():
+    if desc["archive"] is False:
+        TENDER_CAUSE_NEGOTIATION_QUICK[key] = desc
+
+
+# only active causes
+CAUSE_DETAILS_MAPPING = {
+    "reporting": TENDER_CAUSE_REPORTING,
+    "negotiation": TENDER_CAUSE_NEGOTIATION,
+    "negotiation.quick": TENDER_CAUSE_NEGOTIATION_QUICK,
+}
+
+CAUSE_DETAILS_MAPPING_ALL = {
+    "reporting": TENDER_CAUSE_REPORTING_ALL,
+    "negotiation": TENDER_CAUSE_NEGOTIATION_ALL,
+    "negotiation.quick": TENDER_CAUSE_NEGOTIATION_QUICK_ALL,
+}
 
 # Should be at the end of the file for now
 # TODO: move to modules initialization

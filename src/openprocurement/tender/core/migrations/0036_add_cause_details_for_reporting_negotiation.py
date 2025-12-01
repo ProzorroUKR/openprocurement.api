@@ -12,6 +12,7 @@ from openprocurement.tender.limited.constants import (
 )
 from openprocurement.tender.limited.procedure.serializers.tender import (
     convert_cause_to_cause_details,
+    set_cause_details_from_dictionary,
 )
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -34,21 +35,33 @@ class Migration(CollectionMigration):
     def get_filter(self):
         return {
             "procurementMethodType": {"$in": [REPORTING, NEGOTIATION, NEGOTIATION_QUICK]},
-            "cause": {"$exists": True},
-            "causeDetails": {"$exists": False},
+            "$or": [
+                {"cause": {"$exists": True}},
+                {"causeDetails": {"$exists": True}},
+            ],
         }
 
     def get_projection(self) -> dict:
-        return {"procurementMethodType": 1, "cause": 1, "causeDescription": 1, "causeDescription_en": 1}
+        return {
+            "procurementMethodType": 1,
+            "cause": 1,
+            "causeDescription": 1,
+            "causeDescription_en": 1,
+            "causeDetails": 1,
+        }
 
     def update_document(self, doc, context=None):
         prev_doc = deepcopy(doc)
-        doc = convert_cause_to_cause_details(doc)
+        if doc.get("causeDetails") and not doc.get("cause"):
+            doc["causeDetails"]["code"] = doc["causeDetails"]["title"]
+            doc = set_cause_details_from_dictionary(doc)
+        else:
+            doc = convert_cause_to_cause_details(doc)
 
         if prev_doc != doc:
             return doc
 
-        logger.info(f"Tender {doc['_id']}: Cause with title {doc['cause']} wasn't found in dictionary")
+        logger.info(f"Tender {doc['_id']}: Cause with code {doc['cause']} wasn't found in dictionary")
 
         return None
 
@@ -115,6 +128,45 @@ class Migration(CollectionMigration):
                         },
                     ],
                 },
+                {
+                    "_id": "39e5353444754b2fbe42bf0282ac9514",
+                    "_rev": "1-b2e0f794769c490bacdb8053df816d14",
+                    "cause": "defenceVehicles",
+                    "causeDescription": "причина",
+                    "causeDetails": {
+                        "title": "defenceVehicles",
+                        "scheme": "DECREE1178",
+                        "description": "причина",
+                    },
+                    "procurementMethodType": "reporting",
+                    "revisions": [
+                        {
+                            "author": "broker",
+                            "changes": [{"op": "remove", "path": "/causeDetails"}],
+                            "rev": None,
+                            "date": "2025-04-23T20:01:57.079339+03:00",
+                        },
+                    ],
+                },
+                {
+                    "_id": "39e5353444754b2fbe42bf0282ac9515",
+                    "_rev": "1-b2e0f794769c490bacdb8053df816d15",
+                    "causeDetails": {
+                        "title": "naturalGas",
+                        "scheme": "DECREE1178",
+                        "description": "причина",
+                        "description_en": "naturalGas",
+                    },
+                    "procurementMethodType": "reporting",
+                    "revisions": [
+                        {
+                            "author": "broker",
+                            "changes": [{"op": "remove", "path": "/causeDetails"}],
+                            "rev": None,
+                            "date": "2025-04-23T20:01:57.079339+03:00",
+                        },
+                    ],
+                },
             ],
         )
 
@@ -134,12 +186,6 @@ class Migration(CollectionMigration):
                                 "causeDescription": "причина",
                                 "causeDescription_en": "cause",
                                 "procurementMethodType": "negotiation",
-                                "causeDetails": {
-                                    "title": "technicalReasons",
-                                    "scheme": "LAW922",
-                                    "description": "причина",
-                                    "description_en": "cause",
-                                },
                                 "revisions": [
                                     {
                                         "author": "broker",
@@ -154,6 +200,14 @@ class Migration(CollectionMigration):
                                         "date": ANY,
                                     },
                                 ],
+                                "causeDetails": {
+                                    "code": "technicalReasons",
+                                    "description": "причина",
+                                    "description_en": "cause",
+                                    "scheme": "LAW922",
+                                    "title": "Абзац 4 пункту 2 частини 2 статті 40",
+                                    "title_en": "Paragraph 4, Clause 2, Part 2, Article 40",
+                                },
                             }
                         },
                         {
@@ -182,11 +236,6 @@ class Migration(CollectionMigration):
                                 "cause": "lastHope",
                                 "causeDescription": "причина",
                                 "procurementMethodType": "negotiation.quick",
-                                "causeDetails": {
-                                    "title": "lastHope",
-                                    "scheme": "LAW922",
-                                    "description": "причина",
-                                },
                                 "revisions": [
                                     {
                                         "author": "broker",
@@ -201,6 +250,13 @@ class Migration(CollectionMigration):
                                         "date": ANY,
                                     },
                                 ],
+                                "causeDetails": {
+                                    "code": "lastHope",
+                                    "description": "причина",
+                                    "scheme": "LAW922",
+                                    "title": "Абзац 6 пункту 2 частини 2 статті 40",
+                                    "title_en": "Paragraph 6, subparagraph 2, paragraph 2, Article 40",
+                                },
                             }
                         },
                         {
@@ -228,10 +284,6 @@ class Migration(CollectionMigration):
                                 "_rev": "1-b2e0f794769c490bacdb8053df816d12",
                                 "cause": "hematopoieticStemCells",
                                 "procurementMethodType": "reporting",
-                                "causeDetails": {
-                                    "title": "hematopoieticStemCells",
-                                    "scheme": "LAW922",
-                                },
                                 "revisions": [
                                     {
                                         "author": "broker",
@@ -246,6 +298,12 @@ class Migration(CollectionMigration):
                                         "date": ANY,
                                     },
                                 ],
+                                "causeDetails": {
+                                    "code": "hematopoieticStemCells",
+                                    "scheme": "LAW922",
+                                    "title": "Пункт 21 частини 5 статті 3",
+                                    "title_en": "Clause 21, Part 5, Article 3",
+                                },
                             }
                         },
                         {
@@ -274,11 +332,6 @@ class Migration(CollectionMigration):
                                 "cause": "defenceVehicles",
                                 "causeDescription": "причина",
                                 "procurementMethodType": "reporting",
-                                "causeDetails": {
-                                    "title": "defenceVehicles",
-                                    "scheme": "DECREE1178",
-                                    "description": "причина",
-                                },
                                 "revisions": [
                                     {
                                         "author": "broker",
@@ -293,6 +346,122 @@ class Migration(CollectionMigration):
                                         "date": ANY,
                                     },
                                 ],
+                                "causeDetails": {
+                                    "code": "defenceVehicles",
+                                    "description": "причина",
+                                    "scheme": "DECREE1178",
+                                    "title": "Підпункт 24 пункту 13",
+                                    "title_en": "Subparagraph 24 of paragraph 13",
+                                },
+                            }
+                        },
+                        {
+                            "$set": {
+                                "_rev": ANY,
+                            }
+                        },
+                        {
+                            "$set": {
+                                "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
+                                "public_ts": "$$CLUSTER_TIME",
+                            }
+                        },
+                    ],
+                ),
+                UpdateOne(
+                    {
+                        "_id": "39e5353444754b2fbe42bf0282ac9514",
+                        "_rev": "1-b2e0f794769c490bacdb8053df816d14",
+                    },
+                    [
+                        {
+                            "$set": {
+                                "_id": "39e5353444754b2fbe42bf0282ac9514",
+                                "_rev": "1-b2e0f794769c490bacdb8053df816d14",
+                                "cause": "defenceVehicles",
+                                "causeDescription": "причина",
+                                "procurementMethodType": "reporting",
+                                "revisions": [
+                                    {
+                                        "author": "broker",
+                                        "changes": [{"op": "remove", "path": "/causeDetails"}],
+                                        "rev": None,
+                                        "date": "2025-04-23T20:01:57.079339+03:00",
+                                    },
+                                    {
+                                        "author": "migration",
+                                        "changes": [
+                                            {"op": "remove", "path": "/causeDetails/code"},
+                                            {"op": "remove", "path": "/causeDetails/title_en"},
+                                            {
+                                                "op": "replace",
+                                                "path": "/causeDetails/title",
+                                                "value": "defenceVehicles",
+                                            },
+                                        ],
+                                        "rev": ANY,
+                                        "date": ANY,
+                                    },
+                                ],
+                                "causeDetails": {
+                                    "code": "defenceVehicles",
+                                    "description": "причина",
+                                    "scheme": "DECREE1178",
+                                    "title": "Підпункт 24 пункту 13",
+                                    "title_en": "Subparagraph 24 of paragraph 13",
+                                },
+                            }
+                        },
+                        {
+                            "$set": {
+                                "_rev": ANY,
+                            }
+                        },
+                        {
+                            "$set": {
+                                "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
+                                "public_ts": "$$CLUSTER_TIME",
+                            }
+                        },
+                    ],
+                ),
+                UpdateOne(
+                    {
+                        "_id": "39e5353444754b2fbe42bf0282ac9515",
+                        "_rev": "1-b2e0f794769c490bacdb8053df816d15",
+                    },
+                    [
+                        {
+                            "$set": {
+                                "_id": "39e5353444754b2fbe42bf0282ac9515",
+                                "_rev": "1-b2e0f794769c490bacdb8053df816d15",
+                                "procurementMethodType": "reporting",
+                                "revisions": [
+                                    {
+                                        "author": "broker",
+                                        "changes": [{"op": "remove", "path": "/causeDetails"}],
+                                        "rev": None,
+                                        "date": "2025-04-23T20:01:57.079339+03:00",
+                                    },
+                                    {
+                                        "author": "migration",
+                                        "changes": [
+                                            {"op": "remove", "path": "/causeDetails/code"},
+                                            {"op": "remove", "path": "/causeDetails/title_en"},
+                                            {"op": "replace", "path": "/causeDetails/title", "value": "naturalGas"},
+                                        ],
+                                        "rev": ANY,
+                                        "date": ANY,
+                                    },
+                                ],
+                                "causeDetails": {
+                                    "code": "naturalGas",
+                                    "description": "причина",
+                                    "description_en": "naturalGas",
+                                    "scheme": "DECREE1178",
+                                    "title": "Підпункт 18 пункту 13",
+                                    "title_en": "Subparagraph 18 of paragraph 13",
+                                },
                             }
                         },
                         {

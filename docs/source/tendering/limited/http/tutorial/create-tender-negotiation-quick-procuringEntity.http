@@ -113,8 +113,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "mainProcurementCategory": "services",
     "causeDetails": {
-      "title": "lastHope",
-      "scheme": "LAW922",
+      "code": "lastHope",
       "description": "оригінальний тендер не вдався двічі",
       "description_en": "the original tender failed twice"
     },
@@ -291,10 +290,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
     ],
     "procurementMethodType": "negotiation.quick",
     "causeDetails": {
-      "title": "lastHope",
-      "scheme": "LAW922",
+      "code": "lastHope",
       "description": "оригінальний тендер не вдався двічі",
-      "description_en": "the original tender failed twice"
+      "description_en": "the original tender failed twice",
+      "scheme": "LAW922",
+      "title": "Абзац 6 пункту 2 частини 2 статті 40",
+      "title_en": "Paragraph 6, subparagraph 2, paragraph 2, Article 40"
     },
     "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",

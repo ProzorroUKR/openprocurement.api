@@ -899,7 +899,7 @@ def create_contract_transaction_document_json(self):
 )
 def limited_contract_confidential_document(self):
     tender_data = deepcopy(test_tender_reporting_data)
-    tender_data["causeDetails"] = {"title": "UZ", "scheme": "DECREE1178"}
+    tender_data["causeDetails"] = {"code": "UZ", "description": "UZ cause"}
     response = self.app.post_json("/tenders", {"data": tender_data, "config": test_tender_reporting_config})
     tender = response.json["data"]
     tender_id = tender["id"]
