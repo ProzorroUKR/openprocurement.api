@@ -771,7 +771,7 @@ class ContractState(
     @property
     def block_complaint_status(self):
         tender_type = get_tender().get("procurementMethodType", "")
-        complaint_status = ("pending", "accepted", "satisfied", "stopping")
+        complaint_status = ("pending", "accepted", "satisfied")
 
         if tender_type == "closeFrameworkAgreementSelectionUA":
             complaint_status = ("answered", "pending")
