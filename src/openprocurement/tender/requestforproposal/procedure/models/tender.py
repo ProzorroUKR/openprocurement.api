@@ -2,7 +2,7 @@ from schematics.types import StringType
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.procedure.models.document import PostDocument
@@ -56,7 +56,7 @@ class PatchTender(BasePatchTender):
 class PatchActiveTender(Model):
     tenderPeriod = ModelType(PeriodEndRequired)
     guarantee = ModelType(BasicValue)
-    value = ModelType(Value)
+    value = ModelType(EstimatedValue)
     milestones = ListType(
         ModelType(Milestone, required=True),
         validators=[validate_items_uniq],
