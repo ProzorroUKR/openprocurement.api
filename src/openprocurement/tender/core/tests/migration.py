@@ -15,3 +15,7 @@ test_0032_migrate_bids_initial_value = create_collection_migration_test(
 test_0034_migrate_contract_template_name = create_collection_migration_test(
     "openprocurement.tender.core.migrations.0034_migrate_contract_template_name.Migration"
 )
+
+test_0036_migrate_old_complaints_doc = create_collection_migration_test(
+    "openprocurement.tender.core.migrations.0036_migrate_old_complaints_doc.Migration"
+)
