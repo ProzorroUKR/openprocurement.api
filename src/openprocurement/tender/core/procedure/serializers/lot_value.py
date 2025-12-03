@@ -37,7 +37,7 @@ class LotValueSerializer(BaseSerializer):
                 "active.stage2.waiting",
             )
         ):
-            self.whitelist = {
+            self.public_fields = {
                 "relatedLot",
                 "status",
             }

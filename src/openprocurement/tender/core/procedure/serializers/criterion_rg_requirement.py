@@ -14,9 +14,9 @@ class RequirementSerializer(BaseSerializer):
 
 
 class PutCancelledRequirementSerializer(RequirementSerializer):
-    whitelist = [
+    public_fields = {
         "id",
         "status",
         "datePublished",
         "dateModified",
-    ]
+    }

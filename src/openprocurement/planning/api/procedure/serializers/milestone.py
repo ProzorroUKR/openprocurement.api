@@ -5,7 +5,6 @@ class MilestoneSerializer(BaseSerializer):
     base_private_fields = {
         "owner_token",
     }
-    serializers = {}
 
     def __init__(self, data: dict):
         super().__init__(data)

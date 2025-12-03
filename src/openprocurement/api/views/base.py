@@ -63,8 +63,16 @@ def compose_offset(offset: float, items: list[dict[str, Any]], offset_field: str
 
 class MongodbResourceListing(BaseResource):
     listing_name = "Items"
-    listing_default_fields = {"dateModified"}
-    listing_allowed_fields = {"dateModified", "created", "modified"}
+    listing_default_fields = {
+        "dateModified",
+    }
+    listing_allowed_fields = {
+        "dateModified",
+        "created",
+        "modified",
+        "public_modified",
+        "public_ts",
+    }
     default_limit = 100
     max_limit = 1000
     min_limit = 1

@@ -5,7 +5,7 @@ class ChronographSerializer(BaseUIDSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
 
-        self.whitelist = {
+        self.public_fields = {
             "id",
             "status",
             "enquiryPeriod",

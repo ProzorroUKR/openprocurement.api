@@ -39,7 +39,9 @@ LOGGER = logging.getLogger(__name__)
 )
 class TendersListResource(RestrictedResourceListingMixin, MongodbResourceListing):
     listing_name = "Tenders"
-    listing_default_fields = {"dateModified"}
+    listing_default_fields = {
+        "dateModified",
+    }
     listing_allowed_fields = {
         "dateCreated",
         "dateModified",
@@ -60,7 +62,10 @@ class TendersListResource(RestrictedResourceListingMixin, MongodbResourceListing
         "public_modified",
         "public_ts",
     }
-    mask_deprecated_required_fields = {"is_masked", "procuringEntity"}
+    mask_deprecated_required_fields = {
+        "is_masked",
+        "procuringEntity",
+    }
     mask_mapping = TENDER_MASK_MAPPING
 
     def __init__(self, request, context=None):

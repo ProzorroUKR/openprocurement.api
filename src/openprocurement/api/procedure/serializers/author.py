@@ -4,7 +4,7 @@ from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 
 class HiddenAuthorSerializer(BaseSerializer):
-    whitelist = {"hash"}
+    public_fields = {"hash"}
 
     def get_hash(self, salt):
         identifier_id = self.raw.get("identifier", {}).get("id")

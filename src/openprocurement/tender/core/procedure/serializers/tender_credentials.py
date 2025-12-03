@@ -11,7 +11,7 @@ class TenderCredentialsSerializer(BaseUIDSerializer):
     serializers = {
         "tender_token": tender_token_serializer,
     }
-    whitelist = {
+    public_fields = {
         "id",
         "owner",
         "tender_token",

@@ -49,6 +49,8 @@ class SubmissionsListResource(RestrictedResourceListingMixin, MongodbResourceLis
         "documents",
         "date",
         "datePublished",
+        "public_modified",
+        "public_ts",
     }
     mask_mapping = SUBMISSION_MASK_MAPPING
 

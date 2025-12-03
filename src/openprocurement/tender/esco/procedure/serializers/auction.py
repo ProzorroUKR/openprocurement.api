@@ -41,7 +41,7 @@ class AuctionBidSerializer(BidSerializer):
     def __init__(self, data: dict, tender=None, **kwargs):
         super().__init__(data, tender=tender, **kwargs)
 
-        self.whitelist = {
+        self.public_fields = {
             "id",
             "value",
             "weightedValue",
@@ -53,7 +53,7 @@ class AuctionBidSerializer(BidSerializer):
         }
 
         if tender["status"] not in ("draft", "active.enquiries", "active.tendering", "active.auction"):
-            self.whitelist.add("tenderers")
+            self.public_fields.add("tenderers")
 
 
 class AuctionAwardSerializer(BaseSerializer):
@@ -83,7 +83,7 @@ class AuctionSerializer(BaseAuctionSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
 
-        self.whitelist = {
+        self.public_fields = {
             "tenderID",
             "dateModified",
             "bids",
@@ -118,4 +118,4 @@ class AuctionSerializer(BaseAuctionSerializer):
         }
 
         if data["status"] not in ("draft", "active.enquiries", "active.tendering", "active.auction"):
-            self.whitelist.add("awards")
+            self.public_fields.add("awards")

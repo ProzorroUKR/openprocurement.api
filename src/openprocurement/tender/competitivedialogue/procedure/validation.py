@@ -23,13 +23,13 @@ def validate_cd2_allowed_patch_fields(request, **_):
 
     status = tender["status"]
     if status in ("draft.stage2", "active.tendering"):
-        tender_whitelist = {"tenderPeriod", "complaintPeriod", "items"}
+        tender_public_fields = {"tenderPeriod", "complaintPeriod", "items"}
         if status == "draft.stage2":
-            tender_whitelist.add("mainProcurementCategory")
-            tender_whitelist.add("status")
+            tender_public_fields.add("mainProcurementCategory")
+            tender_public_fields.add("status")
 
         for f in changes:
-            if f not in tender_whitelist and tender.get(f) != changes[f]:
+            if f not in tender_public_fields and tender.get(f) != changes[f]:
                 return raise_operation_error(
                     request,
                     "Field change's not allowed",
@@ -49,10 +49,10 @@ def validate_cd2_allowed_patch_fields(request, **_):
                     name="items",
                 )
 
-            item_whitelist = {"deliveryDate", "profile", "category"}
+            item_public_fields = {"deliveryDate", "profile", "category"}
             for a, b in zip(items, before_items):
                 for f in a:
-                    if f not in item_whitelist and a[f] != b.get(f):
+                    if f not in item_public_fields and a[f] != b.get(f):
                         return raise_operation_error(
                             request,
                             "Field change's not allowed",

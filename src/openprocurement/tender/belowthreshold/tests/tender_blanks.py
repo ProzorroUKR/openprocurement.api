@@ -254,6 +254,12 @@ def listing_changes(self):
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
+    response = self.app.get("/tenders?feed=changes", params=[("opt_fields", "public_modified")])
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 3)
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "public_modified"})
+    self.assertIn("opt_fields=public_modified", response.json["next_page"]["uri"])
+
     response = self.app.get("/tenders?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1851,6 +1857,16 @@ def get_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn('{\n    "data": {\n        "', response.body.decode())
+
+    response = self.app.get(f"/tenders/{tender['id']}?opt_fields=public_modified")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("public_modified", response.json["data"])
+
+    response = self.app.get(f"/tenders/{tender['id']}?opt_fields=owner_token")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("owner_token", response.json["data"])
 
 
 def tender_features_invalid(self):

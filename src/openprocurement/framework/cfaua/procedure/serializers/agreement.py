@@ -20,7 +20,6 @@ class AgreementSerializer(BaseUIDSerializer):
         "rev",
         "owner_token",
         "revisions",
-        "public_modified",
         "public_ts",
         "is_public",
         "is_test",
@@ -28,6 +27,9 @@ class AgreementSerializer(BaseUIDSerializer):
         "attachments",
         "date",
         "dateCreated",
+    }
+    optional_fields = {
+        "public_modified",
     }
 
     serializers = {

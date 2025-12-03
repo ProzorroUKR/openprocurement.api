@@ -57,30 +57,30 @@ class BidSerializer(BaseSerializer):
         # configure fields visibility
         if tender["config"]["hasPrequalification"]:
             # pre-qualification rules
-            self.set_tender_with_pre_qualification_whitelist(data, tender)
+            self.set_tender_with_pre_qualification_public_fields(data, tender)
         else:
             # no pre-qualification rules
-            self.set_tender_without_pre_qualification_whitelist(data)
+            self.set_tender_without_pre_qualification_public_fields(data)
 
-    def set_tender_without_pre_qualification_whitelist(self, data):
+    def set_tender_without_pre_qualification_public_fields(self, data):
         if data.get("status") in ("invalid", "deleted"):
-            self.whitelist = {
+            self.public_fields = {
                 "id",
                 "status",
                 "lotValues",
             }
 
-    def set_tender_with_pre_qualification_whitelist(self, data, tender):
+    def set_tender_with_pre_qualification_public_fields(self, data, tender):
         bid_status = self.serialize_status(tender, data)
 
         if bid_status in ("invalid", "deleted"):
-            self.whitelist = {
+            self.public_fields = {
                 "id",
                 "status",
                 "lotValues",
             }
         elif bid_status == "invalid.pre-qualification":
-            self.whitelist = {
+            self.public_fields = {
                 "id",
                 "status",
                 "documents",
@@ -90,7 +90,7 @@ class BidSerializer(BaseSerializer):
                 "lotValues",
             }
         elif bid_status == "unsuccessful":
-            self.whitelist = {
+            self.public_fields = {
                 "id",
                 "status",
                 "tenderers",
@@ -110,7 +110,7 @@ class BidSerializer(BaseSerializer):
             "active.stage2.pending",
             "active.stage2.waiting",
         ):
-            self.whitelist = {
+            self.public_fields = {
                 "id",
                 "status",
                 "documents",
