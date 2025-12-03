@@ -1,5 +1,4 @@
 from copy import deepcopy
-from typing import Any
 
 from schematics.exceptions import ValidationError
 
@@ -94,35 +93,6 @@ def validate_data_model(input_model):
         return data
 
     return validate
-
-
-def filter_whitelist(data: dict, filter_data: dict) -> None:
-    new_data = filter_dict(data, filter_data)
-    for field in new_data:
-        data[field] = new_data[field]
-
-
-def filter_dict(data: dict, filter_data: dict) -> dict:
-    new_data: dict[str, Any] = {}
-    for field in filter_data:
-        if field not in data:
-            continue
-        elif isinstance(filter_data[field], set):
-            new_data[field] = {k: v for k, v in data[field].items() if k in filter_data[field]}
-        elif isinstance(filter_data[field], list):
-            new_data[field] = filter_list(data[field], filter_data[field][0])
-        elif isinstance(filter_data[field], dict):
-            new_data[field] = filter_dict(data[field], filter_data[field])
-        else:
-            new_data[field] = data[field]
-    return new_data
-
-
-def filter_list(input: list, filters: dict) -> list:
-    new_items = []
-    for item in input:
-        new_items.append(filter_dict(item, filters))
-    return new_items
 
 
 def unless_administrator(*validations):
