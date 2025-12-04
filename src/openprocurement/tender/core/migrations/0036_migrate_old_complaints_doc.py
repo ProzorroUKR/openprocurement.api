@@ -2,8 +2,10 @@ import json
 import logging
 from unittest.mock import ANY
 
+from datetime import datetime
 from pymongo import UpdateOne
 from pyramid.csrf import urlparse
+from openprocurement.api.constants import TZ
 
 from openprocurement.api.context import set_request_now
 from openprocurement.api.migrations.base import (
@@ -62,8 +64,8 @@ class Migration(CollectionMigration):
                     "hash": doc_json["hash"],
                     "title": doc_json["title"],
                     "format": doc_json["format"],
-                    "datePublished": doc["created_at"],
-                    "dateModified": doc["updated_at"],
+                    "datePublished": self.convert_date(doc["created_at"]),
+                    "dateModified": self.convert_date(doc["updated_at"]),
                 }
                 self.documents_data[complaint_id].append(transformed_doc)
 
@@ -212,6 +214,13 @@ class Migration(CollectionMigration):
 
         return post_document
 
+    def convert_date(self, date_str):
+        date = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+        if not date.tzinfo:
+            date = TZ.localize(date)
+        return date.isoformat()
+
+
     def run_test(self):
         self.load_raw_documents = lambda: None  # pylint: disable=method-hidden
 
@@ -224,8 +233,8 @@ class Migration(CollectionMigration):
                     "title": "рішення вд 01.06.2020№10738+лист замовнику.pdf",
                     "format": "application/pdf",
                 },
-                "created_at": "2024-12-11T15:16:21.690739+02:00",
-                "updated_at": "2024-12-12T15:16:21.690739+02:00",
+                "created_at": "2020-05-28 18:38:21",
+                "updated_at": "2020-06-09 16:42:39",
             },
             {
                 "complaint_id": "95c62cc027c4405d89abaf1702dde32b",
@@ -352,13 +361,13 @@ class Migration(CollectionMigration):
         expected_document_below_threshold = {
             "confidentiality": "public",
             "id": ANY,
-            "datePublished": "2024-12-11T15:16:21.690739+02:00",
+            "datePublished": "2020-05-28T18:38:21+03:00",
             "hash": "md5:3c4d96ac512c512cd1c3d0165681e49f",
             "title": "рішення вд 01.06.2020№10738+лист замовнику.pdf",
             "format": "application/pdf",
             "url": ANY,
             "documentOf": "tender",
-            "dateModified": "2024-12-12T15:16:21.690739+02:00",
+            "dateModified": "2020-06-09T16:42:39+03:00",
             "author": "reviewers",
             "language": "uk",
         }
@@ -366,13 +375,13 @@ class Migration(CollectionMigration):
         expected_document_above_threshold = {
             "confidentiality": "public",
             "id": ANY,
-            "datePublished": "2020-05-28 18:38:21",
+            "datePublished": "2020-05-28T18:38:21+03:00",
             "hash": "md5:483430c010bcfe645a4fde690539365e",
             "title": "рішення від 28.05.2020 № 10522.pdf",
             "format": "application/pdf",
             "url": ANY,
             "documentOf": "tender",
-            "dateModified": "2020-06-09 16:42:39",
+            "dateModified": "2020-06-09T16:42:39+03:00",
             "author": "aboveThresholdReviewers",
             "language": "uk",
         }
@@ -380,13 +389,13 @@ class Migration(CollectionMigration):
         expected_qualification_document = {
             "confidentiality": "public",
             "id": ANY,
-            "datePublished": "2020-01-15 17:21:59",
+            "datePublished": "2020-01-15T17:21:59+02:00",
             "hash": "md5:6eb11457132f76be1119ca4b153430c0",
             "title": "Рішення від 14.01.2020 №753.pdf",
             "format": "application/pdf",
             "url": ANY,
             "documentOf": "tender",
-            "dateModified": "2020-06-09 16:44:17",
+            "dateModified": "2020-06-09T16:44:17+03:00",
             "author": "reviewers",
             "language": "uk",
         }
@@ -394,13 +403,13 @@ class Migration(CollectionMigration):
         expected_award_document = {
             "confidentiality": "public",
             "id": ANY,
-            "datePublished": "2019-12-26 17:41:08",
+            "datePublished": "2019-12-26T17:41:08+02:00",
             "hash": "md5:751fb2308010fdb41879e944d7e65cd5",
             "title": "рішення від 26.12.2019 №19314.pdf",
             "format": "application/pdf",
             "url": ANY,
             "documentOf": "tender",
-            "dateModified": "2020-06-09 16:44:17",
+            "dateModified": "2020-06-09T16:44:17+03:00",
             "author": "aboveThresholdReviewers",
             "language": "uk",
         }
