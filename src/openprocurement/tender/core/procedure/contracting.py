@@ -257,6 +257,9 @@ def get_additional_contract_data(request, contract, tender, award, buyer):
         "owner": tender["owner"],
     }
 
+    if tender.get("contractChangeRationaleTypes"):
+        contract_data["contractChangeRationaleTypes"] = tender["contractChangeRationaleTypes"]
+
     # eContract check
     if is_econtract(contract, buyer):
         access = [

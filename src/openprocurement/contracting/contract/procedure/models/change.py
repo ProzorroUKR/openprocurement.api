@@ -6,10 +6,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.core.procedure.models.change import (
-    RATIONALE_TYPES,
-    BaseChange,
-)
+from openprocurement.contracting.core.procedure.models.change import BaseChange
 
 
 class PostChange(BaseChange):
@@ -37,7 +34,6 @@ class PatchChange(BaseChange):
     rationale = StringType(min_length=1)
     rationaleTypes = ListType(
         StringType(
-            choices=RATIONALE_TYPES,
             required=True,
         ),
         min_size=1,
