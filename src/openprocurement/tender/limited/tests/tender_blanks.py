@@ -598,7 +598,17 @@ def create_tender(self):
         tender_set.remove("causeDescription")
     self.assertEqual(
         tender_set - set(self.initial_data),
-        {"id", "date", "dateModified", "dateCreated", "owner", "tenderID", "status", "procurementMethod"},
+        {
+            "id",
+            "date",
+            "dateModified",
+            "dateCreated",
+            "owner",
+            "tenderID",
+            "status",
+            "procurementMethod",
+            "contractChangeRationaleTypes",
+        },
     )
     self.assertIn(tender["id"], response.headers["Location"])
 

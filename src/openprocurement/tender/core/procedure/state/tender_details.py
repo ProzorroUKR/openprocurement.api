@@ -262,7 +262,7 @@ class BaseTenderDetailsMixing:
         self.validate_criteria_requirements_rules(tender.get("criteria", []))
         if tender_period_end_date := tender.get("tenderPeriod", {}).get("endDate"):
             self.calc_qualification_period(tender, dt_from_iso(tender_period_end_date))
-        self.set_contract_chaange_rationale_types(tender)
+        self.set_contract_change_rationale_types(tender)
         super().on_post(tender)
 
         # set author for documents passed with tender data
@@ -1661,7 +1661,7 @@ class BaseTenderDetailsMixing:
                 f"use one of {', '.join(sorted(expected_template_names))}",
             )
 
-    def set_contract_chaange_rationale_types(self, data):
+    def set_contract_change_rationale_types(self, data):
         if tender_created_before(CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM):
             return
         procurement_method_type = data.get("procurementMethodType")

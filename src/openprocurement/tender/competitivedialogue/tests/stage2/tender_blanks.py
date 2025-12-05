@@ -608,6 +608,7 @@ def create_tender(self):
         "awardCriteria",
         "submissionMethod",
         "date",
+        "contractChangeRationaleTypes",
     }
     if tender["procurementMethodType"] == STAGE_2_EU_TYPE:
         fields.add("qualificationPeriod")

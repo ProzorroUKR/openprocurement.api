@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-17 13:07+0300\n"
+"POT-Creation-Date: 2025-12-09 13:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -261,6 +261,12 @@ msgstr "Додамо нову зміну `change` до договору:"
 
 msgid "Note that you can provide more than one value in ``rationaleTypes`` field."
 msgstr "Зверніть увагу на те, що ви можете надати більше ніж одне значення для поля ``rationaleTypes``."
+
+msgid "Possible values for field `rationaleTypes` are validated from list of keys in `contractChangeRationaleTypes`."
+msgstr "Можливі значення для поля `rationaleTypes` валідуються зі списку причин, вказаних в  `contractChangeRationaleTypes`."
+
+msgid "If we set `rationaleTypes` not from `contractChangeRationaleTypes` we will see an error:"
+msgstr "Якщо буде вказана причина, якої немає в  `contractChangeRationaleTypes`, ми побачимо помилку:"
 
 msgid "You can view the `change`:"
 msgstr "Ви можете переглянути зміну `change`:"
