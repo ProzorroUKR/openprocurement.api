@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "rationale": "причина зміни укр",
     "rationale_en": "change cause en",
     "rationaleTypes": [
-      "priceReduction"
+      "priceReductionWithoutQuantity"
     ],
     "modifications": {
       "value": {
@@ -28,7 +28,7 @@ Content-Type: application/json
     "rationale": "причина зміни укр",
     "rationale_en": "change cause en",
     "rationaleTypes": [
-      "priceReduction"
+      "priceReductionWithoutQuantity"
     ],
     "modifications": {
       "value": {
