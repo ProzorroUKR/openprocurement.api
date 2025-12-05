@@ -380,3 +380,11 @@ BROKERS = {broker["name"]: broker["title"] for broker in standards.load("organiz
 
 KIND_PROCUREMENT_METHOD_TYPE_MAPPING = standards.load("organizations/kind_procurementMethodType_mapping.json")
 KIND_FRAMEWORK_TYPE_MAPPING = standards.load("organizations/kind_frameworkType_mapping.json")
+
+RATIONALE_TYPES = standards.load("codelists/contract_change_rationale_type.json")
+RATIONALE_TYPES_DECREE_1178 = standards.load("codelists/contract_change_rationale_type_decree_1178.json")
+RATIONALE_TYPES_LAW_922 = standards.load("codelists/contract_change_rationale_type_law_922.json")
+TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178 = (
+    "aboveThreshold",
+    "priceQuotation",
+)

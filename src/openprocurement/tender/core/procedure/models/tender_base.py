@@ -230,6 +230,8 @@ class BaseTender(PatchBaseTender):
     contracts = BaseType()
     cancellations = BaseType()
 
+    contractChangeRationaleTypes = BaseType()
+
     config = BaseType()
 
     numberOfBids = BaseType()  # deprecated

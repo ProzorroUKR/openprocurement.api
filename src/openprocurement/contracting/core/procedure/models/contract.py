@@ -70,6 +70,7 @@ class PostContract(Model):
     amountPaid = ModelType(AmountPaid)
     contractTemplateName = StringType()
     milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_items_uniq])
+    contractChangeRationaleTypes = BaseType()
 
 
 class BasePatchContract(Model):
@@ -144,6 +145,8 @@ class Contract(Model):
     documents = ListType(ModelType(Document, required=True))
     amountPaid = ModelType(AmountPaid)
     value = ModelType(ContractValue)
+
+    contractChangeRationaleTypes = BaseType()
 
     bid_owner = StringType()  # deprecated
     bid_token = StringType()  # deprecated

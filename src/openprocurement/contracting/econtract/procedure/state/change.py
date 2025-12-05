@@ -1,6 +1,9 @@
 from copy import deepcopy
 
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.contracting.core.procedure.state.change import (
+    ContractChangeStateMixin,
+)
 from openprocurement.contracting.core.procedure.state.contract import (
     ContractState as BaseContractState,
 )
@@ -9,8 +12,9 @@ from openprocurement.tender.core.procedure.contracting import (
 )
 
 
-class EChangeState(BaseContractState):
+class EChangeState(BaseContractState, ContractChangeStateMixin):
     def change_on_post(self, data):
+        self.validate_change_rationale_types(data)
         self.validate_change(data)
         self.set_author_of_object(data)
         contract = self.request.validated["contract"]
