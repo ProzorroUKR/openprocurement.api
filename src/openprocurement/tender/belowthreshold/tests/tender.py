@@ -49,6 +49,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     set_buyers_signer_info,
     set_procuring_entity_contract_owner,
     set_procuring_entity_signer_info,
+    tender_contract_change_rationale_types,
     tender_created_after_related_lot_is_required,
     tender_created_before_related_lot_is_required,
     tender_delivery_milestones,
@@ -109,6 +110,7 @@ class TenderResourceTestMixin:
     test_set_procuring_entity_contract_owner = snitch(set_procuring_entity_contract_owner)
     test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
     test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
+    test_tender_contract_change_rationale_types = snitch(tender_contract_change_rationale_types)
 
 
 class TenderTest(BaseApiWebTest):

@@ -386,6 +386,7 @@ def create_tender_generated(self):
             "documents",
             "noticePublicationDate",
             "contractTemplateName",
+            "contractChangeRationaleTypes",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

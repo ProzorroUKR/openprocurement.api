@@ -563,6 +563,7 @@ def create_tender_generated(self):
         "documents",
         "noticePublicationDate",
         "contractTemplateName",
+        "contractChangeRationaleTypes",
     ]
     if tender["procurementMethodType"] not in ("aboveThresholdUA.defense", "simple.defense"):
         fields.append("criteria")
@@ -604,6 +605,7 @@ def tender_fields(self):
         "date",
         "documents",
         "noticePublicationDate",
+        "contractChangeRationaleTypes",
     }
     if config["hasTenderComplaints"] is True:
         expected_difference.add("complaintPeriod")

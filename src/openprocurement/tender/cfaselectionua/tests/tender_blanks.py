@@ -469,6 +469,7 @@ def create_tender_generated(self):
             "owner",
             "agreements",
             "lots",
+            "contractChangeRationaleTypes",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1071,6 +1072,7 @@ def tender_fields(self):
             "awardCriteria",
             "submissionMethod",
             "owner",
+            "contractChangeRationaleTypes",
         },
     )
     self.assertIn(tender["id"], response.headers["Location"])
