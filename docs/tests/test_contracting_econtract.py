@@ -444,7 +444,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                     "data": {
                         "rationale": "причина зміни укр",
                         "rationale_en": "change cause en",
-                        "rationaleTypes": ["priceReduction"],
+                        "rationaleTypes": ["priceReductionWithoutQuantity"],
                         "modifications": {"value": {"amount": 235, "amountNet": 200}},
                     }
                 },
@@ -519,7 +519,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                         "data": {
                             "rationale": "причина зміни укр",
                             "rationale_en": "change cause en",
-                            "rationaleTypes": ["priceReduction"],
+                            "rationaleTypes": ["priceReductionWithoutQuantity"],
                             "modifications": {
                                 "value": {"amount": 535, "amountNet": 490},
                             },

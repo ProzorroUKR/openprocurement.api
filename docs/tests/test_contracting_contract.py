@@ -413,7 +413,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     "data": {
                         "rationale": "Опис причини змін контракту",
                         "rationale_en": "Contract change cause",
-                        "rationaleTypes": ["volumeCuts", "priceReduction"],
+                        "rationaleTypes": ["volumeCuts", "priceReductionWithoutQuantity"],
                     }
                 },
             )
