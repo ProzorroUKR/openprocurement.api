@@ -305,6 +305,7 @@ def create_tender_generated_eu(self):
             "lots",
             "documents",
             "qualificationPeriod",
+            "contractChangeRationaleTypes",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1056,6 +1057,7 @@ def create_tender_generated_ua(self):
             "lots",
             "documents",
             "qualificationPeriod",
+            "contractChangeRationaleTypes",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

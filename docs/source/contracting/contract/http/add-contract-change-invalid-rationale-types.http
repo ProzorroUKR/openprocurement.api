@@ -1,0 +1,33 @@
+POST /api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/changes?acc_token=2a616f20d95648cd87d33fdc9357fc4e HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "rationale": "Опис причини змін контракту",
+    "rationale_en": "Contract change cause",
+    "rationaleTypes": [
+      "taxRate",
+      "priceReduction"
+    ]
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "rationaleTypes",
+      "description": [
+        "Value must be one of ('durationExtension', 'fiscalYearExtension', 'itemPriceChange', 'priceReductionWithoutQuantity', 'qualityImprovement', 'taxationSystem', 'externalIndicators', 'volumeCuts', 'restoration', 'projectDocumentation')."
+      ]
+    }
+  ]
+}
+

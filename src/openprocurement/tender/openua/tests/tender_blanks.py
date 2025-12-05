@@ -570,6 +570,7 @@ def tender_fields(self):
         "awardPeriod",
         "documents",
         "noticePublicationDate",
+        "contractChangeRationaleTypes",
     }
 
     if self.initial_config["hasPrequalification"]:

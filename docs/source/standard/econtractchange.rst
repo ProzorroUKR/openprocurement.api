@@ -25,7 +25,7 @@ Schema
 
     Type of the rationale behind contract change
 
-    Possible string values are:
+    Possible string values are from the field `contractChangeRationaleTypes`. Could be one of:
 
         * `rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/e41d3747a90880d394c209b978ccaec9ad288755/codelists/contract_change_rationale_type_law_922.json>`_
         * `rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/e41d3747a90880d394c209b978ccaec9ad288755/codelists/contract_change_rationale_type_decree_1178.json>`_

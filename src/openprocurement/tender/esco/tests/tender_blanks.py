@@ -996,6 +996,7 @@ def tender_with_nbu_discount_rate(self):
             "lots",
             "documents",
             "qualificationPeriod",
+            "contractChangeRationaleTypes",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

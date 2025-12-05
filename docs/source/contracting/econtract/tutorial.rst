@@ -344,6 +344,8 @@ The initiator fills in three mandatory fields:
 :rationaleTypes:
     list, reason type of changes
 
+    Possible values for field `rationaleTypes` are validated from list of keys in `contractChangeRationaleTypes`.
+
 :modifications:
     object, new values in fields
 
@@ -386,6 +388,11 @@ Changes can be made only to signed contracts:
 
 Creating changes
 ------------------
+
+If we set `rationaleTypes` not from `contractChangeRationaleTypes` we will see an error:
+
+.. http:example:: http/create-change-invalid-rationale-types.http
+   :code:
 
 Request to create a change:
 
