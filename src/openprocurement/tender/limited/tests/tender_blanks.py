@@ -534,6 +534,7 @@ def create_tender_generated(self):
         "mainProcurementCategory",
         "milestones",
         "procurementMethodRationale",
+        "contractChangeRationaleTypes",
     ]
     if "lots" in self.initial_data:
         fields.append("lots")

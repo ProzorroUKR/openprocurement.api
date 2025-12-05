@@ -700,6 +700,7 @@ def tender_fields(self):
             "noticePublicationDate",
             "documents",
             "qualificationPeriod",
+            "contractChangeRationaleTypes",
         },
     )
 
@@ -1371,6 +1372,7 @@ def create_tender_generated(self):
             "lots",
             "documents",
             "qualificationPeriod",
+            "contractChangeRationaleTypes",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

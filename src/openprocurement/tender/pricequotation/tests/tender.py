@@ -8,6 +8,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     get_tender,
     patch_not_author,
     patch_tender_jsonpatch,
+    tender_contract_change_rationale_types,
     tender_funders,
     tender_items_float_quantity,
     tender_items_negative_quantity,
@@ -69,6 +70,7 @@ class TenderResourceTestMixin:
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_contract_template_name_set = snitch(contract_template_name_set)
+    test_tender_contract_change_rationale_types = snitch(tender_contract_change_rationale_types)
 
 
 class TenderResourceTest(MockMarketMixin, MockCriteriaIDMixin, BaseTenderWebTest, TenderResourceTestMixin):

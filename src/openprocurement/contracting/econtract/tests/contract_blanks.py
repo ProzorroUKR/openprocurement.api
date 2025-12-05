@@ -350,7 +350,24 @@ def post_new_version_of_contract(self):
             "name": "New supplier",
         }
     )
+    contract_data["contractChangeRationaleTypes"] = {"test": "test"}
+    response = self.app.post_json(
+        f"/contracts?acc_token={self.supplier_token}",
+        {"data": contract_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'suppliers') in contract, contractChangeRationaleTypes change forbidden",
+            }
+        ],
+    )
 
+    contract_data["contractChangeRationaleTypes"] = initial_contract_data["contractChangeRationaleTypes"]
     pdf_data = {
         "url": self.generate_docservice_url(),
         "format": "application/pdf",

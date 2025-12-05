@@ -484,6 +484,7 @@ def create_tender_generated(self):
         "mainProcurementCategory",
         "milestones",
         "documents",
+        "contractChangeRationaleTypes",
     }
     if tender["procurementMethodType"] not in (
         "aboveThresholdUA.defense",
@@ -539,6 +540,7 @@ def tender_fields(self):
             "date",
             "documents",
             "noticePublicationDate",
+            "contractChangeRationaleTypes",
         },
     )
 

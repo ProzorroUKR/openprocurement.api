@@ -533,6 +533,7 @@ def create_tender_generated(self):
             "milestones",
             "documents",
             "qualificationPeriod",
+            "contractChangeRationaleTypes",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
