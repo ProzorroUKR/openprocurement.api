@@ -33,11 +33,13 @@ class TenderBaseSerializer(BaseUIDSerializer):
         "owner_token",
         "revisions",
         "numberOfBids",
-        "public_modified",
         "public_ts",
         "is_public",
         "is_test",
         "config",
+    }
+    optional_fields = {
+        "public_modified",
     }
     serializers = {
         "bids": ListSerializer(BidSerializer),

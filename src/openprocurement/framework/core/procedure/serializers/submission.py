@@ -17,7 +17,6 @@ class SubmissionSerializer(BaseUIDSerializer):
         "doc_type",
         "rev",
         "revisions",
-        "public_modified",
         "public_ts",
         "is_public",
         "is_test",
@@ -27,6 +26,9 @@ class SubmissionSerializer(BaseUIDSerializer):
         "owner_token",
         "framework_owner",
         "framework_token",
+    }
+    optional_fields = {
+        "public_modified",
     }
     serializers = {
         "documents": ListSerializer(SubmissionDocumentSerializer),

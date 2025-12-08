@@ -6,7 +6,7 @@ from openprocurement.api.procedure.serializers.base import (
 
 
 class BillingBidSerializer(BaseSerializer):
-    whitelist = {
+    public_fields = {
         "id",
         "lotValues",
         "date",
@@ -20,7 +20,7 @@ class BillingTenderSerializer(BaseUIDSerializer):
     serializers = {
         "bids": ListSerializer(BillingBidSerializer),
     }
-    whitelist = {
+    public_fields = {
         "id",
         "owner",
         "tenderID",

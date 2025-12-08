@@ -2,8 +2,7 @@ from openprocurement.api.procedure.serializers.base import BaseUIDSerializer
 
 
 class TransferredPlanSerializer(BaseUIDSerializer):
-    whitelist = {
+    public_fields = {
         "id",
         "owner",
     }
-    serializers = {}

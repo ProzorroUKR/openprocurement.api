@@ -39,7 +39,9 @@ LOGGER = getLogger(__name__)
 )
 class PlansListResource(MongodbResourceListing):
     listing_name = "Plans Listing"
-    listing_default_fields = {"dateModified"}
+    listing_default_fields = {
+        "dateModified",
+    }
     listing_allowed_fields = {
         "dateCreated",
         "dateModified",

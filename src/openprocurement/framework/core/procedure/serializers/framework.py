@@ -23,13 +23,15 @@ class FrameworkSerializer(BaseUIDSerializer):
         "rev",
         "owner_token",
         "revisions",
-        "public_modified",
         "public_ts",
         "is_public",
         "is_test",
         "config",
         "successful",
         "attachments",
+    }
+    optional_fields = {
+        "public_modified",
     }
     serializers = {
         "documents": ListSerializer(DocumentSerializer),

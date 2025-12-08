@@ -48,6 +48,8 @@ class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, 
         "contractID",
         "dateModified",
         "status",
+        "public_modified",
+        "public_ts",
     }
     mask_mapping = CONTRACT_MASK_MAPPING
 

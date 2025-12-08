@@ -14,10 +14,12 @@ class PlanSerializer(BaseUIDSerializer):
         "rev",
         "owner_token",
         "revisions",
-        "public_modified",
         "public_ts",
         "is_public",
         "is_test",
+    }
+    optional_fields = {
+        "public_modified",
     }
     serializers = {
         "milestones": ListSerializer(MilestoneSerializer),
@@ -42,7 +44,7 @@ class PlanSerializer(BaseUIDSerializer):
 
 
 class PlanRevisionsSerializer(BaseUIDSerializer):
-    whitelist = (
+    public_fields = {
         "id",
         "revisions",
-    )
+    }

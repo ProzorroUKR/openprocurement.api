@@ -48,6 +48,8 @@ class AgreementsListResource(RestrictedResourceListingMixin, MongodbResourceList
         "tender_id",
         "next_check",
         "procuringEntity",
+        "public_modified",
+        "public_ts",
     }
     mask_mapping = AGREEMENT_MASK_MAPPING
 

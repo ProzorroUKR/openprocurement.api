@@ -44,6 +44,8 @@ class QualificationsListResource(RestrictedResourceListingMixin, MongodbResource
         "status",
         "documents",
         "date",
+        "public_modified",
+        "public_ts",
     }
     mask_mapping = QUALIFICATION_MASK_MAPPING
 

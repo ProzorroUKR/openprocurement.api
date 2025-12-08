@@ -4,6 +4,7 @@ import inspect
 from decimal import Decimal
 from typing import Any, Callable, Generic, TypeVar, Union
 
+from openprocurement.api.context import get_request
 from openprocurement.api.procedure.utils import to_decimal
 
 T = TypeVar("T")
@@ -38,8 +39,10 @@ class AbstractSerializer(Generic[T]):
 
 class BaseSerializer(AbstractSerializer[dict[str, Any]]):
     serializers: dict[str, Callable] = {}
-    private_fields: list[str] | None = None
-    whitelist: list[str] | None = None
+
+    public_fields: set[str] = set()
+    optional_fields: set[str] = set()
+    private_fields: set[str] = set()
 
     def __init__(self, data: dict[str, Any], **kwargs):
         self._data = data
@@ -50,12 +53,18 @@ class BaseSerializer(AbstractSerializer[dict[str, Any]]):
         return self.serialize(self.raw, **self.kwargs)
 
     def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
-        # pre-serialize
         items = list(data.items())
+
+        # pre-serialize
         if self.private_fields:
-            items = [(k, v) for k, v in items if k not in self.private_fields]
-        if self.whitelist:
-            items = [(k, v) for k, v in items if k in self.whitelist]
+            disabled_optional_fields = self.optional_fields - self.get_optional_fields()
+            private_fields = self.private_fields | disabled_optional_fields
+            items = [(k, v) for k, v in items if k not in private_fields]
+
+        if self.public_fields:
+            enabled_optional_fields = self.optional_fields & self.get_optional_fields()
+            public_fields = self.public_fields | enabled_optional_fields
+            items = [(k, v) for k, v in items if k in public_fields]
 
         # serialize
         serialized_data = {}
@@ -77,6 +86,9 @@ class BaseSerializer(AbstractSerializer[dict[str, Any]]):
         if serializer := self.serializers.get(key):
             return evaluate_serializer(serializer, value, **kwargs)
         return value
+
+    def get_optional_fields(self) -> set[str]:
+        return set[str](get_request().params.get("opt_fields", "").split(","))
 
 
 class ListSerializer(AbstractSerializer[list[Any]]):
@@ -104,11 +116,11 @@ class ListSerializer(AbstractSerializer[list[Any]]):
 
 
 class BaseUIDSerializer(BaseSerializer):
-    un_underscore_fields = [
+    un_underscore_fields = {
         "id",
         "rev",
         "attachments",
-    ]
+    }
 
     def serialize(self, data: dict[str, Any], **kwargs) -> dict[str, Any]:
         data = data.copy()

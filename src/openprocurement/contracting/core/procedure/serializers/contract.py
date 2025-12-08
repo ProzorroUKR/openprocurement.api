@@ -18,11 +18,13 @@ class ContractBaseSerializer(BaseUIDSerializer):
         "bid_token",
         "access",
         "revisions",
-        "public_modified",
         "public_ts",
         "is_public",
         "is_test",
         "config",
+    }
+    optional_fields = {
+        "public_modified",
     }
     serializers = {
         "documents": ListSerializer(ContractDocumentSerializer),

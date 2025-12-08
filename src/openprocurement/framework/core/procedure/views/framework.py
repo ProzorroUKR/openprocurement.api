@@ -51,6 +51,8 @@ class FrameworksListResource(MongodbResourceListing):
         "status",
         "frameworkType",
         "next_check",
+        "public_modified",
+        "public_ts",
     }
 
     def __init__(self, request, context=None):
