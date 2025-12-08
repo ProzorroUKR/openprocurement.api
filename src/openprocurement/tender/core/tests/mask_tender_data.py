@@ -176,6 +176,15 @@ def test_mask_tender_by_config_restricted(app):
     actual_data["dateModified"] = masked_data["dateModified"]
     assert masked_data == expected_masked_data
 
+    # sas group is allowed to see masked data in feed
+    with change_auth(app, ("Basic", ("test_sas", ""))):
+        response = app.get(f"/tenders/{id}")
+    assert response.status_code == 200
+    unmasked_data = response.json["data"]
+    actual_data["dateCreated"] = unmasked_data["dateCreated"]
+    actual_data["dateModified"] = unmasked_data["dateModified"]
+    assert unmasked_data == actual_data
+
     # Broker (with accreditation for restricted) allowed to see masked data
     with change_auth(app, ("Basic", ("brokerr", ""))):
         response = app.get(f"/tenders/{id}")

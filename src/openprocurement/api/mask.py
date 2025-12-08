@@ -17,6 +17,7 @@ EXCLUDED_ROLES = (
     "agreements",
     "agreement_selection",
     "Administrator",
+    "sas",
 )
 
 
