@@ -220,7 +220,6 @@ class Migration(CollectionMigration):
             date = TZ.localize(date)
         return date.isoformat()
 
-
     def run_test(self):
         self.load_raw_documents = lambda: None  # pylint: disable=method-hidden
 
