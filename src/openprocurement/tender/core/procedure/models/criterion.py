@@ -504,24 +504,21 @@ def validate_criteria_requirement_uniq(criteria, *_) -> None:
             req_ids = [
                 req["id"]
                 for c in criteria
-                for rg in c.get("requirementGroups", [])
-                for req in rg.get("requirements", [])
+                for rg in c["requirementGroups"] or []
+                for req in rg["requirements"] or []
                 if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
             ]
         else:
             req_ids = [
-                req["id"]
-                for c in criteria
-                for rg in c.get("requirementGroups", [])
-                for req in rg.get("requirements", [])
+                req["id"] for c in criteria for rg in c["requirementGroups"] or [] for req in rg["requirements"] or []
             ]
         if req_ids and len(set(req_ids)) != len(req_ids):
             raise ValidationError("Requirement id should be uniq for all requirements in tender")
         for criterion in criteria:
-            for rg in criterion.get("requirementGroups", []):
+            for rg in criterion["requirementGroups"] or []:
                 req_titles = [
                     req["title"]
-                    for req in rg.get("requirements", [])
+                    for req in rg["requirements"] or []
                     if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
                 ]
                 if len(set(req_titles)) != len(req_titles):
