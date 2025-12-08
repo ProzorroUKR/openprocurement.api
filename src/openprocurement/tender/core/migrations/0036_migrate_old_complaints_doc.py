@@ -1,12 +1,12 @@
 import json
 import logging
+from datetime import datetime
 from unittest.mock import ANY
 
-from datetime import datetime
 from pymongo import UpdateOne
 from pyramid.csrf import urlparse
-from openprocurement.api.constants import TZ
 
+from openprocurement.api.constants import TZ
 from openprocurement.api.context import set_request_now
 from openprocurement.api.migrations.base import (
     CollectionMigration,
