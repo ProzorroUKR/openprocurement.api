@@ -1,13 +1,15 @@
 from schematics.types import StringType
 
 from openprocurement.api.procedure.models.address import Address
-from openprocurement.api.procedure.models.organization import ORGANIZATION_SCALE_CHOICES
+from openprocurement.api.procedure.models.organization import (
+    ORGANIZATION_SCALE_CHOICES,
+    PROCURING_ENTITY_KIND_CHOICES,
+)
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
 from openprocurement.api.procedure.models.signer_info import SignerInfo
 from openprocurement.api.procedure.types import ListType, ModelType
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION_KINDS
 from openprocurement.tender.cfaselectionua.procedure.models.contact import ContactPoint
 
 
@@ -23,6 +25,6 @@ class Organization(BaseOrganization):
 
 
 class ProcuringEntity(Organization):
-    kind = StringType(choices=CFA_SELECTION_KINDS, required=True)
+    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)
     signerInfo = ModelType(SignerInfo)
     contract_owner = StringType()

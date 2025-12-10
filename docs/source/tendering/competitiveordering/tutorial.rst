@@ -14,6 +14,13 @@ The set of possible configuration values:
 
 You can look for more details in :ref:`config` section.
 
+The set of possible `procuringEntity.kind` values for `competitiveOrdering`
+---------------------------------------------------------------------------
+
+.. csv-table::
+   :file: csv/kind.csv
+   :header-rows: 1
+
 Відбір
 ------
 У відборі (1 етап) замовник самостійно зазначає

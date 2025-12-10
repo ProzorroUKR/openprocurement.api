@@ -22,6 +22,7 @@ from openprocurement.tender.core.procedure.models.milestone import (
     TenderMilestoneType,
     validate_milestones_lot,
 )
+from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.tender import (
     BaseTender,
     PostBaseTender,
@@ -45,7 +46,6 @@ from openprocurement.tender.limited.procedure.models.lot import (
     PostTenderLot,
 )
 from openprocurement.tender.limited.procedure.models.organization import (
-    NegotiationProcuringEntity,
     ReportFundOrganization,
     ReportingProcuringEntity,
 )
@@ -204,7 +204,7 @@ def validate_cause(value):
 
 class PostNegotiationTender(PostBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], default=NEGOTIATION)
-    procuringEntity = ModelType(NegotiationProcuringEntity, required=True)
+    procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
     value = ModelType(Value, required=True)
     items = ListType(
@@ -239,7 +239,7 @@ class PostNegotiationTender(PostBaseTender):
 
 class PatchNegotiationTender(CommonBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION])
-    procuringEntity = ModelType(NegotiationProcuringEntity)
+    procuringEntity = ModelType(ProcuringEntity)
     status = StringType(choices=["draft", "active"])
     value = ModelType(Value)
     items = ListType(
@@ -259,7 +259,7 @@ class PatchNegotiationTender(CommonBaseTender):
 
 class NegotiationTender(BaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], required=True)
-    procuringEntity = ModelType(NegotiationProcuringEntity, required=True)
+    procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
     value = ModelType(Value, required=True)
     items = ListType(

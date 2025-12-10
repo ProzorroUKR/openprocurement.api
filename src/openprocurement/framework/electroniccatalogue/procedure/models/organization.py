@@ -2,6 +2,10 @@ import standards
 from schematics.exceptions import ValidationError
 from schematics.types import StringType
 
+from openprocurement.api.procedure.models.organization import (
+    PROCURING_ENTITY_KIND_CHOICES,
+    ProcuringEntityKind,
+)
 from openprocurement.api.procedure.types import ModelType
 from openprocurement.framework.core.procedure.models.address import FullAddress
 from openprocurement.framework.core.procedure.models.contact import PatchContactPoint
@@ -14,7 +18,7 @@ AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
 
 
 class CentralProcuringEntity(BaseProcuringEntity):
-    kind = StringType(choices=["central"], default="central", required=True)
+    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, default=ProcuringEntityKind.CENTRAL, required=True)
 
     def validate_identifier(self, data, identifier):
         if identifier:

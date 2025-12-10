@@ -46,6 +46,7 @@ Content-Type: application/json
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
+      "kind": "special",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -53,8 +54,7 @@ Content-Type: application/json
         "iban": "111111111111111",
         "position": "Генеральний директор",
         "authorizedBy": "Статут компанії"
-      },
-      "kind": "special"
+      }
     },
     "status": "active",
     "value": {
@@ -88,7 +88,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "5740fe669c0546188adff1c8c9b0aa58",
+        "relatedLot": "38dc344a3523496a83d39aaf08a5e277",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -107,7 +107,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "5740fe669c0546188adff1c8c9b0aa58",
+        "id": "38dc344a3523496a83d39aaf08a5e277",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "currency": "UAH",
@@ -128,7 +128,7 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "5740fe669c0546188adff1c8c9b0aa58"
+        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
       },
       {
         "id": "3146a414257c4ddd94f2ff02c75d00ab",
@@ -141,7 +141,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "5740fe669c0546188adff1c8c9b0aa58"
+        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
       }
     ],
     "procurementMethodType": "negotiation.quick",

@@ -7,6 +7,9 @@ from freezegun import freeze_time
 
 from openprocurement.api.constants import PERIOD_CHANGE_CAUSES, ROUTE_PREFIX
 from openprocurement.api.context import set_request_now
+from openprocurement.api.procedure.models.organization import (
+    PROCURING_ENTITY_KIND_CHOICES,
+)
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.constants import (
@@ -623,6 +626,73 @@ def create_framework_draft(self):
     # Check framework config
     framework_config = response.json["config"]
     self.assertEqual(framework_config["restrictedDerivatives"], self.initial_config["restrictedDerivatives"])
+
+
+def validate_procurement_entity_kind(self):
+    self.app.authorization = ("Basic", ("token", ""))
+    data = deepcopy(self.initial_data)
+    config = deepcopy(self.initial_config)
+
+    with mock.patch(
+        "openprocurement.framework.core.procedure.state.framework.PROCUREMENT_ENTITY_KIND_VALIDATION_FROM",
+        get_now() - timedelta(days=1),
+    ):
+        for kind in PROCURING_ENTITY_KIND_CHOICES:
+            resp_status = 201 if kind in self.allowed_proc_entity_kinds else 422
+            data["procuringEntity"]["kind"] = kind
+            extra_config = {}
+
+            if kind == "defense":
+                extra_config["restrictedDerivatives"] = True
+            response = self.app.post_json(
+                "/frameworks", {"data": data, "config": {**config, **extra_config}}, status=resp_status
+            )
+            if resp_status == 201:
+                self.assertEqual(response.status, "201 Created")
+            else:
+                self.assertRegex(
+                    response.json["errors"][0]["description"],
+                    rf"^Framework publishing with type (.+) is not allowed for procuringEntity.kind {kind}$",
+                )
+
+
+def validate_procurement_entity_kind_patch(self):
+    self.app.authorization = ("Basic", ("token", ""))
+
+    data = deepcopy(self.initial_data)
+    entity = deepcopy(data["procuringEntity"])
+    response = self.app.post_json("/frameworks", {"data": data, "config": self.initial_config}, status=201)
+    framework_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    with mock.patch(
+        "openprocurement.framework.core.procedure.state.framework.PROCUREMENT_ENTITY_KIND_VALIDATION_FROM",
+        get_now() - timedelta(days=1),
+    ):
+        for kind in PROCURING_ENTITY_KIND_CHOICES:
+            resp_status = 200 if kind in self.allowed_proc_entity_kinds else 422
+            entity["kind"] = kind
+            entity["name"] = f"new name for {kind}"
+
+            fw = self.mongodb.frameworks.get(framework_id)
+            if kind == "defense":
+                fw["config"]["restrictedDerivatives"] = True
+            else:
+                fw["config"]["restrictedDerivatives"] = False
+            self.mongodb.frameworks.save(fw)
+
+            response = self.app.patch_json(
+                f"/frameworks/{framework_id}?acc_token={token}",
+                {"data": {"procuringEntity": entity}},
+                status=resp_status,
+            )
+            if resp_status == 200:
+                self.assertEqual(response.status, "200 OK")
+            else:
+                self.assertRegex(
+                    response.json["errors"][0]["description"],
+                    rf"^Framework publishing with type (.+) is not allowed for procuringEntity.kind {kind}$",
+                )
 
 
 def create_framework_config_restricted(self):

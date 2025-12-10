@@ -30,8 +30,9 @@ bid2.update(test_docs_qualified)
 bid.update({"selfEligible": True})
 bid2.update({"selfEligible": True})
 
-TARGET_DIR = 'docs/source/tendering/defense/http/'
-TARGET_CSV_DIR = 'docs/source/tendering/defense/csv/'
+BASE_DIR = 'docs/source/tendering/defense/'
+TARGET_DIR = BASE_DIR + 'http/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -54,6 +55,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         self.write_config_pmt_csv(
             pmt="aboveThresholdUA.defense",
             file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
+    def test_docs_allowed_kind_csv(self):
+        self.write_allowed_kind_csv(
+            pmt="aboveThresholdUA.defense",
+            file_path=TARGET_CSV_DIR + "kind.csv",
         )
 
     def test_docs(self):

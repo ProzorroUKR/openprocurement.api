@@ -12,7 +12,6 @@ TENDERING_EXTRA_PERIOD = timedelta(days=7)
 CLARIFICATIONS_UNTIL_PERIOD = timedelta(days=5)
 MAX_AGREEMENT_PERIOD = parse_duration("P4Y")
 CFA_UA = "closeFrameworkAgreementUA"
-CFA_UA_KINDS = ("authority", "central", "defense", "general", "social", "special")
 
 WORKING_DAYS_CONFIG = {
     "minTenderingDuration": False,

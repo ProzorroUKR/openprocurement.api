@@ -44,8 +44,9 @@ from openprocurement.tender.requestforproposal.tests.base import (
 
 test_tender_data = deepcopy(test_docs_tender_rfp)
 
-TARGET_DIR = 'docs/source/tendering/requestforproposal/http/'
-TARGET_CSV_DIR = 'docs/source/tendering/requestforproposal/csv/'
+BASE_DIR = 'docs/source/tendering/requestforproposal/'
+TARGET_DIR = BASE_DIR + 'http/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
 
 class TenderResourceTest(
@@ -75,6 +76,12 @@ class TenderResourceTest(
         self.write_config_pmt_csv(
             pmt="requestForProposal",
             file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
+    def test_docs_allowed_kind_csv(self):
+        self.write_allowed_kind_csv(
+            pmt="requestForProposal",
+            file_path=TARGET_CSV_DIR + "kind.csv",
         )
 
     def test_docs_2pc(self):

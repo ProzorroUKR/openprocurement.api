@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 
 CLAIM_SUBMIT_TIME = timedelta(days=10)
 TENDERING_EXTRA_PERIOD = timedelta(days=7)
@@ -19,15 +18,6 @@ STATUS4ROLE = {
     "tender_owner": ["claim", "pending", "accepted", "satisfied"],
 }
 ABOVE_THRESHOLD_UA = "aboveThresholdUA"
-
-UA_PROCURING_ENTITY_KIND_CHOICES = (
-    ProcuringEntityKind.AUTHORITY.value,
-    ProcuringEntityKind.CENTRAL.value,
-    ProcuringEntityKind.DEFENSE.value,
-    ProcuringEntityKind.GENERAL.value,
-    ProcuringEntityKind.SOCIAL.value,
-    ProcuringEntityKind.SPECIAL.value,
-)
 
 WORKING_DAYS_CONFIG = {
     "minTenderingDuration": False,

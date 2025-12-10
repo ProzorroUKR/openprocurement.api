@@ -45,6 +45,7 @@ Content-Type: application/json
         "name": "Державне управління справами",
         "telephone": "+0440000000"
       },
+      "kind": "general",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -53,8 +54,7 @@ Content-Type: application/json
         "position": "Генеральний директор",
         "authorizedBy": "Статут компанії"
       },
-      "contract_owner": "broker6",
-      "kind": "general"
+      "contract_owner": "broker6"
     },
     "items": [
       {

@@ -35,9 +35,6 @@ from openprocurement.tender.openeu.procedure.models.tender import (
     PostTender as BasePostTender,
 )
 from openprocurement.tender.openeu.procedure.models.tender import Tender as BaseTender
-from openprocurement.tender.openua.procedure.models.organization import (
-    ProcuringEntity as UAProcuringEntity,
-)
 from openprocurement.tender.openua.procedure.models.tender import (
     PatchTender as UABasePatchTender,
 )
@@ -168,7 +165,6 @@ class EUTender(BaseTender):
 
 class PostUATender(UABasePostTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], default=STAGE_2_UA_TYPE)
-    procuringEntity = ModelType(UAProcuringEntity, required=True)
 
     owner = StringType(required=True)
     tenderID = StringType()  # in tests it's not passed
@@ -216,7 +212,6 @@ class PostUATender(UABasePostTender):
 
 class PatchUATender(UABasePatchTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE])
-    procuringEntity = ModelType(UAProcuringEntity)
 
     items = ListType(
         ModelType(UAItem, required=True),
@@ -236,7 +231,6 @@ class PatchUATender(UABasePatchTender):
 
 class UATender(UABaseTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], required=True)
-    procuringEntity = ModelType(UAProcuringEntity, required=True)
 
     dialogue_token = StringType(required=True)
     dialogueID = StringType()

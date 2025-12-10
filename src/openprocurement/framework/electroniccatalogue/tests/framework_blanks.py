@@ -17,7 +17,11 @@ def create_framework_draft_invalid_kind(self):
         response.json["errors"],
         [
             {
-                'description': {'kind': ["Value must be one of ['central']."]},
+                'description': {
+                    'kind': [
+                        "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                    ]
+                },
                 'location': 'body',
                 'name': 'procuringEntity',
             }

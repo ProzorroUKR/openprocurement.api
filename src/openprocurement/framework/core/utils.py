@@ -4,7 +4,14 @@ from logging import getLogger
 from dateorro import calc_datetime
 
 from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.utils import calculate_full_date, context_unpack, get_now
+from openprocurement.api.context import get_request_now
+from openprocurement.api.procedure.context import get_framework
+from openprocurement.api.utils import (
+    calculate_full_date,
+    context_unpack,
+    get_first_revision_date,
+    get_now,
+)
 from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.utils import convert_agreement_type
@@ -192,3 +199,8 @@ def request_update_object(request, obj_name):
 def request_create_or_update_object(request, obj_name):
     request_update_object(request, obj_name)
     request_create_object(request, obj_name)
+
+
+def framework_created_after(dt):
+    framework_created = get_first_revision_date(get_framework(), default=get_request_now())
+    return framework_created > dt

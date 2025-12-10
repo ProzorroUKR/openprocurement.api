@@ -2,7 +2,11 @@ from copy import deepcopy
 from datetime import timedelta
 from logging import getLogger
 
-from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
+from openprocurement.api.constants import (
+    FRAMEWORK_CONFIG_JSONSCHEMAS,
+    KIND_FRAMEWORK_TYPE_MAPPING,
+)
+from openprocurement.api.constants_env import PROCUREMENT_ENTITY_KIND_VALIDATION_FROM
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
 from openprocurement.api.procedure.validation import (
@@ -23,7 +27,10 @@ from openprocurement.framework.core.procedure.state.qualification import (
     QualificationState,
 )
 from openprocurement.framework.core.procedure.state.submission import SubmissionState
-from openprocurement.framework.core.utils import calculate_framework_full_date
+from openprocurement.framework.core.utils import (
+    calculate_framework_full_date,
+    framework_created_after,
+)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 AGREEMENT_DEPENDENT_FIELDS = (
@@ -81,11 +88,14 @@ class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, Bas
 
     def on_post(self, data):
         data["date"] = get_request_now().isoformat()
+        self._validate_procurement_entity_kind(data)
         self.validate_items_presence(data)
         self.validate_items_classification_prefix(data)
         super().on_post(data)
 
     def on_patch(self, before, after):
+        if before.get("procuringEntity") != after.get("procuringEntity"):
+            self._validate_procurement_entity_kind(after)
         self.validate_on_patch(before, after)
         self.validate_items_presence(after)
         self.validate_items_classification_prefix(after)
@@ -118,6 +128,18 @@ class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, Bas
                 MIN_QUALIFICATION_DURATION,
                 MAX_QUALIFICATION_DURATION,
             )
+
+    def _validate_procurement_entity_kind(self, data):
+        if framework_created_after(PROCUREMENT_ENTITY_KIND_VALIDATION_FROM):
+            framework_type = data.get("frameworkType")
+            proc_entity_kind = data.get("procuringEntity", {}).get("kind")
+            if proc_entity_kind not in KIND_FRAMEWORK_TYPE_MAPPING.get(framework_type, []):
+                raise_operation_error(
+                    get_request(),
+                    f"Framework publishing with type {framework_type} is not allowed for procuringEntity.kind {proc_entity_kind}",
+                    status=422,
+                    name="procuringEntity",
+                )
 
     def validate_items_presence(self, data):
         # Items are not allowed for framework with hasItems set to false

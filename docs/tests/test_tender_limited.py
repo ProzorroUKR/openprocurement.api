@@ -34,8 +34,9 @@ test_tender_negotiation_quick_data['causeDetails'] = {
 }
 test_lots[0]['value'] = test_tender_negotiation_data['value']
 
-TARGET_DIR = 'docs/source/tendering/limited/http/'
-TARGET_CSV_DIR = 'docs/source/tendering/limited/csv/'
+BASE_DIR = 'docs/source/tendering/limited/'
+TARGET_DIR = BASE_DIR + 'http/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
 
 class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -61,16 +62,34 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             file_path=TARGET_CSV_DIR + "config-reporting.csv",
         )
 
+    def test_docs_allowed_kind_csv_reporting(self):
+        self.write_allowed_kind_csv(
+            pmt="reporting",
+            file_path=TARGET_CSV_DIR + "kind-reporting.csv",
+        )
+
     def test_docs_config_negotiation_csv(self):
         self.write_config_pmt_csv(
             pmt="negotiation",
             file_path=TARGET_CSV_DIR + "config-negotiation.csv",
         )
 
+    def test_docs_allowed_kind_csv_negotiation(self):
+        self.write_allowed_kind_csv(
+            pmt="negotiation",
+            file_path=TARGET_CSV_DIR + "kind-negotiation.csv",
+        )
+
     def test_docs_config_negotiation_quick_csv(self):
         self.write_config_pmt_csv(
             pmt="negotiation.quick",
             file_path=TARGET_CSV_DIR + "config-negotiation-quick.csv",
+        )
+
+    def test_docs_allowed_kind_csv_negotiation_quick(self):
+        self.write_allowed_kind_csv(
+            pmt="negotiation.quick",
+            file_path=TARGET_CSV_DIR + "kind-negotiation-quick.csv",
         )
 
     def test_docs(self):

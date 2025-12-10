@@ -962,6 +962,38 @@ Content-Type: application/json
       "procurementMethod": "open",
       "submissionMethod": "electronicAuction",
       "awardCriteria": "lowestCost",
+      "procuringEntity": {
+        "name": "ЗОСШ #10 м.Вінниці",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "21725150",
+          "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+          "legalName_en": " "
+        },
+        "address": {
+          "streetAddress": "вул. Стахурського. 22",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21027",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Куца Світлана Валентинівна",
+          "telephone": "+380432465302",
+          "url": "http://sch10.edu.vn.ua/",
+          "name_en": " "
+        },
+        "kind": "special",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        },
+        "name_en": " "
+      },
       "value": {
         "currency": "UAH",
         "valueAddedTaxIncluded": true,
@@ -1020,38 +1052,6 @@ Content-Type: application/json
       "complaintPeriod": {
         "startDate": "2023-10-10T01:00:00+03:00",
         "endDate": "2023-11-06T00:00:00+02:00"
-      },
-      "procuringEntity": {
-        "name": "ЗОСШ #10 м.Вінниці",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "21725150",
-          "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-          "legalName_en": " "
-        },
-        "address": {
-          "streetAddress": "вул. Стахурського. 22",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21027",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Куца Світлана Валентинівна",
-          "telephone": "+380432465302",
-          "url": "http://sch10.edu.vn.ua/",
-          "name_en": " "
-        },
-        "signerInfo": {
-          "name": "Test Testovich",
-          "email": "example@email.com",
-          "telephone": "+380950000000",
-          "iban": "111111111111111",
-          "position": "Генеральний директор",
-          "authorizedBy": "Статут компанії"
-        },
-        "kind": "special",
-        "name_en": " "
       },
       "status": "active.pre-qualification",
       "procurementMethodType": "aboveThresholdEU",

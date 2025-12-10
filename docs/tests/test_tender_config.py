@@ -27,6 +27,7 @@ from tests.base.data import (
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.context import get_request_now, set_request_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
@@ -220,6 +221,14 @@ class TenderConfigCSVMixin:
             writer = csv.writer(file_csv, lineterminator='\n')
             writer.writerow(filtered_headers)
             writer.writerows(filtered_rows)
+
+    def write_allowed_kind_csv(self, pmt, file_path):
+        headers = ["procuringEntity.kind"]
+        allowed_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING.get(pmt) or ["\-"]
+        with open(file_path, "w", newline="") as file_csv:
+            writer = csv.writer(file_csv, lineterminator='\n')
+            writer.writerow(headers)
+            writer.writerows([[x] for x in allowed_kinds])
 
     def write_config_mask_csv(self, mapping, file_path):
         headers = [

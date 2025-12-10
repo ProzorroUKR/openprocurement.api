@@ -35,8 +35,9 @@ test_tender_data = deepcopy(test_tender_pq_data)
 bid_draft = deepcopy(test_tender_pq_bids[0])
 bid_draft["status"] = "draft"
 
-TARGET_DIR = 'docs/source/tendering/pricequotation/http/'
-TARGET_CSV_DIR = 'docs/source/tendering/pricequotation/csv/'
+BASE_DIR = 'docs/source/tendering/pricequotation/'
+TARGET_DIR = BASE_DIR + 'http/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -62,6 +63,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.write_config_pmt_csv(
             pmt="priceQuotation",
             file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
+    def test_docs_allowed_kind_csv(self):
+        self.write_allowed_kind_csv(
+            pmt="priceQuotation",
+            file_path=TARGET_CSV_DIR + "kind.csv",
         )
 
     def activate_tender(self, profile, filename):

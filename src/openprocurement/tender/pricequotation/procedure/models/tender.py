@@ -13,6 +13,7 @@ from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
     validate_milestones_lot,
 )
+from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.period import (
     PeriodStartEndRequired,
     StartedPeriodEndRequired,
@@ -27,7 +28,6 @@ from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.models.agreement import Agreement
 from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
 from openprocurement.tender.pricequotation.procedure.models.organization import (
-    ProcuringEntity,
     ShortlistedFirm,
 )
 from openprocurement.tender.pricequotation.procedure.validation import (

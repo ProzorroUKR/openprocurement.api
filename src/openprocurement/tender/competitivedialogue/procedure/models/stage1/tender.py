@@ -35,9 +35,6 @@ from openprocurement.tender.openeu.procedure.models.tender import (
 )
 from openprocurement.tender.openeu.procedure.models.tender import Tender as BaseTender
 from openprocurement.tender.openua.procedure.models.item import Item as UAItem
-from openprocurement.tender.openua.procedure.models.organization import (
-    ProcuringEntity as UAProcuringEntity,
-)
 
 # === EU
 
@@ -140,7 +137,6 @@ class EUTender(BaseTender):
 
 class PostUATender(PostEUTender):
     procurementMethodType = StringType(choices=[CD_UA_TYPE], default=CD_UA_TYPE)
-    procuringEntity = ModelType(UAProcuringEntity, required=True)
     items = ListType(
         ModelType(UAItem, required=True),
         required=True,
@@ -151,7 +147,6 @@ class PostUATender(PostEUTender):
 
 class PatchUATender(PatchEUTender):
     procurementMethodType = StringType(choices=[CD_UA_TYPE])
-    procuringEntity = ModelType(UAProcuringEntity)
     items = ListType(
         ModelType(UAItem, required=True),
         min_size=1,
@@ -161,7 +156,6 @@ class PatchUATender(PatchEUTender):
 
 class UATender(EUTender):
     procurementMethodType = StringType(choices=[CD_UA_TYPE], required=True)
-    procuringEntity = ModelType(UAProcuringEntity, required=True)
     items = ListType(
         ModelType(UAItem, required=True),
         required=True,

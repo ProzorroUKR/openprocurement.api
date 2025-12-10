@@ -20,7 +20,7 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
     set_tender_criteria,
 )
-from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.tests.data import (
     test_agreement_pq_data,
     test_tender_pq_buyer,
@@ -468,12 +468,8 @@ def create_tender_invalid(self):
         [
             {
                 "location": "body",
-                "name": "procuringEntity",
-                "description": {
-                    "kind": [
-                        "Value must be one of [\'general\', \'special\', \'defense\', \'other\', \'social\', \'authority\']."
-                    ]
-                },
+                "name": "buyers",
+                "description": ['This field is required.'],
             }
         ],
     )
@@ -694,20 +690,10 @@ def create_tender_draft(self):
     pq_entity = deepcopy(tender["procuringEntity"])
     pq_entity["kind"] = "central"
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"procuringEntity": pq_entity}}, status=422
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"procuringEntity": pq_entity}},
     )
-    self.assertEqual(
-        response.json['errors'],
-        [
-            {
-                "location": "body",
-                "name": "procuringEntity",
-                "description": {
-                    "kind": ["Value must be one of ['general', 'special', 'defense', 'other', 'social', 'authority']."]
-                },
-            }
-        ],
-    )
+    self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
@@ -1645,14 +1631,6 @@ def create_tender(self):
     self.assertNotIn("locality", response.json["data"]["items"][0]["deliveryAddress"])
     self.assertNotIn("streetAddress", response.json["data"]["items"][0]["deliveryAddress"])
     self.assertNotIn("region", response.json["data"]["items"][0]["deliveryAddress"])
-
-    for kind in PQ_KINDS:
-        data = deepcopy(self.initial_data)
-        data['procuringEntity']['kind'] = kind
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json['data']['procuringEntity']['kind'], kind)
 
 
 def tender_fields(self):

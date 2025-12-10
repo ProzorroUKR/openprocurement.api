@@ -64,6 +64,26 @@ Content-Type: application/json
     "contractTemplateName": "00000000.0002.01",
     "title": "футляри до державних нагород",
     "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "ЦЗО №1",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "111111",
+        "legalName": "ДП Центральний закупівельний орган №1"
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Довідкова",
+        "telephone": "+0440000000"
+      },
+      "kind": "central"
+    },
     "value": {
       "currency": "UAH",
       "amount": 500.0,
@@ -95,26 +115,6 @@ Content-Type: application/json
         "sequenceNumber": 2
       }
     ],
-    "procuringEntity": {
-      "name": "ЦЗО №1",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "111111",
-        "legalName": "ДП Центральний закупівельний орган №1"
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Довідкова",
-        "telephone": "+0440000000"
-      },
-      "kind": "central"
-    },
     "status": "draft",
     "procurementMethodType": "aboveThresholdUA",
     "tenderPeriod": {

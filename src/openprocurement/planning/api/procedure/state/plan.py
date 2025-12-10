@@ -29,6 +29,7 @@ from openprocurement.planning.api.constants import (
 )
 from openprocurement.planning.api.procedure.models.milestone import Milestone
 from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
+from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
@@ -154,7 +155,7 @@ class PlanState(BaseState):
             ProcuringEntityKind.CENTRAL: procurement_method_types_without_above_threshold_ua_defense,
             ProcuringEntityKind.AUTHORITY: procurement_method_types_without_above_threshold_ua_defense,
             ProcuringEntityKind.SOCIAL: procurement_method_types_without_above_threshold_ua_defense,
-            ProcuringEntityKind.OTHER: ["belowThreshold", "reporting", "priceQuotation", REQUEST_FOR_PROPOSAL],
+            ProcuringEntityKind.OTHER: ["belowThreshold", "reporting", "priceQuotation", REQUEST_FOR_PROPOSAL, ESCO],
         }
 
         kind = data.get("procuringEntity", {}).get("kind", "")

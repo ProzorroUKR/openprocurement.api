@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
@@ -50,6 +51,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_not_found,
     tender_notice_documents,
     tender_token_invalid,
+    validate_procurement_entity_kind,
+    validate_procurement_entity_kind_patch,
 )
 from openprocurement.tender.requestforproposal.tests.base import (
     BaseApiWebTest,
@@ -81,6 +84,8 @@ from openprocurement.tender.requestforproposal.tests.tender_blanks import (
 
 
 class TenderResourceTestMixin:
+    allowed_proc_entity_kinds = ...
+
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
@@ -105,6 +110,8 @@ class TenderResourceTestMixin:
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
     test_tender_notice_documents = snitch(tender_notice_documents)
     test_contract_template_name_set = snitch(contract_template_name_set)
+    test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
+    test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
 
 
 class TenderTest(BaseApiWebTest):
@@ -115,6 +122,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_rfp_data
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots_data = test_tender_rfp_lots
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["requestForProposal"]
 
     test_guarantee = snitch(guarantee)
     test_tender_inspector = snitch(tender_inspector)

@@ -1,5 +1,6 @@
 import unittest
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (  # TenderProcessTest; TenderResourceTest
@@ -77,6 +78,7 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     initial_lots = test_lots_data = test_tender_esco_lots
     initial_bids = test_bids_data = test_tender_esco_bids
     tender_period_duration = TENDERING_DAYS
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["esco"]
 
     test_tender_fields = snitch(tender_fields)
     test_tender_with_nbu_discount_rate = snitch(tender_with_nbu_discount_rate)

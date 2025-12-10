@@ -1,5 +1,6 @@
 import unittest
 
+from openprocurement.api.constants import KIND_FRAMEWORK_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.framework_blanks import (
     complete_status,
@@ -22,6 +23,8 @@ from openprocurement.framework.dps.tests.framework_blanks import (
     patch_framework_draft_to_active_invalid,
     periods_deletion,
     unsuccessful_status,
+    validate_procurement_entity_kind,
+    validate_procurement_entity_kind_patch,
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseFrameworkWebTest,
@@ -39,6 +42,7 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     initial_data = test_framework_electronic_catalogue_data
     initial_config = test_framework_electronic_catalogue_config
     initial_auth = ("Basic", ("broker", ""))
+    allowed_proc_entity_kinds = KIND_FRAMEWORK_TYPE_MAPPING["electronicCatalogue"]
 
     min_submissions_number = 1
     min_submissions_number_days = 20
@@ -68,6 +72,8 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     test_framework_token_invalid = snitch(framework_token_invalid)
     test_framework_fields = snitch(framework_fields)
     test_modify_framework_period = snitch(modify_framework_period)
+    test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
+    test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
 
 
 def suite():

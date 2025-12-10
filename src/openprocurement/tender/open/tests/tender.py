@@ -1,6 +1,7 @@
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
@@ -61,6 +62,7 @@ class TenderUaProcessTestMixin:
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     initial_data = test_tender_open_data
     initial_lots = test_tender_below_lots
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["aboveThreshold"]
 
     def setUp(self):
         super().setUp()
