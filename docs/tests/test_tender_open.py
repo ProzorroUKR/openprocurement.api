@@ -34,9 +34,9 @@ test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 test_lots[1]["value"] = test_tender_data["value"]
 test_lots[1]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 
-BASE_DIR = 'docs/source/tendering/open/'
-TARGET_DIR = BASE_DIR + 'http/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/open/"
+TARGET_DIR = BASE_DIR + "http/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):

@@ -86,11 +86,11 @@ test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 test_lots[1]["value"] = test_tender_data_stage1["value"]
 test_lots[1]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/source/tendering/competitivedialogue/'
-TARGET_DIR = BASE_DIR + 'tutorial/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/source/tendering/competitivedialogue/"
+TARGET_DIR = BASE_DIR + "tutorial/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
-TARGET_DIR_MULTIPLE = BASE_DIR + 'multiple_lots_tutorial/'
+TARGET_DIR_MULTIPLE = BASE_DIR + "multiple_lots_tutorial/"
 
 
 class CDStage2Mixin:

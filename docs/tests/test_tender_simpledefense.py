@@ -5,9 +5,9 @@ from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
-BASE_DIR = 'docs/source/tendering/simpledefense/'
-TARGET_DIR = BASE_DIR + 'http/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/simpledefense/"
+TARGET_DIR = BASE_DIR + "http/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class SimpleDefenseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):

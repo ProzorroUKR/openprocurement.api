@@ -18,24 +18,24 @@ award_negotiation = deepcopy(test_docs_award)
 test_tender_negotiation_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 
-award_negotiation['value']['valueAddedTaxIncluded'] = False
-test_tender_negotiation_data['procurementMethodType'] = "negotiation"
-test_tender_negotiation_data['causeDetails'] = {
+award_negotiation["value"]["valueAddedTaxIncluded"] = False
+test_tender_negotiation_data["procurementMethodType"] = "negotiation"
+test_tender_negotiation_data["causeDetails"] = {
     "code": "lastHope",
     "description": "оригінальний тендер не вдався двічі",
     "description_en": "the original tender failed twice",
 }
-test_tender_negotiation_quick_data['procurementMethodType'] = "negotiation.quick"
-test_tender_negotiation_quick_data['causeDetails'] = {
+test_tender_negotiation_quick_data["procurementMethodType"] = "negotiation.quick"
+test_tender_negotiation_quick_data["causeDetails"] = {
     "code": "lastHope",
     "description": "оригінальний тендер не вдався двічі",
     "description_en": "the original tender failed twice",
 }
-test_lots[0]['value'] = test_tender_negotiation_data['value']
+test_lots[0]["value"] = test_tender_negotiation_data["value"]
 
-BASE_DIR = 'docs/source/tendering/limited/'
-TARGET_DIR = BASE_DIR + 'http/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/limited/"
+TARGET_DIR = BASE_DIR + "http/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -92,35 +92,35 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         )
 
     def test_docs(self):
-        request_path = '/tenders?opt_pretty=1'
+        request_path = "/tenders?opt_pretty=1"
 
         #### Creating tender for negotiation/reporting procedure
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         reporting_data = deepcopy(test_tender_data)
         reporting_data.pop("procurementMethodRationale", None)
 
-        with open(TARGET_DIR + 'tutorial/create-tender-reporting-invalid.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/create-tender-reporting-invalid.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}, status=422
+                "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
             )
 
         reporting_data["causeDetails"] = {
             "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
         }
-        with open(TARGET_DIR + 'tutorial/create-tender-reporting-invalid-cause-details.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/create-tender-reporting-invalid-cause-details.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}, status=422
+                "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
             )
 
         reporting_data["causeDetails"] = {
             "code": "defencePurchase",
         }
         with open(
-            TARGET_DIR + 'tutorial/create-tender-reporting-cause-details-description-required.http', 'w'
+            TARGET_DIR + "tutorial/create-tender-reporting-cause-details-description-required.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}, status=422
+                "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
             )
 
         reporting_data["causeDetails"] = {
@@ -128,53 +128,53 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
         }
 
-        with open(TARGET_DIR + 'tutorial/create-tender-reporting-procuringEntity.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/create-tender-reporting-procuringEntity.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}
+                "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'tutorial/tender-listing-after-procuringEntity.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders?opt_pretty=1')
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "tutorial/tender-listing-after-procuringEntity.http", "w") as self.app.file_obj:
+            response = self.app.get("/tenders?opt_pretty=1")
+            self.assertEqual(response.status, "200 OK")
 
         #### Tender activating
 
-        with open(TARGET_DIR + 'tutorial/tender-activating.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/tender-activating.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"status": "active"}}
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "active"}}
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'tutorial/active-tender-listing-after-procuringEntity.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders?opt_pretty=1')
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "tutorial/active-tender-listing-after-procuringEntity.http", "w") as self.app.file_obj:
+            response = self.app.get("/tenders?opt_pretty=1")
+            self.assertEqual(response.status, "200 OK")
 
         #### Modifying tender
 
         items = deepcopy(tender["items"])
         items[0].update({"quantity": 9, "unit": {"code": "MON", "name": "month"}})
-        with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/patch-items-value-periods.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"items": items}}
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
             )
 
-        with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/tender-listing-after-patch.http", "w") as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        self.tender_id = tender['id']
+        self.app.authorization = ("Basic", ("broker", ""))
+        self.tender_id = tender["id"]
 
         #### Uploading documentation
 
-        with open(TARGET_DIR + 'tutorial/upload-tender-notice.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/upload-tender-notice.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
+                "/tenders/{}/documents?acc_token={}".format(self.tender_id, owner_token),
                 {
                     "data": {
                         "title": "Notice.pdf",
@@ -184,13 +184,13 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         doc_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'tutorial/update-tender-notice.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/update-tender-notice.http", "w") as self.app.file_obj:
             response = self.app.put_json(
-                '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
+                "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, owner_token),
                 {
                     "data": {
                         "title": "Notice.pdf",
@@ -200,11 +200,11 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         #### Adding supplier information
 
-        with open(TARGET_DIR + 'tutorial/tender-award.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/tender-award.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token), {"data": test_docs_award}
             )

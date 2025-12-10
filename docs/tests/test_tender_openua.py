@@ -34,9 +34,9 @@ bid2.update(test_docs_qualified)
 bid.update(test_docs_subcontracting)
 bid.update(test_docs_qualified)
 
-BASE_DIR = 'docs/source/tendering/openua/'
-TARGET_DIR = BASE_DIR + 'http/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/openua/"
+TARGET_DIR = BASE_DIR + "http/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):

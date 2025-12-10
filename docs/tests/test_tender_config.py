@@ -226,7 +226,7 @@ class TenderConfigCSVMixin:
         headers = ["procuringEntity.kind"]
         allowed_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING.get(pmt) or ["\-"]
         with open(file_path, "w", newline="") as file_csv:
-            writer = csv.writer(file_csv, lineterminator='\n')
+            writer = csv.writer(file_csv, lineterminator="\n")
             writer.writerow(headers)
             writer.writerows([[x] for x in allowed_kinds])
 

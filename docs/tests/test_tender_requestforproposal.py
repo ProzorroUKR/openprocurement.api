@@ -44,9 +44,9 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_docs_tender_rfp)
 
-BASE_DIR = 'docs/source/tendering/requestforproposal/'
-TARGET_DIR = BASE_DIR + 'http/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/requestforproposal/"
+TARGET_DIR = BASE_DIR + "http/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderResourceTest(
