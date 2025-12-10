@@ -123,7 +123,6 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "200 OK")
 
         contract_1_id = response.json["data"]["contracts"][0]["id"]
-        contract_2_id = response.json["data"]["contracts"][1]["id"]
 
         with open(TARGET_DIR + "milestone-list.http", "wb") as self.app.file_obj:
             response = self.app.get(
@@ -142,7 +141,6 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
                 f"?acc_token={self.framework_token}",
                 {"data": ban_milestone},
             )
-        contract_1_ban_milestone_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + "agreement-view-contract-suspended.http", "wb") as self.app.file_obj:
             response = self.app.get(f"/agreements/{self.agreement_id}")

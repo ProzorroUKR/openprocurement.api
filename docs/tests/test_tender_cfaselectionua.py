@@ -132,7 +132,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "draft.pending"}}
             )
-            data = response.json["data"]
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "draft.pending")
 

@@ -724,7 +724,6 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
                 },
                 status=201,
             )
-            private_doc_id = response.json["data"]["id"]
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(tender_id, bid_id, bid_token),

@@ -431,7 +431,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 },
             )
             self.assertEqual(response.status, "201 Created")
-            financial_doc_id = response.json["data"]["id"]
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/financial_documents?acc_token={}".format(
@@ -447,7 +446,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             },
         )
         self.assertEqual(response.status, "201 Created")
-        financial_doc_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + "bidder-financial-documents.http", "w") as self.app.file_obj:
             response = self.app.get(
@@ -472,7 +470,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 },
             )
             self.assertEqual(response.status, "201 Created")
-            eligibility_doc_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + "upload-bid-qualification-document-proposal.http", "w") as self.app.file_obj:
             response = self.app.post_json(

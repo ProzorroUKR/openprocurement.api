@@ -378,8 +378,6 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
     initial_lots = deepcopy(test_lots[:1])
 
     def test_docs(self):
-        request_path = "/tenders?opt_pretty=1"
-
         #### Creating tender for negotiation/reporting procedure
 
         self.app.authorization = ("Basic", ("broker", ""))
@@ -646,8 +644,6 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
     initial_config = test_tender_negotiation_quick_config
 
     def test_docs(self):
-        request_path = "/tenders?opt_pretty=1"
-
         #### Creating tender for negotiation/reporting procedure
 
         self.app.authorization = ("Basic", ("broker", ""))

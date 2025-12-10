@@ -90,8 +90,6 @@ class TenderrCOShortResourceTest(
         )
 
     def test_docs_tutorial(self):
-        request_path = "/tenders?opt_pretty=1"
-
         # Create agreement
 
         self.tick(datetime.timedelta(days=-15))
@@ -566,8 +564,6 @@ class TenderrCOLongResourceTest(
         )
 
     def test_docs_tutorial(self):
-        request_path = "/tenders?opt_pretty=1"
-
         # Create agreement
 
         self.tick(datetime.timedelta(days=-15))

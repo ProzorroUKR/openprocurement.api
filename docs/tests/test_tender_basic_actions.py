@@ -2672,9 +2672,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tender_id = tender["id"]
 
         other_criteria = deepcopy(test_criterion_data)
-        other_criteria["classification"]["id"] = (
+        classification_id = (
             "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES"
         )
+        other_criteria["classification"]["id"] = classification_id
 
         exclusion_criteria = deepcopy(test_criterion_data)
 
@@ -3047,9 +3048,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {"data": test_criteria_data},
             )
             self.assertEqual(response.status, "201 Created")
-
-        criteria_2 = response.json["data"][0]
-        criteria_id_2 = criteria_2["id"]
 
         self.add_sign_doc(self.tender_id, owner_token)
 

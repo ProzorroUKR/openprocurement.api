@@ -43,8 +43,10 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
 
         tender = response.json["data"]
         tender_id = tender["id"]
-        owner_token = response.json["access"]["token"]
-        orig_tender_transfer_token = response.json["access"]["transfer"]
+        access = response.json["access"]
+        self.assertIn("token", access)
+        self.assertIn("transfer", access)
+        orig_tender_transfer_token = access["transfer"]
 
         self.app.authorization = ("Basic", ("broker2", ""))
 
@@ -53,8 +55,9 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         self.assertEqual(response.content_type, "application/json")
         transfer = response.json["data"]
         access = response.json["access"]
+        self.assertIn("token", access)
+        self.assertIn("transfer", access)
         new_access_token = access["token"]
-        new_transfer_token = access["transfer"]
 
         with open("docs/source/relocation/tutorial/change-tender-ownership-forbidden.http", "w") as self.app.file_obj:
             response = self.app.post_json(
@@ -75,8 +78,9 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             self.assertEqual(response.content_type, "application/json")
             transfer = response.json["data"]
             access = response.json["access"]
+            self.assertIn("token", access)
+            self.assertIn("transfer", access)
             new_access_token = access["token"]
-            new_transfer_token = access["transfer"]
 
         with open("docs/source/relocation/tutorial/get-tender-transfer.http", "w") as self.app.file_obj:
             response = self.app.get("/transfers/{}".format(transfer["id"]))
@@ -110,8 +114,9 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         self.assertEqual(response.content_type, "application/json")
         transfer = response.json["data"]
         access = response.json["access"]
+        self.assertIn("token", access)
+        self.assertIn("transfer", access)
         new_access_token = access["token"]
-        new_transfer_token = access["transfer"]
 
         with open(
             "docs/source/relocation/tutorial/change-tender-ownership-forbidden-owner.http", "w"
@@ -154,7 +159,8 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, "200 OK")
             access = response.json["access"]
-            token = access["token"]
+            self.assertIn("token", access)
+            self.assertIn("transfer", access)
             contract_transfer = access["transfer"]
 
         self.app.authorization = ("Basic", ("broker2", ""))
@@ -164,8 +170,9 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         self.assertEqual(response.content_type, "application/json")
         transfer = response.json["data"]
         access = response.json["access"]
+        self.assertIn("token", access)
+        self.assertIn("transfer", access)
         new_access_token = access["token"]
-        new_transfer_token = access["transfer"]
 
         with open("docs/source/relocation/tutorial/change-contract-ownership-forbidden.http", "w") as self.app.file_obj:
             response = self.app.post_json(
@@ -185,10 +192,10 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "201 Created")
             transfer = response.json["data"]
             self.assertIn("date", transfer)
-            transfer_creation_date = transfer["date"]
             access = response.json["access"]
+            self.assertIn("token", access)
+            self.assertIn("transfer", access)
             new_access_token = access["token"]
-            new_transfer_token = access["transfer"]
 
         with open("docs/source/relocation/tutorial/change-contract-ownership.http", "w") as self.app.file_obj:
             response = self.app.post_json(
@@ -218,8 +225,9 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         self.assertEqual(response.content_type, "application/json")
         transfer = response.json["data"]
         access = response.json["access"]
+        self.assertIn("token", access)
+        self.assertIn("transfer", access)
         new_access_token = access["token"]
-        new_transfer_token = access["transfer"]
 
         with open(
             "docs/source/relocation/tutorial/change-contract-ownership-forbidden-owner.http", "w"
@@ -237,7 +245,6 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
     def test_plans_docs(self):
         data = deepcopy(test_docs_plan_data)
 
-        now = get_now()
         for item in data["items"]:
             item["deliveryDate"] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
@@ -254,7 +261,8 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         plan = response.json["data"]
         plan_id = plan["id"]
         access = response.json["access"]
-        owner_token = access["token"]
+        self.assertIn("token", access)
+        self.assertIn("transfer", access)
         orig_plan_transfer_token = access["transfer"]
 
         self.app.authorization = ("Basic", ("broker2", ""))
@@ -264,8 +272,9 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         self.assertEqual(response.content_type, "application/json")
         transfer = response.json["data"]
         access = response.json["access"]
+        self.assertIn("token", access)
+        self.assertIn("transfer", access)
         new_access_token = access["token"]
-        new_transfer_token = access["transfer"]
 
         with open("docs/source/relocation/tutorial/change-plan-ownership-forbidden.http", "w") as self.app.file_obj:
             response = self.app.post_json(
@@ -286,8 +295,9 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             self.assertEqual(response.content_type, "application/json")
             transfer = response.json["data"]
             access = response.json["access"]
+            self.assertIn("token", access)
+            self.assertIn("transfer", access)
             new_access_token = access["token"]
-            new_transfer_token = access["transfer"]
 
         with open("docs/source/relocation/tutorial/get-plan-transfer.http", "w") as self.app.file_obj:
             response = self.app.get("/transfers/{}".format(transfer["id"]))
@@ -321,8 +331,9 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         self.assertEqual(response.content_type, "application/json")
         transfer = response.json["data"]
         access = response.json["access"]
+        self.assertIn("token", access)
+        self.assertIn("transfer", access)
         new_access_token = access["token"]
-        new_transfer_token = access["transfer"]
 
         with open(
             "docs/source/relocation/tutorial/change-plan-ownership-forbidden-owner.http", "w"
@@ -365,7 +376,8 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, "200 OK")
             access = response.json["access"]
-            token = access["token"]
+            self.assertIn("token", access)
+            self.assertIn("transfer", access)
             agreement_transfer = access["transfer"]
 
         self.app.authorization = ("Basic", ("broker2", ""))
@@ -397,10 +409,10 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "201 Created")
             transfer = response.json["data"]
             self.assertIn("date", transfer)
-            transfer_creation_date = transfer["date"]
             access = response.json["access"]
+            self.assertIn("token", access)
+            self.assertIn("transfer", access)
             new_access_token = access["token"]
-            new_transfer_token = access["transfer"]
 
         with open("docs/source/relocation/tutorial/change-agreement-ownership.http", "w") as self.app.file_obj:
             response = self.app.post_json(
@@ -431,7 +443,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         transfer = response.json["data"]
         access = response.json["access"]
         new_access_token = access["token"]
-        new_transfer_token = access["transfer"]
+        new_transfer_token = access["transfer"]  # noqa: F841
 
         with open(
             "docs/source/relocation/tutorial/change-agreement-ownership-forbidden-owner.http", "w"

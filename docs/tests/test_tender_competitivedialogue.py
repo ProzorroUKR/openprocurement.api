@@ -1235,7 +1235,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 },
             )
             self.assertEqual(response.status, "201 Created")
-            financial_doc_id = response.json["data"]["id"]
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/financial_documents?acc_token={}".format(
@@ -1251,7 +1250,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             },
         )
         self.assertEqual(response.status, "201 Created")
-        financial_doc_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + "stage2/EU/bidder-financial-documents.http", "w") as self.app.file_obj:
             response = self.app.get(
