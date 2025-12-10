@@ -1,5 +1,6 @@
 import unittest
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
@@ -52,6 +53,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     initial_data = test_tender_cdeu_data
     initial_lots = test_lots_data = test_tender_cd_lots
     initial_bids = test_bids_data = test_tender_cd_stage1_bids
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["competitiveDialogueEU"]
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
@@ -81,6 +83,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
     initial_data = test_tender_cdua_data
     initial_lots = test_lots_data = test_tender_cd_lots
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["competitiveDialogueUA"]
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_ua)

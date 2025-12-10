@@ -191,6 +191,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
+      "kind": "special",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -198,8 +199,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
         "iban": "111111111111111",
         "position": "Генеральний директор",
         "authorizedBy": "Статут компанії"
-      },
-      "kind": "special"
+      }
     },
     "status": "draft",
     "value": {

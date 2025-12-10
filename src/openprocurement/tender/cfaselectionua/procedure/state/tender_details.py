@@ -79,6 +79,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         self.check_owner_forbidden_fields(tender)
 
     def on_patch(self, before, after):
+        if before.get("procuringEntity") != after.get("procuringEntity"):
+            self._validate_procurement_entity_kind(after)
         self.validate_contract_template_name(after, before)
         self.validate_tender_period_duration(after)
         self.validate_tender_period_after_enquiry_period(after)

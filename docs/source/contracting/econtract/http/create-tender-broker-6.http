@@ -257,6 +257,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1640f9c9f12d4f74
         "name": "Державне управління справами",
         "telephone": "+0440000000"
       },
+      "kind": "general",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -265,8 +266,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1640f9c9f12d4f74
         "position": "Генеральний директор",
         "authorizedBy": "Статут компанії"
       },
-      "contract_owner": "broker6",
-      "kind": "general"
+      "contract_owner": "broker6"
     },
     "items": [
       {

@@ -1,5 +1,6 @@
 import unittest
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
@@ -64,6 +65,7 @@ class TenderUATest(BaseApiWebTest):
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     initial_data = test_tender_openua_data
     initial_lots = test_lots_data = test_tender_below_lots
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["aboveThresholdUA"]
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)

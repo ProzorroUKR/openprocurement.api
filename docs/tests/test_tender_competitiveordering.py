@@ -34,10 +34,10 @@ from openprocurement.tender.competitiveordering.tests.short.base import (
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import set_tender_criteria
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TARGET_SHORT_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/http/short/')
-TARGET_LONG_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/http/long/')
-TARGET_CSV_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/csv/')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/source/tendering/competitiveordering/'
+TARGET_SHORT_DIR = BASE_DIR + 'http/short/'
+TARGET_LONG_DIR = BASE_DIR + 'http/long/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
 
 class TenderrCOResourceTest(
@@ -53,6 +53,12 @@ class TenderrCOResourceTest(
         self.write_config_pmt_csv(
             pmt="competitiveOrdering",
             file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
+    def test_docs_allowed_kind_csv(self):
+        self.write_allowed_kind_csv(
+            pmt="competitiveOrdering",
+            file_path=TARGET_CSV_DIR + "kind.csv",
         )
 
 

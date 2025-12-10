@@ -1,5 +1,6 @@
 import unittest
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     contract_template_name_set,
@@ -14,6 +15,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_not_found,
     tender_token_invalid,
     tender_with_main_procurement_category,
+    validate_procurement_entity_kind,
+    validate_procurement_entity_kind_patch,
 )
 from openprocurement.tender.core.tests.mock import MockCriteriaIDMixin, MockMarketMixin
 from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
@@ -52,6 +55,8 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
 
 
 class TenderResourceTestMixin:
+    allowed_proc_entity_kinds = ...
+
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
@@ -69,11 +74,14 @@ class TenderResourceTestMixin:
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_contract_template_name_set = snitch(contract_template_name_set)
+    test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
+    test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
 
 
 class TenderResourceTest(MockMarketMixin, MockCriteriaIDMixin, BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_pq_data
     initial_auth = ("Basic", ("broker", ""))
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["priceQuotation"]
 
     test_create_tender_draft = snitch(create_tender_draft)
     test_create_tender_draft_with_criteria = snitch(create_tender_draft_with_criteria)

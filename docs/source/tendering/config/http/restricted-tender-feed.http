@@ -29,6 +29,7 @@ Content-Type: application/json
           "telephone": "+380432465302",
           "url": "http://sch10.edu.vn.ua/"
         },
+        "kind": "special",
         "signerInfo": {
           "name": "Test Testovich",
           "email": "example@email.com",
@@ -36,8 +37,7 @@ Content-Type: application/json
           "iban": "111111111111111",
           "position": "Генеральний директор",
           "authorizedBy": "Статут компанії"
-        },
-        "kind": "special"
+        }
       },
       "id": "38bca89f7ba4477d97f553d576fd6994"
     },
@@ -62,6 +62,7 @@ Content-Type: application/json
           "telephone": "+380432465302",
           "url": "http://sch10.edu.vn.ua/"
         },
+        "kind": "special",
         "signerInfo": {
           "name": "Test Testovich",
           "email": "example@email.com",
@@ -69,8 +70,7 @@ Content-Type: application/json
           "iban": "111111111111111",
           "position": "Генеральний директор",
           "authorizedBy": "Статут компанії"
-        },
-        "kind": "special"
+        }
       },
       "id": "2b5eb9efd396490d8e3e662b7153c1ff"
     }

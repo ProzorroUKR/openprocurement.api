@@ -43,7 +43,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "lotID": "5740fe669c0546188adff1c8c9b0aa58"
+    "lotID": "38dc344a3523496a83d39aaf08a5e277"
   }
 }
 
@@ -92,7 +92,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
         }
       }
     ],
-    "lotID": "5740fe669c0546188adff1c8c9b0aa58",
+    "lotID": "38dc344a3523496a83d39aaf08a5e277",
     "id": "c41959de1f2c4c9086d1ee34dc990c11",
     "date": "2023-10-10T01:00:00+03:00"
   }

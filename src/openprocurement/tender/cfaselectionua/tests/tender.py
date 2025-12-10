@@ -1,6 +1,7 @@
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     contract_template_name_set,
@@ -11,6 +12,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     set_procuring_entity_contract_owner,
     set_procuring_entity_signer_info,
     tender_milestones_not_required,
+    validate_procurement_entity_kind,
+    validate_procurement_entity_kind_patch,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,
@@ -66,6 +69,8 @@ test_tender_cfaselectionua_lots = deepcopy(test_tender_cfaselectionua_data["lots
 
 
 class TenderResourceTestMixin:
+    allowed_proc_entity_kinds = ...
+
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
@@ -88,6 +93,8 @@ class TenderResourceTestMixin:
     test_tender_funders = snitch(tender_funders)
     test_patch_tender_bot = snitch(patch_tender_bot)
     test_create_tender_with_available_language = snitch(create_tender_with_available_language)
+    test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
+    test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
@@ -98,6 +105,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_agreement_with_features = test_tender_cfaselectionua_agreement_features
     test_lots_data = test_tender_cfaselectionua_lots
     initial_criteria = test_exclusion_criteria + test_language_criteria
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["closeFrameworkAgreementSelectionUA"]
 
     # test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)

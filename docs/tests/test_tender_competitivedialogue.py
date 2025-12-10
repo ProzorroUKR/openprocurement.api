@@ -87,10 +87,11 @@ test_lots[0]['minimalStep'] = {"amount": 5, "currency": "UAH"}
 test_lots[1]['value'] = test_tender_data_stage1['value']
 test_lots[1]['minimalStep'] = {"amount": 5, "currency": "UAH"}
 
-TARGET_DIR = 'docs/source/tendering/competitivedialogue/tutorial/'
-TARGET_CSV_DIR = 'docs/source/tendering/competitivedialogue/csv/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/source/tendering/competitivedialogue/'
+TARGET_DIR = BASE_DIR + 'tutorial/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
-TARGET_DIR_MULTIPLE = 'docs/source/tendering/competitivedialogue/multiple_lots_tutorial/'
+TARGET_DIR_MULTIPLE = BASE_DIR + 'multiple_lots_tutorial/'
 
 
 class CDStage2Mixin:
@@ -273,6 +274,18 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             file_path=TARGET_CSV_DIR + "config-ua-stage1.csv",
         )
 
+    def test_docs_allowed_kind_csv_eu_stage1(self):
+        self.write_allowed_kind_csv(
+            pmt="competitiveDialogueEU",
+            file_path=TARGET_CSV_DIR + "kind-eu-stage1.csv",
+        )
+
+    def test_docs_allowed_kind_csv_ua_stage1(self):
+        self.write_allowed_kind_csv(
+            pmt="competitiveDialogueUA",
+            file_path=TARGET_CSV_DIR + "kind-ua-stage1.csv",
+        )
+
     def test_docs_config_eu_stage2_csv(self):
         self.write_config_pmt_csv(
             pmt="competitiveDialogueEU.stage2",
@@ -283,6 +296,18 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         self.write_config_pmt_csv(
             pmt="competitiveDialogueUA.stage2",
             file_path=TARGET_CSV_DIR + "config-ua-stage2.csv",
+        )
+
+    def test_docs_allowed_kind_csv_eu_stage2(self):
+        self.write_allowed_kind_csv(
+            pmt="competitiveDialogueEU.stage2",
+            file_path=TARGET_CSV_DIR + "kind-eu-stage2.csv",
+        )
+
+    def test_docs_allowed_kind_csv_ua_stage2(self):
+        self.write_allowed_kind_csv(
+            pmt="competitiveDialogueUA.stage2",
+            file_path=TARGET_CSV_DIR + "kind-ua-stage2.csv",
         )
 
     def test_stage1(self):

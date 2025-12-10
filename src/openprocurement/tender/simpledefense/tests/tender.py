@@ -45,6 +45,7 @@ from openprocurement.tender.simpledefense.tests.tender_blanks import (
 class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
     initial_data = test_tender_simpledefense_data
     initial_lots = test_lots_data = test_tender_below_lots
+    allowed_proc_entity_kinds = []
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid)

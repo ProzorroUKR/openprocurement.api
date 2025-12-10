@@ -16,6 +16,13 @@ The set of possible configuration values:
 
 You can look for more details in :ref:`config` section.
 
+The set of possible `procuringEntity.kind` values for `closeFrameworkAgreementSelectionUA`
+------------------------------------------------------------------------------------------
+
+.. csv-table::
+   :file: csv/kind.csv
+   :header-rows: 1
+
 Creating tender
 ---------------
 

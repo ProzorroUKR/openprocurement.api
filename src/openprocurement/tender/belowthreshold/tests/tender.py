@@ -2,6 +2,7 @@ import unittest
 from datetime import timedelta
 from unittest.mock import patch
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -70,11 +71,15 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_token_invalid,
     tender_with_main_procurement_category,
     validate_enquiry_period,
+    validate_procurement_entity_kind,
+    validate_procurement_entity_kind_patch,
     validate_tender_period,
 )
 
 
 class TenderResourceTestMixin:
+    allowed_proc_entity_kinds = ...
+
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
@@ -102,6 +107,8 @@ class TenderResourceTestMixin:
     test_set_procuring_entity_signer_info = snitch(set_procuring_entity_signer_info)
     test_set_buyers_signer_info = snitch(set_buyers_signer_info)
     test_set_procuring_entity_contract_owner = snitch(set_procuring_entity_contract_owner)
+    test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
+    test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
 
 
 class TenderTest(BaseApiWebTest):
@@ -112,6 +119,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_below_data
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots_data = test_tender_below_lots
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["belowThreshold"]
 
     test_guarantee = snitch(guarantee)
     test_tender_inspector = snitch(tender_inspector)

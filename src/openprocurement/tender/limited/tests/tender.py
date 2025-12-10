@@ -1,5 +1,6 @@
 import unittest
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     contract_template_name_set,
@@ -19,6 +20,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_milestones_not_required,
     tender_milestones_required,
     tender_not_found,
+    validate_procurement_entity_kind,
+    validate_procurement_entity_kind_patch,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
     tender_delivery_milestones as tender_delivery_milestones_forbidden,
@@ -80,6 +83,7 @@ class TenderTest(BaseTenderWebTest):
 
 class TenderResourceTest(BaseTenderWebTest):
     initial_data = test_tender_reporting_data
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["reporting"]
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
@@ -106,12 +110,15 @@ class TenderResourceTest(BaseTenderWebTest):
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones_forbidden)
+    test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
+    test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
 
 
 class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data
     initial_lots = test_lots_data = test_lots
     initial_config = test_tender_negotiation_config
+    allowed_proc_entity_kinds = []
 
     test_field_relatedLot = snitch(field_relatedLot_negotiation)
     test_changing_tender_after_award = snitch(changing_tender_after_award)

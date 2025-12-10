@@ -1,6 +1,7 @@
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
@@ -77,6 +78,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_bids = deepcopy(test_tender_cfaua_bids_with_lotvalues)
     test_lots_data = test_tender_cfaua_lots_with_ids
     min_bids_number = MIN_BIDS_NUMBER
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["closeFrameworkAgreementUA"]
 
     test_empty_listing = snitch(empty_listing)
     # test_tender_fields = snitch(tender_fields)  added new field need to copy and fix this test

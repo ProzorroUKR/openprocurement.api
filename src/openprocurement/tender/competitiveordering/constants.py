@@ -17,7 +17,6 @@ STATUS4ROLE = {
     "aboveThresholdReviewers": ["pending", "accepted", "stopping"],
     "tender_owner": ["claim", "pending", "accepted", "satisfied"],
 }
-UA_KINDS = ("authority", "central", "defense", "general", "social", "special")
 
 COMPETITIVE_ORDERING = "competitiveOrdering"
 

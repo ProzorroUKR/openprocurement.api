@@ -23,11 +23,9 @@ from openprocurement.tender.core.procedure.models.tender import (
 from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
 from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
 from openprocurement.tender.openua.procedure.models.item import Item
-from openprocurement.tender.openua.procedure.models.organization import ProcuringEntity
 
 
 class PostTender(BasePostTender):
-    procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
     procurementMethodType = StringType(choices=[ABOVE_THRESHOLD_UA], default=ABOVE_THRESHOLD_UA)
     enquiryPeriod = ModelType(EnquiryPeriod)
@@ -45,7 +43,6 @@ class PostTender(BasePostTender):
 
 
 class PatchTender(BasePatchTender):
-    procuringEntity = ModelType(ProcuringEntity)
     status = StringType(
         choices=[
             "draft",
@@ -67,7 +64,6 @@ class PatchTender(BasePatchTender):
 
 
 class Tender(BaseTender):
-    procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(
         choices=[
             "draft",

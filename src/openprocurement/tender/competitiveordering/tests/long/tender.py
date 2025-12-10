@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
@@ -66,6 +67,7 @@ class TenderCOProcessTestMixin:
 class TenderCOResourceTest(BaseTenderCOLongWebTest, TenderResourceTestMixin, TenderCOResourceTestMixin):
     initial_data = test_tender_co_long_data
     initial_lots = test_tender_below_lots
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["competitiveOrdering"]
 
     def setUp(self):
         super().setUp()

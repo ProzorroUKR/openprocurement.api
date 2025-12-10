@@ -26,8 +26,9 @@ from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tende
 
 test_tender_data = deepcopy(test_docs_tender_below)
 
-TARGET_DIR = 'docs/source/tendering/belowthreshold/http/'
-TARGET_CSV_DIR = 'docs/source/tendering/belowthreshold/csv/'
+BASE_DIR = 'docs/source/tendering/belowthreshold/'
+TARGET_DIR = BASE_DIR + 'http/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -51,6 +52,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.write_config_pmt_csv(
             pmt="belowThreshold",
             file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
+    def test_docs_allowed_kind_csv(self):
+        self.write_allowed_kind_csv(
+            pmt="belowThreshold",
+            file_path=TARGET_CSV_DIR + "kind.csv",
         )
 
     def test_docs_2pc(self):

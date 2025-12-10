@@ -74,8 +74,9 @@ bid3.update(
 
 test_lots[0]['minimalStepPercentage'] = test_lots[1]['minimalStepPercentage'] = 0.006
 
-TARGET_DIR = 'docs/source/tendering/esco/tutorial/'
-TARGET_CSV_DIR = 'docs/source/tendering/esco/csv/'
+BASE_DIR = 'docs/source/tendering/esco/'
+TARGET_DIR = BASE_DIR + 'tutorial/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
 
 class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -99,6 +100,12 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
         self.write_config_pmt_csv(
             pmt="esco",
             file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
+    def test_docs_allowed_kind_csv(self):
+        self.write_allowed_kind_csv(
+            pmt="esco",
+            file_path=TARGET_CSV_DIR + "kind.csv",
         )
 
     def test_docs(self):

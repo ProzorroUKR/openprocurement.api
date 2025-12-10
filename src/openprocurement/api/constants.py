@@ -377,3 +377,6 @@ PROFILE_REQUIRED_MIN_VALUE_AMOUNT = 500000
 
 # CS-19545
 BROKERS = {broker["name"]: broker["title"] for broker in standards.load("organizations/brokers.json")}
+
+KIND_PROCUREMENT_METHOD_TYPE_MAPPING = standards.load("organizations/kind_procurementMethodType_mapping.json")
+KIND_FRAMEWORK_TYPE_MAPPING = standards.load("organizations/kind_frameworkType_mapping.json")

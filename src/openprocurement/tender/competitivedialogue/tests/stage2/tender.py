@@ -1,7 +1,11 @@
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    validate_procurement_entity_kind,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2WebTest,
     BaseCompetitiveDialogUAStage2WebTest,
@@ -52,6 +56,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     initial_config = test_tender_cdeu_stage2_config
     test_access_token_data = test_tender_cd_access_token  # TODO: change attribute identifier
     initial_lots = test_tender_cd_lots
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["competitiveDialogueEU.stage2"]
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
@@ -87,6 +92,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
+    test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
 
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
@@ -95,6 +101,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     test_access_token_data = test_tender_cd_access_token  # TODO: change attribute identifier
     author_data = test_tender_cd_author
     initial_lots = test_tender_cd_lots
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["competitiveDialogueUA.stage2"]
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
@@ -130,6 +137,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
+    test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
 
 
 class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):

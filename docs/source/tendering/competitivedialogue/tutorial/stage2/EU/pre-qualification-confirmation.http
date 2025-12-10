@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/63f6240986e249dd8322133f0b7b7122?acc_token=2182f06aeee14e949d1047d91b89268d HTTP/1.0
+PATCH /api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b?acc_token=2182f06aeee14e949d1047d91b89268d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -1172,7 +1172,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/526b7a685a8b4427b01d99ca0954cec5/documents/5b06a9da989c4515a4f2b31118482cb2?download=13b7a37e7fcb4e3c89c6012bb35fbe35",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids/526b7a685a8b4427b01d99ca0954cec5/documents/5b06a9da989c4515a4f2b31118482cb2?download=13b7a37e7fcb4e3c89c6012bb35fbe35",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"
@@ -1675,7 +1675,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63f6240986e249dd8322133f0b7b7122/bids/a294d5f005de48f5adf9976f46c1c4ee/documents/c8ea5e6aee4348e09aadb84fe97db1ed?download=42865ab1b0de4861a16a0b26900142e2",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids/a294d5f005de48f5adf9976f46c1c4ee/documents/c8ea5e6aee4348e09aadb84fe97db1ed?download=42865ab1b0de4861a16a0b26900142e2",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:03:00+03:00",
             "language": "uk"
@@ -1994,7 +1994,7 @@ Content-Type: application/json
     ],
     "status": "active.pre-qualification.stand-still",
     "next_check": "2023-10-16T00:00:00+03:00",
-    "id": "63f6240986e249dd8322133f0b7b7122"
+    "id": "cbf8a18d016440eda7c093c080506a8b"
   },
   "config": {
     "hasAuction": true,

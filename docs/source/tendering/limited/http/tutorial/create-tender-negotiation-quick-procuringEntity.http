@@ -39,7 +39,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1,
-        "relatedLot": "5740fe669c0546188adff1c8c9b0aa58"
+        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
       }
     ],
     "procurementMethod": "limited",
@@ -96,7 +96,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 1,
         "percentage": 45.55,
-        "relatedLot": "5740fe669c0546188adff1c8c9b0aa58"
+        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
       },
       {
         "title": "deliveryOfGoods",
@@ -108,7 +108,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 2,
         "percentage": 54.45,
-        "relatedLot": "5740fe669c0546188adff1c8c9b0aa58"
+        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
       }
     ],
     "mainProcurementCategory": "services",
@@ -126,7 +126,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "id": "5740fe669c0546188adff1c8c9b0aa58"
+        "id": "38dc344a3523496a83d39aaf08a5e277"
       }
     ]
   },
@@ -190,6 +190,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
+      "kind": "special",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -197,8 +198,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
         "iban": "111111111111111",
         "position": "Генеральний директор",
         "authorizedBy": "Статут компанії"
-      },
-      "kind": "special"
+      }
     },
     "status": "draft",
     "value": {
@@ -232,7 +232,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "5740fe669c0546188adff1c8c9b0aa58",
+        "relatedLot": "38dc344a3523496a83d39aaf08a5e277",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -250,7 +250,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "5740fe669c0546188adff1c8c9b0aa58",
+        "id": "38dc344a3523496a83d39aaf08a5e277",
         "status": "active",
         "value": {
           "currency": "UAH",
@@ -272,7 +272,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "5740fe669c0546188adff1c8c9b0aa58"
+        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
       },
       {
         "id": "3146a414257c4ddd94f2ff02c75d00ab",
@@ -285,7 +285,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "5740fe669c0546188adff1c8c9b0aa58"
+        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
       }
     ],
     "procurementMethodType": "negotiation.quick",

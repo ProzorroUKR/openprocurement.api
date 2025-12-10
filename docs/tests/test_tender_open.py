@@ -35,8 +35,9 @@ test_lots[0]['minimalStep'] = {"amount": 5, "currency": "UAH"}
 test_lots[1]['value'] = test_tender_data['value']
 test_lots[1]['minimalStep'] = {"amount": 5, "currency": "UAH"}
 
-TARGET_DIR = 'docs/source/tendering/open/http/'
-TARGET_CSV_DIR = 'docs/source/tendering/open/csv/'
+BASE_DIR = 'docs/source/tendering/open/'
+TARGET_DIR = BASE_DIR + 'http/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
 
 class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -59,6 +60,12 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
         self.write_config_pmt_csv(
             pmt="aboveThreshold",
             file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
+    def test_docs_allowed_kind_csv(self):
+        self.write_allowed_kind_csv(
+            pmt="aboveThreshold",
+            file_path=TARGET_CSV_DIR + "kind.csv",
         )
 
     def test_docs(self):

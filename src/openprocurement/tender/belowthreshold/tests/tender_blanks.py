@@ -13,6 +13,9 @@ from openprocurement.api.constants import (
     TZ,
 )
 from openprocurement.api.constants_env import RELEASE_2020_04_19
+from openprocurement.api.procedure.models.organization import (
+    PROCURING_ENTITY_KIND_CHOICES,
+)
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
@@ -1281,6 +1284,73 @@ def create_tender_generated(self):
         fields.append("procurementMethodDetails")
     self.assertEqual(set(tender), set(fields))
     self.assertNotEqual(data["id"], tender["id"])
+
+
+def validate_procurement_entity_kind(self):
+    self.app.authorization = ("Basic", ("token", ""))
+
+    data = deepcopy(self.initial_data)
+    data.update({"status": "draft"})
+
+    with mock.patch(
+        "openprocurement.tender.core.procedure.state.tender.PROCUREMENT_ENTITY_KIND_VALIDATION_FROM",
+        get_now() - timedelta(days=1),
+    ):
+        for kind in PROCURING_ENTITY_KIND_CHOICES:
+            resp_status = 201 if kind in self.allowed_proc_entity_kinds else 422
+            data["procuringEntity"]["kind"] = kind
+            extra_data = {}
+            if kind == "central":
+                extra_data["buyers"] = [
+                    {
+                        "id": uuid4().hex,
+                        "name": "Державне управління справами",
+                        "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
+                        "signerInfo": test_signer_info,
+                    }
+                ]
+            response = self.app.post_json(
+                "/tenders", {"data": {**data, **extra_data}, "config": self.initial_config}, status=resp_status
+            )
+            if resp_status == 201:
+                self.assertEqual(response.status, "201 Created")
+            else:
+                self.assertRegex(
+                    response.json["errors"][0]["description"],
+                    rf"^Procedure publishing with method type (.+) is not allowed for procuringEntity\.kind {kind}$",
+                )
+
+
+def validate_procurement_entity_kind_patch(self):
+    self.app.authorization = ("Basic", ("token", ""))
+
+    data = deepcopy(self.initial_data)
+    data.update({"status": "draft"})
+    entity = deepcopy(data["procuringEntity"])
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
+    tender_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    with mock.patch(
+        "openprocurement.tender.core.procedure.state.tender.PROCUREMENT_ENTITY_KIND_VALIDATION_FROM",
+        get_now() - timedelta(days=1),
+    ):
+        for kind in PROCURING_ENTITY_KIND_CHOICES:
+            resp_status = 200 if kind in self.allowed_proc_entity_kinds else 422
+            entity["kind"] = kind
+            entity["name"] = f"new name for {kind}"
+            response = self.app.patch_json(
+                f"/tenders/{tender_id}?acc_token={token}",
+                {"data": {"procuringEntity": entity}},
+                status=resp_status,
+            )
+            if resp_status == 200:
+                self.assertEqual(response.status, "200 OK")
+            else:
+                self.assertRegex(
+                    response.json["errors"][0]["description"],
+                    rf"^Procedure publishing with method type (.+) is not allowed for procuringEntity\.kind {kind}$",
+                )
 
 
 def create_tender_draft(self):

@@ -6,8 +6,9 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
 
-TARGET_DIR = 'docs/source/tendering/simpledefense/http/'
-TARGET_CSV_DIR = 'docs/source/tendering/simpledefense/csv/'
+BASE_DIR = 'docs/source/tendering/simpledefense/'
+TARGET_DIR = BASE_DIR + 'http/'
+TARGET_CSV_DIR = BASE_DIR + 'csv/'
 
 
 class SimpleDefenseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -30,4 +31,10 @@ class SimpleDefenseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderCon
         self.write_config_pmt_csv(
             pmt="simple.defense",
             file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
+    def test_docs_allowed_kind_csv(self):
+        self.write_allowed_kind_csv(
+            pmt="simple.defense",
+            file_path=TARGET_CSV_DIR + "kind.csv",
         )
