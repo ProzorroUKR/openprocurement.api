@@ -87,7 +87,7 @@ dev = [
     "pre-commit",
 ]
 
-[app.modules]
+[tool.openprocurement.modules]
 "api" = "openprocurement.api.includeme:includeme"
 "tender.core" = "openprocurement.tender.core.includeme:includeme"
 "planning.api" = "openprocurement.planning.api.includeme:includeme"
@@ -123,7 +123,7 @@ dev = [
 "contracting.contract" = "openprocurement.contracting.contract.includeme:includeme"
 "contracting.econtract" = "openprocurement.contracting.econtract.includeme:includeme"
 
-[app.parts]
+[tool.prozorro_cdb.parts]
 "tendering" = "prozorro_cdb.tender.core.initialize:main"
 "contracting" = "prozorro_cdb.contracting.core.initialize:main"
 "framework" = "prozorro_cdb.framework.core.initialize:main"
@@ -347,8 +347,6 @@ exclude = [
     "src/openprocurement/planning/api/tests",
     "src/openprocurement/relocation/api/tests",
     "src/openprocurement/tender/*/tests",
-    "docs/tests",
-    "migrations",
 ]
 
 # Same as Black.

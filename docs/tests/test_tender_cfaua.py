@@ -41,9 +41,9 @@ bid.update(test_docs_qualified)
 bid2.update(test_docs_qualified)
 bid3.update(test_docs_qualified)
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/source/tendering/cfaua/'
-TARGET_DIR = BASE_DIR + 'tutorial/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/source/tendering/cfaua/"
+TARGET_DIR = BASE_DIR + "tutorial/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):

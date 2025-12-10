@@ -6,7 +6,7 @@ from pymongo import UpdateOne
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
 from openprocurement.framework.cfaua.constants import CFA_UA
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -56,20 +56,20 @@ class Migration(CollectionMigration):
             [
                 UpdateOne(
                     {
-                        '_id': '39e5353444754b2fbe42bf0282ac951d',
-                        '_rev': '1-b2e0f794769c490bacdb8053df816d10',
+                        "_id": "39e5353444754b2fbe42bf0282ac951d",
+                        "_rev": "1-b2e0f794769c490bacdb8053df816d10",
                     },
                     [
                         {
-                            '$set': {
-                                '_id': '39e5353444754b2fbe42bf0282ac951d',
-                                '_rev': '1-b2e0f794769c490bacdb8053df816d10',
-                                'agreementType': 'closeFrameworkAgreementUA',
+                            "$set": {
+                                "_id": "39e5353444754b2fbe42bf0282ac951d",
+                                "_rev": "1-b2e0f794769c490bacdb8053df816d10",
+                                "agreementType": "closeFrameworkAgreementUA",
                             }
                         },
                         {
-                            '$set': {
-                                '_rev': ANY,
+                            "$set": {
+                                "_rev": ANY,
                             }
                         },
                     ],

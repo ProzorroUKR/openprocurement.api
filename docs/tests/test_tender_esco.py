@@ -73,9 +73,9 @@ bid3.update(
 
 test_lots[0]["minimalStepPercentage"] = test_lots[1]["minimalStepPercentage"] = 0.006
 
-BASE_DIR = 'docs/source/tendering/esco/'
-TARGET_DIR = BASE_DIR + 'tutorial/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/esco/"
+TARGET_DIR = BASE_DIR + "tutorial/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin):

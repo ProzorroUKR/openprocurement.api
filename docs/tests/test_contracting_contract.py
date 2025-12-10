@@ -330,9 +330,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         contract_document = self.mongodb.contracts.get(contract_id)
         contract_document["status"] = "pending"
-        contract_document["items"][0]["unit"]["value"][
-            "amount"
-        ] = 18  # to correct sum of items not be less than 20% of contract.value
+        # to correct sum of items not be less than 20% of contract.value
+        contract_document["items"][0]["unit"]["value"]["amount"] = 18
         self.mongodb.contracts.save(contract_document)
 
         # Set contractTemplateName

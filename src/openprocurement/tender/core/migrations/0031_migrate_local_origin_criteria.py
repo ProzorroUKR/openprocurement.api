@@ -5,7 +5,7 @@ from openprocurement.api.migrations.base import CollectionMigration, migrate_col
 from openprocurement.tender.core.constants import CRITERION_LOCALIZATION
 from openprocurement.tender.core.procedure.models.criterion import DataSchema
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

@@ -32,9 +32,9 @@ test_agreement["contracts"][0]["suppliers"][0]["scale"] = "large"
 test_lots = deepcopy(test_docs_lots)
 test_tender_maximum_data = deepcopy(test_docs_tender_cfaselectionua_maximum)
 
-BASE_DIR = 'docs/source/tendering/cfaselectionua/'
-TARGET_DIR = BASE_DIR + 'tutorial/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/cfaselectionua/"
+TARGET_DIR = BASE_DIR + "tutorial/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -132,7 +132,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "draft.pending"}}
             )
-            data = response.json["data"]
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "draft.pending")
 

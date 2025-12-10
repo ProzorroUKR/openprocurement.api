@@ -11,7 +11,7 @@ from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import get_now
 from openprocurement.tender.pricequotation.constants import PQ
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

@@ -20,7 +20,7 @@ from openprocurement.framework.core.utils import (
     calculate_framework_full_date,
 )
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -74,9 +74,9 @@ def run(env, args):
 
             now = get_now()
 
-            framework['qualificationPeriod']['endDate'] = new_qual_period_end_date.isoformat()
-            framework['period']['endDate'] = new_period_end_date.isoformat()
-            framework['dateModified'] = now.isoformat()
+            framework["qualificationPeriod"]["endDate"] = new_qual_period_end_date.isoformat()
+            framework["period"]["endDate"] = new_period_end_date.isoformat()
+            framework["dateModified"] = now.isoformat()
             framework["next_check"] = FrameworkState(get_request()).get_next_check(framework)
 
             logger.info(f"Updating framework {framework['_id']}: {now}")
@@ -85,9 +85,9 @@ def run(env, args):
                 [
                     {
                         "$set": {
-                            "qualificationPeriod.endDate": framework['qualificationPeriod']['endDate'],
-                            "period.endDate": framework['period']['endDate'],
-                            "dateModified": framework['dateModified'],
+                            "qualificationPeriod.endDate": framework["qualificationPeriod"]["endDate"],
+                            "period.endDate": framework["period"]["endDate"],
+                            "dateModified": framework["dateModified"],
                             "next_check": framework["next_check"],
                             "public_modified": get_public_modified(),
                             "public_ts": get_public_ts(),
@@ -96,32 +96,32 @@ def run(env, args):
                 ],
             )
 
-            if not "agreementID" in framework:
+            if "agreementID" not in framework:
                 logger.info(f"Framework {framework['_id']} has no agreementID")
                 continue
 
-            agreement = agreements_collection.find_one({"_id": framework['agreementID']})
+            agreement = agreements_collection.find_one({"_id": framework["agreementID"]})
             logger.info(f"Updating agreement {agreement['_id']} of framework {framework['_id']}: {now}")
 
-            agreement['period']['endDate'] = new_qual_period_end_date.isoformat()
-            agreement['dateModified'] = now.isoformat()
+            agreement["period"]["endDate"] = new_qual_period_end_date.isoformat()
+            agreement["dateModified"] = now.isoformat()
 
-            for contract in agreement.get('contracts', []):
-                for milestone in contract.get('milestones', []):
-                    if milestone['type'] == 'activation' and milestone['status'] == 'scheduled':
-                        milestone['dueDate'] = new_qual_period_end_date.isoformat()
-                        milestone['dateModified'] = now.isoformat()
+            for contract in agreement.get("contracts", []):
+                for milestone in contract.get("milestones", []):
+                    if milestone["type"] == "activation" and milestone["status"] == "scheduled":
+                        milestone["dueDate"] = new_qual_period_end_date.isoformat()
+                        milestone["dateModified"] = now.isoformat()
 
             agreement["next_check"] = AgreementState.get_next_check(agreement)
 
             agreements_collection.find_one_and_update(
-                {"_id": agreement['_id'], "_rev": agreement["_rev"]},
+                {"_id": agreement["_id"], "_rev": agreement["_rev"]},
                 [
                     {
                         "$set": {
-                            "period.endDate": agreement['period']['endDate'],
-                            "contracts": agreement.get('contracts', []),
-                            "dateModified": agreement['dateModified'],
+                            "period.endDate": agreement["period"]["endDate"],
+                            "contracts": agreement.get("contracts", []),
+                            "dateModified": agreement["dateModified"],
                             "next_check": agreement["next_check"],
                             "public_modified": get_public_modified(),
                             "public_ts": get_public_ts(),

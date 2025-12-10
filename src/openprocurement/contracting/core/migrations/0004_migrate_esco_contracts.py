@@ -19,7 +19,7 @@ from openprocurement.tender.core.procedure.contracting import (
     clean_objs,
 )
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -152,7 +152,6 @@ def run(env, args):
 
     try:
         for tender in cursor:
-
             contracts_ids = [i["id"] for i in tender.get("contracts", "")]
 
             contracting_contracts = {

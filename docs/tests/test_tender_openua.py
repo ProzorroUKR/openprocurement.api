@@ -34,9 +34,9 @@ bid2.update(test_docs_qualified)
 bid.update(test_docs_subcontracting)
 bid.update(test_docs_qualified)
 
-BASE_DIR = 'docs/source/tendering/openua/'
-TARGET_DIR = BASE_DIR + 'http/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/openua/"
+TARGET_DIR = BASE_DIR + "http/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -724,7 +724,6 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
                 },
                 status=201,
             )
-            private_doc_id = response.json["data"]["id"]
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(tender_id, bid_id, bid_token),

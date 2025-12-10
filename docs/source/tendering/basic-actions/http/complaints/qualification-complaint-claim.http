@@ -26,7 +26,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a450311edb8e418082d4746c150e309c?Signature=YEwa62grbHz%2FpgWudzaozRd5aSTu0dyQqLeWFmuCdnZgq7kP%2FZlRlY5Th2vLdyINshKMDdLdCwbzyduHv7S0CQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4ea69ce019cf43a2927f2fb24b82a8cb?Signature=%2FwfXwZM%2FboF0fBgZ0TDAL9gbjis5dDFs1a3lnMi2rTGvnzcbLUz22Mpstmjf9yN6OnPUru5zRBuk6SSNyZOdCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:01+03:00",
         "author": "complaint_owner",
@@ -38,7 +38,7 @@ Content-Type: application/json
     "status": "claim",
     "type": "claim",
     "relatedLot": "f6d1e27e75fb41d5bc7655e229bb335e",
-    "bid_id": "86755359857c4eea9ea8f8e088f71e3b",
+    "bid_id": "5d01bc35d08b41f896fcf52fb67a4f2c",
     "dateSubmitted": "2023-10-10T01:00:01+03:00"
   }
 }

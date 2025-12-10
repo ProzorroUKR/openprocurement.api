@@ -23,7 +23,7 @@ repos:
       entry: uv run --active ruff format --force-exclude
     - id: mypy
       name: Validate types with MyPy
-      entry: uv run mypy
+      entry: uv run --active mypy
       language: system
       types: [ python ]
       pass_filenames: false

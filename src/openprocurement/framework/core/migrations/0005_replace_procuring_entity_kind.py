@@ -7,7 +7,7 @@ from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.constants import DPS_TYPE
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

@@ -6,7 +6,7 @@ from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.pricequotation.constants import PQ
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

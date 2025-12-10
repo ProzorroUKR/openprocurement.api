@@ -34,9 +34,9 @@ test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 test_lots[1]["value"] = test_tender_data["value"]
 test_lots[1]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 
-BASE_DIR = 'docs/source/tendering/open/'
-TARGET_DIR = BASE_DIR + 'http/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/open/"
+TARGET_DIR = BASE_DIR + "http/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -510,7 +510,6 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
         self.set_status("active.auction")
         self.app.authorization = ("Basic", ("auction", ""))
         auction1_url = "{}/tenders/{}_{}".format(self.auctions_url, self.tender_id, lot_id1)
-        auction2_url = "{}/tenders/{}_{}".format(self.auctions_url, self.tender_id, lot_id2)
         patch_data = {
             "lots": [
                 {
@@ -562,10 +561,13 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },

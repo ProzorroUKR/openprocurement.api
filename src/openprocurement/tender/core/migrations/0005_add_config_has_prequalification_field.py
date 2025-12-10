@@ -11,7 +11,7 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

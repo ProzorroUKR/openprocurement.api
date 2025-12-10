@@ -40,11 +40,11 @@ test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 test_lots[1]["value"] = test_tender_data["value"]
 test_lots[1]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 
-BASE_DIR = 'docs/source/tendering/openeu/'
-TARGET_DIR = BASE_DIR + 'http/tutorial/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/openeu/"
+TARGET_DIR = BASE_DIR + "http/tutorial/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
-TARGET_DIR_MULTI = BASE_DIR + 'http/multiple_lots_tutorial/'
+TARGET_DIR_MULTI = BASE_DIR + "http/multiple_lots_tutorial/"
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -431,7 +431,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 },
             )
             self.assertEqual(response.status, "201 Created")
-            financial_doc_id = response.json["data"]["id"]
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/financial_documents?acc_token={}".format(
@@ -447,7 +446,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             },
         )
         self.assertEqual(response.status, "201 Created")
-        financial_doc_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + "bidder-financial-documents.http", "w") as self.app.file_obj:
             response = self.app.get(
@@ -472,7 +470,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 },
             )
             self.assertEqual(response.status, "201 Created")
-            eligibility_doc_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + "upload-bid-qualification-document-proposal.http", "w") as self.app.file_obj:
             response = self.app.post_json(

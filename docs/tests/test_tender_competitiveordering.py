@@ -33,10 +33,10 @@ from tests.base.data import test_docs_lots, test_docs_question, test_docs_tender
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/source/tendering/competitiveordering/'
-TARGET_SHORT_DIR = BASE_DIR + 'http/short/'
-TARGET_LONG_DIR = BASE_DIR + 'http/long/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/source/tendering/competitiveordering/"
+TARGET_SHORT_DIR = BASE_DIR + "http/short/"
+TARGET_LONG_DIR = BASE_DIR + "http/long/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderrCOResourceTest(
@@ -90,8 +90,6 @@ class TenderrCOShortResourceTest(
         )
 
     def test_docs_tutorial(self):
-        request_path = "/tenders?opt_pretty=1"
-
         # Create agreement
 
         self.tick(datetime.timedelta(days=-15))
@@ -566,8 +564,6 @@ class TenderrCOLongResourceTest(
         )
 
     def test_docs_tutorial(self):
-        request_path = "/tenders?opt_pretty=1"
-
         # Create agreement
 
         self.tick(datetime.timedelta(days=-15))

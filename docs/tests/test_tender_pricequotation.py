@@ -35,9 +35,9 @@ test_tender_data = deepcopy(test_tender_pq_data)
 bid_draft = deepcopy(test_tender_pq_bids[0])
 bid_draft["status"] = "draft"
 
-BASE_DIR = 'docs/source/tendering/pricequotation/'
-TARGET_DIR = BASE_DIR + 'http/'
-TARGET_CSV_DIR = BASE_DIR + 'csv/'
+BASE_DIR = "docs/source/tendering/pricequotation/"
+TARGET_DIR = BASE_DIR + "http/"
+TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):

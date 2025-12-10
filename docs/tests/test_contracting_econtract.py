@@ -514,7 +514,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         upload_change_mock_path = "openprocurement.tender.core.procedure.contracting.upload_contract_change_pdf"
         with mock.patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
             mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
-            with open(TARGET_DIR + 'create-change.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "create-change.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
                     f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
                     {
@@ -557,7 +557,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         # cancellations
         with mock.patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
             mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
-            with open(TARGET_DIR + 'create-change-2.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "create-change-2.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
                     f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
                     {
@@ -655,7 +655,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         item_1["quantity"] = 9
         with mock.patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
             mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
-            with open(TARGET_DIR + 'create-change-items.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "create-change-items.http", "w") as self.app.file_obj:
                 self.app.post_json(
                     f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
                     {

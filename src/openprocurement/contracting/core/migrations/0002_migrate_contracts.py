@@ -13,7 +13,7 @@ from openprocurement.api.migrations.base import (
 )
 from openprocurement.api.procedure.utils import append_revision, get_revision_changes
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -149,7 +149,6 @@ def run(env, args):
 
     try:
         for tender in cursor:
-
             contracts_ids = [i["id"] for i in tender.get("contracts", "")]
 
             contracting_contracts = {

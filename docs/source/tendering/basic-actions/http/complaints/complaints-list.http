@@ -118,7 +118,7 @@ Content-Type: application/json
       "dateAnswered": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "379051e428734c148aea805b08e76ff1",
+      "id": "57beae6aab6a4915819883d4b2105814",
       "complaintID": "UA-2023-10-10-000001-a.4",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "resolved",
@@ -164,7 +164,7 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:00+03:00",
       "objections": [
         {
-          "id": "6f33d78bb623434384a52ddbb69cd490",
+          "id": "deddb6f4d5504594b687f7ba975eee02",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "tender",
@@ -176,14 +176,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "e80a4691ada447bf8439e0f17b1123b9",
+              "id": "80585a74b7304daea188afe55d5a825e",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "5c64ec37c9db4815b6f66885d2369f05",
+              "id": "8c00fed81f5b49afa7faa5d3432b1219",
               "description": "test argument"
             }
           ],
@@ -407,7 +407,7 @@ Content-Type: application/json
       "acceptance": false
     },
     {
-      "id": "29bf9179dce0424db116e98436b4adb4",
+      "id": "71f597a6b81d43a09b84a9e3bed6047d",
       "complaintID": "UA-2023-10-10-000001-a.8",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "mistaken",
@@ -437,7 +437,7 @@ Content-Type: application/json
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "objections": [
         {
-          "id": "2b6f9fa4401e45f383c8de4ba015d0d2",
+          "id": "29036652446845bda42275235de80570",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "tender",
@@ -449,14 +449,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "a276c4a0fba24058ad1735edb0eeb551",
+              "id": "484b9d13503247c6a47ad3414d8fd109",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "aebdb0dd65ac4526920ff567e7535106",
+              "id": "87ac5e9370d14b91b77893a57431f923",
               "description": "test argument"
             }
           ],
@@ -586,7 +586,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "post_document_tender.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3a4ed86d11e9460393a63047c5920470?Signature=WtEhYfcozcKWsGWJ%2BuMeQe6hsm9eBGS%2BDJdVJ2BZzsvEtkiuktiRt0OtWrvVlPpLRPyoOMyYmXJXw5DcphfPAw%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1baac27bd57948acac0eb76a5c98181f?Signature=uWdKkcOwswzqeEFuBa%2B84Dji9eq2oBSVRBdmlsi0yTx5hswHVslN6qhtfn3CyKgJjB4DfVEaDuZPDC0LkV%2FKCQ%3D%3D&KeyID=a8968c46",
           "language": "uk",
           "id": "6568f175e0e142f7809937a741f97ca7",
           "documentOf": "post",

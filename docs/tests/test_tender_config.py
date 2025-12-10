@@ -31,7 +31,6 @@ from openprocurement.framework.dps.tests.base import (
 from openprocurement.tender.belowthreshold.constants import (
     WORKING_DAYS_CONFIG as BELOWTHRESHOLD_WORKING_DAYS_CONFIG,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from openprocurement.tender.cfaselectionua.constants import (
     WORKING_DAYS_CONFIG as CFASELECTIONUA_WORKING_DAYS_CONFIG,
 )
@@ -65,7 +64,6 @@ from openprocurement.tender.competitiveordering.tests.long.base import (
 )
 from openprocurement.tender.core.constants import DEFAULT_WORKING_DAYS_CONFIG
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING_OPTIMIZED
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_default_criteria
 from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
@@ -91,7 +89,6 @@ from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.openeu.constants import (
     WORKING_DAYS_CONFIG as OPENEU_WORKING_DAYS_CONFIG,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_config
 from openprocurement.tender.openeu.tests.periods import PERIODS
 from openprocurement.tender.openua.constants import (
     WORKING_DAYS_CONFIG as OPENUA_WORKING_DAYS_CONFIG,
@@ -121,7 +118,6 @@ from tests.base.data import (
     test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
-    test_docs_tender_below_maximum,
     test_docs_tender_co,
     test_docs_tender_esco,
     test_docs_tender_open,
@@ -224,9 +220,9 @@ class TenderConfigCSVMixin:
 
     def write_allowed_kind_csv(self, pmt, file_path):
         headers = ["procuringEntity.kind"]
-        allowed_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING.get(pmt) or ["\-"]
+        allowed_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING.get(pmt) or ["\\-"]
         with open(file_path, "w", newline="") as file_csv:
-            writer = csv.writer(file_csv, lineterminator='\n')
+            writer = csv.writer(file_csv, lineterminator="\n")
             writer.writerow(headers)
             writer.writerows([[x] for x in allowed_kinds])
 
@@ -494,10 +490,13 @@ class HasAuctionTenderConfigTest(TenderConfigBaseTest):
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },
@@ -510,10 +509,13 @@ class HasAuctionTenderConfigTest(TenderConfigBaseTest):
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },
@@ -884,10 +886,13 @@ class HasAwardingTenderConfigTest(TenderConfigBaseTest):
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },
@@ -900,10 +905,13 @@ class HasAwardingTenderConfigTest(TenderConfigBaseTest):
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },
@@ -1048,10 +1056,13 @@ class HasAwardingTenderConfigTest(TenderConfigBaseTest):
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },
@@ -1064,10 +1075,13 @@ class HasAwardingTenderConfigTest(TenderConfigBaseTest):
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },
@@ -1192,10 +1206,13 @@ class HasAwardingTenderConfigTest(TenderConfigBaseTest):
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },
@@ -2175,10 +2192,13 @@ class MinBidsNumberTenderConfigTest(TenderConfigBaseTest):
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },
@@ -2191,10 +2211,13 @@ class MinBidsNumberTenderConfigTest(TenderConfigBaseTest):
                 "data": {
                     "bids": [
                         {
-                            "id": b["id"],
-                            "lotValues": [{"value": l["value"], "relatedLot": l["relatedLot"]} for l in b["lotValues"]],
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ],
                         }
-                        for b in auction_bids_data
+                        for bid in auction_bids_data
                     ]
                 }
             },
@@ -2808,7 +2831,6 @@ class RestrictedTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin
 
     def test_docs_restricted(self):
         set_request_now()
-        request_path = "/tenders?opt_pretty=1"
 
         # Create agreement
 
@@ -3191,151 +3213,6 @@ class CancellationComplainDurationTenderConfigTest(TenderConfigBaseTest):
             file_path=TARGET_CSV_DIR + "cancellation-complain-duration-values.csv",
         )
 
-    def test_docs_cancellation_complain_duration_complaint_period_exists(self):
-        config = deepcopy(test_tender_open_config)
-        test_tender_data = deepcopy(test_docs_tender_open)
-
-        # Create tender
-        with open(TARGET_DIR + "cancellation-complain-duration-tender-post-1.http", "w") as self.app.file_obj:
-            response = self.app.post_json(
-                "/tenders?opt_pretty=1",
-                {"data": test_tender_data, "config": config},
-            )
-            self.assertEqual(response.status, "201 Created")
-
-        tender = response.json["data"]
-        tender_id = self.tender_id = tender["id"]
-        owner_token = response.json["access"]["token"]
-
-        self.app.authorization = ("Basic", ("broker", ""))
-
-        # add lot
-        test_lot = deepcopy(test_docs_lots[0])
-        test_lot["value"] = test_tender_data["value"]
-        test_lot["minimalStep"] = {"amount": 15, "currency": "UAH"}
-        response = self.app.post_json(
-            "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
-            {"data": test_lot},
-        )
-        self.assertEqual(response.status, "201 Created")
-        lot = response.json["data"]
-        lot_id = lot["id"]
-
-        # add relatedLot for item
-        items = deepcopy(tender["items"])
-        for item in items:
-            item["relatedLot"] = lot_id
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
-        )
-        self.assertEqual(response.status, "200 OK")
-
-        self.set_status("active.tendering")
-
-        response = self.app.post_json(
-            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, owner_token),
-            {"data": {"reason": "cancellation reason", "reasonType": "noDemand"}},
-        )
-        cancellation_id = response.json["data"]["id"]
-        self.assertEqual(response.status, "201 Created")
-
-        response = self.app.post_json(
-            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
-            {
-                "data": {
-                    "title": "Notice.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
-
-        with open(TARGET_DIR + "cancellation-complain-duration-tender-patch-1.http", "w") as self.app.file_obj:
-            response = self.app.patch_json(
-                "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
-                {"data": {"status": "pending"}},
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertIn("complaintPeriod", response.json["data"])
-
-    def test_docs_cancellation_complain_duration_complaint_period_dont_exist(self):
-        config = deepcopy(self.initial_config)
-
-        # Create tender
-        with open(TARGET_DIR + "cancellation-complain-duration-tender-post-2.http", "w") as self.app.file_obj:
-            response = self.app.post_json(
-                "/tenders?opt_pretty=1",
-                {"data": self.initial_data, "config": config},
-            )
-            self.assertEqual(response.status, "201 Created")
-
-        tender = response.json["data"]
-        tender_id = self.tender_id = tender["id"]
-        owner_token = response.json["access"]["token"]
-
-        self.app.authorization = ("Basic", ("broker", ""))
-
-        # add lot
-        test_lot = deepcopy(test_docs_lots[0])
-        test_lot["value"] = self.initial_data["value"]
-        test_lot["minimalStep"] = {"amount": 15, "currency": "UAH"}
-        response = self.app.post_json(
-            "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
-            {"data": test_lot},
-        )
-        self.assertEqual(response.status, "201 Created")
-        lot = response.json["data"]
-        lot_id = lot["id"]
-
-        # add relatedLot for item
-        items = deepcopy(tender["items"])
-        for item in items:
-            item["relatedLot"] = lot_id
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
-        )
-        self.assertEqual(response.status, "200 OK")
-
-        self.set_status("active.tendering")
-
-        response = self.app.post_json(
-            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, owner_token),
-            {"data": {"reason": "cancellation reason", "reasonType": "noDemand"}},
-        )
-        cancellation_id = response.json["data"]["id"]
-        self.assertEqual(response.status, "201 Created")
-
-        response = self.app.post_json(
-            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
-            {
-                "data": {
-                    "title": "Notice.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                }
-            },
-        )
-        with open(TARGET_DIR + "cancellation-complain-duration-tender-patch-2.http", "w") as self.app.file_obj:
-            response = self.app.patch_json(
-                "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
-                {"data": {"status": "pending"}},
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertNotIn("complaintPeriod", response.json["data"])
-
-
-class CancellationComplainDurationTenderConfigTest(TenderConfigBaseTest):
-    initial_data = deepcopy(test_docs_tender_rfp)
-
-    def test_docs_cancellation_complain_duration_values_csv(self):
-        self.write_config_values_csv(
-            config_name="cancellationComplainDuration",
-            file_path=TARGET_CSV_DIR + "cancellation-complain-duration-values.csv",
-        )
-
     def activate_tender(self, tender_id, owner_token):
         #### Tender activating
         self.add_sign_doc(tender_id, owner_token)
@@ -3526,68 +3403,6 @@ class CancellationComplainDurationTenderConfigTest(TenderConfigBaseTest):
             )
             self.assertEqual(response.status, "200 OK")
             self.assertNotIn("complaintPeriod", response.json["data"])
-
-
-class ClarificationUntilDurationTenderConfigTest(TenderConfigBaseTest):
-    def test_docs_clarification_until_duration_values_csv(self):
-        self.write_config_values_csv(
-            config_name="clarificationUntilDuration",
-            file_path=TARGET_CSV_DIR + "clarification-until-duration-values.csv",
-        )
-
-    def test_clarification_until_duration_one_working_day(self):
-        with open(TARGET_DIR + "clarification-until-duration-1-working-day.http", "w") as self.app.file_obj:
-            response = self.app.post_json(
-                "/tenders?opt_pretty=1",
-                {"data": deepcopy(test_docs_tender_below_maximum), "config": deepcopy(test_tender_below_config)},
-            )
-            self.assertEqual(response.status, "201 Created")
-            end_date = dt_from_iso(response.json["data"]["enquiryPeriod"]["endDate"])
-            expected_clarif_until = calculate_tender_full_date(
-                end_date,
-                datetime.timedelta(days=test_tender_below_config["clarificationUntilDuration"]),
-                tender=response.json["data"],
-                working_days=True,
-            )
-            self.assertEqual(
-                expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
-            )
-
-    def test_clarification_until_duration_three_calendar_days(self):
-        with open(TARGET_DIR + "clarification-until-duration-3-calendar-days.http", "w") as self.app.file_obj:
-            response = self.app.post_json(
-                "/tenders?opt_pretty=1",
-                {"data": deepcopy(test_docs_tender_open), "config": deepcopy(test_tender_open_config)},
-            )
-            self.assertEqual(response.status, "201 Created")
-            end_date = dt_from_iso(response.json["data"]["enquiryPeriod"]["endDate"])
-            expected_clarif_until = calculate_tender_full_date(
-                end_date,
-                datetime.timedelta(days=test_tender_open_config["clarificationUntilDuration"]),
-                tender=response.json["data"],
-                working_days=False,
-            )
-            self.assertEqual(
-                expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
-            )
-
-    def test_clarification_until_duration_three_working_days(self):
-        with open(TARGET_DIR + "clarification-until-duration-3-working-days.http", "w") as self.app.file_obj:
-            response = self.app.post_json(
-                "/tenders?opt_pretty=1",
-                {"data": deepcopy(test_docs_tender_esco), "config": deepcopy(test_tender_esco_config)},
-            )
-            self.assertEqual(response.status, "201 Created")
-            end_date = dt_from_iso(response.json["data"]["enquiryPeriod"]["endDate"])
-            expected_clarif_until = calculate_tender_full_date(
-                end_date,
-                datetime.timedelta(days=test_tender_openeu_config["clarificationUntilDuration"]),
-                tender=response.json["data"],
-                working_days=True,
-            )
-            self.assertEqual(
-                expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
-            )
 
 
 class MinTenderingDurationTenderConfigTest(TenderConfigBaseTest):

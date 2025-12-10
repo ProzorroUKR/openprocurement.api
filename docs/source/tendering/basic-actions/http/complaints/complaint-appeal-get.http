@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/24bebd2e26154fae9ca0a8589220ceac?acc_token=dc8f8eb900fb4f23825d7e0bd0e40e96 HTTP/1.0
+GET /api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/7450fd0a6ff543adb2a8f9f4f1093269?acc_token=7daa558cb4b042b3a1c9e4d6f7d2a8be HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "24bebd2e26154fae9ca0a8589220ceac",
+    "id": "7450fd0a6ff543adb2a8f9f4f1093269",
     "complaintID": "UA-2023-10-10-000001-a.1",
     "date": "2023-10-10T01:00:00+03:00",
     "status": "satisfied",
@@ -39,7 +39,7 @@ Content-Type: application/json
     "dateSubmitted": "2023-10-10T01:00:00+03:00",
     "objections": [
       {
-        "id": "86860ae7e0654db3bee424fd02db046d",
+        "id": "17d12b1b7df8488cb67d0f27a5f6cd03",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
@@ -51,14 +51,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "9a0a87c7fcc14926bb7e302e85b7235d",
+            "id": "15ed1b55303d454c9a64c6195967fc84",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "24ff72d7ddbe4a3f8c7a6fb729f2ef43",
+            "id": "ab67085ab72d49c1999699096c124273",
             "description": "test argument"
           }
         ],
@@ -86,7 +86,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "name.doc",
             "format": "application/msword",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/24bebd2e26154fae9ca0a8589220ceac/appeals/06c6c47ff4804917a50d5b1af1c3298b/documents/83f6f6b8b5784b6fb0a5943f068127c4?download=20514262a4564559910de135ff1f0d3e",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/7450fd0a6ff543adb2a8f9f4f1093269/appeals/06c6c47ff4804917a50d5b1af1c3298b/documents/83f6f6b8b5784b6fb0a5943f068127c4?download=20514262a4564559910de135ff1f0d3e",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "author": "complaint_owner",
@@ -133,7 +133,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/24bebd2e26154fae9ca0a8589220ceac/appeals/cde77012867c4931a13697c3abb88ad0/documents/58c30fe911d54bd298f8eb8639ace898?download=c66f59fb078741349f4858931c45b847",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/776e7d39988c42379b7cdcee7758632b/complaints/7450fd0a6ff543adb2a8f9f4f1093269/appeals/cde77012867c4931a13697c3abb88ad0/documents/58c30fe911d54bd298f8eb8639ace898?download=c66f59fb078741349f4858931c45b847",
             "documentOf": "tender",
             "language": "uk",
             "id": "58c30fe911d54bd298f8eb8639ace898",

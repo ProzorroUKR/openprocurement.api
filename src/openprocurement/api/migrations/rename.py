@@ -4,16 +4,16 @@ import subprocess
 from pathlib import Path
 
 EXCLUDED_FILES = [
-    '__init__.py',
-    'base.py',
-    'rename.py',
+    "__init__.py",
+    "base.py",
+    "rename.py",
 ]
 
 
 def get_files_by_git_order(directory):
     try:
         # Get the git root directory
-        cmd_root = ['git', 'rev-parse', '--show-toplevel']
+        cmd_root = ["git", "rev-parse", "--show-toplevel"]
         result_root = subprocess.run(cmd_root, cwd=directory, capture_output=True, text=True, check=True)
         git_root = Path(result_root.stdout.strip())
 
@@ -21,21 +21,21 @@ def get_files_by_git_order(directory):
         rel_path = Path(directory).resolve().relative_to(git_root)
 
         # Use git log to get files ordered by their first appearance
-        cmd = ['git', 'log', '--reverse', '--format=%H', '--', str(rel_path)]
+        cmd = ["git", "log", "--reverse", "--format=%H", "--", str(rel_path)]
         commits = subprocess.run(cmd, cwd=git_root, capture_output=True, text=True, check=True).stdout.splitlines()
 
         seen_files = set()
         ordered_files = []
 
         for commit in commits:
-            cmd = ['git', 'ls-tree', '-r', '--name-only', commit, str(rel_path)]
+            cmd = ["git", "ls-tree", "-r", "--name-only", commit, str(rel_path)]
             files = subprocess.run(cmd, cwd=git_root, capture_output=True, text=True, check=True).stdout.splitlines()
 
             for f in files:
                 file_path = Path(f)
                 file_name = file_path.name
                 # Only include .py files and exclude predefined
-                if file_path.suffix == '.py' and file_name not in seen_files and file_name not in EXCLUDED_FILES:
+                if file_path.suffix == ".py" and file_name not in seen_files and file_name not in EXCLUDED_FILES:
                     seen_files.add(file_name)
                     ordered_files.append(file_path)
 
@@ -44,7 +44,7 @@ def get_files_by_git_order(directory):
     except subprocess.CalledProcessError as e:
         print(f"Git command failed: {e.stderr}")
         # Fallback to sorting by creation time if git fails
-        files = [f for f in Path(directory).glob('*.py') if f.name not in ['base.py', '__init__.py']]
+        files = [f for f in Path(directory).glob("*.py") if f.name not in ["base.py", "__init__.py"]]
         return sorted(files, key=lambda x: x.stat().st_ctime)
 
 
@@ -63,8 +63,8 @@ def rename_files(directory):
 
     # Find the highest existing number
     counter = 1
-    for file_path in dir_path.glob('*.py'):
-        if file_path.name[:4].isdigit() and file_path.name[4] == '_':
+    for file_path in dir_path.glob("*.py"):
+        if file_path.name[:4].isdigit() and file_path.name[4] == "_":
             counter = max(counter, int(file_path.name[:4]) + 1)
 
     print(f"Starting counter from: {counter:04d}")
@@ -76,7 +76,7 @@ def rename_files(directory):
             filename = full_path.name
 
             # Skip files that already have the correct numeric prefix pattern
-            if filename[:4].isdigit() and filename[4] == '_':
+            if filename[:4].isdigit() and filename[4] == "_":
                 print(f"Skipping already numbered file: {filename}")
                 continue
 
@@ -93,8 +93,8 @@ def rename_files(directory):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Rename files by adding counter prefix')
-    parser.add_argument('directory', help='Directory path containing files to rename')
+    parser = argparse.ArgumentParser(description="Rename files by adding counter prefix")
+    parser.add_argument("directory", help="Directory path containing files to rename")
 
     args = parser.parse_args()
 

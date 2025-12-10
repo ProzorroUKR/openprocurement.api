@@ -61,7 +61,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/379051e428734c148aea805b08e76ff1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/57beae6aab6a4915819883d4b2105814
 
 {
   "data": {
@@ -92,7 +92,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5c
     "type": "complaint",
     "objections": [
       {
-        "id": "6f33d78bb623434384a52ddbb69cd490",
+        "id": "deddb6f4d5504594b687f7ba975eee02",
         "title": "My objection",
         "description": "Test objection",
         "relatedItem": "2a71069de9654c5ca67c8db208720fe2",
@@ -103,14 +103,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5c
         },
         "requestedRemedies": [
           {
-            "id": "e80a4691ada447bf8439e0f17b1123b9",
+            "id": "80585a74b7304daea188afe55d5a825e",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "5c64ec37c9db4815b6f66885d2369f05",
+            "id": "8c00fed81f5b49afa7faa5d3432b1219",
             "description": "test argument"
           }
         ],
@@ -118,7 +118,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5c
         "relatesTo": "tender"
       }
     ],
-    "id": "379051e428734c148aea805b08e76ff1",
+    "id": "57beae6aab6a4915819883d4b2105814",
     "date": "2023-10-10T01:00:00+03:00",
     "complaintID": "UA-2023-10-10-000001-a.4",
     "value": {
@@ -127,8 +127,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5c
     }
   },
   "access": {
-    "token": "c328a958334844f29c7f9a85bd0a890d",
-    "transfer": "6bcb0e29831d44fc99f6f48384d04338"
+    "token": "314cc304bc7447b9970f380726f2c7b2",
+    "transfer": "4ca54af39abc4f3fbd68a24b7cf06d8e"
   }
 }
 

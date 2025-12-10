@@ -49,7 +49,7 @@ Content-Type: application/json
     "dateSubmitted": "2023-10-10T01:00:03+03:00",
     "type": "claim",
     "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-    "bid_id": "c938a8780db146beaba184a25937b356",
+    "bid_id": "4a15bf967949413fa361b33448f58d7c",
     "dateAnswered": "2023-10-10T01:00:03+03:00"
   }
 }

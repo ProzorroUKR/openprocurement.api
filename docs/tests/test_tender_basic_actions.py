@@ -86,10 +86,10 @@ bid.update(test_docs_qualified)
 bid2.update(test_docs_qualified)
 bid3.update(test_docs_qualified)
 
-test_lots[0]['value'] = test_tender_data['value']
-test_lots[0]['minimalStep'] = {"amount": 5, "currency": "UAH"}
-test_lots[1]['value'] = test_tender_data['value']
-test_lots[1]['minimalStep'] = {"amount": 5, "currency": "UAH"}
+test_lots[0]["value"] = test_tender_data["value"]
+test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
+test_lots[1]["value"] = test_tender_data["value"]
+test_lots[1]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 
 complaint = deepcopy(test_docs_complaint)
 objection = deepcopy(test_tender_open_complaint_objection)
@@ -102,8 +102,8 @@ test_criterion_data = deepcopy(test_docs_criterion_data)
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http/')
-OUTDATED_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http-outdated/')
+TARGET_DIR = os.path.join(BASE_DIR, "source/tendering/basic-actions/http/")
+OUTDATED_DIR = os.path.join(BASE_DIR, "source/tendering/basic-actions/http-outdated/")
 
 
 class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
@@ -123,22 +123,22 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         super().tearDown()
 
     def test_complaints(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+            "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -147,9 +147,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
@@ -170,16 +170,16 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         complaint["objections"][0]["relatesTo"] = "tender"
         complaint["objections"][0]["relatedItem"] = self.tender_id
-        complaint_data = {'data': complaint.copy()}
+        complaint_data = {"data": complaint.copy()}
 
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         response = self.app.post_json(complaint_url, complaint_data)
-        complaint3_token = response.json['access']['token']
-        complaint3_id = response.json['data']['id']
+        complaint3_token = response.json["access"]["token"]
+        complaint3_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/complaint-submission-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-submission-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, complaint3_id, complaint3_token
                 ),
                 {
@@ -191,7 +191,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         if get_now() < RELEASE_2020_04_19:
             response = self.app.patch_json(
@@ -215,107 +215,107 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender_from_db["complaints"].append(claim_data_2)
         self.mongodb.tenders.save(tender_from_db)
 
-        with open(TARGET_DIR + 'complaints/complaint-submission.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': complaint})
-            self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + "complaints/complaint-submission.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders/{}/complaints".format(self.tender_id), {"data": complaint})
+            self.assertEqual(response.status, "201 Created")
 
-        complaint1_token = response.json['access']['token']
-        complaint1_id = response.json['data']['id']
+        complaint1_token = response.json["access"]["token"]
+        complaint1_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/complaint-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-complaint.http", "w") as self.app.file_obj:
             if get_now() < RELEASE_2020_04_19:
                 response = self.app.patch_json(
-                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint1_id, complaint1_token),
+                    "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint1_id, complaint1_token),
                     {"data": {"status": "pending"}},
                 )
             else:
                 with change_auth(self.app, ("Basic", ("bot", ""))):
                     response = self.app.patch_json(
-                        '/tenders/{}/complaints/{}'.format(self.tender_id, complaint1_id),
+                        "/tenders/{}/complaints/{}".format(self.tender_id, complaint1_id),
                         {"data": {"status": "pending"}},
                     )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/complaint-answer.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-answer.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint2_id, owner_token),
+                "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint2_id, owner_token),
                 {
-                    'data': {
+                    "data": {
                         "status": "answered",
                         "resolutionType": "resolved",
                         "resolution": "Виправлено неконкурентні умови",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint4_id, owner_token),
+            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint4_id, owner_token),
             {
-                'data': {
+                "data": {
                     "status": "answered",
                     "resolutionType": "invalid",
                     "resolution": "Вимога не відповідає предмету закупівлі",
                 }
             },
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/complaint-satisfy.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-satisfy.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint2_id, claim_token),
+                "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint2_id, claim_token),
                 {"data": {"satisfied": True, "status": "resolved"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         if get_now() < RELEASE_2020_04_19:
-            with open(TARGET_DIR + 'complaints/complaint-escalate.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "complaints/complaint-escalate.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint4_id, claim_token),
+                    "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint4_id, claim_token),
                     {"data": {"satisfied": False, "status": "pending"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
         complaint5_id, complaint5_token = complaint_create_pending(self, complaint_url, complaint_data)
         complaint6_id, complaint6_token = complaint_create_pending(self, complaint_url, complaint_data)
         complaint9_id, complaint9_token = complaint_create_pending(self, complaint_url, complaint_data)
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'complaints/complaint-reject.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("reviewer", ""))
+        with open(TARGET_DIR + "complaints/complaint-reject.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint9_id),
-                {'data': {"status": "invalid", "rejectReason": "alreadyExists"}},
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint9_id),
+                {"data": {"status": "invalid", "rejectReason": "alreadyExists"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/complaint-accept.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-accept.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint1_id),
-                {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint1_id),
+                {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/complaints/{}'.format(self.tender_id, complaint3_id),
-            {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+            "/tenders/{}/complaints/{}".format(self.tender_id, complaint3_id),
+            {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/complaints/{}'.format(self.tender_id, complaint5_id),
-            {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+            "/tenders/{}/complaints/{}".format(self.tender_id, complaint5_id),
+            {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/complaints/{}'.format(self.tender_id, complaint6_id),
-            {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+            "/tenders/{}/complaints/{}".format(self.tender_id, complaint6_id),
+            {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/complaint-resolution-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-resolution-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints/{}/documents'.format(self.tender_id, complaint1_id),
+                "/tenders/{}/complaints/{}/documents".format(self.tender_id, complaint1_id),
                 {
                     "data": {
                         "title": "ComplaintResolution.pdf",
@@ -325,105 +325,105 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complaints/complaint-resolve.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-resolve.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint1_id), {'data': {"status": "satisfied"}}
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint1_id), {"data": {"status": "satisfied"}}
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/complaint-decline.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-decline.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint3_id), {'data': {"status": "declined"}}
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint3_id), {"data": {"status": "declined"}}
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-accepted-stopped.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint5_id),
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint5_id),
                 {
-                    'data': {
+                    "data": {
                         "decision": "Тендер скасовується замовником",
                         "status": "stopped",
                         "rejectReason": "tenderCancelled",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'complaints/complaint-resolved.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("broker", ""))
+        with open(TARGET_DIR + "complaints/complaint-resolved.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint1_id, owner_token),
-                {'data': {"tendererAction": "Умови виправлено", "status": "resolved"}},
+                "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint1_id, owner_token),
+                {"data": {"tendererAction": "Умови виправлено", "status": "resolved"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         if RELEASE_2020_04_19 > get_now():
-            with open(OUTDATED_DIR + 'complaints/complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+            with open(OUTDATED_DIR + "complaints/complaint-accepted-stopping.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint6_id, complaint6_token),
+                    "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint6_id, complaint6_token),
                     {"data": {"cancellationReason": "Тендер скасовується замовником", "status": "stopping"}},
                     status=200,
                 )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-            self.app.authorization = ('Basic', ('reviewer', ''))
-            with open(OUTDATED_DIR + 'complaints/complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+            self.app.authorization = ("Basic", ("reviewer", ""))
+            with open(OUTDATED_DIR + "complaints/complaint-stopping-stopped.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/complaints/{}'.format(self.tender_id, complaint6_id),
+                    "/tenders/{}/complaints/{}".format(self.tender_id, complaint6_id),
                     {
-                        'data': {
+                        "data": {
                             "decision": "Тендер скасовується замовником",
                             "status": "stopped",
                             "rejectReason": "tenderCancelled",
                         }
                     },
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
         if get_now() < RELEASE_2020_04_19:
             # before RELEASE_2020_04_19 from pending to mistaken transition was available by reviewer
-            self.app.authorization = ('Basic', ('broker', ''))
+            self.app.authorization = ("Basic", ("broker", ""))
             complaint7_id, complaint7_token = complaint_create_pending(self, complaint_url, complaint_data)
 
-            with open(OUTDATED_DIR + 'complaints/complaint-mistaken.http', 'w') as self.app.file_obj:
-                self.app.authorization = ('Basic', ('reviewer', ''))
+            with open(OUTDATED_DIR + "complaints/complaint-mistaken.http", "w") as self.app.file_obj:
+                self.app.authorization = ("Basic", ("reviewer", ""))
                 response = self.app.patch_json(
-                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint7_id, complaint7_token),
+                    "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint7_id, complaint7_token),
                     {"data": {"status": "mistaken"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
         else:
             # since RELEASE_2020_04_19 from draft to mistaken transition was available by complainant
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': complaint})
-            self.assertEqual(response.status, '201 Created')
-            complaint7_id = response.json['data']['id']
-            complaint7_token = response.json['access']['token']
+            self.app.authorization = ("Basic", ("broker", ""))
+            response = self.app.post_json("/tenders/{}/complaints".format(self.tender_id), {"data": complaint})
+            self.assertEqual(response.status, "201 Created")
+            complaint7_id = response.json["data"]["id"]
+            complaint7_token = response.json["access"]["token"]
 
-            with open(TARGET_DIR + 'complaints/complaint-mistaken.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "complaints/complaint-mistaken.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint7_id, complaint7_token),
+                    "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint7_id, complaint7_token),
                     {"data": {"status": "mistaken"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         complaint8_id, complaint8_token = complaint_create_pending(self, complaint_url, complaint_data)
 
         response = self.app.get(
-            '/tenders/{}/complaints'.format(self.tender_id),
+            "/tenders/{}/complaints".format(self.tender_id),
         )
         objection_id = response.json["data"][-1]["objections"][0]["id"]
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
+        self.app.authorization = ("Basic", ("reviewer", ""))
 
-        with open(TARGET_DIR + 'complaints/complaint-post-reviewer-complaint-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-post-reviewer-complaint-owner.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints/{}/posts'.format(self.tender_id, complaint8_id),
+                "/tenders/{}/complaints/{}/posts".format(self.tender_id, complaint8_id),
                 {
                     "data": {
                         "title": "Уточнення по вимозі",
@@ -433,15 +433,15 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        post1_id = response.json['data']['id']
+        post1_id = response.json["data"]["id"]
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
-        with open(TARGET_DIR + 'complaints/complaint-post-complaint-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-post-complaint-owner.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints/{}/posts?acc_token={}'.format(self.tender_id, complaint8_id, complaint8_token),
+                "/tenders/{}/complaints/{}/posts?acc_token={}".format(self.tender_id, complaint8_id, complaint8_token),
                 {
                     "data": {
                         "title": "Уточнення по вимозі",
@@ -452,13 +452,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
+        self.app.authorization = ("Basic", ("reviewer", ""))
 
-        with open(TARGET_DIR + 'complaints/complaint-post-reviewer-tender-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-post-reviewer-tender-owner.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints/{}/posts'.format(self.tender_id, complaint8_id),
+                "/tenders/{}/complaints/{}/posts".format(self.tender_id, complaint8_id),
                 {
                     "data": {
                         "title": "Уточнення по вимозі",
@@ -468,15 +468,15 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        post2_id = response.json['data']['id']
+        post2_id = response.json["data"]["id"]
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
-        with open(TARGET_DIR + 'complaints/complaint-post-tender-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-post-tender-owner.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints/{}/posts?acc_token={}'.format(self.tender_id, complaint8_id, owner_token),
+                "/tenders/{}/complaints/{}/posts?acc_token={}".format(self.tender_id, complaint8_id, owner_token),
                 {
                     "data": {
                         "title": "Уточнення по вимозі",
@@ -487,45 +487,45 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
             post_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/complaint-post-documents-forbidden.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-post-documents-forbidden.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, complaint8_id, complaint8_token
                 ),
                 {
                     "data": {
-                        'title': 'post_document_tender.pdf',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
-                        'documentOf': 'post',
-                        'relatedItem': post_id,
+                        "title": "post_document_tender.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                        "documentOf": "post",
+                        "relatedItem": post_id,
                     }
                 },
                 status=403,
             )
 
-        with open(TARGET_DIR + 'complaints/complaint-post-documents-tender-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-post-documents-tender-owner.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/complaints/{}/documents?acc_token={}'.format(self.tender_id, complaint8_id, owner_token),
+                "/tenders/{}/complaints/{}/documents?acc_token={}".format(self.tender_id, complaint8_id, owner_token),
                 {
                     "data": {
-                        'title': 'post_document_tender.pdf',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
-                        'documentOf': 'post',
-                        'relatedItem': post_id,
+                        "title": "post_document_tender.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                        "documentOf": "post",
+                        "relatedItem": post_id,
                     }
                 },
             )
 
-        with open(TARGET_DIR + 'complaints/complaint-post-explanation-invalid.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-post-explanation-invalid.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/complaints/{}/posts?acc_token={}'.format(self.tender_id, complaint8_id, owner_token),
+                "/tenders/{}/complaints/{}/posts?acc_token={}".format(self.tender_id, complaint8_id, owner_token),
                 {
                     "data": {
                         "title": "Пояснення до скарги",
@@ -537,9 +537,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        with open(TARGET_DIR + 'complaints/complaint-post-explanation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-post-explanation.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints/{}/posts?acc_token={}'.format(self.tender_id, complaint8_id, owner_token),
+                "/tenders/{}/complaints/{}/posts?acc_token={}".format(self.tender_id, complaint8_id, owner_token),
                 {
                     "data": {
                         "title": "Пояснення до скарги",
@@ -548,11 +548,11 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            explanation_id = response.json['data']['id']
+            explanation_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/complaint-post-explanation-answer-forbidden.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-post-explanation-answer-forbidden.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/complaints/{}/posts?acc_token={}'.format(self.tender_id, complaint8_id, complaint8_token),
+                "/tenders/{}/complaints/{}/posts?acc_token={}".format(self.tender_id, complaint8_id, complaint8_token),
                 {
                     "data": {
                         "title": "Відповідь до пояснення",
@@ -565,32 +565,32 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        with open(TARGET_DIR + 'complaints/complaints-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaints-list.http", "w") as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get('/tenders/{}/complaints'.format(self.tender_id))
-            self.assertEqual(response.status, '200 OK')
+            response = self.app.get("/tenders/{}/complaints".format(self.tender_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint.http", "w") as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get('/tenders/{}/complaints/{}'.format(self.tender_id, complaint1_id))
-            self.assertEqual(response.status, '200 OK')
+            response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, complaint1_id))
+            self.assertEqual(response.status, "200 OK")
 
     def test_complaints_objections(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+            "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        self.tender_id = tender['id']
-        owner_token = response.json['access']['token']
+        tender = response.json["data"]
+        self.tender_id = tender["id"]
+        owner_token = response.json["access"]["token"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -599,9 +599,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
@@ -610,36 +610,36 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         objection = deepcopy(test_tender_open_complaint_objection)
         complaint_data = deepcopy(complaint)
         complaint_data["objections"] = [objection]
-        with open(TARGET_DIR + 'complaints/complaint-objections-submission.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': complaint_data})
-            self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + "complaints/complaint-objections-submission.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders/{}/complaints".format(self.tender_id), {"data": complaint_data})
+            self.assertEqual(response.status, "201 Created")
 
         objection["arguments"] = []
         complaint_data["objections"] = [objection]
-        with open(TARGET_DIR + 'complaints/complaint-objections-invalid-arguments.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-objections-invalid-arguments.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints'.format(self.tender_id),
-                {'data': complaint_data},
+                "/tenders/{}/complaints".format(self.tender_id),
+                {"data": complaint_data},
                 status=422,
             )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
+            self.assertEqual(response.status, "422 Unprocessable Entity")
 
         objection = deepcopy(test_tender_open_complaint_objection)
         objection["arguments"][0]["evidences"] = []
         complaint_data["objections"] = [objection]
-        with open(TARGET_DIR + 'complaints/complaint-objections-empty-evidences.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-objections-empty-evidences.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints'.format(self.tender_id),
-                {'data': complaint_data},
+                "/tenders/{}/complaints".format(self.tender_id),
+                {"data": complaint_data},
             )
-            self.assertEqual(response.status, '201 Created')
-            complaint_token = response.json['access']['token']
-            complaint_id = response.json['data']['id']
-            objection_id = response.json['data']['objections'][0]['id']
+            self.assertEqual(response.status, "201 Created")
+            complaint_token = response.json["access"]["token"]
+            complaint_id = response.json["data"]["id"]
+            objection_id = response.json["data"]["objections"][0]["id"]
 
-        with open(TARGET_DIR + 'complaints/complaint-document-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-document-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, complaint_id, complaint_token
                 ),
                 {
@@ -651,34 +651,34 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
-            doc_id = response.json['data']['id']
+            self.assertEqual(response.status, "201 Created")
+            doc_id = response.json["data"]["id"]
 
         objection["id"] = objection_id
         objection["arguments"][0]["evidences"] = [
             {"title": "Evidence", "description": "Test evidence", "relatedDocument": doc_id}
         ]
         with open(
-            TARGET_DIR + 'complaints/complaint-objections-evidences-with-document.http', 'w'
+            TARGET_DIR + "complaints/complaint-objections-evidences-with-document.http", "w"
         ) as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint_id, complaint_token),
-                {'data': {"objections": [objection]}},
+                "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, complaint_token),
+                {"data": {"objections": [objection]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         objection = deepcopy(test_tender_open_complaint_objection)
         objection["requestedRemedies"] = []
         complaint_data["objections"] = [objection]
         with open(
-            TARGET_DIR + 'complaints/complaint-objections-invalid-requested-remedies.http', 'w'
+            TARGET_DIR + "complaints/complaint-objections-invalid-requested-remedies.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints'.format(self.tender_id),
-                {'data': complaint_data},
+                "/tenders/{}/complaints".format(self.tender_id),
+                {"data": complaint_data},
                 status=422,
             )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
+            self.assertEqual(response.status, "422 Unprocessable Entity")
 
         # add document to complaint via POST and set relatedDocument in objections in one action
         doc_id = uuid4().hex
@@ -701,31 +701,31 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         ]
         complaint_data["objections"] = [objection]
         with open(
-            TARGET_DIR + 'complaints/complaint-objections-with-document-one-action.http', 'w'
+            TARGET_DIR + "complaints/complaint-objections-with-document-one-action.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/complaints'.format(self.tender_id),
-                {'data': complaint_data},
+                "/tenders/{}/complaints".format(self.tender_id),
+                {"data": complaint_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
     def test_complaints_appeals(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+            "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -734,55 +734,55 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
         complaint["objections"][0]["relatesTo"] = "tender"
         complaint["objections"][0]["relatedItem"] = self.tender_id
 
-        response = self.app.post_json('/tenders/{}/complaints'.format(self.tender_id), {'data': complaint})
-        self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json("/tenders/{}/complaints".format(self.tender_id), {"data": complaint})
+        self.assertEqual(response.status, "201 Created")
 
-        complaint_token = response.json['access']['token']
-        complaint_id = response.json['data']['id']
+        complaint_token = response.json["access"]["token"]
+        complaint_id = response.json["data"]["id"]
 
         with change_auth(self.app, ("Basic", ("bot", ""))):
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}'.format(self.tender_id, complaint_id),
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint_id),
                 {"data": {"status": "pending"}},
             )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/complaint-appeal-invalid-status.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-appeal-invalid-status.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}',
-                {'data': test_tender_open_complaint_appeal},
+                f"/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}",
+                {"data": test_tender_open_complaint_appeal},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
+        self.app.authorization = ("Basic", ("reviewer", ""))
         response = self.app.patch_json(
-            f'/tenders/{self.tender_id}/complaints/{complaint_id}',
-            {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+            f"/tenders/{self.tender_id}/complaints/{complaint_id}",
+            {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint_id, complaint_token),
+            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, complaint_token),
             {"data": {"status": "satisfied"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'complaints/complaint-appeal-submission.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("broker", ""))
+        with open(TARGET_DIR + "complaints/complaint-appeal-submission.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}',
+                f"/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={complaint_token}",
                 {
-                    'data': {
+                    "data": {
                         "description": "test",
                         "documents": [
                             {
@@ -795,38 +795,38 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     },
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
             appeal_1 = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/complaint-appeal-proceeding-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-appeal-proceeding-submission.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_1}?acc_token={complaint_token}',
-                {'data': {"proceeding": test_tender_open_complaint_appeal_proceeding}},
+                f"/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_1}?acc_token={complaint_token}",
+                {"data": {"proceeding": test_tender_open_complaint_appeal_proceeding}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/complaint-appeal-proceeding-duplicate.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-appeal-proceeding-duplicate.http", "w") as self.app.file_obj:
             proceeding = deepcopy(test_tender_open_complaint_appeal_proceeding)
             proceeding["proceedingNumber"] = "12345"
             self.app.patch_json(
-                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_1}?acc_token={complaint_token}',
-                {'data': {"proceeding": proceeding}},
+                f"/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_1}?acc_token={complaint_token}",
+                {"data": {"proceeding": proceeding}},
                 status=422,
             )
 
-        with open(TARGET_DIR + 'complaints/complaint-appeal-submission-by-customer.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-appeal-submission-by-customer.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={owner_token}',
-                {'data': test_tender_open_complaint_appeal},
+                f"/tenders/{self.tender_id}/complaints/{complaint_id}/appeals?acc_token={owner_token}",
+                {"data": test_tender_open_complaint_appeal},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
             appeal_2 = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/complaint-appeal-documents-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/complaint-appeal-documents-submission.http", "w") as self.app.file_obj:
             self.app.post_json(
-                f'/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_2}/documents?acc_token={owner_token}',
+                f"/tenders/{self.tender_id}/complaints/{complaint_id}/appeals/{appeal_2}/documents?acc_token={owner_token}",
                 {
-                    'data': {
+                    "data": {
                         "title": "sign.p7s",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
@@ -835,26 +835,26 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 },
             )
 
-        with open(TARGET_DIR + 'complaints/complaint-appeal-get.http', 'w') as self.app.file_obj:
-            self.app.get(f'/tenders/{self.tender_id}/complaints/{complaint_id}?acc_token={complaint_token}')
+        with open(TARGET_DIR + "complaints/complaint-appeal-get.http", "w") as self.app.file_obj:
+            self.app.get(f"/tenders/{self.tender_id}/complaints/{complaint_id}?acc_token={complaint_token}")
 
     def test_qualification_complaints(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+            "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -863,17 +863,17 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, [lot])
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
-        bid_id = response.json['data']['id']
-        bid_token = response.json['access']['token']
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
+        bid_id = response.json["data"]["id"]
+        bid_token = response.json["access"]["token"]
 
         self.add_sign_doc(
             self.tender_id,
@@ -882,29 +882,29 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             document_type="proposal",
         )
         response = self.app.patch_json(
-            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-            {'data': {"status": "pending"}},
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+            {"data": {"status": "pending"}},
         )
 
         # create second bid
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         bid_data_2 = deepcopy(bid2)
         bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
         self.create_bid(self.tender_id, bid_data_2)
 
         # Pre-qualification
-        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+        self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
 
         self.check_chronograph()
 
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.status, "200 OK")
-        qualifications = response.json['data']
+        qualifications = response.json["data"]
 
         for qualification in qualifications:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], owner_token),
+                "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], owner_token),
                 {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, "200 OK")
@@ -914,31 +914,31 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # active.pre-qualification.stand-still
         self.add_sign_doc(self.tender_id, owner_token, document_type="evaluationReports")
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+            "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
-        qualification_id = qualifications[0]['id']
+        qualification_id = qualifications[0]["id"]
         complaint["objections"][0]["relatedItem"] = qualification_id
         complaint["objections"][0]["relatesTo"] = "qualification"
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-submission.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                     self.tender_id, qualification_id, bid_token
                 ),
-                {'data': complaint},
+                {"data": complaint},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        complaint1_token = response.json['access']['token']
-        complaint1_id = response.json['data']['id']
+        complaint1_token = response.json["access"]["token"]
+        complaint1_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-submission-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-submission-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, qualification_id, complaint1_id, complaint1_token
                 ),
                 {
@@ -950,12 +950,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-complaint.http", "w") as self.app.file_obj:
             if get_now() < RELEASE_2020_04_19:
                 response = self.app.patch_json(
-                    '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                    "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, qualification_id, complaint1_id, complaint1_token
                     ),
                     {"data": {"status": "pending"}},
@@ -963,14 +963,14 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             else:
                 with change_auth(self.app, ("Basic", ("bot", ""))):
                     response = self.app.patch_json(
-                        '/tenders/{}/qualifications/{}/complaints/{}'.format(
+                        "/tenders/{}/qualifications/{}/complaints/{}".format(
                             self.tender_id, qualification_id, complaint1_id
                         ),
                         {"data": {"status": "pending"}},
                     )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        complaint_data = {'data': complaint.copy()}
+        complaint_data = {"data": complaint.copy()}
 
         complaint_url = "/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id)
         complaint2_id, complaint2_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
@@ -981,23 +981,23 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         complaint5_id, complaint5_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
-        claim_data = {'data': claim.copy()}
-        claim_data['data']['status'] = 'claim'
-        with open(TARGET_DIR + 'complaints/qualification-complaint-submission-claim.http', 'w') as self.app.file_obj:
+        claim_data = {"data": claim.copy()}
+        claim_data["data"]["status"] = "claim"
+        with open(TARGET_DIR + "complaints/qualification-complaint-submission-claim.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                     self.tender_id, qualification_id, bid_token
                 ),
                 claim_data,
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        complaint6_token = response.json['access']['token']
-        complaint6_id = response.json['data']['id']
+        complaint6_token = response.json["access"]["token"]
+        complaint6_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-answer.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-answer.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, qualification_id, complaint6_id, owner_token
                 ),
                 {
@@ -1008,11 +1008,11 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-satisfy.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-satisfy.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, qualification_id, complaint6_id, complaint6_token
                 ),
                 {
@@ -1021,33 +1021,33 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.post_json(
-            '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(self.tender_id, qualification_id, bid_token),
+            "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(self.tender_id, qualification_id, bid_token),
             claim_data,
         )
-        self.assertEqual(response.status, '201 Created')
-        complaint7_token = response.json['access']['token']
-        complaint7_id = response.json['data']['id']
+        self.assertEqual(response.status, "201 Created")
+        complaint7_token = response.json["access"]["token"]
+        complaint7_id = response.json["data"]["id"]
 
         response = self.app.patch_json(
-            '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+            "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, qualification_id, complaint7_id, owner_token
             ),
             {
-                'data': {
+                "data": {
                     "status": "answered",
                     "resolutionType": "invalid",
                     "resolution": "Вимога не відповідає предмету закупівлі",
                 }
             },
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-unsatisfy.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-unsatisfy.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, qualification_id, complaint7_id, complaint7_token
                 ),
                 {
@@ -1056,7 +1056,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         complaint_url = "/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id)
         complaint8_id, complaint8_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
@@ -1064,13 +1064,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.get("/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id))
         objection_id = response.json["data"][-1]["objections"][0]["id"]
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
+        self.app.authorization = ("Basic", ("reviewer", ""))
 
         with open(
-            TARGET_DIR + 'complaints/qualification-complaint-post-reviewer-complaint-owner.http', 'w'
+            TARGET_DIR + "complaints/qualification-complaint-post-reviewer-complaint-owner.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/posts'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/posts".format(
                     self.tender_id, qualification_id, complaint8_id
                 ),
                 {
@@ -1082,17 +1082,17 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        post1_id = response.json['data']['id']
+        post1_id = response.json["data"]["id"]
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         with open(
-            TARGET_DIR + 'complaints/qualification-complaint-post-complaint-owner.http', 'w'
+            TARGET_DIR + "complaints/qualification-complaint-post-complaint-owner.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, qualification_id, complaint8_id, complaint8_token
                 ),
                 {
@@ -1105,15 +1105,15 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
+        self.app.authorization = ("Basic", ("reviewer", ""))
 
         with open(
-            TARGET_DIR + 'complaints/qualification-complaint-post-reviewer-tender-owner.http', 'w'
+            TARGET_DIR + "complaints/qualification-complaint-post-reviewer-tender-owner.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/posts'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/posts".format(
                     self.tender_id, qualification_id, complaint8_id
                 ),
                 {
@@ -1125,15 +1125,15 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        post2_id = response.json['data']['id']
+        post2_id = response.json["data"]["id"]
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-post-tender-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-post-tender-owner.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, qualification_id, complaint8_id, owner_token
                 ),
                 {
@@ -1146,53 +1146,53 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
-            post_id = response.json['data']['id']
+            self.assertEqual(response.status, "201 Created")
+            post_id = response.json["data"]["id"]
 
         with open(
-            TARGET_DIR + 'complaints/qualification-complaint-post-documents-forbidden.http', 'w'
+            TARGET_DIR + "complaints/qualification-complaint-post-documents-forbidden.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, qualification_id, complaint8_id, complaint8_token
                 ),
                 {
                     "data": {
-                        'title': 'post_document_tender.pdf',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
-                        'documentOf': 'post',
-                        'relatedItem': post_id,
+                        "title": "post_document_tender.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                        "documentOf": "post",
+                        "relatedItem": post_id,
                     }
                 },
                 status=403,
             )
 
         with open(
-            TARGET_DIR + 'complaints/qualification-complaint-post-documents-tender-owner.http', 'w'
+            TARGET_DIR + "complaints/qualification-complaint-post-documents-tender-owner.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, qualification_id, complaint8_id, owner_token
                 ),
                 {
                     "data": {
-                        'title': 'post_document_tender.pdf',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
-                        'documentOf': 'post',
-                        'relatedItem': post_id,
+                        "title": "post_document_tender.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                        "documentOf": "post",
+                        "relatedItem": post_id,
                     }
                 },
             )
 
         with open(
-            TARGET_DIR + 'complaints/qualification-complaint-post-explanation-invalid.http', 'w'
+            TARGET_DIR + "complaints/qualification-complaint-post-explanation-invalid.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, qualification_id, complaint8_id, owner_token
                 ),
                 {
@@ -1206,9 +1206,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-post-explanation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-post-explanation.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, qualification_id, complaint8_id, owner_token
                 ),
                 {
@@ -1219,13 +1219,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            explanation_id = response.json['data']['id']
+            explanation_id = response.json["data"]["id"]
 
         with open(
-            TARGET_DIR + 'complaints/qualification-complaint-post-explanation-answer-forbidden.http', 'w'
+            TARGET_DIR + "complaints/qualification-complaint-post-explanation-answer-forbidden.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, qualification_id, complaint8_id, complaint8_token
                 ),
                 {
@@ -1240,20 +1240,20 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        with open(TARGET_DIR + 'complaints/qualification-claim-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-claim-submission.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                     self.tender_id, qualification_id, bid_token
                 ),
-                {'data': claim},
+                {"data": claim},
             )
-            self.assertEqual(response.status, '201 Created')
-            claim_id = response.json['data']['id']
-            claim_token = response.json['access']['token']
+            self.assertEqual(response.status, "201 Created")
+            claim_id = response.json["data"]["id"]
+            claim_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'complaints/qualification-claim-submission-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-claim-submission-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, qualification_id, claim_id, claim_token
                 ),
                 {
@@ -1265,91 +1265,91 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-claim.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-claim.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, qualification_id, claim_id, claim_token
                 ),
                 {"data": {"status": "claim"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         if get_now() < RELEASE_2020_04_19:
             # before RELEASE_2020_04_19 from pending to mistaken transition was available by reviewer
-            self.app.authorization = ('Basic', ('broker', ''))
+            self.app.authorization = ("Basic", ("broker", ""))
             complaint9_id, complaint9_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
-            with open(OUTDATED_DIR + 'complaints/qualification-complaint-mistaken.http', 'w') as self.app.file_obj:
-                self.app.authorization = ('Basic', ('reviewer', ''))
+            with open(OUTDATED_DIR + "complaints/qualification-complaint-mistaken.http", "w") as self.app.file_obj:
+                self.app.authorization = ("Basic", ("reviewer", ""))
                 response = self.app.patch_json(
-                    '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                    "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, qualification_id, complaint9_id, complaint9_token
                     ),
                     {"data": {"status": "mistaken"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
         else:
             # since RELEASE_2020_04_19 from draft to mistaken transition was available by complainant
-            self.app.authorization = ('Basic', ('broker', ''))
+            self.app.authorization = ("Basic", ("broker", ""))
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                     self.tender_id,
                     qualification_id,
                     bid_token,
                 ),
-                {'data': complaint},
+                {"data": complaint},
             )
-            self.assertEqual(response.status, '201 Created')
-            complaint9_id = response.json['data']['id']
-            complaint9_token = response.json['access']['token']
+            self.assertEqual(response.status, "201 Created")
+            complaint9_id = response.json["data"]["id"]
+            complaint9_token = response.json["access"]["token"]
 
-            with open(TARGET_DIR + 'complaints/qualification-complaint-mistaken.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "complaints/qualification-complaint-mistaken.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                    "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, qualification_id, complaint9_id, complaint9_token
                     ),
                     {"data": {"status": "mistaken"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'complaints/qualification-complaint-reject.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("reviewer", ""))
+        with open(TARGET_DIR + "complaints/qualification-complaint-reject.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint2_id),
+                "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint2_id),
                 {"data": {"status": "invalid", "rejectReason": "alreadyExists"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-accept.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-accept.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint1_id),
+                "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint1_id),
                 {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint3_id),
+            "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint3_id),
             {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint4_id),
+            "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint4_id),
             {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint5_id),
+            "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint5_id),
             {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-resolution-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-resolution-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/complaints/{}/documents'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}/documents".format(
                     self.tender_id, qualification_id, complaint1_id
                 ),
                 {
@@ -1361,25 +1361,25 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-resolve.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-resolve.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint1_id),
+                "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint1_id),
                 {"data": {"status": "satisfied"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-decline.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-decline.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint3_id),
+                "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint3_id),
                 {"data": {"status": "declined"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint-accepted-stopped.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint5_id),
+                "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint5_id),
                 {
                     "data": {
                         "decision": "Тендер скасовується замовником",
@@ -1388,37 +1388,37 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'complaints/qualification-complaint-resolved.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("broker", ""))
+        with open(TARGET_DIR + "complaints/qualification-complaint-resolved.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, qualification_id, complaint1_id, owner_token
                 ),
                 {"data": {"tendererAction": "Умови виправлено", "status": "resolved"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         if RELEASE_2020_04_19 > get_now():
             with open(
-                OUTDATED_DIR + 'complaints/qualification-complaint-accepted-stopping.http', 'w'
+                OUTDATED_DIR + "complaints/qualification-complaint-accepted-stopping.http", "w"
             ) as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
+                    "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, qualification_id, complaint4_id, complaint4_token
                     ),
                     {"data": {"cancellationReason": "Тендер скасовується замовником", "status": "stopping"}},
                     status=200,
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
-                self.app.authorization = ('Basic', ('reviewer', ''))
+                self.app.authorization = ("Basic", ("reviewer", ""))
                 with open(
-                    OUTDATED_DIR + 'complaints/qualification-complaint-stopping-stopped.http', 'w'
+                    OUTDATED_DIR + "complaints/qualification-complaint-stopping-stopped.http", "w"
                 ) as self.app.file_obj:
                     response = self.app.patch_json(
-                        '/tenders/{}/qualifications/{}/complaints/{}'.format(
+                        "/tenders/{}/qualifications/{}/complaints/{}".format(
                             self.tender_id, qualification_id, complaint4_id
                         ),
                         {
@@ -1429,36 +1429,36 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                             }
                         },
                     )
-                    self.assertEqual(response.status, '200 OK')
+                    self.assertEqual(response.status, "200 OK")
 
         self.app.authorization = None
-        with open(TARGET_DIR + 'complaints/qualification-complaints-list.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/qualifications/{}/complaints'.format(self.tender_id, qualification_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "complaints/qualification-complaints-list.http", "w") as self.app.file_obj:
+            response = self.app.get("/tenders/{}/qualifications/{}/complaints".format(self.tender_id, qualification_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/qualification-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/qualification-complaint.http", "w") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/qualifications/{}/complaints/{}'.format(self.tender_id, qualification_id, complaint1_id)
+                "/tenders/{}/qualifications/{}/complaints/{}".format(self.tender_id, qualification_id, complaint1_id)
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
     def test_award_complaints(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+            "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -1467,17 +1467,17 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, [lot])
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
-        bid_id = response.json['data']['id']
-        bid_token = response.json['access']['token']
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
+        bid_id = response.json["data"]["id"]
+        bid_token = response.json["access"]["token"]
 
         self.add_sign_doc(
             self.tender_id,
@@ -1486,19 +1486,19 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             document_type="proposal",
         )
         response = self.app.patch_json(
-            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-            {'data': {"status": "pending"}},
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+            {"data": {"status": "pending"}},
         )
 
         # fetch sign data
-        with open(TARGET_DIR + 'sign-data/sign-bid-data.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "sign-data/sign-bid-data.http", "w") as self.app.file_obj:
             self.app.get(f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}&opt_context=true")
 
-        with open(TARGET_DIR + 'sign-data/sign-bid-data-forbidden.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "sign-data/sign-bid-data-forbidden.http", "w") as self.app.file_obj:
             self.app.get(f"/tenders/{self.tender_id}/bids/{bid_id}?opt_context=true", status=403)
 
         # create second bid
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         bid_data_2 = deepcopy(bid2)
         bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
@@ -1508,16 +1508,16 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         #     {'data': bid2})
 
         # Pre-qualification
-        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+        self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
         self.check_chronograph()
 
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.status, "200 OK")
-        qualifications = response.json['data']
+        qualifications = response.json["data"]
 
         for qualification in qualifications:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], owner_token),
+                "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], owner_token),
                 {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, "200 OK")
@@ -1525,22 +1525,22 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # active.pre-qualification.stand-still
         self.add_sign_doc(self.tender_id, owner_token, document_type="evaluationReports")
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+            "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
         # switch to active.auction
-        self.set_status('active.auction')
-        self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
-        auction_bids_data = response.json['data']['bids']
+        self.set_status("active.auction")
+        self.app.authorization = ("Basic", ("auction", ""))
+        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+        auction_bids_data = response.json["data"]["bids"]
         self.app.post_json(
-            '/tenders/{}/auction/{}'.format(self.tender_id, lot_id),
+            "/tenders/{}/auction/{}".format(self.tender_id, lot_id),
             {
-                'data': {
-                    'bids': [
+                "data": {
+                    "bids": [
                         {
                             "id": b["id"],
                             "lotValues": [
@@ -1553,34 +1553,34 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             },
         )
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get("/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token))
         # get pending award
-        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
         complaint["objections"][0]["relatedItem"] = award_id
         complaint["objections"][0]["relatesTo"] = "award"
 
-        with open(TARGET_DIR + 'qualification/awards-get.http', 'w') as self.app.file_obj:
-            self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, award_id))
+        with open(TARGET_DIR + "qualification/awards-get.http", "w") as self.app.file_obj:
+            self.app.get("/tenders/{}/awards?acc_token={}".format(self.tender_id, award_id))
 
         # fetch sign data
-        with open(TARGET_DIR + 'sign-data/sign-award-data.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "sign-data/sign-award-data.http", "w") as self.app.file_obj:
             self.app.get(f"/tenders/{self.tender_id}/awards/{award_id}?opt_context=true")
 
         # extend award period
-        with open(TARGET_DIR + 'prolongation-awards/award-get.http', 'w') as self.app.file_obj:
-            self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token))
+        with open(TARGET_DIR + "prolongation-awards/award-get.http", "w") as self.app.file_obj:
+            self.app.get("/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token))
 
-        with open(TARGET_DIR + 'prolongation-awards/award-milestone-extension-post.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "prolongation-awards/award-milestone-extension-post.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/milestones?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                "/tenders/{}/awards/{}/milestones?acc_token={}".format(self.tender_id, award_id, owner_token),
                 {"data": {"code": "extensionPeriod", "description": "Обгрунтування продовження строків розгляду"}},
             )
         with open(
-            TARGET_DIR + 'prolongation-awards/award-milestone-extension-invalid-post.http', 'w'
+            TARGET_DIR + "prolongation-awards/award-milestone-extension-invalid-post.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/milestones?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                "/tenders/{}/awards/{}/milestones?acc_token={}".format(self.tender_id, award_id, owner_token),
                 {"data": {"code": "extensionPeriod", "description": "Обгрунтування продовження строків розгляду №2"}},
                 status=422,
             )
@@ -1592,29 +1592,29 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             "format": "application/pkcs7-signature",
             "documentType": "extensionReport",
         }
-        with open(TARGET_DIR + 'prolongation-awards/award-extension-report-post.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "prolongation-awards/award-extension-report-post.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, award_id, owner_token),
                 {"data": extension_doc_data},
             )
 
         # second extensionReport doc is forbidden to add
         with open(
-            TARGET_DIR + 'prolongation-awards/award-extension-report-invalid-post.http', 'w'
+            TARGET_DIR + "prolongation-awards/award-extension-report-invalid-post.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, award_id, owner_token),
                 {"data": extension_doc_data},
                 status=422,
             )
 
-        with open(TARGET_DIR + 'prolongation-awards/award-extension-get.http', 'w') as self.app.file_obj:
-            self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token))
+        with open(TARGET_DIR + "prolongation-awards/award-extension-get.http", "w") as self.app.file_obj:
+            self.app.get("/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token))
 
         # check complaints for unsuccessful award
-        with open(TARGET_DIR + 'qualification/award-pending-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/award-pending-upload.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, award_id, owner_token),
                 {
                     "data": {
                         "url": self.generate_docservice_url(),
@@ -1625,55 +1625,55 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 },
             )
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
-        with open(TARGET_DIR + 'qualification/award-pending-unsuccessful.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/award-pending-unsuccessful.http", "w") as self.app.file_obj:
             self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
                 {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
 
-        with open(TARGET_DIR + 'complaints/award-unsuccessful-complaint-invalid-bidder.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-unsuccessful-complaint-invalid-bidder.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f"/tenders/{self.tender_id}/awards/{award_id}/complaints?acc_token={bid_token}",
                 {"data": complaint},
                 status=422,
             )
 
-        with open(TARGET_DIR + 'complaints/award-unsuccessful-complaint-valid-bidder.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-unsuccessful-complaint-valid-bidder.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/tenders/{self.tender_id}/awards/{award_id}/complaints?acc_token={bid_token_2}",
                 {"data": complaint},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
+        response = self.app.get("/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token))
         # get next pending award
-        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
         # check complaints for active award
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         response = self.app.patch_json(
-            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.tick()
 
-        with open(TARGET_DIR + 'complaints/award-complaint-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-submission.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token),
-                {'data': complaint},
+                "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
+                {"data": complaint},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         self.tick()
 
-        complaint1_token = response.json['access']['token']
-        complaint1_id = response.json['data']['id']
+        complaint1_token = response.json["access"]["token"]
+        complaint1_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/award-complaint-submission-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-submission-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, award_id, complaint1_id, complaint1_token
                 ),
                 {
@@ -1685,12 +1685,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-complaint.http", "w") as self.app.file_obj:
             if get_now() < RELEASE_2020_04_19:
                 response = self.app.patch_json(
-                    '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                    "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, award_id, complaint1_id, complaint1_token
                     ),
                     {"data": {"status": "pending"}},
@@ -1698,13 +1698,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             else:
                 with change_auth(self.app, ("Basic", ("bot", ""))):
                     response = self.app.patch_json(
-                        '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id),
+                        "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint1_id),
                         {"data": {"status": "pending"}},
                     )
 
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        complaint_data = {'data': complaint.copy()}
+        complaint_data = {"data": complaint.copy()}
         # with open(OUTDATED_DIR + 'complaints/award-complaint-submission-complaint.http', 'w') as self.app.file_obj:
         #     response = self.app.post_json(
         #         '/tenders/{}/awards/{}/complaints?acc_token={}'.format(
@@ -1724,78 +1724,78 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         complaint5_id, complaint5_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
-        claim_data = {'data': claim.copy()}
-        claim_data['data']['status'] = 'claim'
-        with open(TARGET_DIR + 'complaints/award-complaint-submission-claim.http', 'w') as self.app.file_obj:
+        claim_data = {"data": claim.copy()}
+        claim_data["data"]["status"] = "claim"
+        with open(TARGET_DIR + "complaints/award-complaint-submission-claim.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), claim_data
+                "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token), claim_data
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        complaint6_token = response.json['access']['token']
-        complaint6_id = response.json['data']['id']
+        complaint6_token = response.json["access"]["token"]
+        complaint6_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/award-complaint-answer.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-answer.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, award_id, complaint6_id, owner_token
                 ),
                 {
-                    'data': {
+                    "data": {
                         "status": "answered",
                         "resolutionType": "resolved",
                         "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-satisfy.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-satisfy.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, award_id, complaint6_id, complaint6_token
                 ),
                 {
-                    'data': {
+                    "data": {
                         "satisfied": True,
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.post_json(
-            '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token), claim_data
+            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token), claim_data
         )
-        self.assertEqual(response.status, '201 Created')
-        complaint7_token = response.json['access']['token']
-        complaint7_id = response.json['data']['id']
+        self.assertEqual(response.status, "201 Created")
+        complaint7_token = response.json["access"]["token"]
+        complaint7_id = response.json["data"]["id"]
 
         response = self.app.patch_json(
-            '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, award_id, complaint7_id, owner_token
             ),
             {
-                'data': {
+                "data": {
                     "status": "answered",
                     "resolutionType": "invalid",
                     "resolution": "Вимога не відповідає предмету закупівлі",
                 }
             },
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-unsatisfy.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-unsatisfy.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, award_id, complaint7_id, complaint7_token
                 ),
                 {
-                    'data': {
+                    "data": {
                         "satisfied": False,
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         complaint_url = "/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id)
         complaint8_id, complaint8_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
@@ -1803,13 +1803,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.get("/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id))
         objection_id = response.json["data"][-1]["objections"][0]["id"]
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
+        self.app.authorization = ("Basic", ("reviewer", ""))
 
         with open(
-            TARGET_DIR + 'complaints/award-complaint-post-reviewer-complaint-owner.http', 'w'
+            TARGET_DIR + "complaints/award-complaint-post-reviewer-complaint-owner.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/posts'.format(self.tender_id, award_id, complaint8_id),
+                "/tenders/{}/awards/{}/complaints/{}/posts".format(self.tender_id, award_id, complaint8_id),
                 {
                     "data": {
                         "title": "Уточнення по вимозі",
@@ -1819,14 +1819,14 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        post1_id = response.json['data']['id']
+        post1_id = response.json["data"]["id"]
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'complaints/award-complaint-post-complaint-owner.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("broker", ""))
+        with open(TARGET_DIR + "complaints/award-complaint-post-complaint-owner.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, award_id, complaint8_id, complaint8_token
                 ),
                 {
@@ -1839,12 +1839,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
-        self.app.authorization = ('Basic', ('reviewer', ''))
+            self.assertEqual(response.status, "201 Created")
+        self.app.authorization = ("Basic", ("reviewer", ""))
 
-        with open(TARGET_DIR + 'complaints/award-complaint-post-reviewer-tender-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-post-reviewer-tender-owner.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/posts'.format(self.tender_id, award_id, complaint8_id),
+                "/tenders/{}/awards/{}/complaints/{}/posts".format(self.tender_id, award_id, complaint8_id),
                 {
                     "data": {
                         "title": "Уточнення по вимозі",
@@ -1854,15 +1854,15 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        post2_id = response.json['data']['id']
+        post2_id = response.json["data"]["id"]
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
-        with open(TARGET_DIR + 'complaints/award-complaint-post-tender-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-post-tender-owner.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, award_id, complaint8_id, owner_token
                 ),
                 {
@@ -1875,47 +1875,47 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
-            post_id = response.json['data']['id']
+            self.assertEqual(response.status, "201 Created")
+            post_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/award-complaint-post-documents-forbidden.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-post-documents-forbidden.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, award_id, complaint8_id, complaint8_token
                 ),
                 {
                     "data": {
-                        'title': 'post_document_tender.pdf',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
-                        'documentOf': 'post',
-                        'relatedItem': post_id,
+                        "title": "post_document_tender.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                        "documentOf": "post",
+                        "relatedItem": post_id,
                     }
                 },
                 status=403,
             )
 
-        with open(TARGET_DIR + 'complaints/award-complaint-post-documents-tender-owner.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-post-documents-tender-owner.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, award_id, complaint8_id, owner_token
                 ),
                 {
                     "data": {
-                        'title': 'post_document_tender.pdf',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'format': 'application/pdf',
-                        'documentOf': 'post',
-                        'relatedItem': post_id,
+                        "title": "post_document_tender.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                        "documentOf": "post",
+                        "relatedItem": post_id,
                     }
                 },
             )
 
-        with open(TARGET_DIR + 'complaints/award-complaint-post-explanation-invalid.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-post-explanation-invalid.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, award_id, complaint8_id, owner_token
                 ),
                 {
@@ -1929,9 +1929,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        with open(TARGET_DIR + 'complaints/award-complaint-post-explanation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-post-explanation.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, award_id, complaint8_id, owner_token
                 ),
                 {
@@ -1942,13 +1942,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            explanation_id = response.json['data']['id']
+            explanation_id = response.json["data"]["id"]
 
         with open(
-            TARGET_DIR + 'complaints/award-complaint-post-explanation-answer-forbidden.http', 'w'
+            TARGET_DIR + "complaints/award-complaint-post-explanation-answer-forbidden.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, award_id, complaint8_id, complaint8_token
                 ),
                 {
@@ -1963,18 +1963,18 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        with open(TARGET_DIR + 'complaints/award-claim-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-claim-submission.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token),
-                {'data': claim},
+                "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
+                {"data": claim},
             )
-            self.assertEqual(response.status, '201 Created')
-            claim_id = response.json['data']['id']
-            claim_token = response.json['access']['token']
+            self.assertEqual(response.status, "201 Created")
+            claim_id = response.json["data"]["id"]
+            claim_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'complaints/award-claim-submission-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-claim-submission-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, award_id, claim_id, claim_token
                 ),
                 {
@@ -1986,53 +1986,53 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-claim.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-claim.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, award_id, claim_id, claim_token
                 ),
-                {'data': {"status": "claim"}},
+                {"data": {"status": "claim"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'complaints/award-complaint-reject.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("reviewer", ""))
+        with open(TARGET_DIR + "complaints/award-complaint-reject.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint2_id),
-                {'data': {"status": "invalid", "rejectReason": "alreadyExists"}},
+                "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint2_id),
+                {"data": {"status": "invalid", "rejectReason": "alreadyExists"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-accept.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-accept.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id),
-                {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+                "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint1_id),
+                {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint3_id),
-            {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+            "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint3_id),
+            {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint4_id),
-            {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+            "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint4_id),
+            {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint5_id),
-            {'data': {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
+            "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint5_id),
+            {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "Place of review"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-resolution-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-resolution-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints/{}/documents'.format(self.tender_id, award_id, complaint1_id),
+                "/tenders/{}/awards/{}/complaints/{}/documents".format(self.tender_id, award_id, complaint1_id),
                 {
                     "data": {
                         "title": "ComplaintResolution.pdf",
@@ -2042,180 +2042,180 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-resolve.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-resolve.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id),
-                {'data': {"status": "satisfied"}},
+                "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint1_id),
+                {"data": {"status": "satisfied"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-decline.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-decline.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint3_id),
-                {'data': {"status": "declined"}},
+                "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint3_id),
+                {"data": {"status": "declined"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-accepted-stopped.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint5_id),
+                "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint5_id),
                 {
-                    'data': {
+                    "data": {
                         "decision": "Тендер скасовується замовником",
                         "status": "stopped",
                         "rejectReason": "tenderCancelled",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/award-complaints-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaints-list.http", "w") as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get('/tenders/{}/awards/{}/complaints'.format(self.tender_id, award_id))
-            self.assertEqual(response.status, '200 OK')
+            response = self.app.get("/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/award-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint.http", "w") as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(
-                '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint1_id)
+                "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint1_id)
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'complaints/award-complaint-resolved.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("broker", ""))
+        with open(TARGET_DIR + "complaints/award-complaint-resolved.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, award_id, complaint1_id, owner_token
                 ),
                 {
-                    'data': {
+                    "data": {
                         "tendererAction": "Умови виправлено, вибір переможня буде розгянуто повторно",
                         "status": "resolved",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         if RELEASE_2020_04_19 > get_now():
-            with open(OUTDATED_DIR + 'complaints/award-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+            with open(OUTDATED_DIR + "complaints/award-complaint-accepted-stopping.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                    "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, award_id, complaint4_id, complaint4_token
                     ),
                     {
-                        'data': {
+                        "data": {
                             "cancellationReason": "Тендер скасовується замовником",
                             "status": "stopping",
                         }
                     },
                     status=200,
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
-            self.app.authorization = ('Basic', ('reviewer', ''))
-            with open(OUTDATED_DIR + 'complaints/award-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+            self.app.authorization = ("Basic", ("reviewer", ""))
+            with open(OUTDATED_DIR + "complaints/award-complaint-stopping-stopped.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint4_id),
+                    "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint4_id),
                     {
-                        'data': {
+                        "data": {
                             "decision": "Тендер скасовується замовником",
                             "status": "stopped",
                             "rejectReason": "tenderCancelled",
                         }
                     },
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
+        self.app.authorization = ("Basic", ("reviewer", ""))
         response = self.app.patch_json(
-            '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, award_id, complaint4_id, complaint4_token
             ),
             {
-                'data': {
+                "data": {
                     "status": "declined",
                     "rejectReason": "tenderCancelled",
                 }
             },
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        with open(TARGET_DIR + 'complaints/award-complaint-satisfied-resolving.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("broker", ""))
+        with open(TARGET_DIR + "complaints/award-complaint-satisfied-resolving.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {'data': {"status": "cancelled"}},
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "cancelled"}},
             )
-            self.assertEqual(response.status, '200 OK')
-            new_award_id = response.headers['Location'][-32:]
+            self.assertEqual(response.status, "200 OK")
+            new_award_id = response.headers["Location"][-32:]
 
         award_id = new_award_id
         complaint_url = "/tenders/{}/awards/{}/complaints".format(self.tender_id, award_id)
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
-            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'qualification/award-active-get.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "qualification/award-active-get.http", "w") as self.app.file_obj:
+            response = self.app.get("/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/award-complaint-submit.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/award-complaint-submit.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token),
-                {'data': complaint},
+                "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
+                {"data": complaint},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         if get_now() < RELEASE_2020_04_19:
             # before RELEASE_2020_04_19 from pending to mistaken transition was available by reviewer
-            self.app.authorization = ('Basic', ('broker', ''))
+            self.app.authorization = ("Basic", ("broker", ""))
             complaint9_id, complaint9_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
-            with open(OUTDATED_DIR + 'complaints/award-complaint-mistaken.http', 'w') as self.app.file_obj:
-                self.app.authorization = ('Basic', ('reviewer', ''))
+            with open(OUTDATED_DIR + "complaints/award-complaint-mistaken.http", "w") as self.app.file_obj:
+                self.app.authorization = ("Basic", ("reviewer", ""))
                 response = self.app.patch_json(
-                    '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                    "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, award_id, complaint9_id, complaint9_token
                     ),
-                    {'data': {"status": "mistaken"}},
+                    {"data": {"status": "mistaken"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
         else:
             # since RELEASE_2020_04_19 from draft to mistaken transition was available by complainant
-            self.app.authorization = ('Basic', ('broker', ''))
+            self.app.authorization = ("Basic", ("broker", ""))
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token),
-                {'data': complaint},
+                "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
+                {"data": complaint},
             )
-            self.assertEqual(response.status, '201 Created')
-            complaint9_id = response.json['data']['id']
-            complaint9_token = response.json['access']['token']
+            self.assertEqual(response.status, "201 Created")
+            complaint9_id = response.json["data"]["id"]
+            complaint9_token = response.json["access"]["token"]
 
-            with open(TARGET_DIR + 'complaints/award-complaint-mistaken.http', 'w') as self.app.file_obj:
+            with open(TARGET_DIR + "complaints/award-complaint-mistaken.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+                    "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, award_id, complaint9_id, complaint9_token
                     ),
-                    {'data': {"status": "mistaken"}},
+                    {"data": {"status": "mistaken"}},
                 )
-                self.assertEqual(response.status, '200 OK')
+                self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'qualification/award-active-cancel.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/award-active-cancel.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {'data': {"status": "cancelled"}},
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "cancelled"}},
             )
-            self.assertEqual(response.status, '200 OK')
-        new_award_id = response.headers['Location'][-32:]
+            self.assertEqual(response.status, "200 OK")
+        new_award_id = response.headers["Location"][-32:]
 
-        with open(TARGET_DIR + 'qualification/award-active-cancel-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/award-active-cancel-upload.http", "w") as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, new_award_id, owner_token),
+                "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, new_award_id, owner_token),
                 {
                     "data": {
                         "url": self.generate_docservice_url(),
@@ -2226,95 +2226,95 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 },
             )
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{new_award_id}/documents")
-        with open(TARGET_DIR + 'qualification/award-active-cancel-disqualify.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/award-active-cancel-disqualify.http", "w") as self.app.file_obj:
             self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, owner_token),
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award_id, owner_token),
                 {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
             )
-        with open(TARGET_DIR + 'qualification/awards-unsuccessful-get1.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/awards-unsuccessful-get1.http", "w") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, owner_token),
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award_id, owner_token),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'qualification/awards-unsuccessful-cancel-wo-complaints.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/awards-unsuccessful-cancel-wo-complaints.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, new_award_id, owner_token),
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award_id, owner_token),
                 {"data": {"status": "cancelled"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'qualification/awards-unsuccessful-cancelled-get.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/awards-unsuccessful-cancelled-get.http", "w") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
+                "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         award_id = response.json["data"][-1]["id"]
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         self.app.patch_json(
-            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
             {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
         )
 
-        with open(TARGET_DIR + 'qualification/awards-unsuccessful-get2.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/awards-unsuccessful-get2.http", "w") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
+                "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        claim_data = {'data': claim.copy()}
-        claim_data['data']['status'] = 'claim'
+        claim_data = {"data": claim.copy()}
+        claim_data["data"]["status"] = "claim"
         response = self.app.post_json(
-            '/tenders/{}/awards/{}/complaints?acc_token={}'.format(self.tender_id, award_id, bid_token_2), claim_data
+            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token_2), claim_data
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        complaint_id = response.json['data']['id']
+        complaint_id = response.json["data"]["id"]
         response = self.app.patch_json(
-            '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
+            "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, award_id, complaint_id, owner_token
             ),
             {
-                'data': {
+                "data": {
                     "status": "answered",
                     "resolutionType": "resolved",
                     "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно",
                 }
             },
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'qualification/awards-unsuccessful-cancel.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/awards-unsuccessful-cancel.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {'data': {"status": "cancelled"}},
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "cancelled"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'qualification/awards-unsuccessful-get3.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "qualification/awards-unsuccessful-get3.http", "w") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
+                "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
     def test_cancellation_complaints(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+            "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -2323,27 +2323,27 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
         # Cancellation turn to complaint_period
         response = self.app.post_json(
-            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, owner_token),
-            {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}},
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, owner_token),
+            {"data": {"reason": "cancellation reason", "reasonType": "noDemand"}},
         )
-        cancellation_id = response.json['data']['id']
-        self.assertEqual(response.status, '201 Created')
+        cancellation_id = response.json["data"]["id"]
+        self.assertEqual(response.status, "201 Created")
         complaint["objections"][0]["relatedItem"] = cancellation_id
         complaint["objections"][0]["relatesTo"] = "cancellation"
 
-        with open(TARGET_DIR + 'sign-data/sign-cancellation-data.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "sign-data/sign-cancellation-data.http", "w") as self.app.file_obj:
             self.app.get(f"/tenders/{self.tender_id}/cancellations/{cancellation_id}?opt_context=true")
 
         response = self.app.post_json(
-            '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
+            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
             {
                 "data": {
                     "title": "Notice.pdf",
@@ -2353,26 +2353,26 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }
             },
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
         response = self.app.patch_json(
-            '/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
-            {'data': {"status": "pending"}},
+            "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
+            {"data": {"status": "pending"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-submission.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-submission.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/cancellations/{}/complaints'.format(self.tender_id, cancellation_id), {'data': complaint}
+                "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation_id), {"data": complaint}
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        complaint1_token = response.json['access']['token']
-        complaint1_id = response.json['data']['id']
+        complaint1_token = response.json["access"]["token"]
+        complaint1_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-submission-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-submission-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/cancellations/{}/complaints/{}/documents?acc_token={}'.format(
+                "/tenders/{}/cancellations/{}/complaints/{}/documents?acc_token={}".format(
                     self.tender_id, cancellation_id, complaint1_id, complaint1_token
                 ),
                 {
@@ -2384,19 +2384,19 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        complaint_data = {'data': complaint.copy()}
+        complaint_data = {"data": complaint.copy()}
 
         complaint_url = "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
 
         complaint4_id, complaint4_token = complaint_create_pending(self, complaint_url, complaint_data)
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-complaint.http", "w") as self.app.file_obj:
             if get_now() < RELEASE_2020_04_19:
                 response = self.app.patch_json(
-                    '/tenders/{}/cancellations/{}/complaints/{}?acc_token={}'.format(
+                    "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, cancellation_id, complaint1_id, complaint1_token
                     ),
                     {"data": {"status": "pending"}},
@@ -2404,13 +2404,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             else:
                 with change_auth(self.app, ("Basic", ("bot", ""))):
                     response = self.app.patch_json(
-                        '/tenders/{}/cancellations/{}/complaints/{}'.format(
+                        "/tenders/{}/cancellations/{}/complaints/{}".format(
                             self.tender_id, cancellation_id, complaint1_id
                         ),
                         {"data": {"status": "pending"}},
                     )
 
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         complaint5_id, complaint5_token = complaint_create_pending(self, complaint_url, complaint_data)
         complaint6_id, complaint6_token = complaint_create_pending(self, complaint_url, complaint_data)
@@ -2419,10 +2419,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         objection_id = response.json["data"][-1]["objections"][0]["id"]
 
         with open(
-            TARGET_DIR + 'complaints/cancellation-complaint-post-explanation-invalid.http', 'w'
+            TARGET_DIR + "complaints/cancellation-complaint-post-explanation-invalid.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/cancellations/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/cancellations/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, cancellation_id, complaint6_id, complaint6_token
                 ),
                 {
@@ -2436,9 +2436,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-post-explanation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-post-explanation.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/cancellations/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/cancellations/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, cancellation_id, complaint6_id, complaint6_token
                 ),
                 {
@@ -2449,13 +2449,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            explanation_id = response.json['data']['id']
+            explanation_id = response.json["data"]["id"]
 
         with open(
-            TARGET_DIR + 'complaints/cancellation-complaint-post-explanation-answer-forbidden.http', 'w'
+            TARGET_DIR + "complaints/cancellation-complaint-post-explanation-answer-forbidden.http", "w"
         ) as self.app.file_obj:
             self.app.post_json(
-                '/tenders/{}/cancellations/{}/complaints/{}/posts?acc_token={}'.format(
+                "/tenders/{}/cancellations/{}/complaints/{}/posts?acc_token={}".format(
                     self.tender_id, cancellation_id, complaint6_id, owner_token
                 ),
                 {
@@ -2470,72 +2470,72 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-reject.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("reviewer", ""))
+        with open(TARGET_DIR + "complaints/cancellation-complaint-reject.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint4_id),
+                "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint4_id),
                 {
-                    'data': {
+                    "data": {
                         "status": "invalid",
                         "rejectReason": "tenderCancelled",
                         "rejectReasonDescription": "reject reason description",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-accept.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-accept.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint1_id),
+                "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint1_id),
                 {
-                    'data': {
+                    "data": {
                         "status": "accepted",
                         "reviewDate": get_now().isoformat(),
                         "reviewPlace": "some",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint3_id),
+            "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint3_id),
             {
-                'data': {
+                "data": {
                     "status": "accepted",
                     "reviewDate": get_now().isoformat(),
                     "reviewPlace": "some",
                 }
             },
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint5_id),
+            "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint5_id),
             {
-                'data': {
+                "data": {
                     "status": "accepted",
                     "reviewDate": get_now().isoformat(),
                     "reviewPlace": "some",
                 }
             },
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         response = self.app.patch_json(
-            '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint6_id),
+            "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint6_id),
             {
-                'data': {
+                "data": {
                     "status": "accepted",
                     "reviewDate": get_now().isoformat(),
                     "reviewPlace": "some",
                 }
             },
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-resolution-upload.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-resolution-upload.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/cancellations/{}/complaints/{}/documents'.format(
+                "/tenders/{}/cancellations/{}/complaints/{}/documents".format(
                     self.tender_id, cancellation_id, complaint1_id
                 ),
                 {
@@ -2547,82 +2547,82 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-resolve.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-resolve.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint1_id),
-                {'data': {"status": "satisfied"}},
+                "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint1_id),
+                {"data": {"status": "satisfied"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-decline.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-decline.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint3_id),
-                {'data': {"status": "declined"}},
+                "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint3_id),
+                {"data": {"status": "declined"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-accepted-stopped.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint5_id),
+                "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint5_id),
                 {
-                    'data': {
+                    "data": {
                         "decision": "Тендер скасовується замовником",
                         "status": "stopped",
                         "rejectReason": "tenderCancelled",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         response = self.app.patch_json(
-            '/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
-            {'data': {'status': 'unsuccessful'}},
+            "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
+            {"data": {"status": "unsuccessful"}},
         )
         self.assertEqual(response.status_code, 200)
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-resolved.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint-resolved.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}/complaints/{}?acc_token={}'.format(
+                "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, cancellation_id, complaint1_id, owner_token
                 ),
                 {
-                    'data': {
+                    "data": {
                         "tendererAction": "Умови виправлено",
                         "status": "resolved",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('reviewer', ''))
-        with open(TARGET_DIR + 'complaints/cancellation-complaint-accepted-stopped.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("reviewer", ""))
+        with open(TARGET_DIR + "complaints/cancellation-complaint-accepted-stopped.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint6_id),
+                "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint6_id),
                 {
-                    'data': {
+                    "data": {
                         "decision": "Тендер скасовується замовником",
                         "status": "stopped",
                         "rejectReason": "tenderCancelled",
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         # Create new cancellations
         response = self.app.post_json(
-            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, owner_token),
-            {'data': {'reason': 'cancellation reason', 'reasonType': 'unFixable'}},
+            "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, owner_token),
+            {"data": {"reason": "cancellation reason", "reasonType": "unFixable"}},
         )
-        cancellation2_id = response.json['data']['id']
-        self.assertEqual(response.status, '201 Created')
+        cancellation2_id = response.json["data"]["id"]
+        self.assertEqual(response.status, "201 Created")
 
         response = self.app.post_json(
-            '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id, cancellation2_id, owner_token),
+            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(self.tender_id, cancellation2_id, owner_token),
             {
                 "data": {
                     "title": "Notice.pdf",
@@ -2632,119 +2632,120 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }
             },
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
         response = self.app.patch_json(
-            '/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation2_id, owner_token),
-            {'data': {"status": "pending"}},
+            "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation2_id, owner_token),
+            {"data": {"status": "pending"}},
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         complaint["objections"][0]["relatedItem"] = cancellation2_id
         response = self.app.post_json(
-            '/tenders/{}/cancellations/{}/complaints'.format(self.tender_id, cancellation2_id), {'data': complaint}
+            "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation2_id), {"data": complaint}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaints-list.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaints-list.http", "w") as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get('/tenders/{}/cancellations/{}/complaints'.format(self.tender_id, cancellation_id))
-            self.assertEqual(response.status, '200 OK')
+            response = self.app.get("/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'complaints/cancellation-complaint.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "complaints/cancellation-complaint.http", "w") as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(
-                '/tenders/{}/cancellations/{}/complaints/{}'.format(self.tender_id, cancellation_id, complaint1_id)
+                "/tenders/{}/cancellations/{}/complaints/{}".format(self.tender_id, cancellation_id, complaint1_id)
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
     def test_tender_criteria_article_17(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         tender_data = deepcopy(test_tender_data)
         tender_data["minimalStep"] = {"amount": 15, "currency": "UAH"}
         tender_data.update({"status": "draft"})
 
-        response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
-        self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json("/tenders?opt_pretty=1", {"data": tender_data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         other_criteria = deepcopy(test_criterion_data)
-        other_criteria["classification"][
-            "id"
-        ] = "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES"
+        classification_id = (
+            "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES"
+        )
+        other_criteria["classification"]["id"] = classification_id
 
         exclusion_criteria = deepcopy(test_criterion_data)
 
-        with open(TARGET_DIR + 'criteria/bulk-create-criteria.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/bulk-create-criteria.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
-                {'data': [other_criteria]},
+                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token),
+                {"data": [other_criteria]},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        criteria_1 = response.json['data'][0]
-        criteria_id_1 = criteria_1['id']
+        criteria_1 = response.json["data"][0]
+        criteria_id_1 = criteria_1["id"]
 
         # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdUA
         test_data_ua = deepcopy(test_docs_tender_openua)
         test_data_ua["minimalStep"] = {"amount": 15, "currency": "UAH"}
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': test_data_ua, 'config': test_tender_openua_config}
+            "/tenders?opt_pretty=1", {"data": test_data_ua, "config": test_tender_openua_config}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         tender_ua_id = response.json["data"]["id"]
         tender_ua_owner_token = response.json["access"]["token"]
         self.add_sign_doc(tender_ua_id, tender_ua_owner_token)
         with open(
-            TARGET_DIR + 'criteria/update-tender-status-without-exclusion-criteria-general.http', 'wb'
+            TARGET_DIR + "criteria/update-tender-status-without-exclusion-criteria-general.http", "wb"
         ) as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender_ua_id, tender_ua_owner_token),
+                "/tenders/{}?acc_token={}".format(tender_ua_id, tender_ua_owner_token),
                 {"data": {"status": "active.tendering"}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
 
         self.add_sign_doc(self.tender_id, owner_token)
         # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdEU
         with open(
-            TARGET_DIR + 'criteria/update-tender-status-without-exclusion-criteria-open.http', 'wb'
+            TARGET_DIR + "criteria/update-tender-status-without-exclusion-criteria-open.http", "wb"
         ) as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
                 {"data": {"status": "active.tendering"}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
 
-        with open(TARGET_DIR + 'criteria/bulk-create-exclusion-criteria.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/bulk-create-exclusion-criteria.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
-                {'data': [exclusion_criteria]},
+                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token),
+                {"data": [exclusion_criteria]},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        criteria_2 = response.json['data'][0]
-        criteria_id_2 = criteria_2['id']
+        criteria_2 = response.json["data"][0]
+        criteria_id_2 = criteria_2["id"]
 
-        with open(TARGET_DIR + 'criteria/patch-criteria.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/patch-criteria.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/criteria/{}?acc_token={}'.format(self.tender_id, criteria_id_1, owner_token),
-                {'data': {'title': 'Updated title'}},
+                "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criteria_id_1, owner_token),
+                {"data": {"title": "Updated title"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         # Try to patch exclusion criteria
-        with open(TARGET_DIR + 'criteria/patch-exclusion-criteria.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/patch-exclusion-criteria.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/criteria/{}?acc_token={}'.format(self.tender_id, criteria_id_2, owner_token),
-                {'data': {'title': 'Updated title'}},
+                "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criteria_id_2, owner_token),
+                {"data": {"title": "Updated title"}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
 
         # Requirement groups operation
         rg_id_1 = criteria_1["requirementGroups"][0]["id"]
@@ -2752,56 +2753,56 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         test_rg_data = deepcopy(test_requirement_group_data)
 
-        with open(TARGET_DIR + 'criteria/add-criteria-requirement-group.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/add-criteria-requirement-group.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/criteria/{}/requirement_groups?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
                     self.tender_id, criteria_id_1, owner_token
                 ),
-                {'data': test_rg_data},
+                {"data": test_rg_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         # Try to add requirement group to exclusion criteria
-        with open(TARGET_DIR + 'criteria/add-exclusion-criteria-requirement-group.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/add-exclusion-criteria-requirement-group.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/criteria/{}/requirement_groups?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups?acc_token={}".format(
                     self.tender_id, criteria_id_2, owner_token
                 ),
-                {'data': test_rg_data},
+                {"data": test_rg_data},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
 
-        with open(TARGET_DIR + 'criteria/patch-criteria-requirement-group.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/patch-criteria-requirement-group.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}".format(
                     self.tender_id, criteria_id_1, rg_id_1, owner_token
                 ),
-                {'data': {'description': 'Updated description'}},
+                {"data": {"description": "Updated description"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/patch-exclusion-criteria-requirement-group.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/patch-exclusion-criteria-requirement-group.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}".format(
                     self.tender_id, criteria_id_2, rg_id_2, owner_token
                 ),
-                {'data': {'description': 'Updated description'}},
+                {"data": {"description": "Updated description"}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
 
-        with open(TARGET_DIR + 'criteria/criteria-requirement-group-list.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/criteria-requirement-group-list.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/criteria/{}/requirement_groups'.format(self.tender_id, criteria_id_1),
+                "/tenders/{}/criteria/{}/requirement_groups".format(self.tender_id, criteria_id_1),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/criteria-requirement-group.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/criteria-requirement-group.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/criteria/{}/requirement_groups/{}'.format(self.tender_id, criteria_id_1, rg_id_1),
+                "/tenders/{}/criteria/{}/requirement_groups/{}".format(self.tender_id, criteria_id_1, rg_id_1),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         # Requirements operation
 
@@ -2809,276 +2810,273 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         requirement_id_2 = criteria_2["requirementGroups"][0]["requirements"][0]["id"]
         test_requirement_data["title"] = "Another characteristic"
 
-        with open(TARGET_DIR + 'criteria/add-criteria-requirement.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/add-criteria-requirement.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
                     self.tender_id, criteria_id_1, rg_id_1, owner_token
                 ),
-                {'data': test_requirement_data},
+                {"data": test_requirement_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        with open(TARGET_DIR + 'criteria/add-exclusion-criteria-requirement.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/add-exclusion-criteria-requirement.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
                     self.tender_id, criteria_id_2, rg_id_2, owner_token
                 ),
-                {'data': test_requirement_data},
+                {"data": test_requirement_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         test_evidence_data = deepcopy(test_eligible_evidence_data)
 
-        with open(TARGET_DIR + 'criteria/patch-criteria-requirement.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/patch-criteria-requirement.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token
                 ),
-                {'data': {'title': 'Updated title', 'eligibleEvidences': [test_evidence_data]}},
+                {"data": {"title": "Updated title", "eligibleEvidences": [test_evidence_data]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/patch-exclusion-criteria-requirement.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/patch-exclusion-criteria-requirement.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token
                 ),
                 {
-                    'data': {
-                        'title': 'Updated title',
-                        'expectedValue': False,
-                        'eligibleEvidences': [
+                    "data": {
+                        "title": "Updated title",
+                        "expectedValue": False,
+                        "eligibleEvidences": [
                             test_evidence_data,
                         ],
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/criteria-requirement-list.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/criteria-requirement-list.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements".format(
                     self.tender_id, criteria_id_1, rg_id_1
                 ),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/criteria-requirement.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/criteria-requirement.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}".format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1
                 ),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         # Eligible evidence operation
 
         test_evidence_data_1 = deepcopy(test_evidence_data)
         test_evidence_data_2 = deepcopy(test_evidence_data)
         test_evidence_data_2["type"] = "statement"
-        with open(TARGET_DIR + 'criteria/bulk-update-requirement-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/bulk-update-requirement-evidence.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token
                 ),
                 {"data": {"eligibleEvidences": [test_evidence_data_1, test_evidence_data_2]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         evidence = response.json["data"]["eligibleEvidences"][1]
 
-        with open(TARGET_DIR + 'criteria/bulk-delete-requirement-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/bulk-delete-requirement-evidence.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token
                 ),
                 {"data": {"eligibleEvidences": [evidence]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         self.app.patch_json(
-            '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+            "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                 self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token
             ),
             {"data": {"eligibleEvidences": [test_evidence_data_1, test_evidence_data_2]}},
         )
 
-        with open(TARGET_DIR + 'criteria/add-requirement-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/add-requirement-evidence.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, owner_token
                 ),
-                {'data': test_evidence_data},
+                {"data": test_evidence_data},
             )
-            self.assertEqual(response.status, '201 Created')
-        evidence_id = response.json['data']['id']
+            self.assertEqual(response.status, "201 Created")
+        evidence_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'criteria/patch-requirement-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/patch-requirement-evidence.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}?acc_token={}".format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, evidence_id, owner_token
                 ),
-                {'data': {'title_en': 'Documented approve'}},
+                {"data": {"title_en": "Documented approve"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/requirement-evidences-list.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-evidences-list.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences".format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1
                 ),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/requirement-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-evidence.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}".format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, evidence_id
                 ),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/delete-requirement-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/delete-requirement-evidence.http", "wb") as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}?acc_token={}".format(
                     self.tender_id, criteria_id_1, rg_id_1, requirement_id_1, evidence_id, owner_token
                 ),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/criteria-list.http', 'wb') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/criteria'.format(self.tender_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "criteria/criteria-list.http", "wb") as self.app.file_obj:
+            response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/criteria.http', 'wb') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/criteria/{}'.format(self.tender_id, criteria_id_1))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "criteria/criteria.http", "wb") as self.app.file_obj:
+            response = self.app.get("/tenders/{}/criteria/{}".format(self.tender_id, criteria_id_1))
+            self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
-        with open(TARGET_DIR + 'criteria/put-exclusion-criteria-requirement.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/put-exclusion-criteria-requirement.http", "wb") as self.app.file_obj:
             response = self.app.put_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token
                 ),
                 {
-                    'data': {
-                        'eligibleEvidences': [
+                    "data": {
+                        "eligibleEvidences": [
                             test_evidence_data,
                         ]
                     }
                 },
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/requirement-put-add-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-put-add-evidence.http", "wb") as self.app.file_obj:
             test_evidence_data_new = deepcopy(test_evidence_data)
             test_evidence_data_new["title"] = "new, added by requirement PUT"
             response = self.app.put_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token
                 ),
-                {'data': {'eligibleEvidences': [test_evidence_data, test_evidence_data_new]}},
+                {"data": {"eligibleEvidences": [test_evidence_data, test_evidence_data_new]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/requirement-put-update-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-put-update-evidence.http", "wb") as self.app.file_obj:
             test_evidence_data_new["title"] = "changed_new, changed by requirement PUT"
             response = self.app.put_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token
                 ),
-                {'data': {'eligibleEvidences': [test_evidence_data, test_evidence_data_new]}},
+                {"data": {"eligibleEvidences": [test_evidence_data, test_evidence_data_new]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/requirement-put-delete-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-put-delete-evidence.http", "wb") as self.app.file_obj:
             response = self.app.put_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token
                 ),
-                {'data': {'eligibleEvidences': []}},
+                {"data": {"eligibleEvidences": []}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/criteria-requirement-cancellation.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/criteria-requirement-cancellation.http", "wb") as self.app.file_obj:
             response = self.app.put_json(
-                '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token
                 ),
-                {'data': {'status': 'cancelled'}},
+                {"data": {"status": "cancelled"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/delete-criteria-invalid.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/delete-criteria-invalid.http", "wb") as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/criteria/{}?acc_token={}'.format(self.tender_id, criteria_id_1, owner_token),
+                "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criteria_id_1, owner_token),
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
 
         tender = self.mongodb.tenders.get(self.tender_id)
         tender["status"] = "draft"
         self.mongodb.tenders.save(tender)
 
-        with open(TARGET_DIR + 'criteria/delete-criteria.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/delete-criteria.http", "wb") as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/criteria/{}?acc_token={}'.format(self.tender_id, criteria_id_1, owner_token),
+                "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criteria_id_1, owner_token),
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
     def test_tender_criteria_article_16(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         tender_data = deepcopy(test_tender_data)
         tender_data["minimalStep"] = {"amount": 15, "currency": "UAH"}
         tender_data.update({"status": "draft"})
 
-        response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
-        self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json("/tenders?opt_pretty=1", {"data": tender_data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         test_criteria_data = deepcopy(test_tender_openeu_criteria[:-1])
         set_tender_criteria(test_criteria_data, tender.get("lots", []), tender.get("items", []))
-        with open(TARGET_DIR + 'criteria/bulk-create-exclusion-criteria.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/bulk-create-exclusion-criteria.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
-                {'data': test_criteria_data},
+                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token),
+                {"data": test_criteria_data},
             )
-            self.assertEqual(response.status, '201 Created')
-
-        criteria_2 = response.json['data'][0]
-        criteria_id_2 = criteria_2['id']
+            self.assertEqual(response.status, "201 Created")
 
         self.add_sign_doc(self.tender_id, owner_token)
 
         # Try to update tender from `draft` to `active.tendering` without ARTICLE_16 criteria
         with open(
-            TARGET_DIR + 'criteria/update-tender-status-without-article-16-criteria.http', 'wb'
+            TARGET_DIR + "criteria/update-tender-status-without-article-16-criteria.http", "wb"
         ) as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
                 {"data": {"status": "active.tendering"}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
 
     def test_bid_requirement_response(self):
         tender_data = deepcopy(self.initial_data)
 
-        response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
-        self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json("/tenders?opt_pretty=1", {"data": tender_data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -3087,13 +3085,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        response = self.app.get("/tenders/{}".format(self.tender_id))
         tender = response.json["data"]
 
         criteria_data = []
@@ -3107,19 +3105,19 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         )
 
         response = self.app.post_json(
-            '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
-            {'data': criteria_data},
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token),
+            {"data": criteria_data},
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
         criteria = response.json["data"]
 
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, [lot])
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
-        bid_id = response.json['data']['id']
-        bid_token = response.json['access']['token']
-        self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
+        bid_id = response.json["data"]["id"]
+        bid_token = response.json["access"]["token"]
+        self.assertEqual(response.status, "201 Created")
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
@@ -3166,174 +3164,174 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             "id": requirement_2_1["id"],
         }
 
-        with open(TARGET_DIR + 'criteria/requirement-response-basic-data-1.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-response-basic-data-1.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': {'requirementResponses': [rr_1_1]}},
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"requirementResponses": [rr_1_1]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/bid-activation-not-all-criteria.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/bid-activation-not-all-criteria.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': {'status': 'pending'}},
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"status": "pending"}},
                 status=422,
             )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
+            self.assertEqual(response.status, "422 Unprocessable Entity")
 
-        with open(TARGET_DIR + 'criteria/requirement-response-basic-data-2.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-response-basic-data-2.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': {'requirementResponses': [rr_1_1, rr_1_2, rr_2_1]}},
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"requirementResponses": [rr_1_1, rr_1_2, rr_2_1]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/bid-activation-answered-on-two-groups.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/bid-activation-answered-on-two-groups.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': {'status': 'pending'}},
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"status": "pending"}},
                 status=422,
             )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
+            self.assertEqual(response.status, "422 Unprocessable Entity")
 
-        with open(TARGET_DIR + 'criteria/requirement-response-basic-data-3.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-response-basic-data-3.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': {'requirementResponses': [rr_1_1, rr_2_1]}},
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"requirementResponses": [rr_1_1, rr_2_1]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/bid-activation-not-all-requirements.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/bid-activation-not-all-requirements.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': {'status': 'pending'}},
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"status": "pending"}},
                 status=422,
             )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
+            self.assertEqual(response.status, "422 Unprocessable Entity")
 
-        with open(TARGET_DIR + 'criteria/add-requirement-response-from-bid.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/add-requirement-response-from-bid.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': {'requirementResponses': [rr_1_1, rr_2_1]}},
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"requirementResponses": [rr_1_1, rr_2_1]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/patch-requirement-response-from-bid.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/patch-requirement-response-from-bid.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': {'requirementResponses': [rr_1_1, rr_2_1]}},
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"requirementResponses": [rr_1_1, rr_2_1]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/delete-requirement-response-from-bid.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/delete-requirement-response-from-bid.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': {'requirementResponses': []}},
+                "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": {"requirementResponses": []}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         test_rr_data = [
             deepcopy(rr_mock),
         ]
 
-        with open(TARGET_DIR + 'criteria/create-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/create-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/bids/{}/requirement_responses?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-                {'data': test_rr_data},
+                "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
+                {"data": test_rr_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         rr_id = response.json["data"][0]["id"]
 
-        with open(TARGET_DIR + 'criteria/update-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/update-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}'.format(
+                "/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}".format(
                     self.tender_id, bid_id, rr_id, bid_token
                 ),
-                {'data': {'value': 'False'}},
+                {"data": {"value": "False"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/create-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/create-requirement-response-evidence.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}'.format(
+                "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(
                     self.tender_id, bid_id, rr_id, bid_token
                 ),
-                {'data': evidence_data},
+                {"data": evidence_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         evidence_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'criteria/update-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/update-requirement-response-evidence.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                "/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}?acc_token={}".format(
                     self.tender_id, bid_id, rr_id, evidence_id, bid_token
                 ),
-                {'data': {'title': 'Update evidence title'}},
+                {"data": {"title": "Update evidence title"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.auction")
-        with open(TARGET_DIR + 'criteria/requirement-response-list.http', 'wb') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/bids/{}/requirement_responses'.format(self.tender_id, bid_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "criteria/requirement-response-list.http", "wb") as self.app.file_obj:
+            response = self.app.get("/tenders/{}/bids/{}/requirement_responses".format(self.tender_id, bid_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/bids/{}/requirement_responses/{}'.format(self.tender_id, bid_id, rr_id)
+                "/tenders/{}/bids/{}/requirement_responses/{}".format(self.tender_id, bid_id, rr_id)
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/requirement-response-evidence-list.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-response-evidence-list.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/bids/{}/requirement_responses/{}/evidences'.format(self.tender_id, bid_id, rr_id)
+                "/tenders/{}/bids/{}/requirement_responses/{}/evidences".format(self.tender_id, bid_id, rr_id)
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/requirement-response-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/requirement-response-evidence.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}'.format(
+                "/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}".format(
                     self.tender_id, bid_id, rr_id, evidence_id
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         self.set_status("draft")
 
-        with open(TARGET_DIR + 'criteria/delete-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/delete-requirement-response-evidence.http", "wb") as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                "/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}?acc_token={}".format(
                     self.tender_id, bid_id, rr_id, evidence_id, bid_token
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/delete-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/delete-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}'.format(
+                "/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}".format(
                     self.tender_id, bid_id, rr_id, bid_token
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
     def test_award_requirement_response(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+            "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -3342,13 +3340,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        response = self.app.get("/tenders/{}".format(self.tender_id))
         tender = response.json["data"]
 
         criteria_data = []
@@ -3358,10 +3356,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         set_tender_criteria(criteria_data, tender["lots"], tender["items"])
 
         response = self.app.post_json(
-            '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
-            {'data': criteria_data},
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token),
+            {"data": criteria_data},
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
         criteria = response.json["data"]
 
@@ -3369,9 +3367,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_data["status"] = "draft"
         set_bid_lotvalues(bid_data, [lot])
 
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
-        bid_id = response.json['data']['id']
-        bid_token = response.json['access']['token']
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
+        bid_id = response.json["data"]["id"]
+        bid_token = response.json["access"]["token"]
 
         self.add_sign_doc(
             self.tender_id,
@@ -3380,8 +3378,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             document_type="proposal",
         )
         response = self.app.patch_json(
-            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-            {'data': {"status": "pending"}},
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+            {"data": {"status": "pending"}},
         )
 
         # create second bid
@@ -3391,16 +3389,16 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.create_bid(self.tender_id, bid_data_2)
 
         # Pre-qualification
-        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+        self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
         self.check_chronograph()
 
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.status, "200 OK")
-        qualifications = response.json['data']
+        qualifications = response.json["data"]
 
         for qualification in qualifications:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification['id'], owner_token),
+                "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], owner_token),
                 {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, "200 OK")
@@ -3408,22 +3406,22 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # active.pre-qualification.stand-still
         self.add_sign_doc(self.tender_id, owner_token, document_type="evaluationReports")
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+            "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json['data']['status'], "active.pre-qualification.stand-still")
+        self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
         # switch to active.auction
-        self.set_status('active.auction')
-        self.app.authorization = ('Basic', ('auction', ''))
-        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
-        auction_bids_data = response.json['data']['bids']
+        self.set_status("active.auction")
+        self.app.authorization = ("Basic", ("auction", ""))
+        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+        auction_bids_data = response.json["data"]["bids"]
         self.app.post_json(
-            '/tenders/{}/auction/{}'.format(self.tender_id, lot_id),
+            "/tenders/{}/auction/{}".format(self.tender_id, lot_id),
             {
-                'data': {
-                    'bids': [
+                "data": {
+                    "bids": [
                         {
                             "id": b["id"],
                             "lotValues": [
@@ -3436,10 +3434,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             },
         )
 
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get("/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token))
         # get pending award
-        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
         self.set_status("active.qualification")
 
@@ -3496,20 +3494,20 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.tick()
 
-        with open(TARGET_DIR + 'criteria/add-requirement-response-from-award.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/add-requirement-response-from-award.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {'data': {'requirementResponses': [rr_1, rr_2]}},
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
+                {"data": {"requirementResponses": [rr_1, rr_2]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         rr_1["value"] = False
-        with open(TARGET_DIR + 'criteria/patch-requirement-response-from-award.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/patch-requirement-response-from-award.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-                {'data': {'requirementResponses': [rr_1, rr_2]}},
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
+                {"data": {"requirementResponses": [rr_1, rr_2]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         tender = self.mongodb.tenders.get(self.tender_id)
         for a in tender["awards"]:
@@ -3521,103 +3519,103 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             deepcopy(rr_mock),
         ]
 
-        with open(TARGET_DIR + 'criteria/award-create-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/award-create-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/requirement_responses?acc_token={}'.format(
+                "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(
                     self.tender_id, award_id, owner_token
                 ),
-                {'data': test_rr_data},
+                {"data": test_rr_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         rr_id = response.json["data"][0]["id"]
 
-        with open(TARGET_DIR + 'criteria/award-update-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/award-update-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}'.format(
+                "/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}".format(
                     self.tender_id, award_id, rr_id, owner_token
                 ),
-                {'data': {"value": False}},
+                {"data": {"value": False}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/award-create-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/award-create-requirement-response-evidence.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/requirement_responses/{}/evidences?acc_token={}'.format(
+                "/tenders/{}/awards/{}/requirement_responses/{}/evidences?acc_token={}".format(
                     self.tender_id, award_id, rr_id, owner_token
                 ),
-                {'data': evidence_data},
+                {"data": evidence_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         evidence_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'criteria/award-update-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/award-update-requirement-response-evidence.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                "/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}?acc_token={}".format(
                     self.tender_id, award_id, rr_id, evidence_id, owner_token
                 ),
-                {'data': {'title': 'Update evidence title'}},
+                {"data": {"title": "Update evidence title"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/award-requirement-response-list.http', 'wb') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/awards/{}/requirement_responses'.format(self.tender_id, award_id))
-            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "criteria/award-requirement-response-list.http", "wb") as self.app.file_obj:
+            response = self.app.get("/tenders/{}/awards/{}/requirement_responses".format(self.tender_id, award_id))
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/award-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/award-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/awards/{}/requirement_responses/{}'.format(self.tender_id, award_id, rr_id)
+                "/tenders/{}/awards/{}/requirement_responses/{}".format(self.tender_id, award_id, rr_id)
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/award-requirement-response-evidence-list.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/award-requirement-response-evidence-list.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/awards/{}/requirement_responses/{}/evidences'.format(self.tender_id, award_id, rr_id)
+                "/tenders/{}/awards/{}/requirement_responses/{}/evidences".format(self.tender_id, award_id, rr_id)
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/award-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/award-requirement-response-evidence.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}'.format(
+                "/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}".format(
                     self.tender_id, award_id, rr_id, evidence_id
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/award-delete-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/award-delete-requirement-response-evidence.http", "wb") as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                "/tenders/{}/awards/{}/requirement_responses/{}/evidences/{}?acc_token={}".format(
                     self.tender_id, award_id, rr_id, evidence_id, owner_token
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/award-delete-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/award-delete-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}'.format(
+                "/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}".format(
                     self.tender_id, award_id, rr_id, owner_token
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
     def test_qualification_requirement_response(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         response = self.app.post_json(
-            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
+            "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -3626,13 +3624,13 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
-        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        response = self.app.get("/tenders/{}".format(self.tender_id))
         tender = response.json["data"]
 
         criteria_data = []
@@ -3642,10 +3640,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         set_tender_criteria(criteria_data, tender["lots"], tender["items"])
 
         response = self.app.post_json(
-            '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
-            {'data': criteria_data},
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token),
+            {"data": criteria_data},
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
         criteria = response.json["data"]
 
@@ -3653,9 +3651,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_data["status"] = "draft"
         set_bid_lotvalues(bid_data, [lot])
 
-        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
-        bid_id = response.json['data']['id']
-        bid_token = response.json['access']['token']
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
+        bid_id = response.json["data"]["id"]
+        bid_token = response.json["access"]["token"]
 
         self.add_sign_doc(
             self.tender_id,
@@ -3664,24 +3662,24 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             document_type="proposal",
         )
         response = self.app.patch_json(
-            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid_id, bid_token),
-            {'data': {"status": "pending"}},
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+            {"data": {"status": "pending"}},
         )
 
         # create second bid
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         bid_data_2 = deepcopy(bid2)
         bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
         self.create_bid(self.tender_id, bid_data_2)
 
         # Pre-qualification
-        self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
+        self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
         self.check_chronograph()
 
-        response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
+        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.status, "200 OK")
-        qualifications = response.json['data']
+        qualifications = response.json["data"]
 
         qualification_id = qualifications[0]["id"]
         response = self.app.post_json(
@@ -3730,133 +3728,133 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.tick()
 
-        with open(TARGET_DIR + 'criteria/add-requirement-response-from-qualification.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/add-requirement-response-from-qualification.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification_id, owner_token),
-                {'data': {'requirementResponses': [rr_1]}},
+                "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification_id, owner_token),
+                {"data": {"requirementResponses": [rr_1]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         rr_1["value"] = False
         with open(
-            TARGET_DIR + 'criteria/patch-requirement-response-from-qualification.http', 'wb'
+            TARGET_DIR + "criteria/patch-requirement-response-from-qualification.http", "wb"
         ) as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification_id, owner_token),
-                {'data': {'requirementResponses': [rr_1]}},
+                "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification_id, owner_token),
+                {"data": {"requirementResponses": [rr_1]}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         with open(
-            TARGET_DIR + 'criteria/delete-requirement-response-from-qualification.http', 'wb'
+            TARGET_DIR + "criteria/delete-requirement-response-from-qualification.http", "wb"
         ) as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}?acc_token={}'.format(self.tender_id, qualification_id, owner_token),
-                {'data': {'requirementResponses': []}},
+                "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification_id, owner_token),
+                {"data": {"requirementResponses": []}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         test_rr_data = [
             rr_2,
         ]
 
-        with open(TARGET_DIR + 'criteria/qualification-create-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/qualification-create-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/requirement_responses?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/requirement_responses?acc_token={}".format(
                     self.tender_id, qualification_id, owner_token
                 ),
-                {'data': test_rr_data},
+                {"data": test_rr_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         rr_id = response.json["data"][0]["id"]
 
-        with open(TARGET_DIR + 'criteria/qualification-update-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/qualification-update-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}".format(
                     self.tender_id, qualification_id, rr_id, owner_token
                 ),
-                {'data': {"value": False}},
+                {"data": {"value": False}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         with open(
-            TARGET_DIR + 'criteria/qualification-create-requirement-response-evidence.http', 'wb'
+            TARGET_DIR + "criteria/qualification-create-requirement-response-evidence.http", "wb"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/requirement_responses/{}/evidences?acc_token={}".format(
                     self.tender_id, qualification_id, rr_id, owner_token
                 ),
-                {'data': evidence_data},
+                {"data": evidence_data},
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
         evidence_id = response.json["data"]["id"]
 
         with open(
-            TARGET_DIR + 'criteria/qualification-update-requirement-response-evidence.http', 'wb'
+            TARGET_DIR + "criteria/qualification-update-requirement-response-evidence.http", "wb"
         ) as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/requirement_responses/{}/evidences/{}?acc_token={}".format(
                     self.tender_id, qualification_id, rr_id, evidence_id, owner_token
                 ),
-                {'data': {'title': 'Update evidence title'}},
+                {"data": {"title": "Update evidence title"}},
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/qualification-requirement-response-list.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/qualification-requirement-response-list.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/qualifications/{}/requirement_responses'.format(self.tender_id, qualification_id)
+                "/tenders/{}/qualifications/{}/requirement_responses".format(self.tender_id, qualification_id)
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/qualification-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/qualification-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/qualifications/{}/requirement_responses/{}'.format(self.tender_id, qualification_id, rr_id)
+                "/tenders/{}/qualifications/{}/requirement_responses/{}".format(self.tender_id, qualification_id, rr_id)
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         with open(
-            TARGET_DIR + 'criteria/qualification-requirement-response-evidence-list.http', 'wb'
+            TARGET_DIR + "criteria/qualification-requirement-response-evidence-list.http", "wb"
         ) as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences'.format(
+                "/tenders/{}/qualifications/{}/requirement_responses/{}/evidences".format(
                     self.tender_id, qualification_id, rr_id
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/qualification-requirement-response-evidence.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/qualification-requirement-response-evidence.http", "wb") as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences/{}'.format(
+                "/tenders/{}/qualifications/{}/requirement_responses/{}/evidences/{}".format(
                     self.tender_id, qualification_id, rr_id, evidence_id
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         with open(
-            TARGET_DIR + 'criteria/qualification-delete-requirement-response-evidence.http', 'wb'
+            TARGET_DIR + "criteria/qualification-delete-requirement-response-evidence.http", "wb"
         ) as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/qualifications/{}/requirement_responses/{}/evidences/{}?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/requirement_responses/{}/evidences/{}?acc_token={}".format(
                     self.tender_id, qualification_id, rr_id, evidence_id, owner_token
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'criteria/qualification-delete-requirement-response.http', 'wb') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/qualification-delete-requirement-response.http", "wb") as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}'.format(
+                "/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}".format(
                     self.tender_id, qualification_id, rr_id, owner_token
                 )
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
     def test_docs_constants(self):
-        with open(TARGET_DIR + 'constants/constants.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "constants/constants.http", "w") as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get('/constants')
-            self.assertEqual(response.status, '200 OK')
+            response = self.app.get("/constants")
+            self.assertEqual(response.status, "200 OK")
 
 
 class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebTestMixin):
@@ -3878,11 +3876,11 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         super().tearDown()
 
     def test_docs_milestones(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         data = deepcopy(test_tender_below_data)
 
-        for item in data['items']:
-            item['deliveryDate'] = {
+        for item in data["items"]:
+            item["deliveryDate"] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat(),
             }
@@ -3896,28 +3894,28 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         data["milestones"] = [
             {
-                'title': "signingTheContract",
-                'code': 'prepayment',
-                'type': 'financing',
-                'duration': {'days': 5, 'type': 'banking'},
-                'sequenceNumber': 0,
-                'percentage': 45.55,
+                "title": "signingTheContract",
+                "code": "prepayment",
+                "type": "financing",
+                "duration": {"days": 5, "type": "banking"},
+                "sequenceNumber": 0,
+                "percentage": 45.55,
             },
             {
-                'title': "deliveryOfGoods",
-                'code': 'postpayment',
-                'type': 'financing',
-                'duration': {'days': 7, 'type': 'calendar'},
-                'sequenceNumber': 1,
-                'percentage': 54.45,
+                "title": "deliveryOfGoods",
+                "code": "postpayment",
+                "type": "financing",
+                "duration": {"days": 7, "type": "calendar"},
+                "sequenceNumber": 1,
+                "percentage": 54.45,
             },
         ]
-        with open(TARGET_DIR + 'milestones/tender-post-milestones.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config})
-        self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + "milestones/tender-post-milestones.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
 
         milestones = deepcopy(tender["milestones"])
         milestones[1].update(
@@ -3926,71 +3924,71 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 "description": "Підозрілий опис",
             }
         )
-        with open(TARGET_DIR + 'milestones/tender-patch-milestones.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "milestones/tender-patch-milestones.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"milestones": milestones}}
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"milestones": milestones}}
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
 
         milestones[0]["relatedLot"] = lot["id"]
         milestones[1]["relatedLot"] = lot["id"]
-        with open(TARGET_DIR + 'milestones/tender-patch-lot-milestones.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "milestones/tender-patch-lot-milestones.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"milestones": milestones}}
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"milestones": milestones}}
             )
-            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'milestones/tender-delete-lot-milestones-error.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "milestones/tender-delete-lot-milestones-error.http", "w") as self.app.file_obj:
             response = self.app.delete(
-                '/tenders/{}/lots/{}?acc_token={}'.format(tender["id"], lot['id'], owner_token), status=422
+                "/tenders/{}/lots/{}?acc_token={}".format(tender["id"], lot["id"], owner_token), status=422
             )
-        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
-            response.json['errors'],
+            response.json["errors"],
             [{"location": "body", "name": "data", "description": "Cannot delete lot with related milestones"}],
         )
 
         milestones[0]["sequenceNumber"] = 0
         milestones[1]["sequenceNumber"] = 3
         with open(
-            TARGET_DIR + 'milestones/tender-patch-lot-milestones-invalid-sequence.http', 'w'
+            TARGET_DIR + "milestones/tender-patch-lot-milestones-invalid-sequence.http", "w"
         ) as self.app.file_obj:
             with patch(
                 "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
                 get_now() - timedelta(days=1),
             ):
                 response = self.app.patch_json(
-                    '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+                    "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
                     {"data": {"milestones": milestones}},
                     status=422,
                 )
-                self.assertEqual(response.status, '422 Unprocessable Entity')
+                self.assertEqual(response.status, "422 Unprocessable Entity")
 
         milestones[0]["sequenceNumber"] = 1
         milestones[1]["sequenceNumber"] = 2
         milestones[1].pop("relatedLot")
         with open(
-            TARGET_DIR + 'milestones/tender-patch-lot-milestones-invalid-relation.http', 'w'
+            TARGET_DIR + "milestones/tender-patch-lot-milestones-invalid-relation.http", "w"
         ) as self.app.file_obj:
             with patch(
                 "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
                 get_now() - timedelta(days=1),
             ):
                 response = self.app.patch_json(
-                    '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+                    "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
                     {"data": {"milestones": milestones}},
                     status=422,
                 )
-                self.assertEqual(response.status, '422 Unprocessable Entity')
+                self.assertEqual(response.status, "422 Unprocessable Entity")
 
     def test_docs_technical_features(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         data = deepcopy(test_tender_below_data)
 
         profile = deepcopy(test_tender_pq_short_profile)
@@ -4008,28 +4006,30 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         response_mock = Mock(status_code=404)
         requests_get_mock = Mock(return_value=response_mock)
 
-        with patch("openprocurement.api.utils.requests.get", requests_get_mock), open(
-            TARGET_DIR + 'techfeatures/item-profile-not-found.http', 'w'
-        ) as self.app.file_obj:
-            response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config}, status=404)
+        with (
+            patch("openprocurement.api.utils.requests.get", requests_get_mock),
+            open(TARGET_DIR + "techfeatures/item-profile-not-found.http", "w") as self.app.file_obj,
+        ):
+            response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=404)
             self.assertEqual(response.status, "404 Not Found")
 
         response_mock = Mock(status_code=200, json=Mock(return_value={"data": profile}))
         requests_get_mock = Mock(return_value=response_mock)
 
-        with patch("openprocurement.api.utils.requests.get", requests_get_mock), open(
-            TARGET_DIR + 'techfeatures/item-profile-not-active.http', 'w'
-        ) as self.app.file_obj:
-            response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config}, status=422)
+        with (
+            patch("openprocurement.api.utils.requests.get", requests_get_mock),
+            open(TARGET_DIR + "techfeatures/item-profile-not-active.http", "w") as self.app.file_obj,
+        ):
+            response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
         profile["status"] = "active"
 
-        with patch_market(profile, category), open(
-            TARGET_DIR + 'techfeatures/tender-with-item-profile-created.http', 'w'
-        ) as self.app.file_obj:
-
-            response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config})
+        with (
+            patch_market(profile, category),
+            open(TARGET_DIR + "techfeatures/tender-with-item-profile-created.http", "w") as self.app.file_obj,
+        ):
+            response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
             self.assertEqual(response.status, "201 Created")
             tender_id = response.json["data"]["id"]
             tender_token = response.json["access"]["token"]
@@ -4041,9 +4041,9 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         set_tender_criteria(tech_criteria, [], items)
         tech_criteria[0]["relatesTo"] = "tenderer"
 
-        with open(TARGET_DIR + 'techfeatures/create-tech-criteria-without-related-item.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "techfeatures/create-tech-criteria-without-related-item.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                f'/tenders/{tender_id}/criteria?acc_token={tender_token}', {'data': tech_criteria}, status=422
+                f"/tenders/{tender_id}/criteria?acc_token={tender_token}", {"data": tech_criteria}, status=422
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
@@ -4051,32 +4051,34 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         tech_criteria[0]["relatedItem"] = items[0]["id"]
 
         with open(
-            TARGET_DIR + 'techfeatures/create-tech-criteria-for-items-without-profile.http', 'w'
+            TARGET_DIR + "techfeatures/create-tech-criteria-for-items-without-profile.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                f'/tenders/{tender_id}/criteria?acc_token={tender_token}', {'data': tech_criteria}, status=422
+                f"/tenders/{tender_id}/criteria?acc_token={tender_token}", {"data": tech_criteria}, status=422
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
         tech_criteria[0]["relatedItem"] = items[1]["id"]
 
-        with patch(
-            "openprocurement.tender.core.procedure.criteria.get_tender_category",
-            Mock(return_value=category),
-        ), patch(
-            "openprocurement.tender.core.procedure.criteria.get_tender_profile",
-            Mock(return_value=profile),
-        ), open(
-            TARGET_DIR + 'techfeatures/create-tech-criteria-success.http', 'w'
-        ) as self.app.file_obj:
+        with (
+            patch(
+                "openprocurement.tender.core.procedure.criteria.get_tender_category",
+                Mock(return_value=category),
+            ),
+            patch(
+                "openprocurement.tender.core.procedure.criteria.get_tender_profile",
+                Mock(return_value=profile),
+            ),
+            open(TARGET_DIR + "techfeatures/create-tech-criteria-success.http", "w") as self.app.file_obj,
+        ):
             response = self.app.post_json(
-                f'/tenders/{tender_id}/criteria?acc_token={tender_token}',
-                {'data': tech_criteria},
+                f"/tenders/{tender_id}/criteria?acc_token={tender_token}",
+                {"data": tech_criteria},
             )
             self.assertEqual(response.status, "201 Created")
 
     def test_docs_bid_items_localization(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         data = deepcopy(self.initial_data)
         profile = deepcopy(test_tender_pq_short_profile)
         category = {"id": profile["relatedCategory"], "status": "active"}
@@ -4085,18 +4087,18 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         data["items"][0]["category"] = category["id"]
 
         with patch_market(profile, category):
-            response = self.app.post_json('/tenders?opt_pretty=1', {'data': data, 'config': self.initial_config})
-            self.assertEqual(response.status, '201 Created')
+            response = self.app.post_json("/tenders?opt_pretty=1", {"data": data, "config": self.initial_config})
+            self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-        self.tender_id = tender['id']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.tender_id = tender["id"]
 
         # add lot
         response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token), {'data': test_lots[0]}
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
         )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
         lot_id = lot["id"]
 
@@ -4105,9 +4107,9 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         for item in items:
             item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
@@ -4127,9 +4129,9 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         bid_data["items"] = bid_items
 
         with open(
-            TARGET_DIR + 'bid-items-localization/unsuccessful-create-bid-with-items-VAT.http', 'w'
+            TARGET_DIR + "bid-items-localization/unsuccessful-create-bid-with-items-VAT.http", "w"
         ) as self.app.file_obj:
-            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=422)
+            response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
         for item in bid_data["items"]:
@@ -4138,17 +4140,17 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         bid_items[0]["id"] = "e" * 32
 
         with open(
-            TARGET_DIR + 'bid-items-localization/unsuccessful-create-bid-with-items.http', 'w'
+            TARGET_DIR + "bid-items-localization/unsuccessful-create-bid-with-items.http", "w"
         ) as self.app.file_obj:
-            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=422)
+            response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
         bid_items[0]["id"] = tender_item_id
 
         with open(
-            TARGET_DIR + 'bid-items-localization/successfuly-create-bid-with-items.http', 'w'
+            TARGET_DIR + "bid-items-localization/successfuly-create-bid-with-items.http", "w"
         ) as self.app.file_obj:
-            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data})
+            response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data})
             self.assertEqual(response.status, "201 Created")
 
         bid_id = response.json["data"]["id"]
@@ -4157,10 +4159,10 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         bid_data["items"][0]["unit"]["value"]["amount"] = 7
         bid_data["items"][0]["quantity"] = 4
 
-        with open(TARGET_DIR + 'bid-items-localization/update-bid-items.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "bid-items-localization/update-bid-items.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                f'/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}',
-                {'data': bid_data},
+                f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}",
+                {"data": bid_data},
             )
             self.assertEqual(response.status, "200 OK")
 
@@ -4170,45 +4172,58 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         bid_data["items"][0]["product"] = product["id"]
         set_bid_lotvalues(bid_data, [lot])
 
-        with patch("openprocurement.api.utils.requests.get", Mock(return_value=Mock(status_code=404))), open(
-            TARGET_DIR + 'bid-items-localization/item-product-not-found.http', 'w'
-        ) as self.app.file_obj:
-            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=404)
+        with (
+            patch("openprocurement.api.utils.requests.get", Mock(return_value=Mock(status_code=404))),
+            open(TARGET_DIR + "bid-items-localization/item-product-not-found.http", "w") as self.app.file_obj,
+        ):
+            response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=404)
             self.assertEqual(response.status, "404 Not Found")
 
-        with patch(
-            "openprocurement.api.utils.requests.get",
-            Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
-        ), open(TARGET_DIR + 'bid-items-localization/item-product-not-active.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=422)
+        with (
+            patch(
+                "openprocurement.api.utils.requests.get",
+                Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
+            ),
+            open(TARGET_DIR + "bid-items-localization/item-product-not-active.http", "w") as self.app.file_obj,
+        ):
+            response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
         product["status"] = "active"
-        with patch(
-            "openprocurement.api.utils.requests.get",
-            Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
-        ), open(
-            TARGET_DIR + 'bid-items-localization/item-product-invalid-related-category.http', 'w'
-        ) as self.app.file_obj:
-            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data}, status=422)
+        with (
+            patch(
+                "openprocurement.api.utils.requests.get",
+                Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
+            ),
+            open(
+                TARGET_DIR + "bid-items-localization/item-product-invalid-related-category.http", "w"
+            ) as self.app.file_obj,
+        ):
+            response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
         product["relatedCategory"] = tender["items"][0]["category"]
 
-        with patch(
-            "openprocurement.tender.core.procedure.state.bid.get_tender_product",
-            Mock(return_value=product),
-        ), open(TARGET_DIR + 'bid-items-localization/bid-with-item-product-created.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data})
+        with (
+            patch(
+                "openprocurement.tender.core.procedure.state.bid.get_tender_product",
+                Mock(return_value=product),
+            ),
+            open(TARGET_DIR + "bid-items-localization/bid-with-item-product-created.http", "w") as self.app.file_obj,
+        ):
+            response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data})
             self.assertEqual(response.status, "201 Created")
 
         product = {"id": "2" * 32, "status": "active"}
         bid_data["items"][0]["product"] = product["id"]
 
-        with patch(
-            "openprocurement.tender.core.procedure.state.bid.get_tender_product",
-            Mock(return_value=product),
-        ), open(TARGET_DIR + 'bid-items-localization/update_bid-with-item-product.http', 'w') as self.app.file_obj:
+        with (
+            patch(
+                "openprocurement.tender.core.procedure.state.bid.get_tender_product",
+                Mock(return_value=product),
+            ),
+            open(TARGET_DIR + "bid-items-localization/update_bid-with-item-product.http", "w") as self.app.file_obj,
+        ):
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}", {"data": {"items": bid_data["items"]}}
             )
@@ -4220,20 +4235,20 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         tech_criteria[0]["relatesTo"] = "tenderer"
 
     def test_tender_contract_template_name(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
 
         data = deepcopy(self.initial_data)
         del data["contractTemplateName"]
 
-        response = self.app.post_json('/tenders?opt_pretty=1', {'data': data, 'config': self.initial_config})
-        self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json("/tenders?opt_pretty=1", {"data": data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
 
         self.tender_id = response.json["data"]["id"]
         self.tender_token = response.json["access"]["token"]
 
         # Set invalid contractTemplateName
         with open(
-            TARGET_DIR + 'contract-template-name/set-contract-template-name-invalid.http', 'w'
+            TARGET_DIR + "contract-template-name/set-contract-template-name-invalid.http", "w"
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -4241,7 +4256,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 status=422,
             )
 
-        with open(TARGET_DIR + 'contract-template-name/add-contract-proforma.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-template-name/add-contract-proforma.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
                 {
@@ -4256,7 +4271,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
             )
             doc_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'contract-template-name/invalid-with-contract-proforma.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-template-name/invalid-with-contract-proforma.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {"data": {"contractTemplateName": "00000000.0002.01"}},
@@ -4270,14 +4285,14 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         self.assertEqual(response.status, "200 OK")
 
         with open(
-            TARGET_DIR + 'contract-template-name/set-contract-template-name-success.http', 'w'
+            TARGET_DIR + "contract-template-name/set-contract-template-name-success.http", "w"
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {"data": {"contractTemplateName": "00000000.0002.01"}},
             )
 
-        with open(TARGET_DIR + 'contract-template-name/delete-contract-template-name.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "contract-template-name/delete-contract-template-name.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"contractTemplateName": None}}
             )
@@ -4285,7 +4300,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         self.set_status("active.pre-qualification")
 
         with open(
-            TARGET_DIR + 'contract-template-name/set-contract-template-in-incorrect-statuese.http', 'w'
+            TARGET_DIR + "contract-template-name/set-contract-template-in-incorrect-statuese.http", "w"
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -4294,34 +4309,34 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
             )
 
     def test_LCC_criteria(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         tender_data = deepcopy(self.initial_data)
 
-        with open(TARGET_DIR + 'criteria/post-tender-award-criteria-lowest-cost.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
-            self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + "criteria/post-tender-award-criteria-lowest-cost.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders?opt_pretty=1", {"data": tender_data, "config": self.initial_config})
+            self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'criteria/lcc-with-invalid-award-criteria.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/lcc-with-invalid-award-criteria.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f'/tenders/{tender["id"]}/criteria?acc_token={owner_token}',
-                {'data': test_lcc_tender_criteria},
+                {"data": test_lcc_tender_criteria},
                 status=422,
             )
 
         tender_data["awardCriteria"] = "lifeCycleCost"
-        with open(TARGET_DIR + 'criteria/post-tender-award-criteria-lcc.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
-            self.assertEqual(response.status, '201 Created')
+        with open(TARGET_DIR + "criteria/post-tender-award-criteria-lcc.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders?opt_pretty=1", {"data": tender_data, "config": self.initial_config})
+            self.assertEqual(response.status, "201 Created")
             tender = response.json["data"]
-            owner_token = response.json['access']['token']
+            owner_token = response.json["access"]["token"]
 
-        with open(TARGET_DIR + 'criteria/lcc-with-valid-award-criteria.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "criteria/lcc-with-valid-award-criteria.http", "w") as self.app.file_obj:
             self.app.post_json(
                 f'/tenders/{tender["id"]}/criteria?acc_token={owner_token}',
-                {'data': test_lcc_tender_criteria},
+                {"data": test_lcc_tender_criteria},
             )
 
 
@@ -4350,16 +4365,16 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
     def test_tender_contract_owner(self):
         tender_data = deepcopy(test_tender_pq_data)
         tender_data["procuringEntity"]["identifier"]["id"] = "00037257"
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         # empty tenders listing
-        response = self.app.get('/tenders')
-        self.assertEqual(response.json['data'], [])
+        response = self.app.get("/tenders")
+        self.assertEqual(response.json["data"], [])
 
         # create tender
-        tender_data['items'].append(deepcopy(tender_data['items'][0]))
-        for item in tender_data['items']:
+        tender_data["items"].append(deepcopy(tender_data["items"][0]))
+        for item in tender_data["items"]:
             item["id"] = uuid4().hex
-            item['deliveryDate'] = {
+            item["deliveryDate"] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat(),
             }
@@ -4382,41 +4397,44 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         contract_template = tender_data.pop("contractTemplateName")
         tender_data["procuringEntity"]["contract_owner"] = "brokerx"
 
-        with open(TARGET_DIR + 'contract-owner/add-contract-owner-no-template.http', 'w') as self.app.file_obj:
-            self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config}, status=422)
+        with open(TARGET_DIR + "contract-owner/add-contract-owner-no-template.http", "w") as self.app.file_obj:
+            self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
 
         tender_data["contractTemplateName"] = contract_template
-        with open(TARGET_DIR + 'contract-owner/add-contract-owner-invalid-broker.http', 'w') as self.app.file_obj:
-            self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config}, status=422)
+        with open(TARGET_DIR + "contract-owner/add-contract-owner-invalid-broker.http", "w") as self.app.file_obj:
+            self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
 
         tender_data["procuringEntity"]["contract_owner"] = "broker"
-        with open(TARGET_DIR + 'contract-owner/add-contract-owner-buyer.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders', {'data': tender_data, 'config': self.initial_config})
-        tender_id = self.tender_id = response.json['data']['id']
-        tender_token = response.json['access']['token']
-        tender_items = response.json['data']['items']
+        with open(TARGET_DIR + "contract-owner/add-contract-owner-buyer.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+        tender_id = self.tender_id = response.json["data"]["id"]
+        tender_token = response.json["access"]["token"]
+        tender_items = response.json["data"]["items"]
         # switch to active.tendering
         response = self.set_status(
-            'active.tendering', extra={'auctionPeriod': {'startDate': (get_now() + timedelta(days=10)).isoformat()}}
+            "active.tendering", extra={"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
         )
         tender = response.json["data"]
-        self.assertIn("auctionPeriod", response.json['data'])
+        self.assertIn("auctionPeriod", response.json["data"])
         # create bid
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         supplier = deepcopy(test_tender_pq_supplier)
         supplier["contract_owner"] = "broker6"
         product = {"id": "1" * 32, "status": "active"}
-        with patch(
-            "openprocurement.api.utils.requests.get",
-            Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
-        ), open(TARGET_DIR + 'contract-owner/add-contract-owner-supplier.http', 'w') as self.app.file_obj:
+        with (
+            patch(
+                "openprocurement.api.utils.requests.get",
+                Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": product}))),
+            ),
+            open(TARGET_DIR + "contract-owner/add-contract-owner-supplier.http", "w") as self.app.file_obj,
+        ):
             bid, bid_token = self.create_bid(
                 self.tender_id,
                 {
-                    'tenderers': [supplier],
-                    'value': {'amount': 500},
-                    'requirementResponses': copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1),
-                    'items': [
+                    "tenderers": [supplier],
+                    "value": {"amount": 500},
+                    "requirementResponses": copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1),
+                    "items": [
                         {
                             "id": tender_items[0]["id"],
                             "description": "Комп’ютерне обладнання для біда",
@@ -4426,7 +4444,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                                 "code": "KGM",
                                 "value": {"amount": 40, "valueAddedTaxIncluded": False},
                             },
-                            "product": product['id'],
+                            "product": product["id"],
                         },
                         {
                             "id": tender_items[1]["id"],
@@ -4437,18 +4455,18 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                                 "code": "KGM",
                                 "value": {"amount": 10, "valueAddedTaxIncluded": False},
                             },
-                            "product": product['id'],
+                            "product": product["id"],
                         },
                     ],
                 },
             )
         # switch to active.qualification
-        self.set_status('active.qualification')
+        self.set_status("active.qualification")
         # get awards
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.get(f'/tenders/{tender_id}/awards?acc_token={tender_token}')
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get(f"/tenders/{tender_id}/awards?acc_token={tender_token}")
         # get pending award
-        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
         # set award as active
         self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{award_id}/documents")
         pdf_data = {
@@ -4461,16 +4479,16 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         with mock.patch(upload_mock_path) as mock_upload_contract_pdf:
             mock_upload_contract_pdf.return_value = {"data": pdf_data}
             self.app.patch_json(
-                f'/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}',
+                f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
                 {"data": {"status": "active", "qualified": True}},
             )
             mock_upload_contract_pdf.assert_called_once()
         # get contract id
-        response = self.app.get(f'/tenders/{tender_id}')
-        contract = response.json['data']['contracts'][-1]
-        contract_id = contract['id']
+        response = self.app.get(f"/tenders/{tender_id}")
+        contract = response.json["data"]["contracts"][-1]
+        contract_id = contract["id"]
 
-        with open(TARGET_DIR + 'contract-owner/get-contract-owners.http', 'w') as self.app.file_obj:
-            response = self.app.get(f'/contracts/{contract_id}')
+        with open(TARGET_DIR + "contract-owner/get-contract-owners.http", "w") as self.app.file_obj:
+            response = self.app.get(f"/contracts/{contract_id}")
             self.assertEqual(response.json["data"]["buyer"]["contract_owner"], "broker")
             self.assertEqual(response.json["data"]["suppliers"][0]["contract_owner"], "broker6")

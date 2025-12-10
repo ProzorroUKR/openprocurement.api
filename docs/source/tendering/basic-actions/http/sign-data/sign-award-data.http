@@ -99,7 +99,7 @@ Content-Type: application/json
           ],
           "status": "active",
           "subcontractingDetails": "ДКП «Орфей», Україна",
-          "id": "c938a8780db146beaba184a25937b356",
+          "id": "4a15bf967949413fa361b33448f58d7c",
           "date": "2023-10-10T01:00:00+03:00",
           "lotValues": [
             {
@@ -307,7 +307,7 @@ Content-Type: application/json
       "qualifications": [
         {
           "id": "063cd6d3b836451785d7ad5954080796",
-          "bidID": "c938a8780db146beaba184a25937b356",
+          "bidID": "4a15bf967949413fa361b33448f58d7c",
           "lotID": "c94486b261084c09ac0c731b74d35c85",
           "status": "active",
           "date": "2023-10-10T01:00:00+03:00",

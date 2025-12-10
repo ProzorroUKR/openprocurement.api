@@ -5,7 +5,7 @@ from datetime import datetime
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.tender.core.procedure.utils import contracts_allow_to_complete
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 # date of 2.6.202 release

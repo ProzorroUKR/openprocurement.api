@@ -11,7 +11,7 @@ from openprocurement.tender.limited.constants import (
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.pricequotation.constants import PQ
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

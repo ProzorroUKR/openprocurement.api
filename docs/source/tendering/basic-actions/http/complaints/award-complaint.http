@@ -32,7 +32,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bceb3dcd0654ff78f3e340dcf560acd?Signature=ZXdIawKdRrq527SGraC6tfZnTHzMZJXce0DpWtcC0QrM8NpOiry9pITDrxvYGoUtgPn93228qwZcC9qy3O06Bg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0907c76b4dbe46c79c1f0b9e752f1e49?Signature=7npSXwqz4bLWUO4uIv6FF2Tob%2FAPHc82WdB0mbzSOxF0RSKTA7cgmMqqNJ%2FAzR2CQmxeQnyRU4cKw2WbZ6XBBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:03+03:00",
         "author": "aboveThresholdReviewers",
@@ -41,7 +41,7 @@ Content-Type: application/json
     ],
     "type": "complaint",
     "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-    "bid_id": "c938a8780db146beaba184a25937b356",
+    "bid_id": "4a15bf967949413fa361b33448f58d7c",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
