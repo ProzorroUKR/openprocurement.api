@@ -21,7 +21,7 @@ Content-Type: application/json
     "status": "declined",
     "type": "complaint",
     "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-    "bid_id": "c938a8780db146beaba184a25937b356",
+    "bid_id": "4a15bf967949413fa361b33448f58d7c",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {

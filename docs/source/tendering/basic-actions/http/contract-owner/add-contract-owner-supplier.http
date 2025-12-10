@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/2e09b62732bf4c3d8fbdd73a762d660a/bids HTTP/1.0
+POST /api/2.5/tenders/016911f3f3d341618c9844a1087e857e/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -42,7 +42,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "0d62551a96c543fb9aef54a9b2fa2363"
+          "id": "3d7bd9da05614ac4bb8566e268590160"
         },
         "values": [
           "Розчин для інфузій"
@@ -50,13 +50,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "2379ed6264454c3cba0f7f1f56f46046"
+          "id": "02cc402d17c246aab7bc883c4f91666f"
         },
         "value": 5
       },
       {
         "requirement": {
-          "id": "7ae4d722145b4ce0abb9dcd5a570d473"
+          "id": "ea9f9be22eb04f8791fc97c5c55d08ef"
         },
         "values": [
           "Відповідь1",
@@ -100,7 +100,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2e09b62732bf4c3d8fbdd73a762d660a/bids/87a857e2ceb8455e9bf83fcc6abd38a7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/016911f3f3d341618c9844a1087e857e/bids/87a857e2ceb8455e9bf83fcc6abd38a7
 
 {
   "data": {
@@ -143,7 +143,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2e09b62732bf4c3d
     "requirementResponses": [
       {
         "requirement": {
-          "id": "0d62551a96c543fb9aef54a9b2fa2363",
+          "id": "3d7bd9da05614ac4bb8566e268590160",
           "title": "Форма випуску"
         },
         "values": [
@@ -157,7 +157,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2e09b62732bf4c3d
       },
       {
         "requirement": {
-          "id": "2379ed6264454c3cba0f7f1f56f46046",
+          "id": "02cc402d17c246aab7bc883c4f91666f",
           "title": "Доза діючої речовини"
         },
         "value": 5,
@@ -173,7 +173,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2e09b62732bf4c3d
       },
       {
         "requirement": {
-          "id": "7ae4d722145b4ce0abb9dcd5a570d473",
+          "id": "ea9f9be22eb04f8791fc97c5c55d08ef",
           "title": "Форма випуску 1"
         },
         "values": [
@@ -229,7 +229,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2e09b62732bf4c3d
   }
 }
 
-PATCH /api/2.5/tenders/2e09b62732bf4c3d8fbdd73a762d660a/bids/87a857e2ceb8455e9bf83fcc6abd38a7?acc_token=6c3c2e421e1a466e8ab8fa377afd0b96 HTTP/1.0
+PATCH /api/2.5/tenders/016911f3f3d341618c9844a1087e857e/bids/87a857e2ceb8455e9bf83fcc6abd38a7?acc_token=6c3c2e421e1a466e8ab8fa377afd0b96 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -287,7 +287,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "0d62551a96c543fb9aef54a9b2fa2363",
+          "id": "3d7bd9da05614ac4bb8566e268590160",
           "title": "Форма випуску"
         },
         "values": [
@@ -301,7 +301,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "2379ed6264454c3cba0f7f1f56f46046",
+          "id": "02cc402d17c246aab7bc883c4f91666f",
           "title": "Доза діючої речовини"
         },
         "value": 5,
@@ -317,7 +317,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "7ae4d722145b4ce0abb9dcd5a570d473",
+          "id": "ea9f9be22eb04f8791fc97c5c55d08ef",
           "title": "Форма випуску 1"
         },
         "values": [

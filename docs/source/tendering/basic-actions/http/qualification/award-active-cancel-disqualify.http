@@ -57,7 +57,7 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "c938a8780db146beaba184a25937b356",
+    "bid_id": "4a15bf967949413fa361b33448f58d7c",
     "lotID": "c94486b261084c09ac0c731b74d35c85",
     "documents": [
       {
@@ -67,7 +67,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Cancellation_Reason.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63b4b2815fe645caa2df84462953d6c6?Signature=xLuRNc84UZJp3AGfGhgufLwoOawxeAAJ%2FXRIM1blUyCYvFxEbd%2Bv8EIEyg9FniPs6JkHb1FIEYs%2BrSUqEd%2FQDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0a1912ec0ab04b13b593f622ca21c6e0?Signature=aibIcUvzqFttFkzpMAfJXaxbGu4kstLT4sFKg29J0eTepT9GIgJc%2FBheZ5SLw%2BZSBqCIQijOEuF5BZOI1CDWCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:03+03:00",
         "author": "tender_owner",

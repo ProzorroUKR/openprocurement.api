@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/fc330bfd80e44365b8a127c12bbf9a1a?acc_token=3c1eccac9dc948528b14a5a86a4438ab HTTP/1.0
+PATCH /api/2.5/tenders/93871a6177fe41238472b6b5b6c60fd5?acc_token=bf0080ab5dfc458db33c0823644645d9 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "milestones": [
       {
-        "id": "39aa1d1c9c8f48e8a0fcc405fb1aeb81",
+        "id": "14c4f1c84e214a0ebc734b98af2965b7",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -19,7 +19,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 0
       },
       {
-        "id": "c864d56996a0466c96e92283150cc506",
+        "id": "1afb8f78e2744fc0a9ad5f45f6342580",
         "title": "anotherEvent",
         "type": "financing",
         "code": "postpayment",
@@ -96,7 +96,7 @@ Content-Type: application/json
     },
     "milestones": [
       {
-        "id": "39aa1d1c9c8f48e8a0fcc405fb1aeb81",
+        "id": "14c4f1c84e214a0ebc734b98af2965b7",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -108,7 +108,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "c864d56996a0466c96e92283150cc506",
+        "id": "1afb8f78e2744fc0a9ad5f45f6342580",
         "title": "anotherEvent",
         "description": "Підозрілий опис",
         "type": "financing",
@@ -161,7 +161,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "fc330bfd80e44365b8a127c12bbf9a1a"
+    "id": "93871a6177fe41238472b6b5b6c60fd5"
   },
   "config": {
     "hasAuction": true,

@@ -33,7 +33,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bceb3dcd0654ff78f3e340dcf560acd?Signature=ZXdIawKdRrq527SGraC6tfZnTHzMZJXce0DpWtcC0QrM8NpOiry9pITDrxvYGoUtgPn93228qwZcC9qy3O06Bg%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0907c76b4dbe46c79c1f0b9e752f1e49?Signature=7npSXwqz4bLWUO4uIv6FF2Tob%2FAPHc82WdB0mbzSOxF0RSKTA7cgmMqqNJ%2FAzR2CQmxeQnyRU4cKw2WbZ6XBBQ%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-10-10T01:00:03+03:00",
           "author": "aboveThresholdReviewers",
@@ -42,7 +42,7 @@ Content-Type: application/json
       ],
       "type": "complaint",
       "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-      "bid_id": "c938a8780db146beaba184a25937b356",
+      "bid_id": "4a15bf967949413fa361b33448f58d7c",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -112,7 +112,7 @@ Content-Type: application/json
       "status": "invalid",
       "type": "complaint",
       "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-      "bid_id": "c938a8780db146beaba184a25937b356",
+      "bid_id": "4a15bf967949413fa361b33448f58d7c",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -180,7 +180,7 @@ Content-Type: application/json
       "status": "declined",
       "type": "complaint",
       "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-      "bid_id": "c938a8780db146beaba184a25937b356",
+      "bid_id": "4a15bf967949413fa361b33448f58d7c",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -250,7 +250,7 @@ Content-Type: application/json
       "status": "accepted",
       "type": "complaint",
       "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-      "bid_id": "c938a8780db146beaba184a25937b356",
+      "bid_id": "4a15bf967949413fa361b33448f58d7c",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -319,7 +319,7 @@ Content-Type: application/json
       "status": "stopped",
       "type": "complaint",
       "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-      "bid_id": "c938a8780db146beaba184a25937b356",
+      "bid_id": "4a15bf967949413fa361b33448f58d7c",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -420,7 +420,7 @@ Content-Type: application/json
       "satisfied": true,
       "type": "claim",
       "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-      "bid_id": "c938a8780db146beaba184a25937b356"
+      "bid_id": "4a15bf967949413fa361b33448f58d7c"
     },
     {
       "id": "80ca194ae2b94a51bac224454b75dfac",
@@ -457,7 +457,7 @@ Content-Type: application/json
       "satisfied": false,
       "type": "claim",
       "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-      "bid_id": "c938a8780db146beaba184a25937b356"
+      "bid_id": "4a15bf967949413fa361b33448f58d7c"
     },
     {
       "id": "1739ae89d2cb4ef4b8c6c4db5ffc33ed",
@@ -466,7 +466,7 @@ Content-Type: application/json
       "status": "pending",
       "type": "complaint",
       "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-      "bid_id": "c938a8780db146beaba184a25937b356",
+      "bid_id": "4a15bf967949413fa361b33448f58d7c",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -578,7 +578,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "post_document_tender.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/faa222792cc44a93855e079e194d6eb6?Signature=4eO%2Fb%2B793LuLZpNP%2FLKPWbFkQkTLyKxpb2BqW83vGZdBPFho1pFqafwGYFJ8mhOebOLthrk8vTgLuVKaD4%2BrCg%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bceb3dcd0654ff78f3e340dcf560acd?Signature=ZXdIawKdRrq527SGraC6tfZnTHzMZJXce0DpWtcC0QrM8NpOiry9pITDrxvYGoUtgPn93228qwZcC9qy3O06Bg%3D%3D&KeyID=a8968c46",
           "language": "uk",
           "id": "24d39ac9027d464aa8b71ca0d6085cb9",
           "documentOf": "post",
@@ -600,7 +600,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/62462284500f4d2aab9f20620eb9fb7a?Signature=mXmHNiCgBemyfeSCvFM3JC%2F%2F10hKn%2BNWBI6ytOSdCmpNfSQQ2NlGHvlcEVjFuhvsJJ2T8MDZ4I6lG3dqi4ohCw%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63b4b2815fe645caa2df84462953d6c6?Signature=xLuRNc84UZJp3AGfGhgufLwoOawxeAAJ%2FXRIM1blUyCYvFxEbd%2Bv8EIEyg9FniPs6JkHb1FIEYs%2BrSUqEd%2FQDg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-10-10T01:00:03+03:00",
           "author": "complaint_owner",
@@ -633,7 +633,7 @@ Content-Type: application/json
       "status": "claim",
       "type": "claim",
       "relatedLot": "c94486b261084c09ac0c731b74d35c85",
-      "bid_id": "c938a8780db146beaba184a25937b356",
+      "bid_id": "4a15bf967949413fa361b33448f58d7c",
       "dateSubmitted": "2023-10-10T01:00:03+03:00"
     }
   ]
