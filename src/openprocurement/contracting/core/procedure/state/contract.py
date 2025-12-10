@@ -661,7 +661,10 @@ class ContractState(
             item.get("relatedBuyer", ""),
             sorted(item.get("additionalClassifications", []), key=lambda a: a.get("id", "")),
         )
-        return hashlib.sha1(json.dumps(key_tuple, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
+        return hashlib.sha1(
+            json.dumps(key_tuple, sort_keys=True, ensure_ascii=False, default=str).encode(),
+            usedforsecurity=False,
+        ).hexdigest()
 
     def validate_patch_active_contract_items(self, request, before: dict, after: dict) -> None:
         old_items_keys = {self.extract_key_hash(item) for item in before.get("items", [])}

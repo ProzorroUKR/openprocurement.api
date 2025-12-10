@@ -167,7 +167,7 @@ async def context_middleware(request, handler):
         auth_header = request.headers.get("Authorization", "")
         params.update(
             {
-                f"{JOURNAL_PREFIX}AUTHORIZATION": hashlib.md5(auth_header.encode()).hexdigest(),
+                f"{JOURNAL_PREFIX}AUTHORIZATION": hashlib.sha256(auth_header.encode()).hexdigest(),
                 f"{JOURNAL_PREFIX}X_REQUEST_ID": request.headers.get("X-Request-ID", ""),
             }
         )

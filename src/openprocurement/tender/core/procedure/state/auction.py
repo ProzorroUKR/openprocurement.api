@@ -253,13 +253,13 @@ class ShouldStartAfterMixing:
         start_date = start_dt.date()
 
         # get auction start TIME
-        time_slot_number = random.randrange(0, AUCTION_TIME_SLOTS_NUMBER)
+        time_slot_number = random.randrange(0, AUCTION_TIME_SLOTS_NUMBER)  # nosec B311
         auction_start = (
             datetime.combine(start_date, AUCTION_DAY_START)
             + timedelta(seconds=HALF_HOUR_SECONDS * time_slot_number)  # schedule to the timeslot
             + timedelta(  # randomize time within the timeslot
-                seconds=random.randrange(0, HALF_HOUR_SECONDS),
-                milliseconds=random.randrange(0, 1000),
+                seconds=random.randrange(0, HALF_HOUR_SECONDS),  # nosec B311
+                milliseconds=random.randrange(0, 1000),  # nosec B311
             )
         )
         return TZ.localize(auction_start).isoformat()
