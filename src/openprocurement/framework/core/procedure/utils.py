@@ -37,12 +37,13 @@ def extract_object_id(request, obj_name):
         return request.matchdict.get(f"{obj_name}_id")
 
     path = extract_path(request)
-    # extract tender id
+    # extract object id
     parts = path.split("/")
-    if len(parts) < 5 or parts[3] != f"{obj_name}s":
-        return
-    object_id = parts[4]
-    return object_id
+    if len(parts) > 2 and parts[1] == f"{obj_name}s":
+        return parts[2]
+    if len(parts) > 4 and parts[3] == f"{obj_name}s":
+        return parts[4]
+    return None
 
 
 def extract_object_doc(request, obj_name, mask_mapping=None):

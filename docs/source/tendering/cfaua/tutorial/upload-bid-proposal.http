@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/b5da67b11f7643f78cdf909b0d5c4595/documents?acc_token=846eef8ae3ae4b00bba2d663a59ee0b5 HTTP/1.0
+POST /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/95db393211474a7c930f5c3df7f52b56/documents?acc_token=8e071dd39f464632a4bbfec1d3158ff9 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "Proposal.p7s",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cd917f2c94204293aeafc8eb173f9f78?Signature=DV4yPb%2BxkJOTPcaj%2FHb6Jc1pwT6XHu6ASyqqfia%2BfpAd5c7km9yhM0Yw5jsrrRIO6sk%2BAtRfGKuG46zjZEMjBQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/de9be10474b54e909bf8f48198108df6?Signature=7FIL2IiGavE7qClzXkGABN%2BWd5zhCRjt7uAGQwY7KUMl%2FNAFBt6EoHJeqwltWWa%2FQ9zJLU8%2BzdxX1Dq21PWkAw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "sign/p7s",
     "documentType": "proposal"
@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/b5da67b11f7643f78cdf909b0d5c4595/documents/02659f06822d40dfbdf8e84b2100310d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/95db393211474a7c930f5c3df7f52b56/documents/02659f06822d40dfbdf8e84b2100310d
 
 {
   "data": {
@@ -25,7 +25,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
     "hash": "md5:00000000000000000000000000000000",
     "title": "Proposal.p7s",
     "format": "sign/p7s",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cd917f2c94204293aeafc8eb173f9f78?Signature=l%2FTuxUe4lsXqomb12s7na74ZBk%2BhUch6hrCqPVVVqChymM9fMBkmjtn8UC1v7O8ucERXST5yVS9pHK64CRmpDQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/de9be10474b54e909bf8f48198108df6?Signature=xjnEVoDUtHK61yxKjLmvLdr27woQeiGDK32aBgDUKaOVk1OvM4ND4p%2F4lAQitRRcYP5zuFi%2FZn6cvz%2BO7z3QAw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "02659f06822d40dfbdf8e84b2100310d",

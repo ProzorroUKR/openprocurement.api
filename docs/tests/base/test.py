@@ -12,12 +12,12 @@ from uuid import UUID
 
 from bson import Timestamp
 from freezegun import freeze_time
-from tests.base.constants import API_HOST, MOCK_DATETIME, PUBLIC_API_HOST
 from webtest import forms
 from webtest.compat import to_bytes
 
 from openprocurement.api.tests.base import BaseTestApp
 from openprocurement.api.utils import get_now
+from tests.base.constants import API_HOST, MOCK_DATETIME, PUBLIC_API_HOST
 
 
 class DumpsWebTestApp(BaseTestApp):
@@ -37,48 +37,47 @@ class DumpsWebTestApp(BaseTestApp):
         return resp
 
     def write_request(self, req):
-        if hasattr(self, 'file_obj') and not self.file_obj.closed:
+        if hasattr(self, "file_obj") and not self.file_obj.closed:
             host = req.host_url
             url = req.url[len(host) :]
-            parts = ['{} {} {}'.format(req.method, url, req.http_version)]
+            parts = ["{} {} {}".format(req.method, url, req.http_version)]
 
             headerlist = self.filter_headerlist(req.headers.items())
             for k, v in sorted(headerlist):
-                header = '{}: {}'.format(k, v)
+                header = "{}: {}".format(k, v)
                 parts.append(header)
 
-            parts.append('')
+            parts.append("")
 
             if req.body:
                 try:
                     obj = json.loads(req.body)
                 except ValueError:
-                    parts.append(req.body.decode('utf8'))
+                    parts.append(req.body.decode("utf8"))
                 else:
                     parts.append(json.dumps(obj, indent=self.indent, ensure_ascii=self.ensure_ascii))
 
-                parts.append('')
+                parts.append("")
 
-            parts.append('')
+            parts.append("")
 
-            text = '\n'.join(parts)
+            text = "\n".join(parts)
 
             if isinstance(self.file_obj, io.TextIOWrapper):
                 self.file_obj.write(text)
             else:
-                self.file_obj.write(text.encode('utf8'))
+                self.file_obj.write(text.encode("utf8"))
 
     def write_response(self, resp):
-        if hasattr(self, 'file_obj') and not self.file_obj.closed:
-
-            parts = ['', '{} {}'.format(resp.request.http_version, resp.status)]
+        if hasattr(self, "file_obj") and not self.file_obj.closed:
+            parts = ["", "{} {}".format(resp.request.http_version, resp.status)]
 
             headerlist = self.filter_headerlist(resp.headerlist)
             for k, v in sorted(headerlist):
-                header = '{}: {}'.format(k, v)
+                header = "{}: {}".format(k, v)
                 parts.append(header)
 
-            parts.append('')
+            parts.append("")
 
             if resp.testbody:
                 try:
@@ -88,24 +87,24 @@ class DumpsWebTestApp(BaseTestApp):
                 else:
                     parts.append(json.dumps(obj, indent=self.indent, ensure_ascii=self.ensure_ascii))
 
-                    parts.append('')
+                    parts.append("")
 
-            parts.append('')
+            parts.append("")
 
-            text = '\n'.join(parts)
+            text = "\n".join(parts)
 
             if isinstance(self.file_obj, io.TextIOWrapper):
                 self.file_obj.write(text)
             else:
-                self.file_obj.write(text.encode('utf8'))
+                self.file_obj.write(text.encode("utf8"))
 
     @staticmethod
     def filter_headerlist(headerlist):
         exclude_headers = (
-            'content-length',
-            'set-cookie',
+            "content-length",
+            "set-cookie",
         )
-        exclude_prefixes = ('x-',)
+        exclude_prefixes = ("x-",)
         filtered_headerlist = []
         for k, v in headerlist:
             if k.lower() in exclude_headers:
@@ -122,31 +121,31 @@ class DumpsWebTestApp(BaseTestApp):
         typical POST body, returning the (content_type, body).
 
         """
-        boundary = b'---BOUNDARY'
+        boundary = b"---BOUNDARY"
         lines = []
 
         def _append_file(file_info):
             key, filename, value, fcontent = self._get_file_info(file_info)
             if isinstance(key, str):
                 try:
-                    key = key.encode('ascii')
+                    key = key.encode("ascii")
                 except:  # pragma: no cover
                     raise  # file name must be ascii
             if isinstance(filename, str):
                 try:
-                    filename = filename.encode('utf8')
+                    filename = filename.encode("utf8")
                 except:  # pragma: no cover
                     raise  # file name must be ascii or utf8
             if not fcontent:
-                fcontent = mimetypes.guess_type(filename.decode('utf8'))[0]
+                fcontent = mimetypes.guess_type(filename.decode("utf8"))[0]
             fcontent = to_bytes(fcontent)
-            fcontent = fcontent or b'application/octet-stream'
+            fcontent = fcontent or b"application/octet-stream"
             lines.extend(
                 [
-                    b'--' + boundary,
-                    b'Content-Disposition: form-data; ' + b'name="' + key + b'"; filename="' + filename + b'"',
-                    b'Content-Type: ' + fcontent,
-                    b'',
+                    b"--" + boundary,
+                    b"Content-Disposition: form-data; " + b'name="' + key + b'"; filename="' + filename + b'"',
+                    b"Content-Type: " + fcontent,
+                    b"",
                     value,
                 ]
             )
@@ -154,7 +153,7 @@ class DumpsWebTestApp(BaseTestApp):
         for key, value in params:
             if isinstance(key, str):
                 try:
-                    key = key.encode('ascii')
+                    key = key.encode("ascii")
                 except:  # pragma: no cover
                     raise  # field name are always ascii
             if isinstance(value, forms.File):
@@ -169,16 +168,16 @@ class DumpsWebTestApp(BaseTestApp):
                 _append_file(file_info)
             else:
                 if isinstance(value, str):
-                    value = value.encode('utf8')
-                lines.extend([b'--' + boundary, b'Content-Disposition: form-data; name="' + key + b'"', b'', value])
+                    value = value.encode("utf8")
+                lines.extend([b"--" + boundary, b'Content-Disposition: form-data; name="' + key + b'"', b"", value])
 
         for file_info in files:
             _append_file(file_info)
 
-        lines.extend([b'--' + boundary + b'--', b''])
-        body = b'\r\n'.join(lines)
-        boundary = boundary.decode('ascii')
-        content_type = 'multipart/form-data; boundary=%s' % boundary
+        lines.extend([b"--" + boundary + b"--", b""])
+        body = b"\r\n".join(lines)
+        boundary = boundary.decode("ascii")
+        content_type = "multipart/form-data; boundary=%s" % boundary
         return content_type, body
 
     def get_authorization(self):
@@ -195,21 +194,21 @@ class DumpsWebTestApp(BaseTestApp):
             invalid_value = "You should use a value like ('Basic', ('user', 'password'))"
             if isinstance(value, (list, tuple)) and len(value) == 2:
                 authtype, val = value
-                if authtype == 'Basic' and val and isinstance(val, (list, tuple)):
+                if authtype == "Basic" and val and isinstance(val, (list, tuple)):
                     key = val[0]
                 else:
                     raise ValueError(invalid_value)
-                value = str('Bearer %s' % key)
+                value = str("Bearer %s" % key)
             else:
                 raise ValueError(invalid_value)
             self.extra_environ.update(
                 {
-                    'HTTP_AUTHORIZATION': value,
+                    "HTTP_AUTHORIZATION": value,
                 }
             )
         else:
-            if 'HTTP_AUTHORIZATION' in self.extra_environ:
-                del self.extra_environ['HTTP_AUTHORIZATION']
+            if "HTTP_AUTHORIZATION" in self.extra_environ:
+                del self.extra_environ["HTTP_AUTHORIZATION"]
 
     authorization = property(get_authorization, set_authorization)
 
@@ -222,8 +221,8 @@ class MockWebTestMixin:
 
     freezing_datetime = MOCK_DATETIME
 
-    whitelist = ('/openprocurement/', '/openprocurement/.*/tests/', 'docs/tests')
-    blacklist = (r'/tests/base/test\.py',)
+    whitelist = ("/openprocurement/", "/openprocurement/.*/tests/", "docs/tests")
+    blacklist = (r"/tests/base/test\.py",)
 
     def setUpMock(self):
         import uuid
@@ -238,9 +237,9 @@ class MockWebTestMixin:
                     return original_uuid(*args, **kwargs)
             return self.uuid(*args, **kwargs)
 
-        self.uuid_patch = mock.patch('uuid.UUID', side_effect=uuid_side_effect)
+        self.uuid_patch = mock.patch("uuid.UUID", side_effect=uuid_side_effect)
         self.uuid_patch.start()
-        self.db_now_path = mock.patch('openprocurement.api.database.get_public_modified', lambda: get_now().timestamp())
+        self.db_now_path = mock.patch("openprocurement.api.database.get_public_modified", lambda: get_now().timestamp())
         self.db_now_path.start()
 
         # https://www.mongodb.com/docs/v4.4/reference/bson-types/#timestamps
@@ -252,7 +251,7 @@ class MockWebTestMixin:
             increments[key] += 1
             return Timestamp(seconds, increments[key])
 
-        self.db_timestamp_path = mock.patch('openprocurement.api.database.get_public_ts', get_mocked_bson_timestamp)
+        self.db_timestamp_path = mock.patch("openprocurement.api.database.get_public_ts", get_mocked_bson_timestamp)
         self.db_timestamp_path.start()
 
         self.freezer = freeze_time(self.freezing_datetime)

@@ -14,17 +14,22 @@ if not any(
 
     gevent.monkey.patch_all()
 
+import configparser
+import tomllib
+from importlib import import_module
 from logging import getLogger
+from pathlib import Path
 
 import sentry_sdk
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
-from pkg_resources import iter_entry_points
+from paste.deploy.config import make_prefix_middleware
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.httpexceptions import HTTPPreconditionFailed
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
+from request_id_middleware.middleware import RequestIdMiddleware
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.pyramid import PyramidIntegration
 
@@ -35,6 +40,7 @@ from openprocurement.api.auth import (
 )
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.database import MongodbStore
+from openprocurement.api.translogger import make_filter as make_trans_logger_filter
 from openprocurement.api.utils import (
     forbidden,
     get_currency_rates,
@@ -44,6 +50,28 @@ from openprocurement.api.utils import (
 )
 
 LOGGER = getLogger("{}.init".format(__name__))
+
+
+logger = getLogger(__name__)
+
+
+def load_config(filename):
+    config = configparser.ConfigParser(interpolation=None)
+    config.read(filename)
+    config_dict = {section: dict(config[section]) for section in config.sections()}
+    return config_dict
+
+
+def load_pyproject():
+    pyproject_path = Path(__file__).parent.parent.parent.parent / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        pyproject = tomllib.load(f)
+    return pyproject
+
+
+def load_callable(path):
+    module, func = path.split(":")
+    return getattr(import_module(module), func)
 
 
 def main(global_config, **settings):
@@ -86,10 +114,12 @@ def main(global_config, **settings):
     config.registry.mongodb = MongodbStore(settings)
 
     # search for plugins
-    plugins = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
-    for entry_point in iter_entry_points("openprocurement.api.plugins"):
-        if not plugins or entry_point.name in plugins:
-            plugin = entry_point.load()
+    pyproject = load_pyproject()
+    all_modules = pyproject.get("app", {}).get("modules", {})
+    restricted_modules = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
+    for module_name, module_path in all_modules.items():
+        if not restricted_modules or module_name in restricted_modules:
+            plugin = load_callable(module_path)
             plugin(config)
 
     # Document Service key
@@ -129,20 +159,44 @@ def main(global_config, **settings):
 
     config.registry.server_id = settings.get("id", "")
 
-    # search subscribers
-    subscribers_keys = [k for k in settings if k.startswith("subscribers.")]
-    for k in subscribers_keys:
-        subscribers = settings[k].split(",")
-        for subscriber in subscribers:
-            for entry_point in iter_entry_points("openprocurement.{}".format(k), subscriber):
-                if entry_point:
-                    plugin = entry_point.load()
-                    plugin(config)
-
     config.registry.health_threshold = float(settings.get("health_threshold", 512))
     config.registry.health_threshold_func = settings.get("health_threshold_func", "all")
     config.registry.update_after = asbool(settings.get("update_after", True))
 
     config.add_tween("openprocurement.api.middlewares.DBSessionCookieMiddleware")
     app = config.make_wsgi_app()
+
+    # We plan to move from PasteDeploy and pyramid.
+    # At this stage we're going to move filters/middlewares from .ini file to the python code.
+    # We still use .ini file to hold the configuration, until we ready to switch completely.
+    # By default, we get only [app:api] block, so we need to load the entire config again.
+    global_settings = load_config(global_config["__file__"])
+
+    # transaction logger
+    # we can drop "filter:translogger" config now, should work fine
+    trans_logger_settings = global_settings.get("filter:translogger") or {}
+    trans_logger_settings.pop("use", None)  # we already imported it 😉
+    app = make_trans_logger_filter(
+        global_config,
+        logger_name=trans_logger_settings.get("logger_name", "wsgi"),
+        set_logger_level=trans_logger_settings.get("set_logger_level", "WARNING"),
+        setup_console_handler=trans_logger_settings.get("setup_console_handler", False),
+    )(app)
+
+    # request_id
+    # does `req.environ[self.env_request_id] = req.headers[self.resp_header_client_request_id]`
+    # we can drop "filter:request_id" config now, should work fine
+    request_id_settings = global_settings.get("filter:request_id") or {}
+    request_id_settings.pop("paste.filter_factory", None)
+    app = RequestIdMiddleware.factory(
+        global_config,
+        env_request_id=request_id_settings.get("env_request_id", "REQUEST_ID"),
+        resp_header_request_id=request_id_settings.get("resp_header_request_id", "X-Request-ID"),
+    )(app)
+
+    # prefix middleware
+    # config is empty, means it doesn't really do with prefix.
+    # translate_forwarded_server=True is default parameter means it translates HTTP_X_FORWARDED_ headers.
+    # See source of paste.deploy.config.PrefixMiddleware for more details
+    app = make_prefix_middleware(app, global_config)
     return app

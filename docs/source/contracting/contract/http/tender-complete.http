@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1acc9cfa6eed4eeea6d8b801bcf4aa98 HTTP/1.0
+GET /api/2.5/tenders/19e4c71b4b4b4595a5bb125c6c5e2df7 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -137,7 +137,7 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "9ce0865e159048a59f1c1b1435d4f004",
+        "id": "605d6f36cba14950899281036bbcfef1",
         "description": "Форма випуску",
         "source": "tenderer",
         "relatesTo": "item",
@@ -160,11 +160,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "32d539dbe3f74fa39d04334ce50f0a5e",
+            "id": "979cdf512e0b4899ba29043c24949c05",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "8f32908e97044dce93d980372b9a8f17",
+                "id": "bb9de124c05a44f881f07b4ed442ae7c",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -175,7 +175,7 @@ Content-Type: application/json
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
-                "id": "87011a4e43ad41c2897843cbb97cf82d",
+                "id": "0a66cb3354964fe4a6e1eb5e028f2196",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -187,7 +187,7 @@ Content-Type: application/json
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
-                "id": "052a50262a064abe80cdd6005b1794e9",
+                "id": "88359f2bf06f4fd9bfa9b8f70bb9b227",
                 "title": "Форма випуску 1",
                 "dataType": "string",
                 "status": "active",
@@ -256,7 +256,7 @@ Content-Type: application/json
         "requirementResponses": [
           {
             "requirement": {
-              "id": "8f32908e97044dce93d980372b9a8f17",
+              "id": "bb9de124c05a44f881f07b4ed442ae7c",
               "title": "Форма випуску"
             },
             "values": [
@@ -270,7 +270,7 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "87011a4e43ad41c2897843cbb97cf82d",
+              "id": "0a66cb3354964fe4a6e1eb5e028f2196",
               "title": "Доза діючої речовини"
             },
             "value": 5,
@@ -286,7 +286,7 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "052a50262a064abe80cdd6005b1794e9",
+              "id": "88359f2bf06f4fd9bfa9b8f70bb9b227",
               "title": "Форма випуску 1"
             },
             "values": [
@@ -344,7 +344,7 @@ Content-Type: application/json
     },
     "awards": [
       {
-        "id": "0c30221d374647faae3dff142532b976",
+        "id": "765d1e83c038413ab7717ec5e820fdfd",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
@@ -451,7 +451,7 @@ Content-Type: application/json
       {
         "id": "78fd8d7877d74b0dbc9c605462545e1c",
         "status": "active",
-        "awardID": "0c30221d374647faae3dff142532b976",
+        "awardID": "765d1e83c038413ab7717ec5e820fdfd",
         "date": "2023-10-10T01:00:00+03:00",
         "contractID": "UA-2023-10-10-000001-a-1",
         "value": {
@@ -462,7 +462,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "1acc9cfa6eed4eeea6d8b801bcf4aa98"
+    "id": "19e4c71b4b4b4595a5bb125c6c5e2df7"
   },
   "config": {
     "hasAuction": false,

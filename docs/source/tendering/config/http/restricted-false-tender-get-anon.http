@@ -807,7 +807,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cb1e9bc6225b4df5a6d35a11a41e5090?Signature=gPMrx1SP8PCVOFC%2B0%2BropnknOu1m7m6J6avbV5R1iD%2BBsGo7bwf01AELVqKiuI2iLP4qrktj9CQwjIqh14zjBA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a5737ca8b48e4ad782a8a01422d302c0?Signature=OSlChSl0ur3pYDpplmugf%2BvGvfOOA9KQecOlg5aohwWuQwu5cLGvRQ%2F8ay2GEWS6EEGKQ9Y3l6bzWQlwHRl8BA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -819,7 +819,7 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "agreements": [
       {
-        "id": "514d764704784304906b25138785146c"
+        "id": "120e2d279ef84f8db8c5a993a4e58137"
       }
     ],
     "procurementMethod": "selective",
@@ -864,7 +864,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "id": "2b1b594948f547af9eff49515789e928",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "currency": "UAH",
@@ -894,7 +894,7 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       },
       {
         "id": "ad63536cbc0d4fd8b7c49031d56cd337",
@@ -907,7 +907,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
     "complaintPeriod": {
@@ -952,7 +952,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"

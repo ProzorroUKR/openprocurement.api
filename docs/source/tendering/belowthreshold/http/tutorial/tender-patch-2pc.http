@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/757dd278bae24bd89b207b4ed11a4496?acc_token=41ea9ff1688a4270b3759cae1b82df73 HTTP/1.0
+PATCH /api/2.5/tenders/9dfe49686c6a40c79b4f3b8654158eda?acc_token=4d3df0436c314cad94ffe53ee0190adf HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -24,12 +24,12 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "36c6142ae19c445792ad7bb22b07b78d",
+        "id": "1052a393e6a64884b62b1c5b19376009",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/26adefb59da24e8c8c790a78abfaac34?Signature=kiamuBmQmbX3taZQqyW%2Bkg%2FQ6UxTRyynJr103d848kxLKvsNsySnDUhz%2FmGQHUE4R%2FW2u33ipQjIDNi8ImMLAg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b17a4c91aab049a699f17f9085df0c77?Signature=2Jd2Oppyo9BclIHII9qKgHj8XwpKPMNo0zdKwc8wnLfyLIHSfL6msiUHGaVD4CJtd2C3kRnb6wNE3BLreFiqCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -117,7 +117,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "e2984208e59740fa885f679c2b1a2298",
+        "id": "508d8aa3cb194d37aa757c9ed60b8c0c",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -168,7 +168,7 @@ Content-Type: application/json
     ],
     "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "next_check": "2023-10-17T00:00:00+02:00",
-    "id": "757dd278bae24bd89b207b4ed11a4496"
+    "id": "9dfe49686c6a40c79b4f3b8654158eda"
   },
   "config": {
     "hasAuction": true,

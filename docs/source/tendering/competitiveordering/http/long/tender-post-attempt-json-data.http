@@ -77,7 +77,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
       }
     ],
     "milestones": [
@@ -92,7 +92,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 1,
         "percentage": 45.55,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
       },
       {
         "title": "deliveryOfGoods",
@@ -104,7 +104,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 2,
         "percentage": 54.45,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
       }
     ],
     "mainProcurementCategory": "services",
@@ -126,7 +126,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 5,
           "currency": "UAH"
         },
-        "id": "0e04ecea261746bc8fbcced833cde77c"
+        "id": "b57af820b63544f6a1ebe63bfb940e49"
       }
     ]
   },
@@ -160,7 +160,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2962db9abbea4fb0b3bc91032ccbade5
 
 {
   "data": {
@@ -211,7 +211,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "0e04ecea261746bc8fbcced833cde77c",
+        "id": "b57af820b63544f6a1ebe63bfb940e49",
         "status": "active",
         "value": {
           "currency": "UAH",
@@ -242,10 +242,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
       },
       {
-        "id": "bd322cd551154bbe8ebd4319bdd63d0e",
+        "id": "0ef4b44761df4c04a04587ba962e6557",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -255,7 +255,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
       }
     ],
     "status": "draft",
@@ -266,7 +266,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
     },
     "items": [
       {
-        "id": "097876a4ccce409e85ad30246cb689af",
+        "id": "4eec7ed289df4a9c85073761e0eebedf",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -290,7 +290,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "0e04ecea261746bc8fbcced833cde77c",
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49",
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -320,7 +320,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "eedf00bccdb24a20b547ba72173a8d35"
+    "id": "2962db9abbea4fb0b3bc91032ccbade5"
   },
   "config": {
     "hasAuction": true,
@@ -348,8 +348,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
     "restricted": false
   },
   "access": {
-    "token": "c782381dc42044419e7b795dac6655ef",
-    "transfer": "c778d957e2b64f99bc7f4f9dbc20def2"
+    "token": "38dc41bb7ffe499b8fb3ba9755bdc5a0",
+    "transfer": "da19abb1d49647e7ac6b132835282efa"
   }
 }
 

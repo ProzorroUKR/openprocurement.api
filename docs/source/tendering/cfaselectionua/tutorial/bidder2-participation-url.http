@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/782a773bcc70490e923de940a94a5ada/bids/5e3e02b6dd9849d98c48bf9d741a036e?acc_token=c690cc2a16bb4052bcba2502d07449d6 HTTP/1.0
+GET /api/2.5/tenders/fba2e58fd313460b90eae28673490d56/bids/1cef8a54b7d74e3fb673e591f97d61f7?acc_token=690d827a0aad4d4ba676a22beea0957d HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -15,7 +15,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "status": "active",
         "date": "2023-10-10T01:01:00+03:00",
         "initialValue": {
@@ -23,7 +23,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/782a773bcc70490e923de940a94a5ada_50fc7d0cb4e3423491c35387a046af42?key_for_bid=5e3e02b6dd9849d98c48bf9d741a036e"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/fba2e58fd313460b90eae28673490d56_66bd7aa82b7d403cb3626390997acbaf?key_for_bid=1cef8a54b7d74e3fb673e591f97d61f7"
       }
     ],
     "tenderers": [
@@ -49,29 +49,29 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "5e3e02b6dd9849d98c48bf9d741a036e",
+    "id": "1cef8a54b7d74e3fb673e591f97d61f7",
     "date": "2023-10-10T01:01:00+03:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "18899edc535e4082bb15267b1059faf8",
+        "id": "724457e06a9b49baa45d01e19f4f4009",
         "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f5d54d6f96e4f93bb84aaf2005ecd74?Signature=gWkknoOyOQh2cpnX6nZmhLZJrFxulp8qPlSiERXttONVOcfK8ZCL1ksm1AQp292iAQqY6uzphnL10nz8PEnlAA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fa6d35497f649faafdc2dba7dcdecd5?Signature=wQyre6x8c9J%2BhDgF6s0ErHWpfTvY69rKWh0zTeBuAV%2FRCG3ULxdMVg0A3neC1CYwgROArxgXYK6efVfhOxzqDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:01:00+03:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
-        "id": "babdc120960745968d3fe16b5e62441c",
+        "id": "d464562e89a14d58afece38925ec6ed9",
         "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7c465d3486b487db509f0e8482bcafd?Signature=Dt0bUdqRLCf5ENnzoOZDqA6XZdViV36%2BLgE4rzqjUtBbVG0krDrux7p3D7C45U3%2BZaqfHqB1ntI9LVS%2F6PoeCg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/df847d0a972a47449fdbcfb6d0552db4?Signature=3Eg3y4sxqiCqbOiXdkha%2B6Yi%2BZm4mqrMqTB14pCZ8FRRMuk%2FyL2JMzmSEP3jkVfF%2FWRTTOeUjlfC29X8UShQDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:01:00+03:00",
         "language": "uk"

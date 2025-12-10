@@ -4,15 +4,14 @@ from datetime import timedelta
 from hashlib import sha512
 from uuid import uuid4
 
-from tests.base.data import test_docs_plan_data, test_docs_tender_below
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
-
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import test_contract_data
 from openprocurement.contracting.core.tests.utils import create_contract
 from openprocurement.framework.cfaua.tests.base import test_agreement_data
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
+from tests.base.data import test_docs_plan_data, test_docs_tender_below
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 
 class TransferDocsTest(BaseWebTest, MockWebTestMixin):
@@ -30,101 +29,101 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
     def test_tenders_docs(self):
         data = deepcopy(test_docs_tender_below)
 
-        self.app.authorization = ('Basic', ('brokerx', ''))
+        self.app.authorization = ("Basic", ("brokerx", ""))
 
-        with open('docs/source/relocation/tutorial/create-tender.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/create-tender.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders?opt_pretty=1',
+                "/tenders?opt_pretty=1",
                 {
                     "data": data,
                     "config": test_tender_below_config,
                 },
             )
-            self.assertEqual(response.status, '201 Created')
+            self.assertEqual(response.status, "201 Created")
 
-        tender = response.json['data']
-        tender_id = tender['id']
-        owner_token = response.json['access']['token']
-        orig_tender_transfer_token = response.json['access']['transfer']
+        tender = response.json["data"]
+        tender_id = tender["id"]
+        owner_token = response.json["access"]["token"]
+        orig_tender_transfer_token = response.json["access"]["transfer"]
 
-        self.app.authorization = ('Basic', ('broker2', ''))
+        self.app.authorization = ("Basic", ("broker2", ""))
 
-        response = self.app.post_json('/transfers', {"data": {}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        transfer = response.json['data']
-        access = response.json['access']
-        new_access_token = access['token']
-        new_transfer_token = access['transfer']
+        response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        transfer = response.json["data"]
+        access = response.json["access"]
+        new_access_token = access["token"]
+        new_transfer_token = access["transfer"]
 
-        with open('docs/source/relocation/tutorial/change-tender-ownership-forbidden.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/change-tender-ownership-forbidden.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/ownership'.format(tender_id),
-                {"data": {"id": transfer['id'], 'transfer': orig_tender_transfer_token}},
+                "/tenders/{}/ownership".format(tender_id),
+                {"data": {"id": transfer["id"], "transfer": orig_tender_transfer_token}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
-                response.json['errors'][0]['description'], 'Broker Accreditation level does not permit ownership change'
+                response.json["errors"][0]["description"], "Broker Accreditation level does not permit ownership change"
             )
 
-        self.app.authorization = ('Basic', ('broker1', ''))
+        self.app.authorization = ("Basic", ("broker1", ""))
 
-        with open('docs/source/relocation/tutorial/create-tender-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/transfers', {"data": {}})
-            self.assertEqual(response.status, '201 Created')
-            self.assertEqual(response.content_type, 'application/json')
-            transfer = response.json['data']
-            access = response.json['access']
-            new_access_token = access['token']
-            new_transfer_token = access['transfer']
+        with open("docs/source/relocation/tutorial/create-tender-transfer.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/transfers", {"data": {}})
+            self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.content_type, "application/json")
+            transfer = response.json["data"]
+            access = response.json["access"]
+            new_access_token = access["token"]
+            new_transfer_token = access["transfer"]
 
-        with open('docs/source/relocation/tutorial/get-tender-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.get('/transfers/{}'.format(transfer['id']))
+        with open("docs/source/relocation/tutorial/get-tender-transfer.http", "w") as self.app.file_obj:
+            response = self.app.get("/transfers/{}".format(transfer["id"]))
 
-        with open('docs/source/relocation/tutorial/change-tender-ownership.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/change-tender-ownership.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/ownership'.format(tender_id),
-                {"data": {"id": transfer['id'], 'transfer': orig_tender_transfer_token}},
+                "/tenders/{}/ownership".format(tender_id),
+                {"data": {"id": transfer["id"], "transfer": orig_tender_transfer_token}},
             )
-            self.assertEqual(response.status, '200 OK')
-            tender = response.json['data']
-            self.assertNotIn('transfer', tender)
-            self.assertNotIn('transfer_token', tender)
-            self.assertEqual('broker1', tender['owner'])
+            self.assertEqual(response.status, "200 OK")
+            tender = response.json["data"]
+            self.assertNotIn("transfer", tender)
+            self.assertNotIn("transfer_token", tender)
+            self.assertEqual("broker1", tender["owner"])
 
-        with open('docs/source/relocation/tutorial/get-used-tender-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.get('/transfers/{}'.format(transfer['id']))
+        with open("docs/source/relocation/tutorial/get-used-tender-transfer.http", "w") as self.app.file_obj:
+            response = self.app.get("/transfers/{}".format(transfer["id"]))
 
-        with open('docs/source/relocation/tutorial/modify-tender.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/modify-tender.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender_id, new_access_token),
+                "/tenders/{}?acc_token={}".format(tender_id, new_access_token),
                 {"data": {"description": "broker1 now can change the tender"}},
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['description'], 'broker1 now can change the tender')
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json["data"]["description"], "broker1 now can change the tender")
 
-        self.app.authorization = ('Basic', ('brokerx', ''))
+        self.app.authorization = ("Basic", ("brokerx", ""))
 
-        response = self.app.post_json('/transfers', {"data": {}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        transfer = response.json['data']
-        access = response.json['access']
-        new_access_token = access['token']
-        new_transfer_token = access['transfer']
+        response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        transfer = response.json["data"]
+        access = response.json["access"]
+        new_access_token = access["token"]
+        new_transfer_token = access["transfer"]
 
         with open(
-            'docs/source/relocation/tutorial/change-tender-ownership-forbidden-owner.http', 'w'
+            "docs/source/relocation/tutorial/change-tender-ownership-forbidden-owner.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/ownership'.format(tender_id),
-                {"data": {"id": transfer['id'], 'transfer': orig_tender_transfer_token}},
+                "/tenders/{}/ownership".format(tender_id),
+                {"data": {"id": transfer["id"], "transfer": orig_tender_transfer_token}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
-                response.json['errors'][0]['description'], 'Owner Accreditation level does not permit ownership change'
+                response.json["errors"][0]["description"], "Owner Accreditation level does not permit ownership change"
             )
 
     def test_contracts_docs(self):
@@ -146,196 +145,196 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         )
 
         contract = create_contract(self, data)
-        contract_id = contract['id']
+        contract_id = contract["id"]
 
-        self.app.authorization = ('Basic', ('brokerx', ''))
-        with open('docs/source/relocation/tutorial/get-contract-credentials.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("brokerx", ""))
+        with open("docs/source/relocation/tutorial/get-contract-credentials.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/contracts/{}/credentials?acc_token={}'.format(contract_id, tender_token), {'data': ''}
+                "/contracts/{}/credentials?acc_token={}".format(contract_id, tender_token), {"data": ""}
             )
-            self.assertEqual(response.status, '200 OK')
-            access = response.json['access']
-            token = access['token']
-            contract_transfer = access['transfer']
+            self.assertEqual(response.status, "200 OK")
+            access = response.json["access"]
+            token = access["token"]
+            contract_transfer = access["transfer"]
 
-        self.app.authorization = ('Basic', ('broker2', ''))
+        self.app.authorization = ("Basic", ("broker2", ""))
 
-        response = self.app.post_json('/transfers', {"data": {}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        transfer = response.json['data']
-        access = response.json['access']
-        new_access_token = access['token']
-        new_transfer_token = access['transfer']
+        response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        transfer = response.json["data"]
+        access = response.json["access"]
+        new_access_token = access["token"]
+        new_transfer_token = access["transfer"]
 
-        with open('docs/source/relocation/tutorial/change-contract-ownership-forbidden.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/change-contract-ownership-forbidden.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/contracts/{}/ownership'.format(contract_id),
-                {"data": {"id": transfer['id'], 'transfer': contract_transfer}},
+                "/contracts/{}/ownership".format(contract_id),
+                {"data": {"id": transfer["id"], "transfer": contract_transfer}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
-                response.json['errors'][0]['description'], 'Broker Accreditation level does not permit ownership change'
+                response.json["errors"][0]["description"], "Broker Accreditation level does not permit ownership change"
             )
 
-        self.app.authorization = ('Basic', ('broker3', ''))
+        self.app.authorization = ("Basic", ("broker3", ""))
 
-        with open('docs/source/relocation/tutorial/create-contract-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/transfers', {"data": {}})
-            self.assertEqual(response.status, '201 Created')
-            transfer = response.json['data']
-            self.assertIn('date', transfer)
-            transfer_creation_date = transfer['date']
-            access = response.json['access']
-            new_access_token = access['token']
-            new_transfer_token = access['transfer']
+        with open("docs/source/relocation/tutorial/create-contract-transfer.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/transfers", {"data": {}})
+            self.assertEqual(response.status, "201 Created")
+            transfer = response.json["data"]
+            self.assertIn("date", transfer)
+            transfer_creation_date = transfer["date"]
+            access = response.json["access"]
+            new_access_token = access["token"]
+            new_transfer_token = access["transfer"]
 
-        with open('docs/source/relocation/tutorial/change-contract-ownership.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/change-contract-ownership.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/contracts/{}/ownership'.format(contract_id),
-                {"data": {"id": transfer['id'], 'transfer': contract_transfer}},
+                "/contracts/{}/ownership".format(contract_id),
+                {"data": {"id": transfer["id"], "transfer": contract_transfer}},
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertNotIn('transfer', response.json['data'])
-            self.assertNotIn('transfer_token', response.json['data'])
-            self.assertEqual('broker3', response.json['data']['owner'])
+            self.assertEqual(response.status, "200 OK")
+            self.assertNotIn("transfer", response.json["data"])
+            self.assertNotIn("transfer_token", response.json["data"])
+            self.assertEqual("broker3", response.json["data"]["owner"])
 
-        with open('docs/source/relocation/tutorial/modify-contract.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/modify-contract.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/contracts/{}?acc_token={}'.format(contract_id, new_access_token),
+                "/contracts/{}?acc_token={}".format(contract_id, new_access_token),
                 {"data": {"description": "broker3 now can change the contract"}},
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['description'], 'broker3 now can change the contract')
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json["data"]["description"], "broker3 now can change the contract")
 
-        with open('docs/source/relocation/tutorial/get-used-contract-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.get('/transfers/{}'.format(transfer['id']))
+        with open("docs/source/relocation/tutorial/get-used-contract-transfer.http", "w") as self.app.file_obj:
+            response = self.app.get("/transfers/{}".format(transfer["id"]))
 
-        self.app.authorization = ('Basic', ('brokerx', ''))
+        self.app.authorization = ("Basic", ("brokerx", ""))
 
-        response = self.app.post_json('/transfers', {"data": {}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        transfer = response.json['data']
-        access = response.json['access']
-        new_access_token = access['token']
-        new_transfer_token = access['transfer']
+        response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        transfer = response.json["data"]
+        access = response.json["access"]
+        new_access_token = access["token"]
+        new_transfer_token = access["transfer"]
 
         with open(
-            'docs/source/relocation/tutorial/change-contract-ownership-forbidden-owner.http', 'w'
+            "docs/source/relocation/tutorial/change-contract-ownership-forbidden-owner.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/contracts/{}/ownership'.format(contract_id),
-                {"data": {"id": transfer['id'], 'transfer': contract_transfer}},
+                "/contracts/{}/ownership".format(contract_id),
+                {"data": {"id": transfer["id"], "transfer": contract_transfer}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
-                response.json['errors'][0]['description'], 'Owner Accreditation level does not permit ownership change'
+                response.json["errors"][0]["description"], "Owner Accreditation level does not permit ownership change"
             )
 
     def test_plans_docs(self):
         data = deepcopy(test_docs_plan_data)
 
         now = get_now()
-        for item in data['items']:
-            item['deliveryDate'] = {
+        for item in data["items"]:
+            item["deliveryDate"] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat(),
             }
-        data['tender']['tenderPeriod'].update({"startDate": (get_now() + timedelta(days=7)).isoformat()})
+        data["tender"]["tenderPeriod"].update({"startDate": (get_now() + timedelta(days=7)).isoformat()})
 
-        self.app.authorization = ('Basic', ('brokerx', ''))
+        self.app.authorization = ("Basic", ("brokerx", ""))
 
-        with open('docs/source/relocation/tutorial/create-plan.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/plans?opt_pretty=1', {"data": data})
-            self.assertEqual(response.status, '201 Created')
+        with open("docs/source/relocation/tutorial/create-plan.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/plans?opt_pretty=1", {"data": data})
+            self.assertEqual(response.status, "201 Created")
 
-        plan = response.json['data']
-        plan_id = plan['id']
-        access = response.json['access']
-        owner_token = access['token']
-        orig_plan_transfer_token = access['transfer']
+        plan = response.json["data"]
+        plan_id = plan["id"]
+        access = response.json["access"]
+        owner_token = access["token"]
+        orig_plan_transfer_token = access["transfer"]
 
-        self.app.authorization = ('Basic', ('broker2', ''))
+        self.app.authorization = ("Basic", ("broker2", ""))
 
-        response = self.app.post_json('/transfers', {"data": {}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        transfer = response.json['data']
-        access = response.json['access']
-        new_access_token = access['token']
-        new_transfer_token = access['transfer']
+        response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        transfer = response.json["data"]
+        access = response.json["access"]
+        new_access_token = access["token"]
+        new_transfer_token = access["transfer"]
 
-        with open('docs/source/relocation/tutorial/change-plan-ownership-forbidden.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/change-plan-ownership-forbidden.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/plans/{}/ownership'.format(plan_id),
-                {"data": {"id": transfer['id'], 'transfer': orig_plan_transfer_token}},
+                "/plans/{}/ownership".format(plan_id),
+                {"data": {"id": transfer["id"], "transfer": orig_plan_transfer_token}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
-                response.json['errors'][0]['description'], 'Broker Accreditation level does not permit ownership change'
+                response.json["errors"][0]["description"], "Broker Accreditation level does not permit ownership change"
             )
 
-        self.app.authorization = ('Basic', ('broker1', ''))
+        self.app.authorization = ("Basic", ("broker1", ""))
 
-        with open('docs/source/relocation/tutorial/create-plan-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/transfers', {"data": {}})
-            self.assertEqual(response.status, '201 Created')
-            self.assertEqual(response.content_type, 'application/json')
-            transfer = response.json['data']
-            access = response.json['access']
-            new_access_token = access['token']
-            new_transfer_token = access['transfer']
+        with open("docs/source/relocation/tutorial/create-plan-transfer.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/transfers", {"data": {}})
+            self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.content_type, "application/json")
+            transfer = response.json["data"]
+            access = response.json["access"]
+            new_access_token = access["token"]
+            new_transfer_token = access["transfer"]
 
-        with open('docs/source/relocation/tutorial/get-plan-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.get('/transfers/{}'.format(transfer['id']))
+        with open("docs/source/relocation/tutorial/get-plan-transfer.http", "w") as self.app.file_obj:
+            response = self.app.get("/transfers/{}".format(transfer["id"]))
 
-        with open('docs/source/relocation/tutorial/change-plan-ownership.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/change-plan-ownership.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/plans/{}/ownership'.format(plan_id),
-                {"data": {"id": transfer['id'], 'transfer': orig_plan_transfer_token}},
+                "/plans/{}/ownership".format(plan_id),
+                {"data": {"id": transfer["id"], "transfer": orig_plan_transfer_token}},
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertNotIn('transfer', response.json['data'])
-            self.assertNotIn('transfer_token', response.json['data'])
-            self.assertEqual('broker1', response.json['data']['owner'])
+            self.assertEqual(response.status, "200 OK")
+            self.assertNotIn("transfer", response.json["data"])
+            self.assertNotIn("transfer_token", response.json["data"])
+            self.assertEqual("broker1", response.json["data"]["owner"])
 
-        with open('docs/source/relocation/tutorial/get-used-plan-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.get('/transfers/{}'.format(transfer['id']))
+        with open("docs/source/relocation/tutorial/get-used-plan-transfer.http", "w") as self.app.file_obj:
+            response = self.app.get("/transfers/{}".format(transfer["id"]))
 
-        budget = deepcopy(data['budget'])
-        budget['description'] = 'broker1 now can change the plan'
-        with open('docs/source/relocation/tutorial/modify-plan.http', 'w') as self.app.file_obj:
+        budget = deepcopy(data["budget"])
+        budget["description"] = "broker1 now can change the plan"
+        with open("docs/source/relocation/tutorial/modify-plan.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan_id, new_access_token), {"data": {"budget": budget}}
+                "/plans/{}?acc_token={}".format(plan_id, new_access_token), {"data": {"budget": budget}}
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['budget']['description'], 'broker1 now can change the plan')
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json["data"]["budget"]["description"], "broker1 now can change the plan")
 
-        self.app.authorization = ('Basic', ('brokerx', ''))
+        self.app.authorization = ("Basic", ("brokerx", ""))
 
-        response = self.app.post_json('/transfers', {"data": {}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        transfer = response.json['data']
-        access = response.json['access']
-        new_access_token = access['token']
-        new_transfer_token = access['transfer']
+        response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        transfer = response.json["data"]
+        access = response.json["access"]
+        new_access_token = access["token"]
+        new_transfer_token = access["transfer"]
 
         with open(
-            'docs/source/relocation/tutorial/change-plan-ownership-forbidden-owner.http', 'w'
+            "docs/source/relocation/tutorial/change-plan-ownership-forbidden-owner.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/plans/{}/ownership'.format(plan_id),
-                {"data": {"id": transfer['id'], 'transfer': orig_plan_transfer_token}},
+                "/plans/{}/ownership".format(plan_id),
+                {"data": {"id": transfer["id"], "transfer": orig_plan_transfer_token}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
-                response.json['errors'][0]['description'], 'Owner Accreditation level does not permit ownership change'
+                response.json["errors"][0]["description"], "Owner Accreditation level does not permit ownership change"
             )
 
     def test_agreements_docs(self):
@@ -350,99 +349,99 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
                 "owner": "brokerx",
             }
         )
-        tender_token = data['tender_token']
-        self.app.authorization = ('Basic', ('agreements', ''))
+        tender_token = data["tender_token"]
+        self.app.authorization = ("Basic", ("agreements", ""))
 
-        response = self.app.post_json('/agreements', {'data': data})
-        self.assertEqual(response.status, '201 Created')
-        agreement = response.json['data']
-        self.assertEqual('brokerx', agreement['owner'])
-        agreement_id = agreement['id']
+        response = self.app.post_json("/agreements", {"data": data})
+        self.assertEqual(response.status, "201 Created")
+        agreement = response.json["data"]
+        self.assertEqual("brokerx", agreement["owner"])
+        agreement_id = agreement["id"]
 
-        self.app.authorization = ('Basic', ('brokerx', ''))
-        with open('docs/source/relocation/tutorial/get-agreement-credentials.http', 'w') as self.app.file_obj:
+        self.app.authorization = ("Basic", ("brokerx", ""))
+        with open("docs/source/relocation/tutorial/get-agreement-credentials.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/agreements/{}/credentials?acc_token={}'.format(agreement_id, tender_token), {'data': ''}
+                "/agreements/{}/credentials?acc_token={}".format(agreement_id, tender_token), {"data": ""}
             )
-            self.assertEqual(response.status, '200 OK')
-            access = response.json['access']
-            token = access['token']
-            agreement_transfer = access['transfer']
+            self.assertEqual(response.status, "200 OK")
+            access = response.json["access"]
+            token = access["token"]
+            agreement_transfer = access["transfer"]
 
-        self.app.authorization = ('Basic', ('broker2', ''))
+        self.app.authorization = ("Basic", ("broker2", ""))
 
-        response = self.app.post_json('/transfers', {"data": {}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        transfer = response.json['data']
-        access = response.json['access']
-        new_access_token = access['token']
-        new_transfer_token = access['transfer']
+        response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        transfer = response.json["data"]
+        access = response.json["access"]
+        new_access_token = access["token"]
+        new_transfer_token = access["transfer"]
 
         with open(
-            'docs/source/relocation/tutorial/change-agreement-ownership-forbidden.http', 'w'
+            "docs/source/relocation/tutorial/change-agreement-ownership-forbidden.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/agreements/{}/ownership'.format(agreement_id),
-                {"data": {"id": transfer['id'], 'transfer': agreement_transfer}},
+                "/agreements/{}/ownership".format(agreement_id),
+                {"data": {"id": transfer["id"], "transfer": agreement_transfer}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
-                response.json['errors'][0]['description'], 'Broker Accreditation level does not permit ownership change'
+                response.json["errors"][0]["description"], "Broker Accreditation level does not permit ownership change"
             )
 
-        self.app.authorization = ('Basic', ('broker3', ''))
-        with open('docs/source/relocation/tutorial/create-agreement-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/transfers', {"data": {}})
-            self.assertEqual(response.status, '201 Created')
-            transfer = response.json['data']
-            self.assertIn('date', transfer)
-            transfer_creation_date = transfer['date']
-            access = response.json['access']
-            new_access_token = access['token']
-            new_transfer_token = access['transfer']
+        self.app.authorization = ("Basic", ("broker3", ""))
+        with open("docs/source/relocation/tutorial/create-agreement-transfer.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/transfers", {"data": {}})
+            self.assertEqual(response.status, "201 Created")
+            transfer = response.json["data"]
+            self.assertIn("date", transfer)
+            transfer_creation_date = transfer["date"]
+            access = response.json["access"]
+            new_access_token = access["token"]
+            new_transfer_token = access["transfer"]
 
-        with open('docs/source/relocation/tutorial/change-agreement-ownership.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/change-agreement-ownership.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/agreements/{}/ownership'.format(agreement_id),
-                {"data": {"id": transfer['id'], 'transfer': agreement_transfer}},
+                "/agreements/{}/ownership".format(agreement_id),
+                {"data": {"id": transfer["id"], "transfer": agreement_transfer}},
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertNotIn('transfer', response.json['data'])
-            self.assertNotIn('transfer_token', response.json['data'])
-            self.assertEqual('broker3', response.json['data']['owner'])
+            self.assertEqual(response.status, "200 OK")
+            self.assertNotIn("transfer", response.json["data"])
+            self.assertNotIn("transfer_token", response.json["data"])
+            self.assertEqual("broker3", response.json["data"]["owner"])
 
-        with open('docs/source/relocation/tutorial/modify-agreement.http', 'w') as self.app.file_obj:
+        with open("docs/source/relocation/tutorial/modify-agreement.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/agreements/{}?acc_token={}'.format(agreement_id, new_access_token),
+                "/agreements/{}?acc_token={}".format(agreement_id, new_access_token),
                 {"data": {"terminationDetails": "broker3 now can change the contract"}},
             )
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['terminationDetails'], 'broker3 now can change the contract')
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json["data"]["terminationDetails"], "broker3 now can change the contract")
 
-        with open('docs/source/relocation/tutorial/get-used-agreement-transfer.http', 'w') as self.app.file_obj:
-            response = self.app.get('/transfers/{}'.format(transfer['id']))
+        with open("docs/source/relocation/tutorial/get-used-agreement-transfer.http", "w") as self.app.file_obj:
+            response = self.app.get("/transfers/{}".format(transfer["id"]))
 
-        self.app.authorization = ('Basic', ('brokerx', ''))
+        self.app.authorization = ("Basic", ("brokerx", ""))
 
-        response = self.app.post_json('/transfers', {"data": {}})
-        self.assertEqual(response.status, '201 Created')
-        self.assertEqual(response.content_type, 'application/json')
-        transfer = response.json['data']
-        access = response.json['access']
-        new_access_token = access['token']
-        new_transfer_token = access['transfer']
+        response = self.app.post_json("/transfers", {"data": {}})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        transfer = response.json["data"]
+        access = response.json["access"]
+        new_access_token = access["token"]
+        new_transfer_token = access["transfer"]
 
         with open(
-            'docs/source/relocation/tutorial/change-agreement-ownership-forbidden-owner.http', 'w'
+            "docs/source/relocation/tutorial/change-agreement-ownership-forbidden-owner.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(
-                '/agreements/{}/ownership'.format(agreement_id),
-                {"data": {"id": transfer['id'], 'transfer': agreement_transfer}},
+                "/agreements/{}/ownership".format(agreement_id),
+                {"data": {"id": transfer["id"], "transfer": agreement_transfer}},
                 status=403,
             )
-            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(response.status, "403 Forbidden")
             self.assertEqual(
-                response.json['errors'][0]['description'], 'Owner Accreditation level does not permit ownership change'
+                response.json["errors"][0]["description"], "Owner Accreditation level does not permit ownership change"
             )

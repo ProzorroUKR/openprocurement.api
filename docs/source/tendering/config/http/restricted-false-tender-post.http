@@ -77,7 +77,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
     "milestones": [
@@ -92,7 +92,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 1,
         "percentage": 45.55,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       },
       {
         "title": "deliveryOfGoods",
@@ -104,13 +104,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 2,
         "percentage": 54.45,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
     "mainProcurementCategory": "services",
     "agreements": [
       {
-        "id": "514d764704784304906b25138785146c"
+        "id": "120e2d279ef84f8db8c5a993a4e58137"
       }
     ],
     "contractTemplateName": "00000000.0002.01",
@@ -126,7 +126,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 15,
           "currency": "UAH"
         },
-        "id": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "id": "2b1b594948f547af9eff49515789e928"
       }
     ]
   },
@@ -169,7 +169,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "title": "футляри до державних нагород",
     "agreements": [
       {
-        "id": "514d764704784304906b25138785146c"
+        "id": "120e2d279ef84f8db8c5a993a4e58137"
       }
     ],
     "awardCriteria": "lowestCost",
@@ -211,7 +211,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "id": "2b1b594948f547af9eff49515789e928",
         "status": "active",
         "value": {
           "currency": "UAH",
@@ -242,7 +242,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       },
       {
         "id": "ad63536cbc0d4fd8b7c49031d56cd337",
@@ -255,7 +255,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
     "status": "draft",
@@ -290,7 +290,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61",
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -348,8 +348,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "restricted": false
   },
   "access": {
-    "token": "af1e4a374fe0437f9b6d522c0e415a6e",
-    "transfer": "e11eddbda0794b0da849c19d74ab06d8"
+    "token": "1b8e08f9f6884523bb9f72745c1deb5c",
+    "transfer": "2bd25ecac7274f6e9f062904741ca519"
   }
 }
 

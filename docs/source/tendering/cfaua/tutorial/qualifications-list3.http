@@ -48,8 +48,8 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "bid_id": "704ce27d8af84133be0e67b6e00cd665",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "documents": [
         {
           "confidentiality": "public",
@@ -114,8 +114,8 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "5d3dc5765f7b493e88a8cf48097c37b1",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "bid_id": "9b7bc233b5b9426ba47f63ae0070dc79",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "documents": [
         {
           "confidentiality": "public",
@@ -180,8 +180,8 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "b5da67b11f7643f78cdf909b0d5c4595",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "bid_id": "95db393211474a7c930f5c3df7f52b56",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "documents": [
         {
           "confidentiality": "public",
@@ -245,8 +245,8 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "bid_id": "704ce27d8af84133be0e67b6e00cd665",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "documents": [
         {
           "confidentiality": "public",
@@ -310,8 +310,8 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "bid_id": "704ce27d8af84133be0e67b6e00cd665",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
         "startDate": "2023-10-10T01:02:01+03:00",
         "endDate": "2023-10-18T00:00:00+03:00"
@@ -358,8 +358,8 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "5d3dc5765f7b493e88a8cf48097c37b1",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "bid_id": "9b7bc233b5b9426ba47f63ae0070dc79",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
         "startDate": "2023-10-10T01:02:01+03:00",
         "endDate": "2023-10-18T00:00:00+03:00"
@@ -406,8 +406,8 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "b5da67b11f7643f78cdf909b0d5c4595",
-      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+      "bid_id": "95db393211474a7c930f5c3df7f52b56",
+      "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
         "startDate": "2023-10-10T01:02:01+03:00",
         "endDate": "2023-10-18T00:00:00+03:00"

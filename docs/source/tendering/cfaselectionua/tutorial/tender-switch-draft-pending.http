@@ -96,7 +96,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "unit": {
           "name": "item",
           "value": {
@@ -114,7 +114,7 @@ Content-Type: application/json
         "description": "Опис Лот №1",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
-        "id": "50fc7d0cb4e3423491c35387a046af42"
+        "id": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "enquiryPeriod": {

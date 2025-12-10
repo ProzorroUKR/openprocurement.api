@@ -3,6 +3,13 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
+from openprocurement.api.utils import get_now
+from openprocurement.planning.api.constants import (
+    MILESTONE_APPROVAL_DESCRIPTION,
+    MILESTONE_APPROVAL_TITLE,
+)
+from openprocurement.planning.api.tests.base import BasePlanWebTest
+from openprocurement.tender.openua.tests.base import test_tender_openua_config
 from tests.base.constants import DOCS_URL
 from tests.base.data import (
     test_docs_plan_data,
@@ -11,15 +18,7 @@ from tests.base.data import (
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-from openprocurement.api.utils import get_now
-from openprocurement.planning.api.constants import (
-    MILESTONE_APPROVAL_DESCRIPTION,
-    MILESTONE_APPROVAL_TITLE,
-)
-from openprocurement.planning.api.tests.base import BasePlanWebTest
-from openprocurement.tender.openua.tests.base import test_tender_openua_config
-
-TARGET_DIR = 'docs/source/centralized-procurements/http/'
+TARGET_DIR = "docs/source/centralized-procurements/http/"
 
 test_plan_data = deepcopy(test_docs_plan_data)
 test_tender_eu_data = deepcopy(test_docs_tender_openeu)
@@ -58,41 +57,41 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         pass
 
     def test_docs(self):
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         # empty plans listing
-        response = self.app.get('/plans')
-        self.assertEqual(response.json['data'], [])
+        response = self.app.get("/plans")
+        self.assertEqual(response.json["data"], [])
 
         # create plan
-        test_plan_data['status'] = "draft"
-        test_plan_data['items'] = test_plan_data['items'][:1]
+        test_plan_data["status"] = "draft"
+        test_plan_data["items"] = test_plan_data["items"][:1]
         test_plan_data["buyers"] = [deepcopy(test_plan_data["procuringEntity"])]  # just to be sure
         test_plan_data["procuringEntity"] = central_entity
 
-        with open(TARGET_DIR + 'create-plan.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/plans?opt_pretty=1', {'data': test_plan_data})
+        with open(TARGET_DIR + "create-plan.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/plans?opt_pretty=1", {"data": test_plan_data})
 
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
 
-        _plan = response.json['data']
+        _plan = response.json["data"]
         self.plan_id = _plan["id"]
-        owner_token = response.json['access']['token']
+        owner_token = response.json["access"]["token"]
 
         self.tick()
 
-        with open(TARGET_DIR + 'patch-plan-status-scheduled.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-plan-status-scheduled.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(_plan['id'], owner_token), {'data': {"status": "scheduled"}}
+                "/plans/{}?acc_token={}".format(_plan["id"], owner_token), {"data": {"status": "scheduled"}}
             )
         self.assertEqual(response.json["data"]["status"], "scheduled")
 
         self.tick()
 
-        with open(TARGET_DIR + 'post-plan-milestone.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "post-plan-milestone.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/plans/{}/milestones'.format(_plan['id']),
+                "/plans/{}/milestones".format(_plan["id"]),
                 {
-                    'data': {
+                    "data": {
                         "title": MILESTONE_APPROVAL_TITLE,
                         "description": MILESTONE_APPROVAL_DESCRIPTION,
                         "type": "approval",
@@ -107,11 +106,11 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         self.tick()
 
-        with open(TARGET_DIR + 'patch-plan-milestone.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "patch-plan-milestone.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}/milestones/{}?acc_token={}'.format(_plan['id'], milestone["id"], milestone_token),
+                "/plans/{}/milestones/{}?acc_token={}".format(_plan["id"], milestone["id"], milestone_token),
                 {
-                    'data': {
+                    "data": {
                         "status": "met",
                         "description": "Доповнений опис відповіді",
                         "dueDate": (get_now() + timedelta(seconds=1)).isoformat(),
@@ -122,9 +121,9 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         self.tick()
 
-        with open(TARGET_DIR + 'post-plan-milestone-document.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "post-plan-milestone-document.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/plans/{}/milestones/{}/documents?acc_token={}'.format(_plan["id"], milestone["id"], milestone_token),
+                "/plans/{}/milestones/{}/documents?acc_token={}".format(_plan["id"], milestone["id"], milestone_token),
                 {
                     "data": {
                         "title": "Notice.pdf",
@@ -162,28 +161,28 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         self.tick()
 
-        with open(TARGET_DIR + 'create-tender.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "create-tender.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders', {'data': test_tender_ua_data, 'config': test_tender_openua_config}
+                "/tenders", {"data": test_tender_ua_data, "config": test_tender_openua_config}
             )
-        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.status, "201 Created")
         tender = response.json
 
         # attaching plans to the tender
 
         self.tick()
 
-        with open(TARGET_DIR + 'post-tender-plans.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + "post-tender-plans.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/plans?acc_token={}'.format(tender["data"]["id"], tender["access"]["token"]),
-                {"data": {"id": _plan['id']}},
+                "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
+                {"data": {"id": _plan["id"]}},
             )
-        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'plan-complete.http', 'w') as self.app.file_obj:
-            response = self.app.get('/plans/{}'.format(_plan['id']))
-        self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "plan-complete.http", "w") as self.app.file_obj:
+            response = self.app.get("/plans/{}".format(_plan["id"]))
+        self.assertEqual(response.status, "200 OK")
 
-        with open(TARGET_DIR + 'tender-get.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}'.format(tender["data"]["id"]))
-        self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + "tender-get.http", "w") as self.app.file_obj:
+            response = self.app.get("/tenders/{}".format(tender["data"]["id"]))
+        self.assertEqual(response.status, "200 OK")

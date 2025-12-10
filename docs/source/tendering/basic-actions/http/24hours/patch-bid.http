@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/bids/c8928ffae76b497484f9691c2d2c9638?acc_token=19ed37dcc08b490a95812c30bc5bfbe6 HTTP/1.0
+PATCH /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/bids/98e559811d424e3ca6e97a994253ef12?acc_token=c62253cf3f364c0eac1ff2fff02c69a6 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -53,7 +53,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/985f6e927f784969aabb65fd84ff2415_5666a4d7fa694af28825b1971b3912b9?key_for_bid=c8928ffae76b497484f9691c2d2c9638",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/985f6e927f784969aabb65fd84ff2415_5666a4d7fa694af28825b1971b3912b9?key_for_bid=98e559811d424e3ca6e97a994253ef12",
         "subcontractingDetails": "ДП «Орфей»"
       }
     ]
@@ -258,7 +258,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/985f6e927f784969aabb65fd84ff2415_5666a4d7fa694af28825b1971b3912b9?key_for_bid=c8928ffae76b497484f9691c2d2c9638"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/985f6e927f784969aabb65fd84ff2415_5666a4d7fa694af28825b1971b3912b9?key_for_bid=98e559811d424e3ca6e97a994253ef12"
       }
     ],
     "tenderers": [
@@ -295,7 +295,7 @@ Content-Type: application/json
     ],
     "status": "active",
     "subcontractingDetails": "ДП «Орфей»",
-    "id": "c8928ffae76b497484f9691c2d2c9638",
+    "id": "98e559811d424e3ca6e97a994253ef12",
     "date": "2023-10-10T01:00:00+03:00",
     "submissionDate": "2023-10-10T01:00:00+03:00",
     "documents": [
@@ -307,7 +307,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/145abcfa123242cfb8f40499713728ce?Signature=T6akBxjy60LCHo5f7LJXTNcNr7iycMtAEeTPHTQ7204eGxQ1SMbYnjsAPoMs6B3vztC3B%2FK7xieiZnyUpkN2BA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/01265147e4f24f6ea5e560fbf578c1e7?Signature=3RMTWnAUjDnE9cQNIu5m3aFKVVUxPHY7UMorTfYNEvdUoNBZyq2ts3nN4XOKk1UEn%2FjLG22fzvb9cOjE8OrJAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"
@@ -319,7 +319,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "укр.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fddb39dd595c481e8b47b24009815ba5?Signature=jrorAOTvpwDYRbU0V4b3GRhiHvL8Co1AHanO3si1lMIuGzyjTfBD1ZNDXZuVeoAGCRyvua1CZ5Mc16NXKfIsDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1d09390ce1346ecbd799fc07110bcdc?Signature=IGkuizXsb%2BH7ILFXaZFKijmb2kaU4Y%2BPjk57NkERIi1OXLgcRrDA7rReT60YaxWhQFB%2B3h74nClq4lzm2nY%2BDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:01+03:00",
         "language": "uk"
@@ -331,7 +331,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "укр.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1d09390ce1346ecbd799fc07110bcdc?Signature=IGkuizXsb%2BH7ILFXaZFKijmb2kaU4Y%2BPjk57NkERIi1OXLgcRrDA7rReT60YaxWhQFB%2B3h74nClq4lzm2nY%2BDA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ccdd5e33a07472fa361b9bf49077a08?Signature=093R9T0mC9oiefs3eDa9dciA%2FqzDdyVuBNqCROS4WW8hUlPaTmGBefr3syY5%2Bt6YypZt7mkORSYs1vhxQ1bjCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:01+03:00",
         "language": "uk"

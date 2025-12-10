@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/documents?acc_token=393a491380684a1b82995ce57d50794c HTTP/1.0
+POST /api/2.5/tenders/137bba901398466a9aa1880da2ade9a6/documents?acc_token=76e7037e0a9a445f8bfe44a967308c41 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "AwardCriteria.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c9a7351bbd9c4577b75310df27591499?Signature=SZquYEeYbOSZghUqDe25awbv2Gt8iq9l2WKPXdRJNUSblNtawx8cGdBqr8awPgchjhlJxF9Se1QtpsvOG7lKAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/67b500f3327a4160bff847fa3b925862?Signature=a%2FmiBNjuduOdoDI6IaR%2F4BcXUodk67mmDx79xTC71EGZLTKmW6vRmje4CFiprcpe0%2BkTQmi%2F6Lyn8bg0q7ydDw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/285d5c5b074a45f198c9a207b4c60b64/documents/fc20014ad6434b7b93c655c13b2f699a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/137bba901398466a9aa1880da2ade9a6/documents/fc20014ad6434b7b93c655c13b2f699a
 
 {
   "data": {
@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/285d5c5b074a45f1
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c9a7351bbd9c4577b75310df27591499?Signature=MunTW%2BVyETXx31v93sGhr6mh73PISFITfTGZpi50QbReHquPGEuZi04vK%2F9JcE45YC5McBK17PE%2FTSY6U%2FB%2BAQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/67b500f3327a4160bff847fa3b925862?Signature=QDxTKt%2F6a6o%2F969%2BED3IcEBTGuad5zzNYo28gOuxadXnyR0axXnzhPWvrEHCP4VwkSewBFtL2VvUFUHm%2FE9PBw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "fc20014ad6434b7b93c655c13b2f699a",

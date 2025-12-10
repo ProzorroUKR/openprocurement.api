@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "7cafcae8b551443599f87782cd56a35d",
+        "id": "436ebf0b3b85490390602f4890d098b8",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -54,7 +54,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 5,
-        "relatedLot": "50fc7d0cb4e3423491c35387a046af42"
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
@@ -94,7 +94,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "50fc7d0cb4e3423491c35387a046af42"
+        "id": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ]
   },
@@ -168,7 +168,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a7d4e83983f46a9
     ],
     "items": [
       {
-        "id": "7cafcae8b551443599f87782cd56a35d",
+        "id": "436ebf0b3b85490390602f4890d098b8",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -185,7 +185,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a7d4e83983f46a9
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "unit": {
           "name": "кілограм",
           "value": {
@@ -201,7 +201,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a7d4e83983f46a9
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "50fc7d0cb4e3423491c35387a046af42",
+        "id": "66bd7aa82b7d403cb3626390997acbaf",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00"
       }

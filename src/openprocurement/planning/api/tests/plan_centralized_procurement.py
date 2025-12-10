@@ -5,10 +5,7 @@ from uuid import uuid4
 import pytest
 
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.tests.base import (  # pylint: disable=unused-import
-    app,
-    singleton_app,
-)
+from openprocurement.api.tests.base import app, singleton_app, unwrap_app
 from openprocurement.api.utils import get_now
 from openprocurement.planning.api.constants import (
     MILESTONE_APPROVAL_DESCRIPTION,
@@ -19,6 +16,8 @@ from openprocurement.planning.api.tests.base import (
     generate_docservice_url,
     test_plan_data,
 )
+
+fixtures = (app, singleton_app)
 
 milestone_author = {
     "id": "1" * 32,
@@ -195,15 +194,15 @@ def test_fail_post_another_milestone(app, centralized_milestone, test_status):
 
     # set milestone status
     if test_status != milestone["status"]:
-        plan_source = app.app.registry.mongodb.plans.get(plan["id"])
+        plan_source = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
         plan_source["milestones"][0]["status"] = test_status
-        app.app.registry.mongodb.plans.save(plan_source)
+        unwrap_app(app).registry.mongodb.plans.save(plan_source)
 
     response = app.post_json("/plans/{}/milestones".format(plan["id"]), {"data": test_milestone_data(app)}, status=422)
     assert response.json == {
-        'status': 'error',
-        'errors': [
-            {'description': 'An active milestone already exists for this author', 'location': 'body', 'name': 'author'}
+        "status": "error",
+        "errors": [
+            {"description": "An active milestone already exists for this author", "location": "body", "name": "author"}
         ],
     }
 
@@ -219,14 +218,14 @@ def test_success_post_another_milestone(app, centralized_milestone, test_status)
     plan, plan_token = plan_data["data"], plan_data["token"]
 
     # set milestone status
-    plan_source = app.app.registry.mongodb.plans.get(plan["id"])
+    plan_source = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(plan_source)
+    unwrap_app(app).registry.mongodb.plans.save(plan_source)
 
     response = app.post_json("/plans/{}/milestones".format(plan["id"]), {"data": test_milestone_data(app)}, status=201)
     assert response.json["data"]["id"] != milestone["id"]
     assert response.json["data"]["author"] == milestone["author"]
-    plan_source = app.app.registry.mongodb.plans.get(plan["id"])
+    plan_source = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     assert len(plan_source["milestones"]) == 2
 
 
@@ -260,9 +259,9 @@ def test_fail_patch_due_date(app, centralized_milestone, test_status):
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set milestone status
-    plan_source = app.app.registry.mongodb.plans.get(plan["id"])
+    plan_source = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(plan_source)
+    unwrap_app(app).registry.mongodb.plans.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
@@ -301,7 +300,7 @@ def test_patch_milestone(app, centralized_milestone):
     )
     assert response.status_code == 200
 
-    result_plan = app.app.registry.mongodb.plans.get(plan["id"])
+    result_plan = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     result = result_plan.get("milestones")[0]
 
     # fields that haven"t been changed
@@ -330,9 +329,9 @@ def test_fail_patch_description(app, centralized_milestone, test_status):
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set milestone status
-    plan_source = app.app.registry.mongodb.plans.get(plan["id"])
+    plan_source = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(plan_source)
+    unwrap_app(app).registry.mongodb.plans.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
@@ -362,9 +361,9 @@ def test_success_patch_description(app, centralized_milestone, test_status):
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set milestone status
-    plan_source = app.app.registry.mongodb.plans.get(plan["id"])
+    plan_source = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(plan_source)
+    unwrap_app(app).registry.mongodb.plans.save(plan_source)
 
     new_description = "Changes are coming"
     response = app.patch_json(
@@ -390,7 +389,7 @@ def test_success_patch_milestone_status(app, centralized_milestone, test_status)
         {"data": {"status": test_status}},
     )
     assert response.status_code == 200
-    result_plan = app.app.registry.mongodb.plans.get(plan["id"])
+    result_plan = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     result = result_plan.get("milestones")[0]
 
     assert result_plan["dateModified"] == result["dateModified"]
@@ -498,7 +497,7 @@ def test_update_milestone_documents(app, centralized_milestone):
     )
     assert response.status_code == 201
 
-    result_plan = app.app.registry.mongodb.plans.get(plan["id"])
+    result_plan = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     result_milestone = result_plan.get("milestones")[0]
     assert len(result_milestone["documents"]) == 2
     new_doc = result_milestone["documents"][1]
@@ -539,7 +538,7 @@ def test_update_milestone_documents(app, centralized_milestone):
     )
     assert response.status_code == 200
 
-    result_plan = app.app.registry.mongodb.plans.get(plan["id"])
+    result_plan = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     result_milestone = result_plan.get("milestones")[0]
     assert len(result_milestone["documents"]) == 4
     old_doc = new_doc
@@ -569,7 +568,7 @@ def test_update_milestone_documents(app, centralized_milestone):
     )
     assert response.status_code == 200
 
-    result_plan = app.app.registry.mongodb.plans.get(plan["id"])
+    result_plan = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     result_milestone = result_plan.get("milestones")[0]
     assert len(result_milestone["documents"]) == 4
     patched_doc = result_milestone["documents"][-1]
@@ -606,9 +605,9 @@ def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone,
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set milestone status
-    plan_source = app.app.registry.mongodb.plans.get(plan["id"])
+    plan_source = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(plan_source)
+    unwrap_app(app).registry.mongodb.plans.save(plan_source)
 
     new_procuring_entity = {
         "id": uuid4().hex,
@@ -663,9 +662,9 @@ def test_fail_patch_plan_procuring_entity_not_in_time(app, centralized_milestone
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set plan.tender.tenderPeriod.startDate
-    plan_source = app.app.registry.mongodb.plans.get(plan["id"])
+    plan_source = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     plan_source["tender"]["tenderPeriod"]["startDate"] = get_now().isoformat()
-    app.app.registry.mongodb.plans.save(plan_source)
+    unwrap_app(app).registry.mongodb.plans.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], plan_token),
@@ -688,12 +687,12 @@ def test_fail_patch_plan_procuring_entity_not_in_time(app, centralized_milestone
         status=403,
     )
     assert response.json == {
-        'status': 'error',
-        'errors': [
+        "status": "error",
+        "errors": [
             {
-                'description': "Can't update procuringEntity later than 2 business days before tenderPeriod.StartDate",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update procuringEntity later than 2 business days before tenderPeriod.StartDate",
+                "location": "body",
+                "name": "data",
             }
         ],
     }
@@ -710,10 +709,10 @@ def test_success_patch_plan_procuring_entity_not_in_time(app, centralized_milest
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set plan.tender.tenderPeriod.startDate and milestone status
-    plan_source = app.app.registry.mongodb.plans.get(plan["id"])
+    plan_source = unwrap_app(app).registry.mongodb.plans.get(plan["id"])
     plan_source["tender"]["tenderPeriod"]["startDate"] = get_now().isoformat()
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(plan_source)
+    unwrap_app(app).registry.mongodb.plans.save(plan_source)
 
     request_entity = {
         "id": uuid4().hex,

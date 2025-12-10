@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/bids/c8928ffae76b497484f9691c2d2c9638/documents/cb18607f52bb496fbddfbce0d827fc3e?acc_token=19ed37dcc08b490a95812c30bc5bfbe6 HTTP/1.0
+PUT /api/2.5/tenders/985f6e927f784969aabb65fd84ff2415/bids/98e559811d424e3ca6e97a994253ef12/documents/cb18607f52bb496fbddfbce0d827fc3e?acc_token=c62253cf3f364c0eac1ff2fff02c69a6 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "укр.doc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1d09390ce1346ecbd799fc07110bcdc?Signature=qsssZ82Ncs8NLEr%2B%2BG6lgsueiPvYwmz0HdcRmYQ2KINWk24CnQHpF9h2LcAMZIGOK9zxidBHWmoaRSHsN%2BrUDw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ccdd5e33a07472fa361b9bf49077a08?Signature=Ewo7wJBOfP0yDmiIlYEwCpvLm%2BlwvDdZYnlC4Ca%2Bgqc2P182NyrFz5sjFSZzUfFypsWf83kJo%2BfHSWI9A444BQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/msword"
   }
@@ -24,7 +24,7 @@ Content-Type: application/json
     "hash": "md5:00000000000000000000000000000000",
     "title": "укр.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1d09390ce1346ecbd799fc07110bcdc?Signature=IGkuizXsb%2BH7ILFXaZFKijmb2kaU4Y%2BPjk57NkERIi1OXLgcRrDA7rReT60YaxWhQFB%2B3h74nClq4lzm2nY%2BDA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ccdd5e33a07472fa361b9bf49077a08?Signature=093R9T0mC9oiefs3eDa9dciA%2FqzDdyVuBNqCROS4WW8hUlPaTmGBefr3syY5%2Bt6YypZt7mkORSYs1vhxQ1bjCw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "language": "uk"

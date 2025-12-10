@@ -1,0 +1,21 @@
+GET /violation_reports?offset=1760598968.0.1.bf2af5c632c705c7ce7e7c4948e62efa HTTP/1.0
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-000000000037
+Content-Length: 453
+
+{
+  "data": [],
+  "next_page": {
+    "offset": "1760598968.0.1.bf2af5c632c705c7ce7e7c4948e62efa",
+    "path": "/violation_reports?offset=1760598968.0.1.bf2af5c632c705c7ce7e7c4948e62efa",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/violation_reports?offset=1760598968.0.1.bf2af5c632c705c7ce7e7c4948e62efa"
+  },
+  "prev_page": {
+    "offset": "",
+    "path": "/violation_reports?descending=1",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/violation_reports?descending=1"
+  }
+}

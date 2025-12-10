@@ -1,4 +1,4 @@
-GET /api/2.5/history/plans/647ea8f38f72484ea0245b71b7cd4231?opt_fields=rationale HTTP/1.0
+GET /api/2.5/history/plans/41dd1a57d4074913838107cf156a4f5f?opt_fields=rationale HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 

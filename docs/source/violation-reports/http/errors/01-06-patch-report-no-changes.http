@@ -1,0 +1,95 @@
+PATCH /violation_reports/UA-2025-10-12-000001 HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "details": {
+      "reason": "contractBreach",
+      "description": "Постачальник порушив контракт."
+    }
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-00000000000d
+Content-Length: 1705
+
+{
+  "data": {
+    "details": {
+      "reason": "contractBreach",
+      "description": "Постачальник порушив контракт.",
+      "dateModified": "2025-10-12T15:35:35+03:00"
+    },
+    "id": "UA-2025-10-12-000001",
+    "status": "draft",
+    "tender_id": "88888888444455556666000000000002",
+    "contract_id": "88888888444455556666000000000001",
+    "dateCreated": "2025-10-12T15:35:35+03:00",
+    "dateModified": "2025-10-12T15:35:35+03:00",
+    "author": {
+      "name": "Adam Bryan",
+      "identifier": {
+        "id": "534962516",
+        "scheme": "UA-EDR"
+      },
+      "address": {
+        "streetAddress": "298 Michael Street Apt. 869",
+        "postalCode": "66552",
+        "countryName": "Chad"
+      },
+      "contactPoint": {
+        "name": "Nathan Lee",
+        "email": "marc75@example.org",
+        "telephone": "560.702.9241x61926",
+        "faxNumber": "8314738249",
+        "url": "http://www.lucero-collier.com/"
+      },
+      "kind": "general"
+    },
+    "defendants": [
+      {
+        "name": "Hannah Peterson",
+        "identifier": {
+          "id": "500071620",
+          "scheme": "UA-EDR"
+        },
+        "address": {
+          "streetAddress": "81790 Connie Islands Suite 835",
+          "postalCode": "87381",
+          "countryName": "Qatar"
+        },
+        "contactPoint": {
+          "name": "Chase Simpson",
+          "email": "jerry22@example.com",
+          "telephone": "(381)680-2072",
+          "faxNumber": "461.576.2320x55262",
+          "url": "https://wilson-schneider.com/"
+        },
+        "scale": "large"
+      }
+    ],
+    "authority": {
+      "name": "Chad Shannon",
+      "identifier": {
+        "id": "942880460",
+        "scheme": "UA-EDR"
+      },
+      "address": {
+        "streetAddress": "891 Eric Station Apt. 475",
+        "postalCode": "53164",
+        "countryName": "Gambia"
+      },
+      "contactPoint": {
+        "name": "Dennis Mclaughlin",
+        "email": "cwilliams@example.org",
+        "telephone": "852.901.0193",
+        "faxNumber": "(645)734-5619",
+        "url": "http://martin.com/"
+      },
+      "kind": "central"
+    }
+  }
+}

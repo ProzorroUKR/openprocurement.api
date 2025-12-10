@@ -1,0 +1,89 @@
+PATCH /violation_reports/UA-2025-10-12-000001 HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "tender_id": "11111111111111111111111111111111",
+    "status": "pending",
+    "reason": "goodsNonCompliance"
+  }
+}
+
+
+HTTP/1.0 400 Bad Request
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-00000000000c
+Content-Length: 1220
+
+{
+  "type": "data-validation",
+  "title": "Data Validation Error",
+  "details": "Validation errors in body",
+  "status": 400,
+  "errors": [
+    {
+      "type": "missing",
+      "loc": [
+        "data",
+        "ViolationReportPatchDetailsRequestData",
+        "details"
+      ],
+      "msg": "Field required",
+      "input": {
+        "tender_id": "11111111111111111111111111111111",
+        "status": "pending",
+        "reason": "goodsNonCompliance"
+      }
+    },
+    {
+      "type": "extra_forbidden",
+      "loc": [
+        "data",
+        "ViolationReportPatchDetailsRequestData",
+        "tender_id"
+      ],
+      "msg": "Extra inputs are not permitted",
+      "input": "11111111111111111111111111111111"
+    },
+    {
+      "type": "extra_forbidden",
+      "loc": [
+        "data",
+        "ViolationReportPatchDetailsRequestData",
+        "status"
+      ],
+      "msg": "Extra inputs are not permitted",
+      "input": "pending"
+    },
+    {
+      "type": "extra_forbidden",
+      "loc": [
+        "data",
+        "ViolationReportPatchDetailsRequestData",
+        "reason"
+      ],
+      "msg": "Extra inputs are not permitted",
+      "input": "goodsNonCompliance"
+    },
+    {
+      "type": "extra_forbidden",
+      "loc": [
+        "data",
+        "ViolationReportPublishRequestData",
+        "tender_id"
+      ],
+      "msg": "Extra inputs are not permitted",
+      "input": "11111111111111111111111111111111"
+    },
+    {
+      "type": "extra_forbidden",
+      "loc": [
+        "data",
+        "ViolationReportPublishRequestData",
+        "reason"
+      ],
+      "msg": "Extra inputs are not permitted",
+      "input": "goodsNonCompliance"
+    }
+  ]
+}

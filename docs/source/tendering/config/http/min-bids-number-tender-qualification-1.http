@@ -1033,7 +1033,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/269571a044964dbeabc9ca9c20e6eed8?Signature=FFPr9dMHm4ZPaMLaHgLzYxeJLnD7mK%2BQfgksDHZ9YzlQlLV5%2BupQsa3d3VHEMv7WepsP6oz7E6cM0uD1cHhrDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bed2a0c68b0347dab30b439da99f00d8?Signature=CShmezH%2FLIYkzCCJFX14EUmE4Ch3EG3Q6MxF7Y9sWgfnGhmDNdINsIHAAhspO9KOVm8DnCtncxdMy3YMq6Z0AA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -1171,7 +1171,7 @@ Content-Type: application/json
       {
         "id": "dd1bc19ba9794bf6bf9f285a834a3c28",
         "author": {
-          "hash": "59146b1d81f2f5fe45651999a604d849"
+          "hash": "2918def933aba7d8480fd16de1e9bdc1"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -1444,7 +1444,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "sign/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b32f001d0dfb40c59d84b4e4154c4656?Signature=o0XKcwz%2BrCwhSIxZ5nFq6Ufw6hUpVCE2hsy0yIO3QYSiFYmuO2Tvx3aV8AcUxYJ%2BN%2Bc2%2FxLZyPo8gnIdSIBPCw%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/af1f946d1ab8441f9ec7d0324162df65?Signature=F6YBi36cIk2uuT0anhLNTkoCV0S2T3BFeuIsCr%2FjG6JMKyc%2BNUmTgPGxEvjT7N0nh71SyY0FvkUCHQs2mmLsAg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"

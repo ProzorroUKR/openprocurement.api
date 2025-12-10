@@ -109,7 +109,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "quantity": 3,
         "description": "футляри до державних нагород",
-        "id": "b9d12bf323eb4d539fc49c3d7d1c6446",
+        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
         "unit": {
           "name": "кг",
           "code": "KGM",

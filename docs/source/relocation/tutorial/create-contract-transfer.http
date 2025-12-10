@@ -14,11 +14,11 @@ Content-Type: application/json
 {
   "data": {
     "date": "2023-10-10T01:00:00+03:00",
-    "id": "0a30abb09f71439fa89d9a4c5bb50ea4"
+    "id": "4db8f3cce0ae45d1a8d25aa5c2e746ac"
   },
   "access": {
-    "token": "08f1d49be1284d93b4a95928f9028b33",
-    "transfer": "9763efce634449088e1683021b9db077"
+    "token": "32361d0d17084bedb9fcbca9b4d30c34",
+    "transfer": "52beb4650cae480ba5cfc92a16b90b03"
   }
 }
 
