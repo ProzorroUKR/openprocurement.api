@@ -1,4 +1,4 @@
-from hashlib import md5
+import hashlib
 from logging import getLogger
 from typing import Any, Callable
 
@@ -51,7 +51,7 @@ def parse_offset(offset: str) -> tuple[Timestamp | float, int, str]:
 
 def get_offset_params(offset: float, items: list[dict[str, Any]], offset_field: str) -> tuple[str, int]:
     offset_item_ids = sorted(r["id"] for r in items if r[offset_field] == offset)
-    skip_hash = md5("".join(offset_item_ids).encode()).hexdigest()
+    skip_hash = hashlib.md5("".join(offset_item_ids).encode(), usedforsecurity=False).hexdigest()
     skip_len = len(offset_item_ids)
     return skip_hash, skip_len
 
