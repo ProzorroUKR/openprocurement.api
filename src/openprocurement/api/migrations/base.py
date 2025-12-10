@@ -23,7 +23,7 @@ from openprocurement.api.database import (
 from openprocurement.api.procedure.utils import generate_revision, get_revision_changes
 from openprocurement.api.utils import CustomJSONEncoder, get_now
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -44,7 +44,7 @@ class MigrationResult:
         self.failed = failed
         self.processed = processed
 
-    def __add__(self, other: 'MigrationResult') -> 'MigrationResult':
+    def __add__(self, other: "MigrationResult") -> "MigrationResult":
         """Add two MigrationResult instances together.
 
         :param other: Another MigrationResult instance
@@ -234,7 +234,7 @@ class CollectionMigration(BaseMigration):
                 updated_doc, indent=2, ensure_ascii=False, sort_keys=True, cls=CustomJSONEncoder
             )
             diff = difflib.unified_diff(
-                doc_str.splitlines(), updated_doc_str.splitlines(), fromfile='doc', tofile='updated_doc', lineterm=''
+                doc_str.splitlines(), updated_doc_str.splitlines(), fromfile="doc", tofile="updated_doc", lineterm=""
             )
             logger.info("\n".join(diff))
 
@@ -443,7 +443,7 @@ class CollectionMigration(BaseMigration):
             raise MigrationFailed()
 
     def run_test_mock(self, mock_collection):
-        with patch.object(self, 'get_collection', return_value=mock_collection):
+        with patch.object(self, "get_collection", return_value=mock_collection):
             self.run()
 
     def run_test_data(self, test_docs: list[dict]):
@@ -461,7 +461,7 @@ class CollectionMigration(BaseMigration):
 
 class LoggingCollectionJSONEncoder(CustomJSONEncoder):
     def default(self, obj):
-        if hasattr(obj, '__dict__'):
+        if hasattr(obj, "__dict__"):
             return str(obj)
         return super().default(obj)
 
@@ -480,7 +480,7 @@ class LoggingCollectionWrapper(CollectionWrapper):
             return attr
 
         def wrapper(*args, **kwargs):
-            if name == 'bulk_write':
+            if name == "bulk_write":
                 ops_original = args[0]
                 for op in ops_original:
                     op_args = []
@@ -503,13 +503,13 @@ class ReadonlyCollectionWrapper(CollectionWrapper):
     """Wrapper that simulates database writes in readonly mode."""
 
     write_methods = (
-        'update_one',
-        'update_many',
-        'bulk_write',
-        'insert_one',
-        'insert_many',
-        'delete_one',
-        'delete_many',
+        "update_one",
+        "update_many",
+        "bulk_write",
+        "insert_one",
+        "insert_many",
+        "delete_one",
+        "delete_many",
     )
 
     def __init__(self, collection):

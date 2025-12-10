@@ -16,7 +16,7 @@ from openprocurement.tender.limited.constants import (
     REPORTING,
 )
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 # Release 2.6.320 (release with confidential docs in contracting)

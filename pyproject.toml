@@ -347,7 +347,6 @@ exclude = [
     "src/openprocurement/planning/api/tests",
     "src/openprocurement/relocation/api/tests",
     "src/openprocurement/tender/*/tests",
-    "migrations",
 ]
 
 # Same as Black.

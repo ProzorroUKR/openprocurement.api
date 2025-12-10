@@ -7,7 +7,7 @@ from pyramid.paster import bootstrap
 
 from openprocurement.api.migrations.base import BaseMigrationArgumentParser
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 source_field_name = "public_modified"

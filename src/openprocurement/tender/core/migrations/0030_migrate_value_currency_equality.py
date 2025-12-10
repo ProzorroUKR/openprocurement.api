@@ -7,7 +7,7 @@ from openprocurement.api.database import get_public_ts
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.utils import get_now
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

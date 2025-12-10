@@ -15,7 +15,7 @@ from openprocurement.tender.limited.constants import (
 )
 from openprocurement.tender.pricequotation.constants import PQ
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -100,9 +100,9 @@ def run(env, args):
                             },
                             # delete previous config fields
                             "$unset": {
-                                "config.tenderComplaints": '',
-                                "config.awardComplaints": '',
-                                "config.cancellationComplaints": '',
+                                "config.tenderComplaints": "",
+                                "config.awardComplaints": "",
+                                "config.cancellationComplaints": "",
                             },
                         },
                     )

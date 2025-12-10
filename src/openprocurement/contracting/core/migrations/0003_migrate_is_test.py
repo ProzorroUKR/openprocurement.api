@@ -6,7 +6,7 @@ from pymongo.errors import OperationFailure
 
 from openprocurement.api.migrations.base import BaseMigration, migrate
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

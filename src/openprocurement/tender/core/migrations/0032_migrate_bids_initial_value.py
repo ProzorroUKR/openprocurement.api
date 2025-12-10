@@ -10,7 +10,7 @@ from pymongo import UpdateOne
 from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
 from openprocurement.tender.core.procedure.utils import get_lot_value_status
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -54,7 +54,6 @@ class Migration(CollectionMigration):
 
         revisions = rewinded_doc.pop("revisions", [])
         for version, revision in reversed(list(enumerate(revisions))):
-
             changes = []
             for change in revision["changes"]:
                 if change["path"].startswith("/bids"):
@@ -69,7 +68,6 @@ class Migration(CollectionMigration):
                 break
 
         for bid in doc["bids"]:
-
             rewinded_bid = find_by_key(rewinded_doc["bids"], "id", bid["id"])
             if not rewinded_bid:
                 continue
@@ -83,7 +81,6 @@ class Migration(CollectionMigration):
 
             if "lotValues" in bid:
                 for lot_value in bid["lotValues"]:
-
                     rewinded_lot_value = find_by_key(rewinded_bid["lotValues"], "relatedLot", lot_value["relatedLot"])
                     if not rewinded_lot_value:
                         continue
@@ -149,19 +146,19 @@ class Migration(CollectionMigration):
         assert len(updated_doc["bids"][1]["lotValues"]) == 2
 
         initial_value_0_0 = updated_doc["bids"][0]["lotValues"][0]["initialValue"]
-        expected_initial_value_0_0 = {'amount': 500, 'currency': 'UAH', 'valueAddedTaxIncluded': True}
+        expected_initial_value_0_0 = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
         assert initial_value_0_0 == expected_initial_value_0_0, initial_value_0_0
 
         initial_value_0_1 = updated_doc["bids"][0]["lotValues"][1]["initialValue"]
-        expected_initial_value_0_1 = {'amount': 500, 'currency': 'UAH', 'valueAddedTaxIncluded': True}
+        expected_initial_value_0_1 = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
         assert initial_value_0_1 == expected_initial_value_0_1, initial_value_0_1
 
         initial_value_1_0 = updated_doc["bids"][1]["lotValues"][0]["initialValue"]
-        expected_initial_value_1_0 = {'amount': 500, 'currency': 'UAH', 'valueAddedTaxIncluded': True}
+        expected_initial_value_1_0 = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
         assert initial_value_1_0 == expected_initial_value_1_0, initial_value_1_0
 
         initial_value_1_1 = updated_doc["bids"][1]["lotValues"][1]["initialValue"]
-        expected_initial_value_1_1 = {'amount': 500, 'currency': 'UAH', 'valueAddedTaxIncluded': True}
+        expected_initial_value_1_1 = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
         assert initial_value_1_1 == expected_initial_value_1_1, initial_value_1_1
 
         assert updated_doc["revisions"][-1] == {

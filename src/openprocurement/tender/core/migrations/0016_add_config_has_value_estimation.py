@@ -4,7 +4,7 @@ import os
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.tender.esco.constants import ESCO
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

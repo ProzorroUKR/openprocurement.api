@@ -14,7 +14,7 @@ from openprocurement.api.migrations.base import (
 )
 from openprocurement.api.utils import get_now
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 DOCUMENTS_PATHS_MAP = {
@@ -62,12 +62,12 @@ def get_documents_date(revisions):
 
 
 def convert_path(path):
-    parts = path.split('.')
-    parts[0] = '/' + parts[0]
+    parts = path.split(".")
+    parts[0] = "/" + parts[0]
     for i in range(len(parts)):
-        if parts[i].startswith('['):
-            parts[i] = parts[i].replace('[', '').replace(']', '')
-    return '/'.join(parts)
+        if parts[i].startswith("["):
+            parts[i] = parts[i].replace("[", "").replace("]", "")
+    return "/".join(parts)
 
 
 def update_documents_from_tender(obj, collection_name, updated):
@@ -163,18 +163,18 @@ def run(env, args):
         projection["tender"] = 1
         pipeline = [
             {
-                '$lookup': {
-                    'from': env["registry"].mongodb.tenders.collection.name,
-                    'let': {'tender_id': '$tender_id'},
-                    'pipeline': [
-                        {'$match': {'$expr': {'$eq': ['$_id', '$$tender_id']}}},
-                        {'$project': {'_id': 0, collection_name: 1}},
+                "$lookup": {
+                    "from": env["registry"].mongodb.tenders.collection.name,
+                    "let": {"tender_id": "$tender_id"},
+                    "pipeline": [
+                        {"$match": {"$expr": {"$eq": ["$_id", "$$tender_id"]}}},
+                        {"$project": {"_id": 0, collection_name: 1}},
                     ],
-                    'as': 'tender',
+                    "as": "tender",
                 }
             },
-            {'$unwind': '$tender'},
-            {'$project': projection},
+            {"$unwind": "$tender"},
+            {"$project": projection},
         ]
         cursor = collection.aggregate(pipeline)
     else:

@@ -25,7 +25,7 @@ from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DE
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 

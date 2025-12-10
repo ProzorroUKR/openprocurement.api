@@ -6,7 +6,7 @@ from bson.decimal128 import Decimal128
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.tender.pricequotation.constants import PQ
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 NEW_CRITERION_DATA = {
@@ -23,7 +23,7 @@ NEW_CRITERION_DATA = {
             "identifier": {
                 "uri": "https://zakon.rada.gov.ua/laws/show/922-19#Text",
                 "id": "922-VIII",
-                "legalName": "Закон України \"Про публічні закупівлі\"",
+                "legalName": 'Закон України "Про публічні закупівлі"',
             },
             "article": "22.2.3",
         },
@@ -49,7 +49,7 @@ NEW_CRITERION_RG_DATA = {"description": "Підтверджується, що"}
 def convert_to_decimal128(value):
     try:
         return Decimal128(str(value))
-    except:
+    except Exception:
         return value  # Return the value as-is if conversion fails
 
 
@@ -94,7 +94,6 @@ def run(env, args):
     cursor.batch_size(args.b)
     try:
         for tender in cursor:
-
             set_data = {"criteria": update_criteria(tender["criteria"])}
 
             collection.find_one_and_update({"_id": tender["_id"]}, {"$set": set_data})

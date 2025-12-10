@@ -5,7 +5,7 @@ from time import sleep
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.utils import get_now
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -45,7 +45,7 @@ def run(env, args):
                 [
                     {
                         "$set": {
-                            "qualificationPeriod.startDate": framework['enquiryPeriod']['startDate'],
+                            "qualificationPeriod.startDate": framework["enquiryPeriod"]["startDate"],
                             "dateModified": now.isoformat(),
                             "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
                         },
