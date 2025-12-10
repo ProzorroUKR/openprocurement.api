@@ -91,7 +91,7 @@ def get_sub_app(global_config, **settings):
     )
 
     # initialize all dynamic parts of application
-    all_parts = project_info["app"]["parts"]
+    all_parts = project_info["tool"]["prozorro_cdb"]["parts"]
     restricted_parts = settings.get("parts") and [plugin.strip() for plugin in settings["parts"].split(",")]
     for part_name, part_path in all_parts.items():
         if not restricted_parts or part_name in restricted_parts:

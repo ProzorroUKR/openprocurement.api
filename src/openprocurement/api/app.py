@@ -115,7 +115,7 @@ def main(global_config, **settings):
 
     # search for plugins
     pyproject = load_pyproject()
-    all_modules = pyproject.get("app", {}).get("modules", {})
+    all_modules = pyproject["tool"]["openprocurement"]["modules"]
     restricted_modules = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
     for module_name, module_path in all_modules.items():
         if not restricted_modules or module_name in restricted_modules:
