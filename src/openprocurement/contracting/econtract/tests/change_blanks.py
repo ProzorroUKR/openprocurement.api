@@ -1,7 +1,11 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES, RATIONALE_TYPES
+from openprocurement.api.constants import (
+    MILESTONE_CODES,
+    MILESTONE_TITLES,
+    RATIONALE_TYPES,
+)
 from openprocurement.api.utils import get_now
 
 

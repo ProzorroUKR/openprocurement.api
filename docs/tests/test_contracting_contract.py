@@ -406,6 +406,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # Modifying contract
 
         # Submitting contract change add contract change
+        with open(TARGET_DIR + "add-contract-change-invalid-rationale-types.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts/{contract_id}/changes?acc_token={tender_token}",
+                {
+                    "data": {
+                        "rationale": "Опис причини змін контракту",
+                        "rationale_en": "Contract change cause",
+                        "rationaleTypes": ["taxRate", "priceReduction"],
+                    }
+                },
+                status=422,
+            )
         with open(TARGET_DIR + "add-contract-change.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/contracts/{contract_id}/changes?acc_token={tender_token}",

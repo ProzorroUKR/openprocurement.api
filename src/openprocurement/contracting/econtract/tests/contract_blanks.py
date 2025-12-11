@@ -362,7 +362,7 @@ def post_new_version_of_contract(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'suppliers') in contract, contractChangeRationaleTypes change forbidden",
+                "description": "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'milestones', 'suppliers') in contract, contractChangeRationaleTypes change forbidden",
             }
         ],
     )
