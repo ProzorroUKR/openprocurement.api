@@ -29,10 +29,10 @@ def login_user(request, users, allow_anonymous=True):
             except ValueError as e:
                 raise HTTPUnauthorized(text=e.args[0])
             else:
-                # FIXME: Use auth.password instead of auth.username
+                # FIXME: Use auth.password instead of auth.login
                 # Brokers now using username instead of password
                 # We need 2 step migration to use password instead of username
-                auth_token = auth.username
+                auth_token = auth.login
 
         user_info = users.get(auth_token)
         if user_info:
