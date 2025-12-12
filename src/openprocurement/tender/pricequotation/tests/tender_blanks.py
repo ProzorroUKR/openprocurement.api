@@ -2374,12 +2374,29 @@ def tender_delivery_milestones(self):
             "id": "c" * 32,
             "title": "signingTheContract",
             "type": "delivery",
-            "duration": {"days": 1500, "type": "calendar"},
+            "duration": {"days": 2, "type": "calendar"},
             "sequenceNumber": 1,
-            "code": "postpayment",
+            "code": "standard",
             "percentage": 10,
         }
     ]
+
+    data["milestones"][-1]["duration"]["days"] = 1500
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [{"duration": ["days shouldn't be more than 1000 for delivery milestone"]}],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["duration"]["days"] = 1000
+    data["milestones"][-1]["code"] = "postpayment"
+
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],

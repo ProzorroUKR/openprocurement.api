@@ -264,6 +264,7 @@ Allowed fields for updating:
 * description_en
 * dateSigned
 * signerInfo (for supplier or buyer depends on who cancelled contract)
+* milestones
 
 If participant tried to update another field, he will see an error:
 
@@ -374,6 +375,9 @@ The initiator fills in three mandatory fields:
 
 :contractNumber:
     string
+
+:milestones:
+    List of :ref:`ContractMilestone` objects
 
 Changes can be made only to signed contracts:
 

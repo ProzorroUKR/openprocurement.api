@@ -26,6 +26,8 @@ class EChangeState(BaseContractState):
         data_for_validation = deepcopy(data["modifications"])
         if "items" in data_for_validation:
             self.validate_patch_contract_items(self.request, contract, data_for_validation)
+        if "milestones" in data_for_validation:
+            self.validate_milestones(self.request, contract, data_for_validation)
         self.validate_update_contract_value(self.request, contract, data_for_validation)
         self.validate_update_contract_value_net_required(self.request, contract, data_for_validation)
         self.validate_update_contract_value_amount(self.request, contract, data_for_validation)

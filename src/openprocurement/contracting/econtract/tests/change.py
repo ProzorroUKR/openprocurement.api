@@ -1,12 +1,15 @@
 import unittest
 
 import mock
+from parameterized import parameterized
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
 from openprocurement.contracting.econtract.tests.change_blanks import (
     activation_of_change,
     cancellation_of_change,
+    change_contract_milestones,
+    change_contract_milestones_params,
     change_contract_period,
     change_contract_value_amount,
     change_contract_value_vat_change,
@@ -84,6 +87,10 @@ class ContractChangesModificationsResourceTest(ContractChangesMixin, BaseEContra
     test_change_tender_contract_value_vat_change = snitch(change_contract_value_vat_change)
     test_change_tender_contract_period = snitch(change_contract_period)
     test_change_tender_contract_items_change = snitch(change_tender_contract_items_change)
+
+    test_change_contract_milestones = parameterized.expand(change_contract_milestones_params)(
+        snitch(change_contract_milestones)
+    )
 
 
 def suite():

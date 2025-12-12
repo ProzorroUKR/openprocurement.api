@@ -37,6 +37,7 @@ from openprocurement.api.constants_env import (
     CONTRACT_OWNER_REQUIRED_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
+    MILESTONES_VALIDATION_FROM,
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
@@ -50,6 +51,7 @@ from openprocurement.api.procedure.models.organization import ProcuringEntityKin
 from openprocurement.api.procedure.utils import is_item_owner, to_decimal
 from openprocurement.api.utils import (
     error_handler,
+    get_first_revision_date,
     is_gmdn_classification,
     is_ua_road_classification,
     raise_operation_error,
@@ -1610,3 +1612,60 @@ def get_contract_owner_choices():
         if user["group"] == "brokers" and AccreditationLevel.ACCR_6 in user["level"]:
             users.append(user["name"])
     return users
+
+
+def validate_milestone_duration_days(tender, milestone):
+    """
+    Function for validating milestone.duration.days for financing/delivery milestones
+    """
+    if (
+        milestone.get("type") in ("financing", "delivery")
+        and get_first_revision_date(tender, default=get_request_now()) > MILESTONES_VALIDATION_FROM
+        and milestone.get("duration", {}).get("days", 0) > 1000
+    ):
+        raise_operation_error(
+            get_request(),
+            [{"duration": [f"days shouldn't be more than 1000 for {milestone.get('type')} milestone"]}],
+            status=422,
+            name="milestones",
+        )
+
+
+def validate_milestone_sums(milestones):
+    """
+    Function for validating milestone.percentage sums to be equal to 100, data is grouped by relatedLot
+    """
+    sums = {
+        "financing": defaultdict(Decimal),
+        "delivery": defaultdict(Decimal),
+    }
+    for milestone in milestones:
+        sums[milestone["type"]][milestone.get("relatedLot")] += to_decimal(milestone.get("percentage", 0))
+
+    for milestone_type, values in sums.items():
+        for uid, sum_value in values.items():
+            if sum_value != Decimal("100"):
+                raise_operation_error(
+                    get_request(),
+                    f"Sum of the {milestone_type} milestone percentages {sum_value} "
+                    f"is not equal 100{f' for lot {uid}' if uid else ''}.",
+                    status=422,
+                    name="milestones",
+                )
+
+
+def validate_milestones_sequence_number(
+    milestones,
+    error_msg="Field should contain incrementing sequence numbers starting from 1",
+):
+    """
+    Function for validating milestone.sequenceNumber
+    """
+    for i, milestone in enumerate(milestones, 1):
+        if milestone.get("sequenceNumber") != i:
+            raise_operation_error(
+                get_request(),
+                [{"sequenceNumber": error_msg}],
+                status=422,
+                name="milestones",
+            )

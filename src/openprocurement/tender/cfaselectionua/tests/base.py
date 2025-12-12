@@ -67,6 +67,27 @@ with open(os.path.join(here, "data/tender_data.json")) as _in:
     test_tender_cfaselectionua_data = json.load(_in)
 test_tender_cfaselectionua_data["procuringEntity"] = test_tender_cfaselectionua_procuring_entity
 test_tender_cfaselectionua_data["items"] = test_tender_cfaselectionua_items
+test_tender_cfaselectionua_data_with_milestones = deepcopy(test_tender_cfaselectionua_data)
+test_tender_cfaselectionua_data_with_milestones["milestones"] = [
+    {
+        "id": uuid4().hex,
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {"days": 2, "type": "banking"},
+        "sequenceNumber": 1,
+        "percentage": 45.55,
+    },
+    {
+        "id": uuid4().hex,
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {"days": 900, "type": "calendar"},
+        "sequenceNumber": 2,
+        "percentage": 54.45,
+    },
+]
 
 if SANDBOX_MODE:
     test_tender_cfaselectionua_data["procurementMethodDetails"] = "quick, accelerator=1440"

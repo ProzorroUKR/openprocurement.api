@@ -59,6 +59,7 @@ class EContractState(BaseContractState):
         self.request.validated["award"] = award
         self.validate_dateSigned(self.request, tender, before, after)
         self.validate_patch_contract_items(self.request, before, after)
+        self.validate_milestones(self.request, before, after)
         self.validate_update_contract_value(self.request, before, after)
         self.validate_update_contract_value_net_required(self.request, before, after)
         self.validate_update_contract_value_amount(self.request, before, after)
@@ -103,6 +104,7 @@ class EContractState(BaseContractState):
             "description",
             "description_en",
             "dateSigned",
+            "milestones",
         ]
         if after["author"] == "buyer":
             item_patch_fields.append("buyer")
