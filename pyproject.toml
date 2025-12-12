@@ -1,6 +1,6 @@
 [project]
 name = "openprocurement.api"
-version = "2.7.0-rc.2"
+version = "2.7.0-rc.3"
 description = "Prozorro Central Database API"
 readme = "README.md"
 license = { text = "Apache License 2.0" }
@@ -15,7 +15,7 @@ classifiers = [
   "Topic :: Internet :: WWW/HTTP",
   "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.13.0, <3.14"
 dependencies = [
     "aiohttp~=3.12",
     "aiohttp-pydantic~=2.5",
