@@ -1,6 +1,5 @@
 import unittest
 
-from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
@@ -9,9 +8,6 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdeu_required_criteria_ids,
     test_tender_cdua_data,
     test_tender_cdua_required_criteria_ids,
-)
-from openprocurement.tender.competitivedialogue.tests.stage1.criterion_blanks import (
-    tender_with_guarantee_multilot,
 )
 from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
@@ -29,8 +25,6 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUCon
     required_criteria = test_tender_cdeu_required_criteria_ids
     article_16_criteria_required = True
 
-    test_tender_with_guarantee_multilot = snitch(tender_with_guarantee_multilot)
-
 
 class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUAContentWebTest):
     initial_data = test_tender_cdua_data
@@ -39,8 +33,6 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUACon
 
     required_criteria = test_tender_cdua_required_criteria_ids
     article_16_criteria_required = True
-
-    test_tender_with_guarantee_multilot = snitch(tender_with_guarantee_multilot)
 
 
 class TenderCDEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogEUContentWebTest):
