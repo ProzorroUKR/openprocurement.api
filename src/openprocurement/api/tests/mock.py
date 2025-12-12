@@ -1,6 +1,5 @@
 from functools import wraps
-
-from mock import patch
+from unittest.mock import patch
 
 
 class ContextDecorator:

@@ -1,6 +1,5 @@
 from datetime import timedelta
-
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 
 from openprocurement.api.tests.mock import ContextDecorator, patch_multiple
 from openprocurement.api.utils import get_now

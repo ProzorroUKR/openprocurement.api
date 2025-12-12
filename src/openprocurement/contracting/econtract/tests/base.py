@@ -1,4 +1,4 @@
-import mock
+from unittest.mock import patch
 
 from openprocurement.contracting.core.tests.base import BaseContractWebTest
 from openprocurement.contracting.econtract.tests.data import (
@@ -32,7 +32,7 @@ class BaseEContractWebTest(BaseContractWebTest):
 
     def activate_award(self):
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
-        with mock.patch(
+        with patch(
             "openprocurement.tender.core.procedure.contracting.upload_contract_pdf_document"
         ) as mock_upload_contract_pdf:
             response = self.app.patch_json(

@@ -1,10 +1,8 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import Mock, patch
 from uuid import uuid4
-
-import mock
-from mock import Mock, patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -4476,7 +4474,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             "title": "contract.pdf",
         }
         upload_mock_path = "openprocurement.tender.core.procedure.contracting.upload_contract_pdf"
-        with mock.patch(upload_mock_path) as mock_upload_contract_pdf:
+        with patch(upload_mock_path) as mock_upload_contract_pdf:
             mock_upload_contract_pdf.return_value = {"data": pdf_data}
             self.app.patch_json(
                 f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
