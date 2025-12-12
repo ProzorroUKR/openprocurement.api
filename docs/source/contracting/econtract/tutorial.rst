@@ -188,11 +188,23 @@ Here is a diagram of the signing process:
 
 .. image:: /contracting/econtract/diagram/e_contract_pdf_signing/image.png
 
-If both sides signed the current version of contract, than contract becomes `active`.
+When both sides confirm the completion of signing of the current version of contract, contract becomes `active`.
+
+Supplier and buyer have to provide at least one signature document in order to confirm the completion of signing process.
 
 Supplier adds signature document using his token (`supplier_token`) which he got during access query:
 
 .. http:example:: http/contract-supplier-add-signature-doc.http
+   :code:
+
+Supplier adds optional second signature document using his token (`supplier_token`) which he got during access query:
+
+.. http:example:: http/contract-supplier-add-signature-second-doc.http
+   :code:
+
+Supplier confirms the completion of signing process using his token (`supplier_token`) which he got during access query:
+
+.. http:example:: http/contract-supplier-add-signatory.http
    :code:
 
 Buyer adds signature document using his token (`buyer_token`) which he got during access query:
@@ -200,7 +212,12 @@ Buyer adds signature document using his token (`buyer_token`) which he got durin
 .. http:example:: http/contract-buyer-add-signature-doc.http
    :code:
 
-If all required signatures are completed, the contract will automatically transition to the `active` status:
+Buyer confirms the completion of signing process using his token (`buyer_token`) which he got during access query:
+
+.. http:example:: http/contract-buyer-add-signatory.http
+   :code:
+
+If all required signatures are completed and confirmed, the contract will automatically transition to the `active` status:
 
 .. http:example:: http/get-active-contract.http
    :code:
@@ -409,11 +426,23 @@ Change activation
 
 To activate change it is required to add contract signature document type from each participant (supplier and buyer).
 
-If both sides signed the current version of change, than change becomes `active` and modifications will be taken into account during next changes.
+When both sides confirm the completion of signing of the current version of change, change becomes `active` and modifications will be taken into account during next changes.
+
+Supplier and buyer have to provide at least one signature document in order to confirm the completion of signing process.
 
 Supplier adds signature document using his token (`supplier_token`):
 
 .. http:example:: http/change-supplier-add-signature-doc.http
+   :code:
+
+Supplier adds optional second signature document using his token (`supplier_token`):
+
+.. http:example:: http/change-supplier-add-signature-second-doc.http
+   :code:
+
+Supplier confirms the completion of signing process using his token (`supplier_token`):
+
+.. http:example:: http/change-supplier-add-signatory.http
    :code:
 
 Buyer adds signature document using his token (`buyer_token`):
@@ -421,7 +450,12 @@ Buyer adds signature document using his token (`buyer_token`):
 .. http:example:: http/change-buyer-add-signature-doc.http
    :code:
 
-If all required signatures are completed, the change will automatically transition to the `active` status:
+Buyer confirms the completion of signing process using his token (`buyer_token`):
+
+.. http:example:: http/change-buyer-add-signatory.http
+   :code:
+
+If all required signatures are completed and confirmed, the change will automatically transition to the `active` status:
 
 .. http:example:: http/get-active-change.http
    :code:

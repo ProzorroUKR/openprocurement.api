@@ -212,11 +212,34 @@ Content-Type: application/json
         "id": "22ad6fee7d0042aaa9a1d88e22bf9d67",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "supplier"
+      },
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/c681b342eb664c3ab671f50a68860c14?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "documentOf": "contract",
+        "documentType": "contractSignature",
+        "id": "c681b342eb664c3ab671f50a68860c14",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "buyer"
       }
     ],
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
+    "signatories": [
+      {
+        "role": "supplier",
+        "date": "2023-10-10T01:00:00+03:00"
+      },
+      {
+        "role": "buyer",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "date": "2023-10-10T01:00:00+03:00",
     "dateSigned": "2023-10-10T01:00:00+03:00",
     "changes": [
@@ -256,10 +279,10 @@ Content-Type: application/json
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
             "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/c681b342eb664c3ab671f50a68860c14?download=9dc6bfe4683b4e63a799bbe366ba9376",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/dbfd77f646e24646b486c9993d548773?download=9dc6bfe4683b4e63a799bbe366ba9376",
             "documentOf": "change",
             "documentType": "contractSignature",
-            "id": "c681b342eb664c3ab671f50a68860c14",
+            "id": "dbfd77f646e24646b486c9993d548773",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "author": "supplier"
@@ -269,13 +292,36 @@ Content-Type: application/json
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
             "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/dbfd77f646e24646b486c9993d548773?download=9dc6bfe4683b4e63a799bbe366ba9376",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/cecedebd3506431087503ddfee41b51e?download=9dc6bfe4683b4e63a799bbe366ba9376",
             "documentOf": "change",
             "documentType": "contractSignature",
-            "id": "dbfd77f646e24646b486c9993d548773",
+            "id": "cecedebd3506431087503ddfee41b51e",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "author": "supplier"
+          },
+          {
+            "confidentiality": "public",
+            "title": "sign.p7s",
+            "format": "application/pkcs7-signature",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/documents/9b79978730be436cad409cd1c628b519?download=9dc6bfe4683b4e63a799bbe366ba9376",
+            "documentOf": "change",
+            "documentType": "contractSignature",
+            "id": "9b79978730be436cad409cd1c628b519",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "author": "buyer"
+          }
+        ],
+        "signatories": [
+          {
+            "role": "supplier",
+            "date": "2023-10-10T01:00:00+03:00"
+          },
+          {
+            "role": "buyer",
+            "date": "2023-10-10T01:00:00+03:00"
           }
         ],
         "dateSigned": "2023-10-10T01:00:00+03:00"

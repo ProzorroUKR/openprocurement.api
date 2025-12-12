@@ -204,6 +204,12 @@ Content-Type: application/json
     ],
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
+    "signatories": [
+      {
+        "role": "buyer",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "cancellations": [
       {
         "reason": "want to change signerInfo",

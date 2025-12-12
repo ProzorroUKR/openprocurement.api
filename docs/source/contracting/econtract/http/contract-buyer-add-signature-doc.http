@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/22ad6fee7d0042aaa9a1d88e22bf9d67
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/c681b342eb664c3ab671f50a68860c14
 
 {
   "data": {
@@ -27,7 +27,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9dc6bfe4683b4e63a799bbe366ba9376?Signature=%2BLgh9VhF5n7wmuNcFF6T%2Bjmx3ZE5OebUfgBYsTIQUnvJGC2XVvYlyijyC8iAq83srktGfhtCKMK8bky9f%2BnXCg%3D%3D&KeyID=a8968c46",
     "documentOf": "contract",
     "documentType": "contractSignature",
-    "id": "22ad6fee7d0042aaa9a1d88e22bf9d67",
+    "id": "c681b342eb664c3ab671f50a68860c14",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "author": "buyer"
