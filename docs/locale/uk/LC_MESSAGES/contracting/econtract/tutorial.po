@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-17 10:54+0300\n"
+"POT-Creation-Date: 2025-12-01 12:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -311,6 +311,9 @@ msgstr ""
 msgid "signerInfo (for supplier or buyer depends on who cancelled contract)"
 msgstr "signerInfo (інформацію про підписанта своєї сторони)"
 
+msgid "milestones"
+msgstr ""
+
 msgid "If participant tried to update another field, he will see an error:"
 msgstr "Якщо учасник намагається змінити якесь інше поле, то він побачить помилку:"
 
@@ -411,6 +414,9 @@ msgid "List of :ref:`Item` objects"
 msgstr ""
 
 msgid ":ref:`ContractValue` object"
+msgstr ""
+
+msgid "List of :ref:`ContractMilestone` objects"
 msgstr ""
 
 msgid "Changes can be made only to signed contracts:"

@@ -11,6 +11,7 @@ from schematics.types import BaseType
 
 from openprocurement.api.constants_env import (
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
+    MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
     RELEASE_2020_04_19,
@@ -48,7 +49,12 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_in,
 )
-from openprocurement.tender.core.procedure.validation import validate_items_unit_amount
+from openprocurement.tender.core.procedure.validation import (
+    validate_items_unit_amount,
+    validate_milestone_duration_days,
+    validate_milestone_sums,
+    validate_milestones_sequence_number,
+)
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
 LOGGER = getLogger(__name__)
@@ -753,6 +759,21 @@ class ContractState(
                 name="amountPaid",
             )
 
+    def validate_milestones(self, request, before, after):
+        milestones_before = before.get("milestones", [])
+        milestones_after = after.get("milestones", [])
+
+        if milestones_before == milestones_after:
+            return
+
+        for milestone in milestones_after:
+            validate_milestone_duration_days(get_tender(), milestone)
+
+        if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM):
+            validate_milestones_sequence_number(milestones_after)
+
+        validate_milestone_sums(milestones_after)
+
     @staticmethod
     def validate_terminate_contract_without_amountPaid(request, before, after):
         if after.get("status", "active") == "terminated" and not after.get("amountPaid"):
@@ -795,6 +816,7 @@ class ContractState(
         self.validate_dateSigned(request, tender, before, after)
         self.validate_update_contract_status(request, tender, before, after)
         self.validate_patch_contract_items(request, before, after)
+        self.validate_milestones(request, before, after)
         self.validate_update_contract_value(request, before, after)
         self.validate_update_contract_value_net_required(request, before, after)
         self.validate_update_contract_value_amount(request, before, after)

@@ -1,6 +1,7 @@
 from copy import deepcopy
 from datetime import timedelta
 
+from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
 
@@ -1113,3 +1114,326 @@ def change_tender_contract_items_change(self):
     self.assertEqual(change_2["modifications"]["items"][0]["deliveryAddress"]["countryName"], "Україна")
     self.assertEqual(change_2["modifications"]["items"][0]["deliveryDate"]["startDate"], startDate)
     self.assertEqual(change_2["modifications"]["items"][0]["deliveryDate"]["endDate"], endDate)
+
+
+change_contract_milestones_params = [
+    (
+        "financing milestones duration.days validation",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "signingTheContract",
+                "type": "financing",
+                "duration": {"days": 1500, "type": "banking"},
+                "sequenceNumber": 1,
+                "code": "prepayment",
+                "percentage": 100,
+            }
+        ],
+        422,
+        lambda test_case, response: test_case.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "milestones",
+                    "description": [{"duration": ["days shouldn't be more than 1000 for financing milestone"]}],
+                }
+            ],
+        ),
+    ),
+    (
+        "delivery milestones duration.days validation",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "signingTheContract",
+                "type": "delivery",
+                "duration": {"days": 1500, "type": "calendar"},
+                "sequenceNumber": 1,
+                "code": "standard",
+                "percentage": 100,
+            }
+        ],
+        422,
+        lambda test_case, response: test_case.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "milestones",
+                    "description": [{"duration": ["days shouldn't be more than 1000 for delivery milestone"]}],
+                }
+            ],
+        ),
+    ),
+    (
+        "milestones financing code validation",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "signingTheContract",
+                "type": "financing",
+                "duration": {"days": 2, "type": "banking"},
+                "sequenceNumber": 1,
+                "code": "test",
+                "percentage": 100,
+            }
+        ],
+        422,
+        lambda test_case, response: test_case.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "modifications",
+                    "description": {"milestones": [{"code": [f"Value must be one of {MILESTONE_CODES['financing']}"]}]},
+                }
+            ],
+        ),
+    ),
+    (
+        "milestones delivery code validation",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "signingTheContract",
+                "type": "delivery",
+                "duration": {"days": 2, "type": "calendar"},
+                "sequenceNumber": 1,
+                "code": "test",
+                "percentage": 100,
+            }
+        ],
+        422,
+        lambda test_case, response: test_case.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "modifications",
+                    "description": {"milestones": [{"code": [f"Value must be one of {MILESTONE_CODES['delivery']}"]}]},
+                }
+            ],
+        ),
+    ),
+    (
+        "milestones financing title validation",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "test",
+                "type": "financing",
+                "duration": {"days": 2, "type": "banking"},
+                "sequenceNumber": 1,
+                "code": "prepayment",
+                "percentage": 100,
+            }
+        ],
+        422,
+        lambda test_case, response: test_case.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "modifications",
+                    "description": {
+                        "milestones": [{"title": [f"Value must be one of {MILESTONE_TITLES['financing']}"]}]
+                    },
+                }
+            ],
+        ),
+    ),
+    (
+        "milestones delivery title validation",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "test",
+                "type": "delivery",
+                "duration": {"days": 2, "type": "calendar"},
+                "sequenceNumber": 1,
+                "code": "standard",
+                "percentage": 100,
+            }
+        ],
+        422,
+        lambda test_case, response: test_case.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "modifications",
+                    "description": {
+                        "milestones": [{"title": [f"Value must be one of {MILESTONE_TITLES['delivery']}"]}]
+                    },
+                }
+            ],
+        ),
+    ),
+    (
+        "milestones percentages validation",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "signingTheContract",
+                "type": "financing",
+                "duration": {"days": 2, "type": "banking"},
+                "sequenceNumber": 1,
+                "code": "prepayment",
+                "percentage": 10,
+            }
+        ],
+        422,
+        lambda test_case, response: test_case.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "milestones",
+                    "description": "Sum of the financing milestone percentages 10.0 is not equal 100.",
+                }
+            ],
+        ),
+    ),
+    (
+        "successful milestones post",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "signingTheContract",
+                "type": "financing",
+                "duration": {"days": 2, "type": "banking"},
+                "sequenceNumber": 1,
+                "code": "prepayment",
+                "percentage": 100,
+            }
+        ],
+        201,
+        lambda test_case, response: test_case.assertCountEqual(
+            response.json["data"]["modifications"]["milestones"],
+            [
+                {
+                    "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                    "title": "signingTheContract",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 1,
+                    "code": "prepayment",
+                    "percentage": 100,
+                    "status": "scheduled",
+                }
+            ],
+        ),
+    ),
+    (
+        "invalid sequenceNumber",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "signingTheContract",
+                "type": "financing",
+                "duration": {"days": 2, "type": "banking"},
+                "sequenceNumber": 1,
+                "code": "prepayment",
+                "percentage": 100,
+            },
+            {
+                "id": "a452fdca492b4fa6ab2ba7c871739a72",
+                "title": "signingTheContract",
+                "type": "delivery",
+                "duration": {"days": 2, "type": "calendar"},
+                "sequenceNumber": 0,
+                "code": "standard",
+                "percentage": 100,
+            },
+        ],
+        422,
+        lambda test_case, response: test_case.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "milestones",
+                    "description": [
+                        {"sequenceNumber": "Field should contain incrementing sequence numbers starting from 1"}
+                    ],
+                }
+            ],
+        ),
+    ),
+    (
+        "valid sequenceNumber",
+        [
+            {
+                "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                "title": "signingTheContract",
+                "type": "financing",
+                "duration": {"days": 2, "type": "banking"},
+                "sequenceNumber": 1,
+                "code": "prepayment",
+                "percentage": 100,
+            },
+            {
+                "id": "a452fdca492b4fa6ab2ba7c871739a72",
+                "title": "signingTheContract",
+                "type": "delivery",
+                "duration": {"days": 2, "type": "calendar"},
+                "sequenceNumber": 2,
+                "code": "standard",
+                "percentage": 100,
+            },
+        ],
+        201,
+        lambda test_case, response: test_case.assertCountEqual(
+            response.json["data"]["modifications"]["milestones"],
+            [
+                {
+                    "id": "0f15f4f3d94c4bb8aee50e28c4c2dbd7",
+                    "title": "signingTheContract",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 1,
+                    "code": "prepayment",
+                    "percentage": 100,
+                    "status": "scheduled",
+                },
+                {
+                    "id": "a452fdca492b4fa6ab2ba7c871739a72",
+                    "title": "signingTheContract",
+                    "type": "delivery",
+                    "duration": {"days": 2, "type": "calendar"},
+                    "sequenceNumber": 2,
+                    "code": "standard",
+                    "percentage": 100,
+                    "status": "scheduled",
+                },
+            ],
+        ),
+    ),
+    (
+        "empty milestones list",
+        [],
+        422,
+        lambda test_case, response: test_case.assertEqual(
+            response.json["errors"],
+            [{"location": "body", "name": "modifications", "description": "Contract modifications are empty"}],
+        ),
+    ),
+]
+
+
+def change_contract_milestones(self, _, milestones, resp_status, check_response):
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["durationExtension"],
+                "modifications": {"milestones": milestones},
+            },
+        },
+        status=resp_status,
+    )
+    check_response(self, response)

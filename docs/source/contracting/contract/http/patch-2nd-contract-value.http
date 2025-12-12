@@ -163,6 +163,34 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 190.0
     },
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 1,
+        "status": "scheduled"
+      },
+      {
+        "id": "a4a461ee8b6445abb8a2258a363e5732",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2,
+        "status": "scheduled"
+      }
+    ],
     "id": "66570cc698414ed6a3d9f41e21430ffd"
   },
   "config": {

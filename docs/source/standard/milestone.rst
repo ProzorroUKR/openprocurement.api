@@ -91,6 +91,64 @@ Schema
     string, :ref:`date`
 
 
+.. _ContractMilestone:
+
+ContractMilestone
+=================
+
+Schema
+------
+
+:id:
+    uid, auto-generated
+
+:title:
+    string, required
+
+    Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`__ dictionaries.
+
+:description:
+    string, required if title == `anotherEvent`
+
+:type:
+    string, required
+
+    The only possible value is:
+
+    * `financing`
+    * `delivery`
+
+:code:
+    string, required
+
+    Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ dictionaries.
+
+:percentage:
+    float, 0..100
+
+    Sum of all tender (or lot) milestones should be 100
+
+:duration:
+    :ref:`Duration` object, required
+
+:sequenceNumber:
+    integer, required, non negative
+
+:relatedLot:
+    uid
+
+    Id of related :ref:`lot`.
+
+:status:
+    string
+
+    The only possible value is:
+
+    * `scheduled`
+
+:dateMet:
+    string, :ref:`date`
+
 .. _Duration:
 
 Duration

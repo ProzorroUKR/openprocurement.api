@@ -78,6 +78,14 @@ def add_contracts(request, award):
             prepared_item = prepare_tender_item_for_contract(item)
             items_by_buyer[buyer_id].append(prepared_item)
 
+    # copy from tender all related lot milestones + tender related milestones, without relatedLot field
+    lot_id = award.get("lotID")
+    milestones = [
+        {k: v for k, v in i.items() if k not in ("relatedLot",)}
+        for i in filter(lambda x: x.get("relatedLot") in (lot_id, None), tender.get("milestones", []))
+    ]
+    milestones = [{**x, "status": "scheduled"} for x in milestones]
+
     multi_contracts = tender.get("buyers") and all(item.get("relatedBuyer") for item in tender.get("items", ""))
     value = generate_contract_value(award, multi_contracts=multi_contracts)
 
@@ -91,6 +99,7 @@ def add_contracts(request, award):
                 value,
                 buyer_id,
                 award,
+                milestones,
             )
             contracts_added.append(contract)
     else:  # ignoring "buyer_id", even if not None
@@ -103,6 +112,7 @@ def add_contracts(request, award):
             value,
             None,
             award,
+            milestones,
         )
         contracts_added.append(contract)
 
@@ -121,7 +131,7 @@ def merge_items(bid_items: List[Dict], tender_items: List[Dict]) -> List[Dict]:
     return list(tender_item_by_id.values())
 
 
-def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award):
+def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award, contract_milestones):
     server_id = get_request().registry.server_id
     contract_number = len(tender.get("contracts", "")) + 1
     if "contracts" not in tender:
@@ -141,6 +151,7 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         # "awardID": award["id"],
         "suppliers": award["suppliers"],
         "buyerID": buyer_id,
+        "milestones": contract_milestones,
     }
     if contract_items:
         contract_data["items"] = clean_objs(deepcopy(contract_items), ContractItem)

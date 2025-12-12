@@ -1,5 +1,7 @@
 import unittest
 
+from parameterized import parameterized
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.core.tests.base import BaseContractTest
 from openprocurement.contracting.core.tests.contract_blanks import (
@@ -14,6 +16,8 @@ from openprocurement.contracting.core.tests.contract_blanks import (
 )
 from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
 from openprocurement.contracting.econtract.tests.contract_blanks import (
+    change_contract_milestones,
+    change_contract_milestones_params,
     contract_cancellation_via_award,
     post_new_version_of_contract,
 )
@@ -40,6 +44,10 @@ class ContractResource4BrokersTest(BaseEContractContentWebTest):
     test_put_transaction_to_contract = snitch(put_transaction_to_contract)
     test_post_new_version_of_contract = snitch(post_new_version_of_contract)
     test_contract_cancellation_via_award = snitch(contract_cancellation_via_award)
+
+    test_change_contract_milestones = parameterized.expand(change_contract_milestones_params)(
+        snitch(change_contract_milestones)
+    )
 
 
 class ContractActiveResource4BrokersTest(BaseEContractContentWebTest):

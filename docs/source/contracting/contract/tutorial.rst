@@ -94,6 +94,7 @@ When contract in `pending` status buyer can update those fields:
 * `dateSigned`
 * `period`
 * `implementation`
+* `milestones`
 
 
 Setting contract value

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-17 13:07+0300\n"
+"POT-Creation-Date: 2025-12-01 12:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -73,9 +73,11 @@ msgstr "Отримання доступу"
 msgid "**WARNING:** Now that method is deprecated(later it will be deleted), you can use for all contract operation ``tender_token``."
 msgstr "**ЗАСТЕРЕЖЕННЯ:** Наразі цей метод є застарілим(пізніше буде видаленим), ви можете проводити всі дії над договором використовуючи ``tender_token``."
 
+#, python-brace-format
 msgid "In order to get rights for future contract editing, you need to use this view ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}`` with the API key of the eMall (broker), where tender was generated."
 msgstr "Для того, щоб отримати права для майбутнього редагування договору, необхідно використати таку в’юшку ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}`` з API ключем майданчика, де була згенерована закупівля."
 
+#, python-brace-format
 msgid "In the ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:"
 msgstr "В ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:"
 
@@ -125,6 +127,9 @@ msgid "`period`"
 msgstr ""
 
 msgid "`implementation`"
+msgstr ""
+
+msgid "`milestones`"
 msgstr ""
 
 msgid "Setting contract value"
@@ -250,6 +255,7 @@ msgstr "Внесення змін до істотних умов договор�
 msgid "**Essential contract terms** can be modified by the submission of a new :ref:`change` object to the `Contract.changes` container."
 msgstr "**Істотні умови договору** можуть бути змінені поданням нового об’єкта :ref:`change` в котейнер `Contract.changes`."
 
+#, python-brace-format
 msgid "All `changes` are processed by the endpoint `/contracts/{id}/changes`."
 msgstr "Всі зміни `change` обробляються точкою входу (endpoint) `/contracts/{id}/changes`."
 
@@ -280,6 +286,7 @@ msgstr "Документ додається в два етапи:"
 msgid "you should upload document"
 msgstr "ви повинні завантажити документ"
 
+#, python-brace-format
 msgid "you should set document properties ``\"documentOf\": \"change\"`` and ``\"relatedItem\": \"{change.id}\"`` in order to bind the uploaded document to the `change`:"
 msgstr "ви повинні задати властивості документа: ``\"documentOf\": \"change\"`` та ``\"relatedItem\": \"{change.id}\"``, щоб \"прив’язати\" завантажений документ до зміни `change`:"
 
