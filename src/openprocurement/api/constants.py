@@ -21,9 +21,6 @@ LOGGER = getLogger("openprocurement.api")
 VERSION = "2.5"
 ROUTE_PREFIX = "/api/{}".format(VERSION)
 
-NEW_VERSION = "2.7"
-NEW_ROUTE_PREFIX = "/api/{}".format(NEW_VERSION)
-
 # Session
 SESSION = Session()
 

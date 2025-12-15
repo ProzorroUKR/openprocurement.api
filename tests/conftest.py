@@ -12,7 +12,7 @@ from nacl.encoding import HexEncoder
 
 from openprocurement.api.app import load_config
 from prozorro_cdb.api.database.store import MongodbStore, get_mongodb
-from prozorro_cdb.api.main import get_sub_app
+from prozorro_cdb.api.main import get_aiohttp_sub_app
 
 
 @pytest.fixture(scope="session")
@@ -30,7 +30,7 @@ async def sub_app(event_loop):
     global_config = {"here": current_directory, "__file__": str(config_file_path)}
     settings = load_config(config_file_path)
 
-    return get_sub_app(global_config, **settings["app:main"])
+    return get_aiohttp_sub_app(global_config, **settings["app:main"])
 
 
 @pytest.fixture(scope="function")
