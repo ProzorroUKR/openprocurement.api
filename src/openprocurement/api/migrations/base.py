@@ -7,8 +7,8 @@ from argparse import ArgumentParser
 from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, Optional, Type
+from unittest.mock import MagicMock, patch
 
-from mock import MagicMock, patch
 from pymongo import UpdateOne
 from pymongo.collection import Collection
 from pymongo.errors import BulkWriteError, OperationFailure

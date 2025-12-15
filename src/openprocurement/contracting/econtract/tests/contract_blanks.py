@@ -1,7 +1,6 @@
 from copy import deepcopy
+from unittest.mock import patch
 from uuid import uuid4
-
-import mock
 
 from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
 from openprocurement.contracting.core.tests.data import test_signer_info
@@ -359,9 +358,7 @@ def post_new_version_of_contract(self):
         "title": "contract.pdf",
     }
 
-    with mock.patch(
-        "openprocurement.tender.core.procedure.contracting.upload_contract_pdf"
-    ) as mock_upload_contract_pdf:
+    with patch("openprocurement.tender.core.procedure.contracting.upload_contract_pdf") as mock_upload_contract_pdf:
         mock_upload_contract_pdf.return_value = {"data": pdf_data}
         response = self.app.post_json(
             f"/contracts?acc_token={self.supplier_token}",
@@ -788,7 +785,7 @@ def change_contract_milestones(self, _, milestones, resp_status, check_response)
         "title": "contract.pdf",
     }
 
-    with mock.patch(
+    with patch(
         "openprocurement.tender.core.procedure.contracting.upload_contract_pdf", return_value={"data": pdf_data}
     ):
         response = self.app.post_json(

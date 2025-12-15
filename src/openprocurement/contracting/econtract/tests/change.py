@@ -1,6 +1,6 @@
 import unittest
+from unittest.mock import patch
 
-import mock
 from parameterized import parameterized
 
 from openprocurement.api.tests.base import snitch
@@ -37,7 +37,7 @@ class ContractChangesMixin:
             "hash": "md5:" + "0" * 32,
             "title": "contract_change.pdf",
         }
-        self.upload_patch = mock.patch(
+        self.upload_patch = patch(
             "openprocurement.tender.core.procedure.contracting.upload_contract_change_pdf",
             return_value={"data": pdf_data},
         )

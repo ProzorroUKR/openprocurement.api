@@ -4,8 +4,6 @@ from datetime import timedelta
 from unittest.mock import Mock, patch
 from uuid import uuid4
 
-import mock
-
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import test_contract_data
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -191,7 +189,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             "title": "contract.pdf",
         }
         upload_mock_path = "openprocurement.tender.core.procedure.contracting.upload_contract_pdf"
-        with mock.patch(upload_mock_path) as mock_upload_contract_pdf:
+        with patch(upload_mock_path) as mock_upload_contract_pdf:
             mock_upload_contract_pdf.return_value = {"data": pdf_data}
             self.app.patch_json(
                 f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
@@ -355,7 +353,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         )
 
         with open(TARGET_DIR + "contract-supplier-post-contract-version.http", "w") as self.app.file_obj:
-            with mock.patch(upload_mock_path) as mock_upload_contract_pdf:
+            with patch(upload_mock_path) as mock_upload_contract_pdf:
                 mock_upload_contract_pdf.return_value = {"data": pdf_data}
                 response = self.app.post_json(
                     f"/contracts?acc_token={supplier_token}",
@@ -406,7 +404,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             )
 
         new_award_id = response.json["data"]["awards"][-1]["id"]
-        with mock.patch(upload_mock_path) as mock_upload_contract_pdf, change_auth(self.app, ("Basic", ("token", ""))):
+        with patch(upload_mock_path) as mock_upload_contract_pdf, change_auth(self.app, ("Basic", ("token", ""))):
             mock_upload_contract_pdf.return_value = {"data": pdf_data}
             self.app.patch_json(
                 f"/tenders/{tender_id}/awards/{new_award_id}?acc_token={tender_token}",
@@ -512,7 +510,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             "title": "contract_change.pdf",
         }
         upload_change_mock_path = "openprocurement.tender.core.procedure.contracting.upload_contract_change_pdf"
-        with mock.patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
+        with patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
             mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
             with open(TARGET_DIR + "create-change.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
@@ -555,7 +553,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             self.app.get(f"/contracts/{self.contract_id}/changes/{change_id}?acc_token={buyer_token_2}")
 
         # cancellations
-        with mock.patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
+        with patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
             mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
             with open(TARGET_DIR + "create-change-2.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
@@ -653,7 +651,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
 
         item_1 = deepcopy(items[0])
         item_1["quantity"] = 9
-        with mock.patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
+        with patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
             mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
             with open(TARGET_DIR + "create-change-items.http", "w") as self.app.file_obj:
                 self.app.post_json(
