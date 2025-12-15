@@ -18,7 +18,7 @@ ARG UV_EXTRA_ARGS="--no-dev"
 
 # install deps
 COPY pyproject.toml uv.lock ${APP_HOME}/
-RUN uv sync --frozen --no-cache  ${UV_EXTRA_ARGS} --no-install-project --compile-bytecode
+RUN uv sync --frozen --no-cache  ${UV_EXTRA_ARGS} --compile-bytecode
 
 COPY ./ ${APP_HOME}/
 
