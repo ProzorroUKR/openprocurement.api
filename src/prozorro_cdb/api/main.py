@@ -11,7 +11,7 @@ from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
 
 from openprocurement.api.app import load_callable, load_config, load_pyproject
-from openprocurement.api.constants import MAIN_ROUTE_PREFIX
+from openprocurement.api.constants import NEW_ROUTE_PREFIX
 from prozorro_cdb.api.auth import get_login_middleware
 from prozorro_cdb.api.database.store import MongodbStore
 from prozorro_cdb.api.handlers.base import ping
@@ -27,9 +27,6 @@ from prozorro_cdb.api.settings import DocStorageConfig
 
 
 def get_sub_app(global_config, **settings):
-    # pylint: disable=import-outside-toplevel
-    from openprocurement.api.app import main as pyramid_main
-
     global_settings = load_config(global_config["__file__"])
     trans_logger_settings = global_settings.get("filter:translogger") or {}
     trans_logger_disabled = trans_logger_settings.get("set_logger_level", "WARNING") == "WARNING"
@@ -99,6 +96,14 @@ def get_sub_app(global_config, **settings):
             init(sub_app, settings)
 
     sub_app.on_startup.append(mongodb.create_indexes)
+    return sub_app
+
+
+def get_app(global_config, **settings):
+    app = web.Application()
+
+    # pylint: disable=import-outside-toplevel
+    from openprocurement.api.app import main as pyramid_main
 
     # add pyramid routes
     wsgi_handler = WSGIHandler(
@@ -107,15 +112,10 @@ def get_sub_app(global_config, **settings):
             **settings,
         )
     )
-    sub_app.router.add_route("*", "/{path_info:.*}", wsgi_handler)
-    return sub_app
+    app.router.add_route("*", "/{path_info:.*}", wsgi_handler)
 
-
-def get_app(global_config, **settings):
+    # add aiohttp routes
     sub_app = get_sub_app(global_config, **settings)
+    app.add_subapp(NEW_ROUTE_PREFIX, sub_app)
 
-    # === main app ===
-    # Usually, if there is a version, there are multiple versions. Not our case 🤌
-    app = web.Application()
-    app.add_subapp(MAIN_ROUTE_PREFIX, sub_app)
     return app
