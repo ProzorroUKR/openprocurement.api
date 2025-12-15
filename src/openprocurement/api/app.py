@@ -26,7 +26,7 @@ from nacl.signing import SigningKey, VerifyKey
 from paste.deploy.config import make_prefix_middleware
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
-from pyramid.httpexceptions import HTTPPreconditionFailed
+from pyramid.httpexceptions import HTTPNotFound, HTTPPreconditionFailed
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
 from request_id_middleware.middleware import RequestIdMiddleware
@@ -101,6 +101,15 @@ def main(global_config, **settings):
     config.include("cornice")
     config.add_forbidden_view(forbidden)
     config.add_view(precondition, context=HTTPPreconditionFailed)
+
+    # Add custom notfound view that adds header when no route matches
+    # This allows the hybrid app to distinguish between "no route matched" vs "route matched but resource not found"
+    def route_not_found_view(request):
+        response = HTTPNotFound()
+        response.headers["X-Pyramid-Route-Not-Matched"] = "true"
+        return response
+
+    config.add_notfound_view(route_not_found_view)
     config.add_request_method(request_params, "params", reify=True)
     config.add_request_method(authenticated_role, reify=True)
     config.add_request_method(check_accreditations)

@@ -19,8 +19,7 @@ LOGGER = getLogger("openprocurement.api")
 
 # Api route
 VERSION = "2.5"
-MAIN_ROUTE_PREFIX = "/api/{}".format(VERSION)
-ROUTE_PREFIX = "" if os.environ.get("NO_SUB_APP_ROUTE_PREFIX") else MAIN_ROUTE_PREFIX
+ROUTE_PREFIX = "/api/{}".format(VERSION)
 
 # Session
 SESSION = Session()

@@ -2,7 +2,6 @@
 import os
 
 os.environ["NO_GEVENT_MONKEY_PATCH"] = "🚫🐒🚫🐒🚫🐒🚫🐒🚫🐒🚫🐒🚫"
-os.environ["NO_SUB_APP_ROUTE_PREFIX"] = "yes"
 
 from aiohttp import web
 from aiohttp_pydantic import oas
@@ -11,7 +10,7 @@ from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
 
 from openprocurement.api.app import load_callable, load_config, load_pyproject
-from openprocurement.api.constants import MAIN_ROUTE_PREFIX
+from openprocurement.api.constants import ROUTE_PREFIX
 from prozorro_cdb.api.auth import get_login_middleware
 from prozorro_cdb.api.database.store import MongodbStore
 from prozorro_cdb.api.handlers.base import ping
@@ -26,20 +25,22 @@ from prozorro_cdb.api.middlewares import (
 from prozorro_cdb.api.settings import DocStorageConfig
 
 
-def get_sub_app(global_config, **settings):
-    # pylint: disable=import-outside-toplevel
-    from openprocurement.api.app import main as pyramid_main
+def get_aiohttp_sub_app(global_config, **settings):
+    # init app
+    sub_app = web.Application()
+    sub_app["project_info"] = project_info = load_pyproject()  # load info from pyproject.toml
 
+    # load settings
     global_settings = load_config(global_config["__file__"])
     trans_logger_settings = global_settings.get("filter:translogger") or {}
     trans_logger_disabled = trans_logger_settings.get("set_logger_level", "WARNING") == "WARNING"
 
-    middlewares = []
+    # middlewares
     if not trans_logger_disabled:
-        middlewares.append(access_logger_middleware)  # should be the first and the last to better track time
+        sub_app.middlewares.append(access_logger_middleware)  # should be the first and the last to better track time
 
     auth_file = settings["auth.file"].replace("%(here)s", global_config["here"])
-    middlewares.extend(
+    sub_app.middlewares.extend(
         [
             jsonp_and_pretty_middleware,  # last when we return response
             get_login_middleware(auth_file),  # should be before context_middleware
@@ -49,10 +50,6 @@ def get_sub_app(global_config, **settings):
             convert_response_to_json,
         ]
     )
-
-    # init app
-    sub_app = web.Application(middlewares=middlewares)
-    sub_app["project_info"] = project_info = load_pyproject()  # load info from pyproject.toml
 
     # add swagger docs
     oas.setup(
@@ -100,22 +97,51 @@ def get_sub_app(global_config, **settings):
 
     sub_app.on_startup.append(mongodb.create_indexes)
 
-    # add pyramid routes
-    wsgi_handler = WSGIHandler(
+    return sub_app
+
+
+def get_pyramid_sub_app(global_config, **settings):
+    # pylint: disable=import-outside-toplevel
+    from openprocurement.api.app import main as pyramid_main
+
+    pyramid_handler = WSGIHandler(
         pyramid_main(
             global_config,
             **settings,
         )
     )
-    sub_app.router.add_route("*", "/{path_info:.*}", wsgi_handler)
+
+    sub_app = web.Application()
+    sub_app.router.add_route("*", "/{path_info:.*}", pyramid_handler)
+
     return sub_app
 
 
-def get_app(global_config, **settings):
-    sub_app = get_sub_app(global_config, **settings)
+def pyramid_first_middleware(pyramid_sub_app):
+    @web.middleware
+    async def middleware(request, handler):
+        """Middleware that tries pyramid app first then falls back to aiohttp handler"""
 
-    # === main app ===
-    # Usually, if there is a version, there are multiple versions. Not our case 🤌
+        # Try pyramid first
+        response = await pyramid_sub_app._handle(request.clone())
+        if response.headers.get("X-Pyramid-Route-Not-Matched") != "true":
+            return response
+
+        # No route matched in pyramid, let aiohttp handler try
+        return await handler(request)
+
+    return middleware
+
+
+def get_app(global_config, **settings):
     app = web.Application()
-    app.add_subapp(MAIN_ROUTE_PREFIX, sub_app)
+
+    # add pyramid sub-app (via middleware)
+    pyramid_sub_app = get_pyramid_sub_app(global_config, **settings)
+    app.middlewares.append(pyramid_first_middleware(pyramid_sub_app))
+
+    # add aiohttp sub-app
+    aiohttp_sub_app = get_aiohttp_sub_app(global_config, **settings)
+    app.add_subapp(ROUTE_PREFIX, aiohttp_sub_app)
+
     return app
