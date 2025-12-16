@@ -22,6 +22,7 @@ from openprocurement.tender.core.procedure.models.milestone import (
     TenderMilestoneType,
     validate_milestones_lot,
 )
+from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     validate_features_custom_weight,
@@ -137,6 +138,7 @@ class EUTender(BaseTender):
 
 class PostUATender(PostEUTender):
     procurementMethodType = StringType(choices=[CD_UA_TYPE], default=CD_UA_TYPE)
+    procuringEntity = ModelType(ProcuringEntity, required=True)
     items = ListType(
         ModelType(UAItem, required=True),
         required=True,
@@ -147,6 +149,7 @@ class PostUATender(PostEUTender):
 
 class PatchUATender(PatchEUTender):
     procurementMethodType = StringType(choices=[CD_UA_TYPE])
+    procuringEntity = ModelType(ProcuringEntity)
     items = ListType(
         ModelType(UAItem, required=True),
         min_size=1,
@@ -156,6 +159,7 @@ class PatchUATender(PatchEUTender):
 
 class UATender(EUTender):
     procurementMethodType = StringType(choices=[CD_UA_TYPE], required=True)
+    procuringEntity = ModelType(ProcuringEntity, required=True)
     items = ListType(
         ModelType(UAItem, required=True),
         required=True,
