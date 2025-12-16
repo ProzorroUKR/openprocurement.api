@@ -122,6 +122,11 @@ def pyramid_first_middleware(pyramid_sub_app):
     async def middleware(request, handler):
         """Middleware that tries pyramid app first then falls back to aiohttp handler"""
 
+        # QUICK FIX: Skip Pyramid for /violation_reports paths, handle with aiohttp first
+        # TODO: Remove this once we have a proper solution for handling routes
+        if "/violation_reports" in request.path:
+            return await handler(request)
+
         # Try pyramid first
         response = await pyramid_sub_app._handle(request.clone())
         if response.headers.get("X-Pyramid-Route-Not-Matched") != "true":
