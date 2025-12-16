@@ -101,18 +101,8 @@ def get_aiohttp_sub_app(global_config, **settings):
     return sub_app
 
 
-def match_pyramid_route(router, path):
-    if not router:
-        return None
-
-    for route in router.get_routes():
-        if route.match(path) is not None:
-            return route
-    return None
-
-
-def get_pyramid_sub_app(global_config, **settings):
-    # pylint: disable=import-outside-toplevel
+def pyramid_first_middleware(global_config, **settings):
+    """Middleware that matches Pyramid routes first, then falls back to aiohttp handler."""
     from openprocurement.api.app import make_app, wrap_app
 
     # Create Pyramid WSGI app
@@ -124,26 +114,17 @@ def get_pyramid_sub_app(global_config, **settings):
     registry = pyramid_wsgi_app.registry
     router = registry.queryUtility(IRoutesMapper)
 
-    # Store handler and router in sub-app for middleware access
-    sub_app = web.Application()
-    sub_app["pyramid_router"] = router
-
-    # Add catch-all route for Pyramid handler
-    sub_app.router.add_route("*", "/{path_info:.*}", pyramid_handler)
-
-    return sub_app
-
-
-def pyramid_first_middleware(pyramid_sub_app):
-    """Middleware that matches Pyramid routes first, then falls back to aiohttp handler."""
+    # Create a sub-app with catch-all route for WSGIHandler
+    # WSGIHandler expects path_info in match_info, which comes from routing
+    pyramid_sub_app = web.Application()
+    pyramid_sub_app.router.add_route("*", "/{path_info:.*}", pyramid_handler)
 
     @web.middleware
     async def middleware(request, handler):
-        router = pyramid_sub_app.get("pyramid_router")
-
         # Try to match route in Pyramid router and handle with Pyramid if matched
-        if match_pyramid_route(router, request.path):
-            return await pyramid_sub_app._handle(request.clone())
+        for route in router.get_routes():
+            if route.match(request.path) is not None:
+                return await pyramid_sub_app._handle(request.clone())
 
         # No route matched in pyramid, let aiohttp handler try
         return await handler(request)
@@ -155,8 +136,7 @@ def get_app(global_config, **settings):
     app = web.Application()
 
     # add pyramid sub-app (via middleware)
-    pyramid_sub_app = get_pyramid_sub_app(global_config, **settings)
-    app.middlewares.append(pyramid_first_middleware(pyramid_sub_app))
+    app.middlewares.append(pyramid_first_middleware(global_config, **settings))
 
     # add aiohttp sub-app
     aiohttp_sub_app = get_aiohttp_sub_app(global_config, **settings)
