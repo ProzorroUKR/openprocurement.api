@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from logging import getLogger
 from typing import Callable, Optional
 
@@ -46,10 +46,9 @@ class ChronographEventsMixing:
             del data["next_check"]
 
     def run_time_events(self, data):
-        now = get_request_now().isoformat()
+        now = get_request_now()
         for date, handler in self.get_events(data):
-            # print([date <= now, date, now, handler])
-            if date <= now:
+            if datetime.fromisoformat(date) <= now:
                 LOGGER.info(
                     f"Applying tender auction chronograph event: {handler}",
                     extra=context_unpack(get_request(), {"MESSAGE_ID": "auction_chronograph_event_apply"}),
