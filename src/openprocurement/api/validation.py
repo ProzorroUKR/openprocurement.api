@@ -37,10 +37,8 @@ def validate_json_data(request, allow_bulk=False, **kwargs):
 
 
 def validate_items_uniq(items, *args):
-    if items:
-        ids = [i.id for i in items]
-        if [i for i in set(ids) if ids.count(i) > 1]:
-            raise ValidationError("Item id should be uniq for all items")
+    validation_func = validate_list_uniq_factory("Item id should be uniq for all items", "id")
+    validation_func(items)
 
 
 def validate_accreditation_level_base(request, levels, name, action):
@@ -81,3 +79,33 @@ def validate_tender_first_revision_date(request, validation_date, message="Forbi
     tender_creation_date = get_first_revision_date(tender, default=get_now())
     if tender_creation_date < validation_date:
         raise_operation_error(request, message)
+
+
+def validate_list_uniq_factory(err_msg, field_attrs=()):
+    """
+    Factory for ListType validators that require unique items
+    """
+    if not isinstance(field_attrs, (list, tuple, set, frozenset)):
+        field_attrs = (field_attrs,)
+
+    def _get_attr(item, field_attr):
+        """
+        Function gets nested attribute of the provided item
+        """
+        for x in field_attr.split("."):
+            item = item.get(x, {})
+        return item
+
+    def _validate_uniq(values, *args, **kwargs):
+        """
+        Main validator function
+        """
+        if values:
+            res = values
+            # if item attributes were provided get unique identifier by using provided attributes
+            if field_attrs:
+                res = [tuple(_get_attr(x, a) for a in field_attrs) for x in res]
+            if len(res) > len(set(res)):
+                raise ValidationError(err_msg)
+
+    return _validate_uniq

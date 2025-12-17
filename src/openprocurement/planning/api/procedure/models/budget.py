@@ -8,14 +8,12 @@ from openprocurement.api.constants import KPK, PLAN_OF_UKRAINE, TKPKMB, TKPKMB_S
 from openprocurement.api.constants_env import BUDGET_PERIOD_FROM
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import (
-    Classification,
-    validate_items_uniq,
-)
+from openprocurement.api.procedure.models.item import Classification
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import BasicValue
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.procedure.utils import is_const_active
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TITLES
 
 

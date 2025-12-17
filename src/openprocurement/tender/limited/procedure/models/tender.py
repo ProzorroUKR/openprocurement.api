@@ -1,3 +1,4 @@
+from schematics.exceptions import ValidationError
 from schematics.types import BaseType, StringType
 from schematics.types.compound import ListType, ModelType
 
@@ -8,10 +9,9 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.models.item import validate_items_uniq
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.validation import ValidationError
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
     validate_related_buyer_in_items,

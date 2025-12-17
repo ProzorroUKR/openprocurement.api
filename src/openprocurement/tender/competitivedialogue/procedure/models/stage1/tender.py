@@ -4,6 +4,7 @@ from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
 from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
@@ -11,7 +12,6 @@ from openprocurement.tender.competitivedialogue.constants import (
 )
 from openprocurement.tender.competitivedialogue.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.core.procedure.models.item import validate_items_uniq
 from openprocurement.tender.core.procedure.models.lot import (
     Lot,
     PatchTenderLot,

@@ -1,7 +1,7 @@
+from schematics.exceptions import ValidationError
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.procedure.models.unit import Unit
-from openprocurement.api.validation import ValidationError
 from openprocurement.tender.core.procedure.models.item import AdditionalClassification
 from openprocurement.tender.core.procedure.models.item import (
     TechFeatureItem as BaseItem,

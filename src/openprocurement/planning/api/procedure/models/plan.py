@@ -10,12 +10,10 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import (
-    AdditionalClassification,
-    validate_items_uniq,
-)
+from openprocurement.api.procedure.models.item import AdditionalClassification
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.procedure.utils import is_obj_const_active, to_decimal
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.planning.api.constants import (
     MULTI_YEAR_BUDGET_MAX_YEARS,
     MULTI_YEAR_BUDGET_PROCEDURES,

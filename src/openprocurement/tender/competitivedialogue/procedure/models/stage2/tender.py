@@ -2,8 +2,8 @@ from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.procedure.models.item import validate_items_uniq
 from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.competitivedialogue.constants import (
     FEATURES_MAX_SUM,
     STAGE_2_EU_TYPE,

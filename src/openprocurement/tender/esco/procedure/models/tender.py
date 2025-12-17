@@ -7,11 +7,11 @@ from schematics.validate import ValidationError
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.types import DecimalType
 from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
-    validate_items_uniq,
     validate_related_buyer_in_items,
 )
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq

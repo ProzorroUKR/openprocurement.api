@@ -1,12 +1,13 @@
+import itertools
 from uuid import uuid4
 
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ListType, ModelType
-from schematics.validate import ValidationError
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.validation import validate_list_uniq_factory
 
 
 class Unit(Model):
@@ -55,14 +56,12 @@ class Metric(PostMetric):
 
 
 def validate_metric_ids_uniq(metrics):
-    if metrics:
-        metrics_ids = [i.id for i in metrics]
-        if len(metrics_ids) > len(set(metrics_ids)):
-            raise ValidationError("Metric identifier should be uniq")
+    validation_func = validate_list_uniq_factory("Metric identifier should be uniq", "id")
+    validation_func(metrics)
 
 
 def validate_observation_ids_uniq(metrics):
-    if metrics:
-        obs_ids = [observation.id for metric in metrics for observation in metric.observations]
-        if len(obs_ids) > len(set(obs_ids)):
-            raise ValidationError("Observation identifier should be uniq for all observation in tender")
+    validation_func = validate_list_uniq_factory(
+        "Observation identifier should be uniq for all observation in tender", "id"
+    )
+    validation_func(itertools.chain([x.observations for x in metrics]))
