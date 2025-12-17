@@ -26,7 +26,7 @@ from nacl.signing import SigningKey, VerifyKey
 from paste.deploy.config import make_prefix_middleware
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
-from pyramid.httpexceptions import HTTPNotFound, HTTPPreconditionFailed
+from pyramid.httpexceptions import HTTPPreconditionFailed
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
 from request_id_middleware.middleware import RequestIdMiddleware
@@ -74,7 +74,7 @@ def load_callable(path):
     return getattr(import_module(module), func)
 
 
-def main(global_config, **settings):
+def make_app(global_config, **settings):
     dsn = settings.get("sentry.dsn", None)
     if dsn:
         LOGGER.info("Init sentry sdk for {}".format(dsn))
@@ -101,15 +101,6 @@ def main(global_config, **settings):
     config.include("cornice")
     config.add_forbidden_view(forbidden)
     config.add_view(precondition, context=HTTPPreconditionFailed)
-
-    # Add custom notfound view that adds header when no route matches
-    # This allows the hybrid app to distinguish between "no route matched" vs "route matched but resource not found"
-    def route_not_found_view(request):
-        response = HTTPNotFound()
-        response.headers["X-Pyramid-Route-Not-Matched"] = "true"
-        return response
-
-    config.add_notfound_view(route_not_found_view)
     config.add_request_method(request_params, "params", reify=True)
     config.add_request_method(authenticated_role, reify=True)
     config.add_request_method(check_accreditations)
@@ -174,7 +165,10 @@ def main(global_config, **settings):
 
     config.add_tween("openprocurement.api.middlewares.DBSessionCookieMiddleware")
     app = config.make_wsgi_app()
+    return app
 
+
+def wrap_app(app, global_config, **settings):
     # We plan to move from PasteDeploy and pyramid.
     # At this stage we're going to move filters/middlewares from .ini file to the python code.
     # We still use .ini file to hold the configuration, until we ready to switch completely.
@@ -208,4 +202,11 @@ def main(global_config, **settings):
     # translate_forwarded_server=True is default parameter means it translates HTTP_X_FORWARDED_ headers.
     # See source of paste.deploy.config.PrefixMiddleware for more details
     app = make_prefix_middleware(app, global_config)
+
+    return app
+
+
+def main(global_config, **settings):
+    app = make_app(global_config, **settings)
+    app = wrap_app(app, global_config, **settings)
     return app

@@ -4,10 +4,12 @@ import os
 os.environ["NO_GEVENT_MONKEY_PATCH"] = "🚫🐒🚫🐒🚫🐒🚫🐒🚫🐒🚫🐒🚫"
 
 from aiohttp import web
+from aiohttp.web import UrlMappingMatchInfo
 from aiohttp_pydantic import oas
 from aiohttp_wsgi import WSGIHandler
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
+from pyramid.interfaces import IRoutesMapper
 
 from openprocurement.api.app import load_callable, load_config, load_pyproject
 from openprocurement.api.constants import ROUTE_PREFIX
@@ -100,37 +102,29 @@ def get_aiohttp_sub_app(global_config, **settings):
     return sub_app
 
 
-def get_pyramid_sub_app(global_config, **settings):
+def pyramid_first_middleware(global_config, **settings):
     # pylint: disable=import-outside-toplevel
-    from openprocurement.api.app import main as pyramid_main
+    from openprocurement.api.app import make_app, wrap_app
 
-    pyramid_handler = WSGIHandler(
-        pyramid_main(
-            global_config,
-            **settings,
-        )
-    )
+    # Create Pyramid WSGI app
+    pyramid_wsgi_app = make_app(global_config, **settings)
+    pyramid_wsgi_wrapped_app = wrap_app(pyramid_wsgi_app, global_config, **settings)
+    pyramid_wsgi_handler = WSGIHandler(pyramid_wsgi_wrapped_app)
 
-    sub_app = web.Application()
-    sub_app.router.add_route("*", "/{path_info:.*}", pyramid_handler)
+    # Extract router from Pyramid app's registry for route matching
+    pyramid_router = pyramid_wsgi_app.registry.queryUtility(IRoutesMapper)
 
-    return sub_app
+    async def pyramid_handler(request):
+        request = request.clone()
+        request._match_info = UrlMappingMatchInfo({"path_info": request.path}, None)
+        return await pyramid_wsgi_handler(request)
 
-
-def pyramid_first_middleware(pyramid_sub_app):
     @web.middleware
     async def middleware(request, handler):
-        """Middleware that tries pyramid app first then falls back to aiohttp handler"""
-
-        # QUICK FIX: Skip Pyramid for /violation_reports paths, handle with aiohttp first
-        # TODO: Remove this once we have a proper solution for handling routes
-        if "/violation_reports" in request.path:
-            return await handler(request)
-
-        # Try pyramid first
-        response = await pyramid_sub_app._handle(request.clone())
-        if response.headers.get("X-Pyramid-Route-Not-Matched") != "true":
-            return response
+        # Try to match route in Pyramid router and handle with Pyramid if matched
+        for route in pyramid_router.get_routes():
+            if route.match(request.path) is not None:
+                return await pyramid_handler(request)
 
         # No route matched in pyramid, let aiohttp handler try
         return await handler(request)
@@ -142,8 +136,7 @@ def get_app(global_config, **settings):
     app = web.Application()
 
     # add pyramid sub-app (via middleware)
-    pyramid_sub_app = get_pyramid_sub_app(global_config, **settings)
-    app.middlewares.append(pyramid_first_middleware(pyramid_sub_app))
+    app.middlewares.append(pyramid_first_middleware(global_config, **settings))
 
     # add aiohttp sub-app
     aiohttp_sub_app = get_aiohttp_sub_app(global_config, **settings)
