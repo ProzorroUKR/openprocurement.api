@@ -5,8 +5,8 @@ from schematics.types.serializable import serializable
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.utils import get_change_class
+from openprocurement.api.validation import validate_uniq_code
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.models.change import (
     ChangeItemPriceVariation,
@@ -64,7 +64,7 @@ class Agreement(BaseAgreement):
     )
     documents = ListType(ModelType(Document, required=True), default=[])
     contracts = ListType(ModelType(Contract, required=True), default=[])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     items = ListType(ModelType(Item, required=True))
     procuringEntity = ModelType(ProcuringEntity, required=True)
     tender_token = StringType(required=True)
@@ -100,7 +100,7 @@ class PostAgreement(BasePostAgreement):
     )
     documents = ListType(ModelType(PostDocument, required=True), default=[])
     contracts = ListType(ModelType(Contract, required=True), default=[])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     items = ListType(ModelType(Item, required=True))
     procuringEntity = ModelType(ProcuringEntity, required=True)
     tender_token = StringType(required=True)

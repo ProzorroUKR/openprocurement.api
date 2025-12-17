@@ -922,7 +922,13 @@ def tender_funders(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["Funders' identifier should be unique"], "location": "body", "name": "funders"}],
+        [
+            {
+                "description": ["Items should be unique by fields: identifier.scheme, identifier.id"],
+                "location": "body",
+                "name": "funders",
+            }
+        ],
     )
 
     tender_data["funders"][0]["identifier"]["id"] = "some id"

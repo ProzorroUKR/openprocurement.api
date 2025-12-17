@@ -5,8 +5,7 @@ from schematics.types.compound import ModelType
 from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.types import ListType
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LIFE_CYCLE_COST,
     AWARD_CRITERIA_LOWEST_COST,
@@ -24,7 +23,6 @@ from openprocurement.tender.core.procedure.models.lot import (
     Lot,
     PatchTenderLot,
     PostTenderLot,
-    validate_lots_uniq,
 )
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
@@ -108,11 +106,11 @@ class PostTender(PostBaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
-    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     def validate_lots(self, data, value):
         if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
@@ -157,11 +155,11 @@ class PatchTender(PatchBaseTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     def validate_lots(self, data, value):
         if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
@@ -187,11 +185,11 @@ class Tender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
-    lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     qualificationPeriod = ModelType(QualificationPeriod)
     complaintPeriod = ModelType(Period)

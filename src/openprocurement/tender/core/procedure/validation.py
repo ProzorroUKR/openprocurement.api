@@ -1311,9 +1311,7 @@ def validate_ccce_ua(additional_classifications):
 
 
 def validate_funders_unique(funders, *args):
-    validation_func = validate_list_uniq_factory(
-        "Funders' identifier should be unique", ("identifier.scheme", "identifier.id")
-    )
+    validation_func = validate_list_uniq_factory("identifier.scheme", "identifier.id")
     validation_func([x for x in funders if x.identifier])
 
 

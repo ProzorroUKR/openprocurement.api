@@ -14,7 +14,7 @@ from openprocurement.api.constants import (
     VIOLATION_AMCU,
 )
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.procedure.models.complaint_objection_argument import (
     Argument,
 )
@@ -73,17 +73,13 @@ class Objection(Model):
         ModelType(RequestedRemedy, required=True),
         min_size=1,
         required=True,
-        validators=[
-            validate_items_uniq,
-        ],
+        validators=[validate_uniq_id],
     )
     arguments = ListType(
         ModelType(Argument, required=True),
         min_size=1,
         required=True,
-        validators=[
-            validate_items_uniq,
-        ],
+        validators=[validate_uniq_id],
     )
     sequenceNumber = IntType(min_value=0, serialize_when_none=True)
 

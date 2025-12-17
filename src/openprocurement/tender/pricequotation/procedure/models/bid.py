@@ -8,7 +8,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ListType
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.procedure.models.bid import MetaBid
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument
 from openprocurement.tender.core.procedure.models.item import LocalizationItem
@@ -81,7 +81,7 @@ class PostBid(BidResponsesMixin, PatchBid):
     items = ListType(
         ModelType(LocalizationItem, required=True),
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
 
     def validate_value(self, data, value):
@@ -118,5 +118,5 @@ class Bid(BidResponsesMixin, MetaBid):
     items = ListType(
         ModelType(LocalizationItem, required=True),
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )

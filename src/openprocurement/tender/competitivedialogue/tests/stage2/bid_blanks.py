@@ -1039,7 +1039,7 @@ def features_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Parameter code should be uniq for all parameters"],
+                "description": ["Items should be unique by fields: code"],
                 "location": "body",
                 "name": "parameters",
             }

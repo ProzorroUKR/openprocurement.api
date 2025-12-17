@@ -1606,7 +1606,7 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Feature code should be uniq for all features"],
+                "description": ["Items should be unique by fields: code"],
                 "location": "body",
                 "name": "features",
             }

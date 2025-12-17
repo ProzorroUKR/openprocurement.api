@@ -1,7 +1,7 @@
 from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
 from openprocurement.tender.openua.procedure.models.tender import (
     PatchTender as BasePatchTender,
@@ -24,7 +24,7 @@ class PostTender(BasePostTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
 
 
@@ -32,7 +32,7 @@ class PatchTender(BasePatchTender):
     procuringEntity = ModelType(ProcuringEntity)
     items = ListType(
         ModelType(Item, required=True),
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
 
 
@@ -47,5 +47,5 @@ class Tender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )

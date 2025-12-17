@@ -13,7 +13,7 @@ from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import BasicValue
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.procedure.utils import is_const_active
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TITLES
 
 
@@ -83,7 +83,7 @@ class Budget(Model):
     period = ModelType(BudgetPeriod)
     year = IntType(min_value=2000)
     notes = StringType()
-    breakdown = ListType(ModelType(BudgetBreakdownItem, required=True), validators=[validate_items_uniq])
+    breakdown = ListType(ModelType(BudgetBreakdownItem, required=True), validators=[validate_uniq_id])
 
     def validate_period(self, budget, period):
         if period and not is_const_active(BUDGET_PERIOD_FROM):

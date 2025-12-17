@@ -10,8 +10,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.api.procedure.validation import validate_parameters_uniq
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.models.base import BaseBid
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument
@@ -33,7 +32,7 @@ from openprocurement.tender.core.procedure.validation import validate_bid_value
 # PATCH DATA ---
 class PatchBid(BaseBid):
     items = ListType(ModelType(BaseItem, required=True))
-    parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_uniq_code])
     value = ModelType(Value)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
@@ -78,8 +77,8 @@ def validate_lot_values(lot_values):
 
 # BASE ---
 class CommonBid(BaseBid):
-    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
+    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_uniq_id])
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
     value = ModelType(Value)
     initialValue = ModelType(Value)  # field added by chronograph
     participationUrl = StringType()  # field added after auction
@@ -140,14 +139,14 @@ class PostBid(CommonBid):
     def id(self):
         return uuid4().hex
 
-    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
+    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_uniq_id])
     tenderers = ListType(
         ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,
     )
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
     lotValues = ListType(ModelType(PostLotValue, required=True))
     status = StringType(
         choices=[
@@ -171,7 +170,7 @@ class PostLocalizationBid(PostBid):
     items = ListType(
         ModelType(LocalizationItem, required=True),
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
 
 
@@ -199,7 +198,7 @@ class LocalizationBid(Bid):
     items = ListType(
         ModelType(LocalizationItem, required=True),
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
 
 

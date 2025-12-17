@@ -55,13 +55,8 @@ class Metric(PostMetric):
     observations = ListType(ModelType(Observation))
 
 
-def validate_metric_ids_uniq(metrics):
-    validation_func = validate_list_uniq_factory("Metric identifier should be uniq", "id")
-    validation_func(metrics)
-
-
 def validate_observation_ids_uniq(metrics):
     validation_func = validate_list_uniq_factory(
-        "Observation identifier should be uniq for all observation in tender", "id"
+        "id", err_field="observations", err_msg="All observations in tender should be unique"
     )
     validation_func(itertools.chain([x.observations for x in metrics]))

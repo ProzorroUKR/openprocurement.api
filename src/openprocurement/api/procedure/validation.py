@@ -19,7 +19,6 @@ from openprocurement.api.validation import (
     validate_accreditation_level_base,
     validate_accreditation_level_mode,
     validate_json_data,
-    validate_list_uniq_factory,
 )
 from openprocurement.tender.core.procedure.documents import (
     check_document,
@@ -283,21 +282,6 @@ def validate_patch_data_from_resolved_model(item_name):
         return validate(request, **_)
 
     return validated
-
-
-def validate_values_uniq(values):
-    validation_func = validate_list_uniq_factory("Feature value should be uniq for feature", "value")
-    validation_func(values)
-
-
-def validate_features_uniq(features):
-    validation_func = validate_list_uniq_factory("Feature code should be uniq for all features", "code")
-    validation_func(features)
-
-
-def validate_parameters_uniq(parameters):
-    validation_func = validate_list_uniq_factory("Parameter code should be uniq for all parameters", "code")
-    validation_func(parameters)
 
 
 def validate_data_documents(route_key="tender_id", uid_key="_id"):

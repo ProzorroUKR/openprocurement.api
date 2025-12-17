@@ -1,7 +1,7 @@
 from schematics.types import StringType
 
 from openprocurement.api.procedure.types import ListType, ModelType
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.core.procedure.models.item import TechFeatureItem as Item
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
@@ -27,7 +27,7 @@ class PostTender(BasePostTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
 
 
@@ -36,7 +36,7 @@ class PatchTender(BasePatchTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
 
 
@@ -45,7 +45,7 @@ class PatchDraftTender(PatchTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
 
 
@@ -55,5 +55,5 @@ class Tender(BaseTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )

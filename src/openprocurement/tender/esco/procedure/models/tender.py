@@ -6,15 +6,13 @@ from schematics.validate import ValidationError
 
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.types import DecimalType
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
     validate_related_buyer_in_items,
 )
-from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
     validate_milestones_lot,
@@ -117,15 +115,15 @@ class PostTender(PostBaseTender):
     guarantee = ModelType(BasicValue)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
     items = ListType(
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
     auctionPeriod = ModelType(TenderAuctionPeriod)
@@ -174,10 +172,10 @@ class PatchTender(PatchBaseTender):
     guarantee = ModelType(BasicValue)
 
     procuringEntity = ModelType(ProcuringEntity)
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
-    items = ListType(ModelType(Item, required=True), min_size=1, validators=[validate_items_uniq])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
+    items = ListType(ModelType(Item, required=True), min_size=1, validators=[validate_uniq_id])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     tenderPeriod = ModelType(PeriodStartEndRequired)
     enquiryPeriod = ModelType(EnquiryPeriod)
 
@@ -206,15 +204,15 @@ class Tender(BaseTender):
     guarantee = ModelType(BasicValue)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
     items = ListType(
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
 

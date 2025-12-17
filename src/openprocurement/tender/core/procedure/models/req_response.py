@@ -224,11 +224,7 @@ def validate_evidence_type(req_response_data: dict, evidence: dict) -> None:
             raise ValidationError([{"type": ["type should be one of eligibleEvidences types"]}])
 
 
-def validate_response_requirement_uniq(requirement_responses):
-    validation_func = validate_list_uniq_factory(
-        [{"requirement": "Requirement id should be uniq for all requirement responses"}], "requirement.id"
-    )
-    validation_func(requirement_responses)
+validate_response_requirement_uniq = validate_list_uniq_factory("requirement.id", err_field="requirement")
 
 
 class MatchResponseValue:
