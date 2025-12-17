@@ -69,6 +69,10 @@ class Migration(CollectionMigration):
         # set contract.milestones.status
         doc["milestones"] = [{**x, "status": "scheduled"} for x in milestones]
 
+        # skip contract if milestones were not set
+        if not doc["milestones"]:
+            return None
+
         return doc
 
     def generate_base_pipeline_stages(self, doc: dict) -> list:
@@ -91,6 +95,11 @@ class Migration(CollectionMigration):
         contract_3_id = "50de2cd1e67c4c2b974b6b2fd3efa299"
         lot_3_id = "67eb06a4a9a448af871c707d7fa06163"
         milestones_3_ids = ["5e6bef99761e4b25bb52d3789b85403b", "7be05c6a56d5490cbcacb2a4b2964654"]
+
+        tender_4_id = "3d87690ac08c43049452db8f89ef6811"
+        award_4_id = "f542f71d6fa641dab14f272d00dbaab2"
+        contract_4_id = "50de2cd1e67c4c2b974b6b2fd3efa299"
+        lot_4_id = "67eb06a4a9a448af871c707d7fa06163"
 
         contracts = [
             {
@@ -135,6 +144,20 @@ class Migration(CollectionMigration):
                 "tender_id": tender_3_id,
                 "awardID": award_3_id,
             },
+            {
+                "_id": contract_4_id,
+                "_rev": "7-5ae2fd5ee31142ad8bb203b04c434e4e",
+                "revisions": [
+                    {
+                        "author": "broker",
+                        "changes": [],
+                        "rev": None,
+                        "date": "2024-11-12T16:02:59.403731+02:00",
+                    }
+                ],
+                "tender_id": tender_4_id,
+                "awardID": award_4_id,
+            },
         ]
         tender_find_one_results = [
             # milestones have relatedLot
@@ -151,9 +174,14 @@ class Migration(CollectionMigration):
             },
             # milestones are mixed
             {
-                "_id": tender_2_id,
+                "_id": tender_3_id,
                 "awards": [{"id": award_3_id, "lotID": lot_3_id}],
                 "milestones": [{"id": milestones_3_ids[0], "relatedLot": lot_3_id}, {"id": milestones_3_ids[1]}],
+            },
+            # no milestones in tender
+            {
+                "_id": tender_4_id,
+                "awards": [{"id": award_4_id, "lotID": lot_4_id}],
             },
         ]
 
@@ -166,6 +194,7 @@ class Migration(CollectionMigration):
             call({"_id": tender_1_id}, {"milestones": 1, "awards.id": 1, "awards.lotID": 1}),
             call({"_id": tender_2_id}, {"milestones": 1, "awards.id": 1, "awards.lotID": 1}),
             call({"_id": tender_3_id}, {"milestones": 1, "awards.id": 1, "awards.lotID": 1}),
+            call({"_id": tender_4_id}, {"milestones": 1, "awards.id": 1, "awards.lotID": 1}),
         ]
 
         mock_collection.bulk_write.assert_called_once_with(
