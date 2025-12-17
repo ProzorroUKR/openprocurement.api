@@ -81,7 +81,7 @@ def validate_tender_first_revision_date(request, validation_date, message="Forbi
         raise_operation_error(request, message)
 
 
-def validate_list_uniq_factory(err_msg, field_attrs=()):
+def validate_list_uniq_factory(err_msg="Items should be unique", field_attrs=()):
     """
     Factory for ListType validators that require unique items
     """
