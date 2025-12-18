@@ -6,7 +6,7 @@ from openprocurement.api.procedure.models.item import Classification
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ModelType
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.procedure.models.criterion import Criterion
 from openprocurement.tender.core.procedure.models.milestone import (
@@ -52,13 +52,13 @@ class PostTender(PostBaseTender):
     tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     items = ListType(
         ModelType(TenderItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
     criteria = ListType(
         ModelType(Criterion),
@@ -103,14 +103,14 @@ class PatchTender(PatchBaseTender):
     tenderPeriod = ModelType(PeriodEndRequired)
     awardPeriod = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     classification = ModelType(Classification)
 
     items = ListType(
         ModelType(TenderItem, required=True),
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
     criteria = ListType(
         ModelType(Criterion),
@@ -148,7 +148,7 @@ class Tender(BaseTender):
     tenderPeriod = ModelType(PeriodStartEndRequired)
     awardPeriod = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     classification = ModelType(Classification)
     unsuccessfulReason = ListType(StringType)  # deprecated after PQ bot removing
@@ -157,7 +157,7 @@ class Tender(BaseTender):
         ModelType(TenderItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
     criteria = ListType(
         ModelType(Criterion),

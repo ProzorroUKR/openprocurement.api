@@ -103,12 +103,5 @@ def validate_classification_id(items, *args):
             )
 
 
-def validate_items_uniq(items, *args):
-    if items:
-        ids = [i.id for i in items]
-        if len(ids) > len(set(ids)):
-            raise ValidationError("Item id should be uniq for all items")
-
-
 class LocalizationItem(BaseItem):
     product = StringType()

@@ -1,9 +1,7 @@
-from typing import List
 from uuid import uuid4
 
 from schematics.types import BaseType, MD5Type, StringType, URLType
 from schematics.types.compound import ModelType
-from schematics.validate import ValidationError
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType
@@ -73,10 +71,3 @@ class Lot(BaseLot, TenderLotMixin):
     auctionPeriod = ModelType(LotAuctionPeriod)
     auctionUrl = URLType()
     numberOfBids = BaseType()  # deprecated
-
-
-def validate_lots_uniq(lots: List[Lot], *_) -> None:
-    if lots:
-        ids = [i.id for i in lots]
-        if [i for i in set(ids) if ids.count(i) > 1]:
-            raise ValidationError("Lot id should be uniq for all lots")

@@ -4,14 +4,11 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import ListType, ModelType
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.procedure.models.document import PostDocument
 from openprocurement.tender.core.procedure.models.item import TechFeatureItem as Item
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
-from openprocurement.tender.core.procedure.models.lot import (
-    PatchTenderLot,
-    validate_lots_uniq,
-)
+from openprocurement.tender.core.procedure.models.lot import PatchTenderLot
 from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.period import (
@@ -40,7 +37,7 @@ class PostTender(BasePostTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
 
 
@@ -49,7 +46,7 @@ class PatchTender(BasePatchTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
 
 
@@ -59,12 +56,12 @@ class PatchActiveTender(Model):
     value = ModelType(EstimatedValue)
     milestones = ListType(
         ModelType(Milestone, required=True),
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     title = StringType()
     title_en = StringType()
@@ -74,7 +71,7 @@ class PatchActiveTender(Model):
     description_en = StringType()
     description_ru = StringType()
     mainProcurementCategory = StringType(choices=MAIN_PROCUREMENT_CATEGORY_CHOICES)
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
     contractTemplateName = StringType()
 
 
@@ -83,7 +80,7 @@ class PatchDraftTender(PatchTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
 
 
@@ -93,5 +90,5 @@ class Tender(BaseTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )

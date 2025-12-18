@@ -2,6 +2,7 @@ from schematics.types import BaseType, MD5Type, StringType
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.validation import validate_uniq
 
 
 class BaseChange(Model):
@@ -14,6 +15,7 @@ class BaseChange(Model):
         ),
         min_size=1,
         required=True,
+        validators=[validate_uniq],
     )
 
 

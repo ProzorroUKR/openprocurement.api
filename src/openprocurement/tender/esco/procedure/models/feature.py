@@ -2,7 +2,7 @@ from schematics.types import FloatType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.types import ListType
-from openprocurement.api.procedure.validation import validate_values_uniq
+from openprocurement.api.validation import validate_uniq_value
 from openprocurement.tender.core.procedure.models.feature import Feature as BaseFeature
 from openprocurement.tender.core.procedure.models.feature import (
     FeatureValue as BaseFeatureValue,
@@ -18,5 +18,5 @@ class Feature(BaseFeature):
         ModelType(FeatureValue, required=True),
         default=list,
         min_size=1,
-        validators=[validate_values_uniq],
+        validators=[validate_uniq_value],
     )

@@ -108,7 +108,7 @@ class LotStateMixin:
             if [i for i in set(ids) if ids.count(i) > 1]:
                 raise_operation_error(
                     self.request,
-                    "Lot id should be uniq for all lots",
+                    "Items should be unique by fields: id",
                     status=422,
                     name="lots",
                 )

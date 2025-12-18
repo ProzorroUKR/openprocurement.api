@@ -10,12 +10,10 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import (
-    AdditionalClassification,
-    validate_items_uniq,
-)
+from openprocurement.api.procedure.models.item import AdditionalClassification
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.procedure.utils import is_obj_const_active, to_decimal
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.planning.api.constants import (
     MULTI_YEAR_BUDGET_MAX_YEARS,
     MULTI_YEAR_BUDGET_PROCEDURES,
@@ -72,7 +70,7 @@ class PostPlan(Model):
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     tender_id = MD5Type()
     mode = StringType(choices=["test"])
-    items = ListType(ModelType(Item, required=True), validators=[validate_items_uniq])
+    items = ListType(ModelType(Item, required=True), validators=[validate_uniq_id])
     buyers = ListType(ModelType(BuyerOrganization, required=True), min_size=1, max_size=1)
     cancellation = ModelType(PostCancellation)
     documents = ListType(ModelType(PostDocument, required=True))
@@ -102,10 +100,10 @@ class PatchPlan(Model):
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     tender_id = MD5Type()
     mode = StringType(choices=["test"])
-    items = ListType(ModelType(Item, required=True), validators=[validate_items_uniq])
+    items = ListType(ModelType(Item, required=True), validators=[validate_uniq_id])
     buyers = ListType(ModelType(BuyerOrganization, required=True), min_size=1, max_size=1)
     cancellation = ModelType(PatchCancellation)
-    milestones = ListType(ModelType(PatchMilestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(PatchMilestone, required=True), validators=[validate_uniq_id])
     rationale = ModelType(RationaleObject)
     project = ModelType(Project)
 
@@ -126,11 +124,11 @@ class Plan(Model):
     tender_id = MD5Type()
     planID = StringType()
     mode = StringType(choices=["test"])
-    items = ListType(ModelType(Item, required=True), validators=[validate_items_uniq])
+    items = ListType(ModelType(Item, required=True), validators=[validate_uniq_id])
     buyers = ListType(ModelType(BuyerOrganization, required=True), min_size=1, max_size=1)
     cancellation = ModelType(Cancellation)
     documents = ListType(ModelType(Document, required=True))
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     rationale = ModelType(RationaleObject)
     project = ModelType(Project, serialize_when_none=True)
 

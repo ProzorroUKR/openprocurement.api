@@ -5,7 +5,7 @@ from schematics.types import MD5Type, StringType
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.organization import BusinessOrganization
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.api.procedure.validation import validate_parameters_uniq
+from openprocurement.api.validation import validate_uniq_code
 from openprocurement.framework.cfaua.procedure.models.parameter import Parameter
 from openprocurement.framework.cfaua.procedure.models.unitprice import UnitPrice
 
@@ -21,5 +21,5 @@ class Contract(Model):
     parameters = ListType(
         ModelType(Parameter, required=True),
         default=[],
-        validators=[validate_parameters_uniq],
+        validators=[validate_uniq_code],
     )

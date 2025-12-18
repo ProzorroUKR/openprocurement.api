@@ -19,6 +19,7 @@ from openprocurement.api.procedure.models.reference import (
     RequirementReference,
 )
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.validation import validate_list_uniq_factory
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.utils import (
@@ -223,11 +224,7 @@ def validate_evidence_type(req_response_data: dict, evidence: dict) -> None:
             raise ValidationError([{"type": ["type should be one of eligibleEvidences types"]}])
 
 
-def validate_response_requirement_uniq(requirement_responses):
-    if requirement_responses:
-        req_ids = [i["requirement"]["id"] for i in requirement_responses]
-        if any(i for i in set(req_ids) if req_ids.count(i) > 1):
-            raise ValidationError([{"requirement": "Requirement id should be uniq for all requirement responses"}])
+validate_response_requirement_uniq = validate_list_uniq_factory("requirement.id", err_field="requirement")
 
 
 class MatchResponseValue:

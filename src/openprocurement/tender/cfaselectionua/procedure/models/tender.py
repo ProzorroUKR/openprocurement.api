@@ -8,8 +8,7 @@ from schematics.validate import ValidationError
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agreement
 from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature
@@ -29,7 +28,6 @@ from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
     validate_related_buyer_in_items,
 )
-from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
     validate_milestones_lot,
@@ -64,17 +62,17 @@ class PostTender(PostBaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     lots = ListType(
         ModelType(PostTenderLot, required=True),
         min_size=1,
         max_size=1,
         required=True,
-        validators=[validate_lots_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     guarantee = ModelType(BasicValue)
     # tenderPeriod = ModelType(PeriodEndRequired)
 
@@ -124,17 +122,17 @@ class PatchTender(PatchBaseTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     lots = ListType(
         ModelType(PatchTenderLot, required=True),
         min_size=1,
         max_size=1,
-        validators=[validate_lots_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     tenderPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable
@@ -172,18 +170,18 @@ class Tender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     lots = ListType(
         ModelType(Lot, required=True),
         min_size=1,
         max_size=1,
         required=True,
-        validators=[validate_lots_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     tenderPeriod = ModelType(PeriodEndRequired)
     enquiryPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable

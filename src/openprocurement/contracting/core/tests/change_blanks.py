@@ -116,6 +116,16 @@ def create_change_invalid(self):
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {"data": {"rationale": "причина зміни укр", "rationaleTypes": ["volumeCuts", "volumeCuts"]}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "rationaleTypes", "description": ["Items should be unique"]}],
+    )
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {"data": {"rationale_ua": ""}},
         status=422,
     )

@@ -907,7 +907,7 @@ def features_bidder_invalid(self):
     # self.assertEqual(response.content_type, 'application/json')
     # self.assertEqual(response.json['status'], 'error')
     # self.assertEqual(response.json['errors'], [
-    #     {u'description': [u'Parameter code should be uniq for all parameters'], u'location': u'body', u'name': u'parameters'}
+    #     {u'description': [u'Items should be unique by fields: code'], u'location': u'body', u'name': u'parameters'}
     # ])
     # data["parameters"][1]["code"] = "OCDS-123454-YEARS"
     # data["parameters"][1]["value"] = 0.2

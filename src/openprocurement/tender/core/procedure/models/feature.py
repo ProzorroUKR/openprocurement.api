@@ -6,7 +6,7 @@ from schematics.validate import ValidationError
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType
-from openprocurement.api.procedure.validation import validate_values_uniq
+from openprocurement.api.validation import validate_uniq_value
 
 
 class FeatureValue(Model):
@@ -33,7 +33,7 @@ class Feature(Model):
         ModelType(FeatureValue, required=True),
         default=[],
         min_size=1,
-        validators=[validate_values_uniq],
+        validators=[validate_uniq_value],
     )
 
 

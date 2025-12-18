@@ -1,7 +1,7 @@
 from schematics.types import BaseType, StringType
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
 from openprocurement.tender.core.procedure.models.period import (
@@ -32,11 +32,11 @@ class PostTender(BasePostTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     # targets = ListType(
     #     ModelType(PostMetric),
-    #     validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
+    #     validators=[validate_uniq_id, validate_observation_ids_uniq],
     # )
 
     def validate_features(self, data, features):
@@ -59,11 +59,11 @@ class PatchTender(BasePatchTender):
     tenderPeriod = ModelType(PeriodStartEndRequired)
     items = ListType(
         ModelType(Item, required=True),
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     # targets = ListType(
     #     ModelType(Metric),
-    #     validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
+    #     validators=[validate_uniq_id, validate_observation_ids_uniq],
     # )
 
 
@@ -90,11 +90,11 @@ class Tender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     # targets = ListType(
     #     ModelType(Metric),
-    #     validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
+    #     validators=[validate_uniq_id, validate_observation_ids_uniq],
     # )
 
     complaintPeriod = BaseType()

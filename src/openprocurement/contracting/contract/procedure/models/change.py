@@ -6,6 +6,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now
+from openprocurement.api.validation import validate_uniq
 from openprocurement.contracting.core.procedure.models.change import BaseChange
 
 
@@ -37,6 +38,7 @@ class PatchChange(BaseChange):
             required=True,
         ),
         min_size=1,
+        validators=[validate_uniq],
     )
     contractNumber = StringType()
     dateSigned = IsoDateTimeType()

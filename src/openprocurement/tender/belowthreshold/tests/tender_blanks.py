@@ -1728,7 +1728,13 @@ def tender_funders(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["Funders' identifier should be unique"], "location": "body", "name": "funders"}],
+        [
+            {
+                "description": ["Items should be unique by fields: identifier.scheme, identifier.id"],
+                "location": "body",
+                "name": "funders",
+            }
+        ],
     )
 
     tender_data["funders"][0]["identifier"]["id"] = "some id"
@@ -1955,7 +1961,7 @@ def tender_features_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["Item id should be uniq for all items"], "location": "body", "name": "items"}],
+        [{"description": ["Items should be unique by fields: id"], "location": "body", "name": "items"}],
     )
     data["items"][0]["id"] = "0"
     data["features"] = [
@@ -2035,7 +2041,7 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                "description": [{"enum": ["Feature value should be uniq for feature"]}],
+                "description": [{"enum": ["Items should be unique by fields: value"]}],
                 "location": "body",
                 "name": "features",
             }
@@ -2051,7 +2057,7 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Feature code should be uniq for all features"],
+                "description": ["Items should be unique by fields: code"],
                 "location": "body",
                 "name": "features",
             }

@@ -880,7 +880,7 @@ def features_bidder_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Parameter code should be uniq for all parameters"],
+                "description": ["Items should be unique by fields: code"],
                 "location": "body",
                 "name": "parameters",
             }
@@ -1758,7 +1758,7 @@ def patch_bid_requirement_response(self):
             {
                 "location": "body",
                 "name": "requirement",
-                "description": "Requirement id should be uniq for all requirement responses",
+                "description": "Items should be unique by fields: requirement.id",
             }
         ],
     )

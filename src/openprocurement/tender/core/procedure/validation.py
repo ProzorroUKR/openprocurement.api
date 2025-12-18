@@ -56,7 +56,10 @@ from openprocurement.api.utils import (
     is_ua_road_classification,
     raise_operation_error,
 )
-from openprocurement.api.validation import validate_tender_first_revision_date
+from openprocurement.api.validation import (
+    validate_list_uniq_factory,
+    validate_tender_first_revision_date,
+)
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
     find_lot,
@@ -1308,10 +1311,8 @@ def validate_ccce_ua(additional_classifications):
 
 
 def validate_funders_unique(funders, *args):
-    if funders:
-        ids = [(i.identifier.scheme, i.identifier.id) for i in funders if i.identifier]
-        if len(ids) > len(set(ids)):
-            raise ValidationError("Funders' identifier should be unique")
+    validation_func = validate_list_uniq_factory("identifier.scheme", "identifier.id")
+    validation_func([x for x in funders if x.identifier])
 
 
 def validate_funders_ids(funders, *args):

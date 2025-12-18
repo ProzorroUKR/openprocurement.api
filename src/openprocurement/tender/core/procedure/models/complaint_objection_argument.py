@@ -6,7 +6,7 @@ from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.procedure.context import get_complaint
 
 
@@ -29,7 +29,5 @@ class Argument(Model):
         ModelType(Evidence, required=True),
         serialize_when_none=True,
         default=[],
-        validators=[
-            validate_items_uniq,
-        ],
+        validators=[validate_uniq_id],
     )

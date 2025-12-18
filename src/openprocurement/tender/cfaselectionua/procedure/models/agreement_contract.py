@@ -5,7 +5,7 @@ from schematics.types import MD5Type, StringType
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.api.procedure.validation import validate_parameters_uniq
+from openprocurement.api.validation import validate_uniq_code
 from openprocurement.tender.cfaselectionua.procedure.models.organization import (
     BusinessOrganization,
 )
@@ -19,7 +19,7 @@ class AgreementContract(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     parameters = ListType(
         ModelType(ParameterContract, required=True),
-        validators=[validate_parameters_uniq],
+        validators=[validate_uniq_code],
     )
     status = StringType(choices=["active", "unsuccessful"], default="active")
     suppliers = ListType(ModelType(BusinessOrganization, required=True))
