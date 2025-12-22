@@ -45,7 +45,7 @@ class EContractState(BaseContractState):
                 self.request,
                 "Previous version of pending contract with cancellations not found",
             )
-        for field_name in ("owner", "transfer_token", "access"):
+        for field_name in ("owner", "transfer_token", "access", "contractChangeRationaleTypes"):
             after[field_name] = before.get(field_name)
         self.set_author_of_object(after)
 

@@ -351,23 +351,6 @@ def post_new_version_of_contract(self):
         }
     )
     contract_data["contractChangeRationaleTypes"] = {"test": "test"}
-    response = self.app.post_json(
-        f"/contracts?acc_token={self.supplier_token}",
-        {"data": contract_data},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'milestones', 'suppliers') in contract, contractChangeRationaleTypes change forbidden",
-            }
-        ],
-    )
-
-    contract_data["contractChangeRationaleTypes"] = initial_contract_data["contractChangeRationaleTypes"]
     pdf_data = {
         "url": self.generate_docservice_url(),
         "format": "application/pdf",
@@ -387,6 +370,9 @@ def post_new_version_of_contract(self):
     self.assertEqual(new_contract["status"], "pending")
     self.assertEqual(new_contract["author"], "supplier")
     self.assertEqual(new_contract["suppliers"][0]["signerInfo"]["email"], "new@gmail.com")
+    self.assertEqual(
+        new_contract["contractChangeRationaleTypes"], initial_contract_data["contractChangeRationaleTypes"]
+    )
 
     self.assertIn("documents", new_contract)
     self.assertEqual(new_contract["documents"][0]["documentType"], "contractNotice")
