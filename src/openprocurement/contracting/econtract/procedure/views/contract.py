@@ -112,7 +112,7 @@ class EContractPostResource(ContractBaseResource):
                         ),
                     )
                 return {
-                    "data": self.serializer_class(new_version_contract).data,
+                    "data": self.serializer_class(new_version_contract, tender=tender).data,
                     "config": new_version_contract["config"],
                 }
 

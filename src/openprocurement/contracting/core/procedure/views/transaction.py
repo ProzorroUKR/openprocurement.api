@@ -81,7 +81,7 @@ class ContractTransactionsResource(ContractBaseResource):
         if save_contract(self.request):
             self.LOGGER.info(msg)
 
-        return {"data": ContractBaseSerializer(contract).data}
+        return {"data": ContractBaseSerializer(contract, tender=self.request.validated.get("tender")).data}
 
     @json_view(permission="view_contract")
     def get(self):

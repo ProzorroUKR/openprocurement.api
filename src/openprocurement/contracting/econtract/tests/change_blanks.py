@@ -4,7 +4,7 @@ from datetime import timedelta
 from openprocurement.api.constants import (
     MILESTONE_CODES,
     MILESTONE_TITLES,
-    RATIONALE_TYPES,
+    RATIONALE_TYPES_DECREE_1178,
 )
 from openprocurement.api.utils import get_now
 
@@ -171,7 +171,7 @@ def create_change(self):
             {
                 "location": "body",
                 "name": "rationaleTypes",
-                "description": [f"Value must be one of {tuple(RATIONALE_TYPES.keys())}."],
+                "description": [f"Value must be one of {tuple(RATIONALE_TYPES_DECREE_1178.keys())}."],
             }
         ],
     )
@@ -181,7 +181,7 @@ def create_change(self):
         {
             "data": {
                 "rationale": "трататата",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"title": "New title of contract"},
             }
         },
@@ -198,7 +198,7 @@ def create_change(self):
         {
             "data": {
                 "rationale": "трататата",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"title": "New title 2"},
             }
         },

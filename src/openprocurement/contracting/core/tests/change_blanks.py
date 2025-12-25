@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.api.constants import RATIONALE_TYPES
+from openprocurement.api.constants import RATIONALE_TYPES_DECREE_1178
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import test_signer_info
 
@@ -247,14 +247,14 @@ def create_change(self):
             {
                 "location": "body",
                 "name": "rationaleTypes",
-                "description": [f"Value must be one of {tuple(RATIONALE_TYPES.keys())}."],
+                "description": [f"Value must be one of {tuple(RATIONALE_TYPES_DECREE_1178.keys())}."],
             }
         ],
     )
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
-        {"data": {"rationale": "трататата", "rationaleTypes": ["priceReduction"]}},
+        {"data": {"rationale": "трататата", "rationaleTypes": ["priceReductionWithoutQuantity"]}},
     )
     self.assertEqual(response.status, "201 Created")
     change2 = response.json["data"]

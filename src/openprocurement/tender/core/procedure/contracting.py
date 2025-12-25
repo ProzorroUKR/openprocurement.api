@@ -355,7 +355,7 @@ def update_econtracts_statuses(contracts, status):
 
 def upload_contract_pdf_document(contract: dict, tender: dict):
     request = get_request()
-    contract_data = ContractBaseSerializer(contract).data
+    contract_data = ContractBaseSerializer(contract, tender=tender).data
     tender_data = TenderBaseSerializer(tender).data
     data = {
         "contract": contract_data,
@@ -374,7 +374,7 @@ def upload_contract_pdf_document(contract: dict, tender: dict):
 
 def upload_contract_change_pdf_document(change: dict, contract: dict, tender: dict):
     request = get_request()
-    contract_data = ContractBaseSerializer(contract).data
+    contract_data = ContractBaseSerializer(contract, tender=tender).data
     tender_data = TenderBaseSerializer(tender).data
     data = {
         "change": change,
