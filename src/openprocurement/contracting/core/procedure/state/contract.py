@@ -1116,12 +1116,12 @@ class ContractState(
             end_date = calculate_full_date(parse_date(start_date), delta, ceil=True)
             period["endDate"] = end_date.isoformat()
 
-    def set_author_of_object(self, data):
+    def set_author_of_object(self, data, field_name="author"):
         contract = self.request.validated["contract"]
         if is_bid_owner(self.request, contract):
-            data["author"] = "supplier"
+            data[field_name] = "supplier"
         elif is_contract_owner(self.request, contract):
-            data["author"] = "buyer"
+            data[field_name] = "buyer"
         else:
             raise_operation_error(
                 self.request,

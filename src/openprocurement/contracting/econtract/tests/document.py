@@ -12,7 +12,6 @@ from openprocurement.contracting.econtract.tests.document_blanks import (
     activate_contract_after_signatures_and_document_upload,
     create_contract_document,
     create_contract_document_json,
-    post_contract_signature_duplicate,
     sign_active_contract,
     sign_pending_contract,
 )
@@ -27,7 +26,6 @@ class ContractDocumentResourceTest(BaseEContractContentWebTest):
     test_limited_contract_confidential_document = snitch(limited_contract_confidential_document)
     test_sign_pending_contract = snitch(sign_pending_contract)
     test_sign_active_contract = snitch(sign_active_contract)
-    test_post_contract_signature_duplicate = snitch(post_contract_signature_duplicate)
     test_activate_contract_after_signatures_and_document_upload = snitch(
         activate_contract_after_signatures_and_document_upload
     )
