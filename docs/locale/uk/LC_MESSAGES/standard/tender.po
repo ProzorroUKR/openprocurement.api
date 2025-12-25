@@ -810,10 +810,10 @@ msgstr "Довідник з можливими причинами внесенн
 msgid "Could be one of:"
 msgstr "Можливі значення:"
 
-msgid "`rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/e41d3747a90880d394c209b978ccaec9ad288755/codelists/contract_change_rationale_type_law_922.json>`_"
+msgid "`rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_"
 msgstr ""
 
-msgid "`rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/e41d3747a90880d394c209b978ccaec9ad288755/codelists/contract_change_rationale_type_decree_1178.json>`_"
+msgid "`rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_"
 msgstr ""
 
 msgid "The Tender dates should be sequential:"

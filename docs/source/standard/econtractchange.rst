@@ -27,9 +27,9 @@ Schema
 
     Possible string values are from the field `contractChangeRationaleTypes`. Could be one of:
 
-        * `rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/e41d3747a90880d394c209b978ccaec9ad288755/codelists/contract_change_rationale_type_law_922.json>`_
-        * `rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/e41d3747a90880d394c209b978ccaec9ad288755/codelists/contract_change_rationale_type_decree_1178.json>`_
-        * `rationaleTypes general <https://github.com/ProzorroUKR/standards/blob/e41d3747a90880d394c209b978ccaec9ad288755/codelists/contract_change_rationale_type.json>`_ (deprecated after date CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM)
+        * `rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_
+        * `rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_
+        * `rationaleTypes general <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type.json>`_ (deprecated after date CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM)
 
 :date:
     string, :ref:`date`, auto-generated
