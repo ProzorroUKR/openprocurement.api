@@ -18,8 +18,8 @@ You can look for more details in :ref:`config` section.
 
 .. ПРЕЦЕДЕНТ Т1. Опублікувати оголошення
 
-The set of possible `procuringEntity.kind` values for `closeFrameworkAgreementUA`
----------------------------------------------------------------------------------
+Allowed `procuringEntity.kind` values
+-------------------------------------
 
 .. csv-table::
    :file: csv/kind.csv

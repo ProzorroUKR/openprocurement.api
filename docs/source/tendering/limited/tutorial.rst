@@ -26,22 +26,22 @@ The set of possible configuration values for `negotiation.quick`:
 
 You can look for more details in :ref:`config` section.
 
+Allowed `procuringEntity.kind` values
+-------------------------------------
+
 The set of possible `procuringEntity.kind` values for `reporting`
------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-reporting.csv
    :header-rows: 1
 
 The set of possible `procuringEntity.kind` values for `negotiation`
--------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-negotiation.csv
    :header-rows: 1
 
 The set of possible `procuringEntity.kind` values for `negotiation.quick`
--------------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-negotiation-quick.csv

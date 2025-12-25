@@ -16,8 +16,8 @@ The set of possible configuration values:
 
 You can look for more details in :ref:`config` section.
 
-The set of possible `procuringEntity.kind` values for `closeFrameworkAgreementSelectionUA`
-------------------------------------------------------------------------------------------
+Allowed `procuringEntity.kind` values
+-------------------------------------
 
 .. csv-table::
    :file: csv/kind.csv

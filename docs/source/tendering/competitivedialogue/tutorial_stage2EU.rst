@@ -11,8 +11,8 @@ The set of possible configuration values:
 
 You can look for more details in :ref:`config` section.
 
-The set of possible `procuringEntity.kind` values for `competitiveDialogueEU.stage2`
-------------------------------------------------------------------------------------
+Allowed `procuringEntity.kind` values
+-------------------------------------
 
 .. csv-table::
    :file: csv/kind-eu-stage2.csv

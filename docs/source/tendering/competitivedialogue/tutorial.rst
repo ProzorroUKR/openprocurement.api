@@ -22,15 +22,16 @@ The set of possible configuration values for `competitiveDialogueUA`:
 
 You can look for more details in :ref:`config` section.
 
+Allowed `procuringEntity.kind` values
+-------------------------------------
+
 The set of possible `procuringEntity.kind` values for `competitiveDialogueEU`
------------------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-eu-stage1.csv
    :header-rows: 1
 
 The set of possible `procuringEntity.kind` values for `competitiveDialogueUA`
------------------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-ua-stage1.csv
