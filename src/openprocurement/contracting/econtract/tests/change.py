@@ -48,6 +48,7 @@ class ContractChangesMixin:
         super().tearDown()
 
     def activate_change(self, change_id):
+        # add signature for buyer
         contract_sign_data = {
             "documentType": "contractSignature",
             "title": "sign.p7s",
@@ -59,10 +60,21 @@ class ContractChangesMixin:
             f"/contracts/{self.contract_id}/changes/{change_id}/documents?acc_token={self.contract_token}",
             {"data": contract_sign_data},
         )
+        # add signatory for buyer
+        self.app.post_json(
+            f"/contracts/{self.contract_id}/changes/{change_id}/signatories?acc_token={self.contract_token}",
+            {"data": {}},
+        )
+
         # add signature for supplier
         self.app.post_json(
             f"/contracts/{self.contract_id}/changes/{change_id}/documents?acc_token={self.bid_token}",
             {"data": contract_sign_data},
+        )
+        # add signatory for supplier
+        self.app.post_json(
+            f"/contracts/{self.contract_id}/changes/{change_id}/signatories?acc_token={self.bid_token}",
+            {"data": {}},
         )
 
 

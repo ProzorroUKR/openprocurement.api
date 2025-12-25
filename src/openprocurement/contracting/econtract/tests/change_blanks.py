@@ -341,6 +341,24 @@ def activation_of_change(self):
     self.assertEqual(response.status, "201 Created")
     change = response.json["data"]
 
+    # validate signatory without contractSignature document
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/signatories?acc_token={self.contract_token}",
+        {"data": {}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "documents",
+                "description": "Not enough contractSignature documents by buyer were uploaded.",
+            },
+        ],
+    )
+
     # add signature for buyer
     contract_sign_data = {
         "documentType": "contractSignature",
@@ -353,6 +371,41 @@ def activation_of_change(self):
         f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
         {"data": contract_sign_data},
     )
+    # add signatory for buyer
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/signatories?acc_token={self.contract_token}",
+        {"data": {}},
+    )
+    # validate signatory already provided by buyer
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/signatories?acc_token={self.contract_token}",
+        {"data": {}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "signatories", "description": "Signatory by buyer was already created."},
+        ],
+    )
+
+    # validate upload signature after signatory confirmation
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
+        {"data": contract_sign_data},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Signatory was already confirmed."
+            }        ],
+    )
 
     response = self.app.get(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
@@ -361,11 +414,52 @@ def activation_of_change(self):
     self.assertEqual(response.json["data"]["status"], "pending")
     self.assertNotIn("dateSigned", response.json["data"])
 
+    # validate signatory without contractSignature document
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/signatories?acc_token={self.bid_token}",
+        {"data": {}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "documents",
+                "description": "Not enough contractSignature documents by supplier were uploaded.",
+            },
+        ],
+    )
+
     # add signature for supplier
     self.app.post_json(
         f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.bid_token}",
         {"data": contract_sign_data},
     )
+    # add signatory for supplier
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/signatories?acc_token={self.bid_token}",
+        {"data": {}},
+    )
+    # validate contract already activated
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/signatories?acc_token={self.bid_token}",
+        {"data": {}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't update contract change in current (active) status",
+            }
+        ],
+    )
+
     response = self.app.get(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
     )
@@ -1068,11 +1162,21 @@ def change_tender_contract_items_change(self):
         f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.contract_token}",
         {"data": contract_sign_data},
     )
+    # add signatory for buyer
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/signatories?acc_token={self.contract_token}",
+        {"data": {}},
+    )
 
     # add signature for supplier
     self.app.post_json(
         f"/contracts/{self.contract_id}/changes/{change['id']}/documents?acc_token={self.bid_token}",
         {"data": contract_sign_data},
+    )
+    # add signatory for supplier
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/changes/{change['id']}/signatories?acc_token={self.bid_token}",
+        {"data": {}},
     )
 
     # update allowed item fields

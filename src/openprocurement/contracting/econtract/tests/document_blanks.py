@@ -21,6 +21,12 @@ def sign_pending_contract(self):
     self.assertIn("author", response.json["data"])
     self.assertEqual(response.json["data"]["author"], "buyer")
 
+    # add signatory for buyer
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/signatories?acc_token={self.contract_token}",
+        {"data": {}},
+    )
+
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.supplier_token}", {"data": contract_sign_data}
     )
@@ -33,6 +39,12 @@ def sign_pending_contract(self):
     self.assertEqual(response.json["data"]["documentType"], "contractSignature")
     self.assertIn("author", response.json["data"])
     self.assertEqual(response.json["data"]["author"], "supplier")
+
+    # add signatory for supplier
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/signatories?acc_token={self.supplier_token}",
+        {"data": {}},
+    )
 
     # check contract status
     response = self.app.get(f"/contracts/{self.contract_id}?acc_token={self.supplier_token}")
@@ -76,34 +88,6 @@ def sign_active_contract(self):
     )
 
 
-def post_contract_signature_duplicate(self):
-    contract_sign_data = {
-        "documentType": "contractSignature",
-        "title": "sign.p7s",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/pkcs7-signature",
-    }
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}", {"data": contract_sign_data}
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-
-    # put signature
-    response = self.app.post_json(
-        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
-        {"data": contract_sign_data},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Contract signature for buyer already exists",
-    )
-
-
 def activate_contract_after_signatures_and_document_upload(self):
     contract_before = self.mongodb.contracts.get(self.contract_id)
     self.assertEqual(contract_before["status"], "pending")
@@ -120,10 +104,21 @@ def activate_contract_after_signatures_and_document_upload(self):
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {"data": contract_sign_data},
     )
+    # add signatory for buyer
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/signatories?acc_token={self.contract_token}",
+        {"data": {}},
+    )
+
     # add signature for supplier
     self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.bid_token}",
         {"data": contract_sign_data},
+    )
+    # add signatory for supplier
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/signatories?acc_token={self.bid_token}",
+        {"data": {}},
     )
 
     contract_after = self.mongodb.contracts.get(self.contract_id)
