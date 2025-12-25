@@ -16,8 +16,8 @@ msgstr ""
 "Generated-By: Babel 2.6.0\n"
 
 #: ../../source/contracting/index.rst:4
-msgid "Contracting API interface to OpenProcurement database"
-msgstr "Contracting API для реєстрації даних пов’язаних з договором"
+msgid "Contracting API"
+msgstr "Contracting API для операцій з договором"
 
 #: ../../source/contracting/index.rst:6
 msgid "Contents:"

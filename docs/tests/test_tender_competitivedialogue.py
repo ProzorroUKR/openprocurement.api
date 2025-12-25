@@ -508,8 +508,10 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         self.set_enquiry_period_end()
         self.app.authorization = ("Basic", ("broker", ""))
 
+        response = self.app.get("/tenders/{}?acc_token={}".format(tender["id"], owner_token))
+        self.assertEqual(response.status, "200 OK")
+
         with open(TARGET_DIR + "update-tender-after-enqiery.http", "w") as self.app.file_obj:
-            response = self.app.get("/tenders/{}?acc_token={}".format(tender["id"], owner_token))
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
                 {"data": {"value": {"amount": 501.0}}},
@@ -1078,6 +1080,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         tender = response.json["data"]
         items = deepcopy(tender["items"])
         items[0]["deliveryDate"].update({"endDate": endDate})
+
         with open(TARGET_DIR + "stage2/EU/update-tender-after-enqiery.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}, status=403
@@ -2238,6 +2241,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAWebTest, MockWebTestMixi
         endDate = (get_now() + timedelta(days=31)).isoformat()
         items = deepcopy(tender["items"])
         items[0]["deliveryDate"].update({"endDate": endDate})
+
         with open(TARGET_DIR + "stage2/UA/update-tender-after-enqiery.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}, status=403

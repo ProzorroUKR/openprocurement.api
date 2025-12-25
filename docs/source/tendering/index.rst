@@ -1,7 +1,7 @@
 .. _tendering:
 
-Tendering API interface to OpenProcurement database
-===================================================
+Tendering API
+=============
 
 Contents:
 

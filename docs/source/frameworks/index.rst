@@ -1,7 +1,7 @@
 .. _frameworks:
 
-Frameworks API interface to OpenProcurement database
-=====================================================
+Frameworks API
+==============
 
 Contents:
 

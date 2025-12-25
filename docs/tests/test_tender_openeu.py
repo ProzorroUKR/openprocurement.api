@@ -279,8 +279,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         self.set_enquiry_period_end()
         self.app.authorization = ("Basic", ("broker", ""))
+
+        response = self.app.get("/tenders/{}?acc_token={}".format(tender["id"], owner_token))
+        self.assertEqual(response.status, "200 OK")
+
         with open(TARGET_DIR + "update-tender-after-enqiery.http", "w") as self.app.file_obj:
-            response = self.app.get("/tenders/{}?acc_token={}".format(tender["id"], owner_token))
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
                 {"data": {"value": {"amount": 501.0}}},

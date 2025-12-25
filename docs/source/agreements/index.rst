@@ -1,7 +1,7 @@
 .. _agreementcfaua:
 
-Agreement API interface to OpenProcurement database
-=====================================================
+Agreement API
+=============
 
 Contents:
 

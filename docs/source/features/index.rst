@@ -1,7 +1,7 @@
-.. _development:
+.. _features:
 
-Розробки та зміни
-=================
+Drafts
+======
 
 Contents:
 

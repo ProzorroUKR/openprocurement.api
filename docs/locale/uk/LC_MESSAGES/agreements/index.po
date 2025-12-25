@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-msgid "Agreement API interface to OpenProcurement database"
-msgstr "Agreement API для реєстрації даних пов’язаних з договором"
+msgid "Agreement API"
+msgstr "Agreement API для операцій з угодою"
 
 msgid "Contents:"
 msgstr "Зміст:"
@@ -28,4 +28,3 @@ msgstr "Туторіал по реєстру cfaua"
 
 msgid "Tutorial of agreements for frameworks:"
 msgstr "Туторіал по реєстру кваліфікації"
-

@@ -19,8 +19,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-msgid "Розробки та зміни"
-msgstr ""
+msgid "Drafts"
+msgstr "Чернетки"
 
 msgid "Contents:"
 msgstr ""

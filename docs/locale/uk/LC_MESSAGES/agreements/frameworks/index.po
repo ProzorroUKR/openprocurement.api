@@ -21,5 +21,5 @@ msgid "Open Framework Agreement - ``dynamicPurchasingSystem``, ``electronicCatal
 msgstr ""
 
 msgid "Contents:"
-msgstr ""
+msgstr "Зміст:"
 

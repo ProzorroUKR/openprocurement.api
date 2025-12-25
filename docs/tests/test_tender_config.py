@@ -1865,13 +1865,14 @@ class ValueCurrencyEqualityTenderConfigTest(TenderConfigBaseTest):
                 },
             )
             self.assertEqual(response.status, "201 Created")
-            self.add_sign_doc(
-                tender_id,
-                response.json["access"]["token"],
-                docs_url=f"/bids/{response.json['data']['id']}/documents",
-                document_type="proposal",
-            )
-            self.set_responses(tender_id, response.json, "pending")
+
+        self.add_sign_doc(
+            tender_id,
+            response.json["access"]["token"],
+            docs_url=f"/bids/{response.json['data']['id']}/documents",
+            document_type="proposal",
+        )
+        self.set_responses(tender_id, response.json, "pending")
         bid_token = response.json["access"]["token"]
 
         # Auction

@@ -1,7 +1,7 @@
 .. _violation_reports:
 
-Violation Reports
-=================
+Violation Reports API
+=====================
 
 Contents:
 

@@ -1,7 +1,7 @@
 .. _planning:
 
-Planning API interface to OpenProcurement database
-==================================================
+Planning API
+============
 
 
 Contents:
@@ -11,4 +11,4 @@ Contents:
 
    overview
    tutorial
-
+   centralized-procurements/index

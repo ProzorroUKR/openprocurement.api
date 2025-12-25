@@ -1,7 +1,7 @@
 .. _base-contracting:
 
-Contracting API interface to OpenProcurement database
-=====================================================
+Contracting API
+===============
 
 Contents:
 

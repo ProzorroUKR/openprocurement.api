@@ -15,9 +15,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-msgid "Frameworks API interface to OpenProcurement database"
-msgstr "Frameworks API для реєстрації даних пов’язаних з кваліфікацією"
+msgid "Frameworks API"
+msgstr "Frameworks API для операцій з відбором до закупівлі"
 
 msgid "Contents:"
 msgstr "Зміст:"
-

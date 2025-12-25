@@ -1,4 +1,4 @@
-.. _basic-actions:
+.. _tendering-basic-actions:
 
 Basic Actions
 =============

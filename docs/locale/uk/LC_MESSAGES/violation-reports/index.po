@@ -19,8 +19,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-msgid "Violation Reports"
-msgstr "Звіти про порушення"
+msgid "Violation Reports API"
+msgstr "Violation Reports API для звітів про порушення"
 
 msgid "Contents:"
 msgstr "Зміст:"

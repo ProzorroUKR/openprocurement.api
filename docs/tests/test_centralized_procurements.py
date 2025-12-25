@@ -18,7 +18,7 @@ from tests.base.data import (
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
-TARGET_DIR = "docs/source/centralized-procurements/http/"
+TARGET_DIR = "docs/source/planning/centralized-procurements/http/"
 
 test_plan_data = deepcopy(test_docs_plan_data)
 test_tender_eu_data = deepcopy(test_docs_tender_openeu)

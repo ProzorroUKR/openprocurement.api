@@ -10,9 +10,7 @@ Contents:
    :maxdepth: 3
 
    overview
-   authentication
-   errors
-   options
+   basic-actions/index
    standard/index
    tendering/index
    planning/index
@@ -20,14 +18,8 @@ Contents:
    agreements/index
    frameworks/index
    relocation/index
-   medicines-registry/index
-   centralized-procurements/index
    violation-reports/index
-   dates
-   performance
-   cluster
-   acceleration
-   constants
+   medicines-registry/index
    features/index
    developers/index
 

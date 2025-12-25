@@ -4429,6 +4429,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             bid, bid_token = self.create_bid(
                 self.tender_id,
                 {
+                    "status": "draft",
                     "tenderers": [supplier],
                     "value": {"amount": 500},
                     "requirementResponses": copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1),

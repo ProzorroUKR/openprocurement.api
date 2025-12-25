@@ -22,8 +22,8 @@ msgstr ""
 "X-Generator: Poedit 2.1.1\n"
 
 #: ../../source/planning/index.rst:4
-msgid "Planning API interface to OpenProcurement database"
-msgstr "Planning API для реєстрації даних пов’язаних з планом закупівлі"
+msgid "Planning API"
+msgstr "Planning API для операцій з планом закупівлі"
 
 #: ../../source/planning/index.rst:7
 msgid "Contents:"

@@ -19,8 +19,8 @@ msgstr ""
 "Generated-By: Babel 1.3\n"
 
 #: ../../source/tendering/index.rst:4
-msgid "Tendering API interface to OpenProcurement database"
-msgstr "Tendering API для реєстрації даних пов’язаних з закупівлею"
+msgid "Tendering API"
+msgstr "Tendering API для операцій з закупівлею"
 
 #: ../../source/tendering/index.rst:6
 msgid "Contents:"

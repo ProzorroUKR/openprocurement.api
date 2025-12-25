@@ -13,8 +13,8 @@ msgstr ""
 "Generated-By: Babel 1.3\n"
 
 #: ../../source/relocation/index.rst:4
-msgid "Relocation API interface to OpenProcurement database"
-msgstr "Relocation API для зміни поточного майданчика"
+msgid "Relocation API"
+msgstr "Relocation API для зміни майданчика"
 
 #: ../../source/relocation/index.rst:6
 msgid "Contents:"

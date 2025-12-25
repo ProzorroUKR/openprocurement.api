@@ -1,7 +1,7 @@
 .. _relocation:
 
-Relocation API interface to OpenProcurement database
-=====================================================
+Relocation API
+==============
 
 Contents:
 

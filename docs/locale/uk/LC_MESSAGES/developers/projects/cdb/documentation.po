@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 12:11+0200\n"
+"POT-Creation-Date: 2025-12-25 16:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -107,25 +107,4 @@ msgid "Перевірка згенерованих запитів на CI"
 msgstr ""
 
 msgid "Публікація документації (readthedocs)"
-msgstr ""
-
-msgid "Створіть віртуальне середовище:"
-msgstr ""
-
-msgid "або"
-msgstr ""
-
-msgid "Активуйте віртуальне середовище:"
-msgstr ""
-
-msgid "Встановіть необхідні залежності:"
-msgstr ""
-
-msgid "4.Додайте \"mongo\" у /etc/hosts"
-msgstr ""
-
-msgid "Запустіть mongo за потреби:"
-msgstr ""
-
-msgid "Згенеруйте документацію"
 msgstr ""
