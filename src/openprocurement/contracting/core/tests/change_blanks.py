@@ -1,7 +1,7 @@
 from datetime import timedelta
 
+from openprocurement.api.constants import RATIONALE_TYPES
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
 from openprocurement.contracting.core.tests.data import test_signer_info
 
 
@@ -38,7 +38,7 @@ def get_change(self):
                 "rationale_ru": "ff",
                 "rationale_en": "asdf",
                 "contractNumber": 12,
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
             }
         },
     )
@@ -116,6 +116,16 @@ def create_change_invalid(self):
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {"data": {"rationale": "причина зміни укр", "rationaleTypes": ["volumeCuts", "volumeCuts"]}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "rationaleTypes", "description": ["Items should be unique"]}],
+    )
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {"data": {"rationale_ua": ""}},
         status=422,
     )
@@ -177,7 +187,7 @@ def create_change(self):
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
-        {"data": {"rationale": "трататата", "rationaleTypes": ["priceReduction"]}},
+        {"data": {"rationale": "трататата", "rationaleTypes": ["priceReductionWithoutQuantity"]}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -201,6 +211,32 @@ def create_change(self):
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "трататата",
+                "rationaleTypes": ["priceReduction"],  # rationale from old dictionary
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "rationaleTypes",
+                "description": [f"Value must be one of {tuple(self.contract['contractChangeRationaleTypes'].keys())}."],
+            }
+        ],
+    )
+
+    contract_doc = self.mongodb.contracts.get(self.contract["id"])
+    contract_doc.pop('contractChangeRationaleTypes', None)
+    self.mongodb.contracts.save(contract_doc)
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {"data": {"rationale": "трататата", "rationaleTypes": ["non-existing-rationale"]}},
         status=422,
     )
@@ -211,7 +247,7 @@ def create_change(self):
             {
                 "location": "body",
                 "name": "rationaleTypes",
-                "description": [[f"Value must be one of {RATIONALE_TYPES}."]],
+                "description": [f"Value must be one of {tuple(RATIONALE_TYPES.keys())}."],
             }
         ],
     )
@@ -236,7 +272,7 @@ def patch_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 146",
             }
         },
@@ -276,17 +312,17 @@ def patch_change(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
-        {"data": {"rationaleTypes": ["fiscalYearExtension", "priceReduction"]}},
+        {"data": {"rationaleTypes": ["fiscalYearExtension", "priceReductionWithoutQuantity"]}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["rationaleTypes"], ["fiscalYearExtension", "priceReduction"])
+    self.assertEqual(response.json["data"]["rationaleTypes"], ["fiscalYearExtension", "priceReductionWithoutQuantity"])
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
-        {"data": {"rationaleTypes": ["fiscalYearExtension", "volumeCuts", "taxRate"]}},
+        {"data": {"rationaleTypes": ["fiscalYearExtension", "volumeCuts", "taxationSystem"]}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["rationaleTypes"], ["fiscalYearExtension", "volumeCuts", "taxRate"])
+    self.assertEqual(response.json["data"]["rationaleTypes"], ["fiscalYearExtension", "volumeCuts", "taxationSystem"])
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
@@ -307,7 +343,7 @@ def patch_change(self):
             {
                 "location": "body",
                 "name": "rationaleTypes",
-                "description": [[f"Value must be one of {RATIONALE_TYPES}."]],
+                "description": [f"Value must be one of {tuple(self.contract['contractChangeRationaleTypes'].keys())}."],
             }
         ],
     )
@@ -446,7 +482,7 @@ def change_date_signed(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 146",
             }
         },
@@ -534,7 +570,7 @@ def change_date_signed(self):
             "data": {
                 "rationale": "iнша причина зміни укр",
                 "rationale_en": "another change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 147",
             }
         },
@@ -604,7 +640,7 @@ def change_date_signed(self):
             "data": {
                 "rationale": "третя причина зміни укр",
                 "rationale_en": "third change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 148",
             }
         },
@@ -665,7 +701,7 @@ def date_signed_on_change_creation(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "dateSigned": one_day_in_past,
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 146",
             }
         },
@@ -681,7 +717,7 @@ def date_signed_on_change_creation(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "dateSigned": one_day_in_future,
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 146",
             }
         },
@@ -706,7 +742,7 @@ def date_signed_on_change_creation(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "dateSigned": date,
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 146",
             }
         },
@@ -741,7 +777,7 @@ def change_date_signed_very_old_contracts_data(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 146",
             }
         },
@@ -782,7 +818,7 @@ def change_date_signed_very_old_contracts_data(self):
             "data": {
                 "rationale": "iнша причина зміни укр",
                 "rationale_en": "another change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 147",
             }
         },
@@ -830,7 +866,7 @@ def change_date_signed_very_old_contracts_data(self):
             "data": {
                 "rationale": "третя причина зміни укр",
                 "rationale_en": "third change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 148",
             }
         },
@@ -877,7 +913,7 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 146",
                 "dateSigned": one_day_in_past,
             }
@@ -909,7 +945,7 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
             "data": {
                 "rationale": "третя причина зміни укр",
                 "rationale_en": "third change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 148",
                 "dateSigned": one_day_in_past,
             }
@@ -929,7 +965,7 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
             "data": {
                 "rationale": "третя причина зміни укр",
                 "rationale_en": "third change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 148",
                 "dateSigned": valid_date,
             }
@@ -945,7 +981,7 @@ def patch_change_after_contract_is_already_terminated(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "contractNumber": "№ 146",
             }
         },

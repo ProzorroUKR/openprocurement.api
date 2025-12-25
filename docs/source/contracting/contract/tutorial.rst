@@ -274,6 +274,13 @@ Let's add new `change` to the contract:
 
 Note that you can provide more than one value in ``rationaleTypes`` field.
 
+Possible values for field `rationaleTypes` are validated from list of keys in `contractChangeRationaleTypes`.
+
+If we set `rationaleTypes` not from `contractChangeRationaleTypes` we will see an error:
+
+.. http:example:: http/add-contract-change-invalid-rationale-types.http
+   :code:
+
 You can view the `change`:
 
 .. http:example:: http/view-contract-change.http

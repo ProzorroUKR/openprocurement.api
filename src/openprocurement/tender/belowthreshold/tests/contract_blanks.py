@@ -1227,6 +1227,7 @@ def create_tender_contract(self):
         "suppliers",
         "buyer",
         "milestones",
+        "contractChangeRationaleTypes",
     }
 
     if "contractTemplateName" in tender:

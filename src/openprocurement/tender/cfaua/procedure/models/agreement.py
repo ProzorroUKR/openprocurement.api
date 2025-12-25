@@ -10,7 +10,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.api.validation import validate_uniq_code
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.procedure.models.agreement_contract import (
     AgreementContract,
@@ -50,7 +50,7 @@ class Agreement(Model):
     agreementNumber = StringType()
     date = IsoDateTimeType()
     dateSigned = IsoDateTimeType()
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     items = ListType(ModelType(Item, required=True))
     period = ModelType(Period)
     status = StringType(choices=["pending", "active", "cancelled", "unsuccessful"], required=True)

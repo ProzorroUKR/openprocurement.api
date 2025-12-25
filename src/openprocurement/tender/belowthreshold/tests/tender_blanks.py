@@ -9,7 +9,10 @@ from openprocurement.api.constants import (
     GUARANTEE_ALLOWED_TENDER_TYPES,
     MILESTONE_CODES,
     MILESTONE_TITLES,
+    RATIONALE_TYPES_DECREE_1178,
+    RATIONALE_TYPES_LAW_922,
     ROUTE_PREFIX,
+    TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178,
     TZ,
 )
 from openprocurement.api.constants_env import RELEASE_2020_04_19
@@ -1277,6 +1280,7 @@ def create_tender_generated(self):
         "documents",
         "noticePublicationDate",
         "contractTemplateName",
+        "contractChangeRationaleTypes",
     ]
     if self.tender_for_funders:
         fields.append("funders")
@@ -1724,7 +1728,13 @@ def tender_funders(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["Funders' identifier should be unique"], "location": "body", "name": "funders"}],
+        [
+            {
+                "description": ["Items should be unique by fields: identifier.scheme, identifier.id"],
+                "location": "body",
+                "name": "funders",
+            }
+        ],
     )
 
     tender_data["funders"][0]["identifier"]["id"] = "some id"
@@ -1785,6 +1795,7 @@ def tender_fields(self):
         "owner",
         "documents",
         "noticePublicationDate",
+        "contractChangeRationaleTypes",
     }
     self.assertEqual(
         set(tender) - set(self.initial_data),
@@ -1950,7 +1961,7 @@ def tender_features_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["Item id should be uniq for all items"], "location": "body", "name": "items"}],
+        [{"description": ["Items should be unique by fields: id"], "location": "body", "name": "items"}],
     )
     data["items"][0]["id"] = "0"
     data["features"] = [
@@ -2030,7 +2041,7 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                "description": [{"enum": ["Feature value should be uniq for feature"]}],
+                "description": [{"enum": ["Items should be unique by fields: value"]}],
                 "location": "body",
                 "name": "features",
             }
@@ -2046,7 +2057,7 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Feature code should be uniq for all features"],
+                "description": ["Items should be unique by fields: code"],
                 "location": "body",
                 "name": "features",
             }
@@ -4962,3 +4973,22 @@ def set_procuring_entity_contract_owner(self):
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["buyers"][0]["contract_owner"], "broker")
+
+
+def tender_contract_change_rationale_types(self):
+    request_path = "/tenders"
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
+    tender = response.json["data"]
+    if tender["procurementMethodType"] in TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178:
+        rationale_types = RATIONALE_TYPES_DECREE_1178
+    else:
+        rationale_types = RATIONALE_TYPES_LAW_922
+    self.assertIn("contractChangeRationaleTypes", tender)
+    self.assertEqual(tender["contractChangeRationaleTypes"], rationale_types)
+
+    with mock.patch(
+        "openprocurement.tender.core.procedure.state.tender_details.CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM",
+        get_now() + timedelta(days=1),
+    ):
+        response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
+        self.assertNotIn("contractChangeRationaleTypes", response.json["data"])

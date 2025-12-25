@@ -2,8 +2,7 @@ from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.procedure.models.item import validate_items_uniq
-from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.competitivedialogue.constants import (
     FEATURES_MAX_SUM,
     STAGE_2_EU_TYPE,
@@ -58,9 +57,9 @@ class PostEUTender(BasePostTender):
         ModelType(EUItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     tenderPeriod = ModelType(PostPeriodStartEndRequired)
 
     criteria = ListType(
@@ -97,9 +96,9 @@ class PatchEUTender(BasePatchTender):
     items = ListType(
         ModelType(EUItem, required=True),
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     status = StringType(
         choices=[
             "draft",
@@ -120,9 +119,9 @@ class EUTender(BaseTender):
         ModelType(EUItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     shortlistedFirms = ListType(ModelType(Firms, required=True), min_size=3, required=True)
     status = StringType(
         choices=[
@@ -176,9 +175,9 @@ class PostUATender(UABasePostTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     tenderPeriod = ModelType(PostPeriodStartEndRequired)
 
     criteria = ListType(
@@ -216,9 +215,9 @@ class PatchUATender(UABasePatchTender):
     items = ListType(
         ModelType(UAItem, required=True),
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     status = StringType(
         choices=[
             "draft",
@@ -256,9 +255,9 @@ class UATender(UABaseTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
 
     def validate_awardCriteria(self, data, value):
         # for deactivate validation of awardCriteria from parent class

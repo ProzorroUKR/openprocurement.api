@@ -1,3 +1,5 @@
+from typing import Callable
+
 from schematics.exceptions import ValidationError
 from simplejson import JSONDecodeError
 
@@ -34,13 +36,6 @@ def validate_json_data(request, allow_bulk=False, **kwargs):
         raise error_handler(request)
     request.validated["json_data"] = data
     return data
-
-
-def validate_items_uniq(items, *args):
-    if items:
-        ids = [i.id for i in items]
-        if [i for i in set(ids) if ids.count(i) > 1]:
-            raise ValidationError("Item id should be uniq for all items")
 
 
 def validate_accreditation_level_base(request, levels, name, action):
@@ -81,3 +76,53 @@ def validate_tender_first_revision_date(request, validation_date, message="Forbi
     tender_creation_date = get_first_revision_date(tender, default=get_now())
     if tender_creation_date < validation_date:
         raise_operation_error(request, message)
+
+
+def validate_list_uniq_factory(*item_attrs, **_kwargs) -> Callable:
+    """
+    Factory for ListType validators that require unique items
+    Args:
+        item_attrs: item attributes for compiling unique identifier
+    """
+    # get custom error message
+    err_msg = _kwargs.get("err_msg", "Items should be unique")
+    if item_attrs:
+        err_msg = f"{err_msg} by fields: {', '.join(item_attrs)}"
+
+    # if err_field provided set custom error destination
+    if err_field := _kwargs.get("err_field"):
+        err_msg = [{err_field: err_msg}]
+
+    def _get_attr(item, field_attr):
+        """
+        Function gets nested attribute of the provided item
+        Args:
+            item: item from the iterable
+            field_attr: field attr, can be nested separated by '.'
+        """
+        for x in field_attr.split("."):
+            item = item.get(x, {})
+        return item
+
+    def _validate_uniq(values, *args, **kwargs):
+        """
+        Main validator function
+        Args:
+            values: values for validation, iterable
+            args:
+            kwargs:
+        """
+        if values:
+            res = values
+            if item_attrs:
+                res = [tuple(_get_attr(x, a) for a in item_attrs) for x in res]
+            if len(res) > len(set(res)):
+                raise ValidationError(err_msg)
+
+    return _validate_uniq
+
+
+validate_uniq = validate_list_uniq_factory()
+validate_uniq_id = validate_list_uniq_factory("id")
+validate_uniq_code = validate_list_uniq_factory("code")
+validate_uniq_value = validate_list_uniq_factory("value")

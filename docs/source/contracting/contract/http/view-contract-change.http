@@ -12,7 +12,7 @@ Content-Type: application/json
     "rationale_en": "Contract change cause",
     "rationaleTypes": [
       "volumeCuts",
-      "priceReduction"
+      "priceReductionWithoutQuantity"
     ],
     "id": "68c208e991674fcfb5853d81817fd6e9",
     "status": "pending",

@@ -4,8 +4,8 @@ from schematics.types.compound import ModelType, PolyModelType
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.utils import get_change_class
+from openprocurement.api.validation import validate_uniq_code
 from openprocurement.tender.cfaselectionua.procedure.models.agreement_contract import (
     AgreementContract,
 )
@@ -36,7 +36,7 @@ class PatchAgreement(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     items = ListType(ModelType(Item, required=True))
     period = ModelType(Period)
     status = StringType(choices=["pending", "active", "cancelled", "terminated"])

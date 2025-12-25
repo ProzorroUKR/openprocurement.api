@@ -3,7 +3,7 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.types import ListType
-from openprocurement.api.procedure.validation import validate_parameters_uniq
+from openprocurement.api.validation import validate_uniq_code
 from openprocurement.tender.core.procedure.models.bid import Bid as BaseBid
 from openprocurement.tender.core.procedure.models.bid import PatchBid as BasePatchBid
 from openprocurement.tender.core.procedure.models.bid import PostBid as BasePostBid
@@ -23,7 +23,7 @@ class PostBid(BasePostBid):
     selfEligible = BooleanType(choices=[True], required=True)
     selfQualified = BooleanType(choices=[True], required=True)
     lotValues = ListType(ModelType(PostLotValue, required=True))
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
 
     def validate_value(self, data, value):
         tender = get_tender()
@@ -34,7 +34,7 @@ class PatchBid(BasePatchBid):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(choices=[True])
     lotValues = ListType(ModelType(PatchLotValue, required=True))
-    parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_uniq_code])
 
 
 class PatchQualificationBid(PatchBid):
@@ -45,7 +45,7 @@ class Bid(BaseBid):
     selfEligible = BooleanType(choices=[True], required=True)
     selfQualified = BooleanType(choices=[True], required=True)
     lotValues = ListType(ModelType(LotValue, required=True))
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
 
     def validate_value(self, data, value):
         tender = get_tender()

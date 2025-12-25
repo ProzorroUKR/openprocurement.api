@@ -3,7 +3,7 @@ from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
-from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
@@ -11,12 +11,10 @@ from openprocurement.tender.competitivedialogue.constants import (
 )
 from openprocurement.tender.competitivedialogue.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.core.procedure.models.item import validate_items_uniq
 from openprocurement.tender.core.procedure.models.lot import (
     Lot,
     PatchTenderLot,
     PostTenderLot,
-    validate_lots_uniq,
 )
 from openprocurement.tender.core.procedure.models.milestone import (
     TenderMilestoneType,
@@ -48,10 +46,10 @@ class PostEUTender(BasePostTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
 
     def validate_features(self, data, features):
         validate_related_items(data, features)
@@ -82,10 +80,10 @@ class PatchEUTender(BasePatchTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
 
 
 class EUTender(BaseTender):
@@ -112,10 +110,10 @@ class EUTender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
-    lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
 
     stage2TenderID = StringType()  # TODO: move to a distinct endpoint
 
@@ -143,7 +141,7 @@ class PostUATender(PostEUTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
 
 
@@ -153,7 +151,7 @@ class PatchUATender(PatchEUTender):
     items = ListType(
         ModelType(UAItem, required=True),
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
 
 
@@ -164,5 +162,5 @@ class UATender(EUTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )

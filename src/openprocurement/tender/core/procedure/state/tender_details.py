@@ -13,11 +13,15 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
     PROFILE_REQUIRED_MIN_VALUE_AMOUNT,
+    RATIONALE_TYPES_DECREE_1178,
+    RATIONALE_TYPES_LAW_922,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
+    TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178,
     WORKING_DAYS,
 )
 from openprocurement.api.constants_env import (
+    CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM,
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     ITEM_QUANTITY_REQUIRED_FROM,
@@ -258,6 +262,7 @@ class BaseTenderDetailsMixing:
         self.validate_criteria_requirements_rules(tender.get("criteria", []))
         if tender_period_end_date := tender.get("tenderPeriod", {}).get("endDate"):
             self.calc_qualification_period(tender, dt_from_iso(tender_period_end_date))
+        self.set_contract_change_rationale_types(tender)
         super().on_post(tender)
 
         # set author for documents passed with tender data
@@ -1628,6 +1633,15 @@ class BaseTenderDetailsMixing:
                 f"for current classifications {', '.join(sorted(classification_ids))}, "
                 f"use one of {', '.join(sorted(expected_template_names))}",
             )
+
+    def set_contract_change_rationale_types(self, data):
+        if tender_created_before(CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM):
+            return
+        procurement_method_type = data.get("procurementMethodType")
+        if procurement_method_type in TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178:
+            data["contractChangeRationaleTypes"] = RATIONALE_TYPES_DECREE_1178
+        else:
+            data["contractChangeRationaleTypes"] = RATIONALE_TYPES_LAW_922
 
 
 class TenderDetailsMixing(TenderConfigMixin, BaseTenderDetailsMixing):

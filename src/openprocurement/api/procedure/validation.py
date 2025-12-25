@@ -1,7 +1,5 @@
 from copy import deepcopy
 
-from schematics.exceptions import ValidationError
-
 from openprocurement.api.auth import AccreditationPermission
 from openprocurement.api.constants import CPV_PREFIX_LENGTH_TO_NAME
 from openprocurement.api.context import get_request
@@ -284,26 +282,6 @@ def validate_patch_data_from_resolved_model(item_name):
         return validate(request, **_)
 
     return validated
-
-
-def validate_values_uniq(values):
-    codes = [i.get("value") for i in values]
-    if any(codes.count(i) > 1 for i in set(codes)):
-        raise ValidationError("Feature value should be uniq for feature")
-
-
-def validate_features_uniq(features):
-    if features:
-        codes = [feature.get("code") for feature in features]
-        if any(codes.count(i) > 1 for i in set(codes)):
-            raise ValidationError("Feature code should be uniq for all features")
-
-
-def validate_parameters_uniq(parameters):
-    if parameters:
-        codes = [param.get("code") for param in parameters]
-        if [i for i in set(codes) if codes.count(i) > 1]:
-            raise ValidationError("Parameter code should be uniq for all parameters")
 
 
 def validate_data_documents(route_key="tender_id", uid_key="_id"):

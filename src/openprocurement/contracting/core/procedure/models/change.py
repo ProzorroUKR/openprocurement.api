@@ -1,10 +1,8 @@
-import standards
 from schematics.types import BaseType, MD5Type, StringType
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-
-RATIONALE_TYPES = tuple(standards.load("codelists/contract_change_rationale_type.json").keys())
+from openprocurement.api.validation import validate_uniq
 
 
 class BaseChange(Model):
@@ -13,11 +11,11 @@ class BaseChange(Model):
     rationale_ru = StringType()
     rationaleTypes = ListType(
         StringType(
-            choices=RATIONALE_TYPES,
             required=True,
         ),
         min_size=1,
         required=True,
+        validators=[validate_uniq],
     )
 
 

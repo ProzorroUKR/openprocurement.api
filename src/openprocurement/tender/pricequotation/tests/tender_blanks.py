@@ -622,6 +622,7 @@ def create_tender_generated(self):
         "value",
         "agreement",
         "contractTemplateName",
+        "contractChangeRationaleTypes",
     ]
 
     self.assertEqual(
@@ -1647,6 +1648,7 @@ def tender_fields(self):
         "status",
         "awardCriteria",
         "owner",
+        "contractChangeRationaleTypes",
     }
 
     self.assertEqual(

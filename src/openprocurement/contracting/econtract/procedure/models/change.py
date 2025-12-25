@@ -9,7 +9,7 @@ from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import ContractValue
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.contracting.core.procedure.models.change import BaseChange
 from openprocurement.contracting.core.procedure.models.item import Item
 from openprocurement.contracting.core.procedure.models.milestone import (
@@ -33,7 +33,7 @@ class Modifications(Model):
     items = ListType(ModelType(Item, required=True))
     contractNumber = StringType()
     # amountPaid ???
-    milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_uniq_id])
 
 
 class PostChange(BaseChange):

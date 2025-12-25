@@ -350,7 +350,7 @@ def post_new_version_of_contract(self):
             "name": "New supplier",
         }
     )
-
+    contract_data["contractChangeRationaleTypes"] = {"test": "test"}
     pdf_data = {
         "url": self.generate_docservice_url(),
         "format": "application/pdf",
@@ -370,6 +370,9 @@ def post_new_version_of_contract(self):
     self.assertEqual(new_contract["status"], "pending")
     self.assertEqual(new_contract["author"], "supplier")
     self.assertEqual(new_contract["suppliers"][0]["signerInfo"]["email"], "new@gmail.com")
+    self.assertEqual(
+        new_contract["contractChangeRationaleTypes"], initial_contract_data["contractChangeRationaleTypes"]
+    )
 
     self.assertIn("documents", new_contract)
     self.assertEqual(new_contract["documents"][0]["documentType"], "contractNotice")

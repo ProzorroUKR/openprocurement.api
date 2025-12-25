@@ -9,8 +9,7 @@ from schematics.validate import ValidationError
 from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDurationType
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.cfaua.constants import (
     CFA_UA,
     MAX_AGREEMENT_PERIOD,
@@ -25,7 +24,6 @@ from openprocurement.tender.core.procedure.models.lot import (
     Lot,
     PatchTenderLot,
     PostTenderLot,
-    validate_lots_uniq,
 )
 from openprocurement.tender.core.procedure.models.milestone import (
     TenderMilestoneType,
@@ -86,16 +84,16 @@ class PostTender(BasePostTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     lots = ListType(
         ModelType(PostTenderLot, required=True),
         required=True,
         min_size=LOTS_MIN_SIZE,
         max_size=LOTS_MAX_SIZE,
-        validators=[validate_lots_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
 
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
@@ -125,15 +123,15 @@ class PatchTender(BasePatchTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     lots = ListType(
         ModelType(PatchTenderLot, required=True),
         min_size=LOTS_MIN_SIZE,
         max_size=LOTS_MAX_SIZE,
-        validators=[validate_lots_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
 
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired)
@@ -161,16 +159,16 @@ class Tender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_items_uniq, validate_classification_id],
+        validators=[validate_uniq_id, validate_classification_id],
     )
     lots = ListType(
         ModelType(Lot, required=True),
         required=True,
         min_size=LOTS_MIN_SIZE,
         max_size=LOTS_MAX_SIZE,
-        validators=[validate_lots_uniq],
+        validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
+    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
 
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)

@@ -434,7 +434,7 @@ def contract_change_document(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
             }
         },
     )

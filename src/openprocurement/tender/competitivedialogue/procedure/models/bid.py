@@ -6,7 +6,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.types import ListType
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.competitivedialogue.procedure.models.bid_document import (
     Document,
     PostDocument,
@@ -59,7 +59,7 @@ class PostBid(BidResponsesMixin, BaseBid):
     def id(self):
         return uuid4().hex
 
-    items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_items_uniq])
+    items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_uniq_id])
     tenderers = ListType(
         ModelType(Supplier, required=True),
         required=True,
@@ -97,7 +97,7 @@ class PostBid(BidResponsesMixin, BaseBid):
 
 
 class Bid(MetaBid, BidResponsesMixin, BaseBid):
-    items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_items_uniq])
+    items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_uniq_id])
     tenderers = ListType(
         ModelType(Supplier, required=True),
         required=True,

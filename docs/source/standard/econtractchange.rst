@@ -25,43 +25,11 @@ Schema
 
     Type of the rationale behind contract change
 
-    Changes to the contract can be made in cases described in the 4th part of Article 36 of the Law “On the Public Procurement”.
+    Possible string values are from the field `contractChangeRationaleTypes`. Could be one of:
 
-    Possible string values are:
-
-    * `volumeCuts` - Reduction of the procurement’s volume
-
-      reduction of the procurement’s volume, particularly taking into account the actual expenditures of the procuring entity;
-
-    * `itemPriceVariation` - Change in the unit’s price
-
-      change in the unit’s price (no more than 10%) due to product’s price fluctuations on the market, provided that the said change will not increase the sum of money specified in the contract;
-
-    * `qualityImprovement` - Improvement of the procurement item’s quality
-
-      improvement of the item's quality, provided that such improvement will not increase the sum of money specified in the contract;
-
-    * `durationExtension` - Extension of the period of the contract duration (due to documented objective circumstances)
-
-      extension of the period of the contract duration and obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including force majeure, delays in funding of procuring entity’s  expenditures, provided that such changes will not increase the sum of money specified in the contract;
-
-    * `priceReduction` - Coordinated price reduction
-
-      coordinated downward price change (without changing the quantity (volume) and quality of goods, works, and services);
-
-    * `taxRate` - Price changes due to changes in tax rates and fees
-
-      price changes due to changes in tax rates and fees in proportion to changes of those rates;
-
-    * `thirdParty` - Change of the third-party indicators (rate, indices...)
-
-      changes of established under the law by the State Statistics Service consumer price index, changes in foreign currency, changes in stock prices or Platts indices, regulated prices (rates) and standards that are used in the procurement contract if the price change order is specified in the procurement contract;
-
-    * `fiscalYearExtension` - Extension of the period of the contract duration to the next year
-
-      changes in contract terms according to the provisions of part 5 of Article 36.
-
-      Article 36 Part 5. Effect of the procurement contract may be continued for a period sufficient for conduction of the procurement procedure at the beginning of the next year in volume that does not exceed 20% of the sum specified in the contract concluded in the previous year, if expenditures for this purpose are approved in the prescribed manner.
+        * `rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_
+        * `rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_
+        * `rationaleTypes general <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type.json>`_ (deprecated after date CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM)
 
 :date:
     string, :ref:`date`, auto-generated

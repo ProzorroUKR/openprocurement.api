@@ -444,7 +444,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                     "data": {
                         "rationale": "причина зміни укр",
                         "rationale_en": "change cause en",
-                        "rationaleTypes": ["priceReduction"],
+                        "rationaleTypes": ["priceReductionWithoutQuantity"],
                         "modifications": {"value": {"amount": 235, "amountNet": 200}},
                     }
                 },
@@ -512,6 +512,21 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         upload_change_mock_path = "openprocurement.tender.core.procedure.contracting.upload_contract_change_pdf"
         with patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
             mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
+            with open(TARGET_DIR + "create-change-invalid-rationale-types.http", "w") as self.app.file_obj:
+                self.app.post_json(
+                    f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
+                    {
+                        "data": {
+                            "rationale": "причина зміни укр",
+                            "rationale_en": "change cause en",
+                            "rationaleTypes": ["priceReduction"],
+                            "modifications": {
+                                "value": {"amount": 535, "amountNet": 490},
+                            },
+                        }
+                    },
+                    status=422,
+                )
             with open(TARGET_DIR + "create-change.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
                     f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
@@ -519,7 +534,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                         "data": {
                             "rationale": "причина зміни укр",
                             "rationale_en": "change cause en",
-                            "rationaleTypes": ["priceReduction"],
+                            "rationaleTypes": ["priceReductionWithoutQuantity"],
                             "modifications": {
                                 "value": {"amount": 535, "amountNet": 490},
                             },

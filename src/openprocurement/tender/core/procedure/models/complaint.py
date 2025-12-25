@@ -12,7 +12,7 @@ from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.procedure.models.complaint_objection import (
     AwardComplaintObjection,
     CancellationComplaintObjection,
@@ -77,7 +77,7 @@ class PostComplaint(Model):
         ModelType(TenderComplaintObjection, required=True),
         min_size=1,
         validators=[
-            validate_items_uniq,
+            validate_uniq_id,
             validate_numerated(field_name="sequenceNumber"),
         ],
     )
@@ -114,7 +114,7 @@ class PostAwardComplaint(PostComplaintFromBid):
         ModelType(AwardComplaintObjection, required=True),
         min_size=1,
         validators=[
-            validate_items_uniq,
+            validate_uniq_id,
             validate_numerated(field_name="sequenceNumber"),
         ],
     )
@@ -125,7 +125,7 @@ class PostCancellationComplaint(PostComplaint):
         ModelType(CancellationComplaintObjection, required=True),
         min_size=1,
         validators=[
-            validate_items_uniq,
+            validate_uniq_id,
             validate_numerated(field_name="sequenceNumber"),
         ],
     )
@@ -136,7 +136,7 @@ class PostQualificationComplaint(PostComplaintFromBid):
         ModelType(QualificationComplaintObjection, required=True),
         min_size=1,
         validators=[
-            validate_items_uniq,
+            validate_uniq_id,
             validate_numerated(field_name="sequenceNumber"),
         ],
     )
@@ -151,7 +151,7 @@ class DraftPatchComplaint(Model):
         ModelType(TenderComplaintObjection, required=True),
         min_size=1,
         validators=[
-            validate_items_uniq,
+            validate_uniq_id,
             validate_numerated(field_name="sequenceNumber"),
         ],
     )
@@ -162,7 +162,7 @@ class DraftPatchAwardComplaint(DraftPatchComplaint):
         ModelType(AwardComplaintObjection, required=True),
         min_size=1,
         validators=[
-            validate_items_uniq,
+            validate_uniq_id,
             validate_numerated(field_name="sequenceNumber"),
         ],
     )
@@ -173,7 +173,7 @@ class DraftPatchCancellationComplaint(DraftPatchComplaint):
         ModelType(CancellationComplaintObjection, required=True),
         min_size=1,
         validators=[
-            validate_items_uniq,
+            validate_uniq_id,
             validate_numerated(field_name="sequenceNumber"),
         ],
     )
@@ -184,7 +184,7 @@ class DraftPatchQualificationComplaint(DraftPatchComplaint):
         ModelType(QualificationComplaintObjection, required=True),
         min_size=1,
         validators=[
-            validate_items_uniq,
+            validate_uniq_id,
             validate_numerated(field_name="sequenceNumber"),
         ],
     )
@@ -289,7 +289,7 @@ class Complaint(Model):
         ModelType(Objection, required=True),
         min_size=1,
         validators=[
-            validate_items_uniq,
+            validate_uniq_id,
             validate_numerated(field_name="sequenceNumber"),
         ],
     )

@@ -10,7 +10,7 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import ContractValue
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.api.validation import validate_uniq_id
 from openprocurement.contracting.core.procedure.models.access import AccessDetails
 from openprocurement.contracting.core.procedure.models.change import Change
 from openprocurement.contracting.core.procedure.models.document import Document
@@ -69,7 +69,8 @@ class PostContract(Model):
 
     amountPaid = ModelType(AmountPaid)
     contractTemplateName = StringType()
-    milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_uniq_id])
+    contractChangeRationaleTypes = BaseType()
 
 
 class BasePatchContract(Model):
@@ -84,7 +85,7 @@ class BasePatchContract(Model):
     period = ModelType(Period)
     value = ModelType(ContractValue)
     items = ListType(ModelType(Item, required=True), min_size=1)
-    milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_items_uniq])
+    milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_uniq_id])
 
 
 class Contract(Model):
@@ -115,7 +116,7 @@ class Contract(Model):
         ModelType(Item, required=True),
         required=False,
         min_size=1,
-        validators=[validate_items_uniq],
+        validators=[validate_uniq_id],
     )
     tender_token = StringType()  # deprecated
     tender_id = StringType(required=True)
@@ -144,6 +145,8 @@ class Contract(Model):
     documents = ListType(ModelType(Document, required=True))
     amountPaid = ModelType(AmountPaid)
     value = ModelType(ContractValue)
+
+    contractChangeRationaleTypes = BaseType()
 
     bid_owner = StringType()  # deprecated
     bid_token = StringType()  # deprecated

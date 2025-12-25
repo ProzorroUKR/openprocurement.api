@@ -251,7 +251,7 @@ def create_tender_lot(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["Lot id should be uniq for all lots"], "location": "body", "name": "lots"}],
+        [{"description": ["Items should be unique by fields: id"], "location": "body", "name": "lots"}],
     )
 
     self.set_status("{}".format(self.forbidden_lot_actions_status))

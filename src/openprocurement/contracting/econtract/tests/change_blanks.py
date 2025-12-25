@@ -1,9 +1,12 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
+from openprocurement.api.constants import (
+    MILESTONE_CODES,
+    MILESTONE_TITLES,
+    RATIONALE_TYPES,
+)
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.core.procedure.models.change import RATIONALE_TYPES
 
 
 def not_found(self):
@@ -32,7 +35,7 @@ def get_change(self):
                 "rationale": "Опис причини змін контракту",
                 "rationale_en": "Contract change cause",
                 "modifications": {"title": "New title of contract"},
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
             }
         },
     )
@@ -98,7 +101,7 @@ def create_change(self):
         {
             "data": {
                 "rationale": "трататата",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"title": "New"},
             }
         },
@@ -128,6 +131,33 @@ def create_change(self):
         {
             "data": {
                 "rationale": "трататата",
+                "rationaleTypes": ["priceReduction"],  # rationale from old dictionary
+                "modifications": {"title": "New"},
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "rationaleTypes",
+                "description": [f"Value must be one of {tuple(self.contract['contractChangeRationaleTypes'].keys())}."],
+            }
+        ],
+    )
+
+    contract_doc = self.mongodb.contracts.get(self.contract["id"])
+    contract_doc.pop('contractChangeRationaleTypes', None)
+    self.mongodb.contracts.save(contract_doc)
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "трататата",
                 "rationaleTypes": ["non-existing-rationale"],
                 "modifications": {"title": "New"},
             }
@@ -141,7 +171,7 @@ def create_change(self):
             {
                 "location": "body",
                 "name": "rationaleTypes",
-                "description": [[f"Value must be one of {RATIONALE_TYPES}."]],
+                "description": [f"Value must be one of {tuple(RATIONALE_TYPES.keys())}."],
             }
         ],
     )
@@ -218,6 +248,22 @@ def create_change_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [{"location": "body", "name": "rationale", "description": ["String value is too short."]}],
+    )
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationaleTypes": ["volumeCuts", "volumeCuts"],
+                "modifications": {"title": "New title"},
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "rationaleTypes", "description": ["Items should be unique"]}],
     )
 
     response = self.app.post_json(
@@ -308,7 +354,7 @@ def patch_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"title": "New"},
             }
         },
@@ -333,7 +379,7 @@ def activation_of_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
@@ -381,7 +427,7 @@ def cancellation_of_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
@@ -466,7 +512,7 @@ def cancellation_of_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"value": {"amount": 445, "amountNet": 440.5}},
             }
         },
@@ -510,7 +556,7 @@ def change_contract_wo_amount_net(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"value": {"currency": "UAH", "amount": self.contract["value"]["amount"] - 1}},
             }
         },
@@ -528,7 +574,7 @@ def change_contract_wo_amount_net(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
@@ -543,7 +589,7 @@ def change_contract_value_amount(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"value": {**self.contract["value"], "amount": 445, "amountNet": 447}},
             }
         },
@@ -561,7 +607,7 @@ def change_contract_value_amount(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"value": {"amount": 445, "amountNet": 100}},
             }
         },
@@ -579,7 +625,7 @@ def change_contract_value_amount(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
@@ -617,7 +663,7 @@ def change_contract_value_vat_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "value": {"valueAddedTaxIncluded": False, "amount": 238, "amountNet": 238},
                     "items": contract_items,
@@ -685,7 +731,7 @@ def change_contract_period(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "period": {
                         "startDate": "2016-06-10T18:47:47.155143+02:00",
@@ -707,7 +753,7 @@ def change_contract_period(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "period": {
                         "endDate": "2016-06-20T18:47:47.155143+02:00",
@@ -729,7 +775,7 @@ def change_contract_period(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "period": {
                         "endDate": "2016-06-01T18:47:47.155143+02:00",
@@ -750,7 +796,7 @@ def change_contract_period(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "period": {
                         "startDate": "2016-03-20T18:47:47.155143+02:00",
@@ -775,7 +821,7 @@ def change_for_pending_contract_forbidden(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"title": "new contract"},
             },
         },
@@ -801,7 +847,7 @@ def contract_token_invalid(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"title": "new contract"},
             },
         },
@@ -837,7 +883,7 @@ def change_documents(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {"value": {"amount": 445, "amountNet": 440}},
             }
         },
@@ -909,7 +955,7 @@ def change_tender_contract_items_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "items": [item, item_2],
                 },
@@ -937,7 +983,7 @@ def change_tender_contract_items_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "items": [item, item_2],
                 },
@@ -964,7 +1010,7 @@ def change_tender_contract_items_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "items": [{**item, "quantity": 12, "description": "тапочки для тараканів"}],
                 },
@@ -989,7 +1035,7 @@ def change_tender_contract_items_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "items": [{**item, "quantity": -1, "description": "тапочки для тараканів"}],
                 },
@@ -1019,7 +1065,7 @@ def change_tender_contract_items_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "items": [item, item_2],
                 },
@@ -1046,7 +1092,7 @@ def change_tender_contract_items_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "items": [item, item_2],
                 },
@@ -1084,7 +1130,7 @@ def change_tender_contract_items_change(self):
             "data": {
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
-                "rationaleTypes": ["priceReduction"],
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
                 "modifications": {
                     "items": [
                         {

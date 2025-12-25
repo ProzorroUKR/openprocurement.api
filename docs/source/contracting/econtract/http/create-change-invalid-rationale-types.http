@@ -1,0 +1,38 @@
+POST /api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "rationale": "причина зміни укр",
+    "rationale_en": "change cause en",
+    "rationaleTypes": [
+      "priceReduction"
+    ],
+    "modifications": {
+      "value": {
+        "amount": 535,
+        "amountNet": 490
+      }
+    }
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "rationaleTypes",
+      "description": [
+        "Value must be one of ('durationExtension', 'fiscalYearExtension', 'itemPriceChange', 'priceReductionWithoutQuantity', 'qualityImprovement', 'taxationSystem', 'externalIndicators', 'volumeCuts', 'restoration', 'projectDocumentation', 'emergencyReconstruction', 'infrastructureProtection', 'externalСofinancing')."
+      ]
+    }
+  ]
+}
+
