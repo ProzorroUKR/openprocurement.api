@@ -78,10 +78,10 @@ msgid "Rules for tender masking:"
 msgstr "Правила приховування закупівлі:"
 
 msgid "path"
-msgstr "шлях"
+msgstr ""
 
 msgid "value"
-msgstr "значення"
+msgstr ""
 
 msgid "$.items[*].deliveryDate.startDate"
 msgstr ""

@@ -75,7 +75,7 @@ msgid "But if we will make a request with `broker` token, we will see that corre
 msgstr "Але якщо ми зробимо запит з `broker` токеном майданчика , ми побачимо, що відповідні поля більше не приховані:"
 
 msgid "Let's check submission feed for broker:"
-msgstr "Перевіримо фід угод для майданчика:"
+msgstr "Перевіримо фід пропозицій для майданчика:"
 
 msgid "Request Qualifications with restricted access"
 msgstr "Запит кваліфікацій з обмеженим доступом"
@@ -90,7 +90,7 @@ msgid "Let's check qualification feed with anonymous request:"
 msgstr "Перевіримо фід кваліфікацій з анонімним запитом:"
 
 msgid "Let's check qualification feed for broker:"
-msgstr "Перевіримо фід угод для майданчика:"
+msgstr "Перевіримо фід кваліфікацій для майданчика:"
 
 msgid "Activate Qualifications with restricted access"
 msgstr "Активуція кваліфікації з обмеженим доступом"
@@ -129,10 +129,10 @@ msgid "Rules for submission masking:"
 msgstr "Правила маскування пропозицій:"
 
 msgid "path"
-msgstr "шлях"
+msgstr ""
 
 msgid "value"
-msgstr "значення"
+msgstr ""
 
 msgid "$.tenderers[*].address.streetAddress"
 msgstr ""

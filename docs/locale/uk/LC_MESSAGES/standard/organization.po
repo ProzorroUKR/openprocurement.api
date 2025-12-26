@@ -25,7 +25,7 @@ msgid "string, multilingual"
 msgstr "рядок, багатомовний"
 
 msgid "Additionally in :ref:`openeu` and :ref:`esco`:"
-msgstr "Додатково у :ref:`openeu` та :ref:`esco`::"
+msgstr "Додатково у :ref:`openeu` та :ref:`esco`:"
 
 msgid "uk (name) and en (name_en) translations are required"
 msgstr "uk (name) та en (name_en) переклади обов’язкові"

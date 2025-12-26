@@ -23,7 +23,7 @@ msgid ""
 "Acceleration mode was developed to enable procedures' testing in the "
 "sandbox and to reduce time frames of these procedures."
 msgstr ""
-"Для зменшення термінів і забезпечення можливості тестування процедур \n"
+"Для зменшення термінів і забезпечення можливості тестування процедур "
 "закупівель на пісочниці доступний режим прискорення."
 
 msgid "**This mode will work only in the sandbox**."

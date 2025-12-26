@@ -56,7 +56,7 @@ msgid "Successful adding `contract_owner` along with `contractTemplateName` in t
 msgstr "Успішне додавання `contract_owner` разом з `contractTemplateName` в закупівлі і  `signerInfo` для замовника в `procuringEntity`:"
 
 msgid "Successful adding `contract_owner` along with `contractTemplateName` in tender and `signerInfo` in `bid.tenderers`:"
-msgstr "Успішне додавання `contract_owner` разом з `contractTemplateName` в закупівлі і  `signerInfo` для постачальника в `bid.tenderers`::"
+msgstr "Успішне додавання `contract_owner` разом з `contractTemplateName` в закупівлі і  `signerInfo` для постачальника в `bid.tenderers`:"
 
 msgid "When contract is created, these brokers can generate token to deal with contract."
 msgstr "Після створення контракту ці майданчики можуть згенерувати токен для подальшої роботи з договором."
