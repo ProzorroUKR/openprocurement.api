@@ -34,7 +34,7 @@ class CauseDetailsMixing:
                         location="body",
                         name="causeDetails",
                     )
-            for field_name in ("cause", "causeDescription", "causeDescription_en"):
+            for field_name in ("cause", "causeDescription", "causeDescription_en", "causeDescription_ru"):
                 if data.get(field_name):
                     raise_operation_error(
                         self.request,
