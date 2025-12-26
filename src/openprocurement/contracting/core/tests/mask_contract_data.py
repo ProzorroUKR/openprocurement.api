@@ -108,6 +108,7 @@ def test_mask_contract_skipped(app):
         initial_data,
         insert=True,
     )
+    create_minimal_tender_for_contract(unwrap_app(app).registry.mongodb, initial_data)
 
     id = initial_data["_id"]
 
@@ -127,6 +128,7 @@ def test_mask_contract_by_config_restricted(app):
 
     # Save to db
     unwrap_app(app).registry.mongodb.contracts.save(initial_db_data, insert=True)
+    create_minimal_tender_for_contract(unwrap_app(app).registry.mongodb, initial_db_data)
 
     # Get not masked data
     response = app.get(f"/contracts/{id}")
@@ -159,6 +161,7 @@ def test_mask_contract_by_config_restricted(app):
     # Check masked data with loaded (dumped) expected data
     expected_masked_data["dateCreated"] = masked_data["dateCreated"]
     expected_masked_data["dateModified"] = masked_data["dateModified"]
+    masked_data.pop("contractChangeRationaleTypes", None)
     assert masked_data == expected_masked_data
 
     # Broker (with no accreditation for restricted) not allowed to see masked data
@@ -166,6 +169,7 @@ def test_mask_contract_by_config_restricted(app):
         response = app.get(f"/contracts/{id}")
     assert response.status_code == 200
     masked_data = response.json["data"]
+    masked_data.pop("contractChangeRationaleTypes", None)
     actual_data["dateCreated"] = masked_data["dateCreated"]
     actual_data["dateModified"] = masked_data["dateModified"]
     assert masked_data == expected_masked_data

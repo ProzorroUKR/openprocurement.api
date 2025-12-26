@@ -67,9 +67,10 @@ class ContractResource(ContractBaseResource):
     @json_view(permission="view_contract")
     def get(self):
         contract = get_contract()
-        tender_doc = get_tender_by_id(self.request, contract["tender_id"])
-        request_init_tender(self.request, tender_doc)
+        if not contract.get("contractChangeRationaleTypes"):
+            tender_doc = get_tender_by_id(self.request, contract["tender_id"])
+            request_init_tender(self.request, tender_doc)
         return {
-            "data": self.serializer_class(contract, tender=self.request.validated["tender"]).data,
+            "data": self.serializer_class(contract, tender=self.request.validated.get("tender")).data,
             "config": contract["config"],
         }
