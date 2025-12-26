@@ -7,7 +7,7 @@ PAPER         =
 BUILDDIR      = build
 
 SPHINXINTL    = sphinx-intl
-LANG          = uk
+LANG          = en
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
@@ -35,8 +35,8 @@ help:
 	@echo "  gettext          to make PO message catalogs"
 	@echo "  changes          to make an overview of all changed/added/deprecated items"
 	@echo "  linkcheck        to check all external links for integrity"
-	@echo "  locale-update    to update specified language’s po files from pot, yo can set LANG, e.g. make locale-update LANG=uk"
-	@echo "  locale-build     to build specified language’s mo files, yo can set LANG, e.g. make locale-build LANG=uk"
+	@echo "  locale-update    to update specified language’s po files from pot, yo can set LANG, e.g. make locale-update LANG=en"
+	@echo "  locale-build     to build specified language’s mo files, yo can set LANG, e.g. make locale-build LANG=en"
 
 clean:
 	rm -rf $(BUILDDIR)/*
